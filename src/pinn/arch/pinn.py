@@ -17,13 +17,13 @@ class _PINN(eqx.Module):
     def __call__(self, x: jnp.ndarray, t: jnp.ndarray) -> jnp.ndarray:
         parts = []
         if self.spatial_emb is not None:
-            parts.append(self.spatial_emb(x))
+            parts.append(self.spatial_emb(jnp.atleast_1d(x)))
         else:
-            parts.append(x)
+            parts.append(jnp.atleast_1d(x))
         if self.temporal_emb is not None:
-            parts.append(self.temporal_emb(t))
+            parts.append(self.temporal_emb(jnp.atleast_1d(t)))
         else:
-            parts.append(t)
+            parts.append(jnp.atleast_1d(t))
         h = jnp.concatenate(parts)
         return self.trunk(h)
 
