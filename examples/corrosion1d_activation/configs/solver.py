@@ -1,0 +1,44 @@
+"""Configuration for the FEM phase-field corrosion solver."""
+
+from ml_collections import config_dict
+
+
+def get_config():
+    config = config_dict.ConfigDict()
+
+    # --- Mesh ---
+    config.mesh = config_dict.ConfigDict()
+    config.mesh.n_cells = 100
+
+    # --- Physical parameters ---
+    config.physical = config_dict.ConfigDict()
+    config.physical.D = 8.5e-10          # diffusivity [m²/s]
+    config.physical.A = 5.35e7           # coupling constant [J/m³]
+    config.physical.L = 1e-11            # interface mobility [m³/(J·s)]
+    config.physical.alpha_phi = 1.03e-4  # gradient energy coefficient [J/m]
+    config.physical.omega_phi = 1.76e7   # double-well barrier height [J/m³]
+    config.physical.c_se = 1.0           # equilibrium concentration in solid
+    config.physical.c_le = 5100.0 / 1.43e5  # equilibrium concentration in electrolyte
+
+    # --- Non-dimensionalization ---
+    config.nondim = config_dict.ConfigDict()
+    config.nondim.L_c = 100e-6           # characteristic length = domain size [m]
+    config.nondim.T_c = 100000.0         # characteristic time = t_final [s]
+
+    # --- Time stepping (non-dimensional) ---
+    config.time = config_dict.ConfigDict()
+    config.time.dt = 0.01
+    config.time.t_final = 1.0
+
+    # --- Solver ---
+    config.solver = config_dict.ConfigDict()
+    config.solver.atol = 1e-8
+    config.solver.rtol = 1e-6
+    config.solver.max_iters = 10
+
+    # --- Output ---
+    config.output = config_dict.ConfigDict()
+    config.output.dir = "/root/autodl-tmp/data/corrosion1d_activation"
+    config.output.filename = "results.npz"
+
+    return config
