@@ -1,0 +1,9 @@
+[project]
+name = "nonlocal-kks"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "jax[cuda13]>=0.10.1",
+]
