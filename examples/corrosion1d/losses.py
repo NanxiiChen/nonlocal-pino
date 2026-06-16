@@ -28,11 +28,11 @@ def _gp(phi):
 
 # ── IC ──────────────────────────────────────────────────────────────────────
 
-def ic_values(x, phys, L_c):
+def ic_values(x, phys, L_c, center=0.5):
     k = np.sqrt(phys.omega_phi / (2.0 * phys.alpha_phi)) * L_c
-    dist = np.array(x)[:, 0] - 0.5
+    dist = np.array(x)[:, 0] - center
     phi0 = 0.5 * (1.0 - np.tanh(k * dist))
-    c0 = _h(phi0) * phys.c_se  # (1-h)*0 = 0 → concentration gradient drives interface
+    c0 = _h(phi0) * phys.c_se
     return jnp.array(phi0), jnp.array(c0)
 
 

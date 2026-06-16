@@ -14,7 +14,7 @@ def get_config():
     config.physical = config_dict.ConfigDict()
     config.physical.D = 8.5e-10          # diffusivity [m²/s]
     config.physical.A = 5.35e7           # coupling constant [J/m³]
-    config.physical.L = 1e-11            # interface mobility [m³/(J·s)]
+    config.physical.L = 2.0              # interface mobility (diffusion-controlled)
     config.physical.alpha_phi = 1.03e-4  # gradient energy coefficient [J/m]
     config.physical.omega_phi = 1.76e7   # double-well barrier height [J/m³]
     config.physical.c_se = 1.0           # equilibrium concentration in solid
@@ -23,7 +23,7 @@ def get_config():
     # --- Non-dimensionalization ---
     config.nondim = config_dict.ConfigDict()
     config.nondim.L_c = 100e-6           # characteristic length = domain size [m]
-    config.nondim.T_c = 100000.0         # characteristic time = t_final [s]
+    config.nondim.T_c = 50.0             # characteristic time = t_final [s]
 
     # --- Time stepping (non-dimensional) ---
     config.time = config_dict.ConfigDict()
@@ -36,9 +36,13 @@ def get_config():
     config.solver.rtol = 1e-6
     config.solver.max_iters = 10
 
+    # --- Initial condition ---
+    config.init = config_dict.ConfigDict()
+    config.init.center = 0.8               # interface center in x* coordinates
+
     # --- Output ---
     config.output = config_dict.ConfigDict()
-    config.output.dir = "/root/autodl-tmp/data/corrosion1d_activation"
-    config.output.filename = "results.npz"
+    config.output.dir = "/root/autodl-tmp/data/corrosion1d"
+    config.output.filename = "results_diffusion.npz"
 
     return config

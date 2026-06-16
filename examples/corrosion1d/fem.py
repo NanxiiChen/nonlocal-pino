@@ -4,10 +4,10 @@ Environment:
   conda activate fenicsenv
 
 Usage (run from project root):
-  python examples/corrosion1d_activation/fem.py
-  python examples/corrosion1d_activation/fem.py --config=my_config.py
-  python examples/corrosion1d_activation/fem.py --config.mesh.n_cells=200
-  mpirun --allow-run-as-root -np 4 python examples/corrosion1d_activation/fem.py
+  python examples/corrosion1d/fem.py
+  python examples/corrosion1d/fem.py --config=my_config.py
+  python examples/corrosion1d/fem.py --config.mesh.n_cells=200
+  mpirun --allow-run-as-root -np 4 python examples/corrosion1d/fem.py
 """
 
 import gc
@@ -67,16 +67,17 @@ def _gp(phi):
 class _InitialConditions(UserExpression):
     """Mixed initial condition (φ₀, c₀) with tanh profile for φ."""
 
-    def __init__(self, k, c_se, c_le, **kwargs):
+    def __init__(self, k, c_se, c_le, center=0.5, **kwargs):
         super().__init__(**kwargs)
         self.k = k
         self.c_se = c_se
         self.c_le = c_le
+        self.center = center
 
     def eval(self, value, x):
-        phi = 0.5 * (1.0 - np.tanh(self.k * (x[0] - 0.5)))
+        phi = 0.5 * (1.0 - np.tanh(self.k * (x[0] - self.center)))
         hp = -2.0 * phi**3 + 3.0 * phi**2
-        c = hp * self.c_se  # (1-h(p))*0: force c=0 in liquid to drive interface
+        c = hp * self.c_se
         value[0] = phi
         value[1] = c
 
@@ -230,7 +231,8 @@ def solve(config):
 
     # ── initial condition ───────────────────────────────────────────────
     k = np.sqrt(phys.omega_phi / (2.0 * phys.alpha_phi)) * L_c
-    ic = _InitialConditions(k=k, c_se=phys.c_se, c_le=phys.c_le, degree=1)
+    ic = _InitialConditions(k=k, c_se=phys.c_se, c_le=phys.c_le,
+                             center=config.init.center, degree=1)
     sol.interpolate(ic)
     sol_prev.interpolate(ic)
 

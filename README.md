@@ -106,7 +106,7 @@ src/pinn/
     mlp.py              # MLP
     modified_mlp.py     # ModifiedMLP
     split_pinn.py       # Split-PINN architecture
-examples/corrosion1d_activation/
+examples/corrosion1d/
   configs/
     solver.py           # FEM config
     train_pinn.py       # PINN training config
@@ -120,9 +120,9 @@ examples/corrosion1d_activation/
 ```bash
 # FEM reference solution
 conda activate fenicsenv
-python examples/corrosion1d_activation/fem.py
+python examples/corrosion1d/fem.py
 
 # PINN training
 source .venv/bin/activate
-python examples/corrosion1d_activation/train.py --config.train.iterations=1000
+python examples/corrosion1d/train.py --config.train.iterations=1000
 ```

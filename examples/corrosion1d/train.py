@@ -1,9 +1,9 @@
 """Training script for split-PINN on 1D KKS phase-field corrosion.
 
 Usage (from project root):
-  python examples/corrosion1d_activation/train.py
-  python examples/corrosion1d_activation/train.py --config=my_config.py
-  python examples/corrosion1d_activation/train.py --config.train.iterations=1000 --config.nl.delta=0.05
+  python examples/corrosion1d/train.py
+  python examples/corrosion1d/train.py --config=my_config.py
+  python examples/corrosion1d/train.py --config.train.iterations=1000 --config.nl.delta=0.05
 """
 
 import logging, os, time
@@ -223,7 +223,7 @@ def _main(_):
     step_fn = _make_step(lfn, optim)
 
     # --- initial condition ---
-    phi0, c0 = ic_values(x_all, config.physical, config.nondim.L_c)
+    phi0, c0 = ic_values(x_all, config.physical, config.nondim.L_c, center=config.init.center)
 
     # --- FEM data for eval ---
     fem_data = np.load(config.fem.data_path)
