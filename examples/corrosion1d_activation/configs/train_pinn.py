@@ -15,11 +15,11 @@ def get_config():
     c.arch.spatial_scale = 2.0
     c.arch.temporal_emb_dim = 64
     c.arch.temporal_scale = 2.0
-    c.arch.activation = "gelu"
+    c.arch.activation = "tanh"
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()
-    c.nl.delta = 0.05
+    c.nl.delta = 0.01
     c.nl.kernel = "cubic"  # "cubic" (smooth) or "tophat" (discontinuous)
 
     # Sampling
@@ -29,21 +29,28 @@ def get_config():
 
     # Training
     c.train = config_dict.ConfigDict()
-    c.train.iterations = 5000
+    c.train.iterations = 10000
     c.train.lr_init = 5e-4
-    c.train.lr_decay_every = 200
+    c.train.lr_decay_every = 500
     c.train.lr_decay_rate = 0.95
     c.train.lr_min = 1e-5
+    c.train.optimizer = "adam"  # "adam" or "soap"
     c.train.grad_clip = 1.0
+    # SOAP params (only used when optimizer == "soap")
+    c.train.soap_b1 = 0.95
+    c.train.soap_b2 = 0.95
+    c.train.soap_precond_freq = 5
+    c.train.soap_max_precond_dim = 10000
+    c.train.soap_precond_1d = False  # small network: precondition all params
     c.train.log_every = 10
     c.train.eval_every = 100
     c.train.alpha_gradnorm = 1.0
 
     # Loss
     c.loss = config_dict.ConfigDict()
-    c.loss.ac_scale = 1e-2
-    c.loss.ch_scale = 1.0 / 8500**2  # ~1.4e-8, brings CH to O(1)
-    c.loss.gradnorm_weight_cap = 1000
+    c.loss.ac_scale = 1.0
+    c.loss.ch_scale = 1/8500
+    c.loss.gradnorm_weight_cap = 100000.0
 
     # Logging
     c.log = config_dict.ConfigDict()

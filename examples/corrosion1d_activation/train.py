@@ -9,7 +9,7 @@ Usage (from project root):
 import logging, os, time
 
 import jax, jax.numpy as jnp, jax.random as jr
-import equinox as eqx, optax
+import equinox as eqx
 import numpy as np
 from tensorboardX import SummaryWriter
 
@@ -73,16 +73,8 @@ def _build_D(config, x_all):
 
 
 def _build_optimizer(config):
-    schedule = optax.exponential_decay(
-        init_value=config.train.lr_init,
-        transition_steps=config.train.lr_decay_every,
-        decay_rate=config.train.lr_decay_rate,
-        end_value=config.train.lr_min,
-    )
-    return optax.chain(
-        optax.clip_by_global_norm(config.train.grad_clip),
-        optax.adam(schedule),
-    )
+    from pinn.optimizers import make_optimizer
+    return make_optimizer(config)
 
 
 def _nondim_params(config):
@@ -220,8 +212,9 @@ def _main(_):
 
     net = _build_network(config, k_net)
     D_full = _build_D(config, x_all)
+    D = DWithBC(D_full, mask_free, bc_values)  # BC enforced inside D @ u
     nd_params = _nondim_params(config)
-    lfn = make_loss_fn(x_all, D_full, mask_free, bc_values, nd_params,
+    lfn = make_loss_fn(x_all, D, mask_free, bc_values, nd_params,
                        alpha=config.train.alpha_gradnorm,
                        ac_scale=config.loss.ac_scale,
                        ch_scale=config.loss.ch_scale,
@@ -243,7 +236,7 @@ def _main(_):
     bc_values_eval = bc_values_eval.at[0].set(1.0)
 
     # --- training loop ---
-    w_ema = jnp.array([1.0, 1.0, 1.0])
+    w_ema = jnp.array([1.0, 1.0, 1.0, 1.0])
     t_start = time.perf_counter()
 
     for it in range(1, config.train.iterations + 1):
