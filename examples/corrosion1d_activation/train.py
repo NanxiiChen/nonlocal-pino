@@ -15,7 +15,7 @@ from tensorboardX import SummaryWriter
 
 log = logging.getLogger(__name__)
 
-from pinn.operators import build_D, DWithBC
+from pinn.operators import build_D
 from pinn.arch import make_split_pinn
 
 # Import losses from sibling file (example is not a package)
@@ -27,7 +27,6 @@ _losses_spec.loader.exec_module(_losses)
 make_loss_fn = _losses.make_loss_fn
 ic_values = _losses.ic_values
 _compute_all = _losses._compute_all
-apply_bc = _losses.apply_bc
 
 
 # ── Config ──────────────────────────────────────────────────────────────────
@@ -119,15 +118,13 @@ def _make_step(loss_fn, optim):
 
 # ── Evaluation ──────────────────────────────────────────────────────────────
 
-def _eval_fem(net, fem_data, mask_free_eval, bc_values_eval, writer, step):
+def _eval_fem(net, fem_data, writer, step):
     x_fem = jnp.array(fem_data['mesh'])
     t_fem = jnp.array(fem_data['time'])
     phi_fem = jnp.array(fem_data['phi'])
     c_fem   = jnp.array(fem_data['c'])
     phi_pred, c_pred, _, _ = _compute_all(net, x_fem[:, None], t_fem)
     # Apply BC enforcement (same as training)
-    phi_pred = apply_bc(phi_pred, mask_free_eval, bc_values_eval)
-    c_pred   = apply_bc(c_pred,   mask_free_eval, bc_values_eval)
     # phi_pred: (N_x, N_t) → transpose to (N_t, N_x)
     phi_pred = phi_pred.T
     c_pred = c_pred.T
@@ -212,13 +209,15 @@ def _main(_):
 
     net = _build_network(config, k_net)
     D_full = _build_D(config, x_all)
-    D = DWithBC(D_full, mask_free, bc_values)  # BC enforced inside D @ u
+    D = D_full  # bare D, BC learned via soft constraint
     nd_params = _nondim_params(config)
     lfn = make_loss_fn(x_all, D, mask_free, bc_values, nd_params,
                        alpha=config.train.alpha_gradnorm,
                        ac_scale=config.loss.ac_scale,
                        ch_scale=config.loss.ch_scale,
-                       gradnorm_cap=config.loss.gradnorm_weight_cap)
+                       gradnorm_cap=config.loss.gradnorm_weight_cap,
+                       weight_mode=config.loss.weight_mode,
+                       fixed_weights=tuple(config.loss.fixed_weights))
     optim = _build_optimizer(config)
     opt_state = optim.init(eqx.filter(net, eqx.is_array))
     step_fn = _make_step(lfn, optim)
@@ -228,15 +227,9 @@ def _main(_):
 
     # --- FEM data for eval ---
     fem_data = np.load(config.fem.data_path)
-    N_fem = len(fem_data['mesh'])
-    mask_free_eval = jnp.ones(N_fem, bool)
-    mask_free_eval = mask_free_eval.at[0].set(False)
-    mask_free_eval = mask_free_eval.at[-1].set(False)
-    bc_values_eval = jnp.zeros(N_fem)
-    bc_values_eval = bc_values_eval.at[0].set(1.0)
 
     # --- training loop ---
-    w_ema = jnp.array([1.0, 1.0, 1.0, 1.0])
+    w_ema = jnp.array([1.0, 1.0, 1.0, 1.0])  # AC, CH, BC, IC
     t_start = time.perf_counter()
 
     for it in range(1, config.train.iterations + 1):
@@ -263,7 +256,7 @@ def _main(_):
                      elapsed)
 
         if it % config.train.eval_every == 0:
-            rel_phi, rel_c = _eval_fem(net, fem_data, mask_free_eval, bc_values_eval, writer, it)
+            rel_phi, rel_c = _eval_fem(net, fem_data, writer, it)
             log.info("--- eval @ %d: rel-L2 phi=%.4f  c=%.4f ---", it, rel_phi, rel_c)
 
     writer.close()

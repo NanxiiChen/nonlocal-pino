@@ -15,21 +15,21 @@ def get_config():
     c.arch.spatial_scale = 2.0
     c.arch.temporal_emb_dim = 64
     c.arch.temporal_scale = 2.0
-    c.arch.activation = "tanh"
+    c.arch.activation = "gelu"
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()
-    c.nl.delta = 0.01
+    c.nl.delta = 0.05
     c.nl.kernel = "cubic"  # "cubic" (smooth) or "tophat" (discontinuous)
 
     # Sampling
     c.sample = config_dict.ConfigDict()
-    c.sample.Nx = 1001
+    c.sample.Nx = 501
     c.sample.Nt = 100
 
     # Training
     c.train = config_dict.ConfigDict()
-    c.train.iterations = 10000
+    c.train.iterations = 50000
     c.train.lr_init = 5e-4
     c.train.lr_decay_every = 500
     c.train.lr_decay_rate = 0.95
@@ -51,6 +51,8 @@ def get_config():
     c.loss.ac_scale = 1.0
     c.loss.ch_scale = 1/8500
     c.loss.gradnorm_weight_cap = 100000.0
+    c.loss.weight_mode = "gradnorm"  # "gradnorm" or "fixed"
+    c.loss.fixed_weights = [1.0, 1.0, 1.0, 0.01]  # [w_ac, w_ch, w_bc, w_ic]
 
     # Logging
     c.log = config_dict.ConfigDict()

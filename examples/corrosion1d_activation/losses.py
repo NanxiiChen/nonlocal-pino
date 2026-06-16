@@ -67,36 +67,34 @@ def _masked_mse(r, mask):
 
 # ── Per-loss functions ──────────────────────────────────────────────────────
 
-def loss_ac(net, x_all, t_batch, D, mask_free, nondim_params, ac_scale=None):
-    """Allen-Cahn residual MSE.  D enforces BC internally."""
+def loss_ac(net, x_all, t_batch, D, nondim_params, ac_scale=None):
+    """Allen-Cahn residual MSE — all points (horizon truncation is correct physics)."""
     _, N_AC1, N_AC2, N_AC3, dc0, c_Le = nondim_params
     phi, c, dphi_dt, _ = _compute_all(net, x_all, t_batch)
     nl_phi = D @ phi
     r = (dphi_dt + N_AC3 * nl_phi + N_AC2 * _gp(phi)
          - N_AC1 * (c - _h(phi) * dc0 - c_Le) * dc0 * _hp(phi))
     r = ac_scale * r if ac_scale is not None else r
-    return _masked_mse(r, mask_free)
+    return jnp.mean(r**2)
 
 
-def loss_ch(net, x_all, t_batch, D, mask_free, nondim_params, ch_scale=None):
-    """Cahn-Hilliard residual MSE.  D enforces BC internally."""
+def loss_ch(net, x_all, t_batch, D, nondim_params, ch_scale=None):
+    """Cahn-Hilliard residual MSE — all points."""
     N_CH, _, _, _, dc0, c_Le = nondim_params
     phi, c, _, dc_dt = _compute_all(net, x_all, t_batch)
     mu = c - _h(phi) * dc0 - c_Le
     nl_mu = D @ mu
     r = dc_dt + N_CH * nl_mu
     r = ch_scale * r if ch_scale is not None else r
-    return _masked_mse(r, mask_free)
+    return jnp.mean(r**2)
 
 
-def loss_ic(net, x_all, phi0, c0, mask_free, bc_values):
-    """IC loss: MSE at t=0, on free points."""
+def loss_ic(net, x_all, phi0, c0):
+    """IC loss: MSE at t=0."""
     Fx = net.spatial_batch(x_all)
     field = net.project(Fx, net.temporal(jnp.array(0.0)))
-    phi_pred = apply_bc(field[:, 0], mask_free, bc_values)
-    c_pred   = apply_bc(field[:, 1], mask_free, bc_values)
-    err = (phi_pred - phi0)**2 + (c_pred - c0)**2
-    return jnp.sum(jnp.where(mask_free, err, 0.0)) / jnp.sum(mask_free)
+    phi_pred, c_pred = field[:, 0], field[:, 1]
+    return jnp.mean((phi_pred - phi0)**2 + (c_pred - c0)**2)
 
 
 def loss_bc(net, x_all, t_batch, bc_values, constr_idx):
@@ -121,26 +119,32 @@ def grad_norm_weights(grads, eps=1e-6, cap=1000):
 
 def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
                  alpha=1.0, ac_scale=None, ch_scale=None,
-                 gradnorm_cap=1000):
-    """Factory: create the total loss with GradNorm (4 terms: AC, CH, BC, IC)."""
+                 gradnorm_cap=1000, weight_mode="gradnorm",
+                 fixed_weights=(1.0, 1.0, 1.0, 1.0)):
+    """Factory: create total loss (AC, CH, BC, IC) with GradNorm or fixed weights."""
     constr_idx = ~mask_free
 
     def loss_fn(net, t_batch, phi0, c0, w_ema):
         (ac_val, ac_grad) = eqx.filter_value_and_grad(loss_ac)(
-            net, x_all, t_batch, D, mask_free, nondim_params, ac_scale)
+            net, x_all, t_batch, D, nondim_params, ac_scale)
         (ch_val, ch_grad) = eqx.filter_value_and_grad(loss_ch)(
-            net, x_all, t_batch, D, mask_free, nondim_params, ch_scale)
+            net, x_all, t_batch, D, nondim_params, ch_scale)
         (bc_val, bc_grad) = eqx.filter_value_and_grad(loss_bc)(
             net, x_all, t_batch, bc_values, constr_idx)
         (ic_val, ic_grad) = eqx.filter_value_and_grad(loss_ic)(
-            net, x_all, phi0, c0, mask_free, bc_values)
+            net, x_all, phi0, c0)
 
-        w_new = grad_norm_weights([ac_grad, ch_grad, bc_grad, ic_grad],
-                                   cap=gradnorm_cap)
-        w_ac = alpha * w_new[0] + (1.0 - alpha) * w_ema[0]
-        w_ch = alpha * w_new[1] + (1.0 - alpha) * w_ema[1]
-        w_bc = alpha * w_new[2] + (1.0 - alpha) * w_ema[2]
-        w_ic = alpha * w_new[3] + (1.0 - alpha) * w_ema[3]
+        if weight_mode == "fixed":
+            w = jnp.array(fixed_weights, dtype=jnp.float32)
+            w = jax.lax.stop_gradient(w)
+            w_ac, w_ch, w_bc, w_ic = w
+        else:
+            w_new = grad_norm_weights([ac_grad, ch_grad, bc_grad, ic_grad],
+                                       cap=gradnorm_cap)
+            w_ac = alpha * w_new[0] + (1.0 - alpha) * w_ema[0]
+            w_ch = alpha * w_new[1] + (1.0 - alpha) * w_ema[1]
+            w_bc = alpha * w_new[2] + (1.0 - alpha) * w_ema[2]
+            w_ic = alpha * w_new[3] + (1.0 - alpha) * w_ema[3]
 
         total = w_ac * ac_val + w_ch * ch_val + w_bc * bc_val + w_ic * ic_val
         total_grad = jax.tree.map(
@@ -193,16 +197,14 @@ if __name__ == "__main__":
 
     mask_free = jnp.ones(Nx, bool).at[0].set(False).at[-1].set(False)
     bc_values = jnp.zeros(Nx).at[0].set(1.0)
-    from pinn.operators import DWithBC
-    D_bc = DWithBC(D_free, mask_free, bc_values)
 
-    ac_raw = loss_ac(net, x_all, t_batch, D_bc, mask_free, nd)
-    ch_raw = loss_ch(net, x_all, t_batch, D_bc, mask_free, nd)
+    ac_raw = loss_ac(net, x_all, t_batch, D_free, nd)
+    ch_raw = loss_ch(net, x_all, t_batch, D_free, nd)
     print(f"unscaled: loss_ac={ac_raw:.2e}, loss_ch={ch_raw:.2e}  (CH >> AC)")
 
     ch_scale = 1.0 / nd[0]
-    ac_val = loss_ac(net, x_all, t_batch, D_bc, mask_free, nd)
-    ch_val = loss_ch(net, x_all, t_batch, D_bc, mask_free, nd, ch_scale)
+    ac_val = loss_ac(net, x_all, t_batch, D_free, nd)
+    ch_val = loss_ch(net, x_all, t_batch, D_free, nd, ch_scale)
     print(f"scaled:   loss_ac={ac_val:.4f}, loss_ch={ch_val:.4f} (ch_scale={ch_scale:.2e})  ✓")
 
     class Phys: pass
@@ -210,10 +212,11 @@ if __name__ == "__main__":
     phys.omega_phi = omega_phi; phys.alpha_phi = alpha_phi
     phys.c_se = c_se; phys.c_le = c_le
     phi0, c0 = ic_values(x_all, phys, L_c)
-    ic_val = loss_ic(net, x_all, phi0, c0, mask_free, bc_values)
+    ic_val = loss_ic(net, x_all, phi0, c0)
     print(f"loss_ic: {ic_val:.6f}  ✓")
 
-    lfn = make_loss_fn(x_all, D_bc, mask_free, bc_values, nd, ch_scale=ch_scale)
+    lfn = make_loss_fn(x_all, D_free, mask_free, bc_values, nd, ch_scale=ch_scale)
+    w_ema = jnp.array([1.0, 1.0, 1.0, 1.0])
     w_ema = jnp.array([1.0, 1.0, 1.0])
     total, aux, grad, new_w = lfn(net, t_batch, phi0, c0, w_ema)
     print(f"total: {total:.6f}, "
