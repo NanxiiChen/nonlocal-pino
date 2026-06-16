@@ -76,7 +76,7 @@ class _InitialConditions(UserExpression):
     def eval(self, value, x):
         phi = 0.5 * (1.0 - np.tanh(self.k * (x[0] - 0.5)))
         hp = -2.0 * phi**3 + 3.0 * phi**2
-        c = hp * self.c_se + (1.0 - hp) * self.c_le
+        c = hp * self.c_se  # (1-h(p))*0: force c=0 in liquid to drive interface
         value[0] = phi
         value[1] = c
 

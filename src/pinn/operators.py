@@ -8,11 +8,8 @@ import jax.numpy as jnp
 import jax
 
 
-def _kernel_value(delta, dim):
-    """Top-hat kernel constant J0 for dimension dim.
-
-    Normalized so that ∫ J(z)·|z|² dz = 2d, ensuring L_delta → -Δ as δ → 0.
-    """
+def _tophat_tophat_kernel_value(delta, dim):
+    """Top-hat kernel constant J0 for dimension dim."""
     if dim == 1:
         return 3.0 / delta**3
     elif dim == 2:
@@ -23,37 +20,56 @@ def _kernel_value(delta, dim):
         raise ValueError(f"Unsupported dimension: {dim}")
 
 
+def _cubic_kernel_1d(dist, delta):
+    """Cubic influence function: J(z) = (30/δ³)·(1 - |z|/δ)²."""
+    z = jnp.abs(dist) / delta
+    return (30.0 / delta**3) * (1.0 - z)**2
+
+
+_KERNEL_BUILDERS = {
+    "tophat": lambda dist, delta, dim: jnp.full_like(
+        dist, _tophat_tophat_kernel_value(delta, dim)),
+    "cubic": lambda dist, delta, dim: _cubic_kernel_1d(dist, delta),
+}
+
+
 # ── Public API ───────────────────────────────────────────────────────────────
 
-def build_D(x, delta, grid_shape=None):
+def build_D(x, delta, grid_shape=None, kernel="cubic"):
     """Build the non-local operator L_delta on a point set.
 
     Args:
         x: (N, dim) coordinates in non-dimensional units.
         delta: non-dimensional horizon.
-        grid_shape: (nx, ny, ...) for memory-efficient representation on
-                    uniform Cartesian grids. Required for N > ~2000.
+        grid_shape: (nx, ny, ...) for conv-based on large grids (tophat only).
+        kernel: "cubic" (smooth, C¹) or "tophat" (discontinuous).
 
     Returns:
         Dense (N,N) jnp array for small N, or _LDelta for large grids.
-        Both support D @ u matmul.
     """
     N, dim = x.shape
-    J0 = _kernel_value(delta, dim)
     dV = 1.0 / N
 
     if grid_shape is not None:
-        return _LDelta.from_grid(x, delta, J0, dV, grid_shape)
+        if kernel != "tophat":
+            raise NotImplementedError(
+                f"Kernel '{kernel}' not supported with grid_shape. Use 'tophat'.")
+        return _LDelta.from_grid(
+            x, delta, _tophat_tophat_kernel_value(delta, dim), dV, grid_shape)
 
-    # Dense path — small N only
+    # Dense path
     diff = x[:, None, :] - x[None, :, :]
-    dist2 = jnp.sum(diff**2, axis=-1)
+    dist = jnp.sqrt(jnp.sum(diff**2, axis=-1))
     dx_est = (jnp.max(x) - jnp.min(x)) / (N - 1)
-    tol = 0.5 * float(dx_est**2)
+    in_horizon = (dist <= delta + 0.5 * float(dx_est)) & ~jnp.eye(N, dtype=bool)
 
-    mask = (dist2 <= delta**2 + tol) & ~jnp.eye(N, dtype=bool)
+    J_fn = _KERNEL_BUILDERS.get(kernel)
+    if J_fn is None:
+        raise ValueError(f"Unknown kernel: {kernel}. Options: {list(_KERNEL_BUILDERS)}")
+    J_vals = J_fn(dist, delta, dim)
+
     D = jnp.zeros((N, N))
-    D = D.at[mask].set(-J0 * dV)
+    D = D.at[in_horizon].set(-J_vals[in_horizon] * dV)
     D = D.at[jnp.diag_indices(N)].set(-jnp.sum(D, axis=1))
 
     return D
@@ -142,13 +158,31 @@ class _LDelta:
 
         return result[0] if squeeze else result
 
-    def condense(self, mask_free):
+    def condense(self, mask_free, u_constr=None):
         """Return a new operator restricted to free DOFs.
 
-        Constrained points (φ=c=0) contribute extra diagonal entries to
-        free neighbours.  The condensed operator handles this internally.
+        Constrained points are fixed to u_constr (zeros if None) and
+        participate in D·u via the non-local integral.
         """
-        return _CondensedLDelta(self, mask_free)
+        return _CondensedLDelta(self, mask_free, u_constr)
+
+
+class DWithBC:
+    """Dense L_delta operator with Dirichlet BC built in.
+
+    Before matvec, constrained positions are set to bc_values.
+    The caller passes full-grid vectors; BC enforcement is transparent.
+    """
+    def __init__(self, D_full, mask_free, bc_values):
+        self._D = D_full
+        self._free = mask_free
+        self._bc = bc_values
+
+    def __matmul__(self, u):
+        """D @ u where u is (N_all,) or (N_all, N_t)."""
+        if u.ndim == 1:
+            return self._D @ jnp.where(self._free, u, self._bc)
+        return self._D @ jnp.where(self._free[:, None], u, self._bc[:, None])
 
 
 def condense_dense(D, mask_free):
@@ -168,11 +202,16 @@ def condense_dense(D, mask_free):
 
 
 class _CondensedLDelta:
-    """L_delta with Dirichlet BC condensed: only operates on free DOFs."""
+    """L_delta with Dirichlet BC condensed: only operates on free DOFs.
 
-    def __init__(self, parent, mask_free):
+    Constrained positions are fixed to u_constr and participate in D·u
+    via the non-local integral.
+    """
+
+    def __init__(self, parent, mask_free, u_constr=None):
         self._parent = parent
         self._free_idx = mask_free
+        self._u_constr = u_constr  # (N,) or None for zeros
 
     def __matmul__(self, u_free):
         """D_free @ u_free, where u_free has shape (N_free,) or (N_t, N_free)."""
@@ -182,18 +221,17 @@ class _CondensedLDelta:
             u_free = u_free[None, :]
         batch = u_free.shape[0]
 
-        # Scatter into full grid (zeros at constrained positions)
-        u_full = jnp.zeros((batch, N_total))
+        if self._u_constr is not None:
+            u_full = jnp.broadcast_to(self._u_constr, (batch, N_total))
+        else:
+            u_full = jnp.zeros((batch, N_total))
         u_full = u_full.at[:, self._free_idx].set(u_free)
 
-        # Full conv (constrained neighbours contribute to free-point sums)
         result_full = self._parent @ (u_full[0] if batch == 1 else u_full)
         if batch == 1:
             result_full = result_full[None, :]
 
-        # Extract free points only
         result = result_full[:, self._free_idx]
-
         return result[0] if squeeze else result
 
 

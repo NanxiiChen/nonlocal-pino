@@ -1,8 +1,12 @@
-"""Loss functions for 1D KKS phase-field corrosion PINN (non-local, GradNorm).
+"""Loss functions for 1D KKS corrosion PINN — split-PINN version.
 
-Single-time-slice residual design: each function operates on one t, with
-spatial batching handled internally by vmap over x.  Time batching via
-an outer vmap over t.  GradNorm balances PDE and IC losses automatically.
+Uses the split architecture's batched spatial/temporal API:
+  Fx = net.spatial_batch(x_all)   — once per iteration
+  Ft = net.temporal(t)             — per time point
+  dFt = net.temporal_derivative(t) — per time point
+  net.project(Fx, vt) → (N_x, 2)  — dot-product fusion
+
+GradNorm balances PDE and IC loss weights.
 """
 
 import jax.numpy as jnp
@@ -12,15 +16,11 @@ import numpy as np
 from jax.flatten_util import ravel_pytree
 
 
-# ── helpers ─────────────────────────────────────────────────────────────────
-
 def _h(phi):
     return -2.0 * phi**3 + 3.0 * phi**2
 
-
 def _hp(phi):
     return -6.0 * phi**2 + 6.0 * phi
-
 
 def _gp(phi):
     return 4.0 * phi**3 - 6.0 * phi**2 + 2.0 * phi
@@ -29,200 +29,196 @@ def _gp(phi):
 # ── IC ──────────────────────────────────────────────────────────────────────
 
 def ic_values(x, phys, L_c):
-    """Analytical tanh IC for the 1D KKS corrosion problem.
-
-    φ₀(x*) = 0.5·(1 − tanh(k·(x* − 0.5)))
-    c₀(x*) = h(φ₀)·c_Se + (1 − h(φ₀))·c_Le
-    """
     k = np.sqrt(phys.omega_phi / (2.0 * phys.alpha_phi)) * L_c
     dist = np.array(x)[:, 0] - 0.5
     phi0 = 0.5 * (1.0 - np.tanh(k * dist))
-    c0 = _h(phi0) * phys.c_se + (1.0 - _h(phi0)) * phys.c_le
+    c0 = _h(phi0) * phys.c_se  # (1-h)*0 = 0 → concentration gradient drives interface
     return jnp.array(phi0), jnp.array(c0)
 
 
-# ── PDE residual ────────────────────────────────────────────────────────────
+# ── All-at-once forward ─────────────────────────────────────────────────────
 
-def residual_at_time(net, t, x_all, D, nondim_params):
-    """Non-local KKS PDE residuals at all spatial points for a single time t.
+def _compute_all(net, x_all, t_batch):
+    """Compute (phi, c, dphi_dt, dc_dt) for all (x, t) in one shot."""
+    Fx = net.spatial_batch(x_all)                    # (N_x, 2p)
+    Ft = net.temporal_batch(t_batch)                 # (N_t, 2p)
+    dFt = jax.vmap(net.temporal_derivative)(t_batch) # (N_t, 2p)
+    out = net.combine(Fx, Ft)                         # (N_x, N_t, 2)
+    d_dt = net.combine(Fx, dFt)                       # (N_x, N_t, 2)
+    return out[..., 0], out[..., 1], d_dt[..., 0], d_dt[..., 1]
 
-    Args:
-        net: (x, t) → (φ, c), single-sample eqx.Module.
-        t: scalar time.
-        x_all: (N, dim) spatial points.
-        D: L_delta operator (N, N).
-        nondim_params: (N_CH, N_AC1, N_AC2, N_AC3, dc0, c_Le).
 
-    Returns:
-        r_phi, r_c: (N,) raw residuals at each spatial point.
-    """
-    N_CH, N_AC1, N_AC2, N_AC3, dc0, c_Le = nondim_params
+# ── BC enforcement (standalone, for IC/eval use) ────────────────────────────
 
-    # Forward over all x at this t (vmap over x)
-    out = jax.vmap(net, in_axes=(0, None))(x_all, t)   # (N, 2)
-    phi, c = out[:, 0], out[:, 1]                       # (N,), (N,)
+def apply_bc(u, mask_free, bc_values):
+    """Set constrained positions to BC values."""
+    m = mask_free[:, None] if u.ndim == 2 else mask_free
+    v = bc_values[:, None] if u.ndim == 2 else bc_values
+    return jnp.where(m, u, v)
 
-    # Non-local operators (matvec on full spatial slice)
+
+# ── Masked MSE ──────────────────────────────────────────────────────────────
+
+def _masked_mse(r, mask):
+    """MSE over masked points.  mask: (N,) bool, True = include."""
+    m = mask[:, None] if r.ndim == 2 else mask
+    return jnp.sum(jnp.where(m, r**2, 0.0)) / jnp.sum(m)
+
+
+# ── Per-loss functions ──────────────────────────────────────────────────────
+
+def loss_ac(net, x_all, t_batch, D, mask_free, nondim_params, ac_scale=None):
+    """Allen-Cahn residual MSE.  D enforces BC internally."""
+    _, N_AC1, N_AC2, N_AC3, dc0, c_Le = nondim_params
+    phi, c, dphi_dt, _ = _compute_all(net, x_all, t_batch)
     nl_phi = D @ phi
+    r = (dphi_dt + N_AC3 * nl_phi + N_AC2 * _gp(phi)
+         - N_AC1 * (c - _h(phi) * dc0 - c_Le) * dc0 * _hp(phi))
+    r = ac_scale * r if ac_scale is not None else r
+    return _masked_mse(r, mask_free)
+
+
+def loss_ch(net, x_all, t_batch, D, mask_free, nondim_params, ch_scale=None):
+    """Cahn-Hilliard residual MSE.  D enforces BC internally."""
+    N_CH, _, _, _, dc0, c_Le = nondim_params
+    phi, c, _, dc_dt = _compute_all(net, x_all, t_batch)
     mu = c - _h(phi) * dc0 - c_Le
     nl_mu = D @ mu
-
-    # Time derivatives at each x (vmap over x, grad w.r.t. t)
-    dphi_dt = jax.vmap(
-        jax.grad(lambda x_, t_: net(x_, t_)[0], argnums=1),
-        in_axes=(0, None))(x_all, t)
-    dc_dt = jax.vmap(
-        jax.grad(lambda x_, t_: net(x_, t_)[1], argnums=1),
-        in_axes=(0, None))(x_all, t)
-
-    # Allen-Cahn residual
-    r_phi = (dphi_dt
-             + N_AC3 * nl_phi
-             + N_AC2 * _gp(phi)
-             - N_AC1 * (c - _h(phi) * dc0 - c_Le) * dc0 * _hp(phi))
-
-    # Cahn-Hilliard residual
-    r_c = dc_dt + N_CH * nl_mu
-
-    return r_phi, r_c
+    r = dc_dt + N_CH * nl_mu
+    r = ch_scale * r if ch_scale is not None else r
+    return _masked_mse(r, mask_free)
 
 
-# ── Per-loss functions (for separate gradient computation) ──────────────────
+def loss_ic(net, x_all, phi0, c0, mask_free, bc_values):
+    """IC loss: MSE at t=0, on free points."""
+    Fx = net.spatial_batch(x_all)
+    field = net.project(Fx, net.temporal(jnp.array(0.0)))
+    phi_pred = apply_bc(field[:, 0], mask_free, bc_values)
+    c_pred   = apply_bc(field[:, 1], mask_free, bc_values)
+    err = (phi_pred - phi0)**2 + (c_pred - c0)**2
+    return jnp.sum(jnp.where(mask_free, err, 0.0)) / jnp.sum(mask_free)
 
-def loss_pde(net, x_all, t_batch, D, nondim_params):
-    """PDE loss: mean squared residual over all (x, t)."""
-    def mse_at_t(t):
-        r_phi, r_c = residual_at_time(net, t, x_all, D, nondim_params)
-        return jnp.mean(r_phi**2 + r_c**2)
-    return jnp.mean(jax.vmap(mse_at_t)(t_batch))
 
-
-def loss_ic(net, x_free, phi0, c0):
-    """IC loss: MSE of network output vs initial condition at t=0."""
-    out = jax.vmap(net, in_axes=(0, None))(x_free, jnp.array(0.0))  # (N, 2)
-    phi_pred, c_pred = out[:, 0], out[:, 1]
-    return jnp.mean((phi_pred - phi0)**2 + (c_pred - c0)**2)
+def loss_bc(net, x_all, t_batch, bc_values, constr_idx):
+    """Soft BC penalty: MSE at constrained points over all times."""
+    phi, c, _, _ = _compute_all(net, x_all, t_batch)
+    err_phi = phi[constr_idx, :] - bc_values[constr_idx, None]
+    err_c   = c[constr_idx, :] - bc_values[constr_idx, None]
+    return jnp.mean(err_phi**2 + err_c**2)
 
 
 # ── GradNorm weighting ──────────────────────────────────────────────────────
 
-def grad_norm_weights(grads, eps=1e-6):
-    """Compute GradNorm weights from list of gradient PyTrees.
-
-    weight_i = mean(||g_j||) / ||g_i||  (inverse balancing).
-    """
+def grad_norm_weights(grads, eps=1e-6, cap=1000):
     norms = jnp.array([jnp.linalg.norm(ravel_pytree(g)[0]) for g in grads])
     norms = jnp.clip(norms, eps, 1.0 / eps)
     weights = jnp.mean(norms) / norms
-    weights = jnp.clip(weights, eps, 1.0 / eps)
+    weights = jnp.clip(weights, eps, float(cap))
     return jax.lax.stop_gradient(weights)
 
 
 # ── Combined loss function ──────────────────────────────────────────────────
 
-def make_loss_fn(x_all, D, mask_free, nondim_params, alpha=1.0):
-    """Factory: create the total loss function with GradNorm weighting.
-
-    Returns loss_fn(net, t_batch, phi0, c0, w_ema) →
-        (total_loss, aux, total_grad, new_w_ema).
-
-    Use in a training loop by passing the returned total_grad to optax.
-
-    Args:
-        x_all: (N, dim) all spatial points (free + constrained).
-        D: L_delta operator.
-        mask_free: bool array of length N.
-        nondim_params: (N_CH, N_AC1, N_AC2, N_AC3, dc0, c_Le).
-        alpha: EMA factor for GradNorm weights (1.0 = no EMA).
-
-    Returns:
-        loss_fn(net, t_batch, phi0, c0, w_ema) →
-            (total_loss, aux, total_grad, new_w_ema)
-    """
-    x_free = x_all[mask_free]
+def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
+                 alpha=1.0, ac_scale=None, ch_scale=None,
+                 gradnorm_cap=1000):
+    """Factory: create the total loss with GradNorm (4 terms: AC, CH, BC, IC)."""
+    constr_idx = ~mask_free
 
     def loss_fn(net, t_batch, phi0, c0, w_ema):
-        # PDE loss + gradient
-        (pde_val, pde_grad) = eqx.filter_value_and_grad(loss_pde)(
-            net, x_all, t_batch, D, nondim_params)
-
-        # IC loss + gradient
+        (ac_val, ac_grad) = eqx.filter_value_and_grad(loss_ac)(
+            net, x_all, t_batch, D, mask_free, nondim_params, ac_scale)
+        (ch_val, ch_grad) = eqx.filter_value_and_grad(loss_ch)(
+            net, x_all, t_batch, D, mask_free, nondim_params, ch_scale)
+        (bc_val, bc_grad) = eqx.filter_value_and_grad(loss_bc)(
+            net, x_all, t_batch, bc_values, constr_idx)
         (ic_val, ic_grad) = eqx.filter_value_and_grad(loss_ic)(
-            net, x_free, phi0, c0)
+            net, x_all, phi0, c0, mask_free, bc_values)
 
-        # GradNorm weights
-        w_new = grad_norm_weights([pde_grad, ic_grad])
-        w_pde = alpha * w_new[0] + (1.0 - alpha) * w_ema[0]
-        w_ic  = alpha * w_new[1] + (1.0 - alpha) * w_ema[1]
+        w_new = grad_norm_weights([ac_grad, ch_grad, bc_grad, ic_grad],
+                                   cap=gradnorm_cap)
+        w_ac = alpha * w_new[0] + (1.0 - alpha) * w_ema[0]
+        w_ch = alpha * w_new[1] + (1.0 - alpha) * w_ema[1]
+        w_bc = alpha * w_new[2] + (1.0 - alpha) * w_ema[2]
+        w_ic = alpha * w_new[3] + (1.0 - alpha) * w_ema[3]
 
-        # Weighted total
-        total = w_pde * pde_val + w_ic * ic_val
-
-        # Weighted total gradient
+        total = w_ac * ac_val + w_ch * ch_val + w_bc * bc_val + w_ic * ic_val
         total_grad = jax.tree.map(
-            lambda g0, g1: w_pde * g0 + w_ic * g1,
-            pde_grad, ic_grad)
+            lambda g1, g2, g3, g4: w_ac * g1 + w_ch * g2 + w_bc * g3 + w_ic * g4,
+            ac_grad, ch_grad, bc_grad, ic_grad)
 
         aux = {
-            'loss_pde': pde_val,
-            'loss_ic': ic_val,
-            'weight_pde': w_pde,
-            'weight_ic': w_ic,
+            'loss_ac': ac_val, 'loss_ch': ch_val, 'loss_bc': bc_val, 'loss_ic': ic_val,
+            'weight_ac': w_ac, 'weight_ch': w_ch, 'weight_bc': w_bc, 'weight_ic': w_ic,
         }
-        return total, aux, total_grad, jnp.array([w_pde, w_ic])
+        return total, aux, total_grad, jnp.array([w_ac, w_ch, w_bc, w_ic])
 
     return loss_fn
 
 
+# ── Test ────────────────────────────────────────────────────────────────────
+
 if __name__ == "__main__":
-    # Quick smoke test: residual_at_time with a dummy net
     import jax.random as jr
     from pinn.operators import build_D, condense_dense
-    from pinn.arch import make_pinn
+    from pinn.arch import make_split_pinn
 
     key = jr.PRNGKey(0)
     delta = 0.1
-    Nx = 101
-    Nt = 20
+    Nx, Nt, rank_p = 101, 20, 10
 
     x_all = jnp.linspace(0.0, 1.0, Nx)[:, None]
     D = build_D(x_all, delta)
     D_free = condense_dense(D, jnp.ones(Nx, dtype=bool))
+    net = make_split_pinn(spatial_dim=1, rank_p=rank_p, hidden_dim=32,
+                          num_layers=3, key=key)
 
-    net = make_pinn(spatial_dim=1, out_dim=2, hidden_dim=32, num_layers=3, key=key)
-
-    # Nondim params from FEM config
-    phys = type('Phys', (), {})()
-    phys.D = 8.5e-10; phys.A = 5.35e7; phys.L = 1e-11
-    phys.alpha_phi = 1.03e-4; phys.omega_phi = 1.76e7
-    phys.c_se = 1.0; phys.c_le = 5100.0 / 1.43e5
-    L_c = 100e-6; T_c = 100000.0
-    nd = (phys.D * T_c / L_c**2,
-          2.0 * phys.A * phys.L * T_c,
-          phys.L * phys.omega_phi * T_c,
-          phys.L * phys.alpha_phi * T_c / L_c**2,
-          phys.c_se - phys.c_le,
-          phys.c_le)
+    # Nondim params
+    D_phys, A, L = 8.5e-10, 5.35e7, 1e-11
+    alpha_phi, omega_phi = 1.03e-4, 1.76e7
+    c_se, c_le = 1.0, 5100.0 / 1.43e5
+    L_c, T_c = 100e-6, 100000.0
+    nd = (D_phys * T_c / L_c**2,
+          2.0 * A * L * T_c,
+          L * omega_phi * T_c,
+          L * alpha_phi * T_c / L_c**2,
+          c_se - c_le, c_le)
 
     t_batch = jr.uniform(key, (Nt,), minval=0.0, maxval=1.0)
 
-    # Test residual_at_time
-    r_phi, r_c = residual_at_time(net, jnp.array(0.5), x_all, D_free, nd)
-    assert r_phi.shape == (Nx,) and r_c.shape == (Nx,)
-    print(f"residual_at_time: r_phi {r_phi.shape}, r_c {r_c.shape}  ✓")
+    # All-at-once forward check
+    phi, c, dphi_dt, dc_dt = _compute_all(net, x_all, t_batch)
+    assert phi.shape == (Nx, Nt) and dphi_dt.shape == (Nx, Nt)
+    print(f"_compute_all: phi {phi.shape}, dphi_dt {dphi_dt.shape}  ✓")
 
-    # Test loss_pde
-    pde_val = loss_pde(net, x_all, t_batch, D_free, nd)
-    print(f"loss_pde: {pde_val:.6f}  ✓")
+    mask_free = jnp.ones(Nx, bool).at[0].set(False).at[-1].set(False)
+    bc_values = jnp.zeros(Nx).at[0].set(1.0)
+    from pinn.operators import DWithBC
+    D_bc = DWithBC(D_free, mask_free, bc_values)
 
-    # Test loss_ic
+    ac_raw = loss_ac(net, x_all, t_batch, D_bc, mask_free, nd)
+    ch_raw = loss_ch(net, x_all, t_batch, D_bc, mask_free, nd)
+    print(f"unscaled: loss_ac={ac_raw:.2e}, loss_ch={ch_raw:.2e}  (CH >> AC)")
+
+    ch_scale = 1.0 / nd[0]
+    ac_val = loss_ac(net, x_all, t_batch, D_bc, mask_free, nd)
+    ch_val = loss_ch(net, x_all, t_batch, D_bc, mask_free, nd, ch_scale)
+    print(f"scaled:   loss_ac={ac_val:.4f}, loss_ch={ch_val:.4f} (ch_scale={ch_scale:.2e})  ✓")
+
+    class Phys: pass
+    phys = Phys()
+    phys.omega_phi = omega_phi; phys.alpha_phi = alpha_phi
+    phys.c_se = c_se; phys.c_le = c_le
     phi0, c0 = ic_values(x_all, phys, L_c)
-    ic_val = loss_ic(net, x_all, phi0, c0)
+    ic_val = loss_ic(net, x_all, phi0, c0, mask_free, bc_values)
     print(f"loss_ic: {ic_val:.6f}  ✓")
 
-    # Test make_loss_fn
-    lfn = make_loss_fn(x_all, D_free, jnp.ones(Nx, dtype=bool), nd)
-    w_ema = jnp.array([1.0, 1.0])
+    lfn = make_loss_fn(x_all, D_bc, mask_free, bc_values, nd, ch_scale=ch_scale)
+    w_ema = jnp.array([1.0, 1.0, 1.0])
     total, aux, grad, new_w = lfn(net, t_batch, phi0, c0, w_ema)
-    print(f"total_loss: {total:.6f}, grad has {sum(1 for _ in jax.tree.leaves(grad))} leaves  ✓")
+    print(f"total: {total:.6f}, "
+          f"ac={aux['loss_ac']:.2e} ch={aux['loss_ch']:.1e} ic={aux['loss_ic']:.4f}, "
+          f"w=[{aux['weight_ac']:.1f},{aux['weight_ch']:.1f},{aux['weight_ic']:.1f}], "
+          f"grad leaves={sum(1 for _ in jax.tree.leaves(grad))}  ✓")
+
     print("All tests passed.")
