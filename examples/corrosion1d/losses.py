@@ -43,9 +43,12 @@ def _compute_all(net, x_all, t_batch):
     Fx = net.spatial_batch(x_all)                    # (N_x, 2p)
     Ft = net.temporal_batch(t_batch)                 # (N_t, 2p)
     dFt = jax.vmap(net.temporal_derivative)(t_batch) # (N_t, 2p)
-    out = net.combine(Fx, Ft)                         # (N_x, N_t, 2)
-    d_dt = net.combine(Fx, dFt)                       # (N_x, N_t, 2)
-    return out[..., 0], out[..., 1], d_dt[..., 0], d_dt[..., 1]
+    out = net.combine(Fx, Ft, t_batch)                 # (N_x, N_t, 2)  + bias
+    d_dt = net.combine(Fx, dFt)                         # (N_x, N_t, 2)
+    db_dt = net.combine_bias_derivative(t_batch)        # (N_t, 2)
+    dphi = d_dt[..., 0] + db_dt[None, :, 0]
+    dc   = d_dt[..., 1] + db_dt[None, :, 1]
+    return out[..., 0], out[..., 1], dphi, dc
 
 
 # ── BC enforcement (standalone, for IC/eval use) ────────────────────────────
@@ -82,7 +85,7 @@ def loss_ch(net, x_all, t_batch, D, nondim_params, ch_scale=None):
     """Cahn-Hilliard residual MSE — all points."""
     N_CH, _, _, _, dc0, c_Le = nondim_params
     phi, c, _, dc_dt = _compute_all(net, x_all, t_batch)
-    mu = c - _h(phi) * dc0 - c_Le
+    mu = c - _h(phi) * dc0
     nl_mu = D @ mu
     r = dc_dt + N_CH * nl_mu
     r = ch_scale * r if ch_scale is not None else r

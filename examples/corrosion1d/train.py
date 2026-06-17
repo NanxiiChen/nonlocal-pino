@@ -61,6 +61,7 @@ def _build_network(config, key):
         temporal_emb_dim=c.temporal_emb_dim,
         temporal_scale=c.temporal_scale,
         activation=c.activation,
+        use_bias=c.use_bias,
         key=key,
     )
 

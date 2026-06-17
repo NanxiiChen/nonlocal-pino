@@ -16,6 +16,7 @@ def get_config():
     c.arch.temporal_emb_dim = 64
     c.arch.temporal_scale = 2.0
     c.arch.activation = "gelu"
+    c.arch.use_bias = True  # linear time bias t·θ enables traveling wave
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()
@@ -25,7 +26,7 @@ def get_config():
     # Sampling
     c.sample = config_dict.ConfigDict()
     c.sample.Nx = 501
-    c.sample.Nt = 100
+    c.sample.Nt = 200
 
     # Training
     c.train = config_dict.ConfigDict()
