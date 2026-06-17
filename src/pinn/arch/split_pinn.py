@@ -16,19 +16,26 @@ from .mlp import MLP
 
 
 class _SpatialBranch(eqx.Module):
-    """x → FourierEmb → MLP → F_x of shape (2p,)."""
-    emb: FourierEmbedding
+    """x → (optional FourierEmb) → MLP → F_x of shape (2p,)."""
+    emb: FourierEmbedding | None
     trunk: MLP
 
     def __init__(self, spatial_dim, emb_dim, emb_scale, hidden_dim, rank_p,
-                 num_layers, activation, *, key):
+                 num_layers, activation, use_emb=True, *, key):
         k_emb, k_trunk = jr.split(key)
-        self.emb = FourierEmbedding(spatial_dim, emb_dim, emb_scale, key=k_emb)
-        self.trunk = MLP(2 * emb_dim, hidden_dim, 2 * rank_p, num_layers,
+        if use_emb:
+            self.emb = FourierEmbedding(spatial_dim, emb_dim, emb_scale, key=k_emb)
+            trunk_in = 2 * emb_dim
+        else:
+            self.emb = None
+            trunk_in = spatial_dim
+        self.trunk = MLP(trunk_in, hidden_dim, 2 * rank_p, num_layers,
                          activation=activation, key=k_trunk)
 
     def __call__(self, x):
-        return self.trunk(self.emb(x))
+        if self.emb is not None:
+            x = self.emb(x)
+        return self.trunk(x)
 
 
 class _OutputBias(eqx.Module):
@@ -50,19 +57,27 @@ class _OutputBias(eqx.Module):
 
 
 class _TemporalBranch(eqx.Module):
-    """t → FourierEmb → MLP → F_t of shape (2p,)."""
-    emb: FourierEmbedding
+    """t → (optional FourierEmb) → MLP → F_t of shape (2p,)."""
+    emb: FourierEmbedding | None
     trunk: MLP
 
     def __init__(self, emb_dim, emb_scale, hidden_dim, rank_p, num_layers,
-                 activation, *, key):
+                 activation, use_emb=True, *, key):
         k_emb, k_trunk = jr.split(key)
-        self.emb = FourierEmbedding(1, emb_dim, emb_scale, key=k_emb)
-        self.trunk = MLP(2 * emb_dim, hidden_dim, 2 * rank_p, num_layers,
+        if use_emb:
+            self.emb = FourierEmbedding(1, emb_dim, emb_scale, key=k_emb)
+            trunk_in = 2 * emb_dim
+        else:
+            self.emb = None
+            trunk_in = 1
+        self.trunk = MLP(trunk_in, hidden_dim, 2 * rank_p, num_layers,
                          activation=activation, key=k_trunk)
 
     def __call__(self, t):
-        return self.trunk(self.emb(jnp.atleast_1d(t)))
+        t = jnp.atleast_1d(t)
+        if self.emb is not None:
+            t = self.emb(t)
+        return self.trunk(t)
 
 
 class _SplitPINN(eqx.Module):
@@ -121,7 +136,8 @@ _ACTIVATIONS = {
 def make_split_pinn(spatial_dim, rank_p=10, hidden_dim=64, num_layers=4, *,
                     spatial_emb_dim=64, spatial_scale=2.0,
                     temporal_emb_dim=64, temporal_scale=2.0,
-                    activation='gelu', use_bias=False, key):
+                    activation='gelu', use_bias=False, use_spatial_emb=True,
+                    use_temporal_emb=True, key):
     """Factory: create a Split-PINN model."""
     act = _ACTIVATIONS.get(activation, jax.nn.gelu)
     if isinstance(act, str):
@@ -130,10 +146,12 @@ def make_split_pinn(spatial_dim, rank_p=10, hidden_dim=64, num_layers=4, *,
     k_spatial, k_temporal, k_bias = jr.split(key, 3)
     spatial = _SpatialBranch(spatial_dim, spatial_emb_dim, spatial_scale,
                              hidden_dim, rank_p, num_layers,
-                             activation=act, key=k_spatial)
+                             activation=act, use_emb=use_spatial_emb,
+                             key=k_spatial)
     temporal = _TemporalBranch(temporal_emb_dim, temporal_scale,
                                hidden_dim, rank_p, num_layers,
-                               activation=act, key=k_temporal)
+                               activation=act, use_emb=use_temporal_emb,
+                               key=k_temporal)
     bias = _OutputBias(temporal_emb_dim, temporal_scale,
                        hidden_dim, key=k_bias) if use_bias else None
     return _SplitPINN(spatial, temporal, bias, rank_p)

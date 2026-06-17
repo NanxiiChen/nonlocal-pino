@@ -16,7 +16,9 @@ def get_config():
     c.arch.temporal_emb_dim = 64
     c.arch.temporal_scale = 2.0
     c.arch.activation = "gelu"
-    c.arch.use_bias = True  # linear time bias t·θ enables traveling wave
+    c.arch.use_bias = True
+    c.arch.use_spatial_emb = True
+    c.arch.use_temporal_emb = True  # False = raw t, no Fourier embedding
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()

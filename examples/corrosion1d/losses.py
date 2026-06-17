@@ -100,6 +100,12 @@ def loss_ic(net, x_all, phi0, c0):
     return jnp.mean((phi_pred - phi0)**2 + (c_pred - c0)**2)
 
 
+def loss_data(net, x_all, t_batch, phi_target, c_target):
+    """Pure data-loss: MSE against FEM reference at selected (x,t)."""
+    phi, c, _, _ = _compute_all(net, x_all, t_batch)
+    return jnp.mean((phi - phi_target)**2 + (c - c_target)**2)
+
+
 def loss_bc(net, x_all, t_batch, bc_values, constr_idx):
     """Soft BC penalty: MSE at constrained points over all times."""
     phi, c, _, _ = _compute_all(net, x_all, t_batch)
