@@ -8,6 +8,7 @@ def get_config():
 
     # Architecture
     c.arch = config_dict.ConfigDict()
+    c.arch.type = "split"  # "split" or "mlp"
     c.arch.rank_p = 50
     c.arch.hidden_dim = 64
     c.arch.num_layers = 4

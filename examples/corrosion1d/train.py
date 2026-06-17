@@ -16,17 +16,16 @@ from tensorboardX import SummaryWriter
 log = logging.getLogger(__name__)
 
 from pinn.operators import build_D
-from pinn.arch import make_split_pinn
+from pinn.arch import make_pinn, make_split_pinn
 
-# Import losses from sibling file (example is not a package)
 import importlib.util as _iu
-_losses_spec = _iu.spec_from_file_location(
-    "losses", os.path.join(os.path.dirname(__file__), 'losses.py'))
-_losses = _iu.module_from_spec(_losses_spec)
-_losses_spec.loader.exec_module(_losses)
-make_loss_fn = _losses.make_loss_fn
-ic_values = _losses.ic_values
-_compute_all = _losses._compute_all
+
+def _load_losses(name):
+    spec = _iu.spec_from_file_location(name, os.path.join(
+        os.path.dirname(__file__), name + '.py'))
+    mod = _iu.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 
 # ── Config ──────────────────────────────────────────────────────────────────
@@ -51,21 +50,19 @@ def _setup_dirs(config):
 
 def _build_network(config, key):
     c = config.arch
-    return make_split_pinn(
-        spatial_dim=1,
-        rank_p=c.rank_p,
-        hidden_dim=c.hidden_dim,
-        num_layers=c.num_layers,
-        spatial_emb_dim=c.spatial_emb_dim,
-        spatial_scale=c.spatial_scale,
-        temporal_emb_dim=c.temporal_emb_dim,
-        temporal_scale=c.temporal_scale,
-        activation=c.activation,
-        use_bias=c.use_bias,
-        use_spatial_emb=c.use_spatial_emb,
-        use_temporal_emb=c.use_temporal_emb,
-        key=key,
-    )
+    if c.type == "split":
+        return make_split_pinn(
+            spatial_dim=1, rank_p=c.rank_p, hidden_dim=c.hidden_dim,
+            num_layers=c.num_layers, spatial_emb_dim=c.spatial_emb_dim,
+            spatial_scale=c.spatial_scale, temporal_emb_dim=c.temporal_emb_dim,
+            temporal_scale=c.temporal_scale, activation=c.activation,
+            use_bias=c.use_bias, use_spatial_emb=c.use_spatial_emb,
+            use_temporal_emb=c.use_temporal_emb, key=key)
+    elif c.type == "mlp":
+        return make_pinn(spatial_dim=1, out_dim=2, hidden_dim=c.hidden_dim,
+                         num_layers=c.num_layers, key=key)
+    else:
+        raise ValueError(f"Unknown arch.type: {c.type}")
 
 
 def _build_D(config, x_all):
@@ -196,6 +193,13 @@ def _main(_):
     config = FLAGS.config
     rng = jr.PRNGKey(42)
     k_net, k_samp = jr.split(rng)
+
+    # Load loss module based on arch type
+    loss_mod = _load_losses('losses' if config.arch.type == 'split' else 'losses_full')
+    global make_loss_fn, ic_values, _compute_all
+    make_loss_fn = loss_mod.make_loss_fn
+    ic_values = loss_mod.ic_values
+    _compute_all = loss_mod._compute_all
 
     # --- dirs & logging ---
     run_dir = _setup_dirs(config)
