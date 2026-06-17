@@ -7,7 +7,7 @@ Usage (run from project root):
   python examples/corrosion1d/fem.py
   python examples/corrosion1d/fem.py --config=my_config.py
   python examples/corrosion1d/fem.py --config.mesh.n_cells=200
-  mpirun --allow-run-as-root -np 4 python examples/corrosion1d/fem.py
+  mpirun --allow-run-as-root -np 12 python examples/corrosion1d/fem.py
 """
 
 import gc

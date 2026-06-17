@@ -9,6 +9,8 @@ Usage (from project root):
 import logging, os, time
 
 import jax, jax.numpy as jnp, jax.random as jr
+
+jax.config.update("jax_default_matmul_precision", "highest")
 import equinox as eqx
 import numpy as np
 from tensorboardX import SummaryWriter
@@ -247,7 +249,8 @@ def _main(_):
                        gradnorm_cap=config.loss.gradnorm_weight_cap,
                        weight_mode=config.loss.weight_mode,
                        fixed_weights=tuple(config.loss.fixed_weights),
-                       causal=causal)
+                       causal=causal,
+                       gradnorm_bias=tuple(config.loss.gradnorm_bias))
     optim = _build_optimizer(config)
     opt_state = optim.init(eqx.filter(net, eqx.is_array))
     step_fn = _make_step(lfn, optim)

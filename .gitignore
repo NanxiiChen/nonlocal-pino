@@ -3,6 +3,7 @@
 nondim.txt
 notes/
 reports/
+diag_*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

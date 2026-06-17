@@ -136,7 +136,7 @@ def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
                  alpha=1.0, ac_scale=None, ch_scale=None,
                  gradnorm_cap=1000, weight_mode="gradnorm",
                  fixed_weights=(1.0, 1.0, 1.0, 1.0),
-                 causal=None):
+                 causal=None, gradnorm_bias=(1.,1.,1.,1.)):
     """Factory: total loss (AC, CH, BC, IC) with optional causal weighting."""
     constr_idx = ~mask_free
 
@@ -169,6 +169,11 @@ def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
 
         w_ac = jnp.where(train_ac, w_ac, 0.0)
         w_ch = jnp.where(train_ch, w_ch, 0.0)
+
+        w_ac *= gradnorm_bias[0]
+        w_ch *= gradnorm_bias[1]
+        w_bc *= gradnorm_bias[2]
+        w_ic *= gradnorm_bias[3]
 
         total = w_ac * ac_val + w_ch * ch_val + w_bc * bc_val + w_ic * ic_val
         total_grad = jax.tree.map(

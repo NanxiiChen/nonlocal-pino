@@ -27,7 +27,7 @@ def get_config():
 
     # --- Time stepping (non-dimensional) ---
     config.time = config_dict.ConfigDict()
-    config.time.dt = 0.01
+    config.time.dt = 0.005
     config.time.t_final = 1.0
 
     # --- Solver ---

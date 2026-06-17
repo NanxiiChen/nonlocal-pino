@@ -8,7 +8,7 @@ def get_config():
 
     # Architecture
     c.arch = config_dict.ConfigDict()
-    c.arch.type = "film"  # "split" ｜ "mlp" ｜ “modified_mlp”
+    c.arch.type = "mlp"  # "split" ｜ "mlp" ｜ "modified_mlp"
     c.arch.rank_p = 50
     c.arch.hidden_dim = 64
     c.arch.num_layers = 4
@@ -16,7 +16,7 @@ def get_config():
     c.arch.spatial_scale = 1.0
     c.arch.temporal_emb_dim = 64
     c.arch.temporal_scale = 1.0
-    c.arch.activation = "tanh"
+    c.arch.activation = "gelu"
     c.arch.use_bias = True
     c.arch.use_spatial_emb = True
     c.arch.use_temporal_emb = True
@@ -24,12 +24,12 @@ def get_config():
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()
-    c.nl.delta = 0.05
+    c.nl.delta = 0.02
     c.nl.kernel = "cubic"  # "cubic" (smooth) or "tophat" (discontinuous)
 
     # Sampling
     c.sample = config_dict.ConfigDict()
-    c.sample.Nx = 201
+    c.sample.Nx = 501
     c.sample.Nt = 100
 
     # Training
@@ -52,11 +52,14 @@ def get_config():
 
     # Loss
     c.loss = config_dict.ConfigDict()
-    c.loss.ac_scale = 1e-7  # no scaling; GradNorm handles
-    c.loss.ch_scale = 1.0
+    c.loss.ac_scale = 1.0
+    c.loss.ch_scale = 1e-3
+    # c.loss.ac_scale = 1e-7  # no scaling; GradNorm handles
+    # c.loss.ch_scale = 1.0
     c.loss.gradnorm_weight_cap = 10000.0
     c.loss.weight_mode = "gradnorm"  # "gradnorm" or "fixed"
     c.loss.fixed_weights = [1.0, 1.0, 1.0, 1.0]
+    c.loss.gradnorm_bias = (1.0, 1.0, 1.0, 1.0)  # [ac, ch, bc, ic] extra multiplier
     c.loss.use_causal = True
     c.loss.use_stagger = False
     c.loss.stagger_switch_every = 25
@@ -76,17 +79,19 @@ def get_config():
 
     # FEM reference
     c.fem = config_dict.ConfigDict()
-    c.fem.data_path = "/root/autodl-tmp/data/corrosion1d/results_diffusion.npz"
+    c.fem.data_path = "/root/autodl-tmp/data/corrosion1d/results.npz"
 
     # Initial condition
     c.init = config_dict.ConfigDict()
-    c.init.center = 0.8
+    # c.init.center = 0.8
+    c.init.center = 0.5
 
     # Physical — diffusion-controlled (L=2.0)
     c.physical = config_dict.ConfigDict()
     c.physical.D = 8.5e-10
     c.physical.A = 5.35e7
-    c.physical.L = 2.0
+    # c.physical.L = 2.0
+    c.physical.L = 1e-11
     c.physical.alpha_phi = 1.03e-4
     c.physical.omega_phi = 1.76e7
     c.physical.c_se = 1.0
@@ -95,6 +100,7 @@ def get_config():
     # Non-dimensionalization
     c.nondim = config_dict.ConfigDict()
     c.nondim.L_c = 100e-6
-    c.nondim.T_c = 50.0
-
+    # c.nondim.T_c = 50.0
+    c.nondim.T_c = 1e5
+    
     return c
