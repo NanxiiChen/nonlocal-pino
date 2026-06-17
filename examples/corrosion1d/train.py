@@ -16,7 +16,7 @@ from tensorboardX import SummaryWriter
 log = logging.getLogger(__name__)
 
 from pinn.operators import build_D
-from pinn.arch import make_pinn, make_split_pinn
+from pinn.arch import make_pinn, make_split_pinn, make_film_pinn
 
 import importlib.util as _iu
 
@@ -58,9 +58,23 @@ def _build_network(config, key):
             temporal_scale=c.temporal_scale, activation=c.activation,
             use_bias=c.use_bias, use_spatial_emb=c.use_spatial_emb,
             use_temporal_emb=c.use_temporal_emb, key=key)
-    elif c.type == "mlp":
+    elif c.type in ("mlp", "modified_mlp"):
+        hc = None
+        if c.use_hard_constraint:
+            from pinn.arch.hard_constraint import HardConstraint
+            phys = config.physical
+            hc = HardConstraint(phys.c_se, phys.c_le)
         return make_pinn(spatial_dim=1, out_dim=2, hidden_dim=c.hidden_dim,
-                         num_layers=c.num_layers, key=key)
+                         num_layers=c.num_layers, trunk_type=c.type,
+                         hard_constraint=hc, key=key)
+    elif c.type == "film":
+        hc = None
+        if c.use_hard_constraint:
+            from pinn.arch.hard_constraint import HardConstraint
+            phys = config.physical
+            hc = HardConstraint(phys.c_se, phys.c_le)
+        return make_film_pinn(spatial_dim=1, out_dim=2, hidden_dim=c.hidden_dim,
+                              num_layers=c.num_layers, hard_constraint=hc, key=key)
     else:
         raise ValueError(f"Unknown arch.type: {c.type}")
 
@@ -107,8 +121,8 @@ def _bc_info(x_all):
 
 def _make_step(loss_fn, optim):
     @eqx.filter_jit
-    def step(net, opt_state, t_batch, phi0, c0, w_ema):
-        (loss, aux, grad, new_w) = loss_fn(net, t_batch, phi0, c0, w_ema)
+    def step(net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema):
+        (loss, aux, grad, new_w) = loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema)
         grad = jax.tree.map(jnp.nan_to_num, grad)
         updates, opt_state = optim.update(grad, opt_state, net)
         net = eqx.apply_updates(net, updates)
@@ -142,32 +156,32 @@ def _eval_fem(net, fem_data, writer, step):
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
 
-    err_phi = phi_pred - phi_fem
-    err_c   = c_pred - c_fem
-    cmap = 'coolwarm'
+    err_phi = jnp.abs(phi_pred - phi_fem)
+    err_c   = jnp.abs(c_pred - c_fem)
     extent = [float(x_fem[0]), float(x_fem[-1]), float(t_fem[-1]), float(t_fem[0])]
 
     fig, axes = plt.subplots(2, 2, figsize=(12, 8))
 
-    im00 = axes[0, 0].imshow(phi_pred, cmap=cmap, vmin=0, vmax=1,
+    cmap_pred = 'coolwarm'
+    im00 = axes[0, 0].imshow(phi_pred, cmap=cmap_pred, vmin=0, vmax=1,
                               aspect='auto', origin='upper', extent=extent,
                               interpolation='bilinear', rasterized=True)
     axes[0, 0].set_title(r'$\phi$ (PINN)')
     plt.colorbar(im00, ax=axes[0, 0])
 
-    im01 = axes[0, 1].imshow(err_phi, cmap=cmap, aspect='auto',
+    im01 = axes[0, 1].imshow(err_phi, cmap='viridis', aspect='auto',
                               origin='upper', extent=extent,
                               interpolation='bilinear', rasterized=True)
     axes[0, 1].set_title(r'$\phi$ error')
     plt.colorbar(im01, ax=axes[0, 1])
 
-    im10 = axes[1, 0].imshow(c_pred, cmap=cmap, vmin=0, vmax=1,
+    im10 = axes[1, 0].imshow(c_pred, cmap=cmap_pred, vmin=0, vmax=1,
                               aspect='auto', origin='upper', extent=extent,
                               interpolation='bilinear', rasterized=True)
     axes[1, 0].set_title(r'$c$ (PINN)')
     plt.colorbar(im10, ax=axes[1, 0])
 
-    im11 = axes[1, 1].imshow(err_c, cmap=cmap, aspect='auto',
+    im11 = axes[1, 1].imshow(err_c, cmap='viridis', aspect='auto',
                               origin='upper', extent=extent,
                               interpolation='bilinear', rasterized=True)
     axes[1, 1].set_title(r'$c$ error')
@@ -218,13 +232,22 @@ def _main(_):
     D_full = _build_D(config, x_all)
     D = D_full  # bare D, BC learned via soft constraint
     nd_params = _nondim_params(config)
+    causal = None
+    causal_eps_ac = jnp.array(1.0)
+    causal_eps_ch = jnp.array(1.0)
+    if config.loss.use_causal:
+        from pinn.causal import CausalWeightor
+        causal = CausalWeightor(n_chunks=config.causal.n_chunks)
+        causal_eps_ac = jnp.array(config.causal.eps_init)
+        causal_eps_ch = jnp.array(config.causal.eps_init)
     lfn = make_loss_fn(x_all, D, mask_free, bc_values, nd_params,
                        alpha=config.train.alpha_gradnorm,
                        ac_scale=config.loss.ac_scale,
                        ch_scale=config.loss.ch_scale,
                        gradnorm_cap=config.loss.gradnorm_weight_cap,
                        weight_mode=config.loss.weight_mode,
-                       fixed_weights=tuple(config.loss.fixed_weights))
+                       fixed_weights=tuple(config.loss.fixed_weights),
+                       causal=causal)
     optim = _build_optimizer(config)
     opt_state = optim.init(eqx.filter(net, eqx.is_array))
     step_fn = _make_step(lfn, optim)
@@ -243,14 +266,23 @@ def _main(_):
         key_t = jr.fold_in(k_samp, it)
         t_batch = jr.uniform(key_t, (config.sample.Nt,), minval=0.0, maxval=1.0)
 
+        eps = jnp.minimum(causal_eps_ac, causal_eps_ch)
+        if config.loss.use_stagger:
+            phase = (it // config.loss.stagger_switch_every) % 2
+            train_ac = jnp.array(phase == 0)
+            train_ch = jnp.array(phase == 1)
+        else:
+            train_ac = jnp.array(True)
+            train_ch = jnp.array(True)
         net, opt_state, loss_val, aux, w_ema = step_fn(
-            net, opt_state, t_batch, phi0, c0, w_ema)
+            net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema)
 
         if it % config.train.log_every == 0:
             elapsed = time.perf_counter() - t_start
             writer.add_scalar('loss/total', float(loss_val), it)
             for k, v in aux.items():
-                writer.add_scalar(f'loss/{k}', float(v), it)
+                if v is not None and (not isinstance(v, jnp.ndarray) or v.ndim == 0):
+                    writer.add_scalar(f'loss/{k}', float(v), it)
             lr = config.train.lr_init * config.train.lr_decay_rate**(it // config.train.lr_decay_every)
             writer.add_scalar('train/lr', float(max(lr, config.train.lr_min)), it)
             log.info("[%5d] loss=%.3e  ac=%.3e ch=%.3e bc=%.3e ic=%.3e  "
@@ -261,10 +293,42 @@ def _main(_):
                      float(aux['weight_ac']), float(aux['weight_ch']),
                      float(aux['weight_bc']), float(aux['weight_ic']),
                      elapsed)
+            if causal is not None and aux.get('causal_w_ac') is not None:
+                writer.add_scalar('causal/eps_ac', float(causal_eps_ac), it)
+                writer.add_scalar('causal/eps_ch', float(causal_eps_ch), it)
+
+        if causal is not None and aux.get('causal_w_ac') is not None:
+            cfg = config.causal
+            causal_eps_ac = causal.update_eps(
+                aux['causal_w_ac'], causal_eps_ac,
+                cfg.step_size, cfg.max_eps, cfg.max_last_weight, cfg.min_mean_weight)
+            causal_eps_ch = causal.update_eps(
+                aux['causal_w_ch'], causal_eps_ch,
+                cfg.step_size, cfg.max_eps, cfg.max_last_weight, cfg.min_mean_weight)
+
 
         if it % config.train.eval_every == 0:
             rel_phi, rel_c = _eval_fem(net, fem_data, writer, it)
             log.info("--- eval @ %d: rel-L2 phi=%.4f  c=%.4f ---", it, rel_phi, rel_c)
+
+            # Causal info figure
+            if causal is not None and aux.get('causal_w_ac') is not None:
+                import matplotlib; matplotlib.use('Agg')
+                import matplotlib.pyplot as plt
+                bins_mid = (causal.bins[1:] + causal.bins[:-1]) / 2
+                fig, axes = plt.subplots(1, 2, figsize=(10, 3))
+                for _i, (w, chunks, label) in enumerate([
+                    (aux['causal_w_ac'], aux['causal_chunks_ac'], 'AC'),
+                    (aux['causal_w_ch'], aux['causal_chunks_ch'], 'CH')]):
+                    axes[0].plot(bins_mid, w, 'o-', label=label)
+                    axes[1].plot(bins_mid, chunks, 'o-', label=label)
+                axes[0].set_title(f'Causal weights (eps_ac={float(causal_eps_ac):.2f}, ch={float(causal_eps_ch):.2f})')
+                axes[0].set_xlabel('t chunk'); axes[0].set_ylabel('weight'); axes[0].legend()
+                axes[1].set_title('Loss per chunk'); axes[1].set_xlabel('t chunk'); axes[1].set_ylabel('MSE')
+                axes[1].set_yscale('log'); axes[1].legend()
+                fig.tight_layout()
+                writer.add_figure('causal/info', fig, it)
+                plt.close(fig)
 
     writer.close()
     log.info("Done. Logs at %s", run_dir)

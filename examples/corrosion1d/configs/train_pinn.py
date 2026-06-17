@@ -8,18 +8,19 @@ def get_config():
 
     # Architecture
     c.arch = config_dict.ConfigDict()
-    c.arch.type = "split"  # "split" or "mlp"
+    c.arch.type = "film"  # "split" ｜ "mlp" ｜ “modified_mlp”
     c.arch.rank_p = 50
     c.arch.hidden_dim = 64
     c.arch.num_layers = 4
     c.arch.spatial_emb_dim = 64
-    c.arch.spatial_scale = 2.0
+    c.arch.spatial_scale = 1.0
     c.arch.temporal_emb_dim = 64
-    c.arch.temporal_scale = 2.0
-    c.arch.activation = "gelu"
+    c.arch.temporal_scale = 1.0
+    c.arch.activation = "tanh"
     c.arch.use_bias = True
     c.arch.use_spatial_emb = True
-    c.arch.use_temporal_emb = True  # False = raw t, no Fourier embedding
+    c.arch.use_temporal_emb = True
+    c.arch.use_hard_constraint = True
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()
@@ -28,8 +29,8 @@ def get_config():
 
     # Sampling
     c.sample = config_dict.ConfigDict()
-    c.sample.Nx = 501
-    c.sample.Nt = 200
+    c.sample.Nx = 201
+    c.sample.Nt = 100
 
     # Training
     c.train = config_dict.ConfigDict()
@@ -51,11 +52,22 @@ def get_config():
 
     # Loss
     c.loss = config_dict.ConfigDict()
-    c.loss.ac_scale = 1e-8  # no scaling; GradNorm handles
+    c.loss.ac_scale = 1e-7  # no scaling; GradNorm handles
     c.loss.ch_scale = 1.0
     c.loss.gradnorm_weight_cap = 10000.0
     c.loss.weight_mode = "gradnorm"  # "gradnorm" or "fixed"
-    c.loss.fixed_weights = [1.0, 1.0, 1.0, 1.0]  # [w_ac, w_ch, w_bc, w_ic]
+    c.loss.fixed_weights = [1.0, 1.0, 1.0, 1.0]
+    c.loss.use_causal = True
+    c.loss.use_stagger = False
+    c.loss.stagger_switch_every = 25
+    # Causal params
+    c.causal = config_dict.ConfigDict()
+    c.causal.n_chunks = 20
+    c.causal.eps_init = 1.0
+    c.causal.step_size = 1.1
+    c.causal.max_eps = 1000.0
+    c.causal.max_last_weight = 0.9
+    c.causal.min_mean_weight = 0.5
 
     # Logging
     c.log = config_dict.ConfigDict()

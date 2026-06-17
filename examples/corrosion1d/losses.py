@@ -70,26 +70,32 @@ def _masked_mse(r, mask):
 
 # ── Per-loss functions ──────────────────────────────────────────────────────
 
-def loss_ac(net, x_all, t_batch, D, nondim_params, ac_scale=None):
-    """Allen-Cahn residual MSE — all points (horizon truncation is correct physics)."""
+def loss_ac(net, x_all, t_batch, D, nondim_params, ac_scale=None, causal=None, eps=None):
+    """Allen-Cahn residual MSE, optionally causal-weighted."""
     _, N_AC1, N_AC2, N_AC3, dc0, c_Le = nondim_params
     phi, c, dphi_dt, _ = _compute_all(net, x_all, t_batch)
     nl_phi = D @ phi
     r = (dphi_dt + N_AC3 * nl_phi + N_AC2 * _gp(phi)
          - N_AC1 * (c - _h(phi) * dc0 - c_Le) * dc0 * _hp(phi))
     r = ac_scale * r if ac_scale is not None else r
-    return jnp.mean(r**2)
+    if causal is not None and eps is not None:
+        val, w, chunks = causal.weighted_loss(r, t_batch, eps)
+        return val, (w, chunks)
+    return jnp.mean(r**2), None
 
 
-def loss_ch(net, x_all, t_batch, D, nondim_params, ch_scale=None):
-    """Cahn-Hilliard residual MSE — all points."""
+def loss_ch(net, x_all, t_batch, D, nondim_params, ch_scale=None, causal=None, eps=None):
+    """Cahn-Hilliard residual MSE, optionally causal-weighted."""
     N_CH, _, _, _, dc0, c_Le = nondim_params
     phi, c, _, dc_dt = _compute_all(net, x_all, t_batch)
     mu = c - _h(phi) * dc0
     nl_mu = D @ mu
     r = dc_dt + N_CH * nl_mu
     r = ch_scale * r if ch_scale is not None else r
-    return jnp.mean(r**2)
+    if causal is not None and eps is not None:
+        val, w, chunks = causal.weighted_loss(r, t_batch, eps)
+        return val, (w, chunks)
+    return jnp.mean(r**2), None
 
 
 def loss_ic(net, x_all, phi0, c0):
@@ -129,15 +135,21 @@ def grad_norm_weights(grads, eps=1e-6, cap=1000):
 def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
                  alpha=1.0, ac_scale=None, ch_scale=None,
                  gradnorm_cap=1000, weight_mode="gradnorm",
-                 fixed_weights=(1.0, 1.0, 1.0, 1.0)):
-    """Factory: create total loss (AC, CH, BC, IC) with GradNorm or fixed weights."""
+                 fixed_weights=(1.0, 1.0, 1.0, 1.0),
+                 causal=None):
+    """Factory: total loss (AC, CH, BC, IC) with optional causal weighting."""
     constr_idx = ~mask_free
 
-    def loss_fn(net, t_batch, phi0, c0, w_ema):
-        (ac_val, ac_grad) = eqx.filter_value_and_grad(loss_ac)(
-            net, x_all, t_batch, D, nondim_params, ac_scale)
-        (ch_val, ch_grad) = eqx.filter_value_and_grad(loss_ch)(
-            net, x_all, t_batch, D, nondim_params, ch_scale)
+    def loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema):
+        ((ac_val, ac_aux), ac_grad) = eqx.filter_value_and_grad(
+            loss_ac, has_aux=True)(
+            net, x_all, t_batch, D, nondim_params, ac_scale, causal, eps)
+        ((ch_val, ch_aux), ch_grad) = eqx.filter_value_and_grad(
+            loss_ch, has_aux=True)(
+            net, x_all, t_batch, D, nondim_params, ch_scale, causal, eps)
+        w_ac_c, chunks_ac = ac_aux if ac_aux is not None else (None, None)
+        w_ch_c, chunks_ch = ch_aux if ch_aux is not None else (None, None)
+
         (bc_val, bc_grad) = eqx.filter_value_and_grad(loss_bc)(
             net, x_all, t_batch, bc_values, constr_idx)
         (ic_val, ic_grad) = eqx.filter_value_and_grad(loss_ic)(
@@ -155,6 +167,9 @@ def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
             w_bc = alpha * w_new[2] + (1.0 - alpha) * w_ema[2]
             w_ic = alpha * w_new[3] + (1.0 - alpha) * w_ema[3]
 
+        w_ac = jnp.where(train_ac, w_ac, 0.0)
+        w_ch = jnp.where(train_ch, w_ch, 0.0)
+
         total = w_ac * ac_val + w_ch * ch_val + w_bc * bc_val + w_ic * ic_val
         total_grad = jax.tree.map(
             lambda g1, g2, g3, g4: w_ac * g1 + w_ch * g2 + w_bc * g3 + w_ic * g4,
@@ -163,6 +178,8 @@ def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
         aux = {
             'loss_ac': ac_val, 'loss_ch': ch_val, 'loss_bc': bc_val, 'loss_ic': ic_val,
             'weight_ac': w_ac, 'weight_ch': w_ch, 'weight_bc': w_bc, 'weight_ic': w_ic,
+            'causal_w_ac': w_ac_c, 'causal_w_ch': w_ch_c,
+            'causal_chunks_ac': chunks_ac, 'causal_chunks_ch': chunks_ch,
         }
         return total, aux, total_grad, jnp.array([w_ac, w_ch, w_bc, w_ic])
 

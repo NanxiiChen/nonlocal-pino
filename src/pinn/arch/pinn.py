@@ -13,6 +13,7 @@ class _PINN(eqx.Module):
     spatial_emb: FourierEmbedding | None
     temporal_emb: FourierEmbedding | None
     trunk: eqx.Module
+    hard_constraint: eqx.Module | None
 
     def __call__(self, x: jnp.ndarray, t: jnp.ndarray) -> jnp.ndarray:
         parts = []
@@ -25,7 +26,10 @@ class _PINN(eqx.Module):
         else:
             parts.append(jnp.atleast_1d(t))
         h = jnp.concatenate(parts)
-        return self.trunk(h)
+        out = self.trunk(h)
+        if self.hard_constraint is not None:
+            out = self.hard_constraint(out)
+        return out
 
 
 def make_pinn(spatial_dim: int, out_dim: int, *,
@@ -34,6 +38,7 @@ def make_pinn(spatial_dim: int, out_dim: int, *,
               temporal_emb_dim: int = 64, temporal_scale: float = 2.0,
               hidden_dim: int = 64, num_layers: int = 4,
               trunk_type: str = "mlp",
+              hard_constraint: eqx.Module | None = None,
               key: jr.PRNGKey) -> _PINN:
     """Factory: create a PINN model.
 
@@ -63,7 +68,7 @@ def make_pinn(spatial_dim: int, out_dim: int, *,
     else:
         raise ValueError(f"Unknown trunk_type: {trunk_type}")
 
-    return _PINN(spatial_emb, temporal_emb, trunk)
+    return _PINN(spatial_emb, temporal_emb, trunk, hard_constraint)
 
 
 if __name__ == "__main__":
