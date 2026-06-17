@@ -24,19 +24,20 @@ def get_config():
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()
-    c.nl.delta = 0.02
+    c.nl.delta = 0.01
     c.nl.kernel = "cubic"  # "cubic" (smooth) or "tophat" (discontinuous)
 
     # Sampling
     c.sample = config_dict.ConfigDict()
     c.sample.Nx = 501
     c.sample.Nt = 100
+    c.sample.t_min = 0.001  # exclude t=0 from PDE sampling (IC handles t=0)
 
     # Training
     c.train = config_dict.ConfigDict()
     c.train.iterations = 50000
     c.train.lr_init = 5e-4
-    c.train.lr_decay_every = 500
+    c.train.lr_decay_every = 200
     c.train.lr_decay_rate = 0.95
     c.train.lr_min = 1e-5
     c.train.optimizer = "adam"  # "adam" or "soap"
@@ -57,17 +58,17 @@ def get_config():
     c.loss.gradnorm_weight_cap = 10000.0
     c.loss.weight_mode = "gradnorm"  # "gradnorm" or "fixed"
     c.loss.fixed_weights = [1.0, 1.0, 1.0, 1.0]
-    c.loss.gradnorm_bias = (1.0, 1.0, 1.0, 1.0)  # [ac, ch, bc, ic] extra multiplier
-    c.loss.use_causal = True
+    c.loss.gradnorm_bias = (0.5, 1.0, 2.0, 1.0)  # [ac, ch, bc, ic] extra multiplier
+    c.loss.use_causal = False
     c.loss.use_stagger = False
-    c.loss.stagger_switch_every = 25
+    c.loss.stagger_switch_every = 10
     # Causal params
     c.causal = config_dict.ConfigDict()
     c.causal.n_chunks = 20
     c.causal.eps_init = 1.0
-    c.causal.step_size = 1.1
+    c.causal.step_size = 1.5
     c.causal.max_eps = 1000.0
-    c.causal.max_last_weight = 0.9
+    c.causal.max_last_weight = 0.99
     c.causal.min_mean_weight = 0.5
 
     # Logging

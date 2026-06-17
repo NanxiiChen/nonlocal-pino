@@ -160,31 +160,31 @@ def _eval_fem(net, fem_data, writer, step):
 
     err_phi = jnp.abs(phi_pred - phi_fem)
     err_c   = jnp.abs(c_pred - c_fem)
-    extent = [float(x_fem[0]), float(x_fem[-1]), float(t_fem[-1]), float(t_fem[0])]
+    extent = [float(x_fem[0]), float(x_fem[-1]), float(t_fem[0]), float(t_fem[-1])]
 
     fig, axes = plt.subplots(2, 2, figsize=(12, 8))
 
     cmap_pred = 'coolwarm'
     im00 = axes[0, 0].imshow(phi_pred, cmap=cmap_pred, vmin=0, vmax=1,
-                              aspect='auto', origin='upper', extent=extent,
+                              aspect='auto', origin='lower', extent=extent,
                               interpolation='bilinear', rasterized=True)
     axes[0, 0].set_title(r'$\phi$ (PINN)')
     plt.colorbar(im00, ax=axes[0, 0])
 
-    im01 = axes[0, 1].imshow(err_phi, cmap='viridis', aspect='auto',
-                              origin='upper', extent=extent,
+    im01 = axes[0, 1].imshow(err_phi, cmap='coolwarm', aspect='auto',
+                              origin='lower', extent=extent,
                               interpolation='bilinear', rasterized=True)
     axes[0, 1].set_title(r'$\phi$ error')
     plt.colorbar(im01, ax=axes[0, 1])
 
     im10 = axes[1, 0].imshow(c_pred, cmap=cmap_pred, vmin=0, vmax=1,
-                              aspect='auto', origin='upper', extent=extent,
+                              aspect='auto', origin='lower', extent=extent,
                               interpolation='bilinear', rasterized=True)
     axes[1, 0].set_title(r'$c$ (PINN)')
     plt.colorbar(im10, ax=axes[1, 0])
 
-    im11 = axes[1, 1].imshow(err_c, cmap='viridis', aspect='auto',
-                              origin='upper', extent=extent,
+    im11 = axes[1, 1].imshow(err_c, cmap='coolwarm', aspect='auto',
+                              origin='lower', extent=extent,
                               interpolation='bilinear', rasterized=True)
     axes[1, 1].set_title(r'$c$ error')
     plt.colorbar(im11, ax=axes[1, 1])
@@ -267,7 +267,7 @@ def _main(_):
 
     for it in range(1, config.train.iterations + 1):
         key_t = jr.fold_in(k_samp, it)
-        t_batch = jr.uniform(key_t, (config.sample.Nt,), minval=0.0, maxval=1.0)
+        t_batch = jr.uniform(key_t, (config.sample.Nt,), minval=config.sample.t_min, maxval=1.0)
 
         eps = jnp.minimum(causal_eps_ac, causal_eps_ch)
         if config.loss.use_stagger:
