@@ -52,10 +52,8 @@ def get_config():
 
     # Loss
     c.loss = config_dict.ConfigDict()
-    c.loss.ac_scale = 1.0
-    c.loss.ch_scale = 1e-3
-    # c.loss.ac_scale = 1e-7  # no scaling; GradNorm handles
-    # c.loss.ch_scale = 1.0
+    c.loss.ac_scale = 1e-7
+    c.loss.ch_scale = 1.0
     c.loss.gradnorm_weight_cap = 10000.0
     c.loss.weight_mode = "gradnorm"  # "gradnorm" or "fixed"
     c.loss.fixed_weights = [1.0, 1.0, 1.0, 1.0]
@@ -79,19 +77,17 @@ def get_config():
 
     # FEM reference
     c.fem = config_dict.ConfigDict()
-    c.fem.data_path = "/root/autodl-tmp/data/corrosion1d/results.npz"
+    c.fem.data_path = "/root/autodl-tmp/data/corrosion1d/results_diffusion.npz"
 
     # Initial condition
     c.init = config_dict.ConfigDict()
-    # c.init.center = 0.8
-    c.init.center = 0.5
+    c.init.center = 0.8
 
     # Physical — diffusion-controlled (L=2.0)
     c.physical = config_dict.ConfigDict()
     c.physical.D = 8.5e-10
     c.physical.A = 5.35e7
-    # c.physical.L = 2.0
-    c.physical.L = 1e-11
+    c.physical.L = 2.0
     c.physical.alpha_phi = 1.03e-4
     c.physical.omega_phi = 1.76e7
     c.physical.c_se = 1.0
@@ -100,7 +96,6 @@ def get_config():
     # Non-dimensionalization
     c.nondim = config_dict.ConfigDict()
     c.nondim.L_c = 100e-6
-    # c.nondim.T_c = 50.0
-    c.nondim.T_c = 1e5
+    c.nondim.T_c = 50.0
     
     return c

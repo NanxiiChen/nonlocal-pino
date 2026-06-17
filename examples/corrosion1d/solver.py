@@ -7,7 +7,7 @@ Usage (run from project root):
   python examples/corrosion1d/fem.py
   python examples/corrosion1d/fem.py --config=my_config.py
   python examples/corrosion1d/fem.py --config.mesh.n_cells=200
-  mpirun --allow-run-as-root -np 12 python examples/corrosion1d/fem.py
+  mpirun --allow-run-as-root -np 12 python examples/corrosion1d/solver.py --config=examples/corrosion1d/configs/solver_activation.py
 """
 
 import gc
@@ -323,7 +323,7 @@ def solve(config):
 
 # ── Config ───────────────────────────────────────────────────────────────────
 
-_DEFAULT_CONFIG = os.path.join(os.path.dirname(__file__), 'configs', 'solver.py')
+_DEFAULT_CONFIG = os.path.join(os.path.dirname(__file__), 'configs', 'solver_activation.py')
 _ = _config_flags.DEFINE_config_file('config', _DEFAULT_CONFIG, 'Config file')
 FLAGS = _absl_app.flags.FLAGS
 
