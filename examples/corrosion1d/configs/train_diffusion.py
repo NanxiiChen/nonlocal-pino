@@ -8,7 +8,7 @@ def get_config():
 
     # Architecture
     c.arch = config_dict.ConfigDict()
-    c.arch.type = "mlp"  # "split" ｜ "mlp" ｜ "modified_mlp"
+    c.arch.type = "modified_mlp"  # "split" ｜ "mlp" ｜ "modified_mlp"
     c.arch.rank_p = 50
     c.arch.hidden_dim = 64
     c.arch.num_layers = 4
@@ -37,18 +37,18 @@ def get_config():
     c.train = config_dict.ConfigDict()
     c.train.iterations = 50000
     c.train.lr_init = 5e-4
-    c.train.lr_decay_every = 200
+    c.train.lr_decay_every = 1000
     c.train.lr_decay_rate = 0.95
     c.train.lr_min = 1e-5
-    c.train.optimizer = "adam"  # "adam" or "soap"
+    c.train.optimizer = "soap"  # "adam" or "soap"
     c.train.grad_clip = 1.0
     c.train.soap_b1 = 0.95
     c.train.soap_b2 = 0.95
     c.train.soap_precond_freq = 5
     c.train.soap_max_precond_dim = 10000
     c.train.soap_precond_1d = False
-    c.train.log_every = 10
-    c.train.eval_every = 100
+    c.train.log_every = 20
+    c.train.eval_every = 500
     c.train.alpha_gradnorm = 1.0
 
     # Loss
@@ -58,27 +58,28 @@ def get_config():
     c.loss.gradnorm_weight_cap = 10000.0
     c.loss.weight_mode = "gradnorm"  # "gradnorm" or "fixed"
     c.loss.fixed_weights = [1.0, 1.0, 1.0, 1.0]
-    c.loss.gradnorm_bias = (0.5, 1.0, 2.0, 1.0)  # [ac, ch, bc, ic] extra multiplier
-    c.loss.use_causal = False
+    c.loss.gradnorm_bias = (1.0, 1.0, 1.0, 1.0)  # [ac, ch, bc, ic] extra multiplier
+    c.loss.use_causal = True
     c.loss.use_stagger = False
     c.loss.stagger_switch_every = 10
     # Causal params
     c.causal = config_dict.ConfigDict()
     c.causal.n_chunks = 20
     c.causal.eps_init = 1.0
-    c.causal.step_size = 1.5
-    c.causal.max_eps = 1000.0
+    c.causal.step_size = 1.2
+    c.causal.max_eps = 10.0
     c.causal.max_last_weight = 0.99
     c.causal.min_mean_weight = 0.5
 
     # Logging
     c.log = config_dict.ConfigDict()
     c.log.log_dir = "/root/autodl-tmp/tf-logs/corrosion1d/"
-    c.log.run_name = None
+    c.log.run_name = ""
+    c.log.save_ckpt = True
 
     # FEM reference
     c.fem = config_dict.ConfigDict()
-    c.fem.data_path = "/root/autodl-tmp/data/corrosion1d/results_diffusion_nonlocal.npz"
+    c.fem.data_path = "/root/autodl-tmp/data/corrosion1d/results_diffusion.npz"
 
     # Initial condition
     c.init = config_dict.ConfigDict()

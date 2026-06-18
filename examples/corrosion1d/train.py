@@ -194,8 +194,6 @@ def _eval_fem(net, fem_data, writer, step):
     fig.suptitle(f'Step {step}  rel-L2 φ={rel_phi:.4f}  c={rel_c:.4f}', fontsize=11)
     fig.tight_layout()
 
-    fpath = os.path.join(os.path.dirname(writer.logdir), f'eval_{step:06d}.png')
-    fig.savefig(fpath, dpi=150)
     writer.add_figure('eval/heatmaps', fig, step)
     plt.close(fig)
 
@@ -261,6 +259,8 @@ def _main(_):
     run_dir = _setup_dirs(config)
     writer = SummaryWriter(run_dir)
     log.info("Logging to %s", run_dir)
+    with open(os.path.join(run_dir, 'config.json'), 'w') as f:
+        f.write(config.to_json_best_effort())
 
     # --- spatial grid & BC ---
     x_all = jnp.linspace(0.0, 1.0, config.sample.Nx)[:, None]
@@ -336,10 +336,6 @@ def _main(_):
                      float(aux['weight_ac']), float(aux['weight_ch']),
                      float(aux['weight_bc']), float(aux['weight_ic']),
                      elapsed)
-            if causal is not None and aux.get('causal_w_ac') is not None:
-                writer.add_scalar('causal/eps_ac', float(causal_eps_ac), it)
-                writer.add_scalar('causal/eps_ch', float(causal_eps_ch), it)
-
         if causal is not None and aux.get('causal_w_ac') is not None:
             cfg = config.causal
             causal_eps_ac = causal.update_eps(
@@ -348,6 +344,9 @@ def _main(_):
             causal_eps_ch = causal.update_eps(
                 aux['causal_w_ch'], causal_eps_ch,
                 cfg.step_size, cfg.max_eps, cfg.max_last_weight, cfg.min_mean_weight)
+            if it % config.train.log_every == 0:
+                writer.add_scalar('causal/eps_ac', float(causal_eps_ac), it)
+                writer.add_scalar('causal/eps_ch', float(causal_eps_ch), it)
 
 
         if it % config.train.eval_every == 0:
@@ -358,6 +357,11 @@ def _main(_):
             t_fem = jnp.array(fem_data['time'])
             _diag_residual(net, x_fem, t_fem, delta, config.nl.kernel,
                            nd_params, writer, it)
+
+            if config.log.save_ckpt:
+                ckpt_path = os.path.join(run_dir, f'ckpt_{it:06d}.eqx')
+                eqx.tree_serialise_leaves(ckpt_path, net)
+                log.info("  Saved checkpoint: %s", ckpt_path)
 
             # Causal info figure
             if causal is not None and aux.get('causal_w_ac') is not None:
@@ -370,7 +374,7 @@ def _main(_):
                     (aux['causal_w_ch'], aux['causal_chunks_ch'], 'CH')]):
                     axes[0].plot(bins_mid, w, 'o-', label=label)
                     axes[1].plot(bins_mid, chunks, 'o-', label=label)
-                axes[0].set_title(f'Causal weights (eps_ac={float(causal_eps_ac):.2f}, ch={float(causal_eps_ch):.2f})')
+                axes[0].set_title(f'Causal weights (eps_ac={float(causal_eps_ac):.3f}, ch={float(causal_eps_ch):.3f})')
                 axes[0].set_xlabel('t chunk'); axes[0].set_ylabel('weight'); axes[0].legend()
                 axes[1].set_title('Loss per chunk'); axes[1].set_xlabel('t chunk'); axes[1].set_ylabel('MSE')
                 axes[1].set_yscale('log'); axes[1].legend()

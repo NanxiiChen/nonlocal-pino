@@ -35,7 +35,7 @@ def get_config():
 
     # Training
     c.train = config_dict.ConfigDict()
-    c.train.iterations = 50000
+    c.train.iterations = 2000
     c.train.lr_init = 5e-4
     c.train.lr_decay_every = 50
     c.train.lr_decay_rate = 0.95
@@ -74,7 +74,8 @@ def get_config():
     # Logging
     c.log = config_dict.ConfigDict()
     c.log.log_dir = "/root/autodl-tmp/tf-logs/corrosion1d/"
-    c.log.run_name = None
+    c.log.run_name = ""
+    c.log.save_ckpt = True
 
     # FEM reference
     c.fem = config_dict.ConfigDict()
@@ -97,7 +98,6 @@ def get_config():
     # Non-dimensionalization
     c.nondim = config_dict.ConfigDict()
     c.nondim.L_c = 100e-6
-    # c.nondim.T_c = 50.0
     c.nondim.T_c = 1e5
     
     return c
