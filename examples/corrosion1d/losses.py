@@ -88,7 +88,7 @@ def loss_ch(net, x_all, t_batch, D, nondim_params, ch_scale=None, causal=None, e
     """Cahn-Hilliard residual MSE, optionally causal-weighted."""
     N_CH, _, _, _, dc0, c_Le = nondim_params
     phi, c, _, dc_dt = _compute_all(net, x_all, t_batch)
-    mu = c - _h(phi) * dc0
+    mu = c - _h(phi) * dc0 - c_Le
     nl_mu = D @ mu
     r = dc_dt + N_CH * nl_mu
     r = ch_scale * r if ch_scale is not None else r

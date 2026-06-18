@@ -202,6 +202,46 @@ def _eval_fem(net, fem_data, writer, step):
     return rel_phi, rel_c
 
 
+def _diag_residual(net, x_fem, t_fem, delta, kernel, nd_params, writer, step):
+    """Break down AC residual into components for diagnosis."""
+    def _h(phi): return -2.0 * phi**3 + 3.0 * phi**2
+    def _hp(phi): return -6.0 * phi**2 + 6.0 * phi
+    def _gp(phi): return 4.0 * phi**3 - 6.0 * phi**2 + 2.0 * phi
+
+    N_CH, N_AC1, N_AC2, N_AC3, dc0, c_le = nd_params
+    D_fem = build_D(x_fem[:, None], delta, kernel=kernel)
+
+    phi, c, dphi_dt, _ = _compute_all(net, x_fem[:, None], t_fem)
+    phi, c, dphi_dt = phi.T, c.T, dphi_dt.T  # → (N_t, N_x)
+
+    nl_phi = phi @ D_fem.T  # (N_t, N_x), D is symmetric
+    r_t = dphi_dt
+    r_D = N_AC3 * nl_phi
+    r_g = N_AC2 * _gp(phi)
+    r_drv = -N_AC1 * (c - _h(phi) * dc0 - c_le) * dc0 * _hp(phi)
+    r_ac = r_t + r_D + r_g + r_drv
+
+    for name, val in [('ac/dphi_dt', r_t), ('ac/N_AC3_Dphi', r_D),
+                       ('ac/N_AC2_gp', r_g), ('ac/driving', r_drv),
+                       ('ac/total', r_ac)]:
+        rms = float(jnp.sqrt(jnp.mean(val**2)))
+        writer.add_scalar(f'diag/{name}_rms', rms, step)
+
+    # CH residual
+    mu = c - _h(phi) * dc0 - c_le
+    nl_mu = mu @ D_fem.T
+    r_ch_t = _compute_all(net, x_fem[:, None], t_fem)[3].T
+    r_ch = r_ch_t + N_CH * nl_mu
+    writer.add_scalar('diag/ch_total_rms', float(jnp.sqrt(jnp.mean(r_ch**2))), step)
+
+    log.info("  AC diag: dt=%.2e  Dphi=%.2e  gp=%.2e  drv=%.2e  → ac_res=%.2e",
+             float(jnp.sqrt(jnp.mean(r_t**2))),
+             float(jnp.sqrt(jnp.mean(r_D**2))),
+             float(jnp.sqrt(jnp.mean(r_g**2))),
+             float(jnp.sqrt(jnp.mean(r_drv**2))),
+             float(jnp.sqrt(jnp.mean(r_ac**2))))
+
+
 # ── Main ────────────────────────────────────────────────────────────────────
 
 def _main(_):
@@ -313,6 +353,11 @@ def _main(_):
         if it % config.train.eval_every == 0:
             rel_phi, rel_c = _eval_fem(net, fem_data, writer, it)
             log.info("--- eval @ %d: rel-L2 phi=%.4f  c=%.4f ---", it, rel_phi, rel_c)
+
+            x_fem = jnp.array(fem_data['mesh'])
+            t_fem = jnp.array(fem_data['time'])
+            _diag_residual(net, x_fem, t_fem, delta, config.nl.kernel,
+                           nd_params, writer, it)
 
             # Causal info figure
             if causal is not None and aux.get('causal_w_ac') is not None:
