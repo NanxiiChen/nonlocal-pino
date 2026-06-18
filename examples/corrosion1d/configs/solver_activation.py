@@ -8,7 +8,7 @@ def get_config():
 
     # --- Mesh ---
     config.mesh = config_dict.ConfigDict()
-    config.mesh.n_cells = 100
+    config.mesh.n_cells = 250
 
     # --- Physical parameters ---
     config.physical = config_dict.ConfigDict()
@@ -29,6 +29,11 @@ def get_config():
     config.time = config_dict.ConfigDict()
     config.time.dt = 0.005
     config.time.t_final = 1.0
+
+    # --- Non-local operator ---
+    config.nl = config_dict.ConfigDict()
+    config.nl.delta = 0.02
+    config.nl.kernel = "cubic"  # "cubic" or "tophat"
 
     # --- Solver ---
     config.solver = config_dict.ConfigDict()

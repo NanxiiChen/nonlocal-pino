@@ -58,7 +58,7 @@ def get_config():
     c.loss.gradnorm_weight_cap = 10000.0
     c.loss.weight_mode = "gradnorm"  # "gradnorm" or "fixed"
     c.loss.fixed_weights = [1.0, 1.0, 1.0, 1.0]
-    c.loss.gradnorm_bias = (1.0, 5.0, 1.0, 1.0)  # [ac, ch, bc, ic] extra multiplier
+    c.loss.gradnorm_bias = (1.0, 1.0, 5.0, 1.0)  # [ac, ch, bc, ic] extra multiplier
     c.loss.use_causal = False
     c.loss.use_stagger = False
     c.loss.stagger_switch_every = 25
@@ -78,7 +78,7 @@ def get_config():
 
     # FEM reference
     c.fem = config_dict.ConfigDict()
-    c.fem.data_path = "/root/autodl-tmp/data/corrosion1d/results_activation.npz"
+    c.fem.data_path = "/root/autodl-tmp/data/corrosion1d/results_activation_nonlocal.npz"
 
     # Initial condition
     c.init = config_dict.ConfigDict()
