@@ -25,12 +25,12 @@ def get_config():
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()
-    c.nl.delta = 0.01
+    c.nl.delta = 0.02
     c.nl.kernel = "cubic"  # "cubic" (smooth) or "tophat" (discontinuous)
 
     # Sampling
     c.sample = config_dict.ConfigDict()
-    c.sample.Nx = 501
+    c.sample.Nx = 401
     c.sample.Nt = 100
     c.sample.t_min = 0.001  # exclude t=0 from PDE sampling (IC handles t=0)
 

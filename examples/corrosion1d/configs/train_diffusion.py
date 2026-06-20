@@ -36,9 +36,9 @@ def get_config():
 
     # Training
     c.train = config_dict.ConfigDict()
-    c.train.iterations = 50000
+    c.train.iterations = 5000
     c.train.lr_init = 5e-4
-    c.train.lr_decay_every = 1000
+    c.train.lr_decay_every = 100
     c.train.lr_decay_rate = 0.95
     c.train.lr_min = 1e-5
     c.train.optimizer = "adam"  # "adam" or "soap"
@@ -49,7 +49,7 @@ def get_config():
     c.train.soap_max_precond_dim = 10000
     c.train.soap_precond_1d = False
     c.train.log_every = 20
-    c.train.eval_every = 500
+    c.train.eval_every = 100
     c.train.alpha_gradnorm = 1.0
 
     # Loss
