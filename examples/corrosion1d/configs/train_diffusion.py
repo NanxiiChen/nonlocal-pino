@@ -42,7 +42,7 @@ def get_config():
     c.train.lr_decay_rate = 0.95
     c.train.lr_min = 1e-5
     c.train.optimizer = "adam"  # "adam" or "soap"
-    c.train.grad_clip = 1.0
+    c.train.grad_clip = 100.0
     c.train.soap_b1 = 0.95
     c.train.soap_b2 = 0.95
     c.train.soap_precond_freq = 5
@@ -54,7 +54,9 @@ def get_config():
 
     # Loss
     c.loss = config_dict.ConfigDict()
-    c.loss.ac_scale = 1e-7
+    c.loss.ac_scale = 1e-7  # set to 1.0 when using ac_anneal
+    c.loss.ac_anneal_steps = 0  # disabled
+    c.loss.ac_anneal_log0 = -10
     c.loss.ch_scale = 1.0
     c.loss.gradnorm_weight_cap = 10000.0
     c.loss.weight_mode = "gradnorm"  # "gradnorm" or "fixed"
@@ -63,7 +65,7 @@ def get_config():
     # Example: ((1000, 0.5, 2.0, 1000.0, 10000.0), (3000, 0.01, 1.0, 10.0, 10.0))
     # First value in each tuple is end_step, rest is the bias for that phase.
     # After the last phase, the bias fallbacks to the `gradnorm_bias` value.
-    c.loss.use_causal = True
+    c.loss.use_causal = False
     c.loss.use_stagger = False
     c.loss.stagger_switch_every = 10
     # Causal params
@@ -83,7 +85,7 @@ def get_config():
 
     # FEM reference
     c.fem = config_dict.ConfigDict()
-    c.fem.data_path = "/root/autodl-tmp/data/corrosion1d/results_diffusion_nonlocal.npz"
+    c.fem.data_path = "/root/autodl-tmp/data/corrosion1d/results_diffusion.npz"
 
     # Initial condition
     c.init = config_dict.ConfigDict()

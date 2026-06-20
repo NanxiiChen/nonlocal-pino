@@ -21,14 +21,13 @@ class CausalWeightor:
     # ---- per-chunk loss ---------------------------------------------------
 
     def chunked_loss(self, r, t_batch):
-        """r: (N_x, N_t) residual.  Returns per-chunk MSE of shape (n_chunks,)."""
+        """r: (N_x, N_t) residual.  Returns per-chunk MAE of shape (n_chunks,)."""
         indices = jnp.digitize(t_batch, self.bins) - 1
-        # Mean over spatial axis first, then segment over time
-        r2_t = jnp.mean(r**2, axis=0)                            # (N_t,)
-        sum_sq = jax.ops.segment_sum(r2_t, indices, num_segments=self.n_chunks)
-        count = jax.ops.segment_sum(jnp.ones_like(r2_t), indices,
+        r1_t = jnp.mean(jnp.abs(r), axis=0)                      # (N_t,)
+        sum_abs = jax.ops.segment_sum(r1_t, indices, num_segments=self.n_chunks)
+        count = jax.ops.segment_sum(jnp.ones_like(r1_t), indices,
                                      num_segments=self.n_chunks)
-        return sum_sq / (count + 1e-12)
+        return sum_abs / (count + 1e-12)
 
     # ---- weights ----------------------------------------------------------
 
@@ -41,13 +40,12 @@ class CausalWeightor:
     # ---- weighted loss ----------------------------------------------------
 
     def weighted_loss(self, r, t_batch, eps):
-        """Returns (weighted_MSE, chunk_weights, loss_chunks)."""
+        """Returns (weighted_MAE, chunk_weights, loss_chunks)."""
         chunks = self.chunked_loss(r, t_batch)
         w = self.compute_weights(chunks, eps)
         indices = jnp.digitize(t_batch, self.bins) - 1
         w_per_point = w[indices]
-        r2 = jnp.mean(r**2 * w_per_point[None, :])
-        return r2, w, chunks
+        return jnp.mean(jnp.abs(r) * w_per_point[None, :]), w, chunks
 
     # ---- eps update (pure — no mutation) ----------------------------------
 

@@ -30,12 +30,15 @@ def _compute_all(net, x_all, t_batch):
     return phi, c, dphi_dt, dc_dt
 
 
-def _compute_ac_residual(net, x_all, t_batch, D, nd, ac_scale=None):
+def _compute_ac_residual(net, x_all, t_batch, D, nd, ac_scale=None, lam=1.0):
     _, N_AC1, N_AC2, N_AC3, dc0, c_Le = nd
     phi, c, dphi_dt, _ = _compute_all(net, x_all, t_batch)
     nl_phi = D @ phi
-    r = (dphi_dt + N_AC3 * nl_phi + N_AC2 * _gp(phi)
+    s = (N_AC3 * nl_phi + N_AC2 * _gp(phi)
          - N_AC1 * (c - _h(phi) * dc0 - c_Le) * dc0 * _hp(phi))
+    s_stopped = jax.lax.stop_gradient(s)
+    s_damped = s_stopped + lam * (s - s_stopped)  # fwd=s, grad=lam*∂s/∂θ
+    r = dphi_dt + s_damped
     return ac_scale * r if ac_scale is not None else r
 
 
@@ -48,12 +51,13 @@ def _compute_ch_residual(net, x_all, t_batch, D, nd, ch_scale=None):
     return ch_scale * r if ch_scale is not None else r
 
 
-def loss_ac(net, x_all, t_batch, D, nondim_params, ac_scale=None, causal=None, eps=None):
-    r = _compute_ac_residual(net, x_all, t_batch, D, nondim_params, ac_scale)
+def loss_ac(net, x_all, t_batch, D, nondim_params, ac_scale=None, causal=None,
+            eps=None, lam=1.0):
+    r = _compute_ac_residual(net, x_all, t_batch, D, nondim_params, ac_scale, lam)
     if causal is not None and eps is not None:
         val, w, chunks = causal.weighted_loss(r, t_batch, eps)
         return val, (w, chunks)
-    return jnp.mean(r**2), (None, None)
+    return jnp.mean(jnp.abs(r)), (None, None)
 
 
 def loss_ch(net, x_all, t_batch, D, nondim_params, ch_scale=None, causal=None, eps=None):
@@ -61,7 +65,7 @@ def loss_ch(net, x_all, t_batch, D, nondim_params, ch_scale=None, causal=None, e
     if causal is not None and eps is not None:
         val, w, chunks = causal.weighted_loss(r, t_batch, eps)
         return val, (w, chunks)
-    return jnp.mean(r**2), (None, None)
+    return jnp.mean(jnp.abs(r)), (None, None)
 
 
 def loss_ic(net, x_all, phi0, c0):
@@ -91,7 +95,7 @@ def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
                  causal=None, hard_bc=False):
     constr_idx = ~mask_free
 
-    def loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias):
+    def loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, lam):
         if weight_mode == "fixed":
             w_ac, w_ch, w_bc, w_ic = jnp.array(bias, dtype=jnp.float32)
             w_ac = jnp.where(train_ac, w_ac, 0.0)
@@ -101,7 +105,7 @@ def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
 
             if causal is not None:
                 def total_loss(n):
-                    a_v, (w_ac_c, chunks_ac) = loss_ac(n, x_all, t_batch, D, nondim_params, ac_scale, causal, eps)
+                    a_v, (w_ac_c, chunks_ac) = loss_ac(n, x_all, t_batch, D, nondim_params, ac_scale, causal, eps, lam=lam)
                     b_v, (w_ch_c, chunks_ch) = loss_ch(n, x_all, t_batch, D, nondim_params, ch_scale, causal, eps)
                     c_v = loss_bc(n, x_all, t_batch, bc_values, constr_idx)
                     d_v = loss_ic(n, x_all, phi0, c0)
@@ -112,7 +116,7 @@ def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
                     eqx.filter_value_and_grad(total_loss, has_aux=True)(net)
             else:
                 def total_loss(n):
-                    a_v = loss_ac(n, x_all, t_batch, D, nondim_params, ac_scale, causal, eps)
+                    a_v = loss_ac(n, x_all, t_batch, D, nondim_params, ac_scale, causal, eps, lam=lam)
                     b_v = loss_ch(n, x_all, t_batch, D, nondim_params, ch_scale, causal, eps)
                     c_v = loss_bc(n, x_all, t_batch, bc_values, constr_idx)
                     d_v = loss_ic(n, x_all, phi0, c0)
@@ -123,7 +127,7 @@ def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
         else:
             ((ac_val, (w_ac_c, chunks_ac)), ac_grad) = eqx.filter_value_and_grad(
                 loss_ac, has_aux=True)(
-                net, x_all, t_batch, D, nondim_params, ac_scale, causal, eps)
+                net, x_all, t_batch, D, nondim_params, ac_scale, causal, eps, lam=lam)
             ((ch_val, (w_ch_c, chunks_ch)), ch_grad) = eqx.filter_value_and_grad(
                 loss_ch, has_aux=True)(
                 net, x_all, t_batch, D, nondim_params, ch_scale, causal, eps)

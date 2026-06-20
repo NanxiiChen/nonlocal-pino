@@ -131,8 +131,8 @@ def _bc_info(x_all):
 
 def _make_step(loss_fn, optim):
     @eqx.filter_jit
-    def step(net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias):
-        (loss, aux, grad, new_w) = loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias)
+    def step(net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, lam):
+        (loss, aux, grad, new_w) = loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, lam)
         grad = jax.tree.map(jnp.nan_to_num, grad)
         updates, opt_state = optim.update(grad, opt_state, net)
         net = eqx.apply_updates(net, updates)
@@ -323,9 +323,17 @@ def _main(_):
 
     # --- training loop ---
     w_ema = jnp.array([1.0, 1.0, 1.0, 1.0])  # AC, CH, BC, IC
+    ac_anneal_steps = config.loss.ac_anneal_steps
+    ac_anneal_log0 = config.loss.ac_anneal_log0
     t_start = time.perf_counter()
 
     for it in range(1, config.train.iterations + 1):
+        # Anneal log10(λ) from log0 → 0, then λ=1
+        if ac_anneal_steps > 0:
+            loglam = ac_anneal_log0 * (1.0 - jnp.minimum(it / ac_anneal_steps, 1.0))
+            lam = jnp.power(10.0, loglam)
+        else:
+            lam = jnp.array(1.0)
         key_t = jr.fold_in(k_samp, it)
         t_batch = jr.uniform(key_t, (config.sample.Nt,), minval=config.sample.t_min, maxval=1.0)
 
@@ -339,7 +347,7 @@ def _main(_):
             train_ch = jnp.array(True)
         net, opt_state, loss_val, aux, w_ema = step_fn(
             net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema,
-            get_bias(it))
+            get_bias(it), lam)
 
         if it % config.train.log_every == 0:
             elapsed = time.perf_counter() - t_start
@@ -349,6 +357,7 @@ def _main(_):
                     writer.add_scalar(f'loss/{k}', float(v), it)
             lr = config.train.lr_init * config.train.lr_decay_rate**(it // config.train.lr_decay_every)
             writer.add_scalar('train/lr', float(max(lr, config.train.lr_min)), it)
+            writer.add_scalar('train/lam_ac', float(lam), it)
             log.info("[%5d] loss=%.3e  ac=%.3e ch=%.3e bc=%.3e ic=%.3e  "
                      "w=[%.1f,%.1f,%.1f,%.0f]  (%.1fs)",
                      it, float(loss_val), float(aux['loss_ac']),
