@@ -52,6 +52,12 @@ def _setup_dirs(config):
 
 def _build_network(config, key):
     c = config.arch
+    hard_bc = c.use_hard_bc if hasattr(c, 'use_hard_bc') else False
+    bc = None
+    if hard_bc:
+        from pinn.arch.dirichlet_bc import make_1d_corrosion_bc
+        bc = make_1d_corrosion_bc(config.physical.c_se)
+
     if c.type == "split":
         return make_split_pinn(
             spatial_dim=1, rank_p=c.rank_p, hidden_dim=c.hidden_dim,
@@ -59,7 +65,7 @@ def _build_network(config, key):
             spatial_scale=c.spatial_scale, temporal_emb_dim=c.temporal_emb_dim,
             temporal_scale=c.temporal_scale, activation=c.activation,
             use_bias=c.use_bias, use_spatial_emb=c.use_spatial_emb,
-            use_temporal_emb=c.use_temporal_emb, key=key)
+            use_temporal_emb=c.use_temporal_emb, bc=bc, key=key)
     elif c.type in ("mlp", "modified_mlp"):
         hc = None
         if c.use_hard_constraint:
@@ -68,7 +74,7 @@ def _build_network(config, key):
             hc = HardConstraint(phys.c_se, phys.c_le)
         return make_pinn(spatial_dim=1, out_dim=2, hidden_dim=c.hidden_dim,
                          num_layers=c.num_layers, trunk_type=c.type,
-                         hard_constraint=hc, key=key)
+                         hard_constraint=hc, dirichlet_bc=bc, key=key)
     elif c.type == "film":
         hc = None
         if c.use_hard_constraint:
@@ -76,7 +82,8 @@ def _build_network(config, key):
             phys = config.physical
             hc = HardConstraint(phys.c_se, phys.c_le)
         return make_film_pinn(spatial_dim=1, out_dim=2, hidden_dim=c.hidden_dim,
-                              num_layers=c.num_layers, hard_constraint=hc, key=key)
+                              num_layers=c.num_layers, hard_constraint=hc,
+                              dirichlet_bc=bc, key=key)
     else:
         raise ValueError(f"Unknown arch.type: {c.type}")
 
@@ -116,6 +123,7 @@ def _bc_info(x_all):
     mask_free = mask_free.at[-1].set(False)
     bc_values = jnp.zeros(N)
     bc_values = bc_values.at[0].set(1.0)
+    bc_values = bc_values.at[-1].set(0.0)
     return mask_free, bc_values
 
 
@@ -123,8 +131,8 @@ def _bc_info(x_all):
 
 def _make_step(loss_fn, optim):
     @eqx.filter_jit
-    def step(net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema):
-        (loss, aux, grad, new_w) = loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema)
+    def step(net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias):
+        (loss, aux, grad, new_w) = loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias)
         grad = jax.tree.map(jnp.nan_to_num, grad)
         updates, opt_state = optim.update(grad, opt_state, net)
         net = eqx.apply_updates(net, updates)
@@ -288,15 +296,27 @@ def _main(_):
                        ch_scale=config.loss.ch_scale,
                        gradnorm_cap=config.loss.gradnorm_weight_cap,
                        weight_mode=config.loss.weight_mode,
-                       fixed_weights=tuple(config.loss.fixed_weights),
                        causal=causal,
-                       gradnorm_bias=tuple(config.loss.gradnorm_bias))
+                       hard_bc=config.arch.use_hard_bc)
     optim = _build_optimizer(config)
     opt_state = optim.init(eqx.filter(net, eqx.is_array))
     step_fn = _make_step(lfn, optim)
 
     # --- initial condition ---
     phi0, c0 = ic_values(x_all, config.physical, config.nondim.L_c, center=config.init.center)
+
+    # --- bias schedule ---
+    schedule = list(config.loss.bias_schedule)
+    default_bias = jnp.array(config.loss.gradnorm_bias, dtype=jnp.float32)
+
+    def get_bias(it):
+        for entry in schedule:
+            if not isinstance(entry, (tuple, list)) or len(entry) < 5:
+                continue
+            end_step = entry[0]
+            if it <= end_step:
+                return jnp.array(entry[1:5], dtype=jnp.float32)
+        return default_bias
 
     # --- FEM data for eval ---
     fem_data = np.load(config.fem.data_path)
@@ -318,7 +338,8 @@ def _main(_):
             train_ac = jnp.array(True)
             train_ch = jnp.array(True)
         net, opt_state, loss_val, aux, w_ema = step_fn(
-            net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema)
+            net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema,
+            get_bias(it))
 
         if it % config.train.log_every == 0:
             elapsed = time.perf_counter() - t_start

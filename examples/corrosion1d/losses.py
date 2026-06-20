@@ -43,11 +43,21 @@ def _compute_all(net, x_all, t_batch):
     Fx = net.spatial_batch(x_all)                    # (N_x, 2p)
     Ft = net.temporal_batch(t_batch)                 # (N_t, 2p)
     dFt = jax.vmap(net.temporal_derivative)(t_batch) # (N_t, 2p)
-    out = net.combine(Fx, Ft, t_batch)                 # (N_x, N_t, 2)  + bias
-    d_dt = net.combine(Fx, dFt)                         # (N_x, N_t, 2)
-    db_dt = net.combine_bias_derivative(t_batch)        # (N_t, 2)
-    dphi = d_dt[..., 0] + db_dt[None, :, 0]
-    dc   = d_dt[..., 1] + db_dt[None, :, 1]
+    out_raw = net.combine(Fx, Ft, t_batch)             # (N_x, N_t, 2)  + bias
+    d_raw = net.combine(Fx, dFt)                       # (N_x, N_t, 2)
+    db_dt = net.combine_bias_derivative(t_batch)       # (N_t, 2)
+
+    if net.bc is not None:
+        mask = net.bc.mask(x_all)      # (N_x, 2),  x_all already (N_x, dim)
+        base = net.bc.baseline(x_all)  # (N_x, 2)
+        out = base[:, None, :] + mask[:, None, :] * out_raw
+        dphi = mask[:, None, 0] * d_raw[..., 0] + db_dt[None, :, 0]
+        dc   = mask[:, None, 1] * d_raw[..., 1] + db_dt[None, :, 1]
+    else:
+        out = out_raw
+        dphi = d_raw[..., 0] + db_dt[None, :, 0]
+        dc   = d_raw[..., 1] + db_dt[None, :, 1]
+
     return out[..., 0], out[..., 1], dphi, dc
 
 
@@ -136,11 +146,17 @@ def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
                  alpha=1.0, ac_scale=None, ch_scale=None,
                  gradnorm_cap=1000, weight_mode="gradnorm",
                  fixed_weights=(1.0, 1.0, 1.0, 1.0),
-                 causal=None, gradnorm_bias=(1.,1.,1.,1.)):
-    """Factory: total loss (AC, CH, BC, IC) with optional causal weighting."""
+                 causal=None, gradnorm_bias=(1.,1.,1.,1.),
+                 hard_bc=False):
+    """Factory: total loss (AC, CH, BC, IC) with optional causal weighting.
+
+    If hard_bc=True, BC loss is skipped (BC is enforced architecturally).
+    """
     constr_idx = ~mask_free
 
-    def loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema):
+    def loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias):
+        # bias param unused here — gradnorm_bias is captured from closure
+        _ = bias
         ((ac_val, ac_aux), ac_grad) = eqx.filter_value_and_grad(
             loss_ac, has_aux=True)(
             net, x_all, t_batch, D, nondim_params, ac_scale, causal, eps)
@@ -150,15 +166,26 @@ def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
         w_ac_c, chunks_ac = ac_aux if ac_aux is not None else (None, None)
         w_ch_c, chunks_ch = ch_aux if ch_aux is not None else (None, None)
 
-        (bc_val, bc_grad) = eqx.filter_value_and_grad(loss_bc)(
-            net, x_all, t_batch, bc_values, constr_idx)
         (ic_val, ic_grad) = eqx.filter_value_and_grad(loss_ic)(
             net, x_all, phi0, c0)
+
+        if hard_bc:
+            bc_val = jnp.array(0.0)
+            bc_grad = jax.tree.map(jnp.zeros_like, ic_grad)
+        else:
+            (bc_val, bc_grad) = eqx.filter_value_and_grad(loss_bc)(
+                net, x_all, t_batch, bc_values, constr_idx)
 
         if weight_mode == "fixed":
             w = jnp.array(fixed_weights, dtype=jnp.float32)
             w = jax.lax.stop_gradient(w)
             w_ac, w_ch, w_bc, w_ic = w
+        elif hard_bc:
+            w_new = grad_norm_weights([ac_grad, ch_grad, ic_grad], cap=gradnorm_cap)
+            w_ac = alpha * w_new[0] + (1.0 - alpha) * w_ema[0]
+            w_ch = alpha * w_new[1] + (1.0 - alpha) * w_ema[1]
+            w_bc = jnp.array(0.0)
+            w_ic = alpha * w_new[2] + (1.0 - alpha) * w_ema[2]
         else:
             w_new = grad_norm_weights([ac_grad, ch_grad, bc_grad, ic_grad],
                                        cap=gradnorm_cap)

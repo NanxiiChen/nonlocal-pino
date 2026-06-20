@@ -8,7 +8,7 @@ def get_config():
 
     # Architecture
     c.arch = config_dict.ConfigDict()
-    c.arch.type = "modified_mlp"  # "split" ｜ "mlp" ｜ "modified_mlp"
+    c.arch.type = "mlp"  # "split" ｜ "mlp" ｜ "modified_mlp"
     c.arch.rank_p = 50
     c.arch.hidden_dim = 64
     c.arch.num_layers = 4
@@ -16,20 +16,21 @@ def get_config():
     c.arch.spatial_scale = 1.0
     c.arch.temporal_emb_dim = 64
     c.arch.temporal_scale = 1.0
-    c.arch.activation = "gelu"
+    c.arch.activation = "tanh"
     c.arch.use_bias = True
-    c.arch.use_spatial_emb = True
-    c.arch.use_temporal_emb = True
+    c.arch.use_spatial_emb = False
+    c.arch.use_temporal_emb = False
     c.arch.use_hard_constraint = True
+    c.arch.use_hard_bc = False
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()
-    c.nl.delta = 0.01
+    c.nl.delta = 0.02
     c.nl.kernel = "cubic"  # "cubic" (smooth) or "tophat" (discontinuous)
 
     # Sampling
     c.sample = config_dict.ConfigDict()
-    c.sample.Nx = 501
+    c.sample.Nx = 401
     c.sample.Nt = 100
     c.sample.t_min = 0.001  # exclude t=0 from PDE sampling (IC handles t=0)
 
@@ -40,7 +41,7 @@ def get_config():
     c.train.lr_decay_every = 1000
     c.train.lr_decay_rate = 0.95
     c.train.lr_min = 1e-5
-    c.train.optimizer = "soap"  # "adam" or "soap"
+    c.train.optimizer = "adam"  # "adam" or "soap"
     c.train.grad_clip = 1.0
     c.train.soap_b1 = 0.95
     c.train.soap_b2 = 0.95
@@ -57,8 +58,11 @@ def get_config():
     c.loss.ch_scale = 1.0
     c.loss.gradnorm_weight_cap = 10000.0
     c.loss.weight_mode = "gradnorm"  # "gradnorm" or "fixed"
-    c.loss.fixed_weights = [1.0, 1.0, 1.0, 1.0]
-    c.loss.gradnorm_bias = (1.0, 1.0, 1.0, 1.0)  # [ac, ch, bc, ic] extra multiplier
+    c.loss.gradnorm_bias = (1.0, 1.0, 1.0, 1.0)  # [ac, ch, bc, ic]
+    c.loss.bias_schedule = ()
+    # Example: ((1000, 0.5, 2.0, 1000.0, 10000.0), (3000, 0.01, 1.0, 10.0, 10.0))
+    # First value in each tuple is end_step, rest is the bias for that phase.
+    # After the last phase, the bias fallbacks to the `gradnorm_bias` value.
     c.loss.use_causal = True
     c.loss.use_stagger = False
     c.loss.stagger_switch_every = 10
@@ -79,7 +83,7 @@ def get_config():
 
     # FEM reference
     c.fem = config_dict.ConfigDict()
-    c.fem.data_path = "/root/autodl-tmp/data/corrosion1d/results_diffusion.npz"
+    c.fem.data_path = "/root/autodl-tmp/data/corrosion1d/results_diffusion_nonlocal.npz"
 
     # Initial condition
     c.init = config_dict.ConfigDict()

@@ -16,11 +16,12 @@ def get_config():
     c.arch.spatial_scale = 1.0
     c.arch.temporal_emb_dim = 64
     c.arch.temporal_scale = 1.0
-    c.arch.activation = "gelu"
+    c.arch.activation = "tanh"
     c.arch.use_bias = True
-    c.arch.use_spatial_emb = True
-    c.arch.use_temporal_emb = True
+    c.arch.use_spatial_emb = False
+    c.arch.use_temporal_emb = False
     c.arch.use_hard_constraint = True
+    c.arch.use_hard_bc = False  # enforce BC via DirichletBC layer, skip BC loss (all archs)
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()
@@ -31,7 +32,7 @@ def get_config():
     c.sample = config_dict.ConfigDict()
     c.sample.Nx = 501
     c.sample.Nt = 100
-    c.sample.t_min = 0.01  # exclude t=0 from PDE sampling (IC handles t=0)
+    c.sample.t_min = 0.001  # exclude t=0 from PDE sampling (IC handles t=0)
 
     # Training
     c.train = config_dict.ConfigDict()
@@ -47,8 +48,8 @@ def get_config():
     c.train.soap_precond_freq = 5
     c.train.soap_max_precond_dim = 10000
     c.train.soap_precond_1d = False
-    c.train.log_every = 5
-    c.train.eval_every = 20
+    c.train.log_every = 10
+    c.train.eval_every = 50
     c.train.alpha_gradnorm = 1.0
 
     # Loss
@@ -57,8 +58,8 @@ def get_config():
     c.loss.ch_scale = 1e-3
     c.loss.gradnorm_weight_cap = 10000.0
     c.loss.weight_mode = "gradnorm"  # "gradnorm" or "fixed"
-    c.loss.fixed_weights = [1.0, 1.0, 1.0, 1.0]
-    c.loss.gradnorm_bias = (1.0, 1.0, 5.0, 1.0)  # [ac, ch, bc, ic] extra multiplier
+    c.loss.gradnorm_bias = (1.0, 1.0, 5.0, 1.0)  # [ac, ch, bc, ic]
+    c.loss.bias_schedule = ()
     c.loss.use_causal = False
     c.loss.use_stagger = False
     c.loss.stagger_switch_every = 25

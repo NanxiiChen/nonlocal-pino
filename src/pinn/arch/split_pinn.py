@@ -81,19 +81,22 @@ class _TemporalBranch(eqx.Module):
 
 
 class _SplitPINN(eqx.Module):
-    """Split-PINN: φ,c = dot_product(F_x, F_t) + b(t) where b(0)=0."""
+    """Split-PINN: φ,c = baseline(x) + mask(x)·(F_x·F_t + b(t)) where b(0)=0."""
     spatial: _SpatialBranch
     temporal: _TemporalBranch
     output_bias: _OutputBias | None
+    bc: eqx.Module | None
     rank_p: int = eqx.field(static=True)
 
     def __call__(self, x, t):
-        """Single-sample: (dim,) × () → (2,) for (φ, c)."""
+        """Single-sample: (dim,) × () → (out_dim,)."""
         fx = self.spatial(jnp.atleast_1d(x)).reshape(2, self.rank_p)
         ft = self.temporal(jnp.atleast_1d(t)).reshape(2, self.rank_p)
         out = jnp.einsum('fk,fk->f', fx, ft)
         if self.output_bias is not None:
             out = out + self.output_bias(t)
+        if self.bc is not None:
+            out = self.bc(x, out)
         return out
 
     def spatial_batch(self, x_all):
@@ -137,8 +140,8 @@ def make_split_pinn(spatial_dim, rank_p=10, hidden_dim=64, num_layers=4, *,
                     spatial_emb_dim=64, spatial_scale=2.0,
                     temporal_emb_dim=64, temporal_scale=2.0,
                     activation='gelu', use_bias=False, use_spatial_emb=True,
-                    use_temporal_emb=True, key):
-    """Factory: create a Split-PINN model."""
+                    use_temporal_emb=True, bc=None, key=None):
+    """Factory: create a Split-PINN model.  `bc` is an optional DirichletBC module."""
     act = _ACTIVATIONS.get(activation, jax.nn.gelu)
     if isinstance(act, str):
         raise ValueError(f"Unknown activation: {activation}. Options: {list(_ACTIVATIONS)}")
@@ -154,7 +157,7 @@ def make_split_pinn(spatial_dim, rank_p=10, hidden_dim=64, num_layers=4, *,
                                key=k_temporal)
     bias = _OutputBias(temporal_emb_dim, temporal_scale,
                        hidden_dim, key=k_bias) if use_bias else None
-    return _SplitPINN(spatial, temporal, bias, rank_p)
+    return _SplitPINN(spatial, temporal, bias, bc, rank_p)
 
 
 if __name__ == "__main__":

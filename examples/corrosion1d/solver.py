@@ -246,7 +246,7 @@ def solve(config):
     bcs = [
         DirichletBC(V.sub(0), Constant(1.0), _left),
         DirichletBC(V.sub(0), Constant(0.0), _right),
-        DirichletBC(V.sub(1), Constant(phys.c_se), _left),
+        DirichletBC(V.sub(1), Constant(1.0), _left),
         DirichletBC(V.sub(1), Constant(0.0), _right),
     ]
 

@@ -88,26 +88,50 @@ def grad_norm_weights(grads, eps=1e-6, cap=1000):
 def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
                  alpha=1.0, ac_scale=None, ch_scale=None,
                  gradnorm_cap=1000, weight_mode="gradnorm",
-                 fixed_weights=(1.0, 1.0, 1.0, 1.0),
-                 causal=None, gradnorm_bias=(1.,1.,1.,1.)):
+                 causal=None, hard_bc=False):
     constr_idx = ~mask_free
 
-    def loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema):
-        ((ac_val, (w_ac_c, chunks_ac)), ac_grad) = eqx.filter_value_and_grad(
-            loss_ac, has_aux=True)(
-            net, x_all, t_batch, D, nondim_params, ac_scale, causal, eps)
-        ((ch_val, (w_ch_c, chunks_ch)), ch_grad) = eqx.filter_value_and_grad(
-            loss_ch, has_aux=True)(
-            net, x_all, t_batch, D, nondim_params, ch_scale, causal, eps)
-
-        (bc_val, bc_grad) = eqx.filter_value_and_grad(loss_bc)(
-            net, x_all, t_batch, bc_values, constr_idx)
-        (ic_val, ic_grad) = eqx.filter_value_and_grad(loss_ic)(
-            net, x_all, phi0, c0)
-
+    def loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias):
         if weight_mode == "fixed":
-            w_ac, w_ch, w_bc, w_ic = jnp.array(fixed_weights, dtype=jnp.float32)
+            w_ac, w_ch, w_bc, w_ic = jnp.array(bias, dtype=jnp.float32)
+            w_ac = jnp.where(train_ac, w_ac, 0.0)
+            w_ch = jnp.where(train_ch, w_ch, 0.0)
+            if hard_bc:
+                w_bc = jnp.array(0.0)
+
+            if causal is not None:
+                def total_loss(n):
+                    a_v, (w_ac_c, chunks_ac) = loss_ac(n, x_all, t_batch, D, nondim_params, ac_scale, causal, eps)
+                    b_v, (w_ch_c, chunks_ch) = loss_ch(n, x_all, t_batch, D, nondim_params, ch_scale, causal, eps)
+                    c_v = loss_bc(n, x_all, t_batch, bc_values, constr_idx)
+                    d_v = loss_ic(n, x_all, phi0, c0)
+                    return (w_ac*a_v + w_ch*b_v + w_bc*c_v + w_ic*d_v,
+                            (a_v, b_v, c_v, d_v, w_ac_c, w_ch_c, chunks_ac, chunks_ch))
+                (total, (ac_val, ch_val, bc_val, ic_val,
+                         w_ac_c, w_ch_c, chunks_ac, chunks_ch)), total_grad = \
+                    eqx.filter_value_and_grad(total_loss, has_aux=True)(net)
+            else:
+                def total_loss(n):
+                    a_v = loss_ac(n, x_all, t_batch, D, nondim_params, ac_scale, causal, eps)
+                    b_v = loss_ch(n, x_all, t_batch, D, nondim_params, ch_scale, causal, eps)
+                    c_v = loss_bc(n, x_all, t_batch, bc_values, constr_idx)
+                    d_v = loss_ic(n, x_all, phi0, c0)
+                    return w_ac*a_v + w_ch*b_v + w_bc*c_v + w_ic*d_v, (a_v, b_v, c_v, d_v)
+                (total, (ac_val, ch_val, bc_val, ic_val)), total_grad = \
+                    eqx.filter_value_and_grad(total_loss, has_aux=True)(net)
+                w_ac_c = None; w_ch_c = None; chunks_ac = None; chunks_ch = None
         else:
+            ((ac_val, (w_ac_c, chunks_ac)), ac_grad) = eqx.filter_value_and_grad(
+                loss_ac, has_aux=True)(
+                net, x_all, t_batch, D, nondim_params, ac_scale, causal, eps)
+            ((ch_val, (w_ch_c, chunks_ch)), ch_grad) = eqx.filter_value_and_grad(
+                loss_ch, has_aux=True)(
+                net, x_all, t_batch, D, nondim_params, ch_scale, causal, eps)
+            (bc_val, bc_grad) = eqx.filter_value_and_grad(loss_bc)(
+                net, x_all, t_batch, bc_values, constr_idx)
+            (ic_val, ic_grad) = eqx.filter_value_and_grad(loss_ic)(
+                net, x_all, phi0, c0)
+
             w_new = grad_norm_weights([ac_grad, ch_grad, bc_grad, ic_grad],
                                        cap=gradnorm_cap)
             w_ac = alpha * w_new[0] + (1.0 - alpha) * w_ema[0]
@@ -115,19 +139,18 @@ def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
             w_bc = alpha * w_new[2] + (1.0 - alpha) * w_ema[2]
             w_ic = alpha * w_new[3] + (1.0 - alpha) * w_ema[3]
 
-        # Stagger: alternate AC/CH training
-        w_ac = jnp.where(train_ac, w_ac, 0.0)
-        w_ch = jnp.where(train_ch, w_ch, 0.0)
+            w_ac = jnp.where(train_ac, w_ac, 0.0)
+            w_ch = jnp.where(train_ch, w_ch, 0.0)
+            w_ac *= bias[0]; w_ch *= bias[1]
+            w_bc *= bias[2]; w_ic *= bias[3]
+            if hard_bc:
+                w_bc = jnp.array(0.0)
 
-        w_ac *= gradnorm_bias[0]
-        w_ch *= gradnorm_bias[1]
-        w_bc *= gradnorm_bias[2]
-        w_ic *= gradnorm_bias[3]
+            total = w_ac * ac_val + w_ch * ch_val + w_bc * bc_val + w_ic * ic_val
+            total_grad = jax.tree.map(
+                lambda g1, g2, g3, g4: w_ac * g1 + w_ch * g2 + w_bc * g3 + w_ic * g4,
+                ac_grad, ch_grad, bc_grad, ic_grad)
 
-        total = w_ac * ac_val + w_ch * ch_val + w_bc * bc_val + w_ic * ic_val
-        total_grad = jax.tree.map(
-            lambda g1, g2, g3, g4: w_ac * g1 + w_ch * g2 + w_bc * g3 + w_ic * g4,
-            ac_grad, ch_grad, bc_grad, ic_grad)
         aux = {
             'loss_ac': ac_val, 'loss_ch': ch_val, 'loss_bc': bc_val, 'loss_ic': ic_val,
             'weight_ac': w_ac, 'weight_ch': w_ch, 'weight_bc': w_bc, 'weight_ic': w_ic,

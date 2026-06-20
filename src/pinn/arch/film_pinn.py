@@ -14,6 +14,7 @@ class _FiLMPINN(eqx.Module):
     trunk_layers: list
     trunk_output: eqx.nn.Linear
     hard_constraint: eqx.Module | None
+    dirichlet_bc: eqx.Module | None
     hidden_dim: int = eqx.field(static=True)
     num_layers: int = eqx.field(static=True)
     activation: callable = eqx.field(static=True)
@@ -42,6 +43,8 @@ class _FiLMPINN(eqx.Module):
         out = self.trunk_output(h)
         if self.hard_constraint is not None:
             out = self.hard_constraint(out)
+        if self.dirichlet_bc is not None:
+            out = self.dirichlet_bc(jnp.atleast_1d(x), out)
         return out
 
 
@@ -53,6 +56,7 @@ def make_film_pinn(spatial_dim: int, out_dim: int, *,
                    film_hidden_dim: int = 32,
                    activation=jnp.tanh,
                    hard_constraint: eqx.Module | None = None,
+                   dirichlet_bc: eqx.Module | None = None,
                    key: jr.PRNGKey):
     k_sp, k_tp, k_film, k_trunk, k_out = jr.split(key, 5)
 
@@ -81,5 +85,5 @@ def make_film_pinn(spatial_dim: int, out_dim: int, *,
     trunk_output = eqx.nn.Linear(hidden_dim, out_dim, key=k_out)
 
     return _FiLMPINN(spatial_emb, temporal_emb, film_mlp, trunk_layers,
-                     trunk_output, hard_constraint,
+                     trunk_output, hard_constraint, dirichlet_bc,
                      hidden_dim, num_layers, activation)
