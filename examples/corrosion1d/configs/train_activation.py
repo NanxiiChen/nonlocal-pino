@@ -36,9 +36,9 @@ def get_config():
 
     # Training
     c.train = config_dict.ConfigDict()
-    c.train.iterations = 2000
+    c.train.iterations = 5000
     c.train.lr_init = 5e-4
-    c.train.lr_decay_every = 50
+    c.train.lr_decay_every = 100
     c.train.lr_decay_rate = 0.95
     c.train.lr_min = 1e-5
     c.train.optimizer = "adam"  # "adam" or "soap"
@@ -48,17 +48,19 @@ def get_config():
     c.train.soap_precond_freq = 5
     c.train.soap_max_precond_dim = 10000
     c.train.soap_precond_1d = False
-    c.train.log_every = 10
-    c.train.eval_every = 50
+    c.train.log_every = 20
+    c.train.eval_every = 100
     c.train.alpha_gradnorm = 1.0
 
     # Loss
     c.loss = config_dict.ConfigDict()
     c.loss.ac_scale = 1.0
+    c.loss.ac_anneal_steps = 0  # disabled
+    c.loss.ac_anneal_log0 = -10
     c.loss.ch_scale = 1e-3
     c.loss.gradnorm_weight_cap = 10000.0
     c.loss.weight_mode = "gradnorm"  # "gradnorm" or "fixed"
-    c.loss.gradnorm_bias = (1.0, 1.0, 5.0, 1.0)  # [ac, ch, bc, ic]
+    c.loss.gradnorm_bias = (1.0, 1.0, 1.0, 1.0)  # [ac, ch, bc, ic]
     c.loss.bias_schedule = ()
     c.loss.use_causal = False
     c.loss.use_stagger = False
@@ -80,7 +82,7 @@ def get_config():
 
     # FEM reference
     c.fem = config_dict.ConfigDict()
-    c.fem.data_path = "/root/autodl-tmp/data/corrosion1d/results_activation_nonlocal.npz"
+    c.fem.data_path = "/root/autodl-tmp/data/corrosion1d/results_activation.npz"
 
     # Initial condition
     c.init = config_dict.ConfigDict()

@@ -91,11 +91,11 @@ def loss_ac(net, x_all, t_batch, D, nondim_params, ac_scale=None, causal=None, e
     if causal is not None and eps is not None:
         val, w, chunks = causal.weighted_loss(r, t_batch, eps)
         return val, (w, chunks)
-    return jnp.mean(r**2), None
+    return jnp.mean(jnp.abs(r)), None
 
 
 def loss_ch(net, x_all, t_batch, D, nondim_params, ch_scale=None, causal=None, eps=None):
-    """Cahn-Hilliard residual MSE, optionally causal-weighted."""
+    """Cahn-Hilliard residual, optionally causal-weighted."""
     N_CH, _, _, _, dc0, c_Le = nondim_params
     phi, c, _, dc_dt = _compute_all(net, x_all, t_batch)
     mu = c - _h(phi) * dc0 - c_Le
@@ -105,7 +105,7 @@ def loss_ch(net, x_all, t_batch, D, nondim_params, ch_scale=None, causal=None, e
     if causal is not None and eps is not None:
         val, w, chunks = causal.weighted_loss(r, t_batch, eps)
         return val, (w, chunks)
-    return jnp.mean(r**2), None
+    return jnp.mean(jnp.abs(r)), None
 
 
 def loss_ic(net, x_all, phi0, c0):
@@ -154,9 +154,8 @@ def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
     """
     constr_idx = ~mask_free
 
-    def loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias):
-        # bias param unused here — gradnorm_bias is captured from closure
-        _ = bias
+    def loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, lam):
+        _ = bias, lam
         ((ac_val, ac_aux), ac_grad) = eqx.filter_value_and_grad(
             loss_ac, has_aux=True)(
             net, x_all, t_batch, D, nondim_params, ac_scale, causal, eps)
