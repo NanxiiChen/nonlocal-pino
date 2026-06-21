@@ -1,5 +1,6 @@
 """FiLM-conditioned MLP: time modulates spatial features at every layer."""
 
+import jax
 import jax.numpy as jnp
 import jax.random as jr
 import equinox as eqx
@@ -58,6 +59,8 @@ def make_film_pinn(spatial_dim: int, out_dim: int, *,
                    hard_constraint: eqx.Module | None = None,
                    dirichlet_bc: eqx.Module | None = None,
                    key: jr.PRNGKey):
+    if isinstance(activation, str):
+        activation = _ACTIVATIONS.get(activation, jnp.tanh)
     k_sp, k_tp, k_film, k_trunk, k_out = jr.split(key, 5)
 
     spatial_emb = temporal_emb = None
@@ -87,3 +90,9 @@ def make_film_pinn(spatial_dim: int, out_dim: int, *,
     return _FiLMPINN(spatial_emb, temporal_emb, film_mlp, trunk_layers,
                      trunk_output, hard_constraint, dirichlet_bc,
                      hidden_dim, num_layers, activation)
+
+
+_ACTIVATIONS = {
+    'tanh': jnp.tanh, 'relu': jax.nn.relu, 'gelu': jax.nn.gelu,
+    'silu': jax.nn.silu, 'swish': jax.nn.swish,
+}

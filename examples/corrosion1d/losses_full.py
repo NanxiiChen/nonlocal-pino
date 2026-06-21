@@ -82,7 +82,7 @@ def loss_bc(net, x_all, t_batch, bc_values, constr_idx):
 
 
 def grad_norm_weights(grads, eps=1e-6, cap=1000):
-    norms = jnp.array([jnp.linalg.norm(ravel_pytree(g)[0]) for g in grads])
+    norms = jnp.array([jnp.sum(jnp.abs(ravel_pytree(g)[0])) for g in grads])
     norms = jnp.clip(norms, eps, 1.0 / eps)
     weights = jnp.mean(norms) / norms
     weights = jnp.clip(weights, eps, float(cap))
@@ -103,27 +103,16 @@ def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
             if hard_bc:
                 w_bc = jnp.array(0.0)
 
-            if causal is not None:
-                def total_loss(n):
-                    a_v, (w_ac_c, chunks_ac) = loss_ac(n, x_all, t_batch, D, nondim_params, ac_scale, causal, eps, lam=lam)
-                    b_v, (w_ch_c, chunks_ch) = loss_ch(n, x_all, t_batch, D, nondim_params, ch_scale, causal, eps)
-                    c_v = loss_bc(n, x_all, t_batch, bc_values, constr_idx)
-                    d_v = loss_ic(n, x_all, phi0, c0)
-                    return (w_ac*a_v + w_ch*b_v + w_bc*c_v + w_ic*d_v,
-                            (a_v, b_v, c_v, d_v, w_ac_c, w_ch_c, chunks_ac, chunks_ch))
-                (total, (ac_val, ch_val, bc_val, ic_val,
-                         w_ac_c, w_ch_c, chunks_ac, chunks_ch)), total_grad = \
-                    eqx.filter_value_and_grad(total_loss, has_aux=True)(net)
-            else:
-                def total_loss(n):
-                    a_v = loss_ac(n, x_all, t_batch, D, nondim_params, ac_scale, causal, eps, lam=lam)
-                    b_v = loss_ch(n, x_all, t_batch, D, nondim_params, ch_scale, causal, eps)
-                    c_v = loss_bc(n, x_all, t_batch, bc_values, constr_idx)
-                    d_v = loss_ic(n, x_all, phi0, c0)
-                    return w_ac*a_v + w_ch*b_v + w_bc*c_v + w_ic*d_v, (a_v, b_v, c_v, d_v)
-                (total, (ac_val, ch_val, bc_val, ic_val)), total_grad = \
-                    eqx.filter_value_and_grad(total_loss, has_aux=True)(net)
-                w_ac_c = None; w_ch_c = None; chunks_ac = None; chunks_ch = None
+            def total_loss(n):
+                a_v, (w_ac_c, chunks_ac) = loss_ac(n, x_all, t_batch, D, nondim_params, ac_scale, causal, eps, lam=lam)
+                b_v, (w_ch_c, chunks_ch) = loss_ch(n, x_all, t_batch, D, nondim_params, ch_scale, causal, eps)
+                c_v = loss_bc(n, x_all, t_batch, bc_values, constr_idx)
+                d_v = loss_ic(n, x_all, phi0, c0)
+                return (w_ac*a_v + w_ch*b_v + w_bc*c_v + w_ic*d_v,
+                        (a_v, b_v, c_v, d_v, w_ac_c, w_ch_c, chunks_ac, chunks_ch))
+            (total, (ac_val, ch_val, bc_val, ic_val,
+                     w_ac_c, w_ch_c, chunks_ac, chunks_ch)), total_grad = \
+                eqx.filter_value_and_grad(total_loss, has_aux=True)(net)
         else:
             ((ac_val, (w_ac_c, chunks_ac)), ac_grad) = eqx.filter_value_and_grad(
                 loss_ac, has_aux=True)(

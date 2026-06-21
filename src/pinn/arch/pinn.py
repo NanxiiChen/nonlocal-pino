@@ -1,5 +1,6 @@
 """PINN model composing Fourier embeddings with an MLP trunk."""
 
+import jax
 import jax.numpy as jnp
 import jax.random as jr
 import equinox as eqx
@@ -41,6 +42,7 @@ def make_pinn(spatial_dim: int, out_dim: int, *,
               temporal_emb_dim: int = 64, temporal_scale: float = 2.0,
               hidden_dim: int = 64, num_layers: int = 4,
               trunk_type: str = "mlp",
+              activation=jnp.tanh,
               hard_constraint: eqx.Module | None = None,
               dirichlet_bc: eqx.Module | None = None,
               key: jr.PRNGKey) -> _PINN:
@@ -65,14 +67,22 @@ def make_pinn(spatial_dim: int, out_dim: int, *,
         temporal_emb = None
         trunk_in = spatial_dim + 1
 
+    if isinstance(activation, str):
+        activation = _ACTIVATIONS.get(activation, jnp.tanh)
     if trunk_type == "mlp":
-        trunk = MLP(trunk_in, hidden_dim, out_dim, num_layers, key=k_trunk)
+        trunk = MLP(trunk_in, hidden_dim, out_dim, num_layers, activation=activation, key=k_trunk)
     elif trunk_type == "modified_mlp":
         trunk = ModifiedMLP(trunk_in, hidden_dim, out_dim, num_layers, key=k_trunk)
     else:
         raise ValueError(f"Unknown trunk_type: {trunk_type}")
 
     return _PINN(spatial_emb, temporal_emb, trunk, hard_constraint, dirichlet_bc)
+
+
+_ACTIVATIONS = {
+    'tanh': jnp.tanh, 'relu': jax.nn.relu, 'gelu': jax.nn.gelu,
+    'silu': jax.nn.silu, 'swish': jax.nn.swish,
+}
 
 
 if __name__ == "__main__":

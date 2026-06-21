@@ -16,10 +16,10 @@ def get_config():
     c.arch.spatial_scale = 1.0
     c.arch.temporal_emb_dim = 64
     c.arch.temporal_scale = 1.0
-    c.arch.activation = "tanh"
+    c.arch.activation = "gelu"
     c.arch.use_bias = True
-    c.arch.use_spatial_emb = False
-    c.arch.use_temporal_emb = False
+    c.arch.use_spatial_emb = True
+    c.arch.use_temporal_emb = True
     c.arch.use_hard_constraint = True
     c.arch.use_hard_bc = False
 

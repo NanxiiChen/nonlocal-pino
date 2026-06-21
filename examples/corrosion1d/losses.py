@@ -133,7 +133,7 @@ def loss_bc(net, x_all, t_batch, bc_values, constr_idx):
 # ── GradNorm weighting ──────────────────────────────────────────────────────
 
 def grad_norm_weights(grads, eps=1e-6, cap=1000):
-    norms = jnp.array([jnp.linalg.norm(ravel_pytree(g)[0]) for g in grads])
+    norms = jnp.array([jnp.sum(jnp.abs(ravel_pytree(g)[0])) for g in grads])
     norms = jnp.clip(norms, eps, 1.0 / eps)
     weights = jnp.mean(norms) / norms
     weights = jnp.clip(weights, eps, float(cap))

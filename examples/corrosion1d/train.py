@@ -74,6 +74,12 @@ def _build_network(config, key):
             hc = HardConstraint(phys.c_se, phys.c_le)
         return make_pinn(spatial_dim=1, out_dim=2, hidden_dim=c.hidden_dim,
                          num_layers=c.num_layers, trunk_type=c.type,
+                         activation=c.activation,
+                         spatial_emb_dim=c.spatial_emb_dim,
+                         spatial_scale=c.spatial_scale,
+                         temporal_emb_dim=c.temporal_emb_dim,
+                         temporal_scale=c.temporal_scale,
+                         use_fourier=c.use_spatial_emb or c.use_temporal_emb,
                          hard_constraint=hc, dirichlet_bc=bc, key=key)
     elif c.type == "film":
         hc = None
@@ -82,8 +88,13 @@ def _build_network(config, key):
             phys = config.physical
             hc = HardConstraint(phys.c_se, phys.c_le)
         return make_film_pinn(spatial_dim=1, out_dim=2, hidden_dim=c.hidden_dim,
-                              num_layers=c.num_layers, hard_constraint=hc,
-                              dirichlet_bc=bc, key=key)
+                              num_layers=c.num_layers, activation=c.activation,
+                              spatial_emb_dim=c.spatial_emb_dim,
+                              spatial_scale=c.spatial_scale,
+                              temporal_emb_dim=c.temporal_emb_dim,
+                              temporal_scale=c.temporal_scale,
+                              use_fourier=c.use_spatial_emb or c.use_temporal_emb,
+                              hard_constraint=hc, dirichlet_bc=bc, key=key)
     else:
         raise ValueError(f"Unknown arch.type: {c.type}")
 
