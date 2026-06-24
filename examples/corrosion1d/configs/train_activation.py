@@ -30,7 +30,7 @@ def get_config():
 
     # Sampling
     c.sample = config_dict.ConfigDict()
-    c.sample.Nx = 401
+    c.sample.Nx = 201
     c.sample.Nt = 100
     c.sample.t_min = 0.001  # exclude t=0 from PDE sampling (IC handles t=0)
 
@@ -48,8 +48,6 @@ def get_config():
     c.train.soap_precond_freq = 5
     c.train.soap_max_precond_dim = 10000
     c.train.soap_precond_1d = False
-    c.train.log_every = 20
-    c.train.eval_every = 100
     c.train.alpha_gradnorm = 1.0
 
     # Loss
@@ -78,6 +76,8 @@ def get_config():
     c.log = config_dict.ConfigDict()
     c.log.log_dir = "/root/autodl-tmp/tf-logs/corrosion1d/"
     c.log.run_name = ""
+    c.log.log_every = 20
+    c.log.eval_every = 100
     c.log.save_ckpt = True
 
     # FEM reference

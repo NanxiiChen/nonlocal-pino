@@ -360,7 +360,7 @@ def _main(_):
             net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema,
             get_bias(it), lam)
 
-        if it % config.train.log_every == 0:
+        if it % config.log.log_every == 0:
             elapsed = time.perf_counter() - t_start
             writer.add_scalar('loss/total', float(loss_val), it)
             for k, v in aux.items():
@@ -385,12 +385,12 @@ def _main(_):
             causal_eps_ch = causal.update_eps(
                 aux['causal_w_ch'], causal_eps_ch,
                 cfg.step_size, cfg.max_eps, cfg.max_last_weight, cfg.min_mean_weight)
-            if it % config.train.log_every == 0:
+            if it % config.log.log_every == 0:
                 writer.add_scalar('causal/eps_ac', float(causal_eps_ac), it)
                 writer.add_scalar('causal/eps_ch', float(causal_eps_ch), it)
 
 
-        if it % config.train.eval_every == 0:
+        if it % config.log.eval_every == 0:
             rel_phi, rel_c = _eval_fem(net, fem_data, writer, it)
             log.info("--- eval @ %d: rel-L2 phi=%.4f  c=%.4f ---", it, rel_phi, rel_c)
 
