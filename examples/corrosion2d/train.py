@@ -90,71 +90,41 @@ def _nondim_params(config):
             dc0, phys.c_le)
 
 
-def _bc_info(x_all, pits, N_dir=1000, N_neu=500, N_solid=500):
-    """Extract BC point sets for 2D corrosion geometry.
+def _bc_info(pits, N_dir=1000, N_solid=500):
+    """Sample BC points for 2D corrosion geometry.
 
     Dirichlet (pit mouth): y=0, |x-cx| < R*0.5 → φ=0, c=0.
     Solid boundaries (left/right/top): x=0, x=1, y=0.5 → φ=1, c=1.
-    Neumann (solid bottom): y=0, outside pit mouth → ∂φ/∂n=0, ∂c/∂n=0.
+    Pure random sampling — no grid points needed (boundaries are now separate).
     """
-    x_np = np.array(x_all)
-    on_bottom = np.abs(x_np[:, 1]) < 1e-10
-    on_left = np.abs(x_np[:, 0]) < 1e-10
-    on_right = np.abs(x_np[:, 0] - 1.0) < 1e-10
-    on_top = np.abs(x_np[:, 1] - 0.5) < 1e-10
-    on_solid_edges = on_left | on_right | on_top
-
-    bc_pit_mask = np.zeros(len(x_all), dtype=bool)
-    pit_mouth_x = []
-    for cx, cy, R in pits:
-        lo, hi = cx - R*0.5, cx + R*0.5
-        pit_mouth_x.append((lo, hi))
-        in_mouth = (x_np[:, 0] >= lo) & (x_np[:, 0] <= hi)
-        bc_pit_mask = bc_pit_mask | (on_bottom & in_mouth)
-    bc_neu_mask = on_bottom & (~bc_pit_mask)
-    bc_solid_mask = on_solid_edges
-
     rng = np.random.RandomState(42)
+    pit_mouth_x = [(float(cx) - float(R)*0.5, float(cx) + float(R)*0.5) for cx, cy, R in pits]
 
-    # Dirichlet pit mouth
-    x_bc_pit = x_np[bc_pit_mask]
-    n_need = N_dir - len(x_bc_pit)
-    if n_need > 0:
-        extra = []
-        n_each = n_need // len(pit_mouth_x) + 1
-        for lo, hi in pit_mouth_x:
-            xs = rng.uniform(float(lo), float(hi), n_each)
-            extra.append(np.column_stack([xs, np.zeros_like(xs)]))
-        x_bc_pit = jnp.array(np.vstack([x_bc_pit] + extra)[:N_dir])
+    # Pit mouth: sample uniformly from each pit's mouth range on y=0
+    pit_points = []
+    n_each = N_dir // len(pits) + 1
+    for lo, hi in pit_mouth_x:
+        xs = rng.uniform(lo, hi, n_each)
+        pit_points.append(np.column_stack([xs, np.zeros_like(xs)]))
+    x_bc_pit = jnp.array(np.vstack(pit_points)[:N_dir])
 
-    # Solid boundaries (left/right/top): fill to N_solid
-    x_bc_solid = x_np[bc_solid_mask]
-    n_need_s = N_solid - len(x_bc_solid)
-    if n_need_s > 0:
-        extra_s = []
-        while len(extra_s) < n_need_s:
-            # random edge: left, right, or top
-            edge = rng.randint(3)
-            if edge == 0:   # left
-                extra_s.append([0.0, rng.uniform(0.0, 0.5)])
-            elif edge == 1: # right
-                extra_s.append([1.0, rng.uniform(0.0, 0.5)])
-            else:           # top
-                extra_s.append([rng.uniform(0.0, 1.0), 0.5])
-        x_bc_solid = jnp.array(np.vstack([x_bc_solid, np.array(extra_s)]))
+    # Solid edges: sample uniformly from left (x=0), right (x=1), top (y=0.5)
+    solid_points = []
+    n_each_edge = N_solid // 3 + 1
+    for edge in range(3):
+        if edge == 0:   # left: x=0, y in [0, 0.5]
+            xs = np.zeros(n_each_edge)
+            ys = rng.uniform(0.0, 0.5, n_each_edge)
+        elif edge == 1: # right: x=1, y in [0, 0.5]
+            xs = np.ones(n_each_edge)
+            ys = rng.uniform(0.0, 0.5, n_each_edge)
+        else:           # top: y=0.5, x in [0, 1]
+            xs = rng.uniform(0.0, 1.0, n_each_edge)
+            ys = np.full(n_each_edge, 0.5)
+        solid_points.append(np.column_stack([xs, ys]))
+    x_bc_solid = jnp.array(np.vstack(solid_points)[:N_solid])
 
-    # Neumann
-    x_bc_neu = x_np[bc_neu_mask]
-    if len(x_bc_neu) < N_neu:
-        extra = []
-        while len(extra) < N_neu - len(x_bc_neu):
-            x_cand = rng.uniform(0.0, 1.0)
-            if not any(lo <= x_cand <= hi for lo, hi in pit_mouth_x):
-                extra.append([x_cand, 0.0])
-        x_bc_neu = jnp.array(np.vstack([x_bc_neu, np.array(extra)]))
-    n_bc_neu = jnp.zeros_like(x_bc_neu).at[:, 1].set(-1.0)
-
-    return x_bc_pit, x_bc_neu, n_bc_neu, x_bc_solid
+    return x_bc_pit, x_bc_solid
 
 
 def _sample_ic_points(pits, N_global=2000, N_local=2000):
@@ -315,18 +285,18 @@ def _main(_):
     xs = jnp.linspace(0.0, 1.0, config.sample.Nx)
     ys = jnp.linspace(0.0, 0.5, config.sample.Ny)
     Xv, Yv = jnp.meshgrid(xs, ys, indexing='xy')
-    x_all = jnp.stack([Xv.ravel(), Yv.ravel()], axis=-1)  # (Nx*Ny, 2)
+    x_base = jnp.stack([Xv.ravel(), Yv.ravel()], axis=-1)  # (Nx*Ny, 2)
 
     delta = config.nl.delta
-    x_bc_pit, x_bc_neu, n_bc_neu, x_bc_solid = _bc_info(
-        x_all, config.pits.entries,
-        config.sample.N_bc_dir, config.sample.N_bc_neu, config.sample.N_bc_solid)
-    log.info("Spatial: %d×%d = %d points, delta=%.2f, bc_pit=%d, bc_solid=%d",
-             config.sample.Nx, config.sample.Ny, len(x_all), delta,
+    x_bc_pit, x_bc_solid = _bc_info(config.pits.entries,
+                                     config.sample.N_bc_dir,
+                                     config.sample.N_bc_solid)
+    log.info("PDE: %d×%d=%d points, delta=%.2f, bc_pit=%d, bc_solid=%d",
+             config.sample.Nx, config.sample.Ny, len(x_base), delta,
              len(x_bc_pit), len(x_bc_solid))
 
     net = _build_network(config, k_net)
-    D = _build_D(config, x_all)
+    D = _build_D(config, x_base)
     nd_params = _nondim_params(config)
     causal = None
     causal_eps_ac = jnp.array(1.0)
@@ -343,7 +313,7 @@ def _main(_):
     log.info("IC points: %d (global=%d + local=%d)",
              len(x_ic), config.sample.N_ic_global, config.sample.N_ic_local)
 
-    lfn = make_loss_fn(x_all, D, x_bc_pit, x_bc_solid, nd_params,
+    lfn = make_loss_fn(x_base, D, x_bc_pit, x_bc_solid, nd_params,
                        x_ic=x_ic,
                        iface_gamma=config.loss.iface_gamma,
                        alpha=config.train.alpha_gradnorm,
@@ -385,7 +355,8 @@ def _main(_):
 
     for it in range(1, config.train.iterations + 1):
         key_t = jr.fold_in(k_samp, it)
-        t_batch = jr.uniform(key_t, (config.sample.Nt,), minval=config.sample.t_min, maxval=1.0)
+        t_batch = jr.uniform(key_t, (config.sample.Nt,),
+                             minval=config.sample.t_min, maxval=1.0)
 
         eps = jnp.minimum(causal_eps_ac, causal_eps_ch)
         if config.loss.use_stagger:
@@ -410,7 +381,7 @@ def _main(_):
             writer.add_scalar('train/lr', float(max(lr, config.train.lr_min)), it)
             # Interface indicator mean (phase-field: 4φ(1-φ), peaks at interface)
             if config.log.run_diag and config.loss.iface_gamma > 0:
-                phi_t0 = jax.vmap(net, in_axes=(0, None))(x_all, jnp.array(0.5))[:, 0]
+                phi_t0 = jax.vmap(net, in_axes=(0, None))(x_base, jnp.array(0.5))[:, 0]
                 iface_mean = float(jnp.mean(4.0 * phi_t0 * (1.0 - phi_t0)))
                 writer.add_scalar('diag/iface_indicator_mean', iface_mean, it)
             log.info("[%5d] loss=%.3e  ac=%.3e ch=%.3e bc_p=%.3e bc_s=%.3e ic=%.3e  "
@@ -440,7 +411,7 @@ def _main(_):
 
             if config.log.run_diag:
                 t_eval = jnp.linspace(config.sample.t_min, 1.0, 50)
-                _diag_residual(net, x_all, D, t_eval, nd_params, writer, it)
+                _diag_residual(net, x_base, D, t_eval, nd_params, writer, it)
 
             if config.log.save_ckpt:
                 ckpt_path = os.path.join(run_dir, f'ckpt_{it:06d}.eqx')

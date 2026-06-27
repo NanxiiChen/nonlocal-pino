@@ -109,19 +109,6 @@ def loss_bc_pit(net, x_bc, t_batch):
     return jnp.mean(phi_bc**2 + c_bc**2)
 
 
-def loss_bc_neu(net, x_bc, normals, t_batch):
-    """Neumann BC: ∂φ/∂n=0, ∂c/∂n=0 on bottom solid boundary."""
-
-    def d_dn(x, n, t):
-        grad = jax.jacfwd(net, argnums=0)(x, t)  # (2, 2): d(out)/dx
-        dphi_dx, dc_dx = grad[:, 0], grad[:, 1]   # each (2,)
-        return jnp.array([jnp.dot(dphi_dx, n), jnp.dot(dc_dx, n)])
-
-    d = jax.vmap(lambda x, n: jax.vmap(lambda t: d_dn(x, n, t))(t_batch))(x_bc, normals)
-    dphi_dn, dc_dn = d[..., 0], d[..., 1]  # (N_bc, N_t)
-    return jnp.mean(dphi_dn**2 + dc_dn**2)
-
-
 def grad_norm_weights(grads, eps=1e-6, cap=1000):
     norms = jnp.array([jnp.sum(jnp.abs(ravel_pytree(g)[0])) for g in grads])
     norms = jnp.clip(norms, eps, 1.0 / eps)

@@ -34,7 +34,6 @@ def get_config():
     c.sample.t_min = 0.001
     c.sample.N_bc_dir = 1000     # Dirichlet BC: pit mouth (φ=0, c=0)
     c.sample.N_bc_solid = 500    # Dirichlet BC: left/right/top edges (φ=1, c=1)
-    c.sample.N_bc_neu = 500      # Neumann BC: solid bottom (∂φ/∂n=0)
     c.sample.N_ic_global = 2000  # IC: global uniform samples
     c.sample.N_ic_local = 2000   # IC: extra samples near pit interface
 
@@ -65,7 +64,7 @@ def get_config():
     c.loss.ch_scale = 1.0
     c.loss.gradnorm_weight_cap = 10000.0
     c.loss.gradnorm_bias = (1.0, 1.0, 1.0, 1.0, 1.0)  # [ac, ch, bc_pit, bc_solid, ic]
-    c.loss.iface_gamma = 20.0  # interface weighting: w = 1+γ·4φ(1-φ), 0=off
+    c.loss.iface_gamma = 10.0  # interface weighting: w = 1+γ·4φ(1-φ), 0=off
     c.loss.bias_schedule = ()
     c.loss.use_causal = True
     c.loss.use_stagger = False
