@@ -53,7 +53,7 @@ def _make_full_compute():
         fwd = jax.vmap(jax.vmap(net, in_axes=(None, 0)), in_axes=(0, None))
         out = fwd(x_all, t_batch)                           # (N_x, N_t, 2)
         phi, c = out[..., 0], out[..., 1]
-        jac = jax.vmap(jax.vmap(jax.jacrev(net, argnums=1), in_axes=(None, 0)),
+        jac = jax.vmap(jax.vmap(jax.jacfwd(net, argnums=1), in_axes=(None, 0)),
                        in_axes=(0, None))(x_all, t_batch)    # (N_x, N_t, 2)
         dphi_dt, dc_dt = jac[..., 0], jac[..., 1]
         return phi, c, dphi_dt, dc_dt

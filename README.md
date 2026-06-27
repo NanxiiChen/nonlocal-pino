@@ -1,128 +1,189 @@
-# PINN for Non-local KKS Phase-Field Corrosion Model
+# PINN for Non-local KKS Phase-Field Corrosion Model (1D & 2D)
 
 ## Overview
 
-We solve a 1D phase-field pitting corrosion model (Kim-Kim-Suzuki / KKS) using a Physics-Informed Neural Network (PINN). The twist: instead of the standard local PDE with Laplacian operators, we use a **non-local peridynamic formulation** where all spatial derivatives Δ are replaced by the integral operator L_δ. This eliminates spatial autograd entirely — only first-order time derivatives go through AD.
+Physics-Informed Neural Network (PINN) for the Kim-Kim-Suzuki (KKS) phase-field
+pitting corrosion model. Spatial derivatives use a **non-local peridynamic operator
+L_δ** (precomputed D matrix), avoiding spatial autograd. Only time derivatives go
+through automatic differentiation.
 
-The non-local operator is precomputed as a dense matrix D such that `D @ u ≈ L_δ u`, using a top-hat or cubic kernel with finite horizon δ.
+The project covers **1D and 2D** geometries with FEM reference solutions for
+validation. Two physical regimes: **activation-controlled** (L=1e-11, fast kinetics)
+and **diffusion-controlled** (L=2.0, slow kinetics).
 
-## Architecture: Split-PINN (DeepONet-style)
+## Architecture
 
-We use a split architecture where spatial and temporal dependencies are factorized:
+### Network types
+
+| Architecture | Description | Status |
+|---|---|---|
+| Full MLP | `net(x, t)` → (φ, c). Fourier embeddings on x and t. | 1D ✓, 2D partial |
+| Split-PINN | `F_x(x) · F_t(t)` factorized. O(N_x+N_t) cost. | 1D only |
+| Modified MLP | MLP with residual connections. | 1D only |
+
+Default: Full MLP with 4 hidden layers × 64 neurons, GELU activation, Fourier
+embeddings (64-dim for both spatial and temporal).
+
+### Non-local operator D
+
+Precomputed once (not trained). Replaces local Laplacian Δ:
 
 ```
-Spatial branch:  x (dim,) → FourierEmbedding(scale=2.0) → MLP(64→64→...→2p)
-Temporal branch: t ()      → FourierEmbedding(scale=2.0) → MLP(64→64→...→2p)
-
-φ(x,t) = dot(F_x[:p], F_t[:p])        c(x,t) = dot(F_x[p:], F_t[p:])
+D @ u ≈ -Δu    (as δ → 0)
 ```
 
-- **rank p=50**: spatial + temporal basis functions per field (SVD shows rank 5 captures >99.9%)
-- **Activation**: configurable (tanh/gelu/silu). Currently using gelu.
-- **Motivation**: O(N_x + N_t) forward cost vs O(N_x·N_t) for full MLP (~100x speedup for 1000×100 grids)
+**Factory API**: `build_D(x, delta, method=None, kernel="cubic")`
 
-Time derivative of fields comes from differentiating only the temporal branch:
+| method | Implementation | Memory | Best for |
+|--------|---------------|--------|----------|
+| `"dense"` | `DenseD` — (N,N) jnp array | O(N²) | N < 2000 |
+| `"sparse"` | `SparseD` — neighbor table + scatter-add | O(N·k) | N ≥ 2000 |
+| `None` (auto) | dense if N<2000 else sparse | auto | default |
+
+**Kernels**:
+
+| Kernel | J(z) | Dim | Normalization |
+|--------|------|-----|---------------|
+| cubic | J₀·(1-|z|/δ)² | 1D | J₀ = 30/δ³ |
+| cubic | J₀·(1-|z|/δ)² | 2D | J₀ = 120/(πδ⁴) |
+| tophat | J₀ | 1D/2D | J₀ = 3/δ³, 8/(πδ⁴) |
+
+### Output constraint (HardConstraint)
+
+Enforces thermodynamic consistency at the output layer:
+
 ```
-∂φ/∂t = F_x @ jacobian(F_t, t)
+φ = 0.5·tanh(raw[0]) + 0.5          → φ ∈ [0, 1]
+c = h(φ)·c_S + (1-h(φ))·c_L          → KKS mixture rule
 ```
-No spatial autograd needed.
 
-## Non-local operator D
+with `h(φ) = -2φ³ + 3φ²`, equal chemical potential `c_S - c_L = Δc₀`.
 
-Precomputed once (not trained). Two kernel options:
-
-| Kernel | J(z) ∝ | Continuity | Notes |
-|--------|--------|------------|-------|
-| tophat | 1 | C⁻¹ | Simplest, causes boundary oscillations |
-| cubic | (1-|z|/δ)² | C¹ | Smoother, better behaved |
-
-Normalized so that ∫ J(z)·|z|² dz = 2d, guaranteeing L_δ → -Δ as δ→0.
-
-D matrix: dense for N_x ≤ 2000, conv-based _LDelta class for larger grids. Currently using dense with N_x=1001.
-
-## Loss function (4-term with GradNorm)
+### Loss function (4-term with GradNorm)
 
 ```
 Total = w_ac·L_ac + w_ch·L_ch + w_bc·L_bc + w_ic·L_ic
 ```
 
-### PDE residuals (non-dimensional, non-local)
+**PDE residuals** (non-dimensional, non-local):
 
-**Allen-Cahn (φ):**
+Allen-Cahn (φ):
 ```
-r_φ = ∂φ/∂t* + N_AC3·Lδ(φ) + N_AC2·g'(φ)
-    - N_AC1·(c - h(φ)·Δc₀ - c_le)·Δc₀·h'(φ)
-```
-
-**Cahn-Hilliard (c):**
-```
-r_c = ∂c/∂t* + N_CH·Lδ(c - h(φ)·Δc₀ - c_le)
+r_φ = ∂φ/∂t* + N_AC3·D(φ) + N_AC2·g'(φ) - N_AC1·(c - h(φ)·Δc₀ - c_le)·Δc₀·h'(φ)
 ```
 
-where `h(φ) = -2φ³ + 3φ²`, `g'(φ) = 4φ³ - 6φ² + 2φ`, `Δc₀ = c_se - c_le`.
-
-Non-dimensional parameters (matching FEM reference):
-- `N_CH = D·T_c/L_c² ≈ 8.5e3`
-- `N_AC1 = 2A·L·T_c ≈ 1.07e2`
-- `N_AC2 = L·ω_φ·T_c ≈ 1.76e1`
-- `N_AC3 = L·α_φ·T_c/L_c² ≈ 1.03e-2`
-
-Pre-scaling: `L_ac` and `L_ch` can be multiplied by fixed factors to bring them to O(1). Currently `ac_scale = 1e-2`, `ch_scale = 1/N_CH² ≈ 1.4e-8`.
-
-### Boundary conditions
-
-- **Neumann** (no-flux): naturally satisfied by horizon truncation of D near ∂Ω
-- **Dirichlet** (φ=1,c=1 at x=0; φ=0,c=0 at x=1): only the two endpoint collocation points are excluded from MSE (mask_free). The PDE residual at nearby interior points couples to the boundary values through D @ u. No hard enforcement inside D — the network learns BC values implicitly through PDE physics.
-- **BC loss** (`L_bc`): soft penalty term penalizing endpoint drift at all times
-
-### GradNorm weighting
-
-Per-iteration adaptive weights based on gradient norms:
+Cahn-Hilliard (c):
 ```
-weight_i = mean(||grad_j||) / ||grad_i||
+r_c = ∂c/∂t* + N_CH·D(c - h(φ)·Δc₀ - c_le)
 ```
-Capped at 1000 to prevent IC weight from exploding. EMA smoothed (α=1.0 = no smoothing currently).
 
-## Current issue: temporal branch freezing
+**GradNorm**: per-iteration adaptive weights based on L1 gradient norms, EMA
+smoothed. 4 loss components: AC, CH, BC (Dirichlet), IC.
 
-**Symptom**: All time steps output nearly identical spatial profiles (the IC). PDE losses decrease, IC loss → 0, but the interface does not move over time.
+**L1 loss** (default): `mean(|r|)` — gradient is `sign(r)·∂r/∂θ`, robust to
+gradient imbalance between PDE terms (AC spatial terms ~10⁸× larger than temporal).
 
-**Diagnosis (working hypothesis)**: The spatial branch is trained by 4 loss terms while the temporal branch only receives gradients through `∂φ/∂t` and `∂c/∂t`. The spatial branch quickly learns to represent the IC well (rank ~21 at init, potentially collapses to lower effective rank during training). Any linear combination of similar spatial basis functions produces the same profile, making the temporal branch irrelevant to the loss.
+### Non-dimensional parameters
 
-**Attempted fixes so far:**
-- Gelu activation (replaced tanh): no improvement
-- BC loss term: prevents endpoint drift, doesn't fix temporal
-- GradNorm weight cap at 1000: prevents IC domination, but temporal still freezes
+```
+N_CH  = D·T_c/L_c²        N_AC1 = 2A·L·T_c
+N_AC2 = L·ω_φ·T_c          N_AC3 = L·α_φ·T_c/L_c²
+```
 
-**Proposed fix**: Two-phase training: Phase 1 (100 iters) IC-only to learn spatial basis; Phase 2 (900 iters) PDE-only to force temporal evolution.
-
-## File structure
+## Codebase structure
 
 ```
 src/pinn/
-  operators.py          # build_D, DWithBC, L_δ operator
+  operators.py            # DenseD, SparseD, build_D() factory
+  causal.py               # CausalWeightor (temporal chunked weighting)
+  optimizers.py           # Adam / SOAP optimizer factory
   arch/
-    embedding.py        # FourierEmbedding
-    mlp.py              # MLP
-    modified_mlp.py     # ModifiedMLP
-    split_pinn.py       # Split-PINN architecture
+    pinn.py               # Full MLP PINN with Fourier embeddings
+    split_pinn.py         # Split-PINN (DeepONet-style)
+    film_pinn.py          # FiLM-conditioned PINN
+    hard_constraint.py    # KKS thermodynamic output constraint
+    dirichlet_bc.py       # Hard Dirichlet BC layer
+    embedding.py          # FourierEmbedding
+    mlp.py / modified_mlp.py
+
 examples/corrosion1d/
+  solver.py               # 1D FEM reference solver
+  losses_full.py          # Full MLP loss functions
+  losses.py               # Split-PINN loss functions
+  train.py                # 1D training script
   configs/
-    solver.py           # FEM config
-    train_pinn.py       # PINN training config
-  fem.py                # FEM reference solver
-  losses.py             # Loss functions + GradNorm
-  train.py              # Training loop + eval + TensorBoard logging
+    train_diffusion.py    # Diffusion-controlled config
+    train_activation.py   # Activation-controlled config
+
+examples/corrosion2d/
+  solver.py               # 2D FEM reference solver (MPI, FEniCS)
+  losses_full.py          # 2D Full MLP loss functions
+  train.py                # 2D training script
+  configs/
+    solver_diffusion.py   # 2D FEM config
+    train_diffusion.py    # 2D PINN training config
+
+reports/                  # Analysis and investigation reports
 ```
 
-## Run
+## Environment setup
 
 ```bash
-# FEM reference solution
+# FEniCS FEM solver (conda)
 conda activate fenicsenv
-python examples/corrosion1d/fem.py
+mpirun -np 4 python examples/corrosion2d/solver.py
 
-# PINN training
+# JAX PINN training (venv)
 source .venv/bin/activate
-python examples/corrosion1d/train.py --config.train.iterations=1000
+python examples/corrosion1d/train.py --config=examples/corrosion1d/configs/train_diffusion.py
+python examples/corrosion2d/train.py --config=examples/corrosion2d/configs/train_diffusion.py
+
+# IMPORTANT: deactivate one env before activating the other
+# conda and venv have conflicting library paths
 ```
+
+## Current issues
+
+### 1. 1D: Full MLP converges, Split-PINN hits static interface
+
+- **Full MLP**: With L1 loss + HardConstraint + GradNorm, full MLP reliably converges
+  for both activation-controlled and diffusion-controlled regimes.
+- **Split-PINN**: The factorized architecture (F_x·F_t) can learn the spatial IC
+  well but the temporal branch becomes irrelevant — all time steps output nearly
+  identical profiles. The spatial basis can represent any time step equally, so
+  the optimizer finds no pressure to evolve the interface.
+
+### 2. 2D: Static interface on all architectures
+
+Both full MLP and Split-PINN produce a **static interface** — φ and c fields
+show almost no time evolution, regardless of architecture or loss function
+(L1/L2). This persists even with:
+- Causal training (chunked temporal weighting)
+- Increased IC bias / IC oversampling near pit interface
+- Neumann BC on solid bottom boundary
+- SOAP optimizer
+
+**What's been ruled out**:
+- Non-local operator normalization bug (fixed: cubic kernel was using 1D normalization in 2D, dV was incorrect for non-unit domains)
+- PDE residual sign errors (verified against 1D/2D FEM weak forms)
+- Dense matmul float32 precision (sparse D gives identical results)
+- L1 vs L2 loss function (both fail equally)
+
+**Current hypothesis**: The 2D geometry has a degenerate loss landscape where a
+static interface with correct width is a deep local minimum. The interface only
+occupies ~7% of spatial points; the bulk dominates the mean loss. The network
+can satisfy the PDE almost everywhere without evolving the interface.
+
+See `reports/static-interface-2d-2026-06-25.md` for detailed analysis.
+
+## Key design decisions
+
+1. **Non-local over local**: D matrix avoids expensive spatial autograd (jacrev
+   over 20K spatial points). O(N·k) matvec for sparse D vs O(N²) for dense.
+2. **L1 over L2**: `sign(r)` eliminates 10⁸× gradient imbalance between AC spatial
+   and temporal terms.
+3. **GradNorm over fixed weights**: Adaptive per-loss weighting; no manual tuning.
+4. **HardConstraint over raw output**: Enforces φ∈[0,1] and thermodynamic c-φ
+   relationship at the architecture level, simplifying optimization.
+5. **Soft BC over hard BC**: Boundary conditions enforced via loss terms, not
+   architectural constraints.

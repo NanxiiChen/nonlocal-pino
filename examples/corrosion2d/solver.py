@@ -5,7 +5,8 @@ Environment:
 
 Usage:
   python examples/corrosion2d/solver.py --config=examples/corrosion2d/configs/solver_diffusion.py
-  mpirun --allow-run-as-root -np 12 python examples/corrosion2d/solver.py --config=...
+  mpirun --allow-run-as-root -np 12 python examples/corrosion2d/solver.py \
+      --config=examples/corrosion2d/configs/solver_diffusion.py
 """
 
 import gc, os, sys
@@ -137,9 +138,7 @@ def solve(config):
 
     # ── IC ────────────────────────────────────────────────────────────────
     k = np.sqrt(phys.omega_phi / (2.0 * phys.alpha_phi)) * L_c
-    w_nondim = config.pits.interface_width
-    k_pit = 1.0 / w_nondim
-    ic = _PitIC(k=k_pit, pits=list(config.pits.entries), c_se=phys.c_se, degree=1)
+    ic = _PitIC(k=k, pits=list(config.pits.entries), c_se=phys.c_se, degree=1)
     sol.interpolate(ic)
     sol_prev.interpolate(ic)
 
@@ -151,7 +150,6 @@ def solve(config):
 
     # ── BC: pit mouth = pit interior away from transition zone ──────────────
     pits = list(config.pits.entries)
-    w = config.pits.interface_width
 
     class _PitMouth(SubDomain):
         def inside(self, x, on_boundary):
