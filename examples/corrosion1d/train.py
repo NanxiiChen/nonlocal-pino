@@ -231,7 +231,7 @@ def _diag_residual(net, x_fem, t_fem, delta, kernel, nd_params, writer, step):
     phi, c, dphi_dt, _ = _compute_all(net, x_fem[:, None], t_fem)
     phi, c, dphi_dt = phi.T, c.T, dphi_dt.T  # → (N_t, N_x)
 
-    nl_phi = phi @ D_fem.T  # (N_t, N_x), D is symmetric
+    nl_phi = (D_fem @ phi.T).T  # (N_t, N_x), D is symmetric
     r_t = dphi_dt
     r_D = N_AC3 * nl_phi
     r_g = N_AC2 * _gp(phi)
@@ -246,7 +246,7 @@ def _diag_residual(net, x_fem, t_fem, delta, kernel, nd_params, writer, step):
 
     # CH residual
     mu = c - _h(phi) * dc0 - c_le
-    nl_mu = mu @ D_fem.T
+    nl_mu = (D_fem @ mu.T).T
     r_ch_t = _compute_all(net, x_fem[:, None], t_fem)[3].T
     r_ch = r_ch_t + N_CH * nl_mu
     writer.add_scalar('diag/ch_total_rms', float(jnp.sqrt(jnp.mean(r_ch**2))), step)
@@ -394,10 +394,11 @@ def _main(_):
             rel_phi, rel_c = _eval_fem(net, fem_data, writer, it)
             log.info("--- eval @ %d: rel-L2 phi=%.4f  c=%.4f ---", it, rel_phi, rel_c)
 
-            x_fem = jnp.array(fem_data['mesh'])
-            t_fem = jnp.array(fem_data['time'])
-            _diag_residual(net, x_fem, t_fem, delta, config.nl.kernel,
-                           nd_params, writer, it)
+            if config.log.run_diag:
+                x_fem = jnp.array(fem_data['mesh'])
+                t_fem = jnp.array(fem_data['time'])
+                _diag_residual(net, x_fem, t_fem, delta, config.nl.kernel,
+                               nd_params, writer, it)
 
             if config.log.save_ckpt:
                 ckpt_path = os.path.join(run_dir, f'ckpt_{it:06d}.eqx')

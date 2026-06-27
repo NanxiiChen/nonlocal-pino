@@ -76,6 +76,7 @@ def get_config():
     c.log = config_dict.ConfigDict()
     c.log.log_dir = "/root/autodl-tmp/tf-logs/corrosion1d/"
     c.log.run_name = ""
+    c.log.run_diag = False
     c.log.log_every = 20
     c.log.eval_every = 100
     c.log.save_ckpt = True
