@@ -21,7 +21,6 @@ def get_config():
     c.arch.use_spatial_emb = True
     c.arch.use_temporal_emb = True
     c.arch.use_hard_constraint = True
-    c.arch.use_hard_bc = False
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()
@@ -52,12 +51,9 @@ def get_config():
 
     # Loss
     c.loss = config_dict.ConfigDict()
-    c.loss.ac_scale = 1e-7  # set to 1.0 when using ac_anneal
-    c.loss.ac_anneal_steps = 0  # disabled
-    c.loss.ac_anneal_log0 = -10
+    c.loss.ac_scale = 1e-7
     c.loss.ch_scale = 1.0
     c.loss.gradnorm_weight_cap = 10000.0
-    c.loss.weight_mode = "gradnorm"  # "gradnorm" or "fixed"
     c.loss.gradnorm_bias = (1.0, 1.0, 1.0, 1.0)  # [ac, ch, bc, ic]
     c.loss.bias_schedule = ()
     # Example: ((1000, 0.5, 2.0, 1000.0, 10000.0), (3000, 0.01, 1.0, 10.0, 10.0))
@@ -66,6 +62,7 @@ def get_config():
     c.loss.use_causal = False
     c.loss.use_stagger = False
     c.loss.stagger_switch_every = 10
+    c.loss.iface_gamma = 0.0   # interface weighting: w = 1+γ·4φ(1-φ), 0=off
     # Causal params
     c.causal = config_dict.ConfigDict()
     c.causal.n_chunks = 20

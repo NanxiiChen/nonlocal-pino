@@ -1,8 +1,10 @@
-"""Training script for split-PINN on 1D KKS phase-field corrosion.
+"""Training script for PINN on 1D KKS phase-field corrosion.
+
+Supports full MLP, modified MLP, split, and FiLM architectures via config.arch.type.
 
 Usage (from project root):
   python examples/corrosion1d/train.py
-  python examples/corrosion1d/train.py --config=my_config.py
+  python examples/corrosion1d/train.py --config=examples/corrosion1d/configs/train_diffusion.py
   python examples/corrosion1d/train.py --config.train.iterations=1000 --config.nl.delta=0.05
 """
 
@@ -18,17 +20,20 @@ from tensorboardX import SummaryWriter
 log = logging.getLogger(__name__)
 
 from pinn.operators import build_D
-from pinn.arch import make_pinn, make_split_pinn, make_film_pinn
+from pinn.arch import make_pinn, make_split_pinn
 
 import importlib.util as _iu
+_loss_mod = None
 
-def _load_losses(name):
-    spec = _iu.spec_from_file_location(name, os.path.join(
-        os.path.dirname(__file__), name + '.py'))
-    mod = _iu.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
-
+def _load_losses():
+    global _loss_mod
+    if _loss_mod is not None:
+        return _loss_mod
+    path = os.path.join(os.path.dirname(__file__), 'losses.py')
+    spec = _iu.spec_from_file_location('corrosion1d_losses', path)
+    _loss_mod = _iu.module_from_spec(spec)
+    spec.loader.exec_module(_loss_mod)
+    return _loss_mod
 
 # ── Config ──────────────────────────────────────────────────────────────────
 
@@ -52,11 +57,6 @@ def _setup_dirs(config):
 
 def _build_network(config, key):
     c = config.arch
-    hard_bc = c.use_hard_bc if hasattr(c, 'use_hard_bc') else False
-    bc = None
-    if hard_bc:
-        from pinn.arch.dirichlet_bc import make_1d_corrosion_bc
-        bc = make_1d_corrosion_bc(config.physical.c_se)
 
     if c.type == "split":
         return make_split_pinn(
@@ -65,7 +65,7 @@ def _build_network(config, key):
             spatial_scale=c.spatial_scale, temporal_emb_dim=c.temporal_emb_dim,
             temporal_scale=c.temporal_scale, activation=c.activation,
             use_bias=c.use_bias, use_spatial_emb=c.use_spatial_emb,
-            use_temporal_emb=c.use_temporal_emb, bc=bc, key=key)
+            use_temporal_emb=c.use_temporal_emb, key=key)
     elif c.type in ("mlp", "modified_mlp"):
         hc = None
         if c.use_hard_constraint:
@@ -80,21 +80,7 @@ def _build_network(config, key):
                          temporal_emb_dim=c.temporal_emb_dim,
                          temporal_scale=c.temporal_scale,
                          use_fourier=c.use_spatial_emb or c.use_temporal_emb,
-                         hard_constraint=hc, dirichlet_bc=bc, key=key)
-    elif c.type == "film":
-        hc = None
-        if c.use_hard_constraint:
-            from pinn.arch.hard_constraint import HardConstraint
-            phys = config.physical
-            hc = HardConstraint(phys.c_se, phys.c_le)
-        return make_film_pinn(spatial_dim=1, out_dim=2, hidden_dim=c.hidden_dim,
-                              num_layers=c.num_layers, activation=c.activation,
-                              spatial_emb_dim=c.spatial_emb_dim,
-                              spatial_scale=c.spatial_scale,
-                              temporal_emb_dim=c.temporal_emb_dim,
-                              temporal_scale=c.temporal_scale,
-                              use_fourier=c.use_spatial_emb or c.use_temporal_emb,
-                              hard_constraint=hc, dirichlet_bc=bc, key=key)
+                         hard_constraint=hc, key=key)
     else:
         raise ValueError(f"Unknown arch.type: {c.type}")
 
@@ -123,11 +109,6 @@ def _nondim_params(config):
 
 
 def _bc_info(x_all):
-    """Build mask_free and bc_values for Dirichlet BC.
-
-    Only endpoints are constrained — horizon truncation handles the rest
-    (standard peridynamics for external boundaries).
-    """
     N = len(x_all)
     mask_free = jnp.ones(N, dtype=bool)
     mask_free = mask_free.at[0].set(False)
@@ -142,8 +123,8 @@ def _bc_info(x_all):
 
 def _make_step(loss_fn, optim):
     @eqx.filter_jit
-    def step(net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, lam):
-        (loss, aux, grad, new_w) = loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, lam)
+    def step(net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias):
+        (loss, aux, grad, new_w) = loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias)
         grad = jax.tree.map(jnp.nan_to_num, grad)
         updates, opt_state = optim.update(grad, opt_state, net)
         net = eqx.apply_updates(net, updates)
@@ -153,14 +134,12 @@ def _make_step(loss_fn, optim):
 
 # ── Evaluation ──────────────────────────────────────────────────────────────
 
-def _eval_fem(net, fem_data, writer, step):
+def _eval_fem(net, fem_data, compute_all, writer, step):
     x_fem = jnp.array(fem_data['mesh'])
     t_fem = jnp.array(fem_data['time'])
     phi_fem = jnp.array(fem_data['phi'])
     c_fem   = jnp.array(fem_data['c'])
-    phi_pred, c_pred, _, _ = _compute_all(net, x_fem[:, None], t_fem)
-    # Apply BC enforcement (same as training)
-    # phi_pred: (N_x, N_t) → transpose to (N_t, N_x)
+    phi_pred, c_pred, _, _ = compute_all(net, x_fem[:, None], t_fem)
     phi_pred = phi_pred.T
     c_pred = c_pred.T
 
@@ -172,7 +151,6 @@ def _eval_fem(net, fem_data, writer, step):
     writer.add_scalar('eval/rel_L2_phi', rel_phi, step)
     writer.add_scalar('eval/rel_L2_c',   rel_c,   step)
 
-    # Heatmaps: pred + error for φ and c (x→, t↓)
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
@@ -182,7 +160,6 @@ def _eval_fem(net, fem_data, writer, step):
     extent = [float(x_fem[0]), float(x_fem[-1]), float(t_fem[0]), float(t_fem[-1])]
 
     fig, axes = plt.subplots(2, 2, figsize=(12, 8))
-
     cmap_pred = 'coolwarm'
     im00 = axes[0, 0].imshow(phi_pred, cmap=cmap_pred, vmin=0, vmax=1,
                               aspect='auto', origin='lower', extent=extent,
@@ -219,8 +196,7 @@ def _eval_fem(net, fem_data, writer, step):
     return rel_phi, rel_c
 
 
-def _diag_residual(net, x_fem, t_fem, delta, kernel, nd_params, writer, step):
-    """Break down AC residual into components for diagnosis."""
+def _diag_residual(net, x_fem, t_fem, delta, kernel, nd_params, compute_all, writer, step):
     def _h(phi): return -2.0 * phi**3 + 3.0 * phi**2
     def _hp(phi): return -6.0 * phi**2 + 6.0 * phi
     def _gp(phi): return 4.0 * phi**3 - 6.0 * phi**2 + 2.0 * phi
@@ -228,10 +204,10 @@ def _diag_residual(net, x_fem, t_fem, delta, kernel, nd_params, writer, step):
     N_CH, N_AC1, N_AC2, N_AC3, dc0, c_le = nd_params
     D_fem = build_D(x_fem[:, None], delta, kernel=kernel)
 
-    phi, c, dphi_dt, _ = _compute_all(net, x_fem[:, None], t_fem)
-    phi, c, dphi_dt = phi.T, c.T, dphi_dt.T  # → (N_t, N_x)
+    phi, c, dphi_dt, _ = compute_all(net, x_fem[:, None], t_fem)
+    phi, c, dphi_dt = phi.T, c.T, dphi_dt.T
 
-    nl_phi = (D_fem @ phi.T).T  # (N_t, N_x), D is symmetric
+    nl_phi = (D_fem @ phi.T).T
     r_t = dphi_dt
     r_D = N_AC3 * nl_phi
     r_g = N_AC2 * _gp(phi)
@@ -244,10 +220,9 @@ def _diag_residual(net, x_fem, t_fem, delta, kernel, nd_params, writer, step):
         rms = float(jnp.sqrt(jnp.mean(val**2)))
         writer.add_scalar(f'diag/{name}_rms', rms, step)
 
-    # CH residual
     mu = c - _h(phi) * dc0 - c_le
     nl_mu = (D_fem @ mu.T).T
-    r_ch_t = _compute_all(net, x_fem[:, None], t_fem)[3].T
+    r_ch_t = compute_all(net, x_fem[:, None], t_fem)[3].T
     r_ch = r_ch_t + N_CH * nl_mu
     writer.add_scalar('diag/ch_total_rms', float(jnp.sqrt(jnp.mean(r_ch**2))), step)
 
@@ -267,13 +242,6 @@ def _main(_):
     rng = jr.PRNGKey(42)
     k_net, k_samp = jr.split(rng)
 
-    # Load loss module based on arch type
-    loss_mod = _load_losses('losses' if config.arch.type == 'split' else 'losses_full')
-    global make_loss_fn, ic_values, _compute_all
-    make_loss_fn = loss_mod.make_loss_fn
-    ic_values = loss_mod.ic_values
-    _compute_all = loss_mod._compute_all
-
     # --- dirs & logging ---
     run_dir = _setup_dirs(config)
     writer = SummaryWriter(run_dir)
@@ -289,9 +257,21 @@ def _main(_):
     log.info("Spatial: %d points, delta=%.2f, free=%d, constrained=%d",
              len(x_all), delta, n_free, len(x_all) - n_free)
 
+    # --- architecture-specific compute functions ---
+    lm = _load_losses()
+    make_loss_fn = lm.make_loss_fn
+    ic_values = lm.ic_values
+    arch_type = config.arch.type
+    if arch_type == "split":
+        compute_all, eval_t0 = lm._make_split_compute()
+    elif arch_type in ("mlp", "modified_mlp"):
+        compute_all, eval_t0 = lm._make_full_compute()
+    else:
+        raise ValueError(f"Unknown arch.type: {arch_type}")
+
     net = _build_network(config, k_net)
     D_full = _build_D(config, x_all)
-    D = D_full  # bare D, BC learned via soft constraint
+    D = D_full
     nd_params = _nondim_params(config)
     causal = None
     causal_eps_ac = jnp.array(1.0)
@@ -302,13 +282,13 @@ def _main(_):
         causal_eps_ac = jnp.array(config.causal.eps_init)
         causal_eps_ch = jnp.array(config.causal.eps_init)
     lfn = make_loss_fn(x_all, D, mask_free, bc_values, nd_params,
+                       compute_all=compute_all, eval_t0=eval_t0,
                        alpha=config.train.alpha_gradnorm,
                        ac_scale=config.loss.ac_scale,
                        ch_scale=config.loss.ch_scale,
                        gradnorm_cap=config.loss.gradnorm_weight_cap,
-                       weight_mode=config.loss.weight_mode,
                        causal=causal,
-                       hard_bc=config.arch.use_hard_bc)
+                       iface_gamma=config.loss.iface_gamma)
     optim = _build_optimizer(config)
     opt_state = optim.init(eqx.filter(net, eqx.is_array))
     step_fn = _make_step(lfn, optim)
@@ -319,32 +299,25 @@ def _main(_):
     # --- bias schedule ---
     schedule = list(config.loss.bias_schedule)
     default_bias = jnp.array(config.loss.gradnorm_bias, dtype=jnp.float32)
+    n_bias = len(default_bias)
 
     def get_bias(it):
         for entry in schedule:
-            if not isinstance(entry, (tuple, list)) or len(entry) < 5:
+            if not isinstance(entry, (tuple, list)) or len(entry) < n_bias + 1:
                 continue
             end_step = entry[0]
             if it <= end_step:
-                return jnp.array(entry[1:5], dtype=jnp.float32)
+                return jnp.array(entry[1:n_bias + 1], dtype=jnp.float32)
         return default_bias
 
     # --- FEM data for eval ---
     fem_data = np.load(config.fem.data_path)
 
     # --- training loop ---
-    w_ema = jnp.array([1.0, 1.0, 1.0, 1.0])  # AC, CH, BC, IC
-    ac_anneal_steps = config.loss.ac_anneal_steps
-    ac_anneal_log0 = config.loss.ac_anneal_log0
+    w_ema = jnp.array([1.0, 1.0, 1.0, 1.0])
     t_start = time.perf_counter()
 
     for it in range(1, config.train.iterations + 1):
-        # Anneal log10(λ) from log0 → 0, then λ=1
-        if ac_anneal_steps > 0:
-            loglam = ac_anneal_log0 * (1.0 - jnp.minimum(it / ac_anneal_steps, 1.0))
-            lam = jnp.power(10.0, loglam)
-        else:
-            lam = jnp.array(1.0)
         key_t = jr.fold_in(k_samp, it)
         t_batch = jr.uniform(key_t, (config.sample.Nt,), minval=config.sample.t_min, maxval=1.0)
 
@@ -358,7 +331,7 @@ def _main(_):
             train_ch = jnp.array(True)
         net, opt_state, loss_val, aux, w_ema = step_fn(
             net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema,
-            get_bias(it), lam)
+            get_bias(it))
 
         if it % config.log.log_every == 0:
             elapsed = time.perf_counter() - t_start
@@ -368,7 +341,6 @@ def _main(_):
                     writer.add_scalar(f'loss/{k}', float(v), it)
             lr = config.train.lr_init * config.train.lr_decay_rate**(it // config.train.lr_decay_every)
             writer.add_scalar('train/lr', float(max(lr, config.train.lr_min)), it)
-            writer.add_scalar('train/lam_ac', float(lam), it)
             log.info("[%5d] loss=%.3e  ac=%.3e ch=%.3e bc=%.3e ic=%.3e  "
                      "w=[%.1f,%.1f,%.1f,%.0f]  (%.1fs)",
                      it, float(loss_val), float(aux['loss_ac']),
@@ -389,23 +361,21 @@ def _main(_):
                 writer.add_scalar('causal/eps_ac', float(causal_eps_ac), it)
                 writer.add_scalar('causal/eps_ch', float(causal_eps_ch), it)
 
-
         if it % config.log.eval_every == 0:
-            rel_phi, rel_c = _eval_fem(net, fem_data, writer, it)
+            rel_phi, rel_c = _eval_fem(net, fem_data, compute_all, writer, it)
             log.info("--- eval @ %d: rel-L2 phi=%.4f  c=%.4f ---", it, rel_phi, rel_c)
 
             if config.log.run_diag:
                 x_fem = jnp.array(fem_data['mesh'])
                 t_fem = jnp.array(fem_data['time'])
                 _diag_residual(net, x_fem, t_fem, delta, config.nl.kernel,
-                               nd_params, writer, it)
+                               nd_params, compute_all, writer, it)
 
             if config.log.save_ckpt:
                 ckpt_path = os.path.join(run_dir, f'ckpt_{it:06d}.eqx')
                 eqx.tree_serialise_leaves(ckpt_path, net)
                 log.info("  Saved checkpoint: %s", ckpt_path)
 
-            # Causal info figure
             if causal is not None and aux.get('causal_w_ac') is not None:
                 import matplotlib; matplotlib.use('Agg')
                 import matplotlib.pyplot as plt
@@ -418,7 +388,7 @@ def _main(_):
                     axes[1].plot(bins_mid, chunks, 'o-', label=label)
                 axes[0].set_title(f'Causal weights (eps_ac={float(causal_eps_ac):.3f}, ch={float(causal_eps_ch):.3f})')
                 axes[0].set_xlabel('t chunk'); axes[0].set_ylabel('weight'); axes[0].legend()
-                axes[1].set_title('Loss per chunk'); axes[1].set_xlabel('t chunk'); axes[1].set_ylabel('MSE')
+                axes[1].set_title('Loss per chunk'); axes[1].set_xlabel('t chunk'); axes[1].set_ylabel('MAE')
                 axes[1].set_yscale('log'); axes[1].legend()
                 fig.tight_layout()
                 writer.add_figure('causal/info', fig, it)

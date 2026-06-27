@@ -1,12 +1,12 @@
-"""Loss functions for 1D KKS corrosion PINN — split-PINN version.
+"""Loss functions for 1D KKS corrosion PINN — full MLP and split architectures.
 
-Uses the split architecture's batched spatial/temporal API:
-  Fx = net.spatial_batch(x_all)   — once per iteration
-  Ft = net.temporal(t)             — per time point
-  dFt = net.temporal_derivative(t) — per time point
-  net.project(Fx, vt) → (N_x, 2)  — dot-product fusion
+Architecture-specific code is injected via compute_all and eval_t0 callables;
+everything else is shared between all architectures.
 
-GradNorm balances PDE and IC loss weights.
+Usage:
+  from corrosion1d.losses import make_loss_fn, ic_values, _make_full_compute
+  compute_all, eval_t0 = _make_full_compute()
+  lfn = make_loss_fn(..., compute_all=compute_all, eval_t0=eval_t0)
 """
 
 import jax.numpy as jnp
@@ -16,14 +16,22 @@ import numpy as np
 from jax.flatten_util import ravel_pytree
 
 
-def _h(phi):
-    return -2.0 * phi**3 + 3.0 * phi**2
+# ── Phase-field helpers ─────────────────────────────────────────────────────
 
-def _hp(phi):
-    return -6.0 * phi**2 + 6.0 * phi
+def _h(phi): return -2.0 * phi**3 + 3.0 * phi**2
+def _hp(phi): return -6.0 * phi**2 + 6.0 * phi
+def _gp(phi): return 4.0 * phi**3 - 6.0 * phi**2 + 2.0 * phi
 
-def _gp(phi):
-    return 4.0 * phi**3 - 6.0 * phi**2 + 2.0 * phi
+
+def _iface_weight(phi, gamma):
+    """Interface indicator weight: w = 1 + γ·4φ(1-φ), peaked at φ=0.5.
+
+    4φ(1-φ) is the standard phase-field interface indicator (not an area).
+    It equals 1 at φ=0.5 (interface center), 0 at φ=0,1 (bulk).
+    """
+    phi_sg = jax.lax.stop_gradient(phi)
+    phi_c = jnp.clip(phi_sg, 0.0, 1.0)
+    return 1.0 + gamma * 4.0 * phi_c * (1.0 - phi_c)
 
 
 # ── IC ──────────────────────────────────────────────────────────────────────
@@ -36,95 +44,112 @@ def ic_values(x, phys, L_c, center=0.5):
     return jnp.array(phi0), jnp.array(c0)
 
 
-# ── All-at-once forward ─────────────────────────────────────────────────────
+# ── Compute factories (architecture-specific) ───────────────────────────────
 
-def _compute_all(net, x_all, t_batch):
-    """Compute (phi, c, dphi_dt, dc_dt) for all (x, t) in one shot."""
-    Fx = net.spatial_batch(x_all)                    # (N_x, 2p)
-    Ft = net.temporal_batch(t_batch)                 # (N_t, 2p)
-    dFt = jax.vmap(net.temporal_derivative)(t_batch) # (N_t, 2p)
-    out_raw = net.combine(Fx, Ft, t_batch)             # (N_x, N_t, 2)  + bias
-    d_raw = net.combine(Fx, dFt)                       # (N_x, N_t, 2)
-    db_dt = net.combine_bias_derivative(t_batch)       # (N_t, 2)
+def _make_full_compute():
+    """Return (compute_all, eval_t0) for full MLP / modified-MLP architecture."""
 
-    if net.bc is not None:
-        mask = net.bc.mask(x_all)      # (N_x, 2),  x_all already (N_x, dim)
-        base = net.bc.baseline(x_all)  # (N_x, 2)
-        out = base[:, None, :] + mask[:, None, :] * out_raw
-        dphi = mask[:, None, 0] * d_raw[..., 0] + db_dt[None, :, 0]
-        dc   = mask[:, None, 1] * d_raw[..., 1] + db_dt[None, :, 1]
-    else:
-        out = out_raw
-        dphi = d_raw[..., 0] + db_dt[None, :, 0]
-        dc   = d_raw[..., 1] + db_dt[None, :, 1]
+    def compute_all(net, x_all, t_batch):
+        fwd = jax.vmap(jax.vmap(net, in_axes=(None, 0)), in_axes=(0, None))
+        out = fwd(x_all, t_batch)                           # (N_x, N_t, 2)
+        phi, c = out[..., 0], out[..., 1]
+        jac = jax.vmap(jax.vmap(jax.jacrev(net, argnums=1), in_axes=(None, 0)),
+                       in_axes=(0, None))(x_all, t_batch)    # (N_x, N_t, 2)
+        dphi_dt, dc_dt = jac[..., 0], jac[..., 1]
+        return phi, c, dphi_dt, dc_dt
 
-    return out[..., 0], out[..., 1], dphi, dc
+    def eval_t0(net, x_all):
+        out = jax.vmap(net, in_axes=(0, None))(x_all, jnp.array(0.0))
+        return out[:, 0], out[:, 1]
+
+    return compute_all, eval_t0
 
 
-# ── BC enforcement (standalone, for IC/eval use) ────────────────────────────
+def _make_split_compute():
+    """Return (compute_all, eval_t0) for split-PINN architecture."""
 
-def apply_bc(u, mask_free, bc_values):
-    """Set constrained positions to BC values."""
-    m = mask_free[:, None] if u.ndim == 2 else mask_free
-    v = bc_values[:, None] if u.ndim == 2 else bc_values
-    return jnp.where(m, u, v)
+    def compute_all(net, x_all, t_batch):
+        Fx = net.spatial_batch(x_all)                    # (N_x, 2p)
+        Ft = net.temporal_batch(t_batch)                 # (N_t, 2p)
+        dFt = jax.vmap(net.temporal_derivative)(t_batch) # (N_t, 2p)
+        out_raw = net.combine(Fx, Ft, t_batch)             # (N_x, N_t, 2)
+        d_raw = net.combine(Fx, dFt)                       # (N_x, N_t, 2)
+        db_dt = net.combine_bias_derivative(t_batch)       # (N_t, 2)
+
+        if net.bc is not None:
+            mask = net.bc.mask(x_all)      # (N_x, 2)
+            base = net.bc.baseline(x_all)  # (N_x, 2)
+            out = base[:, None, :] + mask[:, None, :] * out_raw
+            dphi = mask[:, None, 0] * d_raw[..., 0] + db_dt[None, :, 0]
+            dc   = mask[:, None, 1] * d_raw[..., 1] + db_dt[None, :, 1]
+        else:
+            out = out_raw
+            dphi = d_raw[..., 0] + db_dt[None, :, 0]
+            dc   = d_raw[..., 1] + db_dt[None, :, 1]
+
+        return out[..., 0], out[..., 1], dphi, dc
+
+    def eval_t0(net, x_all):
+        Fx = net.spatial_batch(x_all)
+        field = net.project(Fx, net.temporal(jnp.array(0.0)))
+        return field[:, 0], field[:, 1]
+
+    return compute_all, eval_t0
 
 
-# ── Masked MSE ──────────────────────────────────────────────────────────────
+# ── PDE residuals ───────────────────────────────────────────────────────────
 
-def _masked_mse(r, mask):
-    """MSE over masked points.  mask: (N,) bool, True = include."""
-    m = mask[:, None] if r.ndim == 2 else mask
-    return jnp.sum(jnp.where(m, r**2, 0.0)) / jnp.sum(m)
-
-
-# ── Per-loss functions ──────────────────────────────────────────────────────
-
-def loss_ac(net, x_all, t_batch, D, nondim_params, ac_scale=None, causal=None, eps=None):
-    """Allen-Cahn residual MSE, optionally causal-weighted."""
-    _, N_AC1, N_AC2, N_AC3, dc0, c_Le = nondim_params
-    phi, c, dphi_dt, _ = _compute_all(net, x_all, t_batch)
+def _compute_ac_residual(net, x_all, t_batch, D, nd, compute_all, ac_scale=None):
+    _, N_AC1, N_AC2, N_AC3, dc0, c_Le = nd
+    phi, c, dphi_dt, _ = compute_all(net, x_all, t_batch)
     nl_phi = D @ phi
     r = (dphi_dt + N_AC3 * nl_phi + N_AC2 * _gp(phi)
          - N_AC1 * (c - _h(phi) * dc0 - c_Le) * dc0 * _hp(phi))
     r = ac_scale * r if ac_scale is not None else r
-    if causal is not None and eps is not None:
-        val, w, chunks = causal.weighted_loss(r, t_batch, eps)
-        return val, (w, chunks)
-    return jnp.mean(jnp.abs(r)), None
+    return r, phi
 
 
-def loss_ch(net, x_all, t_batch, D, nondim_params, ch_scale=None, causal=None, eps=None):
-    """Cahn-Hilliard residual, optionally causal-weighted."""
-    N_CH, _, _, _, dc0, c_Le = nondim_params
-    phi, c, _, dc_dt = _compute_all(net, x_all, t_batch)
+def _compute_ch_residual(net, x_all, t_batch, D, nd, compute_all, ch_scale=None):
+    N_CH, _, _, _, dc0, c_Le = nd
+    phi, c, _, dc_dt = compute_all(net, x_all, t_batch)
     mu = c - _h(phi) * dc0 - c_Le
     nl_mu = D @ mu
     r = dc_dt + N_CH * nl_mu
     r = ch_scale * r if ch_scale is not None else r
+    return r, phi
+
+
+# ── Per-loss functions ──────────────────────────────────────────────────────
+
+def loss_ac(net, x_all, t_batch, D, nondim_params, compute_all,
+            ac_scale=None, causal=None, eps=None, iface_gamma=0.0):
+    r, phi = _compute_ac_residual(net, x_all, t_batch, D, nondim_params,
+                                   compute_all, ac_scale)
+    iw = _iface_weight(phi, iface_gamma)
     if causal is not None and eps is not None:
-        val, w, chunks = causal.weighted_loss(r, t_batch, eps)
+        val, w, chunks = causal.weighted_loss(r * iw, t_batch, eps)
         return val, (w, chunks)
-    return jnp.mean(jnp.abs(r)), None
+    return jnp.mean(jnp.abs(r) * iw), None
 
 
-def loss_ic(net, x_all, phi0, c0):
-    """IC loss: MSE at t=0."""
-    Fx = net.spatial_batch(x_all)
-    field = net.project(Fx, net.temporal(jnp.array(0.0)))
-    phi_pred, c_pred = field[:, 0], field[:, 1]
+def loss_ch(net, x_all, t_batch, D, nondim_params, compute_all,
+            ch_scale=None, causal=None, eps=None, iface_gamma=0.0):
+    r, phi = _compute_ch_residual(net, x_all, t_batch, D, nondim_params,
+                                   compute_all, ch_scale)
+    iw = _iface_weight(phi, iface_gamma)
+    if causal is not None and eps is not None:
+        val, w, chunks = causal.weighted_loss(r * iw, t_batch, eps)
+        return val, (w, chunks)
+    return jnp.mean(jnp.abs(r) * iw), None
+
+
+def loss_ic(net, x_all, phi0, c0, eval_t0):
+    phi_pred, c_pred = eval_t0(net, x_all)
     return jnp.mean((phi_pred - phi0)**2 + (c_pred - c0)**2)
 
 
-def loss_data(net, x_all, t_batch, phi_target, c_target):
-    """Pure data-loss: MSE against FEM reference at selected (x,t)."""
-    phi, c, _, _ = _compute_all(net, x_all, t_batch)
-    return jnp.mean((phi - phi_target)**2 + (c - c_target)**2)
-
-
-def loss_bc(net, x_all, t_batch, bc_values, constr_idx):
-    """Soft BC penalty: MSE at constrained points over all times."""
-    phi, c, _, _ = _compute_all(net, x_all, t_batch)
+def loss_bc(net, x_all, t_batch, bc_values, constr_idx, compute_all):
+    phi, c, _, _ = compute_all(net, x_all, t_batch)
     err_phi = phi[constr_idx, :] - bc_values[constr_idx, None]
     err_c   = c[constr_idx, :] - bc_values[constr_idx, None]
     return jnp.mean(err_phi**2 + err_c**2)
@@ -143,63 +168,44 @@ def grad_norm_weights(grads, eps=1e-6, cap=1000):
 # ── Combined loss function ──────────────────────────────────────────────────
 
 def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
+                 compute_all, eval_t0,
                  alpha=1.0, ac_scale=None, ch_scale=None,
-                 gradnorm_cap=1000, weight_mode="gradnorm",
-                 fixed_weights=(1.0, 1.0, 1.0, 1.0),
-                 causal=None, gradnorm_bias=(1.,1.,1.,1.),
-                 hard_bc=False):
-    """Factory: total loss (AC, CH, BC, IC) with optional causal weighting.
-
-    If hard_bc=True, BC loss is skipped (BC is enforced architecturally).
-    """
+                 gradnorm_cap=1000, causal=None,
+                 iface_gamma=0.0):
     constr_idx = ~mask_free
 
-    def loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, lam):
-        _ = bias, lam
+    def loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias):
         ((ac_val, ac_aux), ac_grad) = eqx.filter_value_and_grad(
             loss_ac, has_aux=True)(
-            net, x_all, t_batch, D, nondim_params, ac_scale, causal, eps)
+            net, x_all, t_batch, D, nondim_params, compute_all,
+            ac_scale, causal, eps, iface_gamma=iface_gamma)
         ((ch_val, ch_aux), ch_grad) = eqx.filter_value_and_grad(
             loss_ch, has_aux=True)(
-            net, x_all, t_batch, D, nondim_params, ch_scale, causal, eps)
+            net, x_all, t_batch, D, nondim_params, compute_all,
+            ch_scale, causal, eps, iface_gamma=iface_gamma)
         w_ac_c, chunks_ac = ac_aux if ac_aux is not None else (None, None)
         w_ch_c, chunks_ch = ch_aux if ch_aux is not None else (None, None)
 
         (ic_val, ic_grad) = eqx.filter_value_and_grad(loss_ic)(
-            net, x_all, phi0, c0)
+            net, x_all, phi0, c0, eval_t0)
 
-        if hard_bc:
-            bc_val = jnp.array(0.0)
-            bc_grad = jax.tree.map(jnp.zeros_like, ic_grad)
-        else:
-            (bc_val, bc_grad) = eqx.filter_value_and_grad(loss_bc)(
-                net, x_all, t_batch, bc_values, constr_idx)
+        (bc_val, bc_grad) = eqx.filter_value_and_grad(loss_bc)(
+            net, x_all, t_batch, bc_values, constr_idx, compute_all)
 
-        if weight_mode == "fixed":
-            w = jnp.array(fixed_weights, dtype=jnp.float32)
-            w = jax.lax.stop_gradient(w)
-            w_ac, w_ch, w_bc, w_ic = w
-        elif hard_bc:
-            w_new = grad_norm_weights([ac_grad, ch_grad, ic_grad], cap=gradnorm_cap)
-            w_ac = alpha * w_new[0] + (1.0 - alpha) * w_ema[0]
-            w_ch = alpha * w_new[1] + (1.0 - alpha) * w_ema[1]
-            w_bc = jnp.array(0.0)
-            w_ic = alpha * w_new[2] + (1.0 - alpha) * w_ema[2]
-        else:
-            w_new = grad_norm_weights([ac_grad, ch_grad, bc_grad, ic_grad],
-                                       cap=gradnorm_cap)
-            w_ac = alpha * w_new[0] + (1.0 - alpha) * w_ema[0]
-            w_ch = alpha * w_new[1] + (1.0 - alpha) * w_ema[1]
-            w_bc = alpha * w_new[2] + (1.0 - alpha) * w_ema[2]
-            w_ic = alpha * w_new[3] + (1.0 - alpha) * w_ema[3]
+        w_new = grad_norm_weights([ac_grad, ch_grad, bc_grad, ic_grad],
+                                   cap=gradnorm_cap)
+        w_ac = alpha * w_new[0] + (1.0 - alpha) * w_ema[0]
+        w_ch = alpha * w_new[1] + (1.0 - alpha) * w_ema[1]
+        w_bc = alpha * w_new[2] + (1.0 - alpha) * w_ema[2]
+        w_ic = alpha * w_new[3] + (1.0 - alpha) * w_ema[3]
 
         w_ac = jnp.where(train_ac, w_ac, 0.0)
         w_ch = jnp.where(train_ch, w_ch, 0.0)
 
-        w_ac *= gradnorm_bias[0]
-        w_ch *= gradnorm_bias[1]
-        w_bc *= gradnorm_bias[2]
-        w_ic *= gradnorm_bias[3]
+        w_ac *= bias[0]
+        w_ch *= bias[1]
+        w_bc *= bias[2]
+        w_ic *= bias[3]
 
         total = w_ac * ac_val + w_ch * ch_val + w_bc * bc_val + w_ic * ic_val
         total_grad = jax.tree.map(
@@ -215,70 +221,3 @@ def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
         return total, aux, total_grad, jnp.array([w_ac, w_ch, w_bc, w_ic])
 
     return loss_fn
-
-
-# ── Test ────────────────────────────────────────────────────────────────────
-
-if __name__ == "__main__":
-    import jax.random as jr
-    from pinn.operators import build_D, condense_dense
-    from pinn.arch import make_split_pinn
-
-    key = jr.PRNGKey(0)
-    delta = 0.1
-    Nx, Nt, rank_p = 101, 20, 10
-
-    x_all = jnp.linspace(0.0, 1.0, Nx)[:, None]
-    D = build_D(x_all, delta)
-    D_free = condense_dense(D, jnp.ones(Nx, dtype=bool))
-    net = make_split_pinn(spatial_dim=1, rank_p=rank_p, hidden_dim=32,
-                          num_layers=3, key=key)
-
-    # Nondim params
-    D_phys, A, L = 8.5e-10, 5.35e7, 1e-11
-    alpha_phi, omega_phi = 1.03e-4, 1.76e7
-    c_se, c_le = 1.0, 5100.0 / 1.43e5
-    L_c, T_c = 100e-6, 100000.0
-    nd = (D_phys * T_c / L_c**2,
-          2.0 * A * L * T_c,
-          L * omega_phi * T_c,
-          L * alpha_phi * T_c / L_c**2,
-          c_se - c_le, c_le)
-
-    t_batch = jr.uniform(key, (Nt,), minval=0.0, maxval=1.0)
-
-    # All-at-once forward check
-    phi, c, dphi_dt, dc_dt = _compute_all(net, x_all, t_batch)
-    assert phi.shape == (Nx, Nt) and dphi_dt.shape == (Nx, Nt)
-    print(f"_compute_all: phi {phi.shape}, dphi_dt {dphi_dt.shape}  ✓")
-
-    mask_free = jnp.ones(Nx, bool).at[0].set(False).at[-1].set(False)
-    bc_values = jnp.zeros(Nx).at[0].set(1.0)
-
-    ac_raw = loss_ac(net, x_all, t_batch, D_free, nd)
-    ch_raw = loss_ch(net, x_all, t_batch, D_free, nd)
-    print(f"unscaled: loss_ac={ac_raw:.2e}, loss_ch={ch_raw:.2e}  (CH >> AC)")
-
-    ch_scale = 1.0 / nd[0]
-    ac_val = loss_ac(net, x_all, t_batch, D_free, nd)
-    ch_val = loss_ch(net, x_all, t_batch, D_free, nd, ch_scale)
-    print(f"scaled:   loss_ac={ac_val:.4f}, loss_ch={ch_val:.4f} (ch_scale={ch_scale:.2e})  ✓")
-
-    class Phys: pass
-    phys = Phys()
-    phys.omega_phi = omega_phi; phys.alpha_phi = alpha_phi
-    phys.c_se = c_se; phys.c_le = c_le
-    phi0, c0 = ic_values(x_all, phys, L_c)
-    ic_val = loss_ic(net, x_all, phi0, c0)
-    print(f"loss_ic: {ic_val:.6f}  ✓")
-
-    lfn = make_loss_fn(x_all, D_free, mask_free, bc_values, nd, ch_scale=ch_scale)
-    w_ema = jnp.array([1.0, 1.0, 1.0, 1.0])
-    w_ema = jnp.array([1.0, 1.0, 1.0])
-    total, aux, grad, new_w = lfn(net, t_batch, phi0, c0, w_ema)
-    print(f"total: {total:.6f}, "
-          f"ac={aux['loss_ac']:.2e} ch={aux['loss_ch']:.1e} ic={aux['loss_ic']:.4f}, "
-          f"w=[{aux['weight_ac']:.1f},{aux['weight_ch']:.1f},{aux['weight_ic']:.1f}], "
-          f"grad leaves={sum(1 for _ in jax.tree.leaves(grad))}  ✓")
-
-    print("All tests passed.")
