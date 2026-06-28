@@ -250,17 +250,24 @@ def solve(config):
         DirichletBC(V.sub(1), Constant(0.0), _right),
     ]
 
+    # ── time integration method ───────────────────────────────────────────
+    # theta = 1.0: backward Euler, theta = 0.5: Crank-Nicolson
+    theta = config.time.theta
+
     # ── weak form (non-dimensional) ─────────────────────────────────────
+    c_th = theta * c + (1.0 - theta) * c_prev
+    phi_th = theta * phi + (1.0 - theta) * phi_prev
+
     # Cahn-Hilliard-type equation for c
     F_c = (c - c_prev) / dt_const * v_c * dx \
-        + N_CH * dot(grad(c), grad(v_c)) * dx \
-        - N_CH * dc_se_le * dot(grad(_h(phi)), grad(v_c)) * dx
+        + N_CH * dot(grad(c_th), grad(v_c)) * dx \
+        - N_CH * dc_se_le * dot(grad(_h(phi_th)), grad(v_c)) * dx
 
     # Allen-Cahn equation for φ
     F_phi = (phi - phi_prev) / dt_const * v_phi * dx \
-        + N_AC3 * dot(grad(phi), grad(v_phi)) * dx \
-        + N_AC2 * _gp(phi) * v_phi * dx \
-        - N_AC1 * (c - _h(phi) * dc_se_le - phys.c_le) * dc_se_le * _hp(phi) * v_phi * dx
+        + N_AC3 * dot(grad(phi_th), grad(v_phi)) * dx \
+        + N_AC2 * _gp(phi_th) * v_phi * dx \
+        - N_AC1 * (c_th - _h(phi_th) * dc_se_le - phys.c_le) * dc_se_le * _hp(phi_th) * v_phi * dx
 
     F = F_c + F_phi
     J = derivative(F, sol, TrialFunction(V))

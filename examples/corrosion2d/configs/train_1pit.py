@@ -55,7 +55,7 @@ def get_config():
     c.train.soap_b1 = 0.95
     c.train.soap_b2 = 0.95
     c.train.soap_precond_freq = 5
-    c.train.soap_max_precond_dim = 10000
+    c.train.soap_max_precond_dim = 100000
     c.train.soap_precond_1d = False
 
     # Loss
@@ -91,7 +91,7 @@ def get_config():
 
     # FEM reference
     c.fem = config_dict.ConfigDict()
-    c.fem.data_path = "/root/autodl-tmp/data/corrosion2d/results_1pit.npz"
+    c.fem.data_path = "/root/autodl-tmp/data/corrosion2d/results_1pit_cn.npz"
 
     # Physical — diffusion-controlled (L=2.0)
     c.physical = config_dict.ConfigDict()

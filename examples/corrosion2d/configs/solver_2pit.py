@@ -30,6 +30,7 @@ def get_config():
     c.time = config_dict.ConfigDict()
     c.time.dt = 0.005
     c.time.t_final = 1.0
+    c.time.theta = 0.5  # 1.0=backward Euler, 0.5=Crank-Nicolson
 
     # --- Solver ---
     c.solver = config_dict.ConfigDict()
@@ -44,7 +45,7 @@ def get_config():
     # --- Output ---
     c.output = config_dict.ConfigDict()
     c.output.dir = "/root/autodl-tmp/data/corrosion2d"
-    c.output.filename = "results_2pit.npz"
+    c.output.filename = "results_2pit_cn.npz"
     c.output.save_every = 0.05
 
     return c

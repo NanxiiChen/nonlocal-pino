@@ -29,6 +29,7 @@ def get_config():
     config.time = config_dict.ConfigDict()
     config.time.dt = 0.005
     config.time.t_final = 1.0
+    config.time.theta = 0.5  # 1.0=backward Euler, 0.5=Crank-Nicolson
 
     # --- Non-local operator ---
     config.nl = config_dict.ConfigDict()
@@ -48,6 +49,6 @@ def get_config():
     # --- Output ---
     config.output = config_dict.ConfigDict()
     config.output.dir = "/root/autodl-tmp/data/corrosion1d"
-    config.output.filename = "results_diffusion.npz"
+    config.output.filename = "results_diffusion_cn.npz"
 
     return config

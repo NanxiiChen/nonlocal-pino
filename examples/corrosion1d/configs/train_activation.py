@@ -81,7 +81,7 @@ def get_config():
 
     # FEM reference
     c.fem = config_dict.ConfigDict()
-    c.fem.data_path = "/root/autodl-tmp/data/corrosion1d/results_activation.npz"
+    c.fem.data_path = "/root/autodl-tmp/data/corrosion1d/results_activation_cn.npz"
 
     # Initial condition
     c.init = config_dict.ConfigDict()

@@ -30,6 +30,7 @@ def get_config():
     c.time = config_dict.ConfigDict()
     c.time.dt = 0.005
     c.time.t_final = 1.0
+    c.time.theta = 1.0   # 1.0=backward Euler, 0.5=Crank-Nicolson
 
     # --- Solver ---
     c.solver = config_dict.ConfigDict()

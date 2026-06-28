@@ -167,18 +167,27 @@ def solve(config):
         DirichletBC(V.sub(1), Constant(0.0), pit_mouth),
     ]
 
+    # ── time integration method ───────────────────────────────────────────
+    # theta = 1.0: backward Euler (default, O(dt))
+    # theta = 0.5: Crank-Nicolson (O(dt²))
+    theta = config.time.theta
+
     # ── weak form (scaled for conditioning) ───────────────────────────────
     scale_ch = 1.0 / max(N_CH, 1.0)
     scale_ac = 1.0 / max(N_AC2, 1.0)
 
+    # midpoint values for theta method
+    c_th = theta * c + (1.0 - theta) * c_prev
+    phi_th = theta * phi + (1.0 - theta) * phi_prev
+
     F_c = (c - c_prev) / dt_const * v_c * dx \
-        + N_CH * dot(grad(c), grad(v_c)) * dx \
-        - N_CH * dc0 * dot(grad(_h(phi)), grad(v_c)) * dx
+        + N_CH * dot(grad(c_th), grad(v_c)) * dx \
+        - N_CH * dc0 * dot(grad(_h(phi_th)), grad(v_c)) * dx
 
     F_phi = (phi - phi_prev) / dt_const * v_phi * dx \
-        + N_AC3 * dot(grad(phi), grad(v_phi)) * dx \
-        + N_AC2 * _gp(phi) * v_phi * dx \
-        - N_AC1 * (c - _h(phi) * dc0 - phys.c_le) * dc0 * _hp(phi) * v_phi * dx
+        + N_AC3 * dot(grad(phi_th), grad(v_phi)) * dx \
+        + N_AC2 * _gp(phi_th) * v_phi * dx \
+        - N_AC1 * (c_th - _h(phi_th) * dc0 - phys.c_le) * dc0 * _hp(phi_th) * v_phi * dx
 
     F = scale_ch * F_c + scale_ac * F_phi
     J = derivative(F, sol, TrialFunction(V))

@@ -91,7 +91,7 @@ def get_config():
 
     # FEM reference
     c.fem = config_dict.ConfigDict()
-    c.fem.data_path = "/root/autodl-tmp/data/corrosion2d/results_2pit.npz"
+    c.fem.data_path = "/root/autodl-tmp/data/corrosion2d/results_2pit_cn.npz"
 
     # Physical — diffusion-controlled (L=2.0)
     c.physical = config_dict.ConfigDict()
