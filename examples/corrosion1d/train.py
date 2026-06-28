@@ -88,7 +88,8 @@ def _build_network(config, key):
 def _build_D(config, x_all):
     delta = config.nl.delta
     kernel = config.nl.kernel
-    return build_D(x_all, delta, kernel=kernel)
+    method = config.nl.method
+    return build_D(x_all, delta, kernel=kernel, method=method)
 
 
 def _build_optimizer(config):

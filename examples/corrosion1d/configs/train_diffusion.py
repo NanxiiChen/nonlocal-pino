@@ -26,6 +26,7 @@ def get_config():
     c.nl = config_dict.ConfigDict()
     c.nl.delta = 0.02
     c.nl.kernel = "cubic"  # "cubic" (smooth) or "tophat" (discontinuous)
+    c.nl.method = "sparse"  # "sparse" or "dense"
 
     # Sampling
     c.sample = config_dict.ConfigDict()

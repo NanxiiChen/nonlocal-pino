@@ -39,11 +39,11 @@ def get_config():
 
     # Pit geometry (matches FEM solver config)
     c.pits = config_dict.ConfigDict()
-    c.pits.entries = ((0.5, 0.0, 0.1),)
+    c.pits.entries = ((0.3, 0.0, 0.1), (0.7, 0.0, 0.1))
 
     # Training
     c.train = config_dict.ConfigDict()
-    c.train.iterations = 50000
+    c.train.iterations = 20000
     c.train.lr_init = 5e-4
     c.train.lr_decay_every = 1000
     c.train.lr_decay_rate = 0.95
@@ -64,9 +64,11 @@ def get_config():
     c.loss.ch_scale = 1.0
     c.loss.gradnorm_weight_cap = 10000.0
     c.loss.gradnorm_bias = (1.0, 1.0, 1.0, 1.0, 1.0)  # [ac, ch, bc_pit, bc_solid, ic]
-    c.loss.iface_gamma = 10.0  # interface weighting: w = 1+γ·4φ(1-φ), 0=off
+    c.loss.iface_gamma_init = 3.0       # initial interface weight
+    c.loss.iface_gamma_decay_steps = 1000  # decay to 0 over N steps; 0=disabled
+    c.loss.iface_gamma_decay_to = 0.0  # interface weighting: w = 1+γ·4φ(1-φ), 0=off
     c.loss.bias_schedule = ()
-    c.loss.use_causal = True
+    c.loss.use_causal = False
     c.loss.use_stagger = False
     c.loss.stagger_switch_every = 25
     # Causal params (used when use_causal=True)
@@ -89,7 +91,7 @@ def get_config():
 
     # FEM reference
     c.fem = config_dict.ConfigDict()
-    c.fem.data_path = "/root/autodl-tmp/data/corrosion2d/results_diffusion_2d.npz"
+    c.fem.data_path = "/root/autodl-tmp/data/corrosion2d/results_2pit.npz"
 
     # Physical — diffusion-controlled (L=2.0)
     c.physical = config_dict.ConfigDict()
@@ -104,6 +106,6 @@ def get_config():
     # Non-dimensionalization
     c.nondim = config_dict.ConfigDict()
     c.nondim.L_c = 100e-6
-    c.nondim.T_c = 50.0
+    c.nondim.T_c = 20.0
 
     return c
