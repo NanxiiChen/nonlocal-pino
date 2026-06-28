@@ -118,13 +118,13 @@ def grad_norm_weights(grads, eps=1e-6, cap=1000):
 
 
 def make_loss_fn(x_all, D, x_bc_pit, x_bc_solid, nondim_params,
-                 x_ic=None, iface_gamma=0.0,
+                 x_ic=None,
                  alpha=1.0, ac_scale=None, ch_scale=None,
                  gradnorm_cap=1000, causal=None):
     N_LOSS = 5  # ac, ch, bc_pit, bc_solid, ic
     _x_ic = x_ic if x_ic is not None else x_all
 
-    def loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, update_w):
+    def loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, update_w, iface_gamma):
         if update_w:
             ((ac_v, (w_ac_c, chunks_ac)), ac_grad) = eqx.filter_value_and_grad(
                 loss_ac, has_aux=True)(

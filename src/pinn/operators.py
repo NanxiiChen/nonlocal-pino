@@ -4,49 +4,47 @@ Provides build_D() factory to construct DenseD or SparseD operators.
 Both implement __matmul__ for (N,) and (N, N_t) inputs.
 """
 
+import numpy as np
 import jax.numpy as jnp
 import jax
 
 
 # ── Kernel helpers ──────────────────────────────────────────────────────────
 
-def _tophat_kernel_value(delta, dim):
-    if dim == 1:
-        return 3.0 / delta**3
-    elif dim == 2:
-        return 8.0 / (jnp.pi * delta**4)
-    elif dim == 3:
-        return 15.0 / (2.0 * jnp.pi * delta**5)
-    else:
-        raise ValueError(f"Unsupported dimension: {dim}")
+# ── Kernel registry ──────────────────────────────────────────────────────────
 
-
-def _cubic_kernel_value(delta, dim):
-    """Cubic kernel normalization constant J0 for dimension dim.
-
-    1D: J(z) = (30/δ³)·(1 - |z|/δ)²
-    2D: J(z) = (60/(πδ⁴))·(1 - |z|/δ)²
-    """
-    if dim == 1:
-        return 30.0 / delta**3
-    elif dim == 2:
-        return 120.0 / (jnp.pi * delta**4)
-    else:
-        raise ValueError(f"Unsupported dimension: {dim}")
+def _tophat_kernel(dist, delta, dim):
+    J0 = {1: 3.0, 2: 8.0 / jnp.pi, 3: 15.0 / (2.0 * jnp.pi)}[dim] / delta**(2 + dim)
+    return jnp.where(jnp.abs(dist) <= delta, jnp.full_like(dist, J0), 0.0)
 
 
 def _cubic_kernel(dist, delta, dim):
-    """Cubic influence function: J(z) = J0·(1 - |z|/δ)²."""
-    J0 = _cubic_kernel_value(delta, dim)
+    J0 = {1: 30.0, 2: 120.0 / jnp.pi}[dim] / delta**(2 + dim)
     z = jnp.abs(dist) / delta
-    return J0 * (1.0 - z)**2
+    return J0 * jnp.where(z <= 1.0, (1.0 - z)**2, 0.0)
+
+
+def _quartic_kernel(dist, delta, dim):
+    J0 = {1: 105.0 / 8.0, 2: 48.0 / jnp.pi}[dim] / delta**(2 + dim)
+    z2 = (dist / delta)**2
+    return J0 * jnp.where(z2 <= 1.0, (1.0 - z2)**2, 0.0)
+
+
+def _wendland_c2_kernel(dist, delta, dim):
+    """Wendland C² kernel: J(z) = J0·(1-z)⁴·(4z+1). C² smooth, compact support."""
+    J0 = {1: 42.0, 2: 1008.0 / (5.0 * jnp.pi)}[dim] / delta**(2 + dim)
+    z = jnp.abs(dist) / delta
+    return J0 * jnp.where(z <= 1.0, (1.0 - z)**4 * (4.0 * z + 1.0), 0.0)
 
 
 _KERNEL_BUILDERS = {
-    "tophat": lambda dist, delta, dim: jnp.full_like(
-        dist, _tophat_kernel_value(delta, dim)),
-    "cubic": _cubic_kernel,
+    "tophat":   _tophat_kernel,
+    "cubic":    _cubic_kernel,
+    "quartic":  _quartic_kernel,
+    "wendland": _wendland_c2_kernel,
 }
+
+
 
 
 # ── DenseD ──────────────────────────────────────────────────────────────────
@@ -57,17 +55,35 @@ class DenseD:
     _D: jnp.ndarray  # (N, N)
 
     def __init__(self, x, delta, kernel="cubic"):
+        import numpy as np
         N, dim = x.shape
-        dV = float(jnp.prod(jnp.max(x, axis=0) - jnp.min(x, axis=0))) / N
+        x_np = np.array(x)
+        ranges = x_np.max(axis=0) - x_np.min(axis=0)
+        vol = float(np.prod(ranges))
+
+        # Detect structured grid for better dV, fall back to uniform.
+        # NOTE: hx*hy is interior midpoint quadrature, not strict nodal weights
+        # (trapezoidal half-weights at edges / quarter-weights at corners).
+        # TODO: trapezoidal boundary weights for rigorous nodal quadrature.
+        if dim <= 2:
+            unique_dims = [np.unique(np.round(x_np[:, d], decimals=10)) for d in range(dim)]
+            n_per_dim = [len(u) for u in unique_dims]
+            if np.prod(n_per_dim) == N:
+                spacings = [(u[-1] - u[0]) / max(n - 1, 1) for u, n in zip(unique_dims, n_per_dim)]
+                dV = float(np.prod(spacings))
+            else:
+                dV = vol / N
+        else:
+            dV = vol / N
+
         diff = x[:, None, :] - x[None, :, :]
         dist = jnp.sqrt(jnp.sum(diff**2, axis=-1))
-        dx_est = (jnp.max(x) - jnp.min(x)) / (N - 1)
-        in_horizon = (dist <= delta + 0.5 * float(dx_est)) & ~jnp.eye(N, dtype=bool)
+        # Kernel enforces compact support at z=1; mask is efficiency only
+        in_horizon = (dist <= delta) & ~jnp.eye(N, dtype=bool)
 
-        J_fn = _KERNEL_BUILDERS.get(kernel)
-        if J_fn is None:
+        if kernel not in _KERNEL_BUILDERS:
             raise ValueError(f"Unknown kernel: {kernel}. Options: {list(_KERNEL_BUILDERS)}")
-        J_vals = J_fn(dist, delta, dim)
+        J_vals = _KERNEL_BUILDERS[kernel](dist, delta, dim)
 
         D = jnp.zeros((N, N))
         D = D.at[in_horizon].set(-J_vals[in_horizon] * dV)
@@ -107,27 +123,28 @@ class SparseD:
         x_np = np.array(x)
         N, dim = x_np.shape
         self._N = N
-        vol = np.prod(x_np.max(axis=0) - x_np.min(axis=0))
-        dV = float(vol) / N
+        ranges = x_np.max(axis=0) - x_np.min(axis=0)
+        vol = np.prod(ranges)
 
-        diff = x_np[:, None, :] - x_np[None, :, :]
-        dist = np.sqrt(np.sum(diff**2, axis=-1))
-        dx_est = (x_np.max() - x_np.min()) / (N - 1)
-        in_horizon = (dist <= delta + 0.5 * dx_est) & ~np.eye(N, dtype=bool)
-
-        row_idx, col_idx = np.where(in_horizon)
-        r_ij = dist[row_idx, col_idx]
-
-        if kernel == "cubic":
-            z = r_ij / delta
-            J0 = {1: 30.0/delta**3, 2: 120.0/(np.pi*delta**4)}[dim]
-            J = J0 * (1.0 - z)**2
-        elif kernel == "tophat":
-            J0 = {1: 3.0/delta**3, 2: 8.0/(np.pi*delta**4),
-                  3: 15.0/(2.0*np.pi*delta**5)}[dim]
-            J = np.full_like(r_ij, J0)
+        # Detect structured grid for better dV, fall back to uniform
+        if dim <= 2:
+            unique_dims = [np.unique(np.round(x_np[:, d], decimals=10)) for d in range(dim)]
+            n_per_dim = [len(u) for u in unique_dims]
+            if np.prod(n_per_dim) == N:
+                spacings = [(u[-1] - u[0]) / max(n - 1, 1) for u, n in zip(unique_dims, n_per_dim)]
+                dV = float(np.prod(spacings))
+            else:
+                dV = float(vol) / N
         else:
-            raise ValueError(f"Unknown kernel: {kernel}")
+            dV = float(vol) / N
+
+        # Detect structured grid — use grid-based neighbor search (O(N·k))
+        # Fall back to O(N²) pairwise for unstructured point sets.
+        row_idx, col_idx, r_ij = self._build_neighbors_grid(x_np, delta, dim)
+
+        if kernel not in _KERNEL_BUILDERS:
+            raise ValueError(f"Unknown kernel: {kernel}. Options: {list(_KERNEL_BUILDERS)}")
+        J = np.array(_KERNEL_BUILDERS[kernel](jnp.array(r_ij), delta, dim))
 
         self._row_idx = jnp.array(row_idx, dtype=jnp.int32)
         self._col_idx = jnp.array(col_idx, dtype=jnp.int32)
@@ -135,6 +152,93 @@ class SparseD:
 
         diag = np.bincount(row_idx, weights=J * dV, minlength=N)
         self._diag = jnp.array(diag)
+
+    @staticmethod
+    def _build_neighbors_grid(x_np, delta, dim):
+        """O(N·k) grid-based neighbor search for structured meshes."""
+        import numpy as np
+        N = len(x_np)
+
+        # Detect structured grid: unique coords in each dim
+        ux = np.unique(np.round(x_np[:, 0], decimals=10))
+        Nx = len(ux)
+        if dim == 2:
+            uy = np.unique(np.round(x_np[:, 1], decimals=10))
+            Ny = len(uy)
+            if Nx * Ny != N:
+                return SparseD._build_neighbors_pairwise(x_np, delta)
+        else:
+            Ny = 1
+            uy = np.array([0.0])
+            if Nx != N:
+                return SparseD._build_neighbors_pairwise(x_np, delta)
+
+        dx = (ux[-1] - ux[0]) / max(Nx - 1, 1)
+        dy = (uy[-1] - uy[0]) / max(Ny - 1, 1) if dim == 2 else 1.0
+        md_x = max(int(delta / dx) + 1, 1)
+        md_y = max(int(delta / dy) + 1, 1) if dim == 2 else 0
+
+        # Precompute all offset (dy, dx) candidates within horizon
+        offsets, dists = [], []
+        for di in range(-md_y, md_y + 1):
+            for dj in range(-md_x, md_x + 1):
+                if di == 0 and dj == 0:
+                    continue
+                d_sq = (di * dy)**2 + (dj * dx)**2
+                if d_sq <= delta**2:
+                    offsets.append((di, dj))
+                    dists.append(np.sqrt(d_sq))
+
+        # Map point index k to grid coords (iy, ix)
+        # Assumes C-order meshgrid ordering (xv, yv = meshgrid(ux, uy, indexing='xy')).
+        # TODO: replace with searchsorted-based index map for arbitrary point ordering.
+        if dim == 1:
+            if not np.allclose(x_np.ravel(), ux, rtol=1e-6, atol=1e-6):
+                raise ValueError(
+                    "SparseD grid search requires sorted 1D point ordering. "
+                    "Use _build_neighbors_pairwise for arbitrary point sets."
+                )
+        else:
+            expected = np.stack(np.meshgrid(ux, uy, indexing='xy'), axis=-1).reshape(-1, dim)
+            if not np.allclose(x_np, expected, rtol=1e-6, atol=1e-6):
+                raise ValueError(
+                    "SparseD grid search requires C-order meshgrid point ordering. "
+                    "Use _build_neighbors_pairwise for arbitrary point sets, or implement "
+                    "searchsorted-based grid-to-index mapping."
+                )
+        idx_k = np.arange(N).reshape(Ny, Nx)
+
+        rows, cols, r_vals = [], [], []
+        for (di, dj), dist in zip(offsets, dists):
+            # Valid range for shifted indices
+            iy_lo = max(0, -di); iy_hi = min(Ny, Ny - di)
+            ix_lo = max(0, -dj); ix_hi = min(Nx, Nx - dj)
+            if iy_lo >= iy_hi or ix_lo >= ix_hi:
+                continue
+            src = idx_k[iy_lo:iy_hi, ix_lo:ix_hi].ravel()
+            dst = idx_k[(iy_lo + di):(iy_hi + di),
+                        (ix_lo + dj):(ix_hi + dj)].ravel()
+            n_pairs = len(src)
+            rows.append(src)
+            cols.append(dst)
+            r_vals.append(np.full(n_pairs, dist))
+
+        row_idx = np.concatenate(rows)
+        col_idx = np.concatenate(cols)
+        r_ij = np.concatenate(r_vals)
+        return row_idx.astype(np.int32), col_idx.astype(np.int32), r_ij
+
+    @staticmethod
+    def _build_neighbors_pairwise(x_np, delta):
+        """O(N²) pairwise neighbor search (fallback for unstructured)."""
+        import numpy as np
+        diff = x_np[:, None, :] - x_np[None, :, :]
+        dist = np.sqrt(np.sum(diff**2, axis=-1))
+        N = len(x_np)
+        in_horizon = (dist <= delta) & ~np.eye(N, dtype=bool)
+        row_idx, col_idx = np.where(in_horizon)
+        r_ij = dist[row_idx, col_idx]
+        return row_idx.astype(np.int32), col_idx.astype(np.int32), r_ij
 
     def __matmul__(self, u):
         if u.ndim == 1:

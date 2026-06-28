@@ -36,7 +36,7 @@ def _load_losses():
 from absl import app as _absl_app, flags as _absl_flags
 from ml_collections import config_flags as _config_flags
 
-_DEFAULT = os.path.join(os.path.dirname(__file__), 'configs', 'train_diffusion.py')
+_DEFAULT = os.path.join(os.path.dirname(__file__), 'configs', 'train_1pit.py')
 _CONFIG = _config_flags.DEFINE_config_file('config', _DEFAULT, 'Config file')
 FLAGS = _absl_flags.FLAGS
 
@@ -158,8 +158,8 @@ def _sample_ic_points(pits, N_global=2000, N_local=2000):
 
 def _make_step(loss_fn, optim):
     @eqx.filter_jit
-    def step(net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, update_w):
-        (loss, aux, grad, new_w) = loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, update_w)
+    def step(net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, update_w, iface_gamma):
+        (loss, aux, grad, new_w) = loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, update_w, iface_gamma)
         grad = jax.tree.map(jnp.nan_to_num, grad)
         updates, opt_state = optim.update(grad, opt_state, net)
         net = eqx.apply_updates(net, updates)
@@ -315,7 +315,6 @@ def _main(_):
 
     lfn = make_loss_fn(x_base, D, x_bc_pit, x_bc_solid, nd_params,
                        x_ic=x_ic,
-                       iface_gamma=config.loss.iface_gamma,
                        alpha=config.train.alpha_gradnorm,
                        ac_scale=config.loss.ac_scale,
                        ch_scale=config.loss.ch_scale,
@@ -367,9 +366,16 @@ def _main(_):
             train_ac = jnp.array(True)
             train_ch = jnp.array(True)
         update_w = (it % config.train.gradnorm_update_every == 0)
+        # Interface weight decay
+        gamma_decay = config.loss.iface_gamma_decay_steps
+        if gamma_decay > 0 and it <= gamma_decay:
+            iface_gamma = jnp.array(config.loss.iface_gamma_init
+                                    * (1.0 - it / gamma_decay))
+        else:
+            iface_gamma = jnp.array(config.loss.iface_gamma_decay_to)
         net, opt_state, loss_val, aux, w_ema = step_fn(
             net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema,
-            get_bias(it), update_w)
+            get_bias(it), update_w, iface_gamma)
 
         if it % config.log.log_every == 0:
             elapsed = time.perf_counter() - t_start
@@ -380,7 +386,7 @@ def _main(_):
             lr = config.train.lr_init * config.train.lr_decay_rate**(it // config.train.lr_decay_every)
             writer.add_scalar('train/lr', float(max(lr, config.train.lr_min)), it)
             # Interface indicator mean (phase-field: 4φ(1-φ), peaks at interface)
-            if config.log.run_diag and config.loss.iface_gamma > 0:
+            if config.log.run_diag and config.loss.iface_gamma_init > 0:
                 phi_t0 = jax.vmap(net, in_axes=(0, None))(x_base, jnp.array(0.5))[:, 0]
                 iface_mean = float(jnp.mean(4.0 * phi_t0 * (1.0 - phi_t0)))
                 writer.add_scalar('diag/iface_indicator_mean', iface_mean, it)
