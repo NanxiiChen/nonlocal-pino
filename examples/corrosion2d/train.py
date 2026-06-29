@@ -62,6 +62,7 @@ def _build_network(config, key):
         return make_film_pinn(spatial_dim=2, out_dim=2, hidden_dim=c.hidden_dim,
                               num_layers=c.num_layers,
                               film_hidden_dim=c.film_hidden_dim,
+                              film_num_layers=c.film_num_layers,
                               activation=c.activation,
                               spatial_emb_dim=c.spatial_emb_dim,
                               spatial_scale=c.spatial_scale,
@@ -369,7 +370,8 @@ def _main(_):
                              minval=config.sample.t_min, maxval=1.0)
 
         eps = jnp.minimum(causal_eps_ac, causal_eps_ch)
-        if config.loss.use_stagger:
+        stagger_steps = config.loss.stagger_steps
+        if it < stagger_steps:
             phase = (it // config.loss.stagger_switch_every) % 2
             train_ac = jnp.array(phase == 0)
             train_ch = jnp.array(phase == 1)

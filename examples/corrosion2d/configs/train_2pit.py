@@ -10,12 +10,13 @@ def get_config():
     c.arch = config_dict.ConfigDict()
     c.arch.type = "film"  # "mlp", "modified_mlp", or "film"
     c.arch.hidden_dim = 64
-    c.arch.film_hidden_dim = 32
+    c.arch.film_hidden_dim = 64
+    c.arch.film_num_layers = 2     # depth of FiLM conditioning MLP
     c.arch.num_layers = 4
     c.arch.spatial_emb_dim = 64
     c.arch.spatial_scale = 2.0
     c.arch.temporal_emb_dim = 64
-    c.arch.temporal_scale = 2.0
+    c.arch.temporal_scale = (1.0, 5.0)
     c.arch.activation = "gelu"
     c.arch.use_spatial_emb = True
     c.arch.use_temporal_emb = True
@@ -70,7 +71,7 @@ def get_config():
     c.loss.iface_gamma_decay_to = 0.0   # final value after decay
     c.loss.bias_schedule = ()
     c.loss.use_causal = False
-    c.loss.use_stagger = True
+    c.loss.stagger_steps = 10000   # stagger AC/CH for first N iters, then both on
     c.loss.stagger_switch_every = 25
     # Causal params (used when use_causal=True)
     c.causal = config_dict.ConfigDict()

@@ -10,7 +10,7 @@ from .embedding import FourierEmbedding
 
 class _FiLMPINN(eqx.Module):
     spatial_emb: FourierEmbedding | None
-    temporal_emb: FourierEmbedding | None
+    temporal_emb: FourierEmbedding | list | None
     film_mlp: eqx.nn.MLP
     trunk_layers: list
     trunk_output: eqx.nn.Linear
@@ -26,7 +26,10 @@ class _FiLMPINN(eqx.Module):
         else:
             x = jnp.atleast_1d(x)
         if self.temporal_emb is not None:
-            t = self.temporal_emb(jnp.atleast_1d(t))
+            if isinstance(self.temporal_emb, list):
+                t = jnp.concatenate([emb(jnp.atleast_1d(t)) for emb in self.temporal_emb])
+            else:
+                t = self.temporal_emb(jnp.atleast_1d(t))
         else:
             t = jnp.atleast_1d(t)
 
@@ -52,9 +55,9 @@ class _FiLMPINN(eqx.Module):
 def make_film_pinn(spatial_dim: int, out_dim: int, *,
                    use_fourier: bool = True,
                    spatial_emb_dim: int = 64, spatial_scale: float = 2.0,
-                   temporal_emb_dim: int = 64, temporal_scale: float = 2.0,
+                   temporal_emb_dim: int = 64, temporal_scale: float | tuple = 2.0,
                    hidden_dim: int = 64, num_layers: int = 4,
-                   film_hidden_dim: int = 32,
+                   film_hidden_dim: int = 32, film_num_layers: int = 2,
                    activation=jnp.tanh,
                    hard_constraint: eqx.Module | None = None,
                    dirichlet_bc: eqx.Module | None = None,
@@ -66,9 +69,15 @@ def make_film_pinn(spatial_dim: int, out_dim: int, *,
     spatial_emb = temporal_emb = None
     if use_fourier:
         spatial_emb = FourierEmbedding(spatial_dim, spatial_emb_dim, spatial_scale, key=k_sp)
-        temporal_emb = FourierEmbedding(1, temporal_emb_dim, temporal_scale, key=k_tp)
+        if isinstance(temporal_scale, (tuple, list)):
+            k_tp_i = jr.split(k_tp, len(temporal_scale))
+            temporal_emb = [FourierEmbedding(1, temporal_emb_dim, s, key=ki)
+                            for s, ki in zip(temporal_scale, k_tp_i)]
+            t_in = 2 * temporal_emb_dim * len(temporal_scale)
+        else:
+            temporal_emb = FourierEmbedding(1, temporal_emb_dim, temporal_scale, key=k_tp)
+            t_in = 2 * temporal_emb_dim
         x_in = 2 * spatial_emb_dim
-        t_in = 2 * temporal_emb_dim
     else:
         x_in = spatial_dim
         t_in = 1
@@ -76,7 +85,7 @@ def make_film_pinn(spatial_dim: int, out_dim: int, *,
     # FiLM MLP: t features → (2 * num_layers * hidden_dim)
     film_out_dim = 2 * num_layers * hidden_dim
     film_mlp = eqx.nn.MLP(t_in, film_out_dim, width_size=film_hidden_dim,
-                          depth=2, activation=activation, key=k_film)
+                          depth=film_num_layers, activation=activation, key=k_film)
 
     # Trunk: x features → hidden_dim → ... → hidden_dim (num_layers times)
     trunk_layers = []
