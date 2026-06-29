@@ -20,7 +20,7 @@ from tensorboardX import SummaryWriter
 log = logging.getLogger(__name__)
 
 from pinn.operators import build_D
-from pinn.arch import make_pinn, make_split_pinn
+from pinn.arch import make_pinn, make_split_pinn, make_film_pinn
 
 import importlib.util as _iu
 _loss_mod = None
@@ -81,6 +81,22 @@ def _build_network(config, key):
                          temporal_scale=c.temporal_scale,
                          use_fourier=c.use_spatial_emb or c.use_temporal_emb,
                          hard_constraint=hc, key=key)
+    elif c.type == "film":
+        hc = None
+        if c.use_hard_constraint:
+            from pinn.arch.hard_constraint import HardConstraint
+            phys = config.physical
+            hc = HardConstraint(phys.c_se, phys.c_le)
+        return make_film_pinn(spatial_dim=1, out_dim=2, hidden_dim=c.hidden_dim,
+                              num_layers=c.num_layers,
+                              film_hidden_dim=c.film_hidden_dim,
+                              activation=c.activation,
+                              spatial_emb_dim=c.spatial_emb_dim,
+                              spatial_scale=c.spatial_scale,
+                              temporal_emb_dim=c.temporal_emb_dim,
+                              temporal_scale=c.temporal_scale,
+                              use_fourier=c.use_spatial_emb or c.use_temporal_emb,
+                              hard_constraint=hc, key=key)
     else:
         raise ValueError(f"Unknown arch.type: {c.type}")
 

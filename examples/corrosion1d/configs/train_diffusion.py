@@ -8,9 +8,10 @@ def get_config():
 
     # Architecture
     c.arch = config_dict.ConfigDict()
-    c.arch.type = "mlp"  # "split" ｜ "mlp" ｜ "modified_mlp"
+    c.arch.type = "mlp"  # "split" ｜ "mlp" ｜ "modified_mlp" ｜ "film"
     c.arch.rank_p = 50
     c.arch.hidden_dim = 64
+    c.arch.film_hidden_dim = 32
     c.arch.num_layers = 4
     c.arch.spatial_emb_dim = 64
     c.arch.spatial_scale = 1.0

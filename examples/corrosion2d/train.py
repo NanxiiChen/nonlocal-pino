@@ -19,7 +19,7 @@ from tensorboardX import SummaryWriter
 log = logging.getLogger(__name__)
 
 from pinn.operators import build_D
-from pinn.arch import make_pinn
+from pinn.arch import make_pinn, make_film_pinn
 
 
 def _load_losses():
@@ -58,6 +58,17 @@ def _build_network(config, key):
         from pinn.arch.hard_constraint import HardConstraint
         phys = config.physical
         hc = HardConstraint(phys.c_se, phys.c_le)
+    if c.type == "film":
+        return make_film_pinn(spatial_dim=2, out_dim=2, hidden_dim=c.hidden_dim,
+                              num_layers=c.num_layers,
+                              film_hidden_dim=c.film_hidden_dim,
+                              activation=c.activation,
+                              spatial_emb_dim=c.spatial_emb_dim,
+                              spatial_scale=c.spatial_scale,
+                              temporal_emb_dim=c.temporal_emb_dim,
+                              temporal_scale=c.temporal_scale,
+                              use_fourier=c.use_spatial_emb or c.use_temporal_emb,
+                              hard_constraint=hc, key=key)
     return make_pinn(spatial_dim=2, out_dim=2, hidden_dim=c.hidden_dim,
                      num_layers=c.num_layers, trunk_type=c.type,
                      activation=c.activation,

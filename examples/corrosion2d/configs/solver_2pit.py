@@ -24,7 +24,7 @@ def get_config():
     # --- Non-dimensionalization ---
     c.nondim = config_dict.ConfigDict()
     c.nondim.L_c = 100e-6           # L in meters = domain length
-    c.nondim.T_c = 20.0
+    c.nondim.T_c = 15.0
 
     # --- Time stepping (non-dimensional) ---
     c.time = config_dict.ConfigDict()
@@ -40,7 +40,7 @@ def get_config():
 
     # --- Initial pits: list of (cx, cy, radius) ---
     c.pits = config_dict.ConfigDict()
-    c.pits.entries = ((0.3, 0.0, 0.1), (0.7, 0.0, 0.1))
+    c.pits.entries = ((0.35, 0.0, 0.08), (0.65, 0.0, 0.08))
 
     # --- Output ---
     c.output = config_dict.ConfigDict()

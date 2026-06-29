@@ -8,13 +8,14 @@ def get_config():
 
     # Architecture
     c.arch = config_dict.ConfigDict()
-    c.arch.type = "mlp"  # "mlp" or "modified_mlp"
+    c.arch.type = "film"  # "mlp", "modified_mlp", or "film"
     c.arch.hidden_dim = 64
+    c.arch.film_hidden_dim = 32
     c.arch.num_layers = 4
     c.arch.spatial_emb_dim = 64
     c.arch.spatial_scale = 2.0
     c.arch.temporal_emb_dim = 64
-    c.arch.temporal_scale = 1.0
+    c.arch.temporal_scale = 2.0
     c.arch.activation = "gelu"
     c.arch.use_spatial_emb = True
     c.arch.use_temporal_emb = True
@@ -33,13 +34,13 @@ def get_config():
     c.sample.Nt = 50
     c.sample.t_min = 0.001
     c.sample.N_bc_dir = 1000     # Dirichlet BC: pit mouth (φ=0, c=0)
-    c.sample.N_bc_solid = 500    # Dirichlet BC: left/right/top edges (φ=1, c=1)
+    c.sample.N_bc_solid = 1500   # Dirichlet BC: left/right/top edges — raised for 2-pit (pits closer to sides)
     c.sample.N_ic_global = 2000  # IC: global uniform samples
     c.sample.N_ic_local = 2000   # IC: extra samples near pit interface
 
     # Pit geometry (matches FEM solver config)
     c.pits = config_dict.ConfigDict()
-    c.pits.entries = ((0.3, 0.0, 0.1), (0.7, 0.0, 0.1))
+    c.pits.entries = ((0.35, 0.0, 0.08), (0.65, 0.0, 0.08))
 
     # Training
     c.train = config_dict.ConfigDict()
@@ -51,7 +52,7 @@ def get_config():
     c.train.optimizer = "adam"
     c.train.grad_clip = 100.0
     c.train.alpha_gradnorm = 1.0
-    c.train.gradnorm_update_every = 20  # update GradNorm weights every N iters; 1=every iter
+    c.train.gradnorm_update_every = 5  # update GradNorm weights every N iters; 1=every iter
     c.train.soap_b1 = 0.95
     c.train.soap_b2 = 0.95
     c.train.soap_precond_freq = 5
@@ -64,12 +65,12 @@ def get_config():
     c.loss.ch_scale = 1.0
     c.loss.gradnorm_weight_cap = 10000.0
     c.loss.gradnorm_bias = (1.0, 1.0, 1.0, 1.0, 1.0)  # [ac, ch, bc_pit, bc_solid, ic]
-    c.loss.iface_gamma_init = 3.0       # initial interface weight
-    c.loss.iface_gamma_decay_steps = 1000  # decay to 0 over N steps; 0=disabled
-    c.loss.iface_gamma_decay_to = 0.0  # interface weighting: w = 1+γ·4φ(1-φ), 0=off
+    c.loss.iface_gamma_init = 5.0       # initial interface weight
+    c.loss.iface_gamma_decay_steps = 0  # decay to 0 over N steps; 0=disabled
+    c.loss.iface_gamma_decay_to = 0.0   # final value after decay
     c.loss.bias_schedule = ()
     c.loss.use_causal = False
-    c.loss.use_stagger = False
+    c.loss.use_stagger = True
     c.loss.stagger_switch_every = 25
     # Causal params (used when use_causal=True)
     c.causal = config_dict.ConfigDict()
@@ -106,6 +107,6 @@ def get_config():
     # Non-dimensionalization
     c.nondim = config_dict.ConfigDict()
     c.nondim.L_c = 100e-6
-    c.nondim.T_c = 20.0
+    c.nondim.T_c = 15.0
 
     return c
