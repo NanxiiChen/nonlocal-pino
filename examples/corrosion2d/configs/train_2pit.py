@@ -87,7 +87,7 @@ def get_config():
     c.log.log_dir = "/root/autodl-tmp/tf-logs/corrosion2d/"
     c.log.run_name = ""
     c.log.log_every = 20
-    c.log.eval_every = 500
+    c.log.eval_every = 200
     c.log.save_ckpt = True
     c.log.run_diag = False  # residual breakdown (expensive: runs _compute_all twice)
 

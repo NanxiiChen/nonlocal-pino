@@ -8,7 +8,7 @@ def get_config():
 
     # Architecture
     c.arch = config_dict.ConfigDict()
-    c.arch.type = "mlp"  # "mlp", "modified_mlp", or "film"
+    c.arch.type = "film"  # "mlp", "modified_mlp", or "film"
     c.arch.hidden_dim = 64
     c.arch.film_hidden_dim = 32
     c.arch.film_num_layers = 2     # depth of FiLM conditioning MLP
@@ -67,11 +67,11 @@ def get_config():
     c.loss.gradnorm_weight_cap = 10000.0
     c.loss.gradnorm_bias = (1.0, 1.0, 1.0, 1.0, 1.0)  # [ac, ch, bc_pit, bc_solid, ic]
     c.loss.iface_gamma_init = 5.0       # initial interface weight
-    c.loss.iface_gamma_decay_steps = 3000  # decay to 0 over N steps; 0=disabled
+    c.loss.iface_gamma_decay_steps = 2000  # decay to 0 over N steps; 0=disabled
     c.loss.iface_gamma_decay_to = 0.0   # final value after decay
     c.loss.bias_schedule = ()
     c.loss.use_causal = False
-    c.loss.stagger_steps = 0       # stagger AC/CH for first N iters, 0=off
+    c.loss.stagger_steps = 1000       # stagger AC/CH for first N iters, 0=off
     c.loss.stagger_switch_every = 25
     # Causal params (used when use_causal=True)
     c.causal = config_dict.ConfigDict()
