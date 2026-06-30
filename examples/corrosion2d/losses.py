@@ -29,12 +29,15 @@ def ic_values(x_all, phys, L_c, pits):
 
 
 def _compute_all(net, x_all, t_batch):
-    fwd = jax.vmap(jax.vmap(net, in_axes=(None, 0)), in_axes=(0, None))
-    out = fwd(x_all, t_batch)                           # (N_x, N_t, 2)
+    def field_at_t(t):
+        return jax.vmap(net, in_axes=(0, None))(x_all, t)  # (N_x, 2)
+    def field_at_times(ts):
+        return jax.vmap(field_at_t)(ts)  # (N_t, N_x, 2)
+    out, out_t = jax.jvp(field_at_times, (t_batch,), (jnp.ones_like(t_batch),))
+    out = jnp.swapaxes(out, 0, 1)      # (N_x, N_t, 2)
+    out_t = jnp.swapaxes(out_t, 0, 1)  # (N_x, N_t, 2)
     phi, c = out[..., 0], out[..., 1]
-    jac = jax.vmap(jax.vmap(jax.jacfwd(net, argnums=1), in_axes=(None, 0)),
-                   in_axes=(0, None))(x_all, t_batch)    # (N_x, N_t, 2)
-    dphi_dt, dc_dt = jac[..., 0], jac[..., 1]
+    dphi_dt, dc_dt = out_t[..., 0], out_t[..., 1]
     return phi, c, dphi_dt, dc_dt
 
 
@@ -56,6 +59,21 @@ def _compute_ch_residual(net, x_all, t_batch, D, nd, ch_scale=None):
     r = dc_dt + N_CH * nl_mu
     r = ch_scale * r if ch_scale is not None else r
     return r, phi
+
+
+def _compute_pde_both(net, x_all, t_batch, D, nd, *, ac_scale=None, ch_scale=None):
+    """Compute AC and CH residuals from a single _compute_all call."""
+    N_CH, N_AC1, N_AC2, N_AC3, dc0, c_Le = nd
+    phi, c, dphi_dt, dc_dt = _compute_all(net, x_all, t_batch)
+    # AC
+    r_ac = (dphi_dt + N_AC3 * (D @ phi) + N_AC2 * _gp(phi)
+            - N_AC1 * (c - _h(phi) * dc0 - c_Le) * dc0 * _hp(phi))
+    r_ac = ac_scale * r_ac if ac_scale is not None else r_ac
+    # CH
+    mu = c - _h(phi) * dc0 - c_Le
+    r_ch = dc_dt + N_CH * (D @ mu)
+    r_ch = ch_scale * r_ch if ch_scale is not None else r_ch
+    return r_ac, r_ch, phi
 
 
 def _iface_weight(phi, gamma):
@@ -87,6 +105,19 @@ def loss_ch(net, x_all, t_batch, D, nondim_params, ch_scale=None, causal=None, e
         val, w, chunks = causal.weighted_loss(r * iw, t_batch, eps)
         return val, (w, chunks)
     return jnp.mean(jnp.abs(r) * iw), (None, None)
+
+
+def loss_pde(net, x_all, t_batch, D, nondim_params, *,
+             ac_scale=None, ch_scale=None, causal=None, eps=None, iface_gamma=0.0):
+    """Fused PDE loss: AC + CH from one _compute_all call."""
+    r_ac, r_ch, phi = _compute_pde_both(net, x_all, t_batch, D, nondim_params,
+                                         ac_scale=ac_scale, ch_scale=ch_scale)
+    iw = _iface_weight(phi, iface_gamma)
+    if causal is not None and eps is not None:
+        v_ac, w_ac, chunks_ac = causal.weighted_loss(r_ac * iw, t_batch, eps)
+        v_ch, w_ch, chunks_ch = causal.weighted_loss(r_ch * iw, t_batch, eps)
+        return (v_ac, v_ch), (w_ac, w_ch, chunks_ac, chunks_ch)
+    return (jnp.mean(jnp.abs(r_ac) * iw), jnp.mean(jnp.abs(r_ch) * iw)), None
 
 
 def loss_bc_solid(net, x_bc, t_batch):
@@ -159,19 +190,20 @@ def make_loss_fn(x_all, D, x_bc_pit, x_bc_solid, nondim_params,
             w[1] = jnp.where(train_ch, w[1], 0.0)
 
             def total_fn(n):
-                a_v, _ = loss_ac(n, x_all, t_batch, D, nondim_params, ac_scale,
-                                 causal, eps, iface_gamma=iface_gamma)
-                b_v, _ = loss_ch(n, x_all, t_batch, D, nondim_params, ch_scale,
-                                 causal, eps, iface_gamma=iface_gamma)
+                (a_v, b_v), c_aux = loss_pde(
+                    n, x_all, t_batch, D, nondim_params,
+                    ac_scale=ac_scale, ch_scale=ch_scale,
+                    causal=causal, eps=eps, iface_gamma=iface_gamma)
                 c_v = loss_bc_pit(n, x_bc_pit, t_batch)
                 d_v = loss_bc_solid(n, x_bc_solid, t_batch)
                 e_v = loss_ic(n, _x_ic, phi0, c0)
                 t = w[0]*a_v + w[1]*b_v + w[2]*c_v + w[3]*d_v + w[4]*e_v
-                return t, (a_v, b_v, c_v, d_v, e_v)
+                return t, (a_v, b_v, c_v, d_v, e_v, c_aux)
 
-            (total, (ac_v, ch_v, bc_pit_v, bc_solid_v, ic_v)), total_grad = \
+            (total, (ac_v, ch_v, bc_pit_v, bc_solid_v, ic_v, causal_aux)), total_grad = \
                 eqx.filter_value_and_grad(total_fn, has_aux=True)(net)
-            causal_aux = (None, None, None, None)
+            if causal_aux is None:
+                causal_aux = (None, None, None, None)
 
         w_ac_c, w_ch_c, chunks_ac, chunks_ch = causal_aux
         aux = {
