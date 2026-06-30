@@ -51,6 +51,18 @@ def _setup_dirs(config):
     return run_dir
 
 
+def _get_t_weights(config, t_batch, step):
+    """Fixed per-t weights from schedule. Returns (N_t,) or None."""
+    cfg = config.loss
+    if getattr(cfg, 't_ramp_steps', 0) <= 0:
+        return None
+    if step > cfg.t_ramp_steps:
+        return None
+    t_norm = (t_batch - config.sample.t_min) / (1.0 - config.sample.t_min)
+    t_norm = jnp.clip(t_norm, 0.0, 1.0)
+    return jnp.array(cfg.t_ramp_early + (cfg.t_ramp_late - cfg.t_ramp_early) * t_norm)
+
+
 def _build_network(config, key):
     c = config.arch
     hc = None
@@ -170,8 +182,8 @@ def _sample_ic_points(pits, N_global=2000, N_local=2000):
 
 def _make_step(loss_fn, optim):
     @eqx.filter_jit
-    def step(net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, update_w, iface_gamma):
-        (loss, aux, grad, new_w) = loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, update_w, iface_gamma)
+    def step(net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, update_w, iface_gamma, t_weights=None):
+        (loss, aux, grad, new_w) = loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, update_w, iface_gamma, t_weights)
         grad = jax.tree.map(jnp.nan_to_num, grad)
         updates, opt_state = optim.update(grad, opt_state, net)
         net = eqx.apply_updates(net, updates)
@@ -315,7 +327,8 @@ def _main(_):
     causal_eps_ch = jnp.array(1.0)
     if config.loss.use_causal:
         from pinn.causal import CausalWeightor
-        causal = CausalWeightor(n_chunks=config.causal.n_chunks)
+        n_ch = config.causal.n_chunks if config.causal.n_chunks > 0 else None
+        causal = CausalWeightor(n_chunks=n_ch)
         causal_eps_ac = jnp.array(config.causal.eps_init)
         causal_eps_ch = jnp.array(config.causal.eps_init)
     # --- IC point sampling ---
@@ -386,9 +399,10 @@ def _main(_):
                                     * (1.0 - it / gamma_decay))
         else:
             iface_gamma = jnp.array(config.loss.iface_gamma_decay_to)
+        t_weights = _get_t_weights(config, t_batch, it)
         net, opt_state, loss_val, aux, w_ema = step_fn(
             net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema,
-            get_bias(it), update_w, iface_gamma)
+            get_bias(it), update_w, iface_gamma, t_weights)
 
         if it % config.log.log_every == 0:
             elapsed = time.perf_counter() - t_start

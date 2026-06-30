@@ -73,6 +73,9 @@ def get_config():
     c.loss.use_causal = False
     c.loss.stagger_steps = 1000       # stagger AC/CH for first N iters, 0=off
     c.loss.stagger_switch_every = 25
+    c.loss.t_ramp_steps = 0         # 0=disabled
+    c.loss.t_ramp_early = 1.0
+    c.loss.t_ramp_late = 1.0
     # Causal params (used when use_causal=True)
     c.causal = config_dict.ConfigDict()
     c.causal.n_chunks = 10

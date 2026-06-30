@@ -88,27 +88,34 @@ def _iface_weight(phi, gamma):
 
 
 def loss_ac(net, x_all, t_batch, D, nondim_params, ac_scale=None, causal=None,
-            eps=None, iface_gamma=0.0):
+            eps=None, t_weights=None, iface_gamma=0.0):
     r, phi = _compute_ac_residual(net, x_all, t_batch, D, nondim_params, ac_scale)
     iw = _iface_weight(phi, iface_gamma)
     if causal is not None and eps is not None:
         val, w, chunks = causal.weighted_loss(r * iw, t_batch, eps)
         return val, (w, chunks)
-    return jnp.mean(jnp.abs(r) * iw), (None, None)
+    weighted_r = r * iw
+    if t_weights is not None:
+        weighted_r = weighted_r * t_weights[None, :]
+    return jnp.mean(jnp.abs(weighted_r)), (None, None)
 
 
 def loss_ch(net, x_all, t_batch, D, nondim_params, ch_scale=None, causal=None, eps=None,
-            iface_gamma=0.0):
+            t_weights=None, iface_gamma=0.0):
     r, phi = _compute_ch_residual(net, x_all, t_batch, D, nondim_params, ch_scale)
     iw = _iface_weight(phi, iface_gamma)
     if causal is not None and eps is not None:
         val, w, chunks = causal.weighted_loss(r * iw, t_batch, eps)
         return val, (w, chunks)
-    return jnp.mean(jnp.abs(r) * iw), (None, None)
+    weighted_r = r * iw
+    if t_weights is not None:
+        weighted_r = weighted_r * t_weights[None, :]
+    return jnp.mean(jnp.abs(weighted_r)), (None, None)
 
 
 def loss_pde(net, x_all, t_batch, D, nondim_params, *,
-             ac_scale=None, ch_scale=None, causal=None, eps=None, iface_gamma=0.0):
+             ac_scale=None, ch_scale=None, causal=None, eps=None,
+             t_weights=None, iface_gamma=0.0):
     """Fused PDE loss: AC + CH from one _compute_all call."""
     r_ac, r_ch, phi = _compute_pde_both(net, x_all, t_batch, D, nondim_params,
                                          ac_scale=ac_scale, ch_scale=ch_scale)
@@ -117,7 +124,12 @@ def loss_pde(net, x_all, t_batch, D, nondim_params, *,
         v_ac, w_ac, chunks_ac = causal.weighted_loss(r_ac * iw, t_batch, eps)
         v_ch, w_ch, chunks_ch = causal.weighted_loss(r_ch * iw, t_batch, eps)
         return (v_ac, v_ch), (w_ac, w_ch, chunks_ac, chunks_ch)
-    return (jnp.mean(jnp.abs(r_ac) * iw), jnp.mean(jnp.abs(r_ch) * iw)), None
+    wr_ac = r_ac * iw
+    wr_ch = r_ch * iw
+    if t_weights is not None:
+        wr_ac = wr_ac * t_weights[None, :]
+        wr_ch = wr_ch * t_weights[None, :]
+    return (jnp.mean(jnp.abs(wr_ac)), jnp.mean(jnp.abs(wr_ch))), None
 
 
 def loss_bc_solid(net, x_bc, t_batch):
@@ -155,14 +167,14 @@ def make_loss_fn(x_all, D, x_bc_pit, x_bc_solid, nondim_params,
     N_LOSS = 5  # ac, ch, bc_pit, bc_solid, ic
     _x_ic = x_ic if x_ic is not None else x_all
 
-    def loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, update_w, iface_gamma):
+    def loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, update_w, iface_gamma, t_weights=None):
         if update_w:
             ((ac_v, (w_ac_c, chunks_ac)), ac_grad) = eqx.filter_value_and_grad(
                 loss_ac, has_aux=True)(
-                net, x_all, t_batch, D, nondim_params, ac_scale, causal, eps, iface_gamma=iface_gamma)
+                net, x_all, t_batch, D, nondim_params, ac_scale, causal, eps, t_weights, iface_gamma=iface_gamma)
             ((ch_v, (w_ch_c, chunks_ch)), ch_grad) = eqx.filter_value_and_grad(
                 loss_ch, has_aux=True)(
-                net, x_all, t_batch, D, nondim_params, ch_scale, causal, eps, iface_gamma=iface_gamma)
+                net, x_all, t_batch, D, nondim_params, ch_scale, causal, eps, t_weights, iface_gamma=iface_gamma)
             (bc_pit_v, bc_pit_grad) = eqx.filter_value_and_grad(loss_bc_pit)(
                 net, x_bc_pit, t_batch)
             (bc_solid_v, bc_solid_grad) = eqx.filter_value_and_grad(loss_bc_solid)(
@@ -193,7 +205,7 @@ def make_loss_fn(x_all, D, x_bc_pit, x_bc_solid, nondim_params,
                 (a_v, b_v), c_aux = loss_pde(
                     n, x_all, t_batch, D, nondim_params,
                     ac_scale=ac_scale, ch_scale=ch_scale,
-                    causal=causal, eps=eps, iface_gamma=iface_gamma)
+                    causal=causal, eps=eps, t_weights=t_weights, iface_gamma=iface_gamma)
                 c_v = loss_bc_pit(n, x_bc_pit, t_batch)
                 d_v = loss_bc_solid(n, x_bc_solid, t_batch)
                 e_v = loss_ic(n, _x_ic, phi0, c0)
