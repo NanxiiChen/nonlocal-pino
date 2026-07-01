@@ -30,8 +30,8 @@ def get_config():
 
     # Sampling
     c.sample = config_dict.ConfigDict()
-    c.sample.Nx = 200
-    c.sample.Ny = 100
+    c.sample.Nx = 201
+    c.sample.Ny = 101
     c.sample.Nt = 50
     c.sample.t_min = 0.001
     c.sample.N_bc_dir = 1000     # Dirichlet BC: pit mouth (φ=0, c=0)
@@ -98,7 +98,7 @@ def get_config():
 
     # FEM reference
     c.fem = config_dict.ConfigDict()
-    c.fem.data_path = "/root/autodl-tmp/data/corrosion2d/results_2pit_cn.npz"
+    c.fem.data_path = "/root/autodl-tmp/data/corrosion2d/results_2pit_cn_200nx.npz"
 
     # Physical — diffusion-controlled (L=2.0)
     c.physical = config_dict.ConfigDict()
