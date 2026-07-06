@@ -34,6 +34,8 @@ def get_config():
     c.sample.Ny = 101
     c.sample.Nt = 50
     c.sample.t_min = 0.001
+    c.sample.K_core = 0          # 0=full grid; >0=spatial minibatch
+    c.sample.K_pool = 200        # pool size (pre-built sub-graphs, used when K_core>0)
     c.sample.N_bc_dir = 1000     # Dirichlet BC: pit mouth (φ=0, c=0)
     c.sample.N_bc_solid = 500    # Dirichlet BC: left/right/top edges (φ=1, c=1)
     c.sample.N_ic_global = 2000  # IC: global uniform samples

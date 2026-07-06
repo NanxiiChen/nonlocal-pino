@@ -123,6 +123,7 @@ class SparseD:
         x_np = np.array(x)
         N, dim = x_np.shape
         self._N = N
+        self._dim = dim
         ranges = x_np.max(axis=0) - x_np.min(axis=0)
         vol = np.prod(ranges)
 
@@ -146,12 +147,18 @@ class SparseD:
             raise ValueError(f"Unknown kernel: {kernel}. Options: {list(_KERNEL_BUILDERS)}")
         J = np.array(_KERNEL_BUILDERS[kernel](jnp.array(r_ij), delta, dim))
 
-        self._row_idx = jnp.array(row_idx, dtype=jnp.int32)
-        self._col_idx = jnp.array(col_idx, dtype=jnp.int32)
-        self._vals = jnp.array(-J * dV)
+        self._row_idx_np = row_idx.astype(np.int32)
+        self._col_idx_np = col_idx.astype(np.int32)
+        self._vals_np = (-J * dV).astype(np.float32)
+
+        self._row_idx = jnp.array(self._row_idx_np, dtype=jnp.int32)
+        self._col_idx = jnp.array(self._col_idx_np, dtype=jnp.int32)
+        self._vals = jnp.array(self._vals_np)
 
         diag = np.bincount(row_idx, weights=J * dV, minlength=N)
         self._diag = jnp.array(diag)
+        # Average out-degree: used by sub_sample to estimate K' analytically
+        self._k_avg = len(row_idx) / N
 
     @staticmethod
     def _build_neighbors_grid(x_np, delta, dim):
@@ -255,6 +262,89 @@ class SparseD:
     @property
     def shape(self):
         return (self._N, self._N)
+
+    def sub_sample(self, seed, K):
+        """Randomly sample K core points and their δ-neighbors.
+
+        All index work done in numpy (CPU) to avoid eager GPU dispatch overhead.
+        Returns JAX arrays with fixed padded shapes for JIT stability.
+
+        Returns:
+            local_idx: (N_pad,) global indices (zeros for pad)
+            sub_data: (row, col, vals, diag) — padded to fixed size
+            core_mask: (N_pad,) bool mask (True only for core)
+        """
+        import numpy as np
+
+        # Analytically estimate K' = expected |core ∪ halo| via coverage formula:
+        #   E[K'] = N · (1 − (1 − k/N)^K),  k = avg neighbors per point.
+        # 20% safety margin handles variance (std(K') << 0.2·E[K'] for large N).
+        _k = self._k_avg
+        _expected_Kprime = self._N * (1.0 - (1.0 - _k / self._N) ** K)
+        N_pad = min(self._N, int(np.ceil(_expected_Kprime * 1.2)))
+
+        # Sub-graph edges: each of N_pad nodes has k neighbors, each neighbor is
+        # in sub-graph with prob ≈ N_pad/N  →  E[E'] ≈ N_pad · k · (N_pad/N).
+        total_edges = len(self._row_idx_np)
+        E_pad = min(total_edges,
+                    int(np.ceil(N_pad * _k * (N_pad / self._N) * 1.2)))
+
+        # --- all index work in numpy ---
+        row_np = self._row_idx_np
+        col_np = self._col_idx_np
+        vals_np = self._vals_np
+
+        rng = np.random.RandomState(seed % (2**31 - 1))
+        core = rng.choice(self._N, K, replace=False)
+
+        in_core = np.isin(row_np, core)
+        halo = np.unique(col_np[in_core])
+        all_idx = np.unique(np.concatenate([core, halo]))
+        K_all = len(all_idx)
+
+        # Use -1 sentinel so membership test is a simple comparison
+        # (avoids two O(total_edges) np.isin hash-table lookups)
+        g2l = np.full(self._N, -1, dtype=np.int32)
+        g2l[all_idx] = np.arange(K_all)
+
+        local_row = g2l[row_np]
+        local_col = g2l[col_np]
+        keep = (local_row >= 0) & (local_col >= 0)
+
+        sub_row = local_row[keep]
+        sub_col = local_col[keep]
+        sub_vals = vals_np[keep]
+        sub_diag = np.bincount(sub_row, weights=-sub_vals, minlength=K_all)
+
+        core_local = g2l[core]
+        core_mask = np.zeros(K_all, dtype=bool)
+        core_mask[core_local] = True
+
+        # Pad or truncate to fixed shapes (N_pad, E_pad) for JIT stability.
+        # Truncation is extremely rare (K_all > N_pad requires >20% above expected).
+        if K_all < N_pad:
+            all_idx  = np.pad(all_idx,  (0, N_pad - K_all))
+            sub_diag = np.pad(sub_diag, (0, N_pad - K_all))
+            core_mask = np.pad(core_mask, (0, N_pad - K_all))
+        elif K_all > N_pad:
+            # Safety truncation: drop tail nodes (not in core_mask after g2l remap)
+            all_idx   = all_idx[:N_pad]
+            sub_diag  = sub_diag[:N_pad]
+            core_mask = core_mask[:N_pad]
+            keep = (sub_row < N_pad) & (sub_col < N_pad)
+            sub_row, sub_col, sub_vals = sub_row[keep], sub_col[keep], sub_vals[keep]
+        n_edges = len(sub_row)
+        if n_edges < E_pad:
+            sub_row  = np.pad(sub_row,  (0, E_pad - n_edges))
+            sub_col  = np.pad(sub_col,  (0, E_pad - n_edges))
+            sub_vals = np.pad(sub_vals, (0, E_pad - n_edges))
+        elif n_edges > E_pad:
+            sub_row, sub_col, sub_vals = sub_row[:E_pad], sub_col[:E_pad], sub_vals[:E_pad]
+
+        return (jnp.array(all_idx),
+                (jnp.array(sub_row), jnp.array(sub_col),
+                 jnp.array(sub_vals), jnp.array(sub_diag)),
+                jnp.array(core_mask))
 
 
 # ── Factory ─────────────────────────────────────────────────────────────────

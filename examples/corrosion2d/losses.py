@@ -76,6 +76,67 @@ def _compute_pde_both(net, x_all, t_batch, D, nd, *, ac_scale=None, ch_scale=Non
     return r_ac, r_ch, phi
 
 
+def _compute_pde_sub(net, x_sub, t_batch, sub_data, nd, *,
+                     ac_scale=None, ch_scale=None):
+    """Compute AC+CH residuals on sub-grid, return all (K', N_t)."""
+    N_CH, N_AC1, N_AC2, N_AC3, dc0, c_Le = nd
+    sub_row, sub_col, sub_vals, sub_diag = sub_data
+
+    phi, c, dphi_dt, dc_dt = _compute_all(net, x_sub, t_batch)  # (K', N_t)
+
+    def _D_sub(u):
+        contrib = jax.ops.segment_sum(sub_vals[:, None] * u[sub_col, :],
+                                       sub_row, num_segments=u.shape[0])
+        return sub_diag[:, None] * u + contrib
+
+    D_phi = _D_sub(phi)
+    r_ac = (dphi_dt + N_AC3 * D_phi + N_AC2 * _gp(phi)
+            - N_AC1 * (c - _h(phi) * dc0 - c_Le) * dc0 * _hp(phi))
+    if ac_scale is not None:
+        r_ac = ac_scale * r_ac
+
+    mu = c - _h(phi) * dc0 - c_Le
+    D_mu = _D_sub(mu)
+    r_ch = dc_dt + N_CH * D_mu
+    if ch_scale is not None:
+        r_ch = ch_scale * r_ch
+
+    return r_ac, r_ch, phi  # all (K', N_t)
+
+
+def _masked_mean(r, mask):
+    """mean(|r|) over masked entries. mask: (K',), r: (K', N_t).
+
+    Divides by K_core * N_t so the magnitude matches jnp.mean on the full
+    grid (avoids 50x inflation from summing over N_t but dividing by K only).
+    """
+    mask_f = mask.astype(r.dtype)[:, None]          # (K', 1)
+    n_valid = jnp.sum(mask_f) * r.shape[1]          # K_core * N_t
+    return jnp.sum(jnp.abs(r) * mask_f) / jnp.maximum(n_valid, 1.0)
+
+
+def loss_pde_sub(net, t_batch, x_sub, sub_data, core_mask, nd, *,
+                 ac_scale=None, ch_scale=None, causal=None, eps=None,
+                 t_weights=None, iface_gamma=0.0):
+    """Fused PDE loss on sub-grid, masked to core points only."""
+    r_ac, r_ch, phi = _compute_pde_sub(
+        net, x_sub, t_batch, sub_data, nd,
+        ac_scale=ac_scale, ch_scale=ch_scale)
+    iw = _iface_weight(phi, iface_gamma)
+    r_ac_w = r_ac * iw
+    r_ch_w = r_ch * iw
+    if t_weights is not None:
+        r_ac_w = r_ac_w * t_weights[None, :]
+        r_ch_w = r_ch_w * t_weights[None, :]
+    if causal is not None and eps is not None:
+        # apply mask + causal together
+        mask_f = core_mask.astype(r_ac.dtype)[:, None]
+        v_ac, w_ac, chunks_ac = causal.weighted_loss(r_ac_w * mask_f, t_batch, eps)
+        v_ch, w_ch, chunks_ch = causal.weighted_loss(r_ch_w * mask_f, t_batch, eps)
+        return (v_ac, v_ch), (w_ac, w_ch, chunks_ac, chunks_ch)
+    return (_masked_mean(r_ac_w, core_mask), _masked_mean(r_ch_w, core_mask)), None
+
+
 def _iface_weight(phi, gamma):
     """Interface indicator weight: w = 1 + γ·4φ(1-φ), peaked at φ=0.5.
 
@@ -167,7 +228,9 @@ def make_loss_fn(x_all, D, x_bc_pit, x_bc_solid, nondim_params,
     N_LOSS = 5  # ac, ch, bc_pit, bc_solid, ic
     _x_ic = x_ic if x_ic is not None else x_all
 
-    def loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias, update_w, iface_gamma, t_weights=None):
+    def loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias,
+                update_w, iface_gamma, t_weights=None,
+                x_sub=None, sub_data=None, core_mask=None):
         if update_w:
             ((ac_v, (w_ac_c, chunks_ac)), ac_grad) = eqx.filter_value_and_grad(
                 loss_ac, has_aux=True)(
@@ -202,10 +265,18 @@ def make_loss_fn(x_all, D, x_bc_pit, x_bc_solid, nondim_params,
             w[1] = jnp.where(train_ch, w[1], 0.0)
 
             def total_fn(n):
-                (a_v, b_v), c_aux = loss_pde(
-                    n, x_all, t_batch, D, nondim_params,
-                    ac_scale=ac_scale, ch_scale=ch_scale,
-                    causal=causal, eps=eps, t_weights=t_weights, iface_gamma=iface_gamma)
+                if x_sub is not None:
+                    (a_v, b_v), c_aux = loss_pde_sub(
+                        n, t_batch, x_sub, sub_data, core_mask, nondim_params,
+                        ac_scale=ac_scale, ch_scale=ch_scale,
+                        causal=causal, eps=eps, t_weights=t_weights,
+                        iface_gamma=iface_gamma)
+                else:
+                    (a_v, b_v), c_aux = loss_pde(
+                        n, x_all, t_batch, D, nondim_params,
+                        ac_scale=ac_scale, ch_scale=ch_scale,
+                        causal=causal, eps=eps, t_weights=t_weights,
+                        iface_gamma=iface_gamma)
                 c_v = loss_bc_pit(n, x_bc_pit, t_batch)
                 d_v = loss_bc_solid(n, x_bc_solid, t_batch)
                 e_v = loss_ic(n, _x_ic, phi0, c0)
