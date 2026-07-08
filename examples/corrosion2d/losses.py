@@ -28,9 +28,9 @@ def ic_values(x_all, phys, L_c, pits):
     return jnp.array(phi0), jnp.array(c0)
 
 
-def _compute_all(net, x_all, t_batch):
+def _compute_all(net, x_points, t_batch):
     def field_at_t(t):
-        return jax.vmap(net, in_axes=(0, None))(x_all, t)  # (N_x, 2)
+        return jax.vmap(net, in_axes=(0, None))(x_points, t)  # (N_x, 2)
     def field_at_times(ts):
         return jax.vmap(field_at_t)(ts)  # (N_t, N_x, 2)
     out, out_t = jax.jvp(field_at_times, (t_batch,), (jnp.ones_like(t_batch),))
@@ -41,156 +41,129 @@ def _compute_all(net, x_all, t_batch):
     return phi, c, dphi_dt, dc_dt
 
 
-def _compute_ac_residual(net, x_all, t_batch, D, nd, ac_scale=None):
-    _, N_AC1, N_AC2, N_AC3, dc0, c_Le = nd
-    phi, c, dphi_dt, _ = _compute_all(net, x_all, t_batch)
-    nl_phi = D @ phi
-    r = (dphi_dt + N_AC3 * nl_phi + N_AC2 * _gp(phi)
-         - N_AC1 * (c - _h(phi) * dc0 - c_Le) * dc0 * _hp(phi))
-    r = ac_scale * r if ac_scale is not None else r
-    return r, phi
+def _compute_pde(net, x_points, t_batch, D, nd, *, ac_scale=None, ch_scale=None,
+                 sub_data=None):
+    """AC+CH residuals from a single _compute_all call.
 
-
-def _compute_ch_residual(net, x_all, t_batch, D, nd, ch_scale=None):
-    N_CH, _, _, _, dc0, c_Le = nd
-    phi, c, _, dc_dt = _compute_all(net, x_all, t_batch)
-    mu = c - _h(phi) * dc0 - c_Le
-    nl_mu = D @ mu
-    r = dc_dt + N_CH * nl_mu
-    r = ch_scale * r if ch_scale is not None else r
-    return r, phi
-
-
-def _compute_pde_both(net, x_all, t_batch, D, nd, *, ac_scale=None, ch_scale=None):
-    """Compute AC and CH residuals from a single _compute_all call."""
+    sub_data=None  → full-grid,  D @ u  matvec.
+    sub_data=(row, col, vals, diag)  → sub-graph,  segment_sum matvec.
+    """
     N_CH, N_AC1, N_AC2, N_AC3, dc0, c_Le = nd
-    phi, c, dphi_dt, dc_dt = _compute_all(net, x_all, t_batch)
-    # AC
-    r_ac = (dphi_dt + N_AC3 * (D @ phi) + N_AC2 * _gp(phi)
-            - N_AC1 * (c - _h(phi) * dc0 - c_Le) * dc0 * _hp(phi))
-    r_ac = ac_scale * r_ac if ac_scale is not None else r_ac
-    # CH
-    mu = c - _h(phi) * dc0 - c_Le
-    r_ch = dc_dt + N_CH * (D @ mu)
-    r_ch = ch_scale * r_ch if ch_scale is not None else r_ch
-    return r_ac, r_ch, phi
 
+    if sub_data is not None:
+        sub_row, sub_col, sub_vals, sub_diag = sub_data
+        phi, c, dphi_dt, dc_dt = _compute_all(net, x_points, t_batch)
 
-def _compute_pde_sub(net, x_sub, t_batch, sub_data, nd, *,
-                     ac_scale=None, ch_scale=None):
-    """Compute AC+CH residuals on sub-grid, return all (K', N_t)."""
-    N_CH, N_AC1, N_AC2, N_AC3, dc0, c_Le = nd
-    sub_row, sub_col, sub_vals, sub_diag = sub_data
+        def _D(u):
+            contrib = jax.ops.segment_sum(sub_vals[:, None] * u[sub_col, :],
+                                           sub_row, num_segments=u.shape[0])
+            return sub_diag[:, None] * u + contrib
+    else:
+        phi, c, dphi_dt, dc_dt = _compute_all(net, x_points, t_batch)
 
-    phi, c, dphi_dt, dc_dt = _compute_all(net, x_sub, t_batch)  # (K', N_t)
+        def _D(u):
+            return D @ u
 
-    def _D_sub(u):
-        contrib = jax.ops.segment_sum(sub_vals[:, None] * u[sub_col, :],
-                                       sub_row, num_segments=u.shape[0])
-        return sub_diag[:, None] * u + contrib
-
-    D_phi = _D_sub(phi)
+    D_phi = _D(phi)
     r_ac = (dphi_dt + N_AC3 * D_phi + N_AC2 * _gp(phi)
             - N_AC1 * (c - _h(phi) * dc0 - c_Le) * dc0 * _hp(phi))
     if ac_scale is not None:
         r_ac = ac_scale * r_ac
 
     mu = c - _h(phi) * dc0 - c_Le
-    D_mu = _D_sub(mu)
-    r_ch = dc_dt + N_CH * D_mu
+    r_ch = dc_dt + N_CH * _D(mu)
     if ch_scale is not None:
         r_ch = ch_scale * r_ch
 
-    return r_ac, r_ch, phi  # all (K', N_t)
+    return r_ac, r_ch, phi
 
 
 def _masked_mean(r, mask):
-    """mean(|r|) over masked entries. mask: (K',), r: (K', N_t).
-
-    Divides by K_core * N_t so the magnitude matches jnp.mean on the full
-    grid (avoids 50x inflation from summing over N_t but dividing by K only).
-    """
-    mask_f = mask.astype(r.dtype)[:, None]          # (K', 1)
-    n_valid = jnp.sum(mask_f) * r.shape[1]          # K_core * N_t
+    """mean(|r|) over masked entries. mask: (K',), r: (K', N_t)."""
+    mask_f = mask.astype(r.dtype)[:, None]
+    n_valid = jnp.sum(mask_f) * r.shape[1]
     return jnp.sum(jnp.abs(r) * mask_f) / jnp.maximum(n_valid, 1.0)
 
 
-def loss_pde_sub(net, t_batch, x_sub, sub_data, core_mask, nd, *,
-                 ac_scale=None, ch_scale=None, causal=None, eps=None,
-                 t_weights=None, iface_gamma=0.0):
-    """Fused PDE loss on sub-grid, masked to core points only."""
-    r_ac, r_ch, phi = _compute_pde_sub(
-        net, x_sub, t_batch, sub_data, nd,
-        ac_scale=ac_scale, ch_scale=ch_scale)
-    iw = _iface_weight(phi, iface_gamma)
-    r_ac_w = r_ac * iw
-    r_ch_w = r_ch * iw
-    if t_weights is not None:
-        r_ac_w = r_ac_w * t_weights[None, :]
-        r_ch_w = r_ch_w * t_weights[None, :]
-    if causal is not None and eps is not None:
-        # apply mask + causal together
-        mask_f = core_mask.astype(r_ac.dtype)[:, None]
-        v_ac, w_ac, chunks_ac = causal.weighted_loss(r_ac_w * mask_f, t_batch, eps)
-        v_ch, w_ch, chunks_ch = causal.weighted_loss(r_ch_w * mask_f, t_batch, eps)
-        return (v_ac, v_ch), (w_ac, w_ch, chunks_ac, chunks_ch)
-    return (_masked_mean(r_ac_w, core_mask), _masked_mean(r_ch_w, core_mask)), None
-
-
 def _iface_weight(phi, gamma):
-    """Interface indicator weight: w = 1 + γ·4φ(1-φ), peaked at φ=0.5.
-
-    4φ(1-φ) is the standard phase-field interface indicator (not an area).
-    It equals 1 at φ=0.5 (interface center), 0 at φ=0,1 (bulk).
-    """
     phi_sg = jax.lax.stop_gradient(phi)
     phi_c = jnp.clip(phi_sg, 0.0, 1.0)
     return 1.0 + gamma * 4.0 * phi_c * (1.0 - phi_c)
 
 
-def loss_ac(net, x_all, t_batch, D, nondim_params, ac_scale=None, causal=None,
-            eps=None, t_weights=None, iface_gamma=0.0):
-    r, phi = _compute_ac_residual(net, x_all, t_batch, D, nondim_params, ac_scale)
+# ── Unified loss functions ─────────────────────────────────────────────────
+
+def loss_ac(net, x_points, t_batch, D, nd, ac_scale=None, ch_scale=None,
+            causal=None, eps=None, t_weights=None, iface_gamma=0.0,
+            sub_data=None, core_mask=None):
+    """AC scalar loss.  core_mask triggers sub-graph masking."""
+    r_ac, _, phi = _compute_pde(
+        net, x_points, t_batch, D, nd,
+        ac_scale=ac_scale, ch_scale=None, sub_data=sub_data)
     iw = _iface_weight(phi, iface_gamma)
-    if causal is not None and eps is not None:
-        val, w, chunks = causal.weighted_loss(r * iw, t_batch, eps)
-        return val, (w, chunks)
-    weighted_r = r * iw
+    r_w = r_ac * iw
     if t_weights is not None:
-        weighted_r = weighted_r * t_weights[None, :]
-    return jnp.mean(jnp.abs(weighted_r)), (None, None)
+        r_w = r_w * t_weights[None, :]
+    if core_mask is not None:
+        if causal is not None and eps is not None:
+            mf = core_mask.astype(r_w.dtype)[:, None]
+            val, w, chunks = causal.weighted_loss(r_w * mf, t_batch, eps)
+            return val, (w, chunks)
+        return _masked_mean(r_w, core_mask), (None, None)
+    if causal is not None and eps is not None:
+        val, w, chunks = causal.weighted_loss(r_w, t_batch, eps)
+        return val, (w, chunks)
+    return jnp.mean(jnp.abs(r_w)), (None, None)
 
 
-def loss_ch(net, x_all, t_batch, D, nondim_params, ch_scale=None, causal=None, eps=None,
-            t_weights=None, iface_gamma=0.0):
-    r, phi = _compute_ch_residual(net, x_all, t_batch, D, nondim_params, ch_scale)
+def loss_ch(net, x_points, t_batch, D, nd, ac_scale=None, ch_scale=None,
+            causal=None, eps=None, t_weights=None, iface_gamma=0.0,
+            sub_data=None, core_mask=None):
+    """CH scalar loss.  core_mask triggers sub-graph masking."""
+    _, r_ch, phi = _compute_pde(
+        net, x_points, t_batch, D, nd,
+        ac_scale=None, ch_scale=ch_scale, sub_data=sub_data)
     iw = _iface_weight(phi, iface_gamma)
-    if causal is not None and eps is not None:
-        val, w, chunks = causal.weighted_loss(r * iw, t_batch, eps)
-        return val, (w, chunks)
-    weighted_r = r * iw
+    r_w = r_ch * iw
     if t_weights is not None:
-        weighted_r = weighted_r * t_weights[None, :]
-    return jnp.mean(jnp.abs(weighted_r)), (None, None)
+        r_w = r_w * t_weights[None, :]
+    if core_mask is not None:
+        if causal is not None and eps is not None:
+            mf = core_mask.astype(r_w.dtype)[:, None]
+            val, w, chunks = causal.weighted_loss(r_w * mf, t_batch, eps)
+            return val, (w, chunks)
+        return _masked_mean(r_w, core_mask), (None, None)
+    if causal is not None and eps is not None:
+        val, w, chunks = causal.weighted_loss(r_w, t_batch, eps)
+        return val, (w, chunks)
+    return jnp.mean(jnp.abs(r_w)), (None, None)
 
 
-def loss_pde(net, x_all, t_batch, D, nondim_params, *,
+def loss_pde(net, x_points, t_batch, D, nd, *,
              ac_scale=None, ch_scale=None, causal=None, eps=None,
-             t_weights=None, iface_gamma=0.0):
-    """Fused PDE loss: AC + CH from one _compute_all call."""
-    r_ac, r_ch, phi = _compute_pde_both(net, x_all, t_batch, D, nondim_params,
-                                         ac_scale=ac_scale, ch_scale=ch_scale)
+             t_weights=None, iface_gamma=0.0,
+             sub_data=None, core_mask=None):
+    """Fused PDE loss.  core_mask triggers sub-graph masking."""
+    r_ac, r_ch, phi = _compute_pde(
+        net, x_points, t_batch, D, nd,
+        ac_scale=ac_scale, ch_scale=ch_scale, sub_data=sub_data)
     iw = _iface_weight(phi, iface_gamma)
-    if causal is not None and eps is not None:
-        v_ac, w_ac, chunks_ac = causal.weighted_loss(r_ac * iw, t_batch, eps)
-        v_ch, w_ch, chunks_ch = causal.weighted_loss(r_ch * iw, t_batch, eps)
-        return (v_ac, v_ch), (w_ac, w_ch, chunks_ac, chunks_ch)
-    wr_ac = r_ac * iw
-    wr_ch = r_ch * iw
+    r_ac_w, r_ch_w = r_ac * iw, r_ch * iw
     if t_weights is not None:
-        wr_ac = wr_ac * t_weights[None, :]
-        wr_ch = wr_ch * t_weights[None, :]
-    return (jnp.mean(jnp.abs(wr_ac)), jnp.mean(jnp.abs(wr_ch))), None
+        r_ac_w = r_ac_w * t_weights[None, :]
+        r_ch_w = r_ch_w * t_weights[None, :]
+    if core_mask is not None:
+        if causal is not None and eps is not None:
+            mf = core_mask.astype(r_ac_w.dtype)[:, None]
+            v_ac, w_ac, chunks_ac = causal.weighted_loss(r_ac_w * mf, t_batch, eps)
+            v_ch, w_ch, chunks_ch = causal.weighted_loss(r_ch_w * mf, t_batch, eps)
+            return (v_ac, v_ch), (w_ac, w_ch, chunks_ac, chunks_ch)
+        return (_masked_mean(r_ac_w, core_mask), _masked_mean(r_ch_w, core_mask)), None
+    if causal is not None and eps is not None:
+        v_ac, w_ac, chunks_ac = causal.weighted_loss(r_ac_w, t_batch, eps)
+        v_ch, w_ch, chunks_ch = causal.weighted_loss(r_ch_w, t_batch, eps)
+        return (v_ac, v_ch), (w_ac, w_ch, chunks_ac, chunks_ch)
+    return (jnp.mean(jnp.abs(r_ac_w)), jnp.mean(jnp.abs(r_ch_w))), None
 
 
 def loss_bc_solid(net, x_bc, t_batch):
@@ -200,8 +173,8 @@ def loss_bc_solid(net, x_bc, t_batch):
     return jnp.mean((phi_bc - 1.0)**2 + (c_bc - 1.0)**2)
 
 
-def loss_ic(net, x_all, phi0, c0):
-    out = jax.vmap(net, in_axes=(0, None))(x_all, jnp.array(0.0))
+def loss_ic(net, x_points, phi0, c0):
+    out = jax.vmap(net, in_axes=(0, None))(x_points, jnp.array(0.0))
     phi_pred, c_pred = out[:, 0], out[:, 1]
     return jnp.mean((phi_pred - phi0)**2 + (c_pred - c0)**2)
 
@@ -221,23 +194,28 @@ def grad_norm_weights(grads, eps=1e-6, cap=1000):
     return jax.lax.stop_gradient(weights)
 
 
-def make_loss_fn(x_all, D, x_bc_pit, x_bc_solid, nondim_params,
+def make_loss_fn(x_grid, D, x_bc_pit, x_bc_solid, nondim_params,
                  x_ic=None,
                  alpha=1.0, ac_scale=None, ch_scale=None,
                  gradnorm_cap=1000, causal=None):
     N_LOSS = 5  # ac, ch, bc_pit, bc_solid, ic
-    _x_ic = x_ic if x_ic is not None else x_all
+    _x_ic = x_ic if x_ic is not None else x_grid
 
     def loss_fn(net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias,
                 update_w, iface_gamma, t_weights=None,
-                x_sub=None, sub_data=None, core_mask=None):
+                x_points=None, sub_data=None, core_mask=None):
+        _kw = dict(ac_scale=ac_scale, ch_scale=ch_scale,
+                   causal=causal, eps=eps, t_weights=t_weights,
+                   iface_gamma=iface_gamma,
+                   sub_data=sub_data, core_mask=core_mask)
+
         if update_w:
             ((ac_v, (w_ac_c, chunks_ac)), ac_grad) = eqx.filter_value_and_grad(
-                loss_ac, has_aux=True)(
-                net, x_all, t_batch, D, nondim_params, ac_scale, causal, eps, t_weights, iface_gamma=iface_gamma)
+                lambda n: loss_ac(n, x_points, t_batch, D, nondim_params, **_kw),
+                has_aux=True)(net)
             ((ch_v, (w_ch_c, chunks_ch)), ch_grad) = eqx.filter_value_and_grad(
-                loss_ch, has_aux=True)(
-                net, x_all, t_batch, D, nondim_params, ch_scale, causal, eps, t_weights, iface_gamma=iface_gamma)
+                lambda n: loss_ch(n, x_points, t_batch, D, nondim_params, **_kw),
+                has_aux=True)(net)
             (bc_pit_v, bc_pit_grad) = eqx.filter_value_and_grad(loss_bc_pit)(
                 net, x_bc_pit, t_batch)
             (bc_solid_v, bc_solid_grad) = eqx.filter_value_and_grad(loss_bc_solid)(
@@ -265,28 +243,20 @@ def make_loss_fn(x_all, D, x_bc_pit, x_bc_solid, nondim_params,
             w[1] = jnp.where(train_ch, w[1], 0.0)
 
             def total_fn(n):
-                if x_sub is not None:
-                    (a_v, b_v), c_aux = loss_pde_sub(
-                        n, t_batch, x_sub, sub_data, core_mask, nondim_params,
-                        ac_scale=ac_scale, ch_scale=ch_scale,
-                        causal=causal, eps=eps, t_weights=t_weights,
-                        iface_gamma=iface_gamma)
-                else:
-                    (a_v, b_v), c_aux = loss_pde(
-                        n, x_all, t_batch, D, nondim_params,
-                        ac_scale=ac_scale, ch_scale=ch_scale,
-                        causal=causal, eps=eps, t_weights=t_weights,
-                        iface_gamma=iface_gamma)
+                (a_v, b_v), c_aux = loss_pde(
+                    n, x_points, t_batch, D, nondim_params, **_kw)
                 c_v = loss_bc_pit(n, x_bc_pit, t_batch)
                 d_v = loss_bc_solid(n, x_bc_solid, t_batch)
                 e_v = loss_ic(n, _x_ic, phi0, c0)
                 t = w[0]*a_v + w[1]*b_v + w[2]*c_v + w[3]*d_v + w[4]*e_v
                 return t, (a_v, b_v, c_v, d_v, e_v, c_aux)
 
-            (total, (ac_v, ch_v, bc_pit_v, bc_solid_v, ic_v, causal_aux)), total_grad = \
+            (total, (ac_v, ch_v, bc_pit_v, bc_solid_v, ic_v, c_aux)), total_grad = \
                 eqx.filter_value_and_grad(total_fn, has_aux=True)(net)
-            if causal_aux is None:
-                causal_aux = (None, None, None, None)
+            causal_aux = c_aux
+
+        if causal_aux is None:
+            causal_aux = (None, None, None, None)
 
         w_ac_c, w_ch_c, chunks_ac, chunks_ch = causal_aux
         aux = {

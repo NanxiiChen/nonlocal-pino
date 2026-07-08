@@ -18,6 +18,17 @@ def _h(phi):
     return -2.0 * phi**3 + 3.0 * phi**2
 
 
+class TanhConstraint(eqx.Module):
+    """Maps raw network output to (-1, 1) via tanh. No trainable params.
+
+    Suitable for single-field phase-field problems where φ ∈ (-1, 1),
+    e.g. Allen-Cahn with tanh-profile analytical solutions.
+    """
+
+    def __call__(self, raw):
+        return jnp.tanh(raw)
+
+
 class HardConstraint(eqx.Module):
     """Physical hard constraints in output layer.  No trainable params."""
     dc0: float = eqx.field(static=True)  # c_Se - c_Le

@@ -19,20 +19,20 @@ def _tophat_kernel(dist, delta, dim):
 
 
 def _cubic_kernel(dist, delta, dim):
-    J0 = {1: 30.0, 2: 120.0 / jnp.pi}[dim] / delta**(2 + dim)
+    J0 = {1: 30.0, 2: 120.0 / jnp.pi, 3: 315.0 / (2.0 * jnp.pi)}[dim] / delta**(2 + dim)
     z = jnp.abs(dist) / delta
     return J0 * jnp.where(z <= 1.0, (1.0 - z)**2, 0.0)
 
 
 def _quartic_kernel(dist, delta, dim):
-    J0 = {1: 105.0 / 8.0, 2: 48.0 / jnp.pi}[dim] / delta**(2 + dim)
+    J0 = {1: 105.0 / 8.0, 2: 48.0 / jnp.pi, 3: 945.0 / (16.0 * jnp.pi)}[dim] / delta**(2 + dim)
     z2 = (dist / delta)**2
     return J0 * jnp.where(z2 <= 1.0, (1.0 - z2)**2, 0.0)
 
 
 def _wendland_c2_kernel(dist, delta, dim):
     """Wendland C² kernel: J(z) = J0·(1-z)⁴·(4z+1). C² smooth, compact support."""
-    J0 = {1: 42.0, 2: 1008.0 / (5.0 * jnp.pi)}[dim] / delta**(2 + dim)
+    J0 = {1: 42.0, 2: 1008.0 / (5.0 * jnp.pi), 3: 315.0 / jnp.pi}[dim] / delta**(2 + dim)
     z = jnp.abs(dist) / delta
     return J0 * jnp.where(z <= 1.0, (1.0 - z)**4 * (4.0 * z + 1.0), 0.0)
 
@@ -65,7 +65,7 @@ class DenseD:
         # NOTE: hx*hy is interior midpoint quadrature, not strict nodal weights
         # (trapezoidal half-weights at edges / quarter-weights at corners).
         # TODO: trapezoidal boundary weights for rigorous nodal quadrature.
-        if dim <= 2:
+        if dim <= 3:
             unique_dims = [np.unique(np.round(x_np[:, d], decimals=10)) for d in range(dim)]
             n_per_dim = [len(u) for u in unique_dims]
             if np.prod(n_per_dim) == N:
@@ -128,7 +128,7 @@ class SparseD:
         vol = np.prod(ranges)
 
         # Detect structured grid for better dV, fall back to uniform
-        if dim <= 2:
+        if dim <= 3:
             unique_dims = [np.unique(np.round(x_np[:, d], decimals=10)) for d in range(dim)]
             n_per_dim = [len(u) for u in unique_dims]
             if np.prod(n_per_dim) == N:
@@ -172,64 +172,85 @@ class SparseD:
         if dim == 2:
             uy = np.unique(np.round(x_np[:, 1], decimals=10))
             Ny = len(uy)
+            Nz = 1
+            uz = np.array([0.0])
             if Nx * Ny != N:
+                return SparseD._build_neighbors_pairwise(x_np, delta)
+        elif dim == 3:
+            uy = np.unique(np.round(x_np[:, 1], decimals=10))
+            uz = np.unique(np.round(x_np[:, 2], decimals=10))
+            Ny, Nz = len(uy), len(uz)
+            if Nx * Ny * Nz != N:
                 return SparseD._build_neighbors_pairwise(x_np, delta)
         else:
             Ny = 1
+            Nz = 1
             uy = np.array([0.0])
+            uz = np.array([0.0])
             if Nx != N:
                 return SparseD._build_neighbors_pairwise(x_np, delta)
 
         dx = (ux[-1] - ux[0]) / max(Nx - 1, 1)
-        dy = (uy[-1] - uy[0]) / max(Ny - 1, 1) if dim == 2 else 1.0
+        dy = (uy[-1] - uy[0]) / max(Ny - 1, 1) if dim >= 2 else 1.0
+        dz = (uz[-1] - uz[0]) / max(Nz - 1, 1) if dim >= 3 else 1.0
         md_x = max(int(delta / dx) + 1, 1)
-        md_y = max(int(delta / dy) + 1, 1) if dim == 2 else 0
+        md_y = max(int(delta / dy) + 1, 1) if dim >= 2 else 0
+        md_z = max(int(delta / dz) + 1, 1) if dim >= 3 else 0
 
-        # Precompute all offset (dy, dx) candidates within horizon
+        # Precompute all offset candidates within horizon
         offsets, dists = [], []
         for di in range(-md_y, md_y + 1):
             for dj in range(-md_x, md_x + 1):
-                if di == 0 and dj == 0:
-                    continue
-                d_sq = (di * dy)**2 + (dj * dx)**2
-                if d_sq <= delta**2:
-                    offsets.append((di, dj))
-                    dists.append(np.sqrt(d_sq))
+                for dk in range(-md_z, md_z + 1):
+                    if di == 0 and dj == 0 and dk == 0:
+                        continue
+                    d_sq = (di * dy)**2 + (dj * dx)**2 + (dk * dz)**2
+                    if d_sq <= delta**2:
+                        offsets.append((di, dj, dk))
+                        dists.append(np.sqrt(d_sq))
 
-        # Map point index k to grid coords (iy, ix)
-        # Assumes C-order meshgrid ordering (xv, yv = meshgrid(ux, uy, indexing='xy')).
-        # TODO: replace with searchsorted-based index map for arbitrary point ordering.
+        # Map point index k to grid coords.
+        # Assumes C-order meshgrid ordering (z-fastest for 3D):
+        #   meshgrid(ux, uy, uz, indexing='xy') → shape (Ny, Nx, Nz)
         if dim == 1:
             if not np.allclose(x_np.ravel(), ux, rtol=1e-6, atol=1e-6):
                 raise ValueError(
                     "SparseD grid search requires sorted 1D point ordering. "
                     "Use _build_neighbors_pairwise for arbitrary point sets."
                 )
-        else:
+        elif dim == 2:
             expected = np.stack(np.meshgrid(ux, uy, indexing='xy'), axis=-1).reshape(-1, dim)
             if not np.allclose(x_np, expected, rtol=1e-6, atol=1e-6):
                 raise ValueError(
                     "SparseD grid search requires C-order meshgrid point ordering. "
-                    "Use _build_neighbors_pairwise for arbitrary point sets, or implement "
-                    "searchsorted-based grid-to-index mapping."
+                    "Use _build_neighbors_pairwise for arbitrary point sets."
                 )
-        idx_k = np.arange(N).reshape(Ny, Nx)
+        else:  # dim == 3
+            expected = np.stack(np.meshgrid(ux, uy, uz, indexing='xy'), axis=-1).reshape(-1, dim)
+            if not np.allclose(x_np, expected, rtol=1e-6, atol=1e-6):
+                raise ValueError(
+                    "SparseD grid search requires C-order meshgrid point ordering "
+                    "(z-fastest). Use _build_neighbors_pairwise for arbitrary point sets."
+                )
+        idx_k = np.arange(N).reshape(Ny, Nx, Nz)
 
         rows, cols, r_vals = [], [], []
-        for (di, dj), dist in zip(offsets, dists):
-            # Valid range for shifted indices
+        for (di, dj, dk), dist in zip(offsets, dists):
             iy_lo = max(0, -di); iy_hi = min(Ny, Ny - di)
             ix_lo = max(0, -dj); ix_hi = min(Nx, Nx - dj)
-            if iy_lo >= iy_hi or ix_lo >= ix_hi:
+            iz_lo = max(0, -dk); iz_hi = min(Nz, Nz - dk)
+            if iy_lo >= iy_hi or ix_lo >= ix_hi or iz_lo >= iz_hi:
                 continue
-            src = idx_k[iy_lo:iy_hi, ix_lo:ix_hi].ravel()
+            src = idx_k[iy_lo:iy_hi, ix_lo:ix_hi, iz_lo:iz_hi].ravel()
             dst = idx_k[(iy_lo + di):(iy_hi + di),
-                        (ix_lo + dj):(ix_hi + dj)].ravel()
-            n_pairs = len(src)
+                        (ix_lo + dj):(ix_hi + dj),
+                        (iz_lo + dk):(iz_hi + dk)].ravel()
             rows.append(src)
             cols.append(dst)
-            r_vals.append(np.full(n_pairs, dist))
+            r_vals.append(np.full(len(src), dist))
 
+        if not rows:
+            return SparseD._build_neighbors_pairwise(x_np, delta)
         row_idx = np.concatenate(rows)
         col_idx = np.concatenate(cols)
         r_ij = np.concatenate(r_vals)
@@ -273,6 +294,7 @@ class SparseD:
             local_idx: (N_pad,) global indices (zeros for pad)
             sub_data: (row, col, vals, diag) — padded to fixed size
             core_mask: (N_pad,) bool mask (True only for core)
+            K_all: actual number of core ∪ halo points (before padding)
         """
         import numpy as np
 
@@ -297,7 +319,10 @@ class SparseD:
         rng = np.random.RandomState(seed % (2**31 - 1))
         core = rng.choice(self._N, K, replace=False)
 
-        in_core = np.isin(row_np, core)
+        # Boolean mask: O(nnz) indexed access, much faster than np.isin hash lookup
+        core_set = np.zeros(self._N, dtype=bool)
+        core_set[core] = True
+        in_core = core_set[row_np]
         halo = np.unique(col_np[in_core])
         all_idx = np.unique(np.concatenate([core, halo]))
         K_all = len(all_idx)
@@ -344,7 +369,8 @@ class SparseD:
         return (jnp.array(all_idx),
                 (jnp.array(sub_row), jnp.array(sub_col),
                  jnp.array(sub_vals), jnp.array(sub_diag)),
-                jnp.array(core_mask))
+                jnp.array(core_mask),
+                K_all)
 
 
 # ── Factory ─────────────────────────────────────────────────────────────────

@@ -184,11 +184,11 @@ def _make_step(loss_fn, optim):
     @eqx.filter_jit
     def step(net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema,
              bias, update_w, iface_gamma, t_weights=None,
-             x_sub=None, sub_data=None, core_mask=None):
+             x_points=None, sub_data=None, core_mask=None):
         (loss, aux, grad, new_w) = loss_fn(
             net, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema, bias,
             update_w, iface_gamma, t_weights,
-            x_sub=x_sub, sub_data=sub_data, core_mask=core_mask)
+            x_points=x_points, sub_data=sub_data, core_mask=core_mask)
         grad = jax.tree.map(jnp.nan_to_num, grad)
         updates, opt_state = optim.update(grad, opt_state, net)
         net = eqx.apply_updates(net, updates)
@@ -381,7 +381,7 @@ def _main(_):
     # --- pre-build spatial sub-graph pool ---
     # Goal: fix pytree shapes seen by eqx.filter_jit across ALL steps (including
     # update_w steps) so the step function compiles exactly once per code path.
-    # Without this, alternating x_sub=None / x_sub=array causes recompilation
+    # Without this, alternating x_points=None / x_points=array causes recompilation
     # on every gradnorm-update step (every gradnorm_update_every iterations).
     subgraph_pool = None
     _K_core = config.sample.get('K_core', 0)
@@ -393,7 +393,11 @@ def _main(_):
                      n_pool, _K_core)
             _t0 = time.perf_counter()
             raw_pool = [D.sub_sample(i, _K_core) for i in range(n_pool)]
-            # Each entry: (x_sub (N_pad,2), sub_data tuple, core_mask (N_pad,))
+            _K_alls = [r[3] for r in raw_pool]
+            log.info("  K_all: min=%d max=%d avg=%d (K_core=%d, N=%d)",
+                     min(_K_alls), max(_K_alls), int(np.mean(_K_alls)),
+                     _K_core, D._N)
+            # Each entry: (x_points (N_pad,2), sub_data tuple, core_mask (N_pad,))
             # All shapes fixed: eqx.filter_jit compiles once for this path.
             subgraph_pool = [
                 (x_base[r[0]], r[1], r[2]) for r in raw_pool
@@ -433,14 +437,16 @@ def _main(_):
         t_weights = _get_t_weights(config, t_batch, it)
         # Spatial minibatch: always use pool (never None) so eqx.filter_jit
         # sees a consistent pytree structure across ALL steps and compiles once.
-        x_sub = sub_data = core_mask = None
         if subgraph_pool is not None:
             _pi = it % len(subgraph_pool)
-            x_sub, sub_data, core_mask = subgraph_pool[_pi]
+            x_points, sub_data, core_mask = subgraph_pool[_pi]
+        else:
+            x_points = x_base
+            sub_data = core_mask = None
         net, opt_state, loss_val, aux, w_ema = step_fn(
             net, opt_state, t_batch, phi0, c0, eps, train_ac, train_ch, w_ema,
             get_bias(it), update_w, iface_gamma, t_weights,
-            x_sub=x_sub, sub_data=sub_data, core_mask=core_mask)
+            x_points=x_points, sub_data=sub_data, core_mask=core_mask)
 
         if it % config.log.log_every == 0:
             elapsed = time.perf_counter() - t_start
