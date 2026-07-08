@@ -84,11 +84,15 @@ def _masked_mean(r, core_mask):
 # ── Loss terms ─────────────────────────────────────────────────────────────
 
 def loss_pde(net, x_points, t_batch, sub_data, core_mask, N1, N2, N3,
-             iface_gamma=0.0):
-    """MAE of PDE residual, masked to core points."""
+             iface_gamma=0.0, causal=None, eps=None):
+    """MAE of PDE residual, masked to core points.  causal triggers per-t weighting."""
     r, phi = _compute_pde(net, x_points, t_batch, sub_data, N1, N2, N3)
     iw = _iface_weight(phi, iface_gamma)
-    return _masked_mean(r * iw, core_mask)
+    if causal is not None and eps is not None:
+        mask_f = core_mask.astype(r.dtype)[:, None]
+        val, w, chunks = causal.weighted_loss(r * iw * mask_f, t_batch, eps)
+        return val, (w, chunks)
+    return _masked_mean(r * iw, core_mask), (None, None)
 
 
 def loss_ic(net, x_points, phi0):
@@ -111,7 +115,7 @@ def grad_norm_weights(grads, cap=1000.0):
 # ── Loss factory ───────────────────────────────────────────────────────────
 
 def make_loss_fn(x_grid, D, N1, N2, N3, x_ic=None,
-                 alpha=1.0, gradnorm_cap=1000.0):
+                 alpha=1.0, gradnorm_cap=1000.0, causal=None):
     """Factory: returns a loss_fn closure for the training loop.
 
     Only 2 loss terms: PDE + IC.  Always uses sub-graph (3D grid).
@@ -120,13 +124,14 @@ def make_loss_fn(x_grid, D, N1, N2, N3, x_ic=None,
     _x_ic = x_ic if x_ic is not None else x_grid
 
     def loss_fn(net, t_batch, phi0, w_ema, bias,
-                update_w, iface_gamma, x_points, sub_data, core_mask):
+                update_w, iface_gamma, eps, x_points, sub_data, core_mask):
         _pde = lambda n: loss_pde(
             n, x_points, t_batch, sub_data, core_mask, N1, N2, N3,
-            iface_gamma=iface_gamma)
+            iface_gamma=iface_gamma, causal=causal, eps=eps)
 
         if update_w:
-            (pde_v, pde_grad) = eqx.filter_value_and_grad(_pde)(net)
+            (pde_v, c_aux), pde_grad = eqx.filter_value_and_grad(
+                _pde, has_aux=True)(net)
             (ic_v, ic_grad) = eqx.filter_value_and_grad(loss_ic)(
                 net, _x_ic, phi0)
             grads = [pde_grad, ic_grad]
@@ -143,16 +148,22 @@ def make_loss_fn(x_grid, D, N1, N2, N3, x_ic=None,
             w = [w_ema[i] * bias[i] for i in range(N_LOSS)]
 
             def total_fn(n):
-                pde_v = _pde(n)
+                pde_v, c_aux = _pde(n)
                 ic_v = loss_ic(n, _x_ic, phi0)
-                return w[0] * pde_v + w[1] * ic_v, (pde_v, ic_v)
+                return w[0] * pde_v + w[1] * ic_v, (pde_v, ic_v, c_aux)
 
-            (total, (pde_v, ic_v)), total_grad = \
+            (total, (pde_v, ic_v, c_aux)), total_grad = \
                 eqx.filter_value_and_grad(total_fn, has_aux=True)(net)
             new_w = jnp.array(w)
 
+        if c_aux is not None:
+            causal_w, causal_chunks = c_aux
+        else:
+            causal_w = causal_chunks = None
+
         aux = {'loss_pde': pde_v, 'loss_ic': ic_v,
-               'weight_pde': new_w[0], 'weight_ic': new_w[1]}
+               'weight_pde': new_w[0], 'weight_ic': new_w[1],
+               'causal_w': causal_w, 'causal_chunks': causal_chunks}
         return total, aux, total_grad, new_w
 
     return loss_fn

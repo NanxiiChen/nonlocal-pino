@@ -8,7 +8,7 @@ def get_config():
 
     # Architecture
     c.arch = config_dict.ConfigDict()
-    c.arch.type = "film"               # "mlp", "modified_mlp", or "film"
+    c.arch.type = "mlp"               # "mlp", "modified_mlp", or "film"
     c.arch.hidden_dim = 64
     c.arch.film_hidden_dim = 64
     c.arch.film_num_layers = 1
@@ -22,11 +22,11 @@ def get_config():
     c.arch.use_temporal_emb = True
     c.arch.out_dim = 1                 # single field φ
     c.arch.spatial_dim = 3             # 3D
-    c.arch.use_hard_constraint = True  # tanh output
+    c.arch.use_hard_constraint = False  # tanh output
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()
-    c.nl.delta = 0.02                  # δ/h≈2.5, k_avg≈78, rel-L2≈5%
+    c.nl.delta = 0.02                  # δ/h≈3.8, k_avg≈242, rel-L2≈7%
     c.nl.kernel = "cubic"
     c.nl.method = "sparse"
 
@@ -37,8 +37,8 @@ def get_config():
     c.sample.Nz = 128
     c.sample.Nt = 50                   # temporal batch size
     c.sample.t_min = 0.001             # avoid t=0 for PDE (IC handled separately)
-    c.sample.K_core = 2000             # spatial minibatch core → ~150k sub-graph pts
-    c.sample.K_pool = 50               # pre-built sub-graph pool entries
+    c.sample.K_core = 3000             # spatial minibatch core → ~150k sub-graph pts
+    c.sample.K_pool = 100               # pre-built sub-graph pool entries
     c.sample.N_ic = 20000              # IC sample points
 
     # Training
@@ -59,8 +59,17 @@ def get_config():
     c.loss.gradnorm_weight_cap = 1000.0
     c.loss.gradnorm_bias = (1.0, 1.0)  # [pde, ic]
     c.loss.iface_gamma_init = 10.0          # initial interface weight
-    c.loss.iface_gamma_decay_steps = 5000  # linear decay to 0 over N steps
+    c.loss.iface_gamma_decay_steps = 1000  # linear decay to 0 over N steps
     c.loss.iface_gamma_decay_to = 0.0      # final value after decay
+    c.loss.use_causal = False              # enable per-t causal weighting
+
+    # Causal (per-t mode, n_chunks=None)
+    c.causal = config_dict.ConfigDict()
+    c.causal.eps_init = 1.0
+    c.causal.max_eps = 100.0
+    c.causal.step_size = 1.1
+    c.causal.max_last_weight = 0.9
+    c.causal.min_mean_weight = 0.01
 
     # Logging
     c.log = config_dict.ConfigDict()
@@ -71,11 +80,12 @@ def get_config():
     c.log.save_ckpt = True
     c.log.run_diag = False
 
-    # Physical (dimensional)
+    # Physical (dimensional + non-dimensional)
     c.physical = config_dict.ConfigDict()
     c.physical.M = 0.1
     c.physical.lam = 5.0
     c.physical.R0 = 35.0
+    c.physical.eps_star = 0.0225    # fixed to N=64 FEM value; do NOT derive from N
 
     # Non-dimensionalization
     c.nondim = config_dict.ConfigDict()

@@ -160,6 +160,26 @@ class SparseD:
         # Average out-degree: used by sub_sample to estimate K' analytically
         self._k_avg = len(row_idx) / N
 
+        # CSR neighbour lists for fast sub-sampling: O(K·k) gather instead of
+        # O(nnz) full-edge scan.  Built once; sub_sample then runs in ~ms.
+        # Stores positive J·dV weights so D[u][i] = Σ_j w·(u[i] - u[j]).
+        w_pos = (J * dV).astype(np.float32)
+        order = np.argsort(row_idx, kind='stable')
+        row_s = row_idx[order]
+        col_s = col_idx[order]
+        w_s = w_pos[order]
+        counts = np.bincount(row_s, minlength=N)
+        self._k_max = int(counts.max())
+        offsets = np.zeros(N, dtype=np.int64)
+        offsets[1:] = np.cumsum(counts)[:-1]
+        slot = np.arange(len(row_s)) - offsets[row_s]
+        self._nei_idx_np = np.full((N, self._k_max), 0, dtype=np.int32)
+        self._nei_w_np = np.zeros((N, self._k_max), dtype=np.float32)
+        self._nei_mask_np = np.zeros((N, self._k_max), dtype=bool)
+        self._nei_idx_np[row_s, slot] = col_s
+        self._nei_w_np[row_s, slot] = w_s
+        self._nei_mask_np[row_s, slot] = True
+
     @staticmethod
     def _build_neighbors_grid(x_np, delta, dim):
         """O(N·k) grid-based neighbor search for structured meshes."""
@@ -305,41 +325,37 @@ class SparseD:
         _expected_Kprime = self._N * (1.0 - (1.0 - _k / self._N) ** K)
         N_pad = min(self._N, int(np.ceil(_expected_Kprime * 1.2)))
 
-        # Sub-graph edges: each of N_pad nodes has k neighbors, each neighbor is
-        # in sub-graph with prob ≈ N_pad/N  →  E[E'] ≈ N_pad · k · (N_pad/N).
-        total_edges = len(self._row_idx_np)
-        E_pad = min(total_edges,
-                    int(np.ceil(N_pad * _k * (N_pad / self._N) * 1.2)))
+        # Sub-graph edges: CSR only stores core→neighbour edges (all within
+        # sub-graph by construction).  E[E'] ≈ K · k_max · (1 + margin).
+        E_pad = int(np.ceil(K * self._k_max * 1.2))
 
-        # --- all index work in numpy ---
-        row_np = self._row_idx_np
-        col_np = self._col_idx_np
-        vals_np = self._vals_np
-
+        # --- CSR-based gather (O(K·k), not O(nnz)) ---
         rng = np.random.RandomState(seed % (2**31 - 1))
         core = rng.choice(self._N, K, replace=False)
 
-        # Boolean mask: O(nnz) indexed access, much faster than np.isin hash lookup
-        core_set = np.zeros(self._N, dtype=bool)
-        core_set[core] = True
-        in_core = core_set[row_np]
-        halo = np.unique(col_np[in_core])
+        # Gather neighbour indices + positive weights from pre-built CSR
+        nei_idx = self._nei_idx_np[core]    # (K, k_max)
+        nei_w   = self._nei_w_np[core]      # (K, k_max)
+        nei_mask = self._nei_mask_np[core]  # (K, k_max)
+
+        halo = np.unique(nei_idx[nei_mask])
         all_idx = np.unique(np.concatenate([core, halo]))
         K_all = len(all_idx)
 
-        # Use -1 sentinel so membership test is a simple comparison
-        # (avoids two O(total_edges) np.isin hash-table lookups)
         g2l = np.full(self._N, -1, dtype=np.int32)
         g2l[all_idx] = np.arange(K_all)
 
-        local_row = g2l[row_np]
-        local_col = g2l[col_np]
-        keep = (local_row >= 0) & (local_col >= 0)
+        # Build sub-graph edges from core points only (halo rows discarded later
+        # by core_mask; edges from halo→* are never needed).
+        k_per_core = nei_mask.sum(axis=1)
+        src_global = np.repeat(core, k_per_core)
+        dst_global = nei_idx[nei_mask]
+        w = nei_w[nei_mask]  # positive J·dV
 
-        sub_row = local_row[keep]
-        sub_col = local_col[keep]
-        sub_vals = vals_np[keep]
-        sub_diag = np.bincount(sub_row, weights=-sub_vals, minlength=K_all)
+        sub_row = g2l[src_global]
+        sub_col = g2l[dst_global]
+        sub_vals = -w  # negative for off-diagonal matrix entry D[i,j]
+        sub_diag = np.bincount(sub_row, weights=w, minlength=K_all)
 
         core_local = g2l[core]
         core_mask = np.zeros(K_all, dtype=bool)

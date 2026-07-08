@@ -22,6 +22,7 @@ from ml_collections import config_flags as _config_flags
 from pinn.operators import build_D, SparseD
 from pinn.arch import make_pinn, make_film_pinn
 from pinn.arch.hard_constraint import TanhConstraint
+from pinn.causal import CausalWeightor
 from pinn.optimizers import make_optimizer
 
 log = logging.getLogger(__name__)
@@ -80,17 +81,11 @@ def _build_network(config, key):
 def _nondim_params(config):
     phys = config.physical
     nd = config.nondim
-    L_c = nd.L_c
-    T_c = nd.T_c
+    eps_star = phys.eps_star
 
-    N = config.sample.Nx
-    h_dim = 100.0 / N
-    eps_dim = 6.0 * h_dim / (2.0 * np.sqrt(2.0) * np.arctanh(0.9))
-    eps_star = eps_dim / L_c
-
-    R0_star = phys.R0 / L_c
-    lam_star = phys.lam * T_c / L_c
-    N1 = phys.M * T_c / L_c**2
+    R0_star = phys.R0 / nd.L_c
+    lam_star = phys.lam * nd.T_c / nd.L_c
+    N1 = phys.M * nd.T_c / nd.L_c**2
     N2 = N1 / eps_star**2
     N3 = lam_star / (np.sqrt(2.0) * eps_star)
     denom = np.sqrt(2.0) * eps_star
@@ -103,9 +98,9 @@ def _nondim_params(config):
 def _make_step(loss_fn, optim):
     @eqx.filter_jit
     def step(net, opt_state, t_batch, phi0, w_ema, bias, update_w,
-             iface_gamma, x_points, sub_data, core_mask):
+             iface_gamma, eps, x_points, sub_data, core_mask):
         (loss, aux, grad, new_w) = loss_fn(
-            net, t_batch, phi0, w_ema, bias, update_w, iface_gamma,
+            net, t_batch, phi0, w_ema, bias, update_w, iface_gamma, eps,
             x_points, sub_data, core_mask)
         grad = jax.tree.map(jnp.nan_to_num, grad)
         updates, opt_state = optim.update(grad, opt_state, net)
@@ -127,14 +122,10 @@ def _eval_analytic(net, x_eval, t_eval, R0_star, lam_star, xc, denom,
     phi_anal = jax.vmap(lambda t: losses.analytic_solution(
         x_eval, t, R0_star, lam_star, xc, denom))(t_eval)
 
-    err = jnp.sqrt(jnp.mean((phi_pred - phi_anal)**2, axis=1))
-    norm = jnp.sqrt(jnp.mean(phi_anal**2, axis=1))
-    rel = err / jnp.maximum(norm, 1e-12)
-
-    for i, t in enumerate(t_eval):
-        writer.add_scalar('eval/rel_L2', float(rel[i]), step)
-    writer.add_scalar('eval/rel_L2_mean', float(jnp.mean(rel)), step)
-    return float(jnp.mean(rel))
+    rel = (jnp.sqrt(jnp.mean((phi_pred - phi_anal)**2))
+           / jnp.maximum(jnp.sqrt(jnp.mean(phi_anal**2)), 1e-12))
+    writer.add_scalar('eval/rel_L2', float(rel), step)
+    return float(rel)
 
 
 # ── Visualisation ──────────────────────────────────────────────────────────
@@ -156,7 +147,7 @@ def _plot_snapshots(net, x_slice, R0_star, lam_star, xc, denom,
     max_err = float(jnp.max(err_all))
 
     n = len(target_times)
-    fig, axes = plt.subplots(2, n, figsize=(3 * n, 5), squeeze=False)
+    fig, axes = plt.subplots(2, n, figsize=(2 * n, 6), squeeze=False)
     for j in range(n):
         phi_p = np.array(phi_pred_all[j]).reshape(Ny, Nx)
         err = np.array(err_all[j]).reshape(Ny, Nx)
@@ -164,15 +155,17 @@ def _plot_snapshots(net, x_slice, R0_star, lam_star, xc, denom,
                                      shading='auto')
         axes[0][j].set_title(rf'$\phi$ PINN  t*={target_times[j]:.2f}')
         axes[0][j].set_aspect('equal')
+        axes[0][j].set_axis_off()
 
         im1 = axes[1][j].pcolormesh(err, cmap='coolwarm', vmin=0, vmax=max_err,
                                      shading='auto')
         axes[1][j].set_title(
             rf'$|\phi - \phi_{{anal}}|$  t*={target_times[j]:.2f}')
         axes[1][j].set_aspect('equal')
+        axes[1][j].set_axis_off()
 
     fig.tight_layout(rect=[0, 0.05, 1, 1])
-    cbar_ax = fig.add_axes([0.15, 0.02, 0.7, 0.02])
+    cbar_ax = fig.add_axes([0.15, 0.1, 0.7, 0.02])
     fig.colorbar(im1, cax=cbar_ax, orientation='horizontal', label='|error|')
     writer.add_figure('eval/snapshots', fig, step)
     plt.close(fig)
@@ -183,19 +176,23 @@ def _plot_snapshots(net, x_slice, R0_star, lam_star, xc, denom,
 def _diag_residual(net, x_eval, D, t_eval, N1, N2, N3, writer, step):
     losses = _load_losses()
     phi, dphi_dt = losses._compute_all(net, x_eval, t_eval)
-    D_phi = D @ phi
 
-    components = {
-        'dphi_dt': dphi_dt,
-        'N1_Dphi': N1 * D_phi,
-        'N2_cubic': N2 * (phi**3 - phi),
-        'N3_source': N3 * (1.0 - phi**2),
-    }
-    for name, val in components.items():
-        writer.add_scalar(f'diag/{name}_rms',
-                          float(jnp.sqrt(jnp.mean(val**2))), step)
-    writer.add_scalar('diag/total_rms',
-                      float(jnp.sqrt(jnp.mean(sum(components.values())**2))), step)
+    for ti, t_v in enumerate(t_eval):
+        D_phi = (D @ phi[:, ti])  # (N_x,)
+        t_label = f'{float(t_v):.2f}'
+
+        components = {
+            'dphi_dt': dphi_dt[:, ti],
+            'N1_Dphi': N1 * D_phi,
+            'N2_cubic': N2 * (phi[:, ti]**3 - phi[:, ti]),
+            'N3_source': N3 * (1.0 - phi[:, ti]**2),
+        }
+        total = sum(components.values())
+        for name, val in components.items():
+            writer.add_scalar(f'diag/{name}/t={t_label}',
+                              float(jnp.sqrt(jnp.mean(val**2))), step)
+        writer.add_scalar(f'diag/total/t={t_label}',
+                          float(jnp.sqrt(jnp.mean(total**2))), step)
 
 
 # ── Main ───────────────────────────────────────────────────────────────────
@@ -273,11 +270,18 @@ def _main(_):
     optim = make_optimizer(config)
     opt_state = optim.init(eqx.filter(net, eqx.is_array))
 
+    # ── Causal training ──────────────────────────────────────────────────
+    causal = eps_causal = None
+    if config.loss.use_causal:
+        causal = CausalWeightor(n_chunks=None)  # per-t mode
+        eps_causal = jnp.array(config.causal.eps_init)
+
     # ── Loss function ───────────────────────────────────────────────────
     lfn = make_loss_fn(
         x_base, D, N1, N2, N3, x_ic=x_ic,
         alpha=config.train.alpha_gradnorm,
         gradnorm_cap=config.loss.gradnorm_weight_cap,
+        causal=causal,
     )
 
     # ── Training state ──────────────────────────────────────────────────
@@ -289,7 +293,7 @@ def _main(_):
     N_eval = min(8000, len(x_base))
     idx_eval = jr.choice(jr.PRNGKey(123), len(x_base), (N_eval,), replace=False)
     x_eval = x_base[idx_eval]
-    t_eval = jnp.linspace(0.0, 1.0, 11)
+    t_eval = jnp.array([0.0, 0.25, 0.5, 0.75, 1.0])
 
     # Slice at z=0.5 for visualisation
     xs_1d = jnp.linspace(0.0, 1.0, Nx)
@@ -326,7 +330,14 @@ def _main(_):
 
         net, opt_state, loss_val, aux, w_ema = step_fn(
             net, opt_state, t_batch, phi0, w_ema, bias, update_w,
-            iface_gamma, x_points, sub_data, core_mask)
+            iface_gamma, eps_causal, x_points, sub_data, core_mask)
+
+        # Causal eps update
+        if causal is not None and aux.get('causal_w') is not None:
+            eps_causal = causal.update_eps(
+                aux['causal_w'], eps_causal,
+                config.causal.step_size, config.causal.max_eps,
+                config.causal.max_last_weight, config.causal.min_mean_weight)
 
         # Logging
         if it % log_cfg.log_every == 0:
@@ -335,6 +346,13 @@ def _main(_):
             writer.add_scalar('loss/ic', float(aux['loss_ic']), it)
             writer.add_scalar('weight/pde', float(aux['weight_pde']), it)
             writer.add_scalar('weight/ic', float(aux['weight_ic']), it)
+            if causal is not None and eps_causal is not None:
+                writer.add_scalar('causal/eps', float(eps_causal), it)
+                if aux.get('causal_w') is not None:
+                    w_mean = float(jnp.mean(aux['causal_w']))
+                    w_last = float(aux['causal_w'][-1])
+                    writer.add_scalar('causal/w_mean', w_mean, it)
+                    writer.add_scalar('causal/w_last', w_last, it)
             log.info("%5d: total=%.4e  pde=%.4e  ic=%.4e  w=[%.2f,%.2f]",
                      it, float(loss_val), float(aux['loss_pde']),
                      float(aux['loss_ic']),
@@ -350,7 +368,8 @@ def _main(_):
 
         # Diagnostic
         if log_cfg.run_diag and it % log_cfg.eval_every == 0:
-            _diag_residual(net, x_eval, D, jnp.array([0.2, 0.5, 0.8]),
+            _diag_residual(net, x_eval, D,
+                           jnp.array([0.25, 0.5, 0.75, 1.0]),
                            N1, N2, N3, writer, it)
 
         # Checkpoint
