@@ -131,7 +131,7 @@ def _eval_analytic(net, x_eval, t_eval, R0_star, lam_star, xc, denom,
 # ── Visualisation ──────────────────────────────────────────────────────────
 
 def _plot_snapshots(net, x_slice, R0_star, lam_star, xc, denom,
-                    writer, step, Nx, Ny):
+                    writer, step, nv=128):
     """Plot φ snapshots at key times on a 2D slice (z=0.5)."""
     losses = _load_losses()
     target_times = [0.0, 0.25, 0.5, 0.75, 1.0]
@@ -149,8 +149,8 @@ def _plot_snapshots(net, x_slice, R0_star, lam_star, xc, denom,
     n = len(target_times)
     fig, axes = plt.subplots(2, n, figsize=(2 * n, 6), squeeze=False)
     for j in range(n):
-        phi_p = np.array(phi_pred_all[j]).reshape(Ny, Nx)
-        err = np.array(err_all[j]).reshape(Ny, Nx)
+        phi_p = np.array(phi_pred_all[j]).reshape(nv, nv)
+        err = np.array(err_all[j]).reshape(nv, nv)
         im0 = axes[0][j].pcolormesh(phi_p, cmap='coolwarm', vmin=-1, vmax=1,
                                      shading='auto')
         axes[0][j].set_title(rf'$\phi$ PINN  t*={target_times[j]:.2f}')
@@ -254,7 +254,7 @@ def _main(_):
         log.info("Pre-building sub-graph pool (%d entries, K_core=%d) ...",
                  K_pool, K_core)
         _t0 = time.perf_counter()
-        raw_pool = [D.sub_sample(i, K_core) for i in range(K_pool)]
+        raw_pool = D.build_subgraph_pool(K_core, K_pool)
         _K_alls = [r[3] for r in raw_pool]
         log.info("  K_all: min=%d max=%d avg=%d (K_core=%d, N=%d)",
                  min(_K_alls), max(_K_alls), int(np.mean(_K_alls)),
@@ -296,8 +296,9 @@ def _main(_):
     t_eval = jnp.array([0.0, 0.25, 0.5, 0.75, 1.0])
 
     # Slice at z=0.5 for visualisation
-    xs_1d = jnp.linspace(0.0, 1.0, Nx)
-    ys_1d = jnp.linspace(0.0, 1.0, Ny)
+    _nv = 128  # viz resolution, independent of training grid
+    xs_1d = jnp.linspace(0.0, 1.0, _nv)
+    ys_1d = jnp.linspace(0.0, 1.0, _nv)
     Xv_s, Yv_s = jnp.meshgrid(xs_1d, ys_1d, indexing='xy')
     x_slice = jnp.stack([Xv_s.ravel(), Yv_s.ravel(),
                          jnp.full(Xv_s.size, 0.5)], axis=-1)
@@ -364,7 +365,7 @@ def _main(_):
                                  R0_star, lam_star, xc, denom, writer, it)
             log.info("  --- eval %d: rel_L2=%.6e ---", it, rel)
             _plot_snapshots(net, x_slice, R0_star, lam_star,
-                            xc, denom, writer, it, Nx, Ny)
+                            xc, denom, writer, it)
 
         # Diagnostic
         if log_cfg.run_diag and it % log_cfg.eval_every == 0:

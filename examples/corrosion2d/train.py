@@ -392,7 +392,7 @@ def _main(_):
             log.info("Pre-building sub-graph pool (%d entries, K_core=%d) ...",
                      n_pool, _K_core)
             _t0 = time.perf_counter()
-            raw_pool = [D.sub_sample(i, _K_core) for i in range(n_pool)]
+            raw_pool = D.build_subgraph_pool(_K_core, n_pool)
             _K_alls = [r[3] for r in raw_pool]
             log.info("  K_all: min=%d max=%d avg=%d (K_core=%d, N=%d)",
                      min(_K_alls), max(_K_alls), int(np.mean(_K_alls)),

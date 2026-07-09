@@ -568,6 +568,7 @@ dependencies = [
     { name = "matplotlib" },
     { name = "ml-collections" },
     { name = "optax" },
+    { name = "scipy" },
     { name = "tensorboard" },
     { name = "tensorboardx" },
 ]
@@ -579,6 +580,7 @@ requires-dist = [
     { name = "matplotlib", specifier = ">=3.11.0" },
     { name = "ml-collections", specifier = ">=1.1.0" },
     { name = "optax", specifier = ">=0.2.8" },
+    { name = "scipy", specifier = ">=1.15.0" },
     { name = "tensorboard", specifier = ">=2.20.0" },
     { name = "tensorboardx", specifier = ">=2.6.5" },
 ]

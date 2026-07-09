@@ -37,7 +37,7 @@ def get_config():
     c.sample.Nz = 128
     c.sample.Nt = 50                   # temporal batch size
     c.sample.t_min = 0.001             # avoid t=0 for PDE (IC handled separately)
-    c.sample.K_core = 2000             # spatial minibatch core → ~150k sub-graph pts
+    c.sample.K_core = 2000             # spatial minibatch core
     c.sample.K_pool = 200               # pre-built sub-graph pool entries
     c.sample.N_ic = 20000              # IC sample points
 

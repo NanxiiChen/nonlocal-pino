@@ -139,9 +139,16 @@ class SparseD:
         else:
             dV = float(vol) / N
 
-        # Detect structured grid — use grid-based neighbor search (O(N·k))
-        # Fall back to O(N²) pairwise for unstructured point sets.
-        row_idx, col_idx, r_ij = self._build_neighbors_grid(x_np, delta, dim)
+        # Detect structured grid — use grid-based neighbor search (O(N·k)).
+        # Fall back to KD-tree (O(N log N)) for unstructured point sets,
+        # with O(N²) pairwise as last resort when scipy is unavailable.
+        try:
+            row_idx, col_idx, r_ij = self._build_neighbors_grid(x_np, delta, dim)
+        except ValueError:
+            try:
+                row_idx, col_idx, r_ij = self._build_neighbors_kdtree(x_np, delta)
+            except ImportError:
+                row_idx, col_idx, r_ij = self._build_neighbors_pairwise(x_np, delta)
 
         if kernel not in _KERNEL_BUILDERS:
             raise ValueError(f"Unknown kernel: {kernel}. Options: {list(_KERNEL_BUILDERS)}")
@@ -195,20 +202,20 @@ class SparseD:
             Nz = 1
             uz = np.array([0.0])
             if Nx * Ny != N:
-                return SparseD._build_neighbors_pairwise(x_np, delta)
+                raise ValueError("Not a structured 2D grid")
         elif dim == 3:
             uy = np.unique(np.round(x_np[:, 1], decimals=10))
             uz = np.unique(np.round(x_np[:, 2], decimals=10))
             Ny, Nz = len(uy), len(uz)
             if Nx * Ny * Nz != N:
-                return SparseD._build_neighbors_pairwise(x_np, delta)
+                raise ValueError("Not a structured 3D grid")
         else:
             Ny = 1
             Nz = 1
             uy = np.array([0.0])
             uz = np.array([0.0])
             if Nx != N:
-                return SparseD._build_neighbors_pairwise(x_np, delta)
+                raise ValueError("Not a structured 1D grid")
 
         dx = (ux[-1] - ux[0]) / max(Nx - 1, 1)
         dy = (uy[-1] - uy[0]) / max(Ny - 1, 1) if dim >= 2 else 1.0
@@ -270,7 +277,9 @@ class SparseD:
             r_vals.append(np.full(len(src), dist))
 
         if not rows:
-            return SparseD._build_neighbors_pairwise(x_np, delta)
+            raise RuntimeError(
+                f"No neighbours found within δ={delta} on structured grid "
+                f"(dx≈{dx:.4f}).  Increase δ or reduce N.")
         row_idx = np.concatenate(rows)
         col_idx = np.concatenate(cols)
         r_ij = np.concatenate(r_vals)
@@ -287,6 +296,23 @@ class SparseD:
         row_idx, col_idx = np.where(in_horizon)
         r_ij = dist[row_idx, col_idx]
         return row_idx.astype(np.int32), col_idx.astype(np.int32), r_ij
+
+    @staticmethod
+    def _build_neighbors_kdtree(x_np, delta):
+        """O(N log N) KD-tree radius search for arbitrary point sets."""
+        import numpy as np
+        from scipy.spatial import cKDTree
+        tree = cKDTree(x_np)
+        pairs = tree.query_ball_tree(tree, delta)
+        rows, cols, r_vals = [], [], []
+        for i, neighbors in enumerate(pairs):
+            for j in neighbors:
+                if i != j:
+                    rows.append(i)
+                    cols.append(j)
+                    r_vals.append(np.linalg.norm(x_np[i] - x_np[j]))
+        return (np.array(rows, dtype=np.int32), np.array(cols, dtype=np.int32),
+                np.array(r_vals))
 
     def __matmul__(self, u):
         if u.ndim == 1:
@@ -305,35 +331,22 @@ class SparseD:
         return (self._N, self._N)
 
     def sub_sample(self, seed, K):
-        """Randomly sample K core points and their δ-neighbors.
+        """CSR-based sub-graph: randomly sample K core points + δ-neighbors.
 
-        All index work done in numpy (CPU) to avoid eager GPU dispatch overhead.
-        Returns JAX arrays with fixed padded shapes for JIT stability.
+        Returns raw (unpadded) arrays.  For padded sub-graph pools with
+        uniform shapes use :meth:`build_subgraph_pool`.
 
         Returns:
-            local_idx: (N_pad,) global indices (zeros for pad)
-            sub_data: (row, col, vals, diag) — padded to fixed size
-            core_mask: (N_pad,) bool mask (True only for core)
-            K_all: actual number of core ∪ halo points (before padding)
+            all_idx: (K_all,) global indices of core ∪ halo
+            sub_data: (row, col, vals, diag) — COO edge arrays
+            core_mask: (K_all,) bool mask (True for core nodes)
+            K_all: actual number of core ∪ halo nodes
         """
         import numpy as np
 
-        # Analytically estimate K' = expected |core ∪ halo| via coverage formula:
-        #   E[K'] = N · (1 − (1 − k/N)^K),  k = avg neighbors per point.
-        # 20% safety margin handles variance (std(K') << 0.2·E[K'] for large N).
-        _k = self._k_avg
-        _expected_Kprime = self._N * (1.0 - (1.0 - _k / self._N) ** K)
-        N_pad = min(self._N, int(np.ceil(_expected_Kprime * 1.2)))
-
-        # Sub-graph edges: CSR only stores core→neighbour edges (all within
-        # sub-graph by construction).  E[E'] ≈ K · k_max · (1 + margin).
-        E_pad = int(np.ceil(K * self._k_max * 1.2))
-
-        # --- CSR-based gather (O(K·k), not O(nnz)) ---
         rng = np.random.RandomState(seed % (2**31 - 1))
         core = rng.choice(self._N, K, replace=False)
 
-        # Gather neighbour indices + positive weights from pre-built CSR
         nei_idx = self._nei_idx_np[core]    # (K, k_max)
         nei_w   = self._nei_w_np[core]      # (K, k_max)
         nei_mask = self._nei_mask_np[core]  # (K, k_max)
@@ -345,48 +358,73 @@ class SparseD:
         g2l = np.full(self._N, -1, dtype=np.int32)
         g2l[all_idx] = np.arange(K_all)
 
-        # Build sub-graph edges from core points only (halo rows discarded later
-        # by core_mask; edges from halo→* are never needed).
         k_per_core = nei_mask.sum(axis=1)
         src_global = np.repeat(core, k_per_core)
         dst_global = nei_idx[nei_mask]
-        w = nei_w[nei_mask]  # positive J·dV
+        w = nei_w[nei_mask]
 
         sub_row = g2l[src_global]
         sub_col = g2l[dst_global]
-        sub_vals = -w  # negative for off-diagonal matrix entry D[i,j]
+        sub_vals = -w
         sub_diag = np.bincount(sub_row, weights=w, minlength=K_all)
 
         core_local = g2l[core]
         core_mask = np.zeros(K_all, dtype=bool)
         core_mask[core_local] = True
 
-        # Pad or truncate to fixed shapes (N_pad, E_pad) for JIT stability.
-        # Truncation is extremely rare (K_all > N_pad requires >20% above expected).
-        if K_all < N_pad:
-            all_idx  = np.pad(all_idx,  (0, N_pad - K_all))
-            sub_diag = np.pad(sub_diag, (0, N_pad - K_all))
-            core_mask = np.pad(core_mask, (0, N_pad - K_all))
-        elif K_all > N_pad:
-            # Safety truncation: drop tail nodes (not in core_mask after g2l remap)
-            all_idx   = all_idx[:N_pad]
-            sub_diag  = sub_diag[:N_pad]
-            core_mask = core_mask[:N_pad]
-            keep = (sub_row < N_pad) & (sub_col < N_pad)
-            sub_row, sub_col, sub_vals = sub_row[keep], sub_col[keep], sub_vals[keep]
-        n_edges = len(sub_row)
-        if n_edges < E_pad:
-            sub_row  = np.pad(sub_row,  (0, E_pad - n_edges))
-            sub_col  = np.pad(sub_col,  (0, E_pad - n_edges))
-            sub_vals = np.pad(sub_vals, (0, E_pad - n_edges))
-        elif n_edges > E_pad:
-            sub_row, sub_col, sub_vals = sub_row[:E_pad], sub_col[:E_pad], sub_vals[:E_pad]
+        return (all_idx, (sub_row, sub_col, sub_vals, sub_diag), core_mask, K_all)
 
-        return (jnp.array(all_idx),
-                (jnp.array(sub_row), jnp.array(sub_col),
-                 jnp.array(sub_vals), jnp.array(sub_diag)),
-                jnp.array(core_mask),
-                K_all)
+    def build_subgraph_pool(self, K, n_pool):
+        """Build *n_pool* sub-graphs with uniform (tight) padding.
+
+        All entries are padded to the exact maximum node count and edge count
+        observed across *all* pool entries — no estimation, no margin.
+        """
+        raw_entries = [self.sub_sample(i, K) for i in range(n_pool)]
+        max_K = max(int(r[3]) for r in raw_entries)
+        max_E = max(len(r[1][0]) for r in raw_entries)
+
+        pool = []
+        for r in raw_entries:
+            p = _pad_entry(r, max_K, max_E)
+            pool.append((jnp.array(p[0]),
+                         (jnp.array(p[1][0]), jnp.array(p[1][1]),
+                          jnp.array(p[1][2]), jnp.array(p[1][3])),
+                         jnp.array(p[2]),
+                         r[3]))
+        return pool
+
+
+# ── Padding helpers (module-level, pure numpy) ────────────────────────────────
+
+def _pad_entry(raw, N_pad, E_pad):
+    """Pad (or truncate) a raw sub-graph entry to *N_pad* nodes and *E_pad*
+    edges.  Truncation triggers only if a pool entry exceeds the pre-computed
+    maxima, which is extremely unlikely with 5 % margin.
+    """
+    import numpy as np
+    all_idx, (sub_row, sub_col, sub_vals, sub_diag), core_mask, K_all = raw
+
+    if K_all < N_pad:
+        all_idx = np.pad(all_idx, (0, N_pad - K_all))
+        sub_diag = np.pad(sub_diag, (0, N_pad - K_all))
+        core_mask = np.pad(core_mask, (0, N_pad - K_all))
+    elif K_all > N_pad:
+        all_idx = all_idx[:N_pad]
+        sub_diag = sub_diag[:N_pad]
+        core_mask = core_mask[:N_pad]
+        keep = (sub_row < N_pad) & (sub_col < N_pad)
+        sub_row, sub_col, sub_vals = sub_row[keep], sub_col[keep], sub_vals[keep]
+
+    n_edges = len(sub_row)
+    if n_edges < E_pad:
+        sub_row = np.pad(sub_row, (0, E_pad - n_edges))
+        sub_col = np.pad(sub_col, (0, E_pad - n_edges))
+        sub_vals = np.pad(sub_vals, (0, E_pad - n_edges))
+    elif n_edges > E_pad:
+        sub_row, sub_col, sub_vals = sub_row[:E_pad], sub_col[:E_pad], sub_vals[:E_pad]
+
+    return (all_idx, (sub_row, sub_col, sub_vals, sub_diag), core_mask, K_all)
 
 
 # ── Factory ─────────────────────────────────────────────────────────────────
