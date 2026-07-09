@@ -412,7 +412,7 @@ def _main(_):
     w_ema = jnp.ones(5)  # ac, ch, bc_pit, bc_solid, ic
     t_start = time.perf_counter()
 
-    for it in range(1, config.train.iterations + 1):
+    for it in range(config.train.iterations):
         key_t = jr.fold_in(k_samp, it)
         t_batch = jr.uniform(key_t, (config.sample.Nt,),
                              minval=config.sample.t_min, maxval=1.0)

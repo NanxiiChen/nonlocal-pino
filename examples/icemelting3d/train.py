@@ -307,11 +307,11 @@ def _main(_):
     log_cfg = config.log
     t_min = config.sample.t_min
 
-    for it in range(1, cfg.iterations + 1):
+    for it in range(cfg.iterations):
         key_t = jr.PRNGKey(it * 3 + 1000)
         t_batch = jr.uniform(key_t, (config.sample.Nt,),
                              minval=t_min, maxval=1.0)
-        update_w = (it % cfg.gradnorm_update_every == 1)
+        update_w = (it % cfg.gradnorm_update_every == 0)
 
         # Interface weight decay
         gamma_decay = config.loss.iface_gamma_decay_steps

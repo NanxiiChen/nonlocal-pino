@@ -26,7 +26,7 @@ def get_config():
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()
-    c.nl.delta = 0.02                  # δ/h≈3.8, k_avg≈242, rel-L2≈7%
+    c.nl.delta = 0.01                  # δ/h≈3.8, k_avg≈242, rel-L2≈7%
     c.nl.kernel = "cubic"
     c.nl.method = "sparse"
 
@@ -37,8 +37,8 @@ def get_config():
     c.sample.Nz = 128
     c.sample.Nt = 50                   # temporal batch size
     c.sample.t_min = 0.001             # avoid t=0 for PDE (IC handled separately)
-    c.sample.K_core = 3000             # spatial minibatch core → ~150k sub-graph pts
-    c.sample.K_pool = 100               # pre-built sub-graph pool entries
+    c.sample.K_core = 2000             # spatial minibatch core → ~150k sub-graph pts
+    c.sample.K_pool = 200               # pre-built sub-graph pool entries
     c.sample.N_ic = 20000              # IC sample points
 
     # Training
@@ -90,7 +90,7 @@ def get_config():
     # Non-dimensionalization
     c.nondim = config_dict.ConfigDict()
     c.nondim.L_c = 100.0
-    c.nondim.T_c = 5.0
+    c.nondim.T_c = 4.0
     c.nondim.xc = (0.5, 0.5, 0.5)
 
     return c
