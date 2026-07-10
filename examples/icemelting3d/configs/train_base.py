@@ -16,7 +16,7 @@ def get_config():
     c.arch.spatial_emb_dim = 64
     c.arch.spatial_scale = 2.0 
     c.arch.temporal_emb_dim = 64
-    c.arch.temporal_scale = 0.5
+    c.arch.temporal_scale = 1.0
     c.arch.activation = "gelu"
     c.arch.use_spatial_emb = True
     c.arch.use_temporal_emb = True
@@ -45,7 +45,7 @@ def get_config():
     c.train = config_dict.ConfigDict()
     c.train.iterations = 10000
     c.train.lr_init = 5e-3
-    c.train.lr_decay_every = 500
+    c.train.lr_decay_every = 1000
     c.train.lr_decay_rate = 0.95
     c.train.lr_min = 1e-5
     c.train.optimizer = "soap"
