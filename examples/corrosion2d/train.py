@@ -80,7 +80,8 @@ def _build_network(config, key):
                               spatial_scale=c.spatial_scale,
                               temporal_emb_dim=c.temporal_emb_dim,
                               temporal_scale=c.temporal_scale,
-                              use_fourier=c.use_spatial_emb or c.use_temporal_emb,
+                              use_spatial_emb=c.use_spatial_emb,
+                              use_temporal_emb=c.use_temporal_emb,
                               hard_constraint=hc, key=key)
     return make_pinn(spatial_dim=2, out_dim=2, hidden_dim=c.hidden_dim,
                      num_layers=c.num_layers, trunk_type=c.type,
@@ -89,7 +90,8 @@ def _build_network(config, key):
                      spatial_scale=c.spatial_scale,
                      temporal_emb_dim=c.temporal_emb_dim,
                      temporal_scale=c.temporal_scale,
-                     use_fourier=c.use_spatial_emb or c.use_temporal_emb,
+                     use_spatial_emb=c.use_spatial_emb,
+                     use_temporal_emb=c.use_temporal_emb,
                      hard_constraint=hc, dirichlet_bc=None, key=key)
 
 

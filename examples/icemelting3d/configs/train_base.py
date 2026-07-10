@@ -59,7 +59,7 @@ def get_config():
     c.loss.gradnorm_weight_cap = 1000.0
     c.loss.gradnorm_bias = (1.0, 1.0)  # [pde, ic]
     c.loss.iface_gamma_init = 10.0          # initial interface weight
-    c.loss.iface_gamma_decay_steps = 1000  # linear decay to 0 over N steps
+    c.loss.iface_gamma_decay_steps = 0  # linear decay to 0 over N steps
     c.loss.iface_gamma_decay_to = 0.0      # final value after decay
     c.loss.use_causal = False              # enable per-t causal weighting
 

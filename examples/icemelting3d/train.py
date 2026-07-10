@@ -57,6 +57,8 @@ def _build_network(config, key):
         out_dim=arch.out_dim,
         hidden_dim=arch.hidden_dim,
         num_layers=arch.num_layers,
+        use_spatial_emb=arch.use_spatial_emb,
+        use_temporal_emb=arch.use_temporal_emb,
         spatial_emb_dim=arch.spatial_emb_dim,
         spatial_scale=arch.spatial_scale,
         temporal_emb_dim=arch.temporal_emb_dim,

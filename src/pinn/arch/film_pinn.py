@@ -50,7 +50,8 @@ class _FiLMPINN(eqx.Module):
 
 
 def make_film_pinn(spatial_dim: int, out_dim: int, *,
-                   use_fourier: bool = True,
+                   use_spatial_emb: bool = True,
+                   use_temporal_emb: bool = True,
                    spatial_emb_dim: int = 64, spatial_scale: float = 2.0,
                    temporal_emb_dim: int = 64, temporal_scale: float | tuple = 2.0,
                    hidden_dim: int = 64, num_layers: int = 4,
@@ -63,16 +64,20 @@ def make_film_pinn(spatial_dim: int, out_dim: int, *,
         activation = _ACTIVATIONS.get(activation, jnp.tanh)
     k_sp, k_tp, k_film, k_trunk, k_out = jr.split(key, 5)
 
-    spatial_emb = temporal_emb = None
-    if use_fourier:
+    if use_spatial_emb:
         n_spatial = len(spatial_scale) if isinstance(spatial_scale, (tuple, list)) else 1
-        n_temporal = len(temporal_scale) if isinstance(temporal_scale, (tuple, list)) else 1
         spatial_emb = FourierEmbedding(spatial_dim, spatial_emb_dim, spatial_scale, key=k_sp)
-        temporal_emb = FourierEmbedding(1, temporal_emb_dim, temporal_scale, key=k_tp)
         x_in = 2 * spatial_emb_dim * n_spatial
+    else:
+        spatial_emb = None
+        x_in = spatial_dim
+
+    if use_temporal_emb:
+        n_temporal = len(temporal_scale) if isinstance(temporal_scale, (tuple, list)) else 1
+        temporal_emb = FourierEmbedding(1, temporal_emb_dim, temporal_scale, key=k_tp)
         t_in = 2 * temporal_emb_dim * n_temporal
     else:
-        x_in = spatial_dim
+        temporal_emb = None
         t_in = 1
 
     # FiLM MLP: t features → (2 * num_layers * hidden_dim)

@@ -37,7 +37,8 @@ class _PINN(eqx.Module):
 
 
 def make_pinn(spatial_dim: int, out_dim: int, *,
-              use_fourier: bool = True,
+              use_spatial_emb: bool = True,
+              use_temporal_emb: bool = True,
               spatial_emb_dim: int = 64, spatial_scale: float = 2.0,
               temporal_emb_dim: int = 64, temporal_scale: float = 2.0,
               hidden_dim: int = 64, num_layers: int = 4,
@@ -48,24 +49,29 @@ def make_pinn(spatial_dim: int, out_dim: int, *,
               key: jr.PRNGKey) -> _PINN:
     """Factory: create a PINN model.
 
-    If `use_fourier`, applies Fourier embeddings to x and t separately
-    before concatenation. Otherwise concatenates raw coordinates directly.
+    Fourier embeddings for x and t can be toggled independently via
+    ``use_spatial_emb`` / ``use_temporal_emb``.
 
-    `trunk_type` is "mlp" or "modified_mlp".
+    ``trunk_type`` is "mlp" or "modified_mlp".
     Single-sample: x ∈ R^spatial_dim, t ∈ R → R^out_dim.
     """
     k_spatial, k_temporal, k_trunk = jr.split(key, 3)
 
-    if use_fourier:
+    if use_spatial_emb:
         spatial_emb = FourierEmbedding(spatial_dim, spatial_emb_dim,
                                        spatial_scale, key=k_spatial)
-        temporal_emb = FourierEmbedding(1, temporal_emb_dim,
-                                        temporal_scale, key=k_temporal)
-        trunk_in = 2 * (spatial_emb_dim + temporal_emb_dim)
+        trunk_in = 2 * spatial_emb_dim
     else:
         spatial_emb = None
+        trunk_in = spatial_dim
+
+    if use_temporal_emb:
+        temporal_emb = FourierEmbedding(1, temporal_emb_dim,
+                                        temporal_scale, key=k_temporal)
+        trunk_in += 2 * temporal_emb_dim
+    else:
         temporal_emb = None
-        trunk_in = spatial_dim + 1
+        trunk_in += 1
 
     if isinstance(activation, str):
         activation = _ACTIVATIONS.get(activation, jnp.tanh)
@@ -90,9 +96,10 @@ if __name__ == "__main__":
     key = jr.PRNGKey(0)
     x, t = jnp.array([0.5]), jnp.array([0.1])
 
-    for use_fourier, trunk_type in [(True, "mlp"), (True, "modified_mlp"), (False, "mlp")]:
+    for emb, trunk_type in [(True, "mlp"), (True, "modified_mlp"), (False, "mlp")]:
         net = make_pinn(spatial_dim=1, out_dim=2,
-                        use_fourier=use_fourier, trunk_type=trunk_type,
+                        use_spatial_emb=emb, use_temporal_emb=emb,
+                        trunk_type=trunk_type,
                         hidden_dim=32, num_layers=3, key=key)
 
         out = net(x, t)
@@ -103,5 +110,5 @@ if __name__ == "__main__":
         assert batch_out.shape == (16, 2)
 
         grad = jax.grad(lambda u, v: net(u, v).sum())(x, t)
-        print(f"make_pinn(fourier={use_fourier}, trunk={trunk_type}): "
+        print(f"make_pinn(emb={emb}, trunk={trunk_type}): "
               f"forward {out.shape}, vmap {batch_out.shape}, grad {grad.shape}  ✓")

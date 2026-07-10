@@ -79,7 +79,8 @@ def _build_network(config, key):
                          spatial_scale=c.spatial_scale,
                          temporal_emb_dim=c.temporal_emb_dim,
                          temporal_scale=c.temporal_scale,
-                         use_fourier=c.use_spatial_emb or c.use_temporal_emb,
+                         use_spatial_emb=c.use_spatial_emb,
+                         use_temporal_emb=c.use_temporal_emb,
                          hard_constraint=hc, key=key)
     elif c.type == "film":
         hc = None
@@ -96,7 +97,8 @@ def _build_network(config, key):
                               spatial_scale=c.spatial_scale,
                               temporal_emb_dim=c.temporal_emb_dim,
                               temporal_scale=c.temporal_scale,
-                              use_fourier=c.use_spatial_emb or c.use_temporal_emb,
+                              use_spatial_emb=c.use_spatial_emb,
+                              use_temporal_emb=c.use_temporal_emb,
                               hard_constraint=hc, key=key)
     else:
         raise ValueError(f"Unknown arch.type: {c.type}")
