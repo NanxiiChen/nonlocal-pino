@@ -16,7 +16,7 @@ def get_config():
     c.arch.spatial_emb_dim = 64
     c.arch.spatial_scale = 2.0 
     c.arch.temporal_emb_dim = 64
-    c.arch.temporal_scale = 2.0
+    c.arch.temporal_scale = 0.5
     c.arch.activation = "gelu"
     c.arch.use_spatial_emb = True
     c.arch.use_temporal_emb = True
@@ -35,7 +35,7 @@ def get_config():
     c.sample.Nx = 128
     c.sample.Ny = 128
     c.sample.Nz = 128
-    c.sample.Nt = 50                   # temporal batch size
+    c.sample.Nt = 64                   # temporal batch size
     c.sample.t_min = 0.001             # avoid t=0 for PDE (IC handled separately)
     c.sample.K_core = 2000             # spatial minibatch core
     c.sample.K_pool = 200               # pre-built sub-graph pool entries
@@ -43,22 +43,28 @@ def get_config():
 
     # Training
     c.train = config_dict.ConfigDict()
-    c.train.iterations = 50000
-    c.train.lr_init = 5e-4
-    c.train.lr_decay_every = 1000
+    c.train.iterations = 10000
+    c.train.lr_init = 5e-3
+    c.train.lr_decay_every = 500
     c.train.lr_decay_rate = 0.95
     c.train.lr_min = 1e-5
-    c.train.optimizer = "adam"
+    c.train.optimizer = "soap"
     c.train.grad_clip = 100.0
     c.train.soap_max_precond_dim = 100000
     c.train.alpha_gradnorm = 1.0
     c.train.gradnorm_update_every = 20
+    c.train.soap_b1 = 0.90
+    c.train.soap_b2 = 0.99
+    c.train.soap_precond_freq = 5
+    c.train.soap_max_precond_dim = 100000
+    c.train.soap_precond_1d = False
+
 
     # Loss
     c.loss = config_dict.ConfigDict()
     c.loss.gradnorm_weight_cap = 1000.0
     c.loss.gradnorm_bias = (1.0, 1.0)  # [pde, ic]
-    c.loss.iface_gamma_init = 10.0          # initial interface weight
+    c.loss.iface_gamma_init = 0.0          # initial interface weight
     c.loss.iface_gamma_decay_steps = 0  # linear decay to 0 over N steps
     c.loss.iface_gamma_decay_to = 0.0      # final value after decay
     c.loss.use_causal = False              # enable per-t causal weighting
