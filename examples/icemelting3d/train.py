@@ -232,14 +232,19 @@ def _main(_):
     log.info("Network: %s, out_dim=%d, spatial_dim=%d",
              config.arch.type, config.arch.out_dim, config.arch.spatial_dim)
 
-    # ── Nonlocal operator ───────────────────────────────────────────────
-    D = build_D(x_base, config.nl.delta,
-                kernel=config.nl.kernel, method=config.nl.method)
-    if isinstance(D, SparseD):
-        log.info("D: SparseD N=%d nnz=%d k_avg=%.1f",
-                 D._N, len(D._vals), len(D._vals) / D._N)
+    # ── Operator ────────────────────────────────────────────────────────
+    if config.nl.method == "fd":
+        from pinn.fd import FiniteDiff
+        D = FiniteDiff(x_base, Nx=Nx, Ny=Ny, Nz=Nz)
+        log.info("D: FiniteDiff N=%d k_max=%d", D._N, D._k_max)
     else:
-        log.info("D: DenseD shape=%s", D.shape)
+        D = build_D(x_base, config.nl.delta,
+                    kernel=config.nl.kernel, method=config.nl.method)
+        if isinstance(D, SparseD):
+            log.info("D: SparseD N=%d nnz=%d k_avg=%.1f",
+                     D._N, len(D._vals), len(D._vals) / D._N)
+        else:
+            log.info("D: DenseD shape=%s", D.shape)
 
     # ── IC points ───────────────────────────────────────────────────────
     idx_ic = jr.choice(k_ic, len(x_base), (config.sample.N_ic,), replace=False)
@@ -251,7 +256,7 @@ def _main(_):
     # ── Sub-graph pool ──────────────────────────────────────────────────
     K_core = config.sample.K_core
     subgraph_pool = None
-    if K_core > 0 and K_core < len(x_base) and isinstance(D, SparseD):
+    if K_core > 0 and K_core < len(x_base) and hasattr(D, 'build_subgraph_pool'):
         K_pool = config.sample.K_pool
         log.info("Pre-building sub-graph pool (%d entries, K_core=%d) ...",
                  K_pool, K_core)

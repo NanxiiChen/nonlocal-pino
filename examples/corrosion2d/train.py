@@ -96,6 +96,9 @@ def _build_network(config, key):
 
 
 def _build_D(config, x_all):
+    if config.nl.method == "fd":
+        from pinn.fd import FiniteDiff
+        return FiniteDiff(x_all, Nx=config.sample.Nx, Ny=config.sample.Ny)
     return build_D(x_all, config.nl.delta, kernel=config.nl.kernel, method=config.nl.method)
 
 
@@ -388,8 +391,7 @@ def _main(_):
     subgraph_pool = None
     _K_core = config.sample.get('K_core', 0)
     if _K_core > 0 and _K_core < len(x_base):
-        from pinn.operators import SparseD as _SparseD
-        if isinstance(D, _SparseD):
+        if hasattr(D, 'build_subgraph_pool'):
             n_pool = config.sample.get('K_pool', 200)
             log.info("Pre-building sub-graph pool (%d entries, K_core=%d) ...",
                      n_pool, _K_core)
