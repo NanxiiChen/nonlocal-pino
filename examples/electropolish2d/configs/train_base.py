@@ -14,7 +14,7 @@ def get_config():
     c.arch.film_num_layers = 2
     c.arch.num_layers = 6
     c.arch.spatial_emb_dim = 64
-    c.arch.spatial_scale = (1.0,3.0,6.0)
+    c.arch.spatial_scale = 2.0
     c.arch.temporal_emb_dim = 64
     c.arch.temporal_scale = 2.0
     c.arch.activation = "gelu"
@@ -69,7 +69,7 @@ def get_config():
 
     # Loss
     c.loss = config_dict.ConfigDict()
-    c.loss.gradnorm_weight_cap = 100.0
+    c.loss.gradnorm_weight_cap = 1000.0
     c.loss.gradnorm_bias = (1.0, 1.0, 1.0, 1.0, 1.0)  # ac, ch, bc_top, bc_bottom, ic
     c.loss.bias_schedule = ()
     c.loss.ac_scale = 1.0
