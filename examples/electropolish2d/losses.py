@@ -23,8 +23,39 @@ def _rough_surface(x, y0, modes):
     return y
 
 
+def _sdf_to_curve(xq, yq, x_curve, y_curve, y_surf_at_xq, window=16):
+    """Signed distance to piecewise-linear profile y=f(x).
+
+    Vectorised over query-point columns — each column checks only segments
+    within ±window of the nearest x-index.  Positive = below curve (solid).
+    """
+    s0x = x_curve[:-1]; s0y = y_curve[:-1]
+    dx = x_curve[1:] - s0x; dy = y_curve[1:] - s0y
+    len2 = dx*dx + dy*dy + 1e-20
+    n_seg, n_q = len(s0x), len(xq)
+
+    # For each query point, find the nearest x-index in the curve
+    xi_idx = np.searchsorted(x_curve, xq)  # (n_q,)
+
+    # Accumulate minimum distance over window offsets
+    dist2 = np.full(n_q, np.inf)
+    for offset in range(-window, window + 1):
+        seg = np.clip(xi_idx + offset, 0, n_seg - 1)  # (n_q,) — segment per query
+        sx, sdx = s0x[seg], dx[seg]
+        sy, sdy = s0y[seg], dy[seg]
+        sl2 = len2[seg]
+        rx, ry = xq - sx, yq - sy
+        t = np.clip((rx*sdx + ry*sdy) / sl2, 0.0, 1.0)
+        px, py = sx + t*sdx, sy + t*sdy
+        d2 = (xq - px)**2 + (yq - py)**2
+        dist2 = np.minimum(dist2, d2)
+
+    sign = np.where(yq < y_surf_at_xq, 1.0, -1.0)
+    return sign * np.sqrt(dist2)
+
+
 def ic_values(x_all, phys, L_c, surface_cfg):
-    """Rough interface IC: φ = tanh(k*(y_surf - y)), c = h(φ)·c_se."""
+    """Rough interface IC: φ = tanh(k * sdf(x)), c = h(φ)·c_se."""
     k = np.sqrt(phys.omega_phi / (2.0 * phys.alpha_phi)) * L_c
     x_np = np.array(x_all)
     rng = np.random.RandomState(surface_cfg.seed)
@@ -34,8 +65,11 @@ def ic_values(x_all, phys, L_c, surface_cfg):
         freq = rng.uniform(surface_cfg.freq_lo, surface_cfg.freq_hi)
         phase = rng.uniform(0.0, 2.0 * np.pi)
         modes.append((amp, freq, phase))
+    x_curve = np.linspace(0, 1, 2000)
+    y_curve = _rough_surface(x_curve, surface_cfg.y0, modes)
     y_surf = _rough_surface(x_np[:, 0], surface_cfg.y0, modes)
-    phi0 = 0.5 * (1.0 + np.tanh(k * (y_surf - x_np[:, 1])))
+    sdf = _sdf_to_curve(x_np[:, 0], x_np[:, 1], x_curve, y_curve, y_surf)
+    phi0 = 0.5 * (1.0 + np.tanh(k * sdf))
     c0 = _h(phi0) * phys.c_se
     return jnp.array(phi0), jnp.array(c0)
 

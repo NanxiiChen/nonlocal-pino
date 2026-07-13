@@ -60,7 +60,8 @@ def make_pinn(spatial_dim: int, out_dim: int, *,
     if use_spatial_emb:
         spatial_emb = FourierEmbedding(spatial_dim, spatial_emb_dim,
                                        spatial_scale, key=k_spatial)
-        trunk_in = 2 * spatial_emb_dim
+        n_s = len(spatial_scale) if isinstance(spatial_scale, (tuple, list)) else 1
+        trunk_in = 2 * spatial_emb_dim * n_s
     else:
         spatial_emb = None
         trunk_in = spatial_dim
@@ -68,7 +69,8 @@ def make_pinn(spatial_dim: int, out_dim: int, *,
     if use_temporal_emb:
         temporal_emb = FourierEmbedding(1, temporal_emb_dim,
                                         temporal_scale, key=k_temporal)
-        trunk_in += 2 * temporal_emb_dim
+        n_t = len(temporal_scale) if isinstance(temporal_scale, (tuple, list)) else 1
+        trunk_in += 2 * temporal_emb_dim * n_t
     else:
         temporal_emb = None
         trunk_in += 1

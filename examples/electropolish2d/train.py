@@ -212,13 +212,15 @@ def _eval_fem(net, fem_data, writer, step):
 
     fig, axes = plt.subplots(2, n, figsize=(3*n, 5), squeeze=False)
     for j, i in enumerate(indices):
-        axes[0][j].pcolormesh(X, Y, phi_pred[i], cmap='coolwarm',
-                              vmin=0, vmax=1, shading='auto')
+        axes[0][j].imshow(phi_pred[i], extent=[0, 1, 0, 0.5],
+                          origin='lower', cmap='coolwarm',
+                          vmin=0, vmax=1, interpolation='bilinear')
         axes[0][j].set_title(rf'$\phi$ PINN  t*={t_fem[i]:.2f}')
         axes[0][j].set_aspect('equal')
 
-        im1 = axes[1][j].pcolormesh(X, Y, err_phi[i], cmap='coolwarm',
-                                     vmin=0, vmax=max_err, shading='auto')
+        im1 = axes[1][j].imshow(err_phi[i], extent=[0, 1, 0, 0.5],
+                                 origin='lower', cmap='coolwarm',
+                                 vmin=0, vmax=max_err, interpolation='bilinear')
         axes[1][j].set_title(rf'$|\phi - \phi_{{FEM}}|$  t*={t_fem[i]:.2f}')
         axes[1][j].set_aspect('equal')
 

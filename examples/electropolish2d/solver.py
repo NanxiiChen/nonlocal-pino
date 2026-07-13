@@ -55,25 +55,56 @@ def _rough_surface(x, y0, modes, rng):
 
 
 class _RoughIC(UserExpression):
-    """φ = tanh transition across rough surface y = f(x).  c = h(φ)·c_se."""
+    """φ = tanh(k * sdf(x)), bilinearly interpolated from precomputed grid."""
 
     def __init__(self, k, y0, modes, c_se, **kwargs):
         super().__init__(**kwargs)
-        self.k = k
-        self.y0 = y0
-        self.modes = modes
-        self.c_se = c_se
+        # Precompute SDF on a dense grid, then evaluate phi once
+        _nx, _ny = 2000, 1000
+        self._xs = np.linspace(0, 1, _nx)
+        self._ys = np.linspace(0, 0.5, _ny)
+        x_curve = np.linspace(0, 1, _nx)
+        y_curve = np.full_like(x_curve, y0)
+        for amp, freq, phase in modes:
+            y_curve += amp * (np.sin(2.0 * np.pi * freq * x_curve + phase)
+                              + np.cos(2.0 * np.pi * freq * x_curve + phase + 0.3))
+        Yg, Xg = np.meshgrid(self._ys, self._xs, indexing='ij')
+        sdf = _segment_sdf(Xg.ravel(), Yg.ravel(), x_curve, y_curve,
+                           _rough_surface(Xg.ravel(), y0, modes, None)).reshape(_ny, _nx)
+        self._phi = 0.5 * (1.0 + np.tanh(k * sdf))
+        self._c = _h(self._phi) * c_se
+        self._dx = self._xs[1] - self._xs[0]
+        self._dy = self._ys[1] - self._ys[0]
 
     def eval(self, value, x):
-        # φ: 0 above surface (liquid), 1 below (solid)
-        y_surf = _rough_surface(np.array([x[0]]), self.y0, self.modes, None)[0]
-        phi = 0.5 * (1.0 + np.tanh(self.k * (y_surf - x[1])))
-        c = _h(phi) * self.c_se
-        value[0] = phi
-        value[1] = c
+        ix = (x[0] - self._xs[0]) / self._dx
+        iy = (x[1] - self._ys[0]) / self._dy
+        ix = int(np.clip(ix, 0, len(self._xs) - 1))
+        iy = int(np.clip(iy, 0, len(self._ys) - 1))
+        value[0] = self._phi[iy, ix]
+        value[1] = self._c[iy, ix]
 
     def value_shape(self):
         return (2,)
+
+
+def _segment_sdf(xq, yq, x_curve, y_curve, y_surf_at_xq, window=16):
+    """Signed distance to piecewise-linear profile.  + below, - above."""
+    s0x = x_curve[:-1]; s0y = y_curve[:-1]
+    dx = x_curve[1:] - s0x; dy = y_curve[1:] - s0y
+    len2 = dx*dx + dy*dy + 1e-20
+    n_seg, n_q = len(s0x), len(xq)
+    xi_idx = np.searchsorted(x_curve, xq)
+    dist2 = np.full(n_q, np.inf)
+    for offset in range(-window, window + 1):
+        seg = np.clip(xi_idx + offset, 0, n_seg - 1)
+        sx, sdx, sy, sdy, sl2 = s0x[seg], dx[seg], s0y[seg], dy[seg], len2[seg]
+        rx, ry = xq - sx, yq - sy
+        t = np.clip((rx*sdx + ry*sdy) / sl2, 0.0, 1.0)
+        px, py = sx + t*sdx, sy + t*sdy
+        d2 = (xq - px)**2 + (yq - py)**2
+        dist2 = np.minimum(dist2, d2)
+    return np.where(yq < y_surf_at_xq, 1.0, -1.0) * np.sqrt(dist2)
 
 
 # ── MPI gather ─────────────────────────────────────────────────────────────
@@ -297,10 +328,11 @@ def _plot_snapshots(output_dir, xs, ys, times, phi_grid, c_grid):
                                   squeeze=False)
         vmin = 0.0 if label == 'phi' else None
         for ax_j, idx in enumerate(indices):
-            im = axes[0][ax_j].pcolormesh(xs, ys, grid[idx],
-                                           cmap='coolwarm',
-                                           vmin=vmin, vmax=1.0,
-                                           shading='auto')
+            im = axes[0][ax_j].imshow(grid[idx],
+                                       extent=[xs[0], xs[-1], ys[0], ys[-1]],
+                                       origin='lower', cmap='coolwarm',
+                                       vmin=vmin, vmax=1.0,
+                                       interpolation='bilinear')
             axes[0][ax_j].set_title(f'{label}  t*={times[idx]:.2f}')
             axes[0][ax_j].set_aspect('equal')
         plt.colorbar(im, ax=axes[0][-1])
