@@ -259,6 +259,9 @@ def _diag_residual(net, x_fem, t_fem, delta, kernel, nd_params, compute_all, wri
 def _main(_):
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
     config = FLAGS.config
+    # Default "highest" = exact FP32 (unchanged behavior); opt-in override only.
+    jax.config.update("jax_default_matmul_precision",
+                      config.train.get('matmul_precision', 'highest'))
     rng = jr.PRNGKey(42)
     k_net, k_samp = jr.split(rng)
 

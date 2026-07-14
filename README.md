@@ -176,6 +176,22 @@ can satisfy the PDE almost everywhere without evolving the interface.
 
 See `reports/static-interface-2d-2026-06-25.md` for detailed analysis.
 
+## Performance
+
+See `benchmarks/RESULTS.md` for measured numbers (B200).  Highlights:
+
+- `nl.method="conv"` (ConvD): the non-local operator as a stencil convolution
+  on structured grids — exact same weights/sums as sparse (verified to fp32
+  round-off), 2.6x faster matvec, ~8% faster 2D steps.  Default for 2D.
+- `arch.tensor_split` (mlp trunk): first layer split into x-only + t-only
+  matmuls, hoisted out of the vmap(x)xvmap(t) tensor product — exact same
+  math, 1.6-2x faster PDE loss+grad at FP32-highest.  FiLM nets already get
+  this implicitly; ~neutral under TF32.  Off by default.
+- `train.matmul_precision`: default "highest" (exact FP32).  TF32 measured
+  ~1.2-1.5x faster with matching loss trajectories, but is opt-in only.
+- `benchmarks/verify_equivalence.py` gates all of the above against the
+  reference implementation (losses, gradients, GradNorm weights).
+
 ## Key design decisions
 
 1. **Non-local over local**: D matrix avoids expensive spatial autograd (jacrev

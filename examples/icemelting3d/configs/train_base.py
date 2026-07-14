@@ -23,6 +23,12 @@ def get_config():
     c.arch.out_dim = 1                 # single field φ
     c.arch.spatial_dim = 3             # 3D
     c.arch.use_hard_constraint = False  # tanh output
+    # Split the first trunk layer into x-only + t-only matmuls (mlp trunk
+    # only).  Exact same math — under vmap(x)xvmap(t) the dominant first-layer
+    # matmul is hoisted out of the batch dimensions.  Big win at
+    # matmul_precision="highest" (exact FP32); roughly neutral under this
+    # script's default (TF32-capable) precision, hence off by default.
+    c.arch.tensor_split = False
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()
@@ -50,6 +56,9 @@ def get_config():
     c.train.lr_min = 1e-5
     c.train.optimizer = "soap"
     c.train.grad_clip = 100.0
+    # "" keeps JAX's default matmul precision (this script's historical
+    # behavior).  Set "highest" for exact FP32 or "tensorfloat32" explicitly.
+    c.train.matmul_precision = ""
     c.train.soap_max_precond_dim = 100000
     c.train.alpha_gradnorm = 1.0
     c.train.gradnorm_update_every = 20

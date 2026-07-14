@@ -75,7 +75,9 @@ def _build_network(config, key):
             **common,
         )
     else:
-        return make_pinn(trunk_type=arch.type, **common)
+        return make_pinn(trunk_type=arch.type,
+                         tensor_split=arch.get('tensor_split', False),
+                         **common)
 
 
 # ── Non-dimensional parameters ─────────────────────────────────────────────
@@ -202,6 +204,11 @@ def _diag_residual(net, x_eval, D, t_eval, N1, N2, N3, writer, step):
 def _main(_):
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
     config = FLAGS.config
+    # This script historically used JAX's default matmul precision; only
+    # override when explicitly configured.
+    _prec = config.train.get('matmul_precision', '')
+    if _prec:
+        jax.config.update("jax_default_matmul_precision", _prec)
     run_dir = _setup_dirs(config)
     writer = SummaryWriter(run_dir)
     log.info("Logging to %s", run_dir)
