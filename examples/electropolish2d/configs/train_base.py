@@ -21,6 +21,7 @@ def get_config():
     c.arch.use_spatial_emb = True
     c.arch.use_temporal_emb = True
     c.arch.use_hard_constraint = True
+    c.arch.tensor_split = True   # W@[ex;et] → W_x@ex + W_t@et for mlp trunk
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()

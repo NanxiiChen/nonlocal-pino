@@ -51,7 +51,7 @@ def _setup_dirs(config):
 def _build_network(config, key):
     arch = config.arch
     hc = TanhConstraint() if arch.use_hard_constraint else None
-    activation = getattr(jnp, arch.activation) if hasattr(jnp, arch.activation) else jnp.tanh
+    activation = arch.activation   # "tanh"|"relu"|"gelu" — resolved inside make_pinn
 
     common = dict(
         spatial_dim=arch.spatial_dim,

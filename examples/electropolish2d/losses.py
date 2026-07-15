@@ -309,20 +309,26 @@ def make_loss_fn(x_grid, D, x_bc_top, x_bc_bottom, nondim_params,
                    iface_gamma=iface_gamma,
                    sub_data=sub_data, core_mask=core_mask)
 
+        # BC and IC: same computation regardless of update_w
+        (bc_top_v, bc_top_grad) = eqx.filter_value_and_grad(loss_bc_top)(
+            net, x_bc_top, t_batch)
+        (bc_bot_v, bc_bot_grad) = eqx.filter_value_and_grad(loss_bc_bottom)(
+            net, x_bc_bottom, t_batch)
+        (ic_v, ic_grad) = eqx.filter_value_and_grad(loss_ic)(
+            net, _x_ic, phi0, c0)
+
         if update_w:
+            # GradNorm: need separate AC/CH gradients for per-term weights.
+            # AC and CH each call _compute_pde → _compute_all, duplicating
+            # the expensive forward+JVP.  This is intentional — the
+            # alternative (shared-forward/per-term-VJP) is future work
+            # See benchmarks/TENSOR_SPLIT_RTX_PRO_6000.md, "electropolish2d".
             ((ac_v, (w_ac_c, chunks_ac)), ac_grad) = eqx.filter_value_and_grad(
                 lambda n: loss_ac(n, x_points, t_batch, D, nondim_params, **_kw),
                 has_aux=True)(net)
             ((ch_v, (w_ch_c, chunks_ch)), ch_grad) = eqx.filter_value_and_grad(
                 lambda n: loss_ch(n, x_points, t_batch, D, nondim_params, **_kw),
                 has_aux=True)(net)
-            (bc_top_v, bc_top_grad) = eqx.filter_value_and_grad(loss_bc_top)(
-                net, x_bc_top, t_batch)
-            (bc_bot_v, bc_bot_grad) = eqx.filter_value_and_grad(loss_bc_bottom)(
-                net, x_bc_bottom, t_batch)
-            (ic_v, ic_grad) = eqx.filter_value_and_grad(loss_ic)(
-                net, _x_ic, phi0, c0)
-
             grads = [ac_grad, ch_grad, bc_top_grad, bc_bot_grad, ic_grad]
             vals = [ac_v, ch_v, bc_top_v, bc_bot_v, ic_v]
 
@@ -339,21 +345,27 @@ def make_loss_fn(x_grid, D, x_bc_top, x_bc_bottom, nondim_params,
             causal_aux = (w_ac_c, w_ch_c, chunks_ac, chunks_ch)
             new_w = jnp.array(w_new)
         else:
+            # Regular: AC+CH grouped — one _compute_all, separate weights.
+            # grad(w[0]*ac + w[1]*ch) = w[0]*grad(ac) + w[1]*grad(ch).
+            # benchmarks/TENSOR_SPLIT_RTX_PRO_6000.md §3.
             w = [w_ema[i] * bias[i] for i in range(N_LOSS)]
             w[0] = jnp.where(train_ac, w[0], 0.0)
             w[1] = jnp.where(train_ch, w[1], 0.0)
 
-            def total_fn(n):
-                (a_v, b_v), c_aux = loss_pde(
+            def _pde_group(n):
+                (ac_v, ch_v), c_aux = loss_pde(
                     n, x_points, t_batch, D, nondim_params, **_kw)
-                c_v = loss_bc_top(n, x_bc_top, t_batch)
-                d_v = loss_bc_bottom(n, x_bc_bottom, t_batch)
-                e_v = loss_ic(n, _x_ic, phi0, c0)
-                t = w[0]*a_v + w[1]*b_v + w[2]*c_v + w[3]*d_v + w[4]*e_v
-                return t, (a_v, b_v, c_v, d_v, e_v, c_aux)
+                return w[0]*ac_v + w[1]*ch_v, (ac_v, ch_v, c_aux)
 
-            (total, (ac_v, ch_v, bc_top_v, bc_bot_v, ic_v, c_aux)), total_grad = \
-                eqx.filter_value_and_grad(total_fn, has_aux=True)(net)
+            (_, (ac_v, ch_v, c_aux)), pde_grad = \
+                eqx.filter_value_and_grad(_pde_group, has_aux=True)(net)
+
+            total = (w[0]*ac_v + w[1]*ch_v + w[2]*bc_top_v
+                     + w[3]*bc_bot_v + w[4]*ic_v)
+            total_grad = jax.tree.map(
+                lambda g_pde, g_bt, g_bb, g_ic:
+                    g_pde + w[2] * g_bt + w[3] * g_bb + w[4] * g_ic,
+                pde_grad, bc_top_grad, bc_bot_grad, ic_grad)
             causal_aux = c_aux
             new_w = w_ema
 

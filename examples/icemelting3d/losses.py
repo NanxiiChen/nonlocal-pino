@@ -196,32 +196,28 @@ def make_loss_fn(x_grid, D, N1, N2, N3, x_ic=None,
             n, x_points, t_batch, sub_data, core_mask, N1, N2, N3,
             iface_gamma=iface_gamma, causal=causal, eps=eps)
 
+        # Separate per-loss gradients: XLA compiles smaller backward graphs
+        # for PDE and IC independently, ~1.5× faster with tensor_split
+        # (benchmarks/TENSOR_SPLIT_RTX_PRO_6000.md).
+        (pde_v, c_aux), pde_grad = eqx.filter_value_and_grad(
+            _pde, has_aux=True)(net)
+        (ic_v, ic_grad) = eqx.filter_value_and_grad(loss_ic)(
+            net, _x_ic, phi0)
+        grads = [pde_grad, ic_grad]
+        vals = [pde_v, ic_v]
+
         if update_w:
-            (pde_v, c_aux), pde_grad = eqx.filter_value_and_grad(
-                _pde, has_aux=True)(net)
-            (ic_v, ic_grad) = eqx.filter_value_and_grad(loss_ic)(
-                net, _x_ic, phi0)
-            grads = [pde_grad, ic_grad]
-            vals = [pde_v, ic_v]
             w_new = grad_norm_weights(grads, cap=gradnorm_cap)
             w = [alpha * w_new[i] + (1.0 - alpha) * w_ema[i]
                  for i in range(N_LOSS)]
             w = [w[i] * bias[i] for i in range(N_LOSS)]
-            total = w[0] * vals[0] + w[1] * vals[1]
-            total_grad = jax.tree.map(
-                lambda *gs: w[0] * gs[0] + w[1] * gs[1], *grads)
-            new_w = jnp.array(w)
         else:
             w = [w_ema[i] * bias[i] for i in range(N_LOSS)]
 
-            def total_fn(n):
-                pde_v, c_aux = _pde(n)
-                ic_v = loss_ic(n, _x_ic, phi0)
-                return w[0] * pde_v + w[1] * ic_v, (pde_v, ic_v, c_aux)
-
-            (total, (pde_v, ic_v, c_aux)), total_grad = \
-                eqx.filter_value_and_grad(total_fn, has_aux=True)(net)
-            new_w = jnp.array(w)
+        total = w[0] * vals[0] + w[1] * vals[1]
+        total_grad = jax.tree.map(
+            lambda *gs: w[0] * gs[0] + w[1] * gs[1], *grads)
+        new_w = jnp.array(w) if update_w else jnp.array(w)
 
         if c_aux is not None:
             causal_w, causal_chunks = c_aux

@@ -17,7 +17,7 @@ def get_config():
     c.arch.spatial_scale = 2.0 
     c.arch.temporal_emb_dim = 64
     c.arch.temporal_scale = 1.0
-    c.arch.activation = "gelu"
+    c.arch.activation = "tanh"
     c.arch.use_spatial_emb = True
     c.arch.use_temporal_emb = True
     c.arch.out_dim = 1                 # single field φ
@@ -28,7 +28,7 @@ def get_config():
     # matmul is hoisted out of the batch dimensions.  Big win at
     # matmul_precision="highest" (exact FP32); roughly neutral under this
     # script's default (TF32-capable) precision, hence off by default.
-    c.arch.tensor_split = False
+    c.arch.tensor_split = True
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()
@@ -65,8 +65,8 @@ def get_config():
     # behavior).  Set "highest" for exact FP32 or "tensorfloat32" explicitly.
     c.train.matmul_precision = "highest"
     c.train.soap_max_precond_dim = 100000
-    c.train.alpha_gradnorm = 1.0
-    c.train.gradnorm_update_every = 20
+    c.train.alpha_gradnorm = 0.9
+    c.train.gradnorm_update_every = 1
     c.train.soap_b1 = 0.90
     c.train.soap_b2 = 0.99
     c.train.soap_precond_freq = 5

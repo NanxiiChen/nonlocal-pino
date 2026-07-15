@@ -190,8 +190,7 @@ def bench_3d(n_pool=4):
     phi0 = losses.ic_values(x_ic, R0_star, xc, denom)
 
     arch = config.arch
-    activation = getattr(jnp, arch.activation) if hasattr(jnp, arch.activation) \
-        else jnp.tanh
+    activation = arch.activation  # "tanh"|"relu"|"gelu" — resolved inside make_pinn
     net = make_pinn(spatial_dim=3, out_dim=1, hidden_dim=arch.hidden_dim,
                     num_layers=arch.num_layers, trunk_type="mlp",
                     activation=activation,

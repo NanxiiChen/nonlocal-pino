@@ -91,6 +91,7 @@ def _build_network(config, key):
                      temporal_scale=c.temporal_scale,
                      use_spatial_emb=c.use_spatial_emb,
                      use_temporal_emb=c.use_temporal_emb,
+                     tensor_split=c.arch.tensor_split,
                      hard_constraint=hc, dirichlet_bc=None, key=key)
 
 
