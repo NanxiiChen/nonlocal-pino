@@ -34,7 +34,11 @@ def get_config():
     c.nl = config_dict.ConfigDict()
     c.nl.delta = 0.01                  # δ/h≈3.8, k_avg≈242, rel-L2≈7%
     c.nl.kernel = "cubic"
-    c.nl.method = "sparse"
+    c.nl.method = "sparse"             # "sparse" | "fd" | "local"
+    # "local": autograd Laplacian via jax.hessian, LHS random sampling.
+    #   No D matrix, no grid requirement.  Intended as ablation baseline
+    #   to isolate the effect of the nonlocal operator.  ~5-10× slower
+    #   per step than sparse/fd due to per-point Hessian computation.
 
     # Sampling
     c.sample = config_dict.ConfigDict()
@@ -45,11 +49,12 @@ def get_config():
     c.sample.t_min = 0.001             # avoid t=0 for PDE (IC handled separately)
     c.sample.K_core = 2000             # spatial minibatch core
     c.sample.K_pool = 200               # pre-built sub-graph pool entries
+    c.sample.N_lhs = 2000               # LHS points per step (local mode only)
     c.sample.N_ic = 20000              # IC sample points
 
     # Training
     c.train = config_dict.ConfigDict()
-    c.train.iterations = 10000
+    c.train.iterations = 20000
     c.train.lr_init = 5e-3
     c.train.lr_decay_every = 1000
     c.train.lr_decay_rate = 0.95
@@ -58,7 +63,7 @@ def get_config():
     c.train.grad_clip = 100.0
     # "" keeps JAX's default matmul precision (this script's historical
     # behavior).  Set "highest" for exact FP32 or "tensorfloat32" explicitly.
-    c.train.matmul_precision = ""
+    c.train.matmul_precision = "highest"
     c.train.soap_max_precond_dim = 100000
     c.train.alpha_gradnorm = 1.0
     c.train.gradnorm_update_every = 20

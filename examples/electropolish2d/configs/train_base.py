@@ -26,7 +26,9 @@ def get_config():
     c.nl = config_dict.ConfigDict()
     c.nl.delta = 0.02
     c.nl.kernel = "cubic"
-    c.nl.method = "sparse"  # "sparse" | "fd"
+    c.nl.method = "sparse"  # "sparse" | "fd" | "local"
+    # "local": autograd Laplacian via jax.hessian, LHS random sampling.
+    #   No D matrix needed.  Ablation baseline — only variable is D_δ vs AD.
 
     # Sampling
     c.sample = config_dict.ConfigDict()
@@ -40,6 +42,7 @@ def get_config():
     c.sample.N_ic_local = 2000
     c.sample.K_core = 0
     c.sample.K_pool = 400
+    c.sample.N_lhs = 2000               # LHS points per step (local mode only)
 
     # Rough surface (must match solver config for reproducibility)
     c.surface = config_dict.ConfigDict()

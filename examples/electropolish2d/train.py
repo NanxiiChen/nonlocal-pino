@@ -14,6 +14,7 @@ import jax, jax.numpy as jnp, jax.random as jr
 jax.config.update("jax_default_matmul_precision", "highest")
 import equinox as eqx
 import numpy as np
+from scipy.stats.qmc import LatinHypercube
 from tensorboardX import SummaryWriter
 
 log = logging.getLogger(__name__)
@@ -94,6 +95,8 @@ def _build_network(config, key):
 
 
 def _build_D(config, x_all):
+    if config.nl.method == "local":
+        return None   # autograd Laplacian, no pre-built operator
     if config.nl.method == "fd":
         from pinn.fd import FiniteDiff
         return FiniteDiff(x_all, Nx=config.sample.Nx, Ny=config.sample.Ny)
@@ -340,6 +343,14 @@ def _main(_):
             log.info("Pool ready in %.1fs: N_pad=%d E_pad=%d",
                      time.perf_counter() - _t0, _N_pad, _E_pad)
 
+    # --- LHS sampler (local mode only) ---
+    lhs_sampler = None
+    N_lhs = 0
+    if config.nl.method == "local":
+        N_lhs = config.sample.get('N_lhs', _K_core)
+        lhs_sampler = LatinHypercube(d=2, seed=42)  # (x, y)
+        log.info("LHS sampler: N_lhs=%d (resampled each step)", N_lhs)
+
     # --- training loop ---
     w_ema = jnp.ones(5)
     t_start = time.perf_counter()
@@ -372,6 +383,9 @@ def _main(_):
         if subgraph_pool is not None:
             _pi = it % len(subgraph_pool)
             x_points, sub_data, core_mask = subgraph_pool[_pi]
+        elif lhs_sampler is not None:
+            x_points = jnp.array(lhs_sampler.random(n=N_lhs), dtype=jnp.float32)
+            sub_data = core_mask = None
         else:
             x_points = x_base
             sub_data = core_mask = None

@@ -11,6 +11,7 @@ import jax
 import jax.numpy as jnp
 import jax.random as jr
 import equinox as eqx
+from scipy.stats.qmc import LatinHypercube
 from tensorboardX import SummaryWriter
 import matplotlib
 matplotlib.use('Agg')
@@ -242,7 +243,10 @@ def _main(_):
              config.arch.type, config.arch.out_dim, config.arch.spatial_dim)
 
     # ── Operator ────────────────────────────────────────────────────────
-    if config.nl.method == "fd":
+    if config.nl.method == "local":
+        D = None  # no pre-built operator; use autograd Laplacian
+        log.info("D: local (autograd Laplacian, LHS sampling)")
+    elif config.nl.method == "fd":
         from pinn.fd import FiniteDiff
         D = FiniteDiff(x_base, Nx=Nx, Ny=Ny, Nz=Nz)
         log.info("D: FiniteDiff N=%d k_max=%d", D._N, D._k_max)
@@ -265,7 +269,7 @@ def _main(_):
     # ── Sub-graph pool ──────────────────────────────────────────────────
     K_core = config.sample.K_core
     subgraph_pool = None
-    if K_core > 0 and K_core < len(x_base) and hasattr(D, 'build_subgraph_pool'):
+    if D is not None and K_core > 0 and K_core < len(x_base) and hasattr(D, 'build_subgraph_pool'):
         K_pool = config.sample.K_pool
         log.info("Pre-building sub-graph pool (%d entries, K_core=%d) ...",
                  K_pool, K_core)
@@ -281,6 +285,14 @@ def _main(_):
         _E_pad = len(subgraph_pool[0][1][0])
         log.info("Pool ready in %.1fs: N_pad=%d E_pad=%d",
                  time.perf_counter() - _t0, _N_pad, _E_pad)
+
+    # ── LHS sampler (local mode only) ────────────────────────────────────
+    lhs_sampler = None
+    N_lhs = 0
+    if config.nl.method == "local":
+        N_lhs = config.sample.get('N_lhs', K_core)
+        lhs_sampler = LatinHypercube(d=3, seed=42)  # (x, y, z) — time is separate
+        log.info("LHS sampler: N_lhs=%d spatial points (resampled each step)", N_lhs)
 
     # ── Optimizer ───────────────────────────────────────────────────────
     optim = make_optimizer(config)
@@ -341,6 +353,9 @@ def _main(_):
         # Spatial minibatch
         if subgraph_pool is not None:
             x_points, sub_data, core_mask = subgraph_pool[it % len(subgraph_pool)]
+        elif lhs_sampler is not None:
+            x_points = jnp.array(lhs_sampler.random(n=N_lhs), dtype=jnp.float32)
+            sub_data = core_mask = None
         else:
             x_points = x_base
             sub_data = core_mask = None

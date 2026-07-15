@@ -9,6 +9,7 @@ from jax.flatten_util import ravel_pytree
 
 def _h(phi): return -2.0 * phi**3 + 3.0 * phi**2
 def _hp(phi): return -6.0 * phi**2 + 6.0 * phi
+def _hpp(phi): return -12.0 * phi + 6.0     # h''(φ)
 def _gp(phi): return 4.0 * phi**3 - 6.0 * phi**2 + 2.0 * phi
 
 
@@ -89,32 +90,92 @@ def _compute_all(net, x_points, t_batch):
     return phi, c, dphi_dt, dc_dt
 
 
+def _compute_all_local(net, x_points, t_batch):
+    """Tensor-product eval with AD spatial derivatives (2D, two-field).
+
+    For each (x, t): computes φ, c, ∂φ/∂t, ∂c/∂t, ∇²φ, ∇²c, |∇φ|²
+    needed for the local (non-D_δ) PDE residual.
+
+    Returns:
+        phi:        (N_x, N_t)
+        c:          (N_x, N_t)
+        dphi_dt:    (N_x, N_t)
+        dc_dt:      (N_x, N_t)
+        lap_phi:    (N_x, N_t)   ∇²φ
+        lap_c:      (N_x, N_t)   ∇²c
+        grad_phi_sq:(N_x, N_t)   |∇φ|²
+    """
+    # φ, c, dφ/dt, dc/dt (same tensor-product as _compute_all)
+    def field_at_t(t):
+        return jax.vmap(net, in_axes=(0, None))(x_points, t)  # (N_x, 2)
+    def field_at_times(ts):
+        return jax.vmap(field_at_t)(ts)  # (N_t, N_x, 2)
+    out, out_t = jax.jvp(field_at_times, (t_batch,), (jnp.ones_like(t_batch),))
+    out = jnp.swapaxes(out, 0, 1)
+    out_t = jnp.swapaxes(out_t, 0, 1)
+    phi, c = out[..., 0], out[..., 1]
+    dphi_dt, dc_dt = out_t[..., 0], out_t[..., 1]
+
+    # Spatial derivatives per (x, t)
+    def _spatial(x, t):
+        # Hessian of both outputs: (2, 2, 2) for 2D
+        hess = jax.hessian(lambda xx: net(xx, t))(x)
+        lap_phi = jnp.trace(hess[0])   # ∇²φ
+        lap_c = jnp.trace(hess[1])     # ∇²c
+        grad_phi = jax.grad(lambda xx: net(xx, t)[0])(x)
+        grad_phi_sq = jnp.sum(grad_phi**2)
+        return jnp.stack([lap_phi, lap_c, grad_phi_sq])
+
+    # vmap over x (inner) and t (outer)
+    derivs = jax.vmap(
+        jax.vmap(_spatial, in_axes=(0, None)),
+        in_axes=(None, 0))(x_points, t_batch)  # (N_t, N_x, 3)
+    derivs = jnp.swapaxes(derivs, 0, 1)         # (N_x, N_t, 3)
+    lap_phi = derivs[..., 0]
+    lap_c = derivs[..., 1]
+    grad_phi_sq = derivs[..., 2]
+
+    return phi, c, dphi_dt, dc_dt, lap_phi, lap_c, grad_phi_sq
+
+
 # ── PDE residual ───────────────────────────────────────────────────────────
 
 def _compute_pde(net, x_points, t_batch, D, nd, *, ac_scale=None, ch_scale=None,
                  sub_data=None):
     N_CH, N_AC1, N_AC2, N_AC3, dc0, c_Le = nd
 
-    if sub_data is not None:
-        sub_row, sub_col, sub_vals, sub_diag = sub_data
-        phi, c, dphi_dt, dc_dt = _compute_all(net, x_points, t_batch)
-        def _D(u):
-            contrib = jax.ops.segment_sum(sub_vals[:, None] * u[sub_col, :],
-                                           sub_row, num_segments=u.shape[0])
-            return sub_diag[:, None] * u + contrib
+    # Local autograd path: D is None → use AD Hessian instead of D_δ
+    if D is None:
+        phi, c, dphi_dt, dc_dt, lap_phi, lap_c, grad_phi_sq = \
+            _compute_all_local(net, x_points, t_batch)
+        # D_δ ≈ -∇², so +N_AC3·D_δ φ → -N_AC3·∇²φ
+        r_ac = (dphi_dt - N_AC3 * lap_phi + N_AC2 * _gp(phi)
+                - N_AC1 * (c - _h(phi) * dc0 - c_Le) * dc0 * _hp(phi))
+        # CH: ∇²μ = ∇²c - Δc₀[h''(φ)|∇φ|² + h'(φ)∇²φ]
+        lap_mu = lap_c - dc0 * (_hpp(phi) * grad_phi_sq + _hp(phi) * lap_phi)
+        r_ch = dc_dt - N_CH * lap_mu
     else:
-        phi, c, dphi_dt, dc_dt = _compute_all(net, x_points, t_batch)
-        def _D(u):
-            return D @ u
+        if sub_data is not None:
+            sub_row, sub_col, sub_vals, sub_diag = sub_data
+            phi, c, dphi_dt, dc_dt = _compute_all(net, x_points, t_batch)
+            def _D(u):
+                contrib = jax.ops.segment_sum(sub_vals[:, None] * u[sub_col, :],
+                                               sub_row, num_segments=u.shape[0])
+                return sub_diag[:, None] * u + contrib
+        else:
+            phi, c, dphi_dt, dc_dt = _compute_all(net, x_points, t_batch)
+            def _D(u):
+                return D @ u
 
-    D_phi = _D(phi)
-    r_ac = (dphi_dt + N_AC3 * D_phi + N_AC2 * _gp(phi)
-            - N_AC1 * (c - _h(phi) * dc0 - c_Le) * dc0 * _hp(phi))
+        D_phi = _D(phi)
+        r_ac = (dphi_dt + N_AC3 * D_phi + N_AC2 * _gp(phi)
+                - N_AC1 * (c - _h(phi) * dc0 - c_Le) * dc0 * _hp(phi))
+
+        mu = c - _h(phi) * dc0 - c_Le
+        r_ch = dc_dt + N_CH * _D(mu)
+
     if ac_scale is not None:
         r_ac = ac_scale * r_ac
-
-    mu = c - _h(phi) * dc0 - c_Le
-    r_ch = dc_dt + N_CH * _D(mu)
     if ch_scale is not None:
         r_ch = ch_scale * r_ch
 
