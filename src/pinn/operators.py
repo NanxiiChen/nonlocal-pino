@@ -47,6 +47,47 @@ _KERNEL_BUILDERS = {
 
 
 
+# ── Structured-grid detection ───────────────────────────────────────────────
+
+def _detect_structured_grid(x_np):
+    """Detect a C-order meshgrid point set.
+
+    Returns (grid_shape, spacings, dV) where grid_shape is (Ny, Nx[, Nz]),
+    or (None, None, dV_uniform) for unstructured point sets.
+    """
+    N, dim = x_np.shape
+    ranges = x_np.max(axis=0) - x_np.min(axis=0)
+    vol = float(np.prod(ranges))
+    if dim > 3:
+        return None, None, vol / N
+
+    unique_dims = [np.unique(np.round(x_np[:, d], decimals=10)) for d in range(dim)]
+    n_per_dim = [len(u) for u in unique_dims]
+    if np.prod(n_per_dim) != N:
+        return None, None, vol / N
+
+    spacings = [(u[-1] - u[0]) / max(n - 1, 1) for u, n in zip(unique_dims, n_per_dim)]
+    dV = float(np.prod(spacings))
+
+    # Verify C-order meshgrid ordering (y-major, z-fastest for 3D)
+    if dim == 1:
+        expected = unique_dims[0][:, None]
+        grid_shape = (n_per_dim[0],)
+    elif dim == 2:
+        expected = np.stack(np.meshgrid(unique_dims[0], unique_dims[1],
+                                        indexing='xy'), axis=-1).reshape(-1, dim)
+        grid_shape = (n_per_dim[1], n_per_dim[0])          # (Ny, Nx)
+    else:
+        expected = np.stack(np.meshgrid(unique_dims[0], unique_dims[1],
+                                        unique_dims[2], indexing='xy'),
+                            axis=-1).reshape(-1, dim)
+        grid_shape = (n_per_dim[1], n_per_dim[0], n_per_dim[2])  # (Ny, Nx, Nz)
+
+    if not np.allclose(x_np, expected, rtol=1e-6, atol=1e-6):
+        return None, None, dV
+    return grid_shape, spacings, dV
+
+
 # ── DenseD ──────────────────────────────────────────────────────────────────
 
 class DenseD:
@@ -395,6 +436,101 @@ class SparseD:
         return pool
 
 
+# ── ConvD ───────────────────────────────────────────────────────────────────
+
+class ConvD:
+    """Non-local operator on a structured grid as a stencil convolution.
+
+    On a uniform meshgrid the kernel weights depend only on the integer
+    offset, so  D @ u = diag·u − conv(u, W)  with a fixed (2m+1)^dim stencil.
+    diag_i = Σ_{j in domain} W_j is precomputed as conv(ones, W), which makes
+    boundary truncation exact (identical weights and sums to DenseD/SparseD;
+    only float summation order differs).
+
+    The convolution is pinned to Precision.HIGHEST so results stay exact
+    FP32 regardless of the global matmul-precision flag.  Works in 1D/2D/3D;
+    batched inputs (N, N_t) treat N_t as conv batch.
+    """
+
+    def __init__(self, x, delta, kernel="cubic"):
+        x_np = np.asarray(x, dtype=np.float64)
+        N, dim = x_np.shape
+        self._N = N
+        self._dim = dim
+
+        grid_shape, spacings, dV = _detect_structured_grid(x_np)
+        if grid_shape is None:
+            raise ValueError(
+                "ConvD requires a structured C-order meshgrid point set. "
+                "Use method='sparse' for unstructured points.")
+        self._grid_shape = tuple(int(s) for s in grid_shape)
+
+        if kernel not in _KERNEL_BUILDERS:
+            raise ValueError(f"Unknown kernel: {kernel}. Options: {list(_KERNEL_BUILDERS)}")
+
+        # Grid spacing per *grid axis* (grid_shape is (Ny, Nx[, Nz]) while
+        # spacings is per coordinate dim (dx, dy[, dz]))
+        if dim == 1:
+            h = [spacings[0]]
+        elif dim == 2:
+            h = [spacings[1], spacings[0]]          # (hy, hx)
+        else:
+            h = [spacings[1], spacings[0], spacings[2]]  # (hy, hx, hz)
+
+        # Stencil: all integer offsets with 0 < |r| <= delta
+        m = [max(int(delta / hi) + 1, 1) for hi in h]
+        axes = [np.arange(-mi, mi + 1) for mi in m]
+        mesh = np.meshgrid(*axes, indexing='ij')
+        r = np.sqrt(sum((g * hi) ** 2 for g, hi in zip(mesh, h)))
+        center = tuple(mi for mi in m)
+        # Kernel builders enforce compact support (0 beyond z=1); the center
+        # (self) point is excluded explicitly.
+        J = np.array(_KERNEL_BUILDERS[kernel](jnp.array(r), delta, dim))
+        J[r > delta] = 0.0
+        J[center] = 0.0
+        W = (J * dV).astype(np.float32)             # positive weights J·dV
+
+        # Trim all-zero border planes so the stencil is tight
+        nz = np.argwhere(W != 0)
+        lo = nz.min(axis=0); hi_ = nz.max(axis=0) + 1
+        # symmetric support ⇒ trimmed stencil stays centered
+        W = W[tuple(slice(l, u) for l, u in zip(lo, hi_))]
+
+        self._W = jnp.array(W)
+        self._pad = [(s // 2, s // 2) for s in W.shape]
+
+        # diag_i = Σ_{j in domain} W_(j-i)  =  conv(ones, W)
+        ones = jnp.ones((1, 1) + self._grid_shape, dtype=jnp.float32)
+        diag = self._conv(ones)[0, 0]
+        self._diag = diag.reshape(-1)               # (N,) in C order
+
+    def _conv(self, u_nchw):
+        """SAME-padded correlation with the stencil; exact FP32."""
+        W = self._W[None, None]                     # (O=1, I=1, *k)
+        spatial = 'HWD'[:self._dim]
+        dn = jax.lax.conv_dimension_numbers(
+            u_nchw.shape, W.shape,
+            ('NC' + spatial, 'OI' + spatial, 'NC' + spatial))
+        return jax.lax.conv_general_dilated(
+            u_nchw, W, window_strides=(1,) * self._dim,
+            padding=self._pad, dimension_numbers=dn,
+            precision=jax.lax.Precision.HIGHEST)
+
+    def __matmul__(self, u):
+        single = (u.ndim == 1)
+        u2 = u[:, None] if single else u            # (N, N_t)
+        N_t = u2.shape[1]
+        # (N_t, 1, *grid): batch over time steps, single channel
+        g = u2.T.reshape((N_t, 1) + self._grid_shape)
+        conv = self._conv(g).reshape(N_t, self._N).T   # (N, N_t)
+        out = self._diag[:, None] * u2 - conv
+        return out[:, 0] if single else out
+
+    @property
+    def shape(self):
+        return (self._N, self._N)
+
+
 # ── Padding helpers (module-level, pure numpy) ────────────────────────────────
 
 def _pad_entry(raw, N_pad, E_pad):
@@ -435,11 +571,16 @@ def build_D(x, delta, method=None, kernel="cubic"):
     Args:
         x: (N, dim) coordinates in non-dimensional units.
         delta: non-dimensional horizon.
-        method: "dense", "sparse", or None (auto: dense if N < 2000 else sparse).
+        method: "dense", "sparse", "conv", or None (auto: dense if N < 2000
+            else sparse).  "conv" evaluates D as a stencil convolution —
+            exact same weights/sums as "sparse", faster on full structured
+            grids (requires C-order meshgrid points; no sub-graph sampling).
         kernel: "cubic" (smooth, C¹) or "tophat" (discontinuous).
 
     Returns:
-        DenseD or SparseD instance (both support D @ u for (N,) and (N, N_t)).
+        DenseD, SparseD, or ConvD instance (all support D @ u for (N,) and
+        (N, N_t) inputs).
+
     """
     N = x.shape[0]
 
@@ -450,8 +591,11 @@ def build_D(x, delta, method=None, kernel="cubic"):
         return DenseD(x, delta, kernel)
     elif method == "sparse":
         return SparseD(x, delta, kernel)
+    elif method == "conv":
+        return ConvD(x, delta, kernel)
     else:
-        raise ValueError(f"Unknown method: {method}. Use 'dense', 'sparse', or None.")
+        raise ValueError(
+            f"Unknown method: {method}. Use 'dense', 'sparse', 'conv', or None.")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -617,5 +761,34 @@ if __name__ == "__main__":
     f = jax.jit(lambda v: D_jit @ v)
     assert jnp.allclose(f(u_jit), D_jit @ u_jit, atol=1e-5)
     print("jit matvec ✓")
+
+    # ---- ConvD vs SparseD (structured grids, 1D/2D/3D) ----
+    print("\n--- ConvD vs SparseD ---")
+    conv_tests = [("1D", jnp.linspace(0., 1., 401)[:, None])]
+    x1d = jnp.linspace(0., 1., 60)
+    xv, yv = jnp.meshgrid(x1d, jnp.linspace(0., 0.5, 40), indexing='xy')
+    conv_tests.append(("2D", jnp.stack([xv.ravel(), yv.ravel()], axis=-1)))
+    g3 = jnp.linspace(0., 1., 24)
+    Xv, Yv, Zv = jnp.meshgrid(g3, g3, g3, indexing='xy')
+    conv_tests.append(("3D", jnp.stack([Xv.ravel(), Yv.ravel(), Zv.ravel()],
+                                       axis=-1)))
+    for label, x in conv_tests:
+        u = jnp.sin(jnp.pi * x[:, 0])
+        for d in range(1, x.shape[1]):
+            u = u * jnp.sin((d + 1) * jnp.pi * x[:, d])
+        D_s = build_D(x, delta, method="sparse")
+        D_c = build_D(x, delta, method="conv")
+        y_s, y_c = D_s @ u, D_c @ u
+        # fp32 summation-order round-off only; natural error scale is the
+        # intermediate sum magnitude (diag·u), not the cancelled output
+        cond = float(jnp.max(D_s._diag * jnp.abs(u))) + 1e-30
+        dev = float(jnp.max(jnp.abs(y_c - y_s)))
+        assert dev / cond < 1e-6, f"ConvD {label}: dev/cond {dev/cond:.2e}"
+        uB = jnp.column_stack([u, 2 * u, 0.5 * u])
+        devB = float(jnp.max(jnp.abs((D_c @ uB) - (D_s @ uB))))
+        assert devB / (2 * cond) < 1e-6, f"ConvD {label} batched"
+        jc = jax.jit(lambda v: D_c @ v)
+        assert jnp.allclose(jc(u), y_c, atol=1e-6)
+        print(f"  {label} N={len(x)}: dev/cond {dev/cond:.2e} ✓")
 
     print("All tests passed.")

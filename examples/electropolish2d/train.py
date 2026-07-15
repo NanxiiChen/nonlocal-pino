@@ -97,7 +97,8 @@ def _build_D(config, x_all):
     if config.nl.method == "fd":
         from pinn.fd import FiniteDiff
         return FiniteDiff(x_all, Nx=config.sample.Nx, Ny=config.sample.Ny)
-    return build_D(x_all, config.nl.delta, kernel=config.nl.kernel, method=config.nl.method)
+    return build_D(x_all, config.nl.delta, kernel=config.nl.kernel,
+                   method=config.nl.method)
 
 
 def _build_optimizer(config):
@@ -238,6 +239,9 @@ def _eval_fem(net, fem_data, writer, step):
 def _main(_):
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
     config = FLAGS.config
+    # Default "highest" = exact FP32 (unchanged behavior); opt-in override only.
+    jax.config.update("jax_default_matmul_precision",
+                      config.train.get('matmul_precision', 'highest'))
     rng = jr.PRNGKey(42)
     k_net, k_samp = jr.split(rng)
 

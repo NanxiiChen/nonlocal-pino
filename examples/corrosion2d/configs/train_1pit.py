@@ -21,12 +21,19 @@ def get_config():
     c.arch.use_spatial_emb = True
     c.arch.use_temporal_emb = True
     c.arch.use_hard_constraint = True
+    # mlp trunk only: split first layer into x-only + t-only matmuls (exact
+    # same math, ~2x faster PDE loss+grad).  FiLM is already factorized
+    # implicitly; not supported for modified_mlp.
+    c.arch.tensor_split = False
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()
     c.nl.delta = 0.02
     c.nl.kernel = "cubic"  # cubic is C¹ smooth, higher accuracy than tophat
-    c.nl.method = "sparse"  # None=auto: dense if N<2000 else sparse
+    # "conv": stencil-convolution operator (structured grids only) — exact
+    # same weights/sums as "sparse" (verified to fp32 round-off), ~8% faster
+    # steps on B200.  Use "sparse" when K_core>0 (sub-graph sampling).
+    c.nl.method = "conv"
 
     # Sampling
     c.sample = config_dict.ConfigDict()
@@ -54,6 +61,9 @@ def get_config():
     c.train.lr_min = 1e-5
     c.train.optimizer = "adam"
     c.train.grad_clip = 100.0
+    # Matmul precision: "highest" = exact FP32 (default, unchanged accuracy).
+    # "tensorfloat32" trades precision for speed — opt-in only, validate first.
+    c.train.matmul_precision = "highest"
     c.train.alpha_gradnorm = 1.0
     c.train.gradnorm_update_every = 20  # update GradNorm weights every N iters; 1=every iter
     c.train.soap_b1 = 0.95

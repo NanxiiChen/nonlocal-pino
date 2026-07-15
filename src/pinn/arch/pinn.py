@@ -16,19 +16,33 @@ class _PINN(eqx.Module):
     trunk: eqx.Module
     hard_constraint: eqx.Module | None
     dirichlet_bc: eqx.Module | None
+    tensor_split: bool = eqx.field(static=True, default=False)
 
     def __call__(self, x: jnp.ndarray, t: jnp.ndarray) -> jnp.ndarray:
-        parts = []
-        if self.spatial_emb is not None:
-            parts.append(self.spatial_emb(jnp.atleast_1d(x)))
+        ex = (self.spatial_emb(jnp.atleast_1d(x))
+              if self.spatial_emb is not None else jnp.atleast_1d(x))
+        et = (self.temporal_emb(jnp.atleast_1d(t))
+              if self.temporal_emb is not None else jnp.atleast_1d(t))
+
+        if self.tensor_split and isinstance(self.trunk, MLP):
+            # Exact split of the first trunk layer:
+            #   W @ [ex; et] + b  =  (W_x @ ex) + (W_t @ et + b)
+            # hx depends only on x and ht only on t, so under the losses'
+            # vmap(x) x vmap(t) tensor-product evaluation each partial matmul
+            # is hoisted out of the other batch dimension: the dominant
+            # (N_x*N_t, in_dim, hidden) matmul becomes O(N_x) + O(N_t) work
+            # plus an elementwise broadcast add.  Same math, fewer FLOPs.
+            first = self.trunk.layers[0]
+            dx = ex.shape[0]
+            hx = first.weight[:, :dx] @ ex
+            ht = first.weight[:, dx:] @ et + first.bias
+            h = self.trunk.activation(hx + ht)
+            for layer in self.trunk.layers[1:-1]:
+                h = self.trunk.activation(layer(h))
+            out = self.trunk.layers[-1](h)
         else:
-            parts.append(jnp.atleast_1d(x))
-        if self.temporal_emb is not None:
-            parts.append(self.temporal_emb(jnp.atleast_1d(t)))
-        else:
-            parts.append(jnp.atleast_1d(t))
-        h = jnp.concatenate(parts)
-        out = self.trunk(h)
+            out = self.trunk(jnp.concatenate([ex, et]))
+
         if self.hard_constraint is not None:
             out = self.hard_constraint(out)
         if self.dirichlet_bc is not None:
@@ -46,6 +60,7 @@ def make_pinn(spatial_dim: int, out_dim: int, *,
               activation=jnp.tanh,
               hard_constraint: eqx.Module | None = None,
               dirichlet_bc: eqx.Module | None = None,
+              tensor_split: bool = False,
               key: jr.PRNGKey) -> _PINN:
     """Factory: create a PINN model.
 
@@ -53,6 +68,9 @@ def make_pinn(spatial_dim: int, out_dim: int, *,
     ``use_spatial_emb`` / ``use_temporal_emb``.
 
     ``trunk_type`` is "mlp" or "modified_mlp".
+    ``tensor_split`` (mlp trunk only): split the first layer into x-only and
+    t-only matmuls — exact same math, much cheaper under the tensor-product
+    (vmap over x times vmap over t) evaluation used in training.
     Single-sample: x ∈ R^spatial_dim, t ∈ R → R^out_dim.
     """
     k_spatial, k_temporal, k_trunk = jr.split(key, 3)
@@ -81,10 +99,13 @@ def make_pinn(spatial_dim: int, out_dim: int, *,
         trunk = MLP(trunk_in, hidden_dim, out_dim, num_layers, activation=activation, key=k_trunk)
     elif trunk_type == "modified_mlp":
         trunk = ModifiedMLP(trunk_in, hidden_dim, out_dim, num_layers, key=k_trunk)
+        if tensor_split:
+            raise ValueError("tensor_split requires trunk_type='mlp'")
     else:
         raise ValueError(f"Unknown trunk_type: {trunk_type}")
 
-    return _PINN(spatial_emb, temporal_emb, trunk, hard_constraint, dirichlet_bc)
+    return _PINN(spatial_emb, temporal_emb, trunk, hard_constraint,
+                 dirichlet_bc, tensor_split)
 
 
 _ACTIVATIONS = {
