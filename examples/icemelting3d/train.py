@@ -212,6 +212,8 @@ def _main(_):
     run_dir = _setup_dirs(config)
     writer = SummaryWriter(run_dir)
     log.info("Logging to %s", run_dir)
+    with open(os.path.join(run_dir, 'config.json'), 'w') as f:
+        f.write(config.to_json_best_effort())
 
     losses = _load_losses()
     make_loss_fn = losses.make_loss_fn
