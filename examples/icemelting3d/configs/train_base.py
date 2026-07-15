@@ -49,7 +49,7 @@ def get_config():
 
     # Training
     c.train = config_dict.ConfigDict()
-    c.train.iterations = 10000
+    c.train.iterations = 20000
     c.train.lr_init = 5e-3
     c.train.lr_decay_every = 1000
     c.train.lr_decay_rate = 0.95
@@ -58,7 +58,7 @@ def get_config():
     c.train.grad_clip = 100.0
     # "" keeps JAX's default matmul precision (this script's historical
     # behavior).  Set "highest" for exact FP32 or "tensorfloat32" explicitly.
-    c.train.matmul_precision = ""
+    c.train.matmul_precision = "highest"
     c.train.soap_max_precond_dim = 100000
     c.train.alpha_gradnorm = 1.0
     c.train.gradnorm_update_every = 20
