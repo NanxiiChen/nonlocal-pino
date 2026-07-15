@@ -2,9 +2,72 @@
 
 ## Motivation
 
-This example is designed as a **killer ablation** for the nonlocal operator $D_\delta$ vs finite-difference (FD). The left/right boundaries have **Neumann (zero-flux) BCs** — no explicit Dirichlet constraints, no BC loss terms. The nonlocal operator handles Neumann BCs automatically (free surfaces require no special treatment), while FD must truncate its stencil at the boundary and cannot correctly enforce zero flux without additional BC loss terms.
+This example is designed as a **killer ablation** for the nonlocal operator
+$D_\delta$ vs finite-difference (FD) / local AD. The left/right boundaries
+have **Neumann (zero-flux) BCs** — no explicit Dirichlet constraints, no BC
+loss terms. The nonlocal operator handles Neumann BCs automatically (simply by
+not sampling *outside* the domain), while FD must truncate its stencil and a
+local PINN must explicitly penalise $\partial\phi/\partial n$ and
+$\partial c/\partial n$ in the loss function.
 
-The initial interface is a **rough, randomly-generated surface** described by a signed-distance function (SDF) to a piecewise-linear profile, creating a non-trivial IC that tests the network's capacity to resolve sharp gradients.
+The initial interface is a **rough, randomly-generated surface** described by
+a signed-distance function (SDF) to a piecewise-linear profile.
+
+## Physical Setup
+
+A metal workpiece is held between **insulating (inert) fixtures** on the left
+and right sides; only its top surface is exposed to the electrolyte.  The
+fixture walls are electrochemically inactive — no reaction, no current.
+
+```
+                   electrolyte  φ=0, c=0 (top, Dirichlet)
+  ┌─────────────────────────────────────────────┐
+  │                                             │
+  │  electrolyte   φ≈0,  c≈0                   │ ← inert wall
+  ├──────── rough interface ~~~~~~~~~~~~~~~~~~~─┤   ∂φ/∂n = 0
+  │                                             │   ∂c/∂n = 0
+  │  solid metal   φ≈1,  c≈1                   │ ← inert wall
+  │                                             │
+  └─────────────────────────────────────────────┘
+                   solid metal  φ=1, c=1 (bottom, Dirichlet)
+```
+
+- **Top** ($y=0.5$): liquid electrolyte, $\phi=0$, $c=0$
+- **Bottom** ($y=0$): solid metal, $\phi=1$, $c=1$
+- **Left / Right** ($x=0$, $x=1$): inert insulating fixtures, $\partial\phi/\partial n=0$, $\partial c/\partial n=0$
+- **Interface**: initial rough surface at $y\approx 0.33$; metal dissolves at the interface
+
+The Neumann (zero-flux) condition on the side walls is physically justified:
+the insulating fixture does not participate in the electrochemical reaction,
+so there is no flux of either the phase-field or the concentration field across
+the fixture surface.  This is the standard inert-wall assumption used in
+phase-field corrosion and electropolishing models.
+
+### Why nonlocal wins here
+
+For a local PINN (standard autograd) or an FD-based discretisation, the Neumann
+condition on the side walls must be enforced *explicitly* — by sampling points
+on $x=0$ and $x=1$ and adding a penalty term $\|\partial\phi/\partial n\|^2 +
+\|\partial c/\partial n\|^2$ to the loss.  This creates a structural conflict:
+
+1. The **initial condition** (rough SDF profile) does **not** satisfy
+   $\partial\phi/\partial n = 0$ on the side walls — the rough interface meets
+   the walls at an angle.
+2. The **Neumann loss** demands $\partial\phi/\partial n \to 0$ immediately.
+
+The optimiser is caught between two competing objectives at early time: the IC
+loss pulls one way, the Neumann loss pulls another.  Mitigating this requires
+careful weight scheduling (bias IC early, ramp Neumann later), adding tuning
+overhead and sacrificing boundary accuracy near $t=0$.
+
+The **nonlocal operator $D_\delta$** avoids this entirely.  It is constructed
+from neighbour pairs *inside* the domain only — there is no stencil outside,
+no explicit boundary condition, and no BC loss term.  The condition
+$\partial/\partial n = 0$ emerges automatically from the fact that points on
+the boundary only interact with interior neighbours.  The IC is free to take
+any shape; $D_\delta$ itself guarantees the zero-flux condition without ever
+asking the optimiser to enforce it.  **The boundary condition and the initial
+condition never conflict.**
 
 ## Governing Equations (Local / Classical)
 
