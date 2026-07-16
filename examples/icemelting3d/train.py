@@ -368,30 +368,29 @@ def _main(_):
             iface_gamma, eps_causal, x_points, sub_data, core_mask)
 
         # Causal eps update
-        if causal is not None and aux.get('causal_w') is not None:
+        if causal is not None and aux.get('causal/w') is not None:
             eps_causal = causal.update_eps(
-                aux['causal_w'], eps_causal,
+                aux['causal/w'], eps_causal,
                 config.causal.step_size, config.causal.max_eps,
                 config.causal.max_last_weight, config.causal.min_mean_weight)
 
         # Logging
         if it % log_cfg.log_every == 0:
             writer.add_scalar('loss/total', float(loss_val), it)
-            writer.add_scalar('loss/pde', float(aux['loss_pde']), it)
-            writer.add_scalar('loss/ic', float(aux['loss_ic']), it)
-            writer.add_scalar('weight/pde', float(aux['weight_pde']), it)
-            writer.add_scalar('weight/ic', float(aux['weight_ic']), it)
+            for k, v in aux.items():
+                if v is not None and (not isinstance(v, jnp.ndarray) or v.ndim == 0):
+                    writer.add_scalar(k, float(v), it)
             if causal is not None and eps_causal is not None:
                 writer.add_scalar('causal/eps', float(eps_causal), it)
-                if aux.get('causal_w') is not None:
-                    w_mean = float(jnp.mean(aux['causal_w']))
-                    w_last = float(aux['causal_w'][-1])
+                if aux.get('causal/w') is not None:
+                    w_mean = float(jnp.mean(aux['causal/w']))
+                    w_last = float(aux['causal/w'][-1])
                     writer.add_scalar('causal/w_mean', w_mean, it)
                     writer.add_scalar('causal/w_last', w_last, it)
             log.info("%5d: total=%.4e  pde=%.4e  ic=%.4e  w=[%.2f,%.2f]",
-                     it, float(loss_val), float(aux['loss_pde']),
-                     float(aux['loss_ic']),
-                     float(aux['weight_pde']), float(aux['weight_ic']))
+                     it, float(loss_val), float(aux['loss/pde']),
+                     float(aux['loss/ic']),
+                     float(aux['weight/pde']), float(aux['weight/ic']))
 
         # Evaluation
         if it % log_cfg.eval_every == 0:

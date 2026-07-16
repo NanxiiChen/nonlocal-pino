@@ -364,24 +364,24 @@ def _main(_):
             writer.add_scalar('loss/total', float(loss_val), it)
             for k, v in aux.items():
                 if v is not None and (not isinstance(v, jnp.ndarray) or v.ndim == 0):
-                    writer.add_scalar(f'loss/{k}', float(v), it)
+                    writer.add_scalar(k, float(v), it)
             lr = config.train.lr_init * config.train.lr_decay_rate**(it // config.train.lr_decay_every)
             writer.add_scalar('train/lr', float(max(lr, config.train.lr_min)), it)
             log.info("[%5d] loss=%.3e  ac=%.3e ch=%.3e bc=%.3e ic=%.3e  "
                      "w=[%.1f,%.1f,%.1f,%.0f]  (%.1fs)",
-                     it, float(loss_val), float(aux['loss_ac']),
-                     float(aux['loss_ch']), float(aux['loss_bc']),
-                     float(aux['loss_ic']),
-                     float(aux['weight_ac']), float(aux['weight_ch']),
-                     float(aux['weight_bc']), float(aux['weight_ic']),
+                     it, float(loss_val), float(aux['loss/ac']),
+                     float(aux['loss/ch']), float(aux['loss/bc']),
+                     float(aux['loss/ic']),
+                     float(aux['weight/ac']), float(aux['weight/ch']),
+                     float(aux['weight/bc']), float(aux['weight/ic']),
                      elapsed)
-        if causal is not None and aux.get('causal_w_ac') is not None:
+        if causal is not None and aux.get('causal/w_ac') is not None:
             cfg = config.causal
             causal_eps_ac = causal.update_eps(
-                aux['causal_w_ac'], causal_eps_ac,
+                aux['causal/w_ac'], causal_eps_ac,
                 cfg.step_size, cfg.max_eps, cfg.max_last_weight, cfg.min_mean_weight)
             causal_eps_ch = causal.update_eps(
-                aux['causal_w_ch'], causal_eps_ch,
+                aux['causal/w_ch'], causal_eps_ch,
                 cfg.step_size, cfg.max_eps, cfg.max_last_weight, cfg.min_mean_weight)
             if it % config.log.log_every == 0:
                 writer.add_scalar('causal/eps_ac', float(causal_eps_ac), it)
@@ -402,14 +402,14 @@ def _main(_):
                 eqx.tree_serialise_leaves(ckpt_path, net)
                 log.info("  Saved checkpoint: %s", ckpt_path)
 
-            if causal is not None and aux.get('causal_w_ac') is not None:
+            if causal is not None and aux.get('causal/w_ac') is not None:
                 import matplotlib; matplotlib.use('Agg')
                 import matplotlib.pyplot as plt
                 bins_mid = (causal.bins[1:] + causal.bins[:-1]) / 2
                 fig, axes = plt.subplots(1, 2, figsize=(10, 3))
                 for _i, (w, chunks, label) in enumerate([
-                    (aux['causal_w_ac'], aux['causal_chunks_ac'], 'AC'),
-                    (aux['causal_w_ch'], aux['causal_chunks_ch'], 'CH')]):
+                    (aux['causal/w_ac'], aux['causal/chunks_ac'], 'AC'),
+                    (aux['causal/w_ch'], aux['causal/chunks_ch'], 'CH')]):
                     axes[0].plot(bins_mid, w, 'o-', label=label)
                     axes[1].plot(bins_mid, chunks, 'o-', label=label)
                 axes[0].set_title(f'Causal weights (eps_ac={float(causal_eps_ac):.3f}, ch={float(causal_eps_ch):.3f})')

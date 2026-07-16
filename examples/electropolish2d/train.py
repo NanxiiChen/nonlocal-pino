@@ -403,26 +403,26 @@ def _main(_):
             writer.add_scalar('loss/total', float(loss_val), it)
             for k, v in aux.items():
                 if v is not None and (not isinstance(v, jnp.ndarray) or v.ndim == 0):
-                    writer.add_scalar(f'loss/{k}', float(v), it)
+                    writer.add_scalar(k, float(v), it)
             lr = config.train.lr_init * config.train.lr_decay_rate**(it // config.train.lr_decay_every)
             writer.add_scalar('train/lr', float(max(lr, config.train.lr_min)), it)
             log.info("[%5d] loss=%.3e  ac=%.3e ch=%.3e bc_t=%.3e bc_b=%.3e ic=%.3e  "
                      "w=[%.1e,%.1e,%.1e,%.1e,%.1e]  (%.1fs)",
-                     it, float(loss_val), float(aux['loss_ac']),
-                     float(aux['loss_ch']),
-                     float(aux['loss_bc_top']), float(aux['loss_bc_bot']),
-                     float(aux['loss_ic']),
-                     float(aux['weight_ac']), float(aux['weight_ch']),
-                     float(aux['weight_bc_top']), float(aux['weight_bc_bot']),
-                     float(aux['weight_ic']), elapsed)
+                     it, float(loss_val), float(aux['loss/ac']),
+                     float(aux['loss/ch']),
+                     float(aux['loss/bc_top']), float(aux['loss/bc_bot']),
+                     float(aux['loss/ic']),
+                     float(aux['weight/ac']), float(aux['weight/ch']),
+                     float(aux['weight/bc_top']), float(aux['weight/bc_bot']),
+                     float(aux['weight/ic']), elapsed)
 
-        if causal is not None and aux.get('causal_w_ac') is not None:
+        if causal is not None and aux.get('causal/w_ac') is not None:
             cfg = config.causal
             causal_eps_ac = causal.update_eps(
-                aux['causal_w_ac'], causal_eps_ac,
+                aux['causal/w_ac'], causal_eps_ac,
                 cfg.step_size, cfg.max_eps, cfg.max_last_weight, cfg.min_mean_weight)
             causal_eps_ch = causal.update_eps(
-                aux['causal_w_ch'], causal_eps_ch,
+                aux['causal/w_ch'], causal_eps_ch,
                 cfg.step_size, cfg.max_eps, cfg.max_last_weight, cfg.min_mean_weight)
             if it % config.log.log_every == 0:
                 writer.add_scalar('causal/eps_ac', float(causal_eps_ac), it)

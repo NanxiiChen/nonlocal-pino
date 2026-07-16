@@ -213,10 +213,10 @@ def make_loss_fn(x_all, D, mask_free, bc_values, nondim_params,
             ac_grad, ch_grad, bc_grad, ic_grad)
 
         aux = {
-            'loss_ac': ac_val, 'loss_ch': ch_val, 'loss_bc': bc_val, 'loss_ic': ic_val,
-            'weight_ac': w_ac, 'weight_ch': w_ch, 'weight_bc': w_bc, 'weight_ic': w_ic,
-            'causal_w_ac': w_ac_c, 'causal_w_ch': w_ch_c,
-            'causal_chunks_ac': chunks_ac, 'causal_chunks_ch': chunks_ch,
+            'loss/ac': ac_val, 'loss/ch': ch_val, 'loss/bc': bc_val, 'loss/ic': ic_val,
+            'weight/ac': w_ac, 'weight/ch': w_ch, 'weight/bc': w_bc, 'weight/ic': w_ic,
+            'causal/w_ac': w_ac_c, 'causal/w_ch': w_ch_c,
+            'causal/chunks_ac': chunks_ac, 'causal/chunks_ch': chunks_ch,
         }
         return total, aux, total_grad, jnp.array([w_ac, w_ch, w_bc, w_ic])
 

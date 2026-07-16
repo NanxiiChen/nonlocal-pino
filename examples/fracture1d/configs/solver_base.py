@@ -1,6 +1,6 @@
 """Configuration for 1D phase-field fracture FEniCS solver — non-dimensional.
 
-Domain: 1D bar x ∈ [-0.5, 0.5] under uniaxial tension.
+Domain: 1D bar x ∈ [0, 1] under uniaxial tension.
 Left end fixed, right end displaced (displacement-controlled loading).
 
 Non-dimensional parameters follow the fracture1d README.
@@ -30,7 +30,7 @@ def get_config():
     # --- Loading (non-dimensional displacement control) ---
     c.loading = config_dict.ConfigDict()
     c.loading.du = 1e-5         # displacement increment per step
-    c.loading.u_final = 0.05    # final applied displacement
+    c.loading.u_final = 0.02    # final applied displacement
 
     # --- Imperfection (to trigger localisation at x=0) ---
     # G_c_eff(x) = G_c * (1 - amplitude * exp(-x² / (2·width²)))
@@ -40,12 +40,12 @@ def get_config():
 
     # --- Solver ---
     c.solver = config_dict.ConfigDict()
-    c.solver.atol = 1e-10
-    c.solver.rtol = 1e-8
+    c.solver.atol = 1e-8
     c.solver.max_iters = 50
 
     # --- Output ---
     c.output = config_dict.ConfigDict()
+    c.output.log_every = 100         # progress print interval (steps)
     c.output.dir = "/root/autodl-tmp/data/fracture1d"
     c.output.filename = "results_fracture1d.npz"
     c.output.save_every = 1e-3        # save snapshots every this much u_bar
