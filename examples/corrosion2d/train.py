@@ -7,7 +7,7 @@ Usage (from project root):
 """
 
 import importlib.util as _iu
-import logging, os, time
+import json, logging, os, time
 
 import jax, jax.numpy as jnp, jax.random as jr
 
@@ -19,6 +19,7 @@ log = logging.getLogger(__name__)
 
 from pinn.operators import build_D
 from pinn.arch import make_pinn, make_film_pinn
+from pinn.utils import log_config_text
 
 
 def _load_losses():
@@ -91,7 +92,7 @@ def _build_network(config, key):
                      temporal_scale=c.temporal_scale,
                      use_spatial_emb=c.use_spatial_emb,
                      use_temporal_emb=c.use_temporal_emb,
-                     tensor_split=c.get('tensor_split', False),
+                     tensor_split=c.tensor_split,
                      hard_constraint=hc, dirichlet_bc=None, key=key)
 
 
@@ -296,6 +297,7 @@ def _diag_residual(net, x_all, D, t_eval, nd_params, writer, step):
              float(jnp.sqrt(jnp.mean(r_drv**2))))
 
 
+
 # ── Main ────────────────────────────────────────────────────────────────────
 
 def _main(_):
@@ -317,7 +319,8 @@ def _main(_):
     writer = SummaryWriter(run_dir)
     log.info("Logging to %s", run_dir)
     with open(os.path.join(run_dir, 'config.json'), 'w') as f:
-        f.write(config.to_json_best_effort())
+        f.write(json.dumps(json.loads(config.to_json_best_effort()), indent=2))
+    log_config_text(writer, config)
 
     # --- spatial grid (2D structured) ---
     xs = jnp.linspace(0.0, 1.0, config.sample.Nx)

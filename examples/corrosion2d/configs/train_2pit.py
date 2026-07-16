@@ -47,6 +47,7 @@ def get_config():
 
     # Training
     c.train = config_dict.ConfigDict()
+    c.train.matmul_precision = "highest"
     c.train.iterations = 20000
     c.train.lr_init = 5e-4
     c.train.lr_decay_every = 1000

@@ -5,7 +5,7 @@ Usage:
   python examples/icemelting3d/train.py --config=examples/icemelting3d/configs/train_base.py
 """
 
-import importlib.util, logging, os, time
+import importlib.util, json, logging, os, time
 import numpy as np
 import jax
 import jax.numpy as jnp
@@ -22,6 +22,7 @@ from ml_collections import config_flags as _config_flags
 
 from pinn.operators import build_D, SparseD
 from pinn.arch import make_pinn, make_film_pinn
+from pinn.utils import log_config_text
 from pinn.arch.hard_constraint import TanhConstraint
 from pinn.causal import CausalWeightor
 from pinn.optimizers import make_optimizer
@@ -200,6 +201,7 @@ def _diag_residual(net, x_eval, D, t_eval, N1, N2, N3, writer, step):
                           float(jnp.sqrt(jnp.mean(total**2))), step)
 
 
+
 # ── Main ───────────────────────────────────────────────────────────────────
 
 def _main(_):
@@ -214,7 +216,8 @@ def _main(_):
     writer = SummaryWriter(run_dir)
     log.info("Logging to %s", run_dir)
     with open(os.path.join(run_dir, 'config.json'), 'w') as f:
-        f.write(config.to_json_best_effort())
+        f.write(json.dumps(json.loads(config.to_json_best_effort()), indent=2))
+    log_config_text(writer, config)
 
     losses = _load_losses()
     make_loss_fn = losses.make_loss_fn

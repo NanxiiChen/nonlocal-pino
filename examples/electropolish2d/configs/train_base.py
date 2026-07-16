@@ -56,9 +56,10 @@ def get_config():
 
     # Training
     c.train = config_dict.ConfigDict()
-    c.train.iterations = 50000
+    c.train.matmul_precision = "highest"
+    c.train.iterations = 6000
     c.train.lr_init = 5e-3
-    c.train.lr_decay_every = 2000
+    c.train.lr_decay_every = 1000
     c.train.lr_decay_rate = 0.95
     c.train.lr_min = 1e-5
     c.train.optimizer = "soap"
