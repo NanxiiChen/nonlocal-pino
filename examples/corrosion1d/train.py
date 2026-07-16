@@ -12,7 +12,6 @@ import logging, os, time
 
 import jax, jax.numpy as jnp, jax.random as jr
 
-jax.config.update("jax_default_matmul_precision", "highest")
 import equinox as eqx
 import numpy as np
 from tensorboardX import SummaryWriter
@@ -259,9 +258,9 @@ def _diag_residual(net, x_fem, t_fem, delta, kernel, nd_params, compute_all, wri
 def _main(_):
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
     config = FLAGS.config
-    # Default "highest" = exact FP32 (unchanged behavior); opt-in override only.
-    jax.config.update("jax_default_matmul_precision",
-                      config.train.get('matmul_precision', 'highest'))
+    _prec = config.train.get('matmul_precision', '')
+    if _prec:
+        jax.config.update("jax_default_matmul_precision", _prec)
     rng = jr.PRNGKey(42)
     k_net, k_samp = jr.split(rng)
 
