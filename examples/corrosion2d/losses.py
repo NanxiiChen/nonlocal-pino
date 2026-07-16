@@ -260,13 +260,13 @@ def make_loss_fn(x_grid, D, x_bc_pit, x_bc_solid, nondim_params,
 
         w_ac_c, w_ch_c, chunks_ac, chunks_ch = causal_aux
         aux = {
-            'loss_ac': ac_v, 'loss_ch': ch_v,
-            'loss_bc_pit': bc_pit_v, 'loss_bc_solid': bc_solid_v,
-            'loss_ic': ic_v,
-            'weight_ac': w[0], 'weight_ch': w[1],
-            'weight_bc_pit': w[2], 'weight_bc_solid': w[3], 'weight_ic': w[4],
-            'causal_w_ac': w_ac_c, 'causal_w_ch': w_ch_c,
-            'causal_chunks_ac': chunks_ac, 'causal_chunks_ch': chunks_ch,
+            'loss/ac': ac_v, 'loss/ch': ch_v,
+            'loss/bc_pit': bc_pit_v, 'loss/bc_solid': bc_solid_v,
+            'loss/ic': ic_v,
+            'weight/ac': w[0], 'weight/ch': w[1],
+            'weight/bc_pit': w[2], 'weight/bc_solid': w[3], 'weight/ic': w[4],
+            'causal/w_ac': w_ac_c, 'causal/w_ch': w_ch_c,
+            'causal/chunks_ac': chunks_ac, 'causal/chunks_ch': chunks_ch,
         }
         return total, aux, total_grad, jnp.array(w)
 

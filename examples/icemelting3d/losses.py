@@ -224,9 +224,9 @@ def make_loss_fn(x_grid, D, N1, N2, N3, x_ic=None,
         else:
             causal_w = causal_chunks = None
 
-        aux = {'loss_pde': pde_v, 'loss_ic': ic_v,
-               'weight_pde': new_w[0], 'weight_ic': new_w[1],
-               'causal_w': causal_w, 'causal_chunks': causal_chunks}
+        aux = {'loss/pde': pde_v, 'loss/ic': ic_v,
+               'weight/pde': new_w[0], 'weight/ic': new_w[1],
+               'causal/w': causal_w, 'causal/chunks': causal_chunks}
         return total, aux, total_grad, new_w
 
     return loss_fn
