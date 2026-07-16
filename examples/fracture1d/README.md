@@ -75,7 +75,7 @@ $$\frac{G_c}{\ell_0}\big(d - \ell_0^2 d''\big) = 2(1-d)\,\mathcal{H},\quad \math
 |---|---|---|
 | Homogeneous damage | $d = \frac{2\ell_0 \mathcal{H}}{G_c + 2\ell_0 \mathcal{H}}$ | Before localisation ($d''=0$) |
 | Critical strain | $\varepsilon_c = \sqrt{\frac{G_c}{\ell_0 E}}$ | Onset of damage ($d \to 0^+$) |
-| Crack profile (fully developed) | $d(x) = \exp(-|x|/\ell_0)$ | Valid when $\sigma \approx 0$ |
+| Crack profile (fully developed) | $d(x) = \exp\left(-\frac{\lvert x\rvert }{ \ell_0}\right)$ | Valid when $\sigma \approx 0$ |
 | Characteristic crack width | $\sim 2\ell_0$ | $d$ decays from 1 to $\sim\! 0.14$ at $|x|=2\ell_0$ |
 
 These reference solutions allow systematic verification of:

@@ -14,6 +14,8 @@ Usage (from project root):
   python examples/fracture1d/solver.py
   python examples/fracture1d/solver.py --config=examples/fracture1d/configs/solver_base.py
   python examples/fracture1d/solver.py --config.loading.du=2e-5 --config.loading.u_final=0.06
+  mpirun --allow-run-as-root -np 18 /root/miniconda3/envs/fenicsenv/bin/python examples/fracture1d/solver.py \
+      --config=examples/fracture1d/configs/solver_base.py
 """
 
 import gc, os, sys
@@ -27,6 +29,7 @@ if os.path.isdir(_pkgconfig_dir):
             _pkgconfig_dir + ':' + os.environ['PKG_CONFIG_PATH']
         )
 
+from mpi4py import MPI as _MPI
 import numpy as np
 from absl import app as _absl_app
 from ml_collections import config_flags as _config_flags
@@ -45,6 +48,7 @@ from fenics import (
     grad,
     near,
     project,
+    set_log_active,
     solve,
 )
 
@@ -70,8 +74,38 @@ def analytical_crack_profile(x, xc, N_l):
 
 # ── Solver ───────────────────────────────────────────────────────────────────
 
+# Suppress FEniCS log spam
+
+# ── MPI gather ──────────────────────────────────────────────────────────────
+
+def _gather_1d(field, V, comm):
+    """Gather a scalar field to rank 0, deduplicate, sort by x."""
+    local_coords = V.tabulate_dof_coordinates()[:, 0]
+    local_vals = field.vector().get_local()
+
+    if comm.size > 1:
+        coords_list = comm.gather(local_coords, root=0)
+        vals_list = comm.gather(local_vals, root=0)
+    else:
+        coords_list = [local_coords]
+        vals_list = [local_vals]
+
+    if comm.rank == 0:
+        all_coords = np.concatenate(coords_list)
+        all_vals = np.concatenate(vals_list)
+        _, unique_idx = np.unique(all_coords.round(decimals=10),
+                                   return_index=True)
+        sort_idx = np.argsort(all_coords[unique_idx])
+        return all_coords[unique_idx][sort_idx], all_vals[unique_idx][sort_idx]
+    return None, None
+
+set_log_active(False)  # suppress FEniCS + PETSc output
+
 def solve_fracture(config):
     """Run the 1D staggered phase-field fracture solver."""
+    comm = _MPI.COMM_WORLD
+    rank = comm.rank
+
     phys = config.physical
     L0 = config.nondim.L0
 
@@ -83,15 +117,16 @@ def solve_fracture(config):
     eps_c = np.sqrt(alpha_nd)     # critical strain (analytical)
     sigma_c = np.sqrt(alpha_nd) / 4.0  # peak homogeneous stress
 
-    print(f"N_l = {N_l:.6f}")
-    print(f"N_G = {N_G:.6e}")
-    print(f"alpha = N_G/N_l = {alpha_nd:.6e}")
-    print(f"eps_c (analytical) = {eps_c:.6f}")
-    print(f"sigma_c (analytical) = {sigma_c:.6f}")
+    if rank == 0:
+        print(f"N_l = {N_l:.6f}")
+        print(f"N_G = {N_G:.6e}")
+        print(f"alpha = N_G/N_l = {alpha_nd:.6e}")
+        print(f"eps_c (analytical) = {eps_c:.6f}")
+        print(f"sigma_c (analytical) = {sigma_c:.6f}")
 
     # ── Mesh & function spaces ─────────────────────────────────────────────
     nx = config.mesh.nx
-    mesh = IntervalMesh(nx, -0.5, 0.5)
+    mesh = IntervalMesh(comm, nx, 0.0, 1.0)
 
     Vu = FunctionSpace(mesh, 'CG', 1)   # displacement u
     Vd = FunctionSpace(mesh, 'CG', 1)   # damage d
@@ -109,14 +144,15 @@ def solve_fracture(config):
     x_coords = V0.tabulate_dof_coordinates()[:, 0]
     imp_amp = config.imperfection.amplitude
     imp_w = config.imperfection.width
-    ng_local = N_G * (1.0 - imp_amp * np.exp(-x_coords**2 / (2.0 * imp_w**2)))
+    ng_local = N_G * (1.0 - imp_amp * np.exp(-(x_coords - 0.5)**2 / (2.0 * imp_w**2)))
     inv_NG = Function(V0)
     inv_NG.vector().set_local(1.0 / np.maximum(ng_local, 1e-30))
+    inv_NG.vector().apply('insert')
 
     # ── BCs ────────────────────────────────────────────────────────────────
     u_bar_const = Constant(0.0)
-    bc_left = DirichletBC(Vu, Constant(0.0), "near(x[0], -0.5)")
-    bc_right = DirichletBC(Vu, u_bar_const, "near(x[0], 0.5)")
+    bc_left = DirichletBC(Vu, Constant(0.0), "near(x[0], 0.0)")
+    bc_right = DirichletBC(Vu, u_bar_const, "near(x[0], 1.0)")
     bcs_u = [bc_left, bc_right]
 
     # ── UFL forms (use Function references; values update each iteration) ──
@@ -141,16 +177,13 @@ def solve_fracture(config):
     tol = config.solver.atol
     max_iters = config.solver.max_iters
 
-    # Storage (on sorted coordinates)
-    sort_idx = np.argsort(x_coords)
-    coords_sorted = x_coords[sort_idx]
-
+    # Storage
     u_snaps, d_snaps, snap_times = [], [], []
+
     force_hist, u_bar_hist = [], []
     next_save = config.output.save_every
 
-    # For convergence check
-    eps_old_vals = np.zeros_like(x_coords)
+
 
     for step, u_bar in enumerate(u_steps):
         u_bar_const.assign(u_bar)
@@ -167,6 +200,7 @@ def solve_fracture(config):
             H_vals = H_field.vector().get_local()
             H_new_vals = np.maximum(H_vals, 0.5 * eps_new_vals**2)
             H_field.vector().set_local(H_new_vals)
+            H_field.vector().apply('insert')
 
             # 3. Solve phase-field
             solve(a_d == L_d, d_new, [],
@@ -180,6 +214,8 @@ def solve_fracture(config):
                 d_new.vector().get_local() - d_old.vector().get_local()
             ))
             err = max(err_u, err_d)
+            if comm.size > 1:
+                err = comm.allreduce(err, op=_MPI.MAX)
 
             u_old.assign(u_new)
             d_old.assign(d_new)
@@ -187,7 +223,7 @@ def solve_fracture(config):
             if err < tol:
                 break
         else:
-            if step % 500 == 0:
+            if rank == 0 and step % config.output.log_every == 0:
                 print(f"  Step {step}: stagger did NOT converge "
                       f"(err={err:.2e} after {max_iters} iters)")
 
@@ -196,50 +232,59 @@ def solve_fracture(config):
         eps_vals_final = project(u_new.dx(0), V0).vector().get_local()
         sigma_vals = (1.0 - d_vals)**2 * eps_vals_final
         force = np.mean(sigma_vals)
+        if comm.size > 1:
+            force = comm.allreduce(force, op=_MPI.SUM) / comm.size
 
         force_hist.append(force)
         u_bar_hist.append(u_bar)
 
-        # ── Save snapshots ───────────────────────────────────────────────
         if u_bar >= next_save - 0.5 * du or step == len(u_steps) - 1:
-            u_snaps.append(u_new.vector().get_local()[sort_idx])
-            d_snaps.append(d_new.vector().get_local()[sort_idx])
-            snap_times.append(u_bar)
+            _, u_full = _gather_1d(u_new, V0, comm)
+            _, d_full = _gather_1d(d_new, V0, comm)
+            if rank == 0:
+                u_snaps.append(u_full)
+                d_snaps.append(d_full)
+                snap_times.append(u_bar)
             next_save += config.output.save_every
 
         # Progress
-        if step % 500 == 0:
+        if rank == 0 and step % config.output.log_every == 0:
             max_d = np.max(d_vals)
-            print(f"  Step {step:5d}  u_bar={u_bar:.5f}  F={force:.6e}  "
+            print(f"  Step {step+1:5d}  u_bar={u_bar:.5f}  F={force:.6e}  "
                   f"max_d={max_d:.4f}  n_iter={it+1}")
 
-    print(f"\nSolved {len(u_steps)} load steps.  "
-          f"Final max_d = {np.max(d_new.vector().get_local()):.4f}")
+    if rank == 0:
+        coords_full, d_final_full = _gather_1d(d_new, V0, comm)
+        print(f"\nSolved {len(u_steps)} load steps.  "
+              f"Final max_d = {np.max(d_final_full):.4f}")
 
-    # ── Save results ─────────────────────────────────────────────────────────
-    os.makedirs(config.output.dir, exist_ok=True)
-    fpath = os.path.join(config.output.dir, config.output.filename)
 
-    u_snaps_arr = np.array(u_snaps)
-    d_snaps_arr = np.array(d_snaps)
-    force_arr = np.array(force_hist)
-    u_bar_arr = np.array(u_bar_hist)
 
-    np.savez_compressed(fpath,
-                        x=coords_sorted,
-                        u_bar=u_bar_arr,
-                        snap_u_bar=np.array(snap_times),
-                        u=u_snaps_arr,
-                        d=d_snaps_arr,
-                        force=force_arr)
-    print(f"Saved {fpath}")
-    print(f"  u snaps: {u_snaps_arr.shape}, d snaps: {d_snaps_arr.shape}")
-    print(f"  force-displacement: {force_arr.shape}")
+        os.makedirs(config.output.dir, exist_ok=True)
+        fpath = os.path.join(config.output.dir, config.output.filename)
 
-    # ── Analytical comparison plots ──────────────────────────────────────────
-    _plot_comparison(config, coords_sorted, u_bar_arr, force_arr,
-                     u_snaps_arr, d_snaps_arr, snap_times,
-                     N_l, N_G, alpha_nd, eps_c, sigma_c)
+        u_snaps_arr = np.array(u_snaps)
+        d_snaps_arr = np.array(d_snaps)
+        force_arr = np.array(force_hist)
+        u_bar_arr = np.array(u_bar_hist)
+
+        np.savez_compressed(fpath,
+                            x=coords_full,
+                            u_bar=u_bar_arr,
+                            snap_u_bar=np.array(snap_times),
+                            u=u_snaps_arr,
+                            d=d_snaps_arr,
+                            force=force_arr)
+        print(f"Saved {fpath}")
+        print(f"  u snaps: {u_snaps_arr.shape}, d snaps: {d_snaps_arr.shape}")
+        print(f"  force-displacement: {force_arr.shape}")
+
+        # ── Analytical comparison plots ──────────────────────────────────────
+        _plot_comparison(config, coords_full, u_bar_arr, force_arr,
+                         u_snaps_arr, d_snaps_arr, snap_times,
+                         N_l, N_G, alpha_nd, eps_c, sigma_c)
+
+    comm.Barrier()
 
     # Cleanup
     del mesh, u_new, u_old, d_new, d_old, H_field, inv_NG
