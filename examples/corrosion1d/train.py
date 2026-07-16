@@ -8,11 +8,10 @@ Usage (from project root):
   python examples/corrosion1d/train.py --config.train.iterations=1000 --config.nl.delta=0.05
 """
 
-import logging, os, time
+import json, logging, os, time
 
 import jax, jax.numpy as jnp, jax.random as jr
 
-jax.config.update("jax_default_matmul_precision", "highest")
 import equinox as eqx
 import numpy as np
 from tensorboardX import SummaryWriter
@@ -21,6 +20,7 @@ log = logging.getLogger(__name__)
 
 from pinn.operators import build_D
 from pinn.arch import make_pinn, make_split_pinn, make_film_pinn
+from pinn.utils import log_config_text
 
 import importlib.util as _iu
 _loss_mod = None
@@ -254,14 +254,15 @@ def _diag_residual(net, x_fem, t_fem, delta, kernel, nd_params, compute_all, wri
              float(jnp.sqrt(jnp.mean(r_ac**2))))
 
 
+
 # ── Main ────────────────────────────────────────────────────────────────────
 
 def _main(_):
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
     config = FLAGS.config
-    # Default "highest" = exact FP32 (unchanged behavior); opt-in override only.
-    jax.config.update("jax_default_matmul_precision",
-                      config.train.get('matmul_precision', 'highest'))
+    _prec = config.train.get('matmul_precision', '')
+    if _prec:
+        jax.config.update("jax_default_matmul_precision", _prec)
     rng = jr.PRNGKey(42)
     k_net, k_samp = jr.split(rng)
 
@@ -270,7 +271,8 @@ def _main(_):
     writer = SummaryWriter(run_dir)
     log.info("Logging to %s", run_dir)
     with open(os.path.join(run_dir, 'config.json'), 'w') as f:
-        f.write(config.to_json_best_effort())
+        f.write(json.dumps(json.loads(config.to_json_best_effort()), indent=2))
+    log_config_text(writer, config)
 
     # --- spatial grid & BC ---
     x_all = jnp.linspace(0.0, 1.0, config.sample.Nx)[:, None]

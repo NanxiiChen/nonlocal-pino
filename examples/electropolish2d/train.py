@@ -7,11 +7,10 @@ Usage (from project root):
 """
 
 import importlib.util as _iu
-import logging, os, time
+import json, logging, os, time
 
 import jax, jax.numpy as jnp, jax.random as jr
 
-jax.config.update("jax_default_matmul_precision", "highest")
 import equinox as eqx
 import numpy as np
 from scipy.stats.qmc import LatinHypercube
@@ -21,6 +20,7 @@ log = logging.getLogger(__name__)
 
 from pinn.operators import build_D
 from pinn.arch import make_pinn, make_film_pinn
+from pinn.utils import log_config_text
 
 
 def _load_losses():
@@ -91,7 +91,7 @@ def _build_network(config, key):
                      temporal_scale=c.temporal_scale,
                      use_spatial_emb=c.use_spatial_emb,
                      use_temporal_emb=c.use_temporal_emb,
-                     tensor_split=c.arch.tensor_split,
+                     tensor_split=c.tensor_split,
                      hard_constraint=hc, dirichlet_bc=None, key=key)
 
 
@@ -238,14 +238,15 @@ def _eval_fem(net, fem_data, writer, step):
     return rel_phi, rel_c
 
 
+
 # ── Main ────────────────────────────────────────────────────────────────────
 
 def _main(_):
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
     config = FLAGS.config
-    # Default "highest" = exact FP32 (unchanged behavior); opt-in override only.
-    jax.config.update("jax_default_matmul_precision",
-                      config.train.get('matmul_precision', 'highest'))
+    _prec = config.train.get('matmul_precision', '')
+    if _prec:
+        jax.config.update("jax_default_matmul_precision", _prec)
     rng = jr.PRNGKey(42)
     k_net, k_samp = jr.split(rng)
 
@@ -258,7 +259,8 @@ def _main(_):
     writer = SummaryWriter(run_dir)
     log.info("Logging to %s", run_dir)
     with open(os.path.join(run_dir, 'config.json'), 'w') as f:
-        f.write(config.to_json_best_effort())
+        f.write(json.dumps(json.loads(config.to_json_best_effort()), indent=2))
+    log_config_text(writer, config)
 
     # --- spatial grid (2D structured) ---
     xs = jnp.linspace(0.0, 1.0, config.sample.Nx)
