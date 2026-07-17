@@ -5,7 +5,7 @@ Usage:
   python examples/icemelting3d/train.py --config=examples/icemelting3d/configs/train_base.py
 """
 
-import importlib.util, json, logging, os, time
+import json, logging, os, time
 import numpy as np
 import jax
 import jax.numpy as jnp
@@ -21,65 +21,41 @@ from absl import app as _absl_app
 from ml_collections import config_flags as _config_flags
 
 from pinn.operators import build_D, SparseD
-from pinn.arch import make_pinn, make_film_pinn
-from pinn.utils import log_config_text
-from pinn.arch.hard_constraint import TanhConstraint
+from pinn.arch import make_pinn
+from pinn.utils import log_config_text, load_example_losses, setup_run_dir
 from pinn.causal import CausalWeightor
 from pinn.optimizers import make_optimizer
 
 log = logging.getLogger(__name__)
 
 
-# ── Setup helpers ──────────────────────────────────────────────────────────
-
-def _load_losses():
-    spec = importlib.util.spec_from_file_location(
-        "losses", os.path.join(os.path.dirname(__file__), "losses.py"))
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
-
-
-def _setup_dirs(config):
-    run = config.log.run_name or time.strftime('%Y%m%d-%H%M%S')
-    run_dir = os.path.join(config.log.log_dir, run)
-    os.makedirs(run_dir, exist_ok=True)
-    return run_dir
 
 
 # ── Network ────────────────────────────────────────────────────────────────
 
 def _build_network(config, key):
     arch = config.arch
-    hc = TanhConstraint() if arch.use_hard_constraint else None
     activation = arch.activation   # "tanh"|"relu"|"gelu" — resolved inside make_pinn
 
-    common = dict(
-        spatial_dim=arch.spatial_dim,
-        out_dim=arch.out_dim,
-        hidden_dim=arch.hidden_dim,
-        num_layers=arch.num_layers,
-        use_spatial_emb=arch.use_spatial_emb,
-        use_temporal_emb=arch.use_temporal_emb,
-        spatial_emb_dim=arch.spatial_emb_dim,
-        spatial_scale=arch.spatial_scale,
-        temporal_emb_dim=arch.temporal_emb_dim,
-        temporal_scale=arch.temporal_scale,
-        activation=activation,
-        hard_constraint=hc,
-        key=key,
-    )
+    net = make_pinn(spatial_dim=arch.spatial_dim, out_dim=arch.out_dim,
+                     trunk_type=arch.type,
+                     hidden_dim=arch.hidden_dim, num_layers=arch.num_layers,
+                     activation=activation,
+                     use_spatial_emb=arch.use_spatial_emb,
+                     use_temporal_emb=arch.use_temporal_emb,
+                     spatial_emb_dim=arch.spatial_emb_dim,
+                     spatial_scale=arch.spatial_scale,
+                     temporal_emb_dim=arch.temporal_emb_dim,
+                     temporal_scale=arch.temporal_scale,
+                     tensor_split=arch.get('tensor_split', False),
+                     film_hidden_dim=arch.film_hidden_dim,
+                     film_num_layers=arch.film_num_layers,
+                     key=key)
 
-    if arch.type == "film":
-        return make_film_pinn(
-            film_hidden_dim=arch.film_hidden_dim,
-            film_num_layers=arch.film_num_layers,
-            **common,
-        )
-    else:
-        return make_pinn(trunk_type=arch.type,
-                         tensor_split=arch.get('tensor_split', False),
-                         **common)
+    if arch.use_hard_constraint:
+        from pinn.constraints import tanh_constraint, ConstrainedForward
+        net = ConstrainedForward(net, tanh_constraint)
+    return net
 
 
 # ── Non-dimensional parameters ─────────────────────────────────────────────
@@ -119,7 +95,7 @@ def _make_step(loss_fn, optim):
 
 def _eval_analytic(net, x_eval, t_eval, R0_star, lam_star, xc, denom,
                    writer, step):
-    losses = _load_losses()
+    losses = load_example_losses(__file__)
 
     def _phi_at_t(t):
         return jax.vmap(net, in_axes=(0, None))(x_eval, t)[:, 0]
@@ -139,7 +115,7 @@ def _eval_analytic(net, x_eval, t_eval, R0_star, lam_star, xc, denom,
 def _plot_snapshots(net, x_slice, R0_star, lam_star, xc, denom,
                     writer, step, nv=128):
     """Plot φ snapshots at key times on a 2D slice (z=0.5)."""
-    losses = _load_losses()
+    losses = load_example_losses(__file__)
     target_times = [0.0, 0.25, 0.5, 0.75, 1.0]
     t_arr = jnp.array(target_times)
 
@@ -180,7 +156,7 @@ def _plot_snapshots(net, x_slice, R0_star, lam_star, xc, denom,
 # ── Diagnostic ─────────────────────────────────────────────────────────────
 
 def _diag_residual(net, x_eval, D, t_eval, N1, N2, N3, writer, step):
-    losses = _load_losses()
+    losses = load_example_losses(__file__)
     phi, dphi_dt = losses._compute_all(net, x_eval, t_eval)
 
     for ti, t_v in enumerate(t_eval):
@@ -212,14 +188,14 @@ def _main(_):
     _prec = config.train.get('matmul_precision', '')
     if _prec:
         jax.config.update("jax_default_matmul_precision", _prec)
-    run_dir = _setup_dirs(config)
+    run_dir = setup_run_dir(config)
     writer = SummaryWriter(run_dir)
     log.info("Logging to %s", run_dir)
     with open(os.path.join(run_dir, 'config.json'), 'w') as f:
         f.write(json.dumps(json.loads(config.to_json_best_effort()), indent=2))
     log_config_text(writer, config)
 
-    losses = _load_losses()
+    losses = load_example_losses(__file__)
     make_loss_fn = losses.make_loss_fn
     ic_values = losses.ic_values
 

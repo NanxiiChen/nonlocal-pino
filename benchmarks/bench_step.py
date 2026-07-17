@@ -65,8 +65,7 @@ def _time_steps(step, net, opt_state, make_args, warmup=3, iters=20):
 
 def bench_2d(tf32=False):
     from pinn.operators import build_D
-    from pinn.arch import make_film_pinn
-    from pinn.arch.hard_constraint import HardConstraint
+    from pinn.arch import make_pinn
     from pinn.optimizers import make_optimizer
 
     losses = _load('examples/corrosion2d/losses.py', 'c2d_losses')
@@ -97,17 +96,16 @@ def bench_2d(tf32=False):
           dc0, phys.c_le)
 
     c = config.arch
-    net = make_film_pinn(spatial_dim=2, out_dim=2, hidden_dim=c.hidden_dim,
-                         num_layers=c.num_layers,
-                         film_hidden_dim=c.film_hidden_dim,
-                         film_num_layers=c.film_num_layers,
-                         activation=c.activation,
-                         spatial_emb_dim=c.spatial_emb_dim,
-                         spatial_scale=c.spatial_scale,
-                         temporal_emb_dim=c.temporal_emb_dim,
-                         temporal_scale=c.temporal_scale,
-                         hard_constraint=HardConstraint(phys.c_se, phys.c_le),
-                         key=jr.PRNGKey(42))
+    net = make_pinn(spatial_dim=2, out_dim=2, trunk_type="film",
+                     hidden_dim=c.hidden_dim, num_layers=c.num_layers,
+                     film_hidden_dim=c.film_hidden_dim,
+                     film_num_layers=c.film_num_layers,
+                     activation=c.activation,
+                     spatial_emb_dim=c.spatial_emb_dim,
+                     spatial_scale=c.spatial_scale,
+                     temporal_emb_dim=c.temporal_emb_dim,
+                     temporal_scale=c.temporal_scale,
+                     key=jr.PRNGKey(42))
     optim = make_optimizer(config)
 
     variants = [
@@ -161,7 +159,6 @@ def bench_2d(tf32=False):
 def bench_3d(n_pool=4):
     from pinn.operators import build_D
     from pinn.arch import make_pinn
-    from pinn.arch.pinn import _PINN
     from pinn.optimizers import make_optimizer
 
     losses = _load('examples/icemelting3d/losses.py', 'i3d_losses')
@@ -191,6 +188,7 @@ def bench_3d(n_pool=4):
 
     arch = config.arch
     activation = arch.activation  # "tanh"|"relu"|"gelu" — resolved inside make_pinn
+    k_net = jr.PRNGKey(42)
     net = make_pinn(spatial_dim=3, out_dim=1, hidden_dim=arch.hidden_dim,
                     num_layers=arch.num_layers, trunk_type="mlp",
                     activation=activation,
@@ -198,9 +196,15 @@ def bench_3d(n_pool=4):
                     spatial_scale=arch.spatial_scale,
                     temporal_emb_dim=arch.temporal_emb_dim,
                     temporal_scale=arch.temporal_scale,
-                    key=jr.PRNGKey(42))
-    net_split = _PINN(net.spatial_emb, net.temporal_emb, net.trunk,
-                      net.hard_constraint, net.dirichlet_bc, True)
+                    tensor_split=False, key=k_net)
+    net_split = make_pinn(spatial_dim=3, out_dim=1, hidden_dim=arch.hidden_dim,
+                           num_layers=arch.num_layers, trunk_type="mlp",
+                           activation=activation,
+                           spatial_emb_dim=arch.spatial_emb_dim,
+                           spatial_scale=arch.spatial_scale,
+                           temporal_emb_dim=arch.temporal_emb_dim,
+                           temporal_scale=arch.temporal_scale,
+                           tensor_split=True, key=k_net)
     optim = make_optimizer(config)
 
     t0 = time.perf_counter()
