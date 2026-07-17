@@ -13,8 +13,6 @@ class FourierEmbedding(eqx.Module):
 
     If scale is a tuple, uses multi-scale: concatenates kernels for each scale,
     giving output dimension 2 * emb_dim * len(scale).
-
-    Single-sample: (d,) → (2*m,)  or (d,) → (2*m*len(scale),) for tuple.
     """
     kernel: jnp.ndarray
 
@@ -31,12 +29,3 @@ class FourierEmbedding(eqx.Module):
     def __call__(self, x: jnp.ndarray) -> jnp.ndarray:
         y = jnp.pi * (x @ self.kernel)
         return jnp.concatenate([jnp.sin(y), jnp.cos(y)])
-
-
-if __name__ == "__main__":
-    key = jr.PRNGKey(0)
-    emb = FourierEmbedding(input_dim=1, emb_dim=8, scale=2.0, key=key)
-    x = jnp.array([0.5])
-    out = emb(x)
-    assert out.shape == (16,), f"shape: {out.shape}"
-    print(f"FourierEmbedding: (1,) → {out.shape}  ✓")

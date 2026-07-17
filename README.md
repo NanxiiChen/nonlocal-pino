@@ -73,7 +73,7 @@ src/pinn/
   arch/
     pinn.py           # MLP + FiLM PINN with Fourier embeddings
     hard_constraint.py
-    mlp.py, modified_mlp.py, film_pinn.py, split_pinn.py
+    mlp.py, modified_mlp.py, film_pinn.py
 
 benchmarks/
   RESULTS.md                      # B200 measurements

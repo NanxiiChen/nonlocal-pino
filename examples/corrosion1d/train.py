@@ -19,21 +19,8 @@ from tensorboardX import SummaryWriter
 log = logging.getLogger(__name__)
 
 from pinn.operators import build_D
-from pinn.arch import make_pinn, make_split_pinn, make_film_pinn
-from pinn.utils import log_config_text
-
-import importlib.util as _iu
-_loss_mod = None
-
-def _load_losses():
-    global _loss_mod
-    if _loss_mod is not None:
-        return _loss_mod
-    path = os.path.join(os.path.dirname(__file__), 'losses.py')
-    spec = _iu.spec_from_file_location('corrosion1d_losses', path)
-    _loss_mod = _iu.module_from_spec(spec)
-    spec.loader.exec_module(_loss_mod)
-    return _loss_mod
+from pinn.arch import make_pinn
+from pinn.utils import log_config_text, load_example_losses, setup_run_dir
 
 # ── Config ──────────────────────────────────────────────────────────────────
 
@@ -45,63 +32,29 @@ _CONFIG = _config_flags.DEFINE_config_file('config', _DEFAULT, 'Config file')
 FLAGS = _absl_flags.FLAGS
 
 
-# ── Setup helpers ───────────────────────────────────────────────────────────
-
-def _setup_dirs(config):
-    log_dir = config.log.log_dir
-    run = config.log.run_name or time.strftime('%Y%m%d-%H%M%S')
-    run_dir = os.path.join(log_dir, run)
-    os.makedirs(run_dir, exist_ok=True)
-    return run_dir
-
 
 def _build_network(config, key):
     c = config.arch
 
-    if c.type == "split":
-        return make_split_pinn(
-            spatial_dim=1, rank_p=c.rank_p, hidden_dim=c.hidden_dim,
-            num_layers=c.num_layers, spatial_emb_dim=c.spatial_emb_dim,
-            spatial_scale=c.spatial_scale, temporal_emb_dim=c.temporal_emb_dim,
-            temporal_scale=c.temporal_scale, activation=c.activation,
-            use_bias=c.use_bias, use_spatial_emb=c.use_spatial_emb,
-            use_temporal_emb=c.use_temporal_emb, key=key)
-    elif c.type in ("mlp", "modified_mlp"):
-        hc = None
-        if c.use_hard_constraint:
-            from pinn.arch.hard_constraint import HardConstraint
-            phys = config.physical
-            hc = HardConstraint(phys.c_se, phys.c_le)
-        return make_pinn(spatial_dim=1, out_dim=2, hidden_dim=c.hidden_dim,
-                         num_layers=c.num_layers, trunk_type=c.type,
-                         activation=c.activation,
-                         spatial_emb_dim=c.spatial_emb_dim,
-                         spatial_scale=c.spatial_scale,
-                         temporal_emb_dim=c.temporal_emb_dim,
-                         temporal_scale=c.temporal_scale,
-                         use_spatial_emb=c.use_spatial_emb,
-                         use_temporal_emb=c.use_temporal_emb,
-                         hard_constraint=hc, key=key)
-    elif c.type == "film":
-        hc = None
-        if c.use_hard_constraint:
-            from pinn.arch.hard_constraint import HardConstraint
-            phys = config.physical
-            hc = HardConstraint(phys.c_se, phys.c_le)
-        return make_film_pinn(spatial_dim=1, out_dim=2, hidden_dim=c.hidden_dim,
-                              num_layers=c.num_layers,
-                              film_hidden_dim=c.film_hidden_dim,
-                              film_num_layers=c.film_num_layers,
-                              activation=c.activation,
-                              spatial_emb_dim=c.spatial_emb_dim,
-                              spatial_scale=c.spatial_scale,
-                              temporal_emb_dim=c.temporal_emb_dim,
-                              temporal_scale=c.temporal_scale,
-                              use_spatial_emb=c.use_spatial_emb,
-                              use_temporal_emb=c.use_temporal_emb,
-                              hard_constraint=hc, key=key)
-    else:
-        raise ValueError(f"Unknown arch.type: {c.type}")
+    net = make_pinn(spatial_dim=1, out_dim=2, trunk_type=c.type,
+                     hidden_dim=c.hidden_dim, num_layers=c.num_layers,
+                     activation=c.activation,
+                     use_spatial_emb=c.use_spatial_emb,
+                     use_temporal_emb=c.use_temporal_emb,
+                     spatial_emb_dim=c.spatial_emb_dim,
+                     spatial_scale=c.spatial_scale,
+                     temporal_emb_dim=c.temporal_emb_dim,
+                     temporal_scale=c.temporal_scale,
+                     film_hidden_dim=c.film_hidden_dim,
+                     film_num_layers=c.film_num_layers,
+                     key=key)
+
+    if c.use_hard_constraint:
+        from pinn.constraints import kks_constraint, ConstrainedForward
+        phys = config.physical
+        c_se, c_le = phys.c_se, phys.c_le
+        net = ConstrainedForward(net, lambda raw: kks_constraint(raw, c_se, c_le))
+    return net
 
 
 def _build_D(config, x_all):
@@ -267,7 +220,7 @@ def _main(_):
     k_net, k_samp = jr.split(rng)
 
     # --- dirs & logging ---
-    run_dir = _setup_dirs(config)
+    run_dir = setup_run_dir(config)
     writer = SummaryWriter(run_dir)
     log.info("Logging to %s", run_dir)
     with open(os.path.join(run_dir, 'config.json'), 'w') as f:
@@ -283,16 +236,10 @@ def _main(_):
              len(x_all), delta, n_free, len(x_all) - n_free)
 
     # --- architecture-specific compute functions ---
-    lm = _load_losses()
+    lm = load_example_losses(__file__)
     make_loss_fn = lm.make_loss_fn
     ic_values = lm.ic_values
-    arch_type = config.arch.type
-    if arch_type == "split":
-        compute_all, eval_t0 = lm._make_split_compute()
-    elif arch_type in ("mlp", "modified_mlp"):
-        compute_all, eval_t0 = lm._make_full_compute()
-    else:
-        raise ValueError(f"Unknown arch.type: {arch_type}")
+    compute_all, eval_t0 = lm._make_full_compute()
 
     net = _build_network(config, k_net)
     D_full = _build_D(config, x_all)

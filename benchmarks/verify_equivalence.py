@@ -42,9 +42,7 @@ def _grad_dev(g1, g2):
 
 def main():
     from pinn.operators import build_D
-    from pinn.arch import make_film_pinn, make_pinn
-    from pinn.arch.pinn import _PINN
-    from pinn.arch.hard_constraint import HardConstraint
+    from pinn.arch import make_pinn
 
     losses = _load('examples/corrosion2d/losses.py', 'c2d_losses')
 
@@ -66,13 +64,11 @@ def main():
     nd = (0.425, 1.07e10, 1.76e9, 1.03e-2, 1.0 - 5100.0 / 1.43e5,
           5100.0 / 1.43e5)
 
-    net = make_film_pinn(spatial_dim=2, out_dim=2, hidden_dim=32, num_layers=3,
-                         film_hidden_dim=16, film_num_layers=2,
-                         activation='gelu', spatial_emb_dim=16,
-                         spatial_scale=2.0, temporal_emb_dim=16,
-                         temporal_scale=1.0,
-                         hard_constraint=HardConstraint(1.0, 5100.0 / 1.43e5),
-                         key=jr.PRNGKey(3))
+    net = make_pinn(spatial_dim=2, out_dim=2, trunk_type="film", hidden_dim=32,
+                     num_layers=3, film_hidden_dim=16, film_num_layers=2,
+                     activation='gelu', spatial_emb_dim=16,
+                     spatial_scale=2.0, temporal_emb_dim=16,
+                     temporal_scale=1.0, key=jr.PRNGKey(3))
     t_batch = jr.uniform(jr.PRNGKey(7), (Nt,), minval=0.001, maxval=1.0)
 
     D_sparse = build_D(x_base, delta, method="sparse")
@@ -113,13 +109,17 @@ def main():
         return jax.jvp(jax.vmap(field_at_t), (tb,), (jnp.ones_like(tb),))
 
     for dim, label in [(2, "2D"), (3, "3D")]:
+        k = jr.PRNGKey(4 + dim)
         m = make_pinn(spatial_dim=dim, out_dim=2, hidden_dim=32, num_layers=3,
                       trunk_type="mlp", activation='gelu',
                       spatial_emb_dim=16, spatial_scale=2.0,
                       temporal_emb_dim=16, temporal_scale=1.0,
-                      key=jr.PRNGKey(4 + dim))
-        m_split = _PINN(m.spatial_emb, m.temporal_emb, m.trunk,
-                        m.hard_constraint, m.dirichlet_bc, True)
+                      tensor_split=False, key=k)
+        m_split = make_pinn(spatial_dim=dim, out_dim=2, hidden_dim=32, num_layers=3,
+                            trunk_type="mlp", activation='gelu',
+                            spatial_emb_dim=16, spatial_scale=2.0,
+                            temporal_emb_dim=16, temporal_scale=1.0,
+                            tensor_split=True, key=k)
         xp = jr.uniform(jr.PRNGKey(11 + dim), (500, dim))
 
         o_a, ot_a = _compute_all(m, xp, t_batch)

@@ -65,38 +65,6 @@ def _make_full_compute():
     return compute_all, eval_t0
 
 
-def _make_split_compute():
-    """Return (compute_all, eval_t0) for split-PINN architecture."""
-
-    def compute_all(net, x_all, t_batch):
-        Fx = net.spatial_batch(x_all)                    # (N_x, 2p)
-        Ft = net.temporal_batch(t_batch)                 # (N_t, 2p)
-        dFt = jax.vmap(net.temporal_derivative)(t_batch) # (N_t, 2p)
-        out_raw = net.combine(Fx, Ft, t_batch)             # (N_x, N_t, 2)
-        d_raw = net.combine(Fx, dFt)                       # (N_x, N_t, 2)
-        db_dt = net.combine_bias_derivative(t_batch)       # (N_t, 2)
-
-        if net.bc is not None:
-            mask = net.bc.mask(x_all)      # (N_x, 2)
-            base = net.bc.baseline(x_all)  # (N_x, 2)
-            out = base[:, None, :] + mask[:, None, :] * out_raw
-            dphi = mask[:, None, 0] * d_raw[..., 0] + db_dt[None, :, 0]
-            dc   = mask[:, None, 1] * d_raw[..., 1] + db_dt[None, :, 1]
-        else:
-            out = out_raw
-            dphi = d_raw[..., 0] + db_dt[None, :, 0]
-            dc   = d_raw[..., 1] + db_dt[None, :, 1]
-
-        return out[..., 0], out[..., 1], dphi, dc
-
-    def eval_t0(net, x_all):
-        Fx = net.spatial_batch(x_all)
-        field = net.project(Fx, net.temporal(jnp.array(0.0)))
-        return field[:, 0], field[:, 1]
-
-    return compute_all, eval_t0
-
-
 # ── PDE residuals ───────────────────────────────────────────────────────────
 
 def _compute_ac_residual(net, x_all, t_batch, D, nd, compute_all, ac_scale=None):

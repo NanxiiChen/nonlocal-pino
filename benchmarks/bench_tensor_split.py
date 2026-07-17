@@ -20,7 +20,6 @@ import jax.random as jr
 import equinox as eqx
 
 from pinn.arch import make_pinn
-from pinn.arch.pinn import _PINN
 
 jax.config.update("jax_default_matmul_precision", "highest")
 
@@ -48,17 +47,17 @@ def _time(fn, *args, warmup=3, iters=20):
     return (time.perf_counter() - t0) / iters * 1e3
 
 
-def _with_split(net, flag):
-    return _PINN(net.spatial_emb, net.temporal_emb, net.trunk,
-                 net.hard_constraint, net.dirichlet_bc, flag)
-
-
 def run_case(label, spatial_dim, N_x, N_t, key):
     net = make_pinn(spatial_dim=spatial_dim, out_dim=2, hidden_dim=64,
                     num_layers=4, trunk_type="mlp", activation='gelu',
                     spatial_emb_dim=64, spatial_scale=2.0,
-                    temporal_emb_dim=64, temporal_scale=1.0, key=key)
-    net_split = _with_split(net, True)
+                    temporal_emb_dim=64, temporal_scale=1.0,
+                    tensor_split=False, key=key)
+    net_split = make_pinn(spatial_dim=spatial_dim, out_dim=2, hidden_dim=64,
+                          num_layers=4, trunk_type="mlp", activation='gelu',
+                          spatial_emb_dim=64, spatial_scale=2.0,
+                          temporal_emb_dim=64, temporal_scale=1.0,
+                          tensor_split=True, key=key)
 
     x = jr.uniform(jr.fold_in(key, 1), (N_x, spatial_dim))
     t = jr.uniform(jr.fold_in(key, 2), (N_t,), minval=0.001, maxval=1.0)

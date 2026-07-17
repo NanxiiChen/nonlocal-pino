@@ -1,4 +1,4 @@
-"""Training config for split-PINN on 1D KKS corrosion."""
+"""Training config for PINN on 1D KKS corrosion."""
 
 from ml_collections import config_dict
 
@@ -8,7 +8,7 @@ def get_config():
 
     # Architecture
     c.arch = config_dict.ConfigDict()
-    c.arch.type = "mlp"  # "split" ｜ "mlp" ｜ "modified_mlp" ｜ "film"
+    c.arch.type = "mlp"  # "mlp" | "modified_mlp" | "film"
     c.arch.rank_p = 50
     c.arch.hidden_dim = 64
     c.arch.film_hidden_dim = 32
