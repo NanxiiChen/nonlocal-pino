@@ -197,10 +197,15 @@ def _eval_fem(net, fem_data, writer, step, config):
     err_ux = ux_pinn - ux_fem_grid
     err_uy = uy_pinn - uy_fem_grid
 
-    # 2×3 plot with smooth vector hole overlay
+    # Mask hole interior for display
+    r_grid = onp.sqrt((onp.array(Xv) - Lx/2)**2 + (onp.array(Yv) - Ly/2)**2)
+    hole = r_grid < a
+    for arr in [ux_pinn, uy_pinn, ux_fem_grid, uy_fem_grid, err_ux, err_uy]:
+        arr[hole] = onp.nan
+
+    # 2×3 plot
     fig, axes = plt.subplots(2, 3, figsize=(16, 6))
     extent = [0, Lx, 0, Ly]
-    cx, cy = Lx / 2, Ly / 2
     panels = [
         (ux_fem_grid, 'u_x FEM'), (ux_pinn, 'u_x PINN'), (err_ux, 'u_x error'),
         (uy_fem_grid, 'u_y FEM'), (uy_pinn, 'u_y PINN'), (err_uy, 'u_y error'),
@@ -209,8 +214,6 @@ def _eval_fem(net, fem_data, writer, step, config):
         im = ax.imshow(f, extent=extent, origin='lower',
                        cmap='coolwarm', aspect='equal',
                        interpolation='bilinear', rasterized=True)
-        ax.add_patch(plt.Circle((cx, cy), a, facecolor='white',
-                                edgecolor='black', linewidth=1.0, zorder=3))
         ax.set_title(title); ax.set_xlabel('x'); ax.set_ylabel('y')
         plt.colorbar(im, ax=ax, fraction=0.046)
     fig.tight_layout()

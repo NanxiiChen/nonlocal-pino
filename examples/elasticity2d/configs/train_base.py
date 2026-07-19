@@ -26,14 +26,14 @@ def get_config():
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()
-    c.nl.delta = 0.01                 # horizon
+    c.nl.delta = 0.0075                 # horizon
     c.nl.kernel = "cubic"
     c.nl.method = "sparse"            # "sparse" | "local"
 
     # Spatial sampling (regular grid with hole excluded)
     c.sample = config_dict.ConfigDict()
-    c.sample.Nx = 200                 # grid points in x
-    c.sample.Ny = 150                 # grid points in y
+    c.sample.Nx = 400                 # grid points in x
+    c.sample.Ny = 300                 # grid points in y
     c.sample.K_core = 0               # 0 = full batch (no minibatch)
     c.sample.K_pool = 0
     c.sample.N_lhs = 2000             # LHS collocation points (local mode)

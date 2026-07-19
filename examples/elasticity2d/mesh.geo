@@ -5,8 +5,8 @@
 Lx = 1.0;    // plate length in x (non-dim)
 Ly = 0.75;   // plate length in y
 a  = 0.15;   // hole radius
-lc0 = 0.03;  // mesh size far from hole
-lc1 = 0.008; // mesh size near hole (stress concentration)
+lc0 = 0.015; // mesh size far from hole
+lc1 = 0.004; // mesh size near hole (stress concentration)
 cx = Lx/2;   // hole centre x
 cy = Ly/2;   // hole centre y
 
