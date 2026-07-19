@@ -6,22 +6,22 @@ from ml_collections import config_dict
 def get_config():
     c = config_dict.ConfigDict()
 
-    # Geometry
+    # Geometry (non-dimensional — steel plate 2m×1.5m, L_c=2m)
     c.geometry = config_dict.ConfigDict()
-    c.geometry.Lx = 1.5        # plate length in x
-    c.geometry.Ly = 1.0        # plate length in y
-    c.geometry.a = 0.2         # hole radius (centred at Lx/2, Ly/2)
+    c.geometry.Lx = 1.0        # Lx* = 2m / 2m
+    c.geometry.Ly = 0.75       # Ly* = 1.5m / 2m
+    c.geometry.a = 0.15        # a* = 0.3m / 2m
 
-    # Material (non-dimensional: E*=1, nu=0.3)
+    # Material (non-dimensional, ν=0.3)
     c.physical = config_dict.ConfigDict()
-    c.physical.E = 1.0         # Young's modulus
-    c.physical.nu = 0.3        # Poisson's ratio (plane strain)
-    c.physical.lam = 0.5769    # λ = Eν/((1+ν)(1-2ν)) for ν=0.3
-    c.physical.mu = 0.3846     # μ = E/(2(1+ν)) for ν=0.3
+    c.physical.E = 1.0         # E* = 1
+    c.physical.nu = 0.3
+    c.physical.lam = 0.5769    # λ* = ν/((1+ν)(1-2ν))
+    c.physical.mu = 0.3846     # μ* = 1/(2(1+ν))
 
-    # Loading (displacement-controlled)
+    # Loading (2mm displacement, u_c=2mm → u_load*=1.0)
     c.load = config_dict.ConfigDict()
-    c.load.u_load = 0.1        # prescribed u_x on right edge
+    c.load.u_load = 1.0        # u_load* = 2mm / 2mm
 
     # Mesh
     c.mesh = config_dict.ConfigDict()

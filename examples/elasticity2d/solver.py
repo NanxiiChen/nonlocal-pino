@@ -133,8 +133,9 @@ def solve(config):
     bc_left_x = DirichletBC(V.sub(0), Constant(0.0), left)    # u_x = 0 on left
     bc_left_y = DirichletBC(V.sub(1), Constant(0.0), left)    # u_y = 0 on left
     bc_right_x = DirichletBC(V.sub(0), Constant(u_load), right)  # u_x = u_load on right
+    bc_right_y = DirichletBC(V.sub(1), Constant(0.0), right)  # u_y = 0 on right
 
-    bcs = [bc_left_x, bc_left_y, bc_right_x]
+    bcs = [bc_left_x, bc_left_y, bc_right_x, bc_right_y]
 
     # ── Solve ─────────────────────────────────────────────────────────────
     A = assemble(a)

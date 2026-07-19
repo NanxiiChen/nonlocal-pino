@@ -1,11 +1,12 @@
-// 2D rectangular plate with circular hole — x longer than y
-// Domain: [0, Lx] x [0, Ly] with hole radius a at (Lx/2, Ly/2)
+// 2D rectangular plate with circular hole — steel, non-dimensional
+// Physical: 2m × 1.5m plate, 0.3m hole radius
+// Non-dimensional: Lx=1.0, Ly=0.75, a=0.15
 
-Lx = 1.5;    // plate length in x (longer)
-Ly = 1.0;    // plate length in y
-a  = 0.2;    // hole radius
-lc0 = 0.04;  // mesh size far from hole
-lc1 = 0.015; // mesh size near hole (stress concentration)
+Lx = 1.0;    // plate length in x (non-dim)
+Ly = 0.75;   // plate length in y
+a  = 0.15;   // hole radius
+lc0 = 0.03;  // mesh size far from hole
+lc1 = 0.008; // mesh size near hole (stress concentration)
 cx = Lx/2;   // hole centre x
 cy = Ly/2;   // hole centre y
 

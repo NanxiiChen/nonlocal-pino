@@ -664,7 +664,8 @@ class ElasticD:
         in_horizon = (dist <= delta) & ~np.eye(N, dtype=bool)
         row_idx, col_idx = np.where(in_horizon)
         r_ij = dist[row_idx, col_idx]
-        dx_ij = diff[row_idx, col_idx, :]
+        # diff[i,j] = x_i - x_j; grid/KD-tree return x_j - x_i
+        dx_ij = diff[col_idx, row_idx, :]
         return (row_idx.astype(np.int32), col_idx.astype(np.int32),
                 r_ij, dx_ij)
 

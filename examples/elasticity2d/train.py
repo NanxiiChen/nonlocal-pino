@@ -69,6 +69,7 @@ def _build_network(config, key):
                      activation=c.activation,
                      use_spatial_emb=c.use_spatial_emb,
                      use_temporal_emb=False, static=True,
+                     multi_head=c.multi_head,
                      spatial_emb_dim=c.spatial_emb_dim,
                      spatial_scale=c.spatial_scale,
                      tensor_split=False,
@@ -79,14 +80,14 @@ def _build_network(config, key):
     if c.use_hard_constraint:
         from pinn.constraints import ConstrainedForward
 
-        def constraint(raw, x, t):
+        def constraint(raw, x, _t):
             """Hard constraint: u_x = (x/Lx)*u_load + x(Lx-x)*N_x,
             u_y = x * u_load * N_y  (scale so N_y ~ O(1))."""
             x_coord = x[..., 0]
             u_x_ref = (x_coord / Lx) * u_load
             u_y_ref = jnp.zeros_like(x_coord)
             d_x = x_coord * (Lx - x_coord) * u_load
-            d_y = x_coord * u_load
+            d_y = x_coord * (Lx - x_coord) * u_load
             out_x = u_x_ref + d_x * raw[..., 0]
             out_y = u_y_ref + d_y * raw[..., 1]
             return jnp.stack([out_x, out_y], axis=-1)
@@ -172,26 +173,23 @@ def _eval_fem(net, fem_data, writer, step, config):
     uy_fem_grid = griddata(fem_pts, onp.array(u_y_fem),
                            (onp.array(Xv), onp.array(Yv)), method='linear')
 
-    # Mask hole interior for display
-    cx, cy = Lx / 2, Ly / 2
-    r_grid = onp.sqrt((onp.array(Xv) - cx)**2 + (onp.array(Yv) - cy)**2)
-    hole = r_grid < a
-    for arr in [ux_pinn, uy_pinn, ux_fem_grid, uy_fem_grid]:
-        arr[hole] = onp.nan
-
     err_ux = ux_pinn - ux_fem_grid
     err_uy = uy_pinn - uy_fem_grid
 
-    # 2×3 plot: [u_x FEM, u_x PINN, u_x error; u_y FEM, u_y PINN, u_y error]
+    # 2×3 plot with smooth vector hole overlay
     fig, axes = plt.subplots(2, 3, figsize=(16, 6))
     extent = [0, Lx, 0, Ly]
+    cx, cy = Lx / 2, Ly / 2
     panels = [
         (ux_fem_grid, 'u_x FEM'), (ux_pinn, 'u_x PINN'), (err_ux, 'u_x error'),
         (uy_fem_grid, 'u_y FEM'), (uy_pinn, 'u_y PINN'), (err_uy, 'u_y error'),
     ]
     for ax, (f, title) in zip(axes.flat, panels):
         im = ax.imshow(f, extent=extent, origin='lower',
-                       cmap='coolwarm', aspect='auto')
+                       cmap='coolwarm', aspect='equal',
+                       interpolation='bilinear', rasterized=True)
+        ax.add_patch(plt.Circle((cx, cy), a, facecolor='white',
+                                edgecolor='black', linewidth=1.0, zorder=3))
         ax.set_title(title); ax.set_xlabel('x'); ax.set_ylabel('y')
         plt.colorbar(im, ax=ax, fraction=0.046)
     fig.tight_layout()
@@ -222,7 +220,7 @@ def _main(_):
     if _prec:
         jax.config.update("jax_default_matmul_precision", _prec)
     rng = jr.PRNGKey(42)
-    k_net, k_samp = jr.split(rng)
+    k_net, _ = jr.split(rng)
 
     loss_mod = load_example_losses(__file__)
     make_loss_fn = loss_mod.make_loss_fn
@@ -293,7 +291,7 @@ def _main(_):
             log.info("[%5d] loss=%.3e  pde=%.3e  (%.1fs)",
                      it, float(loss_val), float(aux['loss/pde']), elapsed)
 
-        if it % config.log.eval_every == 0 and it > 0:
+        if it % config.log.eval_every == 0:
             rel_ux, rel_uy = _eval_fem(net, fem_data, writer, it, config)
             log.info("--- eval @ %d: rel-L2 u_x=%.4f  u_y=%.4f ---",
                      it, rel_ux, rel_uy)

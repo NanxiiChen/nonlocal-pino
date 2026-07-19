@@ -22,6 +22,7 @@ def get_config():
     c.arch.spatial_dim = 2
     c.arch.use_hard_constraint = True  # left clamped, right pulled
     c.arch.tensor_split = False
+    c.arch.multi_head = True           # separate output heads per component
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()
@@ -31,8 +32,8 @@ def get_config():
 
     # Spatial sampling (regular grid with hole excluded)
     c.sample = config_dict.ConfigDict()
-    c.sample.Nx = 301                 # grid points in x
-    c.sample.Ny = 151                  # grid points in y
+    c.sample.Nx = 200                 # grid points in x
+    c.sample.Ny = 150                 # grid points in y
     c.sample.K_core = 0               # 0 = full batch (no minibatch)
     c.sample.K_pool = 0
 
@@ -65,19 +66,23 @@ def get_config():
     c.log.eval_every = 200
     c.log.save_ckpt = True
 
-    # Physical (non-dimensional, plane strain)
+    # Physical (non-dimensional, plane strain, steel)
+    # Steel: E=200 GPa, ν=0.3,  L_c=2 m, u_c=2 mm
+    # Non-dim Lamé: depend only on ν
     c.physical = config_dict.ConfigDict()
     c.physical.E = 1.0
     c.physical.nu = 0.3
-    c.physical.lam = 0.5769           # λ = Eν/((1+ν)(1-2ν))
-    c.physical.mu = 0.3846            # μ = E/(2(1+ν))
+    c.physical.lam = 0.5769           # λ* = ν/((1+ν)(1-2ν))
+    c.physical.mu = 0.3846            # μ* = 1/(2(1+ν))
 
-    # Geometry + loading
+    # Geometry + loading (non-dimensional)
+    # Physical: 2m × 1.5m plate, 0.3m hole, 2mm displacement
+    # L_c = 2m → Lx*=1.0, Ly*=0.75, a*=0.15, u_load*=1.0
     c.geometry = config_dict.ConfigDict()
-    c.geometry.Lx = 1.5              # plate length in x
-    c.geometry.Ly = 1.0              # plate length in y
-    c.geometry.a = 0.2               # hole radius (centred at Lx/2, Ly/2)
-    c.geometry.u_load = 0.1          # prescribed u_x on right edge
+    c.geometry.Lx = 1.0              # Lx* = 2m / 2m
+    c.geometry.Ly = 0.75             # Ly* = 1.5m / 2m
+    c.geometry.a = 0.15              # a* = 0.3m / 2m
+    c.geometry.u_load = 1.0          # u_load* = 2mm / 2mm
 
     # FEM reference data
     c.fem = config_dict.ConfigDict()
