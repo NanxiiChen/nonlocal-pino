@@ -15,6 +15,7 @@ import json, logging, os, time
 import jax, jax.numpy as jnp, jax.random as jr
 import equinox as eqx
 import numpy as np
+from scipy.stats.qmc import LatinHypercube
 from tensorboardX import SummaryWriter
 
 log = logging.getLogger(__name__)
@@ -109,15 +110,35 @@ def _build_optimizer(config):
     return make_optimizer(config)
 
 
+def _sample_bc_points(config):
+    """Sample Neumann BC points for local mode."""
+    rng = np.random.RandomState(42)
+    Lx = config.geometry.Lx
+    Ly = config.geometry.Ly
+    a = config.geometry.a
+    cx, cy = Lx / 2, Ly / 2
+    n_bc = 200
+
+    xs_t = rng.uniform(0, Lx, n_bc)
+    xs_b = rng.uniform(0, Lx, n_bc)
+    thetas = rng.uniform(0, 2 * np.pi, n_bc)
+
+    top = jnp.column_stack([xs_t, np.full(n_bc, Ly)])
+    bottom = jnp.column_stack([xs_b, np.zeros(n_bc)])
+    hole = jnp.column_stack([cx + a * np.cos(thetas),
+                              cy + a * np.sin(thetas)])
+    return top, bottom, hole, (cx, cy)
+
+
 # ── Training step ─────────────────────────────────────────────────────────────
 
 def _make_step(loss_fn, optim):
     @eqx.filter_jit
     def step(net, opt_state, w_ema, bias, update_w,
-             x_points=None, batch_idx=None):
+             x_points=None):
         (loss, aux, grad, new_w) = loss_fn(
             net, w_ema, bias, update_w,
-            x_points=x_points, batch_idx=batch_idx)
+            x_points=x_points)
         grad = jax.tree.map(jnp.nan_to_num, grad)
         updates, opt_state = optim.update(grad, opt_state, net)
         net = eqx.apply_updates(net, updates)
@@ -247,9 +268,24 @@ def _main(_):
              lam, mu, config.nl.delta, config.nl.method)
     if D is not None:
         log.info("ElasticD: N=%d, k_avg=%.1f", D._N, D._k_avg)
+    else:
+        log.info("Local (all-AD) mode — Neumann BCs active")
 
-    lfn = make_loss_fn(x_base, D, lam, mu,
-                       gradnorm_cap=config.loss.gradnorm_weight_cap)
+    # ── Neumann BC points (local mode only) ───────────────────────────────
+    local_mode = (D is None)
+    if local_mode:
+        x_bc_top, x_bc_bottom, x_bc_hole, hole_center = _sample_bc_points(config)
+        log.info("BC points: top/bottom/hole = %d/%d/%d",
+                 len(x_bc_top), len(x_bc_bottom), len(x_bc_hole))
+        bc_kw = dict(x_bc_top=x_bc_top, x_bc_bottom=x_bc_bottom,
+                     x_bc_hole=x_bc_hole, hole_center=hole_center,
+                     alpha=config.train.alpha_gradnorm)
+    else:
+        bc_kw = {}
+
+    lfn = make_loss_fn(x_base if not local_mode else None, D, lam, mu,
+                       gradnorm_cap=config.loss.gradnorm_weight_cap,
+                       **bc_kw)
     optim = _build_optimizer(config)
     opt_state = optim.init(eqx.filter(net, eqx.is_array))
     step_fn = _make_step(lfn, optim)
@@ -258,27 +294,40 @@ def _main(_):
     fem_data = np.load(config.fem.data_path)
 
     # ── training loop ─────────────────────────────────────────────────────
-    w_ema = jnp.ones(1)
-    default_bias = jnp.array(config.loss.gradnorm_bias, dtype=jnp.float32)
+    N_LOSS = 4 if local_mode else 1
+    w_ema = jnp.ones(N_LOSS)
+    default_bias = jnp.array(config.loss.gradnorm_bias
+                             if len(config.loss.gradnorm_bias) == N_LOSS
+                             else [1.0] * N_LOSS, dtype=jnp.float32)
     t_start = time.perf_counter()
 
-    # Random point sampler for minibatch
-    sampler_rng = np.random.RandomState(42)
-    n_batch = min(K_core, len(x_base)) if (K_core := config.sample.get('K_core', 0)) > 0 else len(x_base)
+    # LHS collocation sampler (local mode only)
+    Lx = config.geometry.Lx
+    Ly = config.geometry.Ly
+    a = config.geometry.a
+    lhs_sampler = None
+    if local_mode:
+        N_lhs = config.sample.get('N_lhs', 2000)
+        lhs_sampler = LatinHypercube(d=2, seed=42)
+        log.info("LHS sampler: N_lhs=%d (resampled each step)", N_lhs)
 
+    gradnorm_every = config.train.get('gradnorm_update_every', 1)
     for it in range(config.train.iterations):
-        update_w = (it % 1 == 0)
+        update_w = (it % gradnorm_every == 0)
 
-        # Random spatial minibatch: residual on ALL points, loss on subset
-        if n_batch < len(x_base):
-            batch_idx = jnp.array(
-                sampler_rng.choice(len(x_base), n_batch, replace=False))
+        if lhs_sampler is not None:
+            # Oversample + truncate → fixed size (avoid JIT retrace)
+            raw = lhs_sampler.random(n=int(N_lhs * 1.3))
+            pts = np.column_stack([raw[:, 0] * Lx, raw[:, 1] * Ly])
+            r = np.sqrt((pts[:, 0] - Lx/2)**2 + (pts[:, 1] - Ly/2)**2)
+            pts = pts[r >= a][:N_lhs]
+            x_points = jnp.array(pts)
         else:
-            batch_idx = None
+            x_points = x_base
 
         net, opt_state, loss_val, aux, w_ema = step_fn(
             net, opt_state, w_ema, default_bias, update_w,
-            x_points=x_base, batch_idx=batch_idx)
+            x_points=x_points)
 
         if it % config.log.log_every == 0:
             elapsed = time.perf_counter() - t_start
@@ -288,8 +337,14 @@ def _main(_):
                     writer.add_scalar(k, float(v), it)
             lr = config.train.lr_init * config.train.lr_decay_rate**(it // config.train.lr_decay_every)
             writer.add_scalar('train/lr', float(max(lr, config.train.lr_min)), it)
-            log.info("[%5d] loss=%.3e  pde=%.3e  (%.1fs)",
-                     it, float(loss_val), float(aux['loss/pde']), elapsed)
+            if local_mode:
+                log.info("[%5d] loss=%.3e  pde=%.3e  top=%.3e  bot=%.3e  hole=%.3e  (%.1fs)",
+                         it, float(loss_val), float(aux['loss/pde']),
+                         float(aux['loss/bc_top']), float(aux['loss/bc_bottom']),
+                         float(aux['loss/bc_hole']), elapsed)
+            else:
+                log.info("[%5d] loss=%.3e  pde=%.3e  (%.1fs)",
+                         it, float(loss_val), float(aux['loss/pde']), elapsed)
 
         if it % config.log.eval_every == 0:
             rel_ux, rel_uy = _eval_fem(net, fem_data, writer, it, config)

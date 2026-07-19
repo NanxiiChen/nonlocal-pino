@@ -36,6 +36,7 @@ def get_config():
     c.sample.Ny = 150                 # grid points in y
     c.sample.K_core = 0               # 0 = full batch (no minibatch)
     c.sample.K_pool = 0
+    c.sample.N_lhs = 2000             # LHS collocation points (local mode)
 
     # Training
     c.train = config_dict.ConfigDict()
@@ -52,6 +53,8 @@ def get_config():
     c.train.soap_b2 = 0.99
     c.train.soap_precond_freq = 5
     c.train.soap_precond_1d = False
+    c.train.alpha_gradnorm = 1.0      # GradNorm EMA (local mode)
+    c.train.gradnorm_update_every = 10
 
     # Loss
     c.loss = config_dict.ConfigDict()
