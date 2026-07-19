@@ -436,6 +436,278 @@ class SparseD:
         return pool
 
 
+# ── ElasticD ────────────────────────────────────────────────────────────────
+
+class ElasticD:
+    """Non-local linear-elasticity operator via correspondence peridynamics.
+
+    Uses the Silling et al. (2007) correspondence formulation:
+
+      1. K̄_i = Σ_j w_ij (x_j - x_i) ⊗ (x_j - x_i)          shape tensor (2×2)
+      2. ∇u_i = [Σ_j w_ij (u_j - u_i) ⊗ (x_j - x_i)] · K̄_i⁻¹
+      3. ε_i  = sym(∇u_i),   σ_i = λ tr(ε_i)I + 2μ ε_i
+      4. r_i  = Σ_j w_ij (σ_i K̄_i⁻¹ ξ_ij + σ_j K̄_j⁻¹ ξ_ji)
+
+    where ξ_ij = x_j - x_i, w_ij = J(r_ij)·dV_j.
+
+    Horizon truncation at free boundaries automatically enforces
+    traction-free Neumann BCs — exactly the same mechanism as D_δ.
+    """
+    _row_idx: jnp.ndarray    # (nnz,)
+    _col_idx: jnp.ndarray    # (nnz,)
+    _w_pos: jnp.ndarray      # (nnz,)  positive weights J·dV
+    _xi: jnp.ndarray          # (nnz, dim)  x_j - x_i
+    _K_inv: jnp.ndarray       # (N, dim, dim)  K̄⁻¹, precomputed
+    _N: int
+    _dim: int
+    _k_avg: float
+
+    # CSR neighbour table
+    _nei_idx_np: np.ndarray
+    _nei_w_np: np.ndarray
+    _nei_mask_np: np.ndarray
+    _k_max: int
+
+    def __init__(self, x, delta, kernel="cubic"):
+        import numpy as np
+        x_np = np.array(x)
+        N, dim = x_np.shape
+        self._N = N
+        self._dim = dim
+
+        # ── dV ──────────────────────────────────────────────────────────
+        ranges = x_np.max(axis=0) - x_np.min(axis=0)
+        if dim <= 3:
+            unique_dims = [np.unique(np.round(x_np[:, d], decimals=10))
+                          for d in range(dim)]
+            n_per_dim = [len(u) for u in unique_dims]
+            if np.prod(n_per_dim) == N:
+                spacings = [(u[-1] - u[0]) / max(n - 1, 1)
+                           for u, n in zip(unique_dims, n_per_dim)]
+                dV = float(np.prod(spacings))
+            else:
+                dV = float(np.prod(ranges)) / N
+        else:
+            dV = float(np.prod(ranges)) / N
+
+        # ── neighbour search (same 3-tier fallback as SparseD) ──────────
+        try:
+            row_idx, col_idx, r_ij, dx_ij = self._build_neighbors_grid(
+                x_np, delta, dim)
+        except ValueError:
+            try:
+                row_idx, col_idx, r_ij, dx_ij = self._build_neighbors_kdtree(
+                    x_np, delta)
+            except ImportError:
+                row_idx, col_idx, r_ij, dx_ij = self._build_neighbors_pairwise(
+                    x_np, delta)
+
+        if kernel not in _KERNEL_BUILDERS:
+            raise ValueError(
+                f"Unknown kernel: {kernel}. Options: {list(_KERNEL_BUILDERS)}")
+        J = np.array(_KERNEL_BUILDERS[kernel](jnp.array(r_ij), delta, dim))
+
+        w_pos = (J * dV).astype(np.float32)              # positive weights
+
+        self._row_idx = jnp.array(row_idx, dtype=jnp.int32)
+        self._col_idx = jnp.array(col_idx, dtype=jnp.int32)
+        self._w_pos = jnp.array(w_pos)
+
+        self._k_avg = len(row_idx) / N
+
+        # ── CSR neighbour table ─────────────────────────────────────────
+        order = np.argsort(row_idx, kind='stable')
+        row_s = row_idx[order]
+        col_s = col_idx[order]
+        w_s = w_pos[order]
+        counts = np.bincount(row_s, minlength=N)
+        self._k_max = int(counts.max())
+        offsets = np.zeros(N, dtype=np.int64)
+        offsets[1:] = np.cumsum(counts)[:-1]
+        slot = np.arange(len(row_s)) - offsets[row_s]
+        self._nei_idx_np = np.full((N, self._k_max), 0, dtype=np.int32)
+        self._nei_w_np = np.zeros((N, self._k_max), dtype=np.float32)
+        self._nei_mask_np = np.zeros((N, self._k_max), dtype=bool)
+        self._nei_idx_np[row_s, slot] = col_s
+        self._nei_w_np[row_s, slot] = w_s
+        self._nei_mask_np[row_s, slot] = True
+
+        # ── Build K̄_i per point and invert ─────────────────────────────
+        self._xi = jnp.array(dx_ij, dtype=jnp.float32)
+        self._K_inv = jnp.array(_build_K_inv(N, row_idx, col_idx, w_pos, dx_ij),
+                               dtype=jnp.float32)
+
+    # ── Elastic matvec ───────────────────────────────────────────────────
+
+    def elastic_matvec(self, u, lam, mu):
+        """Correspondence peridynamic residual (Silling et al., 2007).
+
+          1. Nonlocal deformation gradient G_i per point
+          2. Strain → stress (classical constitutive law)
+          3. Force residual via σ_i K̄ᵢ⁻¹ ξ_ij + σ_j K̄ⱼ⁻¹ ξ_ji
+
+        The K̄⁻¹ variation between neighboring points creates forces near
+        boundaries — this IS the nonlocal equivalent of traction BCs.
+        """
+        # ── 1. Nonlocal gradient ───────────────────────────────────────
+        du = u[self._col_idx] - u[self._row_idx]           # u_j - u_i
+        wdu = self._w_pos[:, None] * du
+        outer = wdu[:, :, None] * self._xi[:, None, :]
+        outer_flat = outer.reshape(-1, self._dim * self._dim)
+        G_raw = jax.ops.segment_sum(outer_flat, self._row_idx,
+                                    num_segments=self._N)
+        G_raw = G_raw.reshape(self._N, self._dim, self._dim)
+        G = jnp.einsum('nab,nbc->nac', G_raw, self._K_inv)
+
+        # ── 2. Strain & stress ──────────────────────────────────────────
+        eps = 0.5 * (G + G.transpose(0, 2, 1))
+        tr_eps = eps[:, 0, 0] + eps[:, 1, 1]
+        I = jnp.eye(self._dim)
+        sigma = lam * tr_eps[:, None, None] * I + 2.0 * mu * eps
+
+        # ── 3. Force residual: σᵢK̄ᵢ⁻¹ξ_ij + σⱼK̄ⱼ⁻¹ξ_ji ──────────
+        sigma_K_inv = sigma @ self._K_inv                     # (N, d, d)
+        f_i = jnp.einsum('nab,nb->na',
+                         sigma_K_inv[self._row_idx],
+                         self._xi)                            # (nnz, d)
+        f_j = jnp.einsum('nab,nb->na',
+                         sigma_K_inv[self._col_idx],
+                         -self._xi)                           # (nnz, d)
+        wf = self._w_pos[:, None] * (f_i + f_j)               # (nnz, d)
+        r = jax.ops.segment_sum(wf, self._row_idx,
+                                num_segments=self._N)           # (N, d)
+        return r
+
+    @staticmethod
+    def _build_neighbors_grid(x_np, delta, dim):
+        import numpy as np
+        N = len(x_np)
+        ux = np.unique(np.round(x_np[:, 0], decimals=10))
+        Nx = len(ux)
+        if dim == 2:
+            uy = np.unique(np.round(x_np[:, 1], decimals=10))
+            Ny = len(uy)
+            if Nx * Ny != N:
+                raise ValueError("Not a structured 2D grid")
+            Nz = 1; uz = np.array([0.0])
+        elif dim == 3:
+            uy = np.unique(np.round(x_np[:, 1], decimals=10))
+            uz = np.unique(np.round(x_np[:, 2], decimals=10))
+            Ny, Nz = len(uy), len(uz)
+            if Nx * Ny * Nz != N:
+                raise ValueError("Not a structured 3D grid")
+        else:
+            Ny = 1; Nz = 1; uy = np.array([0.0]); uz = np.array([0.0])
+            if Nx != N:
+                raise ValueError("Not a structured 1D grid")
+
+        dx = (ux[-1] - ux[0]) / max(Nx - 1, 1)
+        dy = (uy[-1] - uy[0]) / max(Ny - 1, 1) if dim >= 2 else 1.0
+        dz = (uz[-1] - uz[0]) / max(Nz - 1, 1) if dim >= 3 else 1.0
+        md_x = max(int(delta / dx) + 1, 1)
+        md_y = max(int(delta / dy) + 1, 1) if dim >= 2 else 0
+        md_z = max(int(delta / dz) + 1, 1) if dim >= 3 else 0
+
+        offsets, dists, dx_offsets = [], [], []
+        for di in range(-md_y, md_y + 1):
+            for dj in range(-md_x, md_x + 1):
+                for dk in range(-md_z, md_z + 1):
+                    if di == 0 and dj == 0 and dk == 0:
+                        continue
+                    r2 = (di*dy)**2 + (dj*dx)**2 + (dk*dz)**2
+                    if r2 <= delta**2:
+                        offsets.append((di, dj, dk))
+                        dists.append(np.sqrt(r2))
+                        dx_offsets.append(np.array([dj*dx, di*dy]))
+
+        if dim == 1:
+            if not np.allclose(x_np.ravel(), ux, rtol=1e-6, atol=1e-6):
+                raise ValueError("SparseD grid search requires sorted 1D order")
+        elif dim == 2:
+            expected = np.stack(np.meshgrid(ux, uy, indexing='xy'),
+                              axis=-1).reshape(-1, dim)
+            if not np.allclose(x_np, expected, rtol=1e-6, atol=1e-6):
+                raise ValueError("Not C-order meshgrid ordering")
+        else:
+            expected = np.stack(np.meshgrid(ux, uy, uz, indexing='xy'),
+                              axis=-1).reshape(-1, dim)
+            if not np.allclose(x_np, expected, rtol=1e-6, atol=1e-6):
+                raise ValueError("Not C-order meshgrid ordering")
+
+        idx_k = np.arange(N).reshape(Ny, Nx, Nz)
+        rows, cols, r_vals, d_vals = [], [], [], []
+        for (di, dj, dk), dist, doff in zip(offsets, dists, dx_offsets):
+            iy_lo = max(0, -di); iy_hi = min(Ny, Ny - di)
+            ix_lo = max(0, -dj); ix_hi = min(Nx, Nx - dj)
+            iz_lo = max(0, -dk); iz_hi = min(Nz, Nz - dk)
+            if iy_lo >= iy_hi or ix_lo >= ix_hi or iz_lo >= iz_hi:
+                continue
+            src = idx_k[iy_lo:iy_hi, ix_lo:ix_hi, iz_lo:iz_hi].ravel()
+            dst = idx_k[(iy_lo+di):(iy_hi+di), (ix_lo+dj):(ix_hi+dj),
+                       (iz_lo+dk):(iz_hi+dk)].ravel()
+            rows.append(src); cols.append(dst)
+            r_vals.append(np.full(len(src), dist))
+            d_vals.append(np.tile(doff, (len(src), 1)))
+        if not rows:
+            raise RuntimeError(f"No neighbours found within δ={delta}")
+        return (np.concatenate(rows).astype(np.int32),
+                np.concatenate(cols).astype(np.int32),
+                np.concatenate(r_vals),
+                np.concatenate(d_vals))
+
+    @staticmethod
+    def _build_neighbors_pairwise(x_np, delta):
+        import numpy as np
+        diff = x_np[:, None, :] - x_np[None, :, :]
+        dist = np.sqrt(np.sum(diff**2, axis=-1))
+        N = len(x_np)
+        in_horizon = (dist <= delta) & ~np.eye(N, dtype=bool)
+        row_idx, col_idx = np.where(in_horizon)
+        r_ij = dist[row_idx, col_idx]
+        # diff[i,j] = x_i - x_j; grid/KD-tree return x_j - x_i
+        dx_ij = diff[col_idx, row_idx, :]
+        return (row_idx.astype(np.int32), col_idx.astype(np.int32),
+                r_ij, dx_ij)
+
+    @staticmethod
+    def _build_neighbors_kdtree(x_np, delta):
+        import numpy as np
+        from scipy.spatial import cKDTree
+        tree = cKDTree(x_np)
+        pairs = tree.query_ball_tree(tree, delta)
+        rows, cols, r_vals, d_vals = [], [], [], []
+        for i, neighbors in enumerate(pairs):
+            for j in neighbors:
+                if i != j:
+                    rows.append(i); cols.append(j)
+                    d = x_np[j] - x_np[i]
+                    r_vals.append(np.linalg.norm(d))
+                    d_vals.append(d)
+        return (np.array(rows, dtype=np.int32), np.array(cols, dtype=np.int32),
+                np.array(r_vals), np.array(d_vals))
+
+def _build_K_inv(N, row_idx, col_idx, w_pos, dx):
+    """Build K̄_i = Σ_j w_ij ξ_ij ⊗ ξ_ij at each point and invert."""
+    import numpy as np
+    K = np.zeros((N, 2, 2))
+    for a in range(2):
+        for b in range(a, 2):
+            vals = w_pos * dx[:, a] * dx[:, b]
+            K[:, a, b] = np.bincount(row_idx, weights=vals, minlength=N)
+            if a != b:
+                K[:, b, a] = K[:, a, b]
+    # Regularize and invert
+    eps_reg = 1e-8
+    det = K[:, 0, 0] * K[:, 1, 1] - K[:, 0, 1] * K[:, 1, 0]
+    det = np.where(np.abs(det) < eps_reg, np.sign(det + eps_reg) * eps_reg, det)
+    K_inv = np.zeros_like(K)
+    K_inv[:, 0, 0] = K[:, 1, 1] / det
+    K_inv[:, 0, 1] = -K[:, 0, 1] / det
+    K_inv[:, 1, 0] = -K[:, 1, 0] / det
+    K_inv[:, 1, 1] = K[:, 0, 0] / det
+    return K_inv.astype(np.float32)
+
+
 # ── ConvD ───────────────────────────────────────────────────────────────────
 
 class ConvD:

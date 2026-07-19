@@ -19,13 +19,16 @@ class MLP(eqx.Module):
     """MLP trunk: embeds x and t internally, concatenates, feeds through layers.
 
     ``tensor_split`` (static): split first layer into x-only and t-only matmuls
-    — exact same math, fewer FLOPs under vmap(x) × vmap(t) evaluation.
+    ``multi_head`` (static): per-dimension output heads (e.g. u_x / u_y)
     """
     spatial_emb: FourierEmbedding | None
     temporal_emb: FourierEmbedding | None
     layers: list
+    output: eqx.nn.Linear | None
+    out_heads: tuple | None = None
     activation: callable = eqx.field(static=True)
     tensor_split: bool = eqx.field(static=True, default=False)
+    multi_head: bool = eqx.field(static=True, default=False)
 
     def __init__(self, spatial_dim: int, out_dim: int, *,
                  hidden_dim: int = 64, num_layers: int = 4,
@@ -36,7 +39,9 @@ class MLP(eqx.Module):
                  spatial_scale: float | tuple = 2.0,
                  temporal_emb_dim: int = 64,
                  temporal_scale: float | tuple = 2.0,
+                 static: bool = False,
                  tensor_split: bool = False,
+                 multi_head: bool = False,
                  key: jr.PRNGKey):
         k_sp, k_tp, k_trunk = jr.split(key, 3)
 
@@ -51,7 +56,10 @@ class MLP(eqx.Module):
             s_dim = spatial_dim
 
         # ── temporal embedding ──
-        if use_temporal_emb:
+        if static:
+            self.temporal_emb = None
+            t_dim = 0
+        elif use_temporal_emb:
             self.temporal_emb = FourierEmbedding(
                 1, temporal_emb_dim, temporal_scale, key=k_tp)
             n_t = len(temporal_scale) if isinstance(temporal_scale, (tuple, list)) else 1
@@ -60,32 +68,45 @@ class MLP(eqx.Module):
             self.temporal_emb = None
             t_dim = 1
 
-        # ── trunk layers ──
+        # ── trunk ──
         trunk_in = s_dim + t_dim
-        keys = jr.split(k_trunk, num_layers + 1)
-        self.layers = [eqx.nn.Linear(trunk_in, hidden_dim, key=keys[0])]
+        k_hidden, k_out = jr.split(k_trunk)
+        k_h = jr.split(k_hidden, num_layers)
+        self.layers = [eqx.nn.Linear(trunk_in, hidden_dim, key=k_h[0])]
         for i in range(1, num_layers):
-            self.layers.append(eqx.nn.Linear(hidden_dim, hidden_dim, key=keys[i]))
-        self.layers.append(eqx.nn.Linear(hidden_dim, out_dim, key=keys[-1]))
+            self.layers.append(eqx.nn.Linear(hidden_dim, hidden_dim, key=k_h[i]))
+
+        # output
+        if multi_head and out_dim > 1:
+            k_heads = jr.split(k_out, out_dim)
+            self.out_heads = tuple(
+                eqx.nn.Linear(hidden_dim, 1, key=k) for k in k_heads)
+            self.output = None
+        else:
+            self.output = eqx.nn.Linear(hidden_dim, out_dim, key=k_out)
+
         self.activation = activation
         self.tensor_split = tensor_split
+        self.multi_head = multi_head
 
-    def __call__(self, x: jnp.ndarray, t: jnp.ndarray) -> jnp.ndarray:
+    def __call__(self, x: jnp.ndarray, t=None) -> jnp.ndarray:
         ex = (self.spatial_emb(jnp.atleast_1d(x))
               if self.spatial_emb is not None else jnp.atleast_1d(x))
-        et = (self.temporal_emb(jnp.atleast_1d(t))
-              if self.temporal_emb is not None else jnp.atleast_1d(t))
-
-        if self.tensor_split:
-            first = self.layers[0]
-            dx = ex.shape[0]
-            h = first.weight[:, :dx] @ ex + first.weight[:, dx:] @ et + first.bias
+        if self.temporal_emb is not None:
+            et = self.temporal_emb(jnp.atleast_1d(t))
+            if self.tensor_split:
+                dx = ex.shape[0]
+                h = self.layers[0].weight[:, :dx]@ex + self.layers[0].weight[:, dx:]@et + self.layers[0].bias
+            else:
+                h = self.layers[0](jnp.concatenate([ex, et]))
         else:
-            h = self.layers[0](jnp.concatenate([ex, et]))
+            h = self.layers[0](ex)
         h = self.activation(h)
-        for layer in self.layers[1:-1]:
+        for layer in self.layers[1:]:
             h = self.activation(layer(h))
-        return self.layers[-1](h)
+        if self.out_heads is not None:
+            return jnp.concatenate([head(h) for head in self.out_heads], axis=-1)
+        return self.output(h)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -115,6 +136,7 @@ class ModifiedMLP(eqx.Module):
                  spatial_scale: float | tuple = 2.0,
                  temporal_emb_dim: int = 64,
                  temporal_scale: float | tuple = 2.0,
+                 static: bool = False,
                  key: jr.PRNGKey):
         k_sp, k_tp, k_u, k_v, k_out, *k_hidden = jr.split(key, 5 + num_layers)
 
@@ -129,7 +151,10 @@ class ModifiedMLP(eqx.Module):
             s_dim = spatial_dim
 
         # ── temporal embedding ──
-        if use_temporal_emb:
+        if static:
+            self.temporal_emb = None
+            t_dim = 0
+        elif use_temporal_emb:
             self.temporal_emb = FourierEmbedding(
                 1, temporal_emb_dim, temporal_scale, key=k_tp)
             n_t = len(temporal_scale) if isinstance(temporal_scale, (tuple, list)) else 1
@@ -147,12 +172,14 @@ class ModifiedMLP(eqx.Module):
         self.output = eqx.nn.Linear(hidden_dim, out_dim, key=k_out)
         self.activation = activation
 
-    def __call__(self, x: jnp.ndarray, t: jnp.ndarray) -> jnp.ndarray:
+    def __call__(self, x: jnp.ndarray, t=None) -> jnp.ndarray:
         ex = (self.spatial_emb(jnp.atleast_1d(x))
               if self.spatial_emb is not None else jnp.atleast_1d(x))
-        et = (self.temporal_emb(jnp.atleast_1d(t))
-              if self.temporal_emb is not None else jnp.atleast_1d(t))
-        h = jnp.concatenate([ex, et])
+        if self.temporal_emb is not None:
+            et = self.temporal_emb(jnp.atleast_1d(t))
+            h = jnp.concatenate([ex, et])
+        else:
+            h = ex
 
         u = self.activation(self.u_proj(h))
         v = self.activation(self.v_proj(h))
@@ -275,7 +302,9 @@ def make_pinn(spatial_dim: int, out_dim: int, *,
               spatial_scale: float | tuple = 2.0,
               temporal_emb_dim: int = 64,
               temporal_scale: float | tuple = 2.0,
+              static: bool = False,
               tensor_split: bool = False,
+              multi_head: bool = False,
               film_hidden_dim: int = 32, film_num_layers: int = 2,
               key: jr.PRNGKey) -> MLP | ModifiedMLP | FiLM:
     """Create a PINN model with built-in Fourier embeddings.
@@ -287,6 +316,9 @@ def make_pinn(spatial_dim: int, out_dim: int, *,
     if isinstance(activation, str):
         activation = _ACTIVATIONS.get(activation, jnp.tanh)
 
+    if static and trunk_type == "film":
+        raise ValueError("FiLM trunk requires temporal modulation; "
+                         "cannot be used with static=True.")
     if trunk_type == "film":
         return FiLM(
             spatial_dim=spatial_dim, out_dim=out_dim,
@@ -303,7 +335,8 @@ def make_pinn(spatial_dim: int, out_dim: int, *,
         use_spatial_emb=use_spatial_emb,
         use_temporal_emb=use_temporal_emb,
         spatial_emb_dim=spatial_emb_dim, spatial_scale=spatial_scale,
-        temporal_emb_dim=temporal_emb_dim, temporal_scale=temporal_scale)
+        temporal_emb_dim=temporal_emb_dim, temporal_scale=temporal_scale,
+        static=static, multi_head=multi_head)
 
     if trunk_type == "mlp":
         return MLP(
