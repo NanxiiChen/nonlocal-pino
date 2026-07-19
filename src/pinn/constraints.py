@@ -36,10 +36,18 @@ def tanh_constraint(raw):
 class ConstrainedForward(eqx.Module):
     """Wrap a raw network with an output constraint function.
 
+        # Simple constraint (raw output only)
         net = ConstrainedForward(raw_net, lambda raw: kks_constraint(raw, c_se, c_le))
+
+        # Hard constraint that needs spatial coords (e.g. displacement BC)
+        net = ConstrainedForward(raw_net, constraint_fn, pass_input=True)
     """
     net: eqx.Module
     constraint: callable = eqx.field(static=True)
+    pass_input: bool = eqx.field(static=True, default=False)
 
     def __call__(self, x, t):
-        return self.constraint(self.net(x, t))
+        raw = self.net(x, t)
+        if self.pass_input:
+            return self.constraint(raw, x, t)
+        return self.constraint(raw)

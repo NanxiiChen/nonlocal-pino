@@ -217,6 +217,12 @@ tempCodeRunnerFile.py
 # Ruff stuff:
 .ruff_cache/
 
+# Generated mesh / FEM output
+*.msh
+*.xdmf
+*.h5
+mesh_*_region.xml
+
 # PyPI configuration file
 .pypirc
 
