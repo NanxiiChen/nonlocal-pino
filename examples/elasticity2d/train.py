@@ -1,4 +1,4 @@
-"""Training script for 2D elastic plate with hole — nonlocal PINN.
+"""Training script for 2D elastic plate with elliptical hole — nonlocal PINN.
 
 Left edge clamped (u_x=u_y=0), right edge pulled (u_x=u_load).
 Hard constraint on BCs.  D_δ handles free edges.
@@ -38,11 +38,12 @@ FLAGS = _absl_flags.FLAGS
 # ── Setup helpers ─────────────────────────────────────────────────────────────
 
 def _build_grid(config):
-    """Regular grid [0,Lx]×[0,Ly] with hole excluded."""
+    """Regular grid [0,Lx]×[0,Ly] with elliptical hole excluded."""
     Nx, Ny = config.sample.Nx, config.sample.Ny
     Lx = config.geometry.Lx
     Ly = config.geometry.Ly
-    a = config.geometry.a
+    a_x = config.geometry.a_x
+    a_y = config.geometry.a_y
     cx, cy = Lx / 2.0, Ly / 2.0
 
     xs = jnp.linspace(0.0, Lx, Nx)
@@ -50,9 +51,10 @@ def _build_grid(config):
     Xv, Yv = jnp.meshgrid(xs, ys, indexing='xy')
     x_full = jnp.stack([Xv.ravel(), Yv.ravel()], axis=-1)
 
-    # Exclude points inside the hole
-    r = jnp.sqrt((x_full[:, 0] - cx)**2 + (x_full[:, 1] - cy)**2)
-    mask = r >= a
+    # Exclude points inside the elliptical hole: ((x-cx)/a_x)²+((y-cy)/a_y)² >= 1
+    dx = (x_full[:, 0] - cx) / a_x
+    dy = (x_full[:, 1] - cy) / a_y
+    mask = dx**2 + dy**2 >= 1.0
     x_points = x_full[mask]
     return jnp.array(x_points)
 
@@ -115,7 +117,8 @@ def _sample_bc_points(config):
     rng = np.random.RandomState(42)
     Lx = config.geometry.Lx
     Ly = config.geometry.Ly
-    a = config.geometry.a
+    a_x = config.geometry.a_x
+    a_y = config.geometry.a_y
     cx, cy = Lx / 2, Ly / 2
     n_bc = 200
 
@@ -125,9 +128,9 @@ def _sample_bc_points(config):
 
     top = jnp.column_stack([xs_t, np.full(n_bc, Ly)])
     bottom = jnp.column_stack([xs_b, np.zeros(n_bc)])
-    hole = jnp.column_stack([cx + a * np.cos(thetas),
-                              cy + a * np.sin(thetas)])
-    return top, bottom, hole, (cx, cy)
+    hole = jnp.column_stack([cx + a_x * np.cos(thetas),
+                              cy + a_y * np.sin(thetas)])
+    return top, bottom, hole, (cx, cy, a_x, a_y)
 
 
 # ── Training step ─────────────────────────────────────────────────────────────
@@ -137,8 +140,7 @@ def _make_step(loss_fn, optim):
     def step(net, opt_state, w_ema, bias, update_w,
              x_points=None):
         (loss, aux, grad, new_w) = loss_fn(
-            net, w_ema, bias, update_w,
-            x_points=x_points)
+            net, w_ema, bias, update_w, x_points=x_points)
         grad = jax.tree.map(jnp.nan_to_num, grad)
         updates, opt_state = optim.update(grad, opt_state, net)
         net = eqx.apply_updates(net, updates)
@@ -174,7 +176,8 @@ def _eval_fem(net, fem_data, writer, step, config):
     # Evaluate on a regular grid for clean plots (no triangulation artefacts)
     Lx = config.geometry.Lx
     Ly = config.geometry.Ly
-    a = config.geometry.a
+    a_x = config.geometry.a_x
+    a_y = config.geometry.a_y
     n_grid = 100
     xs = jnp.linspace(0, Lx, n_grid)
     ys = jnp.linspace(0, Ly, n_grid)
@@ -197,9 +200,10 @@ def _eval_fem(net, fem_data, writer, step, config):
     err_ux = ux_pinn - ux_fem_grid
     err_uy = uy_pinn - uy_fem_grid
 
-    # Mask hole interior for display
-    r_grid = onp.sqrt((onp.array(Xv) - Lx/2)**2 + (onp.array(Yv) - Ly/2)**2)
-    hole = r_grid < a
+    # Mask elliptical hole interior for display
+    dx = (onp.array(Xv) - Lx/2) / a_x
+    dy = (onp.array(Yv) - Ly/2) / a_y
+    hole = dx**2 + dy**2 < 1.0
     for arr in [ux_pinn, uy_pinn, ux_fem_grid, uy_fem_grid, err_ux, err_uy]:
         arr[hole] = onp.nan
 
@@ -259,8 +263,8 @@ def _main(_):
 
     # ── spatial grid (hole excluded) ──────────────────────────────────────
     x_base = _build_grid(config)
-    log.info("Grid: %d points (hole radius %.2f excluded)", len(x_base),
-             config.geometry.a)
+    log.info("Grid: %d points (ellipse a_x=%.2f, a_y=%.2f excluded)", len(x_base),
+             config.geometry.a_x, config.geometry.a_y)
 
     # ── network + D + optimizer ───────────────────────────────────────────
     net = _build_network(config, k_net)
@@ -277,11 +281,11 @@ def _main(_):
     # ── Neumann BC points (local mode only) ───────────────────────────────
     local_mode = (D is None)
     if local_mode:
-        x_bc_top, x_bc_bottom, x_bc_hole, hole_center = _sample_bc_points(config)
+        x_bc_top, x_bc_bottom, x_bc_hole, (cx, cy, a_x, a_y) = _sample_bc_points(config)
         log.info("BC points: top/bottom/hole = %d/%d/%d",
                  len(x_bc_top), len(x_bc_bottom), len(x_bc_hole))
         bc_kw = dict(x_bc_top=x_bc_top, x_bc_bottom=x_bc_bottom,
-                     x_bc_hole=x_bc_hole, hole_center=hole_center,
+                     x_bc_hole=x_bc_hole, hole_center=(cx, cy, a_x, a_y),
                      alpha=config.train.alpha_gradnorm)
     else:
         bc_kw = {}
@@ -307,7 +311,8 @@ def _main(_):
     # LHS collocation sampler (local mode only)
     Lx = config.geometry.Lx
     Ly = config.geometry.Ly
-    a = config.geometry.a
+    a_x = config.geometry.a_x
+    a_y = config.geometry.a_y
     lhs_sampler = None
     if local_mode:
         N_lhs = config.sample.get('N_lhs', 2000)
@@ -322,8 +327,9 @@ def _main(_):
             # Oversample + truncate → fixed size (avoid JIT retrace)
             raw = lhs_sampler.random(n=int(N_lhs * 1.3))
             pts = np.column_stack([raw[:, 0] * Lx, raw[:, 1] * Ly])
-            r = np.sqrt((pts[:, 0] - Lx/2)**2 + (pts[:, 1] - Ly/2)**2)
-            pts = pts[r >= a][:N_lhs]
+            dx = (pts[:, 0] - Lx/2) / a_x
+            dy = (pts[:, 1] - Ly/2) / a_y
+            pts = pts[dx**2 + dy**2 >= 1.0][:N_lhs]
             x_points = jnp.array(pts)
         else:
             x_points = x_base

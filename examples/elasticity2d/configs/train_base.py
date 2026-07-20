@@ -34,19 +34,17 @@ def get_config():
     c.sample = config_dict.ConfigDict()
     c.sample.Nx = 400                 # grid points in x
     c.sample.Ny = 300                 # grid points in y
-    c.sample.K_core = 0               # 0 = full batch (no minibatch)
-    c.sample.K_pool = 0
     c.sample.N_lhs = 2000             # LHS collocation points (local mode)
 
     # Training
     c.train = config_dict.ConfigDict()
     c.train.iterations = 20000
-    c.train.lr_init = 5e-4
-    c.train.lr_decay_every = 500
+    c.train.lr_init = 2e-3
+    c.train.lr_decay_every = 2000
     c.train.lr_decay_rate = 0.95
     c.train.lr_min = 1e-5
     c.train.optimizer = "adam"
-    c.train.grad_clip = 100.0
+    c.train.grad_clip = 1000.0
     c.train.matmul_precision = "highest"
     c.train.soap_max_precond_dim = 100000
     c.train.soap_b1 = 0.90
@@ -79,12 +77,13 @@ def get_config():
     c.physical.mu = 0.3846            # μ* = 1/(2(1+ν))
 
     # Geometry + loading (non-dimensional)
-    # Physical: 2m × 1.5m plate, 0.3m hole, 2mm displacement
-    # L_c = 2m → Lx*=1.0, Ly*=0.75, a*=0.15, u_load*=1.0
+    # Physical: 2m × 1.5m plate, elliptical hole (0.1m×0.3m), 2mm displacement
+    # L_c = 2m → Lx*=1.0, Ly*=0.75, a_x*=0.05, a_y*=0.15, u_load*=1.0
     c.geometry = config_dict.ConfigDict()
     c.geometry.Lx = 1.0              # Lx* = 2m / 2m
     c.geometry.Ly = 0.75             # Ly* = 1.5m / 2m
-    c.geometry.a = 0.15              # a* = 0.3m / 2m
+    c.geometry.a_x = 0.10            # a_x* = 0.20m / 2m (semi-axis ‖ loading)
+    c.geometry.a_y = 0.15            # a_y* = 0.3m / 2m (semi-axis ⊥ loading)
     c.geometry.u_load = 1.0          # u_load* = 2mm / 2mm
 
     # FEM reference data

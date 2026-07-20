@@ -1,4 +1,4 @@
-"""2D FEM solver for linear elastic plate with circular hole (plane strain).
+"""2D FEM solver for linear elastic plate with elliptical hole (plane strain).
 
 Left edge clamped (u_x=u_y=0), right edge displacement-controlled (u_x=u_load).
 Steady-state linear elasticity.
@@ -93,7 +93,13 @@ def solve(config):
 
     # ── Mesh ──────────────────────────────────────────────────────────────
     if rank == 0:
-        xdmf_file = _generate_mesh(config.mesh.geo_file, config.mesh.msh_file)
+        xdmf_file = os.path.abspath(config.mesh.msh_file).replace('.msh', '.xdmf')
+        geo_mtime = os.path.getmtime(config.mesh.geo_file)
+        xdmf_exists = os.path.exists(xdmf_file)
+        if not xdmf_exists or os.path.getmtime(xdmf_file) < geo_mtime:
+            _generate_mesh(config.mesh.geo_file, config.mesh.msh_file)
+        else:
+            print(f"Using cached mesh: {xdmf_file}")
     comm.Barrier()
     xdmf_file = os.path.abspath(config.mesh.msh_file).replace('.msh', '.xdmf')
     mesh = Mesh()
