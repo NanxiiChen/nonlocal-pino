@@ -532,6 +532,11 @@ class ElasticD:
         self._nei_w_np[row_s, slot] = w_s
         self._nei_mask_np[row_s, slot] = True
 
+        # Also store xi (x_j - x_i) in CSR format for sub-graph extraction
+        xi_sorted = dx_ij[order]                                  # (nnz, dim)
+        self._nei_xi_np = np.zeros((N, self._k_max, dim), dtype=np.float32)
+        self._nei_xi_np[row_s, slot, :] = xi_sorted
+
         # ── Build K̄_i per point and invert ─────────────────────────────
         self._xi = jnp.array(dx_ij, dtype=jnp.float32)
         self._K_inv = jnp.array(_build_K_inv(N, row_idx, col_idx, w_pos, dx_ij),
@@ -577,6 +582,216 @@ class ElasticD:
         r = jax.ops.segment_sum(wf, self._row_idx,
                                 num_segments=self._N)           # (N, d)
         return r
+
+    # ── Sub-graph (core + halo) ───────────────────────────────────────────
+
+    def sub_sample(self, seed, K, weights=None):
+        """Weighted random core points + δ-neighbors → sub-graph.
+
+        Args:
+            seed: random seed for reproducibility
+            K: number of core points
+            weights: (N,) sampling weights, or None for uniform
+
+        Returns:
+            all_idx: (K_all,) global indices of core ∪ halo1 ∪ halo2
+            sub_edges: local-indexed COO arrays for gradient and residual edges
+            core_mask: (K_all,) bool mask (True for core)
+            K_all: number of nodes in sub-graph
+        """
+        import numpy as np
+
+        rng = np.random.RandomState(seed % (2**31 - 1))
+
+        if weights is not None:
+            w_norm = np.asarray(weights, dtype=np.float64)
+            w_norm = w_norm / w_norm.sum()
+            core = rng.choice(self._N, K, replace=False, p=w_norm)
+        else:
+            core = rng.choice(self._N, K, replace=False)
+
+        # Elastic correspondence residual on a core edge i->j uses sigma_j.
+        # Therefore one-hop core+halo is insufficient: sigma_j needs j's own
+        # deformation gradient, which needs j's neighbours. Keep residual rows
+        # at core only, but build gradients for core ∪ halo1 and include halo2
+        # values needed by those gradients.
+        core_nei_idx = self._nei_idx_np[core]
+        core_nei_mask = self._nei_mask_np[core]
+        halo1 = np.unique(core_nei_idx[core_nei_mask])
+        grad_nodes = np.unique(np.concatenate([core, halo1]))
+
+        grad_nei_idx = self._nei_idx_np[grad_nodes]
+        grad_nei_mask = self._nei_mask_np[grad_nodes]
+        halo2 = np.unique(grad_nei_idx[grad_nei_mask])
+        all_idx = np.unique(np.concatenate([grad_nodes, halo2]))
+        K_all = len(all_idx)
+
+        # Global → local index mapping
+        g2l = np.full(self._N, -1, dtype=np.int32)
+        g2l[all_idx] = np.arange(K_all)
+
+        # Gradient edges: outgoing neighbourhoods for core ∪ halo1.
+        grad_nei_w = self._nei_w_np[grad_nodes]
+        grad_nei_xi = self._nei_xi_np[grad_nodes]
+        k_per_grad = grad_nei_mask.sum(axis=1)
+        grad_src_global = np.repeat(grad_nodes, k_per_grad)
+        grad_dst_global = grad_nei_idx[grad_nei_mask]
+        grad_w = grad_nei_w[grad_nei_mask].astype(np.float32)
+        grad_xi = grad_nei_xi[grad_nei_mask].astype(np.float32)
+        grad_row = g2l[grad_src_global].astype(np.int32)
+        grad_col = g2l[grad_dst_global].astype(np.int32)
+
+        # Residual edges: only core rows contribute to the loss.
+        core_nei_w = self._nei_w_np[core]
+        core_nei_xi = self._nei_xi_np[core]
+        k_per_core = core_nei_mask.sum(axis=1)
+        res_src_global = np.repeat(core, k_per_core)
+        res_dst_global = core_nei_idx[core_nei_mask]
+        res_w = core_nei_w[core_nei_mask].astype(np.float32)
+        res_xi = core_nei_xi[core_nei_mask].astype(np.float32)
+        res_row = g2l[res_src_global].astype(np.int32)
+        res_col = g2l[res_dst_global].astype(np.int32)
+
+        # Use the full-graph shape tensor inverse for every retained node.
+        # Recomputing on a truncated one-hop graph makes halo stresses wrong.
+        K_inv_sub = np.array(self._K_inv)[all_idx].astype(np.float32)
+
+        core_local = g2l[core]
+        core_mask = np.zeros(K_all, dtype=bool)
+        core_mask[core_local] = True
+
+        return (all_idx,
+                (grad_row, grad_col, grad_w, grad_xi,
+                 res_row, res_col, res_w, res_xi,
+                 K_inv_sub),
+                core_mask, K_all)
+
+    def elastic_matvec_sub(self, u_sub, sub_edges, core_mask, lam, mu):
+        """Force residual on sub-graph — core rows kept, others zeroed.
+
+        Args:
+            u_sub: (K_pad, dim) displacement at sub-graph points (padded)
+            sub_edges: padded gradient/residual local COO arrays
+            core_mask: (K_pad,) bool — which nodes are core
+            lam, mu: Lamé constants
+
+        Returns:
+            (K_pad, dim) masked residual (zero for non-core rows)
+        """
+        (grad_row, grad_col, grad_w, grad_xi,
+         res_row, res_col, res_w, res_xi,
+         K_inv_sub) = sub_edges
+        dim = self._dim
+        K_pad = u_sub.shape[0]
+
+        # ── 1. Nonlocal deformation gradient ──────────────────────────
+        du = u_sub[grad_col] - u_sub[grad_row]                  # (E_grad, dim)
+        wdu = grad_w[:, None] * du
+        outer = wdu[:, :, None] * grad_xi[:, None, :]           # (E_grad, dim, dim)
+        outer_flat = outer.reshape(-1, dim * dim)
+        G_raw = jax.ops.segment_sum(outer_flat, grad_row,
+                                    num_segments=K_pad)
+        G_raw = G_raw.reshape(K_pad, dim, dim)
+        G = jnp.einsum('nab,nbc->nac', G_raw, K_inv_sub)
+
+        # ── 2. Strain & stress ────────────────────────────────────────
+        eps = 0.5 * (G + G.transpose(0, 2, 1))
+        tr_eps = eps[:, 0, 0] + eps[:, 1, 1]
+        I = jnp.eye(dim)
+        sigma = lam * tr_eps[:, None, None] * I + 2.0 * mu * eps
+
+        # ── 3. Force residual ─────────────────────────────────────────
+        sigma_K_inv = sigma @ K_inv_sub
+        f_i = jnp.einsum('nab,nb->na', sigma_K_inv[res_row], res_xi)
+        f_j = jnp.einsum('nab,nb->na', sigma_K_inv[res_col], -res_xi)
+        wf = res_w[:, None] * (f_i + f_j)
+        r = jax.ops.segment_sum(wf, res_row, num_segments=K_pad)    # (K_pad, dim)
+
+        # Mask non-core rows to zero (can't use boolean indexing in JIT)
+        return r * core_mask.astype(jnp.float32)[:, None]
+
+    def build_subgraph_pool(self, K, n_pool, weights=None):
+        """Build *n_pool* sub-graphs with tight padding.
+
+        Returns a list of (all_idx, sub_edges, core_mask) tuples
+        where all arrays are padded to uniform shapes across the pool.
+        core_mask marks the residual/loss rows; halo rows are active only for
+        intermediate stress calculations.
+        """
+        import numpy as np
+        raw_entries = [self.sub_sample(i, K, weights) for i in range(n_pool)]
+
+        max_K = max(int(r[3]) for r in raw_entries)
+        max_E_grad = max(len(r[1][0]) for r in raw_entries)
+        max_E_res = max(len(r[1][4]) for r in raw_entries)
+
+        pool = []
+        for r in raw_entries:
+            (all_idx,
+             (grad_row, grad_col, grad_w, grad_xi,
+              res_row, res_col, res_w, res_xi,
+              K_inv),
+             core_mask, K_all) = r
+
+            # Pad nodes
+            if K_all < max_K:
+                all_idx = np.pad(all_idx, (0, max_K - K_all),
+                                 constant_values=0)  # 0 = dummy, excluded by core_mask
+                core_mask = np.pad(core_mask, (0, max_K - K_all),
+                                   constant_values=False)
+                K_inv = np.pad(K_inv, ((0, max_K - K_all), (0, 0), (0, 0)),
+                               constant_values=0.0)
+            elif K_all > max_K:
+                all_idx = all_idx[:max_K]
+                core_mask = core_mask[:max_K]
+                K_inv = K_inv[:max_K]
+                keep = (grad_row < max_K) & (grad_col < max_K)
+                grad_row, grad_col, grad_w, grad_xi = (
+                    grad_row[keep], grad_col[keep], grad_w[keep], grad_xi[keep])
+                keep = (res_row < max_K) & (res_col < max_K)
+                res_row, res_col, res_w, res_xi = (
+                    res_row[keep], res_col[keep], res_w[keep], res_xi[keep])
+
+            # Pad gradient edges
+            n_e = len(grad_row)
+            if n_e < max_E_grad:
+                grad_row = np.pad(grad_row, (0, max_E_grad - n_e), constant_values=0)
+                grad_col = np.pad(grad_col, (0, max_E_grad - n_e), constant_values=0)
+                grad_w = np.pad(grad_w, (0, max_E_grad - n_e), constant_values=0.0)
+                grad_xi = np.pad(grad_xi, ((0, max_E_grad - n_e), (0, 0)),
+                                 constant_values=0.0)
+            elif n_e > max_E_grad:
+                grad_row, grad_col, grad_w, grad_xi = (
+                    grad_row[:max_E_grad], grad_col[:max_E_grad],
+                    grad_w[:max_E_grad], grad_xi[:max_E_grad])
+
+            # Pad residual edges
+            n_e = len(res_row)
+            if n_e < max_E_res:
+                res_row = np.pad(res_row, (0, max_E_res - n_e), constant_values=0)
+                res_col = np.pad(res_col, (0, max_E_res - n_e), constant_values=0)
+                res_w = np.pad(res_w, (0, max_E_res - n_e), constant_values=0.0)
+                res_xi = np.pad(res_xi, ((0, max_E_res - n_e), (0, 0)),
+                                constant_values=0.0)
+            elif n_e > max_E_res:
+                res_row, res_col, res_w, res_xi = (
+                    res_row[:max_E_res], res_col[:max_E_res],
+                    res_w[:max_E_res], res_xi[:max_E_res])
+
+            pool.append((
+                jnp.array(all_idx, dtype=jnp.int32),
+                (jnp.array(grad_row, dtype=jnp.int32),
+                 jnp.array(grad_col, dtype=jnp.int32),
+                 jnp.array(grad_w, dtype=jnp.float32),
+                 jnp.array(grad_xi, dtype=jnp.float32),
+                 jnp.array(res_row, dtype=jnp.int32),
+                 jnp.array(res_col, dtype=jnp.int32),
+                 jnp.array(res_w, dtype=jnp.float32),
+                 jnp.array(res_xi, dtype=jnp.float32),
+                 jnp.array(K_inv, dtype=jnp.float32)),
+                jnp.array(core_mask, dtype=bool),
+            ))
+        return pool
 
     @staticmethod
     def _build_neighbors_grid(x_np, delta, dim):

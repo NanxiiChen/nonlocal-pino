@@ -6,11 +6,12 @@ from ml_collections import config_dict
 def get_config():
     c = config_dict.ConfigDict()
 
-    # Geometry (non-dimensional — steel plate 2m×1.5m, L_c=2m)
+    # Geometry (non-dimensional — steel plate 2m×1.5m, elliptical hole, L_c=2m)
     c.geometry = config_dict.ConfigDict()
     c.geometry.Lx = 1.0        # Lx* = 2m / 2m
     c.geometry.Ly = 0.75       # Ly* = 1.5m / 2m
-    c.geometry.a = 0.15        # a* = 0.3m / 2m
+    c.geometry.a_x = 0.10      # a_x* = 0.20m / 2m (semi-axis ‖ loading)
+    c.geometry.a_y = 0.15      # a_y* = 0.3m / 2m (semi-axis ⊥ loading)
 
     # Material (non-dimensional, ν=0.3)
     c.physical = config_dict.ConfigDict()

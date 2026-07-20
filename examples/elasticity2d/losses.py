@@ -84,10 +84,21 @@ def loss_bc_bottom(net, x_bc, lam, mu):
     return _traction_mse(net, x_bc, n, lam, mu)
 
 
-def loss_bc_hole(net, x_bc, hole_center, lam, mu):
-    """Hole boundary (free): σ·n = 0  (n outward = toward centre)."""
-    dx = x_bc - jnp.array(hole_center)[None, :]
-    n = -dx / (jnp.linalg.norm(dx, axis=1, keepdims=True) + 1e-10)
+def loss_bc_hole(net, x_bc, hole_params, lam, mu):
+    """Hole boundary (free): σ·n = 0.
+
+    n = outward normal from domain (points into hole).
+    For ellipse f = ((x-cx)/a_x)²+((y-cy)/a_y)²-1 = 0:
+      n = -∇f/|∇f| ∝ -( (x-cx)/a_x², (y-cy)/a_y² )
+    For a circle (a_x=a_y) this reduces to the old radial normal.
+    """
+    cx, cy, a_x, a_y = hole_params
+    dx = x_bc[:, 0] - cx
+    dy = x_bc[:, 1] - cy
+    nx = -2.0 * dx / (a_x ** 2)
+    ny = -2.0 * dy / (a_y ** 2)
+    n = jnp.stack([nx, ny], axis=-1)
+    n = n / (jnp.linalg.norm(n, axis=-1, keepdims=True) + 1e-10)
     return _traction_mse(net, x_bc, n, lam, mu)
 
 
@@ -115,7 +126,10 @@ def make_loss_fn(x_all, D, lam, mu,
 
     Nonlocal (D is not None):  N_LOSS = 1  (PDE only)
     Local    (D is None):      N_LOSS = 4  (PDE + top + bottom + hole BCs)
+
+    hole_center: (cx, cy, a_x, a_y) tuple for elliptical hole.
     """
+
     local_mode = (D is None)
 
     # ── Nonlocal path (fast, single-term) ─────────────────────────────────
