@@ -350,8 +350,8 @@ do not require permission.
 ### 6.2 Workflow
 
 - **dev branch**: feature/experiment work, may have multiple WIP commits
-- **main branch**: linear history, one squash-merged commit per feature
-- Workflow: branch to `dev` → commit → squash merge to `main` → push `main`
+- **main branch**: `git merge dev` — regular merge, no `--squash`
+- Workflow: `dev` → commit → `main` → `git merge dev` → `git push origin main`
 - Commit messages end with `Co-Authored-By: Claude <noreply@anthropic.com>`
 - Push only `main` to origin; `dev` stays local
 
