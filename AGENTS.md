@@ -320,7 +320,34 @@ The distinction:
 
 ---
 
-## 6. Git Workflow
+## 6. Git Workflow — Authorization Required
+
+### 6.1 Hard rule: NEVER commit without explicit permission
+
+**Do not run any git write operation** (`git commit`, `git merge`,
+`git push`, `git tag`, `git stash`, `git branch -D`, `git rebase`,
+`git reset --hard`, `git checkout --`, `git clean`, etc.) unless the
+user has **explicitly and unambiguously** asked you to do so in the
+current turn.  This includes:
+
+- `git commit` / `git commit --amend`
+- `git merge` / `git merge --squash`
+- `git push` / `git push --force`
+- `git stash` / `git stash pop`
+- `git rebase` / `git rebase -i`
+- `git reset` / `git checkout -- <file>`
+- `git branch -D` / `git tag -d`
+- Anything that modifies the repository state or history
+
+**Implicit permission does not count.**  If the user said "commit and
+push" two turns ago, that permission is expired — you must ask again
+before doing any new git write.  If the user says "commit the changes"
+without specifying which branch, ask — don't assume.
+
+Read-only operations (`git status`, `git diff`, `git log`, `git branch`)
+do not require permission.
+
+### 6.2 Workflow
 
 - **dev branch**: feature/experiment work, may have multiple WIP commits
 - **main branch**: linear history, one squash-merged commit per feature

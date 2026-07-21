@@ -23,7 +23,7 @@ elliptical hole assumes an infinite plate, which this is not).
     y=Ly ┌──────────────────────────────┐
          │             free             │
          │      ╭───────────╮           │
-         │      │  elliptical│ a_x=0.05 │
+         │      │  elliptical│ a_x=0.10 │
          │      │  hole     │  a_y=0.15 │
          │      ╰───────────╯           │
   x=0 ───│            free              │─── x=Lx
@@ -39,14 +39,13 @@ elliptical hole assumes an infinite plate, which this is not).
 |----------|----------|-----------------|
 | Plate length | 2.0 m | \(L_x^* = 1.0\) |
 | Plate height | 1.5 m | \(L_y^* = 0.75\) |
-| Hole semi-axis x | 0.1 m | \(a_x^* = 0.05\) |
+| Hole semi-axis x | 0.2 m | \(a_x^* = 0.10\) |
 | Hole semi-axis y | 0.3 m | \(a_y^* = 0.15\) |
 | Applied displacement | 2.0 mm | \(u_{\text{load}}^* = 1.0\) |
 
 The elliptical hole is **vertically elongated** (\(a_y > a_x\)), giving a
-stress concentration factor \(K_t \approx 1 + 2 a_y / a_x \approx 7\)
+stress concentration factor \(K_t \approx 1 + 2 a_y / a_x = 4\)
 at the top and bottom tips (vs \(K_t \approx 3\) for a circular hole).
-This provides a stricter test for the local PINN's Neumann BC enforcement.
 
 Non-dimensionalisation uses two independent characteristic scales:
 
@@ -240,12 +239,12 @@ onto the PINN grid and relative L2 errors are computed:
 | Parameter | Value |
 |-----------|-------|
 | Optimizer | Adam |
-| Learning rate | \(5 \times 10^{-4}\) initial, exponential decay (0.95 / 500 steps) |
+| Learning rate | \(2 \times 10^{-3}\) initial, exponential decay (0.95 / 2000 steps) |
 | LR floor | \(1 \times 10^{-5}\) |
 | Iterations | 20,000 |
 | ElasticD horizon | \(\delta = 0.0075\) |
 | ElasticD kernel | Cubic (\(C^1\) smooth) |
-| Gradient clipping | 100.0 |
+| Gradient clipping | 1000.0 |
 | Matmul precision | `"highest"` (exact FP32) |
 | GradNorm update | Every 10 steps, \(\alpha = 1.0\) (instantaneous) |
 | Evaluation | Every 200 steps |
