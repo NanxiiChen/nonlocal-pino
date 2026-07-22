@@ -31,6 +31,13 @@ def _pde_nonlocal(net, x_points, D, lam, mu):
     return r[:, 0], r[:, 1]
 
 
+def _pde_nonlocal_sub(net, x_sub, D, sub_edges, core_mask, lam, mu):
+    """ElasticD sub-graph matvec on core+halo points."""
+    u = _net_u(net, x_sub)                                            # (K_pad, 2)
+    r = D.elastic_matvec_sub(u, sub_edges, core_mask, lam, mu)       # (K_pad, 2)
+    return r[:, 0], r[:, 1]
+
+
 def _pde_local(net, x_points, lam, mu):
     """Navier-Cauchy: μ∇²u + (λ+μ)∇(∇·u) via per-point Hessian AD."""
     def _navier_single(x):
@@ -58,6 +65,15 @@ def loss_pde(net, x_points, D, lam, mu):
     else:
         r_x, r_y = _pde_local(net, x_points, lam, mu)
     return jnp.mean(jnp.abs(r_x) + jnp.abs(r_y))
+
+
+def loss_pde_sub(net, x_sub, D, sub_edges, core_mask, lam, mu):
+    """PDE residual MAE on sub-graph — loss only over core rows."""
+    r_x, r_y = _pde_nonlocal_sub(net, x_sub, D, sub_edges, core_mask, lam, mu)
+    n_core = jnp.maximum(jnp.sum(core_mask.astype(jnp.float32)), 1.0)
+    loss = (jnp.sum(jnp.abs(r_x) * core_mask) +
+            jnp.sum(jnp.abs(r_y) * core_mask)) / n_core
+    return loss
 
 
 def _traction_mse(net, x_bc, normals, lam, mu):
@@ -134,11 +150,13 @@ def make_loss_fn(x_all, D, lam, mu,
 
     # ── Nonlocal path (fast, single-term) ─────────────────────────────────
     if not local_mode:
-        def _pde_fn(n):
-            return loss_pde(n, x_all, D, lam, mu)
-
         def loss_fn(net, w_ema, bias, update_w,
-                    x_points=None):
+                    x_points=None, sub_data=None, core_mask=None):
+            if sub_data is not None:
+                _pde_fn = lambda n: loss_pde_sub(
+                    n, x_points, D, sub_data, core_mask, lam, mu)
+            else:
+                _pde_fn = lambda n: loss_pde(n, x_all, D, lam, mu)
             (pde_v, pde_grad) = eqx.filter_value_and_grad(_pde_fn)(net)
             w = jnp.ones(1)
             return pde_v, {'loss/pde': pde_v, 'weight/pde': w[0]}, pde_grad, w

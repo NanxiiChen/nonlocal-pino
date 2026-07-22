@@ -59,6 +59,27 @@ def _build_grid(config):
     return jnp.array(x_points)
 
 
+def _build_sampling_weights(x, geometry, refine_weight, power):
+    """Per-point sampling weights: higher near elliptical hole boundary.
+
+    Elliptic radius: r = sqrt(((x-cx)/a_x)² + ((y-cy)/a_y)²), r ≥ 1.
+    Weight: w ∝ 1 + refine_weight / r^power.
+    """
+    import numpy as onp
+
+    cx = geometry.Lx / 2.0
+    cy = geometry.Ly / 2.0
+    a_x = geometry.a_x
+    a_y = geometry.a_y
+    x_np = onp.array(x)
+    dx = (x_np[:, 0] - cx) / a_x
+    dy = (x_np[:, 1] - cy) / a_y
+    r = onp.sqrt(dx**2 + dy**2)          # r ≥ 1 (hole excluded)
+    w = 1.0 + refine_weight / (r ** power)
+    w = w / w.sum()                       # normalize to sum 1
+    return w.astype(onp.float64)
+
+
 def _build_network(config, key):
     """Build PINN with hard constraint: u_x=(x/L)*u_load + x(L-x)*N_x,
     u_y = x*N_y."""
@@ -138,9 +159,10 @@ def _sample_bc_points(config):
 def _make_step(loss_fn, optim):
     @eqx.filter_jit
     def step(net, opt_state, w_ema, bias, update_w,
-             x_points=None):
+             x_points=None, sub_data=None, core_mask=None):
         (loss, aux, grad, new_w) = loss_fn(
-            net, w_ema, bias, update_w, x_points=x_points)
+            net, w_ema, bias, update_w, x_points=x_points,
+            sub_data=sub_data, core_mask=core_mask)
         grad = jax.tree.map(jnp.nan_to_num, grad)
         updates, opt_state = optim.update(grad, opt_state, net)
         net = eqx.apply_updates(net, updates)
@@ -278,6 +300,22 @@ def _main(_):
     else:
         log.info("Local (all-AD) mode — Neumann BCs active")
 
+    # ── Sub-graph pool (nonlocal + sub-sample mode) ────────────────────────
+    K_core = config.sample.K_core
+    subgraph_pool = None
+    if D is not None and K_core > 0:
+        weights = _build_sampling_weights(x_base, config.geometry,
+                                          config.sample.refine_weight,
+                                          config.sample.weight_power)
+        n_pool = config.sample.n_pool
+        log.info("Building sub-graph pool: K_core=%d, n_pool=%d, refine_weight=%.1f",
+                 K_core, n_pool, config.sample.refine_weight)
+        raw_pool = D.build_subgraph_pool(K_core, n_pool, weights=weights)
+        subgraph_pool = [(x_base[idx], edges, mask) for (idx, edges, mask) in raw_pool]
+        sample_entry = subgraph_pool[0]
+        log.info("  K_all=%d (core+halo), K_core=%d, max_E_grad=%d",
+                 len(sample_entry[0]), K_core, len(sample_entry[1][0]))
+
     # ── Neumann BC points (local mode only) ───────────────────────────────
     local_mode = (D is None)
     if local_mode:
@@ -308,6 +346,10 @@ def _main(_):
                              else [1.0] * N_LOSS, dtype=jnp.float32)
     t_start = time.perf_counter()
 
+    # Sub-graph pool tracking (nonlocal mode only)
+    pool_idx = 0
+    resample_every = config.sample.resample_every if subgraph_pool is not None else 1
+
     # LHS collocation sampler (local mode only)
     Lx = config.geometry.Lx
     Ly = config.geometry.Ly
@@ -323,6 +365,7 @@ def _main(_):
     for it in range(config.train.iterations):
         update_w = (it % gradnorm_every == 0)
 
+        # ── Collocation points ──────────────────────────────────────────
         if lhs_sampler is not None:
             # Oversample + truncate → fixed size (avoid JIT retrace)
             raw = lhs_sampler.random(n=int(N_lhs * 1.3))
@@ -331,12 +374,21 @@ def _main(_):
             dy = (pts[:, 1] - Ly/2) / a_y
             pts = pts[dx**2 + dy**2 >= 1.0][:N_lhs]
             x_points = jnp.array(pts)
+            sub_data = None
+            core_mask = None
+        elif subgraph_pool is not None:
+            # Sub-sampled nonlocal: cycle pool every resample_every steps
+            if it % resample_every == 0:
+                pool_idx = (pool_idx + 1) % len(subgraph_pool)
+            x_points, sub_data, core_mask = subgraph_pool[pool_idx]
         else:
             x_points = x_base
+            sub_data = None
+            core_mask = None
 
         net, opt_state, loss_val, aux, w_ema = step_fn(
             net, opt_state, w_ema, default_bias, update_w,
-            x_points=x_points)
+            x_points=x_points, sub_data=sub_data, core_mask=core_mask)
 
         if it % config.log.log_every == 0:
             elapsed = time.perf_counter() - t_start
@@ -352,8 +404,10 @@ def _main(_):
                          float(aux['loss/bc_top']), float(aux['loss/bc_bottom']),
                          float(aux['loss/bc_hole']), elapsed)
             else:
-                log.info("[%5d] loss=%.3e  pde=%.3e  (%.1fs)",
-                         it, float(loss_val), float(aux['loss/pde']), elapsed)
+                n_pts = len(x_points) if subgraph_pool is not None else len(x_base)
+                log.info("[%5d] loss=%.3e  pde=%.3e  n=%d  (%.1fs)",
+                         it, float(loss_val), float(aux['loss/pde']),
+                         n_pts, elapsed)
 
         if it % config.log.eval_every == 0:
             rel_ux, rel_uy = _eval_fem(net, fem_data, writer, it, config)

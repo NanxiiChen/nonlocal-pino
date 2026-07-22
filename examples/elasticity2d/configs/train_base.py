@@ -35,6 +35,11 @@ def get_config():
     c.sample.Nx = 400                 # grid points in x
     c.sample.Ny = 300                 # grid points in y
     c.sample.N_lhs = 2000             # LHS collocation points (local mode)
+    c.sample.K_core = 2000               # sub-sample core points (0 = full batch)
+    c.sample.n_pool = 200             # number of pre-built sub-graphs in pool
+    c.sample.resample_every = 10      # steps between sub-graph switches
+    c.sample.refine_weight = 10.0      # 0 = uniform; >0 concentrates near hole
+    c.sample.weight_power = 2.0       # exponent in weight decay (w ∝ 1/r^p)
 
     # Training
     c.train = config_dict.ConfigDict()

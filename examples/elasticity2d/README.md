@@ -250,6 +250,53 @@ onto the PINN grid and relative L2 errors are computed:
 | Evaluation | Every 200 steps |
 | Checkpoint | Every 200 steps |
 
+### 7.1 Sub-sampling (nonlocal mode)
+
+When `c.sample.K_core > 0`, the nonlocal PDE is evaluated on a random subset
+of the grid rather than the full ~100k points. This speeds up each step and,
+with non-uniform weighting, concentrates training signal on the hole region.
+
+**Mechanism.**  Each step selects `K_core` core points via weighted random
+sampling (without replacement).  The two-hop neighbourhood of those core points
+(halo1 + halo2, needed by the correspondence peridynamic stress computation)
+is added, giving a sub-graph of size `K_all ≥ K_core`.  The PDE residual is
+evaluated on all `K_all` points but **only core rows contribute to the loss**
+(halo rows are zeroed by `core_mask`).  All core points have **equal weight in
+the loss** — the sampling weights only affect *which* points are selected, not
+the loss computation itself.
+
+Pre-built pool.  `n_pool` sub-graphs are pre-generated at startup via
+`ElasticD.build_subgraph_pool`, all padded to identical shapes to avoid JIT
+recompilation.  The training loop advances to the next pool entry every
+`resample_every` steps.
+
+**Sampling weights.**  Per-point selection probability follows:
+
+\[
+w_i \propto 1 + \frac{\gamma}{r_i^p},
+\qquad
+r_i = \sqrt{\left(\frac{x_i - c_x}{a_x}\right)^2 +
+              \left(\frac{y_i - c_y}{a_y}\right)^2}
+\]
+
+where \(r = 1\) is the hole boundary and \(r > 1\) in the solid.  The two
+parameters control the spatial concentration of core points:
+
+| Parameter | Default | Role |
+|-----------|---------|------|
+| `refine_weight` \(\gamma\) | 0.0 | Contrast: 0 = uniform; larger → more points near hole |
+| `weight_power` \(p\) | 2.0 | Decay rate: larger → refinement confined to a thinner shell |
+
+For example, with \(\gamma = 4, p = 3\): points on the hole boundary
+(\(r \approx 1\)) are ~3.3× more likely to be selected than points at
+\(r = 2\).
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `K_core` | 0 | Core points per sub-graph (0 = full batch) |
+| `n_pool` | 100 | Number of pre-built sub-graphs in the pool |
+| `resample_every` | 10 | Steps between switching pool entries |
+
 ---
 
 ## 8. File Structure
