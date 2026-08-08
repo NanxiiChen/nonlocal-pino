@@ -88,9 +88,9 @@ Stress-strain (Hooke's law):
 |----------|------|-----------|------------------|
 | Left edge (\(x=0\)) | Dirichlet | \(u_x = u_y = 0\) (clamped) | Hard constraint |
 | Right edge (\(x=L_x\)) | Dirichlet | \(u_x = u_{\text{load}}\), \(u_y = 0\) (displacement-controlled pull) | Hard constraint |
-| Top edge (\(y=L_y\)) | Neumann (traction-free) | \(\boldsymbol{\sigma}\cdot\mathbf{e}_y = \mathbf{0}\) | Auto (nonlocal) / MSE loss (local) |
-| Bottom edge (\(y=0\)) | Neumann (traction-free) | \(\boldsymbol{\sigma}\cdot(-\mathbf{e}_y) = \mathbf{0}\) | Auto (nonlocal) / MSE loss (local) |
-| Hole (\(\frac{(x-c_x)^2}{a_x^2}+\frac{(y-c_y)^2}{a_y^2}=1\)) | Neumann (traction-free) | \(\boldsymbol{\sigma}\cdot\mathbf{n} = \mathbf{0}\), \(\mathbf{n} = -\nabla f/|\nabla f|\) | Auto (nonlocal) / MSE loss (local) |
+| Top edge (\(y=L_y\)) | Neumann (traction-free) | \(\boldsymbol{\sigma}\cdot\mathbf{e}_y = \mathbf{0}\) | Finite-horizon natural behavior (nonlocal) / MSE loss (local) |
+| Bottom edge (\(y=0\)) | Neumann (traction-free) | \(\boldsymbol{\sigma}\cdot(-\mathbf{e}_y) = \mathbf{0}\) | Finite-horizon natural behavior (nonlocal) / MSE loss (local) |
+| Hole (\(\frac{(x-c_x)^2}{a_x^2}+\frac{(y-c_y)^2}{a_y^2}=1\)) | Neumann (traction-free) | \(\boldsymbol{\sigma}\cdot\mathbf{n} = \mathbf{0}\), \(\mathbf{n} = -\nabla f/|\nabla f|\) | Finite-horizon natural behavior (nonlocal) / MSE loss (local) |
 
 ---
 
@@ -105,7 +105,7 @@ The nonlocal formulation uses the **correspondence peridynamic model**
 
 1. **Nonlocal deformation gradient**: \(\mathbf{G}_i = \left[\sum_j w_{ij} (\mathbf{u}_j - \mathbf{u}_i) \otimes \boldsymbol{\xi}_{ij}\right] \bar{\mathbf{K}}_i^{-1}\)
 2. **Classical constitutive law**: \(\boldsymbol{\varepsilon}_i = \text{sym}(\mathbf{G}_i)\), \(\boldsymbol{\sigma}_i = \lambda\,\text{tr}(\boldsymbol{\varepsilon}_i)\mathbf{I} + 2\mu\,\boldsymbol{\varepsilon}_i\)
-3. **Force residual**: \(\mathbf{r}_i = \sum_j w_{ij}\left(\boldsymbol{\sigma}_i\bar{\mathbf{K}}_i^{-1}\boldsymbol{\xi}_{ij} + \boldsymbol{\sigma}_j\bar{\mathbf{K}}_j^{-1}\boldsymbol{\xi}_{ji}\right)\)
+3. **Force residual**: \(\mathbf{r}_i = \sum_j w_{ij}\left(\boldsymbol{\sigma}_i\bar{\mathbf{K}}_i^{-1}\boldsymbol{\xi}_{ij} - \boldsymbol{\sigma}_j\bar{\mathbf{K}}_j^{-1}\boldsymbol{\xi}_{ji}\right)\)
 
 where \(\bar{\mathbf{K}}_i = \sum_j w_{ij}\,\boldsymbol{\xi}_{ij} \otimes \boldsymbol{\xi}_{ij}\) is the shape tensor
 and \(\boldsymbol{\xi}_{ij} = \mathbf{x}_j - \mathbf{x}_i\).
@@ -117,9 +117,12 @@ r = D.elastic_matvec(u, lam, mu)  # (N, 2) residual
 
 **Key properties**:
 
-- **Automatic traction-free BCs**: Points on free boundaries have truncated
-  horizons — the nonlocal operator naturally produces \(\partial/\partial n = 0\)
-  behaviour at the continuum limit.  No explicit Neumann BC loss needed.
+- **Nonlocal free-boundary behavior**: Points on free boundaries have truncated
+  horizons, giving the natural boundary behavior of the finite-horizon operator;
+  it is not pointwise identical to classical traction-free stress at finite \(\delta\).
+- **Dirichlet rows**: Exact left/right prescribed rows are excluded from the
+  nonlocal equilibrium loss; a finite-width volume-constraint collar is not
+  implemented.
 - **N_LOSS = 1**: Only PDE residual loss.  Hard constraint handles Dirichlet BCs.
 - **Full batch**: All ~100k grid points (after hole exclusion) per step.
 - **δ-dependent solution**: Smaller δ → closer to classical Navier-Cauchy but
@@ -208,7 +211,8 @@ Implemented via `ConstrainedForward` (`src/pinn/constraints.py`) with
 
 - **Grid**: Regular \(400 \times 300\) Cartesian grid on \([0, L_x] \times [0, L_y]\)
 - **Hole exclusion**: Points where \(((x-c_x)/a_x)^2 + ((y-c_y)/a_y)^2 < 1\) are removed (\(\approx 100,\!000\) effective points after exclusion)
-- **dV**: Uniform from regular grid spacing (not barycentric)
+- **dV**: Original regular-grid cell area `dx*dy` for every retained point;
+  deleted hole points contribute no quadrature weight (not barycentric)
 - **ElasticD construction**: Grid neighbour search path (fast, O(N·k))
 - **No minibatch**: \(K_{\text{core}} = 0\) → full batch matvec in nonlocal mode
 

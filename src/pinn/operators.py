@@ -446,12 +446,13 @@ class ElasticD:
       1. K̄_i = Σ_j w_ij (x_j - x_i) ⊗ (x_j - x_i)          shape tensor (2×2)
       2. ∇u_i = [Σ_j w_ij (u_j - u_i) ⊗ (x_j - x_i)] · K̄_i⁻¹
       3. ε_i  = sym(∇u_i),   σ_i = λ tr(ε_i)I + 2μ ε_i
-      4. r_i  = Σ_j w_ij (σ_i K̄_i⁻¹ ξ_ij + σ_j K̄_j⁻¹ ξ_ji)
+      4. r_i  = Σ_j w_ij (σ_i K̄_i⁻¹ ξ_ij - σ_j K̄_j⁻¹ ξ_ji)
 
     where ξ_ij = x_j - x_i, w_ij = J(r_ij)·dV_j.
 
-    Horizon truncation at free boundaries automatically enforces
-    traction-free Neumann BCs — exactly the same mechanism as D_δ.
+    Horizon truncation supplies the finite-horizon natural boundary behavior;
+    it is not pointwise identical to classical traction-free stress at finite
+    delta.
     """
     _row_idx: jnp.ndarray    # (nnz,)
     _col_idx: jnp.ndarray    # (nnz,)
@@ -468,7 +469,7 @@ class ElasticD:
     _nei_mask_np: np.ndarray
     _k_max: int
 
-    def __init__(self, x, delta, kernel="cubic"):
+    def __init__(self, x, delta, dV, kernel="cubic"):
         import numpy as np
         x_np = np.array(x)
         N, dim = x_np.shape
@@ -476,19 +477,13 @@ class ElasticD:
         self._dim = dim
 
         # ── dV ──────────────────────────────────────────────────────────
-        ranges = x_np.max(axis=0) - x_np.min(axis=0)
-        if dim <= 3:
-            unique_dims = [np.unique(np.round(x_np[:, d], decimals=10))
-                          for d in range(dim)]
-            n_per_dim = [len(u) for u in unique_dims]
-            if np.prod(n_per_dim) == N:
-                spacings = [(u[-1] - u[0]) / max(n - 1, 1)
-                           for u, n in zip(unique_dims, n_per_dim)]
-                dV = float(np.prod(spacings))
-            else:
-                dV = float(np.prod(ranges)) / N
-        else:
-            dV = float(np.prod(ranges)) / N
+        # dV is the particle volume from the original discretisation.  A
+        # deleted-point regular grid must keep its original hx*hy weight;
+        # normalising the remaining points to the bounding-box volume would
+        # assign the removed hole volume back to the active points.
+        dV = float(dV)
+        if not np.isfinite(dV) or dV <= 0.0:
+            raise ValueError(f"ElasticD requires a positive finite dV, got {dV}")
 
         # ── neighbour search (same 3-tier fallback as SparseD) ──────────
         try:
@@ -549,7 +544,7 @@ class ElasticD:
 
           1. Nonlocal deformation gradient G_i per point
           2. Strain → stress (classical constitutive law)
-          3. Force residual via σ_i K̄ᵢ⁻¹ ξ_ij + σ_j K̄ⱼ⁻¹ ξ_ji
+          3. Force-state residual via T_i(ξ_ij) - T_j(ξ_ji)
 
         The K̄⁻¹ variation between neighboring points creates forces near
         boundaries — this IS the nonlocal equivalent of traction BCs.
@@ -570,7 +565,7 @@ class ElasticD:
         I = jnp.eye(self._dim)
         sigma = lam * tr_eps[:, None, None] * I + 2.0 * mu * eps
 
-        # ── 3. Force residual: σᵢK̄ᵢ⁻¹ξ_ij + σⱼK̄ⱼ⁻¹ξ_ji ──────────
+        # ── 3. Force-state balance: T_i(ξ_ij) - T_j(ξ_ji) ───────────
         sigma_K_inv = sigma @ self._K_inv                     # (N, d, d)
         f_i = jnp.einsum('nab,nb->na',
                          sigma_K_inv[self._row_idx],
@@ -578,7 +573,8 @@ class ElasticD:
         f_j = jnp.einsum('nab,nb->na',
                          sigma_K_inv[self._col_idx],
                          -self._xi)                           # (nnz, d)
-        wf = self._w_pos[:, None] * (f_i + f_j)               # (nnz, d)
+        # f_j is T_j(xi_ji); the balance law is T_i(xi_ij) - T_j(xi_ji).
+        wf = self._w_pos[:, None] * (f_i - f_j)               # (nnz, d)
         r = jax.ops.segment_sum(wf, self._row_idx,
                                 num_segments=self._N)           # (N, d)
         return r
@@ -704,7 +700,8 @@ class ElasticD:
         sigma_K_inv = sigma @ K_inv_sub
         f_i = jnp.einsum('nab,nb->na', sigma_K_inv[res_row], res_xi)
         f_j = jnp.einsum('nab,nb->na', sigma_K_inv[res_col], -res_xi)
-        wf = res_w[:, None] * (f_i + f_j)
+        # res_xi is xi_ij, so f_j already evaluates the neighbor state at xi_ji.
+        wf = res_w[:, None] * (f_i - f_j)
         r = jax.ops.segment_sum(wf, res_row, num_segments=K_pad)    # (K_pad, dim)
 
         # Mask non-core rows to zero (can't use boolean indexing in JIT)

@@ -71,7 +71,8 @@ def main():
 
     # ── Build ElasticD + sub-sample ────────────────────────────────────────
     print(f"Building ElasticD (δ={args.delta})...")
-    D = ElasticD(x_base, args.delta, kernel='cubic')
+    dV = (Lx / (Nx - 1)) * (Ly / (Ny - 1))
+    D = ElasticD(x_base, args.delta, dV=dV, kernel='cubic')
     print(f"  N={D._N:,}, k_avg={D._k_avg:.1f}")
 
     all_idx, sub_edges, core_mask, K_all = D.sub_sample(args.seed, args.K_core, weights=w)

@@ -124,7 +124,18 @@ def _build_D(config, x_all):
     """Build ElasticD operator (fully nonlocal Navier-Cauchy)."""
     if config.nl.method == "local":
         return None
-    return ElasticD(x_all, config.nl.delta, kernel=config.nl.kernel)
+    dx = config.geometry.Lx / (config.sample.Nx - 1)
+    dy = config.geometry.Ly / (config.sample.Ny - 1)
+    dV = dx * dy
+    return ElasticD(x_all, config.nl.delta, dV=dV, kernel=config.nl.kernel)
+
+
+def _build_pde_mask(config, x_all):
+    """Exclude exact left/right Dirichlet rows from nonlocal equilibrium."""
+    dx = config.geometry.Lx / (config.sample.Nx - 1)
+    left = x_all[:, 0] <= 0.5 * dx
+    right = x_all[:, 0] >= config.geometry.Lx - 0.5 * dx
+    return ~(left | right)
 
 
 def _build_optimizer(config):
@@ -159,10 +170,10 @@ def _sample_bc_points(config):
 def _make_step(loss_fn, optim):
     @eqx.filter_jit
     def step(net, opt_state, w_ema, bias, update_w,
-             x_points=None, sub_data=None, core_mask=None):
+             x_points=None, sub_data=None, core_mask=None, row_mask=None):
         (loss, aux, grad, new_w) = loss_fn(
             net, w_ema, bias, update_w, x_points=x_points,
-            sub_data=sub_data, core_mask=core_mask)
+            sub_data=sub_data, core_mask=core_mask, row_mask=row_mask)
         grad = jax.tree.map(jnp.nan_to_num, grad)
         updates, opt_state = optim.update(grad, opt_state, net)
         net = eqx.apply_updates(net, updates)
@@ -300,6 +311,9 @@ def _main(_):
     else:
         log.info("Local (all-AD) mode — Neumann BCs active")
 
+    local_mode = (D is None)
+    pde_mask = None if local_mode else _build_pde_mask(config, x_base)
+
     # ── Sub-graph pool (nonlocal + sub-sample mode) ────────────────────────
     K_core = config.sample.K_core
     subgraph_pool = None
@@ -311,13 +325,15 @@ def _main(_):
         log.info("Building sub-graph pool: K_core=%d, n_pool=%d, refine_weight=%.1f",
                  K_core, n_pool, config.sample.refine_weight)
         raw_pool = D.build_subgraph_pool(K_core, n_pool, weights=weights)
-        subgraph_pool = [(x_base[idx], edges, mask) for (idx, edges, mask) in raw_pool]
+        subgraph_pool = [
+            (x_base[idx], edges, mask, pde_mask[idx])
+            for (idx, edges, mask) in raw_pool
+        ]
         sample_entry = subgraph_pool[0]
         log.info("  K_all=%d (core+halo), K_core=%d, max_E_grad=%d",
                  len(sample_entry[0]), K_core, len(sample_entry[1][0]))
 
     # ── Neumann BC points (local mode only) ───────────────────────────────
-    local_mode = (D is None)
     if local_mode:
         x_bc_top, x_bc_bottom, x_bc_hole, (cx, cy, a_x, a_y) = _sample_bc_points(config)
         log.info("BC points: top/bottom/hole = %d/%d/%d",
@@ -329,6 +345,7 @@ def _main(_):
         bc_kw = {}
 
     lfn = make_loss_fn(x_base if not local_mode else None, D, lam, mu,
+                       pde_mask=pde_mask,
                        gradnorm_cap=config.loss.gradnorm_weight_cap,
                        **bc_kw)
     optim = _build_optimizer(config)
@@ -376,19 +393,22 @@ def _main(_):
             x_points = jnp.array(pts)
             sub_data = None
             core_mask = None
+            row_mask = None
         elif subgraph_pool is not None:
             # Sub-sampled nonlocal: cycle pool every resample_every steps
             if it % resample_every == 0:
                 pool_idx = (pool_idx + 1) % len(subgraph_pool)
-            x_points, sub_data, core_mask = subgraph_pool[pool_idx]
+            x_points, sub_data, core_mask, row_mask = subgraph_pool[pool_idx]
         else:
             x_points = x_base
             sub_data = None
             core_mask = None
+            row_mask = pde_mask
 
         net, opt_state, loss_val, aux, w_ema = step_fn(
             net, opt_state, w_ema, default_bias, update_w,
-            x_points=x_points, sub_data=sub_data, core_mask=core_mask)
+            x_points=x_points, sub_data=sub_data, core_mask=core_mask,
+            row_mask=row_mask)
 
         if it % config.log.log_every == 0:
             elapsed = time.perf_counter() - t_start
