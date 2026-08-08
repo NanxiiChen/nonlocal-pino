@@ -9,7 +9,7 @@ Usage:
   source .venv/bin/activate
   python examples/elasticity2d/plot_sampling.py
   python examples/elasticity2d/plot_sampling.py -o /path/to/output.png
-  python examples/elasticity2d/plot_sampling.py --K_core 1000 --refine_weight 4.0
+  python examples/elasticity2d/plot_sampling.py --K_core 2000 --refine_weight 2.0 --weight_power=2.0
 """
 
 import argparse
