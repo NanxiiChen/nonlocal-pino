@@ -73,13 +73,26 @@ condition never conflict.**
 
 2D KKS phase-field model for electropolishing. Domain: $\Omega = [0,1] \times [0,0.5]$ (non-dimensional).
 
+With $\Delta c_0 = c_{Se} - c_{Le}$ and
+$q = c - h(\phi)\Delta c_0 - c_{Le}$, the free-energy density is
+
+$$f = A q^2 + \omega_\phi g(\phi) + \frac{\alpha_\phi}{2}|\nabla\phi|^2.$$
+
 **Allen-Cahn:**
 
-$$\frac{\partial \phi}{\partial t} = -L\left[\alpha_\phi \nabla^2\phi - \omega_\phi g'(\phi) - A (c - h(\phi)\Delta c_0 - c_{Le}) h'(\phi)\right]$$
+$$
+\frac{\partial \phi}{\partial t}
+= L\left[\alpha_\phi \nabla^2\phi
+- \omega_\phi g'(\phi)
++ 2Aq\Delta c_0 h'(\phi)\right]
+$$
 
 **Cahn-Hilliard:**
 
 $$\frac{\partial c}{\partial t} = D\,\nabla^2\!\left[c - h(\phi)\Delta c_0 - c_{Le}\right]$$
+
+The constant $c_{Le}$ is inert under the CH Laplacian, but remains part of
+$q$ in the Allen-Cahn driving force.
 
 **Interpolation functions:**
 
@@ -126,7 +139,7 @@ $$N_{\text{CH}} = \frac{D T_c}{L_c^2},\quad N_{\text{AC,1}} = 2A L T_c,\quad N_{
 
 ### Non-dimensional Allen-Cahn
 
-$$\frac{\partial\phi}{\partial t^*} + N_{\text{AC,3}}\,\nabla^{*2}\phi + N_{\text{AC,2}}\,g'(\phi) - N_{\text{AC,1}}\bigl[c - h(\phi)(c_{Se}-c_{Le}) - c_{Le}\bigr](c_{Se}-c_{Le})h'(\phi) = 0$$
+$$\frac{\partial\phi}{\partial t^*} - N_{\text{AC,3}}\,\nabla^{*2}\phi + N_{\text{AC,2}}\,g'(\phi) - N_{\text{AC,1}}\bigl[c - h(\phi)(c_{Se}-c_{Le}) - c_{Le}\bigr](c_{Se}-c_{Le})h'(\phi) = 0$$
 
 ### Non-dimensional Cahn-Hilliard
 

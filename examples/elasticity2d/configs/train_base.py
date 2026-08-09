@@ -37,13 +37,13 @@ def get_config():
     c.sample.N_lhs = 2000             # LHS collocation points (local mode)
     c.sample.K_core = 2000               # sub-sample core points (0 = full batch)
     c.sample.n_pool = 200             # number of pre-built sub-graphs in pool
-    c.sample.resample_every = 10      # steps between sub-graph switches
+    c.sample.resample_every = 5      # steps between sub-graph switches
     c.sample.refine_weight = 10.0      # 0 = uniform; >0 concentrates near hole
     c.sample.weight_power = 2.0       # exponent in weight decay (w ∝ 1/r^p)
 
     # Training
     c.train = config_dict.ConfigDict()
-    c.train.iterations = 20000
+    c.train.iterations = 40000
     c.train.lr_init = 2e-3
     c.train.lr_decay_every = 2000
     c.train.lr_decay_rate = 0.95

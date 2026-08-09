@@ -4,13 +4,26 @@
 
 2D KKS phase-field model for pit corrosion. Domain: $\Omega = [0,1] \times [0,0.5]$ (non-dimensional).
 
+With $\Delta c_0 = c_{Se} - c_{Le}$ and
+$q = c - h(\phi)\Delta c_0 - c_{Le}$, the free-energy density is
+
+$$f = A q^2 + \omega_\phi g(\phi) + \frac{\alpha_\phi}{2}|\nabla\phi|^2.$$
+
 **Allen-Cahn:**
 
-$$\frac{\partial \phi}{\partial t} = -L\left[\alpha_\phi \nabla^2\phi - \omega_\phi g'(\phi) - A (c - h(\phi)\Delta c_0 - c_{Le}) h'(\phi)\right]$$
+$$
+\frac{\partial \phi}{\partial t}
+= L\left[\alpha_\phi \nabla^2\phi
+- \omega_\phi g'(\phi)
++ 2Aq\Delta c_0 h'(\phi)\right]
+$$
 
 **Cahn-Hilliard:**
 
 $$\frac{\partial c}{\partial t} = D\,\nabla^2\!\left[c - h(\phi)\Delta c_0 - c_{Le}\right]$$
+
+The constant $c_{Le}$ is inert under the CH Laplacian, but remains part of
+$q$ in the Allen-Cahn driving force.
 
 **Interpolation functions:**
 
@@ -101,19 +114,14 @@ Edge weights pre-computed from SparseD operator. Supported kernels: `cubic`, `qu
 
 ```
 corrosion2d/
-├── solver_1pit.py         # FEM solver (single pit)
-├── solver_2pit.py         # FEM solver (two-pit merging)
+├── solver.py              # Shared FEM solver (pit geometry comes from config)
 ├── train.py               # PINN training (coordinate MLP / FiLM)
-├── train_graph.py         # D-Graph FiLM PINN training (experimental)
 ├── losses.py              # Loss functions (coordinate MLP)
-├── losses_graph.py        # Loss functions (graph model)
 ├── configs/
 │   ├── solver_1pit.py           # FEM solver config (1 pit)
-│   ├── solver_2pit.py           # FEM solver config (2 pit)
-│   ├── train_1pit.py            # PINN training config (1 pit, FiLM)
-│   ├── train_2pit.py            # PINN training config (2 pit, FiLM)
-│   ├── train_1pit_graph.py      # Graph model config (1 pit)
-│   └── train_2pit_graph.py      # Graph model config (2 pit)
+│   ├── solver_2pit.py           # FEM solver config (2 pits)
+│   ├── train_1pit.py            # PINN training config (1 pit)
+│   └── train_2pit.py             # PINN training config (2 pits)
 ├── results/               # FEM reference solutions (.npz)
 └── plots/                 # Output plots
 ```
@@ -125,12 +133,19 @@ corrosion2d/
 ### Run FEM Solver
 
 ```bash
-# 1-pit
-cd examples/corrosion2d
-python solver_1pit.py --config=configs/solver_1pit.py
+# From the project root:
+# 1 pit
+python examples/corrosion2d/solver.py \
+    --config=examples/corrosion2d/configs/solver_1pit.py
 
-# 2-pit (merging simulation)
-python solver_2pit.py --config=configs/solver_2pit.py
+# 2 pits
+python examples/corrosion2d/solver.py \
+    --config=examples/corrosion2d/configs/solver_2pit.py
+
+# Equivalent commands from this directory:
+cd examples/corrosion2d
+python solver.py --config=configs/solver_1pit.py
+python solver.py --config=configs/solver_2pit.py
 ```
 
 Output: `.npz` files with `X`, `Y` meshgrids and `phi`, `c` fields over time.
@@ -169,9 +184,8 @@ python examples/corrosion2d/train.py --config=examples/corrosion2d/configs/train
 --config.loss.use_causal=True --config.causal.n_chunks=0
 ```
 
-### Graph Model (experimental, on `dgraph-pinn` branch)
+### Graph Model Status
 
-```bash
-git checkout dgraph-pinn
-python examples/corrosion2d/train_graph.py --config=examples/corrosion2d/configs/train_2pit_graph.py
-```
+The historical graph-model files (`train_graph.py`, `losses_graph.py`, and their
+configs) are not present in the current checkout. The supported training path
+is `train.py` with `train_1pit.py` or `train_2pit.py`.

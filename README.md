@@ -70,10 +70,11 @@ src/pinn/
   fd.py               # Finite-difference Laplacian (ablation)
   causal.py           # CausalWeightor (per-time-step weighting)
   optimizers.py       # SOAP / Adam wrapper
-  arch/
-    pinn.py           # MLP + FiLM PINN with Fourier embeddings
-    hard_constraint.py
-    mlp.py, modified_mlp.py, film_pinn.py
+  arch.py              # MLP, ModifiedMLP, and FiLM PINN trunks
+  embedding.py        # Learnable Fourier feature embeddings
+  constraints.py      # Hard output and KKS constraints
+  mesh.py             # Gmsh node reader
+  utils.py             # Shared training and logging utilities
 
 benchmarks/
   RESULTS.md                      # B200 measurements

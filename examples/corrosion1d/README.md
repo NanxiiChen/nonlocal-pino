@@ -4,13 +4,37 @@
 
 The KKS (Kim-Kim-Suzuki) phase-field model for diffusion-controlled corrosion:
 
+Let
+
+$$
+\Delta c_0 = c_{Se} - c_{Le},\qquad
+q(\phi,c) = c - h(\phi)\Delta c_0 - c_{Le}.
+$$
+
+The free-energy density used by the implementation is
+
+$$
+f = A q^2 + \omega_\phi g(\phi)
+    + \frac{\alpha_\phi}{2}|\nabla\phi|^2.
+$$
+
 **Allen-Cahn (phase-field evolution):**
 
-$$\frac{\partial \phi}{\partial t} = -L\left[\alpha_\phi \nabla^2\phi - \omega_\phi g'(\phi) - A (c - h(\phi)c_{Se} - c_{Le}) h'(\phi)\right]$$
+$$
+\frac{\partial \phi}{\partial t}
+= L\left[\alpha_\phi \nabla^2\phi
+- \omega_\phi g'(\phi)
++ 2Aq(\phi,c)\Delta c_0 h'(\phi)\right]
+$$
 
 **Cahn-Hilliard (concentration evolution):**
 
 $$\frac{\partial c}{\partial t} = \nabla\cdot\left[M\nabla\left(\frac{\delta F}{\delta c}\right)\right] \approx D\nabla^2\left[c - h(\phi)(c_{Se} - c_{Le}) - c_{Le}\right]$$
+
+Here `D` is the effective concentration-diffusion coefficient; if `M` is the
+mobility in the variational form above, then `D = 2 A M`. The constant `c_Le`
+drops out of the CH spatial operator, but it must remain in `q` for the
+Allen-Cahn driving force.
 
 **Interpolation functions:**
 
@@ -89,8 +113,10 @@ corrosion1d/
 ├── train.py           # PINN training script (equinox + jax)
 ├── losses.py          # PDE residual, BC, IC loss functions
 ├── configs/
-│   ├── solver_base.py       # FEM solver config
-│   └── train_diffusion.py   # PINN training config (full MLP)
+│   ├── solver_activation.py  # FEM activation-case config
+│   ├── solver_diffusion.py   # FEM diffusion-case config
+│   ├── train_activation.py   # PINN activation-case config
+│   └── train_diffusion.py    # PINN diffusion-case config
 ├── results/           # FEM reference solutions (.npz)
 └── plots/             # Output plots
 ```
@@ -103,7 +129,11 @@ corrosion1d/
 
 ```bash
 cd examples/corrosion1d
-python solver.py --config=configs/solver_base.py
+# Diffusion-controlled case
+python solver.py --config=configs/solver_diffusion.py
+
+# Activation-controlled case
+python solver.py --config=configs/solver_activation.py
 ```
 
 Output: reference solution saved to `results/`.
@@ -113,7 +143,13 @@ Output: reference solution saved to `results/`.
 ```bash
 # from project root
 python examples/corrosion1d/train.py --config=examples/corrosion1d/configs/train_diffusion.py
+
+# Activation-controlled case
+python examples/corrosion1d/train.py --config=examples/corrosion1d/configs/train_activation.py
 ```
+
+Pass an explicit config file to `train.py`; the legacy default
+`configs/train_pinn.py` is not part of the current tree.
 
 Key config overrides (examples):
 
