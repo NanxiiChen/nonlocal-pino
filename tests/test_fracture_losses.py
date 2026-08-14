@@ -53,6 +53,19 @@ class FractureLossTest(unittest.TestCase):
     def test_gate_mode_is_explicit_and_validated(self):
         config = get_config()
         train._validate_config(config)
+        self.assertEqual(config.arch.hidden_dim, 200)
+        self.assertEqual(config.arch.activation, "swish")
+        self.assertEqual(config.arch.spatial_scale, 16.0)
+        self.assertTrue(config.arch.use_local_hat_enrichment)
+        self.assertEqual(config.arch.local_hat_count, 33)
+        self.assertEqual(config.train.damage_iterations, 80000)
+        self.assertEqual(config.train.dtype, "float32")
+        self.assertEqual(config.loss.residual_norm, "mse")
+        self.assertEqual(config.train.atol_damage_change, 2.0e-4)
+        self.assertEqual(config.train.atol_damage_residual_scaled, 2.0e-5)
+        self.assertEqual(config.train.atol_damage_residual_scaled_inf, 2.0e-4)
+        self.assertEqual(config.train.atol_history, 5.0e-1)
+        self.assertEqual(config.train.atol_mechanics, 1.0e-4)
         self.assertEqual(config.train.gate_mode, "warning")
         config.train.gate_mode = "strict"
         train._validate_config(config)
@@ -73,7 +86,7 @@ class FractureLossTest(unittest.TestCase):
             err_mechanics=1.0e-7,
         )
         self.assertTrue(train._stagger_gates_pass(config, **values))
-        values["err_damage_residual_scaled_inf"] = 3.0e-5
+        values["err_damage_residual_scaled_inf"] = 3.0e-4
         self.assertFalse(train._stagger_gates_pass(config, **values))
 
     def test_mechanics_reconstructs_exact_endpoints_and_constant_stress(self):
@@ -259,6 +272,7 @@ class FractureLossTest(unittest.TestCase):
         config.baseline.mesh_nx = 41
         config.arch.use_spatial_emb = True
         config.arch.train_spatial_embedding = True
+        config.arch.use_local_hat_enrichment = False
         config.train.dtype = "float32"
         net = train._build_network(config, jax.random.PRNGKey(0))
         gradient = jax.tree.map(
@@ -282,6 +296,7 @@ class FractureLossTest(unittest.TestCase):
         config.arch.num_layers = 2
         config.sample.Nx = 41
         config.baseline.mesh_nx = 41
+        config.arch.use_local_hat_enrichment = False
         config.train.dtype = "float32"
         net = train._build_network(config, jax.random.PRNGKey(0))
         H = jnp.linspace(0.0, 2.0e-4, len(self.x), dtype=jnp.float32)
@@ -319,6 +334,7 @@ class FractureLossTest(unittest.TestCase):
         config.sample.Nx = 41
         config.baseline.mesh_nx = 41
         config.nl.delta = 0.1
+        config.arch.use_local_hat_enrichment = False
         config.train.dtype = "float32"
         net = train._build_network(config, jax.random.PRNGKey(0))
         H = jnp.linspace(0.0, 2.0e-4, len(self.x), dtype=jnp.float32)

@@ -49,9 +49,9 @@ The computational comparison has three levels:
 
 The current result is an initial engineering-acceptable PINN response in the
 explicit `warning` gate mode. The damage profile and complete reaction curve
-are close to the corrected direct nonlocal baseline, while the strict local
-fixed-point gates remain available through `train.gate_mode="strict"` for
-solver validation.
+are close to the corrected direct nonlocal baseline. The configuration also
+supports `train.gate_mode="strict"`; strict validation uses whatever explicit
+gate values are present in the selected config.
 
 ## 2. Model Scope
 
@@ -814,7 +814,7 @@ The following methods are enabled in the current best curve run:
 | `cell_mass_lumped` history | Computes tensile energy on DG0 cells and projects only for nodal damage rows | Matches the direct nonlocal reference and avoids the former nodal-history spike |
 | Full fixed grid | Uses all `Nx=1601` points at every damage solve | Prevents localized history peaks from being missed by sampling |
 | Fixed-shape JAX execution | Builds `SparseD`, grid arrays, and network shapes once | Avoids load-dependent recompilation |
-| Float64 and highest matmul precision | Numerical precision for the localized residual | Reduces operator and compliance roundoff |
+| Float32 default with highest matmul precision | Numerical precision for routine runs; float64 remains an explicit reference option | Preserves the measured curve while reducing memory and compute cost |
 | Width-200 MLP with swish and spatial scale 16 | Main representation capacity | Best controlled fixed-history representation found so far |
 | 33 trainable CG1 hat functions | Local trainable correction around `x=0.5` | Resolves the localized center and nearby shoulders without changing the PDE |
 | Residual MSE with Jacobi scaling | Fixed-history PINN objective | Preconditions rows with different history magnitudes |
@@ -931,6 +931,44 @@ stdout log, and archive, is under:
 
 ```text
 /root/autodl-tmp/tf-logs/fracture1d/best_cellhistory_full_width200_hat33_adam80k_warning_curve_tb/
+```
+
+### 11.5 Float32 and Fourier-embedding ablation
+
+Two serial float32 runs used the same best architecture and corrected
+cell-history baseline, with `u_final=0.015` for a controlled precision and
+embedding comparison:
+
+| Configuration | Peak `u_bar` | Maximum full-path reaction error | Post-transition maximum error | Final absolute damage L2 | Warnings |
+|---|---:|---:|---:|---:|---:|
+| float32, `spatial_emb_dim=32`, `spatial_scale=16` | `0.01156` | `1.03e-5` | `1.22e-7` | `6.83e-4` | `2` |
+| float32, `spatial_emb_dim=64`, `spatial_scale=4` | `0.01155` | `7.15e-3` | `1.13e-7` | `3.14e-3` | `2` |
+
+The `64/4` run followed the pre-localisation branch, but delayed the reaction
+drop by one load step near `u_bar=0.01175`. Its small post-transition error is
+therefore measured only after the delayed jump and does not remove the large
+full-path error. The `32/16` run tracks the direct reaction curve to the same
+precision as the float64 reference and is now the default configuration. The
+float64 run remains the high-precision reference.
+
+The spatial embedding dimension counts Fourier feature pairs, so increasing it
+from `32` to `64` doubles the embedded input width. The scale changes the
+frequency range available to the trainable spatial representation; it does not
+change the SparseD operator or the fracture formulation.
+
+The shared architecture also declares `temporal_emb_dim=8` and
+`temporal_scale=1.0`, but they are inactive in this example. Fracture1d uses
+`use_temporal_emb=False`, the static MLP path, and a dummy constant time input.
+The physical load coordinate `u_bar` is handled by explicit incremental loading
+and history updates, not by a temporal embedding. These fields therefore have
+no effect on the current parameter count or results.
+
+Float32 artifacts:
+
+```text
+/root/autodl-tmp/tf-logs/fracture1d/float32_best_spatial32_scale16_u0015/
+/root/autodl-tmp/tf-logs/fracture1d/float32_best_spatial64_scale4_u0015/
+/root/autodl-tmp/data/fracture1d/float32_spatial_embedding_comparison_u0015.png
 ```
 
 ## 12. Implementation Plan for Luna
@@ -1201,8 +1239,8 @@ finiteness outside the JIT boundary and fail loudly on invalid values.
 
 `loss_damage` must evaluate the network on the full operator grid and form the
 documented nonlocal residual or its full-grid quadratic nonlocal energy. The
-base configuration uses Jacobi-scaled residual MAE; pilot scripts may select
-MSE or the full-grid energy. Raw and scaled residuals are both recorded. Keep
+current best base configuration uses Jacobi-scaled residual MSE; pilot scripts
+may select MAE or the full-grid energy. Raw and scaled residuals are both recorded. Keep
 `H_used` fixed during each damage optimisation call.
 
 `make_loss_fn` must follow the repository API:

@@ -75,6 +75,30 @@ implementation contract are in `README.md`.
   `/root/autodl-tmp/data/fracture1d/d_fields_representative_best_cellhistory.png`,
   `/root/autodl-tmp/data/fracture1d/stress_strain_full_best_cellhistory_warning_tb.png`,
   and `/root/autodl-tmp/data/fracture1d/d_l2_error_best_cellhistory_warning_tb.png`.
+- Two serial float32 ablations were completed to `u_bar=0.015` with the same
+  width-200/swish/33-hat architecture. The `spatial_emb_dim=32`,
+  `spatial_scale=16` run has peak `(u_bar,reaction)=(0.01156,7.30756e-3)`,
+  maximum full-path reaction error `1.03e-5`, post-transition maximum error
+  `1.22e-7`, final absolute damage L2 `6.83e-4`, and two gate warnings.
+- The float32 `spatial_emb_dim=64`, `spatial_scale=4` run has a similar
+  pre-localisation peak, but delays the reaction drop by one step at
+  `u_bar=0.01175`. Its full-path reaction error is `7.15e-3` and final
+  absolute damage L2 is `3.14e-3`; it is not a candidate for the default.
+- The `32/16` float32 run is now the default configuration and preferred
+  acceleration path. The float64 full run remains the high-precision reference;
+  the faster but less reliable `64/4` run is not a default candidate.
+- `temporal_emb_dim=8` and `temporal_scale=1.0` are shared architecture fields,
+  but temporal embedding is disabled in fracture1d and the static network path
+  receives constant `t=0`. The load coordinate is handled by explicit
+  continuation and history state, so these fields are inert for this example.
+
+Float32 artifacts:
+
+```text
+/root/autodl-tmp/tf-logs/fracture1d/float32_best_spatial32_scale16_u0015/
+/root/autodl-tmp/tf-logs/fracture1d/float32_best_spatial64_scale4_u0015/
+/root/autodl-tmp/data/fracture1d/float32_spatial_embedding_comparison_u0015.png
+```
 
 ### Acceptance And Reference
 
@@ -170,8 +194,10 @@ implementation contract are in `README.md`.
   now remains in DG0 cell space and is projected only for damage rows, and the
   final residual gate is recomputed at the history that will be committed.
   Solve-history and committed-history residuals are archived separately.
-- No production architecture change is justified yet. The base configuration
-  remains width `64`, tanh, linear output, and local hats disabled.
+- The default curve-training configuration now uses the best tested
+  width-`200` swish network with `33` trainable hats, linear output, residual
+  MSE, and the warning-mode diagnostic gates. The strict gate mode remains
+  available for a separately configured validation run.
 
 ### Next Decision Gate
 
@@ -205,8 +231,9 @@ implementation contract are in `README.md`.
   residuals are the acceptance quantities and raw residuals remain diagnostics.
 - The base PINN configuration resets Adam/SOAP optimizer state at the start of
   each fixed-history damage solve while retaining the network warm start.
-- The base PINN uses an unconstrained linear damage output, float64 arrays, and
-  Jacobi-scaled residual MAE. Pilot scripts may select residual MSE, and
+- The base PINN uses an unconstrained linear damage output, float32 arrays, and
+  Jacobi-scaled residual MSE. Float64 remains an explicit reference option.
+  Pilot scripts may select residual MAE, and
   `loss.objective` also supports the full-grid nonlocal quadratic energy.
 - Raw and Jacobi-scaled damage residuals are both recorded. The scaled system
   diagonal is `1 + N_l**2 * D.diagonal + (2*N_l/N_G)*H`.
@@ -509,8 +536,8 @@ damage solve:
   output produced `1.01e-4`.
 - Width `200` improves representation and mean residuals, but the remaining
   error is still concentrated on a few low-history flank nodes near the
-  localization core. The base width remains `64` until a controlled optimizer
-  or local-enrichment change passes the strict pointwise gate.
+  localization core. The current warning-mode curve configuration uses width
+  `200`; strict acceptance remains unresolved.
 
 ## Local Correction Diagnostic
 
@@ -679,8 +706,8 @@ damage solve:
 ## Verification State
 
 - Python compilation succeeds for the fracture Python modules.
-- After the defect and LM diagnostic changes, the complete unittest suite passes
-  55 tests.
+- After the defect, LM, and configuration regression changes, the complete
+  unittest suite passes 60 tests.
 - A 20-step `nx=40` smoke run and full `nx=100`/`nx=400` runs complete with
   fixed `du=1e-5`; the configured `nx=2000` run also completes with the same
   increment.
@@ -698,11 +725,11 @@ damage solve:
    target-free defect diagnostics, and the same full-network acceptance gate;
    the existing hat pilot provides the representation baseline.
 2. Keep local-equilibrium, hard-point weighting, and smooth weighting disabled,
-   keep the Fourier
-   embedding trainable, and keep the linear output and width `64`
-   as the production baseline until a
-   wider-network run passes the complete fixed-history gate without hidden
-   target supervision; width `200` is the current diagnostic candidate.
+   keep the Fourier embedding trainable, and use the width-`200` linear-output
+   configuration for warning-mode curve diagnostics. The float32 `32/16` run is
+   a viable acceleration candidate, while `64/4` is not promoted because it
+   delayed localisation. Neither configuration is a strict fixed-point
+   certification.
 3. Add full-state checkpoint/resume so long continuation runs do not restart
    from `u_bar=0` after an interruption.
 4. Repeat strict near-peak and post-peak fixed-history pilots, then run the full

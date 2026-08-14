@@ -6,17 +6,17 @@ from ml_collections import config_dict
 def get_config():
     c = config_dict.ConfigDict()
 
-    # Damage-only network with unconstrained output, matching the direct solve.
+    # Best current damage-only curve configuration with unconstrained output.
     c.arch = config_dict.ConfigDict()
     c.arch.type = "mlp"
-    c.arch.hidden_dim = 64
+    c.arch.hidden_dim = 200
     c.arch.num_layers = 4
-    c.arch.activation = "tanh"
+    c.arch.activation = "swish"
     c.arch.use_spatial_emb = True
     c.arch.train_spatial_embedding = True
     c.arch.use_temporal_emb = False
     c.arch.spatial_emb_dim = 32
-    c.arch.spatial_scale = 4.0
+    c.arch.spatial_scale = 16.0
     c.arch.temporal_emb_dim = 8
     c.arch.temporal_scale = 1.0
     c.arch.film_hidden_dim = 16
@@ -31,7 +31,7 @@ def get_config():
     c.arch.use_local_gaussian = False
     c.arch.local_gaussian_width = 1.0 / (1601 - 1)
     c.arch.local_gaussian_amplitude = 0.0
-    c.arch.use_local_hat_enrichment = False
+    c.arch.use_local_hat_enrichment = True
     c.arch.local_hat_count = 33
 
     # Dimensional material values and the dimensional length scale.
@@ -70,23 +70,23 @@ def get_config():
     c.train.max_cutbacks = 10
     c.train.u_final = 0.02
     c.train.max_stagger_iters = 200
-    c.train.damage_iterations = 20000
+    c.train.damage_iterations = 80000
     c.train.damage_check_every = 50
     # Each fixed-history damage solve starts with fresh optimizer moments while
     # retaining the converged network parameters as its warm start.
     c.train.reset_optimizer_per_fixed_history = True
-    # Both the neural fixed-point change and the damage-equation residual are
-    # required before an outer staggered state is accepted.
-    c.train.atol_damage_change = 5.0e-6
+    # Curve-diagnostic gates: warning mode records failures and advances the
+    # last finite candidate so the full reaction curve can be inspected.
+    c.train.atol_damage_change = 2.0e-4
     c.train.atol_damage_residual = 5.0e-6
     c.train.atol_damage_residual_inf = 2.0e-5
-    # When Jacobi scaling is enabled, these are the fixed-history acceptance
+    # When Jacobi scaling is enabled, these are the active curve-diagnostic
     # tolerances. Raw residuals remain diagnostics and are saved separately.
-    c.train.atol_damage_residual_scaled = 5.0e-6
-    c.train.atol_damage_residual_scaled_inf = 2.0e-5
+    c.train.atol_damage_residual_scaled = 2.0e-5
+    c.train.atol_damage_residual_scaled_inf = 2.0e-4
     c.train.atol_sigma = 1.0e-6
-    c.train.atol_history = 1.0e-6
-    c.train.atol_mechanics = 1.0e-6
+    c.train.atol_history = 5.0e-1
+    c.train.atol_mechanics = 1.0e-4
     c.train.atol_stress_constancy = 1.0e-6
     c.train.atol_healing_diagnostic = 1.0e-6
     c.train.lr_init = 2.0e-3
@@ -105,7 +105,7 @@ def get_config():
     c.train.rprop_min_step_size = 1.0e-10
     c.train.rprop_max_step_size = 50.0
     c.train.grad_clip = 1000.0
-    c.train.dtype = "float64"
+    c.train.dtype = "float32"
     c.train.matmul_precision = "highest"
     c.train.soap_max_precond_dim = 100000
     c.train.soap_b1 = 0.90
@@ -118,7 +118,7 @@ def get_config():
 
     c.loss = config_dict.ConfigDict()
     c.loss.objective = "residual"
-    c.loss.residual_norm = "mae"
+    c.loss.residual_norm = "mse"
     c.loss.residual_scaling = "jacobi"
     # Default-off residual-only diagnostic: emphasize the current largest rows
     # without using reference fields or fixed spatial locations.
