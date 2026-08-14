@@ -82,6 +82,16 @@ Key rules:
 - Training params in `c.train`
 - **No implicit defaults** — every field must be explicitly defined (see §5)
 
+### 2.5 OpenCode Web math rendering
+
+All user-facing responses and Markdown intended for OpenCode Web must use its
+KaTeX-compatible delimiters:
+
+- Inline math uses `\(...\)`.
+- Display math uses `$$` delimiters, with each `$$` on its own line.
+- Do not use `$...$` or `\[...\]`; they may not render in OpenCode Web.
+- Do not place formulas that should render inside code fences.
+
 ---
 
 ## 3. No Guessing — Mathematical and Numerical Rigour

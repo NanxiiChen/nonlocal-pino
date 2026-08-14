@@ -1,37 +1,36 @@
-"""1D phase-field fracture FEniCS solver — non-dimensional, staggered.
+"""Independent local FEniCS reference for the 1D AT2 fracture benchmark.
 
-AT2 model (Miehe et al. 2010) on a 1D bar x ∈ [-0.5, 0.5].
-Displacement-controlled tension with a small central imperfection to
-trigger localisation.  Staggered scheme: elasticity → history update →
-phase-field, iterated to convergence per load step.
+The computational domain is the non-dimensional interval ``[0, 1]``. The
+dimensional length ``geometry.L0`` is retained only when constructing
+``N_l = l0 / L0`` and ``N_G = Gc / (E0 * L0)``. Mechanics and damage are solved
+with a staggered history-field scheme at each displacement increment.
 
-Outputs: .npz results + analytical comparison plots.
+Run in the FEniCS environment, for example::
 
-Environment:
-  conda activate fenicsenv
-
-Usage (from project root):
-  python examples/fracture1d/solver.py
-  python examples/fracture1d/solver.py --config=examples/fracture1d/configs/solver_base.py
-  python examples/fracture1d/solver.py --config.loading.du=2e-5 --config.loading.u_final=0.06
-  mpirun --allow-run-as-root -np 18 /root/miniconda3/envs/fenicsenv/bin/python examples/fracture1d/solver.py \
-      --config=examples/fracture1d/configs/solver_base.py
+    python examples/fracture1d/solver.py
+    mpirun --allow-run-as-root -np 4 python examples/fracture1d/solver.py
 """
 
-import gc, os, sys
+import gc
+import os
+import sys
 
-# Ensure DOLFIN pkg-config is discoverable (see memory pitfalls-fenics-mpi.md).
-_pkgconfig_dir = os.path.join(sys.prefix, 'lib', 'pkgconfig')
+# Ensure DOLFIN pkg-config is discoverable before importing FEniCS.
+_pkgconfig_dir = os.path.join(sys.prefix, "lib", "pkgconfig")
 if os.path.isdir(_pkgconfig_dir):
-    os.environ.setdefault('PKG_CONFIG_PATH', '')
-    if _pkgconfig_dir not in os.environ['PKG_CONFIG_PATH']:
-        os.environ['PKG_CONFIG_PATH'] = (
-            _pkgconfig_dir + ':' + os.environ['PKG_CONFIG_PATH']
+    os.environ.setdefault("PKG_CONFIG_PATH", "")
+    if _pkgconfig_dir not in os.environ["PKG_CONFIG_PATH"]:
+        os.environ["PKG_CONFIG_PATH"] = (
+            _pkgconfig_dir + ":" + os.environ["PKG_CONFIG_PATH"]
         )
 
+# DOLFIN finalizes MPI during interpreter shutdown; prevent mpi4py from
+# issuing a second post-finalize communicator query in the same process.
+from mpi4py import rc as _mpi4py_rc
+_mpi4py_rc.finalize = False
 from mpi4py import MPI as _MPI
 import numpy as np
-from absl import app as _absl_app
+from absl import app as _absl_app, flags as _absl_flags
 from ml_collections import config_flags as _config_flags
 
 from fenics import (
@@ -44,344 +43,778 @@ from fenics import (
     TrialFunction,
     assemble,
     dx,
-    errornorm,
-    grad,
-    near,
     project,
     set_log_active,
     solve,
 )
 
 
-# ── Non-dimensional analytical solutions ─────────────────────────────────────
-
 def analytical_homogeneous_damage(eps, N_l, N_G):
-    """Homogeneous damage: d = ε² / (ε² + N_G/N_l)."""
+    """Zero-residual-stiffness homogeneous AT2 damage relation."""
     alpha = N_G / N_l
     return eps**2 / (eps**2 + alpha)
 
 
 def analytical_homogeneous_stress(eps, N_l, N_G):
-    """Homogeneous stress: σ = (1-d)² ε with d from above."""
+    """Zero-residual-stiffness homogeneous stress relation."""
     d = analytical_homogeneous_damage(eps, N_l, N_G)
-    return (1.0 - d)**2 * eps
+    return (1.0 - d) ** 2 * eps
+
+
+def analytical_peak_strain(N_l, N_G):
+    """Zero-residual-stiffness homogeneous peak strain."""
+    return np.sqrt(N_G / (3.0 * N_l))
+
+
+def analytical_peak_stress(N_l, N_G):
+    """Zero-residual-stiffness homogeneous peak stress."""
+    return (3.0 * np.sqrt(3.0) / 16.0) * np.sqrt(N_G / N_l)
 
 
 def analytical_crack_profile(x, xc, N_l):
-    """Fully-developed crack profile: d(x) = exp(-|x-xc|/N_l)."""
+    """Infinite-domain stationary AT2 profile, for a separate diagnostic."""
     return np.exp(-np.abs(x - xc) / N_l)
 
 
-# ── Solver ───────────────────────────────────────────────────────────────────
+def analytical_stationary_profile(x, xc, N_l):
+    """Finite-domain stationary profile with natural endpoint conditions."""
+    left = xc - x[0]
+    right = x[-1] - xc
+    if not np.isclose(left, right):
+        raise ValueError("The finite stationary profile requires a symmetric domain")
+    radius = left
+    distance = np.abs(x - xc)
+    return np.cosh((radius - distance) / N_l) / np.cosh(radius / N_l)
 
-# Suppress FEniCS log spam
 
-# ── MPI gather ──────────────────────────────────────────────────────────────
+def _validate_config(config):
+    """Validate every solver assumption before constructing FEniCS objects."""
+    phys = config.physical
+    geom = config.geometry
+    imp = config.imperfection
+    loading = config.loading
+    solver_cfg = config.solver
+    output = config.output
 
-def _gather_1d(field, V, comm):
-    """Gather a scalar field to rank 0, deduplicate, sort by x."""
-    local_coords = V.tabulate_dof_coordinates()[:, 0]
-    local_vals = field.vector().get_local()
+    positive_values = {
+        "physical.E": phys.E,
+        "physical.Gc": phys.Gc,
+        "physical.l0": phys.l0,
+        "geometry.L0": geom.L0,
+        "imperfection.width": imp.width,
+        "loading.du": loading.du,
+        "loading.du_min": loading.du_min,
+        "loading.du_max": loading.du_max,
+        "loading.du_softening": loading.du_softening,
+        "loading.u_final": loading.u_final,
+        "solver.atol_u": solver_cfg.atol_u,
+        "solver.atol_d": solver_cfg.atol_d,
+        "solver.atol_H": solver_cfg.atol_H,
+        "solver.atol_sigma": solver_cfg.atol_sigma,
+        "solver.atol_stress_constancy": solver_cfg.atol_stress_constancy,
+        "output.save_every": output.save_every,
+    }
+    for name, value in positive_values.items():
+        if not np.isfinite(value) or value <= 0.0:
+            raise ValueError(f"{name} must be positive and finite, got {value}")
 
-    if comm.size > 1:
-        coords_list = comm.gather(local_coords, root=0)
-        vals_list = comm.gather(local_vals, root=0)
-    else:
-        coords_list = [local_coords]
-        vals_list = [local_vals]
+    if not np.isfinite(phys.k_res) or phys.k_res < 0.0:
+        raise ValueError(f"physical.k_res must be non-negative and finite, got {phys.k_res}")
+    if not 0.0 <= imp.amplitude < 1.0:
+        raise ValueError(
+            "imperfection.amplitude must satisfy 0 <= amplitude < 1, "
+            f"got {imp.amplitude}"
+        )
+    if not 0.0 <= imp.center <= 1.0:
+        raise ValueError(
+            "imperfection.center must lie in the non-dimensional interval [0, 1], "
+            f"got {imp.center}"
+        )
+    if int(config.mesh.nx) != config.mesh.nx or config.mesh.nx < 2:
+        raise ValueError(f"mesh.nx must be an integer >= 2, got {config.mesh.nx}")
+    if not (
+        loading.du_min <= loading.du_softening <= loading.du_max
+    ):
+        raise ValueError(
+            "loading.du_softening must lie between loading.du_min and "
+            "loading.du_max"
+        )
+    if loading.du_min > loading.du or loading.du > loading.du_max:
+        raise ValueError(
+            "loading.du must lie between loading.du_min and loading.du_max"
+        )
+    if not 0.0 < loading.cutback_factor < 1.0:
+        raise ValueError("loading.cutback_factor must lie strictly between zero and one")
+    if loading.growth_factor < 1.0:
+        raise ValueError("loading.growth_factor must be at least one")
+    if int(loading.max_cutbacks) != loading.max_cutbacks:
+        raise ValueError("loading.max_cutbacks must be an integer")
+    if loading.max_cutbacks < 1:
+        raise ValueError("loading.max_cutbacks must be positive")
+    if int(solver_cfg.max_stagger_iters) != solver_cfg.max_stagger_iters:
+        raise ValueError("solver.max_stagger_iters must be an integer")
+    if solver_cfg.max_stagger_iters < 1:
+        raise ValueError("solver.max_stagger_iters must be positive")
+    if solver_cfg.linear_solver not in ("default", "lu"):
+        raise ValueError("solver.linear_solver must be 'default' or 'lu'")
+    if int(output.log_every) != output.log_every or output.log_every < 1:
+        raise ValueError("output.log_every must be a positive integer")
 
-    if comm.rank == 0:
-        all_coords = np.concatenate(coords_list)
-        all_vals = np.concatenate(vals_list)
-        _, unique_idx = np.unique(all_coords.round(decimals=10),
-                                   return_index=True)
-        sort_idx = np.argsort(all_coords[unique_idx])
-        return all_coords[unique_idx][sort_idx], all_vals[unique_idx][sort_idx]
-    return None, None
 
-set_log_active(False)  # suppress FEniCS + PETSc output
+def _gather_1d(field, space, comm):
+    """Gather a scalar FEniCS field to rank zero, sorted by coordinate."""
+    local_coords = space.tabulate_dof_coordinates()[:, 0]
+    local_values = field.vector().get_local()
+    coords_list = comm.gather(local_coords, root=0)
+    values_list = comm.gather(local_values, root=0)
+
+    if comm.rank != 0:
+        return None, None
+
+    all_coords = np.concatenate(coords_list)
+    all_values = np.concatenate(values_list)
+    rounded = all_coords.round(decimals=10)
+    _, unique_idx = np.unique(rounded, return_index=True)
+    sort_idx = np.argsort(all_coords[unique_idx])
+    return all_coords[unique_idx][sort_idx], all_values[unique_idx][sort_idx]
+
+
+def _assign_local(field, values):
+    """Assign an array with the local FEniCS vector shape."""
+    values = np.asarray(values, dtype=np.float64)
+    if values.shape != field.vector().get_local().shape:
+        raise ValueError(
+            f"Cannot assign shape {values.shape} to FEniCS vector shape "
+            f"{field.vector().get_local().shape}"
+        )
+    field.vector().set_local(values)
+    field.vector().apply("insert")
+
+
+def _global_max_abs(values, comm):
+    local = float(np.max(np.abs(values))) if len(values) else 0.0
+    return float(comm.allreduce(local, op=_MPI.MAX))
+
+
+def _global_min(values, comm):
+    local = float(np.min(values)) if len(values) else np.inf
+    return float(comm.allreduce(local, op=_MPI.MIN))
+
+
+def _global_max(values, comm):
+    local = float(np.max(values)) if len(values) else -np.inf
+    return float(comm.allreduce(local, op=_MPI.MAX))
+
+
+def _history_values(e_values, strain_values):
+    """Return the dimensionless tensile energy density 0.5*e*<eps>_+^2."""
+    tensile_strain = np.maximum(strain_values, 0.0)
+    return 0.5 * e_values * tensile_strain**2
+
+
+def _modulus_values(config, coordinates):
+    """Evaluate the configured dimensionless modulus at given coordinates."""
+    values = 1.0 - config.imperfection.amplitude * np.exp(
+        -(coordinates - config.imperfection.center) ** 2
+        / (2.0 * config.imperfection.width**2)
+    )
+    if np.any(values <= 0.0) or not np.all(np.isfinite(values)):
+        raise ValueError("The configured modulus imperfection must give e(x) > 0")
+    return values
+
+
+def _reaction_star(u_field, d_field, e_field, k_res, domain_measure):
+    """Return the volume-averaged reconstructed dimensionless stress."""
+    degradation = (1.0 - d_field) ** 2 + k_res
+    stress_integral = assemble(e_field * degradation * u_field.dx(0) * dx)
+    return float(stress_integral / domain_measure)
+
+
+def _stress_diagnostics(u_field, d_field, e_field, k_res, space, comm):
+    """Project constitutive stress to DG0 and return its global spread."""
+    stress_field = project(
+        e_field * ((1.0 - d_field) ** 2 + k_res) * u_field.dx(0),
+        space,
+    )
+    stress = stress_field.vector().get_local()
+    if not np.all(np.isfinite(stress)):
+        raise FloatingPointError("Reconstructed FEM stress contains non-finite values")
+    minimum = _global_min(stress, comm)
+    maximum = _global_max(stress, comm)
+    return minimum, maximum, maximum - minimum
+
+
+def _solve_elasticity(a_u, L_u, u_field, bcs, linear_solver):
+    solve(a_u == L_u, u_field, bcs,
+          solver_parameters={"linear_solver": linear_solver})
+
+
+def _attempt_staggered_step(
+    u_bar,
+    u_bar_constant,
+    a_u,
+    L_u,
+    a_d,
+    L_d,
+    bcs_u,
+    u_new,
+    u_committed,
+    u_previous,
+    d_iter,
+    d_candidate,
+    d_previous,
+    H_prev_local,
+    H_used_field,
+    e_local,
+    e_field,
+    phys,
+    Vhist,
+    domain_measure,
+    comm,
+    solver_cfg,
+):
+    """Try one displacement increment from the last committed state.
+
+    A failed attempt deliberately returns without committing any state. The
+    caller may then reduce the displacement increment and call this function
+    again; the first assignments restore the exact previous converged state.
+    """
+    u_bar_constant.assign(float(u_bar))
+    d_iter.assign(d_previous)
+    d_candidate.assign(d_previous)
+    u_previous.assign(u_committed)
+
+    converged = False
+    err_u = np.inf
+    err_d = np.inf
+    err_H = np.inf
+    err_sigma = np.inf
+    reaction = np.nan
+    H_next_local = H_prev_local.copy()
+    stagger_it = -1
+
+    for stagger_it in range(solver_cfg.max_stagger_iters):
+        # Mechanics for the current damage iterate determines the history
+        # used by this damage solve. H_prev_local remains immutable here.
+        _solve_elasticity(
+            a_u, L_u, u_new, bcs_u, solver_cfg.linear_solver
+        )
+        reaction_before = _reaction_star(
+            u_new, d_iter, e_field, phys.k_res, domain_measure
+        )
+        strain_before = project(u_new.dx(0), Vhist).vector().get_local()
+        psi_before = _history_values(e_local, strain_before)
+        H_used_local = np.maximum(H_prev_local, psi_before)
+        if not np.all(np.isfinite(H_used_local)):
+            raise FloatingPointError("FEM H_used contains non-finite values")
+        _assign_local(H_used_field, H_used_local)
+
+        # H_used is fixed while the classical linear damage equation is solved.
+        solve(
+            a_d == L_d,
+            d_candidate,
+            [],
+            solver_parameters={"linear_solver": solver_cfg.linear_solver},
+        )
+        d_candidate_values = d_candidate.vector().get_local()
+        if not np.all(np.isfinite(d_candidate_values)):
+            raise FloatingPointError("FEM damage contains non-finite values")
+        d_iter_values = d_iter.vector().get_local().copy()
+        residual_values = d_candidate_values - d_iter_values
+        err_d = _global_max_abs(residual_values, comm)
+
+        # Recompute mechanics and history from the updated damage field.
+        d_iter.assign(d_candidate)
+        _solve_elasticity(
+            a_u, L_u, u_new, bcs_u, solver_cfg.linear_solver
+        )
+        reaction = _reaction_star(
+            u_new, d_iter, e_field, phys.k_res, domain_measure
+        )
+        strain_after = project(u_new.dx(0), Vhist).vector().get_local()
+        psi_after = _history_values(e_local, strain_after)
+        H_next_local = np.maximum(H_prev_local, psi_after)
+        if not np.all(np.isfinite(H_next_local)):
+            raise FloatingPointError("FEM H_next contains non-finite values")
+
+        err_u = _global_max_abs(
+            u_new.vector().get_local() - u_previous.vector().get_local(), comm
+        )
+        err_sigma = abs(reaction - reaction_before)
+        err_H = _global_max_abs(H_next_local - H_used_local, comm)
+
+        u_previous.assign(u_new)
+        if (
+            err_u <= solver_cfg.atol_u
+            and err_d <= solver_cfg.atol_d
+            and err_H <= solver_cfg.atol_H
+            and err_sigma <= solver_cfg.atol_sigma
+        ):
+            converged = True
+            break
+
+    return {
+        "converged": converged,
+        "err_u": err_u,
+        "err_d": err_d,
+        "err_H": err_H,
+        "err_sigma": err_sigma,
+        "reaction": reaction,
+        "H_next_local": H_next_local,
+        "stagger_iters": stagger_it + 1,
+    }
+
 
 def solve_fracture(config):
-    """Run the 1D staggered phase-field fracture solver."""
+    """Run the local staggered FEM reference and write its snapshots."""
+    _validate_config(config)
     comm = _MPI.COMM_WORLD
     rank = comm.rank
 
     phys = config.physical
-    L0 = config.nondim.L0
-
-    # Non-dimensional parameters
+    L0 = config.geometry.L0
     N_l = phys.l0 / L0
     N_G = phys.Gc / (phys.E * L0)
-    alpha_nd = N_G / N_l          # = G_c / (l_0 E), controls damage onset
-
-    eps_c = np.sqrt(alpha_nd)     # critical strain (analytical)
-    sigma_c = np.sqrt(alpha_nd) / 4.0  # peak homogeneous stress
+    peak_strain = analytical_peak_strain(N_l, N_G)
+    peak_stress = analytical_peak_stress(N_l, N_G)
 
     if rank == 0:
-        print(f"N_l = {N_l:.6f}")
-        print(f"N_G = {N_G:.6e}")
-        print(f"alpha = N_G/N_l = {alpha_nd:.6e}")
-        print(f"eps_c (analytical) = {eps_c:.6f}")
-        print(f"sigma_c (analytical) = {sigma_c:.6f}")
+        print(f"N_l = {N_l:.8e}")
+        print(f"N_G = {N_G:.8e}")
+        print(f"homogeneous peak strain (k_res=0) = {peak_strain:.8e}")
+        print(f"homogeneous peak stress (k_res=0) = {peak_stress:.8e}")
+        print(f"k_res = {phys.k_res:.8e}")
 
-    # ── Mesh & function spaces ─────────────────────────────────────────────
-    nx = config.mesh.nx
+    nx = int(config.mesh.nx)
     mesh = IntervalMesh(comm, nx, 0.0, 1.0)
+    Vu = FunctionSpace(mesh, "CG", 1)
+    Vd = FunctionSpace(mesh, "CG", 1)
+    V0 = FunctionSpace(mesh, "CG", 1)
+    Vhist = FunctionSpace(mesh, "DG", 0)
+    Vstress = FunctionSpace(mesh, "DG", 0)
 
-    Vu = FunctionSpace(mesh, 'CG', 1)   # displacement u
-    Vd = FunctionSpace(mesh, 'CG', 1)   # damage d
-    V0 = FunctionSpace(mesh, 'CG', 1)   # auxiliary scalar fields
-
-    # ── Functions ──────────────────────────────────────────────────────────
     u_new = Function(Vu)
-    u_old = Function(Vu)
-    d_new = Function(Vd)
-    d_old = Function(Vd)
-    H_field = Function(V0)      # history field H(x) = max ε²/2
-    H_field.assign(Constant(0.0))
+    u_committed = Function(Vu)
+    u_previous = Function(Vu)
+    d_iter = Function(Vd)
+    d_candidate = Function(Vd)
+    d_previous = Function(Vd)
+    e_field = Function(V0)
+    H_used_field = Function(Vhist)
 
-    # Spatial imperfection: reduced G_c near x=0
-    x_coords = V0.tabulate_dof_coordinates()[:, 0]
-    imp_amp = config.imperfection.amplitude
-    imp_w = config.imperfection.width
-    ng_local = N_G * (1.0 - imp_amp * np.exp(-(x_coords - 0.5)**2 / (2.0 * imp_w**2)))
-    inv_NG = Function(V0)
-    inv_NG.vector().set_local(1.0 / np.maximum(ng_local, 1e-30))
-    inv_NG.vector().apply('insert')
+    x_elastic_local = V0.tabulate_dof_coordinates()[:, 0]
+    e_elastic_local = _modulus_values(config, x_elastic_local)
+    _assign_local(e_field, e_elastic_local)
+    x_hist_local = Vhist.tabulate_dof_coordinates()[:, 0]
+    e_hist_local = _modulus_values(config, x_hist_local)
 
-    # ── BCs ────────────────────────────────────────────────────────────────
-    u_bar_const = Constant(0.0)
+    H_prev_local = np.zeros_like(x_hist_local)
+    _assign_local(H_used_field, H_prev_local)
+
+    u_bar_constant = Constant(0.0)
     bc_left = DirichletBC(Vu, Constant(0.0), "near(x[0], 0.0)")
-    bc_right = DirichletBC(Vu, u_bar_const, "near(x[0], 1.0)")
+    bc_right = DirichletBC(Vu, u_bar_constant, "near(x[0], 1.0)")
     bcs_u = [bc_left, bc_right]
 
-    # ── UFL forms (use Function references; values update each iteration) ──
-    u = TrialFunction(Vu)
-    v = TestFunction(Vu)
+    u_trial = TrialFunction(Vu)
+    u_test = TestFunction(Vu)
     d_trial = TrialFunction(Vd)
-    q = TestFunction(Vd)
+    d_test = TestFunction(Vd)
 
-    # Elasticity: ∫ (1-d_old)² u' v' dx = 0  (+ Dirichlet BC)
-    a_u = (1.0 - d_old)**2 * u.dx(0) * v.dx(0) * dx
-    L_u = Constant(0.0) * v * dx
+    # These forms reference mutable Function objects. Their values are updated
+    # between staggered solves, while the variational forms remain fixed.
+    degradation = (1.0 - d_iter) ** 2 + phys.k_res
+    a_u = e_field * degradation * u_trial.dx(0) * u_test.dx(0) * dx
+    L_u = Constant(0.0) * u_test * dx
 
-    # Phase-field: ∫ [N_l² d'q' + (1 + 2N_l·inv_NG·H)d·q] dx = ∫ 2N_l·inv_NG·H·q dx
-    a_d = (N_l**2 * d_trial.dx(0) * q.dx(0)
-           + (1.0 + 2.0 * N_l * inv_NG * H_field) * d_trial * q) * dx
-    L_d = (2.0 * N_l * inv_NG * H_field * q) * dx
+    history_factor = 2.0 * N_l / N_G
+    a_d = (
+        N_l**2 * d_trial.dx(0) * d_test.dx(0)
+        + (1.0 + history_factor * H_used_field) * d_trial * d_test
+    ) * dx
+    L_d = history_factor * H_used_field * d_test * dx
 
-    # ── Loading steps ──────────────────────────────────────────────────────
-    du = config.loading.du
-    u_final = config.loading.u_final
-    u_steps = np.arange(du, u_final + 0.5 * du, du)
-    tol = config.solver.atol
-    max_iters = config.solver.max_iters
+    domain_measure = assemble(Constant(1.0) * dx(domain=mesh))
+    if not np.isfinite(domain_measure) or domain_measure <= 0.0:
+        raise RuntimeError(f"Invalid assembled domain measure: {domain_measure}")
 
-    # Storage
-    u_snaps, d_snaps, snap_times = [], [], []
-
-    force_hist, u_bar_hist = [], []
+    reaction_history = []
+    u_bar_history = []
+    du_history = []
+    stagger_iterations_history = []
+    cutback_history = []
+    u_snapshots = []
+    d_snapshots = []
+    H_snapshots = []
+    snap_u_bar = []
     next_save = config.output.save_every
 
-
-
-    for step, u_bar in enumerate(u_steps):
-        u_bar_const.assign(u_bar)
-
-        # ── Staggered iteration ───────────────────────────────────────────
-        for it in range(max_iters):
-            # 1. Solve elasticity
-            solve(a_u == L_u, u_new, bcs_u,
-                  solver_parameters={"linear_solver": "default"})
-
-            # 2. Compute strain and update history
-            eps_new = project(u_new.dx(0), V0)
-            eps_new_vals = eps_new.vector().get_local()
-            H_vals = H_field.vector().get_local()
-            H_new_vals = np.maximum(H_vals, 0.5 * eps_new_vals**2)
-            H_field.vector().set_local(H_new_vals)
-            H_field.vector().apply('insert')
-
-            # 3. Solve phase-field
-            solve(a_d == L_d, d_new, [],
-                  solver_parameters={"linear_solver": "default"})
-
-            # 4. Check convergence
-            err_u = np.max(np.abs(
-                u_new.vector().get_local() - u_old.vector().get_local()
-            ))
-            err_d = np.max(np.abs(
-                d_new.vector().get_local() - d_old.vector().get_local()
-            ))
-            err = max(err_u, err_d)
-            if comm.size > 1:
-                err = comm.allreduce(err, op=_MPI.MAX)
-
-            u_old.assign(u_new)
-            d_old.assign(d_new)
-
-            if err < tol:
-                break
-        else:
-            if rank == 0 and step % config.output.log_every == 0:
-                print(f"  Step {step}: stagger did NOT converge "
-                      f"(err={err:.2e} after {max_iters} iters)")
-
-        # ── Compute force (stress σ* = (1-d)² ε, constant along bar) ────
-        d_vals = d_new.vector().get_local()
-        eps_vals_final = project(u_new.dx(0), V0).vector().get_local()
-        sigma_vals = (1.0 - d_vals)**2 * eps_vals_final
-        force = np.mean(sigma_vals)
-        if comm.size > 1:
-            force = comm.allreduce(force, op=_MPI.SUM) / comm.size
-
-        force_hist.append(force)
-        u_bar_hist.append(u_bar)
-
-        if u_bar >= next_save - 0.5 * du or step == len(u_steps) - 1:
-            _, u_full = _gather_1d(u_new, V0, comm)
-            _, d_full = _gather_1d(d_new, V0, comm)
-            if rank == 0:
-                u_snaps.append(u_full)
-                d_snaps.append(d_full)
-                snap_times.append(u_bar)
-            next_save += config.output.save_every
-
-        # Progress
-        if rank == 0 and step % config.output.log_every == 0:
-            max_d = np.max(d_vals)
-            print(f"  Step {step+1:5d}  u_bar={u_bar:.5f}  F={force:.6e}  "
-                  f"max_d={max_d:.4f}  n_iter={it+1}")
-
+    u_bar = 0.0
+    step = 0
+    du_current = config.loading.du
+    cutbacks_for_step = 0
+    softening_started = False
+    previous_reaction = None
+    softening_history = []
+    _, u_initial = _gather_1d(u_committed, Vu, comm)
+    _, d_initial = _gather_1d(d_previous, Vd, comm)
+    _, H_initial = _gather_1d(H_used_field, Vhist, comm)
     if rank == 0:
-        coords_full, d_final_full = _gather_1d(d_new, V0, comm)
-        print(f"\nSolved {len(u_steps)} load steps.  "
-              f"Final max_d = {np.max(d_final_full):.4f}")
+        if u_initial is None or d_initial is None or H_initial is None:
+            raise RuntimeError("Failed to gather the initial FEM snapshot")
+        u_snapshots.append(u_initial)
+        d_snapshots.append(d_initial)
+        H_snapshots.append(H_initial)
+        snap_u_bar.append(0.0)
+    while u_bar < config.loading.u_final:
+        if np.isclose(u_bar, config.loading.u_final, rtol=0.0, atol=1.0e-14):
+            u_bar = float(config.loading.u_final)
+            break
+        remaining = config.loading.u_final - u_bar
+        trial_du = min(du_current, remaining)
+        trial_u_bar = u_bar + trial_du
+        attempt = _attempt_staggered_step(
+            trial_u_bar,
+            u_bar_constant,
+            a_u,
+            L_u,
+            a_d,
+            L_d,
+            bcs_u,
+            u_new,
+            u_committed,
+            u_previous,
+            d_iter,
+            d_candidate,
+            d_previous,
+            H_prev_local,
+            H_used_field,
+            e_hist_local,
+            e_field,
+            phys,
+            Vhist,
+            domain_measure,
+            comm,
+            config.solver,
+        )
 
+        if not attempt["converged"]:
+            at_minimum = trial_du <= config.loading.du_min * (1.0 + 1e-12)
+            if at_minimum or cutbacks_for_step >= config.loading.max_cutbacks:
+                raise RuntimeError(
+                    f"Load step at u_bar={trial_u_bar:.8e} did not converge "
+                    f"after {attempt['stagger_iters']} staggered iterations "
+                    f"and {cutbacks_for_step} cutbacks: "
+                    f"err_u={attempt['err_u']:.3e}, "
+                    f"err_d={attempt['err_d']:.3e}, "
+                    f"err_H={attempt['err_H']:.3e}, "
+                    f"err_sigma={attempt['err_sigma']:.3e}, "
+                    f"du={trial_du:.3e}"
+                )
+            cutbacks_for_step += 1
+            du_current = max(
+                config.loading.du_min,
+                trial_du * config.loading.cutback_factor,
+            )
+            if rank == 0:
+                print(
+                    f"Cutback before u_bar={trial_u_bar:.8e}: "
+                    f"du={trial_du:.3e} -> {du_current:.3e}, "
+                    f"err_d={attempt['err_d']:.3e}, "
+                    f"err_sigma={attempt['err_sigma']:.3e}"
+                )
+            continue
 
+        step += 1
+        u_bar = trial_u_bar
+        reaction = attempt["reaction"]
+        H_next_local = attempt["H_next_local"]
+        d_values = d_iter.vector().get_local()
+
+        H_prev_local = H_next_local.copy()
+        _assign_local(H_used_field, H_prev_local)
+        d_previous.assign(d_iter)
+        u_committed.assign(u_new)
+
+        stress_min, stress_max, stress_spread = _stress_diagnostics(
+            u_new, d_iter, e_field, phys.k_res, Vstress, comm
+        )
+        if stress_spread > config.solver.atol_stress_constancy:
+            raise RuntimeError(
+                f"Reconstructed stress is not spatially constant at load step "
+                f"{step}: min={stress_min:.6e}, max={stress_max:.6e}, "
+                f"spread={stress_spread:.3e}"
+            )
+
+        reaction_history.append(reaction)
+        u_bar_history.append(float(u_bar))
+        du_history.append(float(trial_du))
+        stagger_iterations_history.append(int(attempt["stagger_iters"]))
+        cutback_history.append(int(cutbacks_for_step))
+        if (
+            previous_reaction is not None
+            and reaction < previous_reaction - config.solver.atol_sigma
+        ):
+            softening_started = True
+        softening_history.append(bool(softening_started))
+
+        is_final = np.isclose(
+            u_bar, config.loading.u_final, rtol=0.0, atol=1e-14
+        )
+        if is_final:
+            u_bar = float(config.loading.u_final)
+        should_save = u_bar >= next_save - 0.5 * trial_du or is_final
+        if should_save:
+            _, u_full = _gather_1d(u_new, Vu, comm)
+            _, d_full = _gather_1d(d_iter, Vd, comm)
+            _, H_full = _gather_1d(H_used_field, Vhist, comm)
+            if rank == 0:
+                u_snapshots.append(u_full)
+                d_snapshots.append(d_full)
+                H_snapshots.append(H_full)
+                snap_u_bar.append(float(u_bar))
+            while next_save <= u_bar + 0.5 * trial_du:
+                next_save += config.output.save_every
+
+        max_d_global = _global_max(d_values, comm)
+        if rank == 0 and step % config.output.log_every == 0:
+            print(
+                f"Step {step:5d}  u_bar={u_bar:.8e}  "
+                f"du={trial_du:.3e}  reaction_star={reaction:.8e}  "
+                f"max_d={max_d_global:.6e}  "
+                f"iters={attempt['stagger_iters']}  "
+                f"cutbacks={cutbacks_for_step}  "
+                f"softening={softening_started}  "
+                f"stress_spread={stress_spread:.3e}"
+            )
+
+        cutbacks_for_step = 0
+        previous_reaction = reaction
+        if softening_started:
+            du_current = min(
+                config.loading.du_softening,
+                trial_du * config.loading.growth_factor,
+            )
+        else:
+            du_current = min(
+                config.loading.du_max,
+                trial_du * config.loading.growth_factor,
+            )
+
+    x_full, _ = _gather_1d(d_iter, Vd, comm)
+    x_H_full, _ = _gather_1d(H_used_field, Vhist, comm)
+    if rank == 0:
+        if x_full is None:
+            raise RuntimeError("Rank zero did not receive the gathered FEM coordinates")
+        if x_H_full is None:
+            raise RuntimeError("Rank zero did not receive the history coordinates")
+        if not u_snapshots or not d_snapshots or not H_snapshots:
+            raise RuntimeError("No snapshots were collected")
 
         os.makedirs(config.output.dir, exist_ok=True)
-        fpath = os.path.join(config.output.dir, config.output.filename)
+        result_path = os.path.join(config.output.dir, config.output.filename)
+        u_snapshots_array = np.asarray(u_snapshots)
+        d_snapshots_array = np.asarray(d_snapshots)
+        H_snapshots_array = np.asarray(H_snapshots)
+        u_bar_array = np.asarray(u_bar_history)
+        reaction_array = np.asarray(reaction_history)
+        np.savez_compressed(
+            result_path,
+            x=x_full,
+            x_H=x_H_full,
+            u_bar=u_bar_array,
+            du_history=np.asarray(du_history),
+            stagger_iterations=np.asarray(stagger_iterations_history),
+            cutbacks=np.asarray(cutback_history),
+            softening=np.asarray(softening_history),
+            snap_u_bar=np.asarray(snap_u_bar),
+            u=u_snapshots_array,
+            d=d_snapshots_array,
+            reaction_star=reaction_array,
+            force=reaction_array,
+            H=H_snapshots_array,
+            E0=float(phys.E),
+            Gc=float(phys.Gc),
+            l0=float(phys.l0),
+            L0=float(L0),
+            k_res=float(phys.k_res),
+            N_l=float(N_l),
+            N_G=float(N_G),
+            imperfection_amplitude=float(config.imperfection.amplitude),
+            imperfection_width=float(config.imperfection.width),
+            imperfection_center=float(config.imperfection.center),
+            mesh_nx=int(config.mesh.nx),
+            loading_du_initial=float(config.loading.du),
+            loading_du_min=float(config.loading.du_min),
+            loading_du_max=float(config.loading.du_max),
+            loading_du_softening=float(config.loading.du_softening),
+            loading_cutback_factor=float(config.loading.cutback_factor),
+            loading_growth_factor=float(config.loading.growth_factor),
+            output_save_every=float(config.output.save_every),
+            solver_atol_u=float(config.solver.atol_u),
+            solver_atol_d=float(config.solver.atol_d),
+            solver_atol_H=float(config.solver.atol_H),
+            solver_atol_sigma=float(config.solver.atol_sigma),
+            solver_atol_stress_constancy=float(config.solver.atol_stress_constancy),
+            solver_max_stagger_iters=int(config.solver.max_stagger_iters),
+            history_space="DG0_classical_max",
+            history_method="Miehe_max_history",
+        )
+        print(f"Saved {result_path}")
 
-        u_snaps_arr = np.array(u_snaps)
-        d_snaps_arr = np.array(d_snaps)
-        force_arr = np.array(force_hist)
-        u_bar_arr = np.array(u_bar_hist)
-
-        np.savez_compressed(fpath,
-                            x=coords_full,
-                            u_bar=u_bar_arr,
-                            snap_u_bar=np.array(snap_times),
-                            u=u_snaps_arr,
-                            d=d_snaps_arr,
-                            force=force_arr)
-        print(f"Saved {fpath}")
-        print(f"  u snaps: {u_snaps_arr.shape}, d snaps: {d_snaps_arr.shape}")
-        print(f"  force-displacement: {force_arr.shape}")
-
-        # ── Analytical comparison plots ──────────────────────────────────────
-        _plot_comparison(config, coords_full, u_bar_arr, force_arr,
-                         u_snaps_arr, d_snaps_arr, snap_times,
-                         N_l, N_G, alpha_nd, eps_c, sigma_c)
+        _plot_comparison(
+            config,
+            x_full,
+            u_bar_array,
+            reaction_array,
+            u_snapshots_array,
+            d_snapshots_array,
+            np.asarray(snap_u_bar),
+            N_l,
+            N_G,
+        )
+        _plot_stress_strain(config, u_bar_array, reaction_array)
+        _plot_stationary_profile(config, x_full, N_l)
 
     comm.Barrier()
-
-    # Cleanup
-    del mesh, u_new, u_old, d_new, d_old, H_field, inv_NG
+    del a_u, L_u, a_d, L_d, degradation
+    del u_trial, u_test, d_trial, d_test
+    del bc_left, bc_right, bcs_u, u_bar_constant
+    del mesh, Vu, Vd, V0, Vhist, Vstress
+    del u_new, u_committed, u_previous, d_iter, d_candidate, d_previous
+    del e_field, H_used_field
     gc.collect()
 
 
-# ── Plotting ─────────────────────────────────────────────────────────────────
-
-def _plot_comparison(config, x, u_bar, force, u_snaps, d_snaps, snap_times,
-                     N_l, N_G, alpha, eps_c, sigma_c):
-    """Generate 3-panel analytical comparison figure."""
+def _plot_comparison(
+    config,
+    x,
+    u_bar,
+    reaction_star,
+    u_snapshots,
+    d_snapshots,
+    snap_u_bar,
+    N_l,
+    N_G,
+):
+    """Plot loaded response and homogeneous validation without false labels."""
     import matplotlib
-    matplotlib.use('Agg')
+
+    matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
     os.makedirs(config.output.plot_dir, exist_ok=True)
+    peak_strain = analytical_peak_strain(N_l, N_G)
+    peak_stress = analytical_peak_stress(N_l, N_G)
 
     fig, axes = plt.subplots(1, 3, figsize=(18, 5))
 
-    # ── Panel 1: Force-displacement ───────────────────────────────────────
     ax = axes[0]
-    ax.plot(u_bar, force, 'b-', linewidth=0.8, label='FEM (staggered)')
-
-    # Analytical homogeneous solution
-    eps_ana = np.linspace(1e-6, 0.1, 500)
-    sigma_ana = analytical_homogeneous_stress(eps_ana, N_l, N_G)
-    ax.plot(eps_ana, sigma_ana, 'r--', linewidth=1.5,
-            label='Homogeneous (analytical)')
-
-    ax.axvline(eps_c, color='gray', linestyle=':', linewidth=1,
-               label=f'$\\varepsilon_c^* = {eps_c:.4f}$')
-    ax.axhline(sigma_c, color='gray', linestyle=':', linewidth=1)
-    ax.set_xlabel('$\\bar{u}^*$ (applied displacement)')
-    ax.set_ylabel('$\\sigma^*$ (stress)')
-    ax.set_title('Force–Displacement')
-    ax.legend(fontsize=8)
-    ax.set_xlim(0, u_bar[-1])
+    ax.plot(u_bar, reaction_star, "b-", linewidth=0.8, label="FEM staggered")
+    eps = np.linspace(1e-8, max(float(u_bar[-1]), peak_strain) * 1.1, 500)
+    ax.plot(eps, analytical_homogeneous_stress(eps, N_l, N_G), "r--",
+            linewidth=1.5, label="homogeneous AT2, k_res=0")
+    ax.axvline(peak_strain, color="gray", linestyle=":", linewidth=1,
+               label=f"peak strain = {peak_strain:.4g}")
+    ax.axhline(peak_stress, color="gray", linestyle="--", linewidth=1,
+               label=f"peak stress = {peak_stress:.4g}")
+    ax.set_xlabel("applied displacement u_bar*")
+    ax.set_ylabel("reaction stress sigma*")
+    ax.set_title("Loaded force-displacement")
     ax.grid(True, alpha=0.3)
+    ax.legend(fontsize=8)
 
-    # ── Panel 2: Crack profile at final step ──────────────────────────────
     ax = axes[1]
-    d_final = d_snaps[-1]
-    # Find crack centre (where d is max)
-    xc_idx = np.argmax(d_final)
-    xc = x[xc_idx]
-
-    ax.plot(x, d_final, 'b-', linewidth=1.0, label=f'FEM (u_bar={snap_times[-1]:.4f})')
-    ax.plot(x, analytical_crack_profile(x, xc, N_l), 'r--',
-            linewidth=2.0, label=f'$\\exp(-|x-x_c|/N_\\ell)$')
-    ax.set_xlabel('$x^*$')
-    ax.set_ylabel('$d$ (damage)')
-    ax.set_title(f'Crack Profile  ($x_c={xc:.4f}$, $N_\\ell={N_l:.4f}$)')
-    ax.legend(fontsize=8)
+    ax.plot(x, d_snapshots[-1], "b-", linewidth=1.0,
+            label=f"loaded field, u_bar*={snap_u_bar[-1]:.4g}")
+    ax.set_xlabel("x*")
+    ax.set_ylabel("d")
+    ax.set_title("Loaded damage field")
     ax.grid(True, alpha=0.3)
+    ax.legend(fontsize=8)
 
-    # ── Panel 3: Damage onset (d vs strain at centre) ─────────────────────
     ax = axes[2]
-    # Extract centre damage and strain over loading
-    xc_idx_snap = np.argmin(np.abs(x - xc))
-    d_center = d_snaps[:, xc_idx_snap]
-    # Approximate strain from homogeneous: ε ≈ u_bar / L = u_bar (domain = 1)
-    eps_global = np.array(snap_times)  # u_bar ≈ global strain before localisation
-
-    ax.plot(eps_global, d_center, 'b.-', markersize=2, linewidth=0.8,
-            label='FEM (centre point)')
-
-    # Analytical homogeneous
-    eps_fine = np.linspace(0, eps_global[-1], 300)
-    d_ana = analytical_homogeneous_damage(eps_fine, N_l, N_G)
-    ax.plot(eps_fine, d_ana, 'r--', linewidth=1.5,
-            label='Homogeneous (analytical)')
-    ax.axvline(eps_c, color='gray', linestyle=':', linewidth=1,
-               label=f'$\\varepsilon_c^* = {eps_c:.4f}$')
-
-    ax.set_xlabel('$\\bar{u}^*$ (global strain)')
-    ax.set_ylabel('$d$ (damage at centre)')
-    ax.set_title('Damage Onset')
-    ax.legend(fontsize=8)
+    center_idx = int(np.argmin(np.abs(x - config.imperfection.center)))
+    center_damage = d_snapshots[:, center_idx]
+    eps_fine = np.linspace(0.0, max(float(snap_u_bar[-1]), 1e-8), 300)
+    ax.plot(snap_u_bar, center_damage, "b.-", markersize=2, linewidth=0.8,
+            label="FEM center damage")
+    ax.plot(eps_fine, analytical_homogeneous_damage(eps_fine, N_l, N_G),
+            "r--", linewidth=1.5, label="homogeneous AT2")
+    ax.axvline(peak_strain, color="gray", linestyle=":", linewidth=1,
+               label=f"peak strain = {peak_strain:.4g}")
+    ax.set_xlabel("applied displacement u_bar*")
+    ax.set_ylabel("d at imperfection center")
+    ax.set_title("Homogeneous validation / localization")
     ax.grid(True, alpha=0.3)
+    ax.legend(fontsize=8)
 
     fig.tight_layout()
-    fig_path = os.path.join(config.output.plot_dir, 'analytical_comparison.png')
-    fig.savefig(fig_path, dpi=150)
+    path = os.path.join(config.output.plot_dir, "analytical_comparison.png")
+    fig.savefig(path, dpi=150)
     plt.close(fig)
-    print(f"Comparison plot saved to {fig_path}")
+    print(f"Comparison plot saved to {path}")
 
 
-# ── Entry point ──────────────────────────────────────────────────────────────
+def _plot_stationary_profile(config, x, N_l):
+    """Write the separate finite-domain stationary-profile diagnostic."""
+    import matplotlib
 
-_DEFAULT = os.path.join(os.path.dirname(__file__), 'configs', 'solver_base.py')
-_CONFIG = _config_flags.DEFINE_config_file('config', _DEFAULT, 'Config file')
-FLAGS = _absl_app.flags.FLAGS
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    os.makedirs(config.output.plot_dir, exist_ok=True)
+    xc = 0.5
+    finite_profile = analytical_stationary_profile(x, xc, N_l)
+    infinite_profile = analytical_crack_profile(x, xc, N_l)
+
+    fig, ax = plt.subplots(figsize=(7, 4))
+    ax.plot(x, finite_profile, label="finite stationary cosh profile")
+    ax.plot(x, infinite_profile, "--", label="infinite-domain exponential")
+    ax.set_xlabel("x*")
+    ax.set_ylabel("d")
+    ax.set_title("Separate stationary crack-profile diagnostic")
+    ax.grid(True, alpha=0.3)
+    ax.legend()
+    fig.tight_layout()
+    path = os.path.join(config.output.plot_dir, "stationary_profile.png")
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+    print(f"Stationary profile plot saved to {path}")
+
+
+def _plot_stress_strain(config, strain_star, stress_star):
+    """Write the dimensionless reaction-stress versus average-strain curve."""
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    os.makedirs(config.output.plot_dir, exist_ok=True)
+    fig, ax = plt.subplots(figsize=(7, 4))
+    ax.plot(strain_star, stress_star, "b-", linewidth=1.0,
+            label="FEM reaction stress")
+    ax.set_xlabel("average strain $\\bar{\\varepsilon}^* = \\bar{u}^*$")
+    ax.set_ylabel("reaction stress $\\sigma^*$")
+    ax.set_title("Stress-strain response")
+    ax.grid(True, alpha=0.3)
+    ax.legend()
+    fig.tight_layout()
+    path = os.path.join(config.output.plot_dir, "stress_strain.png")
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+    print(f"Stress-strain plot saved to {path}")
+
+
+_DEFAULT = os.path.join(os.path.dirname(__file__), "configs", "solver_base.py")
+_CONFIG = _config_flags.DEFINE_config_file("config", _DEFAULT, "Config file")
+FLAGS = _absl_flags.FLAGS
 
 
 def _main(_):
+    set_log_active(False)
     solve_fracture(FLAGS.config)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     _absl_app.run(_main)

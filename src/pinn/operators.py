@@ -163,6 +163,7 @@ class SparseD:
         import numpy as np
         x_np = np.array(x)
         N, dim = x_np.shape
+        weight_dtype = np.result_type(x_np.dtype, np.float32)
         self._N = N
         self._dim = dim
         ranges = x_np.max(axis=0) - x_np.min(axis=0)
@@ -197,21 +198,21 @@ class SparseD:
 
         self._row_idx_np = row_idx.astype(np.int32)
         self._col_idx_np = col_idx.astype(np.int32)
-        self._vals_np = (-J * dV).astype(np.float32)
+        self._vals_np = (-J * dV).astype(weight_dtype)
 
         self._row_idx = jnp.array(self._row_idx_np, dtype=jnp.int32)
         self._col_idx = jnp.array(self._col_idx_np, dtype=jnp.int32)
         self._vals = jnp.array(self._vals_np)
 
         diag = np.bincount(row_idx, weights=J * dV, minlength=N)
-        self._diag = jnp.array(diag)
+        self._diag = jnp.array(diag, dtype=weight_dtype)
         # Average out-degree: used by sub_sample to estimate K' analytically
         self._k_avg = len(row_idx) / N
 
         # CSR neighbour lists for fast sub-sampling: O(K·k) gather instead of
         # O(nnz) full-edge scan.  Built once; sub_sample then runs in ~ms.
         # Stores positive J·dV weights so D[u][i] = Σ_j w·(u[i] - u[j]).
-        w_pos = (J * dV).astype(np.float32)
+        w_pos = (J * dV).astype(weight_dtype)
         order = np.argsort(row_idx, kind='stable')
         row_s = row_idx[order]
         col_s = col_idx[order]
@@ -222,7 +223,7 @@ class SparseD:
         offsets[1:] = np.cumsum(counts)[:-1]
         slot = np.arange(len(row_s)) - offsets[row_s]
         self._nei_idx_np = np.full((N, self._k_max), 0, dtype=np.int32)
-        self._nei_w_np = np.zeros((N, self._k_max), dtype=np.float32)
+        self._nei_w_np = np.zeros((N, self._k_max), dtype=weight_dtype)
         self._nei_mask_np = np.zeros((N, self._k_max), dtype=bool)
         self._nei_idx_np[row_s, slot] = col_s
         self._nei_w_np[row_s, slot] = w_s
@@ -370,6 +371,25 @@ class SparseD:
     @property
     def shape(self):
         return (self._N, self._N)
+
+    @property
+    def diagonal(self):
+        """Return the fixed diagonal used by the sparse matvec."""
+        return self._diag
+
+    def to_scipy(self):
+        """Return the fixed operator as a SciPy CSR matrix."""
+        import scipy.sparse
+
+        off_diagonal = scipy.sparse.coo_matrix(
+            (
+                np.asarray(self._vals_np),
+                (np.asarray(self._row_idx_np), np.asarray(self._col_idx_np)),
+            ),
+            shape=(self._N, self._N),
+        )
+        return (off_diagonal.tocsr()
+                + scipy.sparse.diags(np.asarray(self._diag), format="csr"))
 
     def sub_sample(self, seed, K):
         """CSR-based sub-graph: randomly sample K core points + δ-neighbors.

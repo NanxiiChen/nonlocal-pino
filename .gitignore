@@ -6,6 +6,7 @@ reports/
 diag_*
 _legacy/
 ref_*
+refs/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -7,6 +7,15 @@ from optax import GradientTransformation
 def make_optimizer(config):
     """Build optimizer from config.  config.train.optimizer = 'adam' | 'soap'."""
     opt_name = config.train.optimizer
+    if opt_name == 'rprop':
+        inner = optax.rprop(
+            learning_rate=config.train.rprop_initial_step_size,
+            eta_minus=config.train.rprop_eta_minus,
+            eta_plus=config.train.rprop_eta_plus,
+            min_step_size=config.train.rprop_min_step_size,
+            max_step_size=config.train.rprop_max_step_size,
+        )
+        return optax.chain(optax.clip_by_global_norm(config.train.grad_clip), inner)
     schedule = optax.exponential_decay(
         init_value=config.train.lr_init,
         transition_steps=config.train.lr_decay_every,
