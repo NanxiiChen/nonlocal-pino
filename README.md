@@ -12,6 +12,9 @@ neighbour pairs — no BC loss terms needed.
 | `icemelting3d` | Allen-Cahn, ice sphere melting | Analytical solution, nonlocal vs local AD ablation |
 | `electropolish2d` | KKS phase-field, electropolishing | 2-field AC+CH, rough interface, Neumann BC advantage |
 | `fracture1d` | AT2 phase-field fracture | Analytical crack profile, staggered incremental loading |
+| `fracture2d` | Rounded-notch AT2 phase-field fracture | Plane-strain local FEM reference for the later pure-nonlocal/PINN stages |
+| `elasticity2d` | 2D elasticity | Nonlocal elasticity and boundary-aware operators |
+| `pino_elasticity2d` | 2D elasticity PINN | Geometry-aware PINN reference for nonlocal elasticity |
 | `corrosion1d/2d` | KKS pitting corrosion | Legacy; superseded by electropolish2d |
 
 ## Core idea
@@ -41,12 +44,11 @@ D @ φ ≈ -∇²φ    (kernel: cubic / quartic / Wendland)
 - **Hard constraint** on output: enforces $\phi \in [0,1]$ and KKS mixture rule at
   the architecture level
 
-## Non-dimensionalisation
+## Scaling
 
-All examples work in non-dimensional form.  Characteristic length $L_c$ and time
-$T_c$ define non-dimensional PDE parameters (e.g. $N_1 = MT_c/L_c^2$, etc.).
-Hyperparameter transfer between problems is a matter of matching non-dimensional
-numbers, not physical units.
+Most JAX/nonlocal examples use non-dimensional characteristic length and time
+scales. The `fracture2d` local FEM reference instead uses explicit consistent
+material units with `L0=1`; see its example README and configuration.
 
 ## Environment
 

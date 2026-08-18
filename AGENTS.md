@@ -19,7 +19,22 @@ Before implementation, read the relevant reference documents:
   sampling, and functional-style rules.
 
 The main examples are `icemelting3d`, `electropolish2d`, `fracture1d`,
-`elasticity2d`, and `pino_elasticity2d`.
+`fracture2d`, `elasticity2d`, and `pino_elasticity2d`.
+
+### Documentation Roles
+
+- Example `README.md` files contain stable user-facing problem definitions,
+  formulations, configuration, usage, and validation guidance.
+- `docs/PROGRESS.md` is the short project-wide dashboard; keep details in the
+  linked active task rather than duplicating results here.
+- `docs/DECISIONS.md` is the append-only rationale/history log; do not use it as
+  a current-results report.
+- `docs/tasks/<task-id>.md` is the self-contained active-work record for status,
+  validation outputs, blockers, and the exact resume point. Archive it when the
+  task is complete.
+- Do not add example-level `STATUS.md` files that duplicate an active task.
+  Merge run-specific validation into the task file and keep example READMEs
+  stable.
 
 ## 2. Agent Memory Protocol
 
