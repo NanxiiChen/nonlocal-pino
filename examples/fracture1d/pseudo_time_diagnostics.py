@@ -1,6 +1,6 @@
-"""Fixed-history pseudo-time damage PINN diagnostic.
+"""Fixed-history pseudo-time damage PINN diagnostics.
 
-The pilot follows the implicit pseudo-time residual from arXiv:2604.23528v1
+The diagnostic follows the implicit pseudo-time residual from arXiv:2604.23528v1
 for one direct-baseline history field. It is deliberately separate from the
 production load/staggered solver and uses a fixed pseudo-time step first.
 """
@@ -16,7 +16,10 @@ import numpy as np
 
 from examples.fracture1d import train
 from examples.fracture1d.configs.train_base import get_config
-from examples.fracture1d.frozen_pilot import _make_supervised_step, _target_fields
+from examples.fracture1d.fixed_history_diagnostics import (
+    _make_supervised_step,
+    _target_fields,
+)
 from examples.fracture1d.losses import (
     damage_residual_values,
     damage_pseudo_time_residual,
@@ -108,7 +111,7 @@ def _direct_scaled_residual(residual, D, N_l, N_G, H_points):
     return float(np.mean(absolute)), float(np.max(absolute))
 
 
-def run_pseudo_time_pilot(
+def run_pseudo_time_diagnostic(
     config,
     output_path,
     initial_load,
@@ -441,7 +444,7 @@ def _main():
     parser.add_argument("--spatial-scale", type=float, required=True)
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
-    run_pseudo_time_pilot(
+    run_pseudo_time_diagnostic(
         get_config(),
         args.output,
         args.initial_load,

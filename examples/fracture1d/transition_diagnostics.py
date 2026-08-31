@@ -12,7 +12,7 @@ import optax
 
 from examples.fracture1d import train
 from examples.fracture1d.configs.train_base import get_config
-from examples.fracture1d.frozen_pilot import _target_fields
+from examples.fracture1d.fixed_history_diagnostics import _target_fields
 
 
 def _target_history_state(config, load, dtype):
@@ -98,7 +98,7 @@ def _build_objective_optimizers(
     return energy_optimizer, residual_optimizer, energy_lr
 
 
-def run_transition_pilot(
+def run_transition_diagnostic(
     config,
     previous_load,
     trial_load,
@@ -861,7 +861,7 @@ def _main():
     parser.add_argument("--adaptive-history", action="store_true")
     parser.add_argument("--max-history-continuation-steps", type=int, default=None)
     args = parser.parse_args()
-    run_transition_pilot(
+    run_transition_diagnostic(
         get_config(),
         args.previous_load,
         args.trial_load,

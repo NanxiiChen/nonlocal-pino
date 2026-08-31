@@ -5,7 +5,7 @@ from unittest import mock
 
 import numpy as np
 
-from examples.fracture1d.transition_pilot import (
+from examples.fracture1d.transition_diagnostics import (
     _bisect_history_interval,
     _build_objective_optimizers,
     _history_continuation_values,
@@ -13,7 +13,7 @@ from examples.fracture1d.transition_pilot import (
 from examples.fracture1d.configs.train_base import get_config
 
 
-class TransitionPilotTest(unittest.TestCase):
+class TransitionDiagnosticTest(unittest.TestCase):
     def test_history_path_has_fixed_endpoints(self):
         previous = np.asarray([0.0, 1.0, 2.0], dtype=np.float64)
         target = np.asarray([1.0, 3.0, 6.0], dtype=np.float64)
@@ -50,7 +50,7 @@ class TransitionPilotTest(unittest.TestCase):
             return object()
 
         with mock.patch(
-            "examples.fracture1d.transition_pilot.train._build_optimizer",
+            "examples.fracture1d.transition_diagnostics.train._build_optimizer",
             side_effect=record_optimizer,
         ):
             energy_optimizer, residual_optimizer, energy_lr = (

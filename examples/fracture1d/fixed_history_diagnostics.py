@@ -1,7 +1,7 @@
-"""Frozen-history damage PINN pilots near the nonlocal localization point.
+"""Fixed-history damage PINN diagnostics near the nonlocal localization point.
 
 Each case solves one direct-baseline history field from a fresh network and a
-fresh optimizer state. The pilot deliberately does not run load continuation;
+fresh optimizer state. The diagnostic deliberately does not run load continuation;
 it separates fixed-history optimization/representation error from staggered
 history coupling.
 """
@@ -43,7 +43,7 @@ def _target_fields(config, x_eval, load):
     index = int(np.argmin(np.abs(snap_u_bar - load)))
     if not np.isclose(snap_u_bar[index], load, rtol=0.0, atol=1.0e-10):
         raise ValueError(
-            f"Frozen pilot load {load:.8e} has no exact baseline snapshot; "
+            f"Fixed-history diagnostic load {load:.8e} has no exact baseline snapshot; "
             f"nearest is {snap_u_bar[index]:.8e}"
         )
     if len(x_eval) == len(x_reference) and np.allclose(
@@ -144,7 +144,7 @@ def _validate_lm_controls(
     max_step_norm,
     max_rejections,
 ):
-    """Validate explicit controls for the pilot-only LM refinement."""
+    """Validate explicit controls for the diagnostic-only LM refinement."""
     for name, value in (
         ("lm_max_iterations", max_iterations),
         ("lm_cg_max_iterations", cg_max_iterations),
@@ -353,7 +353,7 @@ def _lm_refine_full_network(
     return unpack(parameters), diagnostics
 
 
-def run_frozen_history_pilot(
+def run_fixed_history_diagnostic(
     config,
     output_path,
     objective,
@@ -444,7 +444,7 @@ def run_frozen_history_pilot(
             raise ValueError("exact hat_update cannot wrap a local Gaussian")
     if config.arch.local_equilibrium and warm_start_steps:
         raise ValueError(
-            "local_equilibrium pilot requires warm_start_steps=0; "
+            "local_equilibrium diagnostic requires warm_start_steps=0; "
             "target supervision is not part of this diagnostic"
         )
     if full_network_lm:
@@ -730,7 +730,7 @@ def run_frozen_history_pilot(
                 case_loss + case_mae + case_inf + case_scaled_mae + case_scaled_inf
             ):
                 raise FloatingPointError(
-                    f"Frozen-history pilot became non-finite at u_bar={load:.8e}"
+                    f"Fixed-history diagnostic became non-finite at u_bar={load:.8e}"
                 )
             if residual_scaling == "jacobi":
                 accept_mae = case_scaled_mae
@@ -1106,7 +1106,7 @@ def _main():
     parser.add_argument("--lm-max-rejections", type=int, default=None)
     args = parser.parse_args()
     config = get_config()
-    run_frozen_history_pilot(
+    run_fixed_history_diagnostic(
         config,
         args.output,
         args.objective,

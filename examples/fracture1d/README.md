@@ -628,13 +628,13 @@ states, not JAX recompilation.
 
 ### 9.2 Frozen-history localization diagnostic
 
-`frozen_pilot.py` solves the direct-baseline history field at selected load
+`fixed_history_diagnostics.py` solves the direct-baseline history field at selected load
 snapshots without continuation. It supports independent networks, network
 warm-start with optimizer reset, optimizer-state carry, and MAE/MSE residual
 optimization. The pilot is diagnostic only: it does not replace the incremental
 PINN acceptance gate or add a supervised term to production training.
 
-`transition_pilot.py` can instead split each outer staggered history update
+`transition_diagnostics.py` can instead split each outer staggered history update
 into explicit fixed-shape substeps,
 
 $$
@@ -663,7 +663,7 @@ optimizer, while `--continuation-optimizer lbfgs` selects L-BFGS only for the
 full-network history substeps. Warm start and output-only staging always use
 the selected residual optimizer.
 
-For a plain MLP with linear output, `frozen_pilot.py --output-head-lstsq`
+For a plain MLP with linear output, `fixed_history_diagnostics.py --output-head-lstsq`
 freezes the trained trunk and directly solves the Jacobi-scaled residual
 least-squares problem over the final output weights and bias. At fixed history,
 both the damage equation and final linear output are affine, so this is an exact
@@ -709,7 +709,7 @@ clip the direct baseline.
 
 ### 9.3 Fixed-history pseudo-time diagnostic
 
-`pseudo_time_pilot.py` applies the implicit pseudo-time residual from
+`pseudo_time_diagnostics.py` applies the implicit pseudo-time residual from
 arXiv:2604.23528v1 while keeping the direct-baseline `H` fixed:
 
 $$
@@ -730,7 +730,7 @@ Fixed `tau` is the first diagnostic; the pilot also exposes the paper's
 finite-difference inverse-Jacobian step estimate. Neither mode changes the
 production history update or acceptance gate.
 
-`frozen_pilot.py` also compares the production unconstrained `linear` output
+`fixed_history_diagnostics.py` also compares the production unconstrained `linear` output
 with the diagnostic `exp_square` output,
 `d=exp(-raw**2)`, across the configured `tanh`, `gelu`, `silu`, and `swish`
 activations. For `exp_square`, `d_init` is a final-damage initialization and
@@ -1385,8 +1385,9 @@ examples/fracture1d/
 ├── STATUS.md                 # verified progress and open numerical issues
 ├── train.py                  # damage-only nonlocal PINN, incremental loading
 ├── losses.py                 # condensed mechanics and damage residual
-├── frozen_pilot.py           # fixed-history localization diagnostics
-├── transition_pilot.py       # one-load staggered transition replay
+├── fixed_history_diagnostics.py # fixed-history localization diagnostics
+├── transition_diagnostics.py # one-load staggered transition replay
+├── pseudo_time_diagnostics.py # fixed-history pseudo-time diagnostics
 ├── plot_stress_strain.py     # reference/baseline/PINN curve comparison
 ├── nonlocal_baseline.py      # direct SparseD fixed-history baseline
 ├── solver.py                 # independent local FEniCS reference
@@ -1396,7 +1397,8 @@ examples/fracture1d/
 ```
 
 The current implementation provides `solver.py`, `configs/solver_base.py`,
-`train.py`, `losses.py`, `frozen_pilot.py`, `transition_pilot.py`,
+`train.py`, `losses.py`, `fixed_history_diagnostics.py`,
+`transition_diagnostics.py`, `pseudo_time_diagnostics.py`,
 `plot_stress_strain.py`,
 `nonlocal_baseline.py`, and
 `configs/train_base.py`. The regression tests in
