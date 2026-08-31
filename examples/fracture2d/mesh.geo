@@ -43,6 +43,7 @@ Physical Curve("notch_upper", 5) = {5};
 Physical Curve("notch_tip", 6) = {6, 7};
 Physical Curve("notch_lower", 7) = {8};
 Physical Curve("left_lower", 8) = {9};
+Physical Point("anchor", 9) = {1};
 Physical Surface("domain", 10) = {1};
 
 Mesh.CharacteristicLengthFromCurvature = 0;

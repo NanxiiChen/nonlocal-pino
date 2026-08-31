@@ -402,7 +402,7 @@ damage solve:
 - These archived runs use the former nodal-history baseline and are retained to
   explain the original localization failure. Current cell-history results are
   recorded in the later diagnostic sections.
-- Pilot code: `examples/fracture1d/frozen_pilot.py`. Each case uses an exact
+- Diagnostic code: `examples/fracture1d/fixed_history_diagnostics.py`. Each case uses an exact
   direct-baseline snapshot at `u_bar=0.01172`, `0.01174`, or `0.01175`, a fresh
   fixed-history solve, and the same full `Nx=1601` SparseD grid.
 - Exact MAE/reset output:
@@ -457,7 +457,7 @@ damage solve:
   with raw MSE and trigger the branch in the transition replay, but do not yet
   satisfy the fixed-point gate:
   `/root/autodl-tmp/tf-logs/fracture1d/linear_energy_x64_frozen_20000.npz`.
-- `transition_pilot.py` replays `0.01174 -> 0.01175` using the direct-baseline
+- `transition_diagnostics.py` replays `0.01174 -> 0.01175` using the direct-baseline
   previous field. The hybrid pilot reaches `max(d)>0.99` around staggered
   iterations `90-115`, confirming that the local branch can be triggered, but
   the post-localization field still oscillates and is not accepted. Gaussian
@@ -475,7 +475,7 @@ damage solve:
 
 ## Pseudo-Time Exploration
 
-- `pseudo_time_pilot.py` implements the fixed-history implicit residual
+- `pseudo_time_diagnostics.py` implements the fixed-history implicit residual
   `q_tau=(d_new-d_old)/tau+R(d_new;H)` and a direct vector reference using
   `(I+tau*A_H)d_new=d_old+tau*b_H`. The production history update remains
   unchanged.
@@ -641,7 +641,7 @@ damage solve:
 
 ## Target-Free Incremental Transfer Pilots
 
-- `transition_pilot.py` now supports explicit architecture settings, residual-only
+- `transition_diagnostics.py` now supports explicit architecture settings, residual-only
   warm start at `H_previous`, optional output-layer-only staging, and adaptive
   history midpoint insertion. The duplicate `local_equilibrium` argument in the
   production `run_training` loss factory was also removed. The output-only
@@ -682,7 +682,7 @@ damage solve:
 
 ## Frozen-Trunk Output-Head Least Squares
 
-- `frozen_pilot.py --output-head-lstsq` now freezes a plain MLP trunk and solves
+- `fixed_history_diagnostics.py --output-head-lstsq` now freezes a plain MLP trunk and solves
   the exact Jacobi-scaled residual least-squares problem over its 200 output
   weights and scalar bias. The fixed-history equation and linear output make
   this a 1601-by-201 linear problem; no damage target enters the subsolve.

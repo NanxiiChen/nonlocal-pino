@@ -21,6 +21,24 @@ Before implementation, read the relevant reference documents:
 The main examples are `icemelting3d`, `electropolish2d`, `fracture1d`,
 `fracture2d`, `elasticity2d`, and `pino_elasticity2d`.
 
+### Primary-Agent Delegation
+
+Delegation is the default for non-trivial work, not a last resort. The primary
+agent should actively inspect the available specialized subagents and use the
+one whose description matches the task instead of doing all investigation and
+implementation in the primary session.
+
+- For a task that combines multiple specialized roles, delegate the phases to
+  the appropriate agents rather than asking one agent to guess across all
+  roles.
+- The primary agent remains responsible for decomposition, reviewing
+  subagent results, resolving conflicts, running the final verification, and
+  making the final repository change. A subagent report is evidence, not
+  automatic approval.
+- Do not delegate trivial conversational or one-line work without a concrete
+  benefit. For any multi-file, paper-dependent, numerical, or review task,
+  delegation should be actively considered before implementation begins.
+
 ### Documentation Roles
 
 - Example `README.md` files contain stable user-facing problem definitions,

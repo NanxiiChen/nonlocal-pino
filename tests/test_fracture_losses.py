@@ -8,7 +8,7 @@ import jax.numpy as jnp
 import numpy as np
 
 from examples.fracture1d import train
-from examples.fracture1d.frozen_pilot import (
+from examples.fracture1d.fixed_history_diagnostics import (
     _build_fixed_history_defect_factor,
     _lm_refine_full_network,
     _solve_output_head_least_squares,

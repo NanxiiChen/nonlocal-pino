@@ -23,17 +23,21 @@ def _quadratic_error(n, delta):
 
 class SparseDFractureTest(unittest.TestCase):
     def test_float64_operator_matches_scipy_matvec(self):
-        jax.config.update("jax_enable_x64", True)
-        x = np.linspace(0.0, 1.0, 81, dtype=np.float64)[:, None]
-        operator = SparseD(x, 0.1, kernel="cubic")
-        values = jnp.sin(2.0 * jnp.pi * jnp.asarray(x[:, 0]))
-        self.assertEqual(operator.diagonal.dtype, jnp.float64)
-        np.testing.assert_allclose(
-            np.asarray(operator.to_scipy() @ np.asarray(values)),
-            np.asarray(operator @ values),
-            rtol=1e-12,
-            atol=1e-11,
-        )
+        initial_x64 = bool(jax.config.x64_enabled)
+        try:
+            jax.config.update("jax_enable_x64", True)
+            x = np.linspace(0.0, 1.0, 81, dtype=np.float64)[:, None]
+            operator = SparseD(x, 0.1, kernel="cubic")
+            values = jnp.sin(2.0 * jnp.pi * jnp.asarray(x[:, 0]))
+            self.assertEqual(operator.diagonal.dtype, jnp.float64)
+            np.testing.assert_allclose(
+                np.asarray(operator.to_scipy() @ np.asarray(values)),
+                np.asarray(operator @ values),
+                rtol=1e-12,
+                atol=1e-11,
+            )
+        finally:
+            jax.config.update("jax_enable_x64", initial_x64)
 
     def test_constants_are_annihilated(self):
         x = _grid(81)

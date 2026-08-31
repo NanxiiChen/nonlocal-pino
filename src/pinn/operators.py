@@ -1,7 +1,8 @@
 """Non-local operator L_delta for peridynamics-informed PINN training.
 
-Provides build_D() factory to construct DenseD or SparseD operators.
-Both implement __matmul__ for (N,) and (N, N_t) inputs.
+Provides build_D() factory to construct DenseD or SparseD operators, plus the
+explicit-volume ExplicitVolumeSparseD for fixed reciprocal particle graphs.
+All scalar operators implement __matmul__ for (N,) and (N, N_t) inputs.
 """
 
 import numpy as np
@@ -454,6 +455,363 @@ class SparseD:
                          jnp.array(p[2]),
                          r[3]))
         return pool
+
+
+# ── ExplicitVolumeSparseD ────────────────────────────────────────────────────
+
+class ExplicitVolumeSparseD:
+    """Volume-weighted scalar nonlocal difference on a fixed directed graph.
+
+    For an edge ``(i, j)`` the operator uses the explicit target volume in
+
+    ``(D @ d)[i] += J_delta(r_ij) * volumes[j] * (d[i] - d[j])``.
+
+    The supplied graph is required to be reciprocal.  Directed edges are
+    normalized to lexicographic ``(source, target)`` order during
+    construction, so all edge-derived arrays have deterministic fixed order.
+    Coordinates and volumes must both be float32 or both be float64; mixed
+    geometry/volume dtypes are rejected before graph construction. Matmul values
+    must use that same dtype.
+    Unlike :class:`SparseD`, this class never infers a quadrature volume or a
+    neighbor graph and has no geometry-specific knowledge.
+    """
+
+    _row_idx: jnp.ndarray
+    _col_idx: jnp.ndarray
+    _vals: jnp.ndarray
+    _diag: jnp.ndarray
+    _coordinates: jnp.ndarray
+    _volumes: jnp.ndarray
+    _directed_edges: jnp.ndarray
+    _N: int
+    _dim: int
+
+    def __init__(self, coordinates, volumes, directed_edges, delta, kernel):
+        try:
+            coordinates_np = np.asarray(coordinates)
+        except (TypeError, ValueError) as error:
+            raise ValueError(
+                "ExplicitVolumeSparseD coordinates must be a numeric array "
+                "with shape (N, dim)"
+            ) from error
+        if (
+            coordinates_np.ndim != 2
+            or coordinates_np.shape[0] == 0
+            or coordinates_np.shape[1] == 0
+        ):
+            raise ValueError(
+                "ExplicitVolumeSparseD coordinates must have non-empty shape "
+                f"(N, dim), got {coordinates_np.shape}"
+            )
+        if coordinates_np.dtype not in (np.dtype(np.float32), np.dtype(np.float64)):
+            raise ValueError(
+                "ExplicitVolumeSparseD coordinates must use float32 or float64, "
+                f"got {coordinates_np.dtype}"
+            )
+        if not np.all(np.isfinite(coordinates_np)):
+            raise ValueError("ExplicitVolumeSparseD coordinates must be finite")
+        if len(np.unique(coordinates_np, axis=0)) != len(coordinates_np):
+            raise ValueError("ExplicitVolumeSparseD coordinates must be unique")
+
+        N, dim = coordinates_np.shape
+        if dim not in (1, 2, 3):
+            raise ValueError(
+                "ExplicitVolumeSparseD supports only dimensions 1, 2, and 3 "
+                f"because the kernel registry has no dimension {dim}"
+            )
+
+        try:
+            volumes_np = np.asarray(volumes)
+        except (TypeError, ValueError) as error:
+            raise ValueError(
+                "ExplicitVolumeSparseD volumes must be a numeric array with "
+                f"shape ({N},)"
+            ) from error
+        if volumes_np.shape != (N,):
+            raise ValueError(
+                f"ExplicitVolumeSparseD volumes must have shape ({N},), "
+                f"got {volumes_np.shape}"
+            )
+        if volumes_np.dtype not in (np.dtype(np.float32), np.dtype(np.float64)):
+            raise ValueError(
+                "ExplicitVolumeSparseD volumes must use float32 or float64, "
+                f"got {volumes_np.dtype}"
+            )
+        if volumes_np.dtype != coordinates_np.dtype:
+            raise ValueError(
+                "ExplicitVolumeSparseD coordinates and volumes must have the "
+                "same dtype; got "
+                f"coordinates={coordinates_np.dtype}, volumes={volumes_np.dtype}"
+            )
+        if not np.all(np.isfinite(volumes_np)) or np.any(volumes_np <= 0.0):
+            raise ValueError(
+                "ExplicitVolumeSparseD volumes must be finite and strictly positive"
+            )
+
+        try:
+            edges_np = np.asarray(directed_edges)
+        except (TypeError, ValueError) as error:
+            raise ValueError(
+                "ExplicitVolumeSparseD directed_edges must have shape (E, 2)"
+            ) from error
+        if edges_np.ndim != 2 or edges_np.shape[1] != 2:
+            raise ValueError(
+                "ExplicitVolumeSparseD directed_edges must have shape (E, 2), "
+                f"got {edges_np.shape}"
+            )
+        if len(edges_np) == 0:
+            raise ValueError("ExplicitVolumeSparseD directed_edges must be nonempty")
+        if not np.issubdtype(edges_np.dtype, np.integer):
+            raise ValueError(
+                "ExplicitVolumeSparseD directed_edges must contain integer indices, "
+                f"got {edges_np.dtype}"
+            )
+        edges_np = np.asarray(edges_np, dtype=np.int64)
+        if np.any(edges_np < 0) or np.any(edges_np >= N):
+            raise ValueError(
+                "ExplicitVolumeSparseD directed_edges contain an index outside "
+                f"[0, {N})"
+            )
+        if np.any(edges_np[:, 0] == edges_np[:, 1]):
+            raise ValueError("ExplicitVolumeSparseD directed_edges must not contain self edges")
+        if len(np.unique(edges_np, axis=0)) != len(edges_np):
+            raise ValueError("ExplicitVolumeSparseD directed_edges contain duplicates")
+        edge_set = {tuple(edge) for edge in edges_np.tolist()}
+        if any((j, i) not in edge_set for i, j in edge_set):
+            raise ValueError("ExplicitVolumeSparseD directed_edges must be reciprocal")
+
+        try:
+            delta_array = np.asarray(delta)
+        except (TypeError, ValueError) as error:
+            raise ValueError(
+                "ExplicitVolumeSparseD delta must be one finite positive scalar"
+            ) from error
+        if (
+            delta_array.ndim != 0
+            or np.iscomplexobj(delta_array)
+            or delta_array.dtype.kind not in "iuf"
+        ):
+            raise ValueError(
+                "ExplicitVolumeSparseD delta must be one finite positive scalar"
+            )
+        try:
+            delta_value = float(delta_array)
+        except (TypeError, ValueError) as error:
+            raise ValueError(
+                "ExplicitVolumeSparseD delta must be one finite positive scalar"
+            ) from error
+        if not np.isfinite(delta_value) or delta_value <= 0.0:
+            raise ValueError(
+                f"ExplicitVolumeSparseD delta must be finite and positive, got {delta}"
+            )
+
+        if not isinstance(kernel, str) or kernel not in _KERNEL_BUILDERS:
+            raise ValueError(
+                "Unknown kernel for ExplicitVolumeSparseD: "
+                f"{kernel!r}. Options: {list(_KERNEL_BUILDERS)}"
+            )
+
+        weight_dtype = np.result_type(coordinates_np.dtype, volumes_np.dtype)
+        if weight_dtype == np.dtype(np.float64) and not jax.config.x64_enabled:
+            raise ValueError(
+                "ExplicitVolumeSparseD requires JAX 64-bit mode to preserve "
+                "float64 coordinates/volumes; set jax_enable_x64=True before "
+                "constructing the operator"
+            )
+
+        # Normalize rather than requiring callers to provide a particular edge
+        # order.  This preserves fixed shapes while making construction
+        # reproducible across mesh/graph producers.
+        order = np.lexsort((edges_np[:, 1], edges_np[:, 0]))
+        edges_np = edges_np[order]
+
+        row_idx = edges_np[:, 0]
+        col_idx = edges_np[:, 1]
+        with np.errstate(over="ignore", invalid="ignore"):
+            relative = coordinates_np[col_idx] - coordinates_np[row_idx]
+            distances = np.sqrt(np.sum(relative * relative, axis=1))
+        if not np.all(np.isfinite(distances)):
+            raise ValueError(
+                "ExplicitVolumeSparseD edge distances must be finite; coordinate "
+                "subtraction overflowed or was invalid"
+            )
+        if np.any(distances <= 0.0):
+            raise ValueError(
+                "ExplicitVolumeSparseD directed_edges must connect distinct points "
+                "with strictly positive distance"
+            )
+        if np.any(distances >= delta_value):
+            first = int(np.flatnonzero(distances >= delta_value)[0])
+            raise ValueError(
+                "ExplicitVolumeSparseD requires strict 0 < distance < delta for "
+                f"every edge; edge {tuple(edges_np[first])} has distance "
+                f"{distances[first]!r} and delta {delta_value!r}"
+            )
+
+        distance_jax = jnp.asarray(distances, dtype=weight_dtype)
+        delta_jax = jnp.asarray(delta_value, dtype=weight_dtype)
+        kernel_values = np.asarray(
+            _KERNEL_BUILDERS[kernel](distance_jax, delta_jax, dim),
+            dtype=weight_dtype,
+        )
+        if not np.all(np.isfinite(kernel_values)) or np.any(kernel_values <= 0.0):
+            raise ValueError(
+                "ExplicitVolumeSparseD kernel must produce finite positive weights "
+                "for every strict-horizon edge"
+            )
+
+        positive_edge_weights = kernel_values * volumes_np[col_idx]
+        family_mass = np.bincount(
+            row_idx, weights=positive_edge_weights, minlength=N
+        ).astype(weight_dtype, copy=False)
+        if not np.all(np.isfinite(family_mass)) or np.any(family_mass <= 0.0):
+            bad = np.flatnonzero(family_mass <= 0.0)
+            first_bad = int(bad[0]) if len(bad) else "non-finite"
+            raise ValueError(
+                "ExplicitVolumeSparseD requires every node to have a finite "
+                f"positive outgoing family; first invalid node is {first_bad}"
+            )
+
+        diagonal_np = family_mass
+        values_np = (-positive_edge_weights).astype(weight_dtype, copy=False)
+        row_idx_np = row_idx.astype(np.int32, copy=False)
+        col_idx_np = col_idx.astype(np.int32, copy=False)
+
+        self._N = int(N)
+        self._dim = int(dim)
+        self._kernel = kernel
+        self._delta = delta_value
+        self._dtype = np.dtype(weight_dtype)
+        self._coordinates_np = coordinates_np.copy()
+        self._volumes_np = volumes_np.copy()
+        self._directed_edges_np = edges_np.copy()
+        self._row_idx_np = row_idx_np.copy()
+        self._col_idx_np = col_idx_np.copy()
+        self._vals_np = values_np.copy()
+        self._diag_np = diagonal_np.copy()
+        for array in (
+            self._coordinates_np,
+            self._volumes_np,
+            self._directed_edges_np,
+            self._row_idx_np,
+            self._col_idx_np,
+            self._vals_np,
+            self._diag_np,
+        ):
+            array.setflags(write=False)
+
+        self._row_idx = jnp.asarray(self._row_idx_np, dtype=jnp.int32)
+        self._col_idx = jnp.asarray(self._col_idx_np, dtype=jnp.int32)
+        self._vals = jnp.asarray(self._vals_np, dtype=self._dtype)
+        self._diag = jnp.asarray(self._diag_np, dtype=self._dtype)
+        self._coordinates = jnp.asarray(
+            self._coordinates_np, dtype=self._coordinates_np.dtype
+        )
+        self._volumes = jnp.asarray(self._volumes_np, dtype=self._volumes_np.dtype)
+        self._directed_edges = jnp.asarray(self._directed_edges_np, dtype=jnp.int32)
+
+    def __matmul__(self, values):
+        input_dtype = getattr(values, "dtype", None)
+        if input_dtype is not None:
+            try:
+                input_is_float64 = np.dtype(input_dtype) == np.dtype(np.float64)
+            except TypeError:
+                input_is_float64 = False
+            if input_is_float64 and not jax.config.x64_enabled:
+                raise ValueError(
+                    "ExplicitVolumeSparseD cannot preserve a float64 matmul "
+                    "input while JAX 64-bit mode is disabled; set "
+                    "jax_enable_x64=True"
+                )
+        try:
+            values = jnp.asarray(values)
+        except (TypeError, ValueError) as error:
+            raise ValueError(
+                "ExplicitVolumeSparseD matmul input must have shape (N,) or (N, T)"
+            ) from error
+        if np.dtype(values.dtype) != self._dtype:
+            raise ValueError(
+                "ExplicitVolumeSparseD matmul input must match the operator "
+                f"dtype {self._dtype}, got {values.dtype}"
+            )
+        if values.ndim not in (1, 2):
+            raise ValueError(
+                "ExplicitVolumeSparseD matmul input must have shape (N,) or "
+                f"(N, T), got {values.shape}"
+            )
+        if values.shape[0] != self._N:
+            raise ValueError(
+                "ExplicitVolumeSparseD matmul input has the wrong leading dimension: "
+                f"expected {self._N}, got {values.shape[0]}"
+            )
+        if values.ndim == 2 and values.shape[1] == 0:
+            raise ValueError(
+                "ExplicitVolumeSparseD matmul input (N, T) must have T > 0"
+            )
+
+        result_dtype = jnp.result_type(self._vals.dtype, values.dtype)
+        if values.ndim == 1:
+            contribution = jnp.zeros((self._N,), dtype=result_dtype)
+            contribution = contribution.at[self._row_idx].add(
+                (-self._vals) * (values[self._row_idx] - values[self._col_idx])
+            )
+            return contribution
+
+        weighted = (-self._vals)[:, None] * (
+            values[self._row_idx, :] - values[self._col_idx, :]
+        )
+        contribution = jax.ops.segment_sum(
+            weighted, self._row_idx, num_segments=self._N
+        )
+        return contribution
+
+    @property
+    def shape(self):
+        return (self._N, self._N)
+
+    @property
+    def diagonal(self):
+        """Return the fixed positive diagonal of the strong-form operator."""
+        return self._diag
+
+    @property
+    def volumes(self):
+        """Return the explicit nodal/particle volumes used by the operator."""
+        return self._volumes
+
+    @property
+    def coordinates(self):
+        """Return the fixed coordinates used to validate edge distances."""
+        return self._coordinates
+
+    @property
+    def directed_edges(self):
+        """Return lexicographically sorted directed graph edges."""
+        return self._directed_edges
+
+    @property
+    def delta(self):
+        return self._delta
+
+    @property
+    def kernel(self):
+        return self._kernel
+
+    def to_scipy(self):
+        """Return the fixed operator as a SciPy CSR matrix."""
+        import scipy.sparse
+
+        off_diagonal = scipy.sparse.coo_matrix(
+            (
+                self._vals_np,
+                (self._row_idx_np, self._col_idx_np),
+            ),
+            shape=(self._N, self._N),
+        )
+        return (
+            off_diagonal.tocsr()
+            + scipy.sparse.diags(self._diag_np, format="csr")
+        )
 
 
 # ── ElasticD ────────────────────────────────────────────────────────────────

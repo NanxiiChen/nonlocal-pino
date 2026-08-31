@@ -57,7 +57,7 @@ def get_config():
     c.solver.gate_mode = "warning"
     c.solver.atol_u = 1.0e-8
     c.solver.atol_d = 1.0e-5
-    # The absolute history gate is relaxed relative to the 1D strict pilot.
+    # The absolute history gate is relaxed relative to the 1D strict diagnostic.
     # Absolute and scale-normalized history defects are both archived.
     c.solver.atol_history = 1.0e-5
     c.solver.rtol_history = 1.0e-5
