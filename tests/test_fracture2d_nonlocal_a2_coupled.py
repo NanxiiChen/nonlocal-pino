@@ -191,6 +191,11 @@ class A2CoupledContractTest(unittest.TestCase):
             actual = getattr(view_a, name)(q if name != "tangent_action" else direction)
             expected = getattr(independent_a, name)(q if name != "tangent_action" else direction)
             np.testing.assert_allclose(actual, expected, rtol=0.0, atol=5.0e-13)
+        gradient_operator = view_a._get_gradient_operator()
+        self.assertIs(gradient_operator, view_a._get_gradient_operator())
+        self.assertFalse(gradient_operator.data.flags.writeable)
+        self.assertFalse(gradient_operator.indices.flags.writeable)
+        self.assertFalse(gradient_operator.indptr.flags.writeable)
         np.testing.assert_allclose(
             view_a.center_factor, independent_a.center_factor, rtol=0.0, atol=5.0e-13
         )

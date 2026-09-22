@@ -1,6 +1,7 @@
 ---
-description: Default implementation executor for most repository code tasks. Use for small, medium, and ordinary multi-file changes, bug fixes, tests, refactors, documentation, and approved integrations.
+description: Hidden fallback implementation executor. Use only when the user explicitly requests it or the primary agent has stated a concrete reason for an approved delegation.
 mode: subagent
+hidden: true
 model: openai/gpt-5.6-luna
 variant: max
 steps: 100
@@ -38,13 +39,15 @@ While implementing:
 - Make the smallest correct change that satisfies the assignment.
 - Use the repository's existing architecture and naming conventions.
 - Keep required configuration explicit and validate shapes, ranges, and files.
-- Add focused tests for changed behavior and update stable documentation when
-  an API, formulation, configuration field, or workflow changes.
+- Add a focused test only when it protects meaningful changed behavior or a
+  reproduced defect. Update stable documentation when an API, formulation,
+  configuration field, or workflow changes.
 - Do not commit, merge, push, stash, rebase, reset, clean, or tag.
 
 Before returning:
 
-- Run the relevant tests, compilation checks, and `git diff --check`.
+- Run the smallest relevant test set, compile changed modules only when useful,
+  and run `git diff --check`. Reserve broad suites for cross-cutting changes.
 - Inspect the final diff for accidental or unrelated changes.
 - Update the active task/status memory required by `AGENTS.md` when the assigned
   work changes project state.

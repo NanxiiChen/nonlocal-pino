@@ -21,24 +21,6 @@ Before implementation, read the relevant reference documents:
 The main examples are `icemelting3d`, `electropolish2d`, `fracture1d`,
 `fracture2d`, `elasticity2d`, and `pino_elasticity2d`.
 
-### Primary-Agent Delegation
-
-Delegation is the default for non-trivial work, not a last resort. The primary
-agent should actively inspect the available specialized subagents and use the
-one whose description matches the task instead of doing all investigation and
-implementation in the primary session.
-
-- For a task that combines multiple specialized roles, delegate the phases to
-  the appropriate agents rather than asking one agent to guess across all
-  roles.
-- The primary agent remains responsible for decomposition, reviewing
-  subagent results, resolving conflicts, running the final verification, and
-  making the final repository change. A subagent report is evidence, not
-  automatic approval.
-- Do not delegate trivial conversational or one-line work without a concrete
-  benefit. For any multi-file, paper-dependent, numerical, or review task,
-  delegation should be actively considered before implementation begins.
-
 ### Documentation Roles
 
 - Example `README.md` files contain stable user-facing problem definitions,
@@ -138,9 +120,18 @@ activated.
 For Markdown intended for OpenCode Web, use inline `\(...)` and display `$$`
 delimiters on their own lines; do not use `$...$` or `\[...\]`.
 
-Before completion, check:
+Before completion, apply proportionate verification:
 
-- relevant tests and compilation pass;
+- documentation, agent-rule, and configuration-only changes: inspect the diff,
+  validate syntax or schema when applicable, and run `git diff --check`; do not
+  run code tests or compilation unless behavior can be affected;
+- localized code changes: run the smallest focused test command that exercises
+  the changed behavior; compile only changed Python modules when useful;
+- broad, numerical-core, public-API, dependency, or release changes: expand to
+  affected integration or full-suite checks when their added coverage justifies
+  the cost;
+- do not rerun an unchanged expensive suite in the same session unless earlier
+  results are invalidated or the user requests it;
 - `git diff --check` passes;
 - configs and numerical choices are explicit and documented;
 - README/docs match changed APIs or formulations;

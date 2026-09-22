@@ -48,6 +48,8 @@ from .nonlocal_a2_coupled import (
     A2FixedDamageView,
     A2MechanicsSolveResult,
     A2StaticMechanics,
+    _digest_primitives as _a2_digest_primitives,
+    _unit_system_digest,
     compute_a2_amor_history,
     solve_a2_fixed_outer_displacement,
 )
@@ -848,6 +850,81 @@ def _source_digest(model: "EngineeringGripModel") -> tuple[str, str]:
     return material_hash, union_hash
 
 
+def _engineering_model_digest(model: "EngineeringGripModel") -> str:
+    """Return the durable value identity of one engineering-grip model.
+
+    The digest intentionally contains no runtime/cache token.  It is used by
+    owner-backed validation when the authoritative replay is built from fresh
+    fixed-damage views and therefore has different Python identities.
+    """
+
+    if not isinstance(model, EngineeringGripModel):
+        raise TypeError("engineering model digest requires an EngineeringGripModel")
+    geometry = model.geometry
+    operator = model.material_operator
+    return _hash_named(
+        (
+            ("static_digest", model.static_digest),
+            ("material_hash", model.material_hash),
+            ("union_hash", model.union_hash),
+            ("Gc", model.Gc),
+            ("l0", model.l0),
+            ("crack_region_mask", model.crack_region_mask),
+            ("material_coordinates", geometry.material_reference_coordinates),
+            ("material_volumes", geometry.material_reference_volumes),
+            ("material_edges", geometry.material_reference_edges),
+            ("material_delta", geometry.delta),
+            ("material_operator_coordinates", operator.coordinates),
+            ("material_operator_volumes", operator.volumes),
+            ("material_operator_edges", operator.directed_edges),
+            ("material_operator_delta", operator.delta),
+            ("material_operator_kernel", operator.kernel),
+        )
+    )
+
+
+def _engineering_config_digest(config: "EngineeringGripConfig") -> str:
+    """Return the durable value identity of an engineering-grip config."""
+
+    if not isinstance(config, EngineeringGripConfig):
+        raise TypeError("engineering config digest requires an EngineeringGripConfig")
+    values: list[tuple[str, Any]] = [
+        ("load_start", config.load_start),
+        ("load_final", config.load_final),
+        ("du_initial", config.du_initial),
+        ("du_min", config.du_min),
+        ("cutback_factor", config.cutback_factor),
+        ("max_cutbacks", config.max_cutbacks),
+        ("max_stagger_iterations", config.max_stagger_iterations),
+        ("cg_rtol", config.cg_rtol),
+        ("cg_atol", config.cg_atol),
+        ("cg_maxiter", config.cg_maxiter),
+        ("healing_atol", config.healing_atol),
+        ("damage_range_atol", config.damage_range_atol),
+        ("work_check_load", config.work_check_load),
+        ("work_epsilon", config.work_epsilon),
+        ("work_relative_limit", config.work_relative_limit),
+    ]
+    for name in (
+        "displacement",
+        "damage",
+        "history",
+        "reaction",
+        "damage_residual",
+        "force",
+        "moment",
+    ):
+        tolerance = getattr(config, name)
+        values.extend(
+            (
+                (f"{name}.atol", tolerance.atol),
+                (f"{name}.rtol", tolerance.rtol),
+                (f"{name}.scale_floor", tolerance.scale_floor),
+            )
+        )
+    return _hash_named(values)
+
+
 def _replay_static_digest(
     ba: Mapping[str, Any],
     material_phase: np.ndarray,
@@ -1328,6 +1405,12 @@ class EngineeringGripModel:
         return self.static.deterministic_digest
 
     @property
+    def model_digest(self) -> str:
+        """Durable model identity without Python runtime/cache identities."""
+
+        return _engineering_model_digest(self)
+
+    @property
     def material_phase_volumes(self) -> np.ndarray:
         return self.static.union_material_phase_volumes
 
@@ -1568,6 +1651,12 @@ class EngineeringGripConfig:
     @property
     def acceptance_mode(self) -> str:
         return _ACCEPTANCE_MODE
+
+    @property
+    def config_digest(self) -> str:
+        """Durable configuration identity used by owner-backed replay."""
+
+        return _engineering_config_digest(self)
 
 
 @dataclass(frozen=True)
@@ -1819,6 +1908,12 @@ class EngineeringGripWorkCheck:
     center_result: A2MechanicsSolveResult
     plus_result: A2MechanicsSolveResult
     minus_result: A2MechanicsSolveResult
+    cg_rtol: float
+    cg_atol: float
+    cg_maxiter: int
+    center_result_digest: str
+    plus_result_digest: str
+    minus_result_digest: str
 
     def __post_init__(self) -> None:
         load = _scalar(self.u_bar, "work_check.u_bar")
@@ -1827,8 +1922,17 @@ class EngineeringGripWorkCheck:
         fd = _scalar(self.reaction_fd, "work_check.reaction_fd")
         error = _scalar(self.relative_error, "work_check.relative_error")
         limit = _scalar(self.relative_limit, "work_check.relative_limit")
+        cg_rtol = _scalar(self.cg_rtol, "work_check.cg_rtol")
+        cg_atol = _scalar(self.cg_atol, "work_check.cg_atol")
+        cg_maxiter = _integer(self.cg_maxiter, "work_check.cg_maxiter", positive=True)
         if load <= 0.0 or epsilon <= 0.0 or epsilon >= load or limit < 0.0:
             raise ValueError("work-check scalar settings are invalid")
+        if cg_rtol < 0.0 or cg_atol < 0.0 or (cg_rtol == 0.0 and cg_atol == 0.0):
+            raise ValueError("work-check CG tolerances are invalid")
+        if error < 0.0:
+            raise ValueError("work_check.relative_error must be non-negative")
+        if not isinstance(self.passed, (bool, np.bool_)):
+            raise TypeError("work_check.passed must be boolean")
         if not isinstance(self.center_result, A2MechanicsSolveResult):
             raise TypeError("work_check.center_result has the wrong type")
         if not isinstance(self.plus_result, A2MechanicsSolveResult) or not isinstance(
@@ -1841,11 +1945,480 @@ class EngineeringGripWorkCheck:
         object.__setattr__(self, "reaction_fd", fd)
         object.__setattr__(self, "relative_error", error)
         object.__setattr__(self, "relative_limit", limit)
+        object.__setattr__(self, "cg_rtol", cg_rtol)
+        object.__setattr__(self, "cg_atol", cg_atol)
+        object.__setattr__(self, "cg_maxiter", cg_maxiter)
         object.__setattr__(self, "passed", bool(self.passed))
+        for name in (
+            "center_result_digest",
+            "plus_result_digest",
+            "minus_result_digest",
+        ):
+            object.__setattr__(
+                self,
+                name,
+                _valid_digest(self.__dict__[name], f"work_check.{name}"),
+            )
+        self.validate()
 
     @property
     def top_reaction(self) -> float:
         return self.reaction
+
+    def validate(self) -> None:
+        """Recompute the shared work-check arithmetic and nested solve audit.
+
+        The intrinsic portion deliberately uses only fields retained by this
+        contract.  Model/config binding is performed by
+        ``_validate_work_check_against_model_config`` when a parent result has
+        those authoritative identities available.
+        """
+
+        results = (self.center_result, self.plus_result, self.minus_result)
+        if len({id(result) for result in results}) != 3:
+            raise ValueError("work-check center/plus/minus solves must be distinct objects")
+        if not (
+            self.center_result.outer_displacement == self.u_bar
+            and self.plus_result.outer_displacement == self.u_bar + self.epsilon
+            and self.minus_result.outer_displacement == self.u_bar - self.epsilon
+        ):
+            raise ValueError("work-check solve loads are not exactly centered on u_bar")
+        constraints = self.center_result.constraints
+        if self.plus_result.constraints is not constraints or self.minus_result.constraints is not constraints:
+            raise ValueError("work-check mechanics solves do not share constraints")
+        for name in (
+            "static_runtime_identity",
+            "static_digest",
+            "damage_digest",
+            "unit_system_digest",
+        ):
+            # A replay adapter may construct a fresh fixed-damage view for each
+            # load.  Its cache/runtime token is intentionally not a
+            # cross-solve identity contract; the zero material damage digest
+            # and unit-system digest below bind the material/configuration
+            # value semantics instead.
+            values = tuple(getattr(result, name) for result in results)
+            if name == "static_runtime_identity":
+                same = all(value is values[0] for value in values[1:])
+            else:
+                same = all(value == values[0] for value in values[1:])
+            if not same:
+                raise ValueError(f"work-check solves do not share {name}")
+        for result, expected_load, digest_name in zip(
+            results,
+            (self.u_bar, self.u_bar + self.epsilon, self.u_bar - self.epsilon),
+            ("center_result_digest", "plus_result_digest", "minus_result_digest"),
+            strict=True,
+        ):
+            _validate_work_check_mechanics_result(
+                result,
+                expected_load=expected_load,
+                expected_cg_rtol=self.cg_rtol,
+                expected_cg_atol=self.cg_atol,
+                expected_cg_maxiter=self.cg_maxiter,
+                expected_digest=getattr(self, digest_name),
+                name=f"work_check.{digest_name.removesuffix('_digest')}",
+            )
+        reaction = _authoritative_work_check_reaction(self.center_result)
+        reaction_fd = (
+            self.plus_result.energy - self.minus_result.energy
+        ) / (2.0 * self.epsilon)
+        relative_error = _relative(reaction_fd, reaction)
+        if self.reaction != reaction:
+            raise ValueError("work-check reaction is not recomputed from center result")
+        if self.reaction_fd != reaction_fd:
+            raise ValueError("work-check reaction_fd is not the centered energy formula")
+        if self.relative_error != relative_error:
+            raise ValueError("work-check relative_error is not the authoritative denominator formula")
+        if self.passed != bool(relative_error <= self.relative_limit):
+            raise ValueError("work-check passed flag is not exactly relative_error <= relative_limit")
+
+    def validate_with_owner(
+        self,
+        model: "EngineeringGripModel",
+        config: "EngineeringGripConfig",
+    ) -> None:
+        return self._validate_with_owner_runner(
+            model,
+            config,
+            _AUTHORITATIVE_RUN_ZERO_DAMAGE_WORK_CHECK,
+        )
+
+    def _validate_with_owner_runner(
+        self,
+        model: "EngineeringGripModel",
+        config: "EngineeringGripConfig",
+        runner: Any,
+    ) -> None:
+        """Validate this check against a fresh authoritative zero-damage replay.
+
+        ``validate`` is deliberately value-only and keeps the in-memory
+        cross-solve identity checks needed by the live contract.  This method
+        first performs that structural validation and the model/config binding,
+        then reruns the three centered mechanics solves with the exact stored
+        load, epsilon, limit, and CG settings.  Fresh fixed-damage views have
+        new runtime/cache identities, so only durable values and digests are
+        compared.
+        """
+
+        self.validate()
+        _validate_work_check_against_model_config(
+            self, model, config, require_model_identity=False
+        )
+        if self.center_result.static_digest != model.static_digest:
+            raise ValueError("work-check model static digest is not owner-paired")
+        if _engineering_model_digest(model) != model.model_digest:
+            raise ValueError("work-check owner model digest is not self-consistent")
+        if _engineering_config_digest(config) != config.config_digest:
+            raise ValueError("work-check owner config digest is not self-consistent")
+
+        try:
+            replay = runner(
+                model,
+                self.u_bar,
+                self.epsilon,
+                self.relative_limit,
+                self.cg_rtol,
+                self.cg_atol,
+                self.cg_maxiter,
+                mechanics_adapter=None,
+            )
+        except EngineeringGripWorkCheckFailure as error:
+            # A failed work identity is still a durable numerical result.  Use
+            # its immutable check for comparison rather than confusing a
+            # legitimate pass/fail mismatch with a structural exception.
+            replay = error.check
+        if not isinstance(replay, EngineeringGripWorkCheck):
+            raise TypeError("authoritative work-check replay returned the wrong type")
+
+        for field in (
+            "u_bar",
+            "epsilon",
+            "reaction",
+            "reaction_fd",
+            "relative_error",
+            "relative_limit",
+            "cg_rtol",
+            "cg_atol",
+            "cg_maxiter",
+            "passed",
+        ):
+            if getattr(self, field) != getattr(replay, field):
+                raise ValueError(f"work-check durable field {field} differs from owner replay")
+        for field in ("center_result", "plus_result", "minus_result"):
+            _compare_work_check_mechanics_result_durable(
+                getattr(self, field), getattr(replay, field), f"work-check.{field}"
+            )
+        for field in ("center_result_digest", "plus_result_digest", "minus_result_digest"):
+            if getattr(self, field) != getattr(replay, field):
+                raise ValueError(f"work-check nested digest {field} differs from owner replay")
+
+
+
+def _valid_digest(value: Any, name: str) -> str:
+    if not isinstance(value, str) or len(value) != 64:
+        raise ValueError(f"{name} must be a 64-character SHA256 digest")
+    try:
+        int(value, 16)
+    except ValueError as error:
+        raise ValueError(f"{name} must be hexadecimal") from error
+    return value
+
+
+def _mechanics_result_digest(result: A2MechanicsSolveResult) -> str:
+    """Return a deterministic digest of every retained mechanics result field."""
+
+    provenance = result.seed_provenance
+    return _hash_named(
+        (
+            ("displacement", result.displacement),
+            ("evaluation_energy", result.energy),
+            ("evaluation_residual", result.evaluation.residual),
+            ("evaluation_internal_force", result.evaluation.internal_force),
+            ("evaluation_edge_deformation_gradient", result.evaluation.edge_deformation_gradient),
+            ("evaluation_edge_strain", result.evaluation.edge_strain),
+            ("evaluation_edge_stress", result.evaluation.edge_stress),
+            ("evaluation_particle_strain", result.evaluation.particle_strain),
+            ("evaluation_particle_stress", result.evaluation.particle_stress),
+            ("evaluation_edge_effective_stress", result.evaluation.edge_effective_stress),
+            ("evaluation_particle_effective_stress", result.evaluation.particle_effective_stress),
+            ("evaluation_edge_energy_density", result.evaluation.edge_energy_density),
+            ("free_residual", result.free_residual),
+            ("free_residual_norm", result.free_residual_norm),
+            ("free_rhs_norm", result.free_rhs_norm),
+            ("free_residual_relative_norm", result.free_residual_relative_norm),
+            ("cg_convergence_limit", result.cg_convergence_limit),
+            ("cg_iterations", result.cg_iterations),
+            ("cg_info", result.cg_info),
+            ("outer_displacement", result.outer_displacement),
+            ("outer_reaction", result.outer_reaction),
+            ("bottom_reaction", result.bottom_reaction),
+            ("anchor_reaction", result.anchor_reaction),
+            ("total_force", result.total_force),
+            ("total_moment", result.total_moment),
+            ("static_digest", result.static_digest),
+            ("damage_digest", result.damage_digest),
+            ("unit_system_digest", result.unit_system_digest),
+            ("seed_kind", provenance.kind),
+            ("seed_source_state", provenance.source_state),
+            ("seed_source_step", provenance.source_step),
+            ("seed_source_sweep", provenance.source_sweep),
+            ("seed_source_damage_digest", provenance.source_damage_digest),
+            ("seed_target_damage_digest", provenance.target_damage_digest),
+            ("seed_unit_system_digest", provenance.unit_system_digest),
+            ("seed_digest", provenance.seed_digest),
+            ("seed_initial_residual_norm", provenance.initial_residual_norm),
+            ("seed_final_residual_norm", provenance.final_residual_norm),
+            ("seed_early_exit_eligible", provenance.early_exit_eligible),
+            ("seed_early_exit_used", provenance.early_exit_used),
+        )
+    )
+
+
+def _compare_work_check_mechanics_result_durable(
+    actual: A2MechanicsSolveResult,
+    expected: A2MechanicsSolveResult,
+    name: str,
+) -> None:
+    """Compare one work-check solve without comparing runtime object tokens."""
+
+    if not isinstance(actual, A2MechanicsSolveResult) or not isinstance(
+        expected, A2MechanicsSolveResult
+    ):
+        raise TypeError(f"{name} work-check solve has the wrong type")
+    scalar_names = (
+        "outer_displacement",
+        "free_residual_norm",
+        "free_rhs_norm",
+        "free_residual_relative_norm",
+        "cg_convergence_limit",
+        "cg_iterations",
+        "cg_info",
+        "outer_reaction",
+        "bottom_reaction",
+        "anchor_reaction",
+        "total_moment",
+        "static_digest",
+        "damage_digest",
+        "unit_system_digest",
+    )
+    for field in scalar_names:
+        if getattr(actual, field) != getattr(expected, field):
+            raise ValueError(f"{name} durable scalar {field} differs from owner replay")
+    array_names = ("displacement", "free_residual", "total_force")
+    evaluation_array_names = (
+        "residual",
+        "internal_force",
+        "edge_deformation_gradient",
+        "edge_strain",
+        "edge_stress",
+        "particle_strain",
+        "particle_stress",
+        "edge_effective_stress",
+        "particle_effective_stress",
+        "edge_energy_density",
+    )
+    for field in array_names:
+        left = np.asarray(getattr(actual, field))
+        right = np.asarray(getattr(expected, field))
+        if left.dtype != right.dtype or left.shape != right.shape or not np.array_equal(left, right):
+            raise ValueError(f"{name} durable array {field} differs from owner replay")
+    if actual.evaluation.energy != expected.evaluation.energy:
+        raise ValueError(f"{name} energy differs from owner replay")
+    for field in evaluation_array_names:
+        left = np.asarray(getattr(actual.evaluation, field))
+        right = np.asarray(getattr(expected.evaluation, field))
+        if left.dtype != right.dtype or left.shape != right.shape or not np.array_equal(left, right):
+            raise ValueError(f"{name} evaluation array {field} differs from owner replay")
+    actual_seed = actual.seed_provenance
+    expected_seed = expected.seed_provenance
+    for field in (
+        "kind",
+        "source_state",
+        "source_step",
+        "source_sweep",
+        "source_damage_digest",
+        "target_damage_digest",
+        "unit_system_digest",
+        "seed_digest",
+        "initial_residual_norm",
+        "final_residual_norm",
+        "early_exit_eligible",
+        "early_exit_used",
+    ):
+        if getattr(actual_seed, field) != getattr(expected_seed, field):
+            raise ValueError(f"{name} seed provenance {field} differs from owner replay")
+    actual_digest = _mechanics_result_digest(actual)
+    expected_digest = _mechanics_result_digest(expected)
+    if actual_digest != expected_digest:
+        raise ValueError(f"{name} mechanics result digest differs from owner replay")
+
+
+def _authoritative_work_check_reaction(result: A2MechanicsSolveResult) -> float:
+    """Use the exact top-selector reaction expression used by the solve."""
+
+    return float(result.constraints.outer_top_selector @ result.evaluation.residual)
+
+
+def _validate_work_check_mechanics_result(
+    result: A2MechanicsSolveResult,
+    *,
+    expected_load: float,
+    expected_cg_rtol: float,
+    expected_cg_atol: float,
+    expected_cg_maxiter: int,
+    expected_digest: str,
+    name: str,
+    model: "EngineeringGripModel | None" = None,
+    require_model_identity: bool = True,
+) -> None:
+    if result.outer_displacement != expected_load:
+        raise ValueError(f"{name} load is not exactly paired")
+    if result.cg_info != 0:
+        raise ValueError(f"{name} mechanics solve did not converge")
+    if result.free_residual_norm >= result.cg_convergence_limit:
+        raise ValueError(f"{name} mechanics solve failed its convergence gate")
+    if result.cg_iterations > expected_cg_maxiter:
+        raise ValueError(f"{name} mechanics solve exceeded cg_maxiter")
+    residual = np.asarray(result.evaluation.residual)
+    if residual.shape != (result.constraints.n_dofs,):
+        raise ValueError(f"{name} evaluation residual has the wrong shape")
+    expected_free = residual[result.constraints.free_dofs]
+    if not np.array_equal(result.free_residual, expected_free):
+        raise ValueError(f"{name} free residual is not paired with its evaluation")
+    expected_norm = float(np.linalg.norm(expected_free))
+    if result.free_residual_norm != expected_norm:
+        raise ValueError(f"{name} free residual norm is not recomputed")
+    expected_relative = expected_norm / max(result.free_rhs_norm, 1.0e-300)
+    if result.free_residual_relative_norm != expected_relative:
+        raise ValueError(f"{name} free residual relative norm is not recomputed")
+    expected_limit = max(expected_cg_atol, expected_cg_rtol * result.free_rhs_norm)
+    if result.cg_convergence_limit != expected_limit:
+        raise ValueError(f"{name} convergence limit is not paired with CG settings")
+    prescribed = result.constraints.prescribed_vector(expected_load)
+    if not np.array_equal(
+        result.displacement[result.constraints.constrained_dofs],
+        prescribed[result.constraints.constrained_dofs],
+    ):
+        raise ValueError(f"{name} displacement violates exact constraints")
+    actual_digest = _mechanics_result_digest(result)
+    if actual_digest != expected_digest:
+        raise ValueError(f"{name} result digest is not paired")
+    if model is not None:
+        if require_model_identity and result.constraints is not model.constraints:
+            raise ValueError(f"{name} constraints are foreign to the model")
+        if not require_model_identity:
+            for field in (
+                "n_particles",
+                "constrained_dofs",
+                "free_dofs",
+                "q_zero",
+                "load_direction",
+                "outer_bottom_mask",
+                "outer_top_mask",
+                "anchor_particle",
+                "anchor_coordinate",
+                "outer_top_selector",
+                "outer_bottom_selector",
+                "anchor_selector",
+            ):
+                actual = getattr(result.constraints, field)
+                expected = getattr(model.constraints, field)
+                if isinstance(actual, np.ndarray) or isinstance(expected, np.ndarray):
+                    if not isinstance(actual, np.ndarray) or not isinstance(expected, np.ndarray):
+                        raise ValueError(f"{name} constraints field {field} has the wrong kind")
+                    if actual.dtype != expected.dtype or actual.shape != expected.shape or not np.array_equal(actual, expected):
+                        raise ValueError(f"{name} constraints field {field} differs from the owner")
+                elif actual != expected:
+                    raise ValueError(f"{name} constraints field {field} differs from the owner")
+        if require_model_identity and result.static_runtime_identity is not model.static.runtime_identity:
+            raise ValueError(f"{name} static runtime identity is foreign to the model")
+        if result.static_digest != model.static_digest:
+            raise ValueError(f"{name} static digest is foreign to the model")
+        expected_reaction = _authoritative_work_check_reaction(result)
+        if result.outer_reaction != expected_reaction:
+            raise ValueError(f"{name} outer reaction is not recomputed from its residual")
+        expected_bottom = float(
+            result.constraints.outer_bottom_selector @ result.evaluation.residual
+        )
+        expected_anchor = float(
+            result.constraints.anchor_selector @ result.evaluation.residual
+        )
+        if result.bottom_reaction != expected_bottom or result.anchor_reaction != expected_anchor:
+            raise ValueError(f"{name} constrained reactions are not recomputed")
+        residual_matrix = residual.reshape(model.n_union, 2)
+        expected_force = np.sum(residual_matrix, axis=0)
+        expected_moment = float(
+            np.sum(
+                model.static.coordinates[:, 0] * residual_matrix[:, 1]
+                - model.static.coordinates[:, 1] * residual_matrix[:, 0]
+            )
+        )
+        if not np.array_equal(result.total_force, expected_force):
+            raise ValueError(f"{name} total force is not recomputed")
+        if result.total_moment != expected_moment:
+            raise ValueError(f"{name} total moment is not recomputed")
+
+
+def _validate_work_check_against_model_config(
+    check: EngineeringGripWorkCheck,
+    model: "EngineeringGripModel",
+    config: "EngineeringGripConfig",
+    *,
+    require_model_identity: bool = True,
+) -> None:
+    if not isinstance(model, EngineeringGripModel):
+        raise TypeError("work-check model has the wrong type")
+    if not isinstance(config, EngineeringGripConfig):
+        raise TypeError("work-check config has the wrong type")
+    check.validate()
+    for work_name, config_name in (
+        ("u_bar", "work_check_load"),
+        ("epsilon", "work_epsilon"),
+        ("relative_limit", "work_relative_limit"),
+        ("cg_rtol", "cg_rtol"),
+        ("cg_atol", "cg_atol"),
+        ("cg_maxiter", "cg_maxiter"),
+    ):
+        if getattr(check, work_name) != getattr(config, config_name):
+            raise ValueError(
+                f"work-check {work_name} is not paired with engineering config {config_name}"
+            )
+    zero_digest = _damage_digest(np.zeros(model.n_material, dtype=np.float64))
+    expected_unit_digest = _unit_system_digest(model.static_digest, zero_digest)
+    for result, expected_load, digest_name in zip(
+        (check.center_result, check.plus_result, check.minus_result),
+        (check.u_bar, check.u_bar + check.epsilon, check.u_bar - check.epsilon),
+        ("center_result_digest", "plus_result_digest", "minus_result_digest"),
+        strict=True,
+    ):
+        _validate_work_check_mechanics_result(
+            result,
+            expected_load=expected_load,
+            expected_cg_rtol=config.cg_rtol,
+            expected_cg_atol=config.cg_atol,
+            expected_cg_maxiter=config.cg_maxiter,
+            expected_digest=getattr(check, digest_name),
+            name=f"work-check {digest_name.removesuffix('_digest')}",
+            model=model,
+            require_model_identity=require_model_identity,
+        )
+        if result.damage_digest != zero_digest:
+            raise ValueError("work-check mechanics result does not use exact zero damage")
+        if result.unit_system_digest != expected_unit_digest:
+            raise ValueError("work-check mechanics unit-system digest is not model-paired")
+        provenance = result.seed_provenance
+        if provenance.kind != "zero_work_check" or provenance.source_state != "zero_work_check":
+            raise ValueError("work-check mechanics seed provenance is not canonical")
+        if provenance.source_step != 0 or provenance.source_sweep != 0:
+            raise ValueError("work-check mechanics seed ordering is not canonical")
+        if provenance.source_damage_digest != zero_digest:
+            raise ValueError("work-check mechanics source damage digest is not zero-paired")
+        expected_seed_digest = _a2_digest_primitives(
+            (("seed", result.constraints.prescribed_vector(expected_load)),)
+        )
+        if provenance.seed_digest != expected_seed_digest:
+            raise ValueError("work-check mechanics seed digest is not load-paired")
 
 
 class EngineeringGripWorkCheckFailure(RuntimeError):
@@ -1948,6 +2521,12 @@ def run_zero_damage_work_check(
         center_result=center,
         plus_result=plus,
         minus_result=minus,
+        cg_rtol=_scalar(cg_rtol, "work_check.cg_rtol"),
+        cg_atol=_scalar(cg_atol, "work_check.cg_atol"),
+        cg_maxiter=_integer(cg_maxiter, "work_check.cg_maxiter", positive=True),
+        center_result_digest=_mechanics_result_digest(center),
+        plus_result_digest=_mechanics_result_digest(plus),
+        minus_result_digest=_mechanics_result_digest(minus),
     )
     if not check.passed:
         raise EngineeringGripWorkCheckFailure(check)
@@ -1955,6 +2534,10 @@ def run_zero_damage_work_check(
 
 
 zero_damage_work_check = run_zero_damage_work_check
+
+# Owner-backed validation intentionally uses this immutable production entry
+# point rather than a caller-replaceable callback or adapter hook.
+_AUTHORITATIVE_RUN_ZERO_DAMAGE_WORK_CHECK = run_zero_damage_work_check
 
 
 def _optional_array(
@@ -2321,8 +2904,11 @@ def _incomplete_diagnostics(
     psi_after: np.ndarray | None = None,
     H_used: np.ndarray | None = None,
     d_next: np.ndarray | None = None,
+    H_next: np.ndarray | None = None,
     rho_used: np.ndarray | None = None,
+    rho_next: np.ndarray | None = None,
     rho_used_volume: np.ndarray | None = None,
+    rho_next_volume: np.ndarray | None = None,
     model: EngineeringGripModel,
     sweep_index: int,
 ) -> EngineeringGripDiagnostics:
@@ -2336,8 +2922,11 @@ def _incomplete_diagnostics(
         ("psi_after", psi_after),
         ("H_used", H_used),
         ("d_next", d_next),
+        ("H_next", H_next),
         ("rho_used", rho_used),
+        ("rho_next", rho_next),
         ("rho_used_volume", rho_used_volume),
+        ("rho_next_volume", rho_next_volume),
     ):
         if value is not None:
             available.append(name)
@@ -2394,11 +2983,11 @@ def _incomplete_diagnostics(
         psi_before=psi_before,
         psi_after=psi_after,
         H_used=H_used,
-        H_next=None,
+        H_next=H_next,
         rho_used=rho_used,
-        rho_next=None,
+        rho_next=rho_next,
         rho_used_volume=rho_used_volume,
-        rho_next_volume=None,
+        rho_next_volume=rho_next_volume,
         energy_before=before_fields["energy"],
         energy_after=after_fields["energy"],
         top_reaction_before=before_fields["top"],
@@ -2425,9 +3014,13 @@ def _incomplete_diagnostics(
         damage_min=float(np.min(current)),
         damage_max=float(np.max(current)),
         healing_min=None if d_next is None else float(np.min(d_next - committed.material_damage)),
-        history_min_gap=None,
+        history_min_gap=(
+            None
+            if H_next is None
+            else float(np.min(H_next - committed.material_history))
+        ),
         rho_used_inf=None if rho_used is None else _max_abs(rho_used),
-        rho_next_inf=None,
+        rho_next_inf=None if rho_next is None else _max_abs(rho_next),
         displacement_scale=None,
         damage_scale=None if d_next is None else max(_max_abs(d_iter), _max_abs(d_next)),
         history_scale=None,
@@ -3186,10 +3779,10 @@ class EngineeringGripResult:
             healing_bound = self.config.healing_atol
         if not isinstance(self.work_check, EngineeringGripWorkCheck):
             raise TypeError("engineering-grip result work_check type is invalid")
-        if (
-            not self.work_check.passed
-            or self.work_check.relative_error > self.work_check.relative_limit
-        ):
+        _validate_work_check_against_model_config(
+            self.work_check, self.model, self.config
+        )
+        if not self.work_check.passed:
             raise ValueError("engineering-grip result zero-damage work check did not pass")
         if not isinstance(self.initial_state, EngineeringGripState) or not self.states:
             raise ValueError("engineering-grip result must retain a nonempty state sequence")

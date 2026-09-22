@@ -11,16 +11,23 @@ production path and delegates to the audited archive replay implementation.
 Failure archives use separate numerical-only schemas because completed and
 rejected continuation audits have different state contracts.  The unbounded
 warning and stabilized policies each have separate completed/failure schema
-identifiers so historical artifacts remain immutable.
+identifiers so historical artifacts remain immutable.  The private monolithic
+strategy is different: its four outputs are staged in one private directory and
+published as one Linux no-clobber directory rename.
 """
 
 from __future__ import annotations
 
 import argparse
+import ctypes
+from dataclasses import dataclass
+import errno
 import hashlib
 import json
 import os
 import platform
+import shutil
+import stat
 import sys
 import tempfile
 import time
@@ -36,9 +43,13 @@ __all__ = [
     "STABILIZED_REPLAY_REPORT_SCHEMA",
     "DEFAULT_OUTPUT_ROOT",
     "artifact_paths",
+    "monolithic_bundle_paths",
+    "analyze_anderson_scalar_diagnostic",
     "analyze_archive",
     "build_parser",
+    "extract_stabilized_load_schedule",
     "main",
+    "MonolithicBundleDurabilityError",
     "plot_archive",
     "replay_archive",
     "run_workflow",
@@ -60,6 +71,21 @@ PLOT_SCHEMA = "fracture2d-engineering-grip-plot-v1"
 MANIFEST_SCHEMA = "fracture2d-engineering-grip-manifest-v1"
 STABILIZED_REPLAY_REPORT_SCHEMA = (
     "fracture2d-engineering-grip-stabilized-replay-report-v5"
+)
+MONOLITHIC_REPLAY_REPORT_SCHEMA = (
+    "fracture2d-engineering-grip-monolithic-replay-report-v1"
+)
+MONOLITHIC_MANIFEST_SCHEMA = "fracture2d-engineering-grip-monolithic-manifest-v1"
+MONOLITHIC_BUNDLE_SUFFIX = ".monolithic"
+MONOLITHIC_BUNDLE_MEMBER_NAMES = (
+    "archive.npz",
+    "replay.json",
+    "summary.json",
+    "manifest.json",
+)
+MONOLITHIC_FIELD_EQUATIONS_VALIDATION_SCOPE = (
+    "retained accepted-step canonical fields owner-validated; independent of "
+    "completion status; initial-state-only results are false"
 )
 
 # These reproduce the latest engineering-grip experiment unless explicitly
@@ -99,8 +125,46 @@ DEFAULT_WORK_RELATIVE_LIMIT = 1.0e-7
 DEFAULT_RELAXATION_POLICY = "fixed"
 DEFAULT_OMEGA = 0.5
 DEFAULT_MAX_BACKTRACKS = 0
-CONTINUATION_STRATEGIES = ("legacy", "stabilized")
-RELAXATION_POLICIES = ("sufficient_decrease", "fixed")
+# ``EngineeringGripConfig`` retains this field for compatibility with the
+# documented fracture2d solver_base configuration.  The strict monolithic
+# controller has its own Newton iteration budget and never uses this value as
+# an iteration limit.
+CANONICAL_SOLVER_BASE_MAX_STAGGER_ITERATIONS = 100
+CONTINUATION_STRATEGIES = ("legacy", "stabilized", "monolithic")
+RELAXATION_POLICIES = (
+    "sufficient_decrease",
+    "fixed",
+    "anderson",
+    "anderson_residual",
+    "anderson_residual_backtracking",
+    "anderson_residual_regularized_backtracking",
+)
+
+
+class MonolithicBundleDurabilityError(RuntimeError):
+    """Publication succeeded but the containing directory was not durable."""
+
+    def __init__(
+        self,
+        bundle_path: Path,
+        fsync_error: BaseException,
+    ) -> None:
+        self.bundle_path = Path(bundle_path)
+        self.fsync_error = fsync_error
+        super().__init__(
+            "monolithic bundle was published but parent-directory durability is "
+            f"uncertain for {self.bundle_path}; parent fsync cause: {fsync_error}"
+        )
+
+
+@dataclass(frozen=True, slots=True)
+class _FileFingerprint:
+    """Identity and content binding for a file owned by one workflow step."""
+
+    device: int | None
+    inode: int | None
+    size_bytes: int
+    sha256: str
 
 
 def _json_safe(value: Any) -> Any:
@@ -142,6 +206,19 @@ def _print_stabilized_progress(event: Mapping[str, Any]) -> None:
     )
 
 
+def extract_stabilized_load_schedule(
+    source_archive: Path,
+    output_path: Path,
+) -> Any:
+    """Extract the reviewed matched-load schedule without running a solver."""
+
+    from . import nonlocal_engineering_grip_stabilized as stabilized
+
+    if not isinstance(source_archive, Path) or not isinstance(output_path, Path):
+        raise TypeError("schedule extraction paths must be pathlib.Path instances")
+    return stabilized.extract_stabilized_load_schedule(source_archive, output_path)
+
+
 def _json_bytes(payload: Mapping[str, Any]) -> bytes:
     return (
         json.dumps(
@@ -165,10 +242,220 @@ def _sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _file_fingerprint(path: Path) -> _FileFingerprint:
+    """Hash one regular file while retaining its opened inode identity."""
+
+    flags = os.O_RDONLY
+    flags |= getattr(os, "O_CLOEXEC", 0)
+    flags |= getattr(os, "O_NOFOLLOW", 0)
+    descriptor = os.open(str(path), flags)
+    try:
+        before = os.fstat(descriptor)
+        if not stat.S_ISREG(before.st_mode):
+            raise OSError(f"file is not regular: {path}")
+        digest = hashlib.sha256()
+        while True:
+            block = os.read(descriptor, 1024 * 1024)
+            if not block:
+                break
+            digest.update(block)
+        after = os.fstat(descriptor)
+        if (
+            before.st_dev != after.st_dev
+            or before.st_ino != after.st_ino
+            or before.st_size != after.st_size
+        ):
+            raise OSError(f"file changed while fingerprinting: {path}")
+        return _FileFingerprint(
+            device=int(getattr(before, "st_dev", 0)),
+            inode=int(getattr(before, "st_ino", 0)),
+            size_bytes=int(before.st_size),
+            sha256=digest.hexdigest(),
+        )
+    finally:
+        os.close(descriptor)
+
+
+def _fsync_directory(path: Path) -> None:
+    """Fsync one directory and close its descriptor even when fsync fails."""
+
+    flags = os.O_RDONLY | getattr(os, "O_DIRECTORY", 0)
+    flags |= getattr(os, "O_CLOEXEC", 0)
+    descriptor = os.open(str(path), flags)
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
+def _rename_noreplace_linux(source: Path, destination: Path) -> None:
+    """Atomically rename a directory without replacing an existing name.
+
+    Linux ``renameat2(RENAME_NOREPLACE)`` is the publication primitive. There
+    is intentionally no portable or check-then-replace fallback: a platform
+    without this syscall cannot satisfy the monolithic bundle contract.
+    """
+
+    if sys.platform != "linux":
+        raise OSError(
+            errno.ENOTSUP,
+            "monolithic bundle publication requires Linux renameat2",
+        )
+    source = Path(source)
+    destination = Path(destination)
+    if source.parent != destination.parent:
+        raise ValueError("renameat2 source and destination must share one parent")
+    if not source.name or not destination.name:
+        raise ValueError("renameat2 source and destination names must be non-empty")
+    try:
+        libc = ctypes.CDLL(None, use_errno=True)
+        renameat2 = getattr(libc, "renameat2")
+    except (AttributeError, OSError) as error:
+        raise OSError(
+            errno.ENOTSUP,
+            "Linux libc does not provide renameat2; refusing monolithic publication",
+        ) from error
+
+    renameat2.argtypes = [
+        ctypes.c_int,
+        ctypes.c_char_p,
+        ctypes.c_int,
+        ctypes.c_char_p,
+        ctypes.c_uint,
+    ]
+    renameat2.restype = ctypes.c_int
+    flags = os.O_RDONLY | getattr(os, "O_DIRECTORY", 0)
+    flags |= getattr(os, "O_CLOEXEC", 0)
+    parent_fd = os.open(str(source.parent), flags)
+    try:
+        result = renameat2(
+            parent_fd,
+            os.fsencode(source.name),
+            parent_fd,
+            os.fsencode(destination.name),
+            ctypes.c_uint(1),  # RENAME_NOREPLACE
+        )
+        if result == 0:
+            return
+        error_number = ctypes.get_errno() or errno.ENOSYS
+        message = (
+            "renameat2(RENAME_NOREPLACE) failed for monolithic bundle "
+            f"{source} -> {destination}"
+        )
+        if error_number == errno.EEXIST:
+            raise FileExistsError(error_number, message, str(destination))
+        raise OSError(error_number, message, str(destination))
+    finally:
+        os.close(parent_fd)
+
+
+def _create_private_monolithic_staging_directory(
+    parent: Path,
+    run_id: str,
+) -> Path:
+    """Create one unique, private staging directory beside the final bundle."""
+
+    staging = Path(
+        tempfile.mkdtemp(
+            prefix=f".{run_id}{MONOLITHIC_BUNDLE_SUFFIX}-",
+            dir=parent,
+        )
+    )
+    try:
+        os.chmod(staging, 0o700)
+        mode = stat.S_IMODE(os.stat(staging, follow_symlinks=False).st_mode)
+        if mode != 0o700:
+            raise OSError(
+                errno.EPERM,
+                f"private monolithic staging directory mode is {oct(mode)}, not 0o700",
+                str(staging),
+            )
+    except Exception:
+        try:
+            shutil.rmtree(staging)
+        except FileNotFoundError:
+            pass
+        raise
+    return staging
+
+
+def _remove_private_monolithic_staging_directory(staging: Path) -> None:
+    """Remove only the private directory created for this publication attempt."""
+
+    if staging.name == "" or not staging.name.startswith("."):
+        raise ValueError("refusing to remove a non-private monolithic staging path")
+    if staging.exists() and not staging.is_dir():
+        raise ValueError("refusing to remove a non-directory monolithic staging path")
+    try:
+        shutil.rmtree(staging)
+    except FileNotFoundError:
+        pass
+
+
+def _write_json_fsync(path: Path, payload: Mapping[str, Any]) -> None:
+    """Create one JSON member directly in private staging and fsync its bytes."""
+
+    data = _json_bytes(payload)
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
+    flags |= getattr(os, "O_CLOEXEC", 0)
+    descriptor = os.open(str(path), flags, 0o600)
+    try:
+        view = memoryview(data)
+        while view:
+            count = os.write(descriptor, view)
+            if count <= 0:
+                raise OSError("short write while generating monolithic JSON")
+            view = view[count:]
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
+def _fingerprint_monolithic_bundle(staging: Path) -> dict[str, _FileFingerprint]:
+    """Require the exact four-member bundle and fingerprint every member."""
+
+    if not staging.is_dir() or stat.S_IMODE(
+        os.stat(staging, follow_symlinks=False).st_mode
+    ) != 0o700:
+        raise ValueError("monolithic staging directory is not a private 0700 directory")
+    entries = tuple(staging.iterdir())
+    expected_names = set(MONOLITHIC_BUNDLE_MEMBER_NAMES)
+    if {entry.name for entry in entries} != expected_names:
+        raise ValueError(
+            "monolithic staging contents differ from the exact bundle contract: "
+            f"{sorted(entry.name for entry in entries)}"
+        )
+    fingerprints: dict[str, _FileFingerprint] = {}
+    for name in MONOLITHIC_BUNDLE_MEMBER_NAMES:
+        fingerprints[name] = _file_fingerprint(staging / name)
+    return fingerprints
+
+
+def _publish_monolithic_bundle(staging: Path, destination: Path) -> None:
+    """Publish the complete staging directory and retain it on fsync failure."""
+
+    _rename_noreplace_linux(staging, destination)
+    try:
+        _fsync_directory(destination.parent)
+    except OSError as error:
+        # The rename already made the complete bundle visible. It is unsafe to
+        # remove ``destination`` here because another observer may have opened
+        # or replaced names inside it. Report uncertainty and leave it intact.
+        raise MonolithicBundleDurabilityError(destination, error) from error
+
+
 def _require_file(path: Path, name: str) -> Path:
     if not path.is_file():
         raise FileNotFoundError(f"{name} does not exist or is not a file: {path}")
     return path
+
+
+def _enable_stabilized_x64() -> None:
+    """Enable the float64 contract before rebuilding a stabilized model."""
+
+    import jax
+
+    jax.config.update("jax_enable_x64", True)
 
 
 def _prepare_output_directory(path: Path) -> Path:
@@ -576,14 +863,19 @@ def _load_source_cloud(path: Path, delta: float) -> tuple[dict[str, np.ndarray],
     return normalized, source_metadata
 
 
-def artifact_paths(output_directory: Path, run_id: str) -> dict[str, Path]:
+def artifact_paths(
+    output_directory: Path,
+    run_id: str,
+    *,
+    anderson_scalar_diagnostic: bool = False,
+) -> dict[str, Path]:
     """Return stable success/failure and derived artifact names."""
 
     if not run_id or Path(run_id).name != run_id or run_id in {".", ".."}:
         raise ValueError("run_id must be a nonempty simple filename stem")
     root = Path(output_directory)
     stem = root / run_id
-    return {
+    paths = {
         "archive": stem.with_suffix(".npz"),
         "summary": stem.with_suffix(".summary.json"),
         "replay": stem.with_suffix(".replay.json"),
@@ -602,6 +894,39 @@ def artifact_paths(output_directory: Path, run_id: str) -> dict[str, Path]:
         "failure_plot_report": root / f"{run_id}.failure.plot.json",
         "manifest": root / f"{run_id}.manifest.json",
     }
+    if type(anderson_scalar_diagnostic) is not bool:
+        raise TypeError("anderson_scalar_diagnostic must be a boolean")
+    if anderson_scalar_diagnostic:
+        paths.update(
+            {
+                "anderson_diagnostic": stem.with_suffix(".anderson.jsonl"),
+            }
+        )
+    return paths
+
+
+def monolithic_bundle_paths(
+    output_directory: Path,
+    run_id: str,
+) -> dict[str, Path]:
+    """Return the exact private-monolithic bundle layout.
+
+    Legacy and stabilized workflows continue to use :func:`artifact_paths`.
+    This separate helper makes it impossible for the monolithic path to
+    accidentally publish one of those flat artifact sets.
+    """
+
+    if not run_id or Path(run_id).name != run_id or run_id in {".", ".."}:
+        raise ValueError("run_id must be a nonempty simple filename stem")
+    root = Path(output_directory)
+    bundle = root / f"{run_id}{MONOLITHIC_BUNDLE_SUFFIX}"
+    return {
+        "bundle": bundle,
+        "archive": bundle / "archive.npz",
+        "replay": bundle / "replay.json",
+        "summary": bundle / "summary.json",
+        "manifest": bundle / "manifest.json",
+    }
 
 
 def _preflight_artifacts(paths: Mapping[str, Path], *, overwrite: bool) -> None:
@@ -613,6 +938,33 @@ def _preflight_artifacts(paths: Mapping[str, Path], *, overwrite: bool) -> None:
         raise FileExistsError(
             "refusing to overwrite existing workflow artifacts; pass --overwrite: "
             + ", ".join(existing)
+        )
+
+
+def _preflight_monolithic_bundle(
+    paths: Mapping[str, Path],
+    *,
+    overwrite: bool,
+) -> None:
+    """Create the parent and reject all existing monolithic destinations.
+
+    Versioned exchange/cleanup is deliberately not implemented.  Even
+    ``overwrite=True`` therefore rejects an existing bundle rather than
+    replacing a nonempty directory non-atomically.
+    """
+
+    bundle = paths["bundle"]
+    _prepare_output_directory(bundle.parent)
+    if type(overwrite) is not bool:
+        raise TypeError("overwrite must be bool")
+    if overwrite:
+        raise ValueError(
+            "overwrite is not supported for monolithic bundles; choose a new run-id"
+        )
+    if os.path.lexists(bundle):
+        raise FileExistsError(
+            "refusing to overwrite existing monolithic bundle; choose a new run-id: "
+            f"{bundle}"
         )
 
 
@@ -1105,6 +1457,21 @@ def _stabilized_config_from_arguments(
     names = ("omega_initial", "omega_min", "max_backtracks")
     if policy == "sufficient_decrease":
         names += ("omega_reduction", "sufficient_decrease")
+    elif policy in (
+        "anderson",
+        "anderson_residual",
+        "anderson_residual_backtracking",
+        "anderson_residual_regularized_backtracking",
+    ):
+        names += ("sufficient_decrease",)
+        names += ("anderson_history_depth", "anderson_beta")
+        if policy in (
+            "anderson_residual_backtracking",
+            "anderson_residual_regularized_backtracking",
+        ):
+            names += ("anderson_alpha_reduction",)
+        if policy == "anderson_residual_regularized_backtracking":
+            names += ("anderson_regularization_mu",)
     missing = [name for name in names if getattr(arguments, name) is None]
     if arguments.archive_budget_bytes is None:
         missing.append("archive_budget_bytes")
@@ -1149,15 +1516,91 @@ def _stabilized_config_from_arguments(
             raise ValueError(
                 "--omega-reduction is forbidden with --relaxation-policy fixed"
             )
-        if arguments.sufficient_decrease is not None:
+        if arguments.sufficient_decrease is not None or (
+            arguments.anderson_alpha_reduction is not None
+        ) or arguments.anderson_regularization_mu is not None:
             raise ValueError(
-                "--sufficient-decrease is forbidden with --relaxation-policy fixed"
+                "--sufficient-decrease and --anderson-alpha-reduction are "
+                "forbidden with --relaxation-policy fixed"
             )
         omega_reduction = None
         sufficient_decrease = None
-    else:
+        anderson_history_depth = None
+        anderson_beta = None
+        anderson_regularization_mu = None
+        anderson_alpha_reduction = None
+    elif policy == "sufficient_decrease":
+        if arguments.anderson_alpha_reduction is not None:
+            raise ValueError(
+                "--anderson-alpha-reduction is forbidden with "
+                "--relaxation-policy sufficient_decrease"
+            )
+        if arguments.anderson_regularization_mu is not None:
+            raise ValueError(
+                "--anderson-regularization-mu is forbidden with "
+                "--relaxation-policy sufficient_decrease"
+            )
         omega_reduction = arguments.omega_reduction
         sufficient_decrease = arguments.sufficient_decrease
+        anderson_history_depth = None
+        anderson_beta = None
+        anderson_regularization_mu = None
+        anderson_alpha_reduction = None
+    else:
+        if arguments.omega_reduction is not None:
+            raise ValueError(
+                "--omega-reduction is forbidden with an Anderson relaxation policy"
+            )
+        omega_reduction = None
+        sufficient_decrease = arguments.sufficient_decrease
+        anderson_history_depth = arguments.anderson_history_depth
+        anderson_beta = arguments.anderson_beta
+        anderson_regularization_mu = (
+            arguments.anderson_regularization_mu
+            if policy == "anderson_residual_regularized_backtracking"
+            else None
+        )
+        anderson_alpha_reduction = (
+            arguments.anderson_alpha_reduction
+            if policy in (
+                "anderson_residual_backtracking",
+                "anderson_residual_regularized_backtracking",
+            )
+            else None
+        )
+        if policy not in (
+            "anderson_residual_backtracking",
+            "anderson_residual_regularized_backtracking",
+        ) and (
+            arguments.anderson_alpha_reduction is not None
+        ):
+            raise ValueError(
+                "--anderson-alpha-reduction is only valid with "
+                "a residual Anderson backtracking policy"
+            )
+        if policy != "anderson_residual_regularized_backtracking" and (
+            arguments.anderson_regularization_mu is not None
+        ):
+            raise ValueError(
+                "--anderson-regularization-mu is only valid with "
+                "--relaxation-policy anderson_residual_regularized_backtracking"
+            )
+    load_schedule = None
+    schedule_path = getattr(arguments, "load_schedule_npz", None)
+    if schedule_path is not None:
+        if acceptance_mode != stabilized.STABILIZED_ACCEPTANCE_MODE:
+            raise ValueError(
+                "--load-schedule-npz requires strict stabilized acceptance"
+            )
+        if policy != "anderson_residual":
+            raise ValueError(
+                "--load-schedule-npz requires --relaxation-policy anderson_residual"
+            )
+        load_schedule = stabilized.load_stabilized_load_schedule(
+            schedule_path,
+            load_start=base_config.load_start,
+            load_final=base_config.load_final,
+        )
     return stabilized.StabilizedEngineeringGripConfig(
         base=base_config,
         omega_initial=arguments.omega_initial,
@@ -1167,6 +1610,74 @@ def _stabilized_config_from_arguments(
         max_backtracks=arguments.max_backtracks,
         relaxation_policy=policy,
         acceptance_mode=acceptance_mode,
+        anderson_history_depth=anderson_history_depth,
+        anderson_beta=anderson_beta,
+        anderson_regularization_mu=anderson_regularization_mu,
+        anderson_alpha_reduction=anderson_alpha_reduction,
+        load_schedule=load_schedule,
+    )
+
+
+def _monolithic_config_from_arguments(
+    arguments: argparse.Namespace,
+    base_config: Any,
+    monolithic: Any,
+) -> Any:
+    """Build the strict monolithic configuration from explicit CLI fields."""
+
+    required = (
+        "max_newton_iterations",
+        "gmres_rtol",
+        "gmres_atol",
+        "gmres_restart",
+        "gmres_maxiter",
+        "armijo_c",
+        "line_search_reduction",
+        "line_search_max_backtracks",
+        "line_search_alpha_min",
+    )
+    missing = [name for name in required if getattr(arguments, name) is None]
+    if missing:
+        raise ValueError(
+            "--continuation-strategy monolithic requires explicit flags: "
+            + ", ".join(f"--{name.replace('_', '-')}" for name in missing)
+        )
+    if (
+        arguments.max_stagger_iterations
+        != CANONICAL_SOLVER_BASE_MAX_STAGGER_ITERATIONS
+    ):
+        raise ValueError(
+            "--max-stagger-iterations is not a monolithic iteration budget; "
+            "the exact documented solver_base compatibility value is required"
+        )
+    if (
+        base_config.max_stagger_iterations
+        != CANONICAL_SOLVER_BASE_MAX_STAGGER_ITERATIONS
+    ):
+        raise ValueError(
+            "EngineeringGripConfig.max_stagger_iterations is not the exact "
+            "documented solver_base compatibility value for monolithic workflow"
+        )
+    newton_config = monolithic.MonolithicNewtonConfig(
+        max_newton_iterations=arguments.max_newton_iterations,
+        gmres_rtol=arguments.gmres_rtol,
+        gmres_atol=arguments.gmres_atol,
+        gmres_restart=arguments.gmres_restart,
+        gmres_maxiter=arguments.gmres_maxiter,
+        armijo_c=arguments.armijo_c,
+        line_search_reduction=arguments.line_search_reduction,
+        line_search_max_backtracks=arguments.line_search_max_backtracks,
+        line_search_alpha_min=arguments.line_search_alpha_min,
+    )
+    return monolithic.MonolithicContinuationConfig(
+        load_start=base_config.load_start,
+        load_final=base_config.load_final,
+        du_initial=base_config.du_initial,
+        du_min=base_config.du_min,
+        cutback_factor=base_config.cutback_factor,
+        max_cutbacks=base_config.max_cutbacks,
+        engineering_config=base_config,
+        newton_config=newton_config,
     )
 
 
@@ -1179,10 +1690,201 @@ def _workflow_config_payload(config: Any, strategy: str, engineering: Any) -> di
             "base": _json_safe(engineering._config_payload(config.base)),
             "stabilized": _json_safe(config.payload()),
         }
+    if strategy == "monolithic":
+        from . import nonlocal_engineering_grip_monolithic_archive as monolithic_archive
+
+        if not hasattr(config, "engineering_config") or not hasattr(
+            config, "newton_config"
+        ):
+            raise TypeError("monolithic workflow configuration is incomplete")
+        return {
+            "continuation_strategy": strategy,
+            "acceptance_mode": config.acceptance_mode,
+            "engineering": _json_safe(
+                monolithic_archive._engineering_config_payload(
+                    config.engineering_config
+                )
+            ),
+            "newton": _json_safe(
+                monolithic_archive._newton_config_payload(config.newton_config)
+            ),
+            "continuation": _json_safe(
+                monolithic_archive._continuation_config_payload(config)
+            ),
+        }
     return {
         "continuation_strategy": strategy,
         **_json_safe(engineering._config_payload(config)),
     }
+
+
+def _anderson_scalar_diagnostic_binding(
+    stabilized: Any,
+    engineering: Any,
+    config: Any,
+    source_metadata: Mapping[str, Any],
+    *,
+    run_id: str,
+    archive_path: Path,
+    failure_archive_path: Path | None = None,
+) -> dict[str, Any]:
+    """Return the immutable scalar-diagnostic provenance header."""
+
+    base_payload = _json_safe(engineering._config_payload(config.base))
+    stabilized_payload = _json_safe(config.payload())
+    configuration = {
+        "base": base_payload,
+        "stabilized": stabilized_payload,
+    }
+    if not isinstance(source_metadata, Mapping):
+        raise TypeError("Anderson diagnostic source metadata must be a mapping")
+    source_path = source_metadata.get("path")
+    source_sha256 = source_metadata.get("sha256")
+    if not isinstance(source_path, str) or not isinstance(source_sha256, str):
+        raise ValueError("Anderson diagnostic source metadata is incomplete")
+    source_bundle_files = list(stabilized._STABILIZED_SOURCE_BUNDLE_FILES)
+    if failure_archive_path is None:
+        failure_archive_path = archive_path.parent / (
+            f"{archive_path.stem}.failure{archive_path.suffix}"
+        )
+    expected_archive_paths = [str(archive_path), str(failure_archive_path)]
+    if len({Path(path).resolve() for path in expected_archive_paths}) != 2:
+        raise ValueError(
+            "Anderson diagnostic completed and failure archive paths must differ"
+        )
+    completed_contract = stabilized._stabilized_contract(
+        config.acceptance_mode,
+        failure=False,
+        schedule=config.load_schedule is not None,
+    )
+    failure_contract = stabilized._stabilized_contract(
+        config.acceptance_mode,
+        failure=True,
+        schedule=config.load_schedule is not None,
+    )
+    expected_archive_bindings = [
+        {
+            "path": str(archive_path),
+            "path_suffix": ".npz",
+            "kind": "completed",
+            "completion_status": completed_contract["completion_status"],
+            "archive_schema": completed_contract["archive_schema"],
+        },
+        {
+            "path": str(failure_archive_path),
+            "path_suffix": ".failure.npz",
+            "kind": "failure",
+            "completion_status": failure_contract["completion_status"],
+            "archive_schema": failure_contract["archive_schema"],
+        },
+    ]
+    binding: dict[str, Any] = {
+        "diagnostic_kind": "anderson_scalar",
+        "run_id": run_id,
+        "expected_archive_path": str(archive_path),
+        "expected_archive_paths": expected_archive_paths,
+        "expected_archive_bindings": expected_archive_bindings,
+        "expected_archive_schemas": [
+            completed_contract["archive_schema"],
+            failure_contract["archive_schema"],
+        ],
+        "expected_completion_statuses": [
+            completed_contract["completion_status"],
+            failure_contract["completion_status"],
+        ],
+        "source_path": source_path,
+        "source_sha256": source_sha256,
+        "source_bundle_hash_kind": engineering._SOURCE_BUNDLE_HASH_KIND,
+        "source_bundle_hash": stabilized._current_stabilized_source_bundle_hash(),
+        "source_bundle_files": source_bundle_files,
+        "workflow_path": str(Path(__file__).resolve()),
+        "workflow_sha256": _sha256_file(Path(__file__).resolve()),
+        "configuration": configuration,
+        "configuration_sha256": stabilized._v5_json_sha256(configuration),
+        "selection_merit_identity": stabilized._anderson_merit_identity(
+            config.relaxation_policy
+        ),
+        "instrumentation_contract": {
+            "field_vectors_recorded": False,
+            "extra_mechanics_for_picard_comparison": False,
+            "picard_comparison_merit": None,
+            "candidate_map_residual_recorded": True,
+            "candidate_transition_damage_history_recorded": True,
+            "selection_merit_identity_bound": True,
+            "transition_diagnostics_separate": True,
+            "source_hash_bound": True,
+            "final_archive_hash_bound": True,
+        },
+        "required_scalar_fields": [
+            "reference_merit_components",
+            "candidate_merit_components",
+            "selection_merit_identity",
+            "selection_merit",
+            "selection_merit_components",
+            "transition_diagnostic_components",
+            "candidate_dominant_component",
+            "candidate_actual_map_residual_inf",
+            "sufficient_decrease_limit",
+            "anderson_history_size",
+            "anderson_qr_rank",
+            "anderson_coefficient_norm",
+            "anderson_selection",
+            "anderson_fallback_reason",
+            "anderson_restart_reason",
+            "evaluation_counts",
+            "sweep_elapsed_seconds",
+        ],
+    }
+    if config.relaxation_policy in (
+        "anderson_residual",
+            "anderson_residual_backtracking",
+            "anderson_residual_regularized_backtracking",
+        ):
+        binding["instrumentation_contract"].update(
+            {
+                "hard_gate_attribution": True,
+                "hard_gate_attribution_schema": (
+                    stabilized.ANDERSON_RESIDUAL_HARD_GATE_ATTRIBUTION_SCHEMA
+                ),
+                "hard_gate_statuses": [
+                    "evaluated",
+                    "not_evaluated",
+                    "candidate_map_failure",
+                ],
+                "hard_gate_attribution_extra_solves": False,
+            }
+        )
+        binding["required_scalar_fields"].extend(
+            [
+                "hard_gate_attribution_schema",
+                "hard_gate_status",
+                "hard_gate_diagnostics",
+                "failed_hard_gates",
+            ]
+        )
+        if config.relaxation_policy in (
+            "anderson_residual_backtracking",
+            "anderson_residual_regularized_backtracking",
+        ):
+            binding["required_scalar_fields"].extend(
+                ["trial_alpha", "trial_alpha_index", "backtrack_count"]
+            )
+    if config.relaxation_policy == (
+        "anderson_residual_regularized_backtracking"
+    ):
+        binding["required_scalar_fields"].remove("anderson_coefficient_norm")
+        binding["required_scalar_fields"].extend(
+            [
+                "anderson_regularization_mu",
+                "anderson_current_residual_l2",
+                "anderson_regularization_lambda",
+                "anderson_unregularized_ls_residual_l2",
+                "anderson_coefficient_l2",
+            ]
+        )
+    if config.load_schedule is not None:
+        binding["load_schedule"] = config.load_schedule.payload()
+    return binding
 
 
 def _acceptance_from_arguments(
@@ -1225,15 +1927,10 @@ def _acceptance_details_from_arguments(
     return mode, None, None
 
 
-def _construct_model(
+def _construct_owner_model(
     arguments: argparse.Namespace,
-) -> tuple[Any, Any, dict[str, np.ndarray], dict[str, Any]]:
-    """Construct the CPU model and base config after input validation.
-
-    This stage performs no GPU work.  Keeping it separate lets the stabilized
-    workflow preflight archive storage from the exact model dimensions and
-    static arrays before any GPU adapter or continuation is created.
-    """
+) -> tuple[Any, dict[str, np.ndarray], dict[str, Any]]:
+    """Construct the float64 owner model from explicit geometry/material fields."""
 
     import jax
 
@@ -1267,6 +1964,22 @@ def _construct_model(
         arguments.Gc,
         arguments.l0,
     )
+    return model, cloud, source_metadata
+
+
+def _construct_model(
+    arguments: argparse.Namespace,
+) -> tuple[Any, Any, dict[str, np.ndarray], dict[str, Any]]:
+    """Construct the CPU model and base config after input validation.
+
+    This stage performs no GPU work.  Keeping it separate lets the stabilized
+    workflow preflight archive storage from the exact model dimensions and
+    static arrays before any GPU adapter or continuation is created.
+    """
+
+    from . import nonlocal_engineering_grip as engineering
+
+    model, cloud, source_metadata = _construct_owner_model(arguments)
     config = _config_from_arguments(arguments, engineering)
     return model, config, cloud, source_metadata
 
@@ -1388,13 +2101,27 @@ def _source_bundle_manifest(engineering: Any, solver_module: Any | None = None) 
     bundle_module = engineering if solver_module is None else solver_module
     repository_root = Path(bundle_module.__file__).resolve().parents[2]
     bundle_files = tuple(
-        getattr(bundle_module, "_STABILIZED_SOURCE_BUNDLE_FILES", engineering._SOURCE_BUNDLE_FILES)
+        getattr(
+            bundle_module,
+            "_SOURCE_BUNDLE_FILES",
+            getattr(
+                bundle_module,
+                "_STABILIZED_SOURCE_BUNDLE_FILES",
+                engineering._SOURCE_BUNDLE_FILES,
+            ),
+        )
     )
     bundle_hash_kind = getattr(
         bundle_module, "_SOURCE_BUNDLE_HASH_KIND", engineering._SOURCE_BUNDLE_HASH_KIND
     )
     bundle_hash_function = getattr(
-        bundle_module, "_current_stabilized_source_bundle_hash", engineering._current_source_bundle_hash
+        bundle_module,
+        "_source_bundle_hash",
+        getattr(
+            bundle_module,
+            "_current_stabilized_source_bundle_hash",
+            engineering._current_source_bundle_hash,
+        ),
     )
     files = []
     for relative_name in bundle_files:
@@ -1420,11 +2147,20 @@ def _source_bundle_manifest(engineering: Any, solver_module: Any | None = None) 
     }
 
 
-def _artifact_record(path: Path, kind: str, root: Path) -> dict[str, Any]:
+def _artifact_record(
+    path: Path,
+    kind: str,
+    root: Path,
+    *,
+    reported_path: Path | None = None,
+) -> dict[str, Any]:
+    """Fingerprint ``path`` while optionally reporting another final path."""
+
     _require_file(path, "artifact")
+    display_path = path if reported_path is None else reported_path
     return {
-        "path": str(path),
-        "relative_path": os.path.relpath(path, root),
+        "path": str(display_path),
+        "relative_path": os.path.relpath(display_path, root),
         "kind": kind,
         "sha256": _sha256_file(path),
         "size_bytes": path.stat().st_size,
@@ -1509,6 +2245,11 @@ def _write_manifest(
         "failure_curve_data",
         "failure_plot_report",
     )
+    diagnostic_keys = tuple(
+        key
+        for key in ("anderson_diagnostic",)
+        if key in paths
+    )
     stabilized = strategy == "stabilized"
     manifest = {
         "schema": MANIFEST_SCHEMA,
@@ -1549,6 +2290,12 @@ def _write_manifest(
             "archive_pickle_loading": False,
         },
     }
+    if diagnostic_keys:
+        manifest["diagnostics"] = [
+            _artifact_record(paths[key], "anderson_scalar_diagnostic", root)
+            for key in diagnostic_keys
+            if paths[key].is_file()
+        ]
     if stabilized:
         # Stabilized v5 stores accepted physical fields and compact solver
         # summaries only.
@@ -1557,7 +2304,9 @@ def _write_manifest(
         if solver_module is None:
             raise ValueError("stabilized manifest requires its solver module")
         contract = solver_module._stabilized_contract(
-            acceptance_mode, failure=False
+            acceptance_mode,
+            failure=False,
+            schedule=config.load_schedule is not None,
         )
         manifest.update(
             {
@@ -1574,6 +2323,8 @@ def _write_manifest(
         )
         if path_replayed not in (None, False):
             raise ValueError("stabilized v5 manifest cannot claim path replay")
+        if config.load_schedule is not None:
+            manifest["load_schedule"] = config.load_schedule.payload()
     else:
         manifest["validated"] = bool(validated)
     if archive_storage_preflight is not None:
@@ -1687,20 +2438,25 @@ def _run_summary(
     path_replayed: bool | None = None,
     archive_storage_preflight: Mapping[str, Any] | None = None,
     error: str | None = None,
+    anderson_scalar_diagnostic_path: Path | None = None,
+    archive_content_path: Path | None = None,
 ) -> dict[str, Any]:
     strategy = config_payload.get("continuation_strategy", "legacy")
     stabilized = strategy == "stabilized"
+    experimental = strategy in {"stabilized", "monolithic"}
     payload: dict[str, Any] = {
         "schema": "fracture2d-engineering-grip-run-summary-v1",
         "nonproduction": True,
         "completion_status": status,
         "continuation_strategy": strategy,
-        "experimental": stabilized,
+        "experimental": experimental,
         "elapsed_seconds": float(elapsed_seconds),
         "device": str(device),
         "archive_path": str(archive_path),
-        "archive_sha256": _sha256_file(archive_path)
-        if archive_path.is_file()
+        "archive_sha256": _sha256_file(
+            archive_path if archive_content_path is None else archive_content_path
+        )
+        if (archive_path if archive_content_path is None else archive_content_path).is_file()
         else None,
         "replay_report": str(replay_path) if replay_path is not None else None,
         "analysis_report": str(analysis_path) if analysis_path is not None else None,
@@ -1724,10 +2480,25 @@ def _run_summary(
         )
         if path_replayed not in (None, False):
             raise ValueError("stabilized v5 summary cannot claim path replay")
+        stabilized_payload = config_payload.get("stabilized")
+        if isinstance(stabilized_payload, Mapping) and "load_schedule" in stabilized_payload:
+            load_schedule = stabilized_payload["load_schedule"]
+            if not isinstance(load_schedule, Mapping):
+                raise ValueError("stabilized summary schedule binding is invalid")
+            payload["load_schedule"] = dict(load_schedule)
     else:
         payload["validated"] = bool(validated)
     if error is not None:
         payload["error"] = str(error)
+    if anderson_scalar_diagnostic_path is not None:
+        payload["anderson_scalar_diagnostic"] = {
+            "path": str(anderson_scalar_diagnostic_path),
+            "sha256": (
+                _sha256_file(anderson_scalar_diagnostic_path)
+                if anderson_scalar_diagnostic_path.is_file()
+                else None
+            ),
+        }
     if archive_storage_preflight is not None:
         if not isinstance(archive_storage_preflight, Mapping):
             raise TypeError("archive_storage_preflight must be a mapping")
@@ -1735,6 +2506,554 @@ def _run_summary(
             archive_storage_preflight
         )
     return payload
+
+
+def _validate_monolithic_arguments(arguments: argparse.Namespace, monolithic_archive: Any) -> None:
+    """Reject every non-strict/stabilized control on the monolithic path."""
+
+    newton_fields = (
+        "max_newton_iterations",
+        "gmres_rtol",
+        "gmres_atol",
+        "gmres_restart",
+        "gmres_maxiter",
+        "armijo_c",
+        "line_search_reduction",
+        "line_search_max_backtracks",
+        "line_search_alpha_min",
+    )
+    missing_newton = [name for name in newton_fields if getattr(arguments, name) is None]
+    if missing_newton:
+        raise ValueError(
+            "--continuation-strategy monolithic requires explicit flags: "
+            + ", ".join(f"--{name.replace('_', '-')}" for name in missing_newton)
+        )
+    if arguments.acceptance_mode != "strict":
+        raise ValueError(
+            "--continuation-strategy monolithic requires --acceptance-mode strict"
+        )
+    if arguments.gpu_device_index != DEFAULT_GPU_DEVICE_INDEX:
+        raise ValueError(
+            "--gpu-device-index is unused by CPU-reference monolithic continuation "
+            f"and must remain {DEFAULT_GPU_DEVICE_INDEX}"
+        )
+    if arguments.fem_archive != DEFAULT_FEM_ARCHIVE:
+        raise ValueError(
+            "--fem-archive is unused by monolithic continuation and must remain "
+            f"{DEFAULT_FEM_ARCHIVE}"
+        )
+    if arguments.overwrite:
+        raise ValueError(
+            "overwrite is not supported for monolithic bundles; choose a new run-id"
+        )
+    if (
+        arguments.warning_safety_limit is not None
+        or arguments.warning_safety_policy is not None
+    ):
+        raise ValueError(
+            "warning safety policy/limit are incompatible with monolithic continuation"
+        )
+    if arguments.archive_budget_bytes is None:
+        raise ValueError(
+            "--continuation-strategy monolithic requires --archive-budget-bytes"
+        )
+    if arguments.archive_budget_bytes > monolithic_archive.MONOLITHIC_ARCHIVE_MAX_BUDGET_BYTES:
+        raise ValueError(
+            "monolithic archive budget exceeds the practical ZIP32-only v1 maximum "
+            f"({arguments.archive_budget_bytes} > "
+            f"{monolithic_archive.MONOLITHIC_ARCHIVE_MAX_BUDGET_BYTES})"
+        )
+    if (
+        arguments.max_stagger_iterations
+        != CANONICAL_SOLVER_BASE_MAX_STAGGER_ITERATIONS
+    ):
+        raise ValueError(
+            "--max-stagger-iterations is not a monolithic iteration budget; "
+            "monolithic uses its explicit Newton budget and requires the exact "
+            "documented solver_base compatibility value "
+            f"{CANONICAL_SOLVER_BASE_MAX_STAGGER_ITERATIONS}"
+        )
+    if arguments.load_schedule_npz is not None:
+        raise ValueError(
+            "--load-schedule-npz is incompatible with monolithic continuation"
+        )
+    if arguments.progress_every_sweeps is not None:
+        raise ValueError(
+            "--progress-every-sweeps is incompatible with monolithic continuation"
+        )
+    if arguments.anderson_scalar_diagnostic:
+        raise ValueError(
+            "--anderson-scalar-diagnostic is incompatible with monolithic continuation"
+        )
+    # These controls belong to the stabilized staggered controller.  Their
+    # parser defaults are accepted only as compatibility sentinels; changing
+    # one must never silently alter the monolithic path.
+    if arguments.relaxation_policy != DEFAULT_RELAXATION_POLICY:
+        raise ValueError(
+            "--relaxation-policy is a stabilized-only option and must remain "
+            f"{DEFAULT_RELAXATION_POLICY!r} for monolithic continuation"
+        )
+    forbidden_stabilized_values = (
+        ("omega_initial", arguments.omega_initial, DEFAULT_OMEGA),
+        ("omega_min", arguments.omega_min, DEFAULT_OMEGA),
+        ("max_backtracks", arguments.max_backtracks, DEFAULT_MAX_BACKTRACKS),
+    )
+    changed = [
+        name for name, value, default in forbidden_stabilized_values if value != default
+    ]
+    if changed:
+        raise ValueError(
+            "stabilized relaxation controls are incompatible with monolithic "
+            "continuation: "
+            + ", ".join(f"--{name.replace('_', '-')}" for name in changed)
+        )
+    for name in (
+        "omega_reduction",
+        "sufficient_decrease",
+        "anderson_history_depth",
+        "anderson_beta",
+        "anderson_alpha_reduction",
+        "anderson_regularization_mu",
+    ):
+        if getattr(arguments, name) is not None:
+            raise ValueError(
+                f"--{name.replace('_', '-')} is incompatible with monolithic "
+                "continuation"
+            )
+
+
+def _monolithic_config_payload(
+    config: Any,
+    archive_budget_bytes: int,
+    monolithic_archive: Any,
+) -> dict[str, Any]:
+    payload = _workflow_config_payload(config, "monolithic", None)
+    payload["archive"] = {
+        "budget_bytes": int(archive_budget_bytes),
+        "format": "ZIP32",
+        "allow_zip64": False,
+        "schema": monolithic_archive.MONOLITHIC_ARCHIVE_SCHEMA,
+        "member_names": list(monolithic_archive.MONOLITHIC_ARCHIVE_MEMBER_NAMES),
+    }
+    return payload
+
+
+def _monolithic_metadata_from_replay(replay: Any) -> dict[str, Any]:
+    try:
+        raw = bytes(replay.metadata_json).decode("utf-8")
+        payload = json.loads(raw)
+    except (AttributeError, UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise ValueError("monolithic replay metadata is not valid UTF-8 JSON") from error
+    if not isinstance(payload, Mapping):
+        raise ValueError("monolithic replay metadata must contain a mapping")
+    return dict(payload)
+
+
+def _monolithic_state_summary(
+    replay: Any,
+    archive_path: Path,
+    archive_budget_bytes: int,
+    *,
+    reported_archive_path: Path | None = None,
+) -> dict[str, Any]:
+    """Return scalar-only workflow provenance from an owner-authenticated replay."""
+
+    from . import nonlocal_engineering_grip_monolithic_archive as monolithic_archive
+
+    result = replay.result
+    loads = np.asarray(replay.state_u_bar, dtype=np.float64)
+    damage = np.asarray(replay.state_material_damage, dtype=np.float64)
+    history = np.asarray(replay.state_material_history, dtype=np.float64)
+    accepted_reaction = np.asarray(replay.accepted_reaction, dtype=np.float64)
+    accepted_energy = np.asarray(replay.accepted_mechanics_energy, dtype=np.float64)
+    if (
+        loads.ndim != 1
+        or damage.ndim != 2
+        or history.shape != damage.shape
+        or len(loads) != len(damage)
+        or len(accepted_reaction) != len(loads) - 1
+        or len(accepted_energy) != len(loads) - 1
+    ):
+        raise ValueError("monolithic replay state arrays have incompatible shapes")
+    if not all(
+        np.all(np.isfinite(values))
+        for values in (loads, damage, history, accepted_reaction, accepted_energy)
+    ):
+        raise ValueError("monolithic replay state arrays contain non-finite values")
+    metadata = _monolithic_metadata_from_replay(replay)
+    attempts = metadata.get("attempt_scalar_evidence")
+    if not isinstance(attempts, list):
+        raise ValueError("monolithic replay attempt scalar evidence is missing")
+    failure = metadata.get("failure")
+    if not isinstance(failure, Mapping):
+        raise ValueError("monolithic replay failure provenance is missing")
+    content_archive_path = archive_path
+    display_archive_path = (
+        archive_path if reported_archive_path is None else reported_archive_path
+    )
+    return {
+        "state_u_bar": loads.tolist(),
+        "state_reaction": np.concatenate(
+            (np.asarray([0.0], dtype=np.float64), accepted_reaction)
+        ).tolist(),
+        "accepted_reaction": accepted_reaction.tolist(),
+        "accepted_mechanics_energy": accepted_energy.tolist(),
+        "state_damage_max": np.max(damage, axis=1).tolist(),
+        "state_history_max": np.max(history, axis=1).tolist(),
+        "accepted_steps": int(len(result.accepted_steps)),
+        "attempts": int(len(result.attempts)),
+        "rejected_attempts": int(sum(not attempt.accepted for attempt in result.attempts)),
+        "cutbacks_total": int(sum(attempt.cutback_count for attempt in result.attempts)),
+        "state_digests": list(replay.state_digests),
+        "attempt_digests": list(replay.attempt_digests),
+        "attempt_scalar_evidence": attempts,
+        "result_digest": replay.result_digest,
+        "failure_endpoint": {
+            "last_committed_u_bar": float(result.final_state.u_bar),
+            "failed_target": failure["failed_target"],
+            "failure_reason": failure["failure_reason"],
+            "failed_attempt_index": failure["failed_attempt_index"],
+        },
+        "archive": {
+            "path": str(display_archive_path),
+            "sha256": _sha256_file(content_archive_path),
+            "size_bytes": content_archive_path.stat().st_size,
+            "budget_bytes": int(archive_budget_bytes),
+            "schema": replay.schema,
+            "member_names": list(monolithic_archive.MONOLITHIC_ARCHIVE_MEMBER_NAMES),
+        },
+    }
+
+
+def _monolithic_replay_payload(
+    replay: Any,
+    archive_path: Path,
+    report_path: Path,
+    archive_budget_bytes: int,
+    *,
+    content_archive_path: Path | None = None,
+) -> dict[str, Any]:
+    result = replay.result
+    rejected = any(not attempt.accepted for attempt in result.attempts)
+    content_path = archive_path if content_archive_path is None else content_archive_path
+    return {
+        "schema": MONOLITHIC_REPLAY_REPORT_SCHEMA,
+        "continuation_strategy": "monolithic",
+        "archive_schema": replay.schema,
+        "completion_status": result.completion_status,
+        "validated": bool(result.validated),
+        "owner_authenticated": True,
+        "field_equations_validated": bool(len(result.accepted_steps) > 0),
+        "field_equations_validation_scope": (
+            MONOLITHIC_FIELD_EQUATIONS_VALIDATION_SCOPE
+        ),
+        "path_replayed": True,
+        "rejected_trial_path_reconstructed": rejected,
+        "rejected_trial_vectors_persisted": False,
+        "archive_path": str(archive_path),
+        "report_path": str(report_path),
+        "archive_sha256": _sha256_file(content_path),
+        "archive_budget_bytes": int(archive_budget_bytes),
+        "state_count": int(len(replay.state_u_bar)),
+        "accepted_steps": int(len(result.accepted_steps)),
+        "attempt_count": int(len(result.attempts)),
+        "state_digests": list(replay.state_digests),
+        "attempt_digests": list(replay.attempt_digests),
+        "result_digest": replay.result_digest,
+        "accepted_reaction": np.asarray(
+            replay.accepted_reaction, dtype=np.float64
+        ).tolist(),
+        "accepted_mechanics_energy": np.asarray(
+            replay.accepted_mechanics_energy, dtype=np.float64
+        ).tolist(),
+        "accepted_mechanics_energy_semantics": (
+            "A2MechanicsSolveResult.energy at each accepted canonical mechanics-after state"
+        ),
+    }
+
+
+def _write_monolithic_manifest(
+    path: Path,
+    paths: Mapping[str, Path],
+    source_metadata: Mapping[str, Any],
+    config_payload: Mapping[str, Any],
+    replay_payload: Mapping[str, Any],
+    result: Any,
+    archive_module: Any,
+    engineering: Any,
+    *,
+    command: Sequence[str],
+    overwrite: bool,
+    content_paths: Mapping[str, Path] | None = None,
+) -> dict[str, Any]:
+    if overwrite:
+        raise ValueError("overwrite is not supported for monolithic bundles")
+    if "bundle" not in paths:
+        raise ValueError("monolithic manifest paths must include the final bundle")
+    root = paths["bundle"]
+    actual_paths = paths if content_paths is None else content_paths
+    required_keys = {"archive", "replay", "summary", "manifest"}
+    if not required_keys.issubset(paths) or not required_keys.issubset(actual_paths):
+        raise ValueError("monolithic manifest paths are incomplete")
+    failure = result.completion_status == "failed"
+    archive_record = _artifact_record(
+        actual_paths["archive"],
+        "failure_audit" if failure else "completed_archive",
+        root,
+        reported_path=paths["archive"],
+    )
+    summary_record = _artifact_record(
+        actual_paths["summary"],
+        "summary",
+        root,
+        reported_path=paths["summary"],
+    )
+    replay_record = _artifact_record(
+        actual_paths["replay"],
+        "replay_report",
+        root,
+        reported_path=paths["replay"],
+    )
+    manifest = {
+        "schema": MONOLITHIC_MANIFEST_SCHEMA,
+        "continuation_strategy": "monolithic",
+        "experimental": True,
+        "nonproduction": True,
+        "validated": bool(result.validated),
+        "completion_status": result.completion_status,
+        "source": dict(source_metadata),
+        "configuration": dict(config_payload),
+        "bundle": {
+            "path": str(root),
+            "relative_path": ".",
+            "member_names": list(MONOLITHIC_BUNDLE_MEMBER_NAMES),
+            "publication": "renameat2(RENAME_NOREPLACE)",
+            "overwrite": "rejected",
+        },
+        "completed_archive": [] if failure else [archive_record],
+        "failure_audit": [archive_record] if failure else [],
+        "summary": summary_record,
+        "replay": replay_record,
+        "contents": {
+            "archive": archive_record,
+            "replay": replay_record,
+            "summary": summary_record,
+            "manifest": {
+                "path": str(paths["manifest"]),
+                "relative_path": "manifest.json",
+                "kind": "manifest",
+                "fingerprint_scope": "self-reference-excluded",
+            },
+        },
+        "code": _source_bundle_manifest(engineering, archive_module),
+        "execution": {
+            "command": list(command),
+            "device": "cpu_reference",
+            "python": sys.version,
+            "platform": platform.platform(),
+            "jax_x64_enabled": True,
+        },
+        "archive_storage": {
+            "budget_bytes": int(config_payload["archive"]["budget_bytes"]),
+            "format": "ZIP32",
+            "allow_zip64": False,
+            "member_names": list(archive_module.MONOLITHIC_ARCHIVE_MEMBER_NAMES),
+        },
+        "replay_contract": {
+            "owner_authenticated": bool(replay_payload["owner_authenticated"]),
+            "path_replayed": bool(replay_payload["path_replayed"]),
+            "field_equations_validated": bool(
+                replay_payload["field_equations_validated"]
+            ),
+            "field_equations_validation_scope": (
+                replay_payload["field_equations_validation_scope"]
+            ),
+            "rejected_trial_vectors_persisted": False,
+            "owner_recomputed_fields": [
+                "psi_after",
+                "H_next",
+                "crack_region_strain",
+                "static_operators",
+                "canonical_equations",
+                "canonical_gates",
+            ],
+        },
+        "provenance_policy": {
+            "archive_pickle_loading": False,
+            "rejected_trial_vectors_archived": False,
+            "temporary_paths_are_not_sole_provenance": True,
+        },
+    }
+    _write_json_fsync(path, manifest)
+    return manifest
+
+
+def _run_monolithic_workflow(arguments: argparse.Namespace) -> int:
+    """Run and publish one strict CPU-reference monolithic bundle."""
+
+    from . import nonlocal_engineering_grip as engineering
+    from . import nonlocal_engineering_grip_monolithic as monolithic
+    from . import nonlocal_engineering_grip_monolithic_archive as monolithic_archive
+
+    _validate_monolithic_arguments(arguments, monolithic_archive)
+    paths = monolithic_bundle_paths(arguments.output_directory, arguments.run_id)
+    _preflight_monolithic_bundle(paths, overwrite=arguments.overwrite)
+    started = time.perf_counter()
+    model, base_config, _cloud, source_metadata = _construct_model(arguments)
+    config = _monolithic_config_from_arguments(arguments, base_config, monolithic)
+    config_payload = _monolithic_config_payload(
+        config, arguments.archive_budget_bytes, monolithic_archive
+    )
+
+    def persist(result: Any) -> tuple[dict[str, Any], dict[str, Any]]:
+        staging = _create_private_monolithic_staging_directory(
+            paths["bundle"].parent,
+            arguments.run_id,
+        )
+        staging_paths = {
+            key: staging / paths[key].name
+            for key in ("archive", "replay", "summary", "manifest")
+        }
+        published = False
+        try:
+            monolithic_archive.write_monolithic_continuation_archive(
+                staging_paths["archive"],
+                result,
+                arguments.archive_budget_bytes,
+                overwrite=False,
+            )
+            replay = monolithic_archive.replay_monolithic_continuation_archive(
+                staging_paths["archive"],
+                model,
+                arguments.archive_budget_bytes,
+            )
+            replay_payload = _monolithic_replay_payload(
+                replay,
+                paths["archive"],
+                paths["replay"],
+                arguments.archive_budget_bytes,
+                content_archive_path=staging_paths["archive"],
+            )
+            _write_json_fsync(staging_paths["replay"], replay_payload)
+            state_summary = _monolithic_state_summary(
+                replay,
+                staging_paths["archive"],
+                arguments.archive_budget_bytes,
+                reported_archive_path=paths["archive"],
+            )
+            summary = _run_summary(
+                validated=bool(result.validated),
+                status=result.completion_status,
+                elapsed_seconds=time.perf_counter() - started,
+                archive_path=paths["archive"],
+                replay_path=paths["replay"],
+                analysis_path=None,
+                plot_report_path=None,
+                state_summary=state_summary,
+                source_metadata=source_metadata,
+                device="cpu_reference",
+                config_payload=config_payload,
+                acceptance_mode="strict",
+                warning_safety_limit=None,
+                warning_safety_policy=None,
+                field_equations_validated=replay_payload["field_equations_validated"],
+                path_replayed=True,
+                error=(
+                    result.failure_reason
+                    if result.completion_status == "failed"
+                    else None
+                ),
+                archive_content_path=staging_paths["archive"],
+            )
+            summary["replay"] = replay_payload
+            summary["field_equations_validated"] = bool(
+                replay_payload["field_equations_validated"]
+            )
+            summary["field_equations_validation_scope"] = (
+                replay_payload["field_equations_validation_scope"]
+            )
+            summary["path_replayed"] = True
+            summary["rejected_trial_path_reconstructed"] = bool(
+                replay_payload["rejected_trial_path_reconstructed"]
+            )
+            summary["monolithic_replay"] = {
+                "owner_authenticated": True,
+                "rejected_trial_vectors_persisted": False,
+                "archive_schema": replay.schema,
+            }
+            _write_json_fsync(staging_paths["summary"], summary)
+            _write_monolithic_manifest(
+                staging_paths["manifest"],
+                paths,
+                source_metadata,
+                config_payload,
+                replay_payload,
+                result,
+                monolithic_archive,
+                engineering,
+                command=sys.argv,
+                overwrite=False,
+                content_paths=staging_paths,
+            )
+
+            fingerprints = _fingerprint_monolithic_bundle(staging)
+            for name in ("replay", "summary", "manifest"):
+                raw = (staging_paths[name]).read_bytes()
+                if staging.name.encode() in raw or str(staging).encode() in raw:
+                    raise ValueError(
+                        f"monolithic {name} report contains a staging path"
+                    )
+            manifest_payload = json.loads(
+                staging_paths["manifest"].read_text(encoding="utf-8")
+            )
+            for name in ("archive", "replay", "summary"):
+                record = manifest_payload["contents"][name]
+                fingerprint = fingerprints[f"{name}.npz" if name == "archive" else f"{name}.json"]
+                if record["path"] != str(paths[name]):
+                    raise ValueError(
+                        f"monolithic manifest {name} path is not the final bundle path"
+                    )
+                if record["sha256"] != fingerprint.sha256 or record["size_bytes"] != fingerprint.size_bytes:
+                    raise ValueError(
+                        f"monolithic manifest {name} fingerprint is incomplete"
+                    )
+            manifest_record = manifest_payload["contents"]["manifest"]
+            if manifest_record != {
+                "path": str(paths["manifest"]),
+                "relative_path": "manifest.json",
+                "kind": "manifest",
+                "fingerprint_scope": "self-reference-excluded",
+            }:
+                raise ValueError("monolithic manifest self-reference policy is invalid")
+            if fingerprints["manifest.json"].size_bytes <= 0:
+                raise ValueError("monolithic manifest is empty")
+            _fsync_directory(staging)
+            try:
+                _publish_monolithic_bundle(staging, paths["bundle"])
+            except MonolithicBundleDurabilityError:
+                published = True
+                raise
+            published = True
+            print(json.dumps(_json_safe(summary), indent=2, sort_keys=True))
+            return summary, replay_payload
+        except BaseException as error:
+            if not published:
+                try:
+                    _remove_private_monolithic_staging_directory(staging)
+                except BaseException as cleanup_error:
+                    raise RuntimeError(
+                        "monolithic private staging cleanup failed after "
+                        f"{error}: {cleanup_error}"
+                    ) from error
+            raise
+
+    try:
+        result = monolithic.run_monolithic_strict_continuation(model, config, None)
+    except monolithic.MonolithicContinuationFailure as failure:
+        persist(failure.result)
+        raise
+    _summary, _replay = persist(result)
+    return 2 if result.completion_status == "failed" else 0
 
 
 def _run_stabilized_workflow(arguments: argparse.Namespace) -> int:
@@ -1753,8 +3072,24 @@ def _run_stabilized_workflow(arguments: argparse.Namespace) -> int:
             "--continuation-strategy stabilized requires explicit "
             "--progress-every-sweeps"
         )
+    diagnostic_enabled = arguments.anderson_scalar_diagnostic
+    if type(diagnostic_enabled) is not bool:
+        raise TypeError("--anderson-scalar-diagnostic must be a boolean flag")
+    if diagnostic_enabled and arguments.relaxation_policy not in (
+        "anderson",
+        "anderson_residual",
+        "anderson_residual_backtracking",
+        "anderson_residual_regularized_backtracking",
+    ):
+        raise ValueError(
+            "--anderson-scalar-diagnostic requires an Anderson relaxation policy"
+        )
     fem = _load_fem_archive(arguments.fem_archive)
-    paths = artifact_paths(arguments.output_directory, arguments.run_id)
+    paths = artifact_paths(
+        arguments.output_directory,
+        arguments.run_id,
+        anderson_scalar_diagnostic=diagnostic_enabled,
+    )
     _preflight_artifacts(paths, overwrite=arguments.overwrite)
     started = time.perf_counter()
     model, base_config, cloud, source_metadata = _construct_model(arguments)
@@ -1780,7 +3115,25 @@ def _run_stabilized_workflow(arguments: argparse.Namespace) -> int:
     adapter, device = _construct_adapter(arguments, model)
     config_payload = _workflow_config_payload(config, "stabilized", engineering)
     acceptance_mode = config.acceptance_mode
-    failure_contract = stabilized._stabilized_contract(acceptance_mode, failure=True)
+    failure_contract = stabilized._stabilized_contract(
+        acceptance_mode,
+        failure=True,
+        schedule=config.load_schedule is not None,
+    )
+    diagnostic_writer = None
+    if diagnostic_enabled:
+        diagnostic_writer = stabilized.AndersonScalarDiagnosticWriter(
+            paths["anderson_diagnostic"],
+            binding=_anderson_scalar_diagnostic_binding(
+                stabilized,
+                engineering,
+                config,
+                source_metadata,
+                run_id=arguments.run_id,
+                archive_path=paths["archive"],
+                failure_archive_path=paths["failure_archive"],
+            ),
+        )
 
     try:
         result = stabilized.run_stabilized_engineering_grip(
@@ -1790,19 +3143,31 @@ def _run_stabilized_workflow(arguments: argparse.Namespace) -> int:
             archive_budget_bytes=arguments.archive_budget_bytes,
             archive_output_path=paths["archive"],
             progress_callback=_print_stabilized_progress,
+            anderson_diagnostic_callback=(
+                None if diagnostic_writer is None else diagnostic_writer.emit
+            ),
             progress_every_sweeps=arguments.progress_every_sweeps,
         )
     except stabilized.StabilizedEngineeringGripContinuationFailure as failure:
-        _atomic_stabilized_failure_archive(
-            paths["failure_archive"],
-            failure,
-            model,
-            config,
-            source_metadata=source_metadata,
-            archive_budget_bytes=arguments.archive_budget_bytes,
-            archive_storage_preflight=storage_preflight,
-            overwrite=arguments.overwrite,
-        )
+        try:
+            _atomic_stabilized_failure_archive(
+                paths["failure_archive"],
+                failure,
+                model,
+                config,
+                source_metadata=source_metadata,
+                archive_budget_bytes=arguments.archive_budget_bytes,
+                archive_storage_preflight=storage_preflight,
+                overwrite=arguments.overwrite,
+            )
+            if diagnostic_writer is not None:
+                diagnostic_writer.finalize(
+                    paths["failure_archive"],
+                    status=failure_contract["completion_status"],
+                )
+        finally:
+            if diagnostic_writer is not None:
+                diagnostic_writer.close()
         failure_values = _load_npz(paths["failure_archive"], "stabilized failure archive")
         failure_replay_payload = replay_archive(
             paths["failure_archive"],
@@ -1830,6 +3195,11 @@ def _run_stabilized_workflow(arguments: argparse.Namespace) -> int:
             field_equations_validated=failure_fields_validated,
             archive_storage_preflight=storage_preflight,
             error=str(failure),
+            anderson_scalar_diagnostic_path=(
+                None
+                if diagnostic_writer is None
+                else paths["anderson_diagnostic"]
+            ),
         )
         failure_summary["replay"] = failure_replay_payload
         failure_summary["archive_storage_preflight"] = _json_safe(
@@ -1870,6 +3240,11 @@ def _run_stabilized_workflow(arguments: argparse.Namespace) -> int:
             paths["failure_analysis"],
             overwrite=arguments.overwrite,
             replay_result=failure_replay_payload["replay"],
+            anderson_diagnostic_path=(
+                None
+                if diagnostic_writer is None
+                else paths["anderson_diagnostic"]
+            ),
         )
         failure_plot = plot_archive(
             paths["failure_archive"],
@@ -1905,15 +3280,28 @@ def _run_stabilized_workflow(arguments: argparse.Namespace) -> int:
             overwrite=arguments.overwrite,
         )
         raise
+    except BaseException:
+        if diagnostic_writer is not None:
+            diagnostic_writer.close()
+        raise
 
-    _atomic_stabilized_archive(
-        paths["archive"],
-        result,
-        source_metadata=source_metadata,
-        archive_budget_bytes=arguments.archive_budget_bytes,
-        archive_storage_preflight=storage_preflight,
-        overwrite=arguments.overwrite,
-    )
+    try:
+        _atomic_stabilized_archive(
+            paths["archive"],
+            result,
+            source_metadata=source_metadata,
+            archive_budget_bytes=arguments.archive_budget_bytes,
+            archive_storage_preflight=storage_preflight,
+            overwrite=arguments.overwrite,
+        )
+        if diagnostic_writer is not None:
+            diagnostic_writer.finalize(
+                paths["archive"],
+                status=result.completion_status,
+            )
+    finally:
+        if diagnostic_writer is not None:
+            diagnostic_writer.close()
     try:
         replay_payload = replay_archive(
             paths["archive"],
@@ -1941,6 +3329,11 @@ def _run_stabilized_workflow(arguments: argparse.Namespace) -> int:
             field_equations_validated=False,
             archive_storage_preflight=storage_preflight,
             error=str(error),
+            anderson_scalar_diagnostic_path=(
+                None
+                if diagnostic_writer is None
+                else paths["anderson_diagnostic"]
+            ),
         )
         failed_summary["archive_storage_preflight"] = _json_safe(
             storage_preflight
@@ -1971,6 +3364,9 @@ def _run_stabilized_workflow(arguments: argparse.Namespace) -> int:
         paths["analysis"],
         overwrite=arguments.overwrite,
         replay_result=replay_payload["replay"],
+        anderson_diagnostic_path=(
+            None if diagnostic_writer is None else paths["anderson_diagnostic"]
+        ),
     )
     plot = plot_archive(
         paths["archive"],
@@ -2003,6 +3399,9 @@ def _run_stabilized_workflow(arguments: argparse.Namespace) -> int:
             replay_payload["field_equations_validated"]
         ),
         archive_storage_preflight=storage_preflight,
+        anderson_scalar_diagnostic_path=(
+            None if diagnostic_writer is None else paths["anderson_diagnostic"]
+        ),
     )
     summary["replay"] = replay_payload
     summary["analysis"] = analysis
@@ -2036,9 +3435,16 @@ def _run_stabilized_workflow(arguments: argparse.Namespace) -> int:
 def run_workflow(arguments: argparse.Namespace) -> int:
     """Execute one fresh-zero engineering-grip workflow path."""
 
+    if arguments.continuation_strategy == "monolithic":
+        return _run_monolithic_workflow(arguments)
     if arguments.continuation_strategy == "stabilized":
         return _run_stabilized_workflow(arguments)
 
+    if getattr(arguments, "load_schedule_npz", None) is not None:
+        raise ValueError(
+            "--load-schedule-npz is only valid with "
+            "--continuation-strategy stabilized"
+        )
     if arguments.archive_budget_bytes is not None:
         raise ValueError(
             "--archive-budget-bytes is only valid with "
@@ -2047,6 +3453,11 @@ def run_workflow(arguments: argparse.Namespace) -> int:
     if arguments.progress_every_sweeps is not None:
         raise ValueError(
             "--progress-every-sweeps is only valid with "
+            "--continuation-strategy stabilized"
+        )
+    if arguments.anderson_scalar_diagnostic:
+        raise ValueError(
+            "--anderson-scalar-diagnostic is only valid with "
             "--continuation-strategy stabilized"
         )
 
@@ -2278,6 +3689,18 @@ def run_workflow(arguments: argparse.Namespace) -> int:
 
 
 def _archive_kind(values: Mapping[str, np.ndarray], engineering: Any) -> str:
+    if "archive_schema" not in values and "metadata_json" in values:
+        from . import nonlocal_engineering_grip_monolithic_archive as monolithic_archive
+
+        metadata = _metadata_from_monolithic_values(values)
+        if metadata.get("schema") != monolithic_archive.MONOLITHIC_ARCHIVE_SCHEMA:
+            raise ValueError("unsupported engineering-grip metadata archive schema")
+        status = metadata.get("completion_status")
+        if status == "completed":
+            return "completed"
+        if status == "failed":
+            return "failure"
+        raise ValueError("monolithic archive completion status is invalid")
     schema = _scalar_string(values["archive_schema"], "archive_schema")
     if schema in (
         engineering.ARCHIVE_SCHEMA,
@@ -2295,11 +3718,13 @@ def _archive_kind(values: Mapping[str, np.ndarray], engineering: Any) -> str:
     if schema in (
         stabilized.STABILIZED_ARCHIVE_SCHEMA,
         stabilized.STABILIZED_WARNING_ARCHIVE_SCHEMA,
+        stabilized.STABILIZED_SCHEDULE_ARCHIVE_SCHEMA,
     ):
         return "completed"
     if schema in (
         stabilized.STABILIZED_FAILURE_ARCHIVE_SCHEMA,
         stabilized.STABILIZED_WARNING_FAILURE_ARCHIVE_SCHEMA,
+        stabilized.STABILIZED_SCHEDULE_FAILURE_ARCHIVE_SCHEMA,
     ):
         return "failure"
     raise ValueError(f"unsupported engineering-grip workflow archive schema: {schema}")
@@ -2308,6 +3733,13 @@ def _archive_kind(values: Mapping[str, np.ndarray], engineering: Any) -> str:
 def _archive_strategy(values: Mapping[str, np.ndarray], engineering: Any) -> str:
     """Return the numerical controller family declared by an archive schema."""
 
+    if "archive_schema" not in values and "metadata_json" in values:
+        from . import nonlocal_engineering_grip_monolithic_archive as monolithic_archive
+
+        metadata = _metadata_from_monolithic_values(values)
+        if metadata.get("schema") != monolithic_archive.MONOLITHIC_ARCHIVE_SCHEMA:
+            raise ValueError("unsupported engineering-grip metadata archive schema")
+        return "monolithic"
     schema = _scalar_string(values["archive_schema"], "archive_schema")
     from . import nonlocal_engineering_grip_stabilized as stabilized
 
@@ -2316,6 +3748,8 @@ def _archive_strategy(values: Mapping[str, np.ndarray], engineering: Any) -> str
         stabilized.STABILIZED_FAILURE_ARCHIVE_SCHEMA,
         stabilized.STABILIZED_WARNING_ARCHIVE_SCHEMA,
         stabilized.STABILIZED_WARNING_FAILURE_ARCHIVE_SCHEMA,
+        stabilized.STABILIZED_SCHEDULE_ARCHIVE_SCHEMA,
+        stabilized.STABILIZED_SCHEDULE_FAILURE_ARCHIVE_SCHEMA,
     ):
         return "stabilized"
     if schema in (
@@ -2345,8 +3779,11 @@ def _stabilized_replay_binding(
     to archive-embedded geometry.
     """
 
+    from . import nonlocal_engineering_grip as engineering
+
     archive_schema = None
     completion_status = None
+    relaxation_policy: str | None = None
     expected: dict[str, Any] = {}
     try:
         archive_schema = _scalar_string(values["archive_schema"], "archive_schema")
@@ -2359,9 +3796,14 @@ def _stabilized_replay_binding(
         failure = archive_schema in {
             stabilized.STABILIZED_FAILURE_ARCHIVE_SCHEMA,
             stabilized.STABILIZED_WARNING_FAILURE_ARCHIVE_SCHEMA,
+            stabilized.STABILIZED_SCHEDULE_FAILURE_ARCHIVE_SCHEMA,
+        }
+        schedule = archive_schema in {
+            stabilized.STABILIZED_SCHEDULE_ARCHIVE_SCHEMA,
+            stabilized.STABILIZED_SCHEDULE_FAILURE_ARCHIVE_SCHEMA,
         }
         contract = stabilized._stabilized_contract(
-            acceptance_mode, failure=failure
+            acceptance_mode, failure=failure, schedule=schedule
         )
         if archive_schema != contract["archive_schema"]:
             raise ValueError("stabilized replay acceptance mode does not match archive")
@@ -2402,6 +3844,8 @@ def _stabilized_replay_binding(
             "archive_schema": archive_schema,
             "archive_layout": contract["archive_layout"],
             "replay_contract": contract["replay_contract"],
+            "acceptance_mode": acceptance_mode,
+            "acceptance_status": contract["acceptance_status"],
             "completion_status": completion_status,
             "source_bundle_hash": current_source_hash,
             "source_path": source_metadata.get("path"),
@@ -2422,6 +3866,60 @@ def _stabilized_replay_binding(
         metadata_source_hash = metadata.get("code_hash")
         if metadata_source_hash != current_source_hash:
             raise ValueError("archive source-bundle hash does not match current source")
+        stabilized_config = metadata.get("stabilized_config")
+        if not isinstance(stabilized_config, Mapping):
+            raise ValueError("stabilized archive stabilized_config is missing")
+        if schedule:
+            base_payload = metadata.get("config")
+            if not isinstance(base_payload, Mapping):
+                raise ValueError("scheduled archive base configuration is missing")
+            base_config = engineering._config_from_payload(base_payload)
+            schedule_config = stabilized.StabilizedEngineeringGripConfig.from_payload(
+                stabilized_config, base_config
+            )
+            if schedule_config.load_schedule is None:
+                raise ValueError("scheduled archive configuration is missing its schedule")
+            stabilized._validate_schedule_archive_binding(
+                values, metadata, schedule_config
+            )
+            expected["load_schedule"] = schedule_config.load_schedule.payload()
+        elif "load_schedule" in metadata:
+            raise ValueError("historical stabilized archive contains schedule metadata")
+        relaxation_policy = stabilized_config.get("relaxation_policy")
+        anderson_provenance = stabilized._v5_anderson_provenance(
+            relaxation_policy
+        )
+        expected["anderson_provenance"] = anderson_provenance
+        if relaxation_policy in stabilized.STABILIZED_ANDERSON_POLICIES:
+            expected["relaxation_policy"] = relaxation_policy
+            expected["selection_merit_identity"] = stabilized._anderson_merit_identity(
+                relaxation_policy
+            )
+            if relaxation_policy == (
+                "anderson_residual_regularized_backtracking"
+            ):
+                regularization_mu = stabilized_config.get(
+                    "anderson_regularization_mu"
+                )
+                if isinstance(regularization_mu, bool) or not isinstance(
+                    regularization_mu, (int, float)
+                ):
+                    raise ValueError(
+                        "regularized stabilized archive configuration is missing mu"
+                    )
+                regularization_mu = float(regularization_mu)
+                if not np.isfinite(regularization_mu) or regularization_mu <= 0.0:
+                    raise ValueError(
+                        "regularized stabilized archive configuration has invalid mu"
+                    )
+                expected["anderson_regularization_mu"] = regularization_mu
+        elif replay is not None and any(
+            field in replay
+            for field in ("relaxation_policy", "selection_merit_identity")
+        ):
+            raise ValueError(
+                "non-Anderson stabilized replay contains Anderson identity fields"
+            )
     except (KeyError, OSError, TypeError, ValueError) as error:
         return False, expected, str(error)
 
@@ -2447,8 +3945,25 @@ def _stabilized_replay_binding(
         return False, expected, (
             "stabilized replay rejected-trial path flag is forged"
         )
+    try:
+        stabilized._v5_validate_anderson_provenance(
+            replay.get("anderson_provenance"),
+            relaxation_policy,
+            "stabilized replay result",
+        )
+    except ValueError as error:
+        return False, expected, str(error)
+    optional_historical_identity = (
+        {"relaxation_policy", "selection_merit_identity"}
+        if relaxation_policy == "anderson"
+        else set()
+    )
     for name, value in expected.items():
-        if name not in replay or type(replay[name]) is not type(value):
+        if name not in replay:
+            if name in optional_historical_identity:
+                continue
+            return False, expected, f"stabilized replay binding field {name} is missing or mistyped"
+        if type(replay[name]) is not type(value):
             return False, expected, f"stabilized replay binding field {name} is missing or mistyped"
         if replay[name] != value:
             return False, expected, f"stabilized replay binding field {name} does not match archive"
@@ -2464,6 +3979,8 @@ def _stabilized_replay_semantics(
 ) -> dict[str, Any]:
     """Expose the core v5 replay result without generic validation claims."""
 
+    from . import nonlocal_engineering_grip_stabilized as stabilized
+
     field_equations_validated = bool(
         isinstance(replay, Mapping)
         and type(replay.get("field_equations_validated")) is bool
@@ -2474,11 +3991,38 @@ def _stabilized_replay_semantics(
         False,
     ):
         raise ValueError("stabilized v5 replay cannot claim path replay")
+    if isinstance(replay, Mapping) and "anderson_provenance" in replay:
+        raw_provenance = replay["anderson_provenance"]
+        declared_policy = replay.get("relaxation_policy")
+        policy = (
+            declared_policy
+            if declared_policy in (
+                "anderson",
+                "anderson_residual",
+                "anderson_residual_backtracking",
+                "anderson_residual_regularized_backtracking",
+            )
+            else (
+                "anderson"
+                if isinstance(raw_provenance, Mapping)
+                and raw_provenance.get("status") == "recorded_not_reconstructed"
+                else "sufficient_decrease"
+            )
+        )
+        provenance = stabilized._v5_validate_anderson_provenance(
+            raw_provenance, policy, "stabilized replay result"
+        )
+    else:
+        # A missing field keeps legacy/minimal error-report fixtures readable;
+        # the archive binding remains responsible for rejecting the incomplete
+        # replay identity before it is treated as valid.
+        provenance = stabilized._v5_anderson_provenance("sufficient_decrease")
     return {
         "experimental": True,
         "field_equations_validated": field_equations_validated,
         "path_replayed": False,
         "rejected_trial_path_available": False,
+        "anderson_provenance": provenance,
     }
 
 
@@ -2489,6 +4033,21 @@ def _metadata_from_archive(values: Mapping[str, np.ndarray]) -> dict[str, Any]:
         raise ValueError("archive metadata_json is missing or invalid") from error
     if not isinstance(payload, Mapping):
         raise ValueError("archive metadata_json must contain a mapping")
+    return dict(payload)
+
+
+def _metadata_from_monolithic_values(
+    values: Mapping[str, np.ndarray],
+) -> dict[str, Any]:
+    metadata_values = np.asarray(values["metadata_json"])
+    if metadata_values.dtype != np.dtype(np.uint8) or metadata_values.ndim != 1:
+        raise ValueError("monolithic metadata_json must be a one-dimensional uint8 array")
+    try:
+        payload = json.loads(bytes(metadata_values.tolist()).decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise ValueError("monolithic metadata_json is not valid UTF-8 JSON") from error
+    if not isinstance(payload, Mapping):
+        raise ValueError("monolithic metadata_json must contain a mapping")
     return dict(payload)
 
 
@@ -2581,6 +4140,7 @@ def _archive_storage_report(metadata: Mapping[str, Any]) -> dict[str, Any] | Non
     if storage.get("archive_layout") in {
         "accepted-state-plus-final-solver-summary-v5",
         "accepted-state-plus-final-solver-summary-stabilized-warning-v1",
+        "accepted-state-plus-final-solver-summary-schedule-v1",
     }:
         row_fields = ("n_states", "accepted_steps", "solver_summary_rows")
         missing_rows = [name for name in row_fields if name not in storage]
@@ -2631,10 +4191,12 @@ def _archive_acceptance_details(
     stabilized_completed_schemas = {
         stabilized.STABILIZED_ARCHIVE_SCHEMA,
         stabilized.STABILIZED_WARNING_ARCHIVE_SCHEMA,
+        stabilized.STABILIZED_SCHEDULE_ARCHIVE_SCHEMA,
     }
     stabilized_failure_schemas = {
         stabilized.STABILIZED_FAILURE_ARCHIVE_SCHEMA,
         stabilized.STABILIZED_WARNING_FAILURE_ARCHIVE_SCHEMA,
+        stabilized.STABILIZED_SCHEDULE_FAILURE_ARCHIVE_SCHEMA,
     }
     if archive_schema in stabilized_completed_schemas | stabilized_failure_schemas:
         expected_kind = (
@@ -2645,8 +4207,14 @@ def _archive_acceptance_details(
         if kind != expected_kind:
             raise ValueError("stabilized archive kind does not match its schema")
         acceptance_mode = _scalar_string(values["acceptance_mode"], "acceptance_mode")
+        schedule = archive_schema in {
+            stabilized.STABILIZED_SCHEDULE_ARCHIVE_SCHEMA,
+            stabilized.STABILIZED_SCHEDULE_FAILURE_ARCHIVE_SCHEMA,
+        }
         contract = stabilized._stabilized_contract(
-            acceptance_mode, failure=expected_kind == "failure"
+            acceptance_mode,
+            failure=expected_kind == "failure",
+            schedule=schedule,
         )
         if archive_schema != contract["archive_schema"]:
             raise ValueError("stabilized archive acceptance mode is forged")
@@ -2708,6 +4276,22 @@ def _archive_acceptance_details(
                 stabilized.STABILIZED_WARNING_GATE_NAMES
             ):
                 raise ValueError("stabilized warning gate metadata is forged")
+        if schedule:
+            base_payload = metadata.get("config")
+            stable_payload = metadata.get("stabilized_config")
+            if not isinstance(base_payload, Mapping) or not isinstance(
+                stable_payload, Mapping
+            ):
+                raise ValueError("scheduled archive configuration is missing")
+            base_config = engineering._config_from_payload(base_payload)
+            schedule_config = stabilized.StabilizedEngineeringGripConfig.from_payload(
+                stable_payload, base_config
+            )
+            if schedule_config.load_schedule is None:
+                raise ValueError("scheduled archive configuration has no schedule")
+            stabilized._validate_schedule_archive_binding(
+                values, metadata, schedule_config
+            )
         return (
             acceptance_mode,
             acceptance_mode == stabilized.STABILIZED_WARNING_ACCEPTANCE_MODE,
@@ -2941,6 +4525,141 @@ def _failure_diagnostic_payloads(values: Mapping[str, np.ndarray]) -> list[dict[
     return payloads
 
 
+def _analysis_diagnostic_provenance(
+    diagnostic: Mapping[str, Any],
+    config: Any,
+    row_index: int,
+) -> tuple[int, float]:
+    """Validate and return one stored diagnostic location.
+
+    Stabilized v5 summaries retain both the sweep index and the attempted load.
+    ``load_target`` is the authoritative load field; ``target_u_bar`` is its
+    summary-level consistency alias.  Legacy diagnostic rows have only
+    ``target_u_bar``.  Neither report location may be inferred from the row's
+    position in the serialized sequence.
+    """
+
+    if not isinstance(diagnostic, Mapping):
+        raise TypeError(
+            f"analysis diagnostic row {row_index} must be a mapping"
+        )
+    if "sweep_index" not in diagnostic:
+        raise ValueError(
+            f"analysis diagnostic row {row_index} is missing sweep_index"
+        )
+    sweep_value = diagnostic["sweep_index"]
+    if isinstance(sweep_value, bool) or not isinstance(sweep_value, int):
+        raise ValueError(
+            f"analysis diagnostic row {row_index} sweep_index must be an integer"
+        )
+    sweep_index = int(sweep_value)
+
+    max_sweeps = config.max_stagger_iterations
+    if isinstance(max_sweeps, bool) or not isinstance(max_sweeps, int):
+        raise ValueError("analysis configuration max_stagger_iterations is invalid")
+    if max_sweeps <= 0:
+        raise ValueError("analysis configuration max_stagger_iterations is invalid")
+
+    summary_kind: str | None
+    if "summary_kind" in diagnostic:
+        summary_kind_value = diagnostic["summary_kind"]
+        if not isinstance(summary_kind_value, str):
+            raise ValueError(
+                f"analysis diagnostic row {row_index} summary_kind must be a string"
+            )
+        if summary_kind_value not in {"initial", "accepted", "failure"}:
+            raise ValueError(
+                f"analysis diagnostic row {row_index} summary_kind is invalid"
+            )
+        summary_kind = summary_kind_value
+    else:
+        # Legacy sweep diagnostics do not have a v5 summary_kind field.
+        summary_kind = None
+
+    if "load_target" in diagnostic:
+        load_target_value = diagnostic["load_target"]
+        if isinstance(load_target_value, bool) or not isinstance(
+            load_target_value, (int, float)
+        ):
+            raise ValueError(
+                f"analysis diagnostic row {row_index} load_target must be numeric"
+            )
+        load_target = float(load_target_value)
+        if not np.isfinite(load_target):
+            raise ValueError(
+                f"analysis diagnostic row {row_index} load_target must be finite"
+            )
+        if "target_u_bar" not in diagnostic:
+            raise ValueError(
+                f"analysis diagnostic row {row_index} is missing target_u_bar"
+            )
+        target_value = diagnostic["target_u_bar"]
+        if isinstance(target_value, bool) or not isinstance(
+            target_value, (int, float)
+        ):
+            raise ValueError(
+                f"analysis diagnostic row {row_index} target_u_bar must be numeric"
+            )
+        target_u_bar = float(target_value)
+        if not np.isfinite(target_u_bar):
+            raise ValueError(
+                f"analysis diagnostic row {row_index} target_u_bar must be finite"
+            )
+        if target_u_bar != load_target:
+            raise ValueError(
+                f"analysis diagnostic row {row_index} target/load fields disagree"
+            )
+        target = load_target
+    elif "target_u_bar" in diagnostic:
+        target_value = diagnostic["target_u_bar"]
+        if isinstance(target_value, bool) or not isinstance(
+            target_value, (int, float)
+        ):
+            raise ValueError(
+                f"analysis diagnostic row {row_index} target_u_bar must be numeric"
+            )
+        target = float(target_value)
+        if not np.isfinite(target):
+            raise ValueError(
+                f"analysis diagnostic row {row_index} target_u_bar must be finite"
+            )
+    else:
+        raise ValueError(
+            f"analysis diagnostic row {row_index} is missing target/load provenance"
+        )
+
+    load_start = config.load_start
+    load_final = config.load_final
+    if isinstance(load_start, bool) or not isinstance(load_start, (int, float)):
+        raise ValueError("analysis configuration load_start is invalid")
+    if isinstance(load_final, bool) or not isinstance(load_final, (int, float)):
+        raise ValueError("analysis configuration load_final is invalid")
+    load_start = float(load_start)
+    load_final = float(load_final)
+    if (
+        not np.isfinite(load_start)
+        or not np.isfinite(load_final)
+        or load_start >= load_final
+    ):
+        raise ValueError("analysis configuration load interval is invalid")
+
+    if summary_kind == "initial":
+        if sweep_index != -1 or target != load_start:
+            raise ValueError(
+                f"analysis diagnostic row {row_index} initial provenance is invalid"
+            )
+    else:
+        if sweep_index < 0 or sweep_index >= max_sweeps:
+            raise ValueError(
+                f"analysis diagnostic row {row_index} sweep_index is out of range"
+            )
+        if target <= load_start or target > load_final:
+            raise ValueError(
+                f"analysis diagnostic row {row_index} target load is out of range"
+            )
+    return sweep_index, target
+
+
 def _analysis_gate_ratios(
     diagnostics: Sequence[Mapping[str, Any]],
     config: Any,
@@ -2957,10 +4676,14 @@ def _analysis_gate_ratios(
         ("moment", "moment_error", "moment_scale", "moment"),
     )
     result: dict[str, Any] = {}
+    provenance = [
+        _analysis_diagnostic_provenance(diagnostic, config, index)
+        for index, diagnostic in enumerate(diagnostics)
+    ]
     for name, error_name, scale_name, gate_name in specs:
-        candidates: list[tuple[int, float, float, float]] = []
+        candidates: list[tuple[int, float, float, float, float]] = []
         gate = getattr(config, gate_name)
-        for index, diagnostic in enumerate(diagnostics):
+        for diagnostic, (sweep_index, target_u_bar) in zip(diagnostics, provenance):
             error = diagnostic.get(error_name)
             scale = diagnostic.get(scale_name)
             if error is None or scale is None:
@@ -2969,40 +4692,47 @@ def _analysis_gate_ratios(
             limit = float(gate.limit(float(scale)))
             if not np.isfinite(error_value) or not np.isfinite(limit) or limit <= 0.0:
                 continue
-            candidates.append((index, error_value / limit, error_value, limit))
+            candidates.append(
+                (sweep_index, error_value / limit, error_value, limit, target_u_bar)
+            )
         if not candidates:
             result[name] = {"available": False}
             continue
-        index, ratio, error, limit = max(candidates, key=lambda item: item[1])
+        sweep_index, ratio, error, limit, target_u_bar = max(
+            candidates, key=lambda item: item[1]
+        )
         result[name] = {
             "available": True,
             "max_ratio": ratio,
-            "sweep_index": index,
-            "target_u_bar": float(diagnostics[index]["target_u_bar"]),
+            "sweep_index": sweep_index,
+            "target_u_bar": target_u_bar,
             "error": error,
             "limit": limit,
         }
     for prefix in ("before", "after"):
         values = []
-        for index, diagnostic in enumerate(diagnostics):
+        for diagnostic, (sweep_index, target_u_bar) in zip(diagnostics, provenance):
             relative = diagnostic.get(f"free_residual_relative_{prefix}")
             if relative is None:
                 continue
             values.append(
                 (
-                    index,
+                    sweep_index,
                     float(relative) / max(float(config.cg_rtol), np.finfo(float).tiny),
                     float(relative),
+                    target_u_bar,
                 )
             )
         key = f"mechanics_{prefix}_relative_to_cg_rtol_proxy"
         if values:
-            index, ratio, relative = max(values, key=lambda item: item[1])
+            sweep_index, ratio, relative, target_u_bar = max(
+                values, key=lambda item: item[1]
+            )
             result[key] = {
                 "available": True,
                 "max_ratio": ratio,
-                "sweep_index": index,
-                "target_u_bar": float(diagnostics[index]["target_u_bar"]),
+                "sweep_index": sweep_index,
+                "target_u_bar": target_u_bar,
                 "relative_residual": relative,
                 "reference": float(config.cg_rtol),
                 "interpretation": (
@@ -3013,6 +4743,22 @@ def _analysis_gate_ratios(
         else:
             result[key] = {"available": False}
     return result
+
+
+def analyze_anderson_scalar_diagnostic(
+    diagnostic_path: Path,
+    *,
+    archive_path: Path | None = None,
+) -> dict[str, Any]:
+    """Validate and summarize the optional stabilized Anderson JSONL stream."""
+
+    from . import nonlocal_engineering_grip_stabilized as stabilized
+
+    parsed = stabilized.load_anderson_scalar_diagnostic(
+        diagnostic_path,
+        archive_path=archive_path,
+    )
+    return stabilized.summarize_anderson_scalar_diagnostic(parsed)
 
 
 def _field_maxima(
@@ -3082,6 +4828,7 @@ def analyze_archive(
     *,
     overwrite: bool,
     replay_result: Mapping[str, Any] | None,
+    anderson_diagnostic_path: Path | None = None,
 ) -> dict[str, Any]:
     """Analyze either a completed archive or a failure audit."""
 
@@ -3090,9 +4837,15 @@ def analyze_archive(
     values = _load_npz(archive_path, "engineering-grip archive")
     kind = _archive_kind(values, engineering)
     strategy = _archive_strategy(values, engineering)
+    if strategy == "monolithic":
+        raise ValueError(
+            "monolithic analysis requires the owner-authenticated workflow summary; "
+            "use replay_archive with an explicit owner model"
+        )
     metadata = _metadata_from_archive(values)
     stabilized = None
     if strategy == "stabilized":
+        _enable_stabilized_x64()
         from . import nonlocal_engineering_grip_stabilized as stabilized_module
 
         stabilized = stabilized_module
@@ -3312,6 +5065,15 @@ def analyze_archive(
         report["replay_binding_valid"] = stabilized_binding_valid
         if stabilized_binding_error is not None:
             report["replay_binding_error"] = stabilized_binding_error
+        if anderson_diagnostic_path is not None:
+            report["anderson_scalar_diagnostic"] = analyze_anderson_scalar_diagnostic(
+                anderson_diagnostic_path,
+                archive_path=archive_path,
+            )
+    elif anderson_diagnostic_path is not None:
+        raise ValueError(
+            "Anderson scalar diagnostics can only accompany a stabilized archive"
+        )
     if warning:
         gate_names = tuple(str(name) for name in np.asarray(values["warning_gate_names"]))
         if strategy == "stabilized":
@@ -3635,6 +5397,7 @@ def _plot_inputs(
 ) -> dict[str, Any]:
     archive_schema = _scalar_string(values["archive_schema"], "archive_schema")
     if strategy == "stabilized":
+        _enable_stabilized_x64()
         # The lean v5 archive stores no geometry; plotting triangles and
         # coordinates come from the hashed source cloud, never from a generic
         # path guess.
@@ -3783,6 +5546,10 @@ def plot_archive(
     values = _load_npz(archive_path, "engineering-grip archive")
     kind = _archive_kind(values, engineering)
     strategy = _archive_strategy(values, engineering)
+    if strategy == "monolithic":
+        raise ValueError(
+            "monolithic plotting is not part of the owner-authenticated CPU workflow"
+        )
     plot_data = _plot_inputs(
         values, kind, target_load, engineering, strategy=strategy
     )
@@ -4130,12 +5897,45 @@ def replay_archive(
     report_path: Path,
     *,
     overwrite: bool,
+    owner_model: Any | None = None,
+    archive_budget_bytes: int | None = None,
 ) -> dict[str, Any]:
     """Independently replay one supported engineering-grip archive."""
 
     from . import nonlocal_engineering_grip as engineering
+    from . import nonlocal_engineering_grip_monolithic_archive as monolithic_archive
 
+    # Standalone replay does not pass through _construct_model, but it rebuilds
+    # the same float64 geometry/operator contract.  Set x64 before importing or
+    # constructing that operator rather than relying on the caller's process.
+    _enable_stabilized_x64()
     values = _load_npz(archive_path, "engineering-grip archive")
+    if "archive_schema" not in values and "metadata_json" in values:
+        metadata = _metadata_from_monolithic_values(values)
+        if metadata.get("schema") != monolithic_archive.MONOLITHIC_ARCHIVE_SCHEMA:
+            raise ValueError("unsupported archive without an explicit archive_schema field")
+        if owner_model is None or archive_budget_bytes is None:
+            raise ValueError(
+                "monolithic replay requires an explicit owner_model and "
+                "archive_budget_bytes"
+            )
+        replay = monolithic_archive.replay_monolithic_continuation_archive(
+            archive_path,
+            owner_model,
+            archive_budget_bytes,
+        )
+        payload = _monolithic_replay_payload(
+            replay,
+            archive_path,
+            report_path,
+            archive_budget_bytes,
+        )
+        _atomic_json(report_path, payload, overwrite=overwrite)
+        return payload
+    if owner_model is not None or archive_budget_bytes is not None:
+        raise ValueError(
+            "owner_model/archive_budget_bytes are only valid for monolithic replay"
+        )
     kind = _archive_kind(values, engineering)
     strategy = _archive_strategy(values, engineering)
     if kind != "completed" and strategy != "stabilized":
@@ -4171,6 +5971,7 @@ def replay_archive(
                 "accepted_steps": binding.get("accepted_steps"),
                 "states": binding.get("states"),
                 "solver_summary_rows": binding.get("solver_summary_rows"),
+                "load_schedule": binding.get("load_schedule"),
             }
 
         try:
@@ -4328,6 +6129,13 @@ def _fraction(value: str) -> float:
     return result
 
 
+def _unit_interval(value: str) -> float:
+    result = float(value)
+    if not np.isfinite(result) or not 0.0 < result <= 1.0:
+        raise argparse.ArgumentTypeError("value must lie in (0, 1]")
+    return result
+
+
 def _poisson_ratio(value: str) -> float:
     try:
         result = float(value)
@@ -4349,7 +6157,8 @@ def _add_run_arguments(parser: argparse.ArgumentParser) -> None:
         default="legacy",
         help=(
             "legacy strict/warning controller, or the experimental stabilized "
-            "under-relaxed controller"
+            "under-relaxed controller, or the private strict monolithic "
+            "CPU-reference controller"
         ),
     )
     parser.add_argument(
@@ -4357,8 +6166,17 @@ def _add_run_arguments(parser: argparse.ArgumentParser) -> None:
         type=_positive_int,
         default=None,
         help=(
-            "positive uncompressed stabilized-archive byte budget; required "
-            "for stabilized and forbidden for legacy"
+            "positive archive byte budget; required for stabilized and "
+            "monolithic, and forbidden for legacy"
+        ),
+    )
+    parser.add_argument(
+        "--load-schedule-npz",
+        type=Path,
+        default=None,
+        help=(
+            "reviewed no-pickle explicit matched-load schedule; valid only for "
+            "strict stabilized anderson_residual continuation"
         ),
     )
     parser.add_argument(
@@ -4376,7 +6194,13 @@ def _add_run_arguments(parser: argparse.ArgumentParser) -> None:
         default=DEFAULT_RELAXATION_POLICY,
         help=(
             "stabilized relaxation policy: sufficient_decrease preserves merit "
-            "backtracking; fixed evaluates exactly one fixed-omega candidate"
+            "backtracking; fixed evaluates exactly one fixed-omega candidate; "
+            "anderson uses historical composite-merit Type-II acceleration; "
+            "anderson_residual uses committed-history map-residual Type-II "
+            "selection; anderson_residual_backtracking backtracks that secant "
+            "direction over the explicit alpha schedule; "
+            "anderson_residual_regularized_backtracking applies fixed-mu "
+            "augmented-QR coefficients over the same schedule"
         ),
     )
     parser.add_argument(
@@ -4416,6 +6240,66 @@ def _add_run_arguments(parser: argparse.ArgumentParser) -> None:
         "--max-stagger-iterations",
         type=_positive_int,
         default=DEFAULT_MAX_STAGGER_ITERATIONS,
+        help=(
+            "legacy/stabilized stagger-sweep budget; monolithic requires the "
+            f"solver_base compatibility value "
+            f"{CANONICAL_SOLVER_BASE_MAX_STAGGER_ITERATIONS} and does not use it "
+            "as an iteration budget"
+        ),
+    )
+    parser.add_argument(
+        "--max-newton-iterations",
+        type=_positive_int,
+        default=None,
+        help="required strict monolithic Newton iteration limit",
+    )
+    parser.add_argument(
+        "--gmres-rtol",
+        type=_nonnegative_float,
+        default=None,
+        help="required strict monolithic GMRES relative tolerance",
+    )
+    parser.add_argument(
+        "--gmres-atol",
+        type=_nonnegative_float,
+        default=None,
+        help="required strict monolithic GMRES absolute tolerance",
+    )
+    parser.add_argument(
+        "--gmres-restart",
+        type=_positive_int,
+        default=None,
+        help="required strict monolithic GMRES restart length",
+    )
+    parser.add_argument(
+        "--gmres-maxiter",
+        type=_positive_int,
+        default=None,
+        help="required strict monolithic GMRES iteration limit",
+    )
+    parser.add_argument(
+        "--armijo-c",
+        type=_fraction,
+        default=None,
+        help="required strict monolithic Armijo coefficient",
+    )
+    parser.add_argument(
+        "--line-search-reduction",
+        type=_fraction,
+        default=None,
+        help="required strict monolithic line-search reduction",
+    )
+    parser.add_argument(
+        "--line-search-max-backtracks",
+        type=_nonnegative_int,
+        default=None,
+        help="required strict monolithic line-search backtrack limit",
+    )
+    parser.add_argument(
+        "--line-search-alpha-min",
+        type=_unit_interval,
+        default=None,
+        help="required strict monolithic minimum Armijo step length",
     )
     parser.add_argument(
         "--gpu-device-index", type=_nonnegative_int, default=DEFAULT_GPU_DEVICE_INDEX
@@ -4526,6 +6410,50 @@ def _add_run_arguments(parser: argparse.ArgumentParser) -> None:
         help="stabilized merit sufficient-decrease coefficient (required for stabilized)",
     )
     parser.add_argument(
+        "--anderson-history-depth",
+        type=_positive_int,
+        default=None,
+        help=(
+            "Anderson history depth (required for either Anderson relaxation "
+            "policy)"
+        ),
+    )
+    parser.add_argument(
+        "--anderson-beta",
+        type=_fraction,
+        default=None,
+        help=(
+            "Anderson mixing parameter (required for either Anderson relaxation "
+            "policy)"
+        ),
+    )
+    parser.add_argument(
+        "--anderson-alpha-reduction",
+        type=_fraction,
+        default=None,
+        help=(
+            "explicit residual-Anderson alpha reduction (required only for "
+            "anderson_residual_backtracking)"
+        ),
+    )
+    parser.add_argument(
+        "--anderson-regularization-mu",
+        type=_positive_float,
+        default=None,
+        help=(
+            "required finite positive fixed regularization parameter for "
+            "anderson_residual_regularized_backtracking"
+        ),
+    )
+    parser.add_argument(
+        "--anderson-scalar-diagnostic",
+        action="store_true",
+        help=(
+            "opt in to a scalar-only Anderson JSONL diagnostic bound to the "
+            "source, configuration, and final archive"
+        ),
+    )
+    parser.add_argument(
         "--max-backtracks",
         type=_nonnegative_int,
         default=DEFAULT_MAX_BACKTRACKS,
@@ -4552,11 +6480,55 @@ def build_parser() -> argparse.ArgumentParser:
     )
     _add_run_arguments(run)
 
+    extract_schedule = subparsers.add_parser(
+        "extract-schedule",
+        aliases=("extract_schedule",),
+        help="extract the reviewed matched-load schedule without running a solver",
+    )
+    extract_schedule.add_argument(
+        "--source-archive",
+        type=Path,
+        required=True,
+        help="historical completed stabilized archive containing state_u_bar",
+    )
+    extract_schedule.add_argument(
+        "--output",
+        "--output-path",
+        "--schedule-output",
+        dest="output_path",
+        type=Path,
+        required=True,
+        help="new numeric no-pickle schedule NPZ; existing paths are rejected",
+    )
+
     replay = subparsers.add_parser(
         "replay", help="independently replay one supported numerical archive"
     )
     replay.add_argument("--archive", type=Path, required=True)
     replay.add_argument("--report", type=Path, required=True)
+    replay.add_argument(
+        "--archive-budget-bytes",
+        type=_positive_int,
+        default=None,
+        help="required ZIP32 budget when replaying a monolithic archive",
+    )
+    replay.add_argument(
+        "--source-cloud",
+        type=Path,
+        default=None,
+        help="required owner source cloud when replaying a monolithic archive",
+    )
+    replay.add_argument("--delta", type=_positive_float, default=None)
+    replay.add_argument("--h-g", dest="h_g", type=_positive_float, default=None)
+    replay.add_argument(
+        "--visibility-tolerance", type=_nonnegative_float, default=None
+    )
+    replay.add_argument("--youngs-modulus", type=_positive_float, default=None)
+    replay.add_argument("--poisson-ratio", type=_poisson_ratio, default=None)
+    replay.add_argument("--k-res", type=_positive_float, default=None)
+    replay.add_argument("--rank-rtol", type=_positive_float, default=None)
+    replay.add_argument("--Gc", type=_positive_float, default=None)
+    replay.add_argument("--l0", type=_positive_float, default=None)
     replay.add_argument("--overwrite", action="store_true")
 
     analyze = subparsers.add_parser(
@@ -4591,23 +6563,64 @@ def main(argv: Sequence[str] | None = None) -> int:
             # manifest.  Preserve the required nonzero status without turning
             # an unknown exception into a numerical fallback.
             from . import nonlocal_engineering_grip as engineering
+            from . import nonlocal_engineering_grip_monolithic as monolithic
             from . import nonlocal_engineering_grip_stabilized as stabilized
 
             if isinstance(
                 error,
                 (
-                    engineering.EngineeringGripContinuationFailure,
-                    stabilized.StabilizedEngineeringGripContinuationFailure,
-                ),
+                     engineering.EngineeringGripContinuationFailure,
+                     monolithic.MonolithicContinuationFailure,
+                     stabilized.StabilizedEngineeringGripContinuationFailure,
+                 ),
+            ):
+                print(str(error), file=sys.stderr)
+                return 2
+            if arguments.continuation_strategy == "monolithic" and isinstance(
+                error, engineering.EngineeringGripWorkCheckFailure
             ):
                 print(str(error), file=sys.stderr)
                 return 2
             raise
+    if arguments.command in {"extract-schedule", "extract_schedule"}:
+        schedule = extract_stabilized_load_schedule(
+            arguments.source_archive,
+            arguments.output_path,
+        )
+        print(json.dumps(_json_safe(schedule.payload()), indent=2, sort_keys=True))
+        return 0
     if arguments.command == "replay":
+        owner_model = None
+        monolithic_budget = None
+        replay_values = _load_npz(arguments.archive, "engineering-grip archive")
+        if "archive_schema" not in replay_values and "metadata_json" in replay_values:
+            owner_fields = (
+                "archive_budget_bytes",
+                "source_cloud",
+                "delta",
+                "h_g",
+                "visibility_tolerance",
+                "youngs_modulus",
+                "poisson_ratio",
+                "k_res",
+                "rank_rtol",
+                "Gc",
+                "l0",
+            )
+            missing = [name for name in owner_fields if getattr(arguments, name) is None]
+            if missing:
+                raise ValueError(
+                    "monolithic replay requires explicit owner fields: "
+                    + ", ".join(f"--{name.replace('_', '-')}" for name in missing)
+                )
+            owner_model, _cloud, _source_metadata = _construct_owner_model(arguments)
+            monolithic_budget = arguments.archive_budget_bytes
         payload = replay_archive(
             arguments.archive,
             arguments.report,
             overwrite=arguments.overwrite,
+            owner_model=owner_model,
+            archive_budget_bytes=monolithic_budget,
         )
         print(json.dumps(_json_safe(payload), indent=2, sort_keys=True))
         return 0

@@ -1,6 +1,7 @@
 ---
-description: Executes numerical-method and scientific-computing tasks with derivations, implementation, and validation. Use for PDEs, phase-field fracture, peridynamics, FEM, PINNs, JAX operators, stability checks, and review-finding fixes that should be handled by Luna at maximum reasoning effort.
+description: Hidden fallback for unusually difficult numerical implementation. Use only after explicit user request or an approved, narrowly scoped delegation with a stated risk-reduction benefit.
 mode: subagent
+hidden: true
 model: openai/gpt-5.6-luna
 variant: max
 steps: 100
@@ -49,8 +50,11 @@ For an authorized formulation or implementation:
 - Keep local reference solvers independent from nonlocal/PINN operators.
 - Do not commit, merge, push, stash, rebase, reset, clean, or tag.
 
-Before returning, run relevant tests and `git diff --check`, inspect the final
-diff, update required task memory, and provide the primary Sol reviewer with:
+Before returning, run the smallest tests that exercise the changed numerical
+contract and `git diff --check`. Expand to integration, equivalence, GPU, or
+physical runs only when the change reaches those boundaries or the assignment
+requires them. Inspect the final diff, update required task memory, and provide
+the primary Sol reviewer with:
 
 - exact equations and assumptions implemented;
 - source-backed versus project-owned choices;

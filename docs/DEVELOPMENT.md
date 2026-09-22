@@ -55,13 +55,24 @@ def make_loss_fn(x_all, D, ...physical_params...,
 
 ## Verification
 
-Before considering an implementation complete:
+Choose the smallest verification set that gives credible evidence for the
+change. More checks are not automatically better.
 
-- add or update focused regression tests;
-- run the relevant environment and test command;
-- run `python -m compileall` for changed Python modules;
-- run `git diff --check`;
-- update the example README when its API, formulation, or file structure changes.
+- Documentation, agent instructions, and configuration-only edits normally
+  need diff inspection, applicable syntax/schema validation, and
+  `git diff --check`; they do not require the Python test suite or compileall.
+- A localized behavior change normally needs one focused regression test or the
+  narrowest existing test command that reaches the changed path. Add a test
+  only when it protects meaningful behavior or a reproduced defect; do not add
+  tests for wording, trivial wiring, or implementation details already covered.
+- Compile only changed Python modules when syntax was not already exercised by
+  the focused test. Do not compile unrelated trees by default.
+- Run broader integration, numerical-equivalence, GPU, FEM, or full-suite checks
+  only for changes that cross those boundaries, alter shared numerical code or
+  public APIs, or when the user explicitly requests them.
+- Avoid repeating expensive checks whose relevant inputs have not changed.
+- Always run `git diff --check` and update the example README when its public
+  API, formulation, configuration, or file structure changes.
 
 ## Markdown Math
 

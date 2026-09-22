@@ -25,6 +25,7 @@ from types import SimpleNamespace
 from typing import Any, Iterable, Mapping
 
 import numpy as np
+from scipy.sparse import coo_matrix, csr_matrix
 from scipy.sparse.linalg import LinearOperator, cg
 
 from pinn.operators import ExplicitVolumeSparseD
@@ -303,7 +304,13 @@ def _check_exact_constraints(
 class A2FixedDamageView:
     """Fresh phase-measured fixed-damage view over one shared static object."""
 
-    _CACHE_FIELDS = frozenset({"_tangent_block_diagonal_cache", "_tangent_diagonal_cache"})
+    _CACHE_FIELDS = frozenset(
+        {
+            "_gradient_operator_cache",
+            "_tangent_block_diagonal_cache",
+            "_tangent_diagonal_cache",
+        }
+    )
 
     def __setattr__(self, name: str, value: Any) -> None:
         if self.__dict__.get("_locked", False) and name not in self._CACHE_FIELDS:
@@ -471,6 +478,44 @@ class A2FixedDamageView:
     def _safe_support(self) -> np.ndarray:
         return np.where(self.static.support_mask, self.static.support_indices, 0)
 
+    def _get_gradient_operator(self) -> csr_matrix:
+        cached = getattr(self, "_gradient_operator_cache", None)
+        if cached is not None:
+            return cached
+
+        edge, slot = np.nonzero(self.static.support_mask)
+        support = self.static.support_indices[edge, slot]
+        coefficient = self.static.gradient_coefficient[edge, slot]
+        n_support_entries = len(edge)
+        n_entries = 2 * (n_support_entries + self.n_edges)
+        rows = np.empty(n_entries, dtype=np.int64)
+        columns = np.empty(n_entries, dtype=np.int64)
+        data = np.empty(n_entries, dtype=np.float64)
+
+        support_end = 2 * n_support_entries
+        rows[:support_end] = np.column_stack((2 * edge, 2 * edge + 1)).reshape(-1)
+        columns[:support_end] = np.repeat(support, 2)
+        data[:support_end] = coefficient.reshape(-1)
+
+        edge_index = np.arange(self.n_edges, dtype=np.int64)
+        rows[support_end:] = np.column_stack(
+            (2 * edge_index, 2 * edge_index + 1)
+        ).reshape(-1)
+        columns[support_end:] = np.repeat(self.static.source, 2)
+        data[support_end:] = -np.sum(self.static.gradient_coefficient, axis=1).reshape(-1)
+
+        operator = coo_matrix(
+            (data, (rows, columns)),
+            shape=(2 * self.n_edges, self.n_particles),
+            dtype=np.float64,
+        ).tocsr()
+        operator.sort_indices()
+        operator.data.setflags(write=False)
+        operator.indices.setflags(write=False)
+        operator.indptr.setflags(write=False)
+        self._gradient_operator_cache = operator
+        return operator
+
     def _deformation_gradient(self, displacement: np.ndarray) -> np.ndarray:
         support = self._safe_support()
         values = displacement.reshape(self.n_particles, 2)
@@ -479,7 +524,9 @@ class A2FixedDamageView:
         moment = np.einsum(
             "es,esa,esb->eab", self.static.beta, current, self.static.xi, optimize=True
         )
-        return np.einsum("eab,ebc->eac", moment, self.static.shape_inverse, optimize=True)
+        return np.einsum(
+            "eab,ebc->eac", moment, self.static.shape_inverse, optimize=True
+        )
 
     def _strain_stress(self, deformation_gradient: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
         increment = deformation_gradient - _IDENTITY_2
@@ -498,48 +545,18 @@ class A2FixedDamageView:
         )
 
     def _endpoint_residual(self, stress: np.ndarray) -> np.ndarray:
-        endpoint = np.einsum(
-            "eab,ebc,esc->esa",
-            stress,
-            np.swapaxes(self.static.shape_inverse, 1, 2),
-            self.static.xi,
-            optimize=True,
-        )
-        endpoint *= self.static.beta[:, :, None] * self.center_factor[:, None, None]
-        support = self._safe_support().reshape(-1)
-        support_result = np.column_stack(
-            (
-                np.bincount(
-                    support, weights=endpoint[:, :, 0].reshape(-1), minlength=self.n_particles
-                ),
-                np.bincount(
-                    support, weights=endpoint[:, :, 1].reshape(-1), minlength=self.n_particles
-                ),
-            )
-        )
-        source_result = np.column_stack(
-            (
-                np.bincount(
-                    self.static.source,
-                    weights=-np.sum(endpoint[:, :, 0], axis=1),
-                    minlength=self.n_particles,
-                ),
-                np.bincount(
-                    self.static.source,
-                    weights=-np.sum(endpoint[:, :, 1], axis=1),
-                    minlength=self.n_particles,
-                ),
-            )
-        )
-        return (support_result + source_result).reshape(-1)
+        weighted_stress = (
+            self.center_factor[:, None, None] * stress
+        ).transpose(0, 2, 1).reshape(2 * self.n_edges, 2)
+        return np.asarray(
+            self._get_gradient_operator().T @ weighted_stress, dtype=np.float64
+        ).reshape(-1)
 
     def _delta_gradient(self, direction: np.ndarray) -> np.ndarray:
-        support = self._safe_support()
         values = direction.reshape(self.n_particles, 2)
-        differences = values[support] - values[self.static.source[:, None]]
-        return np.einsum(
-            "esa,esc->eac", differences, self.static.gradient_coefficient, optimize=True
-        )
+        return (self._get_gradient_operator() @ values).reshape(
+            self.n_edges, 2, 2
+        ).transpose(0, 2, 1)
 
     def _constitutive_tangent(self, delta_gradient: np.ndarray) -> np.ndarray:
         delta_strain = 0.5 * (delta_gradient + np.swapaxes(delta_gradient, 1, 2))
@@ -630,7 +647,9 @@ class A2FixedDamageView:
 
     def tangent_action(self, direction: Any) -> np.ndarray:
         values = _f64(direction, "A2 direction", (self.n_dofs,))
-        result = self._endpoint_residual(self._constitutive_tangent(self._delta_gradient(values)))
+        result = self._endpoint_residual(
+            self._constitutive_tangent(self._delta_gradient(values))
+        )
         if not np.all(np.isfinite(result)):
             raise FloatingPointError("A2 tangent action is non-finite")
         return result
@@ -928,20 +947,29 @@ def _solve_outer(
         operator = LinearOperator((len(free), len(free)), matvec=action, dtype=np.float64)
         positions = np.full(view.n_dofs, -1, dtype=np.int64)
         positions[free] = np.arange(len(free), dtype=np.int64)
-        inverse_blocks: list[tuple[np.ndarray, np.ndarray]] = []
-        for particle, block in enumerate(view.tangent_block_diagonal):
-            components = np.flatnonzero(positions[2 * particle : 2 * particle + 2] >= 0)
-            if len(components):
-                local_positions = positions[2 * particle + components]
-                local = block[np.ix_(components, components)]
-                if np.any(np.linalg.eigvalsh(local) <= 0.0):
-                    raise ValueError("A2 free tangent preconditioner is not positive definite")
-                inverse_blocks.append((local_positions, np.linalg.inv(local)))
+        particle_positions = positions.reshape(view.n_particles, 2)
+        free_components = particle_positions >= 0
+        two_component = np.all(free_components, axis=1)
+        two_positions = particle_positions[two_component]
+        two_blocks = view.tangent_block_diagonal[two_component]
+        if len(two_blocks) and np.any(np.linalg.eigvalsh(two_blocks) <= 0.0):
+            raise ValueError("A2 free tangent preconditioner is not positive definite")
+        two_inverse = np.linalg.inv(two_blocks)
+
+        one_component = np.sum(free_components, axis=1) == 1
+        one_particles, one_indices = np.nonzero(free_components & one_component[:, None])
+        one_positions = particle_positions[one_particles, one_indices]
+        one_blocks = view.tangent_block_diagonal[one_particles, one_indices, one_indices]
+        if np.any(one_blocks <= 0.0):
+            raise ValueError("A2 free tangent preconditioner is not positive definite")
+        one_inverse = 1.0 / one_blocks
 
         def precondition(values: np.ndarray) -> np.ndarray:
             result = np.zeros_like(values, dtype=np.float64)
-            for local_positions, inverse in inverse_blocks:
-                result[local_positions] = inverse @ values[local_positions]
+            result[two_positions] = np.einsum(
+                "nij,nj->ni", two_inverse, values[two_positions], optimize=True
+            )
+            result[one_positions] = one_inverse * values[one_positions]
             return result
 
         preconditioner = LinearOperator((len(free), len(free)), matvec=precondition, dtype=np.float64)

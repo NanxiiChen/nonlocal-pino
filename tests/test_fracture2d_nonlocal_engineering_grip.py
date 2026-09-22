@@ -487,6 +487,98 @@ class EngineeringGripBaselineTest(unittest.TestCase):
         floor = float(np.finfo(np.float64).tiny)
         self.assertAlmostEqual(engineering._relative(2.0 * floor, floor), 0.5)
 
+    def test_work_check_one_field_forgery_is_rejected(self) -> None:
+        config = engineering.EngineeringGripConfig.smoke()
+        check = engineering.run_zero_damage_work_check(
+            self.model,
+            config.work_check_load,
+            config.work_epsilon,
+            config.work_relative_limit,
+            config.cg_rtol,
+            config.cg_atol,
+            config.cg_maxiter,
+        )
+        for name, value in (
+            ("reaction", check.reaction + 1.0),
+            ("reaction_fd", check.reaction_fd + 1.0),
+            ("relative_error", check.relative_error + 1.0),
+            ("passed", False),
+            ("center_result_digest", "0" * 64),
+        ):
+            with self.subTest(field=name):
+                with self.assertRaises(ValueError):
+                    replace(check, **{name: value})
+
+    def test_work_check_owner_replay_accepts_fresh_equivalent_model(self) -> None:
+        config = engineering.EngineeringGripConfig.smoke()
+        check = engineering.run_zero_damage_work_check(
+            self.model,
+            config.work_check_load,
+            config.work_epsilon,
+            config.work_relative_limit,
+            config.cg_rtol,
+            config.cg_atol,
+            config.cg_maxiter,
+        )
+        fresh_model = engineering.build_engineering_grip_model(
+            self.geometry,
+            2.0,
+            0.3,
+            1.0e-8,
+            1.0e-12,
+            1.7,
+            0.65,
+        )
+        check.validate_with_owner(fresh_model, config)
+
+    def test_self_consistent_work_check_forgery_fails_owner_replay(self) -> None:
+        config = engineering.EngineeringGripConfig.smoke()
+        check = engineering.run_zero_damage_work_check(
+            self.model,
+            config.work_check_load,
+            config.work_epsilon,
+            config.work_relative_limit,
+            config.cg_rtol,
+            config.cg_atol,
+            config.cg_maxiter,
+        )
+        center = check.center_result
+        forged_residual = center.evaluation.residual.copy()
+        top_dof = int(np.flatnonzero(center.constraints.outer_top_selector)[0])
+        forged_residual[top_dof] += 1.0e-12
+        forged_matrix = forged_residual.reshape(self.model.n_union, 2)
+        forged_center = replace(
+            center,
+            evaluation=replace(
+                center.evaluation,
+                energy=center.evaluation.energy + 1.0e-10,
+                residual=forged_residual,
+            ),
+            outer_reaction=float(center.constraints.outer_top_selector @ forged_residual),
+            bottom_reaction=float(center.constraints.outer_bottom_selector @ forged_residual),
+            anchor_reaction=float(center.constraints.anchor_selector @ forged_residual),
+            total_force=np.sum(forged_matrix, axis=0),
+            total_moment=float(
+                np.sum(
+                    self.model.static.coordinates[:, 0] * forged_matrix[:, 1]
+                    - self.model.static.coordinates[:, 1] * forged_matrix[:, 0]
+                )
+            ),
+        )
+        forged_reaction = forged_center.outer_reaction
+        forged_error = engineering._relative(check.reaction_fd, forged_reaction)
+        forged = replace(
+            check,
+            reaction=forged_reaction,
+            relative_error=forged_error,
+            passed=bool(forged_error <= check.relative_limit),
+            center_result=forged_center,
+            center_result_digest=engineering._mechanics_result_digest(forged_center),
+        )
+        forged.validate()
+        with self.assertRaises(ValueError):
+            forged.validate_with_owner(self.model, config)
+
     def test_minimum_increment_roundoff_classification(self) -> None:
         du_min = np.float64(5.0e-5)
         load_start = np.float64(0.0031183145201048547)

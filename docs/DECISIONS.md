@@ -2065,3 +2065,2448 @@ Template for each entry:
   a remedy without a separately checked derivation.
 - Related: `examples/fracture2d/engineering_grip_workflow.py`, its README, and
   `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-17 — Implement safeguarded Anderson before fracture2d PINN
+- Decision: Keep the validated direct nonlocal fixed subproblems and implement a
+  separate safeguarded Type-II Anderson strategy for the outer material-damage
+  fixed-point map. Use history depth `5`, mixing parameter `beta=0.5`, and a
+  rank-revealing QR least-squares solve. Reject an accelerated candidate that is
+  rank deficient, non-finite, outside the raw admissible damage range, or fails
+  the existing sufficient-decrease merit check; restart Anderson history and
+  fall back to the current `omega=0.5` damped-Picard candidate. Preserve all
+  mechanics, AT2, Amor-history, rollback, cutback, archive, and final strict-gate
+  equations. Do not run a long continuation until manufactured contract tests
+  and independent review pass.
+- Why: The fixed-history damage residual remains near float64 roundoff and the
+  mechanics solves retain `cg_info=0`, while the strict damped path consumes
+  `143/144` outer sweeps at `u_bar=0.0059875`. The completed warning diagnostic
+  then develops large history and post-history residual errors together with
+  near-zero crack-tip stiffness. This identifies the immediate solver failure as
+  the outer coupled fixed point, not either inner linear solver. A PINN would
+  inherit the same residual conditioning and add representation and optimization
+  errors before the direct baseline is validated through peak load.
+- Alternatives rejected: starting fracture2d PINN as a nonlinear-solver remedy;
+  increasing the fixed-Picard budget again; weakening gates; clipping fields;
+  changing `k_res`; or treating warning states as converged evidence.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`, and Walker--Ni,
+  DOI `10.1137/10078356X`.
+
+## 2026-09-17 — Pass post-fix Anderson implementation audit
+- Decision: Mark the safeguarded Anderson implementation as GO for
+  implementation and manufactured evidence only. Do not authorize a physical
+  continuation or promote the stabilized path to production.
+- Why: The read-only audit verified candidate-specific `H_next` map merit,
+  structural-error propagation, numerical fallback/history restart, the
+  original unrelaxed fixed-point and damage-equation gates, strict Anderson
+  range/healing gates, and truthful `recorded_not_reconstructed` v5 provenance.
+  Focused stabilized/workflow tests pass `57/57`, legacy engineering-grip plus
+  JAX tests pass `60/60`, the related baseline suite passes `7/7`, compilation
+  and `git diff --check` pass, and no continuation or durable artifact changed.
+- Alternatives rejected: treating manufactured contracts as physical
+  convergence evidence, weakening strict gates, reconstructing omitted rejected
+  trials from scalar logs, or running a long continuation before primary review.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_stabilized.py`, and the
+  Walker--Ni formulation decision above.
+
+## 2026-09-17 — Authorize bounded Anderson physical checkpoints
+- Decision: Run a fresh-zero strict rounded-cloud Anderson smoke to
+  `u_bar=1e-4` with at most `20` sweeps. Only if its archive and independent
+  accepted-field replay pass, run one fresh-zero strict comparison through exact
+  `u_bar=0.0059875` with the existing `du_initial=1e-4`, `du_min=6.25e-6`, and
+  `144`-sweep ceiling. Preserve `delta=0.048`, `h_g=0.02`, all equations,
+  tolerances, gates, cutback rules, GPU/CPU authority, and existing artifacts.
+- Why: The Anderson implementation/manufactured audit is GO, but no physical
+  cloud evidence exists. The short smoke checks integration and provenance
+  before the bounded endpoint directly compares against the fixed-Picard path
+  that required `143/144` sweeps.
+- Alternatives rejected: jumping directly to `u_bar=0.0075`, warning acceptance,
+  changing the horizon or load step together with the nonlinear method,
+  overwriting prior evidence, or treating smoke completion as crack-growth
+  validation.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-17 — Hold Anderson at the bounded physical checkpoint
+- Decision: Preserve the completed strict Anderson smoke and
+  `u_bar=0.0059875` checkpoint, but do not authorize a farther continuation or
+  promote Anderson to production. Any follow-up requires a new explicit
+  decision; the smallest defensible proposal is a fresh-zero strict run only to
+  `u_bar=0.0060` with all current numerical settings unchanged.
+- Why: The bounded archive and independent accepted-field replay pass, and the
+  endpoint agrees with fixed Picard. Anderson reduces accepted-step sweeps by
+  `31.54%` at common loads, but almost all benefit is before `u_bar=0.0046`; the
+  crack-growth tail improves only `0.97%`, the last ten retained rows all use
+  insufficient-decrease Picard fallback, and runtime rises by about `48.7%`.
+  Lean v5 also records rather than reconstructs Anderson selection/rank scalars
+  and cannot replay intermediate or rejected trial paths.
+- Alternatives rejected: jumping to `0.0063` or `0.0075`, resuming the completed
+  archive, weakening strict gates, raising the sweep budget, interpreting early
+  low-load acceleration as peak-region improvement, or using a PINN as the
+  unresolved nonlinear solver.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `engineering_grip_anderson_u5p9875e3_dumin6p25e6_s144.npz`, and the prior
+  bounded-checkpoint authorization.
+
+## 2026-09-17 — Authorize bounded opt-in Anderson scalar diagnostics
+- Decision: On the same active engineering-grip task, add a minimal durable,
+  opt-in scalar diagnostic stream for safeguarded Anderson. Bind its JSONL
+  metadata to the source bundle, explicit configuration, and final archive
+  hash; omit intermediate field vectors and preserve the lean v5 archive
+  semantics. Fail loudly on diagnostic I/O errors. Preserve every equation,
+  gate, acceptance decision, solver choice, legacy default, and fallback rule.
+- Decision: First prove the structural merit mechanism with manufactured
+  calculations and focused tests. Then run exactly one fresh-zero strict
+  diagnostic with the prior Anderson command and parameters through exact
+  `u_bar=0.0059875` or less, using a new durable run ID. Do not resume the old
+  archive and do not run to `0.0060` or any higher endpoint.
+- Why: The archived bounded run records selected scalar provenance but cannot
+  reconstruct rejected accelerated trials. Per-sweep scalar components are the
+  smallest durable evidence that can distinguish transition-update terms,
+  candidate map residuals, sufficient-decrease rejection, and QR/history
+  restart behavior without changing the physical method or storing field
+  vectors.
+- Alternatives rejected: changing the sufficient-decrease rule or gates,
+  adding extra mechanics solves solely for Picard comparison, storing rejected
+  field vectors, modifying the existing v5 archive schema, resuming the prior
+  run, or extending beyond `u_bar=0.0059875`.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`,
+  `examples/fracture2d/engineering_grip_workflow.py`, and the bounded Anderson
+  archive manifest.
+
+## 2026-09-17 — Keep Anderson scalar diagnostics outside v5 archives
+- Decision: Implement the authorized diagnostic as an opt-in scalar JSONL
+  writer and callback. Emit an explicit proposal record, one record per
+  candidate trial, and one sweep record; bind the header to source/configuration
+  provenance and bind the final record to the exact completed or failure archive
+  SHA256. Reject numerical arrays and numerical lists, flush each record, and
+  fsync the final record.
+- Why: The existing stabilized dataclasses already retain the scalar values
+  needed for candidate-specific merit and fallback analysis, while the v5
+  archive intentionally omits rejected field vectors. Keeping the stream
+  external preserves lean archive size and replay semantics without adding a
+  second mechanics solve for a hypothetical Picard comparison.
+- Alternatives rejected: adding diagnostic arrays to v5, reconstructing
+  candidate fields from scalar rows, silently treating an unevaluated Picard
+  comparison as zero, or changing the acceptance controller to produce logs.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`,
+  `examples/fracture2d/engineering_grip_workflow.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_stabilized.py`, and
+  `examples/fracture2d/README.md`.
+
+## 2026-09-18 — Apply the stabilized float64 contract to standalone reports
+- Decision: Enable JAX x64 at the start of standalone stabilized archive
+  analysis and plotting, using the same explicit helper as standalone replay,
+  before any stabilized geometry/model reconstruction.
+- Why: A real diagnostic archive analysis exposed the missing process-local
+  x64 initialization and failed at `ExplicitVolumeSparseD`; replay already had
+  the required initialization. Analysis and plotting must rebuild the same
+  float64 coordinate/volume/operator contract rather than depend on the
+  caller's process state.
+- Alternatives rejected: relying on a previous replay in the same process,
+  changing the operator's dtype requirement, or treating the analysis failure
+  as an archive defect.
+- Related: `examples/fracture2d/engineering_grip_workflow.py`,
+  `tests/test_fracture2d_engineering_grip_workflow.py`, and the diagnostic
+  task's standalone analysis verification.
+
+## 2026-09-18 — Hold the bounded scalar Anderson diagnostic
+- Decision: Preserve the fresh-zero scalar diagnostic at exact
+  `u_bar=0.0059875` and do not extend or promote the experimental Anderson
+  path. Treat its JSONL rejection statistics as review evidence, not as a new
+  acceptance rule or physical-model change.
+- Why: The completed archive and independent accepted-state replay validate,
+  but `2,516/2,796` accelerated candidates fail sufficient decrease; `2,502`
+  are dominated by history-transition merit. Only `46` accepted summary states
+  select acceleration versus `20` Picard fallbacks, and the lean v5 contract
+  still cannot reconstruct rejected trial vectors.
+- Alternatives rejected: continuing above the authorized endpoint, weakening
+  sufficient decrease or coupled gates, changing the history transition,
+  storing rejected field vectors in v5, or interpreting scalar diagnostics as
+  rejected-path replay.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `docs/PROGRESS.md`, and the durable scalar stream under
+  `/root/autodl-tmp/data/fracture2d/engineering_grip/`.
+
+## 2026-09-18 — Qualify scalar accounting and make diagnostic I/O fatal
+- Decision: Treat the scalar diagnostic as observational instrumentation only:
+  callback-on/off execution must preserve manufactured accepted fields, path,
+  selection, and solve counts, while callback/writer/archive I/O errors must
+  propagate as `OSError` and never enter numerical fallback. Close the workflow
+  writer in `finally` seams covering both completed and failure archive writes.
+  Report the recorded workflow hash as historical provenance when it differs
+  from the current post-x64-fix workflow bytes.
+- Why: The independently checked stream contains `2,796 = 280 + 2,516`
+  accelerated candidate outcomes; `2,445` rejected candidates improve the raw
+  candidate map residual, `2,502` are history-transition dominated, and `2,152`
+  also exceed the decrease limit in another component. The overlap means the
+  rejection evidence must not be reduced to a history-only claim, and durable
+  I/O failure must not be confused with a numerical candidate-map fallback.
+- Alternatives rejected: adding an unevaluated Picard residual solve, claiming
+  current workflow-byte identity for the older stream, swallowing writer errors,
+  or changing any acceptance rule or physical continuation setting.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `docs/PROGRESS.md`, `examples/fracture2d/engineering_grip_workflow.py`, and
+  the Anderson scalar diagnostic tests.
+
+## 2026-09-18 — Implement explicit committed-history residual Anderson policy
+
+- Decision: Add a distinct `relaxation_policy=anderson_residual` while keeping
+  historical `anderson` composite-merit semantics and old archive/configuration
+  interpretation unchanged. The new policy compares only the normalized actual
+  committed-history map residual `r(d)=G_c(d)-d`, with candidate/reference own
+  fixed-point scales, the existing `GateTolerance`, and the explicit
+  `(1-sufficient_decrease*beta)=0.995` threshold for `sufficient_decrease=0.01`
+  and `beta=0.5`.
+- Decision: Make finite, mechanics/CG-before/after, force, moment, raw
+  range/healing-against-committed-state, and existing hard history-monotonicity
+  checks prerequisites for accelerated and exact Picard selection. Numerical
+  candidate-map failures restart history and fall back exactly to `omega=0.5`;
+  structural and diagnostic I/O errors propagate. The fallback is not tested
+  against the residual decrease threshold.
+- Decision: Preserve every original final convergence gate, including the
+  unrelaxed fixed-point and fixed-history damage-equation gates, transition
+  displacement/damage/history/reaction gates, post-history residual,
+  conservation, range, healing, globalization, and coupled acceptance. Bind a
+  distinct merit identity through config, summaries, replay, CLI, and scalar
+  diagnostics; old artifacts must not be reinterpreted.
+- Why: Independent contract review approved the formulation, while scalar
+  evidence shows that the historical composite merit rejects many candidates
+  whose actual committed-history map residual improves. A separate explicit
+  policy permits that numerical experiment without silently changing historical
+  results or weakening final physical acceptance.
+- Alternatives rejected: changing historical `anderson`, removing transition
+  or final gates, comparing residuals with a shared normalizer, accepting a
+  fallback without hard gates, adding a hypothetical Picard map solve, or
+  launching a physical run before implementation review.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `docs/PROGRESS.md`, `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`,
+  and `examples/fracture2d/engineering_grip_workflow.py`.
+
+## 2026-09-18 — Tighten residual-policy validator contracts
+- Decision: Permit historical `anderson` replay reports to omit only the two
+  optional identity fields, while requiring any supplied identity to match the
+  archive. Require residual-policy fallback summaries to keep selection-merit
+  and candidate-map fields null; require complete accelerated summaries to
+  retain finite, nonnegative merit/reference values and candidate-map metrics.
+- Why: Independent review found that the controller and manufactured policy
+  evidence were correct, but replay/summary validators accepted forged legacy
+  identity combinations and incomplete residual selection fields. The validator
+  must preserve historical artifact semantics without weakening residual-policy
+  provenance checks.
+- Alternatives rejected: changing controller numerics, reinterpreting legacy
+  archives, accepting residual fallback merit values, or requiring candidate
+  vectors that the lean v5 archive intentionally does not store.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/engineering_grip_workflow.py`,
+  `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`, and the
+  focused validator regressions.
+
+## 2026-09-18 — Hold the completed committed-history residual experiment
+- Decision: Preserve the fresh-zero strict
+  `engineering_grip_anderson_residual_u5p9875e3_dumin6p25e6_s144` artifact set
+  as experimental evidence and authorize no further physical endpoint. Do not
+  resume or overwrite it, and do not run `u_bar=0.0060` or any higher endpoint.
+- Why: With the exact prior scalar configuration and unchanged physical/final
+  gates, the residual policy reached `u_bar=0.0059875` in `60` accepted steps,
+  `0` cutbacks, and `593` complete sweeps. Its production time was
+  `1669.1594366817735 s`, versus documented production timings `13038.79 s`
+  for historical Anderson and `8765.93 s` for fixed Picard. The endpoint is
+  finite, monotone, notch-localized, and independently x64-replayed, but the
+  scalar stream records `100` combined hard-prerequisite candidate rejections
+  and `19` sufficient-decrease rejections, while rejected trial vectors remain
+  unavailable under the lean v5 archive contract.
+- Formulation provenance: Walker--Ni and Saad support the fixed-point/Anderson
+  notation used by the implementation. The committed-history map residual
+  `r(d)=G_c(d)-d`, candidate/reference-specific normalizers, `0.995` selection
+  threshold, and exact `omega=0.5` fallback are project-owned numerical policy;
+  no PDE, constitutive law, boundary treatment, physical gate, or legacy
+  `anderson` semantics changed.
+- Alternatives rejected: promoting the policy from one bounded endpoint,
+  treating accepted-state replay as rejected-path replay, mixing replay time
+  into production timing, relaxing hard/final gates, continuing above the
+  ceiling, or changing the legacy artifacts.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `docs/PROGRESS.md`, and the durable evidence under
+  `/root/autodl-tmp/data/fracture2d/engineering_grip/`.
+
+## 2026-09-18 — Retain residual policy with corrected timing and path interpretation
+- Decision: Retain `anderson_residual` as a distinct experimental policy after
+  independent result review. Correct the previous entry's historical Anderson
+  production timing: `12703.620977 s` is production; `13038.790514 s` is the
+  workflow total. Correct production speedups are `7.6108x` versus historical
+  Anderson and `5.2517x` versus fixed Picard.
+- Why: The bounded strict run and accepted-field replay pass with 60 steps,
+  zero cutbacks, 593 sweeps, and maximum cost 47 sweeps. Endpoint differences
+  include an independently located intermediate history maximum sampled by
+  the old cutback paths but missed by the new path. Strict convergence gates
+  alone cannot establish load-step convergence of irreversible history.
+- Alternatives rejected: treating differing-path timings as controlled
+  benchmarks, describing field differences as solver-tolerance identity,
+  attributing combined hard rejections to a component not recorded, or promoting
+  one checkpoint to a complete peak/post-peak validation.
+- Related: the preceding completed residual-experiment decision and
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`. The next recommended
+  study is an explicitly specified matched-load schedule within the same
+  endpoint; no farther continuation is authorized here.
+
+## 2026-09-18 — Contract matched-load schedules before any physical run
+- Decision: Implement an opt-in workflow `--load-schedule-npz` only for
+  stabilized strict `anderson_residual`. Require a numeric, no-pickle NPZ with
+  one exact little-endian float64 one-dimensional nonzero target array and
+  JSON-compatible binding metadata. Validate finite strict ordering, the
+  explicit endpoint rule, source archive existence/SHA256, and bitwise equality
+  between targets and the historical archive's `state_u_bar[1:]`; the reviewed
+  canonical artifact has 66 targets and raw-target SHA256 `13d294...`, bound to
+  the historical archive SHA256 beginning `4c9...`.
+- Decision: In schedule mode prepend exact zero and attempt each target once;
+  cutback count is always zero, with no adaptive `_next_target`, retry,
+  insertion, or cutback. Required parser increment fields remain inactive
+  configuration inputs and are not a minimum-increment guarantee. Strict
+  failure rolls back durably and names the exact next schedule target.
+- Decision: Use schedule-specific stabilized completed/failure schema and replay
+  identity rather than reinterpreting legacy v5. Bind mode, canonical path,
+  file hash, target hash/count/endpoint, and source path/hash through config,
+  scalar header/final, summary, replay binding/report, and manifest. Preserve
+  adaptive controller/archives and historical `anderson` semantics unchanged.
+- Why: A matched load path separates solver-policy effects from irreversible
+  history sampling while making the target sequence independently auditable and
+  preventing adaptive cutbacks from silently changing the comparison. Distinct
+  provenance prevents old adaptive artifacts from being relabeled as schedule
+  runs.
+- Alternatives rejected: embedding targets in code or JSON/pickle, inferring a
+  schedule from an archive without source/hash binding, allowing schedule mode
+  in warning/legacy/other policies, treating inactive increment fields as
+  guarantees, reusing the adaptive retry state machine, or running the physical
+  comparison before validator and replay review.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`,
+  `examples/fracture2d/engineering_grip_workflow.py`, and the reviewed
+  historical Anderson archive.
+
+## 2026-09-18 — Make matched-load provenance an explicit workflow artifact
+- Decision: Expose schedule extraction as a read-only workflow subcommand that
+  creates a no-pickle NPZ through an exclusive destination operation. Keep the
+  schedule archive, stabilized schedule archives, scalar diagnostics, replay
+  bindings, and manifest bound to the same canonical target/source payload.
+- Why: A Python helper alone is not a durable user workflow, and a
+  check-then-replace write could overwrite a concurrently created artifact.
+  Independent replay must also distinguish a complete matched path from a
+  strict failure at the exact next target.
+- Alternatives rejected: embedding the reviewed sequence in source code,
+  allowing `--overwrite` for schedule extraction, treating a failure archive's
+  final committed load as its next target, or reusing the historical adaptive
+  v5 schema for schedule runs.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`,
+  `examples/fracture2d/engineering_grip_workflow.py`.
+
+## 2026-09-18 — Close the public schedule provenance seam
+- Decision: Make `StabilizedLoadSchedule.__post_init__` perform one-time,
+  no-pickle artifact validation of the schedule path/file digest, canonical
+  target bytes, historical source path/digest/state sequence, and exact
+  configuration endpoints. Revalidate that immutable binding at config and
+  controller entry, outside all numerical/JIT loops. Add manufactured
+  scheduled-controller success/failure archives and reject forged target,
+  metadata, and next-target bindings.
+- Why: The public frozen dataclass previously accepted arbitrary hashes and
+  nonexistent paths; a caller could therefore construct a schedule that passed
+  configuration and only failed later during archive/replay I/O. The reviewed
+  canonical target/source contract must be established before a controller can
+  run, while one-time filesystem reads do not alter the fixed-shape numerical
+  path.
+- Alternatives rejected: a caller-supplied provenance flag/token, trusting the
+  dataclass's frozen fields without loading the artifacts, putting source I/O in
+  stagger/JIT loops, or weakening schedule mode to accept legacy, warning, or
+  adaptive policies.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_stabilized.py`, and
+  `tests/test_fracture2d_engineering_grip_workflow.py`.
+
+## 2026-09-18 — Retain the completed matched-load residual experiment
+
+- Decision: Preserve the fresh-zero strict scheduled
+  `anderson_residual` run as experimental, nonproduction evidence. Do not
+  resume, overwrite, promote, or continue it beyond exact
+  `u_bar=0.0059875`; the matched-load subtask is complete pending primary
+  review of the durable comparison report.
+- Why: The canonical 66-target schedule is bitwise equal to the historical
+  Anderson `state_u_bar[1:]`; the new archive has 67 states, 66 attempts, zero
+  cutbacks, 822 accepted-state sweeps, and a maximum of 43 stagger iterations.
+  Independent CPU/x64 replay, analysis, and plotting all bind to archive
+  SHA256 `c2565925e599678b38d105c63e5410aacd5d87146521d361b089bcc3ba0488ed`
+  and report `field_equations_validated=true`.
+- Result: At all 67 matching states, the maximum matched-versus-historical
+  infinity-norm differences are `2.67634785861004e-10` in union displacement,
+  `6.04185976804672e-08` in damage, and `6.821109599286501e-05` in history.
+  Endpoint differences are respectively
+  `1.960145956138304e-10`, `4.8201790447954806e-08`, and
+  `6.17388192836188e-05`; maximum top/bottom/anchor reaction differences are
+  `5.219860668148613e-06`, `6.384582547980244e-06`, and
+  `6.354155860407995e-06`. The fixed-Picard archive shares 66 loads and
+  differs from the schedule only by the additional matched target
+  `0.005982812500000004`; matched-versus-fixed field differences remain of
+  the same order.
+- Result: The matched path is finite, damage/history/reaction monotone under
+  the declared tolerances, crack-localized, and all retained final gate flags
+  pass. Final damage/history are `0.7465332077673724` and
+  `282.0311557111417` at `(0.5,0.5)`; final top reaction is
+  `638.6926722766116`.
+- Timing: Production completion elapsed is `2803.56144060893 s`, versus the
+  retained historical Anderson production reference `12703.620977 s` and
+  fixed-Picard `8765.930929828435 s`, giving `4.531244x` and `3.126713x`
+  ratios. Replay, analysis, and plotting are excluded. The matched schedule
+  controls the historical comparison; fixed Picard still lacks one matched
+  intermediate state, so neither timing nor history evolution is a universal
+  load-step-convergence claim.
+- Solver diagnostics: The scalar stream records 756 accelerated candidate
+  attempts, 490 candidate-map evaluations, 466 selected accelerated
+  candidates, 266 combined hard-prerequisite rejections, 24 sufficient-
+  decrease rejections, 356 Picard fallbacks, and no candidate-map failures.
+  Hard rejection records retain aggregate failure status rather than a full
+  per-gate causal attribution; rejected trial vectors remain unavailable.
+- Provenance: The durable comparison is
+  `/root/autodl-tmp/data/fracture2d/engineering_grip/engineering_grip_anderson_residual_matched_historical_u5p9875e3_s144.comparison.rerun.json`
+  with SHA256
+  `7d2a2b9854a789d44181890a46e101c649b06ad33af354aa12dfd8fc137bc0e5`.
+  The schedule file SHA256 is
+  `8c8fcc7f1ef5bcf0239fbd3fca160ea3e8ff9644f4b9b53cd81aaf6775b38e0a`, its
+  target SHA256 is
+  `13d294d9f3817bfbf0da5eec1622f278cc6217f0e4c528275fbdbfe1fbb10cb5`, and
+  its historical source SHA256 is
+  `4c9a6f7e68f26afe01ba3fcf15a44a7b588174671128001dab440dc6b08fcbdc`.
+- Formulation provenance: Walker--Ni and Saad support the fixed-point and
+  Anderson notation. The committed-history residual merit, candidate-specific
+  normalizers, `0.995` sufficient-decrease rule, exact `omega=0.5` fallback,
+  and matched schedule are project-owned numerical policy. No PDE,
+  constitutive law, boundary treatment, physical gate, or legacy `anderson`
+  semantics changed.
+- Alternatives rejected: treating small matched field differences as bitwise
+  identity, inferring rejected-path replay from scalar records, attributing
+  combined hard rejections to one unrecorded gate, promoting the experimental
+  policy from one endpoint, or running a higher load.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `docs/PROGRESS.md`, and the immutable artifacts under
+  `/root/autodl-tmp/data/fracture2d/engineering_grip/`.
+
+## 2026-09-18 — Close the matched comparison with a separate audit correction
+
+- Decision: Retain the completed matched-load residual run as valid
+  experimental evidence. Preserve the original comparison report, but bind a
+  separate correction audit because its reduced scalar-binding extraction
+  falsely recorded `final_archive_hash_matches=false`; the scalar final record
+  and archive SHA256 are exactly identical.
+- Why: Independent review verified all report and manifest hashes, the exact
+  66-target schedule, 67 retained states, strict gates, replay, monotonicity,
+  localization, and matched field differences. Matching the historical load
+  path reduces maximum displacement/damage/history differences to
+  `2.676e-10/6.042e-8/6.821e-5`, supporting the load-sampling diagnosis while
+  not claiming bitwise or load-step-converged identity.
+- Alternatives rejected: overwriting the original derived report, ignoring its
+  false binding flag, treating the historical production reference as currently
+  durable in the artifact directory, promoting the solver to production, or
+  running a farther endpoint/new schedule.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`, the original
+  `.comparison.rerun.json`, and the separate `.comparison.audit.json` artifact.
+
+## 2026-09-18 — Authorize observational hard-gate attribution before fresh-zero run
+- Decision: On the existing engineering-grip task, implement only scalar,
+  observational per-component hard-rejection attribution for experimental
+  `anderson_residual` before the separately authorized fresh-zero strict run
+  capped at `u_bar=0.0061`. Do not execute that physical continuation in this
+  session.
+- Decision: Preserve all equations, hard/final gates, candidate evaluation
+  order, fallback and numerical results, historical `anderson` semantics, old
+  artifact interpretation, and archive hash/source/config binding. Record the
+  already computed candidate booleans and normalized/raw metrics, a canonical
+  ordered failed-gate list, explicit unavailable/null stage reasons, and scalar
+  JSONL only. Add compatibility for old scalar streams without changing v5 or
+  schedule accepted-summary meaning.
+- Decision: Current diagnostic output must validate internal consistency and
+  reject forged lists, booleans, and metrics. Analysis reports gate counts and
+  overlaps rather than exclusive causal attribution. Verification must include
+  callback parity, manufactured individual/overlap/missing-stage cases, forged
+  scalar/parser checks, old-stream compatibility, no-extra-solve checks, and
+  fatal I/O propagation. No new CLI setting or numerical/adaptive rule is
+  authorized.
+- Why: The completed matched-load stream has aggregate hard-prerequisite
+  rejections but no per-component attribution. This instrumentation supplies
+  the missing audit evidence without adding hypothetical solves or changing
+  the experimental policy, while the pending fresh-zero run must consume only
+  independently reviewed implementation evidence.
+- Alternatives rejected: reinterpreting old rows, adding a Picard/map or
+  mechanics solve for comparison, changing gate ordering or acceptance,
+  storing vectors, weakening validation, or running the physical endpoint
+  before implementation review.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`,
+  `examples/fracture2d/engineering_grip_workflow.py`, and the immutable
+  matched-load artifacts.
+
+## 2026-09-18 — Keep residual hard-gate attribution scalar and marginal
+- Decision: Represent residual-policy hard-gate attribution as optional scalar
+  proposal fields in the existing Anderson JSONL v1 stream. Use the fixed order
+  `finite`, mechanics-before/after, force, moment, lower/upper damage range,
+  healing, and history ordering; retain null metrics and explicit stage reasons
+  for unavailable quantities. Workflow analysis reports marginal failures and
+  pairwise overlaps rather than exclusive causes.
+- Why: The production diagnostic already computes the required booleans,
+  residuals, scales, and extrema. A scalar snapshot preserves that evidence
+  without retaining trial vectors or adding a solve/map/mechanics evaluation,
+  while the split range bounds remove the ambiguity in the aggregate range
+  flag.
+- Alternatives rejected: changing the v5/schedule archive schema, adding a
+  Picard comparison solve, reconstructing rejected fields, inventing normalized
+  range/healing tolerances, or reinterpreting historical `anderson` rows.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`,
+  `examples/fracture2d/engineering_grip_workflow.py`.
+
+## 2026-09-19 — Bind both stabilized diagnostic archive outcomes
+
+- Decision: Bind the scalar Anderson diagnostic header to both the completed
+  archive and its possible `*.failure.npz` archive, while retaining the
+  completed path as the primary path. Finalization and loading accept only
+  those explicitly bound paths.
+- Why: A continuation failure legitimately finalizes the same diagnostic stream
+  against the failure archive. Binding only the completed path made valid
+  failure analysis fail its own provenance check; the correction changes no
+  equations, gates, candidate ordering, or numerical evaluations.
+- Alternatives rejected: dropping archive-path validation, binding arbitrary
+  paths, creating a second diagnostic stream for failures, or changing the
+  historical scalar stream interpretation.
+ - Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+   `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`,
+   `examples/fracture2d/engineering_grip_workflow.py`, and the residual scalar
+   diagnostic contract tests.
+
+## 2026-09-19 — Pair scalar diagnostic archive identity fields
+- Decision: Extend the current two-path scalar diagnostic binding with an
+  ordered completed/failure table. Each entry pairs its exact path suffix
+  (`.npz` or `.failure.npz`), archive kind, completion status, and archive
+  schema. Finalization and loading must validate the stabilized NPZ identity
+  and reject cross-paired paths, statuses, kinds, or schemas for both adaptive
+  and scheduled archives.
+- Why: Separate path, schema, and status lists admitted a completed path with
+  a failure status/schema, and scheduled validation checked only the schedule
+  payload rather than the archive's complete identity. The canonical table
+  makes the accepted failure outcome explicit without changing numerical
+  evaluation or archive layouts.
+- Alternatives rejected: accepting any path from the legacy lists, checking
+  only the archive hash, adding a new archive schema, or reinterpreting old
+  scalar streams that lack the current binding table.
+ - Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+   `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`,
+   `examples/fracture2d/engineering_grip_workflow.py`,
+   `examples/fracture2d/README.md`, and the scalar diagnostic contract tests.
+
+## 2026-09-19 — Complete authoritative hard-rejection metric and parity contract
+- Decision: Treat residual-policy hard-gate attribution as an observational
+  serialization of the existing primitives, with no new solve, map evaluation,
+  gate, or numerical rule. The canonical schema is
+  `fracture2d-engineering-grip-anderson-residual-hard-gates-v1`, ordered as
+  `finite`, `mechanics_before`, `mechanics_after`, `force`, `moment`,
+  `damage_range_lower`, `damage_range_upper`, `healing`, and
+  `history_ordering`.
+- Contract: Each gate carries exactly availability/pass flags, raw and limit
+  metrics, ratio availability/normalization, a canonical metric reason and
+  stage reason, plus CG status/residual fields where applicable. Mechanics
+  attribution uses the already-computed authoritative `cg_info`,
+  `free_residual_norm`, and `cg_convergence_limit`; its pass is
+  `cg_info == 0` together with the strict residual-limit check. Force/moment,
+  range, healing, history-ordering, and finite retain their existing gate
+  semantics, including null metrics for unavailable stages and no invented
+  ratio for the zero history-ordering limit. `failed_hard_gates` is derived in
+  canonical order and `hard_pass` must agree with it.
+- Decision: Require strict validation of forged metric types, booleans, lists,
+  reasons, raw/limit/ratio relationships, CG subfields, and residual-policy v5
+  selection metrics. Preserve callback-on/off parity for fields, path,
+  selection, and solve counts; hard rejection must retain zero candidate-map
+  evaluations. Historical scalar streams without attribution fields remain
+  readable, and historical `anderson` semantics/artifacts remain unchanged.
+- Why: The preceding archive-pair table fixed path/kind/status/schema pairing
+  but did not by itself close authoritative CG attribution, forged-metric
+  rejection, or residual callback parity. The completed contract closes those
+  audit points without altering numerics or physical evidence.
+- Verification: Sequential CPU/x64 focused tests pass stabilized `59/59` and
+  workflow `35/35`; compilation and `git diff --check` pass. No physical
+  continuation or durable artifact change was performed.
+- Alternatives rejected: weakening metric validation, deriving CG status from
+  a proxy, adding comparison solves, changing the residual policy, or
+  reinterpreting old scalar streams.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `docs/PROGRESS.md`, `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`,
+  `examples/fracture2d/engineering_grip_workflow.py`, and the focused contract
+  tests.
+
+## 2026-09-19 — Make force/moment hard-gate attribution stage-consistent
+- Decision: Extend the residual-policy hard-gate attribution with explicit
+  `before` and `after` force/moment stage metrics. Each stage records the
+  already-computed error, stage scale, tolerance limit, normalized ratio, and
+  exact production pass flag.
+- Decision: Keep the aggregate force/moment pass as the conjunction of the two
+  stage flags and the aggregate normalized value as the worst stage ratio. The
+  retained top-level `raw`, `scale`, and `limit` fields are a deterministic
+  representative tuple from the worst-ratio stage (with `before` winning an
+  exact tie), so top-level `raw / limit == normalized`; they are not a new
+  cross-stage physical quantity. The attribution schema is versioned to make
+  this contract explicit.
+- Why: The prior max-error/max-scale pair could disagree with the production
+  before/after conjunction when stage scales differed, making `passed` and
+  `raw <= limit` contradictory. A worst-ratio representative preserves scalar
+  compatibility while making every retained ratio self-consistent.
+- Alternatives rejected: retaining the max-error/max-scale pair, which is not
+  a metric pair for the aggregate ratio; adding a solver or comparison solve;
+  changing the mechanics gates, evaluation order, candidate selection, or
+  legacy `anderson` semantics; and inventing a summed or otherwise physical
+  cross-stage force/moment quantity.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`,
+  `examples/fracture2d/README.md`, and the stabilized/workflow contract tests.
+
+## 2026-09-19 — Separate candidate-map failure and close v3 durable attribution
+- Decision: Version the residual hard-gate attribution as v3. A numerical
+  candidate-map failure is recorded with `hard_gate_status=candidate_map_failure`,
+  `hard_pass=false`, and no invented failed physical gates; its proposal context
+  must identify an incomplete accelerated candidate whose map status is failed
+  at `anderson_candidate_damage`. Evaluated hard gates retain their ordinary
+  ordered failed list.
+- Decision: Permit production-valid zero force/moment limits. Zero error against
+  zero limit passes with no normalized ratio; positive error fails. Aggregate
+  severity is ordered as positive-error/zero-limit, finite ratio, then exact
+  zero-error/zero-limit, with canonical before-stage tie-breaking.
+- Decision: Allow schema-less attribution fragments only internally. Writer and
+  loader boundaries reject any attributed durable record without the current
+  scalar schema and context fields.
+- Why: Independent review reproduced a callback-only failure of the intended
+  Picard fallback and identified zero-limit and durable-record forgery gaps. The
+  v3 contract fixes audit semantics without adding solves or changing numerical
+  selection. Stabilized/workflow tests pass `98/98` with callback solve-count
+  parity; compilation and `git diff --check` pass.
+- Alternatives rejected: labeling numerical map failure as a physical gate
+  failure, disallowing a configuration accepted by `GateTolerance`, weakening
+  validation, or changing fallback/evaluation behavior.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`,
+  `examples/fracture2d/engineering_grip_workflow.py`, the fracture2d README, and
+  the focused scalar-contract tests.
+
+## 2026-09-19 — Stop the authorized fresh-zero continuation at exact 0.0061
+- Decision: Accept the strict fresh-zero `anderson_residual` run through exact
+  `u_bar=0.0061` as validated pre-peak evidence, but do not call it a peak or
+  post-peak baseline and do not continue beyond the authorized endpoint without
+  a new decision.
+- Why: The run completed 61 accepted increments with zero cutbacks and maximum
+  62 stagger sweeps; independent accepted-state replay passed. Top reaction was
+  still monotone, increasing from `639.1241866042104` at `0.0060` to
+  `641.3384950971831` at `0.0061`, while maximum damage reached
+  `0.8202621313922084`.
+- Evidence: archive SHA256
+  `68c934008ccf95e71ac2d4ac78f1fa82fd16534cc6b2accba0b21d21c60021f8`;
+  scalar stream SHA256
+  `9d1c740d7565099f514ac0351fce61d960551461ddc9aff1f1dc68c7d9ebfb75`.
+  All 817 proposals were attributed. The only hard-gate rejection was healing
+  on 142 accelerated candidates; no mechanics, force, moment, range, history,
+  or candidate-map numerical failures occurred.
+- Alternatives rejected: silently extending to `0.0062` or higher, inferring a
+  peak from the shrinking but still positive reaction increment, or treating
+  accepted-state replay as rejected-path replay.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md` and the durable
+  `engineering_grip_anderson_residual_peak_u6p1e3_s144` artifact family.
+
+## 2026-09-19 — Authorize one fresh-zero extension to exact 0.0062
+- Decision: Run one fresh-zero strict adaptive `anderson_residual` continuation
+  to exact `u_bar=0.0062` with the independently approved v3 scalar diagnostic
+  and all parameters unchanged from the completed `0.0061` run.
+- Why: The `0.0061` reaction remained monotone but its final increment had
+  narrowed to `2.214308492972691`; one minimum endpoint extension is needed to
+  determine whether the first reaction decline occurs.
+- Bound: Any strict or structural failure stops the run. Do not warning-accept,
+  resume from `0.0061`, alter the increment policy, or continue to `0.0063`.
+- Alternatives rejected: inferring a peak from a positive increment or making a
+  wider unreviewed endpoint jump.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md` and
+  `docs/PROGRESS.md`.
+
+## 2026-09-19 — Bind gate-ratio report provenance to stored solver summaries
+- Decision: Derive gate-ratio report locations from each diagnostic row's stored
+  solver-summary `sweep_index` and authoritative load field, using
+  `target_u_bar` only as a consistency alias for `load_target`. Reject missing,
+  mistyped, inconsistent, non-finite, or out-of-range provenance rather than
+  falling back to diagnostic-row enumeration.
+- Why: The failed exact-`0.0062` archive reported gate locations at
+  `sweep_index=63` even though its authoritative final failure summary stored
+  `sweep_index=143`. The derived report therefore misidentified where the
+  largest ratios occurred.
+- Alternatives rejected: retaining enumeration-based locations, silently
+  defaulting missing summary fields, changing solver numerics, or rewriting the
+  physical archive.
+- Related: `examples/fracture2d/engineering_grip_workflow.py`,
+  `tests/test_fracture2d_engineering_grip_workflow.py`,
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`, and the failed
+  `engineering_grip_anderson_residual_peak_u6p2e3_s144` artifact family.
+
+## 2026-09-19 — Stop the exact-0.0062 attempt at the strict du_min failure
+- Decision: Preserve the exact-`0.0062` attempt as a strict failure artifact and
+  stop. The last accepted state is `u_bar=0.0061125000000000285`; the next exact
+  target `0.006118750000000029` failed after 144 sweeps at
+  `du_min=6.25e-6`. Do not use rejected-trial reactions to claim a peak.
+- Why: Accepted reaction remained monotone, rising from `641.338492718448` at
+  `0.0061` to `641.3882615552535` at `0.0061125`, a positive increment of
+  `0.04976883680546962`. The final rejected sweep failed displacement, damage,
+  history, reaction, damage residual, fixed-point, and coupled convergence even
+  though finite, mechanics, force, moment, range, and healing hard gates passed.
+- Evidence: failure archive SHA256
+  `979f66ab19b9f74a52871cfeb56fa2f3efd57bd53197a40d9b516f159299c1ad`;
+  scalar stream SHA256
+  `1b9dc58a2eed2ee5ddf0fb063e339a55488949923995e57427c57670ace129d4`.
+  Accepted-state replay passed, rejected-path replay remains unavailable, and
+  all 9 manifest-listed artifacts pass hash/size audit after the derived report
+  provenance correction. The corrected manifest SHA256 is
+  `efd1970ead9b685d99980df66b46eba33e1f82c890536dd2e4e1bf9b578bbd5a`.
+- Alternatives rejected: warning acceptance, treating the rejected final sweep
+  as physical evidence, resuming the failed archive, silently lowering `du_min`,
+  or continuing to `0.0063`.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md` and the durable
+  `engineering_grip_anderson_residual_peak_u6p2e3_s144` artifact family.
+
+## 2026-09-19 — Continue until a strict direct-solver final curve is obtained
+- Decision: Continue the active engineering-grip task until the nonlocal direct
+  solver has a strict, replayable peak/post-peak curve through the configured
+  exact endpoint `u_bar=0.0075`. Intermediate bounded diagnostics and failed
+  attempts may proceed without separate endpoint authorization, but every
+  failure must stop, roll back, and remain auditable.
+- Decision: Preserve the physical formulation and hard gates. Do not use warning
+  acceptance, clipping, projected Anderson candidates, rejected states, or an
+  unreferenced monolithic/arc-length equation to manufacture convergence.
+- Why: The user explicitly requested uninterrupted continuation until the final
+  nonlocal direct-solver solution is obtained. Existing task/config history
+  defines the complete curve endpoint as `0.0075`.
+- Alternatives rejected: treating `0.0061125` as final, accepting rejected
+  reactions as a peak, or changing constitutive/discrete physics to cross the
+  instability.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/README.md`, and `examples/fracture2d/configs/solver_base.py`.
+
+## 2026-09-19 — Diagnose stronger damping before a new nonlinear policy
+- Decision: First test existing fixed Picard with `omega=0.25` on a bounded
+  one-step checkpoint from the independently replayed accepted state at
+  `u_bar=0.0061125` to target `0.00611875`. This is a diagnostic, not a resumed
+  production curve or permission to commit the state into historical evidence.
+- Why: Scalar evidence shows the rejected map is marginally noncontractive:
+  tail residual factor about `1.0073`, 81 of 143 ratios increasing, and Anderson
+  history repeatedly collapsing to depth 1. Fixed-history damage, mechanics,
+  finite, force, moment, range, and healing gates pass. Stronger damping is the
+  smallest existing algorithmic change that may suppress the coupled
+  history-feedback oscillation.
+- Bound: Keep equations, committed history, target, strict gates, `du_min`, and
+  144-sweep ceiling unchanged. Do not launch a full `0.0075` run unless the
+  checkpoint demonstrates strict contraction and acceptance.
+- Alternatives rejected for now: deeper Anderson while history is repeatedly
+  reset, direct BFGS copied from a different local or PD-PFM formulation,
+  clipping/active-set changes unrelated to the passing Picard hard gates, and
+  arc-length without a derived continuation constraint.
+- Related: the exact-`0.0062` scalar failure stream, Walker-Ni/Fang-Saad Anderson
+  references, Kristensen-Martinez-Paneda (2020), and Bie et al. (2023).
+
+## 2026-09-19 — Fixed-Picard omega-0.25 checkpoint remains rejected
+- Decision: Stop after the single authorized fixed-Picard diagnostic. Do not
+  promote its target, resume the source archive, or launch the `0.0075` curve.
+- Why: The one-step attempt from the accepted `0.0061125` state completed all
+  144 sweeps at `omega=0.25` but failed the strict coupled gates. Fixed-point
+  error ratios ranged from `0.9857316138435906` to `1.075848052697296`; the
+  final ratio was `1.075848052697296`, so the map was not strictly contractive.
+- Evidence: Scalar diagnostic
+  `engineering_grip_fixed_picard_omega025_one_step_u6p11875_20260919T072222Z.json`
+  has file SHA256
+  `2fe6924d8ac2e98f77e78a1b07e41ec7941d52e7c5eb6815185c3951b34cc82e`. The
+  source failure archive hash remained
+  `979f66ab19b9f74a52871cfeb56fa2f3efd57bd53197a40d9b516f159299c1ad` before
+  and after the diagnostic.
+- Alternatives rejected: treating the complete failed sweeps as a physical
+  state, weakening gates, adding cutbacks/backtracking to this checkpoint, or
+  selecting a new nonlinear method without a declared and independently checked
+  discrete formulation.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md` and the bounded
+  fixed-Picard scalar artifact.
+
+## 2026-09-19 — Specify a distinct backtracked residual-Anderson controller
+- Decision: Implement `anderson_residual_backtracking` without changing the
+  historical residual policy. Build the same finite Type-II candidate with
+  depth 5 and beta 0.5, then test
+  `d(alpha)=d_iter+alpha*(d_AA-d_iter)` for exact
+  `alpha=(1,1/2,1/4,1/8,1/16)`. No clipping or projection is permitted.
+- Decision: For each alpha, evaluate existing mechanics/history diagnostics and
+  hard gates first. A hard-gate failure rejects only that alpha and performs no
+  candidate-map solve. After a hard pass, evaluate the exact committed-history
+  map residual and accept the first trial satisfying
+  `m_trial <= (1 - 0.01*0.5*alpha)*m_reference`. This is a project-owned bounded
+  decrease rule, not a claim of standard Armijo theory.
+- Decision: Candidate-map numerical failure is trial-local and proceeds to the
+  next alpha. Valid stored base map pairs survive hard-gate, map, and merit trial
+  rejection. Restart history only when proposal construction itself fails due
+  to rank/QR/triangular/nonfinite data. After all alpha trials reject, evaluate
+  the existing exact omega-0.5 Picard fallback once under unchanged semantics.
+- Decision: Add explicit nullable `trial_alpha` provenance and a distinct merit
+  identity; do not overload historical accelerated-trial `omega=None` or
+  reinterpret old archives/scalar streams.
+- Why: Both omega-0.5 and omega-0.25 Picard are noncontractive near
+  `0.00611875`, while current Anderson loses useful secant history after
+  trial-local healing/merit rejection. Backtracking the secant direction is the
+  smallest map-compatible controller that can preserve admissibility without
+  changing physics.
+- Alternatives rejected: immediate restart for trial-local failure, evaluating
+  candidate maps after failed hard gates, overloading `omega`, clipping,
+  unbounded line search, or launching a full curve before a bounded checkpoint.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`, the
+  workflow CLI/replay contracts, and the active engineering-grip task.
+
+## 2026-09-19 — Independently re-review backtracked residual Anderson fixes
+- Decision: Recommend GO for the separately bounded physical checkpoint only;
+  do not authorize a full physical curve from this implementation review.
+- Evidence: v5 alpha provenance is checked against `backtrack_count`, scalar
+  proposal provenance is checked against `trial_alpha_index`, finite trial
+  attribution is explicit `not_evaluated`, and callback/no-callback solve
+  counts agree. The summary excludes unavailable-stage rows from physical
+  failure/overlap marginals while retaining unavailable counts.
+- Verification: focused review tests `6/6`, stabilized/workflow `110/110`,
+  legacy engineering-grip/JAX/baseline `67/67`, compileall, and
+  `git diff --check`; no physical continuation was run.
+- Source-backed versus project-owned: Walker--Ni/Saad support the fixed-point
+  Anderson notation and Type-II least-squares construction. The depth, beta,
+  alpha schedule, decrease rule, hard-gate ordering, fallback, and attribution
+  schema are project-owned choices documented in the active task.
+- Alternatives rejected: running the physical checkpoint before the
+  provenance/parity review, treating unavailable gates as physical failures,
+  or changing the historical `anderson` stream contract.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`, and the
+  stabilized/workflow tests.
+
+## 2026-09-19 — Prepare an isolated bounded backtracking checkpoint runner
+- Decision: Keep the separately approved physical checkpoint in a new
+  `/tmp/opencode/fracture2d_anderson_residual_backtracking_checkpoint.py` runner.
+  It reconstructs the source archive's last strict accepted state, invokes the
+  private stabilized attempt exactly once with
+  `anderson_residual_backtracking`, captures scalar sweep/callback provenance,
+  and writes only a timestamped exclusive-create JSON result.
+- Why: The implementation review authorizes this bounded checkpoint only; the
+  historical source archive and all production continuation paths must remain
+  immutable, and the lean controller cannot claim rejected-field replay.
+- Alternatives rejected: calling the fresh-zero continuation wrapper, resuming
+  the rejected source target, retaining rejected trial vectors, overwriting the
+  fixed-Picard provenance script, or launching a full curve.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `/tmp/opencode/fracture2d_fixed_picard_omega025_checkpoint_20260919T072222Z.py`,
+  and the bounded backtracking review entries above.
+
+## 2026-09-20 — Hold backtracking checkpoint on target-contract mismatch
+- Decision: Do not execute the scratch backtracking checkpoint until its target
+  is reconciled with the active task contract. The runner encodes
+  `0.0061125 -> 0.006115625` with increment `3.125e-6`, while
+  `PROGRESS.md`, the active task, and the preceding bounded-checkpoint decision
+  specify `0.0061125 -> 0.00611875` with increment `6.25e-6`.
+- Why: These are distinct physical load checkpoints and produce different
+  nonlinear maps; silently changing either the runner or the task memory would
+  invalidate the authorization and provenance contract.
+- Alternatives rejected: executing the runner as-is, silently retargeting it to
+  `0.00611875`, or treating the half-step filename as sufficient numerical
+  authorization.
+- Related: `/tmp/opencode/fracture2d_anderson_residual_backtracking_checkpoint.py`,
+  `docs/PROGRESS.md`, and
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-20 — Retain strict `0.0062` evidence and hold nonlinear extension
+- Decision: Retain the fresh-zero strict curve through exact `u_bar=0.0062`
+  as replayed discrete-equilibrium evidence: 62 accepted steps, zero cutbacks,
+  archive SHA256
+  `95851472eb43eb2e24e4d26920d050ecf5ffc1aa83bfe0919f33bd7881cadada`, and
+  scalar SHA256
+  `14765f28710434b3ae13dc6a459b5afcdd15d2106a3164c69ae7c045297e6976`.
+  Record the accepted `0.0061` reaction `641.3384921076807` and the
+  post-peak `0.0062` reaction `631.4074774212969`, but retain the `k_res=0`
+  crack-localized SPD conditioning result as a physical caveat.
+- Decision: Preserve the accepted half-step checkpoint
+  `0.0061125 -> 0.006115625` at `du_min=3.125e-6` and the failed same-target
+  `0.0061125 -> 0.00611875` checkpoint as separate scalar evidence. Preserve
+  the fresh-zero `0.0075` failure archive, rolled back at `0.006234375` after
+  last accepted `0.00623125`; its failed gates are displacement, damage,
+  history, reaction, damage residual, damage fixed point, and coupled. No
+  rejected state is physical evidence.
+- Why: The completed `0.0062` accepted states replay and satisfy field-equation
+  checks, while the later strict attempt fails its coupled convergence gates
+  even after the full 144-sweep budget. The conditioning study shows a valid
+  discrete equilibrium but does not remove the physical caveat near the
+  crack-localized mode.
+- Blocker: No non-arbitrary regularization parameter/update rule is available
+  for the proposed Tikhonov Type-II Anderson strategy; reducing `du_min` to
+  force progress would require impractical microsteps. Do not guess `mu`,
+  `k_res`, or arc length. The next action is a user/mathematical decision to
+  approve a bounded regularization-parameter study/derivation or accept the
+  strict curve only through `0.00623125` as incomplete.
+- Verification: Existing records contain `110/110` relevant tests, `67/67`
+  legacy tests from independent review, compilation, and `git diff --check`.
+  No post-artifact test rerun is claimed beyond the noted independent
+  replay/field-equation reviews.
+- Alternatives rejected: warning-accepting or promoting the rejected state,
+  treating the half-step as equivalent to the same-target failure, using an
+  arbitrary regularization/floor/arc-length rule, or interpreting the
+  conditioning result as proof of physical robustness.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `docs/PROGRESS.md`, and the immutable engineering-grip artifacts.
+
+## 2026-09-20 — Approve fixed-mu regularized residual-Anderson study policy
+- Decision: Add the distinct experimental policy
+  `anderson_residual_regularized_backtracking`. It inherits the exact
+  `anderson_residual_backtracking` controller contract: committed-history map,
+  consecutive-difference Type-II history, depth `5`, `beta=0.5`, alpha schedule
+  `(1, 0.5, 0.25, 0.125, 0.0625)`, hard-gate ordering, merit threshold,
+  trial-local rejection, history semantics, and exact `beta=0.5` Picard fallback.
+  Only the proposal coefficient solve changes.
+- Mathematical contract: with `f=d_solved-d_iter` and the existing `DF`
+  consecutive-difference block, solve
+  `gamma = argmin ||f-DF gamma||_2^2 + lambda ||gamma||_2^2` with
+  `lambda = mu ||f||_2^2`, using an augmented rank-revealing QR solve of
+  `[DF; sqrt(lambda) I] gamma ~= [f; 0]`. Normal equations are forbidden.
+  `anderson_regularization_mu` is a required explicit finite positive
+  configuration/CLI value; it has no default, adaptive update, or silent
+  fallback. Proposal QR/rank/nonfinite restart semantics remain unchanged where
+  applicable; structural augmented-solve failures restart history.
+- Provenance contract: use a distinct merit identity and policy/config/archive/
+  scalar identity. Proposal-level scalar diagnostics must retain `mu`, `lambda`,
+  the unregularized least-squares residual norm, and coefficient norm. Lean v5
+  accepted summaries/configuration must reject missing or forged `mu` identity,
+  while genuine historical policy payload shapes remain readable unchanged.
+- Study scope: this is an experimental bounded parameter study, not an Ouyang
+  convergence claim. The approved study grid is `mu={0.25, 1, 2}`, corresponding
+  to the published `mu0=1` and neighboring `eta2=0.25` / `eta1=2` updates; the
+  implementation must accept any finite positive `mu` rather than hardcoding
+  those three values.
+- Source-backed versus project-owned: Walker--Ni/Saad support the fixed-point,
+  Type-II consecutive-difference, least-squares, and QR notation; the
+  regularized augmented-QR implementation and the Ouyang-linked bounded study
+  values are the approved study contract here. The alpha schedule, gate order,
+  merit threshold, fallback/restart semantics, provenance schema, and absence of
+  any convergence claim are project-owned choices. No PDE, constitutive law,
+  boundary treatment, history map, or physical continuation setting changes.
+- Verification contract: add independent `np.linalg.lstsq` manufactured checks
+  for full-rank, rank-deficient, zero/small-residual, and lambda-scaling cases;
+  reject normal-equation implementations; verify unchanged candidate/history,
+  CLI/config combinations, scalar/v5 forgery and missing fields, legacy payload
+  compatibility, controller parity/solve counts, trial-local failure handling,
+  restart/fallback behavior, and coefficient-norm reduction without clipping or
+  projection. Do not run a physical checkpoint or create external artifacts.
+- Alternatives rejected: changing historical policies, using normal equations,
+  adapting or defaulting `mu`, hardcoding the three study values, clipping or
+  projecting the candidate, claiming Ouyang convergence, or changing the
+  committed-history/physical equations.
+- Related: `docs/tasks/archive/anderson-residual-regularized-study.md`,
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_stabilized.py`, and
+  `examples/fracture2d/engineering_grip_workflow.py`.
+
+## 2026-09-20 — Complete fixed-mu regularized policy contract verification
+- Decision: Regularized scalar proposal, sweep, and v5 records expose only the
+  explicit fields `anderson_regularization_mu`,
+  `anderson_current_residual_l2`, `anderson_regularization_lambda`,
+  `anderson_unregularized_ls_residual_l2`, and `anderson_coefficient_l2`.
+  Historical policy payloads retain their established shapes independently.
+- Decision: The regularized controller is required to remain parity-equivalent
+  to residual backtracking for alpha selection, hard-gate ordering, candidate
+  map/fallback behavior, callback records, and mechanics-solve counts. The
+  binding requires the fixed `mu` and the complete explicit field set.
+- Verification: the expanded stabilized/workflow suites pass `118/118` in
+  `431.568 s`; the affected legacy engineering/JAX/baseline suites pass
+  `81/81` in `35.761 s`; `python -m compileall -q examples/fracture2d tests`
+  and `git diff --check` pass. Expected argparse usage/error output is from
+  negative CLI tests. No physical checkpoint or external artifact was run or
+  created.
+- Related: `docs/tasks/archive/anderson-residual-regularized-study.md`,
+  `docs/PROGRESS.md`, and `examples/fracture2d/README.md`.
+
+## 2026-09-20 — Prepare fixed-mu scalar sensitivity runner
+- Decision: Prepare, but do not execute, a scalar-only bounded runner for
+  `anderson_residual_regularized_backtracking` at the approved study values
+  `mu={0.25, 1, 2}`. Bind the immutable failed-run source archive, its exact
+  last accepted state, the production model/JAX adapter, and the historical
+  strict base configuration; invoke one private target attempt only.
+- Why: The requested sensitivity evidence must distinguish a bounded numerical
+  diagnostic from continuation or physical evidence. Scalar callbacks, exact
+  rollback/acceptance digests, and exclusive canonical JSON provenance preserve
+  that boundary without serializing rejected field vectors.
+- Alternatives rejected: running any physical attempt while preparing the
+  runner, calling the continuation wrapper, changing the historical gates or
+  load-step settings, or promoting a rejected state to physical evidence.
+- Related: `/tmp/opencode/fracture2d_anderson_residual_regularized_sensitivity.py`,
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`, and `docs/PROGRESS.md`.
+
+## 2026-09-20 — Bind source-code hash timing around the bounded attempt
+- Decision: Capture the stabilized source-bundle and workflow hashes before the
+  private target attempt, then recalculate them after it; archive, cloud, and
+  runner hashes retain the same before/after contract.
+- Why: A before/after provenance field must measure the attempt interval rather
+  than two consecutive post-attempt reads, while preserving the no-mutation
+  audit without executing a physical study here.
+- Alternatives rejected: treating a post-attempt hash as the pre-attempt value,
+  hashing field arrays, or running the target attempt merely to exercise the
+  instrumentation.
+- Related: `/tmp/opencode/fracture2d_anderson_residual_regularized_sensitivity.py`
+  and `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-20 — Complete negative fixed-mu sensitivity study
+- Decision: Close the bounded scalar-only fixed-`mu` study as negative
+  diagnostic evidence. The injected accepted state at
+  `u_bar=0.0062312500000000345` was tested to exact target
+  `u_bar=0.006234375000000035` with unchanged mathematics, `du_min=3.125e-6`,
+  zero load cutbacks, and the full 144-sweep budget. All three attempts were
+  rejected after 144 sweeps by the identical gates
+  (`displacement`, `damage`, `history`, `reaction`, `damage_residual`,
+  `damage_fixed_point`, `coupled`) and rolled back; no rejected state is
+  physical evidence.
+- Exact artifacts are:
+  - `mu=0.25`: `/root/autodl-tmp/data/fracture2d/engineering_grip/engineering_grip_anderson_residual_regularized_backtracking_sensitivity_mu0p25_20260920T072155720312Z.json`, file SHA256 `a2d6afa5a5d86866d8de20ec37987873d243eb910941629869e363c31db787c6`, payload SHA256 `b5235a04b89ed84b1c63e92b3becf41930e1914945de829e512333e49eea8e46`.
+  - `mu=1`: `/root/autodl-tmp/data/fracture2d/engineering_grip/engineering_grip_anderson_residual_regularized_backtracking_sensitivity_mu1_20260920T075026856378Z.json`, file SHA256 `c5f271504e3617b0e8d08683f958921fe045276a627739e3a444ddc86f5479ec`, payload SHA256 `31353edbc352f33fafd6fc67f9a063a29f45fb7c30786ffab085ef08c89e353a`.
+  - `mu=2`: `/root/autodl-tmp/data/fracture2d/engineering_grip/engineering_grip_anderson_residual_regularized_backtracking_sensitivity_mu2_20260920T081716835642Z.json`, file SHA256 `c26a461ac64f7d54dc7d37b597f8064f9dedb69754d7394fd2dea67d9523d09a`, payload SHA256 `9b5685ba06c0742d8dc27256897349d2b2ae0289010f925fce90d4c25e6ea3cb`.
+- Results: selected AA/Picard-fallback counts were `3/141`, `0/144`, and
+  `0/144` for `mu=0.25`, `1`, and `2`; coefficient maxima were
+  `0.7697/0.3656/0.2151`. Final fixed-point errors were
+  `1.8632048281652658e-4`, `1.8608049513912928e-4`, and
+  `1.8608033904232713e-4`, versus baseline
+  `1.8391723755628586e-4`.
+- Why: Increasing regularization suppresses AA toward Picard, and each tested
+  value worsens the endpoint error relative to baseline. The study therefore
+  does not justify expanding or adapting the `mu` grid. Source-bundle hashes
+  differ by design because the new policy code changed, while source cloud,
+  configuration, and rollback bindings match; comparisons are behavioral, not
+  bitwise code-parity claims.
+- Alternatives rejected: treating any rejected trial as an accepted physical
+  state, expanding/adapting the tested `mu` grid from this negative result,
+  guessing an arc-length rule, or changing `k_res` without a separate
+  mathematical decision. The next decision is either unchanged mathematics
+  with `du_min=1.5625e-6` (potentially hundreds of microsteps) or a materially
+  new continuation/nonlinear formulation.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `docs/PROGRESS.md`, and the archived implementation task
+  `docs/tasks/archive/anderson-residual-regularized-study.md`.
+
+## 2026-09-20 — Close smaller-du checkpoint and deeper-alpha audit
+- Decision: Close the user-approved smaller-`du_min` checkpoint as a strict
+  failure. Starting from the last accepted `u_bar=0.00623125` state with
+  source digest
+  `a5e0e6b78e1663d6e76262950730dcb5ee3a5a7bdc5c1f0d86f2b09adf7d9cd7`, the
+  unchanged unregularized `anderson_residual_backtracking` policy targeted
+  `u_bar=0.0062328125` with `du_min=1.5625e-6` and `144` sweeps. It failed
+  strictly and rolled back; no rejected state is physical evidence.
+- Evidence: the artifact is
+  `/root/autodl-tmp/data/fracture2d/engineering_grip/engineering_grip_anderson_residual_backtracking_half_step_u6p2328125_20260920T094632Z.json`,
+  file SHA256
+  `28b3e0a751781b5f043ea2c2a2ed43852388a2b783e3d23c19bd9fb702cd0ba3`, and
+  payload SHA256
+  `e6b6434f6558afbc2143d58a3d7337ef04ffffd99eccc2b0d91f8845d3067159`.
+  Final error was `4.779188545345203e-5`; the tail ratio was `1.0010643`, the
+  last-ten maximum was `1.0012019`, and the same coupled gates failed:
+  `displacement`, `damage`, `history`, `reaction`, `damage_residual`,
+  `damage_fixed_point`, and `coupled`.
+- Decision: Mark blanket deeper-alpha extension NO-GO. In the `alpha=1/16`
+  audit, the last 30 trials were all hard-pass/map-complete, but only sweep
+  `125` passed globalization; `29/30` directional slopes
+  `(m(alpha)-m_ref)/alpha` were positive and the tail slopes were large.
+  `alpha=1/8` was always worse.
+- Why: The current controller path is exhausted: fixed Picard `omega=0.25`,
+  unregularized alpha backtracking, fixed-`mu` `0.25/1/2`, the smaller-`du_min`
+  checkpoint, and deeper-alpha evidence do not provide strict progress beyond
+  `0.00623125`. Further damping or regularization would be guesswork rather
+  than an independently derived numerical decision.
+- Next decision: The user must select a materially new nonlinear formulation,
+  such as an independently derived monolithic complementarity/semismooth-Newton
+  method or a derived continuation constraint, versus stopping incomplete at
+  `0.00623125`. Preserve the exact `0.0075` objective as unmet.
+- Alternatives rejected: another guessed damping/regularization change,
+  expanding/adapting `mu`, a blanket deeper-alpha extension, warning acceptance,
+  using rejected fields as physical evidence, or inventing an arc-length rule,
+  `k_res` change, or other continuation constraint without derivation.
+- Verification: This was a memory-only update with no solver edits, tests, or
+  physical runs; `git diff --check` passes.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `docs/PROGRESS.md`, and the immutable checkpoint/failure artifacts.
+
+## 2026-09-20 — Approve Phase 1 of the monolithic q-d-H engineering-grip formulation
+- Decision: Implement Phase 1 only, as a private/experimental module
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`: the exact
+  code-compatible monolithic residual over the packed unknown
+  `z=(q_free, d, H)` and its analytic generalized Jacobian action (JVP), with
+  manufactured tests only. No Newton solver, GMRES, workflow/CLI, or physical
+  run is authorized by this entry.
+- Why: The user selected the pending choice in favor of an independently
+  derived monolithic formulation, staged so that the residual/JVP contract is
+  exactly derived and FD-verified before any solver exists. Phase 1 keeps every
+  equation identical to the accepted staggered model: `Rq` is the existing
+  `A2FixedDamageView` free-row residual at the affine hard-constraint target;
+  `Rd = M rho` with `rho = Gc/l0 d + Gc l0 D d + 2 H (d-1)` (the existing
+  material AT2 residual times particle volumes, no mechanics-energy term);
+  `RH = H - max(H_committed, psi_plus(Q))` with the existing material-source
+  embedded plane-strain Amor driver and the exact tie-committed strict-`>`
+  active set. The analytic blocks are `Jqq` (existing tangent action on free
+  DOFs), `Jqd` from the source center-weight derivative
+  `dW/dd = -2 V_material (1-d)` times the existing endpoint edge-force
+  assembly, `Jdd = M(diag(Gc/l0+2H)+Gc l0 D)`, `JdH = M diag(2(d-1))`,
+  `JHq = -d psi_plus/dq` on active rows (Amor first variation
+  `[K max(tr,0) I2 + 2 mu dev_2x2]:dstrain`, `K=lambda+2mu/3`, embedded 3x3),
+  and identity in `H`. The packed Jacobian is nonsymmetric; exact adjoint
+  actions are exposed only because they are implemented as exact transposes of
+  the existing assemblies and tested against the dense transpose.
+- Alternatives rejected: finite-differencing Jacobian blocks in any production
+  API; adding a mechanics-energy derivative to `Rd` (changes the staggered
+  damage equation); a damage obstacle/clipping/projection in the residual;
+  smoothing or tolerance on the history active set; changing any authoritative
+  primitive equation (BA kinematics, center weights, AT2 operator, Amor split);
+  and exposing a transpose before it can be implemented and tested exactly.
+- Review status: Phase 1 implementation and manufactured evidence only; the
+  user-supplied mathematical contract is recorded here and any Phase 2 solver
+  remains unauthorized.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic.py`.
+
+## 2026-09-20 — Set the Phase-1 monolithic review-resolution evidence standard
+- Decision: Resolve the independent Phase-1 review findings without adding
+  any solver: (a) freeze every cached static datum in
+  `MonolithicGripResidual` — the material AT2 CSR `data`/`indices`/`indptr`
+  internals and the derived material-source mask are read-only, so in-place
+  mutation attempts fail loudly and leave residuals bit-identical; (b) add a
+  genuinely independent test-only packed-JVP oracle that rebuilds the BA
+  edge gradient/tangent endpoint assembly from frozen supports, shape
+  inverses, and weights, the explicit graph-volume damage action from a
+  from-definition cubic kernel, and the Amor source accumulation from edge
+  strains/delta gradients, with exact zero `Jdq`/`JHd` and identity `JHH`,
+  and compare the production JVP against it over multiple states and
+  directions while tying the production adjoint to it only through the
+  bilinear identity; (c) cover active-set switching along a line that
+  crosses the committed level (including an exact bit-for-bit median tie)
+  with a 1-Lipschitz no-jump check, and demonstrate out-of-range `d`/`H`
+  inputs are evaluated by the raw finite equations with no obstacle,
+  clipping, or projection — only dtype float64, finiteness, and exact shapes
+  are validated, by contract; (d) demote the dense Jacobian helper to
+  private `_dense_jacobian`, documented as production self-data for
+  structural nonsymmetry evidence only, never independent correctness
+  evidence.
+- Why: Cached mutable CSR internals and masks could be corrupted silently;
+  the previous dense-transpose adjoint check reused production `jvp` columns
+  and therefore could not detect a shared transpose/index error; and the
+  switching/obstacle contract of the generalized derivative needed explicit
+  manufactured proof.
+- Alternatives rejected: eliminating the caches instead of freezing them
+  (rebuilds per call add cost without improving the audit); building the
+  oracle from production assembly methods (not independent); keeping a
+  public dense Jacobian; and adding any range validation on `d`/`H`, which
+  would violate the approved no-obstacle contract.
+- Review status: Phase 1 remains implementation/manufactured evidence only;
+  Phase 2 solver work stays unauthorized.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic.py`.
+
+## 2026-09-20 — Make the Phase-1 cached CSR irrevocably immutable
+- Decision: Build `MonolithicGripResidual`'s cached material AT2 CSR from
+  independent bytes-backed copies of `data`, `indices`, and `indptr`, and reject
+  construction if SciPy exposes any of those buffers as writable or allows
+  `setflags(write=True)`. Keep the authoritative model operator untouched and
+  preserve SciPy matvec/transpose use for the residual and generalized actions.
+- Why: A reversible NumPy read-only flag does not protect an owning CSR buffer
+  from later write-flag re-enablement. An immutable bytes owner makes both
+  direct writes and re-enable attempts fail while retaining the sparse operation
+  path needed by Phase 1.
+- Alternatives rejected: mutating the authoritative operator's exported
+  storage, relying on `setflags(write=False)` alone, rebuilding the damage graph
+  for every residual/JVP/VJP call, or replacing the sparse path with a dense
+  matrix.
+- Review status: The module and VJP docstrings now identify the independent
+  oracle bilinear identity as adjoint evidence rather than dense-transpose
+  evidence. Focused tests cover bytes ownership, direct/re-enable failures,
+  SciPy matvec/transpose behavior, and bit-identical residual/JVP/VJP outputs.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic.py`.
+
+## 2026-09-20 — Authorize Phase 2A scaled semismooth Newton core
+- Decision: Implement only a private/experimental, explicit-parameter
+  scaled semismooth Newton/GMRES core around `MonolithicGripResidual`.
+  The new frozen solver configuration requires
+  `max_newton_iterations`, `gmres_rtol`, `gmres_atol`, `gmres_restart`,
+  `gmres_maxiter`, `armijo_c`, `line_search_reduction`,
+  `line_search_max_backtracks`, and `line_search_alpha_min`; no numerical
+  defaults, workflow, CLI, continuation/cutback, physical run, or auxiliary
+  strict sweep is added.
+- Equations retained: the Phase-1 packed residual and generalized JVP remain
+  exactly the approved code-compatible `q-d-H` equations, including the strict
+  `psi_plus > H_committed` active set with ties committed, volume-weighted
+  damage row, and raw unconstrained damage variable. At each iterate, the
+  solver freezes the exact active mask and gate-derived positive row scales
+  `Lq`, `Lrho`, and `LH` and applies the same row transformation to the JVP:
+  `Rhat=(Rq/Lq, (M^{-1}Rd)/Lrho, RH/LH)` and
+  `Jhat dz=(Jq dz/Lq, (M^{-1}Jd dz)/Lrho, JH dz/LH)`.
+- Numerical choices owned by this project: the merit is
+  `phi=0.5*||Rhat||_2^2`; GMRES is a nonsymmetric SciPy `LinearOperator` solve
+  with an explicit installed-API `callback_type`, an explicit unpreconditioned
+  residual check, and no fallback; the left preconditioner is block diagonal
+  only, using the existing particle mechanics block-Jacobi inverse, a sparse
+  strong damage `A_H` solve, and scaled identity history; and globalization is
+  raw `z+alpha*delta` Armijo backtracking. A trial is eligible only when finite
+  and `H>=0`; there is no clipping, projection, obstacle, or line-search
+  physics. Accepted trials rebuild the active set.
+- Acceptance semantics: scaled mechanics L2 and scaled damage/history Linf
+  residual blocks must each be at most one, with finite values, a stable active
+  set, and the existing displacement/damage/history correction-gate semantics.
+  Initial exact roots are accepted without a GMRES call. GMRES status,
+  unpreconditioned residual, callback history, Armijo budget, and minimum-alpha
+  failures are hard failures.
+- Source-backed versus project-owned: the residual/JVP, AT2/Amor equations,
+  particle mechanics preconditioner, strong damage matrix, and gate-limit
+  definitions are reused from the reviewed Phase-1/direct engineering-grip
+  implementation. The scaled row transformation, semismooth Newton iteration,
+  block preconditioner composition, Euclidean merit, and Armijo globalization
+  are project-owned numerical choices explicitly authorized here; they are not
+  presented as equations supplied by Kristensen/Martinez-Paneda or a
+  peridynamic reference.
+- Alternatives rejected: changing the physical residual or history law;
+  finite-differencing the JVP; symmetric CG for the nonsymmetric packed system;
+  unscaled GMRES; preconditioner fallbacks; clipping/projecting `d`; smoothing
+  the active set; or adding continuation/cutback rules before the core is
+  manufactured-tested.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`, and its
+  focused manufactured tests.
+
+## 2026-09-21 — Resolve independent Phase-2A review findings
+- Decision: At every raw Newton iterate, define `H_used` as the current packed
+  history and `H_next=max(H_committed,psi_plus(Q))`. Reproduce the existing
+  direct-gate damage-residual scale with all six constituent terms from both
+  histories, and reproduce the existing history scale with committed, used,
+  and next histories. Store the paired histories and a state digest in the
+  immutable scale bundle.
+- Decision: The no-GMRES shortcut is permitted only when every packed residual
+  entry is exactly numerical zero and the packed history is finite and valid.
+  Tolerance-level nonroots must enter Newton so correction and active-set
+  stabilization are audited.
+- Decision: Diagnostics now name `linearization_scales` and
+  `accepted_trial_scales`; convergence norms are evaluated with the latter.
+  Scale/state digest and `H_used` pairing checks reject forged diagnostic or
+  result chains. Every numerical failure retains an immutable
+  `MonolithicNewtonFailureAudit` containing the stage, reason, current state,
+  active set, available linear/GMRES/line-search evidence, and completed rows.
+- Why: The prior implementation used only the current history in the damage
+  scale, accepted small scaled residuals without auditing a Newton correction,
+  conflated linearization and accepted-trial scales, and discarded current-step
+  failure evidence. These changes make gate provenance and failure diagnosis
+  reproducible without altering the approved residual/JVP or adding a physical
+  workflow.
+- Source-backed versus project-owned: the six-term gate scale and history
+  semantics are reused from the reviewed direct engineering-grip diagnostics;
+  state-digest pairing, immutable failure auditing, and exact-zero shortcut
+  policy are project-owned implementation contracts.
+- Alternatives rejected: retaining the tolerance shortcut, storing one
+  ambiguous scale field, returning only prior diagnostics on failure, or
+  silently converting nonfinite/raw-trial failures into a fallback step.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`, and
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_newton.py`.
+
+## 2026-09-21 — Independent Phase-2A re-review keeps integration unwired
+- Decision: Keep the private Phase-2A core out of auxiliary strict-sweep or
+  continuation integration until its failure-audit and fixed-shape scale
+  contracts are tightened. The manufactured core remains usable for further
+  review-only testing.
+- Why: The focused and affected manufactured suites pass, but the initial
+  `active_mask` call at
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic.py:1739` occurs
+  before the solver's audit-protected initial evaluation block, so a numerical
+  active-set/Amor failure escapes as a raw exception. Also,
+  `MonolithicNewtonScales` only requires nonempty equal-length history vectors
+  (`:1038-1045`), `_validate_scale_pair` checks only the packed tail
+  (`:1085-1088`), and the preconditioner does not enforce the model's exact
+  material count (`:1508-1514`); a same-digest one-entry history bundle was
+  accepted by a direct probe.
+- Alternatives rejected: Treating passing internally generated solver paths as
+  sufficient for the private API forgery contract, or authorizing a physical
+  continuation without structured provenance for every numerical failure.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`, and
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_newton.py`.
+
+## 2026-09-21 — Close Phase-2A initial-audit and scale-shape findings
+- Decision: Run the initial active-set and residual evaluations under the
+  existing immutable failure-audit contract, retaining a valid audit mask and
+  the exact current packed state when an active/Amor, residual, or initial
+  scale evaluation fails. Require every model-bound scale consumer to validate
+  both history vectors against the exact `monolithic.n_material`; retain the
+  state digest and `H_used` tail check where the scale bundle is paired to its
+  linearization state.
+- Why: A raw initial active-set numerical exception bypassed
+  `MonolithicNewtonFailureAudit`, and a generic one-entry scale bundle could
+  pass same-digest tail validation before reaching the preconditioner. The
+  fixed-shape checks close the forged-bundle path without changing the
+  approved residual, active-set, or solver equations.
+- Alternatives rejected: using a zero active set to continue after evaluation
+  failure, enforcing model size in the generic dataclass constructor (which
+  would remove legitimate generic construction), accepting a digest as a
+  substitute for exact model shape, or wiring the core into a workflow.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_newton.py`.
+
+## 2026-09-21 — Scope the Phase-2B verified monolithic attempt
+- Decision: Add a private single-target verified-attempt layer around the
+  manufactured Phase-2A solve. It must receive the existing engineering-grip
+  model/configuration/committed state, an explicit target, explicit mechanics
+  adapter, explicit packed `initial_z`, and an explicit
+  `MonolithicNewtonConfig`; it must not create a warm start, continuation,
+  cutback, workflow, CLI, archive, or physical-run path.
+- Decision: Recheck every converged Newton candidate with one authoritative
+  fixed-history engineering sweep: raw Newton `q/d/H` seed mechanics-before,
+  committed-history Amor `psi_before`, `H_used=max(H_committed,psi_before)`,
+  exact fixed-history damage, before-seeded mechanics-after, committed-history
+  Amor `psi_after`, and `H_next=max(H_committed,psi_after)`. The canonical
+  candidate is exactly `(q_after,d_solved,H_next)` and is accepted only after
+  a fresh monolithic residual/scale/active-set check and all existing strict
+  diagnostics gates pass.
+- Why: The Phase-2A root is an experimental packed nonlinear solve, whereas
+  the existing engineering controller's mechanics, Amor, AT2, reaction,
+  conservation, range, healing, and history semantics are the authoritative
+  direct path. The auxiliary sweep makes that distinction auditable without
+  silently promoting raw Newton fields to a committed engineering state.
+- Source-backed versus project-owned: all residuals, Amor/AT2 equations,
+  fixed-history solve, mechanics adapter contract, and diagnostic gate
+  definitions are reused from the reviewed engineering-grip implementation;
+  the single-target orchestration, canonical-state pairing, immutable failure
+  audit, and no-serialization contract are project-owned.
+- Alternatives rejected: wiring Newton into continuation, using hidden direct
+  warm starts, accepting the raw Newton state without the authoritative sweep,
+  clipping/projecting damage, warning acceptance, or serializing rejected
+  trial arrays as durable physical evidence.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`, and the new
+  Phase-2B manufactured tests.
+
+## 2026-09-21 — Strengthen Phase-2B audit payload pairing
+- Decision: Require every populated auxiliary audit field to equal its
+  corresponding authoritative diagnostic field, require nonnegative raw
+  history, and require accepted attempts to carry and recompute canonical
+  active/scaled-residual fields from the canonical packed state.
+- Why: The Phase-2B result is an audit contract, not only a numerical return
+  value. A forged or partially paired success payload could otherwise preserve
+  the right digest while reporting a different field bundle or omit the
+  canonical residual evidence.
+- Alternatives rejected: trusting the constructor caller, checking only the
+  packed-state digest, or adding a warning-only consistency path.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_verified.py`,
+  and `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-21 — Close Phase-2B audit-order and provenance findings
+- Decision: Make the Phase-2B auxiliary result a fully paired audit object,
+  carrying the exact model/configuration/committed-state/static identities and
+  validating every raw, optional, mechanics-provenance, diagnostic, canonical,
+  and Newton field against those identities. Recompute the strict aggregate
+  from the individual diagnostic gate fields; never trust a stored aggregate
+  boolean.
+- Decision: Preserve the authoritative single-target operation order as
+  mechanics-before, Amor/`H_used`, fixed-history damage/`rho_used`,
+  mechanics-after seeded by the before solve, Amor/`H_next`/`rho_next`, then
+  complete diagnostics including force/moment gates. The mechanics-after seed
+  provenance retains the raw Newton damage digest because its seed displacement
+  came from the raw-damage mechanics-before solve.
+- Why: A forged aggregate, one-sided optional field, foreign auxiliary object,
+  or mislabelled seed can retain numerically plausible arrays while severing the
+  authoritative replay chain. Early gate short-circuits also discard later
+  fields needed to distinguish complete strict rejection from incomplete
+  numerical failure.
+- Alternatives rejected: trusting `diagnostics.passed`, accepting equal-value
+  foreign objects without identity checks, using the solved damage digest for
+  the mechanics-after seed, or testing call order only through production
+  self-consistency.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_verified.py`,
+  and `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-21 — Bind Phase-2B numerical failure stages and audit identity
+- Decision: Store the exact `MonolithicNewtonFailureAudit` object separately on
+  `MonolithicVerifiedAttempt` and require a rejected failure payload to reference
+  that same object. Split auxiliary numerical exceptions after fixed-history
+  damage into `rho_used` and `rho_next` stages so retained fields and failure
+  classification identify the precise completed operation.
+- Why: A failure payload that only carried an independently reconstructed audit
+  could preserve equal values while severing object-level provenance. Combining
+  fixed-history residual reconstruction with the damage stage also obscured
+  whether `rho_used` or `rho_next` had been completed and paired.
+- Source-backed versus project-owned: the fixed-history residual operations and
+  existing diagnostic semantics are reused from the reviewed engineering-grip
+  implementation. Exact in-memory audit identity and the finer failure-stage
+  labels are project-owned Phase-2B audit contracts; they do not change any
+  residual, constitutive law, or physical gate.
+- Alternatives rejected: trusting equal-value foreign audit objects, collapsing
+  all fixed-history residual failures into `damage`, adding a serializer for
+  rejected arrays, or wiring the layer into continuation.
+- Verification: focused Phase-2B tests pass `10/10`; the combined affected CPU
+  unittest command passes `261` tests with two expected GPU-only skips;
+  `compileall` and `git diff --check` pass. No workflow or physical run was
+  performed.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_verified.py`,
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`, and `docs/PROGRESS.md`.
+
+## 2026-09-21 — Authorize manufactured-only monolithic Phase-2C continuation
+- Decision: Implement a private Phase-2C adaptive strict continuation around the
+  approved Phase-2B single-target attempt. The continuation configuration must
+  expose explicit `load_start`, `load_final`, `du_initial`, `du_min`,
+  `cutback_factor`, `max_cutbacks`, and a required `MonolithicNewtonConfig`,
+  while reusing the existing engineering-grip gate/work-check configuration.
+  There is no CLI/workflow entry, archive writer, rejected-field serializer, or
+  physical run in this phase.
+- Why: The controller contract needs a deterministic, auditable load state
+  machine without adding a second nonlinear map or hidden stagger warm start.
+  Every attempt can therefore be represented by one immutable Phase-2B audit,
+  and every accepted state is exactly its Phase-2B canonical state.
+- Alternatives rejected: calling Phase2B more than once per target, seeding
+  from a rejected trial, retaining trial fields as committed state, warning or
+  fallback acceptance, clipping/projection, callback side effects, and durable
+  serialization before the in-memory ordering/digest contract is tested.
+- Relation: User-authorized Phase2C extension of the Phase-2B contract recorded
+  immediately above; this does not select a physical formulation or endpoint.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_continuation.py`,
+  and `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-21 — Bind Phase-2C configuration and failure audit to Phase2B
+- Decision: Make `MonolithicContinuationConfig` carry the explicit load
+  schedule fields, the existing validated `EngineeringGripConfig`, and the
+  required `MonolithicNewtonConfig`. The duplicated schedule fields must equal
+  the corresponding engineering-grip fields exactly; all gate and work-check
+  values therefore remain owned by the existing direct configuration.
+- Decision: Represent each continuation attempt with one immutable
+  `MonolithicContinuationAttempt` containing the authoritative predictor,
+  load/increment/cutback metadata, model/static/config identities, and exactly
+  one `MonolithicVerifiedAttempt`. A completed or failed run is represented by
+  an immutable `MonolithicContinuationResult`; numerical endpoint failure is
+  raised as `MonolithicContinuationFailure` carrying that partial result.
+- Why: This makes rejected-target rollback and solver provenance inspectable
+  without copying or serializing trial fields, while preserving the existing
+  `_next_target`, `_is_minimum_increment`, and one-time work-check contracts.
+- Alternatives rejected: deriving the schedule from hidden base-config fields,
+  returning only the last accepted state, catching Phase2B structural
+  exceptions as numerical failures, or adding a workflow/archive serializer.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`, and the new Phase-2C
+  manufactured tests.
+
+## 2026-09-21 — Permit finite raw Newton trials and close Phase-2C audit gaps
+- Decision: Keep the exact monolithic `R_H=H-max(H_committed,psi_plus)`
+  residual, but remove the `H>=0` obstacle from intermediate raw Newton
+  line-search trials. Any finite packed `d/H` trial may be evaluated without
+  clipping or projection; successful Newton results and the canonical Phase-2B
+  state must still pass explicit nonnegative-history checks.
+- Decision: Make Phase-2C result validation recompute the exact work-check
+  binding and ordered target/increment/cutback schedule from the existing
+  `_next_target` and `_is_minimum_increment` helpers, with strict attempt/state
+  object and digest pairing.
+- Why: A semismooth raw line search must be allowed to cross an unconstrained
+  intermediate history value, while irreversibility is enforced by the exact
+  residual and final canonical state contract. Recomputing continuation metadata
+  prevents a superficially valid immutable result from hiding a forged schedule,
+  work-check configuration, or rollback pairing.
+- Source-backed versus project-owned: the residual, exact history maximum,
+  direct predictor, work-check calculation, endpoint snap, and minimum-increment
+  helper are existing reviewed project equations/contracts. The finite raw-trial
+  boundary, final/canonical history gates, and exhaustive Phase-2C audit checks
+  are project-owned numerical/audit contracts.
+- Alternatives rejected: retaining an intermediate history obstacle, clipping or
+  projecting raw trials, warning-accepting a negative final history, replacing a
+  direct predictor with a random seed, or relying on mocked/fabricated success
+  results for the controller smoke path.
+- Verification: CPU monolithic tests pass `54/54`; the combined
+  engineering/JAX plus monolithic focused command passes `114` tests with one
+  expected GPU-only skip; targeted compilation and `git diff --check` pass. No
+  workflow, archive, or physical run was performed.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_newton.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_verified.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_continuation.py`,
+  and `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-21 — Close work-check and Newton residual-audit defects
+- Decision: Require the three engineering work-check solves to share the
+  validated constraints/static runtime identity and static, material-damage,
+  and unit-system digests, while deliberately not requiring equality of their
+  fixed-damage cache/runtime tokens. A replay adapter may construct a fresh
+  fixed-damage view for each centered load.
+- Decision: Keep `EngineeringGripWorkCheck` construction strict. The failure
+  regression now obtains a genuinely valid `passed=False` check by running the
+  real work-check solver with a controlled zero relative-error limit and then
+  verifies continuation short-circuits before Phase-2B.
+- Decision: Retain three immutable scaled residual vectors per Newton
+  diagnostic (reference, accepted line-search at reference scales, and
+  accepted trial at accepted-trial scales). The normal validator checks their
+  algebraic merit/block/final-row pairing; explicit `validate_with_owner(owner)`
+  independently replays all residuals through an in-memory authoritative
+  `MonolithicGripResidual`.
+- Why: Cross-solve cache identity is not a material/model invariant, an
+  inconsistent forged work check must not be constructible, and a durable audit
+  must remain self-paired even when a failure-orchestration test temporarily
+  replaces an operator method. The real manufactured Newton path still receives
+  owner-backed replay; only the Armijo orchestration test uses a deterministic
+  method replacement.
+- Alternatives rejected: requiring damage-cache Python identity, weakening the
+  work-check constructor, silently omitting intermediate residual validation,
+  or making all result validation depend on mutable monkeypatched methods.
+- Verification: affected CPU unittest command passes `233` tests with one
+  expected GPU-only skip; `python -m compileall -q examples/fracture2d tests`
+  and `git diff --check` pass. No workflow, archive, or physical execution was
+  performed.
+- Related: `examples/fracture2d/nonlocal_engineering_grip.py`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_newton.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_continuation.py`,
+  and `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-21 — Require owner-backed authenticity before archive integration
+- Decision: Add explicit owner replay to the engineering work check, each
+  Phase-2B verified attempt, and the Phase-2C continuation result. Replay uses
+  the authoritative model/config and exact stored numerical settings, then
+  compares all durable scalar, array, digest, reaction/energy, gate, state, and
+  failure fields while ignoring only ephemeral runtime object identities.
+- Decision: A non-complete continuation interval may not produce a failed result
+  without at least one rejected attempt. The failed attempt must carry the exact
+  reconstructed target and controller failure stage/reason; a work-check
+  exception still propagates before a result exists, and a legitimately already
+  complete interval remains a complete result.
+- Why: Structural/value pairing can be forged coherently, including a mechanics
+  residual, reaction, and energy. Fresh authoritative replay is required to
+  bind durable evidence to the frozen model and equations before a future
+  archive reader accepts it. Runtime cache and Python identity tokens are not
+  cross-solve evidence.
+- Source-backed versus project-owned: the zero-damage work identity, mechanics
+  solve, monolithic residual, Phase-2B auxiliary ordering, and canonical state
+  are existing reviewed equations/contracts. Deterministic model/config
+  digests, exhaustive fresh-solve comparators, recursive continuation binding,
+  and controller failure provenance are project-owned authenticity contracts.
+- Alternatives rejected: trusting structural self-consistency alone, comparing
+  fresh fixed-damage cache identities, accepting callback/mock output as replay,
+  rerunning a full physical controller when per-attempt replay is sufficient, or
+  starting archive work before owner validation is available.
+- Related: `examples/fracture2d/nonlocal_engineering_grip.py`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-21 — Dispatch controller-only no-progress records without Phase2B replay
+- Decision: In continuation owner validation, classify the no-PDE exception
+  only as a terminal `MonolithicContinuationAttempt` whose Phase2B-shaped
+  failure has `stage="controller"`, exact `load_target == load_start`, and
+  exact `increment == 0`. Revalidate its schedule, canonical reason,
+  predictor, model/config digests, committed digests, and empty PDE-audit
+  payload, then skip numerical Phase2B replay.
+- Decision: Every other attempt, including all positive-increment attempts,
+  must use recursive `validate_with_owner` and authoritative Phase2B replay.
+  Stage relabeling or target/increment/reason mutation cannot opt a real PDE
+  attempt into the controller-only branch.
+- Why: A floating-point no-progress dispatch is not a PDE attempt and cannot
+  be replayed at a target equal to its committed load, while actual numerical
+  attempts still require independent owner authentication.
+- Alternatives rejected: replaying a controller record through the positive
+  target Phase2B API, classifying by failure stage alone, or exempting all
+  zero-increment records without terminal schedule/reason/digest checks.
+- Verification: focused CPU engineering/Phase-2B/Phase-2C tests pass `77`, the
+  expanded affected command passes `112`, and compileall plus `git diff --check`
+  pass; no archive or physical execution was performed.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_continuation.py`,
+  and `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-21 — Bind owner replay to durable values and terminal attempts
+- Decision: Keep structural constructors identity-strict for live in-memory
+  pairing, but make explicit owner replay compare durable model/static/config
+  digests and recursively compare arrays, scalars, diagnostics, reactions,
+  energies, gates, and failure payloads. Fresh equivalent models and fresh
+  fixed-damage views may therefore authenticate without sharing cache tokens.
+- Decision: Preserve numerical exceptions from an authoritative work-check
+  replay, while allowing a carried `EngineeringGripWorkCheckFailure.check` to
+  be compared as a durable failed numerical result. A floating-point/solver
+  exception without a result is not relabelled as a structural forgery.
+- Decision: When continuation target rounding cannot advance, construct and
+  retain one terminal controller-stage Phase-2B-shaped failed attempt at the
+  exact current target with zero increment, rather than producing a result with
+  no attempt record.
+- Why: A coherent structural forgery can alter a residual, reaction, or energy
+  while preserving local algebraic checks. Fresh CPU replay is the independent
+  authenticity source; the continuation audit must also preserve exact
+  controller provenance for future archive readers.
+- Alternatives rejected: requiring fresh Python/cache identity, allowing the
+  public replay entry point to be monkeypatched as an authenticity source,
+  wrapping numerical failures as generic `ValueError`, or retaining arbitrary
+  no-attempt failure metadata.
+- Related: `examples/fracture2d/nonlocal_engineering_grip.py`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `examples/fracture2d/README.md`, and the focused owner-replay tests.
+
+## 2026-09-21 — Hold archive integration after independent owner-replay audit
+
+- Decision: Keep durable archive schema/reader work **NO-GO** until the
+  controller-stage no-progress continuation audit has a dedicated owner
+  validation path. Do not weaken the requirement that archive readers
+  reconstruct the owner and call `validate_with_owner`.
+- Why: A real direct-predictor success authenticates against a fresh equivalent
+  model, while a coherent residual/reaction/energy forgery is structurally
+  accepted and owner-replay rejected, recursive work-check forgery is rejected,
+  arbitrary no-attempt failure is rejected, and public replay-entrypoint
+  monkeypatches are bypassed. However, a retained terminal controller attempt
+  with `target <= committed.u_bar` is not a Phase-2B numerical attempt;
+  `MonolithicContinuationResult.validate_with_owner` currently routes it to the
+  unconditional Phase-2B replay and rejects the legitimate result.
+- Source-backed versus project-owned: the CPU mechanics/Newton/Phase-2B replay
+  equations and existing continuation schedule remain the reviewed contracts.
+  The controller-stage branch, direct-predictor binding, and failure-provenance
+  comparison are project-owned authenticity rules and require independent
+  review before implementation.
+- Alternatives rejected: silently excluding failed archives, treating a
+  controller no-progress record as a valid Phase-2B solve, or approving archive
+  integration from success-only tests.
+- Verification: focused owner tests `123` with one expected skip; broader
+  affected CPU suite `241` with one expected skip; compileall and
+  `git diff --check` pass. No source-code edit, archive, workflow, or physical
+  execution was performed during this audit.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `examples/fracture2d/README.md`,
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`, and the continuation
+  owner-replay tests.
+
+## 2026-09-21 — Approve archive schema/reader design after controller-only replay fix
+
+- Decision: **GO** for archive schema/reader design. The reader must reconstruct
+  the authoritative owner and call the top-level
+  `MonolithicContinuationResult.validate_with_owner(...)`; it must not replace
+  that call with direct per-attempt replay for controller-only records.
+- Why: The terminal zero-increment no-progress record now receives exact
+  controller metadata/predictor validation without a PDE replay, while every
+  positive-increment attempt still reaches the captured authoritative CPU
+  Phase-2B entry point. Forged stage/target/increment/reason payloads are
+  rejected at the owner boundary.
+- Source-backed versus project-owned: existing A2/monolithic equations and
+  Phase-2B CPU replay remain unchanged. The controller-only branch and its
+  metadata/predictor provenance checks are project-owned archive-authenticity
+  rules.
+- Verification: targeted owner probes `3/3` passed; focused monolithic suite
+  `62/62` passed; compileall and `git diff --check` passed. No source edit,
+  archive, workflow, or physical execution occurred during confirmation.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_continuation.py`,
+  and `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-21 — Define a separate lean monolithic archive contract
+
+- Decision: Add a private monolithic-continuation archive module with its own
+  schema identifier.  Store canonical JSON metadata as UTF-8 `uint8`, accepted
+  state arrays, work-check/result summaries, and ordered attempt scalar
+  provenance; do not serialize rejected or intermediate `q/d/H` arrays.
+- Decision: The writer must validate the live result with its owner before
+  writing, reject object/non-finite archive fields, enforce an explicit
+  uncompressed-byte budget before atomic replacement, and default to refusing
+  overwrite.  The reader must enforce a fixed ZIP member allowlist and budget,
+  reconstruct the two continuation configs, rerun the strict controller with
+  the supplied owner, call top-level `validate_with_owner`, and compare every
+  accepted state and ordered scalar/digest audit record.
+- Why: The existing stabilized v5 archive is a different public contract and
+  contains physical/workflow fields that are not appropriate for the private
+  manufactured-only monolithic layer.  Owner replay is the authenticity source;
+  archive bytes are evidence and must not become a second numerical solver.
+- Source-backed versus project-owned: the monolithic residual, engineering
+  configs, strict continuation schedule, owner replay, accepted state fields,
+  work-check values, and gate/solver diagnostics are existing reviewed
+  contracts.  The schema/member layout, canonical metadata encoding, byte
+  budget, atomic persistence, and archive mutation rules are project-owned
+  durability contracts.
+- Alternatives rejected: reusing stabilized v5, serializing a pickle/object
+  graph, storing rejected Newton/auxiliary vectors, trusting archive metadata
+  without fresh replay, or adding a workflow/physical execution entry point.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic_archive.py`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`, and the
+  focused monolithic archive tests.
+
+## 2026-09-21 — Bind archive replay below replaceable public callbacks
+
+- Decision: Keep the public monolithic continuation entry point injectable for
+  manufactured controller tests, but route the captured archive replay entry
+  through a separate private implementation bound to the captured authoritative
+  work-check and Phase-2B runners.
+- Why: Capturing only the public controller function does not prevent its body
+  from resolving caller-replaceable public runner attributes at replay time.
+  Owner-authenticated archive replay must not be changed by monkeypatches or
+  workflow callbacks while existing manufactured injection tests retain their
+  explicit public seam.
+- Alternatives rejected: capturing only the public controller, replacing the
+  existing public test seam, or treating a callback/monkeypatch as authenticity
+  evidence.
+- Source-backed versus project-owned: the work-check, Phase-2B, and
+  continuation numerical equations are unchanged; the dispatch boundary is a
+  project-owned owner-authentication rule.
+- Verification: focused continuation/archive tests `20/20` passed, including
+  rejection of public controller, Phase-2B, and work-check callback use during
+  archive replay.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic_archive.py`, and
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_archive.py`.
+
+## 2026-09-21 — Harden the private monolithic archive boundary
+
+- Decision: Keep the `fracture2d-monolithic-continuation-v1` member contract
+  exact, and make ZIP inspection reject nonzero flags, data descriptors,
+  extras/comments, special-file metadata, local-header mismatches, excessive
+  compressed size, and decompression ratios. Parse each NPY member from the
+  same opened archive file after requiring an exact C-order payload with no
+  trailing bytes.
+- Decision: Install archives with an atomic hard-link no-clobber path when
+  `overwrite=False`; only an explicit `overwrite=True` may use replacement.
+  Capture owner replay runners below the replaceable public/private callback
+  attributes, while retaining the public manufactured injection seams.
+- Decision: Treat unknown scalar-evidence objects and non-strict schema-version
+  values as errors rather than recording an opaque `runtime_only` fallback.
+- Why: The archive is evidence, not a solver graph. A path replacement between
+  inspection and loading, a coherent ZIP/NPY forgery, a mutable callback alias,
+  or an opaque omitted audit field could otherwise bypass the declared
+  owner-authentication and accepted-state-only contract.
+- Alternatives rejected: weakening the existing uncompressed budget, trusting
+  `numpy.load` to enforce the raw NPY contract, using a check-then-replace
+  no-clobber sequence, or changing the numerical equations/continuation gates.
+- Source-backed versus project-owned: no PDE, constitutive, history, load, or
+  gate equation changes; ZIP/NPY durability limits, atomic installation, and
+  runner binding are project-owned archive-authenticity rules.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic_archive.py`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `examples/fracture2d/nonlocal_engineering_grip.py`, and the focused archive
+  tests.
+
+## 2026-09-21 — Keep monolithic archive v1 ZIP32-only and name mechanics energy precisely
+
+- Decision: Define `fracture2d-monolithic-continuation-v1` as ZIP32-only with a
+  hard `500000000`-byte practical budget, reject every ZIP64 sentinel or extra,
+  and require the canonical writer to use `allowZip64=False`. Rename the
+  accepted energy member to `accepted_mechanics_energy` and the ordered attempt
+  metadata to `attempt_scalar_evidence`; v1 has not been published, so no
+  compatibility alias is retained.
+- Decision: Keep crack-region strain, Amor driver arrays, and static operators
+  out of the lean archive. The digest-matched owner and recursive
+  `validate_with_owner` replay must recompute those fields and all canonical
+  equations/gates before accepting the persisted `Q`, `d`, `H`, reaction, and
+  A2 mechanics-energy arrays.
+- Decision: For default no-clobber writes, fail closed when hard links are not
+  supported. If directory fsync fails after link installation, attempt an
+  identity-checked destination unlink and a second directory fsync, and report
+  cleanup failure explicitly. Preserve controller-only no-progress failures as
+  exact scalar provenance and validate them through the top-level replay branch
+  without inventing a Phase-2B solve.
+- Why: The practical archive is far below ZIP64 scale; explicit rejection is
+  safer than partial compatibility. The former `total_energy` name overstated
+  the retained A2 mechanics quantity. Accepted fields plus authoritative owner
+  replay provide the required physical evidence without duplicating derivable
+  arrays or persisting rejected Newton states.
+- Alternatives rejected: partial ZIP64 parsing, a misleading coupled-total-
+  energy label, serializing static solver graphs or rejected fields, portable
+  check-then-replace no-clobber writes, or accepting archives without recursive
+  owner replay.
+- Verification: focused archive tests pass `15/15`; the full monolithic suite
+  passes `77/77`; the final affected engineering/workflow/monolithic CPU suite
+  passes `252` tests with one expected GPU-only skip. `compileall` and
+  `git diff --check` pass. No workflow integration or physical run occurred.
+
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic_archive.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_archive.py`, and
+  `examples/fracture2d/README.md`.
+
+## 2026-09-21 — Require one canonical ZIP32 EOCD
+
+- Decision: Parse the raw EOCD from the same archive descriptor within the
+  legal ZIP comment search window and require exactly one `PK\x05\x06` record
+  ending at EOF with a zero comment. Require single-disk fields, exact
+  allowlist entry counts without `0xffff`, non-sentinel bounded central
+  size/offset, and exact equality with the parsed central-record span/location.
+- Decision: Reject preceding ZIP64 locator/end signatures and duplicate,
+  ambiguous, or trailing EOCD content before accepting `zipfile` metadata.
+- Why: `allowZip64=False` alone does not establish the v1 EOCD cardinality,
+  single-disk, count, or central-directory-location contract. A valid ZIP32
+  archive must be authenticated against the exact same descriptor and raw
+  record layout used by the existing central/local parser.
+- Alternatives rejected: trusting `ZipFile.start_dir`/`infolist()` without raw
+  EOCD checks, accepting the final EOCD while ignoring preceding records,
+  allowing comments/trailing bytes, or adding partial ZIP64 compatibility.
+- Source-backed versus project-owned: ZIP32 EOCD field meanings and the legal
+  comment search window are ZIP format rules; exact one-record, zero-comment,
+  allowlist-count, and cross-record archive policy are project-owned v1
+  durability rules. No numerical formulation changed.
+- Verification: archive tests `16/16`, full monolithic tests `78/78`,
+  compileall, and `git diff --check` passed. No workflow or physical execution
+  occurred.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic_archive.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_archive.py`,
+  `examples/fracture2d/README.md`, and the active engineering-grip task.
+
+## 2026-09-21 — Wire strict monolithic continuation as an isolated CPU workflow
+
+- Decision: Add an explicit `--continuation-strategy monolithic` workflow path
+  that constructs the existing engineering-grip owner, builds the required
+  `MonolithicContinuationConfig` from explicit CLI Newton/GMRES/Armijo fields,
+  runs `run_monolithic_strict_continuation(model, config, None)`, writes the
+  v1 archive, and immediately owner-replays it with the same model and required
+  ZIP32 budget. Keep legacy and stabilized dispatch unchanged.
+- Decision: Reject warning acceptance, stabilized relaxation, Anderson,
+  progress-callback, and matched-load options on this path. Do not load FEM or
+  construct a GPU adapter. Structural exceptions remain ordinary exceptions;
+  terminal numerical results are reported through completed/failure artifacts
+  and numerical-failure exit status.
+- Decision: Keep monolithic workflow summaries scalar-only while binding source,
+  configuration, archive SHA256/budget/member contract, ordered state/attempt
+  digests, accepted reaction/`accepted_mechanics_energy`, and failure endpoint.
+  Standalone replay requires an explicitly reconstructed owner model and budget;
+  no geometry, static-operator, or budget fallback is inferred from the lean
+  archive.
+- Why: The private controller and archive already have an independently checked
+  owner boundary. The workflow seam can therefore reuse those authoritative
+  equations and replay rules without introducing a second formulation or
+  persisting rejected vectors. CPU-only integration is the approved bounded
+  manufactured checkpoint; no physical rounded-slot run is authorized here.
+- Alternatives rejected: routing monolithic through the GPU/stabilized adapter,
+  loading the FEM comparison archive, silently accepting warning/relaxed
+  controls, adding archive-embedded geometry/static arrays, or treating a
+  structural exception as a numerical continuation failure.
+- Source-backed versus project-owned: the monolithic residual, continuation,
+  archive schema, and owner replay are existing project-owned implementations;
+  the CLI dispatch, artifact naming, report fields, strict-option rejection,
+  and CPU workflow policy are project-owned orchestration choices. No external
+  source changes the PDE or constitutive equations.
+- Related: `examples/fracture2d/engineering_grip_workflow.py`,
+  `examples/fracture2d/README.md`, and
+  `tests/test_fracture2d_engineering_grip_monolithic_workflow.py`.
+
+## 2026-09-21 — Close strict monolithic workflow review findings
+
+- Decision: Require `--max-stagger-iterations` to equal the documented
+  `examples/fracture2d/configs/solver_base.py` compatibility value `100` on
+  the monolithic path. The error explicitly states that this field is not a
+  monolithic iteration budget; the explicit Newton/GMRES/Armijo controls remain
+  the only monolithic iteration settings. Audit the remaining stabilized-only
+  controls with the same reject-or-canonical-value rule.
+- Decision: After a monolithic archive is written, a structural owner-replay
+  failure removes the final archive/summary/replay/manifest only through
+  identity-checked cleanup. The archive must match captured device/inode when
+  available and SHA256/size; a replacement is preserved. Cleanup fsyncs the
+  directory, and unlink/fsync failure raises a compound durability error
+  chained to the original replay cause and carrying the archive path. A
+  terminal numerical failure whose replay succeeds retains its failure archive.
+- Decision: Define `field_equations_validated` as validation of retained
+  accepted-step canonical fields by the owner replay, independent of completion
+  status. Initial-state-only results are false; the field does not claim
+  validation of omitted rejected vectors or a physical run.
+- Why: The workflow must not expose a misleading stagger budget, leave an
+  unverifiable final artifact after replay rejection, or overclaim what the
+  lean accepted-state archive proves. These are orchestration/provenance rules;
+  no PDE, constitutive law, continuation equation, or acceptance gate changed.
+- Alternatives rejected: silently accepting arbitrary stagger values, unlinking
+  a path after a check without identity verification, retaining stale final
+  artifacts after replay rejection, treating completion status as field-equation
+  validation, or claiming omitted rejected-trial/physical validation.
+- Verification: New workflow tests cover canonical/noncanonical stagger values,
+  normal cleanup, concurrent replacement preservation, unlink failure, fsync
+  failure, and initial-state-only validation. The requested affected CPU test,
+  compileall, and `git diff --check` commands remain to be run.
+- Related: `examples/fracture2d/engineering_grip_workflow.py`,
+  `examples/fracture2d/README.md`,
+  `tests/test_fracture2d_engineering_grip_monolithic_workflow.py`, and the
+  active engineering-grip task.
+
+## 2026-09-21 — Verify strict monolithic workflow review fixes
+
+- Verification: the new plus existing workflow tests pass `48/48`; the
+  monolithic/newton/verified/continuation/archive command passes `78/78`; the
+  legacy engineering-grip tests pass `50/50`; the stabilized tests pass
+  `82/82`; `python -m compileall -q examples/fracture2d tests` and
+  `git diff --check` pass.
+- Scope: all verification is CPU/manufactured or regression coverage. No
+  physical rounded-slot execution was performed or authorized.
+
+## 2026-09-21 — Publish monolithic workflow results as one atomic bundle
+
+- Decision: Publish every monolithic run result into one
+  `<run-id>.monolithic/` directory containing exactly `archive.npz`,
+  `replay.json`, `summary.json`, and `manifest.json`. Generate the archive and
+  JSON members in a unique same-parent mode-`0700` staging directory, fsync each
+  JSON, fingerprint the complete four-member directory, and fsync staging
+  before publication.
+- Decision: Use Linux `renameat2(RENAME_NOREPLACE)` through a ctypes wrapper for
+  atomic no-clobber directory publication and fail closed when the syscall is
+  unavailable. Fsync the parent directory after the rename. If that fsync
+  fails, raise `MonolithicBundleDurabilityError` and retain the complete
+  published bundle; before publication, structural failures may remove only the
+  private staging directory. Reject monolithic `overwrite=True`.
+- Decision: Report final bundle paths in all published JSON. Keep legacy and
+  stabilized flat-artifact publication unchanged, and do not retain the former
+  final-path replay cleanup path/error for monolithic bundles.
+- Why: A directory rename makes the complete artifact set visible in one atomic
+  namespace operation, while private staging prevents partial/failing replay
+  work from touching a final path. No-clobber rename closes the concurrent
+  publisher race; retaining a published bundle after parent-fsync failure is
+  required because its durability is uncertain but its contents are complete.
+- Source-backed versus project-owned: no PDE, constitutive law, history rule,
+  continuation equation, or acceptance gate changed. The existing ZIP32 archive,
+  owner replay, and scalar provenance contracts remain project contracts. The
+  directory layout, staging permissions, rename/fsync ordering, fingerprints,
+  path rewriting, and error/cleanup policy are project-owned durability rules.
+- Alternatives rejected: check-then-replace or `os.replace` publication,
+  portable rename fallbacks, deleting a published bundle after parent-fsync
+  failure, retaining final artifacts after structural replay failure, and
+  changing legacy/stabilized output contracts.
+- Verification: workflow plus bundle seam `52/52`, full monolithic/newton/
+  verified/continuation/archive `78/78`, legacy `50/50`, stabilized `82/82`,
+  compileall, and `git diff --check` pass under `.venv`. No physical or
+  rounded-slot execution was run.
+- Related: `examples/fracture2d/engineering_grip_workflow.py`,
+  `tests/test_fracture2d_engineering_grip_monolithic_workflow.py`,
+  `examples/fracture2d/README.md`, and
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-21 — Close primary monolithic archive/workflow review defects
+
+- Decision: Read the bounded archive bytes once from the opened descriptor and
+  inspect/decompress only that immutable snapshot. Detect ZIP64 through
+  structural fields and the fixed locator position, not arbitrary payload-byte
+  signature searches.
+- Decision: Convert only explicit floating-point and linear-algebra Newton
+  failures into immutable numerical audits. Propagate type, shape, identity,
+  and API contract errors without cutback or archive publication. Reject
+  non-default FEM/GPU options on the CPU-only monolithic path.
+- Decision: Propagate published-bundle durability uncertainty separately from
+  numerical continuation failure. Bind archive/replay/summary fingerprints and
+  mark the manifest's own fingerprint scope as self-reference-excluded; a JSON
+  document cannot recursively contain its stable SHA256.
+- Why: Same-descriptor access alone does not prevent in-place inode rewrites,
+  broad catches erase structural provenance, payload signatures are not ZIP
+  records, ignored CLI options misstate execution, and durability failure is not
+  a numerical result. Explicit self-reference scope avoids claiming an
+  impossible manifest self-hash while retaining exact four-member validation.
+- Alternatives rejected: post-read mutation detection after decompression,
+  scanning all compressed payload bytes for ZIP64 signatures, wrapping
+  structural exceptions as solver failures, silently ignoring CPU-inapplicable
+  options, returning the numerical-failure status for fsync uncertainty, or
+  adding a fifth sidecar solely to hash the manifest.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic_archive.py`,
+  `examples/fracture2d/engineering_grip_workflow.py`, focused monolithic tests,
+  and `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-21 — Authorize bounded CPU monolithic smoke
+
+- Decision: Run one fresh-zero strict CPU-reference monolithic workflow from
+  `u_bar=0` to exact `1e-4` with the reviewed rounded-cloud configuration,
+  explicit Newton/GMRES/Armijo controls, ZIP32 budget, atomic bundle, and
+  immediate owner replay. Stop at completion or any strict failure.
+- Why: Primary implementation review has no remaining finding and all affected
+  manufactured/regression suites pass; the bounded smoke is the next staged
+  integration check.
+- Alternatives rejected: GPU execution, a higher endpoint, warning acceptance,
+  archive resume, changing gates or numerical controls, or proceeding without
+  owner replay.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md` and the reviewed
+  command in `examples/fracture2d/README.md`.
+
+## 2026-09-21 — Stop the bounded CPU monolithic smoke on runtime grounds
+
+- Decision: Treat the user-aborted `0 -> 1e-4` CPU-reference monolithic launch
+  as an operational performance stop, not a numerical continuation result. Do
+  not rerun the same physical-cloud command unchanged.
+- Why: Runtime without progress was unacceptable to the user. Post-interruption
+  checks found no solver process, published bundle, or private staging artifact,
+  so there is no durable numerical result to replay or interpret.
+- Alternatives rejected: allowing the CPU job to continue, relabeling the
+  interruption as a strict failure, using partial state as evidence, or silently
+  substituting the existing staggered GPU adapter for the CPU-authenticated
+  monolithic owner.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md` and run ID
+  `engineering_grip_monolithic_cpu_u1e4_20260921`.
+
+## 2026-09-21 — Profile CPU monolithic cost before redesign
+
+- Decision: Use bounded real-cloud setup and single-operation profiling to
+  separate model construction, residual/JVP, scaling, preconditioner, and
+  linear-solver costs before changing implementation or designing a GPU path.
+- Why: The reviewed CPU smoke was operationally too slow, but its lack of
+  progress output does not identify the bottleneck. Measured optimization is
+  safer than changing numerical architecture speculatively.
+- Alternatives rejected: rerunning the full CPU continuation unchanged,
+  guessing the hotspot, weakening numerical checks, or immediately replacing
+  the owner with an unreviewed GPU implementation.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-22 — Use sparse A2 algebra and exact mechanics preconditioning
+
+- Decision: Represent the damage-independent A2 support gradient as a read-only
+  CSR operator and reuse it for gradient, tangent, and endpoint-divergence
+  actions. Freeze and cache identical monolithic damage views and JVP
+  kinematics within one CPU owner. Replace the monolithic mechanics
+  particle-block Jacobi preconditioner with an exact sparse solve of the same
+  free-DOF fixed-damage tangent; retain the exact strong-damage and scaled
+  history blocks and omit all coupling blocks as before.
+- Why: Real-cloud profiling measured the original zero-damage work check at
+  `207.35s`, one tangent action at about `0.46s`, and an initial GMRES that did
+  not finish within `180s`. The CSR action is algebraically the same support
+  gradient/divergence (real-cloud tangent relative defect `1.45e-15`). The
+  assembled mechanics tangent matched the matrix-free action to relative defect
+  `1.90e-15`; its sparse factorization took `0.676s`. With the exact mechanics
+  block, the same initial GMRES fell from `94.3s/1927` callbacks after operator
+  caching to `1.03s/16` callbacks while passing the unchanged unpreconditioned
+  residual gate.
+- Alternatives rejected: weakening tolerances or gates, replacing three
+  independent work-check solves by load scaling, silently using the staggered
+  GPU adapter, retaining the measured slow block-Jacobi preconditioner, or
+  replacing the legacy deformation-gradient evaluation with `I + Dq` (which
+  erased the audited tolerance-level nonroot branch at zero load).
+- Related: `examples/fracture2d/nonlocal_a2_coupled.py`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_a2_coupled.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_newton.py`, and
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-22 — Authorize strict monolithic continuation to 0.0075
+
+- Decision: Run one fresh-zero strict CPU-reference monolithic continuation to
+  exact `u_bar=0.0075`. Change only `load_final` from the validated `1e-4`
+  smoke configuration; retain `du_initial=1e-4`, `du_min=5e-5`, all cutback,
+  Newton/GMRES/Armijo controls, physical gates, ZIP32 budget, atomic bundle
+  publication, and immediate owner replay. Continue until strict completion or
+  a terminal strict failure, even if the run takes hours.
+- Why: The user selected the earlier engineering target after the bounded
+  `1e-4` CPU integration completed and explicitly confirmed the unchanged
+  numerical controls and long-running execution boundary.
+- Alternatives rejected: resuming from the `1e-4` archive (unsupported by this
+  workflow), changing the minimum increment, warning acceptance, GPU
+  substitution, or stopping at an intermediate accepted state.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md` and the
+  `engineering_grip_monolithic_cpu_u7p5e3_20260922` run.
+
+## 2026-09-22 — Stop strict monolithic continuation at the configured minimum increment
+
+- Decision: Treat the `u_bar=0.00615` line-search exhaustion as the terminal
+  strict result of the authorized `0 -> 0.0075` run. Retain `u_bar=0.0061` as
+  the last committed state and do not treat the rejected `0.00615` trial or the
+  requested `0.0075` endpoint as reached.
+- Why: The fresh-zero owner completed 61 accepted steps, then rejected both the
+  `1e-4` and cut-back `5e-5` increments. At the configured minimum increment,
+  Newton iteration 8 exhausted all 13 Armijo trials while GMRES itself returned
+  successfully and passed its unpreconditioned residual gate. The published
+  failure archive was immediately replayed with owner authentication and
+  retained-state field-equation validation.
+- Alternatives rejected: reducing `du_min`, increasing the line-search budget,
+  accepting the closest insufficient-decrease trial, resuming from the failure
+  archive, or changing solver/gate parameters without a new numerical decision
+  and explicit authorization.
+- Related: bundle
+  `/root/autodl-tmp/data/fracture2d/engineering_grip/engineering_grip_monolithic_cpu_u7p5e3_20260922.monolithic`
+  and `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-22 — Diagnose the shared nonlinear difficulty before new trials
+
+- Decision: Following the user's request, compare existing stagger and
+  monolithic evidence and audit the coupled algebra before changing parameters
+  or launching another continuation. Keep near-singular coupled feedback,
+  active-set transitions, and actual-state derivative consistency as competing
+  diagnostic questions rather than declaring a physical limit point.
+- Why: Both routes encounter the same strongly damaged load region, but have
+  different last accepted loads and histories. Accurate GMRES solves alongside
+  growing raw Newton directions and shrinking line-search steps distinguish
+  the current failure from simple linear-solver under-resolution.
+- Alternatives rejected: blind step/budget tuning, inferring no equilibrium
+  from nonlinear failure, or inferring snap-back solely from a falling reaction.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md`, read-only
+  stagger/monolithic comparison following the `0.0075` attempt.
+
+## 2026-09-22 — Identify the crack-tip near-unit coupled feedback mode
+
+- Decision: Treat a crack-tip-localized near-unit fixed-active feedback mode as
+  the demonstrated common nonlinear conditioning mechanism behind the stagger
+  slowdown and monolithic large directions. Keep line-search budget exhaustion
+  as the immediate monolithic stop, not the root physical conclusion. Do not
+  declare the Schur operator singular, a physical fold, or absence of a root.
+- Why: Exact failure-state replay reproduces iteration 8, validates all smooth
+  JVP blocks to about `1e-8`, and gives a Newton directional derivative matching
+  `-||R||^2` to about `6e-13` relative. The ideal fixed-active stagger map has a
+  dominant real eigenvalue `0.9955678745`, concentrated at notch-tip particle
+  `1869` with participation ratio `1.056`; its path grows from `0.6677` at
+  `u_bar=0.0055` to `0.8922` at `0.0061`. The eigenpair implies
+  `sigma_min(I-T) <= 0.00443213` and amplification of at least `225.6` along
+  that direction, but nonsymmetry prevents equating this bound with the exact
+  smallest singular value.
+- Alternatives rejected: attributing failure to GMRES accuracy or a JVP sign
+  error, equating nonlinear stagger norm ratios with eigenvalues, treating two
+  extra successful Armijo backtracks as proof of eventual convergence, or
+  launching parameter sweeps before selecting a bounded solver change.
+- Related: exact read-only single-target replay and coupled-spectrum audit in
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-22 — Authorize one bounded deeper-Armijo target replay
+
+- Decision: Run exactly one in-memory verified monolithic attempt from the
+  archived strict `u_bar=0.0061` committed state to exact `0.00615`, changing
+  only `line_search_max_backtracks` from `12` to `14`. Preserve all equations,
+  gates, predictor construction, load target, GMRES/Newton controls, and source
+  artifacts. Do not run continuation or write a production archive.
+- Why: Read-only probing at the deterministically reproduced iteration-8 state
+  found the first Armijo-passing trial at `alpha=2^-14`; every configured trial
+  through `2^-12` and the additional `2^-13` trial failed. This makes one
+  bounded replay evidence-based rather than a budget sweep.
+- Alternatives rejected: increasing any other budget, reducing the load
+  increment, continuing toward `0.0075`, warning acceptance, or assuming that
+  one newly accepted Newton trial establishes eventual convergence.
+- Related: user authorization in the current session and
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-22 — Reject deeper Armijo alone as the monolithic remedy
+
+- Decision: Stop the bounded `line_search_max_backtracks=14` experiment after
+  its exact-target failure. Do not increase line-search depth again or resume
+  continuation. Any next solver proposal must separately derive and verify a
+  step regularization/globalization method that addresses the demonstrated
+  near-unit coupled mode while retaining the original residual as the final
+  convergence contract.
+- Why: At exact archived target `0.006150000000000033`, Newton iteration 8
+  accepted the newly available `alpha=2^-14`, but iteration 9 then rejected all
+  15 trials through `2^-14` and exhausted the enlarged budget. GMRES still
+  passed with unpreconditioned residual `1.01793e-5` against limit
+  `2.55837e-4`. The committed digest remained unchanged and no auxiliary or
+  canonical acceptance stage was reached.
+- Alternatives rejected: repeatedly extending backtracking, interpreting one
+  accepted tiny correction as nonlinear progress, lowering the load increment,
+  or proceeding toward `0.0075` under the same globalization.
+- Related: bounded in-memory result in
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-22 — Authorize globalization derivation and review only
+
+- Decision: Derive and independently review a Schur-aware trust-region or
+  pseudo-transient semismooth Newton step for the monolithic engineering-grip
+  residual. This phase may inspect code and references and update design memory,
+  but must not modify solver behavior or run physical continuation.
+- Why: Deeper Armijo accepted one `2^-14` correction and immediately failed at
+  the next Newton iteration, while the verified fixed-active operator has a
+  notch-tip mode at `lambda(T)=0.9955678745`. A useful next method must control
+  that weak coupled direction rather than uniformly shrinking every component.
+- Alternatives rejected: further backtrack-budget changes, guessed fixed
+  regularization, immediate implementation without a checked adaptive rule,
+  changing physical residuals, or using a new physical run to tune the method.
+- Related: user authorization in the current session and
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-22 — Select full-space trust-region globalization for review
+
+- Decision: Select a scaled full-space semismooth trust-region
+  Gauss–Newton/Levenberg–Marquardt design as the first future globalization
+  candidate. This selects a method family for manufactured implementation and
+  review only; it does not authorize solver edits or a physical continuation.
+  At a state `z_k`, freeze the strict active mask and row transform, define
+  `F_k = W_k R(z_k)` and `J_k = W_k J_{A_k}(z_k)`, and use
+
+  $$
+  m_k(p)=\frac12\lVert F_k+J_kp\rVert_2^2,
+  \qquad \lVert D_kp\rVert_2\leq\Delta_k.
+  $$
+
+  The equivalent damped KKT equations are
+
+  $$
+  (J_k^T J_k+\mu D_k^T D_k)p=-J_k^TF_k,
+  \qquad \mu\geq0,
+  $$
+
+  with `mu` and the trust-region complementarity conditions determined by the
+  subproblem, not guessed as a fixed physical regularization.
+- Decision: Future code must apply the damped solve through the matrix-free
+  augmented least-squares operator
+
+  $$
+  \begin{bmatrix}J_k\\ \sqrt{\mu}D_k\end{bmatrix}p
+  \simeq
+  \begin{bmatrix}-F_k\\0\end{bmatrix},
+  $$
+
+  or an algebraically equivalent Krylov formulation; it must not assemble
+  `J_k^T J_k`. `D_k` is an explicit full-column-rank variable metric frozen by
+  the model. Its blocks must map the mixed `q`, `d`, and `H` increment units to
+  a dimensionless norm. The existing row scales are not a substitute for
+  this metric.
+- Decision: Use the unregularized frozen-scale model for globalization
+  evidence. With `phi_k(s) = 1/2 ||W_k R(z_k+s)||^2`, record
+
+  $$
+  \operatorname{ared}_k=\phi_k(0)-\phi_k(p),
+  \qquad
+  \operatorname{pred}_k=-F_k^TJ_kp-\frac12\lVert J_kp\rVert_2^2,
+  \qquad
+  \rho_k=\operatorname{ared}_k/\operatorname{pred}_k.
+  $$
+
+  A non-finite or non-positive predicted reduction is a rejected model/inner
+  solve, not an accepted step. Acceptance thresholds, radius shrink/expand
+  factors, initial radius, maximum radius, and inner forcing tolerances remain
+  explicit project-owned controls and are not selected here. Accepted trials
+  reevaluate the exact max residual, then rebuild the active mask and scales;
+  no frozen model is reused after an accepted active-set change.
+- The symbolic controller contract to review is: choose explicit
+  `0 < eta_reject < eta_expand < 1`, `0 < gamma_shrink < 1`,
+  `gamma_expand > 1`, a boundary fraction `0 < theta_boundary < 1`, and a
+  positive rejection floor `Delta_min`. Reject a finite trial when
+  `rho < eta_reject`, keep `z_k`, and set
+  `Delta <- gamma_shrink * Delta`; accept when `rho >= eta_reject`; and, only
+  when `rho >= eta_expand` and `||D p|| >= theta_boundary*Delta`, set
+  `Delta <- min(gamma_expand*Delta, Delta_max)`. A non-finite trial or invalid
+  prediction follows the same rejected-model path. If a rejection would make
+  `Delta < Delta_min`, emit a numerical failure audit. These symbols are an
+  explicit adaptive rule; their numerical values are not chosen in this
+  derivation. An inner Krylov solve that misses its declared forcing
+  tolerance must not be silently accepted or replaced by the current GMRES
+  path; its retry/failure budget must be a separate explicit control.
+- Implementation constraint: `scaled_jvp` already exposes a frozen mask, but
+  the current raw `vjp` recomputes `active_mask(z)` internally. A future
+  LSMR/LSQR path therefore requires an explicit frozen-mask VJP and its row-
+  scaled transpose action. The current block-diagonal object is a left
+  preconditioner for GMRES; it is not automatically a right preconditioner
+  for the augmented least-squares operator. Any right preconditioner must
+  provide a checked transpose action and fixed-shape `D_k P_k` actions.
+- Schur relation retained as a diagnostic/preconditioner identity only. For
+  the raw blocks, `S = A - C P K^{-1} B = A(I-T)`. The observed
+  `lambda(T)=0.9955678745` supports a near-unit coupled mode, but does not
+  justify replacing the outer model by `S + mu A`; that shift is not the
+  full-space Gauss–Newton/LM KKT system and does not define a global residual
+  acceptance contract.
+- The pseudo-transient alternative remains rejected as the first route, not as
+  an invalid method. Its project-owned equation would be
+
+  $$
+  G_\tau(z;z_k)=F(z)+\tau^{-1}M(z-z_k)=0,
+  \qquad
+  (J_k+\tau^{-1}M)p=-F_k,
+  $$
+
+  where `M` must map mixed packed increments into scaled residual coordinates.
+  This formulation needs an explicit metric, adaptive `tau` rule, and a
+  separate descent/acceptance proof because the nonsymmetric shifted Newton
+  step is not automatically a descent step for `1/2 ||F||^2`. No physical
+  time/mass operator or adaptive rule is declared by this project.
+- Source-backed versus project-owned: Conn–Gould–Toint,
+  `https://doi.org/10.1137/1.9780898719857`, supports the trust-region model,
+  ratio, and radius globalization family; Moré,
+  `https://doi.org/10.1007/BFb0067700`, supports LM least-squares
+  regularization; Qi–Sun, `https://doi.org/10.1007/BF01581275`, supports the
+  generalized-Jacobian semismooth Newton setting; Kelley–Keyes,
+  `https://doi.org/10.1137/S0036142996304796`, supports pseudo-transient
+  continuation as a distinct steady-state globalization. The residual,
+  strict tie-inactive active set, row scales, variable metric, parameter
+  values, active-switch policy, final gates, and all displayed project block
+  identities are project-owned. Brown–Hindmarsh,
+  `https://doi.org/10.1137/0723039`, supports matrix-free Newton–Krylov as a
+  solver pattern; the augmented least-squares operator and transpose API are
+  project-owned algebraic implementation choices. DOI/Crossref records were
+  available; the publisher full-text endpoints were access-restricted during
+  this review.
+- Manufactured algebra check: a deterministic random nonsymmetric block
+  system verified augmented least-squares versus KKT, predicted-reduction
+  identity, Schur factorization, and Schur back-substitution with maximum
+  absolute defects `8.88e-16`, `8.88e-16`, `1.11e-16`, and `2.22e-16`.
+- Alternatives rejected: another Armijo-depth increase, fixed guessed `mu`,
+  direct `S + mu A` outer regularization, identity variable scaling, and
+  immediate pseudo-transient implementation without a declared metric and
+  adaptive rule. Related code is
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`; the active
+  task records the required manufactured validation before any physical run.
+
+## 2026-09-22 — Prefer a right-preconditioned Krylov hookstep implementation
+
+- Decision: Retain the full-space Gauss--Newton trust-region model as the
+  mathematical contract, but select a right-preconditioned Newton--GMRES
+  hookstep as the first manufactured implementation route. Freeze `z_k`, the
+  strict active mask, row scales, metric, and block inverse `P_k`, define
+  `F_k=W_kR(z_k)`, `J_k=W_kJ_A(z_k)`, and build Arnoldi data
+
+  $$
+  J_kP_kV_m=V_{m+1}\bar H_m,
+  \qquad Z_m=P_kV_m.
+  $$
+
+  With `beta=||F_k||_2` and `v_1=F_k/beta`, solve the projected hookstep
+
+  $$
+  \min_y\frac12\left\lVert\beta e_1+\bar H_my\right\rVert_2^2
+  \quad\text{subject to}\quad
+  \lVert D Z_my\rVert_2\leq\Delta_k,
+  \qquad p=Z_my.
+  $$
+
+  The plus sign follows from starting Arnoldi with `F_k`; the Newton equation
+  remains `J_k p=-F_k`.
+- Decision: Use the fixed reduced-coordinate dimensionless product metric
+
+  $$
+  \lVert Dp\rVert_2^2=
+  \frac{\sum_iV_i^U\lVert(E_qp_q)_i\rVert_2^2}{V_Ul_0^2}
+  +\frac{\sum_iV_i^M p_{d,i}^2}{V_M}
+  +\frac{\sum_iV_i^M p_{H,i}^2}{V_M(G_c/l_0)^2}.
+  $$
+
+  Here `E_q` injects free increments into the full union vector with exact zero
+  constrained increments, `V_U=sum(V_i^U)`, and `V_M=sum(V_i^M)`. All stored
+  quadrature weights, `l0`, and `Gc` are strictly positive, so this is a
+  full-rank norm on the packed reduced variables. It is a normalized continuum
+  `L2` product norm, is dimensionless, and does not grow merely because the
+  cloud is refined. Equal contribution of the three normalized fields remains
+  an explicit project-owned choice requiring refinement tests.
+- Decision: Form `B_m=DZ_m` explicitly by actions and use thin QR/SVD, not only
+  the Gram matrix `B_m^T B_m`, so metric whitening does not square its condition
+  number. Rank loss in `B_m` is an explicit numerical failure because `D`, `P`,
+  and an orthonormal `V_m` are full rank in exact arithmetic; it must not be
+  silently pseudoinverted. Rank deficiency of `bar H_m` is allowed and handled
+  by the minimum-metric-norm least-squares solution for an interior step or by
+  positive trust multiplier on the boundary.
+- Decision: Production acceptance recomputes
+  `j_p=scaled_jvp(z_k,p,scales,active_mask)` and uses
+
+  $$
+  \operatorname{pred}=-F_k^Tj_p-\tfrac12\lVert j_p\rVert_2^2,
+  \qquad
+  \operatorname{ared}=\phi_k(0)-\phi_k(p),
+  \qquad
+  \rho=\operatorname{ared}/\operatorname{pred}.
+  $$
+
+  The projected `bar H_m y` identity is checked diagnostically but is not the
+  production acceptance value. Every nonlinear trial evaluates the exact max
+  residual with frozen row scales. A rejected finite trial retains the exact
+  state, mask, scales, `P`, `D`, Arnoldi basis, and projected matrices; after
+  shrinking `Delta`, it resolves the small hookstep and recomputes `p`, `j_p`,
+  prediction, and nonlinear residual. No basis is reused after acceptance.
+- Decision: The controller must distinguish accepted outer corrections,
+  rejected radius trials, Arnoldi/inner failures, and stationary nonroots.
+  Invalid operator/preconditioner actions or missed inner tolerances are hard
+  inner failures, not model rejections. `F=0` retains the exact-root shortcut.
+  If the maximum allowed Krylov space has no positive model reduction while
+  `F!=0`, report a Krylov-stationary nonroot failure; do not claim full-space
+  stationarity without `J^TF`. Accepted active-set changes rebuild the complete
+  model and cannot satisfy final convergence on that same unstable-mask row.
+- Decision: The small trust problem must support the unconstrained
+  minimum-metric-norm interior solution and a positive-multiplier boundary
+  solution. Its secular solve, QR/SVD rank tolerance, Arnoldi dimension and
+  orthogonalization/breakdown tolerances, trust-radius/rejection controls, and
+  inner residual tolerances are required explicit configuration fields. Their
+  numerical values are not authorized by this derivation. The symbolic radius
+  rules selected above remain: rejected trials shrink and re-solve at unchanged
+  state; accepted ordinary or excellent-interior trials retain the radius;
+  only excellent boundary trials expand, capped by `Delta_max`; proposed shrink
+  below `Delta_min` or rejection-budget exhaustion fails loudly.
+- Why: This route directly bounds the large near-unit-mode Newton correction,
+  reuses the already verified exact block inverse as a right variable map, and
+  requires only existing frozen-mask scaled JVP actions. The previously selected
+  augmented LSMR route requires a new frozen scaled VJP plus transpose-aware
+  preconditioning and repeated full-space inner solves. Retain augmented LSMR
+  as an independent manufactured reference and future fallback if the projected
+  method is repeatedly Krylov-stationary or its metric basis is ill-conditioned.
+- Source boundary: Bellavia--Morini,
+  `https://doi.org/10.1137/040611951`, explicitly covers low-dimensional
+  spherical/elliptical trust regions for large nonlinear systems with Krylov
+  implementations. Viswanath, `https://doi.org/10.1017/S0022112007005459`,
+  documents a Newton--Krylov/locally constrained optimal hookstep combination.
+  Conn--Gould--Toint and Moré remain the trust-region/LM foundations. The exact
+  packed metric, block preconditioner interpretation, active-set policy,
+  projected rank/failure contract, and all numerical controls are project-owned.
+- Alternatives rejected: explicit normal equations or metric Gram whitening,
+  treating the projected method as full-space, reusing the current
+  left-preconditioned SciPy GMRES audit unchanged, silently truncating a
+  rank-deficient metric basis, and implementing full-space VJP/LSMR before the
+  smaller projected contract is manufactured-validated.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic.py` and
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-22 — Authorize manufactured hookstep core implementation
+
+- Decision: Implement the first manufactured-only hookstep layer: explicit
+  configuration and immutable audit types, the fixed quadrature product metric,
+  right-preconditioned Arnoldi construction, and the QR/SVD projected
+  interior/boundary trust-region solve. Keep it separate from the current
+  Armijo Newton entry point, verified-attempt layer, workflow, archive, and
+  physical continuation.
+- Why: The derivation and two independent numerical reviews selected this as
+  the smallest method that directly bounds the localized large Newton step
+  while reusing the verified block inverse and frozen-mask JVP. Isolating its
+  algebra first permits dense-oracle, rank, metric, and state-machine testing
+  before it can affect accepted physical states.
+- Alternatives rejected: replacing Armijo immediately, adding workflow flags or
+  archive schema before the core audit is stable, physical tuning, hidden
+  defaults, or implementing the larger frozen-VJP augmented-LSMR path first.
+- Related: user authorization in the current session and the manufactured plan
+  in `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-22 — Complete and harden the isolated hookstep core
+
+- Decision: The isolated manufactured hookstep core is complete. It exposes an
+  explicit required configuration, the owner-paired quadrature product metric,
+  right-preconditioned Arnoldi evidence, SVD-whitened projected interior and
+  boundary solves, fresh full-action prediction checks, and a pure radius
+  decision. It remains undispatched from Newton, Phase-2B, continuation,
+  workflow, and archive code.
+- Decision: Compute projected reduction with the cancellation-resistant form
+  `-r^T(Hy)-||Hy||^2/2`, not a difference of squared residual norms. Retain a
+  nonzero terminal Arnoldi vector even when a relative tolerance declares happy
+  breakdown, so every stored Hessenberg column remains reconstructible.
+- Decision: Treat the trust metric as model-owned numerical data, not merely a
+  shape-compatible value. Arnoldi rebuilds the canonical metric and rejects
+  same-owner forged diagonals or normalization scalars. Projected failures are
+  rebound to the full owner/state/mask/scale audit at the direction API, and
+  non-finite trial ratios or step norms are numerical radius failures.
+- Why: Independent review found that squared-norm subtraction could erase a
+  valid tiny predicted reduction, identity-only metric pairing admitted altered
+  trust geometry, and tolerance-triggered breakdown could omit evidence needed
+  for the final Arnoldi relation. These issues are now covered by focused
+  manufactured regressions.
+- Verification: the hookstep suite passes `18/18`; combined hookstep,
+  monolithic residual/JVP, and existing Newton/preconditioner suites pass
+  `56/56`; changed modules compile; `git diff --check` passes. Independent
+  numerical re-review reports no remaining findings or blocking issue. No
+  physical continuation or durable artifact was run or changed.
+- Alternatives rejected: cancellation-prone prediction, accepting a forged
+  owner-identical metric, discarding a nonzero terminal vector, weakening rank
+  failures into pseudoinverse fallbacks, and wiring the uncalibrated core into
+  the existing solver.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_hookstep.py`, and
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-22 — Authorize manufactured-only hookstep outer controller
+
+- Decision: Implement only an isolated outer controller for one frozen-model
+  hookstep correction. It may consume `trust_radius_initial`, build one metric,
+  preconditioner/Arnoldi model, repeatedly solve the projected problem after
+  rejected radius trials, evaluate exact nonlinear trial residuals with frozen
+  row scales, and return after the first accepted candidate.
+- Decision: Rejected trials must preserve the input state, scale object, active
+  mask, metric, and Arnoldi evidence exactly. Accepted output records whether
+  the exact active mask changed and requires the caller to rebuild every
+  state-dependent object; the controller must not perform a second Newton
+  correction with stale data.
+- Decision: A non-finite nonlinear trial is a rejected trial and follows the
+  explicit shrink/floor/rejection-budget path selected in the trust-region
+  derivation. A malformed or non-finite step, JVP, metric action, prediction, or
+  projected solve remains a hard inner numerical failure. This distinguishes
+  trial globalization from invalid inner algebra.
+- Why: The user selected the manufactured-only outer-controller stage. This is
+  the smallest next layer that validates rollback, radius re-solve, and rebuild
+  boundaries without selecting physical controls or changing existing solver
+  behavior.
+- Alternatives rejected: dispatch from the current Newton solver, continuing
+  through an accepted active-set change inside the same frozen model, treating
+  a non-finite nonlinear candidate as an accepted value, adding workflow or
+  archive fields, selecting physical parameters, or running continuation.
+- Related: user authorization in the current session and
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`.

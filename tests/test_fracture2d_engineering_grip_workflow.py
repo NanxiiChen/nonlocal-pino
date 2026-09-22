@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import contextlib
+from dataclasses import replace
 import io
 import json
 from pathlib import Path
@@ -92,6 +93,16 @@ def _save_npz(path: Path, arrays: Mapping[str, Any]) -> None:
     np.savez_compressed(str(path), **dict(arrays))
 
 
+def _assert_scalar_tree(test: unittest.TestCase, value: Any) -> None:
+    if isinstance(value, dict):
+        for item in value.values():
+            _assert_scalar_tree(test, item)
+    elif isinstance(value, list):
+        test.assertTrue(all(isinstance(item, (str, dict)) for item in value))
+        for item in value:
+            _assert_scalar_tree(test, item)
+
+
 _STABILIZED_SOURCE_FIXTURE: tuple[Path, dict[str, Any]] | None = None
 
 
@@ -110,6 +121,48 @@ def _stabilized_source_fixture() -> tuple[Path, dict[str, Any]]:
         _STABILIZED_SOURCE_FIXTURE_OWNER = directory
         globals()["_STABILIZED_SOURCE_FIXTURE_OWNER"] = _STABILIZED_SOURCE_FIXTURE_OWNER
     return _STABILIZED_SOURCE_FIXTURE
+
+
+@contextlib.contextmanager
+def _schedule_fixture(root: Path) -> Any:
+    """Create a valid temporary schedule for workflow binding tests."""
+
+    targets = np.asarray([0.25, 0.5], dtype=np.dtype("<f8"))
+    source = root / (
+        "engineering_grip_anderson_u5p9875e3_dumin6p25e6_s144.npz"
+    )
+    metadata = {
+        "schema": stabilized.STABILIZED_ARCHIVE_SCHEMA,
+        "kind": "completed",
+        "completion_status": stabilized.STABILIZED_COMPLETION_STATUS,
+        "stabilized_config": {"relaxation_policy": "anderson"},
+    }
+    _save_npz(
+        source,
+        {
+            "archive_schema": np.asarray(stabilized.STABILIZED_ARCHIVE_SCHEMA),
+            "metadata_json": np.asarray(
+                json.dumps(metadata, sort_keys=True, allow_nan=False),
+                dtype=np.str_,
+            ),
+            "state_u_bar": np.asarray([0.0, *targets], dtype=np.dtype("<f8")),
+        },
+    )
+    schedule_path = root / "schedule.npz"
+    source_sha256 = stabilized._archive_sha256(source)
+    target_sha256 = stabilized._schedule_target_sha256(targets)
+    with (
+        mock.patch.object(
+            stabilized,
+            "STABILIZED_SCHEDULE_SOURCE_ARCHIVE_SHA256",
+            source_sha256,
+        ),
+        mock.patch.object(
+            stabilized, "STABILIZED_SCHEDULE_TARGET_SHA256", target_sha256
+        ),
+        mock.patch.object(stabilized, "STABILIZED_SCHEDULE_TARGET_COUNT", 2),
+    ):
+        yield stabilized.extract_stabilized_load_schedule(source, schedule_path)
 
 
 def _bound_stabilized_replay(
@@ -178,7 +231,11 @@ def _stabilized_metadata(
     }
 
 
-def _stabilized_summary_rows(load_target: float) -> np.ndarray:
+def _stabilized_summary_rows(
+    load_target: float,
+    *,
+    sweep_index: int = 0,
+) -> np.ndarray:
     initial = stabilized._v5_initial_solver_summary()
     accepted = dict(initial)
     accepted.update(
@@ -189,10 +246,10 @@ def _stabilized_summary_rows(load_target: float) -> np.ndarray:
             "load_target": load_target,
             "increment": load_target,
             "cutback_count": 0,
-            "stagger_iterations": 1,
+            "stagger_iterations": sweep_index + 1,
             "acceptance_status": stabilized.STABILIZED_ACCEPTANCE_STATUS,
             "accepted": True,
-            "sweep_index": 0,
+            "sweep_index": sweep_index,
             "target_u_bar": load_target,
             "complete_sweep": True,
             "passed": True,
@@ -244,6 +301,8 @@ def _stabilized_summary_rows(load_target: float) -> np.ndarray:
 
 def _stabilized_completed_arrays(
     source_metadata: Mapping[str, Any] | None = None,
+    *,
+    sweep_index: int = 0,
 ) -> dict[str, np.ndarray]:
     metadata = _stabilized_metadata(source_metadata=source_metadata)
     n_material = len(_stabilized_source_arrays()["coordinates"])
@@ -274,7 +333,9 @@ def _stabilized_completed_arrays(
         "accepted_bottom_reaction_after": np.asarray([-0.5], dtype=np.float64),
         "accepted_anchor_reaction_after": np.asarray([-0.5], dtype=np.float64),
         "state_external_work": np.asarray([0.0, 5.0e-5], dtype=np.float64),
-        "solver_summary_json": _stabilized_summary_rows(load_target),
+        "solver_summary_json": _stabilized_summary_rows(
+            load_target, sweep_index=sweep_index
+        ),
         "work_check_u_bar": np.asarray(load_target, dtype=np.float64),
         "work_check_epsilon": np.asarray(1.0e-5, dtype=np.float64),
         "work_check_reaction": np.asarray(1.0, dtype=np.float64),
@@ -283,6 +344,53 @@ def _stabilized_completed_arrays(
         "work_check_relative_limit": np.asarray(1.0e-7, dtype=np.float64),
         "work_check_passed": np.asarray(True, dtype=bool),
     }
+
+
+def _stabilized_failure_summary_json(
+    load_target: float,
+    *,
+    sweep_index: int,
+) -> np.ndarray:
+    rows = [
+        json.loads(str(raw))
+        for raw in _stabilized_summary_rows(load_target, sweep_index=7)
+    ]
+    failure_row = dict(rows[-1])
+    failure_row.update(
+        {
+            "summary_kind": "failure",
+            "state_index": -1,
+            "sweep_index": sweep_index,
+            "stagger_iterations": sweep_index + 1,
+            "accepted": False,
+            "complete_sweep": False,
+            "passed": False,
+            "failure_stage": "gates",
+            "failure_reason": "manufactured failure",
+            "e_damage": 1.0,
+        }
+    )
+    return np.asarray(
+        json.dumps(
+            {
+                "available": True,
+                "failure_code": stabilized.STABILIZED_FAILURE_CODE,
+                "failure_type": "StabilizedEngineeringGripContinuationFailure",
+                "failure_message": "manufactured failure",
+                "last_committed_u_bar": load_target,
+                "failure_stage": "gates",
+                "failure_reason": "manufactured failure",
+                "load_start": 0.0,
+                "load_target": load_target,
+                "increment": load_target,
+                "cutback_count": 0,
+                "solver_summary": failure_row,
+            },
+            sort_keys=True,
+            allow_nan=False,
+        ),
+        dtype=np.str_,
+    )
 
 
 class EngineeringGripWorkflowTest(unittest.TestCase):
@@ -311,6 +419,24 @@ class EngineeringGripWorkflowTest(unittest.TestCase):
         self.assertEqual(arguments.max_backtracks, 0)
         self.assertEqual(arguments.acceptance_mode, "strict")
         self.assertIsNone(arguments.warning_safety_policy)
+        self.assertFalse(arguments.anderson_scalar_diagnostic)
+
+    def test_extract_schedule_parser_is_read_only_and_has_aliases(self) -> None:
+        parser = workflow.build_parser()
+        arguments = parser.parse_args(
+            [
+                "extract_schedule",
+                "--source-archive",
+                "/tmp/historical.npz",
+                "--schedule-output",
+                "/tmp/reviewed-schedule.npz",
+            ]
+        )
+
+        self.assertEqual(arguments.command, "extract_schedule")
+        self.assertEqual(arguments.source_archive, Path("/tmp/historical.npz"))
+        self.assertEqual(arguments.output_path, Path("/tmp/reviewed-schedule.npz"))
+        self.assertFalse(hasattr(arguments, "overwrite"))
 
     def test_source_cloud_contract_preserves_exact_arrays(self) -> None:
         with tempfile.TemporaryDirectory(prefix="engineering-workflow-") as directory:
@@ -454,6 +580,291 @@ class EngineeringGripWorkflowTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "simple filename stem"):
             workflow.artifact_paths(Path("/tmp/output"), "../escape")
 
+        legacy_paths = workflow.artifact_paths(Path("/tmp/output"), "legacy")
+        self.assertNotIn("anderson_diagnostic", legacy_paths)
+        diagnostic_paths = workflow.artifact_paths(
+            Path("/tmp/output"),
+            "anderson",
+            anderson_scalar_diagnostic=True,
+        )
+        self.assertEqual(
+            diagnostic_paths["anderson_diagnostic"],
+            Path("/tmp/output/anderson.anderson.jsonl"),
+        )
+
+    def test_anderson_scalar_binding_is_source_and_configuration_bound(self) -> None:
+        source_path, source_metadata = _stabilized_source_fixture()
+        del source_path
+        base = engineering.EngineeringGripConfig.smoke()
+        config = stabilized.StabilizedEngineeringGripConfig(
+            base=base,
+            omega_initial=0.5,
+            omega_min=0.5,
+            omega_reduction=None,
+            sufficient_decrease=1.0e-2,
+            max_backtracks=0,
+            relaxation_policy="anderson",
+            anderson_history_depth=5,
+            anderson_beta=0.5,
+        )
+        binding = workflow._anderson_scalar_diagnostic_binding(
+            stabilized,
+            engineering,
+            config,
+            source_metadata,
+            run_id="diagnostic-test",
+            archive_path=Path("/tmp/diagnostic-test.npz"),
+        )
+
+        self.assertEqual(binding["source_sha256"], source_metadata["sha256"])
+        self.assertEqual(
+            binding["expected_archive_paths"],
+            [
+                "/tmp/diagnostic-test.npz",
+                "/tmp/diagnostic-test.failure.npz",
+            ],
+        )
+        self.assertEqual(
+            binding["expected_archive_bindings"],
+            [
+                {
+                    "path": "/tmp/diagnostic-test.npz",
+                    "path_suffix": ".npz",
+                    "kind": "completed",
+                    "completion_status": stabilized.STABILIZED_COMPLETION_STATUS,
+                    "archive_schema": stabilized.STABILIZED_ARCHIVE_SCHEMA,
+                },
+                {
+                    "path": "/tmp/diagnostic-test.failure.npz",
+                    "path_suffix": ".failure.npz",
+                    "kind": "failure",
+                    "completion_status": stabilized.STABILIZED_FAILURE_STATUS,
+                    "archive_schema": stabilized.STABILIZED_FAILURE_ARCHIVE_SCHEMA,
+                },
+            ],
+        )
+        self.assertEqual(
+            binding["source_bundle_hash"],
+            stabilized._current_stabilized_source_bundle_hash(),
+        )
+        self.assertEqual(
+            binding["configuration_sha256"],
+            stabilized._v5_json_sha256(binding["configuration"]),
+        )
+        self.assertEqual(
+            binding["selection_merit_identity"],
+            stabilized.STABILIZED_ANDERSON_LEGACY_MERIT_IDENTITY,
+        )
+        _assert_scalar_tree(self, binding)
+
+        residual_config = replace(config, relaxation_policy="anderson_residual")
+        residual_binding = workflow._anderson_scalar_diagnostic_binding(
+            stabilized,
+            engineering,
+            residual_config,
+            source_metadata,
+            run_id="diagnostic-residual-test",
+            archive_path=Path("/tmp/diagnostic-residual-test.npz"),
+        )
+        self.assertEqual(
+            residual_binding["selection_merit_identity"],
+            stabilized.STABILIZED_ANDERSON_RESIDUAL_MERIT_IDENTITY,
+        )
+        self.assertEqual(
+            residual_binding["expected_archive_paths"],
+            [
+                "/tmp/diagnostic-residual-test.npz",
+                "/tmp/diagnostic-residual-test.failure.npz",
+            ],
+        )
+        self.assertTrue(
+            residual_binding["instrumentation_contract"]["hard_gate_attribution"]
+        )
+        self.assertTrue(
+            {
+                "hard_gate_attribution_schema",
+                "hard_gate_status",
+                "hard_gate_diagnostics",
+                "failed_hard_gates",
+            }.issubset(residual_binding["required_scalar_fields"])
+        )
+        self.assertNotEqual(
+            binding["selection_merit_identity"],
+            residual_binding["selection_merit_identity"],
+        )
+        _assert_scalar_tree(self, residual_binding)
+
+        regularized_config = replace(
+            config,
+            relaxation_policy="anderson_residual_regularized_backtracking",
+            max_backtracks=stabilized.STABILIZED_ANDERSON_MAX_BACKTRACKS,
+            anderson_alpha_reduction=stabilized.STABILIZED_ANDERSON_ALPHA_REDUCTION,
+            anderson_regularization_mu=1.25,
+        )
+        regularized_binding = workflow._anderson_scalar_diagnostic_binding(
+            stabilized,
+            engineering,
+            regularized_config,
+            source_metadata,
+            run_id="diagnostic-regularized-test",
+            archive_path=Path("/tmp/diagnostic-regularized-test.npz"),
+        )
+        regularized_stabilized_payload = regularized_binding["configuration"][
+            "stabilized"
+        ]
+        self.assertEqual(
+            regularized_stabilized_payload["anderson_regularization_mu"], 1.25
+        )
+        self.assertEqual(
+            regularized_binding["selection_merit_identity"],
+            stabilized.STABILIZED_ANDERSON_REGULARIZED_MERIT_IDENTITY,
+        )
+        self.assertIn(
+            "anderson_regularization_mu",
+            regularized_binding["required_scalar_fields"],
+        )
+        for field in (
+            "anderson_current_residual_l2",
+            "anderson_regularization_lambda",
+            "anderson_unregularized_ls_residual_l2",
+            "anderson_coefficient_l2",
+        ):
+            self.assertIn(field, regularized_binding["required_scalar_fields"])
+        self.assertNotIn(
+            "anderson_coefficient_norm",
+            regularized_binding["required_scalar_fields"],
+        )
+        _assert_scalar_tree(self, regularized_binding)
+
+    def test_workflow_reports_residual_hard_gate_marginals_and_overlaps(self) -> None:
+        details: dict[str, dict[str, Any]] = {}
+        failed = {"force", "moment"}
+        for name in stabilized.ANDERSON_RESIDUAL_HARD_GATE_NAMES:
+            if name == "finite":
+                raw = limit = normalized = None
+                scale = stage_metrics = None
+                ratio_available = False
+                cg_info = cg_status_pass = residual_limit_pass = None
+                metric_reason = "boolean_gate"
+                passed = name not in failed
+            elif name in {"mechanics_before", "mechanics_after"}:
+                cg_info = 1 if name in failed else 0
+                cg_status_pass = cg_info == 0
+                raw = 0.0
+                scale = stage_metrics = None
+                limit = 1.0
+                residual_limit_pass = raw < limit
+                normalized = raw / limit
+                ratio_available = True
+                passed = cg_status_pass and residual_limit_pass
+                metric_reason = "cg_info_and_free_residual_limit"
+            elif name in {"force", "moment"}:
+                raw = 2.0 if name in failed else 0.0
+                stage_metrics = {
+                    stage: {
+                        "error": raw,
+                        "scale": 1.0,
+                        "limit": 1.0,
+                        "normalized": raw,
+                        "ratio_available": True,
+                        "passed": raw <= 1.0,
+                    }
+                    for stage in ("before", "after")
+                }
+                scale = stage_metrics["before"]["scale"]
+                limit = stage_metrics["before"]["limit"]
+                normalized = stage_metrics["before"]["normalized"]
+                ratio_available = True
+                cg_info = cg_status_pass = residual_limit_pass = None
+                passed = all(item["passed"] for item in stage_metrics.values())
+                metric_reason = "stage_worst_ratio_and_conjunction"
+            elif name in {
+                "damage_range_lower",
+                "damage_range_upper",
+                "healing",
+            }:
+                raw = 2.0 if name in failed else 0.0
+                scale = stage_metrics = None
+                limit = 1.0
+                normalized = raw / limit
+                ratio_available = True
+                cg_info = cg_status_pass = residual_limit_pass = None
+                passed = raw <= limit
+                metric_reason = (
+                    "damage_range_excess_and_limit"
+                    if name.startswith("damage_range")
+                    else "healing_excess_and_limit"
+                )
+            else:
+                raw = 1.0 if name in failed else 0.0
+                scale = stage_metrics = None
+                limit = 0.0
+                normalized = None
+                ratio_available = False
+                cg_info = cg_status_pass = residual_limit_pass = None
+                passed = raw <= limit
+                metric_reason = "history_ordering_excess_and_zero_limit"
+            details[name] = {
+                "available": True,
+                "passed": passed,
+                "raw": raw,
+                "scale": scale,
+                "limit": limit,
+                "normalized": normalized,
+                "ratio_available": ratio_available,
+                "metric_reason": metric_reason,
+                "stage_reason": None,
+                "cg_info": cg_info,
+                "cg_status_pass": cg_status_pass,
+                "residual_limit_pass": residual_limit_pass,
+                "stage_metrics": stage_metrics,
+            }
+        record = {
+            "record_type": "proposal",
+            "schema": stabilized.ANDERSON_SCALAR_DIAGNOSTIC_SCHEMA,
+            "candidate_kind": "anderson_accelerated",
+            "candidate_map_status": "not_requested",
+            "failure_stage": None,
+            "complete": True,
+            "hard_pass": False,
+            "hard_gate_status": "evaluated",
+            "hard_gate_attribution_schema": (
+                stabilized.ANDERSON_RESIDUAL_HARD_GATE_ATTRIBUTION_SCHEMA
+            ),
+            "hard_gate_diagnostics": details,
+            "failed_hard_gates": [
+                name
+                for name in stabilized.ANDERSON_RESIDUAL_HARD_GATE_NAMES
+                if name in failed
+            ],
+        }
+        with tempfile.TemporaryDirectory(prefix="workflow-hard-gates-") as directory:
+            root = Path(directory)
+            archive = root / "result.npz"
+            archive.write_bytes(b"exact archive bytes")
+            diagnostic = root / "result.anderson.jsonl"
+            writer = stabilized.AndersonScalarDiagnosticWriter(
+                diagnostic,
+                binding={
+                    "source_sha256": "1" * 64,
+                    "configuration_sha256": "2" * 64,
+                    "source_bundle_hash": "3" * 64,
+                    "source_bundle_files": ["source.py"],
+                },
+            )
+            try:
+                writer.emit(record)
+                writer.finalize(archive, status="completed")
+            finally:
+                writer.close()
+            report = workflow.analyze_anderson_scalar_diagnostic(
+                diagnostic,
+                archive_path=archive,
+            )
+            self.assertEqual(report["proposal_records"], 1)
+            self.assertEqual(report["hard_gate_failure_counts"]["force"], 1)
+            self.assertEqual(report["hard_gate_overlap_counts"]["force+moment"], 1)
+
     def test_stabilized_parser_requires_relaxation_flags_and_forbids_warning_flags(self) -> None:
         parser = workflow.build_parser()
         common = [
@@ -499,6 +910,204 @@ class EngineeringGripWorkflowTest(unittest.TestCase):
                 "max_backtracks": 5,
             },
         )
+
+        anderson_common = list(common)
+        anderson_common[
+            anderson_common.index("--relaxation-policy") + 1
+        ] = "anderson"
+        anderson_common[
+            anderson_common.index("--omega-min") + 1
+        ] = "0.5"
+        anderson_common[
+            anderson_common.index("--max-backtracks") + 1
+        ] = "0"
+        reduction_index = anderson_common.index("--omega-reduction")
+        del anderson_common[reduction_index : reduction_index + 2]
+        anderson_common.extend(
+            [
+                "--anderson-history-depth", "5",
+                "--anderson-beta", "0.5",
+            ]
+        )
+        anderson_arguments = parser.parse_args(anderson_common)
+        anderson_base = workflow._config_from_arguments(
+            anderson_arguments, engineering
+        )
+        anderson_config = workflow._stabilized_config_from_arguments(
+            anderson_arguments, anderson_base, stabilized
+        )
+        self.assertEqual(
+            anderson_config.payload(),
+            {
+                "relaxation_policy": "anderson",
+                "omega_initial": 0.5,
+                "omega_min": 0.5,
+                "omega_reduction": None,
+                "sufficient_decrease": 1.0e-2,
+                "max_backtracks": 0,
+                "anderson_history_depth": 5,
+                "anderson_beta": 0.5,
+            },
+        )
+
+        residual_common = list(anderson_common)
+        residual_common[
+            residual_common.index("--relaxation-policy") + 1
+        ] = "anderson_residual"
+        residual_arguments = parser.parse_args(residual_common)
+        residual_base = workflow._config_from_arguments(
+            residual_arguments, engineering
+        )
+        residual_config = workflow._stabilized_config_from_arguments(
+            residual_arguments, residual_base, stabilized
+        )
+        self.assertEqual(
+            residual_config.payload(),
+            {
+                "relaxation_policy": "anderson_residual",
+                "omega_initial": 0.5,
+                "omega_min": 0.5,
+                "omega_reduction": None,
+                "sufficient_decrease": 1.0e-2,
+                "max_backtracks": 0,
+                "anderson_history_depth": 5,
+                "anderson_beta": 0.5,
+                "anderson_merit_identity": (
+                    stabilized.STABILIZED_ANDERSON_RESIDUAL_MERIT_IDENTITY
+                ),
+            },
+        )
+
+        backtracking_common = list(residual_common)
+        backtracking_common[
+            backtracking_common.index("--relaxation-policy") + 1
+        ] = "anderson_residual_backtracking"
+        backtracking_common[
+            backtracking_common.index("--max-backtracks") + 1
+        ] = "4"
+        backtracking_common.extend(["--anderson-alpha-reduction", "0.5"])
+        backtracking_arguments = parser.parse_args(backtracking_common)
+        backtracking_base = workflow._config_from_arguments(
+            backtracking_arguments, engineering
+        )
+        backtracking_config = workflow._stabilized_config_from_arguments(
+            backtracking_arguments, backtracking_base, stabilized
+        )
+        self.assertEqual(
+            backtracking_config.payload(),
+            {
+                "relaxation_policy": "anderson_residual_backtracking",
+                "omega_initial": 0.5,
+                "omega_min": 0.5,
+                "omega_reduction": None,
+                "sufficient_decrease": 1.0e-2,
+                "max_backtracks": 4,
+                "anderson_history_depth": 5,
+                "anderson_beta": 0.5,
+                "anderson_merit_identity": (
+                    stabilized.STABILIZED_ANDERSON_RESIDUAL_BACKTRACKING_MERIT_IDENTITY
+                ),
+                "anderson_alpha_reduction": 0.5,
+            },
+        )
+
+        regularized_common = list(backtracking_common)
+        regularized_common[
+            regularized_common.index("--relaxation-policy") + 1
+        ] = "anderson_residual_regularized_backtracking"
+        regularized_common.extend(["--anderson-regularization-mu", "1.25"])
+        regularized_arguments = parser.parse_args(regularized_common)
+        regularized_base = workflow._config_from_arguments(
+            regularized_arguments, engineering
+        )
+        regularized_config = workflow._stabilized_config_from_arguments(
+            regularized_arguments, regularized_base, stabilized
+        )
+        self.assertEqual(
+            regularized_config.payload(),
+            {
+                "relaxation_policy": (
+                    "anderson_residual_regularized_backtracking"
+                ),
+                "omega_initial": 0.5,
+                "omega_min": 0.5,
+                "omega_reduction": None,
+                "sufficient_decrease": 1.0e-2,
+                "max_backtracks": 4,
+                "anderson_history_depth": 5,
+                "anderson_beta": 0.5,
+                "anderson_merit_identity": (
+                    stabilized.STABILIZED_ANDERSON_REGULARIZED_MERIT_IDENTITY
+                ),
+                "anderson_alpha_reduction": 0.5,
+                "anderson_regularization_mu": 1.25,
+            },
+        )
+        missing_mu = [
+            value
+            for index, value in enumerate(regularized_common)
+            if value != "--anderson-regularization-mu"
+            and not (
+                index > 0
+                and regularized_common[index - 1] == "--anderson-regularization-mu"
+            )
+        ]
+        missing_mu_arguments = parser.parse_args(missing_mu)
+        missing_mu_base = workflow._config_from_arguments(
+            missing_mu_arguments, engineering
+        )
+        with self.assertRaisesRegex(ValueError, "anderson-regularization-mu"):
+            workflow._stabilized_config_from_arguments(
+                missing_mu_arguments, missing_mu_base, stabilized
+            )
+        with self.assertRaises(SystemExit):
+            parser.parse_args(regularized_common[:-1] + ["0"])
+        with self.assertRaisesRegex(ValueError, "only valid with"):
+            workflow._stabilized_config_from_arguments(
+                parser.parse_args(
+                    backtracking_common + ["--anderson-regularization-mu", "1.25"]
+                ),
+                backtracking_base,
+                stabilized,
+            )
+        missing_alpha = list(backtracking_common)
+        alpha_index = missing_alpha.index("--anderson-alpha-reduction")
+        del missing_alpha[alpha_index : alpha_index + 2]
+        missing_alpha_arguments = parser.parse_args(missing_alpha)
+        missing_alpha_base = workflow._config_from_arguments(
+            missing_alpha_arguments, engineering
+        )
+        with self.assertRaisesRegex(ValueError, "anderson-alpha-reduction"):
+            workflow._stabilized_config_from_arguments(
+                missing_alpha_arguments, missing_alpha_base, stabilized
+            )
+        with self.assertRaisesRegex(ValueError, "only valid"):
+            workflow._stabilized_config_from_arguments(
+                parser.parse_args(
+                    residual_common + ["--anderson-alpha-reduction", "0.5"]
+                ),
+                residual_base,
+                stabilized,
+            )
+        missing_anderson = list(anderson_common)
+        for flag in ("--anderson-history-depth", "--anderson-beta"):
+            index = missing_anderson.index(flag)
+            del missing_anderson[index : index + 2]
+        missing_arguments = parser.parse_args(missing_anderson)
+        missing_base = workflow._config_from_arguments(
+            missing_arguments, engineering
+        )
+        with self.assertRaisesRegex(ValueError, "anderson-history-depth"):
+            workflow._stabilized_config_from_arguments(
+                missing_arguments, missing_base, stabilized
+            )
+        with self.assertRaisesRegex(ValueError, "omega-reduction.*[Aa]nderson"):
+            workflow._stabilized_config_from_arguments(
+                parser.parse_args(anderson_common + ["--omega-reduction", "0.5"]),
+                anderson_base,
+                stabilized,
+            )
+
         without_budget = [
             value
             for index, value in enumerate(common)
@@ -533,6 +1142,197 @@ class EngineeringGripWorkflowTest(unittest.TestCase):
             common + ["--progress-every-sweeps", "4"]
         )
         self.assertEqual(progress_arguments.progress_every_sweeps, 4)
+
+    def test_schedule_cli_rejects_legacy_warning_and_nonresidual_policies(self) -> None:
+        parser = workflow.build_parser()
+        legacy = parser.parse_args(
+            ["run", "--load-schedule-npz", "/tmp/unverified-schedule.npz"]
+        )
+        with self.assertRaisesRegex(ValueError, "only valid.*stabilized"):
+            workflow.run_workflow(legacy)
+
+        common = [
+            "run",
+            "--source-cloud", "cloud.npz",
+            "--fem-archive", "fem.npz",
+            "--continuation-strategy", "stabilized",
+            "--archive-budget-bytes", "500000000",
+            "--load-final", "1e-4",
+            "--max-stagger-iterations", "20",
+            "--gpu-device-index", "0",
+            "--delta", "0.048",
+            "--h-g", "0.02",
+            "--du-initial", "1e-4",
+            "--du-min", "5e-5",
+            "--visibility-tolerance", "1e-12",
+            "--youngs-modulus", "210000",
+            "--poisson-ratio", "0.3",
+            "--k-res", "1e-8",
+            "--rank-rtol", "1e-12",
+            "--Gc", "2.7",
+            "--l0", "0.024",
+            "--omega-initial", "0.5",
+            "--omega-min", "0.5",
+            "--max-backtracks", "0",
+            "--load-schedule-npz", "/tmp/unverified-schedule.npz",
+        ]
+        for policy in ("fixed", "anderson"):
+            with self.subTest(policy=policy):
+                arguments = parser.parse_args(
+                    common[:]
+                    + ["--relaxation-policy", policy]
+                    + ([] if policy == "fixed" else [
+                        "--sufficient-decrease", "0.01",
+                        "--anderson-history-depth", "5",
+                        "--anderson-beta", "0.5",
+                    ])
+                )
+                base = workflow._config_from_arguments(arguments, engineering)
+                with self.assertRaisesRegex(ValueError, "load-schedule-npz"):
+                    workflow._stabilized_config_from_arguments(
+                        arguments, base, stabilized
+                    )
+
+        warning_arguments = parser.parse_args(
+            common
+            + [
+                "--relaxation-policy", "fixed",
+                "--acceptance-mode", "warning",
+                "--warning-safety-policy", "unbounded",
+            ]
+        )
+        warning_base = workflow._config_from_arguments(warning_arguments, engineering)
+        with self.assertRaisesRegex(ValueError, "load-schedule-npz"):
+            workflow._stabilized_config_from_arguments(
+                warning_arguments, warning_base, stabilized
+            )
+
+    def test_workflow_summary_retains_schedule_binding(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="workflow-schedule-summary-") as name:
+            root = Path(name)
+            source_path, source_metadata = _stabilized_source_fixture()
+            del source_path
+            with _schedule_fixture(root) as schedule:
+                base = replace(
+                    engineering.EngineeringGripConfig.smoke(),
+                    load_final=0.5,
+                )
+                config = stabilized.StabilizedEngineeringGripConfig(
+                    base=base,
+                    omega_initial=0.5,
+                    omega_min=0.5,
+                    omega_reduction=None,
+                    sufficient_decrease=1.0e-2,
+                    max_backtracks=0,
+                    relaxation_policy="anderson_residual",
+                    anderson_history_depth=5,
+                    anderson_beta=0.5,
+                    load_schedule=schedule,
+                )
+                config_payload = workflow._workflow_config_payload(
+                    config, "stabilized", engineering
+                )
+                summary = workflow._run_summary(
+                    validated=False,
+                    status=stabilized.STABILIZED_COMPLETION_STATUS,
+                    elapsed_seconds=0.0,
+                    archive_path=root / "missing.npz",
+                    replay_path=None,
+                    analysis_path=None,
+                    plot_report_path=None,
+                    state_summary={"state_u_bar": [0.0, 0.5]},
+                    source_metadata=source_metadata,
+                    device="cpu",
+                    config_payload=config_payload,
+                    acceptance_mode=stabilized.STABILIZED_ACCEPTANCE_MODE,
+                    warning_safety_limit=None,
+                    warning_safety_policy=None,
+                    field_equations_validated=True,
+                )
+                self.assertEqual(summary["load_schedule"], schedule.payload())
+                self.assertEqual(
+                    summary["configuration"]["stabilized"]["load_schedule"],
+                    schedule.payload(),
+                )
+
+    def test_write_manifest_binds_exact_scheduled_payload(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="workflow-schedule-manifest-") as name:
+            root = Path(name)
+            _, source_metadata = _stabilized_source_fixture()
+            with _schedule_fixture(root) as schedule:
+                base = replace(
+                    engineering.EngineeringGripConfig.smoke(),
+                    load_final=0.5,
+                )
+                config = stabilized.StabilizedEngineeringGripConfig(
+                    base=base,
+                    omega_initial=0.5,
+                    omega_min=0.5,
+                    omega_reduction=None,
+                    sufficient_decrease=1.0e-2,
+                    max_backtracks=0,
+                    relaxation_policy="anderson_residual",
+                    anderson_history_depth=5,
+                    anderson_beta=0.5,
+                    load_schedule=schedule,
+                )
+                artifact_names = (
+                    "archive",
+                    "summary",
+                    "replay",
+                    "failure_archive",
+                    "failure_summary",
+                    "failure_replay",
+                    "analysis",
+                    "fields",
+                    "stress_strain",
+                    "curve_data",
+                    "plot_report",
+                    "failure_analysis",
+                    "failure_fields",
+                    "failure_stress_strain",
+                    "failure_curve_data",
+                    "failure_plot_report",
+                )
+                paths = {
+                    artifact: root / f"{artifact}.artifact"
+                    for artifact in artifact_names
+                }
+                for artifact in ("archive", "summary", "replay"):
+                    paths[artifact].write_bytes(b"temporary scheduled artifact")
+                manifest_path = root / "scheduled.manifest.json"
+                workflow._write_manifest(
+                    manifest_path,
+                    paths,
+                    source_metadata,
+                    engineering,
+                    config,
+                    device="cpu",
+                    command=["test-scheduled-manifest"],
+                    validated=False,
+                    field_equations_validated=True,
+                    acceptance_mode=stabilized.STABILIZED_ACCEPTANCE_MODE,
+                    warning_safety_limit=None,
+                    warning_safety_policy=None,
+                    strategy="stabilized",
+                    solver_module=stabilized,
+                    overwrite=False,
+                )
+
+                manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+                self.assertEqual(manifest["load_schedule"], schedule.payload())
+                self.assertEqual(
+                    manifest["configuration"]["stabilized"]["load_schedule"],
+                    schedule.payload(),
+                )
+                self.assertEqual(
+                    manifest["archive_layout"],
+                    stabilized.STABILIZED_SCHEDULE_ARCHIVE_LAYOUT,
+                )
+                self.assertEqual(
+                    manifest["replay_contract"],
+                    stabilized.STABILIZED_SCHEDULE_REPLAY_CONTRACT,
+                )
 
     def test_fixed_relaxation_policy_requires_one_explicit_candidate(self) -> None:
         parser = workflow.build_parser()
@@ -893,6 +1693,74 @@ class EngineeringGripWorkflowTest(unittest.TestCase):
             )
             self.assertFalse(valid, error)
 
+    def test_stabilized_replay_binding_checks_optional_anderson_identity_fields(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="engineering-workflow-anderson-binding-") as directory:
+            root = Path(directory)
+            archive = root / "legacy-anderson.npz"
+            values = _stabilized_completed_arrays()
+            metadata = json.loads(str(values["metadata_json"]))
+            metadata["stabilized_config"] = {
+                "relaxation_policy": "anderson",
+                "omega_initial": 0.5,
+                "omega_min": 0.5,
+                "omega_reduction": None,
+                "sufficient_decrease": 1.0e-2,
+                "max_backtracks": 0,
+                "anderson_history_depth": 5,
+                "anderson_beta": 0.5,
+            }
+            values["metadata_json"] = np.asarray(
+                json.dumps(metadata, sort_keys=True, allow_nan=False),
+                dtype=np.str_,
+            )
+            _save_npz(archive, values)
+            report_without_identity = _bound_stabilized_replay(archive, values)
+            report_without_identity.pop("relaxation_policy")
+            report_without_identity.pop("selection_merit_identity")
+
+            valid, expected, error = workflow._stabilized_replay_binding(
+                archive,
+                values,
+                metadata,
+                report_without_identity,
+                stabilized,
+            )
+            self.assertTrue(valid, error)
+            self.assertEqual(expected["relaxation_policy"], "anderson")
+            self.assertEqual(
+                expected["selection_merit_identity"],
+                stabilized.STABILIZED_ANDERSON_LEGACY_MERIT_IDENTITY,
+            )
+
+            matching_report = dict(report_without_identity)
+            matching_report.update(
+                {
+                    "relaxation_policy": "anderson",
+                    "selection_merit_identity": (
+                        stabilized.STABILIZED_ANDERSON_LEGACY_MERIT_IDENTITY
+                    ),
+                }
+            )
+            valid, _, error = workflow._stabilized_replay_binding(
+                archive, values, metadata, matching_report, stabilized
+            )
+            self.assertTrue(valid, error)
+
+            residual_report = dict(report_without_identity)
+            residual_report.update(
+                {
+                    "relaxation_policy": "anderson_residual",
+                    "selection_merit_identity": (
+                        stabilized.STABILIZED_ANDERSON_RESIDUAL_MERIT_IDENTITY
+                    ),
+                }
+            )
+            valid, _, error = workflow._stabilized_replay_binding(
+                archive, values, metadata, residual_report, stabilized
+            )
+            self.assertFalse(valid)
+            self.assertIn("does not match archive", error or "")
+
     def test_stabilized_replay_report_preserves_lean_replay_semantics(self) -> None:
         with tempfile.TemporaryDirectory(prefix="engineering-workflow-stabilized-") as directory:
             root = Path(directory)
@@ -916,6 +1784,10 @@ class EngineeringGripWorkflowTest(unittest.TestCase):
             self.assertNotIn("validated", payload)
             self.assertEqual(payload["continuation_strategy"], "stabilized")
             self.assertTrue(payload["replay_binding_valid"])
+            self.assertEqual(
+                payload["anderson_provenance"],
+                stabilized._v5_anderson_provenance("sufficient_decrease"),
+            )
             self.assertEqual(payload["archive_schema"], stabilized.STABILIZED_ARCHIVE_SCHEMA)
             self.assertEqual(
                 payload["replay_contract"], stabilized.STABILIZED_REPLAY_CONTRACT
@@ -942,6 +1814,16 @@ class EngineeringGripWorkflowTest(unittest.TestCase):
             self.assertFalse(minimal_payload["field_equations_validated"])
             self.assertNotIn("validated", minimal_payload)
             self.assertFalse(minimal_payload["replay_binding_valid"])
+
+            with self.assertRaisesRegex(ValueError, "provenance"):
+                workflow._stabilized_replay_semantics(
+                    {
+                        "anderson_provenance": {
+                            "status": "recorded_not_reconstructed",
+                            "selection_recorded": True,
+                        }
+                    }
+                )
 
             failed = _stabilized_completed_arrays()
             failed_archive = root / "stabilized-failed-gate.npz"
@@ -994,7 +1876,7 @@ class EngineeringGripWorkflowTest(unittest.TestCase):
             self.assertNotIn("validated", failure_payload)
 
     def test_stabilized_analyze_and_plot_reports_preserve_replay_provenance(self) -> None:
-        values = _stabilized_completed_arrays()
+        values = _stabilized_completed_arrays(sweep_index=7)
         coordinates = _stabilized_source_arrays()["coordinates"]
         with tempfile.TemporaryDirectory(prefix="engineering-workflow-stabilized-report-") as directory:
             root = Path(directory)
@@ -1006,10 +1888,11 @@ class EngineeringGripWorkflowTest(unittest.TestCase):
                 stabilized,
                 "replay_stabilized_engineering_grip_archive",
                 return_value=replay,
-            ):
+            ), mock.patch.object(workflow, "_enable_stabilized_x64") as enable_x64:
                 analysis = workflow.analyze_archive(
                     archive, analysis_path, overwrite=False, replay_result=None
                 )
+            enable_x64.assert_called_once_with()
             self.assertEqual(analysis["continuation_strategy"], "stabilized")
             self.assertTrue(analysis["experimental"])
             self.assertTrue(analysis["field_equations_validated"])
@@ -1017,6 +1900,12 @@ class EngineeringGripWorkflowTest(unittest.TestCase):
             self.assertNotIn("validated", analysis)
             self.assertEqual(analysis["independent_replay"], replay)
             self.assertTrue(analysis["replay_binding_valid"])
+            self.assertEqual(
+                analysis["gate_ratios"]["damage"]["sweep_index"], 7
+            )
+            self.assertEqual(
+                analysis["gate_ratios"]["damage"]["target_u_bar"], 1.0e-4
+            )
             self.assertEqual(analysis["replay_binding"], {
                 name: replay[name]
                 for name in (
@@ -1024,6 +1913,8 @@ class EngineeringGripWorkflowTest(unittest.TestCase):
                     "archive_schema",
                     "archive_layout",
                     "replay_contract",
+                    "acceptance_mode",
+                    "acceptance_status",
                     "completion_status",
                     "source_bundle_hash",
                     "source_path",
@@ -1031,6 +1922,7 @@ class EngineeringGripWorkflowTest(unittest.TestCase):
                     "accepted_steps",
                     "states",
                     "solver_summary_rows",
+                    "anderson_provenance",
                 )
             })
 
@@ -1088,8 +1980,38 @@ class EngineeringGripWorkflowTest(unittest.TestCase):
             self.assertEqual(plot["independent_replay"], replay)
             self.assertTrue(plot["replay_binding_valid"])
 
+    def test_gate_ratio_provenance_uses_stored_failure_summary_location(self) -> None:
+        config = engineering.EngineeringGripConfig.smoke()
+        values = _stabilized_completed_arrays(sweep_index=7)
+        values["failure_summary_json"] = _stabilized_failure_summary_json(
+            1.0e-4, sweep_index=13
+        )
+        failure_row = json.loads(str(values["failure_summary_json"]))["solver_summary"]
+
+        diagnostics = workflow._failure_diagnostic_payloads(values)
+        ratios = workflow._analysis_gate_ratios(diagnostics, config)
+
+        self.assertEqual(ratios["damage"]["sweep_index"], 13)
+        self.assertEqual(ratios["damage"]["target_u_bar"], 1.0e-4)
+        self.assertNotEqual(ratios["damage"]["sweep_index"], 2)
+
+        malformed = dict(failure_row)
+        malformed["sweep_index"] = True
+        with self.assertRaisesRegex(ValueError, "sweep_index must be an integer"):
+            workflow._analysis_gate_ratios([malformed], config)
+
+        malformed = dict(failure_row)
+        malformed["sweep_index"] = config.max_stagger_iterations
+        with self.assertRaisesRegex(ValueError, "sweep_index is out of range"):
+            workflow._analysis_gate_ratios([malformed], config)
+
+        malformed = dict(failure_row)
+        malformed["target_u_bar"] = 2.0e-4
+        with self.assertRaisesRegex(ValueError, "target/load fields disagree"):
+            workflow._analysis_gate_ratios([malformed], config)
+
     def test_stabilized_failure_uses_state_arrays_for_reports(self) -> None:
-        values = _stabilized_completed_arrays()
+        values = _stabilized_completed_arrays(sweep_index=7)
         coordinates = _stabilized_source_arrays()["coordinates"]
         values.update(
             {
@@ -1110,26 +2032,8 @@ class EngineeringGripWorkflowTest(unittest.TestCase):
                 "last_committed_damage_max": np.asarray(0.0, dtype=np.float64),
                 "last_committed_history_max": np.asarray(0.0, dtype=np.float64),
                 "failure_message": np.asarray("stabilized failure", dtype=np.str_),
-                "failure_summary_json": np.asarray(
-                    json.dumps(
-                        {
-                            "available": False,
-                            "failure_code": stabilized.STABILIZED_FAILURE_CODE,
-                            "failure_type": "StabilizedEngineeringGripContinuationFailure",
-                            "failure_message": "stabilized failure",
-                            "last_committed_u_bar": 1.0e-4,
-                            "failure_stage": None,
-                            "failure_reason": "stabilized failure",
-                            "load_start": None,
-                            "load_target": None,
-                            "increment": None,
-                            "cutback_count": None,
-                            "solver_summary": None,
-                        },
-                        sort_keys=True,
-                        allow_nan=False,
-                    ),
-                    dtype=np.str_,
+                "failure_summary_json": _stabilized_failure_summary_json(
+                    1.0e-4, sweep_index=13
                 ),
             }
         )
@@ -1158,6 +2062,12 @@ class EngineeringGripWorkflowTest(unittest.TestCase):
             self.assertTrue(analysis["field_equations_validated"])
             self.assertFalse(analysis["path_replayed"])
             self.assertNotIn("validated", analysis)
+            self.assertEqual(
+                analysis["gate_ratios"]["damage"]["sweep_index"], 13
+            )
+            self.assertEqual(
+                analysis["gate_ratios"]["damage"]["target_u_bar"], 1.0e-4
+            )
 
             plot_data = {
                 "coordinates": coordinates,
@@ -1799,6 +2709,145 @@ class StabilizedWorkflowGuardTest(unittest.TestCase):
                 stored["budget_required_free_bytes"],
                 500000000 + stabilized.STABILIZED_FILESYSTEM_RESERVE_BYTES,
             )
+
+    def test_anderson_writer_closes_when_completed_archive_write_fails(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="engineering-writer-close-") as directory:
+            root = Path(directory)
+            arguments = self._arguments(root)
+            arguments.relaxation_policy = "anderson"
+            arguments.omega_initial = 0.5
+            arguments.omega_min = 0.5
+            arguments.omega_reduction = None
+            arguments.sufficient_decrease = 1.0e-2
+            arguments.max_backtracks = 0
+            arguments.anderson_history_depth = 5
+            arguments.anderson_beta = 0.5
+            arguments.anderson_scalar_diagnostic = True
+
+            writers: list[Any] = []
+
+            class TrackingWriter:
+                def __init__(self, path: Path, *, binding: Mapping[str, Any]) -> None:
+                    del binding
+                    self.path = path
+                    self.close_calls = 0
+                    writers.append(self)
+
+                def emit(self, event: Mapping[str, Any]) -> None:
+                    del event
+
+                def finalize(self, archive_path: Path, *, status: str) -> str:
+                    del archive_path, status
+                    return "0" * 64
+
+                def close(self) -> None:
+                    self.close_calls += 1
+
+            with (
+                mock.patch.object(workflow, "_load_fem_archive", return_value=self._fem()),
+                mock.patch.object(workflow, "_preflight_artifacts"),
+                mock.patch.object(
+                    workflow,
+                    "_construct_model",
+                    return_value=(
+                        self.model,
+                        self.config.base,
+                        self._cloud,
+                        self.source_metadata,
+                    ),
+                ),
+                mock.patch.object(
+                    workflow,
+                    "_preflight_stabilized_storage",
+                    return_value={"fits": True},
+                ),
+                mock.patch.object(
+                    workflow, "_construct_adapter", return_value=(object(), "test:gpu")
+                ),
+                mock.patch.object(
+                    stabilized,
+                    "AndersonScalarDiagnosticWriter",
+                    TrackingWriter,
+                ),
+                mock.patch.object(
+                    stabilized,
+                    "run_stabilized_engineering_grip",
+                    return_value=self.result,
+                ),
+                mock.patch.object(
+                    workflow,
+                    "_atomic_stabilized_archive",
+                    side_effect=OSError("manufactured completed archive write failure"),
+                ),
+            ):
+                with self.assertRaisesRegex(OSError, "completed archive write"):
+                    workflow._run_stabilized_workflow(arguments)
+
+            self.assertEqual(len(writers), 1)
+            self.assertEqual(writers[0].close_calls, 1)
+
+    def test_anderson_writer_closes_when_failure_archive_write_fails(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="engineering-failure-writer-close-") as directory:
+            root = Path(directory)
+            arguments = self._arguments(root)
+            arguments.relaxation_policy = "anderson"
+            arguments.omega_initial = 0.5
+            arguments.omega_min = 0.5
+            arguments.omega_reduction = None
+            arguments.sufficient_decrease = 1.0e-2
+            arguments.max_backtracks = 0
+            arguments.anderson_history_depth = 5
+            arguments.anderson_beta = 0.5
+            arguments.anderson_scalar_diagnostic = True
+            writer = mock.Mock()
+            failure = stabilized.StabilizedEngineeringGripContinuationFailure(
+                "manufactured continuation failure",
+                self.result.final_state,
+                tuple(self.result.attempts),
+                self.result.work_check,
+            )
+
+            with (
+                mock.patch.object(workflow, "_load_fem_archive", return_value=self._fem()),
+                mock.patch.object(workflow, "_preflight_artifacts"),
+                mock.patch.object(
+                    workflow,
+                    "_construct_model",
+                    return_value=(
+                        self.model,
+                        self.config.base,
+                        self._cloud,
+                        self.source_metadata,
+                    ),
+                ),
+                mock.patch.object(
+                    workflow,
+                    "_preflight_stabilized_storage",
+                    return_value={"fits": True},
+                ),
+                mock.patch.object(
+                    workflow, "_construct_adapter", return_value=(object(), "test:gpu")
+                ),
+                mock.patch.object(
+                    stabilized,
+                    "AndersonScalarDiagnosticWriter",
+                    return_value=writer,
+                ),
+                mock.patch.object(
+                    stabilized,
+                    "run_stabilized_engineering_grip",
+                    side_effect=failure,
+                ),
+                mock.patch.object(
+                    workflow,
+                    "_atomic_stabilized_failure_archive",
+                    side_effect=OSError("manufactured failure archive write failure"),
+                ),
+            ):
+                with self.assertRaisesRegex(OSError, "failure archive write"):
+                    workflow._run_stabilized_workflow(arguments)
+
+            writer.close.assert_called_once_with()
 
 
 if __name__ == "__main__":
