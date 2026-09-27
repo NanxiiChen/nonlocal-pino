@@ -5,8 +5,9 @@
 Build the 2D nonlocal PINN stage on top of the adopted direct reference. The
 PINN must reuse the **same** material graph, union collar geometry, A2
 phase-measured mechanics energy, Amor history, and nonlocal AT2 damage residual
-as `src/pinn/nonlocal2d/`; it must not re-derive a different operator or silently
-change the model.
+as `examples/fracture2d/nonlocal_baseline.py` and the shared
+`pinn.operators.ExplicitVolumeSparseD`; it must not re-derive a different
+operator or silently change the model.
 
 ## Acceptance Criteria
 
@@ -34,8 +35,9 @@ change the model.
 - The adopted direct implementation is the single GPU-only file
   `examples/fracture2d/nonlocal_baseline.py` (union geometry, BA/A2 mechanics,
   Amor, AT2, JAX PCG backend, fixed damped-Picard continuation, and the
-  `run`/`verify`/`plot` CLI). Reuse its functions/operators rather than
-  re-deriving them.
+  `run`/`verify`/`plot` CLI). The earlier `src/pinn/nonlocal2d/` package was
+  merged back into this file and deleted. Reuse its functions/operators rather
+  than re-deriving them.
 - Reference documents: `examples/fracture2d/README.md` — the
   **Reference solutions and data** section holds every reference-solution path
   and SHA256, and **Nonlocal PINN (next stage)** holds the operator/model
@@ -46,17 +48,23 @@ change the model.
 ## Status
 
 Active (next). The direct stage is closed: the single GPU-only solver
-`examples/fracture2d/nonlocal_baseline.py` is archived with confirmed default
-behavior against the archived solution
+`examples/fracture2d/nonlocal_baseline.py` has confirmed default behavior
+against the archived solution
 ([archived lean task](archive/fracture2d-lean-direct-solver.md)).
+Documentation handoff checked: the current reuse entry is the single-file
+solver; the README's AT2 strong residual now matches its positive
+`D_delta` operator convention.
 
 ## Blocker
 
-None. The adopted reference solution and lean operator library are available.
+None. The adopted reference solution, single-file direct solver, and shared
+damage operator are available.
 
 ## Next Action
 
-1. Freeze the PINN residual API against `src/pinn/nonlocal2d/` (no new math).
+1. Freeze the PINN residual API against
+   `examples/fracture2d/nonlocal_baseline.py` and
+   `pinn.operators.ExplicitVolumeSparseD` (no new math).
 2. Write a manufactured check that the PINN residual matches the direct
    `A2StaticMechanics`/Amor/AT2 evaluations on the same fields.
 3. Scale to the 3395-node cloud, then compare pre-drift states with the adopted

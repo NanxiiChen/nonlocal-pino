@@ -243,7 +243,7 @@ material cloud and its frozen `d048` graph:
 
 $$
 \frac{G_c}{\ell_0}d
--G_c\ell_0\,D_\delta d
++G_c\ell_0\,D_\delta d
 +2H d
 =2H ,
 \qquad\text{i.e.}\qquad

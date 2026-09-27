@@ -12,7 +12,9 @@
   `3.2e-13`). The lean-refactor task is archived under
   [`docs/tasks/archive/`](tasks/archive/fracture2d-lean-direct-solver.md).
 - The PINN stage must reuse the same graph, A2 energy, Amor history, and AT2
-  residual from `examples/fracture2d/nonlocal_baseline.py`.
+  residual from `examples/fracture2d/nonlocal_baseline.py` and the shared
+  `pinn.operators.ExplicitVolumeSparseD`. Documentation handoff is corrected;
+  next: freeze the PINN residual API and check it against direct evaluations.
 - A coverage trace of the real strict + warning + `verify` + `plot` paths
   reaches every top-level definition, so no further free dead-code reduction
   remains; the next size reduction would be a validated core rewrite.
