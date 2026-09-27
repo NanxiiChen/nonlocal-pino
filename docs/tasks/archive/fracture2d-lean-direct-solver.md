@@ -136,3 +136,21 @@ adopted `fixed` + `stabilized_warning` path only:
   differences `<= 5.7e-12`. Static `model_digest`/`static_digest` unchanged.
 - Retained tests pass `10/10`; `verify` on the archived full solution still
   reports 76 states, 10 warnings, peak `641.34017`.
+
+## 2026-09-27 — Closed: default behavior confirmed against the archived solution
+
+- Final code: `examples/fracture2d/nonlocal_baseline.py`, `11,374` lines,
+  GPU-only single file.
+- Second risky pass removed the Anderson scalar-event validation chain and the
+  unused JAX public diagnostics (`12,188 -> 11,374` lines) with the same GPU
+  strict + warning regression evidence (warning reactions/statuses bit-identical
+  to the pre-pass file; `model_digest`/`static_digest` unchanged).
+- Default-path confirmation: a fresh run `0 -> 0.001` (10 strict steps, current
+  defaults) matches the archived fresh solution to `4.3e-19` on loads, all
+  `stabilized_converged` with matching warning flags, reaction max relative
+  difference `4.2e-10`, displacement `3.2e-13`, damage `4.3e-11`, history
+  `5.7e-9`.
+- Coverage trace of the real strict + warning + `verify` + `plot` paths reaches
+  every top-level definition (`0` fully unexecuted), so no free dead-code
+  reduction remains.
+- Archived. Next stage: [`fracture2d-nonlocal-pinn.md`](../fracture2d-nonlocal-pinn.md).

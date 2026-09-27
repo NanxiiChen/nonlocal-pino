@@ -2981,13 +2981,7 @@ def _j_require_dynamic_float64(
         raise ValueError(f"{name} must contain only finite values")
     return array
 
-def _j_require_finite_device_result(values: Any, name: str) -> None:
-    leaves = jax.tree_util.tree_leaves(values)
-    finite = jnp.all(
-        jnp.stack([jnp.all(jnp.isfinite(value)) for value in leaves])
-    )
-    if not bool(np.asarray(jax.device_get(finite))):
-        raise FloatingPointError(f"{name} contains non-finite values")
+
 
 def _j_dynamic_float_scalar(
     value: Any,
@@ -3358,12 +3352,6 @@ class JaxA2UnionMechanics:
 
         self._trace_counts = {"solve": 0}
         self._compiled_solve = jax.jit(self._traced_solve)
-        self._compiled_residual = jax.jit(self._residual_public)
-        self._compiled_energy = jax.jit(self._energy_public)
-        self._compiled_tangent = jax.jit(self._tangent_public)
-        self._compiled_blocks = jax.jit(self._block_diagonal_public)
-        self._compiled_inverse_blocks = jax.jit(self._block_inverse_public)
-        self._compiled_preconditioner = jax.jit(self._preconditioner_public)
         self._compiled_center_weights = jax.jit(self._center_weights)
 
     def _put(self, values: Any) -> jax.Array:
@@ -3851,92 +3839,31 @@ class JaxA2UnionMechanics:
             **evaluation,
         }
 
-    def _residual_public(self, damage: jax.Array, displacement: jax.Array) -> jax.Array:
-        return self._residual_from_factor(self._edge_factor(damage), displacement)
 
-    def _energy_public(self, damage: jax.Array, displacement: jax.Array) -> jax.Array:
-        return self._energy_from_factor(self._edge_factor(damage), displacement)
 
-    def _tangent_public(self, damage: jax.Array, direction: jax.Array) -> jax.Array:
-        return self._tangent_from_factor(self._edge_factor(damage), direction)
 
-    def _block_diagonal_public(self, damage: jax.Array) -> jax.Array:
-        return self._block_diagonal_from_factor(self._edge_factor(damage))
 
-    def _block_inverse_public(self, damage: jax.Array) -> jax.Array:
-        return self._block_inverse_from_factor(self._edge_factor(damage))
 
-    def _preconditioner_public(self, damage: jax.Array, vector: jax.Array) -> jax.Array:
-        inverse_blocks = self._block_inverse_from_factor(self._edge_factor(damage))
-        return self._preconditioner_from_inverse(vector, inverse_blocks)
 
-    def center_weights(self, damage: Any) -> jax.Array:
-        """Return the exact phase center weights for a material damage field."""
 
-        _j_require_x64_enabled()
-        result = self._compiled_center_weights(
-            self._put(
-                _j_require_dynamic_float64(damage, "material damage", (self.n_material,))
-            )
-        )
-        _j_require_finite_device_result(result, "JAX A2 center weights")
-        return result
 
-    def residual(self, damage: Any, displacement: Any) -> jax.Array:
-        _j_require_x64_enabled()
-        damage_device = self._prepare_damage(damage)
-        displacement_array = _j_require_dynamic_float64(
-            displacement, "displacement", (self.n_dofs,)
-        )
-        result = self._compiled_residual(damage_device, self._put(displacement_array))
-        _j_require_finite_device_result(result, "JAX A2 residual")
-        return result
 
-    def energy(self, damage: Any, displacement: Any) -> jax.Array:
-        _j_require_x64_enabled()
-        damage_device = self._prepare_damage(damage)
-        displacement_array = _j_require_dynamic_float64(
-            displacement, "displacement", (self.n_dofs,)
-        )
-        result = self._compiled_energy(damage_device, self._put(displacement_array))
-        _j_require_finite_device_result(result, "JAX A2 energy")
-        return result
 
-    def tangent_action(self, damage: Any, direction: Any) -> jax.Array:
-        """Apply the analytic flattened plane-strain Hessian action."""
 
-        _j_require_x64_enabled()
-        damage_device = self._prepare_damage(damage)
-        direction_array = _j_require_dynamic_float64(direction, "direction", (self.n_dofs,))
-        result = self._compiled_tangent(damage_device, self._put(direction_array))
-        _j_require_finite_device_result(result, "JAX A2 tangent action")
-        return result
 
-    def tangent_block_diagonal(self, damage: Any) -> jax.Array:
-        """Return exact particle-local tangent blocks for fixed damage."""
 
-        _j_require_x64_enabled()
-        result = self._compiled_blocks(self._prepare_damage(damage))
-        _j_require_finite_device_result(result, "JAX A2 tangent block diagonal")
-        return result
 
-    def block_jacobi_inverse(self, damage: Any) -> jax.Array:
-        """Return the exact masked closed-form block-Jacobi inverse."""
 
-        _j_require_x64_enabled()
-        result = self._compiled_inverse_blocks(self._prepare_damage(damage))
-        _j_require_finite_device_result(result, "JAX A2 block-Jacobi inverse")
-        return result
 
-    def apply_block_jacobi(self, damage: Any, vector: Any) -> jax.Array:
-        """Apply the exact masked block-Jacobi preconditioner to a free vector."""
 
-        _j_require_x64_enabled()
-        damage_device = self._prepare_damage(damage)
-        vector_array = _j_require_dynamic_float64(vector, "free vector", (self.n_free,))
-        result = self._compiled_preconditioner(damage_device, self._put(vector_array))
-        _j_require_finite_device_result(result, "JAX A2 block-Jacobi application")
-        return result
+
+
+
+
+
+
+
+
 
     def solve(
         self,
@@ -7314,12 +7241,7 @@ STABILIZED_FAILURE_ARCHIVE_SCHEMA = (
 STABILIZED_REPLAY_CONTRACT = "fracture2d-engineering-grip-stabilized-replay-v5"
 STABILIZED_ARCHIVE_LAYOUT = "accepted-state-plus-final-solver-summary-v5"
 
-STABILIZED_ANDERSON_POLICIES = (
-    "anderson",
-    "anderson_residual",
-    "anderson_residual_backtracking",
-    "anderson_residual_regularized_backtracking",
-)
+
 
 
 
@@ -7330,12 +7252,8 @@ STABILIZED_ANDERSON_MAX_BACKTRACKS = 4
 
 
 
-STABILIZED_ANDERSON_RESIDUAL_BACKTRACKING_MERIT_IDENTITY = (
-    "committed_history_map_residual_backtracking_v1"
-)
-STABILIZED_ANDERSON_REGULARIZED_MERIT_IDENTITY = (
-    "committed_history_map_residual_regularized_backtracking_v1"
-)
+
+
 
 
 
@@ -7425,68 +7343,15 @@ _s_FLOAT64 = np.dtype(np.float64)
 
 
 
-ANDERSON_RESIDUAL_HARD_GATE_ATTRIBUTION_SCHEMA = (
-    "fracture2d-engineering-grip-anderson-residual-hard-gates-v3"
-)
 
-ANDERSON_RESIDUAL_HARD_GATE_NAMES = (
-    "finite",
-    "mechanics_before",
-    "mechanics_after",
-    "force",
-    "moment",
-    "damage_range_lower",
-    "damage_range_upper",
-    "healing",
-    "history_ordering",
-)
-_s_ANDERSON_HARD_GATE_DETAIL_FIELDS = (
-    "available",
-    "passed",
-    "raw",
-    "scale",
-    "limit",
-    "normalized",
-    "ratio_available",
-    "metric_reason",
-    "stage_reason",
-    "cg_info",
-    "cg_status_pass",
-    "residual_limit_pass",
-    "stage_metrics",
-)
-_s_ANDERSON_HARD_GATE_STAGE_NAMES = ("before", "after")
-_s_ANDERSON_HARD_GATE_STATUSES = (
-    "evaluated",
-    "not_evaluated",
-    "candidate_map_failure",
-)
-_s_ANDERSON_HARD_GATE_STAGE_METRIC_FIELDS = (
-    "error",
-    "scale",
-    "limit",
-    "normalized",
-    "ratio_available",
-    "passed",
-)
-_s_ANDERSON_HARD_GATE_METRIC_REASONS = {
-    "finite": "boolean_gate",
-    "mechanics_before": "cg_info_and_free_residual_limit",
-    "mechanics_after": "cg_info_and_free_residual_limit",
-    "force": "stage_worst_ratio_and_conjunction",
-    "moment": "stage_worst_ratio_and_conjunction",
-    "damage_range_lower": "damage_range_excess_and_limit",
-    "damage_range_upper": "damage_range_excess_and_limit",
-    "healing": "healing_excess_and_limit",
-    "history_ordering": "history_ordering_excess_and_zero_limit",
-}
-_s_ANDERSON_HARD_GATE_UNAVAILABLE_REASONS = {
-    "candidate_not_fully_evaluated",
-    "mechanics_before_not_evaluated",
-    "mechanics_after_not_evaluated",
-    "damage_not_evaluated",
-    "history_not_evaluated",
-}
+
+
+
+
+
+
+
+
 
 def _s_validate_stabilized_acceptance_mode(value: Any) -> str:
     if not isinstance(value, str) or value not in STABILIZED_ACCEPTANCE_MODES:
@@ -7496,8 +7361,7 @@ def _s_validate_stabilized_acceptance_mode(value: Any) -> str:
         )
     return value
 
-def _s_is_anderson_policy(policy: str) -> bool:
-    return policy in STABILIZED_ANDERSON_POLICIES
+
 
 
 
@@ -7931,12 +7795,7 @@ class StabilizedRelaxationTrial:
         ):
             raise TypeError("relaxation trial candidate diagnostics have the wrong type")
         hard_gate_attribution = self.candidate_hard_gate_attribution
-        if hard_gate_attribution is not None:
-            if not isinstance(hard_gate_attribution, Mapping):
-                raise TypeError(
-                    "relaxation trial hard-gate attribution has the wrong type"
-                )
-            _s_validate_anderson_scalar_event(hard_gate_attribution)
+
         d_trial = _s_optional_f64(self.d_trial, "relaxation trial d_trial")
         q_after = _s_optional_f64(self.q_after, "relaxation trial q_after")
         if merit is not None and merit < 0.0:
@@ -9197,38 +9056,9 @@ def _s_candidate_merit(
 
 
 
-def _s_anderson_force_moment_stage_severity(
-    metric: Mapping[str, Any],
-) -> tuple[int, float]:
-    """Return the deterministic severity key for one force/moment stage.
 
-    A positive error against a zero limit is an infinite normalized violation,
-    even though its ratio is intentionally unavailable.  A zero error against
-    a zero limit is an exact pass and therefore has zero severity.  Positive
-    limits use their available normalized ratio.  The canonical stage order is
-    used by ``max`` for ties.
-    """
 
-    error = float(metric["error"])
-    limit = float(metric["limit"])
-    if limit == 0.0:
-        return (2, error) if error > 0.0 else (0, 0.0)
-    normalized = metric["normalized"]
-    if normalized is None:
-        raise ValueError("positive force/moment limit is missing its ratio")
-    return (1, float(normalized))
 
-def _s_anderson_force_moment_worst_stage(
-    stage_metrics: Mapping[str, Mapping[str, Any]],
-) -> str:
-    """Return the canonical worst force/moment stage without new evaluation."""
-
-    if tuple(stage_metrics) != _s_ANDERSON_HARD_GATE_STAGE_NAMES:
-        raise ValueError("force/moment stage metrics are not canonical")
-    return max(
-        _s_ANDERSON_HARD_GATE_STAGE_NAMES,
-        key=lambda name: _s_anderson_force_moment_stage_severity(stage_metrics[name]),
-    )
 
 
 
@@ -9459,655 +9289,11 @@ def _s_progress_json_safe(value: Any) -> Any:
 
 
 
-def _s_anderson_json_scalar(value: Any, name: str) -> float | None:
-    """Validate one optional finite JSON number used by gate attribution."""
 
-    if value is None:
-        return None
-    if isinstance(value, (bool, np.bool_)) or not isinstance(
-        value, (int, float, np.integer, np.floating)
-    ):
-        raise ValueError(f"{name} must be a finite JSON number or null")
-    result = float(value)
-    if not np.isfinite(result):
-        raise ValueError(f"{name} must be finite")
-    return result
 
-def _s_anderson_json_integer(value: Any, name: str) -> int:
-    """Validate one non-negative JSON integer used by scalar provenance."""
 
-    if isinstance(value, bool) or not isinstance(value, int):
-        raise ValueError(f"{name} must be a JSON integer")
-    result = int(value)
-    if result < 0:
-        raise ValueError(f"{name} must be non-negative")
-    return result
 
-def _s_validate_anderson_scalar_event(event: Mapping[str, Any]) -> None:
-    """Validate the optional current residual hard-gate fields.
 
-    Historical scalar streams predate these fields, so absence is explicitly
-    accepted.  Once present, however, the record is checked as a complete
-    canonical attribution: every metric has one declared meaning, unavailable
-    gates cannot retain numeric provenance, the ordered failed list must be
-    derivable from the per-gate booleans, and numerical candidate-map failure
-    is distinct from a hard-gate rejection.  This is scalar contract
-    validation, not an additional physical solve.
-    """
-
-    if not isinstance(event, Mapping):
-        raise TypeError("Anderson scalar diagnostic event must be a mapping")
-    trial_alpha_present = "trial_alpha" in event
-    trial_alpha_index_present = "trial_alpha_index" in event
-    identity = event.get("selection_merit_identity")
-    trial_record = event.get("record_type") in ("proposal", "sweep")
-    record_type = event.get("record_type")
-    backtracking_identity = identity in {
-        STABILIZED_ANDERSON_RESIDUAL_BACKTRACKING_MERIT_IDENTITY,
-        STABILIZED_ANDERSON_REGULARIZED_MERIT_IDENTITY,
-    }
-    if trial_alpha_index_present and (
-        not backtracking_identity or record_type != "proposal"
-    ):
-        raise ValueError(
-            "trial_alpha_index is valid only on backtracked Anderson trial records"
-        )
-    if trial_alpha_present or (backtracking_identity and trial_record):
-        if not backtracking_identity or not trial_record:
-            raise ValueError(
-                "trial_alpha is valid only on backtracked Anderson trial records"
-            )
-        if not trial_alpha_present:
-            raise ValueError("backtracked Anderson trial record is missing trial_alpha")
-        alpha = _s_anderson_json_scalar(event.get("trial_alpha"), "trial_alpha")
-        if record_type == "proposal":
-            candidate_kind = event.get("candidate_kind")
-            if candidate_kind not in ("anderson_accelerated", "picard_fallback"):
-                raise ValueError("backtracked proposal candidate_kind is invalid")
-            if candidate_kind == "anderson_accelerated" and alpha is None:
-                raise ValueError("backtracked accelerated trial is missing trial_alpha")
-            if candidate_kind == "picard_fallback" and alpha is not None:
-                raise ValueError("backtracked Picard fallback retains trial_alpha")
-            if candidate_kind == "anderson_accelerated":
-                valid_alphas = tuple(
-                    STABILIZED_ANDERSON_ALPHA_REDUCTION**index
-                    for index in range(STABILIZED_ANDERSON_MAX_BACKTRACKS + 1)
-                )
-                if alpha not in valid_alphas:
-                    raise ValueError("trial_alpha is not on the configured schedule")
-                if not trial_alpha_index_present:
-                    raise ValueError(
-                        "backtracked accelerated trial is missing trial_alpha_index"
-                    )
-                alpha_index = _s_anderson_json_integer(
-                    event["trial_alpha_index"], "trial_alpha_index"
-                )
-                expected_alpha = _s_anderson_backtracking_alpha_for_index(
-                    alpha_index, "trial_alpha_index"
-                )
-                if alpha != expected_alpha:
-                    raise ValueError(
-                        "trial_alpha is not paired with trial_alpha_index"
-                    )
-            elif trial_alpha_index_present:
-                raise ValueError("backtracked Picard fallback retains trial_alpha_index")
-        else:
-            if trial_alpha_index_present:
-                raise ValueError("backtracked sweep retains trial_alpha_index")
-            selection = event.get("anderson_selection")
-            if selection not in ("accelerated", "picard_fallback"):
-                raise ValueError("backtracked sweep selection is invalid")
-            if selection == "accelerated" and alpha is None:
-                raise ValueError("backtracked accelerated sweep is missing trial_alpha")
-            if selection != "accelerated" and alpha is not None:
-                raise ValueError("backtracked non-accelerated sweep retains trial_alpha")
-            if "backtrack_count" not in event:
-                raise ValueError("backtracked sweep is missing backtrack_count")
-            backtrack_count = _s_anderson_json_integer(
-                event["backtrack_count"], "backtrack_count"
-            )
-            if selection == "accelerated":
-                valid_alphas = tuple(
-                    STABILIZED_ANDERSON_ALPHA_REDUCTION**index
-                    for index in range(STABILIZED_ANDERSON_MAX_BACKTRACKS + 1)
-                )
-                if alpha not in valid_alphas:
-                    raise ValueError("trial_alpha is not on the configured schedule")
-                expected_alpha = _s_anderson_backtracking_alpha_for_index(
-                    backtrack_count, "backtrack_count"
-                )
-                if alpha != expected_alpha:
-                    raise ValueError(
-                        "trial_alpha is not paired with sweep backtrack_count"
-                    )
-    regularized_identity = (
-        identity == STABILIZED_ANDERSON_REGULARIZED_MERIT_IDENTITY
-    )
-    regularization_fields = {
-        "anderson_regularization_mu",
-        "anderson_current_residual_l2",
-        "anderson_regularization_lambda",
-        "anderson_unregularized_ls_residual_l2",
-        "anderson_coefficient_l2",
-    }
-    ambiguous_regularization_fields = {
-        "regularization_mu",
-        "regularization_lambda",
-        "unregularized_residual_norm",
-        "coefficient_norm",
-    }
-    ambiguous_present = ambiguous_regularization_fields.intersection(event)
-    if ambiguous_present:
-        raise ValueError(
-            "ambiguous legacy regularization diagnostics are forbidden: "
-            f"{sorted(ambiguous_present)}"
-        )
-    present_regularization_fields = regularization_fields.intersection(event)
-    if present_regularization_fields and not regularized_identity:
-        raise ValueError(
-            "regularization diagnostics require the regularized Anderson merit identity"
-        )
-    if regularized_identity and record_type in (
-        "anderson_proposal",
-        "proposal",
-        "sweep",
-    ):
-        if "anderson_coefficient_norm" in event:
-            raise ValueError(
-                "regularized Anderson scalar records must use "
-                "anderson_coefficient_l2"
-            )
-        missing_regularization = sorted(regularization_fields - set(event))
-        if missing_regularization:
-            raise ValueError(
-                "regularized Anderson scalar record is missing fields: "
-                f"{missing_regularization}"
-            )
-        mu = _s_anderson_json_scalar(
-            event["anderson_regularization_mu"], "anderson_regularization_mu"
-        )
-        if mu is None or mu <= 0.0:
-            raise ValueError("anderson_regularization_mu must be finite and positive")
-        current_residual_l2 = _s_anderson_json_scalar(
-            event["anderson_current_residual_l2"],
-            "anderson_current_residual_l2",
-        )
-        regularization_lambda = _s_anderson_json_scalar(
-            event["anderson_regularization_lambda"],
-            "anderson_regularization_lambda",
-        )
-        unregularized_ls_residual_l2 = _s_anderson_json_scalar(
-            event["anderson_unregularized_ls_residual_l2"],
-            "anderson_unregularized_ls_residual_l2",
-        )
-        coefficient_l2 = _s_anderson_json_scalar(
-            event["anderson_coefficient_l2"], "anderson_coefficient_l2"
-        )
-        if regularization_lambda is not None and current_residual_l2 is None:
-            raise ValueError(
-                "anderson_regularization_lambda lacks current residual l2"
-            )
-        if regularization_lambda is not None and regularization_lambda < 0.0:
-            raise ValueError("anderson_regularization_lambda must be non-negative")
-        if current_residual_l2 is not None and current_residual_l2 < 0.0:
-            raise ValueError("anderson_current_residual_l2 must be non-negative")
-        if (
-            unregularized_ls_residual_l2 is not None
-            and unregularized_ls_residual_l2 < 0.0
-        ):
-            raise ValueError(
-                "anderson_unregularized_ls_residual_l2 must be non-negative"
-            )
-        if coefficient_l2 is not None and coefficient_l2 < 0.0:
-            raise ValueError("anderson_coefficient_l2 must be non-negative")
-        if (
-            regularization_lambda is not None
-            and current_residual_l2 is not None
-            and not _s_anderson_scalar_relation_close(
-                regularization_lambda,
-                mu * current_residual_l2**2,
-            )
-        ):
-            raise ValueError(
-                "anderson_regularization_lambda is not paired with mu and current residual l2"
-            )
-    detail_key = "hard_gate_diagnostics"
-    failed_key = "failed_hard_gates"
-    schema_key = "hard_gate_attribution_schema"
-    present_details = detail_key in event
-    present_failed = failed_key in event
-    present_schema = schema_key in event
-    present_status = "hard_gate_status" in event
-    if not (present_details or present_failed or present_schema):
-        if present_status:
-            raise ValueError(
-                "hard_gate_status cannot appear without hard-gate attribution"
-            )
-        return
-    if present_details != present_failed:
-        raise ValueError(
-            "residual hard-gate attribution must contain both diagnostics and failed list"
-        )
-    if not present_details:
-        raise ValueError(
-            "hard_gate_attribution_schema cannot appear without hard-gate attribution"
-        )
-    if not present_schema:
-        raise ValueError("hard-gate attribution is missing its schema")
-    if event.get("record_type") not in (None, "proposal"):
-        raise ValueError(
-            "residual hard-gate attribution is valid only on proposal records"
-        )
-    if not present_status:
-        raise ValueError("v3 hard-gate attribution is missing hard_gate_status")
-    hard_gate_status = event["hard_gate_status"]
-    if hard_gate_status not in _s_ANDERSON_HARD_GATE_STATUSES:
-        raise ValueError("residual hard-gate attribution status is invalid")
-    candidate_map_status = event.get("candidate_map_status")
-    if "schema" in event and candidate_map_status is None:
-        raise ValueError("v3 proposal attribution is missing candidate_map_status")
-    if candidate_map_status is not None:
-        if candidate_map_status not in {"completed", "failed", "not_requested"}:
-            raise ValueError("hard-gate attribution has invalid candidate_map_status")
-        candidate_map_failure = hard_gate_status == "candidate_map_failure"
-        if candidate_map_failure != (candidate_map_status == "failed"):
-            raise ValueError(
-                "hard-gate status is inconsistent with candidate_map_status"
-            )
-        if candidate_map_failure and (
-            event.get("candidate_kind") != "anderson_accelerated"
-            or event.get("failure_stage") != "anderson_candidate_damage"
-            or event.get("complete") is not False
-        ):
-            raise ValueError(
-                "candidate-map failure has inconsistent candidate context"
-            )
-    if hard_gate_status == "not_evaluated" and (
-        "schema" in event or candidate_map_status is not None
-    ) and (
-        event.get("candidate_kind") != "anderson_accelerated"
-        or candidate_map_status != "not_requested"
-        or event.get("complete") is not False
-        or event.get("failure_stage")
-        not in {"anderson_candidate_finite", "mechanics_after"}
-    ):
-        raise ValueError("not-evaluated hard-gate attribution has inconsistent context")
-    if present_schema and event[schema_key] != ANDERSON_RESIDUAL_HARD_GATE_ATTRIBUTION_SCHEMA:
-        raise ValueError("hard-gate attribution schema is invalid")
-    details = event[detail_key]
-    if not isinstance(details, Mapping) or tuple(details) != tuple(
-        ANDERSON_RESIDUAL_HARD_GATE_NAMES
-    ):
-        raise ValueError("hard_gate_diagnostics do not contain canonical gate names")
-    if "hard_pass" not in event or type(event["hard_pass"]) is not bool:
-        raise ValueError("residual hard-gate attribution requires hard_pass")
-
-    expected_detail_fields = tuple(_s_ANDERSON_HARD_GATE_DETAIL_FIELDS)
-
-    def check_ratio(
-        item: Mapping[str, Any],
-        gate_name: str,
-        *,
-        strict: bool,
-    ) -> bool:
-        raw_value = _s_anderson_json_scalar(item["raw"], f"{gate_name}.raw")
-        limit_value = _s_anderson_json_scalar(item["limit"], f"{gate_name}.limit")
-        if raw_value is None or limit_value is None:
-            raise ValueError(f"{gate_name} requires finite raw and limit metrics")
-        if raw_value < 0.0 or limit_value < 0.0:
-            raise ValueError(f"{gate_name} raw/limit metrics must be non-negative")
-        expected_ratio_available = limit_value > 0.0
-        if type(item["ratio_available"]) is not bool or item[
-            "ratio_available"
-        ] != expected_ratio_available:
-            raise ValueError(f"{gate_name}.ratio_available is inconsistent")
-        normalized = _s_anderson_json_scalar(
-            item["normalized"], f"{gate_name}.normalized"
-        )
-        if expected_ratio_available:
-            if normalized is None:
-                raise ValueError(f"{gate_name}.normalized is missing")
-            expected_normalized = raw_value / limit_value
-            if not np.isclose(
-                normalized,
-                expected_normalized,
-                rtol=2.0e-12,
-                atol=2.0e-15,
-            ):
-                raise ValueError(f"{gate_name}.normalized is not raw/limit")
-        elif normalized is not None:
-            raise ValueError(
-                f"{gate_name}.normalized must be null when its limit is zero"
-            )
-        return raw_value < limit_value if strict else raw_value <= limit_value
-
-    def check_stage_metric(
-        item: Mapping[str, Any], gate_name: str, stage_name: str
-    ) -> dict[str, Any]:
-        if not isinstance(item, Mapping) or tuple(item) != tuple(
-            _s_ANDERSON_HARD_GATE_STAGE_METRIC_FIELDS
-        ):
-            raise ValueError(
-                f"{gate_name}.stage_metrics[{stage_name}] is not canonical"
-            )
-        error = _s_anderson_json_scalar(
-            item["error"], f"{gate_name}.{stage_name}.error"
-        )
-        scale = _s_anderson_json_scalar(
-            item["scale"], f"{gate_name}.{stage_name}.scale"
-        )
-        limit = _s_anderson_json_scalar(
-            item["limit"], f"{gate_name}.{stage_name}.limit"
-        )
-        normalized = _s_anderson_json_scalar(
-            item["normalized"], f"{gate_name}.{stage_name}.normalized"
-        )
-        if (
-            error is None
-            or scale is None
-            or limit is None
-            or error < 0.0
-            or scale < 0.0
-            or limit < 0.0
-        ):
-            raise ValueError(f"{gate_name}.{stage_name} metric is invalid")
-        expected_ratio_available = limit > 0.0
-        if type(item["ratio_available"]) is not bool or item[
-            "ratio_available"
-        ] != expected_ratio_available:
-            raise ValueError(
-                f"{gate_name}.{stage_name}.ratio_available is inconsistent"
-            )
-        if expected_ratio_available:
-            if normalized is None:
-                raise ValueError(
-                    f"{gate_name}.{stage_name}.normalized is missing"
-                )
-            expected_normalized = error / limit
-            if not np.isclose(
-                normalized,
-                expected_normalized,
-                rtol=2.0e-12,
-                atol=2.0e-15,
-            ):
-                raise ValueError(
-                    f"{gate_name}.{stage_name}.normalized is not error/limit"
-                )
-        elif normalized is not None:
-            raise ValueError(
-                f"{gate_name}.{stage_name}.normalized must be null when its limit is zero"
-            )
-        if type(item["passed"]) is not bool:
-            raise ValueError(f"{gate_name}.{stage_name}.passed must be boolean")
-        if item["passed"] != (error <= limit):
-            raise ValueError(
-                f"{gate_name}.{stage_name}.passed is inconsistent with error/limit"
-            )
-        return {
-            "error": error,
-            "scale": scale,
-            "limit": limit,
-            "normalized": normalized,
-            "ratio_available": item["ratio_available"],
-            "passed": item["passed"],
-        }
-
-    for gate_name in ANDERSON_RESIDUAL_HARD_GATE_NAMES:
-        item = details[gate_name]
-        if not isinstance(item, Mapping) or tuple(item) != expected_detail_fields:
-            raise ValueError(f"hard_gate_diagnostics[{gate_name}] is not canonical")
-        if (
-            type(item["available"]) is not bool
-            or type(item["passed"]) is not bool
-            or type(item["ratio_available"]) is not bool
-        ):
-            raise ValueError(
-                f"hard_gate_diagnostics[{gate_name}] availability/pass must be booleans"
-            )
-        stage_reason = item["stage_reason"]
-        if not item["available"]:
-            if type(stage_reason) is not str or stage_reason not in (
-                _s_ANDERSON_HARD_GATE_UNAVAILABLE_REASONS
-            ):
-                raise ValueError(
-                    f"hard_gate_diagnostics[{gate_name}] has a non-canonical unavailable reason"
-                )
-            if (
-                item["passed"]
-                or item["raw"] is not None
-                or item["scale"] is not None
-                or item["limit"] is not None
-                or item["normalized"] is not None
-                or item["ratio_available"]
-                or item["cg_info"] is not None
-                or item["cg_status_pass"] is not None
-                or item["residual_limit_pass"] is not None
-                or item["stage_metrics"] is not None
-            ):
-                raise ValueError(
-                    f"unavailable hard gate {gate_name} retains a metric or pass"
-                )
-            if item["metric_reason"] != "unavailable":
-                raise ValueError(
-                    f"unavailable hard gate {gate_name} has a metric reason"
-                )
-            continue
-
-        if stage_reason is not None:
-            raise ValueError(
-                f"hard_gate_diagnostics[{gate_name}] has an unexpected stage reason"
-            )
-        expected_reason = _s_ANDERSON_HARD_GATE_METRIC_REASONS[gate_name]
-        if item["metric_reason"] != expected_reason:
-            raise ValueError(
-                f"hard_gate_diagnostics[{gate_name}] has a non-canonical metric reason"
-            )
-
-        if gate_name == "finite":
-            if any(
-                item[field] is not None
-                for field in (
-                    "raw",
-                    "scale",
-                    "limit",
-                    "normalized",
-                    "cg_info",
-                    "cg_status_pass",
-                    "residual_limit_pass",
-                    "stage_metrics",
-                )
-            ) or item["ratio_available"]:
-                raise ValueError("finite hard gate cannot retain a numeric metric")
-            continue
-
-        if gate_name in {"mechanics_before", "mechanics_after"}:
-            cg_info = item["cg_info"]
-            if type(cg_info) is not int or cg_info < 0:
-                raise ValueError(f"{gate_name}.cg_info must be a non-negative integer")
-            if (
-                type(item["cg_status_pass"]) is not bool
-                or type(item["residual_limit_pass"]) is not bool
-            ):
-                raise ValueError(f"{gate_name} CG status fields must be booleans")
-            if item["scale"] is not None or item["stage_metrics"] is not None:
-                raise ValueError(f"{gate_name} cannot retain force/moment metrics")
-            raw_value = _s_anderson_json_scalar(item["raw"], f"{gate_name}.raw")
-            limit_value = _s_anderson_json_scalar(item["limit"], f"{gate_name}.limit")
-            if raw_value is None or limit_value is None or raw_value < 0.0 or limit_value < 0.0:
-                raise ValueError(f"{gate_name} residual metrics are invalid")
-            if item["cg_status_pass"] != (cg_info == 0):
-                raise ValueError(f"{gate_name}.cg_status_pass is inconsistent")
-            expected_residual_pass = limit_value > 0.0 and raw_value < limit_value
-            if item["residual_limit_pass"] != expected_residual_pass:
-                raise ValueError(f"{gate_name}.residual_limit_pass is inconsistent")
-            expected_pass = bool(
-                item["cg_status_pass"] and item["residual_limit_pass"]
-            )
-            if item["passed"] != expected_pass:
-                raise ValueError(f"{gate_name}.passed is inconsistent with the CG gate")
-            if check_ratio(item, gate_name, strict=True) != expected_residual_pass:
-                raise ValueError(f"{gate_name} residual threshold is inconsistent")
-            continue
-
-        if gate_name in {"force", "moment"}:
-            if any(
-                item[field] is not None
-                for field in ("cg_info", "cg_status_pass", "residual_limit_pass")
-            ):
-                raise ValueError(f"{gate_name} cannot retain CG-only fields")
-            stage_metrics = item["stage_metrics"]
-            if not isinstance(stage_metrics, Mapping) or tuple(stage_metrics) != tuple(
-                _s_ANDERSON_HARD_GATE_STAGE_NAMES
-            ):
-                raise ValueError(f"{gate_name}.stage_metrics are not canonical")
-            checked_stages = {
-                stage_name: check_stage_metric(
-                    stage_metrics[stage_name], gate_name, stage_name
-                )
-                for stage_name in _s_ANDERSON_HARD_GATE_STAGE_NAMES
-            }
-            raw_value = _s_anderson_json_scalar(item["raw"], f"{gate_name}.raw")
-            scale_value = _s_anderson_json_scalar(item["scale"], f"{gate_name}.scale")
-            limit_value = _s_anderson_json_scalar(item["limit"], f"{gate_name}.limit")
-            normalized = _s_anderson_json_scalar(
-                item["normalized"], f"{gate_name}.normalized"
-            )
-            if (
-                raw_value is None
-                or scale_value is None
-                or limit_value is None
-                or raw_value < 0.0
-                or scale_value < 0.0
-                or limit_value < 0.0
-            ):
-                raise ValueError(f"{gate_name} aggregate metric is invalid")
-            expected_ratio_available = limit_value > 0.0
-            if type(item["ratio_available"]) is not bool or item[
-                "ratio_available"
-            ] != expected_ratio_available:
-                raise ValueError(
-                    f"{gate_name}.ratio_available is inconsistent with its limit"
-                )
-            if expected_ratio_available:
-                if normalized is None:
-                    raise ValueError(f"{gate_name}.normalized is missing")
-            elif normalized is not None:
-                raise ValueError(
-                    f"{gate_name}.normalized must be null when its limit is zero"
-                )
-            worst_name = _s_anderson_force_moment_worst_stage(checked_stages)
-            worst = checked_stages[worst_name]
-            if expected_ratio_available:
-                if not np.isclose(
-                    normalized,
-                    worst["normalized"],
-                    rtol=2.0e-12,
-                    atol=2.0e-15,
-                ):
-                    raise ValueError(
-                        f"{gate_name}.normalized is not the worst stage ratio"
-                    )
-            for field, stage_field, value in (
-                ("raw", "error", raw_value),
-                ("scale", "scale", scale_value),
-                ("limit", "limit", limit_value),
-            ):
-                if not np.isclose(
-                    value,
-                    worst[stage_field],
-                    rtol=2.0e-12,
-                    atol=2.0e-15,
-                ):
-                    raise ValueError(
-                        f"{gate_name}.{field} is not the worst-stage representative"
-                    )
-            if expected_ratio_available and not np.isclose(
-                normalized,
-                raw_value / limit_value,
-                rtol=2.0e-12,
-                atol=2.0e-15,
-            ):
-                raise ValueError(f"{gate_name}.normalized is not raw/limit")
-            expected_pass = all(
-                checked_stages[stage_name]["passed"]
-                for stage_name in _s_ANDERSON_HARD_GATE_STAGE_NAMES
-            )
-            if item["passed"] != expected_pass:
-                raise ValueError(
-                    f"{gate_name}.passed is inconsistent with stage conjunction"
-                )
-            continue
-
-        if gate_name in {
-            "damage_range_lower",
-            "damage_range_upper",
-            "healing",
-        }:
-            if item["scale"] is not None or item["stage_metrics"] is not None:
-                raise ValueError(f"{gate_name} cannot retain stage metrics")
-            expected_pass = check_ratio(item, gate_name, strict=False)
-            if item["passed"] != expected_pass:
-                raise ValueError(f"{gate_name}.passed is inconsistent with raw/limit")
-            if any(
-                item[field] is not None
-                for field in ("cg_info", "cg_status_pass", "residual_limit_pass")
-            ):
-                raise ValueError(f"{gate_name} cannot retain CG-only fields")
-            continue
-
-        if gate_name == "history_ordering":
-            if any(
-                item[field] is not None
-                for field in (
-                    "normalized",
-                    "scale",
-                    "cg_info",
-                    "cg_status_pass",
-                    "residual_limit_pass",
-                    "stage_metrics",
-                )
-            ) or item["ratio_available"]:
-                raise ValueError("history ordering cannot claim a ratio")
-            raw_value = _s_anderson_json_scalar(item["raw"], "history_ordering.raw")
-            limit_value = _s_anderson_json_scalar(
-                item["limit"], "history_ordering.limit"
-            )
-            if raw_value is None or limit_value != 0.0 or raw_value < 0.0:
-                raise ValueError("history ordering metric is invalid")
-            if item["passed"] != (raw_value <= 0.0):
-                raise ValueError("history ordering pass is inconsistent")
-            continue
-
-        raise ValueError(f"unknown residual hard gate {gate_name}")
-
-    failed = event[failed_key]
-    if not isinstance(failed, list) or any(
-        type(name) is not str for name in failed
-    ):
-        raise ValueError("failed_hard_gates must be a string list")
-    expected_failed = [
-        name for name in ANDERSON_RESIDUAL_HARD_GATE_NAMES if not details[name]["passed"]
-    ]
-    if failed != expected_failed:
-        raise ValueError("failed_hard_gates do not match per-gate pass flags")
-    if hard_gate_status == "evaluated":
-        if event["hard_pass"] != (not expected_failed):
-            raise ValueError("hard_pass does not match failed_hard_gates")
-    elif hard_gate_status == "candidate_map_failure" and (
-        expected_failed or event["hard_pass"] is not False
-    ):
-        raise ValueError(
-            "candidate-map failure attribution must have no failed hard gates "
-            "and hard_pass=false"
-        )
-    elif hard_gate_status == "not_evaluated":
-        if event["hard_pass"] is not False or not any(
-            not details[name]["available"] for name in ANDERSON_RESIDUAL_HARD_GATE_NAMES
-        ):
-            raise ValueError(
-                "not-evaluated attribution must retain unavailable hard gates "
-                "and hard_pass=false"
-            )
 
 
 
@@ -10560,7 +9746,7 @@ def _s_run_stabilized_attempt(
     regularized_residual_backtracking_policy = False
     if mode != config.acceptance_mode:
         raise ValueError("stabilized attempt mode does not match configuration")
-    
+
     if type(reuse_selected_mechanics) is not bool:
         raise TypeError("reuse_selected_mechanics must be a boolean")
     if initial_damage is None:
@@ -11044,7 +10230,7 @@ def _s_run_stabilized_attempt(
                         and base_diag.mechanics_after_pass
                     )
                 )
-                
+
                 merit = _s_candidate_merit(
                     base_diag, fixed_point_error, fixed_point_scale, config
                 )
@@ -11085,13 +10271,13 @@ def _s_run_stabilized_attempt(
                         None
                     ),
                 )
-                
+
                 trials.append(trial)
                 if globalization_pass:
-                    
+
                     candidate_pass = coupled_pass
                     anderson_strict = False
-                    
+
                     if mode == STABILIZED_WARNING_ACCEPTANCE_MODE:
                         # Warning mode must not classify a raw range/healing
                         # defect as a strict pass.  The strict stabilized path
@@ -11198,9 +10384,9 @@ def _s_run_stabilized_attempt(
                     ),
                 )
                 trials.append(trial)
-                
 
-            
+
+
             break
             next_omega = _s_relaxation_omega(config, backtrack_count + 1)
             if next_omega == omega:
@@ -11304,7 +10490,7 @@ def _s_run_stabilized_attempt(
                 warning_healing_magnitude,
             ) = _s_stabilized_warning_acceptance_decision(selected_diag)
 
-        
+
 
         if selected_diag.passed or warning_acceptance:
             mechanics_reuse = None

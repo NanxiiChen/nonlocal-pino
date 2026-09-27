@@ -41,9 +41,10 @@ change the model.
 
 ## Status
 
-Queued. The direct stage is closing; the PINN task becomes active after the
-remaining lean-solver cleanup (see
-[`fracture2d-lean-direct-solver.md`](fracture2d-lean-direct-solver.md)).
+Active (next). The direct stage is closed: the single GPU-only solver
+`examples/fracture2d/nonlocal_baseline.py` is archived with confirmed default
+behavior against the archived solution
+([archived lean task](archive/fracture2d-lean-direct-solver.md)).
 
 ## Blocker
 

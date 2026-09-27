@@ -6054,3 +6054,22 @@ Template for each entry:
   core (unnecessary revalidation risk).
 - Related: `examples/fracture2d/nonlocal_baseline.py`,
   `docs/tasks/fracture2d-lean-direct-solver.md`.
+
+## 2026-09-27 — Close the direct stage: default behavior confirmed, lean task archived
+
+- Decision: Accept the two-pass lean refactor as the final direct-stage code
+  (`examples/fracture2d/nonlocal_baseline.py`, `11,374` lines, GPU-only),
+  archive the lean-refactor task, and make the nonlocal PINN task the active
+  next step.
+- Confirmation: a fresh default run `0 -> 0.001` (10 strict steps) matches the
+  archived fresh solution to `4.3e-19` on loads, with identical acceptance
+  statuses and warning flags, reaction max relative difference `4.2e-10`,
+  displacement `3.2e-13`, damage `4.3e-11`, and history `5.7e-9`;
+  `model_digest`/`static_digest` are unchanged and retained tests pass `10/10`.
+- Why stop trimming: a line-coverage trace of the real strict + warning +
+  `verify` + `plot` paths reaches every top-level definition (`0` fully
+  unexecuted). Further cuts would remove mandated validation or warning-audit
+  provenance, or require a core rewrite with a full GPU revalidation.
+- Related: `docs/tasks/archive/fracture2d-lean-direct-solver.md`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`,
+  `examples/fracture2d/nonlocal_baseline.py`.

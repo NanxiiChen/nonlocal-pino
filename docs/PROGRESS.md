@@ -4,20 +4,18 @@
 
 ## Current focus
 
-- Active task: [`docs/tasks/fracture2d-lean-direct-solver.md`](tasks/fracture2d-lean-direct-solver.md).
-  The adopted direct solver is now **one GPU-only file**,
-  `examples/fracture2d/nonlocal_baseline.py` (`12,188` lines): the
-  `src/pinn/nonlocal2d/` package was merged back with a behavior-preserving
-  linker (`45,346 -> 16,259` lines), the CPU CG reference path was removed
-  (the adapter is required, CPU replay evaluation stays authoritative), and the
-  research variants were parked under `_legacy/` (ignored). Verification:
-  `model_digest`/`static_digest` match the archived compact solution; entry
-  tests `4/4`; GPU CLI smoke `0 -> 2e-4` returns `25.34683561371731`; full
-  `verify`/`plot` pass. The Anderson / matched-load schedule / archive-budget dead code was then
-  removed, and non-`fixed` policies are rejected by configuration.
-- Next task (queued): [`docs/tasks/fracture2d-nonlocal-pinn.md`](tasks/fracture2d-nonlocal-pinn.md).
-  The PINN must reuse the same graph, A2 energy, Amor history, and AT2 residual
-  from `src/pinn/nonlocal2d/`.
+- Active task: [`docs/tasks/fracture2d-nonlocal-pinn.md`](tasks/fracture2d-nonlocal-pinn.md).
+  The direct stage is closed: the adopted solver is one GPU-only file,
+  `examples/fracture2d/nonlocal_baseline.py` (`11,374` lines), whose default
+  behavior was confirmed against the archived fresh solution (10 strict steps:
+  loads identical to `4.3e-19`, reaction difference `4.2e-10`, displacement
+  `3.2e-13`). The lean-refactor task is archived under
+  [`docs/tasks/archive/`](tasks/archive/fracture2d-lean-direct-solver.md).
+- The PINN stage must reuse the same graph, A2 energy, Amor history, and AT2
+  residual from `examples/fracture2d/nonlocal_baseline.py`.
+- A coverage trace of the real strict + warning + `verify` + `plot` paths
+  reaches every top-level definition, so no further free dead-code reduction
+  remains; the next size reduction would be a validated core rewrite.
 
 ## Direct nonlocal reference (adopted)
 
