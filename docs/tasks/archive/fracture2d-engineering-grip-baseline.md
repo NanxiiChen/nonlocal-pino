@@ -66,13 +66,18 @@ pointwise equivalence to the local FEM top boundary.
 
 ## Status
 
-Active: the engineering-grip diagnostic task retains the completed strict
+Paused by the user's 2026-09-24 switch to staggered adaptive load-step research:
+the engineering-grip diagnostic task retains the completed strict
 checkpoints and immutable historical artifacts. The approved isolated CPU
-`monolithic` strategy has now completed a physical smoke and a strict
-fresh-zero attempt toward `u_bar=0.0075`; the latter committed through
-`u_bar=0.0061` and terminated at its configured line-search/cutback limits.
-The completed read-only failure-state diagnosis is recorded at the end of this
-file. No farther continuation or solver change is currently authorized.
+`monolithic` strategy completed a physical smoke and a strict fresh-zero attempt
+toward `u_bar=0.0075`; the latter committed through `u_bar=0.0061` and terminated
+at its configured line-search/cutback limits. Canonical scratch reconstruction
+now passes `0.00611`, `0.006115`, and `0.006116`, but these states are not wired
+through verified-attempt, continuation, workflow, or archive contracts. Detailed
+`0.006117` diagnostics supersede the earlier avalanche-barrier interpretation.
+The authorized exact history elimination is now independently manufactured-
+verified as an isolated reduced `q-d` residual/JVP contract; it has no reduced
+solver, metric, preconditioner, or production dispatch.
 The archive now uses an explicit
 `accepted_mechanics_energy` field and `attempt_scalar_evidence` metadata,
 rejects ZIP64 content under the practical ZIP32 budget, hardens Linux
@@ -103,6 +108,19 @@ strictly failed and rolled back, while the deeper-alpha evidence is NO-GO.
 The prior implementation task is archived; this engineering-grip task remains
 the single active memory task.
 
+The second manufactured-only arc layer is implemented in the isolated
+`nonlocal_engineering_grip_monolithic_arc.py` module. It binds one exact
+reduced `q-d` owner/state/mask/config, derives the fracture-energy row scale
+from the strict damage correction semantics plus the documented float64
+constituent bound, evaluates changed-load trials with frozen equilibrium
+scales, and includes constrained load-direction DOFs in its rectangular
+metric. The old bordered map is retained for diagnostic evidence only; the
+arc solver uses the immutable parameter-free metric-scaled block-diagonal
+right preconditioner. A private signed-load owner path is used only for arc
+trials; the public fixed-load constructor remains unchanged. The focused arc
+suite is manufactured-only and does not add a verified attempt, continuation,
+workflow, archive, or physical run.
+
 The current workflow review corrections are tracked here: the shared
 `max_stagger_iterations` field must equal the documented `solver_base.py`
 compatibility value `100` and is never a monolithic iteration budget;
@@ -115,23 +133,44 @@ fields owner-validated independently of completion status.
 ## Blocker
 
 The exact `u_bar=0.0075` objective remains unmet. Stagger committed through
-`0.00623125`; monolithic committed through `0.0061`. The demonstrated common
-mechanism is a progressively near-unit, crack-tip-localized coupled feedback
-mode. Extending the monolithic Armijo budget from 12 to 14 backtracks passes
-iteration 8 but fails immediately at iteration 9, so finite budget is the
-immediate stop but deeper backtracking alone is not a remedy. This does not
-establish a physical fold, absence of equilibrium, or exact Schur singularity.
-A user decision is required before any solver change or new solve.
+`0.00623125`; the durable monolithic archive committed through `0.0061`.
+Canonical scratch states reach `0.006116`. At `0.006117`, the active mask settles
+but the explicit history unknown enters a trust-region two-cycle. Exact history
+elimination now removes that redundant unknown algebraically. The manufactured
+reduced and arc solvers remain isolated, with no verified-attempt layer,
+continuation dispatch, durable workflow, or physical execution. Manufactured
+correctness does not establish that the reduced nonlinear problem converges or
+reaches a farther physical state.
 
 ## Next Action
 
 Keep every completed/failure archive and prior diagnostic unchanged. Do not
 extend Armijo again, launch a broad parameter study, warning-accept, or treat
-rejected fields as a physical state. The globalization derivation/review is now
-complete and selects the right-preconditioned Krylov hookstep recorded at the
-end of this task. The next work requires separate manufactured-only
-implementation authorization, including explicit numerical controls and a new
-immutable audit schema; no physical execution is authorized.
+rejected fields as a physical state. The reduced and arc solvers remain
+manufactured-only; any verified attempt, strict continuation, workflow/archive
+integration, or physical continuation needs separate review and authorization.
+
+## 2026-09-24 — Complete the second manufactured arc foundation
+
+- Status: complete for the authorized isolated foundation scope. Added the
+  frozen augmented residual/JVP, committed-energy target and strict-derived
+  `LG` evidence, full-union rectangular metric, and bordered right
+  preconditioner. Added independent manufactured tests for mixed active masks,
+  changed-load trials, energy rows, metric rank/pure-load action, dense
+  bordered action, stale/foreign forgery, and immutable explicit signatures.
+- Scope guard: no outer nonlinear solver, verified attempt, continuation
+  controller, archive, workflow dispatch, or physical run was added.
+- Verification: the focused arc/reduced/monolithic battery passes `72/72` in
+  the repository `.venv`; the changed modules/test compile with `py_compile`,
+  and tracked plus new-file `git diff --check` validation passes. A forced
+  `JAX_PLATFORMS=cpu` rerun exposed one pre-existing reduced exact-array
+  two-ulp comparison difference; the default repository environment passes
+  the same `72/72` battery.
+- Blocker: primary Sol review remains required before selecting any arc controls
+  or physical continuation semantics.
+- Next action: review the frozen-owner identities, energy constituent
+  roundoff-bound derivation, constrained full-displacement metric rows, and
+  bordered denominator tolerance. Do not run a physical arc continuation.
 
 ## Frozen Smoke Contract
 
@@ -4245,3 +4284,849 @@ without dispatch, and manufactured-test rollback, basis reuse, radius floor and
 budget, finite acceptance, non-finite trial rejection, accepted active-set
 change, and mandatory rebuild signaling. Then run affected regressions and
 independent numerical/code review.
+
+## 2026-09-22 — Complete isolated manufactured hookstep outer controller
+
+- Added `run_monolithic_hookstep_correction(monolithic, z, gate_config,
+  active_mask, config)` plus `MonolithicHookstepTrial`,
+  `MonolithicHookstepCorrection`, `MonolithicHookstepControllerFailureAudit`,
+  and `MonolithicHookstepControllerFailure`. One call builds one canonical
+  metric, one preconditioner/Arnoldi model, starts at `trust_radius_initial`,
+  re-solves only the projected problem after rejected radius trials, evaluates
+  exact nonlinear trial residual under frozen scales, and returns after the
+  first accepted candidate with `rebuild_required=True` and an explicit
+  `active_set_changed` comparison.
+- The controller derives its own scales from the explicit `gate_config`; it
+  does not accept caller-supplied scale objects, closing the forged-scale path.
+  Rejected trials preserve the exact state, scales, active mask, metric, and
+  Arnoldi arrays; accepted corrections never continue under a stale model.
+- Terminal numerical evidence is complete: unrepresentable finite ratios,
+  subnormal radius-shrink underflow, rejection-budget exhaustion, radius-floor
+  crossing, trial `LinAlgError`, accepted-mask rebuild failure, and pre-model
+  scale/active-mask failures all raise immutable audits retaining the
+  triggering trial where one exists. Non-finite candidate/residual/actual
+  reduction follows explicit radius rejection, while a finite trial residual is
+  retained even when the derived actual reduction overflows.
+- Numerical hardening: `_stable_l2_norm` gives `beta` and the reference-residual
+  binding underflow safety; the projected reduction uses the stable
+  inner-product form; and the infeasible-step guard uses the exact
+  `radius + secular_rtol*radius` expression shared with the projected radius
+  tolerance.
+- Verification: focused hookstep controller `16/16`, hookstep core `19/19`, and
+  combined controller/core/residual/JVP/Newton `73/73`; changed modules compile;
+  `git diff --check` passes. Two independent reviews of the completed controller
+  report no remaining blockers.
+- No physical continuation was run, no artifact was written, and no solver,
+  Phase-2B, continuation, workflow, or archive path dispatches the controller.
+
+### Exact resume point
+
+Stop at the authorized boundary. Preserve the isolated controller and existing
+Armijo behavior. Do not select physical hookstep controls or add solver,
+workflow, archive, or continuation dispatch without a new explicit
+authorization. If integration is authorized, first design and manufactured-test
+the outer multi-correction Newton loop (accepted-correction rebuild and
+convergence gates) before any physical target attempt.
+
+## 2026-09-22 — Read-only single-step hookstep probe at the failure iterate
+
+- Only the authoritative failure bundle was read; no state or artifact was
+  written. The exploratory hookstep controls are explicit dimensionless test
+  values and are not an authorized physical-run configuration.
+- Reconstructed the owner model from the manifest execution command, read the
+  committed `u_bar=0.0061000000000000325` state (digest `49fefd99...`) directly
+  from `archive.npz`, rebuilt the exact archived engineering/newton configs, and
+  formed the authoritative predictor with `_continuation_expected_initial_z`.
+- Reproduced the production failure in memory in `121.5s`:
+  `solve_monolithic_newton` failed at stage `line_search` with
+  `line search backtrack budget exhausted`, yielding the exact failure iterate
+  `current_z` with scaled residual norm `2.562367e6` and `2383/3395` active
+  particles.
+- Single `run_monolithic_hookstep_correction` at that frozen iterate with
+  `max_krylov_dimension=32` and `trust_radius_initial=1.0`:
+  - radius `1.0`, `0.25`, `0.0625`, `0.015625` rejected with negative actual
+    reduction (`rho` far below `eta_accept`);
+  - radius `0.00390625 = 2^-8` accepted with `rho=0.913604943391082` and actual
+    reduction `2.986334353397521e12`;
+  - `active_set_changed=True`; controller returned `rebuild_required=True` and
+    `next_radius=0.0078125` (`2*radius`, expanded).
+- Conclusion: at the exact iterate where Armijo globalisation failed, the
+  bounded right-preconditioned hookstep finds a positively reducing step and a
+  high-quality model ratio. This is a positive signal that the trust-region
+  route addresses the near-unit notch-tip mode; it is a single frozen-model
+  correction only and does not by itself prove the `0.00615` target is
+  reachable.
+
+### Exact resume point
+
+If authorized, implement and manufactured-test the outer multi-correction
+trust-region Newton loop (accepted-correction rebuild, convergence/active-set
+gates) and then run one bounded physical target from the committed `0.0061`
+state. Do not select production hookstep controls or run a physical target
+without a new explicit authorization.
+
+## 2026-09-22 — Complete the trust-region Newton solver
+
+- Added the fixed-load trust-region Newton solver
+  `solve_monolithic_hookstep_newton(monolithic, initial_z, config, gate_config)`
+  with `MonolithicTrustRegionConfig` (`max_newton_iterations` + hookstep
+  controls), `MonolithicTrustRegionDiagnostics`,
+  `MonolithicTrustRegionResult`, `MonolithicTrustRegionFailureAudit`, and
+  `MonolithicTrustRegionFailure`. The accepted radius is carried across
+  iterations by rebuilding the frozen hookstep config with
+  `trust_radius_initial=next_radius`; the active set and row scales are rebuilt
+  after every accepted correction, and convergence uses the same strict gates
+  as the Armijo core (scaled block norms `<= 1`, active set stable, correction
+  gates).
+- Manufactured verification: `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_trust_region.py`
+  passes `23/23`, including perturbed-state convergence and radius reuse,
+  max-iteration and controller-failure audits, exact root, accepted-trial and
+  bare-hookstep-failure wrapping, and mid-loop exact-root staging. The combined
+  affected command passes `96/96`.
+- Read-only physical validation from the committed `0.0061` state (digest
+  `49fefd99...`), exploratory controls, no artifact written:
+  - target `0.00611` CONVERGED in `6` iterations (`47-69s`), final scaled block
+    norms `(2.78e-5, 1.21e-8, 1.00e-6)`;
+  - targets `0.00612` and `0.00615` did not converge within `40` iterations and
+    hit the iteration budget, with the radius collapsing near the notch-tip
+    near-unit mode.
+  - This is the first advance past `0.0061` in the monolithic path, but it
+    shows the peak-region increment must be small (`~1e-5`) rather than the
+    configured `du_min=5e-5`.
+- Two independent reviews found and closed three blockers (accepted-trial audit
+  scale/state pairing, escaping `MonolithicHookstepFailure`, mid-loop exact-root
+  crash) plus result/failure relational-validation gaps. The final reviews
+  report no remaining blockers.
+
+### Exact resume point
+
+The numerical trust-region solver is complete and manufactured-verified, and
+advances the real problem to `0.00611` in memory. It is not yet wired into
+`run_verified_monolithic_attempt`, the continuation controller, the workflow,
+or the archive. Before any physical/durable run: (1) integrate the solver as an
+explicitly selected attempt runner while preserving the strict Phase-2B/canonical
+acceptance and archive schema, or define a new schema; (2) select an explicit
+near-peak increment schedule; (3) obtain explicit authorization for a bounded
+physical continuation. Do not silently overwrite existing artifacts.
+
+## 2026-09-23 — Monolithic avalanche barrier at 0.006116
+
+- Adaptive-increment continuation from the committed `0.0061` state with the
+  trust-region solver accepted `0.00611` (`du=1e-5`), `0.006115` (`du=5e-6`),
+  and `0.006116` (`du=1e-6`). Attempts at larger increments (`1e-5`, `2e-5`) were
+  rejected with the radius collapsing, and the accepted-state checkpoint is
+  `/tmp/opencode/continuation_state.npz` at `u_bar=0.006116000000000032`.
+- The barrier is not step size: from `0.006116` even `du=1e-6` to `0.006117`
+  fails at the Newton budget with scaled block norms `(4.26e2, 1.83e1, 1.34e1)`,
+  `rho=0.208`, radius `4.88e-6`. A single Newton trajectory at `0.00612` reaches
+  `rho=1` with `norms=(2.60e3, 9.2e1, 9.2e1)`, merit constant to seven digits,
+  and radius collapsing to `6.1e-7` — a least-squares/GN stationary point, not a
+  root. The Armijo path plus the trust-region solver from its failure iterate at
+  `0.00615` also stalls.
+- Diagnosis: the monolithic residual's history block is the nonsmooth
+  `H - max(H_committed, psi_plus)` complementarity. The frozen-mask Gauss-Newton
+  model cannot cross the avalanche where many particles flip active; every
+  finite trial in the GN direction increases the true residual while the model
+  predicts a decrease, so the trust region collapses to a spurious local minimum
+  of the least-squares merit. Equilibria at higher loads do exist (the exhausted
+  stabilized path reached `0.00623125`), so this is a globalization defect of the
+  monolithic Newton, not proof of nonexistence.
+- This matches the task's prior conclusion that a "materially new nonlinear
+  formulation (for example an independently derived monolithic
+  complementarity/semismooth-Newton method or a derived continuation
+  constraint)" is required, and that it must not be guessed.
+- No repository or archive artifact was written; all runs were in-memory and the
+  only outputs are `/tmp/opencode` logs and the checkpoint.
+
+### Exact resume point
+
+The monolithic trust-region route advances the strict-equilibrium state from
+`0.0061` to `0.006116` and is then blocked by the avalanche. The next decision
+is the mathematical one the task already flagged: approve and derive a
+semismooth/complementarity active-set globalization (or an explicit
+avalanche-jump/arc-length continuation constraint) for the history block, or
+stop with the improved but incomplete endpoint. Do not guess the formulation;
+do not silently relax the strict gates or reuse a rejected state as evidence.
+
+## 2026-09-23 — Correct the 0.006117 stall diagnosis
+
+- Reconstructed the chain from the authoritative committed `0.0061` state and
+  ran the canonical auxiliary sweep and Phase-2B-equivalent gates after each
+  accepted scratch solve. Targets `0.00611`, `0.006115`, and `0.006116` pass;
+  raw-to-canonical `L-infinity` differences are respectively `4.718004e-12`,
+  `1.080025e-12`, and `1.179501e-12`. The terminal scratch checkpoint is
+  `/tmp/opencode/canonical_trust_state.npz`. It is not a verified-attempt,
+  continuation, workflow, or archive artifact.
+- A detailed K32 run at `0.006117` records positive actual reduction on every
+  accepted correction. The active mask settles at `1887` particles by iteration
+  17 and remains bitwise fixed, so the earlier claim that ongoing active-set
+  flips prevent progress is false. At iteration 40 the scaled block norms are
+  `(425.390, 14.191, 15.313)` and both K32/K64 projected-gradient ratios are
+  large (`3.762`, `3.918`), disproving full Gauss-Newton stationarity there.
+- Suppressing radius expansion is not a remedy. It drives the radius down to
+  `9.5367431640625e-9` and terminates on projected/full prediction consistency.
+  At that state K32 reports a projected-gradient ratio `5.835e-5`, while an
+  independently rebuilt K64 space reports `0.3425`; the apparent K32
+  stationarity is only subspace exhaustion.
+- A direct 80-correction K64 run does not converge. It ends with scaled block
+  norms `(411.715, 12.898, 13.717)` and large K32/K64 projected-gradient ratios
+  (`3.974`, `3.977`). K64 improves the trajectory modestly but does not remove
+  the stall, so Krylov dimension alone is not the remedy.
+- Block diagnostics locate the fixed-mask stall in the explicit history
+  unknown. Once the mask is stable, each accepted correction changes `H` by
+  about `0.11528` in `L-infinity`, while the net two-correction history change
+  falls below `4.5e-5`; corresponding `q` and `d` two-correction changes are
+  about `1e-9` and `1e-8`. Residual vectors remain almost parallel (cosine above
+  `0.99998`). This is a numerical two-cycle under the tested normalized
+  continuum-product trust metric, not an active-mask cycle.
+- The earlier section's claims of a step-size-independent avalanche barrier,
+  full-space least-squares stationarity, and universally increasing finite
+  trials are superseded by this evidence. No repository solver, physical
+  equation, strict gate, durable archive, or authoritative data was changed by
+  these read-only diagnostics.
+
+### Exact resume point
+
+The next materially different option is exact algebraic elimination of the
+history unknown using the existing equation
+`H=max(H_committed, psi_plus(q))`, followed by an independently checked reduced
+residual/JVP derivation and manufactured-only tests. Because this changes the
+declared monolithic unknown set even though it preserves the history equation,
+obtain explicit user authorization before implementation. Do not select a new
+trust metric, arc-length constraint, or relaxed gate by inference.
+
+## 2026-09-23 — Complete manufactured exact history elimination
+
+- Added the isolated owner-bound `ReducedMonolithicGripResidual`. Its state is
+  exactly `(q,d)`; `history(...)` reconstructs
+  `H=max(H_committed, psi_plus(q))`, `lift(...)` embeds that state in the full
+  owner, and `residual(...)` requires the lifted history row to be exactly zero.
+- The strict mask remains `psi_plus > H_committed`; exact ties are inactive.
+  The reduced JVP recovers `delta_H=-J_Hq delta_q` under one frozen mask and
+  applies the full owner JVP to `(delta_q,delta_d,delta_H)`, retaining the
+  required `-J_dH J_Hq` damage-chain term and canonical full-row operation
+  order. Its history action must cancel exactly.
+- Independent test-only algebra rebuilds BA mechanics, Amor history, and the
+  cubic material damage graph. It verifies the reduced residual, history,
+  mixed active/inactive eliminated JVP, fixed-mask finite differences, exact
+  tie behavior, raw out-of-range damage evaluation, shape/dtype failures, and
+  input immutability. Independent and production operation orders differ in
+  history by only float64 roundoff, so only the canonical owner is used to
+  manufacture a bitwise exact tie.
+- Verification passes: focused residual `29/29`; combined residual/Newton/
+  hookstep/controller/trust-region `88/88`; changed-file `py_compile`; and
+  `git diff --check`. Independent numerical and code re-reviews found no
+  blocker.
+- No reduced scale type, preconditioner, trust metric, nonlinear solver,
+  verified-attempt/continuation/workflow/archive dispatch, physical run, or
+  artifact was added.
+
+### Exact resume point
+
+Stop at the authorized manufactured residual/JVP boundary. A future reduced
+solver requires a separately derived and authorized row scale, two-block
+preconditioner, trust metric (simple `q-d` product versus the non-diagonal
+history pullback are materially different), convergence gates, and immutable
+audit schema. Do not infer those choices from the full `q-d-H` hookstep and do
+not run a physical target before manufactured solver review and explicit run
+authorization.
+
+## 2026-09-23 — Authorize manufactured reduced solver implementation
+
+- Select lifted full-scale construction with only `Lq/Lrho` acting on reduced
+  mechanics/damage rows. The reconstructed nonlinear history correction and
+  active-set-stability gates remain mandatory.
+- Select the frozen differential pullback of the existing normalized `q/d/H`
+  metric through `delta_H=-J_Hq delta_q`; use a rectangular factor action and
+  rebuild after each accepted correction.
+- Select an explicitly right-oriented lower-triangular preconditioner retaining
+  the reduced history-chain lower-left block and omitting only the
+  mechanics-from-damage upper-right block.
+- Reuse the independently verified projected SVD, prediction, rejection, and
+  radius policy with reduced-specific state pairing and immutable audits.
+- Scope remains manufactured-only. Do not add durable integration, select
+  physical controls, or run a physical target.
+
+### Exact resume point
+
+Implement reduced scaling/metric/preconditioner and independent dense evidence
+first. Only after those pass, add the isolated reduced hookstep controller and
+fixed-load Newton loop with owner replay and failure audits. Preserve all full
+`q-d-H` APIs and behavior.
+
+## 2026-09-23 — Complete the manufactured reduced solver layer
+
+- Foundations: `ReducedMonolithicNewtonScales` (canonical exact-lift scales,
+  only `Lq/Lrho` act on reduced rows), `ReducedMonolithicTrustMetric` (frozen
+  rectangular differential pullback of the full normalized metric through
+  `delta_H=-J_Hq delta_q`), and
+  `ReducedMonolithicLowerTriangularRightPreconditioner` (exact `K`/`A_H` sparse
+  factors, retained `C_A` history chain, omitted upper-right mechanics block).
+  The reduced adapter freezes its owner binding, and metric/preconditioner
+  re-check construction-time owner pairing at apply time. `scaled_residual`
+  evaluates arbitrary nonlinear trial states under frozen row scales, matching
+  the full owner; `scaled_jvp`, metric, and preconditioner keep strict
+  reference-state pairing.
+- Solver: `run_reduced_monolithic_hookstep_correction(...)` and
+  `solve_reduced_monolithic_hookstep_newton(...)` with reduced-specific
+  immutable Arnoldi, trial, correction, controller-failure, diagnostics,
+  failure, and result types. Rejected radius trials reuse one frozen
+  state/scales/mask/metric/preconditioner/Arnoldi model; accepted corrections
+  rebuild all state-dependent data and require active-set comparison.
+  Convergence requires both scaled norms `<=1`, active-set stability, and the
+  displacement, damage, and reconstructed-history correction gates. Exact
+  roots (initial and mid-loop) bypass metric/Arnoldi; failures distinguish
+  radius rejection from hard inner algebra failure and retain partial audits.
+  `validate_with_owner` replays final residuals, scales, masks, JVP prediction,
+  and all correction metrics.
+- Verification: reduced foundation `7/7`; reduced trust-region `21/21`;
+  combined residual/reduced/newton/hookstep/controller/trust-region battery
+  `116/116`; changed-file `py_compile`; `git diff --check`. Two independent
+  reviews (numerical and code) found no blocker; their low-severity hardening
+  findings were then closed: accepted-correction metric state/digest/mask
+  pairing with a forgery test, a discriminating radius-slack regression, and
+  an exact-initial-root requirement for trial-free results.
+- Scope: the shared projected-hookstep core was extracted textually unchanged
+  and is used by both full and reduced wrappers; no workflow, continuation,
+  archive, CLI, verified-attempt, or physical-run dispatch exists for any
+  reduced symbol.
+
+### Exact resume point
+
+The authorized manufactured reduced solver layer is complete and independently
+reviewed. The user then authorized the reduced physical path to full loading
+(`u_bar=0.0075`): explicit controls reused from the already recorded full-run
+and exploratory physical probes, an isolated reduced physical attempt and
+continuation seam, bounded read-only probes from the committed `0.0061` state,
+and the full strict run with durable artifacts. Strict gates, no warning
+acceptance, and all prior artifacts remain mandatory.
+The full `q-d-H` solver, gates, archives, and authoritative artifacts remain
+unchanged.
+
+### Reduced physical path — 2026-09-23
+
+- Authorized scope and control-selection rule are recorded in
+  `docs/DECISIONS.md` (2026-09-23, reduced physical path to full loading).
+- Initial controls reuse the previously recorded dimensionless exploratory
+  values: `max_krylov_dimension=32`, `trust_radius_initial=0.01`,
+  `trust_radius_min=1e-14`, `max_radius_rejections=20`, `gamma_shrink=0.5`,
+  `secular_rtol=1e-12`, `max_newton_iterations=40`, with the archived strict
+  engineering gates and schedule (`du_initial=1e-4`, `du_min=5e-5`,
+  `cutback_factor=0.5`, `max_cutbacks=8`).
+- First step is a read-only in-memory probe from the authenticated committed
+  `u_bar=0.0061` state (digest `49fefd99...`) at `0.00611` upward to the former
+  `0.006117` barrier and beyond, using the auxiliary-sweep canonicalization
+  identical to the prior probes. No artifact is written by the probe.
+- A durable reduced artifact layer is required before a physical run is
+  claimed; its exact schema is selected only after the probe establishes that
+  the reduced path advances.
+
+### Reduced physical probe results — 2026-09-23
+
+- Hot-path equivalence-preserving optimizations were required first: exact-state
+  history memoization in `ReducedMonolithicGripResidual`, consumer scale checks
+  reduced to identity/state pairing (canonical full-scale validation remains at
+  construction), and the reduced history differential reuses the owner's cached
+  Amor first-variation factor. On the physical cloud a warm `scaled_jvp`
+  dropped from `2.59 s` to `0.061 s` and each trust-region iteration from
+  minutes to about `9 s`. The affected manufactured battery still passes
+  `116/116`.
+- Read-only probe from the authenticated committed `u_bar=0.0061` state
+  (digest `49fefd99...`), exploratory controls K32/`r0=0.01`/`rmin=1e-14`/
+  `max_rejections=20`/`gamma_shrink=0.5`, strict archived gates, auxiliary-sweep
+  canonicalization, no artifact written:
+  - `0.00611`: reduced Newton converged in `6` iterations (norms
+    `(3.09e-5, 1.69e-7)`), all canonical gates pass; the full trust-region
+    solver also converged in `6` iterations here.
+  - `0.006115`: converged in `7` iterations, all canonical gates pass.
+  - `0.006116`: converged in `6` iterations, all canonical gates pass.
+  - `0.006117` (`du=1e-6` from `0.006116`): the reduced trust-region loop
+    accepted iterations 1--12 with growing radius rejections, then failed hard
+    at controller iteration 13 with
+    `reduced hookstep projected/full prediction exceeds its tolerance`. This is
+    a different failure mode from the former full `q-d-H` history two-cycle.
+- Diagnosis of the `0.006117` failure and of a half-step `0.0061165` target is
+  in progress; no gate, tolerance, metric, or control has been changed.
+
+### Barrier diagnosis above 0.006116 — 2026-09-23
+
+- The reduced trust-region stall is not step size, Krylov dimension, or metric
+  choice. From the committed `0.006116` state:
+  - `du=5e-7` (`0.0061165`): radius collapses to `1e-14`, scaled norms plateau
+    at `(67.9, 6.58)`, controller radius-floor failure; read-only.
+  - `du=2.5e-7` (`0.00611625`): strictly converges in `6` iterations, all
+    canonical gates pass (digest `39ebc9d4...`).
+  - From `0.00611625`, the next `du=2.5e-7` (`0.0061165`) stalls at
+    `(68.4, 5.78)` after the full `40`-iteration budget; read-only.
+  - K64 at `0.0061165` stalls at `(66.1, 5.50)` and fails at iteration `34`;
+    K32 with the truncated direct `q-d` metric stalls at `(67.9, 5.82)`.
+- The authenticated strict stagger state at `u_bar=0.00623125`
+  (digest `a5e0e6b7...`, source failure archive `a1743d...`) is a strict root
+  of the reduced residual at its own load: scaled norms `(0.945, 2.0e-5)` and
+  `H(q) - H_committed = 0` bitwise. The monolithic predictor branch and this
+  stagger branch are joined by that authenticated state, not by a monolithic
+  solve through `0.0061165`.
+- Warm-starting the reduced continuation from that stagger state also stalls on
+  the next increment: `du=1.25e-6` plateaus at `(13.8, 2.55)` after `40`
+  iterations; `du=2.5e-7` plateaus at `(1.12, 0.43)` after `40` iterations.
+  The near-gate plateau is a least-squares/globalization stall, not a radius or
+  tolerance failure.
+- The warning archive state at `0.0063` has reduced scaled norms
+  `(0.966, 57.3)`: the warning branch is far from a strict root by the damage
+  equation. Read-only strict reduced solves from the warning states at `0.0063`
+  and `0.0075` are in progress to determine whether strict roots exist beyond
+  the stall and whether warning states are usable initial guesses only.
+- No gate, tolerance, metric, control, or artifact has been changed; all runs
+  are read-only scratch under `/tmp/opencode`.
+
+### Fold resolution and the strict full-loading endpoint — 2026-09-23
+
+- Fixed one shared spurious guard: `MonolithicHookstepDirection.__post_init__`
+  rejected a reconstructed metric norm using only
+  `radius + radius_tolerance`, even though the reconstructed norm may legally
+  carry the separately audited `metric_consistency_rtol` defect. It now uses the
+  same `radius * (1 + secular_rtol) / (1 - metric_consistency_rtol)` envelope
+  as the already reviewed radius decision. Affected battery after the fix:
+  `139/139` pass.
+- Strict-state status map of the damped stabilized-warning archive
+  (`engineering_grip_damped_warning_o5_u7p5e3_dumin6p25e6_s144.npz`, 76 states):
+  loads `0.0000`--`0.0059` are `stabilized_converged`; `0.0060`--`0.0068` and
+  `0.0071` are `stabilized_warning_accepted`; `0.0069`, `0.0070`, `0.0072`--
+  `0.0075` are `stabilized_converged`.
+- The strict full-loading endpoint is independently validated. Committed
+  `0.0074` state digest `70540ddc...` (stabilized_converged), seed `0.0075`
+  state digest `ddb3942f...` (stabilized_converged): the reduced Newton
+  converged in `2` iterations at `0.0075` with norms
+  `(2.28e-5, 4.19e-11)`, the auxiliary sweep passed, and all canonical gates
+  passed with norms `(2.29e-5, 1.07e-8, 0.0)`. The strict endpoint state digest
+  is `21f17cab24426184e9b6a65f6bd1d97195401d8e1307f8cbf527b9fdbb077689` with
+  `d_max = 9.999630e-01`.
+- The strict path between the stagger root at `0.00623125` and the strict
+  post-fold loads is blocked by history path dependence, not by the solver
+  controls: at the `0.0069` strict seed, the reduced damage norm is `1.5e3`
+  when committed from the `0.00623125` strict state, but `2.1e-4` when
+  committed from the warning-archive `0.0068` state. A history jump cannot be
+  made strict without resolving the intermediate loads.
+- Warning states are not usable strict seeds: the `0.0063` warning state
+  strictly polished from the `0.00623125` committed state diverged to
+  `(37.6, 147.3)` after `60` iterations and was correctly rejected.
+- Conclusion: a strictly gated *continuation* across the fold requires a
+  materially new globalization/continuation derivation (pseudo-transient,
+  arc-length, or semismooth complementarity). It is not reachable by the
+  currently derived step-size, Krylov, metric, preconditioner, or seed
+  controls, and no gate or equation was changed.
+
+### Fracture-energy arc-length authorization — 2026-09-24
+
+- The user selected fracture-energy-controlled arc-length continuation for the
+  strict fold crossing. The augmented unknown is `(q, d, u_bar)`; intermediate
+  load reversal is permitted. The path quantity must be the existing discrete
+  nonlocal AT2 fracture energy, derived from the repository operator rather than
+  copied from a local FEM expression.
+- The reduced equilibrium residual, exact
+  `H=max(H_committed, psi_plus(q))`, tie-inactive derivative, strict canonical
+  gates, and commit/rollback semantics remain unchanged. Trial iterates do not
+  update committed history; only a strictly accepted augmented equilibrium can
+  commit it.
+- Before physical execution, derive and independently manufacture-check the
+  discrete energy increment and derivative, exact reduced load column,
+  augmented metric and predictor orientation, bordered correction, step
+  adaptation/cutback, active-set rebuild, and immutable audits. Existing
+  fixed-load APIs and artifacts remain unchanged.
+
+## 2026-09-24 — Complete the fracture-energy arc-length foundation
+
+- Added the surface-only nonlocal AT2 energy and exact Euclidean gradient to
+  `MonolithicGripResidual`, using validated directed operator edges and the
+  existing material volumes. The quantity is independent of committed history
+  and evaluates raw damage without clipping.
+- Added the exact prescribed-load direction and the frozen-active reduced load
+  derivative to `ReducedMonolithicGripResidual`. It uses strict
+  `psi_plus > H_committed` masks, supports signed load increments, cancels the
+  full history row exactly, and returns the mechanics/damage reduced column.
+- Constructor validation now checks reciprocal directed edges, no self-edges or
+  duplicates, finite negative off-diagonal operator coefficients, and
+  volume-weighted self-adjointness before caching the surface graph data.
+- Added six independent manufactured tests for directed energy/gradient
+  formulas, directional finite differences, all-inactive/mixed/tie active sets,
+  float64/scalar/shape validation, raw out-of-range damage, history
+  independence, and input immutability.
+- Verification passes: arc-foundation `6/6`, combined residual/foundation/
+  reduced-Newton/reduced-trust-region battery `63/63`, changed-file
+  `py_compile`, and `git diff --check`.
+- Scope remains foundation-only: no augmented metric, predictor, bordered
+  correction, step controller, nonlinear arc-length solver, workflow/archive
+  integration, or physical continuation was added or run.
+
+### Exact resume point
+
+The authorized surface-energy and frozen-active load-column foundation is
+complete. Primary Sol review must confirm the API names, directed-edge
+operator extraction, and exact history-row cancellation before any augmented
+metric/predictor or arc-length solver layer is implemented. Preserve all
+existing fixed-load APIs, artifacts, and physical blockers.
+
+## 2026-09-24 — Implement the manufactured fixed-increment arc solver
+
+### Status
+
+The next authorized manufactured-only layer is implemented in the isolated arc
+module. It does not change the existing fixed-load solver APIs and is not wired
+to continuation, workflow, archive, or physical execution.
+
+### Implemented
+
+- `ArcTrustRegionConfig` requires `max_newton_iterations`, the existing
+  `MonolithicHookstepConfig`, and a scale-aware bordered-denominator
+  `GateTolerance`.
+- Augmented right-preconditioned Arnoldi starts from `F/||F||`, applies the
+  bordered right preconditioner before the frozen JVP, and retains terminal
+  vector, Hessenberg, preconditioned basis, rectangular metric basis,
+  happy-breakdown, and orthogonality evidence.
+- Rejected radii reuse one frozen metric/preconditioner/Arnoldi model, resolve
+  only the projected hookstep, and evaluate the exact frozen nonlinear
+  residual. Signed increments may reverse, but every absolute trial load must
+  remain `u_bar >= 0`; negative absolute loads and non-finite candidates are
+  explicit radius rejections without commit or fallback.
+- Accepted corrections rebuild the reduced adapter, active mask, row scales,
+  energy scale, metric, and bordered preconditioner from a load-only clone of
+  the previous owner. Immutable static/CSR/gradient data and the cached surface
+  Hessian absolute-sum scalar are shared; committed path damage/history remain
+  unchanged.
+- Numerical `FloatingPointError`/`LinAlgError` construction failures are
+  retained as audited arc failures at their exact boundary. Nonlinear-trial
+  `FloatingPointError` follows radius rejection; trial `LinAlgError` is a hard
+  failure. Structural `TypeError`/`ValueError` and API/pairing errors propagate.
+- The outer fixed-`delta_G` solve checks reduced mechanics/damage residuals,
+  exact energy evidence, active-set stability, physical displacement/damage/
+  history correction gates, and non-negative final load. Results, diagnostics,
+  replay checks, and failure audits are immutable. Result construction requires
+  contiguous state/radius chains, exact iteration pairing, canonical initial
+  and final linearizations, and a converged final diagnostic row; failure audits
+  require stage-specific payloads and canonical model/path/mask/delta/config
+  pairing.
+- Added manufactured tests for rectangular Arnoldi orientation, interior and
+  boundary projected solves, rejected-radius reuse, fixed-increment convergence
+  and full diagnostic replay, failure state retention/forgery rejection,
+  required configuration, reversible increments, hard trial linear-algebra
+  failures, and structural-exception propagation.
+- Removed the redundant `solve_arc_hookstep_newton` compatibility alias so the
+  trust-region solver has one canonical public name.
+
+### Verification
+
+- Arc residual/foundation/solver battery: `24/24` under `unittest` after the
+  hardening regressions.
+- Affected reduced continuation/Newton/trust-region/verified, full trust-region,
+  hookstep, and controller battery: `95/95`.
+- Monolithic clone/cache regression and immutable-static checks: `2/2` focused;
+  full monolithic battery remains to be rerun after the shared CSR hardening.
+- Changed modules pass `python -m py_compile`.
+- `git diff --check`: pending final diff review.
+- Physical execution, continuation, workflow, archive, and verified acceptance:
+  not run.
+
+### Exact resume point
+
+Final review should cover the canonical `solve_arc_trust_region_newton` API,
+owner-clone identity/equality, hard-vs-radius numerical boundaries, complete
+result/failure audit replay, and the cached surface-energy scale. After that
+review, any continuation or workflow/physical integration requires separate
+authorization; do not run a physical cloud from this module.
+
+## 2026-09-24 — Replace the arc solver preconditioner
+
+### Status
+
+The reviewed bordered map remains available as manufactured diagnostic evidence,
+but the arc solver now explicitly uses only the parameter-free
+`ArcMetricScaledRightPreconditioner`. No physical solve was run.
+
+### Implemented
+
+- The new immutable map binds the metric-scaled kind, frozen metric and
+  linearization identities, the existing reduced lower-triangular right block
+  `P`, the pure unit-load metric action, `s_u`, and its inverse scale. Every
+  application rechecks those bindings and applies `(r,s) -> (P r,s/s_u)`.
+- Augmented Arnoldi retains the `J M` actions and the rectangular
+  `metric.apply_columns(M V)` evidence. Controller, correction/diagnostic
+  audits, and owner replay require the metric-scaled kind and preserve one
+  preconditioner object across rejected radii.
+- Removed `denominator_tolerance` from `ArcTrustRegionConfig` and the arc
+  solver/controller call path. The old bordered denominator contract is not a
+  solver fallback.
+- Independent manufactured coverage includes unit pure-load metric norm,
+  dense orientation/SVD rank, all-inactive and mixed masks, forged kind/metric
+  rejection, rejected-radius object reuse, and bordered diagnostic retention.
+
+### Verification
+
+- Arc residual/foundation/solver suites: `22/22` under `unittest`.
+- Affected reduced, trust-region, hookstep, and controller battery: `123/123`.
+- Changed arc/test modules pass `python -m py_compile`.
+- `git diff --check` passes.
+- The prior physical-shape probe at `u_bar=0.00623125` and
+  `delta_G=0.00873355605` remains recorded as a structural `c^T P b=0`
+  failure in about 7 seconds; no replacement physical probe was executed.
+
+### Exact resume point
+
+Primary Sol review must inspect the metric-scaled kind/identity bindings,
+pure-load normalization, retained `J M` and rectangular metric actions, and
+the replay checks. Do not apply an epsilon denominator perturbation or run a
+physical target before that review.
+
+## 2026-09-24 — Stabilize cancellation-prone physical arc coordinates
+
+### Status
+
+The strict arc hookstep gate remains unchanged. The raw physical Krylov
+coordinates are now followed by an immutable, independently checked
+metric-equilibrated basis; no physical continuation or probe was run.
+
+### Implemented
+
+- Added `_ArcEquilibratedKrylovBasis`, constructed from the retained
+  `source_basis = M V` and `source_metric_basis = D M V` by the thin SVD of
+  `D M V`. Its scale-aware rank threshold, condition number, metric
+  orthogonality defect, transform, and direct/transformed action defect are
+  immutable evidence.
+- Re-evaluated `ArcFrozenLinearization.frozen_jvp` directly on each
+  equilibrated column. The projected action matrix is formed from those direct
+  actions in the retained Arnoldi residual basis; the original `J M` actions
+  and Hessenberg relation remain available for provenance.
+- Extended the shared projected hookstep core with explicit model overrides,
+  while preserving the original monolithic/reduced path when overrides are
+  absent. Arc reconstruction now uses equilibrated coordinates, not the
+  cancellation-prone raw coefficients.
+- Stored the complete hookstep direction in each arc diagnostic row and replay
+  it by rebuilding the metric, equilibrated basis/actions, projected solve,
+  and direct frozen prediction. Failure/controller audits retain the same
+  immutable Arnoldi object and therefore its equilibration evidence.
+- Added a manufactured ill-conditioned regression with a `1e8` physical-column
+  norm ratio. Raw prediction cancellation exceeds `1e-7`, while direct and
+  equilibrated projected predictions agree to `1e-12`.
+
+### Verification
+
+- Arc foundation/solver battery: `24/24` under `unittest`.
+- Monolithic residual/hookstep/controller/trust-region battery: `74/74`.
+- Final combined reduced/arc/trust-region/hookstep/controller battery: `119/119`;
+  final shared monolithic residual/Newton/continuation/verified battery:
+  `72/72`. JAX emitted CUDA allocation warnings during the first battery but
+  all tests completed successfully.
+- Changed modules pass `python -m py_compile`.
+- `git diff --check` passes.
+- No physical continuation, physical probe, workflow/archive integration, or
+  verified attempt was run.
+
+### Exact resume point
+
+Primary Sol review must independently inspect the SVD transform orientation,
+scale-aware rank boundary, direct-JVP/action consistency gate, projected RHS
+and action rows, and diagnostic replay identity comparisons. Do not loosen
+`prediction_consistency_rtol`, add epsilon perturbations, or run a physical
+arc solve before that review.
+
+## 2026-09-24 — Refine the recomputed physical metric basis
+
+### Status
+
+The prior read-only physical probe exposed a recomputed metric defect of
+`4.8453109785517867e-07` against the unchanged `1e-8` gate at
+`u_bar=0.0064136878883856953`. The requested correction is implemented as a
+manufactured-only refinement; no physical probe was run after this change.
+
+### Implemented
+
+- Added the explicit fixed maximum
+  `_ARC_EQUILIBRATION_REFINEMENT_PASSES = 3`. When the initial recomputed
+  `D Q` misses the existing metric gate, each pass forms the symmetrized small
+  Gram matrix, computes its symmetric inverse square root, composes the
+  coordinate transform, recomputes the final basis from the original source
+  span, and recomputes `D Q`.
+- The final basis is accepted only when the existing metric tolerance passes.
+  Nonpositive/rank-deficient Gram eigenvalues, non-finite values, composition
+  defects above the existing metric consistency tolerance, and exhaustion of
+  the fixed pass budget are hard failures; no clipping, pseudoinverse,
+  epsilon perturbation, or silent fallback is used.
+- `_ArcEquilibratedKrylovBasis` now preserves the initial SVD transform, every
+  refinement transform, the final composed transform, metric-defect history,
+  and scale-aware composition-defect history. Replay compares all of this
+  provenance before re-solving the projected direction.
+- Added a manufactured regression whose first recomputed metric defect exceeds
+  `1e-8` but passes after one recorded polar refinement, while preserving the
+  source span and final direct JVP contract.
+
+### Verification
+
+- Arc foundation/solver tests: `25/25` under `unittest` after the refinement
+  regression.
+- Final combined reduced/arc/trust-region/hookstep/controller battery: `120/120`;
+  final shared monolithic residual/Newton/continuation/verified battery:
+  `72/72`.
+- `python -m py_compile` for changed modules and `git diff --check` pass.
+- No physical continuation or probe was run after the refinement change.
+- Final replay hardening stores the composition-consistency tolerance and uses
+  relative transform/basis recomposition checks; direct-JVP/action failures
+  retain the available equilibration transform history.
+
+### Exact resume point
+
+Primary Sol review must inspect the Gram inverse-square-root orientation,
+fixed-pass/failure semantics, source-span recomposition, composition-defect
+scaling, and replayed transform histories. Do not loosen the `1e-8` gate or
+run a physical probe before that review.
+
+## 2026-09-24 — Replace source-recomposed polar refinement
+
+### Status
+
+The physical read-only rerun still failed at Newton iteration 3 after the
+three source-recomposed polar passes: initial metric defect
+`4.8453109785517867e-7`, final defect `9.0377926031948164e-8`, strict limit
+`1e-8`. The source-to-total-transform remultiplication is now removed from the
+accepted physical-basis path. No physical probe was run after this change.
+
+### Implemented
+
+- Replaced the polar refinement loop with exactly two explicit modified
+  Gram-Schmidt passes in the current physical `D` metric. For each column,
+  every orthogonalization and normalization update is followed by a fresh
+  `D q` evaluation; the final stored `D Q` is the recomputed physical basis.
+- The accumulated coordinate transform and per-pass transforms remain
+  mathematical provenance only. Local and source-to-total recomposition are
+  audited with an explicit scale-aware `gamma_k`/elementwise-product roundoff
+  bound, not bitwise associativity and not the physical `1e-8` gate. The same
+  bound is retained for transformed frozen-JVP action evidence when source
+  action cancellation exceeds its ordinary consistency tolerance.
+- Added a manufactured regression in which the former three source-recomposed
+  polar passes plateau above `1e-8`, while physical reorthogonalization passes
+  the unchanged metric gate.
+
+### Verification
+
+- Arc foundation/solver battery: `26/26`.
+- Final affected reduced/arc/trust-region/hookstep/controller battery: `121/121`.
+- Changed arc module and regression compile with `py_compile`.
+- `git diff --check` passes.
+- No physical continuation or probe was run.
+
+### Exact resume point
+
+Primary Sol review must inspect the MGS coefficient/update ordering, fresh
+`D q` calls, the roundoff-bound derivation, and transform/replay provenance.
+Do not increase the pass count, loosen the `1e-8` gate, or run the physical
+probe before that review.
+
+## 2026-09-24 — Resume bounded read-only arc probe
+
+- Following physical-space MGS, the full first-step read-only probe from the
+  authenticated `u_bar=0.0062312500000000345` state and
+  `delta_G=0.0087335560467672324` printed only its start line before the
+  600-second shell timeout. The command was terminated; no accepted state or
+  durable result exists.
+- A scratch-only rerun with `max_newton_iterations=4` (all equations, strict
+  gates, `delta_G`, and radius controls unchanged) ended after 193.3s at
+  `stage=max_newton_iterations`, `iteration=4`. Its last uncommitted trial load
+  was `0.0063551067031042798`; scaled block norms were
+  `(89078.91261932276, 274.2681520427689, 117800.49673313084)`, energy
+  error `0.005303475`, radius `0.01`. This is numerical diagnostic evidence,
+  not a converged or physically accepted arc step.
+- Exact resume point: inspect all four accepted *inner* correction diagnostics
+  and the projected/full model behavior before deciding whether further
+  physical iterations are justified. Keep history at its authenticated
+  committed value, preserve strict gates, and do not infer a fold crossing from
+  uncommitted trial loads. The verified-attempt, controller, and durable replay
+  remain to be implemented after a core step converges.
+- The reproducible four-iteration trajectory at the initial `delta_G` has
+  trial loads `0.0062312500000365903`, `0.0064136878883856953`,
+  `0.0063575788116558346`, `0.0063551067031042798` and energy errors
+  `0.008733556`, `0.008595017`, `0.005425569`, `0.005303475`. Krylov
+  dimensions are `2, 20, 32, 32`, with `0, 1, 0, 0` radius rejections.
+  The mechanical residual grows from `0.94` after correction 1 to `89078.91`
+  after correction 4; all inner acceptance ratios are positive (`0.79` or
+  higher) but the strict augmented root is far away.
+- One bounded, scratch-only `0.5` energy cutback
+  (`delta_G=0.0043667780233836162`, four Newton corrections, same strict
+  gates) also exhausts its budget after 196.0s; final uncommitted load
+  `0.0064033184353316768`, energy error `0.003743927`, scaled norms
+  `(29382.02970019228, 377.717739834127, 83148.1502566964)`.
+  This is not proof that smaller `delta_G` fails at convergence. The next
+  concrete action is to inspect the scale and rank of the initial projected
+  energy direction and subsequent residual trajectory before a longer run.
+- Initial linearization inspection at the original `delta_G` finds two
+  metric-normalized projected-Jacobian singular values approximately
+  `2.13529977e11` and `2.67360011e-6`. The explicit
+  `projected_rank_rtol=1e-12` therefore retains rank one; both metric singular
+  values are approximately one. The initial projected step is interior, with
+  physical step norm `3.66e-14`, so the huge initial energy residual hardly
+  changes. This explains the first micro-correction, but does not prove the
+  full augmented Jacobian is singular. The current `LG` deliberately derives
+  from the *strict damage correction gate*, as documented in the arc module;
+  changing residual weighting requires a separate numerical derivation and
+  validation, not a silent decrease of the relative rank threshold into
+  roundoff. Resume by analyzing the full-dimensional weighted augmented
+  Jacobian and separating nonlinear merit scaling from the unchanged strict
+  physical acceptance limits.
+
+## 2026-09-24 — Evaluate existing warning path for the PINN handoff
+
+- User direction: prioritize the original nonlocal fracture PINN; the direct
+  solver need not supply a complete strict post-peak reference. Review the best
+  existing non-strict/warning route for the overall behavior first.
+- The completed, immutable `omega=0.5`, 144-sweep stabilized-warning artifact is
+  `/root/autodl-tmp/data/fracture2d/engineering_grip/engineering_grip_damped_warning_o5_u7p5e3_dumin6p25e6_s144.npz`.
+  The archive SHA256 matches its manifest:
+  `9545bed758c19c07297d1a0afdce9093caab7a646655eef6c6b2a82cb23ac4fc`.
+  The replay/analysis hashes also match; no historical artifact was rewritten.
+- All 75 nominal increments reach exact `u_bar=0.0075` with zero cutbacks:
+  65 are `stabilized_converged`, 10 `stabilized_warning_accepted` (loads
+  `0.0060`--`0.0068` and `0.0071`). The prior independent replay authenticates
+  the 76 saved states and source/configuration, but explicitly reports
+  `validated=false`, `field_equations_validated=false`, and no reconstructed
+  rejected-path replay. Damage monotonicity fails; maximum healing is
+  `0.029148102228035988`, while damage range excess is zero. The worst
+  warning-gate ratios are approximately `2.29e6` for damage correction and
+  `2121` for the post-history damage residual.
+- The saved field and stress-strain figures show a crack growing rightward from
+  the notch tip in both nonlocal and FEM results. The nonlocal response peaks
+  around `u_bar=0.0061`, then drops to reaction `69.1542612196795` at `0.0075`;
+  the local FEM warning comparator has reaction `3.977181129987526` there.
+  Nonlocal damage maximum is `0.9999629621798838` near the notch tip and
+  interface damage maximum stays `0.09923934584217217`. Nevertheless the
+  endpoint nonlocal vertical displacement reaches `0.141990164738418` versus
+  prescribed load `0.0075`, with local tip history `2.167992e6`; the warning
+  segment is not a trustworthy quantitative fracture solution.
+- Exact handoff: retain the existing diagnostic curve/plots as qualitative
+  evidence, use strict pre-growth states and the existing operator tests as
+  nonlocal checks, and use the local FEM solution as a separate continuum
+  comparator. Do not add a new expensive direct warning run to replicate the
+  same evidence. The next implementation effort should inspect and develop
+  the nonlocal PINN, with acceptance evaluated by its own nonlocal residuals,
+  history/irreversibility, range, and reaction/energy checks.
+
+## 2026-09-24 — Paused after staggered adaptive-step task switch
+
+- The user explicitly switched to
+  [`fracture2d-stagger-adaptive-step.md`](fracture2d-stagger-adaptive-step.md)
+  and paused coupled/monolithic solver work. Preserve this task's unfinished
+  arc/globalization resume point and all unchanged strict/warning artifacts.
+- The prior PINN handoff is also deferred by the new active priority; no
+  physical continuation or coupled-solver changes belong to this switch.
+
+## 2026-09-27 — Archived: engineering-grip baseline closed with the adopted solution
+
+- Closed. This task produced the engineering-grip model, the strict/warning
+  controllers, the stabilized controller family, and the durable workflow; its
+  continuation search ended with the adopted stabilized-warning solution
+  (`0 -> 0.0075`, peak `641.340` at `0.0061`, terminal `69.154`, `10` warning
+  states) now documented in
+  [`examples/fracture2d/README.md`](../../examples/fracture2d/README.md).
+- The monolithic family and the arc-length/reduced research layers were
+  untracked and gitignored on 2026-09-27; they remain on disk for local
+  reference only and are not part of the tracked repository.
+- Superseded by: `examples/fracture2d/README.md`,
+  [`fracture2d-nonlocal-pinn.md`](../fracture2d-nonlocal-pinn.md),
+  `docs/PROGRESS.md`, `docs/DECISIONS.md`.
+- No further work is planned on this task.

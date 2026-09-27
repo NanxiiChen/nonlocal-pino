@@ -4510,3 +4510,1547 @@ Template for each entry:
   archive fields, selecting physical parameters, or running continuation.
 - Related: user authorization in the current session and
   `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-22 — Complete the isolated hookstep outer controller
+
+- Decision: Complete the manufactured-only outer controller as
+  `run_monolithic_hookstep_correction(...)`. One invocation builds one canonical
+  metric and one right-preconditioned Arnoldi model, starts from
+  `trust_radius_initial`, re-solves only the projected trust problem after each
+  rejected radius trial, evaluates the exact nonlinear trial residual under the
+  frozen scales, and returns immediately after the first accepted candidate.
+  Accepted output sets `rebuild_required=True` and reports whether the exact
+  active mask changed; no second correction reuses a stale model.
+- Decision: The controller derives its own scale bundle from an explicit
+  `gate_config` instead of accepting caller scales. This removes the forged
+  `Lq`/`Lrho`/`LH`/`H_next` path that survived shape-and-digest-only scale
+  validation, and keeps the live numerics owner-computed.
+- Decision: Preserve complete immutable terminal evidence. Unrepresentable
+  finite ratios are recorded as a terminal `failed_ratio` trial; subnormal
+  radius-shrink underflow, rejection-budget exhaustion, radius-floor crossing,
+  trial `LinAlgError`, accepted-mask rebuild failure, and pre-model
+  scale/active-mask failures raise audited failures retaining the triggering
+  trial where one exists. A non-finite candidate, residual, or actual reduction
+  is an explicit radius rejection, while a finite trial residual is retained
+  even when the derived actual reduction overflows.
+- Why: Independent review found that the prior controller could swallow a hard
+  `LinAlgError` as a radius rejection, accept forged scale data, drop the trial
+  that triggered a terminal ratio failure, and let a subnormal shrink bypass the
+  audited floor failure. All are resolved and regression-tested.
+- Verification: focused controller `16/16`, hookstep core `19/19`, and combined
+  controller/core/residual/JVP/Newton `73/73`; changed modules compile;
+  `git diff --check` passes. Two independent reviews of the completed controller
+  report no remaining blockers.
+- Alternatives rejected: caller-supplied scales, accepting forged scaling,
+  continuing through an accepted active-set change, dropping terminal trial
+  evidence, downgrading structural linear-algebra errors to globalization
+  rejections, and wiring the controller into the existing solver.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_hookstep_controller.py`,
+  and `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-22 — Complete the trust-region Newton solver
+
+- Decision: Complete the manufactured trust-region Newton solver
+  `solve_monolithic_hookstep_newton(monolithic, initial_z, config, gate_config)`
+  around the validated hookstep controller. `MonolithicTrustRegionConfig`
+  requires `max_newton_iterations` plus an explicit `MonolithicHookstepConfig`.
+  Each iteration freezes the state/scales/active set, takes one bounded
+  correction, rebuilds all state-dependent data, and checks the same strict
+  convergence gates as the Armijo core. The adapted radius is carried by
+  rebuilding the frozen hookstep config with `trust_radius_initial=next_radius`.
+- Decision: Numerical failures always surface as `MonolithicTrustRegionFailure`
+  with an immutable partial audit. Bare hookstep failures and controller
+  failures are both wrapped and retain their controller/inner-hookstep evidence;
+  accepted-trial failures are audited against the valid reference
+  state/scales; a mid-loop exact root is a dedicated `exact_root` stage instead
+  of a crash. Results carry full relational validation and an owner-replay method
+  (`validate_with_owner`).
+- Why: Independent review of the first implementation found a blocker in the
+  accepted-trial failure audit (scale/state pairing `ValueError`), an escaping
+  `MonolithicHookstepFailure`, and a mid-loop exact-root `IndexError`, plus
+  result-forgery gaps. These are resolved and regression-tested.
+- Physical evidence (read-only, exploratory controls, no artifact): from the
+  committed `0.0061` state the solver reaches `0.00611` in `6` iterations with
+  final scaled block norms `(2.78e-5, 1.21e-8, 1.00e-6)`, the first monolithic
+  advance past `0.0061`. Targets `0.00612`/`0.00615` stall within `40`
+  iterations, showing the near-peak increment must be about `1e-5`.
+- Verification: trust-region suite `23/23`; combined affected `96/96`; changed
+  modules compile; `git diff --check` passes; two independent reviews report no
+  remaining blockers.
+- Alternatives rejected: changing the shared hookstep radius guard back to
+  `metric_consistency_rtol`, weakening the strict convergence gates, and wiring
+  the solver into the workflow/archive before the attempt-runner contract is
+  designed.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_trust_region.py`,
+  and `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-23 — Hold formulation changes after canonical stall diagnosis
+
+- Decision: Supersede the exploratory `0.006117` avalanche-barrier and
+  full-stationarity interpretation. Keep the current `q-d-H` solver unchanged
+  while requesting explicit authorization for any reduced formulation.
+- Why: Canonical diagnostics show that the active mask becomes bitwise fixed,
+  accepted corrections retain positive actual reduction, and K32/K64 projected
+  gradients remain large. Block-level evidence instead identifies an explicit
+  history-variable two-cycle: per-correction `H` changes are about `0.11528`,
+  while two-correction net changes collapse below `4.5e-5`. A no-expansion test
+  reaches K32-only false stationarity, and a direct K64 run still stalls.
+- Alternatives rejected: labeling the state a physical fold, treating K32
+  projected stationarity as full stationarity, increasing Krylov dimension as
+  a complete remedy, suppressing radius growth until numerical failure,
+  changing the trust metric without derivation, relaxing strict gates, or
+  committing any scratch state.
+- Relation: The smallest supported next formulation candidate is exact
+  algebraic elimination of `H` while preserving
+  `H=max(H_committed, psi_plus(q))`; implementation still requires explicit
+  user authorization and independent derivation/testing.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md` and
+  `/tmp/opencode/stall_diagnostic*.jsonl`.
+
+## 2026-09-23 — Authorize manufactured exact history elimination
+
+- Decision: Implement and independently test an isolated reduced `q-d` residual
+  that substitutes the unchanged history equation
+  `H=max(H_committed, psi_plus(q))` exactly. The selected generalized derivative
+  retains the existing strict active rule `psi_plus > H_committed`, so exact
+  ties remain inactive, and the reduced damage JVP must include the induced
+  `-J_dH J_Hq` chain term.
+- Decision: Keep this stage manufactured-only. Do not dispatch the reduced
+  residual from the Newton, hookstep, verified-attempt, continuation, workflow,
+  or archive layers, and do not run a physical continuation. Do not select a
+  reduced trust metric or claim that the existing three-block preconditioner is
+  a reduced solver contract.
+- Why: Canonical `0.006117` diagnostics isolate a numerical two-cycle in the
+  explicit history unknown after the active mask is fixed. Exact algebraic
+  elimination preserves the physical history equation while removing that
+  redundant unknown; independent derivations agree on the residual, signs,
+  strict-tie semantics, and required chain rule.
+- Alternatives rejected: dropping the chain term, smoothing or tolerancing the
+  maximum, reusing the full `q-d-H` metric or preconditioner by implication,
+  changing the trust metric, adding arc length, relaxing gates, or using this
+  manufactured stage to authorize a physical run.
+- Related: user authorization in the current session and
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-23 — Complete the isolated reduced q-d residual contract
+
+- Decision: Complete `ReducedMonolithicGripResidual` as an owner-bound,
+  manufactured-only adapter. It packs only `q-d`, reconstructs canonical
+  history from a zero-damage kinematic probe, embeds the state on the exact
+  full history manifold, and evaluates the reduced residual through the
+  authoritative full owner.
+- Decision: Form the reduced generalized JVP by first recovering
+  `delta_H=-J_Hq delta_q` under one explicitly frozen strict mask, then applying
+  the authoritative full JVP once to `(delta_q, delta_d, delta_H)`. Require its
+  history action to cancel exactly. This preserves canonical damage-row
+  operation order and includes the required `-J_dH J_Hq` term.
+- Why: Independent from-definition mechanics, Amor, and cubic-damage-graph
+  oracles match the reduced residual and eliminated JVP; fixed-mask finite
+  differences pass; exact ties remain inactive; and mixed active/inactive rows
+  are covered without differencing through a kink.
+- Verification: focused residual tests pass `29/29`; combined residual, Newton,
+  hookstep, controller, and trust-region tests pass `88/88`; changed Python
+  files compile; `git diff --check` passes; independent numerical and code
+  re-reviews report no blocker.
+- Alternatives rejected: separately adding already volume-weighted damage
+  actions, manufacturing exact ties from an independent operation order, and
+  adding reduced scaling, preconditioning, trust metric, solver dispatch, or
+  physical execution in this stage.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic.py`, and
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-23 — Authorize the manufactured reduced solver contract
+
+- Decision: Build the isolated reduced `q-d` trust-region solver with row scales
+  obtained from the exact full lift and only `Lq/Lrho` applied to reduced rows;
+  retain nonlinear reconstructed-history correction and active-set-stability
+  gates despite eliminating the history residual row.
+- Decision: Use the frozen differential pullback of the approved normalized
+  `q/d/H` continuum metric through
+  `delta_H=-J_Hq delta_q`. Implement its rectangular factor action without
+  forming a Gram matrix, freeze it through rejected radius trials, and rebuild
+  it after every accepted correction.
+- Decision: Use an explicitly right-oriented lower-triangular preconditioner
+  that exactly solves the mechanics and fixed-history damage diagonal blocks,
+  retains the reduced lower-left history-chain action, and omits only the
+  upper-right mechanics-from-damage block. Reuse the existing projected SVD,
+  prediction, rejection, and radius-update policy with reduced-specific
+  ownership and audit types.
+- Why: Independent derivation and cross-review identify the pullback as the
+  exact tangent restriction of the already approved full trust geometry. The
+  triangular inverse preserves the new coupling exposed by exact history
+  elimination and concentrates the remaining feedback in the mechanics Schur
+  factor without introducing a tuning coefficient.
+- Alternatives rejected: a simple `q-d` metric, nonlinear secant trust region,
+  a primary two-block diagonal preconditioner that drops the history chain,
+  weakening history correction gates, and adapting controls from a physical
+  target.
+- Scope: manufactured-only implementation and tests. No verified-attempt,
+  continuation, workflow, archive, CLI, physical controls, physical run, or
+  artifact is authorized.
+- Related: user authorization in the current session and
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-23 — Complete the manufactured reduced solver layer
+
+- Decision: Complete the isolated reduced foundations and solver as
+  `ReducedMonolithicNewtonScales`, `ReducedMonolithicTrustMetric`,
+  `ReducedMonolithicLowerTriangularRightPreconditioner`,
+  `run_reduced_monolithic_hookstep_correction`, and
+  `solve_reduced_monolithic_hookstep_newton`. The reduced adapter freezes its
+  owner binding; metric and preconditioner re-check construction-time owner
+  pairing at apply time; `scaled_residual` supports frozen-scale nonlinear
+  trial evaluation while other consumers keep strict reference-state pairing.
+- Decision: Rejected radius trials reuse one frozen state, mask, scales,
+  rectangular pullback metric, preconditioner, and Arnoldi model. Accepted
+  corrections rebuild every state-dependent object and report the exact
+  active-set comparison. Convergence keeps the reconstructed-history correction
+  gate and active-set-stability requirement even though the history residual row
+  is eliminated. Exact roots bypass metric/Arnoldi; non-finite trials are radius
+  rejections that retain finite residuals, while inner algebra failures remain
+  hard audited failures. `validate_with_owner` provides full owner replay.
+- Why: Independent numerical and code reviews confirmed the projected
+  orientation, whitening, signs, failure boundaries, and owner replay, and found
+  no blocker. Their low-severity findings were closed before completion:
+  accepted-correction metric state/digest/mask pairing, a discriminating
+  radius-slack regression, and an exact-initial-root requirement for
+  trial-free results.
+- Verification: reduced foundation `7/7`; reduced trust-region `21/21`;
+  combined affected battery `116/116`; changed-file `py_compile`;
+  `git diff --check`. The shared projected-hookstep core was extracted
+  textually unchanged and is covered by the existing full-solver tests.
+- Alternatives rejected: inferred physical controls, durable integration,
+  weakening history/active-set gates, reusing full audit types by shape
+  compatibility, and changing full `q-d-H` behavior.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_reduced_newton.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_reduced_trust_region.py`,
+  and `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-23 — Authorize the reduced physical path to full loading
+
+- Decision: The user authorized continuing implementation until the full-load
+  `u_bar=0.0075` final solve is completed. This authorizes (a) selecting the
+  reduced solver controls by reusing the already explicit full-run controls
+  where the dimensionless metric makes them equivalent, (b) implementing an
+  isolated reduced physical attempt/continuation seam with durable artifacts,
+  (c) bounded read-only/in-memory physical probes from the committed `0.0061`
+  state, and (d) the full continuation run to exact `u_bar=0.0075`.
+- Decision: Preserve every strict finite/residual/range/healing/correction gate,
+  the no-warning-acceptance rule, and all existing failure/checkpoint artifacts.
+  Do not guess new physics, arc length, regularization, or relaxed gates. A
+  material mathematical ambiguity still stops the run and returns to the user.
+- Why: The reduced formulation removes the explicit-history unknown whose
+  two-cycle blocked the full `q-d-H` solver at `0.006117`, and it is now
+  independently manufactured-verified; the remaining question is physical.
+- Alternatives rejected: warning acceptance, gate relaxation, inferred
+  physical controls from rejected states, overwriting existing artifacts, and
+  declaring the objective complete from a nonconverged state.
+- Related: user authorization in the current session and
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-23 — Diagnose the reduced fold and validate the strict endpoint
+
+- Decision: Keep every strict gate, equation, metric, and control unchanged.
+  Record the fold evidence and the independently validated strict `0.0075`
+  endpoint, and return the strict-continuation-across-the-fold decision to the
+  user instead of guessing a new globalization.
+- Why: From the authenticated strict state at `u_bar=0.00623125` the reduced
+  trust-region stalls on the first increment (plateau `(1.12, 0.43)` at
+  `du=2.5e-7`, `(13.8, 2.55)` at `du=1.25e-6`). Read-only controls do not
+  change the plateau: K64 gives `(66.1, 5.50)`, the truncated direct `q-d`
+  metric gives `(67.9, 5.82)`, and the monolithic predictor branch gives
+  `(66--68, 5.5--6.6)`. Warning states are not near strict roots (damage norm
+  `57.3` at `0.0063`) and diverge when strictly polished. Strict loads beyond
+  the fold are history-path dependent: the `0.0069` strict seed has reduced
+  damage norm `1.5e3` from the `0.00623125` committed history but `2.1e-4`
+  from the warning-archive `0.0068` history.
+- Decision: Independently validate the archived strict endpoint. From the
+  `0.0074` stabilized-converged state, the reduced Newton at `0.0075` converged
+  in `2` iterations with norms `(2.28e-5, 4.19e-11)`; the auxiliary sweep and
+  all canonical gates passed, giving strict state digest `21f17cab...`.
+  A strict equilibrium at the complete loading therefore exists; only the
+  strict continuation across the fold interval is missing.
+- Decision: Fix the shared `MonolithicHookstepDirection` radius guard to use
+  the reviewed `(1 + secular_rtol) / (1 - metric_consistency_rtol)` envelope
+  instead of `1 + secular_rtol`, removing a spurious bare `ValueError` on
+  legitimately reconstructed steps. Affected battery `139/139`.
+- Alternatives rejected: warning acceptance, gate relaxation, history
+  injection or re-anchoring, treating a skipped-load state as path evidence,
+  tuning controls on the physical stall, and declaring completion from the
+  endpoint root alone without user confirmation of the completion semantics.
+- Related: user authorization in the current session,
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`, and
+  `/tmp/opencode/reduced_*` read-only diagnostics.
+
+## 2026-09-24 — Authorize fracture-energy-controlled arc-length continuation
+
+- Decision: The user selected a fracture-energy-controlled arc-length method to
+  cross the strict reduced crack-growth fold. Augment the reduced unknowns with
+  `u_bar`, use the repository's existing discrete nonlocal AT2 fracture energy
+  as the path quantity, permit intermediate load reversal, and commit history
+  only after an augmented equilibrium passes the existing strict canonical
+  acceptance gates. After crossing the fold, continue to exact
+  `u_bar=0.0075`.
+- Why: The fixed-load reduced hookstep stalls despite step-size, Krylov-space,
+  metric, and seed changes. Kelley--Keyes pseudo-transient continuation is a
+  fixed-target root globalization, not branch following. Singh et al. (2016)
+  and Bharali et al. (2022) instead support fracture-surface/energy control for
+  phase-field snap-back by solving for the load factor together with the field
+  variables. This is the closest source-backed method family for the observed
+  crack-growth barrier.
+- Scope: First derive the exact project-specific discrete energy constraint,
+  load derivative, augmented metric, predictor orientation, correction system,
+  adaptation/cutback policy, and immutable audit contract. Independently verify
+  those on manufactured systems before physical execution. Preserve the reduced
+  residual, exact history maximum and tie rule, physical equations, strict final
+  gates, rollback, and all existing artifacts.
+- Alternatives rejected: pseudo-transient as the selected first route because
+  it does not track a fold; treating the already reduced exact-max equation as a
+  new semismooth method; warning acceptance, history injection, gate relaxation,
+  or importing a local-FEM fracture-energy formula without deriving its exact
+  nonlocal discrete counterpart.
+- Related: user selection in the current session,
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`, Singh et al. (2016),
+  DOI `10.1016/j.finel.2015.12.005`, and Bharali et al. (2022), DOI
+  `10.1016/j.cma.2022.114927`.
+
+## 2026-09-24 — Implement the second manufactured arc foundation
+
+- Decision: Keep the arc route isolated to one frozen augmented
+  ``(q-d,u_bar)`` linearization, the exact surface-energy row, the full-union
+  rectangular physical metric, and the bordered right preconditioner. Use the
+  existing reduced residual, scales, load column, and lower-triangular right
+  preconditioner without changing fixed-load solver APIs.
+- Why: The selected contract requires independent manufactured evidence before
+  any outer nonlinear solver, verified attempt, continuation controller,
+  archive, or physical run. Frozen owner/state/mask/config identities and
+  digests prevent trial or stale evidence from being reused silently.
+- Numerical contract: ``LG`` is derived from the existing damage correction
+  limit and a documented ``512*eps64`` local-plus-symmetric-graph constituent
+  bound; the metric includes constrained load-direction DOFs; a scale-aware
+  bordered denominator failure is hard, with no fallback. Intermediate signed
+  trial loads use a private owner construction path while the public fixed-load
+  constructor keeps its non-negative-load contract.
+- Verification: the new focused arc suite independently checks augmented
+  residual/JVP finite differences, energy evidence, metric action/rank, dense
+  bordered action, forgery rejection, and immutability/signatures. No solver,
+  workflow, archive, or physical continuation was added.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic_arc.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_arc.py`, and
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-24 — Implement the manufactured fixed-increment arc solver
+
+- Decision: Extend the isolated arc foundation with an explicit
+  `ArcTrustRegionConfig`, right-preconditioned augmented Arnoldi, projected
+  hookstep radius re-solves, a frozen-model correction controller, and a
+  fixed-`delta_G` nonlinear outer solve. Keep the result, diagnostics, and
+  failure audits immutable and owner-replayable.
+- Why: This is the next user-authorized layer and preserves the required
+  separation between frozen trial algebra and accepted owner/history rebuilds.
+  Rejected radii therefore reuse the same metric, bordered preconditioner, and
+  Arnoldi evidence while evaluating the exact frozen nonlinear residual.
+- Alternatives rejected: changing the existing fixed-load APIs, rebuilding
+  Arnoldi for each rejected radius, falling back after a bordered-denominator
+  failure, committing trial history/damage, or wiring continuation/workflow,
+  archive, or physical execution before manufactured review.
+- Verification: focused arc solver/foundation/residual tests pass `20/20`,
+  affected reduced suites pass `51/51`, hookstep/controller suites pass `35/35`,
+  and the changed arc module compiles under `py_compile`. No physical run was
+  executed.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic_arc.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_arc_solver.py`,
+  and `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-24 — Harden manufactured arc audit and owner boundaries
+
+- Decision: Keep signed arc increments reversible while rejecting every trial
+  whose absolute prescribed `u_bar` is negative. Classify nonlinear-trial
+  `FloatingPointError` as an audited radius rejection, but classify trial and
+  inner-construction `LinAlgError` as hard audited numerical failures; let
+  structural `TypeError`/`ValueError` and API/pairing defects propagate.
+- Decision: Require arc result and failure audits to bind model/static/path,
+  `delta_G`, gate configuration, canonical active masks, state/radius chains,
+  iteration counts, and stage-specific payloads. Replay every diagnostic row,
+  correction, and final state through freshly constructed owner evidence.
+- Decision: Build accepted-load arc linearizations from a load-only clone of the
+  previous owner, share only immutable load-invariant CSR/gradient/static data,
+  and cache the surface-energy Hessian absolute-sum scalar on the owner. Avoid
+  repeating canonical reduced block-scale construction in the arc wrapper.
+- Why: The prior implementation could relabel structural defects as numerical
+  failures, shrink the radius after a hard trial linear-algebra failure, accept
+  forged partial/result evidence, and rebuild large immutable operators during
+  every trial or accepted outer rebuild.
+- Alternatives rejected: allowing negative absolute loads, catching broad
+  `ValueError`, treating trial `LinAlgError` as globalization evidence,
+  rebuilding a fresh full owner after every accepted correction, and validating
+  only the final residual.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic_arc.py`, and the
+  focused arc/monolithic regression suites.
+
+## 2026-09-24 — Select metric-scaled arc preconditioner after bordered failure
+- Decision: Make the parameter-free metric-scaled block-diagonal right
+  preconditioner the only preconditioner used by the arc solver. Retain the
+  bordered map only as manufactured diagnostic evidence, and normalize its
+  augmented load block by the metric norm of the pure unit-load direction.
+- Why: The recorded physical-shape probe at `u_bar=0.00623125` with
+  `delta_G=0.00873355605` failed structurally in about 7 seconds because the
+  bordered Schur quantity `c^T P b` was zero. The new map remains full rank
+  without introducing a tunable denominator perturbation.
+- Alternatives rejected: epsilon perturbation of the bordered denominator,
+  silent bordered fallback, and changing the residual, metric, gates, or
+  history semantics.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic_arc.py`,
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`, and the independent
+  arc/preconditioner regression tests.
+
+## 2026-09-24 — Equilibrate the physical arc Krylov coordinates
+
+- Decision: Preserve the right-preconditioned Arnoldi span and its original
+  ``J M``/rectangular-metric evidence, then build an immutable SVD-equilibrated
+  basis from ``Z=M V`` using the singular values of ``D Z``. Re-evaluate the
+  frozen JVP directly on each equilibrated column and use its projected action
+  matrix for the arc hookstep solve and reconstruction.
+- Why: The strict manufactured/diagnostic failure has accurate individual
+  columns but a raw-coordinate norm ratio of about ``4.76e9``; the projected
+  prediction defect is ``0.03766791043624996`` while the metric and Arnoldi
+  identities remain accurate. This is cancellation in the projected
+  combination, not evidence that the strict gate is too tight.
+- Numerical contract: rank is tested against the largest physical singular
+  value with the existing explicit metric rank tolerance; deficient spans,
+  non-finite actions, metric orthogonality failure, and direct/transformed JVP
+  disagreement are hard audited failures. No pseudoinverse, epsilon
+  perturbation, silent fallback, or prediction-gate relaxation is introduced.
+- Alternatives rejected: accepting the raw full prediction, widening
+  `prediction_consistency_rtol`, transforming only the stored action columns,
+  or rebuilding the physical continuation/probe before manufactured review.
+- Verification: the manufactured arc/foundation/solver battery passes
+  `24/24`; the monolithic hookstep/trust-region/controller battery passes
+  `74/74`; the new ill-conditioned cancellation regression verifies direct and
+  projected prediction agreement. No physical continuation or probe was run.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic_arc.py`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_arc_solver.py`,
+  and the active engineering-grip task.
+
+## 2026-09-24 — Refine the recomputed arc metric basis without loosening the gate
+
+- Observation: A read-only physical probe after the initial equilibration
+  reached Newton iteration 3 and then failed at `u_bar=0.0064136878883856953`
+  because the recomputed metric defect was `4.8453109785517867e-07` against
+  the unchanged `1e-8` gate. The residual norms were
+  `(13654.191747629044, 400.53234921112465, 190888.96316738456)`, `Gerr` was
+  `8.595017e-03`, and the radius was `.005`. No replacement physical probe is
+  authorized by this decision.
+- Decision: After the initial SVD transform, permit at most the explicit fixed
+  `_ARC_EQUILIBRATION_REFINEMENT_PASSES = 3` passes. Each pass forms the
+  symmetrized small Gram matrix `(D Q)^T(D Q)`, applies its symmetric inverse
+  square root, composes the transform, recomputes `Q` from the original source
+  span, and recomputes `D Q`. The final direct JVP is evaluated only after the
+  final metric basis is accepted.
+- Provenance contract: retain the source span, initial SVD transform, every
+  polar refinement transform, final composed transform, metric-defect history,
+  and scale-aware composition-defect history. Composition is checked
+  relatively against the existing metric consistency tolerance rather than
+  requiring bitwise associativity. A nonpositive/rank-deficient Gram matrix,
+  composition defect, or final metric defect is a hard audited failure.
+- Alternatives rejected: loosening the `1e-8` metric gate, silently accepting
+  the first recomputed basis, using a pseudoinverse/eigenvalue clipping,
+  adding an epsilon perturbation, or rerunning the physical probe before
+  manufactured verification.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_monolithic_arc.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_monolithic_arc_solver.py`,
+  and `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-24 — Verify fixed-pass arc metric refinement
+
+- Verification: the arc foundation/solver battery passes `25/25`; the final
+  combined reduced/arc/trust-region/hookstep/controller battery passes
+  `120/120`; the shared monolithic residual/Newton/continuation/verified
+  battery passes `72/72`. Changed modules compile and `git diff --check` pass.
+- The manufactured regression records an initial metric defect above `1e-8`,
+  one polar refinement transform, and a final defect below `1e-8` while
+  preserving the source span. No physical probe or continuation was run after
+  the refinement change.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md` and the
+  preceding metric-refinement decision.
+
+## 2026-09-24 — Bind scale-aware composition evidence into arc replay
+
+- Decision: store the existing metric-consistency tolerance with the
+  equilibrated basis and validate transform/basis recomposition by relative
+  Frobenius defect rather than requiring bitwise associativity. Preserve the
+  same initial/refinement/final transform histories on direct-JVP and action
+  consistency failures.
+- Reason: floating-point reassociation may change composed coordinates without
+  changing the represented source span at the existing strict tolerance; a
+  bitwise-only check would reject valid evidence, while an unbounded check would
+  hide a provenance error.
+- Rejected: loosening the gate, accepting a fixed absolute tolerance, or
+  recomputing the final basis from a different span.
+- Verification: arc foundation/solver `25/25`, changed-module `py_compile`,
+  and `git diff --check` pass; no physical probe was run.
+- Related: `_ArcEquilibratedKrylovBasis`, `_ArcEquilibratedBasisFailure`, and
+  `_validate_arc_arnoldi_replay` in
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic_arc.py`.
+
+## 2026-09-24 — Replace source-recomposed polar passes with physical MGS
+
+- Observation: the authorized read-only rerun still failed at Newton iteration
+  3 after the three polar passes: the initial metric defect was
+  `4.8453109785517867e-07` and the final defect was
+  `9.0377926031948164e-08`, still above the unchanged `1e-8` gate. No further
+  physical probe is authorized by this decision.
+- Decision: when the initial SVD basis misses the metric gate, perform exactly
+  two modified-Gram-Schmidt passes in the explicit `D` metric. Update the
+  already formed physical columns `q_j`, recompute `D q_j` after every
+  orthogonalization/normalization update, and accept only the final recomputed
+  `D Q` gate. Do not rebuild the accepted basis from `Z @ T`.
+- Provenance: update the coordinate transform in parallel as mathematical
+  evidence only. Audit source/total recomposition with a documented
+  scale-aware `gamma_k`/elementwise-product roundoff bound; the bound is not a
+  replacement for the strict physical `D Q` orthogonality gate. The same
+  bound is retained for transformed frozen-JVP action evidence when source
+  action cancellation exceeds its ordinary consistency tolerance.
+- Alternatives rejected: increasing the polar-pass count blindly, accepting
+  the `9.0377926031948164e-08` plateau, loosening `1e-8`, or relying on
+  non-portable extended precision.
+- Related: `_ArcEquilibratedKrylovBasis` and
+  `_build_arc_equilibrated_krylov_basis` in
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic_arc.py`, plus the
+  manufactured source-recomposition plateau regression.
+
+## 2026-09-24 — Verify physical-space arc reorthogonalization
+
+- Verification: the arc foundation/solver battery passes `26/26`; the affected
+  reduced/arc/trust-region/hookstep/controller battery passes `121/121`; the
+  changed arc module and regression compile with `py_compile`; and
+  `git diff --check` passes.
+- The plateau regression demonstrates that the prior three source-recomposed
+  polar passes remain above `1e-8`, while exactly two physical-space MGS passes
+  satisfy the unchanged final `D Q` gate. No physical probe or continuation was
+  run after the replacement.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md` and the
+  preceding physical-MGS decision.
+
+## 2026-09-24 — Prioritize the nonlocal PINN over strict direct-path completion
+
+- Decision: The full strict direct-nonlocal continuation through `u_bar=0.0075`
+  is no longer a prerequisite to pursuing the user's original nonlocal fracture
+  PINN objective. Preserve the independently checked nonlocal operators and
+  strict-state evidence; use the already completed stabilized-warning direct
+  curve only as a clearly labeled qualitative diagnostic, with the local FEM
+  curve as an independent, model-different comparator.
+- Why: The existing fixed-`omega=0.5`, 144-sweep, warning-mode run already
+  reached exact `0.0075` in 75 increments, including 10 warning-accepted
+  states. Its accepted-state replay binds provenance, but reports
+  `field_equations_validated=false`, with up to `0.0291481` damage healing;
+  reconstructing the same curve under the same settings would not produce an
+  independent strict reference. The remaining arc/globalization work is
+  specific to the direct solver rather than a prerequisite for the PINN.
+- Alternatives rejected: requiring a full strict direct curve before PINN
+  work, treating warning fields as exact training labels, or rerunning an
+  identical 3-hour warning solve without changing the question being tested.
+- Related: `docs/tasks/fracture2d-engineering-grip-baseline.md` and
+  `engineering_grip_damped_warning_o5_u7p5e3_dumin6p25e6_s144` under the
+  durable engineering-grip data directory.
+
+## 2026-09-24 — Resume staggered adaptive-step investigation
+
+- Decision: At the user's request, pause the coupled/monolithic solver effort
+  and the proposed PINN handoff, and make staggered nonlocal adaptive
+  load-step research the active task. Audit the saved onset of localized
+  drift against Kristensen and Martínez-Pañeda (2020), Section 3.6, before
+  adopting or altering its one-time damage-event trigger.
+- Why: The strict staggered path reaches a post-peak accepted state while a
+  small notch-tip cluster drifts on warning paths; the distinction between
+  step resolution and nonlinear fixed-point convergence must be measured.
+- Alternatives rejected: assuming the monolithic paper's speedup transfers to
+  staggered iteration, silently loosening strict gates, or replacing the
+  historical archive with a warning-mode result.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `docs/tasks/fracture2d-engineering-grip-baseline.md`.
+
+## 2026-09-24 — Do not import the paper's damage threshold unchanged
+
+- Decision: Hold early-cutback implementation pending an explicit trigger and
+  retry choice. Preserve the accepted strict path as valid discrete-equation
+  evidence while investigating its sharply localized displacement mode.
+- Why: In the saved strict staggered path, tip particle 1869 already has
+  `d=0.8178902` before the `0.0061 -> 0.0062` increment and reaches
+  `d=0.9999172` with a `16.92414` displacement/load ratio afterward.
+  The cited paper's `d_before<0.7` and `delta_d>=0.5` conjunction is false
+  at that onset; in warning archives its first true load is `0.0064`, when
+  the drift already exists. The existing failure-only cutback cannot reject
+  a converged-but-localized state.
+- Alternatives rejected: copying the published threshold as a purported drift
+  remedy, changing damage/residual gates to force a rejection, or inventing a
+  universal replacement threshold without a declared diagnostic contract.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md` and the immutable
+  engineering-grip strict/warning archives.
+
+## 2026-09-24 — Isolate the approved one-time staggered damage-event retry
+
+- Decision: Implement the user's explicitly approved, data-specific
+  `d_before<0.9`, `delta_d>=0.1`, one-time `retry_fraction=0.1` policy as a
+  separate strict in-memory controller. Keep a converged-but-discarded trial
+  distinct from a failed nonlinear solve and from committed accepted steps.
+- Why: The existing stabilized attempt audit treats a passing diagnostic as
+  accepted, and its legacy archive/continuation validator cannot truthfully
+  describe a passing trial discarded solely for load resolution. A separate
+  result retains the event evidence without weakening historical replay.
+- Alternatives rejected: mutating the legacy attempt into a failed solve,
+  silently committing the large increment, modifying physical damage or
+  convergence gates, or claiming the paper's monolithic convergence gains.
+- Verification: focused manufactured controller tests `4/4`, changed-module
+  compilation, and `git diff --check` pass. Physical load-path validation and
+  event archive/replay integration remain open.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_adaptive.py`,
+  `docs/tasks/fracture2d-stagger-adaptive-step.md`.
+
+## 2026-09-24 — Separate adaptive-event evidence from legacy replay
+
+- Decision: Keep the experimental early-rejection path and its prospective
+  resumable evidence in a distinct schema. A discarded trial that has passed
+  the strict nonlinear gates is recorded as a solved candidate, not forged
+  into the legacy failed-attempt format. Resume only from an authenticated
+  committed prefix with the earlier one-time event explicitly accounted for.
+- Why: The bounded physical probe confirms that the large `0.0062` trial
+  converges but has tip amplification `16.924`, while the strict `0.00611`
+  retry has amplification `0.747`. Repeating this 15-minute pair after every
+  process timeout would make a full onset study impractical; the legacy
+  stabilized archive cannot encode passing-but-discarded attempts.
+- Alternatives rejected: serializing live objects with pickle, treating the
+  `0.0062` candidate as a failed solve, reusing warning-mode archives, or
+  claiming one strict retry proves that all later steps are drift-free.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_adaptive.py`.
+
+## 2026-09-24 — Hold one-time staggered event path at its strict stall
+
+- Decision: Preserve the strictly accepted `0.006115` scratch prefix and
+  refrain from promoting the one-time damage-event controller to a completed
+  direct solver under the current `du_min=3.125e-6` and 144-sweep limits.
+- Why: Owner-authenticated probes from the same strict checkpoint reject
+  `0.00612` and its configured minimum-step retry `0.006118125` after all
+  144 sweeps with the same seven nonconverged gates. The damage fixed-point
+  residual fluctuates, rather than showing a reliably contracting tail.
+- Alternatives rejected: committing either rejected candidate, equating a
+  successful first `0.00611` retry with full path convergence, or silently
+  shrinking `du_min`, changing acceleration, or allowing repeated event
+  triggers without a new validated numerical contract.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md` and the unchanged
+  historical strict failure archive.
+
+## 2026-09-24 — Label adaptive checkpoints as identity-only evidence
+
+- Decision: Store discarded solved trials and accepted prefixes under a
+  separate, exclusive no-pickle adaptive checkpoint schema with source/model/
+  config/rule bindings. Report `field_equations_validated=false` until an
+  independent owner replay of the field equations is implemented.
+- Why: The existing stabilized archive cannot represent a strictly converged
+  trial rejected solely for event-resolution reasons. Array digests and
+  scalar attempt ordering alone cannot certify nonlinear equilibrium, even
+  though they suffice to reject mismatched or altered checkpoint fields.
+- Alternatives rejected: reusing the legacy archive schema, trusting a
+  scratch checkpoint as a production restart, or using pickle to preserve
+  live nonlinear diagnostics.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_adaptive_checkpoint.py`
+  and `docs/tasks/fracture2d-stagger-adaptive-step.md`.
+
+## 2026-09-24 — Separate energy-weighted error from strict strong residual
+
+- Decision: Study a separately labeled scale-aware and energy-weighted
+  approximate tolerance for the adaptive staggered path, while retaining the
+  existing strict strong-residual/field-equation classification. Require a
+  load-refinement and FEM physical-comparison audit before treating any
+  approximate candidate as a useful crack-growth state.
+- Why: The rejected minimum-step candidate has an independently reproduced
+  maximum AT2 residual `0.967899` (`8.624e-4` on its six-term scale), almost
+  entirely at a volume-`5.402e-6` notch-tip particle. The exact frozen-history
+  quadratic energy gap is `1.92981e-9`, but an owner mechanics/Amor/damage
+  follow-up increases the damage-map correction from `0.000641849` to
+  `0.000662110`. A tiny integrated energy error does not make the nonlinear
+  staggered map contract or prove the crack path.
+- Alternatives rejected: using the FEM post-peak warning curve as an exact
+  per-particle target, equating Abaqus correction tolerance with nonlocal
+  strong-residual normalization, or silently accepting the scratch state under
+  the historical strict schema.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `/tmp/opencode/adaptive_stagger_min_target_candidate_v1.npz`.
+
+## 2026-09-24 — Test a dual residual and FEM-envelope criterion separately
+
+- Decision: Investigate an explicitly parameterized *diagnostic* acceptance
+  audit with independently evaluated AT2 residual and fixed-history energy
+  gap, correction relative to the actual load-step field increment, strict
+  mechanics/history/irreversibility checks, and an empirical FEM/nonlocal
+  displacement-amplification envelope. Continue labeling any state that fails
+  the historical strict gates as approximate; do not edit the strict schema.
+- Why: The authenticated minimum-step candidate has a tiny frozen-history
+  energy gap (`1.93e-9`) but a locally amplifying staggered map. The warning
+  curve at `0.0062` has a smaller six-term-normalized damage residual than
+  the smooth rejected candidate (`4.9e-8` versus `8.6e-4`), yet its tip
+  displacement amplification is `16.86` versus `0.79`. Current-history
+  normalization alone would accept the known outlier as history explodes.
+  Local FEM snapshots stay below `1.064` maximum displacement/load through
+  the reference endpoint, and the smooth nonlocal candidate is `1.059`.
+- Alternatives rejected: a single relaxed relative AT2 residual tolerance,
+  declaring a small integrated energy gap sufficient for convergence, or
+  replacing the historical strict pass flags with a FEM curve-distance gate.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md` and the immutable
+  FEM, strict, and warning archives.
+
+## 2026-09-24 — Reject an eight-percent correction rule as a complete remedy
+
+- Decision: Keep the `0.08` correction-fraction and `0.005` scaled-residual
+  envelope diagnostic-only. Test a single half-minimum load increment from
+  the last strictly accepted `0.006115` checkpoint with all original
+  equation/correction gates unchanged before selecting any continuation rule.
+- Why: The frozen-history strong residual of the rejected candidate is
+  `0.9679`, but its integral energy gap is only `1.93e-9`; the normalized
+  residual and FEM displacement envelope alone cannot distinguish the
+  severely drifting warning state. Replaying one step from a source-bound
+  approximate candidate accepted under an eight-percent trial criterion
+  reaches `0.00612125` only as an unaccepted candidate after 144 sweeps;
+  its correction/increment ratio rises to `0.718`, scaled AT2 residual to
+  `0.00255`, and it still fails all seven historical coupled gates. The
+  approximate criterion does not remain stable even for one step.
+- Alternatives rejected: promoting the eight-percent threshold, broadening
+  it again to pass the next failed state, or accepting a low energy gap as
+  proof of a stable load-controlled crack path.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `/tmp/opencode/adaptive_stagger_tolerance_successor_v1.npz`.
+
+## 2026-09-25 — Do not promote a one-percent tolerance without stable path evidence
+
+- Decision: Keep the FEM-inspired one-percent correction study strictly
+  diagnostic and retain all original strong-equation/strict-pass semantics.
+  Prioritize a branch/globalization diagnosis over any further tolerance
+  widening.
+- Why: A half-minimum smooth candidate at `0.0061165625` satisfies an
+  independent experimental audit with `0.675%` maximum correction/increment,
+  small scaled residual/energy gap, and no particle outlier. Nonetheless its
+  one-step physical continuation to `0.006118125` fails after 144 sweeps with
+  `328.8%` correction/increment while hard mechanics/history gates pass. An
+  apparently reasonable threshold at one step does not define a convergent
+  solver path.
+- Alternatives rejected: accepting the seed as a historically strict root,
+  increasing a tolerance above `3.288` merely to mark the next step passed,
+  or using FEM's warning post-peak curve as an exact target.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `/tmp/opencode/adaptive_stagger_onepercent_successor_v1.npz`.
+
+## 2026-09-25 — Keep conditional tip crossing separate from full equilibrium
+
+- Decision: Treat the source-bound tip-only fixed-point map scan as a
+  diagnostic of the near-peak branch. Retain original strict stopping gates
+  and do not use a conditional scalar zero to authorize whole-field acceptance.
+- Why: Fixing all other material damage to the rejected smooth candidate,
+  the tip map error is positive near `d_tip=0.85`, then changes sign between
+  `0.999` and `0.9999`, where tip displacement/load exceeds `9`. Neighbor
+  particle 1873 retains a `0.03084` map defect at the conditional crossing.
+  This supports a fold/globalization concern but does not prove that the
+  complete nonlocal equations lack another acceptable root.
+- Alternatives rejected: promoting the conditional crossing as a strict
+  solution, broadening tolerance to accept a `329%` correction, or declaring
+  smooth-branch root nonexistence without full-system evidence.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `/tmp/opencode/fracture2d_tip_map_scan.py`.
+
+## 2026-09-25 — Keep algebraic and physical crack-growth validation separate
+
+- Decision: Continue reporting the high-damage-seeded stagger map as a
+  distinct read-only branch diagnostic, never as an accepted adaptive step.
+  Further numerical acceptance must both satisfy the original field
+  equations and be compared with independently trustworthy FEM/material
+  field evidence; the scalar threshold study remains isolated.
+- Why: Borrowing a historical high-damage guess at the failed target makes
+  the alternating damage map contract to `9.41e-9` by sweep 258, while
+  the near-root tip displacement/load remains `14.77` and history at the tip
+  reaches about `903640`. FEM snapshots have maximum displacement/load
+  below `1.064`, and the smooth one-percent candidate's successor diverges
+  from the proposed correction threshold. A root of the discrete numerical
+  equations need not meet the requested smooth physically comparable branch.
+- Alternatives rejected: calling a different-path, unvalidated initial guess
+  a valid continuation; allowing 258 sweeps and ignoring field outliers; or
+  marking the smooth candidate converged by further widening tolerances.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `/tmp/opencode/fracture2d_high_branch_stagger_probe.py`.
+
+## 2026-09-25 — Define the user's two-outlier allowance without deleting physics
+
+- Decision: Assess an experimentally converged high-damage branch by
+  comparing all 3395 original material particles against FEM, declaring
+  outliers through an explicit displacement/load envelope before comparing
+  the remaining field. Exclusion is **only** from a reported physical
+  comparison; original BA mechanics, history, AT2 residual, quadrature,
+  conservation, and strict gates still include all particles.
+- Why: The tip-only high-damage initial guess at `0.006118125` solves the
+  original map to represented precision, and the FEM/nonlocal clouds have
+  identical node ordering. Exactly two tip particles exceed the `1.08`
+  envelope while the other nodes' normalized displacement weighted RMS
+  differs by `1.72%` from the stage-near FEM `0.0058` snapshot. The complete
+  FEM archive maximum is `1.06670`; prior `<1.064` comparisons included
+  only snapshots at/after `0.005`. This correction does not retroactively
+  make FEM warning snapshots or the nonlocal branch a validated full path.
+- Alternatives rejected: deleting outlier particles or their contributions,
+  choosing outlier indices to minimize FEM error, calling the different-load
+  seed an accepted zero-start step, and using an FEM warning curve as an
+  exact pointwise constitutive target.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `/tmp/opencode/adaptive_stagger_tip_only_seed_v1.npz`.
+
+## 2026-09-25 — Reject isolated front corrections as a global solver
+
+- Decision: Keep the 2- and 32-node secant/Newton crack-front scans
+  diagnostic-only and do not replace the old staggered globalization with a
+  local correction that is not a descent direction for the complete map.
+- Why: From the strict post-switch `0.006218125` state the next three
+  targets exhaust all 144 sweeps. A two-node owner finite-difference
+  correction reduces residuals on those nodes but shifts a larger defect to
+  node 2034 and raises both the global maximum and volume-weighted RMS.
+  A 32-node projected Jacobian has a small singular value `0.00660` and a
+  near-zero positive eigenvalue `0.00823`; its correction increases global
+  error even at quarter step and larger steps violate irreversibility.
+- Alternatives rejected: accepting a `1%`-eligible candidate that fails at
+  the next load with `12.6%` fixed-point correction/increment, silently
+  increasing a tolerance again, or claiming the restricted Jacobian proves
+  full-system root nonexistence.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `/tmp/opencode/fracture2d_front_secant_probe.py`.
+
+## 2026-09-25 — Pursue same-target self-seeded stagger restart
+
+- Decision: For a separate experimental path, when a complete but
+  nonconverged strict alternating attempt reaches its sweep ceiling, retain
+  the final *uncommitted* damage iterate as an explicit, auditable initial
+  guess for further fixed-omega alternation at the **same** load with the
+  **same** immutable committed history. Keep original mechanics, Amor,
+  AT2 equations and strict final gates; give the restart its own provenance
+  rather than writing it as an ordinary legacy attempt.
+- Why: A source-bound experiment at `0.006243125` starts from the legacy
+  failed candidate, continues from its own final iterate (not a warning
+  archive), and reaches a full damage-map defect `8.68e-9` at cumulative
+  sweep 1030. Its current-history strong AT2 residual is `7.12e-6` versus
+  old limit `0.03916`; displacement/history/reaction last corrections also
+  pass. Independent owner recomputation gives exact trial Amor history,
+  positive damage monotonicity, free mechanics residual `8.18e-8`, and
+  force/moment defects near roundoff. Exactly two predefined tip nodes are
+  displacement outliers; the other 3393 nodes' normalized displacement
+  differs by volume-weighted RMS `2.05%` from the FEM `0.0059` warning
+  snapshot, reaction `592.787` versus `589.764`. A separate warning-derived
+  seed found a close physical state faster, but is not required and must not
+  be a production solver dependency.
+- Alternatives rejected: accepting the original 144-sweep candidate under
+  a widened `1%` tolerance that fails its next step, using warning fields as
+  accepted labels, discarding the two outlier particles from the equations,
+  or applying a restricted Newton direction that increases global residual.
+- Relation: experimental recovery of the approved adaptive stagger goal,
+  `docs/tasks/fracture2d-stagger-adaptive-step.md` and
+  `/tmp/opencode/adaptive_stagger_self_seed_extended_picard_v1.npz`.
+
+## 2026-09-25 — Keep post-restart cutbacks strict and bounded
+
+- Decision: Preserve the successful same-target restart as a local
+  experimental method, but reject the proposition that one universally
+  sufficient 1000-sweep recovery budget or a one-percent correction
+  threshold completes the displacement-controlled crack path. Continue
+  retaining only original-gate accepted states and explicit cutback/failure
+  evidence.
+- Why: From the strictly accepted `0.006243125` scratch state the next
+  loads `0.006268125` and `0.006293125` pass in 32/30 sweeps, whereas
+  `0.006318125` and `0.006305625` each exhaust 144 Anderson plus 1000
+  same-load recovery sweeps. A smaller increment to `0.006299375` passes
+  in 37 sweeps, still with only the same two predefined FEM comparison
+  outliers. This is repeated near-peak step sensitivity, not permission to
+  relabel failed solutions as converged or to silently enlarge the budget.
+- Alternatives rejected: warning-committing either large-step failure,
+  inferring post-peak path completion from one recovered target, or rerunning
+  identical costly targets without a changed numerical question.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md` and the
+  source-bound `/tmp/opencode/adaptive_restarted_branch_step01_17e4e03461a9.npz`.
+
+## 2026-09-25 — Investigate user-selected AT2-energy outer continuation
+
+- Decision: At the user's explicit selection, investigate the *existing*
+  surface-only discrete nonlocal AT2 fracture energy as an outer path
+  coordinate around the repeated displacement-controlled stalls. Keep
+  original fixed-damage mechanics, committed-history Amor, and fixed-history
+  damage subproblems as the inner staggered map. First evaluate the scalar
+  energy response at frozen damage and different nonnegative absolute loads;
+  do not assume that every positive energy target has a bracketed load root.
+- Why: Source-bound strict experimental states from `0.006115` to
+  `0.006299375` have strictly increasing surface energy, but the required
+  increment varies strongly (`0.02412`, `0.04118`, `0.12553`, `0.02161`,
+  `0.02752`, `0.01546`), while two larger displacement targets exhaust
+  144 Anderson plus 1000 same-load recovery sweeps. This calls for an
+  explicit fracture-resolution coordinate rather than declaring the
+  next large load step converged by a widened tolerance.
+- Alternatives rejected: silently implementing an arc-length constraint
+  from local FEM, equating elementwise irreversible damage with monotonic
+  nonlocal surface energy without checking, or treating the prior coupled
+  arc module as an already-validated staggered production solver.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_monolithic_arc.py` for
+  the independently derived surface-only energy, and the preserved
+  experimental strict-prefix snapshots.
+
+## 2026-09-25 — Audit damaged-operator weakness before tuning thresholds
+
+- Decision: Treat the user's repeated crack-tip displacement outliers as a
+  possible damaged BA operator/discretisation weakness; run only
+  source-bound frozen-field diagnostics before proposing any changed
+  kernel, residual stiffness, BA support, or degradation law. Keep all
+  particles in mechanics and damage equations.
+- Why: Nodes 1869/1873 have ordinary target-inclusive support sizes (8–15)
+  and shape conditions (up to about 6.2), not missing-bond/rank evidence.
+  At the identical nodal damage field, their damaged BA local block
+  minimum eigenvalues are `0.472/3.142`, versus exact-CG1-FEM blocks
+  `1643/1069`; two-node observed-displacement virtual energy is `0.00628`
+  for BA versus `32.13` for FEM under matching plane-strain material data.
+  The intact two-node mode is already about 300 times softer in BA, and
+  the damaged gap increases to about 5100. A strong-form tolerance change
+  cannot restore this lost high-frequency mechanical stiffness.
+- Alternatives rejected: deleting/reweighting one or two outlier particles
+  inside the PDE, claiming source support rank is defective without evidence,
+  or silently increasing `k_res` to force cosmetic FEM agreement.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `/tmp/opencode/fracture2d_damaged_operator_outlier_audit.py` and
+  `/tmp/opencode/fracture2d_outlier_mode_energy.py`.
+
+## 2026-09-25 — Residual-stiffness floor does not cure the local mode
+
+- Decision: Do not tune `k_res` as an outlier cure on the existing BA
+  mechanics. Defer any change to the declared variational operator or
+  degradation integration until its formulation is explicitly selected and
+  independently derived and reviewed under `docs/NUMERICAL_METHODS.md`.
+- Why: At identical frozen damage, 1000-fold increase from `k_res=1e-8` to
+  `1e-5` only changes node 1869 displacement/load `21.84 -> 21.12`, node
+  1873 `6.67 -> 6.45`, and BA minimum local block `0.472 -> 0.502` at
+  node 1869. Exact BA edge-energy decomposition of the two-point mismatch
+  attributes `12.351` and `3.469` of `15.857` *intact* virtual energy to
+  centers 1869/1873 (about 99.8%). At damage `0.999955/0.999637` their
+  contributions collapse to `1.49e-7/4.91e-7`; the only substantive
+  remaining virtual energy comes from less damaged neighboring centers.
+  This is the prescribed `W_i=V^m_i g(d_i)+V^g_i g(0)` quadrature acting on
+  BA gradients, not evidence of a missing edge or a linear-solver failure.
+- Alternatives rejected: silently raising the residual floor, forced
+  complete damage as an *unverified* stiffness cure, or removing these
+  points from the force/damage balance. A genuinely new stabilization or
+  degradation quadrature changes the declared fracture equations and
+  requires a separate formulation decision.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `/tmp/opencode/fracture2d_outlier_kres_frozen_probe.py`,
+  `/tmp/opencode/fracture2d_outlier_mode_energy.py`.
+
+## 2026-09-25 — Require PINN-transferable equations for a direct reference
+
+- Decision: Any experimental drift remedy must provide the **same explicit
+  fixed-shape nonlocal graph, energy, mechanics residual, material history,
+  and damage residual** to both the direct solver and the later PINN. First
+  perform independently checked, source-bound frozen-field research; do not
+  relabel it as a converged new coupled fracture solution or install an
+  unreviewed physical model.
+- Why: The user clarified that the direct nonlocal solver's primary purpose
+  is the nonlocal PINN reference. Opaque node deletion, imposed damage
+  overrides, or solver-only heuristic displacement clamps cannot meet this
+  objective unless explicitly made part of one validated common formulation.
+  A strictly positive, row-normalized graph kernel over the **existing**
+  horizon is a provisional PINN-transferable alternative for spatially
+  distributing source-center degradation; its corresponding *adjoint*
+  positive-energy history driver and rollback remain to be derived and
+  validated before coupled implementation.
+- Alternatives rejected: editing the original BA formulation silently or
+  copying the original pointwise history equation after changing which
+  damage variables degrade a mechanical center's energy.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `docs/tasks/fracture2d-direct-nonlocal.md`,
+  `/tmp/opencode/fracture2d_pinn_transferable_kernel_probe.py`.
+
+## 2026-09-26 — Reject horizon-scale damage averaging as a FEM-like PINN reference
+
+- Decision: Keep the separately authorized, symmetric volume-balanced
+  horizon-kernel damage coupling as an experimental **algebraically strict
+  counterexample**. Do not promote its full zero-to-endpoint path to a
+  physically validated FEM-comparable nonlocal PINN reference merely because
+  it eliminates crack-tip displacement outliers and passes the original
+  numerical acceptance gates.
+- Why: The candidate's fixed graph preserves constants under its forward
+  and volume-adjoint actions within `7.4e-14`; five manufactured checks pass.
+  Seventy-five positive `1e-4` steps starting at exact zero strictly reach
+  exact `u_bar=0.0075` with no FEM-envelope displacement outlier. Each
+  retained field was rechecked against candidate mechanics, adjoint-Amor,
+  AT2, conservation and irreversibility, with cumulative identity-only
+  scratch checkpoints. Yet same-load FEM at the endpoint reports reaction
+  `3.977` versus candidate `729.195` (factor `183.34`), max damage
+  `1.00454` versus `0.76607`, and nonlocal AT2 surface energy about
+  `0.440` versus FEM `2.084`. The candidate never reaches a force peak or
+  developing fracture branch in the tested span; its `u_bar=0.0062`
+  reaction `669.85` differs from FEM `7.014` (post-peak working state).
+- Alternatives rejected: claiming that strict residuals or elimination of
+  one/two outlier particles alone validates a reference solution; altering
+  original accepted-state or warning archive labels; tuning a tolerance to
+  make the two models' distinct physical curves appear converged.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_kernel_damage.py`,
+  `/tmp/opencode/fracture2d_kernel_damage_continue_probe.py`, and
+  `/tmp/opencode/fracture2d_kernel_damage_fem_comparison.py`.
+
+## 2026-09-26 — Investigate separate P1-consistent damage quadrature candidate
+
+- Decision: At the user's explicit choice, investigate a **separate**
+  mesh-derived P1 consistent-mass spatial degradation quadrature using the
+  *existing* reference triangulation solely to produce fixed positive
+  nodal-to-source weights. Retain BA displacement kinematics, nonlocal AT2
+  damage graph and the mathematically paired volume-adjoint Amor history.
+  Demand full strict zero-start path, field replay, FEM response and
+  eventual mesh/horizon sensitivity before deciding if it can serve as a
+  common direct/PINN nonlocal reference.
+- Why: The horizon-sized averaging delayed fracture past the load endpoint.
+  P1 consistent mass defines an independently known no-fit quadrature
+  `M_ii=sum_T A_T/6`, `M_ij=sum_{T: i,j in T}A_T/12` for off-diagonals,
+  `W=diag(V)^{-1}M` with `V_i=sum_{T:i in T}A_T/3`. It preserves constant
+  primal and volume-adjoint fields while distributing tip degradation only
+  over mesh-neighbor cells. In a *frozen old-model high-damage field* its
+  mechanics solve reduces the two large point displacements to one
+  envelope outlier (tip 1869 amplification `1.306`) and yields reaction
+  `611.11` at load `0.006243125`; this is not a coupled new-model root.
+- Alternatives rejected: promoting the broad-horizon nonfracturing branch,
+  silently replacing the original model, or declaring a frozen mechanics
+  comparison sufficient proof of the new candidate's path or PINN validity.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `/tmp/opencode/fracture2d_local_mass_quadrature_frozen_probe.py`.
+
+## 2026-09-26 — P1 mass averaging does not eliminate the crack-tip weak mode
+
+- Decision: Do not promote the isolated P1-mass degradation model to the
+  physically validated nonlocal PINN reference. Freeze its experimental
+  results for negative-control and model-design analysis. Revisit the
+  correspondence high-frequency energy/kinematics rather than widening the
+  physical outlier allowance or automatically averaging degradation over
+  ever more neighbors.
+- Why: Seven manufactured energy/adjoint/zero-step checks pass. The separately
+  bound P1 candidate follows a zero-start, terminal-equation-checked path
+  through load `0.0069`; it strictly passes a `0.00695` half increment in
+  150 sweeps and a same-model `0.007` continuation in 172 sweeps after
+  bounded extra iterations. However onset is late: FEM peaks near `0.0057`,
+  while the P1 reaction remains `683.825` at `0.0068` and `675.319` at
+  `0.007`. At `0.00705` and `0.0071` the first two FEM-envelope point
+  outliers return; at `0.00715` a third node (1873) exceeds the allowance,
+  and tip 1869 displacement/load amplifies to `16.38` even though the
+  candidate's terminal mechanics/history/AT2 gates pass. The shorter
+  averaging support reduces the broad-kernel physical lag but cannot
+  eliminate the intrinsic near-zero local mechanical mode at full tip damage.
+- Alternatives rejected: claiming the first frozen-field result proves
+  pathwise success, labeling a three-outlier terminal candidate physically
+  acceptable, forcing `d=1` as a stiffness remedy, or treating the two
+  candidate models' different physics as numerical tolerances.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_p1_mass_damage.py`,
+  `/tmp/opencode/fracture2d_p1_mass_after_cutback.py`.
+
+## 2026-09-26 — Qualify the near-zero mode as damage-field dependent
+
+- Decision: Evaluate candidate displacement drift with the **same nodal
+  damage** in the local FEM virtual-energy oracle before attributing it
+  solely to a BA implementation or stiffness bug. Continue to reject the
+  P1 path for the three-point physical outlier and reaction mismatch.
+- Why: At the new `0.00715` root, P1 tip/neighbor damage is about
+  `0.9992–0.9999`. The observed three-node displacement mismatch has BA
+  energy `0.00737` and local FEM energy `0.03889` under this *same* damage;
+  FEM is also weak locally, unlike the former old-model two-node test in
+  which FEM energy was `32.13`. This shifts the primary question to why
+  damage localization/propagation differs so strongly from the FEM path,
+  in addition to how BA treats high-frequency modes.
+- Alternatives rejected: deducing a universal BA-only stiffness defect
+  from local diagonal blocks or treating the P1 three-point mode as proof
+  that any physically faithful stagger solver must delete nodes.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `/tmp/opencode/fracture2d_p1_mass_tip_mode_energy.py`.
+
+## 2026-09-26 — Do not assume fluctuation-only BA stabilization cures tip drift
+
+- Decision: Do not implement the parameter-free variance-only split of the
+  existing BA energy as a supposed point-drift cure on the current cloud.
+  Require a more effective and independently reviewed modification of
+  high-frequency mechanics if this avenue is pursued.
+- Why: Quadratic plane-strain energy exactly decomposes into energy of the
+  `eta`-averaged BA strain plus nonnegative bond-associated variance.
+  Replacing `g(d_i)` by the normalized-neighbor `gbar_i` *only on the
+  variance* preserves affine energy and barely affects the original
+  pre-event displacement's elastic energy (`+0.052%` with P1 support,
+  `+0.156%` with horizon support). However the observed two-tip-node
+  virtual mode has only about `2.48%` intact energy in that variance.
+  Its actual damaged BA virtual energy rises only `0.00628 -> 0.00984`
+  (P1) or `0.04002` (horizon); same-damage FEM is `32.126` in the earlier
+  state. Thus the seemingly ideal affine-preserving split chiefly misses
+  the near-zero source-averaged mode and is not justified as a cure by
+  its exact variance identity alone.
+- Alternatives rejected: an uncalibrated large penalty multiplier to force
+  FEM agreement, or building another full zero-start path before confirming
+  that the proposed term actually stiffens the observed weak mode.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `/tmp/opencode/fracture2d_ba_variance_split_frozen_probe.py`.
+
+## 2026-09-26 — Keep same-mesh horizon comparisons source-bound and separate from acceptance
+
+- Decision: Under the user's selected original-equation mesh/horizon
+  sensitivity route, regenerate diagnostic `delta=0.040/0.032` graphs only
+  after byte-equivalent reproduction of the original `delta=0.048` graph
+  and exact equality of material vertices, triangles, volumes and boundary
+  tags. Treat a re-solve at a frozen **other-horizon** damage field as an
+  operator sensitivity, never an accepted continuation at that horizon.
+  Advance a new-horizon path only from its own zero state with unchanged
+  strict BA/Amor/AT2 equations and gates.
+- Why: On the same 3395-node material mesh, shrinking horizon
+  `0.048 -> 0.040 -> 0.032` raises the damaged 1869 local block minimum
+  `0.472 -> 0.999 -> 2.803` and the old two-node virtual energy
+  `0.00628 -> 0.01914 -> 0.04111`. The *frozen-damage* tip
+  displacement/load falls `21.84 -> 10.76 -> 6.74` but remains well above
+  the FEM-informed `1.08` envelope. The distinct `delta=0.032` zero-start
+  strict original-model path progresses through `0.0058`, then repeated
+  cutbacks/144-sweep attempts stall near `0.00583`; shrinking horizon
+  changes the onset but does not yet cure continuation/drift.
+- Alternatives rejected: interpreting a cross-horizon fixed-damage field
+  as a coupled solution; selecting a single horizon solely to fit FEM;
+  labeling a failed 144-sweep target as converged because its terminal
+  residual decreases with load cutbacks.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `/tmp/opencode/fracture2d_horizon_same_mesh_graphs.py`,
+  `/tmp/opencode/fracture2d_original_horizon_zero_path.py`.
+
+## 2026-09-26 — Same-target self-seeded restart resolves the first d032 stall locally
+
+- Decision: Preserve the strict `delta=0.032` `0.005834375` same-load
+  recovery as an **experimental branch step**, bound to its actual last
+  committed `0.00583125` state and explicit original-failure seed. Run a
+  held-out next-step test before declaring a repeatable adaptive method.
+- Why: The authoritative 144-sweep Anderson attempt rejected all seven
+  coupled gates; its last damage iterate alone seeded a fixed-omega `0.5`
+  continuation at the *same* target and *same* immutable history. After
+  263 additional sweeps it passed every original strict gate. Owner
+  recomputation gives AT2 strong residual `1.1714e-5`, map error
+  `5.3766e-9`, free-force infinity residual `2.3952e-7`, reaction
+  `621.179`, one displacement-envelope outlier (particle 1869), and
+  exact committed-history Amor. The original failed candidate was not
+  committed and the previous 256-extra-sweep run remains a separate
+  honestly failed counterexample.
+- Alternatives rejected: loosening the history/fixed-point gates, using an
+  external warning field, erasing failure provenance, or claiming that one
+  recovered root proves full-path continuation or absence of later drift.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `examples/fracture2d/nonlocal_engineering_grip_stagger_restart.py`,
+  `/tmp/opencode/original_BA_d032_self_restart_u5p834375_v2.npz`.
+
+## 2026-09-26 — Require a held-out step after the d032 own-seed root
+
+- Decision: Treat the `0.005834375` source-bound own-failure-seeded root as
+  usable **local continuation evidence** only after an independently
+  replayed, strictly accepted next load. Preserve its experimental
+  upstream parent chain; do not turn the scratch files into a certified
+  zero-start production archive without exact attempt/rollback replay.
+- Why: After owner revalidation of the parent state, the next original
+  equations/strict gates at `0.0058375` pass in **17 ordinary Anderson
+  sweeps**, without another restart. Owner recomputation gives free-force
+  infinity residual `2.15e-7`, current-history AT2 strong residual
+  `2.16e-6`, damage-map error `1.83e-9`, reaction `621.251`, and still
+  exactly one diagnosed outlier (node 1869, amplification `4.262`). This
+  gives one genuine held-out successor, but neither proves the later
+  fracture-front path nor validates a load-increment growth rule.
+- Alternatives rejected: equating the original 144-sweep failure with
+  accepted convergence, relying on the previous external warning solution
+  as a numerical seed, or labeling a single next-step pass a full
+  PINN-reference fracture curve.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `/tmp/opencode/original_BA_d032_successor_from_own_restart_u5p8375_v1.npz`.
+
+## 2026-09-26 — Separate strict field convergence from three-point physical rejection at d032
+
+- Decision: Keep the d032 `0.0061125` roots as independently replayed
+  **algebraic** evidence only; do not extend a physical comparison prefix
+  past the last strict two-or-fewer-outlier state at `0.006109375`.
+- Why: After strict own-seed restart at `0.005834375`, a next step and
+  bounded `2.5e-5` increments reach `0.0060875` with one or two diagnosed
+  outliers; a half step to `0.0061`, then another half to `0.00610625`
+  and minimum `3.125e-6` step to `0.006109375` strictly pass. At target
+  `0.0061125`, 144 Anderson plus 256 fixed-omega sweeps fail, whereas
+  144+296 or 144+299 pass the original equations from **two distinct**
+  strict smooth prefixes. Both converged roots exceed the user's
+  observational budget with outliers `1868,1869,1873` and tip/load
+  amplification about `10.09`; changing only the load cutback does not
+  avoid the third anomalous point at this target.
+- Alternatives rejected: treating successful strict algebraic gates as
+  equivalent to FEM-like physical acceptance, deleting an outlier from
+  equilibrium while still claiming unchanged BA/AT2 equations, or naming
+  an experimental larger-increment path a production adaptive schedule.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `/tmp/opencode/fracture2d_d032_branch_growth_probe.py`.
+
+## 2026-09-26 — Verify actual Gmsh h-refinement before using a mesh comparison
+
+- Decision: Generate a separate mesh from an explicitly versioned
+  `lc_near=0.002` geometry copy, and verify physical group cell counts and
+  actual tip-region spacing before treating it as a refinement. Preserve
+  the original `.geo`, FEM mesh/archive, and source cloud untouched.
+- Why: `gmsh ... -setnumber lc_near 0.002` applied to the original `.geo`
+  produced **exactly the same** 3395 material nodes/6284 triangles and
+  `119/20/119` notch upper/tip/lower segments as the `0.004` mesh; the
+  command-line override was ineffective for that `DefineNumber` invocation.
+  The isolated `.002`-default `.geo` produced 3711/6634 material
+  nodes/triangles and `238/38/238` tagged notch segments, with lower
+  median near-tip nodal volume and element edge length. Rebuilding the
+  material cloud at both diagnostic horizons now yields separately
+  fingerprinted graphs (50128 edges at `.032`, 104678 at `.048`). This is
+  a *near-tip mesh* diagnostic, not an established global h-convergence
+  sequence or a valid source for the old node-index-specific crack state.
+- Alternatives rejected: silently using the first, unchanged Gmsh output
+  as a refined study, interpolating an old-horizon accepted state across
+  the removed slot without a validated physical map, or running JAX GPU
+  simultaneously with FEniCS mesh extraction.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `/tmp/opencode/fracture2d_tip_refined_lc002.geo`,
+  `/tmp/opencode/fracture2d_refined_clouds.py`.
+
+## 2026-09-26 — Separate PINN operator validation from fracture-path continuation
+
+- Decision: At the user's request, re-prioritize a read-only root-cause
+  diagnosis of the original nonlocal mechanics/damage/history operators
+  and their discrete convergence, before more same-control crack-growth
+  cutbacks. Test the direct/PINN common residual first on intact,
+  fixed-damage, fixed-history, and strictly retained pre-instability
+  states; treat full post-peak continuation as a separate validation
+  milestone. No model equation or accepted-state status is changed.
+- Why: independent fixed-subproblem checks pass, yet damaged BA
+  source-center weights strongly soften some short-wavelength tip modes
+  and coupled damage/history feedback approaches a noncontracting mode.
+  A refined cloud passes one load at which the coarse cloud fails but
+  rejects the next; successful full-load averaging suppresses fracture.
+  Another solver-control scan cannot distinguish operator/discretization
+  error from coupled branch instability.
+- Alternatives rejected: further untargeted tolerance/damping/iteration
+  tuning, equating a strictly solved but physically mismatched branch
+  with operator validation, or assuming the post-peak FEM warning curve
+  provides an exact pointwise target.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `docs/NUMERICAL_METHODS.md`.
+
+## 2026-09-26 — Prioritize physical FEM similarity and permit qualified warnings
+
+- Decision: Apply the user's revised acceptance priorities to the direct
+  nonlocal reference: FEM-like solution-field and reaction-curve shapes with
+  controlled peak-force discrepancy matter more than perfect agreement or
+  historically strict convergence. Honest warning-mode candidates may be
+  assessed physically. Diagnostic exclusion of drifting points from a field
+  comparison is allowed; actual deletion from the equations is a separate
+  permissible *research model* only if its recomputed fields and reaction
+  meet the physical objectives and the PINN can use the same model.
+- Why: local FEM also has warning snapshots; the validated old-model peak
+  magnitudes are close, but the completed old warning path has a strongly
+  discrepant final force. Reporting exclusion cannot change reaction, and
+  deleting particles changes BA supports, forces, AT2 and continuation.
+  Before judging success, an explicit peak-error tolerance and warning
+  acceptance policy are needed; no new threshold is selected here.
+- Alternatives rejected: requiring historical strict success for every
+  snapshot, calling outlier-masked plots a newly solved crack path, or
+  deleting nodes silently while labeling results original BA/Amor/AT2.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `docs/PROGRESS.md`.
+
+## 2026-09-26 — Observational masking cannot validate the old warning curve
+
+- Decision: Close observational-only outlier removal as a remedy for the
+  user's full FEM-like reaction-curve goal. Retain the mask as a diagnostic
+  field comparison, and require a separately selected, derived, and
+  **recomputed** direct/PINN model for any actual material deactivation.
+- Why: A hash-bound, exactly matched 3395-node read-only audit finds peak
+  forces `641.340/642.486` nonlocal/FEM (only `0.1783%` discrepancy), but
+  post-peak forces `631.672/7.014` at `0.0062` and `69.154/3.977` at
+  `0.0075`. The prior `1.08` displacement envelope flags two points at
+  onset and 31 along the crack at the endpoint. Excluding all 31 from
+  reporting improves final normalized displacement RMS `0.06784 ->
+  0.03595` but leaves the original force, severe load-shift, inherited
+  warning path and damage healing `0.02915` untouched. Early crack-stage
+  matching does improve masked displacement RMS to `0.01112`, so the
+  physical failure is in later propagation/complete-opening response.
+- Alternatives rejected: certifying the warning path from its peak
+  magnitude alone, retuning the reporting mask to reduce a force computed
+  elsewhere, or silently removing point/edge contributions from the old
+  original-model force and calling it unchanged BA/Amor/AT2.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `/tmp/opencode/fracture2d_warning_fem_mask_audit.py`.
+
+## 2026-09-27 — Return to original staggered nonlocal model
+
+- Decision: At the user's explicit correction, do not investigate node
+  deletion or another fracture-to-void model. Preserve the original
+  BA/Amor/AT2 nonlocal operator, material particles, fixed graph and
+  history semantics; investigate adaptive staggered load stepping with
+  truthfully labeled, bounded warning acceptance as a *numerical* path.
+  The peak force and approximate onset need no new model fitting; the
+  remaining objectives are improved end reaction, post-peak response, and
+  fewer drifting material points.
+- Why: the already completed warning archive has an accurately sized
+  peak, and read-only masked phase-aligned early-crack fields are close
+  to FEM. The one-time strict event cutback temporarily removes visible
+  tip drift but stalls just after; indiscriminate unbounded warnings
+  accumulate up to `0.02915` damage healing and end at `69.15` versus
+  FEM `3.98`. Neither direct masking nor a single cutback proves the
+  original-equation target. A distinct coupled history path may depend
+  on the load schedule, but its improvement has **not** been established.
+- Alternatives rejected: the earlier proposed node-deletion experiment,
+  reclassifying old warning fields as strict, blind tolerance expansion,
+  or assuming load-step adaptation alone must recover the local FEM curve.
+- Related: supersedes the deleted-point direction suggested at the end of
+  `docs/tasks/fracture2d-stagger-adaptive-step.md`'s prior audit;
+  `docs/PROGRESS.md` current focus.
+
+## 2026-09-27 — Do not equate same-target damage-map recovery with late-curve success
+
+- Decision: Keep the new original-equation `0.006118125` own-failure-seeded
+  128-sweep follow-up as a failed, source-bound diagnostic. Do not turn a
+  decreasing map residual into acceptance, assume a high-damage root has
+  FEM-like fields, or select an unlimited restart budget as the adaptive
+  staggered controller.
+- Why: authentic strict `0.006115` parent and old failed-iterate NPZ were
+  replayed/bound, then fixed `omega=0.5` at unchanged load/history reduced
+  the last map defect to `7.1244e-5` and AT2 strong residual to `0.06079`,
+  but seven strict coupled gates still fail after 128 more sweeps; max
+  candidate damage is already `0.999884`. No accepted load-step response
+  or altered end reaction exists. Prior approximately `1%`-eligible
+  smooth candidates likewise failed a held-out successor. Physically
+  useful step and warning controls require explicit rollback and a
+  successor/curve check, not repeated error-tolerance scans.
+- Alternatives rejected: promoting the failed candidate, deleting high-damage
+  nodes, extrapolating a final reaction from the trial, or rerunning an
+  unchanged 128-sweep experiment solely to collect more of the same data.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `/tmp/opencode/fracture2d_original_d048_ownseed_stall_probe.py`.
+
+## 2026-09-27 — Separate empirical warning quality from original strict flags
+
+- Decision: For the user's unchanged-equation staggered direction, add an
+  isolated bounded warning-study controller that does not replace the old
+  owner or archive. Explicit numerical/physical study envelopes screen a
+  complete original fixed-omega trial *before* commit; rejected complete
+  trials retain original warning/strict status and trigger a recorded
+  cutback. Strictly solved study steps may grow up to `du_initial`; study
+  warnings retain their increment. No provisional warning is labeled a
+  production field-equation-validated state.
+- Why: source-bound retrospective screening separates mild onset warnings
+  from large map/healing/outlier defects; a new physical run from old
+  warning `0.0062` provisionally passes one `0.006225` cutback but its
+  held-out `0.00625` rejects. From original strict `.048` `0.0061`, a
+  zero-outlier study window provisionally accepts `0.00611`, discards a
+  `0.00612` two-outlier *warning* trial, and accepts `0.006115`, then
+  `0.00611625` warning cutbacks with no outliers and reaction `641.368`.
+  Its next `0.0061175` trial again has two diagnosed outliers, despite
+  meeting the numerical warning envelope. Study limits (`map <=0.001`,
+  absolute AT2 strong <=`1`, healing <=`2e-5`, and diagnostic amplification
+  `1.08`) are **data-specific probes** selected for distinguishing
+  archived states, not verified physical universal criteria. The full
+  endpoint and tail-force improvement remain unproven.
+- Alternatives rejected: requiring every accepted step to pass the
+  historical strict gate, unbounded warning acceptance (the old full path
+  heals `0.02915`), classifying early two-point high-history branches as
+  complete physical agreement from a passing scalar envelope, or
+  permanently reducing the load increment without a recorded growth
+  choice.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_relaxed_adaptive.py`,
+  `examples/fracture2d/README.md`,
+  `docs/tasks/fracture2d-stagger-adaptive-step.md`.
+
+## 2026-09-27 — Keep transient-warning recovery experimental after front failure
+
+- Decision: Preserve all outcomes of the user's approved original-equation
+  load-growth comparison as **provisional or rejected** research evidence.
+  Do not reinterpret a warning that fails the previously declared scalar
+  envelope as strictly converged, or approve the proposed one/two-step
+  defect bridge as a complete adaptive staggered path. Retain the
+  original BA/Amor/AT2 owner and material particles unchanged.
+- Why: from a parent/owner-replayed zero-outlier `0.00611625` warning
+  prefix, bounded growth and rollback reach provisional `0.00624375`
+  with two point outliers and reaction `623.793`. A separate old strict
+  source-bound near-load branch has a longer crack and reaction
+  `592.787`; warning ease alone is not physical superiority. The
+  `0.00624375 -> 0.00625` original candidate fails only an *empirical*
+  absolute map/AT2 envelope (`0.00390/3.626`) yet improves reaction and
+  crack shape; its two counterfactual successors at `0.006275/0.0063`
+  recover that same envelope and reduce reaction to `581.655`, retaining
+  two outliers. At `0.006325` the next *uncommitted* state nearly matches
+  phase-aligned FEM reaction (`562.335` vs `563.115`) but acquires a
+  third point outlier and map/AT2 defects `0.004576/4.288`. A held-out
+  `0.00635` continuation acquires a fourth outlier, front jumps
+  `0.6104 -> 0.6504`, and both scalar/field mismatch increase. A
+  single half-increment target `0.0063375` has the same fourth point and
+  near-identical front, so the transient-defect acceptance hypothesis
+  fails its own physical follow-through in this window.
+- Alternatives rejected: declaring the two-step counterfactual segment a
+  certified new path, raising the absolute map/AT2 caps solely because a
+  particular force matches FEM, deleting crack points, or rerunning
+  unchanged small increments after the halved-step counterexample.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`, scratch
+  `/tmp/opencode/fracture2d_relaxed_growth_crossing_probe.py`,
+  `/tmp/opencode/fracture2d_relaxed_temporal_bridge_growth.py`.
+
+## 2026-09-27 — Residual-plateau rule is an observation, not a convergence proof
+
+- Decision: Add the user's stagnation criterion as an isolated read-only
+  audit: `ResidualPlateauStudyControls(window_sweeps,
+  relative_span_limit, absolute_scale_floor)` and
+  `assess_residual_plateau(attempt, controls)` measure the full-window
+  spread of raw damage-map defect, absolute AT2 strong residual, history
+  correction, and reaction correction on real complete owner sweeps.
+  A flat tail can be *reported* as a numerical plateau; it does not
+  replace the historical strict/warning status, does not commit a state,
+  and is not a certificate of equilibrium or of an FEM-like curve.
+- Why: a continuing descent or a two-cycle must not be mislabeled as
+  stagnation. On the best physical branch candidate `0.0063125` (two
+  outliers, FEM-matching crack-front stage, reaction `573.6` vs `563.1`)
+  the 12-sweep tail still rises (map `0.00124 -> 0.00203`, absolute AT2
+  `2.92 -> 12.64`, history correction `~90 -> 914`), so the rule correctly
+  declines acceptance; its tested successor at `0.0063375` then grows to
+  four outliers and a worse field match. Manufactured flat/descending/
+  cycling cases discriminate as intended (focused tests `5/5`).
+- Alternatives rejected: accepting a rising or cyclic tail as "unchanged",
+  using the observation to silently relax original gates, or claiming the
+  candidate produces a solved post-peak path before a held-out successor
+  and the full curve are checked under the user's physical criteria.
+- Related: `examples/fracture2d/nonlocal_engineering_grip_relaxed_adaptive.py`,
+  `tests/test_fracture2d_nonlocal_engineering_grip_stabilized.py`,
+  `docs/tasks/fracture2d-stagger-adaptive-step.md`.
+
+## 2026-09-27 — Adopt the complete warning solution and a drift-excluded plotting rule
+
+- Decision: Pause blind direct-solver attempts. Adopt the best complete
+  scheme from the research record as the direct nonlocal reference artifact:
+  original BA/Amor/AT2 equations on the 3395-node `delta=0.048` cloud, fixed
+  damped-Picard `omega=0.5`, `du=1e-4`, `du_min=6.25e-6`, at most 144
+  sweeps per attempt, honest stabilized-warning acceptance, load path
+  `0 -> 0.0075`. Provide one concise entry point
+  (`examples/fracture2d/direct_nonlocal_solver.py`, commands `run`,
+  `verify`, `plot`) and remove the experimental modules from this task.
+  For field figures, compute the plotted color minimum/maximum over the
+  non-drift material points only (`|u_i|/u_bar <= 1.08`), while keeping
+  every drift point inside the solution and drawing it in the figure.
+- Why: the archived damped-warning run is the only complete `0.0075`
+  solution and already has the closest-to-FEM peak/onset behavior
+  (peak `641.340` vs FEM `642.486`; state-wise warnings honestly labeled).
+  Its terminal reaction (`69.154` vs FEM `3.977`) and 2-to-31 drift points
+  remain real limitations, so it is a diagnostic warning reference, not a
+  strict or field-equation-validated production archive. The plotting rule
+  was requested by the user and only affects visualization scale, never
+  the equations, particles, reactions, or acceptance labels.
+- Alternatives rejected: further blind cutbacks/threshold scans, promoting
+  the uncommitted counterfactual branch, deleting drift particles from the
+  physics, or presenting the drift-inclusive extreme (`|u| = 0.142`) as
+  the field range.
+- Cleanup scope: removed `nonlocal_engineering_grip_adaptive*.py`,
+  `..._kernel_damage.py`, `..._p1_mass_damage.py`,
+  `..._relaxed_adaptive.py`, `..._stagger_energy.py`,
+  `..._stagger_restart.py`, `..._tolerance_study.py`, their dedicated test
+  file, and the 18 experimental tests plus imports/README paragraphs.
+  The original model/solver/workflow modules and the paused monolithic
+  family remain (the monolithic engine is still imported by tracked
+  workflow/archive code).
+- Verification: focused helper tests `4/4`, full stabilized battery
+  `82/82`, `git diff --check` clean; adopted-solution figures generated at
+  `.../engineering_grip/direct_nonlocal_final/`.
+- Related: `docs/tasks/fracture2d-stagger-adaptive-step.md`,
+  `docs/PROGRESS.md`.
+
+## 2026-09-27 — Consolidate the direct solver into `src/pinn/nonlocal2d` and park research variants
+
+- Decision: Move the adopted direct-solver implementation out of
+  `examples/fracture2d/` into the shared package `src/pinn/nonlocal2d/`
+  (`nonlocal_grip_diagnostic`, `nonlocal_a2_coupled`,
+  `nonlocal_engineering_grip`, `nonlocal_engineering_grip_jax`,
+  `nonlocal_engineering_grip_stabilized`). Keep exactly one direct nonlocal
+  solver entry in the example folder, renamed
+  `examples/fracture2d/nonlocal_baseline.py` (formerly
+  `direct_nonlocal_solver.py`). Prune the moved code to the symbols reachable
+  from the adopted entry by static reachability analysis, deleting
+  `nonlocal_geometry.py` and `nonlocal_mechanics_jax.py` and merging
+  `nonlocal_mechanics.py` and `nonlocal_baseline.py` into their only consumers.
+- Why: the example folder still exposed the full 45k-line research stack after
+  the initial move; the adopted path needs only a subset of it, and the PINN
+  stage must import the same operators/energy/history/damage. A shared package
+  is the only structure that keeps one visible solver file, avoids duplicating
+  the validated numerics, and prepares the PINN handoff.
+- Verification before adoption: the pruned package reproduces the original
+  `model_digest`, `static_digest`, `material_hash`, and `union_hash` exactly; a
+  CPU smoke of the merged package returns reactions `12.67494679` at `0.0001`
+  and `25.34683561` at `0.0002`, matching the archived early states; the
+  retained entry helper tests pass `4/4`; `verify`/`plot` reproduce the fresh
+  compact solution (76 states, 10 warnings, peak `641.34017`).
+- Parked (untracked + ignored, kept on disk under `_legacy/`): the
+  monolithic/arc/reduced bundle, `engineering_grip_workflow.py`, and every
+  fracture2d test file that targets removed variant APIs.
+- Alternatives rejected: physically deleting the research code (history and
+  local reference are still useful); keeping the stack in `examples/` with
+  untracked modules (a fresh clone could not import the tracked entry); a
+  full single-file rewrite of the 45k-line validated stack (large
+  revalidation risk with no numerical benefit).
+- Remaining work (same task): deep-trim
+  `nonlocal_engineering_grip_stabilized.py` to the `fixed` +
+  `stabilized_warning` path by removing the Anderson, matched-load schedule,
+  and archive-budget machinery.
+- Related: `docs/tasks/fracture2d-lean-direct-solver.md`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`,
+  `examples/fracture2d/README.md`, `docs/PROGRESS.md`.
+
+## 2026-09-27 — Merge the direct solver back into one GPU-only example file
+
+- Decision: Collapse the adopted direct nonlocal solver into a single
+  self-contained file `examples/fracture2d/nonlocal_baseline.py` (merged
+  sections use module-prefixed private names `_g_/_a_/_j_/_e_/_s_`), delete
+  `src/pinn/nonlocal2d/`, and make the GPU adapter mandatory. The CPU CG
+  reference solvers are removed; CPU replay evaluation of device results is
+  retained because it is the CPU-authoritative basis of the acceptance gates.
+- Why: the user requires one file in the example folder and GPU-only execution;
+  the later PINN stage can import the same file, and the single file removes
+  the cross-package boundary that made the previous lean pass hard to audit.
+- Rejected alternatives: keeping the shared package (user decision), keeping
+  the CPU solver as a fallback (user decision; a full CPU path would also take
+  many hours), and rewriting the 45k-line history from scratch (unnecessary
+  revalidation risk).
+- Verification: `model_digest` and `static_digest` match the archived compact
+  solution field-for-field; retained tests pass `10/10` (entry `4/4`);
+  GPU CLI smoke `0 -> 2e-4` reports `25.34683561371731` at `0.0002` versus the
+  archived `25.3468356139`; `verify` reproduces the full-solution statistics
+  (76 states, 10 warnings, peak `641.34017`, terminal `69.15426`); `plot`
+  draws the drift-excluded figures.
+- Remaining optional trim: the Anderson / matched-load schedule /
+  archive-budget machinery inside the single file; those policies are not
+  reachable from the CLI but still occupy roughly 3,000 lines.
+- Related: `examples/fracture2d/nonlocal_baseline.py`,
+  `examples/fracture2d/README.md`,
+  `docs/tasks/fracture2d-lean-direct-solver.md`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`, `docs/PROGRESS.md`.
+
+## 2026-09-27 — Remove the unreachable research options from the single-file solver
+
+- Decision: Rewrite `StabilizedEngineeringGripConfig` to a fixed-only
+  dataclass, freeze the policy flags in the continuation, and mechanically
+  delete every Anderson / matched-load-schedule / archive-budget helper and
+  dead branch by iterative constant folding plus reachability pruning. The
+  file drops from `16,263` to `12,188` lines and non-`fixed` policies are
+  rejected at configuration time.
+- Why: those options were unreachable after the adopted-scheme consolidation
+  but still occupied roughly a quarter of the solver and kept dead imports and
+  branches alive.
+- Verification: GPU strict `0 -> 2e-4` gives `25.3468356138` (archived
+  `25.3468356139`); the one-sweep warning path is bit-identical in reactions
+  and acceptance statuses to the pre-removal file with field differences
+  `<= 5.7e-12`; `model_digest`/`static_digest` are unchanged; retained tests
+  pass `10/10`; `verify` reproduces the archived solution statistics.
+- Alternatives rejected: keeping the dead options as documented-but-unused
+  code (the user requires the adopted scheme only) and rewriting the numerical
+  core (unnecessary revalidation risk).
+- Related: `examples/fracture2d/nonlocal_baseline.py`,
+  `docs/tasks/fracture2d-lean-direct-solver.md`.

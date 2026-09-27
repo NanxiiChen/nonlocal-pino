@@ -461,3 +461,19 @@ opening endpoint/increments, rollback, and every other strict setting remain
 unchanged. The failed run remains `validated=False` evidence at
 `/tmp/opencode/fracture2d_a2_coupled_strict_opening_1e4.json`. Rerun from exact
 zero only; no endpoint above `1e-4` is authorized.
+
+## 2026-09-27 — Archived: A2 mechanics absorbed into the adopted direct scheme
+
+- Closed. The phase-measured A2 union mechanics derived and validated here
+  became the mechanics layer of the adopted engineering-grip direct scheme
+  (`nonlocal_engineering_grip.py` / `direct_nonlocal_solver.py`); the separate
+  opening-controlled strict coupled pilot was never continued past `1e-4` and
+  is no longer planned.
+- The adopted complete `0 -> 0.0075` reference is the stabilized-warning run
+  documented in [`examples/fracture2d/README.md`](../../examples/fracture2d/README.md);
+  the split between the opening-controlled A2 diagnostic and the volume-grip
+  coordinate is recorded in `docs/DECISIONS.md`.
+- Superseded by: `examples/fracture2d/README.md`,
+  [`fracture2d-nonlocal-pinn.md`](../fracture2d-nonlocal-pinn.md) (new PINN
+  stage), `docs/PROGRESS.md`, `docs/DECISIONS.md`.
+- No further work is planned on this task.

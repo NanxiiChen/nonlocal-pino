@@ -3326,3 +3326,18 @@ exact resume point is to select CPU/runtime/restart work or an explicitly staged
 diagnostic extension toward peak/crack growth. Do not promote the Stage 1--4
 diagnostic horizons, begin a PINN, or interpret the warning-mode FEM archive as
 a strict converged fracture target.
+
+## 2026-09-27 — Archived: Stage 0--5 baseline complete and absorbed
+
+- Closed. Stages 0--5 (`nonlocal_geometry.py`, `ExplicitVolumeSparseD`,
+  `nonlocal_mechanics.py`, `nonlocal_baseline.py`, JAX replay adapters) are
+  implemented, independently reviewed, and remain the tracked reference APIs.
+  The peak/crack-growth continuation research migrated to the A2
+  engineering-grip tasks and produced the adopted stabilized-warning solution.
+- The diagnostic horizons (`delta=0.032/0.040/0.048`) were never promoted to a
+  production horizon; the adopted `delta=0.048` choice and the joint
+  mesh/horizon limitation are documented in
+  [`examples/fracture2d/README.md`](../../examples/fracture2d/README.md).
+- Next stage: [`fracture2d-nonlocal-pinn.md`](../fracture2d-nonlocal-pinn.md)
+  reusing the same graph, energy, force, Amor history, and AT2 residual.
+- No further work is planned on this task.
