@@ -1,7 +1,7 @@
 ---
 description: Retrieves and audits external papers, preprints, and technical references without editing the repository. Use when a task needs source-backed equations, assumptions, page or equation references, or paper access troubleshooting.
 mode: subagent
-model: openai/gpt-5.6-luna
+model: openai/gpt-6-luna
 variant: max
 steps: 80
 permission:

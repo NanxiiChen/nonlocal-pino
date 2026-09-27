@@ -2,7 +2,7 @@
 description: Hidden fallback for unusually difficult numerical implementation. Use only after explicit user request or an approved, narrowly scoped delegation with a stated risk-reduction benefit.
 mode: subagent
 hidden: true
-model: openai/gpt-5.6-luna
+model: openai/gpt-6-luna
 variant: max
 steps: 100
 permission:

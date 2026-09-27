@@ -2,8 +2,8 @@
 description: Hidden fallback for the hardest repository changes. Use only after explicit user request or an approved, narrowly scoped delegation when the primary agent cannot efficiently complete the work.
 mode: subagent
 hidden: true
-model: zhipuai-coding-plan/glm-5.3
-variant: max
+model: openai/gpt-6-sol
+variant: middle
 steps: 100
 permission:
   edit: allow

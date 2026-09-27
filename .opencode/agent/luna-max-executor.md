@@ -2,7 +2,7 @@
 description: Hidden fallback implementation executor. Use only when the user explicitly requests it or the primary agent has stated a concrete reason for an approved delegation.
 mode: subagent
 hidden: true
-model: openai/gpt-5.6-luna
+model: openai/gpt-6-luna
 variant: max
 steps: 100
 permission:
