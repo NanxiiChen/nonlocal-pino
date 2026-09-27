@@ -36,8 +36,12 @@ change the model.
   Amor, AT2, JAX PCG backend, fixed damped-Picard continuation, and the
   `run`/`verify`/`plot` CLI). Reuse its functions/operators rather than
   re-deriving them.
-- Reference documents: `examples/fracture2d/README.md`,
-  `docs/NUMERICAL_METHODS.md`, `docs/JAX_GUIDELINES.md`.
+- Reference documents: `examples/fracture2d/README.md` — the
+  **Reference solutions and data** section holds every reference-solution path
+  and SHA256, and **Nonlocal PINN (next stage)** holds the operator/model
+  reuse, strong-form residuals, reference-comparison protocol, and training
+  convergence criteria. Also `docs/NUMERICAL_METHODS.md`,
+  `docs/JAX_GUIDELINES.md`.
 
 ## Status
 

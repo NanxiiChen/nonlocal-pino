@@ -12,6 +12,47 @@ arc-length / reduced solvers, durable workflow, stage-specific test suites) is
 parked under the ignored `_legacy/` directory and in git history. Only the
 adopted scheme is maintained here.
 
+**Both available reference solutions — the local FEM archive and the nonlocal
+direct solution — are warning-mode, non-strict diagnostics.** Neither is a
+strictly converged reference; the exact nonlocal issues are listed in
+[Validation status and accepted limitations](#validation-status-and-accepted-limitations).
+
+## Reference solutions and data
+
+The case ships with two independent reference solutions and the frozen model
+inputs. Load all archives with `np.load(..., allow_pickle=False)`.
+
+| What | Path | SHA256 |
+|---|---|---|
+| Adopted solver entry (GPU-only) | `examples/fracture2d/nonlocal_baseline.py` | — |
+| Nonlocal material cloud (3395 nodes, `d048` graph) | `/root/autodl-tmp/data/fracture2d/engineering_grip/source/material_cloud_d048.npz` | `fa2ebf165f2e89ec88c63116346401b5039263e8e4c1a1917f6f13a3f4541267` |
+| Nonlocal reference solution (compact, fresh) | `/root/autodl-tmp/data/fracture2d/engineering_grip/direct_nonlocal_final/solution_u0p0075_fresh_v1.npz` | `5f3bc12bc4bc31718cce4c4aed18d47314fd80e3a207bec0180ac6cdd93f7bab` |
+| Nonlocal reference archive (research) | `/root/autodl-tmp/data/fracture2d/engineering_grip/engineering_grip_damped_warning_o5_u7p5e3_dumin6p25e6_s144.npz` | `9545bed758c19c07297d1a0afdce9093caab7a646655eef6c6b2a82cb23ac4fc` |
+| Local FEM reference (point anchor, warning mode) | `/root/autodl-tmp/data/fracture2d/local_fem_point_anchor/results_point_anchor.npz` | `e9634f1f8fdb21116b50ad453d37115746c4a5a09f828e76245a9c59f6107d17` |
+| FEM figures + config | `/root/autodl-tmp/data/fracture2d/local_fem_point_anchor/` (`config.json`, `reaction_displacement.png`, `representative_fields_*.png`, `stress_strain.png`) | — |
+| PINN task | [`docs/tasks/fracture2d-nonlocal-pinn.md`](../../docs/tasks/fracture2d-nonlocal-pinn.md) | — |
+| Archived direct-stage record | [`docs/tasks/archive/fracture2d-lean-direct-solver.md`](../../docs/tasks/archive/fracture2d-lean-direct-solver.md) | — |
+
+Archive schemas (see [Adopted solution and figures](#adopted-solution-and-figures)
+for the provenance and limitations):
+
+- **material cloud** — `coordinates (3395,2) f8`, `triangles (6284,3) i8`,
+  `volumes (3395,) f8`, `bottom`/`top (3395,) bool`, `anchor_particle int`,
+  `d048 (E,2) i8`.
+- **nonlocal compact solution** — `loads (76,) f8` (`0 -> 0.0075`),
+  `union_q (76, 7402) f8` (material prefix is the first `2*3395 = 6790`
+  columns), `damage (76, 3395) f8`, `history (76, 3395) f8`,
+  `top_reaction (76,) f8`, `acceptance_status (76,)`, `warning (76,) bool`,
+  `coordinates`, `triangles`, `metadata_json` (contains the exact `scheme`).
+- **local FEM archive** — `u_bar (127,) f8` (`0 -> 0.0075`),
+  `reaction_y (127,) f8`, `snapshot_u_bar (76,) f8`, `u (76, 3395, 2) f8`,
+  `d (76, 3395) f8`, cellwise `H (76, 6284)` with `H_coords (6284,2)`,
+  `sigma_xx/yy/xy (76, 6284)`, `gate_warning (127,) bool`, plus the material
+  and geometry scalars (`E`, `nu`, `Gc`, `l0`, `k_res`, `L0`,
+  `notch_*`, `history_method`, `plane_assumption`, `gate_mode`). It is
+  `plane_strain`, `gate_mode="warning"` with `13` warning loads of `127`; peak
+  reaction `642.4857295` at `0.0057`, terminal `3.97718` at `0.0075`.
+
 ## Problem
 
 The material domain is the unit square with a finite-width slot opening on the
@@ -304,7 +345,8 @@ The adopted complete solution covers `u_bar = 0 -> 0.0075`:
 
 Statistics: `76` states (initial + `65` strict + `10` warning-accepted); peak
 reaction `641.34017` at `0.0061` (local FEM warning reference: `642.48573` at
-`0.0057`); terminal reaction `69.15426` at `0.0075` (FEM: `3.97718`). Drift
+`0.0057`, archive path in [Reference solutions and data](#reference-solutions-and-data));
+terminal reaction `69.15426` at `0.0075` (FEM: `3.97718`). Drift
 points (`|u_i|/u_bar > 1.08`) are `0` through `0.0061`, `2` at `0.0062`,
 `3/5/10` at `0.0064/0.0065/0.0066`, and `28`-`31` from `0.0067` to `0.0075`.
 At the endpoint the drift-excluded ranges are `d in [6.57e-6, 0.98954]` and
@@ -319,6 +361,81 @@ open circles but excluded from the color ranges):
 The archived solution is explicitly `field_equations_validated=false` and
 `validated=false`; it is a diagnostic warning reference, not a strict or
 field-validated production artifact.
+
+## Nonlocal PINN (next stage)
+
+### Operator and model reuse
+
+The nonlocal PINN is trained on the same graph, operator, energy, history
+driver, and residual assembly as the direct solver, taken from
+[`nonlocal_baseline.py`](nonlocal_baseline.py) and `pinn.operators`:
+
+| Need | Symbol |
+|---|---|
+| Union cloud, collars, constraints, `d048` prefix identity | `build_union_geometry_from_arrays`, `UnionGripGeometry`, `AffineConstraints`, `build_volume_grip_constraints`, `physical_interface_line_weights` |
+| Frozen model (supports, shape tensors, static identity) | `build_engineering_grip_model`, `EngineeringGripModel`, `A2StaticMechanics` |
+| Fixed-damage A2 energy / residual / tangent evaluation | `A2FixedDamageView` (`.energy`, `.residual`, `.tangent_action`, `.evaluate`) |
+| Amor material-source history driver | `compute_material_source_amor` |
+| Nonlocal damage operator (2D cubic kernel) | `pinn.operators.ExplicitVolumeSparseD` |
+| Adopted reference generator (GPU) | `run_stabilized_engineering_grip`, `JaxA2CPUReplayAdapter` |
+
+Enable JAX x64 before building the operator/model. The `d048` graph is
+float64-specific; any float32 PINN branch must rebuild and revalidate its own
+graph (do not cast this one, do not add kernel floors or cutoff tolerances).
+
+### Strong-form residuals
+
+With union displacement `q`, material damage `d`, committed history `H_c`, the
+A2 energy residual `r_{A2}`, and the Amor material-source driver
+`\Psi^+_{m,a}`, the training residuals are
+
+$$
+r_q=\bigl[\,r_{A2}(q;d)\,\bigr]_{\mathrm{free}},\qquad
+\rho=\frac{G_c}{\ell_0}d+G_c\ell_0D_\delta d+2H(d-1),
+\qquad
+r_H=H-\max\bigl(H_c,\Psi^+_{m,a}(q)\bigr).
+$$
+
+The hard constraints (bottom/top collar `u_y`, anchor `u_x`) and the natural
+boundary conditions are the same as in
+[Constraints, load coordinate, and reaction](#constraints-load-coordinate-and-reaction).
+Impose them exactly if the architecture permits; otherwise add them as explicit
+penalties and report their violation separately from the PDE residuals. Every
+symbol above is defined in
+[Governing equations](#governing-equations-adopted-engineering-grip-scheme);
+no new kernel, split, or degradation is introduced by the PINN.
+
+### Reference comparison protocol
+
+- The nonlocal compact solution and the FEM archive share the same `3395`
+  material nodes and `6284` triangles, so per-state field comparison is
+  node-wise after reshaping: `union_q[:, :6790] -> (76, 3395, 2)`.
+- **Strict region** `u_bar <= 0.0061`: `65` strict reference states. Use these
+  for quantitative field/curve convergence.
+- **Warning region** `u_bar >= 0.0062`: `10` warning states, `2 -> 31` drift
+  points (`|u_i|/u_bar > 1.08`). Compare qualitatively only; never present this
+  tail as converged truth or as a training target for an exact solution.
+- Curve targets: pre-peak reaction follows the FEM reference (`642.48573` at
+  `0.0057`); the nonlocal reference peak is `641.34017` at `0.0061`. The
+  terminal mismatch (`69.15` vs FEM `3.98` at `0.0075`) is an accepted
+  direct-solver limitation, not a PINN target.
+
+### Training convergence criteria
+
+- Residual gates: reuse the direct-solver numbers as the convergence contract —
+  displacement/damage/history/reaction/force/moment `atol=1e-9, rtol=1e-8,
+  floor=1.0`; committed damage residual `atol=1e-10, rtol=1e-8, floor=1.0`;
+  raw damage range and healing `1e-10` each; linear solves `cg_rtol=1e-10,
+  cg_atol=1e-13, cg_maxiter=3000`.
+- Field milestones before claiming a trained state: relative `L2` error versus
+  the reference on the retained material nodes below `1e-3` for `u`, `d`, and
+  `H` at `u_bar = 1e-4, 1e-3, 0.0058, 0.0061`.
+- Report residual norms, field errors, and reaction together. A low training
+  loss alone is not convergence evidence, and gates must not be widened to make
+  a failing state pass; record failures explicitly.
+- Keep training/evaluation shapes fixed in JIT paths and precompute the graph,
+  supports, constraints, and kernel data outside the training step (see
+  `docs/JAX_GUIDELINES.md`).
 
 ## Usage
 
@@ -352,8 +469,15 @@ tests/test_fracture2d_geometry.py
 
 ## Validation status and accepted limitations
 
-The adopted solution is a complete, honestly labeled **warning** reference. The
-following issues are explicitly accepted for now and deferred:
+**Both reference solutions are warning-mode, non-strict diagnostics.** The
+local FEM archive is `gate_mode="warning"` (`13` of `127` loads carry
+`gate_warning=True`), and the nonlocal direct solution is
+`stabilized_warning` (`10` of `75` accepted states are warning commits, with
+`2 -> 31` drift points). Neither is a strictly converged reference, and the
+warning tail of neither solution may be presented as physical truth.
+
+The nonlocal direct solver's remaining issues, explicitly accepted for now and
+deferred:
 
 1. **Terminal reaction is not physical.** Nonlocal `69.15` versus local FEM
    warning `3.98` at `0.0075`; the nonlocal response collapses too slowly after
