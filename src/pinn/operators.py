@@ -700,6 +700,21 @@ class ExplicitVolumeSparseD:
         ):
             array.setflags(write=False)
 
+        if not np.all(np.diff(self._row_idx_np) >= 0):
+            raise ValueError(
+                "ExplicitVolumeSparseD row indices must be grouped after "
+                "normalization"
+            )
+        counts = np.bincount(self._row_idx_np, minlength=int(N)).astype(np.int64)
+        ends = np.cumsum(counts).astype(np.int32)
+        starts = (ends - counts).astype(np.int32)
+        starts_flag = np.zeros(len(self._row_idx_np), dtype=bool)
+        nonempty = starts < len(self._row_idx_np)
+        starts_flag[starts[nonempty]] = True
+        self._row_starts = jnp.asarray(starts, dtype=jnp.int32)
+        self._row_ends = jnp.asarray(ends, dtype=jnp.int32)
+        self._row_starts_flag = jnp.asarray(starts_flag)
+
         self._row_idx = jnp.asarray(self._row_idx_np, dtype=jnp.int32)
         self._col_idx = jnp.asarray(self._col_idx_np, dtype=jnp.int32)
         self._vals = jnp.asarray(self._vals_np, dtype=self._dtype)
@@ -709,6 +724,47 @@ class ExplicitVolumeSparseD:
         )
         self._volumes = jnp.asarray(self._volumes_np, dtype=self._volumes_np.dtype)
         self._directed_edges = jnp.asarray(self._directed_edges_np, dtype=jnp.int32)
+
+    def deterministic_matvec(self, values):
+        """Run-reproducible matvec with per-row prefix-reset segmented sums.
+
+        ``__matmul__`` accumulates each row with atomic scatter-adds, whose GPU
+        summation order varies between identical runs. This method reduces the
+        row-grouped values in their fixed stored order instead, so repeated
+        evaluations are bitwise identical.
+        """
+        u = jnp.asarray(values)
+        if u.ndim not in (1, 2):
+            raise ValueError("ExplicitVolumeSparseD matvec requires a 1D or 2D input")
+        if u.shape[0] != self._N:
+            raise ValueError(
+                f"ExplicitVolumeSparseD matvec expects {self._N} rows, got {u.shape[0]}"
+            )
+        if np.dtype(u.dtype) != self._dtype:
+            raise ValueError(
+                f"ExplicitVolumeSparseD matvec expects {self._dtype}, got {u.dtype}"
+            )
+        trailing = (1,) * (u.ndim - 1)
+        flags = jnp.broadcast_to(
+            self._row_starts_flag.reshape((-1,) + trailing),
+            (len(self._row_idx_np),) + u.shape[1:],
+        )
+        contributions = self._vals.reshape((-1,) + trailing) * u[self._col_idx]
+
+        def combine(left, right):
+            left_value, left_flag = left
+            right_value, right_flag = right
+            value = jnp.where(right_flag, right_value, left_value + right_value)
+            return value, left_flag | right_flag
+
+        scanned, _ = jax.lax.associative_scan(combine, (contributions, flags))
+        last = jnp.maximum(self._row_ends - 1, 0)
+        gathered = scanned[last]
+        nonempty = (self._row_ends > self._row_starts).reshape((-1,) + trailing)
+        contributions = jnp.where(
+            nonempty, gathered, jnp.zeros_like(gathered)
+        ).reshape((self._N,) + u.shape[1:])
+        return self._diag.reshape((self._N,) + trailing) * u + contributions
 
     def __matmul__(self, values):
         input_dtype = getattr(values, "dtype", None)

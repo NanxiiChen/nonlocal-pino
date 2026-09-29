@@ -6073,3 +6073,1001 @@ Template for each entry:
 - Related: `docs/tasks/archive/fracture2d-lean-direct-solver.md`,
   `docs/tasks/fracture2d-nonlocal-pinn.md`,
   `examples/fracture2d/nonlocal_baseline.py`.
+
+## 2026-09-28 — Reuse device A2 and material operator for fracture2d PINN residuals
+- Decision: Build the PINN residual bridge around the frozen
+  `JaxA2UnionMechanics` A2 energy-gradient assembly and the model's existing
+  `ExplicitVolumeSparseD`. Implement only the Amor material-source accumulation
+  in JAX using the same plane-strain embedded-3D positive energy and eta weights
+  as the direct NumPy oracle; check its output on identical fields before use.
+  Prescribe collar and anchor DOFs by affine lifting, and evaluate the full
+  graph at fixed float64 shapes. Keep committed history as an explicit input.
+- Why: Direct NumPy evaluations cannot differentiate through a neural network;
+  the maintained GPU backend already contains the differentiable A2 kinematics
+  and energy residual. A JAX Amor expression is necessary for a coupled neural
+  objective but must remain numerically equivalent to the frozen oracle.
+- Alternatives rejected: re-deriving bond-associated mechanics, casting the
+  float64 graph to float32, training on the warning tail as converged data, or
+  treating CPU replay as a differentiable loss.
+- Related: `docs/tasks/fracture2d-nonlocal-pinn.md`,
+  `examples/fracture2d/nonlocal_baseline.py`.
+
+## 2026-09-28 — Use per-state acceptance flags for the PINN comparison
+- Decision: Classify the adopted compact archive by its actual per-state
+  `warning`/`acceptance_status` flags. The 10 warning states occur at loads
+  `0.0060` through `0.0068` and `0.0071`; 65 strict labels include six
+  post-localization states. The pre-warning strict prefix is indices `1..59`
+  (`u_bar <= 0.0059`); `0.0060` and `0.0061` are drift-free warnings. Restrict
+  the initial single-state PINN training/comparison to the strict prefix and
+  report the full warning/drift tail separately without deleting points.
+- Why: Counting statuses without checking their load positions conflated
+  drift-free states with strictly accepted states; using `0.0061` as a strict
+  convergence target would promote a warning candidate to ground truth.
+- Alternatives rejected: assuming the warning flags occupy the last 10 rows,
+  calling every drift-free state strict, or omitting later strict labels from
+  the diagnostic tail.
+- Related: `docs/tasks/fracture2d-nonlocal-pinn.md`,
+  `examples/fracture2d/README.md`, `docs/PROGRESS.md`.
+
+## 2026-09-28 — Start with a full-graph single-state neural residual experiment
+- Decision: Use a float64 Equinox 2D-to-4 MLP with exact affine lifting of
+  collar/anchor DOFs and raw material damage/history outputs. Initialize the
+  displacement around the affine `u_y=load*y` field, scale its trainable
+  correction by `load`, and scale the damage/history network outputs by
+  `E*load**2/(Gc/l0)` and `E*load**2`, respectively. Use explicit fixed
+  optimization-only residual scales and Adam settings in `train_base.py`,
+  report unscaled norms and material field errors, and train one archived
+  strict-prefix load at a time with its *previous* archived history as context.
+- Why: Full-graph residuals keep the actual graph/weights/BCs, while a
+  load-scaled affine initialization avoids the unphysical all-node drift seen
+  after the first unscaled network step. The output scales are parameter
+  conditioning choices only; no PDE coefficient, graph, or physical gate changes.
+  A single-state result is an experiment, not a coupled continuation solution.
+- Alternatives rejected: assuming fixed loss weights are physical validation,
+  silently advancing predicted history as if it passed direct-solver gates,
+  treating warning-labeled history as exact, or adding adaptive weight updates
+  before the raw same-field residual check succeeds.
+- Related: `examples/fracture2d/train.py`,
+  `examples/fracture2d/configs/train_base.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Approve separately rebuilt float32 fracture2d PINN graph
+- Decision: At the user's request, implement a distinct float32 PINN graph and
+  revalidate its BA supports/material operator against the frozen float64
+  direct reference before using it for training. Keep the archived float64
+  direct solution unchanged and explicitly report any graph/topology and
+  field-residual discrepancies. Preserve the same collar/anchor hard boundary
+  constraints, material particles, kernel, physical parameters and split.
+- Why: On the installed GeForce RTX 4080, warmed-up JAX 3072-square matrix
+  multiplication with highest precision took 1.92 ms in float32 and 67.8 ms
+  in float64 (~35x, indicative, not a PINN-step speedup). Independently
+  rebuilding the strict float32 union candidate horizon on rounded coordinates
+  changes 209 undirected pairs in and 76 out versus the float64 reference;
+  152 float64 visible directed edges are not strictly within the float32 cutoff.
+  Merely casting the network would leave the expensive residual in float64;
+  merely casting the old edge list would violate its own float32 horizon rule.
+- Alternatives rejected: relabeling mixed-precision training as full float32,
+  silently retaining the invalid float32-cast old graph, or changing the
+  already-adopted float64 direct solver.
+- Related: `docs/tasks/fracture2d-nonlocal-pinn.md`,
+  `examples/fracture2d/README.md`, `docs/PROGRESS.md`.
+
+## 2026-09-28 — Keep FP32 PINN operator separate from the direct FP64 model
+- Decision: Rebuild the float32 candidate/visible graph on rounded union
+  coordinates with the original polygon visibility predicate, recompute phase
+  triangle quadrature, cubic BA target-inclusive supports, inverse shape
+  tensors, normalized eta weights and `ExplicitVolumeSparseD`, and reuse only
+  the existing JAX A2 residual/energy methods on these float32 arrays. Retain
+  the exact original collar and point-anchor DOF masks and affine lift.
+  Disallow the float32 residual backend's inherited direct solve/replay entry
+  points; the adopted direct solver stays float64. Train with float32 network,
+  graph, mechanics, Amor and damage residuals and check their dtypes at startup.
+- Why: This implements the user-approved separate graph without passing a
+  float32 field through the float64 PCG/graph contract. On the frozen cloud,
+  float32 candidate pairs differ by +209/-76 and material directed edges by
+  +76/-152; max BA condition is 20.24, float32 Amor/AT2 residuals at the first
+  archived field remain small, and its top reaction is 12.548 versus 12.675
+  under the original float64 model. The material particle set and BC masks
+  remain identical; this response difference is reported as discretization
+  difference, not fitted away.
+- Alternatives rejected: using the frozen float64 graph with float32 weights,
+  calling an FP32-cast source tensor an independently rebuilt BA model, or
+  modifying the adopted direct reference to match the new graph.
+- Related: `examples/fracture2d/fp32.py`, `examples/fracture2d/losses.py`,
+  `examples/fracture2d/train.py`, `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Trial frozen initial-residual scales for FP32 PINN training
+- Decision: Compare the existing fixed scalar loss scales with a single
+  explicit `initial_driver_rms` optimization policy on the same first strict
+  state, seed, FP32 graph, MLP, Adam step size, and iteration budget. Freeze
+  once before training: mechanics scale = initial full free A2 residual RMS,
+  history scale = initial material Amor driver RMS, and damage scale = twice
+  that Amor-driver RMS (the declared `2H` AT2 driving term). Require every
+  scale to be finite and strictly positive; never change the raw equations,
+  BCs, reference labels, or residual acceptance gates. Report scaled loss
+  components alongside raw residual maxima, field errors, and reaction.
+- Why: The 200-step fixed-scale FP32 pilot reduced total loss `0.002608 ->
+  0.000990` while reaction moved from `8.34` to `27.17` versus `12.67`
+  reference, with material displacement relative L2 still `0.351`. Initial
+  hard-coded scales `1/100/1` make damage and history terms negligible at
+  `u_bar=1e-4`; initial equation-derived characteristic scales make a bounded
+  experiment measurable without treating a lower weighted loss as a physical
+  success. The scheme is a project-owned optimizer preconditioner only.
+- Alternatives rejected: treating fixed-scale loss reduction as convergence;
+  selecting scales from the held-out current reference fields; clipping damage
+  or history; adaptive multi-loss weights before the frozen-scale comparison.
+- Related: `examples/fracture2d/train.py`,
+  `examples/fracture2d/configs/train_base.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Trial deterministic spatial features for the first FP32 load
+- Decision: Evaluate an explicit optional multi-frequency sine/cosine coordinate
+  embedding (`1, 2, 4, 8, 16` cycles per unit length) against the current
+  plain-coordinate MLP, holding the FP32 graph, physical model, BC masks,
+  seed, MLP hidden width/depth, Adam, initial-residual loss scales and load
+  fixed. The embedding is an input representation only, not a nonlocal kernel
+  or fracture-model modification. Keep the experiment's first-load reaction,
+  drift count, raw residuals and field errors visible alongside total loss.
+- Why: A 1000-step full-graph frozen-scale run decreased normalized total loss
+  to `0.224`, while mechanics remained `0.219` and the first-load field error
+  worsened to `u` relative L2 `0.433` with 9 drift points and reaction `22.76`
+  versus `12.67`. More steps alone did not resolve the mechanics
+  representation/optimization limitation near the rounded notch. A controlled
+  basis comparison tests whether spatial representation is the bottleneck.
+- Alternatives rejected: promoting the low weighted loss as convergence,
+  training on the held-out reference fields, changing graph/constitutive law,
+  or tuning multiple architecture and optimizer dimensions at once.
+- Related: `examples/fracture2d/train.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Compare fixed-damage energy and strong-residual mechanics training
+- Decision: Add a separately named, diagnostic `fixed_damage_energy` objective
+  that minimizes the existing A2 energy with previous archived damage fixed
+  and exact affine boundary constraints. On this objective do not train damage
+  or history, do not claim a coupled fracture equilibrium, and report the raw
+  free mechanics residual, material displacement error and reaction alongside
+  energy. Compare to the coupled-strong-residual run on the same FP32 model and
+  spatial network without introducing supervised current-state targets.
+- Why: With 1000 steps and frozen initial-residual weighting, a Fourier input
+  reduces total loss from 0.224 (plain) to 0.186 and the free A2 residual max
+  from 0.256 to 0.171, but reaction remains 28.20 versus 12.67 and material
+  displacement relative L2 remains 0.420. Fixed-damage A2 energy is the
+  already validated convex-in-field mechanics functional; isolating its
+  optimization tests whether a squared-strong-residual objective or neural
+  displacement representation limits this load.
+- Alternatives rejected: interpreting reduced weighted loss as convergence,
+  adding reaction/field supervision, changing A2 physics or boundary masks,
+  and simultaneously updating the damage/history network under an energy
+  objective that does not include their correct governing laws.
+- Related: `examples/fracture2d/train.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Stage the two governing equations with exact Amor history
+- Decision: Add a separately named FP32 single-load stagger experiment using
+  two independent neural fields: displacement on the full union and damage on
+  material points. At fixed trial damage minimize the existing A2 free-row
+  mechanics residual; set trial history to the exact maximum of the unchanged
+  committed history and the material-source Amor driver; at fixed history
+  minimize the existing material AT2 residual; under-relax the damage trial
+  with the adopted `omega=0.5`; then re-solve mechanics and recompute history
+  from committed history at the same load. Keep q/d networks independent, pass
+  changing arrays as JIT inputs, report full-graph raw coupled defects and BCs,
+  and do not accept or advance an unconverged state.
+- Why: The model has two governing equations (A2 equilibrium and AT2 damage)
+  plus one algebraic Amor maximum update. An earlier single-network three-loss
+  1000-step experiment reduced its weighted loss to `0.224` (plain encoding)
+  or `0.186` (Fourier) without reducing field/reaction mismatch; the extra
+  history-output network makes consistency a third optimization target even
+  though the direct model evaluates it exactly. Alternating fixed-field solves
+  follows the verified direct stagger semantics without adding new physics.
+- Alternatives rejected: treating history as an independent PDE, updating the
+  committed history within a trial sweep, sharing trainable trunk weights
+  between nominally frozen fields, or marking a PINN iterate accepted solely
+  because its stage loss decreased. The energy-only diagnostic attempt was
+  interrupted and supplies no numerical result.
+- Related: `examples/fracture2d/stagger.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Share one FP32 Amor reduction across history and damage diagnostics
+- Decision: Expose the exact trial maximum history from the same Amor driver
+  evaluation in `FractureResidual.evaluate(q, d, H=None, H_committed)`. The
+  stagger controller uses this returned history and damage residual together
+  for the final state; an explicitly supplied `H` still returns its genuine
+  history defect. Verify the exact maximum and zero same-pass history defect.
+- Why: Repeating float32 GPU segment reductions on identical fields produced
+  a history residual of order `2.7e-6` in the first short stagger pilot. That
+  discrepancy reflected reduction-order noise, not a deliberate change to
+  the history law. The single-pass form avoids counting the noise as a
+  coupled-history defect without relaxing any physical gate.
+- Alternatives rejected: raising tolerance until the repeated calculation
+  passed, clipping or rounding the driver, or treating an unaccepted trial as
+  a converged historical state.
+- Related: `examples/fracture2d/losses.py`,
+  `examples/fracture2d/stagger.py`,
+  `tests/test_fracture2d_pinn_residual.py`.
+
+## 2026-09-28 — Close the interrupted fixed-damage energy CLI trial
+- Decision: Remove the unvalidated `fixed_damage_energy` option from the
+  single-network training CLI and config after the user steered the active work
+  to alternating A2 and AT2 governing equations. Keep the fixed-damage energy
+  methods in the adopted operator for independent validation, not as a second
+  undeclared production training path.
+- Why: The only energy-only run was interrupted before an optimization result;
+  retaining a non-stagger option with no successful diagnostics would make it
+  too easy to mistake an isolated mechanics result for coupled fracture PINN
+  convergence. The two-network stagger diagnostic still uses exactly the A2
+  and AT2 strong residuals and unmodified hard boundary constraints.
+- Alternatives rejected: documenting the interrupted trial as a successful
+  comparison or leaving a dormant CLI branch without meaningful validation.
+- Related: `examples/fracture2d/train.py`,
+  `examples/fracture2d/stagger.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Measure long stagger training before attributing short-run failure
+- Decision: Extend the unchanged FP32 two-network single-load stagger to a
+  documented >=10,000-iteration budget per fixed mechanics and damage stage,
+  with periodic raw-residual/reaction reporting and resumable optimizer/network
+  checkpoints bound to the cloud, reference, graph and configuration identity.
+  Keep the same Adam learning rate, loss scales, direct-model BCs, `omega=0.5`,
+  and no acceptance/next-load advancement; do not infer physical convergence
+  from stage loss alone.
+- Why: The current `elasticity2d/configs/train_base.py` uses 40,000 training
+  iterations for a much simpler hole-in-plate example (its README still says
+  20,000). The earlier 100–1000-step fracture2d trials cannot establish a
+  representational/conditioning ceiling. Durable checkpoints avoid losing
+  lengthy FP32 training on interruption; full coupled diagnostics remain the
+  acceptance evidence.
+- Alternatives rejected: claiming the short pilots prove that additional
+  optimization cannot help, copying elasticity's learning rate/numerical
+  tolerances without a controlled comparison, or changing the material model.
+- Related: `examples/fracture2d/stagger.py`,
+  `examples/elasticity2d/configs/train_base.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Add TensorBoard scalars to durable long-run stagger diagnostics
+- Decision: Log fixed-stage training losses, raw full-graph residuals,
+  displacement error, reaction, range/healing and drift diagnostics through
+  `tensorboardX.SummaryWriter` at explicit stage intervals. Use one global
+  iteration coordinate across stagger phases and `purge_step` when resuming a
+  bound checkpoint, plus explicit flush/close. Keep an atomic checkpoint of
+  network, optimizer and trial-field states, not only a weights-only snapshot;
+  bind it to the configuration, float64 reference and rebuilt float32 graph.
+- Why: The user specifically requests TensorBoard logging in the style of
+  fracture1d/elasticity2d. Those examples log scalar training and reference
+  metrics, while a >10,000-iteration stagger additionally needs a recoverable
+  fixed-history/trial state; weights alone cannot reproduce an interrupted
+  Adam and committed-history continuation. The installed TensorBoardX API
+  documents `add_scalar`, `flush`, `close` and `purge_step` for resumed runs.
+- Alternatives rejected: outputting only occasional terminal JSON, losing
+  optimizer moments on resume, quietly reusing an existing run directory, or
+  treating TensorBoard curves as physical convergence gates.
+- Related: `examples/fracture2d/stagger.py`,
+  `examples/fracture2d/stagger_checkpoint.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Do not accept the first-load 12k-per-stage stagger candidate
+- Decision: Leave the complete 36,000-update FP32 single-load stagger as an
+  unaccepted diagnostic. Do not blindly repeat it with more sweeps or promote
+  a low independently trained mechanics loss to coupled convergence. First
+  diagnose strong-form mechanics conditioning/representation and the reference
+  model discrepancy using the preserved TensorBoard trace and bound checkpoint.
+- Why: At `u_bar=1e-4`, one sweep of `12,000/12,000/12,000` fixed-stage
+  steps produced raw mechanics-before/free residual infinity norm `1.476`,
+  fixed-history solved damage residual `1.308`, and final coupled mechanics/
+  AT2 residuals `1.764/2.019`. Despite mechanics-after logged loss near
+  `0.1766`, the material displacement relative L2 grew to `0.714`, reaction
+  was `23.146` versus archived `12.675`, and `22` drift points appeared where
+  the direct first reference has none. History is evaluated exactly (zero
+  same-pass algebraic residual), so that third condition is not the blocker.
+  The reference's 40,000-step elasticity budget justified testing a longer
+  interval, but by itself does not guarantee the present two-equation map
+  converges with this objective, network and optimizer.
+- Alternatives rejected: warning-accepting this trial, attributing its
+  divergence solely to having too few steps without examining measured raw
+  residuals, changing damage bounds or the kernel to obtain a smaller loss,
+  or hiding early-load drift from the diagnostics.
+- Related: `docs/tasks/fracture2d-nonlocal-pinn.md`,
+  `/root/autodl-tmp/data/fracture2d/pinn_stagger_12000_v1/`.
+
+## 2026-09-28 — Put fracture2d TensorBoard events under tf-logs
+- Decision: Follow the user's specified TensorBoard root
+  `/root/autodl-tmp/tf-logs/fracture2d/`, with a separate child directory per
+  data run name. Keep the numerical `config.json` and atomic checkpoint in
+  `/root/autodl-tmp/data/fracture2d/<run-name>/`. Move the completed long-run
+  and previous smoke event directories into the new TensorBoard root; do not
+  rewrite the immutable numerical checkpoint or its config hash.
+- Why: This matches the established example-specific TensorBoard layout and
+  lets one TensorBoard invocation see all fracture2d runs without mixing
+  TensorBoard events with numerical artifacts. Checking both directories
+  before starting a run prevents accidental overwrite of unrelated data.
+- Alternatives rejected: leaving old events under each data run, combining
+  events from distinct runs in one directory, or editing a completed run's
+  checkpoint solely to change its log location.
+- Related: `examples/fracture2d/stagger.py`,
+  `examples/fracture2d/configs/train_base.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Explicitly detach previously accepted Amor history in PINN
+- Decision: Implement the same direct-solver history law
+  `H_trial = max(H_committed, Psi_plus(q_current))`, where `H_committed` is the
+  accumulated maximum from the last accepted load, not only that load's
+  instantaneous strain energy. Apply `jax.lax.stop_gradient` to this fixed
+  committed-history input and to the fixed damage/history arrays in the
+  stagger subproblem steps. Preserve gradients through the current Amor
+  driver wherever the neural history residual differentiates with respect to
+  displacement; do not alter the forward maximum or the physical equations.
+- Why: The current FP32 stagger already passes prior history as an archived
+  constant and differentiates only the active network, so it did not optimize
+  previous history. The explicit detachment makes that fixed-state gradient
+  boundary auditable and prevents a future traced history input from
+  accidentally backpropagating through the committed load path. A small
+  manufactured JAX check verifies zero derivative with respect to previous
+  history and the expected nonzero derivative on active current-driver rows.
+- Alternatives rejected: taking the max against only the preceding
+  instantaneous energy, stopping the gradient through the current driver, or
+  changing the direct history's max/irreversibility semantics.
+- Related: `examples/fracture2d/losses.py`,
+  `examples/fracture2d/stagger.py`,
+  `tests/test_fracture2d_pinn_residual.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Log each unaccepted coupled trial at stage reporting steps
+- Decision: At every configured logging step evaluate a provisional full-graph
+  A2/AT2/Amor trial from the current q/d networks, with one same-pass
+  committed-history maximum, and write it to `coupled/*` tagged
+  `coupled/provisional=1`. Replace the stage `loss/<phase>` logging value with
+  the loss recomputed from that same *post-update* state and the correct fixed
+  phase field/history and scale; retain the gradient-step's *pre-update* loss
+  separately as `loss_preupdate/<phase>`. The final accepted-status diagnostic
+  at each sweep endpoint uses `coupled/provisional=0` and
+  `coupled/accepted=0`, without a duplicate coupled entry at the last after
+  stage step. Do not rewrite historical TensorBoard event files.
+- Why: The completed 36,000-update run has 24 records per stage-loss tag but
+  only one `coupled/*` value at step 36,000. Its loss tags came from before
+  the optimizer update while their same-step raw residual/reaction tags came
+  from after, so within-step comparisons were misaligned. During the damage
+  stage its optimized residual uses fixed `H_used`, while the provisional
+  coupled residual must instead use the current q-driven history; reporting
+  both separately preserves the distinction without changing either equation.
+- Alternatives rejected: retroactively forging earlier coupled traces from a
+  final checkpoint, labeling intermediate fixed-subproblem fields as accepted
+  equilibrium, or dropping the pre-update value without naming the change.
+- Related: `examples/fracture2d/stagger.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Define a separate provisional coupled diagnostic loss
+- Decision: At each stage logging point, evaluate current displacement and
+  damage with a single exact committed-history maximum and record
+  `coupled/loss = mean((r_q/s_q)^2) + mean((rho/s_d)^2)`, alongside the raw A2,
+  AT2 and history residual metrics. Freeze `s_q` at the initial free-row A2
+  RMS and `s_d` at twice the initial current-history RMS; validate both are
+  positive and log the scales at step zero. Use the same diagnostic definition
+  at the final sweep endpoint. It is not an optimizer objective or acceptance
+  gate, and fixed-history `loss/damage` remains a separate stage loss.
+- Why: The earlier `coupled/*` group contained only terminal raw diagnostics,
+  not a combined loss curve. A fixed normalization makes future interim
+  coupled values comparable across the before/damage/after phases without
+  conflating the damage stage's fixed `H_used` with its q-driven provisional
+  history or adjusting physical equations to fit the training loss.
+- Alternatives rejected: summing incomparable raw residual units, changing
+  diagnostic scales every stage, or treating a lower coupled scalar as proof
+  that the unaccepted state satisfies all physical gates.
+- Related: `examples/fracture2d/stagger.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Rename stagger TensorBoard tags to the repository convention
+- Decision: Replace the ad-hoc `coupled/*`, `residual/*`, `scales/*` and
+  `loss_preupdate/*` groups with the convention used by `corrosion2d` and
+  `fracture1d`: `loss/*` for the three stage objectives
+  (`loss/mechanics_before`, `loss/damage`, `loss/mechanics_after`), `eval/*`
+  for reference comparisons (`eval/rel_L2_u`, `eval/rel_L2_d`, `eval/rel_L2_H`,
+  `eval/reaction`, `eval/reaction_reference`), and `diag/*` for residual and
+  state diagnostics (`diag/mechanics_residual_inf`, `diag/damage_residual_inf`,
+  `diag/history_residual_inf`, `diag/coupled_loss`, `diag/drift_count`,
+  `diag/damage_min/max`, `diag/damage_healing_max`, `diag/mechanics_scale`,
+  `diag/coupled_damage_scale`, `diag/accepted`). Every `loss/*`, `diag/*` and
+  `eval/*` value at a reporting step is computed from the same post-update
+  state via one Amor reduction. Do not retro-rename v1/v2 event files; a new
+  `2/2/2` smoke run verifies the new tag/step contract.
+- Why: The user found `coupled/*` confusing and inconsistent with the
+  repository, and it mixed loss-like, error-like and residual-like quantities
+  under one unclear prefix. The renamed groups make the semantics explicit
+  and let TensorBoard (and future scripts) treat losses, reference errors and
+  diagnostics uniformly. `diag/coupled_loss` remains a diagnostic, not the
+  optimizer objective, and the damage-phase `loss/damage` (fixed `H_used`)
+  can differ from `diag/damage_residual_inf` (current q-driven history).
+- Alternatives rejected: keeping aliases for the old names (duplicates the
+  same curve), renaming values inside completed event files, or logging the
+  pre-update loss again under a nonstandard prefix.
+- Related: `examples/fracture2d/stagger.py`,
+  `examples/fracture2d/README.md`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`, `docs/PROGRESS.md`.
+
+## 2026-09-28 — Build fracture2d PINN networks through pinn.arch.make_pinn
+- Decision: Replace the bespoke `eqx.nn.MLP`/`_FourierNetwork` construction in
+  `examples/fracture2d/train.py` with `_build_network(config, key, out_dim)`
+  calling `pinn.arch.make_pinn`, following the `fracture1d`/`elasticity2d`
+  structure. Expose `arch.type`, `hidden_dim`, `num_layers`, `activation`,
+  `use_spatial_emb`, `spatial_emb_dim`, `spatial_scale`, `multi_head`,
+  `tensor_split`, `film_hidden_dim`, `film_num_layers` in
+  `configs/train_base.py` and validate them in `_validate_config`; remove the
+  custom `--encoding plain|fourier` CLI. After construction, zero the final
+  field projection (`output`, `out_heads`, or `trunk_output`) so the initial
+  fields remain the affine lift (`u_y = load*y`, `d = H = 0`). `train.py`
+  builds one four-output network (`u_x, u_y, d, H`); `stagger.py` builds
+  independent two-output (displacement) and one-output (damage) networks from
+  the same helper.
+- Why: `make_pinn` with explicit `arch.*` fields is the repository standard;
+  the custom network bypassed the shared Fourier embedding and head options
+  and duplicated architecture code. The zeroed final layer preserves the
+  load-scaled initialization and hard-constraint lifting contract. Parameter
+  initialization changes (different key splits inside `pinn.arch`), so earlier
+  recorded losses are not bit-reproducible; the physical model, data, BCs and
+  loss definitions are unchanged.
+- Alternatives rejected: keeping the bespoke Fourier embedder, changing the
+  physical model or training data to accommodate the refactor, or changing
+  field semantics (damage/history stay material-only).
+- Related: `examples/fracture2d/train.py`,
+  `examples/fracture2d/stagger.py`,
+  `examples/fracture2d/configs/train_base.py`,
+  `examples/fracture2d/README.md`.
+
+## 2026-09-28 — Pass the fracture2d PINN config via ml_collections and widen the network
+- Decision: Convert `train.py` and `stagger.py` to the repository script
+  pattern: `train.py` defines one
+  `config_flags.DEFINE_config_file("config", configs/train_base.py)` flag and
+  `stagger.py` reuses it by importing `train`, so both run through
+  `absl.app` and every run parameter (state index, stage budgets, output
+  directory, log/checkpoint interval, resume) lives in the ml_collections
+  config and is overridden with `--config.<path>=<value>`. Remove the
+  argparse entry points. Enlarge the default network from `hidden_dim=32,
+  num_layers=2` to `hidden_dim=128, num_layers=4` (still one four-output net
+  in `train.py`, two single-field nets in `stagger.py`, zeroed final output).
+- Why: The user requires the same config mechanism as the other examples and
+  judged the previous `32 x 2` MLP too small for the nonlocal fracture fields.
+  A single shared flag avoids an absl duplicate-flag conflict between the two
+  modules (and with `solver.py`, which is not imported alongside them).
+- Alternatives rejected: keeping argparse defaults outside the config file,
+  registering two separate `config` flags, or silently changing the physical
+  model/losses.
+- Related: `examples/fracture2d/train.py`,
+  `examples/fracture2d/stagger.py`,
+  `examples/fracture2d/configs/train_base.py`.
+
+## 2026-09-28 — Record the 128x4 first-load run as improved but unaccepted
+- Decision: Keep the wider-network (`128 x 4`) v3 first-load run as an
+  unaccepted diagnostic, and do not advance or accept its state. Use its
+  curves to target the next diagnosis: the fixed-history damage solve now
+  converges well and displacement drift disappears, so the remaining failure
+  is the coupled A2/AT2 state after the mechanics re-solve.
+- Why: In the identical `12k/12k/12k` budget the v3 run has 0 drift points
+  (v2: up to 22) and `loss/damage` `0.9379 -> 0.00916`, but
+  `diag/coupled_loss` only dips to `0.358` at step 24,000, then returns to
+  `3.72` after the mechanics-after stage and ends at `6.00` with
+  `diag/mechanics_residual_inf=0.9755`, `eval/reaction=33.00` versus FP64
+  `12.67`. The training loop runs in about 83 s, so step budget is not the
+  bottleneck; blind re-runs with more steps are not justified.
+- Alternatives rejected: accepting the low damage-stage loss as convergence,
+  reverting to the smaller network, or changing tolerances/kernels to make
+  the coupled numbers smaller.
+- Related: `docs/tasks/fracture2d-nonlocal-pinn.md`,
+  `/root/autodl-tmp/data/fracture2d/pinn_stagger_12000_v3/`,
+  `/root/autodl-tmp/tf-logs/fracture2d/pinn_stagger_12000_v3/`.
+
+## 2026-09-28 — Keep the verified PINN operators; blame the mechanics optimizer, not the residual
+- Decision: Do not change the A2/Amor/AT2 operators, BC lifting, reaction or
+  the FP32 graph in response to the rising `loss/mechanics_after`. The audit
+  against `examples/fracture2d/nonlocal_baseline.py` found the PINN residuals
+  and operators equivalent to the adopted direct ones (rebuilt FP32 data with
+  the same formulas; inherited `JaxA2UnionMechanics` assembly; the same
+  `ExplicitVolumeSparseD` damage operator; the same `AffineConstraints` and
+  reaction selector). Next work targets the inner mechanics optimization and
+  GPU assembly determinism instead.
+- Why: an exact free-DOF solve of the FP32 mechanics operator (frozen v3
+  damage) reaches objective `8.8e-6` with reaction `12.664` versus the FP64
+  direct `12.675` and displacement rel-L2 `0.12%`, and the direct reference
+  field scores `2.2e-5` in the same PINN objective. Continued training from the
+  v3 checkpoint still raises the loss (`0.349 -> 0.382` over 3,000 Adam steps
+  at `lr=1e-4` and `0.349 -> 0.357` at `lr=1e-5`), so the failure is in the
+  optimizer, not in the equations. `optax.lbfgs` is not a drop-in fix: its
+  eager first step is good (`0.349 -> 0.217`) but the same update under
+  `eqx.filter_jit` raises the loss to `4.45` (mixed float64/float32 scatter in
+  its line search). The FP32 GPU assembly is also nondeterministic at `~1e-4`
+  relative (`jax.ops.segment_sum`), and `--xla_gpu_deterministic_ops=true`
+  makes build/compile impractically slow.
+- Alternatives rejected: hunting an operator bug, more Adam steps or
+  learning-rate sweeps, enabling `xla_gpu_deterministic_ops`, or accepting the
+  low fixed-history damage loss as convergence.
+- Related: `docs/tasks/fracture2d-nonlocal-pinn.md`,
+  `examples/fracture2d/nonlocal_baseline.py`,
+  `examples/fracture2d/fp32.py`, `examples/fracture2d/losses.py`.
+
+## 2026-09-28 — Move the mechanics stage to L-BFGS on a deterministic FP32 assembly
+- Decision: Keep the stagger structure and the verified operators, but replace
+  Adam in the mechanics stages with a curvature-aware L-BFGS optimizer, and
+  replace the GPU-atomic `jax.ops.segment_sum` assembly with a deterministic
+  segmented reduction. Adam stays in the damage stage for now.
+- Why: The audit showed the objective is a stiff least-squares (condition
+  `~2.5e4`) with a float32 floor of `8.8e-6`, while Adam plateaus near `0.25`
+  and then rises even at `lr=1e-5`. The eager L-BFGS first step is excellent
+  (`0.349 -> 0.217`), and the run-to-run assembly noise (`~1e-4` relative) is
+  an obstacle for any function-value-based optimizer; both are fixable in this
+  example without touching the validated equations.
+- Alternatives rejected: accepting Adam plateaus as convergence, GN/LM as the
+  first step (kept as fallback if L-BFGS still stalls), and enabling
+  `--xla_gpu_deterministic_ops` (impractically slow build/compile).
+- Related: `examples/fracture2d/fp32.py`, `examples/fracture2d/stagger.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Fix the jitted lift with a mask blend; pin matmul precision and assembly
+- Decision: `FractureResidual.lift` imposes the collar/anchor values with the
+  precomputed select blend `jnp.where(free_mask, raw_q, prescribed)` instead of
+  `prescribed.at[free_dofs].set(raw_q[free_dofs])`; `train.py`/`stagger.py`
+  set `jax_default_matmul_precision = "highest"`; the FP32 mechanics assembly
+  uses deterministic per-segment scans instead of atomic `jax.ops.segment_sum`.
+  A regression test compares the jitted and eager lift composition.
+- Why: the fused scatter compiled to a different displacement field under jit
+  (`2.07e-5` max difference; the jitted field exceeded the prescribed
+  top-collar value), which made the training objective and the eager reports
+  different functions (`0.3490` vs `7.2514` on the same parameters) and
+  invalidates the pre-fix optimizer traces. The select blend is numerically
+  identical eagerly and agrees with jit to `6.4e-9`. Default TF32 matmuls
+  contributed another `~6e-5` of eager/jit forward mismatch, and the atomic
+  assembly made repeated residuals differ by `~1e-4` relative; both are
+  removed. Post-fix tests `9/9`.
+- Alternatives rejected: keeping the scatter with `optimization_barrier`
+  (still wrong by `2.07e-5`), relying on `--xla_gpu_deterministic_ops`
+  (impractically slow), or accepting eager/jit drift as rounding noise.
+- Related: `examples/fracture2d/losses.py`, `examples/fracture2d/fp32.py`,
+  `examples/fracture2d/train.py`, `examples/fracture2d/stagger.py`,
+  `tests/test_fracture2d_pinn_residual.py`.
+
+## 2026-09-28 — Keep L-BFGS as an unintegrated work item; the remaining gap is optimizer/representation
+- Decision: Keep `examples/fracture2d/lbfgs.py` (deterministic host-side
+  two-loop L-BFGS with Armijo backtracking) as an unintegrated work item, and
+  do not yet rewire the stagger to it. The next step is a decision between
+  matrix-free Gauss-Newton/Levenberg-Marquardt, a stronger curvature method,
+  or network-representation changes.
+- Why: Adam rises on the corrected objective (`0.349 -> 0.392` over 5,000
+  steps), and the L-BFGS step descends `0.349 -> 0.065` over ~700 iterations
+  but plateaus far above the `8.8e-6` exact-solve floor; a supervised L-BFGS
+  fit of the network to the direct free-DOF displacement also stalls near
+  `13%` relative error. The optimizer validates on an ill-conditioned
+  quadratic (and scipy needs 500 iterations there too), so the plateau is not
+  a gross implementation bug.
+- Alternatives rejected: more Adam budget; integrating a plateauing L-BFGS
+  into the stagger before the bottleneck is understood.
+- Related: `examples/fracture2d/lbfgs.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Mechanics plateau is an energy-norm wall; test Gauss-Newton and restate the floor
+- Decision: The next mechanics experiment is a matrix-free damped
+  Gauss-Newton/Levenberg-Marquardt step (JVP/VJP plus truncated CG on the
+  normal equations) for the frozen-damage objective, and the acceptance
+  criterion is restated in field/reaction terms plus a residual reduction
+  relative to the loading scale. Reach for exact-solve distillation only if
+  Gauss-Newton also stalls.
+- Why: Clean probes show the architecture fits the reference displacement to
+  `0.7%` material relative L2 under supervised Adam (`lr=3e-4`, 3,000 steps),
+  but the same field has a free-DOF residual `1.7e4` times the reference
+  field's, and A-optimal linear readouts of random/adapted trunks bottom out
+  at `4.2e3`/`1.7e3`. The mechanics objective is the A-norm of the field
+  error, so the wall is high-frequency residual sensitivity, not L2
+  representation. The `8.8e-6` exact-solve value and the `2.2e-5` reference
+  value are float32 assembly-rounding floors of an essentially exact
+  solution; demanding them from a neural approximation is not meaningful.
+  Adam rises on the stiff objective and L-BFGS plateaus at `0.0653`, so a
+  method that uses the exact tangent (Gauss-Newton) is the principled next
+  step, and the frozen-damage block is linear in the displacement.
+- Rejected alternatives: further L-BFGS tuning (Wolfe/memory), larger Adam
+  budget, and representation changes justified by the earlier `13%`/`81%`
+  probe numbers — those were probe bugs (one coefficient vector shared by
+  both DOF components; a misplaced square) and are not evidence.
+- Related: `docs/tasks/fracture2d-nonlocal-pinn.md`,
+  `examples/fracture2d/losses.py`, `examples/fracture2d/fp32.py`.
+
+## 2026-09-28 — Gauss-Newton implemented and ruled out for the raw residual; precondition the residual next
+- Decision: Keep `examples/fracture2d/gauss_newton.py` (matrix-free damped
+  Gauss-Newton with truncated CG and host Armijo backtracking) as a validated
+  optimizer for well-scaled objectives, but do not use it on the raw
+  mechanics residual. The next mechanics experiment is a preconditioned
+  residual objective `||B R(q)||^2` with `B` an approximate inverse of the
+  frozen tangent operator, plus a field/reaction-based acceptance criterion.
+- Why: On the frozen first-load mechanics objective the first GN step from
+  the affine base field is excellent (`1.0 -> 0.155`), but the line search
+  cannot find descent afterwards: at the stuck point `||grad|| ~ 6.7e4`, a
+  GN direction has norm ~`80`, and the objective is flat to `~1e-5` for all
+  step sizes in `[1, 2^-45]` before exploding; one further accepted step
+  needs `step_size = 3.7e-9` and then damping rises to `1e14`. The residual
+  is the A-norm of the field error (`kappa(A) ~ 2.5e4`), so the
+  parameter-space landscape is numerically jagged at the `1e-5` parameter
+  scale in float32. The same mechanism explains the L-BFGS plateau: its
+  `0.065` residual field has `rel_L2_u ~ 0.5` because the residual is nearly
+  blind to near-rigid free-region modes. Preconditioning by `B ~ A^{-1}`
+  keeps the exact solution as the unique zero but turns the landscape into
+  the supervised L2 problem that Adam solves to `0.7%` in 3,000 steps.
+- Rejected alternatives: more GN damping/backtracking range (already tested
+  to `1e14` and `2^-45`), Adam/L-BFGS retuning, treating the L-BFGS `0.065`
+  residual as convergence despite the `50%` field error.
+- Related: `examples/fracture2d/gauss_newton.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Float64 evaluation removes the FP32 jaggedness; distillation is the accurate mechanics path
+- Decision: Record that the mechanics optimization noise is a float32
+  evaluation artifact and that exact residual preconditioning is equivalent
+  to supervised fitting of the exact linear solve. Suspend the
+  preconditioned-residual work and put the choice to the user: residual-only
+  float64 mechanics (honest, slow field convergence) versus float64 exact
+  solve as the mechanics target (distillation, accurate field) with the
+  damage stage still a residual PINN. Continue the FP32 path only where its
+  noise does not gate optimization.
+- Why: On the float64 backend the reference-field residual is `8.2e-10` and
+  raw Adam decreases monotonically `1.0 -> 0.0267` over 20,000 steps,
+  whereas FP32 rose and Gauss-Newton could not step. But the residual is
+  nearly blind to near-rigid modes, so at loss `0.0267` the field is still
+  `32%` off with reaction `19.7` vs `12.7`. Preconditioning by `A^{-1}`
+  turns the objective into the field-error fit (distillation), and truncated
+  CG preconditioning needs ~200 iterations per evaluation here. Direct
+  distillation reaches `0.4-0.5%` field error and reaction `12.5/11.3` in
+  about 100 s per state.
+- Alternatives rejected: FP32 residual optimization (jagged by evaluation
+  noise), Gauss-Newton without preconditioning (cannot step), host L-BFGS in
+  float64 (slower than Adam here), and further preconditioner approximations
+  that converge back to distillation at this problem size.
+- Related: `docs/tasks/fracture2d-nonlocal-pinn.md`,
+  `examples/fracture2d/gauss_newton.py`, `examples/fracture2d/lbfgs.py`.
+
+## 2026-09-28 — Target-free low-mode fixes fail; the linear block needs the solve in the loop for field accuracy
+- Decision: Do not add affine ansatz parameters or a low-rank spectral
+  preconditioner to the mechanics loss. If field/reaction accuracy is
+  required, the linear mechanics block must use the linear solve inside the
+  loop (distillation target or Newton-preconditioned gradient, which are
+  equivalent); if the acceptance is residual-based with strain-sensitive
+  coupling, the pure float64 residual stage can proceed end-to-end.
+- Why: both target-free fixes fail empirically. The affine-augmented ansatz
+  reaches raw loss `0.051` at 20k steps with material rel-L2 `48%` (plain
+  float64 Adam: `0.027`, `32%`). The 48-mode Lanczos spectral preconditioner
+  (`lambda_1 = 19.2`, `kappa ~ 1.4e4`, symmetry `1.6e-15`) reduces its own
+  objective `1.0 -> 6.5e-3` while the raw loss stalls at `0.30` and the field
+  degrades to `60%`: a low-rank inverse re-balances modes, it does not
+  equalise their convergence. Only `A^{-1}` balances all modes, and that is
+  the exact solution.
+- Rejected alternatives: treating the low-rank preconditioned loss as the
+  acceptance metric, using the reference displacement as a training target
+  without an explicit user decision.
+- Related: `examples/fracture2d/losses.py`, `examples/fracture2d/fp32.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — FP64 is affordable for the end-to-end path; adopt option A
+- Decision: Proceed with option A (end-to-end residual mechanics, no external
+  target) on the float64 model, and start porting the stagger to float64.
+- Why: the actual workload is edge-assembly dominated. Warmed timings on the
+  RTX 4080: mechanics forward `0.60 -> 1.88 ms` (3.1x), mechanics Adam step
+  `2.70 -> 5.10 ms` (1.9x), damage Adam step `0.59 -> 2.77 ms` (4.7x), while
+  the raw `3072^3` matmul ratio is `37x`. A `12k/12k/12k` sweep costs about
+  `2.6 min` in FP64. Float64 also removes the optimization noise that broke
+  Adam in FP32 and uses the reference graph directly (no candidate-edge
+  mismatch).
+- Rejected alternatives: staying in FP32 for the mechanics optimization
+  (jagged objective), or mixing FP32 and FP64 graphs in one stagger
+  (inconsistent discrete operators between stages).
+- Related: `docs/tasks/fracture2d-nonlocal-pinn.md`,
+  `examples/fracture2d/stagger.py`.
+
+## 2026-09-28 — Stagger ported to float64; first end-to-end state-1 sweep runs bounded and monotone
+- Decision: Make `train.dtype = "float64"` the stagger default on the adopted
+  reference graph (precision-specific checkpoint schema
+  `fracture2d-fp64-stagger-checkpoint-v2`), keep the rebuilt float32 path
+  behind `train.dtype = "float32"`, and keep the residual-only end-to-end
+  objective. Continue with a larger stage budget before any acceptance
+  judgement.
+- Why: the FP32 path cannot optimize the stiff residual (jagged by float32
+  evaluation noise), while the measured FP64 workload is only `2-5x` slower
+  and the `12k/12k/12k` state-1 sweep runs in about five minutes. In that
+  sweep the `after` mechanics loss falls `0.052 -> 0.019` (still falling),
+  drift goes `20 -> 0`, reaction `23.9 -> 15.0` vs reference `12.675`, and
+  `u_relative_l2` `0.471 -> 0.207`; damage reaches `0.0028` with no healing.
+  The FP32 v3 run (lift-bug era) had `mechanics_after -> 156`.
+- Rejected alternatives: keeping float32 for the mechanics stage, mixing
+  FP32/FP64 graphs in one stagger, and reverting to a solver-target
+  distillation (user preference is end-to-end).
+- Related: `examples/fracture2d/stagger.py`,
+  `examples/fracture2d/stagger_checkpoint.py`, `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Float64 budget comparison passes the physical gates; positivity and acceptance remain
+- Decision: Keep the float64 end-to-end residual stagger and treat the two
+  state-1 budget runs as the new baseline. The next items are damage
+  positivity control and explicit acceptance gates before any state is
+  accepted.
+- Why: the `48k/48k/48k` single sweep reaches `u_relative_l2 0.0278` and
+  reaction `12.811` vs `12.675` with drift `0`; three `12k` sweeps reach
+  `u_relative_l2 0.0427`, reaction `12.845`, coupled loss `0.0316` (from
+  `0.170` after one sweep), `d_relative_l2 0.229`, and a positive damage
+  minimum with no healing. Both are far better than the FP32 lift-bug v3
+  baseline (`mechanics_after -> 156`, reaction `33`, drift `22`). The long
+  run's `damage_min = -2.6e-8` shows the AT2 least-squares does not enforce
+  `d >= 0`, which the direct scheme does.
+- Rejected alternatives: judging acceptance on the raw residual against the
+  float32 rounding floor, and extending to more loads before the damage
+  positivity and gate definitions are settled.
+- Related: `examples/fracture2d/stagger.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Damage positivity via a smooth one-sided floor
+- Decision: Parameterize the phase-field damage output through
+  `d = 0.5 * (raw + sqrt(raw^2 + floor^2))` with an explicit
+  `physical.damage_floor = 1e-8` config value, validated in `_validate_config`
+  and covered by tests. The reference damage is strictly nonnegative (bulk
+  minimum `2.3e-9` at state 1), so an unconstrained least-squares output is
+  not acceptable.
+- Why: the float64 long run reached `damage_min = -2.6e-8` and the negative
+  bulk values dominated `d_relative_l2`. With the floor the three-sweep run
+  gives `damage_min = 2.29e-7`, `u_relative_l2 0.0269`, reaction `12.770`
+  vs `12.675`, coupled loss `0.0316`, no healing. The floor equals `raw`
+  above the floor and keeps a finite gradient at zero, so the positive part
+  of the solution is unchanged.
+- Rejected alternatives: a hard `relu` (zero gradient region freezes the
+  damage where it must activate), a clamped/straight-through output, and an
+  exterior penalty with a tuned weight.
+- Related: `examples/fracture2d/train.py`, `examples/fracture2d/stagger.py`,
+  `examples/fracture2d/configs/train_base.py`,
+  `tests/test_fracture2d_pinn_residual.py`.
+
+## 2026-09-28 — Damage floor validated; damage solve matches the reference maximum
+- Decision: Keep the smooth one-sided damage floor and move to defining the
+  acceptance gates.
+- Why: post-fix runs give a strictly nonnegative damage field
+  (`damage_min 2.3e-7` after three sweeps, `3.9e-11` after the long sweep)
+  while the damage stage solves `damage_max = 1.2095e-4` against the
+  reference `1.225e-4` (1.3% low). The three-sweep mechanics also improves
+  to `u_relative_l2 0.0269` and reaction `12.770` (0.75% high). The final
+  reported damage is the `omega = 0.5` relaxation of the solved field, as in
+  the direct scheme, so a single sweep reports half the solved damage by
+  construction.
+- Rejected alternatives: treating the relaxed `d_trial` maximum as a damage
+  solve failure, and gating on the bulk `d_relative_l2` while the reference
+  bulk values are `~1e-9`.
+- Related: `docs/tasks/fracture2d-nonlocal-pinn.md`,
+  `examples/fracture2d/stagger.py`.
+
+## 2026-09-28 — State 1 accepted once; cross-process training still has last-bit backward nondeterminism
+- Decision: Keep the deterministic forward/assembly and the explicit gate
+  logging, but treat the trained-state acceptance as statistically spread:
+  two identical `12k x 3` gate runs gave `(u 0.0286, reaction 12.667)` and
+  `(u 0.0364, reaction 13.099)`; only the first passed every gate. Use gates
+  with margins consistent with that spread (or converge further) before
+  judging acceptance, and document the spread in the task record.
+- Why: the forward path is bitwise reproducible (network, residual, FP64
+  backend, deterministic operator matvec), but the reverse-mode graph is not
+  run-reproducible on this GPU stack. Isolated primitives (segmented-scan
+  transpose, explicit broadcast contraction, plain gradients) are
+  deterministic; only their composition is not, which points at XLA fused
+  reduction codegen rather than the model math. `CUBLAS_WORKSPACE_CONFIG`
+  and `--xla_gpu_autotune_level=0` do not fix it, and
+  `--xla_gpu_deterministic_ops` is unusably slow (a single probe exceeded
+  900 s versus ~30 s). The stiff residual amplifies last-bit differences
+  into `~1-3%` reaction spread over 36k updates.
+- Rejected alternatives: claiming bitwise run-to-run reproducibility of the
+  trained state; treating the single passing run as a stable acceptance;
+  accepting the `1e5 x` slowdown of deterministic XLA ops.
+- Related: `examples/fracture2d/fp64.py`, `src/pinn/operators.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-28 — Allow five percent reaction margin for end-to-end continuation
+- Decision: Raise the explicit stagger reaction-relative gate from 2% to 5%,
+  keep the displacement-relative gate at 5%, and advance strictly labelled
+  loads only after the final sweep passes every gate. Carry the accepted
+  networks, optimizer states, displacement, damage, and cumulative Amor history;
+  a rejected trial never overwrites the committed state.
+- Why: Two same-configuration state-1 FP64 runs produced reaction errors 0.06%
+  and 3.35% from last-bit reverse-mode differences amplified by the stiff
+  objective. The user selected this margin and end-to-end multi-load work.
+- Alternatives rejected: retaining the 2% gate with run-dependent acceptance,
+  training on archived current-load fields, and treating warning-labelled loads
+  as strictly converged.
+- Related: `examples/fracture2d/stagger.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-29 — Stop strict PINN continuation at state-2 healing and mechanics gates
+- Decision: Preserve the user-approved 5% reaction and 5% displacement gates,
+  require every other existing gate, and stop at the first rejected load.
+  State 1's accepted snapshot and optimizer state stay committed; no accepted
+  state-2 snapshot is written. Keep the damage history-only formulation while
+  asking how to resolve its approximate healing, and review mechanics-scale
+  normalization before changing the next experiment.
+- Why: a small two-load smoke proved owner-paired history, atomic acceptance,
+  rejection rollback, and idempotent restart. In the first full-budget run,
+  state 1's final reaction error was 7.88%, so nothing was committed. In the
+  second independent full-budget run state 1 passed (u 2.40%, reaction 1.97%);
+  state 2 failed healing `5.97e-6 > 1e-10` and normalized mechanics loss
+  `0.826 > 0.01` despite u 2.94% and reaction 0.23%. Warm starting the second
+  load decreases its initial mechanics residual scale from `0.05103` to
+  `0.005606`, making a fixed normalized gate ~83 times stricter in absolute
+  residual. Resume verified that the rejected completed load cannot be
+  skipped and state 1's accepted digest is unchanged.
+- Alternatives rejected: automatically accepting the numerically plausible
+  state 2, raising the healing tolerance without approval, imposing a new
+  `d >= d_prev` inequality on the history-only law without a model decision,
+  or silently reusing archived state-1 fields as training context.
+- Related: `examples/fracture2d/continuation.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-29 — Permit up to 1e-3 damage healing as an explicit acceptance tolerance
+- Decision: On the user's request, set `stagger.healing_atol=1e-3` and use it
+  solely for the healing gate and accepted-successor comparison. Preserve the
+  separate `stagger.damage_range_atol=1e-10`, strictly monotone cumulative Amor
+  history, raw healing logs, and the unchanged history-only AT2 equation.
+- Why: The first state-2 PINN attempt had healing `5.97e-6`, which the user
+  considers acceptable. The adopted direct warning workflow also reports
+  nonzero healing instead of masking it. This is an explicit tolerance on the
+  accepted damage path, not a proof of exact damage irreversibility: at the
+  first few loads `1e-3` can exceed the magnitude of the damage field.
+  State 2 would still fail the independent normalized mechanics gate
+  (`0.826 > 0.01`), so no previously rejected run is reclassified as accepted.
+- Alternatives rejected: broadening the damage range along with healing,
+  silently clipping the damage field, or changing the AT2/history equation.
+- Related: `examples/fracture2d/configs/train_base.py`,
+  `examples/fracture2d/stagger.py`, `examples/fracture2d/continuation.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-29 — Freeze the mechanics normalization at the first load
+- Decision: On the user's selection, normalize every continued mechanics
+  residual by the FP64 free-row RMS for the first strict load's zero-output
+  affine field and archived zero-load damage. Recompute this identity-bound
+  scalar from fixed model inputs at each load rather than carrying a mutable
+  training value. Keep raw force residuals, the `0.01` normalized mechanics
+  gate, and the A2 equations unchanged.
+- Why: warm-starting state 2 from accepted state 1 reduced the per-load
+  initial residual scale from `0.05103` to `0.005606`, which made the same
+  squared normalized gate about 83 times stricter in absolute residual.
+  A common denominator gives the same absolute residual threshold for all
+  strict loads. It is a deliberately absolute path-wide criterion, not a
+  claim of equal relative accuracy at larger loads.
+- Alternatives rejected: silently treating an old per-load checkpoint as
+  compatible with the new normalization or changing the raw PDE residual;
+  the per-load warm-start and per-load affine normalizations were offered as
+  separate explicit options.
+- Related: `examples/fracture2d/stagger.py`,
+  `examples/fracture2d/configs/train_base.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-29 — Permit online acceptance during the final mechanics-after stage
+- Decision: If the online-acceptance flag is set, evaluate all existing gates
+  at each complete reporting point of the **final** stagger sweep's
+  mechanics-after stage. On the first simultaneous pass, stop and atomically
+  commit that exact network/optimizer/field/history state, recording its
+  actual optimizer step. If no point passes, retain final-step rejection.
+  Do not search past curves for a favourable point.
+- Why: Under the approved first-load normalization, a state-2 after-stage
+  report at step 8,000 passed the mechanics loss (`0.009967`), displacement
+  (`1.46%`), reaction (`1.29%`), healing (`6.07e-6 < 1e-3`), range, drift
+  and history gates; additional Adam steps raised the final mechanics loss
+  to `0.01045`. Online first-passage stopping avoids losing an already gated
+  state solely by continuing noisy updates.
+- Alternatives rejected: retroactively accepting that archived intermediate
+  report without its network checkpoint, using a partial before/damage stage,
+  loosening the `0.01` mechanics threshold, and changing the physical law.
+- Related: `examples/fracture2d/stagger.py`,
+  `examples/fracture2d/continuation.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-29 — Extend only the continuation endpoint, preserving warm starts
+- Decision: Treat increasing `data.end_state_index` as an explicit resume
+  operation. Verify every previously stored per-load config, accepted state
+  and predecessor digest against its original numerical identity; permit
+  changes to the endpoint only and keep old accepted files unchanged. The
+  successor continues from the last accepted displacement/damage networks,
+  their separate Adam states and the committed q/d/H fields.
+- Why: binding the original endpoint into the root config made requesting
+  state 3 after completing a two-state run look like a numerical-policy
+  change, unnecessarily forcing a new root and re-training the first two
+  loads. The endpoint specifies *how far to run*, not the numerical problem
+  at a previously accepted state. Parent-chain validation still prevents
+  mixing models or silently substituting archived previous fields.
+- Alternatives rejected: overwriting old accepted checkpoints with new
+  endpoint identities, dropping configuration checks for continuation, or
+  reinitializing the neural networks/Adam states at each load.
+- Related: `examples/fracture2d/continuation.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-29 — State 3 remains unaccepted under the fixed first-load mechanics gate
+- Decision: Stop physical continuation at state 3 without changing the
+  user-selected first-load normalization or `0.01` mechanics-loss limit.
+  Preserve the accepted state-1 and state-2 snapshots and report the state-3
+  raw diagnostics. Ask for a new explicit gate/budget decision before rerunning.
+- Why: using only the permitted endpoint increase resumed the actual two-load
+  root, verified its unchanged SHA256 parent chain and warm-started state 3
+  from state 2. After three `16k/12k/16k` sweeps, state 3 passed displacement
+  (`3.51%`), reaction (`1.97%`), damage range, healing (`4.65e-7`), history,
+  finite and drift gates, but failed the absolute first-load-normalized
+  mechanics loss (`0.01984 > 0.01`). Its directory has no accepted snapshot;
+  a subsequent resume refuses to skip it. This is not evidence that the
+  current mechanics normalization is appropriate across all 59 strict loads.
+- Alternatives rejected: silently increasing the loss limit, changing to a
+  load-relative scale after looking at state 3, or committing the state from
+  good field/reaction metrics while its mechanics gate is red.
+- Related: `examples/fracture2d/continuation.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-29 — Normalize later mechanics residuals by prescribed-load amplitude
+- Decision: On the user's approval, add an explicit mechanics scale policy
+  `first_load_times_load_ratio`: the adopted first-load zero-damage affine
+  free-row RMS multiplied by the current prescribed displacement divided by
+  the first prescribed displacement. Use the same scale for the training
+  objective, reports and acceptance. Continue recording raw residuals and
+  retain the predeclared normalized loss limit of `0.01`. Fork into a new
+  identity-bound continuation root from the verified old accepted prefix.
+- Why: a fixed first-load denominator is an equal-*absolute*-residual gate
+  even though both the applied displacement and elastic force scale with
+  load in the linear fixed-damage limit. A load-ratio scale compares residuals
+  relative to the imposed amplitude; it does not change A2/AT2 or claim exact
+  invariance once damage evolves. The existing state-3 trial failed the
+  absolute gate alone, so its archived result cannot be retroactively
+  accepted under the new policy.
+- Alternatives rejected: rewriting the old accepted snapshots, silently
+  relaxing `0.01`, retrospectively reclassifying a rejected checkpoint, or
+  using current-load reference displacement as a training target.
+- Related: `examples/fracture2d/stagger.py`,
+  `examples/fracture2d/continuation.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-29 — Prioritize reaction curve and damage-field errors in continuation review
+- Decision: On the user's clarification, present reaction versus load and
+  damage-field comparisons before displacement error. Keep all previously
+  authorized gates unchanged while the user selects a revised acceptance
+  contract; neither infer a damage-field threshold nor silently remove the
+  displacement gate.
+- Why: the load-ratio fork accepted loads 3–6, but at load 7 all gates except
+  displacement passed: reaction error `0.685%`, damage relative L2 `5.49%`,
+  displacement relative L2 `5.23% > 5%`. Existing acceptance records damage
+  range and healing, not reference-field damage error; relative L2 at load 1
+  was `22.33%` and is not directly interchangeable with later damage errors.
+- Alternatives rejected: relabelling the completed rejected state 7 as
+  accepted, quietly increasing displacement tolerance, or imposing a new
+  damage L2 gate without an agreed threshold and early-load interpretation.
+- Related: `examples/fracture2d/stagger.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-29 — Report absolute damage RMSE and peak error at every load
+- Decision: On the user's request for a better small-load damage metric,
+  make dimensionless material-node `d_rmse = sqrt(mean((d_PINN-d_ref)^2))`
+  the primary damage comparison and also report the maximum absolute error
+  to reveal notch-localized discrepancies. Preserve the old relative L2
+  only as an auxiliary trend; add both absolute metrics to per-stage
+  TensorBoard evaluations, progress reports and the final result. This
+  changes reporting only: the AT2 training objective and all existing
+  acceptance gates remain as before pending a chosen damage-error threshold.
+- Why: the first-load reference damage norm is just `9.011e-4`, amplifying
+  a `2.013e-4` field error into `22.33%`; the damage is dimensionless and
+  `0..1` bounded, so absolute nodewise error has defined units even when
+  the reference field vanishes. On the first accepted load, RMSE is
+  `3.454e-6` and maximum error `3.287e-5`; a peak-error companion avoids
+  concealing the localized error in the whole-field mean.
+- Alternatives rejected: relying on relative L2 alone at zero/small damage,
+  normalizing by an arbitrary reference-damage floor, or retroactively
+  assigning an unapproved damage-field acceptance tolerance.
+- Related: `examples/fracture2d/stagger.py`,
+  `examples/fracture2d/README.md`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-29 — Gate absolute damage RMSE, keep displacement diagnostic
+- Decision: On explicit user confirmation, remove displacement relative L2
+  from the acceptance gates (continue logging it), add the full material
+  damage-field RMSE gate with limit `1e-2`, and keep the maximum absolute
+  damage error diagnostic-only. Keep reaction relative error at `5%`,
+  normalized mechanics loss at `0.01`, range, healing, history, drift and
+  finite gates. From the accepted state-6 network/optimizer/q/d/H snapshot,
+  train load 7 afresh in a separate identity-bound root; preserve the
+  previously accepted and rejected checkpoints byte-for-byte.
+- Why: the user's desired quality measures are the reaction curve and damage
+  field; state 7 failed only the old `5%` displacement gate. The explicit
+  `1e-2` RMSE value is the user's chosen limit, not one inferred from
+  previously accepted data. Since its early-load values are orders of
+  magnitude smaller, retain raw per-load RMSE/max error for assessing how
+  discriminating this limit is as damage progresses.
+- Alternatives rejected: accepting the old rejected state 7 under new rules,
+  applying the `1e-2` limit to both damage metrics, or using reference damage
+  as the PINN training target.
+- Related: `examples/fracture2d/stagger.py`,
+  `examples/fracture2d/continuation.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.

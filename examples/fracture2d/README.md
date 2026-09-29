@@ -362,13 +362,17 @@ The archived solution is explicitly `field_equations_validated=false` and
 `validated=false`; it is a diagnostic warning reference, not a strict or
 field-validated production artifact.
 
-## Nonlocal PINN (next stage)
+## Nonlocal PINN (in progress)
 
 ### Operator and model reuse
 
-The nonlocal PINN is trained on the same graph, operator, energy, history
-driver, and residual assembly as the direct solver, taken from
-[`nonlocal_baseline.py`](nonlocal_baseline.py) and `pinn.operators`:
+The FP32 PINN retains the same material particles, union-collar construction,
+hard constraints, A2 energy/residual assembly, Amor and AT2 laws, and physical
+parameters as the direct solver. Because float32 rounding changes strict
+`r < delta` membership, [`fp32.py`](fp32.py) independently rebuilds the
+union/material graph, phase quadrature, BA supports and cubic damage operator.
+Its graph is **not identical** to the frozen FP64 direct graph. The adopted
+direct implementation remains [`nonlocal_baseline.py`](nonlocal_baseline.py):
 
 | Need | Symbol |
 |---|---|
@@ -378,10 +382,16 @@ driver, and residual assembly as the direct solver, taken from
 | Amor material-source history driver | `compute_material_source_amor` |
 | Nonlocal damage operator (2D cubic kernel) | `pinn.operators.ExplicitVolumeSparseD` |
 | Adopted reference generator (GPU) | `run_stabilized_engineering_grip`, `JaxA2CPUReplayAdapter` |
+| Rebuilt FP32 PINN graph and residual-only mechanics backend | `fp32.build_fp32_model`, `fp32.FP32A2Backend` |
 
-Enable JAX x64 before building the operator/model. The `d048` graph is
-float64-specific; any float32 PINN branch must rebuild and revalidate its own
-graph (do not cast this one, do not add kernel floors or cutoff tolerances).
+The reference model is still built in FP64 with JAX x64 enabled; the network,
+new graph, BA A2/Amor residuals, and material AT2 operator are all FP32 during
+training. The original `d048` graph is not cast into FP32. On this material
+cloud the rebuilt union candidate pairs differ by `+209/-76` and the material
+directed edges by `+76/-152`; maximum FP32 BA condition is `20.24`. The first
+archived state produces FP32 reaction `12.548` versus `12.675` when evaluated
+with the original FP64 operator. This is a discrete-model difference, not a
+training error.
 
 ### Strong-form residuals
 
@@ -396,12 +406,13 @@ r_q=\bigl[\,r_{A2}(q;d)\,\bigr]_{\mathrm{free}},\qquad
 r_H=H-\max\bigl(H_c,\Psi^+_{m,a}(q)\bigr).
 $$
 
-The hard constraints (bottom/top collar `u_y`, anchor `u_x`) and the natural
-boundary conditions are the same as in
-[Constraints, load coordinate, and reaction](#constraints-load-coordinate-and-reaction).
-Impose them exactly if the architecture permits; otherwise add them as explicit
-penalties and report their violation separately from the PDE residuals. Every
-symbol above is defined in
+The network displacement is affinely lifted to impose bottom nonmaterial collar
+`u_y=0`, top nonmaterial collar `u_y=u_bar`, and the original material anchor
+`u_x=0` **exactly**, with no BC penalty. Collar `u_x` and all material top/bottom
+`u_y` remain free; all other boundaries are natural. Damage has the same
+material-only natural zero-flux graph treatment, without hard boundary values.
+See [Constraints, load coordinate, and reaction](#constraints-load-coordinate-and-reaction).
+Every symbol above is defined in
 [Governing equations](#governing-equations-adopted-engineering-grip-scheme);
 no new kernel, split, or degradation is introduced by the PINN.
 
@@ -410,11 +421,16 @@ no new kernel, split, or degradation is introduced by the PINN.
 - The nonlocal compact solution and the FEM archive share the same `3395`
   material nodes and `6284` triangles, so per-state field comparison is
   node-wise after reshaping: `union_q[:, :6790] -> (76, 3395, 2)`.
-- **Strict region** `u_bar <= 0.0061`: `65` strict reference states. Use these
-  for quantitative field/curve convergence.
-- **Warning region** `u_bar >= 0.0062`: `10` warning states, `2 -> 31` drift
-  points (`|u_i|/u_bar > 1.08`). Compare qualitatively only; never present this
-  tail as converged truth or as a training target for an exact solution.
+- **Strict prefix** `u_bar <= 0.0059`: `59` strictly accepted reference states.
+  Use these for initial quantitative field/curve comparisons.
+- **Drift-free warnings** `0.0060` and `0.0061`: warning-accepted even though
+  no material particle exceeds the drift envelope; compare diagnostically.
+- **Drifting tail** `u_bar >= 0.0062`: `2 -> 31` drift points
+  (`|u_i|/u_bar > 1.08`). Acceptance labels are mixed: warning at `0.0062`
+  through `0.0068` and `0.0071`, strict at the other tail loads. Compare
+  qualitatively only; never present this tail as converged physical truth or
+  as an exact-solution training target. The archive contains `65` strict and
+  `10` warning accepted states *in total*, not as consecutive regions.
 - Curve targets: pre-peak reaction follows the FEM reference (`642.48573` at
   `0.0057`); the nonlocal reference peak is `641.34017` at `0.0061`. The
   terminal mismatch (`69.15` vs FEM `3.98` at `0.0075`) is an accepted
@@ -422,14 +438,16 @@ no new kernel, split, or degradation is introduced by the PINN.
 
 ### Training convergence criteria
 
-- Residual gates: reuse the direct-solver numbers as the convergence contract —
+- The direct FP64 solver's reference gates (not yet demonstrated achievable by
+  the separately rebuilt FP32 PINN) are:
   displacement/damage/history/reaction/force/moment `atol=1e-9, rtol=1e-8,
   floor=1.0`; committed damage residual `atol=1e-10, rtol=1e-8, floor=1.0`;
   raw damage range and healing `1e-10` each; linear solves `cg_rtol=1e-10,
   cg_atol=1e-13, cg_maxiter=3000`.
-- Field milestones before claiming a trained state: relative `L2` error versus
-  the reference on the retained material nodes below `1e-3` for `u`, `d`, and
-  `H` at `u_bar = 1e-4, 1e-3, 0.0058, 0.0061`.
+- Field comparison milestones before claiming a trained strict-prefix state:
+  relative `L2` error versus the reference on all material nodes below `1e-3` for
+  `u`, `d`, and `H` at `u_bar = 1e-4, 1e-3, 0.0058, 0.0059`. At `0.0061` the
+  warning-accepted comparison is diagnostic only, regardless of field error.
 - Report residual norms, field errors, and reaction together. A low training
   loss alone is not convergence evidence, and gates must not be widened to make
   a failing state pass; record failures explicitly.
@@ -453,6 +471,211 @@ python -m examples.fracture2d.nonlocal_baseline plot \
   --output-dir /root/autodl-tmp/data/fracture2d/engineering_grip/direct_nonlocal_final/figures
 ```
 
+The first PINN implementation is a **single-load full-graph experiment**, not
+an accepted load-continuation curve. It uses the separately rebuilt FP32 model
+and the previous archived history as context, never the current fields as loss targets.
+Run on a strictly accepted prefix state (indices `1..59`) with the JAX virtual
+environment and `PYTHONPATH=src`:
+
+```bash
+PYTHONPATH=src .venv/bin/python -m examples.fracture2d.train \
+  --config=examples/fracture2d/configs/train_base.py \
+  --config.data.state_index=1 --config.train.steps=100 \
+  --config.train.report_every=10
+```
+
+Both entries load `configs/train_base.py` through the shared
+`ml_collections` config flag (`--config=<file>`), as in the other examples;
+any field can be overridden with `--config.<path>=<value>`.
+`configs/train_base.py` declares the frozen cloud/reference hashes, physical
+parameters, FP32 network, optimizer, and fixed **optimization-only** loss scales.
+`--config.loss.scaling=fixed` retains the original explicit scales; the default
+`initial_driver_rms` freezes the initial A2 residual RMS, Amor-driver RMS and
+twice the driver RMS for mechanics, history and damage respectively.
+Networks are built by `_build_network` from `pinn.arch.make_pinn` with the
+explicit `arch.*` fields (`type`, `hidden_dim`, `num_layers`, `activation`,
+`use_spatial_emb`, `spatial_emb_dim`, `spatial_scale`, `multi_head`,
+`tensor_split`); the single-network `train.py` uses four outputs
+(`u_x, u_y, d, H`), while the stagger diagnostic uses separate two-output and
+one-output networks. The final output layer is initialized to zero so each
+field starts at the affine lift.
+The script prints raw A2/AT2/Amor residual maxima, material `u/d/H` errors,
+reaction, range/healing diagnostics, and the **entire** warning/drift tail with
+each load's archived acceptance label. A short smoke run is not evidence of
+convergence. Strict-prefix accepted-state advancement is available in
+`continuation.py`.
+
+The two governing equations are **A2 displacement equilibrium and AT2 damage**.
+Amor history is an algebraic committed-history maximum, not a third PDE. An
+additional single-load stagger diagnostic alternates two independent
+networks (mechanics with damage fixed, then damage with history fixed), uses the
+same direct-scheme damage under-relaxation, re-solves mechanics, and recomputes
+history from the *unchanged* committed previous state:
+
+$$
+H_{n,a}=\max\!\left(H_{n-1,a},\Psi^{+}_{m,a}(q_n)\right).
+$$
+
+Here \(H_{n-1}\) is the **accumulated history at the last accepted load**, not
+just that load's instantaneous energy. It and each fixed stagger subproblem's
+other field are explicitly `stop_gradient` inputs; the current Amor driver
+remains differentiable with respect to the current displacement network.
+
+```bash
+PYTHONPATH=src .venv/bin/python -m examples.fracture2d.stagger \
+  --config.train.dtype=float64 --config.data.state_index=1 \
+  --config.stagger.mechanics_steps=12000 \
+  --config.stagger.damage_steps=12000 --config.stagger.sweeps=3 \
+  --config.output.dir=/root/autodl-tmp/data/fracture2d/pinn_stagger_new_run \
+  --config.output.log_every=500 --config.output.checkpoint_every=1000
+```
+
+Resume an interrupted run with the same command plus
+`--config.output.resume=True`.
+
+For strict-prefix continuation, use `continuation.py` with an explicit final
+state (indices `1..59` only). The first load starts from the archived zero
+state; subsequent loads reuse only the previous **accepted PINN state**,
+including both networks, Adam states, displacement, damage, and cumulative
+Amor history. The archive supplies the load values and diagnostic comparators,
+not the current-load training targets. Each load receives a separate
+`state_0001/`, `state_0002/`, ... directory under `output.dir`, an atomic
+`accepted.ckpt.zip` only after the final sweep passes every gate, and
+independent TensorBoard events under `<tensorboard_root>/<run-name>/state_0001/`,
+etc. The first rejected load stops without
+changing its accepted parent. Resume the same root with
+`--config.output.resume=True` to continue an interrupted load, or increase
+**only** `--config.data.end_state_index` and add the resume flag to run more
+strict-prefix loads. Previously accepted loads and their numerical configs
+are verified and reused without retraining; their checkpoint identities are
+never rewritten. A completed rejected load requires a new run with a
+different numerical policy or budget.
+With `stagger.accept_on_first_passing_report=True`, only the **last** sweep's
+mechanics-after reporting points may trigger online acceptance. All configured
+gates use that point's same-pass post-update fields; the network, both Adam
+states, damage and cumulative history are saved at its **actual** step.
+Earlier sweeps always complete; old event curves are never searched for a
+favourable state after training. Set the flag to `False` to require the
+final optimizer step instead.
+
+```bash
+PYTHONPATH=src .venv/bin/python -m examples.fracture2d.continuation \
+  --config=examples/fracture2d/configs/train_base.py \
+  --config.train.dtype=float64 --config.data.end_state_index=2 \
+  --config.stagger.sweeps=3 \
+  --config.stagger.mechanics_steps=12000 \
+  --config.stagger.damage_steps=12000 \
+  --config.output.dir=/root/autodl-tmp/data/fracture2d/pinn_continuation_fp64
+```
+
+After loads 1–2 are accepted, run the same command with
+`--config.data.end_state_index=3 --config.output.resume=True` to train only
+state 3 from the accepted state-2 networks and optimizer states. All other
+numerical settings (including budgets, gates and output root) must match.
+If state 3 completes with a failed gate, this root remains committed only
+through state 2 and further resume stops there.
+
+To change the mechanics scaling **without retraining the accepted prefix**,
+start a separate continuation root using
+`--config.stagger.mechanics_scale_policy=first_load_times_load_ratio`,
+`--config.output.fork_from=<previous-root>`,
+`--config.output.fork_after_state_index=2`,
+`--config.data.end_state_index=3` and a new `--config.output.dir`. Keep the
+remaining optimizer, budget and gate settings identical to the source. The
+old root and its checkpoint hashes are not rewritten; the new load starts
+from the verified accepted state-2 networks, optimizer states and q/d/H.
+Both root and per-state source configs and the accepted predecessor digest
+are checked. A rejected trial in the old root is **not** imported.
+For a later policy change, the `fork_from` root can itself be a fork. The
+ancestry is followed read-only for each prefix state and its exact per-state
+configuration and predecessor digest are verified. For example, to change
+acceptance starting at state 7 without retraining accepted states 1–6, use
+`--config.output.fork_after_state_index=6` and point `fork_from` to the
+accepted state-6 continuation root, with a new output directory.
+
+The base completed-sweep gate limits are normalized mechanics loss `1e-2`,
+material displacement relative L2 `5%`, and reaction relative error `5%`,
+plus finite values, zero drift, damage range `1e-10`, damage healing
+`stagger.healing_atol=1e-3`, and monotone history. The healing tolerance is
+separate from the damage-range tolerance: it permits finite damage decreases
+of up to `1e-3` relative to the previously accepted damage field and is **not**
+an exact damage-irreversibility guarantee. Raw healing is always logged.
+Reference-field and reaction comparisons are acceptance diagnostics only;
+the optimizer loss remains the governing-equation residual.
+For damage-field accuracy, `d_rmse = sqrt(mean((d_PINN - d_ref)^2))`
+over all material nodes is the primary reported comparison. It is defined at
+zero reference damage and is in dimensionless damage units (`0..1`).
+`d_max_abs_error = max(abs(d_PINN - d_ref))` also reveals localized mismatch
+near the notch that full-field RMSE can dilute. The previous `d_relative_l2`
+is retained as an auxiliary trend: at early nearly-undamaged loads it can
+become large solely because the reference norm is small. These fields are
+diagnostics; no reference damage is used to train a network and no numerical
+damage-field acceptance threshold is set by this reporting change.
+For the user-approved reaction/damage-focused continuation, set
+`stagger.gate_displacement_l2=False` (still report the displacement error) and
+`stagger.damage_rmse_limit=1e-2`. The RMSE gate applies on the *same final
+reported state* as the reaction and other physics gates. The maximum absolute
+damage error remains diagnostic-only. The base config uses `True` and `0.0`
+respectively (zero disables the RMSE gate) to preserve its earlier acceptance
+policy. These settings change numerical identity and require a new fork root;
+the previously rejected state is never retroactively accepted.
+With `stagger.mechanics_scale_policy=first_load_initial`, every load
+recomputes the same first-load zero-output affine free-row residual RMS
+(about `0.05103` on the adopted graph). This is an **absolute path-wide**
+force-residual normalization, not a load-relative accuracy criterion.
+`first_load_times_load_ratio` instead divides by the same first-load RMS
+times the ratio of the current prescribed displacement to the first strict
+load. It changes the objective and normalized gate in the same way; raw A2
+force residuals, the governing equation and the `0.01` normalized limit do
+not change. The load ratio is a chosen optimization/acceptance convention,
+not a proof of exact load invariance after damage evolves. An archived rejected
+state is not retroactively accepted under this new rule.
+`per_load_warm_start` remains an explicit alternative. A rejected completed
+load cannot be resumed or silently advanced. Changing **numerical settings**
+requires a new output root; increasing only the final state does not.
+
+TensorBoard tags follow the repository convention (`loss/*` optimization
+losses, `eval/*` reference comparisons, `diag/*` residual and state
+diagnostics), matching `corrosion2d`/`fracture1d`:
+
+- `loss/mechanics_before`, `loss/damage`, `loss/mechanics_after` — the three
+  stage objectives, evaluated at the reporting step from the same post-update
+  fields used by every other logged value. `loss/mechanics_before` is the
+  free-row A2 residual MSE with damage held at `d_iter`; `loss/damage` is the
+  AT2 residual MSE with fixed `H_used`; `loss/mechanics_after` solves the
+  **same A2 equation** at under-relaxed `d_trial`.
+- `eval/rel_L2_u`, `eval/rel_L2_d`, `eval/rel_L2_H`, `eval/d_rmse`,
+  `eval/d_max_abs_error`, `eval/reaction` — material-node comparison against
+  the FP64 archived reference, plus `eval/reaction_reference` at step zero.
+- `diag/mechanics_residual_inf`, `diag/damage_residual_inf`,
+  `diag/history_residual_inf` — full-graph raw residuals of the current
+  (q, d, trial-history) state; `diag/history_residual_inf` is zero because the
+  trial history is the exact same-pass Amor maximum.
+- `diag/coupled_loss` — diagnostic sum of the normalized A2 and AT2 MSEs at
+  that state; **not** the stage optimizer's loss or an acceptance gate. Its
+  fixed scales are logged once as `diag/mechanics_scale` and
+  `diag/coupled_damage_scale`. During the damage phase, `loss/damage` uses
+  fixed `H_used`, so `diag/damage_residual_inf` (current q-driven history) can
+  differ.
+- `diag/drift_count`, `diag/damage_min`, `diag/damage_max`,
+  `diag/damage_healing_max` — state diagnostics. `gate/*` records the
+  **configured** per-sweep checks and `diag/accepted` their conjunction.
+  The base policy gates material displacement L2 at 5%; the reaction-relative
+  limit is 5% in both the base and reaction/damage-focused policies.
+
+Every sweep also prints the same values as JSON, including the final coupled
+diagnostics. Logs are written to `/root/autodl-tmp/tf-logs/fracture2d/<run-name>/`, where `run-name`
+is the output directory's final component. View all fracture2d runs with
+`tensorboard --logdir /root/autodl-tmp/tf-logs/fracture2d/`. The bound
+network/optimizer/trial state is atomically updated at
+`<output-dir>/latest.ckpt.zip`. Restart the same command with
+`--config.output.resume=True` (same settings and output directory) to continue
+an interrupted run. Use a new output directory for each run; do not overwrite
+an existing run. On the first
+load the earlier short stagger experiments were unconverged; this does not
+establish what a many-thousand-step run will achieve. A proposed fixed-damage
+energy-only diagnostic was interrupted and is not an active training option.
+
 `run` writes a compact solution NPZ (loads, material fields, top reaction,
 per-state acceptance status, geometry, metadata); `verify` reports state and
 warning counts, peak/terminal reaction, drift counts and drift-excluded ranges;
@@ -465,6 +688,7 @@ Retained focused tests:
 tests/test_fracture2d_nonlocal_baseline_entry.py
 tests/test_fracture2d_bond_associated_algebra.py
 tests/test_fracture2d_geometry.py
+tests/test_fracture2d_pinn_residual.py
 ```
 
 ## Validation status and accepted limitations
