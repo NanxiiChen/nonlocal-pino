@@ -22,16 +22,21 @@ from examples.fracture2d.continuation import (
     _canonical, _check_endpoint_extension, _check_fork_source, _source_root_for_state, _load_accepted,
     run as run_continuation,
 )
+from examples.fracture2d.diagnostic_continuation import _check_warning_endpoint_extension
+from examples.fracture2d.fixed_load_sweeps import _experiment_configs
 from examples.fracture2d.train import (
     _build_grid, _build_network, _nonnegative_damage, _reference,
     _validate_config, _warning_region,
 )
 from examples.fracture2d.stagger import (
-    _acceptance_gates, _damage_error_metrics, _load_ratio_scale, _validate_stagger,
+    _acceptance_gates, _damage_error_metrics, _load_ratio_scale,
+    _validate_stagger, _warning_advancement_gates,
 )
 from examples.fracture2d.stagger_checkpoint import (
     SCHEMA_ACCEPTED, read_checkpoint, write_checkpoint,
 )
+from examples.fracture2d.plot_pinn_displacement import _metrics as _displacement_metrics
+from examples.fracture2d.pinn_paths import physical_pinn_path
 
 
 class DamageActivationTest(unittest.TestCase):
@@ -51,6 +56,21 @@ class DamageActivationTest(unittest.TestCase):
             config.physical.damage_floor = bad
             with self.assertRaises(ValueError):
                 _validate_config(config)
+
+
+class DisplacementPlotMetricsTest(unittest.TestCase):
+    def test_material_vector_norm_retains_notch_hotspot(self):
+        reference = np.asarray([[1.0, 2.0], [2.0, 3.0], [3.0, 4.0]])
+        predicted = reference + np.asarray([[0.0, 0.0], [0.0, 0.3], [0.1, -0.2]])
+        coordinates = np.asarray([[0.0, 0.0], [0.5, 0.5], [1.0, 1.0]])
+        metrics = _displacement_metrics(predicted, reference, coordinates)
+        errors = predicted - reference
+        self.assertAlmostEqual(
+            metrics["relative_l2_material"],
+            np.linalg.norm(errors) / np.linalg.norm(reference),
+        )
+        self.assertAlmostEqual(metrics["max_vector_error"], 0.3)
+        self.assertEqual(metrics["max_error_coordinate"], [0.5, 0.5])
 
 
 class FullCloudResidualTest(unittest.TestCase):
@@ -183,6 +203,20 @@ class FullCloudResidualTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "pre-warning strict"):
             _reference(warning_config, self.model)
 
+    def test_warning_reference_is_comparison_only_when_explicit(self):
+        config = get_config()
+        for index, expected_warning in ((60, True), (61, True), (69, False)):
+            config.data.state_index = index
+            load, _, _, q, d, H, reaction, warning = _reference(
+                config, self.model, diagnostic_warning=True
+            )
+            self.assertAlmostEqual(load, index * 1e-4)
+            self.assertEqual(warning, expected_warning)
+            self.assertEqual(q.shape, (self.model.n_dofs,))
+            self.assertEqual(d.shape, (self.model.n_material,))
+            self.assertEqual(H.shape, (self.model.n_material,))
+            self.assertTrue(np.isfinite(reaction))
+
     def test_float32_graph_and_hard_constraints(self):
         model = self.fp32_model
         self.assertEqual(model.geometry.coordinates.dtype, np.float32)
@@ -294,6 +328,71 @@ class FullCloudResidualTest(unittest.TestCase):
 
 
 class StaggerSetupTest(unittest.TestCase):
+    def test_pinn_path_resolver_never_redirects_reference_inputs(self):
+        reference = Path("/root/autodl-tmp/data/fracture2d/engineering_grip/source/material_cloud_d048.npz")
+        self.assertEqual(physical_pinn_path(reference), reference)
+        scratch = Path("/tmp/opencode/independent-fracture-run")
+        self.assertEqual(physical_pinn_path(scratch), scratch)
+        archived = Path("/root/autodl-tmp/data/fracture2d/pinn_continuation_damage_rmse_from6_20260929/state_0059")
+        self.assertTrue(physical_pinn_path(archived).is_dir())
+
+    def test_fixed_load_sweep_experiment_keeps_parent_and_subproblem_policy(self):
+        config = get_config()
+        config.train.dtype = "float64"
+        config.data.end_state_index = 59
+        config.stagger.sweeps = 3
+        config.stagger.mechanics_steps = 16000
+        config.stagger.damage_steps = 12000
+        config.stagger.mechanics_scale_policy = "first_load_times_load_ratio"
+        before = _canonical(config)
+        parent, experiment = _experiment_configs(
+            config, config.output.dir, "/tmp/opencode/fixed_load_test", 12,
+        )
+        self.assertEqual(_canonical(config), before)
+        self.assertEqual(parent.stagger.sweeps, 3)
+        self.assertTrue(parent.stagger.accept_on_first_passing_report)
+        self.assertEqual(experiment.stagger.sweeps, 12)
+        self.assertFalse(experiment.stagger.accept_on_first_passing_report)
+        self.assertEqual(experiment.train, parent.train)
+        for name in ("mechanics_steps", "damage_steps", "omega", "mechanics_scale_policy"):
+            self.assertEqual(experiment.stagger[name], parent.stagger[name])
+        with self.assertRaisesRegex(ValueError, "increased sweeps"):
+            _experiment_configs(config, config.output.dir, "/tmp/opencode/fixed_load_test", 3)
+
+    def test_warning_advancement_excludes_untrusted_reference_gates(self):
+        config = get_config()
+        config.stagger.damage_rmse_limit = 0.01
+        trial = {
+            "mechanics_loss": 0.001, "reaction_relative": 0.8,
+            "u_relative_l2": 0.8, "d_rmse": 0.8,
+            "damage_min": 0.0, "damage_max": 0.5,
+            "damage_healing_max": 1e-5, "history_decrease_max": 0.0,
+            "drift_count": 0,
+        }
+        gates = _warning_advancement_gates(config, trial)
+        self.assertTrue(all(gates.values()))
+        for name in ("reaction", "damage_rmse", "displacement_l2"):
+            self.assertNotIn(name, gates)
+        trial["drift_count"] = 1
+        self.assertFalse(_warning_advancement_gates(config, trial)["drift"])
+        trial["drift_count"] = 0
+        trial["mechanics_loss"] = 0.02
+        self.assertFalse(_warning_advancement_gates(config, trial)["mechanics_loss"])
+
+    def test_warning_endpoint_only_increases_and_keeps_numeric_identity(self):
+        config = get_config()
+        config.data.end_state_index = 60
+        stored = _canonical(config)
+        config.data.end_state_index = 61
+        self.assertEqual(_check_warning_endpoint_extension(config, stored), 60)
+        config.train.learning_rate = 2.0e-4
+        with self.assertRaisesRegex(ValueError, "other than the endpoint"):
+            _check_warning_endpoint_extension(config, stored)
+        config.train.learning_rate = 1.0e-4
+        config.data.end_state_index = 59
+        with self.assertRaisesRegex(ValueError, "60..75"):
+            _check_warning_endpoint_extension(config, stored)
+
     def test_damage_rmse_gate_replaces_displacement_only_when_configured(self):
         config = get_config()
         config.stagger.gate_displacement_l2 = False

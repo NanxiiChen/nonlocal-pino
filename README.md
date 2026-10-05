@@ -12,7 +12,7 @@ neighbour pairs — no BC loss terms needed.
 | `icemelting3d` | Allen-Cahn, ice sphere melting | Analytical solution, nonlocal vs local AD ablation |
 | `electropolish2d` | KKS phase-field, electropolishing | 2-field AC+CH, rough interface, Neumann BC advantage |
 | `fracture1d` | AT2 phase-field fracture | Analytical crack profile, staggered incremental loading |
-| `fracture2d` | Rounded-notch AT2 phase-field fracture | Local FEM reference plus validated direct nonlocal fixed subproblems |
+| `fracture2d` | Rounded-notch AT2 phase-field fracture | Frozen direct baseline, independent-horizon validation, FP64 PINN loading |
 | `elasticity2d` | 2D elasticity | Nonlocal elasticity and boundary-aware operators |
 | `pino_elasticity2d` | 2D elasticity PINN | Geometry-aware PINN reference for nonlocal elasticity |
 | `corrosion1d/2d` | KKS pitting corrosion | Legacy; superseded by electropolish2d |
@@ -49,41 +49,38 @@ D @ φ ≈ -∇²φ    (kernel: cubic / quartic / Wendland)
 Most JAX/nonlocal examples use non-dimensional characteristic length and time
 scales. The `fracture2d` local FEM reference instead uses explicit consistent
 material units with `L0=1`; see its example README and configuration.
-The fracture2d direct nonlocal baseline keeps geometry, quadrature, graphs, and
-operator inputs in float64 with JAX x64 enabled. A future float32 PINN must
+The fracture2d direct nonlocal baseline and current PINN research keep geometry,
+quadrature, graphs, and operator inputs in float64 with JAX x64 enabled. A float32 PINN must
 rebuild and revalidate its strict-horizon graph in float32 rather than casting
 the direct-baseline graph.
 
-## Fracture2D engineering-grip diagnostic
+## Fracture2D current entries
 
-The durable engineering-grip workflow is GPU-only for production solves and
-uses independent CPU replay. The explicitly authorized unbounded warning
-diagnostic is nonproduction evidence: it records finite damage-range and
-healing violations without clipping or projection, but keeps non-finite,
-mechanics/CG, incomplete, structural, and work-check failures hard. Every
-unbounded output is `validated=false` and must not be interpreted as an
-admissible phase-field solution or full-path validation.
-
-Run it only from exact zero with the reviewed inputs and a new run stem:
-
-```bash
-source .venv/bin/activate
-python -m examples.fracture2d.engineering_grip_workflow run \
-  --source-cloud /root/autodl-tmp/data/fracture2d/engineering_grip/source/material_cloud_d048.npz \
-  --fem-archive /root/autodl-tmp/data/fracture2d/local_fem_point_anchor/results_point_anchor.npz \
-  --output-directory /root/autodl-tmp/data/fracture2d/engineering_grip \
-  --run-id engineering_grip_warning_unbounded_u7p5e3_s72 \
-  --acceptance-mode warning --warning-safety-policy unbounded \
-  --load-final 0.0075 --max-stagger-iterations 72 --gpu-device-index 0 \
-  --delta 0.048 --h-g 0.02 --du-initial 1e-4 --du-min 5e-5 \
-  --visibility-tolerance 1e-12 \
-  --youngs-modulus 210000.0 --poisson-ratio 0.3 --k-res 1e-8 \
-  --rank-rtol 1e-12 --Gc 2.7 --l0 0.024
-```
-
-The unbounded policy can commit any finite raw damage value outside `[0, 1]`
-and any finite healing magnitude after the final stagger budget. Those values
-are diagnostic evidence only, not a relaxed physical formulation.
+`examples/fracture2d/nonlocal_baseline.py` is the frozen GPU direct baseline.
+The current user-selected PINN mainline preserves its original common-horizon
+kernel and refines numerical coupling through `legacy_coupling_refine.py`.
+`legacy_coupled_loading.py` advances one load from a SHA-verified diagnostic
+predecessor only after rechecking three coupled-readiness confirmations.
+An explicit `--warning-continue` policy supports diagnostic trend studies with
+uncoupled ancestry disclosed and the original physical/mechanics hard gates.
+`subproblem_matrix.py` compares direct/neural mechanics and damage at identical
+stored history floors to diagnose inner accuracy versus outer coupling error.
+`direct_path_probe.py` tightens the common-floor direct benchmark and compares
+convergence-gated sequential loading step sizes without changing the kernel.
+`objective_pair_probe.py` audits subproblem energy gradients and coupled mixed
+derivatives, then compares fixed-d neural force-residual and original A2 energy
+objectives from identical networks with fresh Adam; direct fields are comparisons.
+The independent-horizon research branch uses `split_reference.py` for strict
+comparison states and `split_pinn.py` for FP64 neural loading. The PINN starts
+from zero and uses its own learned predecessor history; reference fields enter
+comparisons only. Damage-field RMSE and reaction error lead the research report;
+other unmet checks retain their values, limits and warning provenance. Warning
+advancement is not strict field-equation validation. See the
+[example README](examples/fracture2d/README.md) for commands and the
+[active task](docs/tasks/fracture2d-nonlocal-pinn.md) for current results.
+The optional `configs/split_pinn_fast.py` continues a verified learned prefix
+with measured operator optimizations and a reduced small-load update budget;
+the example README documents its scope and the paired quality/runtime checks.
 
 ## Environment
 

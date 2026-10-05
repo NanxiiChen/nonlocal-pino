@@ -1,4 +1,4 @@
-# 2D Rounded-Notch Fracture: Local FEM Reference and GPU Direct Nonlocal Solver
+# 2D Rounded-Notch Fracture: Reference Solvers and Nonlocal PINN
 
 This example is the 2D stage of the fracture program. The implementation order
 is local FEM reference, direct nonlocal solver, then nonlocal PINN. The
@@ -9,13 +9,330 @@ tracked in
 
 The historical research stack (per-module implementation, monolithic /
 arc-length / reduced solvers, durable workflow, stage-specific test suites) is
-parked under the ignored `_legacy/` directory and in git history. Only the
-adopted scheme is maintained here.
+parked under the ignored `_legacy/` directory and in git history. The frozen
+adopted scheme and the separate independent-horizon research branch are
+described below.
 
 **Both available reference solutions — the local FEM archive and the nonlocal
 direct solution — are warning-mode, non-strict diagnostics.** Neither is a
 strictly converged reference; the exact nonlocal issues are listed in
 [Validation status and accepted limitations](#validation-status-and-accepted-limitations).
+The separate split-reference branch accepts individual strict comparison
+states; its current progress is recorded in the active task.
+
+## Independent-horizon PINN research
+
+The user-selected mainline currently returns to the original validated kernel;
+this independent-horizon branch is retained as a comparison experiment.
+
+The split branch declares mechanics horizon `delta_u`, damage horizon
+`delta_d`, physical `grip_extent`, and `h_grip` independently. It retains
+plane strain, A2 energy, Amor history and AT2, using the same physical collar
+constraints. `split_horizon_model.py` builds its validated geometry/operators;
+`split_reference.py` performs strict direct loading. An explicit `--omega`
+changes only the outer Picard relaxation. `--trial-from <state-directory>`
+requires an accepted-prefix fork and verifies trial model/load/parent/SHA;
+only q/d initialize the solve, never the trial history lower bound. Existing
+reference roots are immutable; changed numerical policies use a new root.
+New progress records point to generation-named trial files, so an interrupted
+field publication leaves the previous resume snapshot intact. Legacy fixed-name
+trial records remain readable.
+
+An optional `--relaxation-policy anderson_residual` uses safeguarded Type-II
+Anderson on the fixed accepted-history map
+\(G(d)=\operatorname{AT2}(\max(H_{committed},\operatorname{Amor}(u(d))))\).
+`--anderson-depth`, `--anderson-max-backtracks` and
+`--anderson-sufficient-decrease` are stored in the new root's policy; `--omega`
+is the Anderson mixing beta. Defaults are depth 5, beta 0.5, four backtracks
+and sufficient-decrease coefficient 0.01 (merit factor 0.995).
+Pivoted QR solves the residual-difference least-squares problem. Candidate
+backtracking interpolates from the ordinary Picard point toward the Anderson
+proposal; it never clips fields. Raw bounds/healing and strict mechanics,
+history, finite and drift checks precede acceleration selection. Invalid or
+non-decreasing extrapolation restarts the secant history and takes an explicitly
+recorded Picard step; physical failure of that step stops and rejects the load.
+The default `--anderson-restart-policy reject_or_rank` restarts after rejected
+extrapolations or deficient QR. `rank_only` retains secants from valid evaluated
+Picard points after rejection, but never records rejected candidate maps as
+secants; deficient QR still restarts. A changed restart/decrease policy requires
+a separately identified retry root.
+`--anderson-rank-strategy drop_oldest` drops oldest dependent residual/state
+differences until pivoted QR has full column rank, preserving the latest valid
+directions. The default `restart` retains the earlier all-history restart.
+Window size remains explicit; neither option establishes stability of a
+nonlinear crack branch merely by reducing the algebraic residual.
+Linear-solver, structural and I/O errors propagate. All original final coupled
+and physical reference gates still apply for three consecutive sweeps.
+
+The update follows Walker/Ni (2011), DOI `10.1137/10078356X`, Eq. (1.2),
+Eq. (3.1) and Section 4. The normalized-infinity merit and safeguards are
+project numerical policy, not a guarantee of nonlinear convergence. The
+generation-pinned progress archive also stores/checks secant history for exact
+restart; each new load resets it, retaining only accepted cumulative H.
+
+`split_pinn.py` trains separate FP64 displacement/damage networks with
+full-graph physics losses. The default mechanics objective minimizes the
+validated fixed-d A2 energy divided by `E * load**2 * union_volume`;
+`--mechanics-objective residual` selects normalized force-residual MSE instead.
+Both keep the same governing equations and raw residual reports. Each load starts from the learned predecessor;
+the initial damage and history are zero. Reference q/d are held-out comparisons,
+and direct history is never used in neural training. Run with:
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.split_pinn \
+  --config examples/fracture2d/configs/split_pinn_fine.py
+```
+
+The config declares load count, stage budgets, relaxation, architecture and
+every reporting threshold. Research advancement requires damage RMSE <= 0.01
+and reaction relative error <= 0.05. Mechanics, coupled AT2, displacement,
+iteration change, range, healing, history and drift failures are retained as
+warnings with raw values and original limits, following the selected research
+policy. Nonfinite fields/losses, wrong input identity and violated exact BCs
+stop execution. A successor of a warning state inherits that provenance even
+if its own checks pass. `strict_accepted` means all configured checks and the
+ancestry pass; it does not assert independent physical validation.
+Online first-passage stopping is restricted to logged reports in the final
+mechanics block. It uses these two comparison gates, never reference values in
+the loss, and does not retroactively relabel completed rejected trials. Small
+absolute damage RMSE at low load is not evidence of crack-growth accuracy;
+maximum local damage error and complete fields remain available.
+
+Outputs under `tf-logs/fracture2d/<run>/` include `reaction_curve.json/png`,
+per-load `damage_field.png`, per-sweep fields/comparisons, TensorBoard events,
+and identity-bound neural/optimizer snapshots. Resume with
+`--resume` in the same config; `--last-index N` may extend the endpoint while
+preserving prior numerical identities and snapshot bytes. Use a new root with
+`--fork-from <neural-root> --fork-after-index N` for an explicit numerical-policy
+retry from a verified learned prefix; it never copies direct predecessor fields.
+Interrupted loads restore the last
+completed training block and repeat the unfinished block; completed rejected
+loads require a new explicit trial root. Reference data remain under `data`.
+
+`split_pinn_report.py` recomputes comparison-only damage errors for a completed
+research prefix, verifying cloud/comparator identity and the recorded sweep
+RMSE. Besides nodal RMSE it reports volume-weighted RMSE/relative L2, peak
+magnitudes/locations, and local errors in an explicit radius-`l0` disk about
+the benchmark notch tip `(0.5, 0.5)`. These are diagnostics, not new losses or
+acceptance thresholds. Run on a completed segment with:
+
+```bash
+PYTHONPATH=src JAX_PLATFORMS=cpu .venv/bin/python \
+  -m examples.fracture2d.split_pinn_report \
+  --root <neural-run-root> --last-index <completed-index> \
+  --output <neural-run-root>/damage_audit.json --plots
+```
+
+`--plots` also writes a shared-color-scale damage/reference/error crop with
+half-width `3*l0` about the notch tip; filenames bind the audited endpoint.
+
+### Optional speed trial
+
+`configs/split_pinn_fast.py` declares an independent learned-prefix fork with
+`train.operator_mode="analytic_padded_damage"`, 200 mechanics / 500 damage
+updates per block, and the same three sweeps and primary comparisons. This
+reduced budget is validated in the small-load segment; it is not a convergence
+budget for critical fracture. Keep the full-budget config for explicit
+refinement trials when field/reaction quality deteriorates.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.split_pinn \
+  --config examples/fracture2d/configs/split_pinn_fast.py
+```
+
+The optional operator selector supports:
+- `autodiff`: original operators and automatic differentiation; legacy
+  schema-v1 configs without the selector retain this path and their identity.
+- `analytic`: unchanged forward operators with analytic reverse rules.
+- `analytic_padded_damage`: analytic mechanics reverse rule and deterministic
+  padded-row evaluation/reverse rule of the identical damage CSR coefficients.
+
+Analytic modes require the energy mechanics objective and FP64. The q gradient
+is the already verified assembled A2 residual; edge-factor gradient is strain
+energy density. Reciprocal damage coefficients satisfy volume symmetry, giving
+the Euclidean adjoint \(D^\top z = V D(V^{-1}z)\). Padded sums change only the
+floating-point reduction order; values, parameter gradients and single Adam
+updates are checked against the original implementation. Reference fields are
+not optimizer targets. Changing the implementation or budgets uses a new root,
+with old numerical snapshots left intact.
+
+`split_pinn_benchmark.py` compares synchronized, warmed GPU updates at the same
+learned checkpoint. `--config`, `--root`, `--state-index`, `--output`, `--warmup`
+and `--repeats` are explicit. It records compilation separately and verifies
+gradient/update agreement; its compiled-buffer estimates are not total GPU
+allocator memory. Benchmarks include the non-adopted padded mechanics variant
+for reproducibility; it gave no advantage over analytic scan assembly.
+
+Each new completed load writes `timing.json`, separating model build and load
+wall time, with per-block update counts/times. First-load timing includes JIT,
+logging, checkpoints and figures; later loads reuse the compiled kernels.
+Batch continuation amortizes model construction. Speed studies must report
+damage/reaction and local errors as well as runtime, and retain warning labels.
+
+## Minimal numerical refinement of the original PINN kernel
+
+`legacy_coupling_refine.py` restores the verified original state-59 neural
+prefix and a completed fixed-load-60 diagnostic as a **separate numerical
+initial guess**. The latter supplies networks, optimizer states and the
+damage iterate only; its H never becomes the accepted cumulative history
+floor. Config and seed path/SHA bind a new output root. Original point cloud,
+horizon, A2/Amor/AT2 equations, hard BCs and FP64 operator kernels are retained.
+
+The optional `train.stagger_lr_policy="linear_tail"` scales Adam updates
+linearly over a declared final block fraction to a declared final ratio.
+`stagger_tail_fraction` and `stagger_tail_ratio` must be explicit in (0,1].
+Legacy configs without this policy retain their constant updates and identities.
+This numerical polishing does not change any residual or introduce reference
+training targets. TensorBoard uses a separately declared sibling root.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.legacy_coupling_refine \
+  --source-root <original-strict-59-root> \
+  --seed-state <completed-fixed-load-60-state-directory> \
+  --output-root <new-refinement-root> --tensorboard-root <events-root> \
+  --sweeps 12 --tail-fraction 0.25 --tail-ratio 0.1
+```
+
+Each sweep stores unchanged physical reports and AT2 fixed-H/relaxation/current-H
+decomposition. A separate `readiness_*.json` records research coupled readiness:
+relative AT2 <=1e-4, adjacent damage change <=1e-4, q change/load <=1e-4,
+H and reaction relative changes <=1e-3, existing mechanics/physical checks,
+for three consecutive sweeps. These are declared neural diagnostic thresholds,
+not the direct reference's 1e-6 criterion or retroactive acceptance of old
+states. The run completes its explicit budget and preserves warning status;
+it does not advance an unconverged trial's history to a new load.
+`--coupling-omega` explicitly tests a different numerical fixed-point mixing
+factor in (0,1]; omission keeps the adopted 0.5 update. This changes the
+iteration, not the stationary equation or operator. `--after-stop` enables
+report-time termination of mechanics-after only when the current report passes
+all declared coupled/adjacent checks and the old physical/mechanics gates.
+Three completed outer confirmations remain required. These controls are bound
+to a new root and do not retroactively select an old passing report.
+
+### Coupled-ready old-kernel continuation
+
+`legacy_coupled_loading.py` solves one explicit state in 61..75 from a
+SHA-bound diagnostic predecessor at the immediately previous load. It first
+rechecks the strict-59 ancestry, completed checkpoint, recorded full fields,
+readiness counters and original physical residuals. Three consecutive passing
+outer sweeps are required to advance; physical-gate passage alone is insufficient.
+The predecessor's **neural H/d** become the new load's cumulative history and
+healing floor. Warning-reference fields remain comparisons only.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.legacy_coupled_loading \
+  --source-root <original-strict-59-root> \
+  --parent-state <coupled-ready-previous-state-directory> \
+  --parent-sha256 <diagnostic-checkpoint-sha256> \
+  --state-index 61 --sweeps 16 \
+  --output-root <new-loading-root> --tensorboard-root <events-root>
+```
+
+Numerical taper, mixing, stage budgets and readiness limits are inherited from
+the verified parent. Every load finishes its declared outer budget; the final
+three confirmations decide readiness. The entry retains diagnostic/warning
+status even when ready. `--resume` restores the same identity and persisted
+sweep evidence after interruption; a completed root is immutable. An optional
+`--seed-state <same-load-completed-trial-directory>` starts a new numerical
+correction from an unready but bounded trial with the **same SHA-bound parent**.
+Its networks/Adam/d are restored, but its H never replaces the prior-load floor.
+Per-load `config.json`, full-sweep fields, coupling/readiness reports,
+`latest.ckpt.zip`, usable `diagnostic.ckpt.zip` and `result.json` are stored in
+`state_NNNN/`; the root also publishes the final result.
+
+For an explicitly chosen **warning trend study**, `--warning-continue` permits
+an unready but physically usable diagnostic predecessor. The flag is bound in
+configuration/ancestry and must be supplied for later warning loads as well.
+The existing readiness limits and three-confirmation counts remain unchanged;
+failed checks are published in `coupling_warnings`, not relabeled as passing.
+Neural diagnostic H/d advance under this warning policy. Nonfinite fields,
+mechanics-gate failure, invalid damage range/healing/history or drift still stop
+the solve. Such a path is diagnostic-only and is not strict field-equation,
+fracture-growth or post-peak validation. Omission keeps the ready-parent guard.
+
+### Common-history subproblem comparison
+
+`subproblem_matrix.py` independently resets four direct/neural mechanics/damage
+combinations to the same verified neural state-60 networks/Adam and d/H floor
+at fixed loads 61/62. Load 62 is a controlled independent probe, not a loading
+transition from a case-specific state 61. Direct shadow fields diagnose inner
+errors; neural training uses the original equation residuals, without archived
+or shadow-field regression targets. All numerical fields are FP64 on GPU.
+The direct AT2 equation is volume-multiplied SPD and solved by Jacobi-CG with
+explicit residual verification. A one-time CPU sparse solution checks the GPU
+implementation only and is never a generated field or numerical fallback.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.subproblem_matrix \
+  --source-root <strict-59-root> --parent-state <ready-state-60-directory> \
+  --parent-sha256 <diagnostic-sha256> --load-indices 61 62 \
+  --sweeps 8 --direct-sweeps 64 --mixing 0.5 --output <new-matrix-root>
+```
+
+Eight sweeps form the matched-budget comparison; the separately labeled
+direct/direct extension tests convergence and cannot be presented as a matched
+final-budget comparison. Every case stops on original physical gates or a
+recorded numerical failure, while other cases independently continue. Results
+include per-sweep full fields, direct shadow fields, driver-error maps, neural
+states and diagnostic summaries. These artifacts are not production/accepted
+checkpoints, and no case advances or commits its trial H to another load.
+
+### Direct benchmark and sequential step-size control
+
+`direct_path_probe.py` continues the saved direct-61 numerical q/d guess while
+holding the original neural state-60 history floor, then independently compares
+three genuine sequential load paths to 0.0062. Every subload must pass the
+declared dimensionless AT2/d/q/H/reaction tolerance and original physical gates
+for three consecutive sweeps before its H/d advance. Trial H never changes a
+parent after a failed or unfinished subload. This tighter diagnostic contract
+is not the full frozen direct acceptance contract or validation of neural
+history ancestry. Original GPU A2/volume-SPD AT2 solves and mixing 0.5 are used.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.direct_path_probe \
+  --source-root <strict-59-root> --parent-state <ready-neural-state-60> \
+  --parent-sha256 <state-60-sha256> \
+  --seed-fields <matrix-direct-61-fields_0064.npz> --seed-sha256 <seed-sha256> \
+  --baseline-sweeps 192 --path-sweeps 256 --tolerance 1e-6 \
+  --steps 1e-4 5e-5 2.5e-5 --output <new-direct-path-root>
+```
+
+Only q/d of the same-load numerical seed are used. Baseline and each path
+attempt retain per-sweep fields, equation/adjacent checks and final reason;
+failed paths stop independently. Results remain diagnostic-only rather than
+accepted reference snapshots, and are not PINN training targets.
+
+`objective_pair_probe.py` compares original free-force MSE and A2 elastic-energy
+training at fixed neural load-61 damage. Both arms restore the same SHA-bound
+network and initialize fresh Adam, with the same original learning rate,
+mechanics-block budget and update taper. Force normalization retains the original
+first-load affine RMS/load ratio; energy normalization uses the fixed-d affine
+elastic energy. The actual neural state-60 history lower bound stays immutable.
+Direct fixed-d q/driver/H are comparison-only; the objectives contain no labels.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src:. \
+  .venv/bin/python -m examples.fracture2d.objective_pair_probe \
+  --source-root <strict-59-root> --seed-state <neural-state-61> \
+  --seed-sha256 <state-61-sha256> --steps 16000 --report-every 1000 \
+  --output <new-objective-pair-root>
+```
+
+The diagnostic checks individual field energy derivatives and mixed directional
+derivatives of mechanics versus volume-weighted frozen/current-history damage.
+It reports full-domain and notch-neighborhood driver errors, cumulative-history
+errors, original residuals, reaction and drift; a reported drift stops that arm.
+The notch neighborhood is a radius `2*l0` around `(0.5,0.5)`. Fields, networks,
+optimizer state, policy and audits are saved. No trial H or trained state is
+committed; fixed-d performance is not coupled-fracture convergence. Current
+history finite differences explicitly report agreement because max-history
+switches can cross a nonsmooth surface. This is not an SGE model implementation.
 
 ## Reference solutions and data
 
@@ -444,13 +761,15 @@ no new kernel, split, or degradation is introduced by the PINN.
   floor=1.0`; committed damage residual `atol=1e-10, rtol=1e-8, floor=1.0`;
   raw damage range and healing `1e-10` each; linear solves `cg_rtol=1e-10,
   cg_atol=1e-13, cg_maxiter=3000`.
-- Field comparison milestones before claiming a trained strict-prefix state:
-  relative `L2` error versus the reference on all material nodes below `1e-3` for
-  `u`, `d`, and `H` at `u_bar = 1e-4, 1e-3, 0.0058, 0.0059`. At `0.0061` the
-  warning-accepted comparison is diagnostic only, regardless of field error.
+- A more demanding **research milestone**, distinct from the user-approved
+  strict-prefix acceptance gates below, is material-field relative `L2` below
+  `1e-3` for `u`, `d` and `H` at `u_bar=1e-4, 1e-3, 0.0058, 0.0059`.
+  Current accepted PINN states do not imply that this milestone has been met.
+  At `0.0061` the warning-accepted comparison is diagnostic only, regardless
+  of field error.
 - Report residual norms, field errors, and reaction together. A low training
-  loss alone is not convergence evidence, and gates must not be widened to make
-  a failing state pass; record failures explicitly.
+  loss alone is not convergence evidence. Any changed gate requires an explicit
+  new numerical-policy root; never retroactively accept a failed state.
 - Keep training/evaluation shapes fixed in JIT paths and precompute the graph,
   supports, constraints, and kernel data outside the training step (see
   `docs/JAX_GUIDELINES.md`).
@@ -526,7 +845,7 @@ PYTHONPATH=src .venv/bin/python -m examples.fracture2d.stagger \
   --config.train.dtype=float64 --config.data.state_index=1 \
   --config.stagger.mechanics_steps=12000 \
   --config.stagger.damage_steps=12000 --config.stagger.sweeps=3 \
-  --config.output.dir=/root/autodl-tmp/data/fracture2d/pinn_stagger_new_run \
+  --config.output.dir=/root/autodl-tmp/tf-logs/fracture2d/pinn_stagger_new_run \
   --config.output.log_every=500 --config.output.checkpoint_every=1000
 ```
 
@@ -550,6 +869,13 @@ strict-prefix loads. Previously accepted loads and their numerical configs
 are verified and reused without retraining; their checkpoint identities are
 never rewritten. A completed rejected load requires a new run with a
 different numerical policy or budget.
+Historical PINN runs created with `output.dir` under `data/fracture2d/pinn_*`
+are physically archived at `tf-logs/fracture2d/pinn_runs/<run-name>/`.
+Their original config JSON and checkpoint bytes are unchanged: resume with
+the **recorded legacy paths** and the filesystem adapter resolves artifact
+access to the new archive without changing config/SHA256 identity. New runs
+choose tf-logs paths explicitly. The migration file inventory is
+`tf-logs/fracture2d/pinn_runs/migration_manifest.json`.
 With `stagger.accept_on_first_passing_report=True`, only the **last** sweep's
 mechanics-after reporting points may trigger online acceptance. All configured
 gates use that point's same-pass post-update fields; the network, both Adam
@@ -565,7 +891,7 @@ PYTHONPATH=src .venv/bin/python -m examples.fracture2d.continuation \
   --config.stagger.sweeps=3 \
   --config.stagger.mechanics_steps=12000 \
   --config.stagger.damage_steps=12000 \
-  --config.output.dir=/root/autodl-tmp/data/fracture2d/pinn_continuation_fp64
+  --config.output.dir=/root/autodl-tmp/tf-logs/fracture2d/pinn_continuation_fp64
 ```
 
 After loads 1–2 are accepted, run the same command with
@@ -619,6 +945,13 @@ damage error remains diagnostic-only. The base config uses `True` and `0.0`
 respectively (zero disables the RMSE gate) to preserve its earlier acceptance
 policy. These settings change numerical identity and require a new fork root;
 the previously rejected state is never retroactively accepted.
+The committed diagnostic path currently reaches the full **59-state strictly
+accepted reference prefix**, with each load having an identity-bound
+checkpoint. That does not validate post-peak loads: `0.0060/0.0061` are
+warning-accepted in the frozen direct reference and later states include
+particle drift. The full per-load reaction/damage comparison and local
+near-peak damage-error limitations are in the active task
+[`docs/tasks/fracture2d-nonlocal-pinn.md`](../../docs/tasks/fracture2d-nonlocal-pinn.md).
 With `stagger.mechanics_scale_policy=first_load_initial`, every load
 recomputes the same first-load zero-output affine free-row residual RMS
 (about `0.05103` on the adopted graph). This is an **absolute path-wide**
@@ -633,6 +966,206 @@ state is not retroactively accepted under this new rule.
 `per_load_warm_start` remains an explicit alternative. A rejected completed
 load cannot be resumed or silently advanced. Changing **numerical settings**
 requires a new output root; increasing only the final state does not.
+
+To inspect accepted material-node displacement against the strict direct
+reference, plot the same material triangulation for reference, PINN and error:
+
+```bash
+PYTHONPATH=src .venv/bin/python -m examples.fracture2d.plot_pinn_displacement \
+  --root /root/autodl-tmp/data/fracture2d/pinn_continuation_damage_rmse_from6_20260929 \
+  --states 57 58 59 \
+  --output-dir /root/autodl-tmp/tf-logs/fracture2d/plot_displacement_strict_prefix
+```
+
+For a crack-tip crop, rerun with a **new** output directory and
+`--zoom 0.40 0.65 0.40 0.60`. The reader verifies every preceding accepted
+checkpoint SHA256 and the stored per-load configuration before plotting.
+Outputs are one 3×3 PNG per requested state plus a JSON file with whole-field
+material displacement relative L2, each component's relative L2, vector
+RMSE and the position/magnitude of the maximum vector error. Error panels
+show signed `u_x/u_y` differences and the **vector error norm**, avoiding a
+pointwise relative error ill-conditioned near zero displacement. Existing
+figures are not overwritten. Warning-labelled states are not plotted by
+this strict-prefix entry point.
+
+### Exploratory continuation beyond the strict reference prefix
+
+`diagnostic_continuation.py` starts from a read-only verified strict
+state-59 prefix and explores archived loads 60–75 in a separate root.
+It reuses both PINN networks, both Adam states and committed q/d/H.
+No archived current-load displacement or damage is used as a training target.
+Reference comparison values and every archived warning label remain visible,
+including tail states labelled strict but outside the pre-warning prefix.
+All post-59 results are **diagnostic-only**.
+
+```bash
+PYTHONPATH=src .venv/bin/python -m examples.fracture2d.diagnostic_continuation \
+  --config=examples/fracture2d/configs/train_base.py \
+  --config.train.dtype=float64 --config.data.end_state_index=75 \
+  --config.stagger.sweeps=3 --config.stagger.mechanics_steps=16000 \
+  --config.stagger.damage_steps=12000 \
+  --config.stagger.mechanics_scale_policy=first_load_times_load_ratio \
+  --config.stagger.gate_displacement_l2=False --config.stagger.damage_rmse_limit=0.01 \
+  --config.output.log_every=4000 --config.output.checkpoint_every=8000 \
+  --config.output.fork_from=/root/autodl-tmp/data/fracture2d/pinn_continuation_damage_rmse_from6_20260929 \
+  --config.output.fork_after_state_index=59 \
+  --config.output.dir=/root/autodl-tmp/tf-logs/fracture2d/pinn_warning_diagnostic_new_run
+```
+
+Trial advancement requires the existing finite, normalized mechanics-loss,
+damage-range, bounded-healing, monotone-history and zero-drift checks.
+Warning-region reference reaction/displacement/damage comparisons do **not**
+gate advancement. A passing final-sweep reporting point saves
+`diagnostic.ckpt.zip` under a separate schema and parent SHA256 chain;
+`accepted` is always false. No `accepted.ckpt.zip` is created beyond 59.
+`diagnostic_usable` means only that these advancement checks pass; it is
+not evidence of coupled damage convergence or reference agreement. The
+committed same-pass AT2 residual and stagger changes are reported but are
+not acceptance gates in this exploratory policy.
+Resume an interrupted diagnostic run with the same flags and
+`--config.output.resume=True`; only its endpoint may increase within
+60–75. A completed trial that fails physical checks cannot be skipped on
+resume. The strict-prefix runner retains its 1–59 limit.
+
+### Fixed-load outer-sweep experiment
+
+To distinguish outer-coupling insufficiency from a poorly solved fixed-field
+subproblem, `fixed_load_sweeps.py` verifies the original strict state-59
+parent chain, then holds prescribed displacement at `0.0060` in a separate
+experiment directory. It increases only the sweep budget and disables
+first-passage stopping; optimizer learning rate, individual stage budgets,
+relaxation and model are copied from the source configuration.
+
+```bash
+PYTHONPATH=src .venv/bin/python -m examples.fracture2d.fixed_load_sweeps \
+  --source-root /root/autodl-tmp/data/fracture2d/pinn_continuation_damage_rmse_from6_20260929 \
+  --output-root /root/autodl-tmp/tf-logs/fracture2d/pinn_fixed_load60_new_experiment \
+  --tensorboard-root /root/autodl-tmp/tf-logs/fracture2d/events \
+  --sweeps 12
+```
+
+The sweep budget must exceed the source's budget and is fixed before
+training. Each completed sweep writes `state_0060/sweep_XXXX.json`;
+the final `result.json`, `sweep_summary.json` and `sweep_summary.png`
+contain the diagnostics across the whole declared budget, without picking
+an intermediate passing state. Add `--resume` with identical arguments for
+an interrupted experiment; a completed experiment cannot be extended or
+overwritten by that flag. This entry point trains only the fixed load and
+uses warning-reference comparisons diagnostically. A small mechanics loss
+or a usable diagnostic checkpoint still does not imply coupled AT2/stagger
+convergence.
+
+Add `--coupling-diagnostics` to a new fixed-load experiment to save each
+sweep's physical fields in `state_0060/fields_XXXX.npz` and equation-term
+diagnostics in `coupling_XXXX.json`. `coupling_policy.json` declares the
+reporting convention and must match on resume. The dimensionless AT2 defect
+is its infinity norm divided by the sum of infinity norms of the local,
+nonlocal and history terms. Adjacent-sweep diagnostics measure absolute
+damage change, displacement change divided by prescribed displacement,
+history change divided by the larger old/new history infinity norm, and
+reaction change divided by the larger old/new reaction magnitude. The first
+sweep has no same-load predecessor. Zero normalization scales fail loudly.
+These are read-only diagnostics, with no new acceptance gate or early stop;
+raw residuals and fixed-H/relaxed/current-H decomposition remain visible.
+
+#### Target-free crack-growth research entries
+
+The following entries are experimental and produce **research diagnostics**,
+never strict accepted-reference states. Current runs, measured failures and
+the exact resume point live in `docs/tasks/fracture2d-nonlocal-pinn.md`.
+All artifacts belong under `/root/autodl-tmp/tf-logs/fracture2d/`.
+
+- `inner_probe.py`: identity-checked frozen-subproblem probes using FP64
+  residual Gauss–Newton or fixed-subproblem energy L-BFGS. Required controls:
+  `--root`, `--output`, `--parent-digest`, `--steps`, `--max-cg`, `--method`.
+  Energy derivatives are checked against the existing physical residuals.
+- `rbf_stagger.py`: frozen inherited MLPs enriched by trained Gaussian
+  readouts. Geometry-owned multi-scale features enrich the tip and collars;
+  the operator/graph/BCs remain fixed. Required controls include source and
+  bound initial snapshot, explicit load interval/increment/sweep budget,
+  `--basis`, `--mechanics-objective`, `--damage-objective`, `--damage-link`.
+  A read-only `--fork-rbf` / `--fork-load-index` selects a checked research
+  parent. Failed trial history cannot advance the path. Sigmoid links bound
+  damage through the ansatz; arrays are not clipped.
+- `joint_rbf.py`: jointly trains displacement/damage readouts using the
+  same A2/AT2 residuals and exact committed-history maximum. Required controls
+  include `--base`, `--source`, `--source-index`, `--parent-digest`, `--output`,
+  `--load`, `--max-evaluations`, `--lsmr-maxiter`, `--lsmr-tolerance`,
+  `--parameter-scaling`, `--damage-weight`, `--extra-q-units`,
+  `--mechanics-weighting`, `--q-feature-source`. `--joint-parent` advances
+  only from a completed physically checked research state; `--warm-trial`
+  transfers neural weights inside an unchanged committed context.
+  Positive optimization weights do not change unweighted physical gates.
+  At history switches, the linear solve uses an explicitly recorded
+  generalized derivative (0/1 off the switch, midpoint at numerical ties),
+  while forward history remains the exact maximum. Same-point agreement,
+  fixed-branch finite differences and JVP/VJP adjointness are checked first.
+- `joint_loading.py`: runs checked joint loads in fresh processes, with
+  explicit increment and budgets. `--max-reweights` bounds separate same-load
+  outlier-refinement trials; all retain the original committed parent history.
+  `--resume` verifies stored experiment and parent-field digests and refuses
+  to skip a rejected/incomplete state. `--first-trial` can reuse a matching
+  completed rejected trial read-only.
+- `research_report.py`: independently recomputes raw residuals/reactions and
+  renders saved fields (`--comparison pinn_only|archive_warning`). Warning
+  reference fields are comparison-only; loads
+  absent from the archive get PINN-only figures rather than interpolation.
+- `frozen_field_audit.py`: independently solves fixed-d mechanics and fixed-H
+  AT2 for diagnosis, optionally with an explicit `--oracle-sweeps` budget.
+  Oracle fields **never** become PINN training targets or advancing states.
+- `operator_spectrum.py`: audits the existing tangent with explicit
+  `--metric euclidean|volume`, `--operators both|damaged` and `--maxiter`;
+  every reported eigenpair has an explicit Ritz defect. The volume metric
+  is a displacement quadrature norm, not an added inertia term.
+- `degradation_audit.py`: verifies directional positive-energy bounds and
+  source contributions, then solves explicit `--widths` / `--load` synthetic
+  fully damaged-strip mechanics probes. These are **prescribed-damage
+  diagnostics**, not AT2 solutions or simulated crack-growth states.
+
+The research joint checks retain finite/range/history/bounded-healing and
+zero-drift requirements, with mechanics normalized MSE `<=1e-2`, mechanics
+normalized infinity defect `<=0.1`, and equation-term-normalized AT2 infinity
+defect `<=1e-3`. Stagger research additionally requires three consecutive
+passing sweeps and explicit field/reaction change limits. Optimizer termination,
+one near-unit damage value, or a usable research checkpoint alone does not
+establish converged crack propagation/unloading. The all-material drift
+envelope remains a hard check; changing how failed crack-core displacements
+are assessed requires an explicit numerical-policy/formulation decision.
+
+Fixed-support A2 source-energy degradation does not automatically remove a
+failed point from intact neighbors' kinematic supports. Consequently,
+`d=1` at sampled points is not by itself a guarantee of traction-free separation
+across a thin band. Crack transmission must be checked at the declared
+horizon/phase-field length and cloud resolution. Positive fixed-d stiffness
+does not establish a validated post-fracture interaction model or convergence
+of the coupled load path. The adopted public config still has one common
+horizon; distinct mechanics/damage horizons require a separately validated
+model/discretization branch.
+
+#### Independent horizon validation branch
+
+`split_horizon_model.py` implements the explicitly separate validation model:
+mechanics radius `delta_u`, material damage radius `delta_d`, physical
+`grip_extent`, and ghost spacing `h_grip` are distinct required inputs.
+It retains the engineering volume-grip BVP: every added collar particle has
+prescribed vertical displacement; material interface particles remain
+vertically free, with one original material horizontal anchor. Geometry,
+phase quadrature, both strict visibility graphs and BA rank are independently
+validated. A conservative polygon broad phase accelerates graph generation;
+all potentially crossing segments use the frozen exact visibility predicate.
+The new model has a separate durable identity even in common-horizon controls.
+
+`reference_cloud.py` generates tagged reference meshes/clouds using the
+installed Gmsh Python worker and explicit ASCII MSH2 parsing. Required controls
+are `--geo`, `--output`, `--log`, `--h-far`, `--h-near`, `--gmsh-python` (the
+interpreter with Gmsh installed). Size overrides are applied after loading
+the benchmark geometry, preserving its coordinates and physical groups.
+Mesh/cloud and their
+SHA256 provenance belong under `data/fracture2d/`; validation/PINN logs and
+reports belong under `tf-logs/fracture2d/`. It preserves the original physical
+boundary names and exact anchor/tip and rejects unsupported element formats.
+New cloud/model identities cannot inherit old accepted fields or certify
+their new loading path from the frozen reference.
 
 TensorBoard tags follow the repository convention (`loss/*` optimization
 losses, `eval/*` reference comparisons, `diag/*` residual and state
@@ -664,9 +1197,12 @@ diagnostics), matching `corrosion2d`/`fracture1d`:
   limit is 5% in both the base and reaction/damage-focused policies.
 
 Every sweep also prints the same values as JSON, including the final coupled
-diagnostics. Logs are written to `/root/autodl-tmp/tf-logs/fracture2d/<run-name>/`, where `run-name`
-is the output directory's final component. View all fracture2d runs with
-`tensorboard --logdir /root/autodl-tmp/tf-logs/fracture2d/`. The bound
+diagnostics. New PINN run artifacts belong under
+`/root/autodl-tmp/tf-logs/fracture2d/<run-name>/`; TensorBoard events use
+the sibling `/root/autodl-tmp/tf-logs/fracture2d/events/<run-name>/`.
+`/root/autodl-tmp/data/` is reserved for clouds and independent reference
+solutions. View the new event tree with
+`tensorboard --logdir /root/autodl-tmp/tf-logs/fracture2d/events/`. The bound
 network/optimizer/trial state is atomically updated at
 `<output-dir>/latest.ckpt.zip`. Restart the same command with
 `--config.output.resume=True` (same settings and output directory) to continue

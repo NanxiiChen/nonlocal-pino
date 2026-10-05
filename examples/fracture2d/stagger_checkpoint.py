@@ -13,6 +13,8 @@ import equinox as eqx
 SCHEMA = "fracture2d-fp32-stagger-checkpoint-v1"
 SCHEMA_FP64 = "fracture2d-fp64-stagger-checkpoint-v2"
 SCHEMA_ACCEPTED = "fracture2d-fp64-accepted-load-v2"
+SCHEMA_WARNING_PROGRESS = "fracture2d-fp64-warning-progress-v1"
+SCHEMA_DIAGNOSTIC = "fracture2d-fp64-warning-diagnostic-v1"
 
 
 def write_checkpoint(path, identity, sweep, phase, step, state, *, schema=SCHEMA):

@@ -1,4 +1,4 @@
-"""Diagnostic two-equation stagger on one archived strict-prefix load.
+"""Two-equation stagger on one strict load or an explicit warning trial.
 
 Mechanics and damage use independent Equinox networks; choose
 ``train.dtype = "float64"`` for the adopted reference graph or the base
@@ -6,11 +6,13 @@ config's ``float32`` for the separately rebuilt graph. The material Amor
 history is computed exactly from displacement, not fitted by a third output.
 Each completed sweep is
 evaluated against explicit reference-comparison gates and reported; advancing
-an accepted state to the next load is not implemented by this diagnostic.
+an accepted state to the next load is implemented by separate continuation
+entry points. Warning-region comparisons never produce strict acceptance.
 """
 
 import hashlib
 import json
+import os
 from pathlib import Path
 
 import equinox as eqx
@@ -31,8 +33,10 @@ from examples.fracture2d import nonlocal_baseline as direct
 from examples.fracture2d.fp32 import FP32A2Backend, build_fp32_model
 from examples.fracture2d.fp64 import FP64A2Backend
 from examples.fracture2d.losses import FractureResidual
+from examples.fracture2d.pinn_paths import physical_pinn_path
 from examples.fracture2d.stagger_checkpoint import (
-    SCHEMA, SCHEMA_FP64, SCHEMA_ACCEPTED, read_checkpoint, write_checkpoint,
+    SCHEMA, SCHEMA_FP64, SCHEMA_ACCEPTED, SCHEMA_WARNING_PROGRESS,
+    SCHEMA_DIAGNOSTIC, read_checkpoint, write_checkpoint,
 )
 from examples.fracture2d.train import (
     _build_grid, _build_network, _nonnegative_damage, _reference, _relative_l2,
@@ -42,6 +46,18 @@ from examples.fracture2d.train import (
 
 def _validate_stagger(config):
     _validate_config(config)
+    if "stagger_lr_policy" in config.train:
+        if config.train.stagger_lr_policy not in ("constant", "linear_tail"):
+            raise ValueError("stagger_lr_policy must be constant or linear_tail")
+        if config.train.stagger_lr_policy == "linear_tail":
+            for name in ("stagger_tail_fraction", "stagger_tail_ratio"):
+                value = config.train[name]
+                if not np.isfinite(value) or not 0 < value <= 1:
+                    raise ValueError(f"train.{name} must be in (0, 1]")
+    if "coupling_omega" in config.stagger:
+        value = config.stagger.coupling_omega
+        if not np.isfinite(value) or not 0 < value <= 1:
+            raise ValueError("explicit numerical coupling omega must lie in (0, 1]")
     for name in ("sweeps", "mechanics_steps", "damage_steps"):
         value = config.stagger[name]
         if isinstance(value, (bool, np.bool_)) or int(value) != value or value < 1:
@@ -109,6 +125,14 @@ def _acceptance_gates(config, result):
     return gates
 
 
+def _warning_advancement_gates(config, result):
+    """Only existing physics/bounds gates, not warning-reference comparators."""
+    gates = _acceptance_gates(config, result)
+    for name in ("reaction", "damage_rmse", "displacement_l2"):
+        gates.pop(name, None)
+    return gates
+
+
 def _load_ratio_scale(first_scale, load, first_load):
     """Scale a first-load force RMS by the prescribed displacement amplitude."""
     if (not all(np.isfinite(x) for x in (first_scale, load, first_load))
@@ -134,10 +158,32 @@ def _damage_error_metrics(actual, reference):
     }
 
 
+def _inner_update_ratio(config, step, count):
+    """Optional numerical taper; legacy configs retain their constant update."""
+    if "stagger_lr_policy" not in config.train or config.train.stagger_lr_policy == "constant":
+        return 1.
+    if not 1 <= step <= count:
+        raise ValueError("inner update index must lie inside its declared block")
+    first_tail = int(np.floor((1 - config.train.stagger_tail_fraction) * count))
+    if step <= first_tail:
+        return 1.
+    fraction = (step - first_tail) / (count - first_tail)
+    return 1 - (1 - config.train.stagger_tail_ratio) * fraction
+
+
 def run(config, *, resume=False, initial_state=None, parent_sha256=None,
-        return_state=False):
+         return_state=False, warning_diagnostic=False, parent_schema=None,
+         sweep_observer=None, trial_initial_state=None, after_stop=None):
     _validate_stagger(config)
-    run_dir = Path(config.output.dir)
+    if after_stop is not None and ("coupling" not in config or not config.coupling.after_stop):
+        raise ValueError("coupled mechanics-after stop requires explicit numerical policy")
+    if not isinstance(warning_diagnostic, bool):
+        raise ValueError("warning_diagnostic must be boolean")
+    if warning_diagnostic and parent_schema not in (SCHEMA_ACCEPTED, SCHEMA_DIAGNOSTIC):
+        raise ValueError("warning diagnostic parent schema must identify an accepted or trial snapshot")
+    if not warning_diagnostic and parent_schema is not None:
+        raise ValueError("strict stagger cannot have a diagnostic parent schema")
+    run_dir = physical_pinn_path(config.output.dir)
     tensorboard_root = Path(config.output.tensorboard_root)
     tensorboard_dir = tensorboard_root / run_dir.name
     if not tensorboard_root.parent.is_dir():
@@ -162,14 +208,21 @@ def run(config, *, resume=False, initial_state=None, parent_sha256=None,
     if precision not in ("float32", "float64"):
         raise ValueError("train.dtype must be 'float32' or 'float64'")
     dtype = np.float64 if precision == "float64" else np.float32
-    checkpoint_schema = SCHEMA_FP64 if precision == "float64" else SCHEMA
+    if warning_diagnostic and precision != "float64":
+        raise ValueError("warning diagnostics require the adopted float64 graph")
+    checkpoint_schema = (SCHEMA_WARNING_PROGRESS if warning_diagnostic else
+                         SCHEMA_FP64 if precision == "float64" else SCHEMA)
     reference_model = _build_grid(config)
     load, H_committed, d_committed, q_ref, d_ref, H_ref, reaction_ref, warning = (
-        _reference(config, reference_model)
+        _reference(config, reference_model, diagnostic_warning=warning_diagnostic)
     )
-    if warning:
+    if warning and not warning_diagnostic:
         raise ValueError("the stagger experiment requires a strict reference prefix state")
     index = int(config.data.state_index)
+    if warning_diagnostic and index == 60 and parent_schema != SCHEMA_ACCEPTED:
+        raise ValueError("first warning trial requires an accepted state-59 parent")
+    if warning_diagnostic and index > 60 and parent_schema != SCHEMA_DIAGNOSTIC:
+        raise ValueError("later warning trials require a diagnostic predecessor")
     if index == 1 and initial_state is not None:
         raise ValueError("state 1 must start from the archived zero-load state")
     if index == 1 and parent_sha256 is not None:
@@ -238,6 +291,30 @@ def run(config, *, resume=False, initial_state=None, parent_sha256=None,
         damage_iter = jax.device_put(parent_d.astype(dtype), device)
         d_committed = parent_d
         H_committed = parent_H
+    if trial_initial_state is not None:
+        if not warning_diagnostic or not 60 <= index <= 75 or precision != "float64" or initial_state is None:
+            raise ValueError("separate numerical trial seeds require old FP64 warning state 60..75")
+        if (len(trial_initial_state) != 7 or "trial_seed_sha256" not in config.output
+                or "trial_seed_path" not in config.output):
+            raise ValueError("numerical trial seed must have explicit path/digest provenance")
+        seed_path = physical_pinn_path(config.output.trial_seed_path)
+        if hashlib.sha256(seed_path.read_bytes()).hexdigest() != config.output.trial_seed_sha256:
+            raise ValueError("numerical trial seed digest differs")
+        seed_q, seed_d, seed_H = map(np.asarray, trial_initial_state[4:])
+        residual.validate_fields(seed_q, seed_d, seed_H, parent_H, np.asarray(load, dtype))
+        if (min(seed_d) < -config.stagger.damage_range_atol or max(seed_d) > 1 or min(seed_H) < 0
+                or max(np.maximum(parent_d - seed_d, 0)) > config.stagger.healing_atol
+                or min(seed_H - parent_H) < 0):
+            raise ValueError("numerical trial seed has invalid damage/history range")
+        q_net, q_state, d_net, d_state = trial_initial_state[:4]
+        damage_iter = jax.device_put(seed_d.astype(dtype), device)
+        print(json.dumps({"event": "numerical_seed_restored_without_commit",
+                           ("accepted_parent_sha256" if index == 60 else "diagnostic_parent_sha256"): parent_sha256,
+                          "trial_seed_sha256": config.output.trial_seed_sha256,
+                          "history_floor_inf": float(np.max(parent_H)),
+                          "ignored_trial_history_inf": float(np.max(seed_H))}), flush=True)
+        # Keep d_committed/H_committed and `committed` from the accepted parent;
+        # seed_H is an uncommitted trial field, never a history lower bound.
 
     def displacement(network):
         raw = jax.vmap(network)(points)
@@ -292,7 +369,12 @@ def run(config, *, resume=False, initial_state=None, parent_sha256=None,
         "precision": precision,
     }
     if parent_sha256 is not None:
-        identity["parent_accepted_sha256"] = parent_sha256
+        parent_key = ("parent_diagnostic_sha256" if warning_diagnostic and index > 60
+                      else "parent_accepted_sha256")
+        identity[parent_key] = parent_sha256
+    if warning_diagnostic:
+        identity["warning_diagnostic"] = True
+        identity["parent_schema"] = parent_schema
     if precision == "float32":
         graph_hash = hashlib.sha256()
         for array in (
@@ -316,7 +398,7 @@ def run(config, *, resume=False, initial_state=None, parent_sha256=None,
             raise ValueError("resume configuration differs from stored run configuration")
 
     @eqx.filter_jit
-    def mechanics_step(network, state, fixed_damage):
+    def mechanics_step(network, state, fixed_damage, update_ratio):
         fixed_damage = jax.lax.stop_gradient(fixed_damage)
         def objective(n):
             q = displacement(n)
@@ -325,10 +407,12 @@ def run(config, *, resume=False, initial_state=None, parent_sha256=None,
             return jnp.mean((r / mechanics_scale)**2)
         value, grad = eqx.filter_value_and_grad(objective)(network)
         update, state = optim.update(grad, state, network)
+        if "stagger_lr_policy" in config.train and config.train.stagger_lr_policy == "linear_tail":
+            update = jax.tree.map(lambda value: update_ratio * value, update)
         return eqx.apply_updates(network, update), state, value
 
     @eqx.filter_jit
-    def damage_step(network, state, fixed_history, scale):
+    def damage_step(network, state, fixed_history, scale, update_ratio):
         fixed_history = jax.lax.stop_gradient(fixed_history)
         def objective(n):
             d = damage(n)
@@ -338,6 +422,8 @@ def run(config, *, resume=False, initial_state=None, parent_sha256=None,
             return jnp.mean((rho / scale)**2)
         value, grad = eqx.filter_value_and_grad(objective)(network)
         update, state = optim.update(grad, state, network)
+        if "stagger_lr_policy" in config.train and config.train.stagger_lr_policy == "linear_tail":
+            update = jax.tree.map(lambda value: update_ratio * value, update)
         return eqx.apply_updates(network, update), state, value
 
     def history(q, fixed_damage):
@@ -370,6 +456,8 @@ def run(config, *, resume=False, initial_state=None, parent_sha256=None,
 
     n_q = int(config.stagger.mechanics_steps)
     n_d = int(config.stagger.damage_steps)
+    coupling_omega = (config.stagger.coupling_omega if "coupling_omega" in config.stagger
+                      else config.stagger.omega)
     steps_per_sweep = 2 * n_q + n_d
     phases = ("before", "damage", "after")
 
@@ -514,7 +602,8 @@ def run(config, *, resume=False, initial_state=None, parent_sha256=None,
                 / float(load) > direct.DRIFT_ENVELOPE
             )),
         }
-        return _acceptance_gates(config, candidate)
+        return (_warning_advancement_gates(config, candidate) if warning_diagnostic
+                else _acceptance_gates(config, candidate))
 
     result = None
     try:
@@ -542,13 +631,14 @@ def run(config, *, resume=False, initial_state=None, parent_sha256=None,
                         stop_step = first_step
                 steps = range(first_step + 1, count + 1) if after_sample is None else ()
                 for step in steps:
+                    update_ratio = jnp.asarray(_inner_update_ratio(config, step, count), dtype=dtype)
                     if phase == "damage":
                         if H_scale is None:
                             raise RuntimeError("damage stage has no fixed-history scale")
-                        d_net, d_state, _ = damage_step(d_net, d_state, H_used, H_scale)
+                        d_net, d_state, _ = damage_step(d_net, d_state, H_used, H_scale, update_ratio)
                     else:
                         fixed_d = damage_iter if phase == "before" else d_trial
-                        q_net, q_state, _ = mechanics_step(q_net, q_state, fixed_d)
+                        q_net, q_state, _ = mechanics_step(q_net, q_state, fixed_d, update_ratio)
                     if step % config.output.log_every == 0 or step == count:
                         sample = stage_report(
                             sweep, phase, step,
@@ -556,6 +646,18 @@ def run(config, *, resume=False, initial_state=None, parent_sha256=None,
                         )
                         if phase == "after" and step == count:
                             after_sample = sample
+                        if phase == "after" and after_stop is not None and all(candidate_gates(*sample).values()):
+                            candidate_q, candidate_fields = sample
+                            payload = {"q": np.asarray(candidate_q), "d": np.asarray(d_trial),
+                                       "H": np.asarray(candidate_fields.trial_history),
+                                       "reaction": float(candidate_fields.reaction),
+                                       "at2_local": np.asarray(residual.gc_over_l0 * d_trial),
+                                       "at2_nonlocal": np.asarray(residual.gc_l0 * residual.operator.deterministic_matvec(d_trial)),
+                                       "at2_history": np.asarray(2 * candidate_fields.trial_history * (d_trial - 1))}
+                            if after_stop(sweep, payload):
+                                after_sample, stop_step = sample, step
+                                save(sweep, phase, step)
+                                break
                         if (phase == "after" and sweep == config.stagger.sweeps
                                 and config.stagger.accept_on_first_passing_report
                                 and all(candidate_gates(*sample).values())):
@@ -572,7 +674,7 @@ def run(config, *, resume=False, initial_state=None, parent_sha256=None,
                     save(sweep, "damage", 0)
                 elif phase == "damage":
                     d_solved = damage(d_net)
-                    d_trial = damage_iter + dtype(config.stagger.omega) * (d_solved - damage_iter)
+                    d_trial = damage_iter + dtype(coupling_omega) * (d_solved - damage_iter)
                     save(sweep, "after", 0)
 
             if after_sample is None:
@@ -623,31 +725,58 @@ def run(config, *, resume=False, initial_state=None, parent_sha256=None,
             if not np.all(np.isfinite([value for value in result.values()
                                        if isinstance(value, (float, int))])):
                 raise FloatingPointError("stagger diagnostics contain non-finite values")
-            gates = _acceptance_gates(config, result)
-            accepted = bool(all(gates.values()))
-            if stop_step < n_q and not accepted:
+            gates = (_warning_advancement_gates(config, result) if warning_diagnostic
+                     else _acceptance_gates(config, result))
+            ready = bool(all(gates.values()))
+            accepted = ready and not warning_diagnostic
+            if stop_step < n_q and not ready:
                 raise RuntimeError("a passing final-stage report failed the same-pass acceptance gates")
             result["gates"] = {name: bool(value) for name, value in gates.items()}
             result["accepted"] = accepted
+            if warning_diagnostic:
+                result["diagnostic_only"] = True
+                result["reference_warning_label"] = bool(warning)
+                result["diagnostic_usable"] = ready
             position = result["global_step"]
             for name, value in result["gates"].items():
                 writer.add_scalar(f"gate/{name}", float(value), position)
             writer.add_scalar("diag/accepted", float(accepted), position)
+            if warning_diagnostic:
+                writer.add_scalar("diag/diagnostic_usable", float(ready), position)
             writer.flush()
             print(json.dumps(result, sort_keys=True), flush=True)
+            report_path = run_dir / f"sweep_{sweep:04d}.json"
+            temporary = report_path.with_name(report_path.name + ".tmp")
+            temporary.write_text(json.dumps(result, sort_keys=True), encoding="utf-8")
+            os.replace(temporary, report_path)
+            if sweep_observer is not None:
+                sweep_observer(result, {
+                    "q": q_np, "d": d_np, "H": H_np,
+                    "H_used": np.asarray(H_used),
+                    "d_solved": np.asarray(damage(d_net)),
+                    "d_previous": np.asarray(damage_iter),
+                    "at2_local": np.asarray(residual.gc_over_l0 * d_trial),
+                    "at2_nonlocal": np.asarray(
+                        residual.gc_l0 * residual.operator.deterministic_matvec(d_trial)),
+                    "at2_history": np.asarray(2.0 * H_next * (d_trial - 1.0)),
+                    "at2_fixed_relaxed": np.asarray(rho_at(d_trial, H_used)),
+                    "at2_fixed_solved": np.asarray(rho_solved),
+                    "coordinates": np.asarray(model.geometry.coordinates[:model.n_material]),
+                })
             damage_iter = d_trial
             if sweep < config.stagger.sweeps:
                 save(sweep + 1, "before", 0)
             else:
-                if accepted and return_state:
+                if ready and return_state:
                     accepted_state = (
                         q_net, q_state, d_net, d_state, q_after, d_trial, H_next
                     )
                     write_checkpoint(
-                        run_dir / "accepted.ckpt.zip",
+                        run_dir / ("diagnostic.ckpt.zip" if warning_diagnostic
+                                   else "accepted.ckpt.zip"),
                         {**identity, "state_index": index},
                         sweep, "complete", stop_step, accepted_state,
-                        schema=SCHEMA_ACCEPTED,
+                        schema=SCHEMA_DIAGNOSTIC if warning_diagnostic else SCHEMA_ACCEPTED,
                     )
                 save(sweep, "complete", stop_step)
     finally:
@@ -655,7 +784,7 @@ def run(config, *, resume=False, initial_state=None, parent_sha256=None,
     if return_state:
         accepted_state = (
             q_net, q_state, d_net, d_state, q_after, d_trial, H_next
-        ) if result["accepted"] else None
+        ) if (result["diagnostic_usable"] if warning_diagnostic else result["accepted"]) else None
         return result, accepted_state
     return result
 

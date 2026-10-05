@@ -99,8 +99,7 @@ When authorized, use this repository workflow:
 dev -> commit -> main -> git merge dev -> git push origin main
 ```
 
-Use a regular merge, not squash. Commit messages end with:
-`Co-Authored-By: Claude <noreply@anthropic.com>`. Push only `main`; keep `dev`
+Use a regular merge, not squash. Push only `main`; keep `dev`
 local.
 
 ## 5. Environments

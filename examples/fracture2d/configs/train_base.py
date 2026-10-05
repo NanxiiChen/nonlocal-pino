@@ -71,8 +71,10 @@ def get_config():
     c.stagger.mechanics_scale_policy = "first_load_initial"
     c.stagger.accept_on_first_passing_report = True
     c.output = ConfigDict()
-    c.output.dir = "/root/autodl-tmp/data/fracture2d/pinn_stagger/first_strict_fp32"
-    c.output.tensorboard_root = "/root/autodl-tmp/tf-logs/fracture2d"
+    # PINN artifacts and TensorBoard events both live under tf-logs, in
+    # separate sibling directories so their identities never collide.
+    c.output.dir = "/root/autodl-tmp/tf-logs/fracture2d/pinn_stagger_first_strict_fp32"
+    c.output.tensorboard_root = "/root/autodl-tmp/tf-logs/fracture2d/events"
     c.output.log_every = 500
     c.output.checkpoint_every = 1000
     c.output.resume = False

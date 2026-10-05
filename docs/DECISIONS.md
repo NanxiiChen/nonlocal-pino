@@ -6129,7 +6129,7 @@ Template for each entry:
   before the raw same-field residual check succeeds.
 - Related: `examples/fracture2d/train.py`,
   `examples/fracture2d/configs/train_base.py`,
-  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+   `docs/tasks/fracture2d-nonlocal-pinn.md`.
 
 ## 2026-09-28 — Approve separately rebuilt float32 fracture2d PINN graph
 - Decision: At the user's request, implement a distinct float32 PINN graph and
@@ -7071,3 +7071,1313 @@ Template for each entry:
 - Related: `examples/fracture2d/stagger.py`,
   `examples/fracture2d/continuation.py`,
   `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-30 — Stop strict PINN acceptance at the last strict reference load
+- Decision: Continue under the committed, unchanged FP64 load-ratio and
+  reaction/damage gate policy through reference state 59, then stop strict
+  acceptance. Preserve the identity-bound state-1–59 snapshot chain. Do not
+  promote `0.0060/0.0061` or the later mixed-warning/drifting reference tail
+  to strict acceptance merely because the PINN passes pre-peak gates.
+- Why: all 59 pre-warning strict loads passed and replayed from checkpoints,
+  but the next two reference loads are explicitly warning-accepted even
+  though drift-free; the post-peak part contains drifting and mixed-warning
+  states. Reaction/damage acceptance against that archive would no longer
+  establish the same strict validation contract. This boundary is a
+  reference-validation limitation, not an observed failed PINN gate.
+- Alternatives rejected: silently widening the strict prefix, asserting
+  post-peak convergence by extrapolating the 59 pre-peak acceptances, or
+  treating warning-labelled current-load fields as strict training targets.
+  Any diagnostic post-peak continuation needs a separate, explicit policy.
+- Related: `examples/fracture2d/continuation.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-30 — Explore the warning-region PINN only as a separate diagnostic
+- Decision: The user selected exploratory post-peak PINN continuation from
+  accepted state 59 rather than waiting for a new strictly validated direct
+  reference. Keep the strict 59-state root unchanged. Any post-59 results
+  must be explicitly labelled diagnostic; archived warning-reference fields
+  and reactions are comparisons only, never training targets or strict
+  acceptance evidence. Specify diagnostic advancement and physical-stop
+  semantics before enabling a new run beyond 59.
+- Why: the first post-59 reference states `0.0060/0.0061` are warning-labelled
+  despite zero drift, and later reference states have mixed warning labels
+  and drift. Retrospectively extending the strict gate contract would
+  misrepresent post-peak validation. A separate lineage can retain the
+  accepted state-59 networks, optimizers and q/d/H without rewriting them.
+- Alternatives rejected: silently relaxing the existing strict-prefix
+  loader, treating warning fields as ground-truth supervision, or claiming
+  post-peak strict convergence from pre-peak acceptance alone.
+- Related: `examples/fracture2d/continuation.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-30 — Advance diagnostic post-peak trials only across existing physical gates
+- Decision: For the user's separate exploratory branch, retain the adopted
+  A2/Amor/AT2 equations, hard displacement BCs, three-sweep FP64 budget,
+  load-ratio mechanics normalization, and the existing finite, normalized
+  mechanics, damage-range, healing, history-monotonicity and zero-drift gates
+  as **trial-advancement** checks. Log but do not gate on warning-region
+  reference displacement, reaction or damage. An eligible trial creates an
+  identity-bound `diagnostic.ckpt.zip` with a separate schema and its
+  predecessor digest; it is never called `accepted.ckpt.zip` or strict
+  convergence. A failed physical gate stops without a successor trial.
+- Why: warning-labelled and drifting direct-reference states cannot certify
+  strict field/reaction accuracy, while reusing predeclared physics and
+  numerical-bound checks avoids inventing a new PDE or quietly accepting
+  nonfinite/healing/drifting fields. The conservative zero-drift stop may
+  prevent reaching the post-peak tail; that failure must be reported rather
+  than automatically weakening the gate.
+- Alternatives rejected: copying strict accepted snapshots into warning
+  directories, interpreting reference comparison tolerances as validated
+  warning-region gates, and suppressing drift to force continuation.
+- Related: `examples/fracture2d/stagger.py`,
+  `examples/fracture2d/diagnostic_continuation.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-30 — Preserve the failed terminal diagnostic instead of claiming fracture convergence
+- Decision: At the terminal load `0.0075`, retain the completed trial and its
+  failed drift gate; leave state 74 as the last usable diagnostic parent.
+  Report that loading trials reached the endpoint but the PINN did not
+  reproduce the archived post-peak unloading or establish coupled AT2/stagger
+  convergence. Do not loosen drift, relabel diagnostic snapshots as accepted,
+  or retry a different optimizer/budget inside the existing root.
+- Why: state 75 has 1 drift node, reaction `620.165` vs archived `69.154`,
+  damage RMSE `0.1113`, committed AT2 residual infinity `104.092` and large
+  stagger changes despite normalized mechanics loss `1.85e-5`. The earlier
+  diagnostic-usable states passed the chosen advancement checks only; those
+  checks do not establish the omitted coupled damage/stagger convergence.
+- Alternatives rejected: declaring the full fracture path converged based
+  solely on a small mechanics loss, hiding the terminal drift, or attributing
+  the entire post-peak damage mismatch to the reference displacement outliers.
+- Related: `docs/tasks/fracture2d-nonlocal-pinn.md`,
+  `examples/fracture2d/diagnostic_continuation.py`.
+
+## 2026-09-30 — Isolate outer stagger budget at fixed load 0.0060
+- Decision: Following the user's approval, restart from the identical
+  verified accepted state-59 networks, separate Adam states and q/d/H,
+  hold prescribed displacement at `0.0060`, run a predeclared 12 sweeps
+  of `16k/12k/16k` with unchanged `1e-4` learning rate and `omega=0.5`,
+  and disable first-passage acceptance. Save every completed sweep's
+  coupled AT2 residual, field changes, reaction and reference diagnostics.
+  Use a new output directory and separate diagnostic snapshots, not a
+  modification to old accepted or completed trial files.
+- Why: the final AT2 residual and stagger changes remained large despite
+  low fixed-history subproblem residuals and mechanics loss. This experiment
+  tests outer iteration insufficiency before changing the optimizer/network.
+  Warning-reference comparison remains diagnostic-only, and a full budget
+  does not by itself prove coupled convergence or correct branch selection.
+- Alternatives rejected: multiplying every subproblem's step budget at once,
+  retrying from the accumulated inaccurate terminal diagnostic state, using
+  current-load reference fields as training targets, and accepting intermediate
+  reports after retrospectively searching their curves.
+- Related: `examples/fracture2d/fixed_load_sweeps.py`,
+  `examples/fracture2d/stagger.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-30 — Place new PINN artifacts and events under tf-logs
+- Decision: Follow the user's directory rule: `/root/autodl-tmp/data/`
+  holds material clouds and independent reference data, while new PINN
+  checkpoints, numerical reports, figures and TensorBoard events all use
+  `/root/autodl-tmp/tf-logs/`. Give new run artifacts and events separate
+  sibling paths to avoid collisions. Copy the completed fixed-load experiment
+  (including figures and bound checkpoint) into its existing tf-logs run
+  directory and verify matching hashes before providing download paths.
+- Why: splitting PINN checkpoints/plots under `data` and event files under
+  `tf-logs` made the Jupyter events directory appear to contain no figures.
+  Historical accepted checkpoint configs and SHA256 parent chains bind the
+  old absolute data paths. Preserve original bytes and leave migration of
+  those historical roots unresolved until a verified relocation contract
+  is explicitly chosen; copied artifacts alone do not make the archive
+  resume-compatible at its new physical path.
+- Alternatives rejected: overwriting checkpoint metadata to make a moved
+  path appear identity-compatible, silently deleting historical roots or
+  user-created files, and treating a server-only `/root/...` path as the
+  sole download link.
+- Related: `examples/fracture2d/configs/train_base.py`,
+  `examples/fracture2d/README.md`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-30 — Relocate historical PINN runs with identity-preserving path resolution
+- Decision: On the user's explicit request, move the historical
+  `data/fracture2d/pinn_*` run directories to
+  `tf-logs/fracture2d/pinn_runs/<original-run-name>` without editing
+  checkpoint bytes or stored config JSON. Resolve old absolute PINN paths to
+  that physical archive at filesystem boundaries while preserving the
+  original recorded strings for config digests, accepted SHA256 identities,
+  parent-chain validation and interrupted-run resume. Never redirect
+  independent reference/cloud paths or unrelated directories.
+- Why: the user requires `data/` to contain only reference-related data and
+  also requires old checkpoint paths to keep working. Rewriting archived
+  configs would invalidate snapshot hashes, while compatibility symlinks
+  would leave the PINN directory names visible under `data/`.
+- Alternatives rejected: editing checkpoint metadata, leaving the bulk of
+  historical PINN artifacts in `data/`, silently deleting unfamiliar
+  notebook/run files, or sacrificing old accepted-chain verification.
+- Related: `examples/fracture2d/pinn_paths.py`,
+  `examples/fracture2d/continuation.py`,
+  `examples/fracture2d/diagnostic_continuation.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-09-30 — Run a controlled 36-sweep fixed-load coupling diagnostic
+- Decision: On the user's approval, use the same accepted state-59 parent at
+  fixed `0.0060`, FP64, `16k/12k/16k`, Adam `1e-4`, `omega=0.5`, and 36 full
+  sweeps with first-passage stopping disabled. Save per-sweep physical fields
+  and explicit AT2 term/decomposition diagnostics in a new tf-logs root.
+  Keep committed history/healing context tied to state 59 throughout.
+- Why: 12 sweeps still decreased the coupled defect, while the fixed-H solved
+  defect was much smaller. This isolates a larger outer budget with the same
+  inner-stage settings. Extra sweeps also increase total optimizer work.
+- Diagnostics: Normalize AT2 infinity residual by the sum of infinity norms
+  of its three equation terms; no denominator floor. Report successive-sweep
+  q changes relative to prescribed displacement, H changes relative to the
+  larger previous/current infinity norm, absolute damage changes, and reaction
+  changes relative to the larger previous/current magnitude. Zero scales fail
+  loudly. Record physical arrays and residual-max location for independent
+  checks and later threshold selection.
+- Alternatives rejected: inventing convergence thresholds to terminate this
+  comparison, changing relaxation and budget simultaneously, accumulating
+  trial history as committed history, or treating warning-reference agreement
+  as coupled convergence. This diagnostic introduces no new acceptance gate.
+- Related: `examples/fracture2d/fixed_load_sweeps.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Probe FP64 inner residual convergence before post-peak extension
+- Decision: Following completion of 36 sweeps and the user's sustained-research
+  request, freeze the bound state-60 diagnostic damage/history and test 100
+  Gauss-Newton steps per network, 200 CG iterations per direction, with the
+  existing validated damped residual optimizer. Use only the physical residual,
+  same FP64 network ansatz and exact hard BCs, and separate probe artifacts.
+- Why: Final AT2 inf is `0.43069` but reaction still fluctuates by about 1% and
+  fixed-H solved damage inf is `0.03089`. Establish whether inner optimization
+  can reduce the remaining noise before spending many hours extending loads.
+  Earlier Gauss-Newton failure was on FP32; it does not establish FP64 failure.
+- Alternatives rejected: reference distillation, changing the frozen physical
+  solver/model, treating a usable diagnostic as coupled-converged, or promoting
+  the probe's altered networks to the existing checkpoint chain.
+- Related: `examples/fracture2d/inner_probe.py`,
+  `examples/fracture2d/gauss_newton.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Compare fixed-subproblem energy optimization without reference targets
+- Decision: Probe 3000 FP64 L-BFGS-B iterations per frozen subproblem from the
+  same bound snapshot. Mechanics uses the existing A2 energy. Fixed-H damage
+  uses the independently checked volume-weighted quadratic whose derivative
+  is volume times the existing AT2 residual. Check both field gradients against
+  the declared residual before optimization and report raw residuals afterward.
+- Why: FP64 residual GN stabilizes reaction but 200-step normal-equation CG
+  remains far from its tolerance and residual improvement plateaus. Energy
+  avoids squaring the field-operator conditioning; fixed subproblems retain
+  their physical roots. This is an optimization experiment, not joint energy
+  minimization of the hybrid history model or a replacement fracture law.
+- Alternatives rejected: training to archived fields, claiming energy descent
+  alone proves residual convergence, or silently changing accepted training.
+- Related: `examples/fracture2d/inner_probe.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Test target-free local RBF enrichment of the existing neural fields
+- Decision: Use frozen inherited MLPs plus trainable Gaussian hidden-unit
+  readouts (64 global centers, 225 local centers around the notch-tip region).
+  Same graph, BCs, A2/Amor/AT2 laws and smooth nonnegative damage activation.
+  Mechanics readouts minimize the existing restricted fixed-d energy by a
+  projected tangent solve, with declared SVD relative cutoff `1e-12`. Damage
+  readouts use fixed-H volume-weighted energy and L-BFGS-B, max 1000 iterations.
+  No exact nodal solution or reference field is a network training target.
+- Why: Both frozen-inner probes plateau on the original MLP. Local enrichment
+  tests approximation-space limitations rather than adding more global MLP
+  iterations. This is an RBF-enriched neural approximation with fewer weights
+  than free nodal unknowns, not a direct solve relabeled as neural training.
+- Experimental convergence contract: require three consecutive full sweeps
+  satisfying term-normalized AT2 inf `<=1e-3`, absolute damage change `<=1e-4`,
+  relative H/q changes `<=1e-3`, relative reaction change `<=5e-3`, existing
+  finite/range/healing/history/zero-drift checks, mechanics normalized MSE
+  `<=1e-2` and normalized infinity residual `<=0.1`. These are explicit research
+  tolerances, not strict-reference certification. Fixed load starts in the
+  original state-59 context; loads advance only after this new contract passes.
+- Alternatives rejected: prescribed crack/damage targets, selecting features
+  from reference errors, loosening drift to obtain a curve, or training a
+  readout at every independent nodal DOF. Local centers enrich the representation
+  without deleting edges, particles or changing the physical model.
+- Related: `examples/fracture2d/rbf_stagger.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Refine the tip neural basis and restore strong-residual training
+- Decision: Preserve the failed coarse-RBF loading trial at `0.0061`. New
+  experiments add Gaussian units at material coordinates within radius `0.06`
+  of the geometric notch tip, width `0.008`, and explicitly select fixed-d
+  mechanics residual least squares and fixed-H damage residual least squares.
+  Mechanics is restricted readout training with SVD cutoff `1e-12`; damage
+  retains the existing positivity activation and uses its analytic Jacobian,
+  at most 100 function evaluations. The same coupled/physical gates apply.
+- Why: Coarse energy-trained readouts stall at a very stable but unbalanced
+  state (`AT2 inf 5.469`, fixed-H solved `5.470` at `0.0061`); iteration
+  stability alone fails to establish physical equilibrium. Largest defect is
+  at the notch tip. Tip-centered units test local spatial resolution, while
+  strong residual fitting prioritizes that physical defect over tiny energy
+  differences. No reference field is used to choose centers or train weights.
+- Alternatives rejected: accepting the stable plateau, weakening the AT2 or
+  mechanics-infinity checks, repeating more unchanged outer sweeps, or using
+  a nodal exact solve as a supervised training target.
+- Related: `examples/fracture2d/rbf_stagger.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Resolve collar residual hotspots and condition the RBF readout
+- Decision: New trial adds geometry-owned collar centers (every third union
+  coordinate with `y>=0.96` or `y<=0.04`, width `0.016`) and orthonormalizes
+  the damage feature matrix with SVD cutoff `1e-10`. Serialize the transform
+  so off-grid Gaussian-network evaluation remains defined. Keep the same
+  strong residual objectives and all declared coupled/physical checks.
+- Why: Independent saved-field recomputation locates the largest mechanics
+  defect at the material/top-grip interface, not the tip. Tip-only enrichment
+  cannot fix collar field structure. Damage optimization terminates on small
+  parameter changes despite residual `0.382`; conditioning the strongly
+  overlapping Gaussian readouts tests that parameter-space limitation.
+- Alternatives rejected: raising the `0.1` mechanics-infinity limit to pass
+  the current `0.106` defect, calling least-squares optimizer termination
+  physical convergence, or using reference fields for new feature centers.
+- Related: `examples/fracture2d/rbf_stagger.py`,
+  `examples/fracture2d/research_report.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Add particle-scale tip units after a converged readout plateau
+- Decision: New multiscale basis adds width-`0.003` Gaussian units at material
+  coordinates within `0.10` of the tip, alongside the existing broad/tip/collar
+  units and declared damage whitening. Keep residual objectives and checks.
+- Why: Whitening resolves the readout optimizer stopping issue (gradient
+  tolerance now passes), and collar enrichment clears the mechanics-infinity
+  check, but fixed-H AT2 still bottoms near `0.380` at the rounded tip. Narrow
+  units test the remaining local representation floor without increasing outer
+  iterations or changing physical operators or reference targets.
+- Alternatives rejected: relaxing the normalized AT2 limit `1e-3` to accept
+  the `0.001186` plateau, claiming optimizer convergence equals PDE convergence,
+  or replacing the entire field by one independent nodal weight per particle.
+- Related: `examples/fracture2d/rbf_stagger.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Test a bounded damage-network link after post-peak overshoot
+- Decision: New RBF run uses the standard sigmoid damage-output link, which
+  enforces `0<d<1` through the neural ansatz while leaving AT2/history and
+  mechanics equations unchanged. Initialize its logit readout by transferring
+  the existing PINN's own relaxed state-60 field, not the direct reference.
+  Keep the inherited damage MLP as a fixed anchor-load base (`0.0060`) so
+  warm-start readouts have the same parameterization at each subsequent load.
+- Why: Multiscale residual RBF reached coupled-checked `0.0062/0.0063`, but
+  the `0.0064` trial overshot damage range and then diverged within its full
+  budget. A nonnegative-only output permits unphysical damage above one;
+  bounding the representation tests whether preventing this optimizer escape
+  can maintain the crack-growth iteration. Rejected values are never committed.
+- Alternatives rejected: clipping damage arrays, suppressing range/drift/healing
+  failures, changing AT2 degradation/history, or calling the divergent trial a
+  successful fracture response. Sigmoid parameterization may itself stall;
+  report raw residuals and require the same coupled checks.
+- Related: `examples/fracture2d/rbf_stagger.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Preserve tiny bulk damage structure in the bounded-network base
+- Decision: New bounded-link trial uses `log` of the inherited positive damage
+  network as the fixed sigmoid base, with Gaussian logit corrections. Transfer
+  the PINN's own previous logit field into correction weights. The final field
+  remains sigmoid-bounded; the same equations and physical checks apply.
+- Why: The first sigmoid trial bottoms at AT2 `1.317` and healing `0.00194`,
+  with the maximum defect far from the tip near the collar. A raw-MLP sigmoid
+  base starts bulk damage near `0.5` and spends the finite RBF space rebuilding
+  the inherited near-zero bulk profile. A log-positive base preserves this
+  structure and uses localized correction capacity for fracture evolution.
+- Alternatives rejected: clipping the transferred damage, relaxing healing
+  or residual gates, or confusing a stable sigmoid optimizer with equilibrium.
+- Related: `examples/fracture2d/rbf_stagger.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Test joint neural residual optimization at the Picard instability
+- Decision: After quarter-step continuation fails at `0.006375`, freeze the
+  coupled-checked `0.00635` PINN parent history and jointly optimize the enriched
+  displacement and bounded-damage readouts at `0.006375`. Use the unchanged
+  A2/AT2 residuals and `max(H_committed, current Amor driver)` in one objective.
+  Orthonormalize the mechanics readout basis (cutoff `1e-10`) and use matrix-free
+  trust-region least squares with JAX JVP/VJP and LSMR (300 iterations, atol/btol
+  `1e-6`), at most 100 function evaluations. Check eager/JIT and a directional
+  finite-difference JVP before training. Fixed scales are declared from the
+  load-ratio mechanics convention and parent-history RMS.
+- Why: Load cutback reaches `0.00635` but does not remove the localized
+  mechanics/history runaway at the next step. A joint solve can test whether
+  the equilibrium branch exists but is unstable to outer Picard iteration,
+  without inventing a new fracture energy or differentiating cumulative
+  committed history. The hybrid model is not replaced by joint energy descent.
+- Alternatives rejected: more unchanged divergent sweeps, using the failed
+  state's inflated history, changing physical stabilization, or dropping
+  drift/range/healing/physical residual checks. Optimizer success alone is
+  not cracking success; report all physical defects independently.
+- Related: `examples/fracture2d/joint_rbf.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Equilibrate the joint neural Jacobian and tighten the inner solve
+- Decision: New joint probe from the same checked `0.00635` parent uses inverse
+  initial Jacobian-column norms as explicit parameter trust-region scales, and
+  increases LSMR from 300 iterations at `1e-6` to 2000 at `1e-9`. Preserve the
+  residual scales, graph, fields, objective and physical checks. Serialize all
+  column scales; zero/nonfinite scales fail loudly.
+- Why: Joint v8 avoids Picard runaway and has zero drift, but terminates at
+  AT2 relative `0.001556` and healing `0.0010078`, both outside the declared
+  limits. The mechanics/damage parameter blocks have very different Jacobian
+  magnitudes; a unit-scaled, truncated inner solve can falsely stall. Test
+  conditioning and solve accuracy before changing the representation again.
+- Alternatives rejected: loosening these nearly passing gates, claiming v8
+  optimizer success is equilibrium, or committing its unaccepted trial history.
+- Related: `examples/fracture2d/joint_rbf.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Test stronger AT2 weighting inside the same uncommitted joint load
+- Decision: A separate joint trial at `0.006375` multiplies the damage residual
+  block by explicit optimization weight 100, with the same raw physical gates,
+  column equilibration and LSMR settings. Warm-start only its neural weights
+  from v9; retain the original `0.00635` committed damage/history and verify
+  source/basis identity. The v9 history is not promoted or used as committed.
+- Why: v9 still decreases but misses AT2 (`0.001224`) and healing (`0.001332`)
+  while mechanics loss is already small. An empirical, declared loss-weight
+  experiment can prioritize the damage defect; it does not change the common
+  zero of the coupled residual equations or widen any acceptance tolerance.
+- Alternatives rejected: advancing v9, imposing a new damage inequality,
+  using inflated unaccepted trial history, or presenting weight 100 as a
+  physically derived universal method. Observe whether mechanics gates worsen.
+- Related: `examples/fracture2d/joint_rbf.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Make the maximum-history generalized derivative explicit
+- Decision: Keep the joint objective's exact `max(H_committed, driver)`, but
+  build its Jacobian from the piecewise derivative (0 inactive, 1 active,
+  midpoint 0.5 at numerical ties within 128 float64 ulps of the history scale).
+  Freeze that mask only for each linearized trust-region solve and recompute it
+  at every accepted optimizer point. Record the policy; verify same-point
+  objective agreement, fixed-branch finite differences and JVP/VJP adjointness.
+- Derivation: For scalar `max(a,x)` with fixed `a`, derivatives are 0/1 off
+  the switch, and its generalized derivative at equality is the interval
+  `[0,1]`; 0.5 is the symmetric directional-derivative choice. This changes
+  only the selected linearization at unresolved ties, never the forward law.
+- Why: v10b found three history switches at every finite-difference step from
+  `1e-6` to `1e-9`, with ~9% disagreement. The warm optimizer lies on the
+  nonsmooth history surface; silently treating its central finite difference
+  as an ordinary smooth derivative or training after a failed check is invalid.
+- Alternatives rejected: smoothing or replacing the maximum history law,
+  removing history derivatives, bypassing derivative checks, or asserting the
+  unselected central difference uniquely defines the nonsmooth Jacobian.
+- Related: `examples/fracture2d/joint_rbf.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Continue only checked joint neural states into crack growth
+- Decision: After joint damage-weight-100 v10c passes every raw physical check
+  at `0.006375`, continue from that completed joint neural state, validating
+  foundation identity, feature transforms and q/d reconstruction. Its q/d/H
+  become the new research committed parent only for subsequent joint trials.
+  Keep residual laws, weight 100, generalized derivative and physical gates.
+- Why: v10c avoids drift and reduces AT2 inf to `0.07821` / relative
+  `0.0002087`, healing `3.48e-5`, mechanics inf normalized `0.09512`. It
+  crosses the load where outer Picard diverged. The model is still a research
+  approximation, not a strict-reference accepted state or a fully open crack.
+- Alternatives rejected: advancing v8/v9 or failed stagger trials, promoting
+  unaccepted trial history, calling sigmoid saturation crack convergence, or
+  changing the physics to match the warning reference curve.
+- Related: `examples/fracture2d/joint_rbf.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Enrich displacement at physical-residual hotspots
+- Decision: After joint loading passes `0.0064` but fails mechanics infinity
+  at `0.0065` (`0.12094 > 0.1`), add 32 width-`0.003` Gaussian displacement
+  units at distinct largest free-mechanics-residual nodes of the unchanged
+  checked parent. Keep damage features/link, history context, joint objective
+  and all physical gates. Transfer old neural coefficients with zero new-unit
+  weights and explicitly reproject the same field into the orthonormal basis.
+- Why: Joint damage residual is already `0.000225` relative with zero drift,
+  but the displacement approximation limits further loading. Target-free local
+  residual enrichment directly addresses that defect; it selects no reference
+  errors and changes neither collocation quadrature nor the physical graph.
+- Alternatives rejected: increasing mechanics-infinity tolerance, advancing
+  the rejected `0.0065` state, retraining on reference displacement, or adding
+  one independent displacement weight at every nodal DOF.
+- Related: `examples/fracture2d/joint_rbf.py`,
+  `examples/fracture2d/joint_loading.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Rebalance joint objectives after damage passes but mechanics fails
+- Decision: Separate same-load `0.0065` trial uses damage weight 10 instead of
+  100, with the same 32 new displacement units, `0.0064` committed parent,
+  raw physical gates and generalized Jacobian. Warm-start only rejected v13
+  weights, verifying unchanged context and transforms.
+- Why: v13 damage relative defect is `0.0002158`, well inside `1e-3`, while
+  mechanics infinity remains `0.1171 > 0.1`. Weight 100 may over-prioritize
+  damage fitting relative to mechanics near this transition. A declared
+  optimization-only rebalance tests the tradeoff without weakening either gate.
+- Alternatives rejected: committing v13, treating reaction growth as cracking,
+  adjusting residual gates to match this trial, or reusing its unaccepted H.
+- Related: `examples/fracture2d/joint_rbf.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Prioritize remaining mechanics outliers with fixed positive row weights
+- Decision: Separate same-load trial keeps the same committed parent and
+  enriched ansatz, but freezes mechanics residual row weights at
+  `sqrt(1 + (r_initial / rms_initial)^2)` from the warm PINN trial. Damage
+  weight stays 10; all unweighted physical gates stay unchanged. Serialize
+  the row weights; zero/nonfinite RMS fails loudly.
+- Why: Weight-10 v14 reduces mechanics mean-square loss about threefold to
+  `5.27e-5`, but its largest normalized defect remains `0.1185 > 0.1`.
+  Positive fixed weights emphasize the sparse remaining outliers rather than
+  spending more work reducing already small rows. They preserve the common
+  residual zero and do not alter graph quadrature, equations or physical gates.
+- Alternatives rejected: declaring average loss sufficient, loosening the
+  infinity gate, hidden adaptive resampling, or using reference-field errors.
+  This is a declared optimization experiment, not a physical weighting law.
+- Related: `examples/fracture2d/joint_rbf.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Repeat fixed-load outlier reweighting without committing trial history
+- Decision: Research loading may perform at most five separate same-load
+  refinement trials after a rejected joint candidate. Each recalculates the
+  declared positive row weights from its warm neural trial, but keeps the
+  original checked load parent q/d/H, basis and physical gates. All trials get
+  separate directories; only a fully checked completed trial advances the load.
+- Why: v15 passes `0.0065` with mechanics normalized inf `0.0465`, but the
+  first `0.0066` trial develops new outliers (`0.1835`) as the coupled fields
+  change. Refreshing fixed row weights between optimizer solves addresses
+  moving defects without changing quadrature or pretending their history is
+  committed. Reuse the existing v16 failed trial read-only for the first round.
+- Alternatives rejected: accepting the failed new load, hidden per-step weight
+  mutation, rerunning an identical rejected candidate, or unlimited blind loops.
+- Related: `examples/fracture2d/joint_loading.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Reprioritize AT2 at the next crack-growth candidate
+- Decision: At the rejected `0.0067` candidate, test damage weight 100 again
+  while retaining the successful mechanics-outlier weighting, inherited
+  enrichment and checked `0.0066` committed context. Warm-start rejected
+  trial weights only; at most 200 evaluations, same raw physical gates.
+- Why: Three reweight rounds pass `0.0066`; `0.0067` reaches damage maximum
+  `0.9937` and passes mechanics/zero-drift checks, but AT2 `7.164` and healing
+  `0.00987` fail. The bottleneck has shifted back to coupled damage accuracy.
+  Independent residual hotspots remain ahead of the tip. Weight 10 is not
+  sufficient here; optimizer weighting is tested explicitly, not physical gates.
+- Alternatives rejected: calling one high-damage node a converged crack,
+  advancing the rejected candidate, dropping healing, or changing the AT2 law.
+- Related: `examples/fracture2d/joint_rbf.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Select new displacement units from the current uncommitted residual
+- Decision: New same-load `0.0067` trial appends 32 narrow displacement units
+  at v18's current residual hotspots, keeping the original checked `0.0066`
+  committed context. Preserve all existing trial units and transfer their
+  neural weights into the enriched orthonormal basis, checking q/d field
+  reconstruction. Use damage weight 100 and fixed outlier mechanics weights.
+- Why: v18 repairs damage (`AT2 relative 0.000359`, healing `0.000129`) but
+  shifts mechanics maximum to `0.1945`. Features selected only from the prior
+  load miss newly emerging localization. Current residuals are a target-free
+  training signal, not committed physical history or reference-field targets.
+- Alternatives rejected: advancing v18, changing physical gates, discarding
+  old neural functions, or adding nodal variables across the entire cloud.
+- Related: `examples/fracture2d/joint_rbf.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Audit fixed neural fields with independent direct subproblem solves
+- Decision: Independently solve mechanics at the frozen v18 damage field and
+  AT2 at its frozen history using the adopted validated operators, reporting
+  convergence, drift amplitude, reactions and field discrepancies. Recompute
+  the direct-q driver against the original checked parent history and inspect
+  its fixed-H AT2 solve. Keep these oracle fields diagnostic-only; do not
+  use them as network training targets or committed load states.
+- Why: Several joint weighting/enrichment probes trade damage and mechanics
+  defects around `0.0067` without reproducing unloading. An independent audit
+  distinguishes representation/optimization error from a near-singular or
+  drifting physical fixed-field problem before more neural-budget changes.
+- Alternatives rejected: silently distilling direct solutions into the PINN,
+  changing the frozen solver, declaring the near-one damage maximum successful
+  opening, or diagnosing model instability from neural optimizer failure alone.
+- Related: `examples/fracture2d/frozen_field_audit.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Isolate the physical coupling branch with diagnostic-only exact subproblems
+- Decision: Run 24 fixed-`0.0067` oracle sweeps from the same neural damage and
+  checked `0.0066` parent context, using strict fixed-d mechanics PCG and exact
+  fixed-H AT2 solves, original `omega=0.5` and unchanged committed-history
+  maximum. Save all defects and drift amplitudes; never use these fields as
+  neural targets, accepted states or advancing PINN history.
+- Why: The fixed-field audit converges mechanics in 302 iterations to relative
+  `9.26e-10`, but its exact field already has 2 drift nodes and displacement
+  maximum `3.743` times load; fixed-H neural damage is accurate to `0.000521`.
+  Determine whether the oracle's coupled branch unloads and whether localized
+  drift persists before interpreting the neural failure as optimization alone.
+- Alternatives rejected: guessing a stabilization law, overriding the zero-drift
+  gate, calling an exact fixed-field solve a coupled fracture solution, or
+  quietly distilling oracle fields into the neural model.
+- Related: `examples/fracture2d/frozen_field_audit.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Compare intact and damaged tangent modes before proposing model changes
+- Decision: Independently audit the existing constrained tangent at intact and
+  v18 damage fields, using matrix-free extremal eigenpairs, explicit Ritz
+  residual checks and nodal participation/localization. Save diagnostics only;
+  do not change the operator or add uncalibrated stabilization.
+- Why: Exact oracle sweeps reduce reaction `664.4 -> 614.3` but retain two
+  drifting nodes whose maximum displacement grows to `21.12` times load,
+  with history `2.08e6` and coupled AT2 inf `32.47` after 24 sweeps. Distinguish
+  a soft localized damaged mode from neural conditioning/representation and
+  from an actual negative/zero tangent mode before deciding the next formulation.
+- Alternatives rejected: declaring every optimizer failure a model defect,
+  inferring eigenvalues from CG iteration count, changing `k_res` or graph
+  visibility without a separate physical decision, or hiding crack-core drift.
+- Related: `examples/fracture2d/operator_spectrum.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — User selects model/soft-mode review with current equations and checks retained
+- Decision: The user explicitly chose "先审查模型与软模态（推荐）". Continue
+  mathematical/source-backed review before any model or gate change. Compare
+  both the Euclidean force-tangent spectrum and the natural union-volume
+  displacement-norm spectrum (`A v = lambda V v`, implemented symmetrically
+  as `V^(-1/2) A V^(-1/2)`). This is an audit metric, not added inertia.
+- Why: Euclidean low eigenvectors alone can conflate tiny quadrature volumes
+  with loss of physical energy control. Existing calculations show strictly
+  positive damaged eigenvalues, so calling these true hourglass/zero-energy
+  modes or adding stabilization would be premature. The current kernel,
+  degradation/history laws, graph, reference and all-material drift gate stay.
+- Sources: Kristensen/Martinez-Paneda (2020), pp. 4–5, Eqs. (23),(25),(30),(31),
+  distinguishes fixed-d stiffness conditioning and residual/correction checks;
+  Chen/Spencer (2019), OSTI accepted manuscript 1572458, Section 4,
+  Eqs. (24)–(26), characterizes energy positivity, not a displacement envelope.
+- Alternatives rejected: confusing a positive localized soft mode with a
+  proven negative/zero mode, interpreting raw force norms as volume-weighted
+  physical field norms, or changing the model to force the PINN curve to drop.
+- Related: `examples/fracture2d/operator_spectrum.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — Audit degradation positivity and transmission without adding stabilization
+- Decision: Verify the project-owned A2 energy's directional Loewner bounds,
+  decompose localized mode energy by source center, and probe the unchanged
+  mechanics operator across prescribed fully damaged strips of widths
+  `0.008/0.024/0.048/0.096/0.144` at load `1e-4`. These synthetic fields are
+  not AT2 solutions, accepted states or training targets. Keep `k_res=1e-8`.
+- Derivation: Write `A(d)=sum_i w_i(d) A_i`, with each fixed-geometry `A_i`
+  positive semidefinite. The phase center ratio `alpha_i=w_i(d)/w_i(0)` is
+  between `k_res/(1+k_res)` and 1, including intact grip contributions.
+  Therefore `alpha_min A(0) <= A(d) <= alpha_max A(0)` in quadratic-form
+  order. Strict intact free-block positivity implies fixed-d positivity.
+- Why: Volume spectra remain positive and condition estimates grow only
+  `34234 -> 36959 -> 43344`, even as crack-core displacement grows. Separate
+  expected degradation/tiny-volume effects from true correspondence instability,
+  and test whether fixed kinematic neighborhoods transmit across a failed band
+  before introducing damage-aware graph/kinematic changes.
+- Alternatives rejected: adding a penalty just because Euclidean modes are
+  localized, calibrating `k_res` solely to the drift envelope, or treating a
+  prescribed strip as a solved fracture profile.
+- Related: `examples/fracture2d/degradation_audit.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-01 — User authorizes an independent scale-separation validation branch
+- Decision: The user explicitly chose "验证尺度分离（推荐）" after the completed
+  model review. Retain plane strain, Amor history, AT2 and the A2 energy form,
+  but independently declare mechanics horizon, damage horizon, and physical
+  grip extent. Initial pilot: material far size `0.008`, near size `0.004`,
+  grip spacing `0.008`, mechanics horizon `0.016`, damage horizon `0.048`,
+  grip extent `0.048`. Refined comparison: material/grip size `0.004`, mechanics
+  horizons `0.008` and `0.016`, same damage horizon and grip extent. Keep all
+  constitutive constants and current range/healing/drift checks unchanged.
+- Why: The synthetic `d=1` band at width `l0=0.024` retains 86.86% of intact
+  reaction with the old common horizon. Positivity/source audits do not show
+  a true zero-energy instability, so scale separation/refinement is a more
+  controlled next test than an arbitrary stabilization or new damage law.
+  The pilot checks implementation/rank first; it is not claimed mesh-converged.
+- Boundary discipline: retain original physical collar extent and all added
+  collar vertical constraints. Refining the ghost spacing must not silently
+  replace the engineering volume-grip BVP by the older outer-row-only BVP.
+- Verification: common-horizon baseline equivalence; rank/affine patches;
+  energy/force and reaction-work consistency; failed-band transmission; then
+  independent new reference loading and PINN. Old solver, clouds, reference
+  and accepted SHA chain remain immutable and cannot certify the new branch.
+- Alternatives rejected: lowering a horizon on an unresolved cloud with a
+  silent rank fallback, changing grip/loading geometry with horizon, treating
+  Bie (2023) cohesive plane-stress laws as an unchanged AT2 fix, and adopting
+  diagnostic synthetic damage as a PINN fracture state.
+- Related: `docs/tasks/fracture2d-nonlocal-pinn.md`,
+  `examples/fracture2d/mesh.geo`.
+
+## 2026-10-01 — Build a strict independent reference with explicit damage PCG and larger outer budget
+- Decision: Reference loading for the validated fine split model uses the same
+  volume-multiplied AT2 SPD system, solved by Jacobi-PCG with explicit residual
+  recomputation (rtol `1e-11`, atol `1e-14`, maxiter 2000), and strict FP64
+  mechanics. Require three consecutive coupled-residual/field-change/physical
+  passes; preserve original committed history through each load. Reference
+  fields remain comparison-only, never neural training targets.
+- Verification: Damage PCG matches the frozen independent sparse direct solve
+  on a manufactured cloud, and deliberately exhausted CG fails loudly.
+  Fine-model loads 1–40 passed strict reference checks. Load 41 (`0.0041`)
+  exhausted 200 sweeps solely at coupled AT2 relative inf `3.88e-6 > 1e-6`,
+  with zero drift and still decreasing small field changes.
+- Follow-up: A separate read-only fork verifies all 40 committed field digests
+  and raises the outer budget to 1000, leaving all tolerances/physics/load
+  increment unchanged. Do not relabel or overwrite the completed rejection.
+- Alternatives rejected: a sparse factorization of the 35-million-edge damage
+  graph at every sweep, relaxing the nearly passing coupled threshold, copying
+  rejected history into a successor, or pretending reference success is PINN.
+- Related: `examples/fracture2d/split_reference.py`,
+  `tests/test_fracture2d_split_reference.py`,
+  `docs/tasks/fracture2d-nonlocal-pinn.md`.
+
+## 2026-10-02 — Bound split-reference diagnosis and prioritize PINN damage/reaction
+- Decision: The user authorizes repairing the current direct bottleneck and
+  then connecting the split model to PINN, prioritizing damage fields and
+  reaction curves. Other unmet checks may be retained as explicit warnings;
+  record original values/limits and distinguish diagnostic advancement from
+  strict acceptance. Nonfinite or malformed arrays remain fatal.
+- Numerical experiment: compare unchanged damped Picard against an explicit
+  undamped Picard retry at the same load, initialized from the SHA-verified
+  uncommitted trial while retaining the original accepted state-41 history.
+  This changes only the outer iteration, not equations or physical thresholds.
+- Why: latest state-42 sweep 610 has converged mechanics and zero drift, but
+  coupled AT2 relative inf 0.057585 and damage change 0.012071. There is no
+  demonstrated implementation bug; first test whether slow crack-front
+  propagation under fixed damping is the bottleneck. PINN integration need not
+  wait for a complete post-peak reference path.
+- Alternatives rejected: deleting the split branch, overwriting old rejection
+  or trial records, promoting warning states to strict reference, importing
+  trial history as committed history, or using reference fields as targets.
+- Related: active fracture2d PINN task, split_reference.py, split PINN bridge.
+
+## 2026-10-02 — Preserve the previous direct resume point during field publication
+- Decision: New split-reference writes use generation-named trial NPZ files,
+  then atomically publish their filename/hash in progress.json. Retain legacy
+  fixed-name trial compatibility, with identity/digest validation in both cases.
+- Why: An interruption between replacement of trial.npz and progress.json could
+  leave the previous progress pointing to different field bytes. A manufactured
+  interrupted-next-generation regression protects the previous valid snapshot.
+- Alternatives rejected: bypassing SHA checks on resume or inferring committed
+  history from the newest uncommitted file. No numerical equation changes.
+- Related: split_reference.py, test_fracture2d_split_reference.py. The already
+  running omega-one probe loaded the prior fixed-name writer; subsequent runs
+  use the generation-pinned writer.
+
+## 2026-10-02 — Compare neural energy minimization after split residual training stalls
+- Decision: Add an explicit fixed-d A2 energy mechanics objective in a separate
+  split PINN trial, keeping damage's fixed-H AT2 loss and every raw report/check.
+  Normalize energy by E times prescribed displacement squared times union
+  volume, a positive load-dependent constant. Residual-MSE remains selectable.
+- Why: Real fine-cloud residual training (3 sweeps, 2000 updates per block)
+  reduces mechanics MSE to 0.09324 but reaction error is 72.93% at the first
+  load. The previously verified energy gradient equals assembled force; its
+  fixed-d SPD stationary equation is the same constrained mechanics equation.
+  This tests a different neural optimization metric rather than weakening the
+  reaction comparator or adding supervised reference targets.
+- Alternatives rejected: advancing the rejected first load, fitting reference
+  displacement/reaction/damage, or labeling small absolute low-load damage RMSE
+  as fracture success. No constitutive or history equation changes.
+- Related: split_pinn.py and manufactured split energy/force checks.
+
+## 2026-10-02 — Use explicit final-block first-passage comparisons for split PINN
+- Decision: Preserve the completed rejected load 4; a new read-only neural
+  prefix fork may inherit loads 1–3 and stop the final mechanics block at its
+  first logged report satisfying damage RMSE and reaction limits. Keep every
+  secondary warning and warning ancestry. Config binds this stopping policy.
+- Why: Load 4's sweep 2 reaction error is 0.504%, but the fixed-step final sweep
+  ends at 15.18%; constant-step Adam can leave an adequate reaction comparison.
+  The project already used final-block first-passage stopping in the adopted
+  PINN. Apply it online in a new trial, never retroactively promote sweep 2.
+- Alternatives rejected: relabeling the completed rejection, changing the
+  reaction tolerance, adding reference values to the objective, or importing
+  direct committed fields instead of learned neural predecessor fields.
+- Related: split_pinn.py and the earlier accepted first-passage policy.
+
+## 2026-10-02 — Advance the split neural prefix and audit localized damage
+- Decision: Continue unchanged energy/first-passage warning loading through
+  state 20 after states 7–10 meet primary comparisons. Add comparison-only
+  whole-field volume-weighted and tip-region damage diagnostics alongside
+  existing unweighted RMSE, maximum error, and reaction-curve error.
+- Why: State 10's global damage RMSE is 4.97e-5, but its maximum local error
+  is 0.003345 against a neural damage peak of 0.02207. Localized errors need
+  to remain visible as damage increases. The tip diagnostic region is explicitly
+  a radius-l0 disk about the benchmark's notch tip (0.5, 0.5), not a new BC,
+  loss, damage law, or acceptance gate.
+- Alternatives rejected: treating low-load RMSE alone as crack accuracy,
+  changing primary limits, adding reference supervision, or repeating the
+  failed direct undamped budget study during this loading segment.
+- Related: active fracture2d PINN task and split_pinn_report.py.
+
+## 2026-10-02 — Benchmark exact analytic pullbacks before more fine-cloud loading
+- Decision: User identifies fine-branch runtime as a concern. Pause loading at
+  the verified state-20 prefix and benchmark optional analytic reverse rules
+  for fixed-geometry A2 energy and material damage matvec, against unchanged AD
+  at identical learned fields/networks. Keep FP64, clouds, equations, objectives,
+  budgets, physical data and report thresholds unchanged.
+- Derivation: A2 energy is sum_e factor_e*density_e; its q gradient is the
+  previously verified assembled residual, and factor gradient is density_e.
+  For the scalar operator, V D is symmetric, hence D^T z = V D(V^-1 z).
+  These replace differentiation through large deterministic segmented scans,
+  not the forward physical operator. Verify values, parameter gradients,
+  independent finite differences/CSR transpose and single optimizer updates.
+- Why: The fine cloud has 71307 material points, 34779392 damage edges and
+  9011748 mechanics support occurrences. Generic reverse-mode through these
+  scans can dominate update cost; synchronized benchmarks must establish any
+  benefit before changing production training.
+- Alternatives rejected: shrinking the validated horizon/cloud, silently using
+  FP32, weakening gates, reference supervision, claiming a speedup without
+  measured warmup-separated GPU times, or guessing an adjoint.
+- API provenance: current JAX custom_vjp/defvjp and compiled.memory_analysis/
+  block_until_ready documentation verified via Context7 /jax-ml/jax.
+- Related: active fracture2d PINN task, planned split_pinn_gradients.py.
+
+## 2026-10-02 — Test deterministic row-padded reductions for the same discrete operators
+- Decision: After analytic scan pullbacks yield only 1.13x mechanics / 1.14x
+  damage update speedup, benchmark a second explicit layout: fixed-shape padded
+  row sums for the exact existing damage CSR entries, mechanics support moments,
+  and occurrence-to-particle force assembly. No edges, coefficients, quadrature,
+  dtype, constraints or physical equations change; padded entries contribute zero.
+- Why: Global associative scans over 35 million scalar edges and 9 million
+  mechanics occurrences remain costly. Short row reductions avoid their
+  multi-level intermediates and synchronization. Unlike the first reverse-only
+  option, this changes floating-point summation order, so compare primal values,
+  analytic and AD gradients, and optimizer updates with declared tolerances.
+- Alternatives rejected: atomic nondeterministic assembly, graph coarsening,
+  hidden FP32, or treating a layout change as a new constitutive model. Retain
+  original layout and snapshots; production adoption requires measured benefit.
+- Related: split_pinn_gradients.py, split_pinn_benchmark.py, active PINN task.
+
+## 2026-10-02 — Pair same-parent full and reduced budgets after kernel speedups prove modest
+- Decision: Keep legacy training unchanged; add an explicit new trial combining
+  analytic mechanics pullback and row-padded damage operator. Compare load 21
+  from the same verified neural state 20 against the existing 2000-update
+  blocks. A separate reduced-budget trial uses 200 mechanics / 500 damage
+  updates per block, retaining 3 sweeps and all comparisons/warnings.
+- Why: Measured fine-cloud kernel speedups are only 1.12x mechanics and 1.21x
+  damage; dense FP64 network work remains substantial. Long blocks already show
+  near-flat energy, so reducing redundant updates may provide greater benefit.
+  Do not infer equal field quality from speed or gate passage: compare complete
+  damage fields, local peaks, reaction errors and warning residuals at equal load.
+- Alternatives rejected: claiming a large kernel speedup, silently lowering
+  budgets on the old root, using FP32, or extrapolating a small-load budget to
+  critical crack growth without validation. Failed trial histories never advance.
+- Related: split_pinn.py, split_pinn_fast.py config and paired load-21 trials.
+
+## 2026-10-02 — Retain a measured fast small-load continuation, with accuracy tradeoff explicit
+- Decision: Retain the optional fast config (analytic mechanics, padded damage,
+  200/500 block updates) for the tested small-load continuation. Its default
+  read-only parent is the more accurate full-budget state 21, and it completed
+  states 22–23. Keep the full-budget config and all comparison roots.
+- Why: At identical load 21 and parent 20, load wall time fell 956.48 -> 321.01 s
+  (2.98x), damage RMSE 1.331e-4 -> 1.357e-4, and damage fields differ by 0.1213%
+  relative L2. Reaction error worsened 1.176% -> 2.790%, still below 5%; do not
+  conceal that tradeoff. Cold model build remains ~8 min, so build-plus-load
+  speedup is only 1.84x. Warm state 23 took 113.19 s and passed primary checks.
+- Scope: FP64, graph, constitutive data and thresholds are unchanged. This is
+  fewer optimization updates plus implementation optimization, not an improved
+  fracture formulation or proof that the reduced budget works near failure.
+  Same mechanics/AT2/outer-change warnings remain; critical direct load is unresolved.
+- Alternatives rejected: a blanket multi-fold kernel-speed claim, claiming
+  equivalent training trajectories after changing budgets, adopting padded
+  mechanics despite no measured benefit, or loosening the reaction gate.
+- Related: fast config, timing.json, paired benchmark/quality JSONs in tf-logs.
+
+## 2026-10-02 — Prepare safeguarded Anderson for the unresolved split-reference critical load
+- Decision: Keep mainline PINN loading active; prepare a separately identified
+  Type-II Anderson residual strategy for the fixed accepted-history direct map
+  G(d) = AT2(max(H_committed, Amor(u(d)))). Use pivoted QR, depth 5, beta 0.5,
+  and normalized infinity map residual for candidate selection. Candidate
+  backtracking interpolates from the ordinary Picard point toward the Anderson
+  proposal, with alpha=1/2^j for j=0..4; never clip damage or accumulate trial H.
+- Source: Walker/Ni (2011), DOI 10.1137/10078356X, p.1716 Eq.(1.2), p.1722
+  Eq.(3.1) and the following Type-II update, pp.1725–1726 QR/rank discussion.
+  The archived reviewed project implementation uses the same QR/update form.
+  Backtracking, bounds/physics prerequisites and 0.995 merit factor are explicit
+  project numerical safeguards, not a new constitutive model or convergence proof.
+- Why: Fixed damped and undamped Picard both failed the split critical load;
+  simply adding sweeps has not solved the propagating damage front. Candidate
+  map evaluation must include strict mechanics, fixed-H damage and unchanged
+  committed history; final coupled and physical reference gates remain intact.
+- Alternatives rejected: weakening reference tolerances, committing trial
+  history, clipping extrapolated fields, modifying the frozen baseline, guessing
+  stabilization, or running another GPU solve concurrently with PINN loading.
+- Relation: active fracture2d PINN task, split_reference.py, planned Anderson helper.
+
+## 2026-10-02 — Refine mechanics after the fast mainline load 25 rejects
+- Decision: Preserve the completed load-25 rejection in the fast root. Fork
+  read-only from its last usable neural state 24 and raise mechanics block
+  budget 200 -> 1000, leaving damage budget 500, three sweeps, operator mode,
+  material data and all comparisons/warnings unchanged. First endpoint is 30.
+- Why: Damage RMSE 0.00017594 and zero drift pass, but reaction error 11.18%
+  fails the primary 5% criterion. Give the existing energy optimizer more
+  online report opportunities before proposing a different neural objective.
+- Alternatives rejected: warning-advancing a failed primary comparator, reusing
+  rejected trial history, rewriting load 25, loosening 5%, or continuing the
+  inadequate 200-step budget automatically.
+- Relation: main PINN task and pinn_split_main_refine_from24_20261002.
+
+## 2026-10-02 — Retain valid Picard secants when critical-load extrapolation is rejected
+- Decision: Preserve the completed 120-sweep Anderson rejection. Add an explicit
+  rank-only restart option: rejected accelerated trials are never stored, but
+  valid evaluated Picard points retain their fixed-map secant history. QR rank
+  deficiency still restarts. A new critical-load fork uses beta 1 and numerical
+  sufficient-decrease coefficient 0.001, with the same final reference gates.
+- Why: The pilot's late histories repeatedly have size 1 and select Picard;
+  at sweep 80, an admissible alpha=0.0625 trial reduces merit 0.016031 ->
+  0.015954 but misses the fixed 0.995 decrease factor. Sweep 120 remains
+  coupled-unconverged (AT2 relative 0.0216895, reaction 363.148). Resetting all
+  valid secants on every rejection prevents the declared depth-5 model forming.
+- Source: Walker/Ni Eq.(1.2), Eq.(3.1), Section 4: retaining recent fixed-map
+  evaluations and controlling QR conditioning. The rank-only restart and
+  weaker numerical merit factor are declared safeguards, not physical relaxation.
+- Alternatives rejected: overwriting the failed root, weakening PDE/physical
+  acceptance, using rejected trial H as committed history, or further unchanged
+  Picard-budget escalation.
+- Relation: anderson.py, split_reference.py, critical reference retry.
+
+## 2026-10-02 — Allow rank-conditioned longer secant windows at the localized crack front
+- Decision: Add an explicit drop-oldest rank strategy, retaining recent
+  independent secants instead of resetting the entire window when old columns
+  are dependent. The next bounded critical-load trial may use depth 20 with
+  rank-only restart and the already declared beta/decrease controls.
+- Evidence: The retained depth-5 pilot reaches the nonlinear defect at x~0.672,
+  y~0.5, not the original notch tip. Its recent residual-vector correlations
+  are 0.968–0.999, with same-sign local growth and accepted extrapolations that
+  can retreat the front. This is diagnostic evidence of a difficult coupled
+  map, not proof of a zero-energy mode or a changed constitutive law.
+- Source: Walker/Ni Section 4, pp.1725–1726 recommends discarding old columns
+  to preserve conditioning and application-dependent longer windows. Check
+  the drop against an independent reduced-window least-squares calculation.
+- Alternatives rejected: retaining rank-deficient QR columns, clipping the
+  candidate, committing trial history, or declaring a stable fracture branch
+  from a small reaction change alone.
+- Relation: anderson.py and reference42_secant_audit_20261002.json.
+
+## 2026-10-03 — User returns the mainline to the old validated kernel
+- Decision: Explicitly return the fracture PINN mainline to the original
+  3395-node common-horizon A2/Amor/AT2 branch and its verified state-59 prefix.
+  Preserve its geometry, physical constants, operator/residual implementation,
+  FP64 subproblem kernels and all accepted snapshot bytes. Stop the owned
+  split-reference GPU process and retain its generation-pinned progress.
+- Why: User asks for minimal repairs on the old stable kernel rather than
+  continued new-model development. The old fixed-load-60 36-sweep diagnostic
+  already separates inner fixed-H error (0.03089) from relaxation/history lag
+  (coupled AT2 0.43069, adjacent reaction change 1.11%). Focus on this concrete
+  numerical bottleneck first, not another constitutive/discretization change.
+- Scope: No remaining kernel bug is assumed. Missing coupled readiness and
+  constant-step optimizer oscillation are audited as numerical limitations;
+  fixed thin-band transmission remains a documented model/discrete-support
+  property and cannot be silently corrected as a coding bug.
+- Alternatives rejected: deleting split artifacts, editing the frozen baseline,
+  importing split fields into the old cloud, reference supervision, or claiming
+  that minimal numerical repairs guarantee traction-free fracture.
+- Relation: active fracture2d PINN task; original stagger/fixed-load diagnostics.
+
+## 2026-10-03 — Audit a force-dual norm without changing the old operator
+- Decision: Compare frozen-d mechanics polishing of the same old load-60
+  snapshot using original force RMS versus the volume-dual force norm, both
+  target-free, FP64 and identical network/optimizer initialization. The norm
+  follows virtual-work duality: ||R||_(V^-1)^2 = sum_i R_i^2/V_i with union
+  nodal volumes repeated for two displacement components. Normalize each by
+  its first-load affine RMS and the same load ratio. A final-quarter linear
+  learning-rate taper 1e-4 -> 1e-5 is declared for both comparisons.
+- Why: Exact fixed-d mechanics changes old trial-36 H by 15.4563 and the
+  fixed-H damage discrepancy from 0.000682 to 0.013629, despite only 0.7006%
+  displacement error. Raw integrated-force RMS may underweight tiny-volume tip
+  DOFs; compare measured field/driver improvement before changing production.
+- Alternatives rejected: importing exact fields as targets, assuming an operator
+  bug, changing old geometry/horizon/material law, or using a new physical
+  formulation to manufacture reaction decline. This is an optimizer diagnostic.
+- Relation: legacy_kernel_audit_20261003.json and frozen mechanics norm probe.
+
+## 2026-10-03 — Retain the old loss and isolate late-stage numerical refinement
+- Decision: Do not adopt the tested volume-dual loss: it slightly reduces raw
+  force maximum but worsens q/driver errors. Preserve the original force-RMS
+  objective and add only an optional final-quarter update taper, plus a separate
+  numerical-trial seed distinct from the accepted parent q/d/H context.
+  Continue the completed old 36-sweep trial in a new fixed-load root, retaining
+  the exact state-59 committed history and recording explicit coupled readiness.
+- Why: Paired 5000-update probe ends with H error 15.39 for original loss versus
+  15.95 for volume-dual. The tapered original-loss reaction settles 639.569 near
+  exact fixed-d 639.417, whereas constant-step reports had swung 638.35–642.19.
+  Taper improves numerical quietness, not demonstrated full-field accuracy;
+  the coupled experiment must establish whether it helps convergence.
+- Scope: Trial networks/optimizer/damage iterate are initial guesses only; trial
+  H never becomes the committed floor. Readiness requires declared residual and
+  adjacent-field/reaction checks and does not retroactively change old acceptance.
+- Alternatives rejected: changing the stable operator, adopting a worse norm,
+  committing an unconverged trial to resume it, or reporting optimizer smoothing
+  as a corrected constitutive law or guaranteed crack convergence.
+- Relation: stagger.py, planned legacy_coupling_refine.py, preserved old diagnostics.
+
+## 2026-10-03 — Continue fixed-load old-kernel refinement after a measured improvement
+- Decision: Preserve the completed 12-sweep refinement and start a separate
+  36-sweep numerical continuation from its trial, retaining original state-59
+  committed q/d/H. Keep the old objective/operators/stage budgets/omega; declare
+  final-quarter taper ratio 0.01 (1e-6 terminal rate) instead of 0.1.
+- Evidence: Reaction error 0.393% -> 0.0211%, adjacent reaction change
+  1.1138% -> 0.002389%, damage RMSE 0.00089945 -> 0.00080242 and coupled AT2
+  relative 0.00135370 -> 0.00085042. Readiness remains false for field/history
+  changes and AT2; no trial history advances to a new load.
+- Reason: Reduce remaining optimizer noise while continuing the same concrete
+  residual/lag correction; do not promote reaction accuracy to full convergence.
+- Alternatives rejected: loosening the newly declared readiness limits, rewriting
+  the completed experiment, changing the physical kernel, or loading trial H
+  as the committed lower bound.
+- Relation: legacy_coupling_refine.py and old fixed-load numerical forks.
+
+## 2026-10-03 — Test removal of residual relaxation lag on the same old fixed load
+- Decision: Preserve the 36-sweep stronger-taper result, which remains not
+  coupled-ready. Test an explicit numerical coupling omega 1 in a new 12-sweep
+  fork from its complete trial, keeping original omega 0.5 as the legacy default,
+  operators/objectives/stage budgets, accepted state-59 history and all limits.
+- Evidence: Final AT2 inf 0.0762087 decomposes into relaxed fixed-H 0.0581883
+  versus solved fixed-H 0.0222866 plus current-history shift 0.0180204. The
+  damping lag still exceeds the inner fitting error. Reaction is already stable
+  (relative reference error 0.00723%, adjacent change 0.002995%) with zero drift.
+- Derivation: Nonzero omega changes the fixed-point iteration, not its stationary
+  equation d=G(d). Omega 1 directly uses the neural fixed-H image; validate
+  boundedness/history/field convergence instead of assuming stability.
+- Alternatives rejected: relabeling readiness, clipping damage, committing seed
+  H, changing the stable physical kernel, or continuing an unchanged budget.
+- Relation: old stagger's optional numerical mixing selector and refinement wrapper.
+
+## 2026-10-03 — Keep readiness limits while finishing the old fixed-load correction
+- Decision: Preserve the completed omega-1 refinement and continue a new
+  eight-sweep trial from it with identical numerical settings and original
+  state-59 history floor; do not relax readiness or advance load 61 yet.
+- Evidence: AT2 relative 6.6386e-5 passes 1e-4; damage/H/reaction changes and
+  physical checks pass. Only q adjacent change 1.1144e-4 is above its 1e-4
+  threshold. Reaction error is 0.0103%, damage RMSE 0.00074088, zero drift.
+- Why: A short unchanged correction from a new numerical iterate tests the
+  remaining near-boundary stationarity rather than redefining convergence.
+- Alternatives rejected: post-hoc threshold relaxation, calling the whole
+  fracture path solved, or committing trial H as the physical lower bound.
+- Relation: old-kernel fixed-load finishing trial and readiness reports.
+
+## 2026-10-03 — Stop mechanics-after only on same-pass coupled readiness
+- Decision: Add an optional report-time stop for the mechanics-after inner
+  block, requiring every predeclared coupled/adjacent-field check and the old
+  physical/mechanics gates at that exact state. Keep all thresholds, objective,
+  architecture and operators unchanged; convergence still requires three
+  completed outer sweeps. This is a separately identified old-kernel trial.
+- Why: The fixed-count finish misses readiness again: q change 1.0947e-4 and
+  current-H AT2 1.5770e-4, despite fixed-H residual ~6.72e-5 and small d/H/R
+  changes. Inner mechanics work can move the history after the damage solve;
+  blind fixed-count endpoints are not a coupled stopping rule. Do not relax
+  thresholds or call an earlier unrecorded endpoint converged retrospectively.
+- Alternatives rejected: post-hoc selection, freezing the whole displacement
+  field to manufacture zero changes, committing unready fields, altering the
+  physical kernel, or unbounded unchanged sweep escalation.
+- Relation: stagger.py optional after_stop callback and legacy refinement wrapper.
+
+## 2026-10-03 — Validate the required three outer confirmations without changing limits
+- Decision: After the coupled-report-stop trial ends with every readiness check
+  passing for two consecutive outer sweeps, run a separate four-sweep continuation
+  with the same settings. Four is the minimum existing experiment budget above
+  the original three-sweep parent; the first adjacent check remains unavailable.
+- Evidence: Latest AT2 relative 6.4320e-5, q change/load 7.4818e-5, damage change
+  3.5183e-5, H change 1.0375e-4 and reaction change 2.6956e-5 all pass, but
+  consecutive count 2 < 3. Preserve false readiness rather than changing counts.
+- Alternatives rejected: importing a confirmation counter without predecessor
+  binding, post-hoc acceptance, weakening three confirmations, or changing physics.
+- Relation: final old-kernel coupled-confirmation run from numerical iterate 112.
+
+## 2026-10-03 — Advance the old kernel only from verified coupled-ready diagnostics
+- Decision: Implement a separately bound single-load warning continuation from
+  ready state 60 to 61, reusing the original stagger core and physical operators.
+  Recheck the bound diagnostic fields and its last three full-sweep readiness
+  reports against unchanged limits before making its neural H/d the next-load
+  history floor. A same-load numerical seed remains separate and cannot commit H.
+- Why: The user requested the next step after the fixed-load correction reached
+  three confirmations. Existing warning continuation allows physically usable
+  but uncoupled parents; the fixed-load correction entry cannot advance loads.
+- Alternatives rejected: retraining state 60, inheriting the old uncoupled
+  warning path, using reference H/d as a floor, relabeling strict acceptance,
+  changing the kernel, or advancing past a non-ready diagnostic.
+- Relation: legacy_coupling_refine.py, diagnostic_continuation.py and the active
+  fracture2d-nonlocal-pinn task. Use an explicit 16-sweep initial state-61 budget
+  with the demonstrated quarter-tail ratio 0.01, omega 1 and same-pass after-stop.
+
+## 2026-10-03 — Bound the measured load-61 outer correction at 32 further sweeps
+- Decision: Preserve the completed 16-sweep state-61 experiment and use it only
+  as a same-load numerical seed in a new 32-sweep root. Keep neural state 60 as
+  the committed H/d floor and all operators, budgets, taper, mixing and limits.
+- Evidence: AT2 relative fell 0.0146814 -> 0.00185121, damage RMSE 0.00413883
+  -> 0.00137089, reaction error 0.8575% -> 0.2002%, with zero drift. Fixed-H
+  residual is 0.02298 versus current-history 0.63112; history shift dominates.
+  Observed contraction is about 0.87/sweep over 1..16, not a proof of future
+  convergence. Thirty-two additional sweeps provide a bounded test of reaching
+  the existing 1e-4 AT2/q/d and 1e-3 H/reaction limits with three confirmations.
+- Alternatives rejected: advancing to 62 while unready, weakening thresholds,
+  committing the seed's H, changing the kernel/loss, or open-ended budget growth.
+- Relation: legacy_coupled_loading.py same-load seed and active load-61 task.
+
+## 2026-10-03 — Test only the remaining load-61 displacement stationarity
+- Decision: Preserve the completed 32-sweep correction and run one short
+  eight-sweep same-policy confirmation from it, again with state-60 H/d floor.
+  Do not advance to 62 or loosen the displacement change/three-pass criteria.
+- Evidence: At cumulative sweep 48, AT2 relative 6.63504e-5, damage change
+  4.97074e-5, H relative 3.85078e-4, reaction relative 5.30874e-8 and physical
+  gates all pass. Only q change/load 1.65531e-4 exceeds 1e-4. This is now a
+  single near-threshold field-stationarity deficit, rather than the prior
+  order-of-magnitude outer/history residual. Reaction error is 0.10634%,
+  damage RMSE 0.00105371, zero drift, readiness remains false.
+- Alternatives rejected: treating the reaction/AT2 passage as full readiness,
+  moving the q threshold, freezing displacement to manufacture zero change,
+  inheriting trial H, or an unbounded unchanged-budget loop. If this bounded
+  confirmation fails, record the actual field/optimizer blocker before another
+  numerical policy is selected.
+- Relation: legacy_coupled_loading.py state-61 finishing confirmation.
+
+## 2026-10-03 — Stop load-61 outer budget growth at the localized q deficit
+- Decision: Keep the completed 56-sweep state-61 checkpoint diagnostic-only and
+  refuse advancement to 62. Next isolate fixed-d mechanics/driver stationarity
+  with the same original network/objective and state-60 history floor before
+  selecting another numerical correction. Preserve all current thresholds.
+- Evidence: Final q/load 1.33009e-4 remains above 1e-4; the maximum is the
+  notch-tip y displacement at particle 1868. Other readiness gates pass, AT2
+  relative is 6.26948e-5, reaction error 0.10383%, damage RMSE 0.00104875,
+  zero drift/H decrease. Tip changes keep one sign while some whole-field
+  changes reverse; force loss continues decreasing. Fresh original-kernel
+  checkpoint/physics replay succeeds and the next-load reader actually refuses
+  the unready parent. No new kernel/BC/serialization defect is demonstrated.
+- Alternatives rejected: moving the q tolerance, reducing/freezing updates
+  simply to create small changes, another unchanged outer-budget escalation,
+  committing unready H, or interpreting accurate scalar response as convergence.
+- Relation: final state-61 parent_replay.json, displacement-change plots and
+  docs/tasks/fracture2d-nonlocal-pinn.md exact fixed-d diagnostic resume point.
+
+## 2026-10-03 — Resume with a bounded state-61 fixed-d mechanics diagnostic
+- Decision: On the user's request to continue solving, restore the verified
+  numerical iterate 56 and its Adam state, fix its damage, and run three
+  original 16k mechanics blocks with the same residual objective, quarter-tail
+  ratio 0.01 and state-60 history floor. Use an exact fixed-d solve only for
+  diagnostics, never as neural training targets or an initial field.
+- Reason: Separate slow inner mechanics evolution from changing-d coupling
+  before choosing a local numerical correction for the remaining q criterion.
+- Alternatives rejected: another blind outer-budget extension, changing the
+  physical kernel/limits, committing trial H, or freezing q to fake readiness.
+- Relation: active fracture2d-nonlocal-pinn task and original FP64 backend.
+
+## 2026-10-03 — Compare fixed-d original-residual L-BFGS before integration
+- Decision: Run a separate bounded FP64 L-BFGS-B probe on the same original
+  normalized force-MSE objective at fixed state-61 damage, starting from neural
+  iterate 56. Explicit controls: maxiter 1000, maxfun 5000, maxls 40, maxcor 30,
+  ftol 1e-15, gtol 1e-10. Exact fields are comparison-only, no training targets.
+- Evidence: Three original 16k Adam blocks improve loss only 4.46110e-6 ->
+  4.40275e-6 (1.31%); q-vs-fixed-d-exact L2 remains 0.537%, driver inf error
+  remains ~39.95. This isolates poor inner optimization/representation progress,
+  not solely outer damage lag. A line-search numerical comparison is justified.
+- Alternatives rejected: lowering updates to fake q stability, changing the
+  kernel/objective, or deploying an untested optimizer into coupling. No L-BFGS
+  result is accepted as a physical/coupled state by this probe.
+- Relation: SciPy L-BFGS-B documentation verified via Context7 and official API;
+  existing inner_probe.py already uses this API for a different objective.
+
+## 2026-10-03 — User explicitly chooses warning continuation to inspect trends
+- Decision: Add explicit --warning-continue to the old single-load entry and
+  run diagnostic loads 62..65 with four original-budget sweeps each. The user
+  selected warning continuation rather than requiring q stationarity first.
+  Coupled/adjacent failures are retained unchanged as warnings; the original
+  finite, mechanics, damage range/healing, history and zero-drift gates remain
+  hard stops. All states and ancestry remain diagnostic-only, never strict.
+- Reason: Obtain the requested damage/reaction trend from the corrected old
+  neural prefix, while accurately disclosing uncoupled history transitions.
+- Alternatives rejected: silently bypassing the ready-parent guard, relaxing
+  thresholds, using reference H/d, adopting the inconclusive L-BFGS probe, or
+  claiming strict fracture/unloading validation from these warnings.
+- Relation: explicit user answer to the continuation-mode question, original
+  diagnostic_continuation policy and legacy_coupled_loading.py. L-BFGS exhausted
+  1000 iterations with only ~0.12% force-loss improvement; it is not adopted.
+
+## 2026-10-03 — Continue warning loading to observe reaction decline
+- Decision: On the user's explicit further-solving request, restore verified
+  diagnostic state 65 and extend the same original-kernel warning path through
+  states 66..75 or the first physical/mechanics hard stop. Keep four 16k/12k/16k
+  sweeps, quarter-tail 0.01, omega 1, all physical gates and all warning labels.
+- Reason: Determine whether the slight observed 0.0064->0.0065 reaction decline
+  continues at higher prescribed displacement; provide actual trend/results.
+- Alternatives rejected: tuning to force unloading, relaxing drift/bounds,
+  adopting optimizer probes, changing the frozen kernel, or promoting warnings
+  to strict fracture validation.
+- Relation: active task, user-authorized --warning-continue contract and
+  state-65 diagnostic SHA 189b7d068b4e7a006f63c6da6aa19bcaa52c351437e861b9314ce120730a7474.
+
+## 2026-10-03 — Retain the original drift hard stop after observed softening
+- Decision: Stop at rejected state 70 and retain state 69 as last usable warning
+  parent. Do not continue 71..75, clip/remove its drifting particle, or reinterpret
+  the authorization to warn about coupling as permission to relax physical gates.
+- Evidence: Usable reaction falls 7.58054% from sampled 651.5889 peak to
+  602.1949 at 69. Candidate 70 gives 582.4343 but one node has norm/load
+  1.08363225 >1.08, independently reconstructed from the saved full field.
+- Reason: Answer the user's reaction-decline question using usable warning
+  observations, without promoting a hard-rejected endpoint or hiding drift.
+- Alternatives rejected: threshold enlargement, skipping 70, committing trial H,
+  calling the sampled decline validated fracture, or treating mixed/drifting
+  archived reference labels as strict truth.
+- Relation: legacy_warning_decline_20261003.json, rejected_field_audit.json and
+  active task exact parent/retry point.
+
+## 2026-10-03 — Diagnose the reaction gap before selecting a repair
+- Decision: Prioritize common-parent, fixed-load diagnostics over further
+  warning loading or reaction-curve tuning. Separate inner neural mechanics,
+  fixed-history damage, outer/history lag, and drifting-reference/model effects.
+  No new numerical/physical formulation is adopted in this analysis session.
+- Reason: State-69 fixed-H AT2 inf 0.085985 versus current-H 46.663634 and
+  history-shift 46.663074 directly identify a large outer mismatch. Fixed-d
+  state-61 neural q L2 error ~0.537% coexists with H inf error ~40. The archive
+  unloads through drifting/warning ancestry, so agreement is not strict truth.
+- Alternatives rejected: treating peak d or small average force MSE as proof
+  of fracture convergence, training on archived fields/reactions, attributing
+  a same-kernel PINN/direct discrepancy solely to horizon physics, or assuming
+  another Adam/L-BFGS budget solves the demonstrated plateau.
+- Relation: active task, coupling_0004.json, fixed-d probe.json and original
+  strip_transmission.json. Proposed exact/hybrid subproblem comparisons are
+  diagnostic benchmarks, not neural supervision or an adopted hybrid solver.
+
+## 2026-10-03 — Execute the common-parent subproblem diagnostic matrix
+- Decision: On explicit approval, compare all four direct/neural q/d combinations
+  at independent fixed loads 61/62 from verified neural state 60. Reset every
+  case to the same networks/Adam and q/d/H floor. Use original damped mixing
+  0.5 in all cases, eight matched outer sweeps; direct/direct has a separately
+  labeled maximum 64-sweep convergence budget. Original neural 16k/12k/16k,
+  quarter-tail 0.01, residuals and physical gates are retained.
+- Reason: Isolate solver substitutions without confounding different committed
+  histories, relaxation factors, geometry, or reference-supervised fitting.
+- Direct equations: use original FP64 A2 mechanics and volume-multiplied fixed-H
+  AT2 SPD equation; GPU Jacobi-CG uses tol 1e-11, atol 1e-13, maxiter 10000 and
+  explicit residual verification (JAX cg info is None, not a convergence flag).
+  Mechanics keeps 1e-9/1e-10/10000. A CPU sparse solve is a one-time independent
+  validation only, never a numerical fallback or production field.
+- Alternatives rejected: advancing 62 from case-dependent 61 histories,
+  comparing unmatched final budgets as matched causality, oracle field labels,
+  hidden CPU fallbacks, and changing the frozen kernel. A hard/numerical failure
+  stops that case, not the other independently initialized cases.
+- Relation: active task and approved plan; original AT2 derivation at
+  nonlocal_baseline.solve_fixed_history_damage, JAX cg official API verified.
+
+## 2026-10-03 — Prioritize outer path stability and neural mechanics after matrix evidence
+- Decision: Do not adopt a solver/physics rewrite or target-fit the archive from
+  these diagnostics. Next establish a converged direct-61 common-floor baseline,
+  then genuine small-step sequential loading and bounded outer stabilization;
+  address neural tip strain/driver accuracy alongside it. Fixed-H neural damage
+  is not the leading demonstrated bottleneck at the tested states.
+- Evidence: At matched sweep 8, direct-q/neural-d versus direct/direct reaction
+  differences are 8.71e-6 / 3.38e-6 at 61/62 and damage image errors ~6e-5.
+  Neural-q cases have q L2 ~0.62% but H errors ~23.17 / 35.87, primarily negative
+  near the tip. Direct/direct 62 hits drift at sweep 29 with accurate inner
+  solves and coupled AT2 relative 0.359. Direct/direct 61 does not drift within
+  64 but remains above research readiness, so it is not a converged baseline.
+- Limitations: Load 62 independently starts at the same neural state-60 floor;
+  this diagnoses a specific damped-Picard path, not all possible physical loading
+  paths or nonexistence of equilibrium. Matched 8-sweep data and longer direct
+  endpoints remain explicitly separated. No strict/reference validation result.
+- Alternatives rejected: blaming all differences on the damage network,
+  attributing drift solely to NN optimization, declaring exact-inner solves to
+  guarantee coupled convergence, or inferring a model/zero-energy defect without
+  continuation/stability controls.
+- Relation: subproblem_matrix.py and legacy_subproblem_matrix_20261003/matrix_report.json.
+
+## 2026-10-05 — Tighten direct-61 and test genuine sequential step sizes
+- Decision: On the user's continuation request, warm-start the saved direct-61
+  sweep-64 q/d under the original neural state-60 H/d floor, with up to 192
+  additional Picard sweeps (mixing 0.5). Require all declared AT2/d/q/H/reaction
+  dimensionless defects <=1e-6 and original hard gates for three consecutive
+  sweeps. This is a tighter diagnostic contract, not the complete frozen direct
+  archive acceptance contract or validation of the neural history ancestry.
+- Decision: Only if the baseline passes, independently start three genuine
+  sequential paths from it to load 0.0062: du 1e-4, 5e-5, 2.5e-5; max 256
+  sweeps per subload, commit each path's H/d only after the same convergence
+  contract. Keep failed trial history uncommitted and all physics gates unchanged.
+- Reason: Distinguish the earlier independent state-60->62 probe from actual
+  converged loading, and test whether step size changes the near-critical failure.
+- Alternatives rejected: silently adopting trial H at baseline 64, warning
+  commits during this controlled study, changing drift/material/kernel, or
+  calling a tight diagnostic baseline a fully validated reference.
+- Relation: direct_path_probe.py, frozen A2/AT2 primitives and common-floor matrix.
+
+## 2026-10-05 — Compare safeguarded Anderson at the finest failed subload
+- Decision: After tight baseline 61 passes and all three Picard step sizes
+  hard-stop on their first subload, add one bounded existing-Type-II-Anderson
+  diagnostic at .006125 from the same converged baseline. Max 128 steps,
+  depth 5, beta .5, sufficient decrease 1e-4, eight backtracks, reject_or_rank
+  restart and drop_oldest rank strategy; all physical/convergence limits unchanged.
+- Reason: Distinguish a damped-Picard map-iteration limitation from an absent
+  admissible algebraic solution under the same original equations/history.
+- Map: d -> direct q(d) -> max(H_parent,psi_plus(q)) -> GPU fixed-H AT2 image;
+  candidates are never clipped/projected. Existing helper's explicit Picard
+  fallback and candidate audits are part of the declared numerical method.
+- Alternatives rejected: another smaller-step-only budget increase, relaxed
+  drift bounds, new constitutive law, or treating an Anderson root as physical
+  energy/path stability or full reference validation without further checks.
+- Relation: anderson.py audited Walker/Ni formulation; direct_path_probe results.
+
+## 2026-10-05 — Preserve converged baseline; do not promote stalled stabilized trial
+- Decision: Retain the tight direct-61 diagnostic baseline as the only new
+  convergence-gated parent. Do not commit any of the three failed Picard trials
+  or the unready Anderson trial. Next investigate the coupled root/residual and
+  local stability/branch behavior under unchanged equations before selecting
+  another solver or model correction.
+- Evidence: Baseline AT2 relative 6.36e-7 and all changes pass 1e-6 three times.
+  Smaller Picard steps delay but do not remove one-node drift; all first targets
+  fail. Anderson selects 56 accelerated/72 Picard steps, remains non-drifting,
+  but residual plateaus near 1.98e-3 and does not meet the tight contract.
+- Reason: Avoid interpreting finite stable-looking iterates or accurate scalar
+  reactions as self-consistent fracture states. No evidence proves absence of
+  equilibrium or a specific zero-energy/model defect from these controls alone.
+- Alternatives rejected: warning-committing this controlled study, drift-limit
+  enlargement, another unbounded unchanged-budget loop, or declaring Anderson
+  a completed remedy without convergence/stability validation.
+- Relation: legacy_direct_path_v2_20261005/replay_report.json and explicit
+  Walker/Ni safeguarded-method control; original kernel remains frozen.
+
+## 2026-10-05 — Reassess supplied Sinha SGE fracture paper against current blockers
+- Decision: Treat the user's supplied full paper (JMPS 208, 106458,
+  DOI 10.1016/j.jmps.2025.106458) as a relevant homogeneous nonlocal fracture
+  comparator; no SGE, split, penalty, horizon or optimizer replacement is adopted.
+- Evidence: The paper was already reviewed on 2026-08-18 (archived direct task,
+  SGE model clarification). Sections 5.1/5.2 use uniform continuum parameters;
+  explicit heterogeneous unit cells motivate/calibrate the earlier study.
+- Reason: Equations 7–12 and 20 suggest auditing common-energy consistency and
+  crack-side support before selecting a new method. Current mechanics degrades
+  full elastic energy, damage uses the positive Amor maximum history, and the
+  graph damage energy differs from SGE gradient-squared energy. Individually
+  checked subproblem energies do not establish one joint variational potential.
+- Caveats: Derive direct equations with quadrature-weighted adjoints; printed
+  residuals 22/23 omit the full nonlocal adjoint/penalty and Eq.23 is AT2-like
+  despite the SEN AT1 description. Radius below ell alone does not prove
+  crack-side visibility. Eq.19 has tails outside [0,1]; log of total energy
+  does not independently rebalance component weights or guarantee conditioning.
+- Alternatives rejected: copying residuals/BCs or assuming published curves prove
+  current gates, using horizon calibration to fit the warning archive, replacing
+  history with a penalty as a supposedly equivalent numerical-only change, or
+  declaring SGE free of zero modes without analysis.
+- Relation: User paper inquiry; active fracture2d task. Recommended next audit
+  distinguishes original-map numerical convergence from an explicitly reviewed
+  alternative unified split-energy/irreversibility model; failed trial H remains
+  uncommitted and the original frozen kernel remains unchanged.
+
+## 2026-10-05 — Execute user-selected paired original A2 objective study
+- Decision: At fixed neural state-61 damage, reset both arms to the SHA-bound
+  iterate-56 network and fresh Adam. Compare normalized original free-force MSE
+  against original A2 elastic energy normalized by fixed-d affine energy; one
+  original 16000-update block, same learning rate and quarter-tail schedule.
+- Reason: User explicitly selected audit/energy training before a new model.
+  Fresh Adam in both arms avoids importing residual-specific moments into energy
+  training. This changes the neural objective, not fixed-d physical equilibrium.
+- Audit: verify field energy gradients, volume-weighted fixed-H damage energy,
+  and mixed directional derivatives of original mechanics versus frozen/current
+  history damage. Report both current driver and cumulative-history errors near
+  the notch and globally. Direct fields remain comparison-only, never labels.
+- Alternatives rejected: simultaneous optimizer/architecture/model changes,
+  transferring trial H, cherry-picking matched endpoints, weakening drift gates,
+  or interpreting fixed-d training as coupled fracture convergence.
+- Relation: seed 4375c3519f07d6966e3683b756a9ea6c79c6400e587fa4d172bf430a09fab8f8,
+  actual state-60 parent dda0d1cd2c79bf6a2770442f221f742e916d3c06d4502ecbe9179bd90084179e.
+
+## 2026-10-05 — Retain partial energy-objective improvement without solver adoption
+- Decision: Preserve the completed fixed-d pair as diagnostic evidence; do not
+  promote its energy network to a coupled checkpoint or change the production
+  objective/formulation. Any unified-energy branch requires explicit review.
+- Evidence: Energy versus residual at matched 16k reduces q L2 error 47.96%
+  and peak driver error 8.75%, but raises force MSE 22.07% and retains ~9.78%
+  tip driver underprediction. Both endpoints are non-drifting; all 34 reports
+  and final networks independently replay under the original physical backend.
+- Audit evidence: Individual energy gradients match their equations, but the
+  volume-weighted current-H tip cross derivative is -.0100190 versus mechanics
+  +.0257525; independent finite differences agree. The original residual pair
+  is not one differentiable u/d energy gradient at this state/physical pairing.
+  This is not proof of the cause of drift or nonexistence of equilibrium.
+- Alternatives rejected: using reaction error .001958% to claim accurate crack
+  driving forces, comparing fixed-d AT2 values as coupled convergence, calling
+  raw total-energy minimization equivalent to the original history formulation,
+  or blindly increasing unchanged training budgets after modest local progress.
+- Relation: legacy_objective_pair_20261005/replay_report.json, first-stage paper
+  study and current task. Future original-residual polish needs a fresh optimizer;
+  any trial neural H remains uncommitted. No numerical job remains running.

@@ -183,7 +183,9 @@ def _validate_config(config):
             raise ValueError(f"adopted {name} must equal {expected}")
 
 
-def _reference(config, model):
+def _reference(config, model, *, diagnostic_warning=False):
+    if not isinstance(diagnostic_warning, bool):
+        raise ValueError("diagnostic_warning must be boolean")
     path = _check_file(config.data.reference, config.data.reference_sha256)
     with np.load(path, allow_pickle=False) as data:
         metadata = json.loads(str(data["metadata_json"]))
@@ -194,8 +196,10 @@ def _reference(config, model):
         index = int(config.data.state_index)
         if index >= len(data["loads"]):
             raise ValueError("state index exceeds the reference load path")
-        if index > 59 or bool(data["warning"][index]):
+        if not diagnostic_warning and (index > 59 or bool(data["warning"][index])):
             raise ValueError("single-state training requires a pre-warning strict reference state (1..59)")
+        if diagnostic_warning and not 60 <= index <= 75:
+            raise ValueError("warning diagnostics require an archived load in 60..75")
         if not np.array_equal(data["coordinates"], model.geometry.coordinates[:model.n_material]):
             raise ValueError("reference material coordinates differ from frozen cloud")
         load = np.float64(data["loads"][index])

@@ -26,6 +26,7 @@ from ml_collections import ConfigDict
 
 from examples.fracture2d.stagger import _validate_stagger, run as run_stagger
 from examples.fracture2d.stagger_checkpoint import SCHEMA_ACCEPTED, read_checkpoint
+from examples.fracture2d.pinn_paths import physical_pinn_path
 from examples.fracture2d.train import _build_grid, _build_network, _reference
 
 
@@ -36,7 +37,7 @@ def _canonical(config):
 
 
 def _digest(path):
-    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+    return hashlib.sha256(physical_pinn_path(path).read_bytes()).hexdigest()
 
 
 def _check_endpoint_extension(requested, stored_text):
@@ -78,7 +79,7 @@ def _check_fork_source(requested, source):
 
 def _source_root_for_state(requested, source_root, index):
     """Resolve nested, read-only fork ancestry for a previously accepted load."""
-    root = Path(source_root).resolve()
+    root = physical_pinn_path(source_root).resolve()
     visited = set()
     while True:
         if root in visited:
@@ -89,7 +90,7 @@ def _source_root_for_state(requested, source_root, index):
             raise FileNotFoundError(f"fork ancestor has no root config: {path}")
         ancestor = ConfigDict(json.loads(path.read_text(encoding="utf-8")))
         _check_fork_source(requested, ancestor)
-        if (Path(ancestor.output.dir).resolve() != root
+        if (physical_pinn_path(ancestor.output.dir).resolve() != root
                 or int(ancestor.data.end_state_index) < index):
             raise ValueError("fork ancestor root identity or endpoint differs")
         if "fork_from" not in ancestor.output or not ancestor.output.fork_from:
@@ -100,12 +101,12 @@ def _source_root_for_state(requested, source_root, index):
             raise ValueError("fork ancestor has an invalid prefix cutoff")
         if index > cutoff:
             return root
-        root = Path(ancestor.output.fork_from).resolve()
+        root = physical_pinn_path(ancestor.output.fork_from).resolve()
 
 
 def _load_accepted(config, model, parent_digest):
-    path = Path(config.output.dir) / "accepted.ckpt.zip"
-    if (Path(config.output.dir) / "config.json").read_text(encoding="utf-8") != _canonical(config):
+    path = physical_pinn_path(config.output.dir) / "accepted.ckpt.zip"
+    if (physical_pinn_path(config.output.dir) / "config.json").read_text(encoding="utf-8") != _canonical(config):
         raise ValueError(f"stored numerical config differs at load {config.data.state_index}")
     q_net = _build_network(config, jax.random.PRNGKey(int(config.train.seed)), out_dim=2)
     d_net = _build_network(config, jax.random.PRNGKey(int(config.train.seed) + 1), out_dim=1)
@@ -159,7 +160,7 @@ def run(config, *, resume=False):
     if (isinstance(end, (bool, np.bool_)) or not np.isfinite(end)
             or int(end) != end or not (1 <= end <= 59)):
         raise ValueError("data.end_state_index must be a strict prefix index in 1..59")
-    root = Path(config.output.dir)
+    root = physical_pinn_path(config.output.dir)
     fork_path = config.output.fork_from
     fork_after = config.output.fork_after_state_index
     if not isinstance(fork_path, str):
@@ -170,7 +171,7 @@ def run(config, *, resume=False):
             or (not fork_path and fork_after != 0)):
         raise ValueError("output.fork_after_state_index must name an accepted prefix before the endpoint")
     if fork_path:
-        source_root = Path(fork_path).resolve()
+        source_root = physical_pinn_path(fork_path).resolve()
         if (source_root == root.resolve() or not source_root.is_dir()
                 or not (source_root / "config.json").is_file()):
             raise ValueError("fork source must be a separate existing continuation root")
@@ -208,18 +209,18 @@ def run(config, *, resume=False):
             _check_fork_source(config, old_config)
             if int(old_config.data.state_index) != index:
                 raise ValueError("fork source has a mismatched load index")
-            if Path(old_config.output.dir).resolve() != old_dir.resolve():
+            if physical_pinn_path(old_config.output.dir).resolve() != old_dir.resolve():
                 raise ValueError("fork source config points outside its state directory")
             state_config = old_config
         else:
             state_config = ConfigDict(json.loads(config.to_json_best_effort()))
             state_config.data.state_index = index
-            state_config.output.dir = str(root / f"state_{index:04d}")
+            state_config.output.dir = str(Path(config.output.dir) / f"state_{index:04d}")
             state_config.output.tensorboard_root = str(
                 Path(config.output.tensorboard_root) / root.name
             )
             state_config.output.resume = False
-        state_dir = Path(state_config.output.dir)
+        state_dir = physical_pinn_path(state_config.output.dir)
         state_config_path = state_dir / "config.json"
         if state_config_path.is_file():
             stored_text = state_config_path.read_text(encoding="utf-8")

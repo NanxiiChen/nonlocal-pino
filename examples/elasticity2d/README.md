@@ -245,7 +245,7 @@ onto the PINN grid and relative L2 errors are computed:
 | Optimizer | Adam |
 | Learning rate | \(2 \times 10^{-3}\) initial, exponential decay (0.95 / 2000 steps) |
 | LR floor | \(1 \times 10^{-5}\) |
-| Iterations | 20,000 |
+| Iterations | 40,000 (`configs/train_base.py`) |
 | ElasticD horizon | \(\delta = 0.0075\) |
 | ElasticD kernel | Cubic (\(C^1\) smooth) |
 | Gradient clipping | 1000.0 |
