@@ -22,6 +22,89 @@ states; its current progress is recorded in the active task.
 
 ## Independent-horizon PINN research
 
+Configuration B, `configs/scale_separation_b.py`, retains the SHA-bound fine
+cloud (`h=0.004`), `delta_u=0.008`, `l0=0.024`, physical grip extent `0.048`
+and `h_grip=0.004`, but sets `delta_d=0.024`. Validate in its fresh output root:
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.split_horizon_validate \
+  --config examples/fracture2d/configs/scale_separation_b.py
+```
+
+After validation, run fresh-zero direct loading with both solves on GPU:
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.split_reference \
+  --config examples/fracture2d/configs/scale_separation_b.py \
+  --output /root/autodl-tmp/data/fracture2d/scale_separation_20261001/reference_b_gpu_20261007 \
+  --damage-backend gpu --load-step 0.0001 --last-load 0.0075 \
+  --max-sweeps 1000 --omega 0.5 \
+  --trial-retention sparse --trial-tail 4 --trial-stride 50
+```
+
+The legacy `--damage-backend cpu` default uses SciPy damage PCG and preserves
+existing policy identities. GPU mode reuses explicitly checked volume-SPD JAX
+CG; an independent host residual is an audit, never a fallback solution.
+JAX does not provide a CG iteration count here, so it is reported as unavailable,
+not inferred from successful return. Physical gates stop a trial immediately;
+coupled convergence still requires three consecutive passing sweeps. B is a
+new damage model and has its own reference/history path; current results and
+validation limits live in the active task.
+
+### Direct trial storage
+
+Fresh direct roots default to sparse retention: preserve the first generation,
+latest four published generations and every 50th generation per load. Every
+accepted `committed.npz`, scalar `sweep_*.json`, result/config/progress and final
+field remains available. Four trailing fields preserve the predecessor needed
+to inspect three consecutive convergence confirmations. Anderson secants remain
+inside each retained restart snapshot.
+
+Use `--trial-retention all` when every-sweep full-field replay is required.
+`--trial-tail` must be at least four and `--trial-stride` positive. Resume inherits
+the stored policy; legacy roots without storage fields retain their original
+all-generation behavior and identity. Change retention in a new fork, rather
+than rewriting an existing numerical policy. Pruning follows successful atomic
+progress publication and checksum validation; unpinned newer generations are
+retained. Per-state `storage_pruning.jsonl` records removed intermediate fields.
+Pruned generations cannot be replayed as full fields; their scalar reports remain.
+
+### Explicit warning-only direct continuation
+
+`warning_reference.py` inherits a verified strict prefix and explores subsequent
+loads in a new diagnostic root. Original coupling/change, displacement-envelope
+and healing thresholds remain in reports; they warn rather than reject.
+Finite/shape/dtype, exact BC, damage range, cumulative maximum history and
+checked linear solves remain hard requirements. History advances from warning
+endpoints under this policy, with warning ancestry retained. No clipping or
+particle removal is performed. Warning snapshots are `warning.npz`, with
+`accepted_reference=false`; the strict PINN comparator rejects them.
+
+For configuration B, initialize load51 from the saved same-load Anderson q/d
+guess while retaining strict state50 H as its history floor:
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.warning_reference \
+  --config /root/nonlocal-KKS/examples/fracture2d/configs/scale_separation_b.py \
+  --source-root /root/autodl-tmp/data/fracture2d/scale_separation_20261001/reference_b_gpu_20261007 \
+  --fork-after-index 50 --last-load 0.0075 --sweeps-per-load 32 --omega 0.5 \
+  --seed-state /root/autodl-tmp/data/fracture2d/scale_separation_20261001/reference_b_anderson_v2_20261008/state_0051 \
+  --seed-sha256 49129bed74fe1ec9c6fde0e28ed77cbf16be123deb1164c3772a5df416e3a703 \
+  --damage-backend gpu \
+  --output /root/autodl-tmp/data/fracture2d/scale_separation_20261001/warning_b_from50_20261008
+```
+
+Per-load budgets finish unless three original full-gate confirmations permit
+early stopping or a hard/numerical failure rejects the load. Numerical seed H
+never supplies the first load's history floor. Resume restores the same policy
+and progress, including an interrupted endpoint publication. Only a larger
+endpoint may change on resume; other retries need a new root. Sparse storage
+defaults apply. Completion of this warning path is a trend result, not strict
+fracture validation or a passed PINN-reference tail.
+
 The user-selected mainline currently returns to the original validated kernel;
 this independent-horizon branch is retained as a comparison experiment.
 
@@ -1144,9 +1227,36 @@ model/discretization branch.
 
 #### Independent horizon validation branch
 
+The user-accepted engineering comparison baseline is
+`configs/scale_separation_short_damage.py`: material target size `0.004`,
+`delta_u=delta_d=0.008`, `physical.l0=0.024`, and unchanged material data.
+`split_reference.py` supplies its strict prefix; `warning_reference.py` supplies
+the separately labeled tail. Provisional engineering acceptance preserves the
+saved convergence failures and warning ancestry. The original B configuration
+(`delta_d=0.024`) remains a separate comparator.
+
+Verified artifacts for this baseline are the strict source
+`/root/autodl-tmp/data/fracture2d/scale_separation_20261001/b_short_damage_fresh_20261008`
+and the combined-prefix warning root
+`/root/autodl-tmp/data/fracture2d/scale_separation_20261001/warning_short_damage_from52_20261008`.
+The latter resolves strict states 1–52 through its recorded source and stores
+warning states 53–75 locally. Its terminal field SHA256 is
+`be0bed22c5a0e7ce48fa6bd8f58e900aaba94e0cb793ab520ce3129255028d68`.
+The PINN comparison policy must explicitly opt into these accepted warning
+fields; they retain their original diagnostic status.
+
+The local FEM mesh controls accept `0 < mesh.lc_near <= mesh.lc_far`;
+equal target sizes support uniform-resolution reference comparisons.
+
 `split_horizon_model.py` implements the explicitly separate validation model:
 mechanics radius `delta_u`, material damage radius `delta_d`, physical
 `grip_extent`, and ghost spacing `h_grip` are distinct required inputs.
+The damage radius is the support of the scalar operator, distinct from the
+AT2 regularization length `physical.l0`. Keeping `l0` fixed while changing
+`delta_d` can still change the computed damage profile and fracture energy.
+Smooth second-moment consistency alone does not establish sharp-interface
+energy consistency for a finite, integrable nonlocal kernel; validate spatial
+refinement and coupled crack transmission as well as smooth operator patches.
 It retains the engineering volume-grip BVP: every added collar particle has
 prescribed vertical displacement; material interface particles remain
 vertically free, with one original material horizontal anchor. Geometry,

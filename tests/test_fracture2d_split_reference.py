@@ -12,9 +12,71 @@ import numpy as np
 
 from pinn.operators import ExplicitVolumeSparseD
 from examples.fracture2d import nonlocal_baseline as direct
-from examples.fracture2d.split_reference import damage_pcg, read_trial_seed, trial_archive_path, write_trial_fields
+from examples.fracture2d.split_reference import damage_pcg, make_jax_damage_pcg, read_trial_seed, trial_archive_path, write_trial_fields
 from tests.test_fracture2d_split_horizon import square_cloud
 from examples.fracture2d.split_horizon_model import visibility_graph
+from examples.fracture2d.trial_storage import prune_trial_fields, resolve_storage_policy
+
+
+class TrialStorageTest(unittest.TestCase):
+    def test_pruning_waits_for_pointer_and_keeps_restart_tail_and_periodic_fields(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            bindings = []
+            for i in range(1, 9):
+                bindings.append(write_trial_fields(root, i, q=np.full(6, float(i)),
+                    d=np.full(3, 0.2), H=np.ones(3),
+                    extra_fields={"anderson_x": np.full((2, 3), float(i))}))
+            (root / "progress.json").write_text(json.dumps(bindings[0]))
+            with self.assertRaisesRegex(ValueError, "publish"):
+                prune_trial_fields(root, bindings[-1], tail=4, stride=3)
+            self.assertEqual(len(list(root.glob("trial_*.npz"))), 8)
+            (root / "committed.npz").write_bytes(b"protected reference")
+            (root / "progress.json").write_text(json.dumps(bindings[-1]))
+            result = prune_trial_fields(root, bindings[-1], tail=4, stride=3)
+            self.assertEqual(result["removed_count"], 2)
+            self.assertEqual({path.name for path in root.glob("trial_*.npz")},
+                             {f"trial_{i:04d}.npz" for i in (1, 3, 5, 6, 7, 8)})
+            self.assertEqual((root / "committed.npz").read_bytes(), b"protected reference")
+            with np.load(root / bindings[-1]["trial_file"]) as fields:
+                np.testing.assert_array_equal(fields["anderson_x"], np.full((2, 3), 8.))
+            self.assertEqual(hashlib.sha256((root / bindings[-1]["trial_file"]).read_bytes()).hexdigest(),
+                             bindings[-1]["trial_sha256"])
+            record = json.loads((root / "storage_pruning.jsonl").read_text())
+            self.assertEqual({entry["file"] for entry in record["removed"]}, {"trial_0002.npz", "trial_0004.npz"})
+
+    def test_checksum_failure_does_not_prune_and_future_unpinned_generation_survives(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            bindings = [write_trial_fields(root, i, q=np.zeros(6), d=np.zeros(3), H=np.zeros(3))
+                        for i in range(1, 8)]
+            current = bindings[5]
+            (root / "progress.json").write_text(json.dumps(current))
+            wrong = {**current, "trial_sha256": "wrong"}
+            (root / "progress.json").write_text(json.dumps(wrong))
+            with self.assertRaisesRegex(ValueError, "valid regular"):
+                prune_trial_fields(root, wrong, tail=4, stride=50)
+            self.assertEqual(len(list(root.glob("trial_*.npz"))), 7)
+            (root / "progress.json").write_text(json.dumps(current))
+            prune_trial_fields(root, current, tail=4, stride=50)
+            self.assertTrue((root / "trial_0007.npz").is_file())
+            for i in (1, 3, 4, 5, 6):
+                self.assertTrue((root / f"trial_{i:04d}.npz").is_file())
+
+    def test_fresh_sparse_policy_and_legacy_resume_identity(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            args = Namespace(output=root, resume=False)
+            expected = {"trial_retention": "sparse", "trial_tail": 4, "trial_stride": 50}
+            self.assertEqual(resolve_storage_policy(args), expected)
+            (root / "policy.json").write_text(json.dumps({"model_digest": "legacy"}))
+            args.resume = True
+            self.assertIsNone(resolve_storage_policy(args))
+            (root / "policy.json").write_text(json.dumps(expected))
+            self.assertEqual(resolve_storage_policy(args), expected)
+            args.trial_tail = 3
+            with self.assertRaisesRegex(ValueError, "tail >= 4"):
+                resolve_storage_policy(args)
 
 
 class DamagePCGReferenceTest(unittest.TestCase):
@@ -39,6 +101,21 @@ class DamagePCGReferenceTest(unittest.TestCase):
                           omega=0.5, trial_from=None, anderson_depth=5,
                           anderson_max_backtracks=4, anderson_sufficient_decrease=0.01)
             split_reference.run(Namespace(**common, output=root / "picard", relaxation_policy="picard"))
+            legacy_path = root / "picard/policy.json"
+            legacy = json.loads(legacy_path.read_text())
+            for key in ("trial_retention", "trial_tail", "trial_stride"):
+                del legacy[key]
+            legacy_path.write_text(json.dumps(legacy, sort_keys=True, indent=2))
+            legacy_bytes = legacy_path.read_bytes()
+            split_reference.run(Namespace(**{**common, "resume": True},
+                                          output=root / "picard", relaxation_policy="picard"))
+            self.assertEqual(legacy_path.read_bytes(), legacy_bytes)
+            with patch.object(direct, "DRIFT_ENVELOPE", 0.1):
+                split_reference.run(Namespace(**common, output=root / "hard_stop", relaxation_policy="picard"))
+            rejected = json.loads((root / "hard_stop/state_0001/result.json").read_text())
+            self.assertFalse(rejected["accepted_reference"])
+            self.assertEqual(rejected["sweep"], 1)
+            self.assertFalse((root / "hard_stop/state_0001/committed.npz").exists())
             original_write = split_reference.atomic_json
             def interrupt_progress(path, payload):
                 result = original_write(path, payload)
@@ -105,6 +182,13 @@ class DamagePCGReferenceTest(unittest.TestCase):
                                   2.7 * 0.024, H, np.zeros_like(H), rtol=1e-12, atol=1e-14, maxiter=100)
         np.testing.assert_allclose(actual, expected.damage, rtol=1e-11, atol=1e-13)
         self.assertLessEqual(info["volume_residual_norm"], info["limit"] * 1.001)
+        solve = make_jax_damage_pcg(operator, cloud["volumes"], 2.7 / 0.024,
+                                    2.7 * 0.024, rtol=1e-12, atol=1e-14, maxiter=100)
+        jax_actual, jax_info = solve(H, np.zeros_like(H))
+        np.testing.assert_allclose(jax_actual, expected.damage, rtol=1e-11, atol=1e-13)
+        self.assertIsNone(jax_info["iterations"])
+        self.assertFalse(jax_info["iteration_count_available"])
+        self.assertLessEqual(jax_info["volume_residual_norm"], jax_info["limit"] * 1.001)
         with self.assertRaisesRegex(RuntimeError, "explicit check"):
             damage_pcg(operator.to_scipy(), cloud["volumes"], 2.7 / 0.024, 2.7 * 0.024,
                        H, np.zeros_like(H), rtol=1e-15, atol=0, maxiter=1)

@@ -8381,3 +8381,454 @@ Template for each entry:
 - Relation: legacy_objective_pair_20261005/replay_report.json, first-stage paper
   study and current task. Future original-residual polish needs a fresh optimizer;
   any trial neural H remains uncommitted. No numerical job remains running.
+
+## 2026-10-07 — Distinguish horizon scale separation from fracture disconnection
+- Decision: Interpret a mechanics horizon below a declared interface width as
+  a scale-separation check, not a sufficient guarantee of traction-free crack
+  faces or a remedy for drift. Distinguish horizon radius, nominal local AT2
+  full width at d=exp(-1), actual weak/failed-band width, direct graph edges,
+  shared BA support DOFs and residual-stiffness transmission.
+- Reason: Original delta_u=delta_d=.048 equals the nominal width 2*l0=.048,
+  rather than being smaller. Source-only degradation leaves failed-node
+  displacements in intact-source kinematics. The saved coarse split probe has
+  delta_u=.016 < fully damaged width .024 but reaction/intact=.01891997;
+  width .032=2*delta_u lowers it to 5.81344e-7. These checked prescribed-field
+  probes refute a universal no-transmission claim from delta_u < width alone.
+- Derivation boundary: A positive geometric gap w between two sets prevents
+  direct strict-radius edges if delta_u <= w. That does not remove intermediate
+  material nodes or shared support variables. For an ideal planar fully failed
+  separating band, opposite intact-source radius-delta_u neighborhoods cannot
+  share a point when w >= 2*delta_u; this geometric overlap bound is not a
+  universal phase-field convergence/traction law. The adopted k_res>0 also
+  retains finite stiffness. Actual diffuse AT2 width is not a void/failed-band
+  width; delta_d controls damage regularization, not the mechanics edge radius.
+- Alternatives rejected: adopting delta<l0 as a universal theorem, equating
+  nominal 2*l0 with a fully failed strip, claiming graph disconnection from
+  small horizons, or attributing all observed drift to this ratio. No horizon,
+  graph, support, solver or acceptance change is adopted.
+- Relation: user principle inquiry; nonlocal_baseline.py::_center_weights,
+  _edge_factor and _deformation_gradient; existing degradation/split transmission
+  reports; docs/tasks/fracture2d-nonlocal-pinn.md.
+
+## 2026-10-07 — Recommend an isolated damage-radius cost/accuracy study
+- Decision: Recommend keeping l0=.024, the physical grip extent .048 and other
+  constitutive/loading choices fixed. First compare delta_d=.024 to the existing
+  .048 on the validated fine h=.004/delta_u=.008/h_grip=.004 geometry. This is a
+  proposed new-model study, not adoption or authorization to run continuation.
+  If its damage/fracture checks pass but cost remains high, a uniform h=.006,
+  delta_u=.012, delta_d=.024 candidate is a separate unvalidated coarsening study.
+- Reason: Fine mechanics has checked rank/energy/work and favorable prescribed
+  strip transmission, whereas the fine damage graph contains 34779392 edges
+  versus 1122228 mechanics edges. Halving delta_d on the same approximately
+  uniform 2D mesh predicts about one quarter of damage edges, not a fourfold
+  whole-solver speedup. It isolates one model parameter before changing the mesh.
+- Cost derivation: fixed-area quasiuniform 2D clouds have N proportional to
+  h^-2, neighbors proportional to (delta/h)^2 and scalar graph storage/work
+  proportional to delta_d^2*h^-4. BA support-occurrence work additionally counts
+  common-neighbor occurrences, typically proportional to N*z_u^2. These are
+  geometric array-work estimates; CG/outer iteration counts, JIT/build/I/O and
+  actual timing require measurements. Existing coarse/fine damage-edge ratio
+  is 15.934, illustrating the cost of widespread refinement at fixed delta_d.
+- Validation boundary: l0 and nominal 2*l0 are not actual failed-band width.
+  The mechanics diameter must be assessed against measured weak-band/support
+  transmission, not made acceptable by artificially thickening the damage field.
+  Delta_u/h=2 has operator evidence on the current fine cloud, not a universal
+  convergence guarantee. New delta_d affects the damage profile and fracture
+  response; changed horizons require a fresh reference, and mesh convergence
+  must be checked with horizons fixed to distinguish the two effects.
+- Alternatives rejected: widening l0 for runtime, reducing delta_u below mesh
+  resolution, using far-field h>=delta_u without BA checks, claiming a twentyfold
+  total-runtime saving from an edge estimate, or reusing old accepted histories
+  as a validated prefix on a changed model. No config/solver/gate changed.
+- Relation: user accuracy/runtime inquiry, saved split validation/benchmark
+  reports and docs/tasks/fracture2d-nonlocal-pinn.md.
+
+## 2026-10-07 — Execute approved configuration B direct validation/loading
+- Decision: User explicitly approves the proposed B study and full direct solve.
+  Use the existing SHA-bound fine cloud, h=.004, delta_u=.008, delta_d=.024,
+  l0=.024, h_grip=.004 and grip extent .048, unchanged material/kernel/BC/history
+  equations. Validate operators/work, prescribed failed-band transmission and
+  fixed-H damage first, then load from zero to .0075 with du=1e-4, Picard omega=.5,
+  up to 1000 sweeps/load and existing strict three-confirmation gates.
+- Reason: Isolate the approved damage-radius change and test an actual loading
+  path rather than promoting prescribed-strip or old-model histories.
+- Implementation choice: Existing split_reference uses GPU mechanics but SciPy
+  CPU damage PCG. Add an explicit GPU damage selector reusing the independently
+  validated volume-SPD CG helper; retain the legacy CPU path/identities. Verify
+  the GPU result against an independent CPU solve as a diagnostic only, never a
+  fallback. Stop and retain physical/numerical failures and uncommitted trials.
+- Alternatives rejected: warning commits, reusing A/old neural history as B's
+  committed floor, simultaneously coarsening to C, widening l0, concealed CPU
+  fallback, or claiming full physical accuracy from operator gates alone.
+- Relation: current user execution request, scale_separation_fine configuration,
+  split_reference.py and subproblem_matrix.damage_solver; active fracture task.
+- Implementation detail: Move the checked CG helper into lightweight at2_cg.py
+  and re-export it from subproblem_matrix, avoiding PINN CLI flag registration
+  when the direct validation entry imports it. Picard now stops immediately on
+  the same existing physical failures, matching the documented hard-stop contract;
+  no threshold changes. Ten focused CPU reference/CG/geometry tests pass.
+
+## 2026-10-08 — Keep direct verification ahead of configuration B PINN
+- Decision: User explicitly reiterates completing the direct verification first,
+  then proceeding to PINN only after it passes. Continue the existing B GPU job;
+  independently check saved fields/ancestry/residual/history/reaction/physical
+  gates before using its results as a PINN comparator. A rejected/unready
+  critical direct state cannot become a PINN reference or training history floor.
+- Reason: Numerical model changes require a new checked direct path; successful
+  operator or low-load checks do not establish full fracture accuracy.
+- Alternatives rejected: concurrent PINN loading, transferring old A history,
+  advancing PINN against a rejected B state, or treating warning continuation
+  as fulfillment of the requested direct-first verification.
+- Relation: current user follow-up and active B worker PID 4731; same active task.
+
+## 2026-10-08 — Retain B Picard failure; bound one critical-load Anderson retry
+- Decision: B Picard stops at load .0051/sweep574 for one drift node (ratio
+  1.08003862 >1.08), with AT2 relative .0921154. Keep strict B states 1–50 and
+  their independently replayed fields; no trial51 H enters the committed floor.
+  User's continued direct-solving request justifies one existing safeguarded
+  Type-II Anderson retry at the same .0051 target, at most 128 outer steps,
+  beta .5, depth5, four backtracks, sufficient decrease1e-4, rank_only restart
+  and drop_oldest rank strategy. All strict/physical thresholds remain unchanged.
+- Initial guess: SHA-bound physically passing trial398 q/d only (ratio1.04129,
+  relative AT2 .0850226), with actual committed state50 H/d and reset secants.
+  Earlier physically passing iterate avoids using the rejected drift field.
+  It is a numerical guess, not an accepted root or committed history.
+- Reason: Accurate inner solves and reaction decline coexist with substantial
+  moving-front defects. Test already-reviewed map acceleration rather than
+  silently committing the softening path or enlarging the unchanged budget.
+- Alternatives rejected: relaxing drift/coupling gates, skipping .0051, transferring
+  trial H, switching material/horizons, launching PINN or claiming full direct
+  completion. Retry success must be field-replayed before extending the endpoint.
+- Relation: B result.json/loading_replay.json, audited anderson.py/split_reference
+  implementation, explicit user request to finish direct before PINN.
+
+## 2026-10-08 — Configuration B full-path verification remains failed
+- Decision: Keep B's strict direct prefix 1–50 only. Both critical .0051 trials
+  are rejected: Picard574 has one drift node and AT2 relative .0921154;
+  safeguarded Anderson128 has zero drift but AT2 relative .0563813 and nonzero
+  field changes. Do not advance to52, commit either trial H, or start B PINN.
+- Evidence: All 50 accepted fields replay with SHA/ancestry/BC/history/reaction,
+  AT2 and recomputed free-force checks. Independent CPU reconstruction of B's
+  8585162-edge damage operator reproduces the two terminal residuals and the
+  accepted state50 residual. Separate saved-array audit reproduces the Picard
+  drift point35120. Both workers finished; no GPU job remains.
+- Reason: Shrinking delta_d achieved smaller graph storage and accurate inner
+  equations, but did not establish self-consistent high-damage fracture. High
+  damage, falling reaction and non-drifting iterates are insufficient acceptance.
+- Alternatives rejected: treating the small drift-envelope excess as the only
+  issue, accepting the unready Anderson endpoint, repeating unchanged budgets,
+  claiming a verified .0075 path or an equal-accuracy whole-solver speedup.
+- Relation: B loading_replay.json, rejected_field_audit.json and independent
+  terminal_AT2_replay.json; direct-first user instruction. Resume only from B
+  state50 committed.npz, SHA26b355a8..., for coupled-root/support investigation
+  before choosing a further reviewed correction.
+
+## 2026-10-08 — Audit storage pressure before removing numerical artifacts
+- Decision: Prioritize storage relief within the same active fracture task; no
+  new numerical run until retention is resolved. Prepare a dry-run proposal,
+  not deletion: keep every committed solution, current progress generation,
+  first/last4/every50 trial fields and explicitly referenced diagnostic seeds.
+  Keep JSON reports/configs/plots and original inputs. Ask user to select cleanup
+  scope before deleting intermediate fields or clearing package cache.
+- Evidence: Root filesystem59GiB is98% used with~1.4GiB available. B Picard root
+  is4.4GiB (2070 trial fields), B Anderson861MiB (128 fields), old fine Anderson
+  roots total~1.6GiB. Read-only proposal covers5 direct roots, protects50 committed
+  SHAs and55 progress SHAs, and identifies2110 redundant trial files totaling
+  5.758GiB allocated (B-only4.378GiB). No files have been deleted.
+- Cache boundary: uv cache occupies~11GiB; current .venv has no symlinks into
+  it, but shared installed files mean cache size is not all reclaimable space.
+  Official uv docs distinguish cache prune/clean and forbid manual cache edits;
+  use uv's own command only if selected, then check imports/GPU and actual df.
+- Alternatives rejected: removing committed/reference/mesh/PINN histories,
+  deleting whole run roots, lossy FP64 conversion, recompressing existing NPZ
+  archives while nearly full, or promising11GiB reclaimed from shared cache.
+- Relation: user's disk-space concern; /tmp/opencode/fracture_storage_plan_20261008.json;
+  existing generation-pinned reference archives and uv cache documentation.
+
+## 2026-10-08 — User selects B-only snapshot pruning and lightweight future saves
+- Decision: Apply only the two B-root candidate sets from the verified dry-run
+  manifest, 1865 files/~4.378GiB. Keep all committed fields, progress generations,
+  first/final4/every50 snapshots and explicit critical diagnostics. Preserve
+  older branches and package caches. Record pruning and recheck protected hashes.
+- Future storage: fresh direct roots default to sparse retention (tail4, stride50);
+  an explicit all mode remains available. Resume inherits stored retention, with
+  absent legacy fields retaining the previous all behavior/identity. Prune only
+  after the new generation's progress pointer is published. Storage controls
+  are bound to new roots but do not change numerical equations or acceptance.
+- Reason: User chose “只精简本轮 B”; large intermediate array histories, rather
+  than final solutions or scalar logs, caused avoidable disk growth.
+- Alternatives rejected: pruning the old A roots/caches, deleting reference
+  commits or resume data, mutating old numerical policy/config bytes, reducing
+  precision, or unlinking old generations before publishing a valid new pointer.
+- Relation: user's explicit cleanup selection and fracture_storage_plan_20261008.json.
+
+## 2026-10-08 — Execute requested B warning trend continuation
+- Decision: User requests looser/warning loading to inspect the complete curve.
+  Add a separate warning entry/root; preserve original strict thresholds and
+  rejected results. Coupling, adjacent changes, drift-envelope and healing
+  failures are explicit warnings; finite fields, exact BCs, damage range,
+  maximum-history semantics and checked linear subproblems remain hard checks.
+  No particle removal, clipping, horizon/material change or hidden solver fallback.
+- Path: inherit verified strict states1–50; initialize .0051 from SHA-bound
+  Anderson128 q/d only, holding actual state50 H/d floor. Picard omega=.5,
+  at most32 sweeps/load, du=1e-4 through .0075. Warning endpoint q/d/H may advance
+  the next diagnostic load with warning ancestry recorded, never strict status.
+  Sparse field retention is used. A passing current state cannot erase ancestry.
+- Reason: The drift excess alone is small, but AT2 relative .0564 and d change
+  .0101 are not resolved by modest tolerance relaxation. Warning labeling can
+  answer the trend question without recasting those defects as convergence.
+- Alternatives rejected: silently widening original gates, promoting the old
+  unready H to a strict parent, replaying strict stages1–50, expensive1000-sweep
+  budgets at every warning load, or using this tail as a passed PINN reference.
+- Relation: current user request and B control/strict-parent artifacts; same task.
+
+## 2026-10-08 — B warning path completes; distinguish transition and terminal defects
+- Decision: Preserve completed warning states51–75 as diagnostic-only, never
+  strict references. Terminal .0075 reaction8.95342, damage peak .9996497 and
+  AT2 relative4.69e-9 show near-complete unloading/current equation consistency.
+  Raw drift count60/ratio1.22875 and warning ancestry remain visible.
+- Evidence: All25 warning endpoints replay ancestry/BC/history/AT2/reaction/
+  range/healing/drift. Actual completed resume preserves policy bytes; free-force
+  checks pass for all25 states. Transition51–59 AT2 relative grows .0917 -> .6411;
+  state60 healing .0505821 exceeds1e-3. Coupled equation passes from61 onward.
+- Interpretation: terminal60 envelope-exceeding nodes have d>=.998749, whereas
+  the d<.9 diagnostic subset has max displacement/load1.00710 and zero excess.
+  This supports reviewing the all-node envelope's applicability in failed
+  material, not asserting a universal physical bound or deleting/exempting nodes.
+  No permanent damage-dependent gate or physics correction is adopted.
+- Alternatives rejected: calling the whole path converged because the endpoint
+  residual is small, dismissing substantial transition defects as tiny tolerance
+  effects, silently filtering damaged nodes, or automatically starting PINN.
+- Relation: user request to inspect warning results first; warning replay/force
+  resume reports and summary.json; original strict state50 remains unchanged.
+
+## 2026-10-08 — Audit FEM/old/B discrepancy without blaming nominal interface length
+- Decision: Confirm matched E/nu/Gc/l0/k_res and nominal notch geometry; do not
+  explain B's early unloading as an l0 typo or warning label alone. Treat radius,
+  mesh/quadrature, boundary discretization and seeded unconverged path as distinct
+  influences requiring controlled comparisons before claiming causality.
+- Evidence: SHA-verified FEM/old archives and B saved data show <=.005 loading
+  curve differences .1608% (B) versus4.258% (old) on common points. Sampled peaks
+  FEM642.486@.0057, old641.340@.0061, B588.786@.0050. At .0051 FEM600.300,
+  old577.997 and B380.702: B's large discrepancy starts in crack development.
+- Scale/path distinctions: old delta_u=delta_d=.048 on3395 material nodes;
+  B .008/.024 on71307, same l0=.024/grip extent .048, but different grip spacing.
+  B warning path uses advanced same-load q/d seed and32 sweeps versus FEM100,
+  undamped damage, adaptive softening steps. FEM and nonlocal both keep history
+  maxima against prior-load cumulative H; do not invent a history-law mismatch.
+- Interpretation: terminal x=.75 sampled absolute d=exp(-1) widths FEM.08474,
+  old.08705, B.06961 differ despite identical l0. They are solution/profile and
+  spatial-interpolation diagnostics, not prescribed widths or isolated causes.
+  Same-fine fixed-H .048->.024 damage-radius probe reduces peak .525->.389, so
+  shrinking delta_d is a model change, not merely storage/performance optimization.
+- Alternatives rejected: attributing new-vs-old differences solely to FEM/grip
+  BVP differences common to both, declaring smaller horizons inherently more
+  accurate, fitting l0 to the curve, or treating peak agreement as full validation.
+- Relation: user's original-curve screenshot/correction; FEM_old_B_comparison.json
+  and reaction/damage overlays under warning_b_from50_20261008; same active task.
+
+## 2026-10-08 — Diagnose B onset with identical-parent small-step controls
+- Decision: User requests continued diagnosis/remedy of refined B premature
+  fracture. Reuse existing unseeded .0051 scalar trajectory rather than repeating
+  it. Test Picard omega=.5 from SHA-bound strict50 on two schedules, increments
+  2.5e-5 and6.25e-6 to .0051, up to256 sweeps per target, three unchanged strict
+  confirmations. Stop a schedule at its first nonpassing target. No rejected
+  history advancement, clipping, material changes or curve-fitting correction.
+- Reason: Unseeded sweep32 R594.145 differs strongly from seeded warning51
+  R380.702, but unseeded sweep574 also reaches R383.443 with unresolved coupled
+  residual. Initialization changes displayed timing; small steps test whether
+  the same model supports a converged nearby loading branch.
+- Alternatives rejected: another identical .0051 unseeded run, treating a finite
+  iteration reaction as equilibrium, increasing l0 to fit FEM, and launching PINN.
+- Relation: strict50 SHA26b355a8..., B strict/warning trajectories; same task.
+
+## 2026-10-08 — Separate smooth consistency from narrow-crack regularization
+- Decision: Record an independent straight-profile scalar-energy witness before
+  choosing a B remedy. Integrate the existing zero-H AT2 residual to obtain
+  Gc/2*(sum V*d^2/l0+l0*d^T V D d); for x-uniform 2D fields sum original cubic
+  weights over x offsets. Minimize this quadratic energy with one center row
+  d=1. This is a regularization diagnostic, not coupled Griffith toughness.
+- Evidence: At delta_d=.024, h=.004/.002/.001, minimized energies are
+  1.989155/1.399449/.878805 versus local lumped-P1 2.709359/2.702343/2.700586.
+  Smooth second moments are2.000749/2.000226/2.000020. Doubling transverse extent
+  changes h=.004 energy by6.28e-9. Actual 2D ExplicitVolumeSparseD cross-check
+  differs by<=3.28e-11 in matvec; stationary free equations pass~1e-15.
+- Interpretation: Finite integrable graph kernels permit low-energy sharp scalar
+  profiles despite smooth-Laplacian consistency. At fixed damage horizon a
+  vanishing-width damaged row has an O(width) energy upper bound. Whether such a
+  row releases mechanical traction depends on fixed BA support and degradation;
+  this witness alone does not prove zero coupled toughness or B onset causality.
+- Candidate diagnostic: delta_d=.008 at h=.004 yields profile energy2.717997,
+  second moment2.012862. It is a horizon comparator, not an adopted correction;
+  fresh loading and traction/driver validation are required before promotion.
+- Alternatives rejected: explaining the witness as a missing factor2, claiming
+  input Gc changed, calling scalar profile energy effective coupled toughness,
+  tuning Gc/l0 to compensate, or silently replacing the phase-field formulation.
+- Relation: /tmp/opencode/b_crack_profile_probe_20261008.py and independent actual
+  2D reduction verifier; B onset-control task and saved-gradient diagnostic.
+
+## 2026-10-08 — Test a short-damage-horizon remedy as a separate fresh branch
+- Decision: After the same-B small-step controls finish, run a diagnostic
+  fresh-zero horizon comparator with only delta_d .024->.008; preserve delta_u
+  .008, h=.004, l0=.024, Gc2.7, cloud/BC/history/equations and strict thresholds.
+  Target .0057 (FEM sampled peak), du1e-4, Picard .5, cap512/target, sparse fields.
+  It is a candidate remedy, not adoption or a relabeling of B's saved curve.
+- Reason: Actual same-cloud/same-H state50 solve changes peak d .633199->.546152
+  with checked volume residual2.46e-13. Independent scalar energy/moment witnesses
+  favor a better-resolved near-local regularization at the shorter radius. A
+  coupled fresh path is needed to test whether this delays early fracture.
+- History constraint: The fixed-H comparator would heal by.09110 if substituted
+  into B state50. Therefore do not resume it with B history/damage or use its
+  fields as an accepted continuation. Fresh zero is mandatory for this comparison.
+- Alternatives rejected: fitting Gc/l0, swapping phase operators midway through
+  a loaded path, claiming the profile diagnostic predicts peak load, and changing
+  the permanent formulation/acceptance policy before a controlled result.
+- Relation: b_short_damage_fixedH_20261008/result.json, profile witness and user
+  request to diagnose/remedy refined B; original B strict50 stays intact.
+
+## 2026-10-08 — Check continuum comparator mesh error before attributing remaining onset gap
+- Decision: After the GPU candidate and saved-field replay, run the existing
+  independent FEM solver on B's exact SHA-bound71307-node material cloud/triangles.
+  Preserve local hybrid Amor/CG1/DG0 formulation, material/geometry/material-boundary
+  conditions, baseline warning policy,100-sweep cap and load-step/softening rules;
+  endpoint .0057. Write separate mesh/config/archive, never replace coarse FEM.
+- Reason: Short-damage candidate strictly passes1–52 (R598.319 at.0051,
+  R605.313 at.0052) but.0053 again develops unresolved softening. The old FEM
+  comparator has only3395 nodes with far h.02, whereas B is uniformly h.004.
+  Independent-reference discretization error must be checked rather than assuming
+  the old .0057 peak is mesh-independent or blaming remaining errors on delta_d.
+- Environment: serialize GPU run/replay and FEniCS environment; no MPI/FEM and
+  JAX GPU concurrency. Use exact cloud mesh conversion with validated signature,
+  not a newly guessed geometry or remeshed node ordering.
+- Alternatives rejected: claiming the short-radius candidate fully solves early
+  fracture after only51/52, treating FEM warning as a strict reference, changing
+  the FEM BVP to nonlocal collars in the same mesh-error control, or fitting l0.
+- Relation: validation-order policy and B short-damage loading; same active task.
+
+## 2026-10-08 — Allow uniform FEM target sizes without changing equations
+- Decision: Change local FEM mesh ordering validation to lc_near<=lc_far
+  (both remain explicitly positive), permitting the exact uniform B-cloud
+  reference control. Reject inverted ordering. Document the allowed range.
+- Reason: The prepared exact-cloud FEM control failed before any solve because
+  the old validator required strict inequality, unnecessarily excluding uniform
+  meshes. Do not falsify the recorded target sizes to bypass validation.
+- Verification: two focused unittest cases pass in fenicsenv, exercising the
+  actual rounded-slot config with h_near=h_far=.004 and rejecting inverted sizes.
+  All53 candidate fields and5 B-control endpoints replay SHA/ancestry/BC/H/AT2/
+  reaction/free force. Every stored q passes without additional CG iterations.
+- Alternatives rejected: perturbing metadata sizes to force strict inequality,
+  remeshing the exact cloud, altering FEM/PINN equations, or accepting unreplayed
+  fields. Candidate strict prefix ends52; .0053 remains coupled-unready.
+- Relation: examples/fracture2d/solver.py, focused mesh-config test, root/example
+  READMEs, b_short_damage_replay_20261008 reports. GPU ended before FEM starts.
+
+## 2026-10-08 — Retain matched-cloud FEM and partial horizon remedy without declaring resolution
+- Decision: Use the completed exact-material-cloud FEM as a mesh-error comparator,
+  retaining its warning/overshoot limitations. Preserve original B, short-radius
+  candidate and coarse FEM separately. Do not promote short-radius loading beyond
+  strict52 or interpret rejected53 as a validated reaction peak.
+- Evidence: exact coordinate/triangle sets match B's71307 vertices/141366 cells;
+  E/nu/Gc/l0/k_res/geometry/local BVP/history/gate metadata match coarse FEM.
+  Fine FEM completes63 loads to.0057, sampled peak619.416286@.0054 versus coarse
+  642.485729@.0057;4 transition warnings and dmax1.0031067 persist. Archive SHA
+  b12121ac8bb1be5a9022d2e1a65f5fa471199f78a9aba7b186f36825f70d9dce.
+- Interpretation: Both reference-mesh sensitivity and finite damage-horizon
+  sensitivity are demonstrated. Candidate accepted51/52 R598.318778/605.313064
+  differs from matched-cloud FEM598.138129/606.018407 by.0302/.1164%; however
+  dmax at52 .580436 versus FEM .481472 and failed53 coupling remain unresolved.
+  These results do not identify a single isolated cause or prove a complete remedy.
+- Next: same-grid52/53 local driver/damage-operator and numerical branch controls;
+  maintain l0/Gc, strict parent floors and original gates before choosing another
+  correction. Every current worker is finished; no GPU/FEM/PINN job remains.
+- Alternatives rejected: calling coarse FEM's peak mesh-independent, treating
+  FEM's finite warning tail as strict validation, accepting candidate53, fitting
+  l0/Gc, or automatically starting PINN.
+- Relation: b_same_cloud_comparison_20261008/result.json and active task.
+
+## 2026-10-08 — User approves candidate warning path after critical-load stall
+- Decision: Run a separate candidate short-damage warning continuation from
+  SHA-bound strict52, no unready trial seed, Picard omega.5, at most32 sweeps/load,
+  du1e-4 to.0075. Original finite/range/BC/history/linear-solve hard checks and
+  reported coupling/healing/drift/change thresholds retain existing semantics.
+- Reason: User explicitly permits warning-mode trend inspection instead of
+  indefinite convergence retries; candidate .0053 already stalled512 sweeps.
+  An unseeded fork avoids conflating the plotted first drop with a deeply
+  advanced failed same-load trial as in the earlier B warning comparison.
+- Scope: Same model/config/l0/Gc/cloud/horizons; no strict-state promotion or
+  PINN transfer. Warning H can advance this diagnostic path with recorded
+  ancestry. Compare .0052/.0053 local damage/driver witnesses and fine FEM data.
+- Alternatives rejected: another identical512-sweep retry, replacing the strict
+  history with rejected53 H, accepting warnings as strict roots, fitting l0/Gc.
+- Relation: current user instruction, candidate strict52 SHAb30a974a..., existing
+  warning_reference.py policy and matched-cloud FEM archive.
+
+## 2026-10-08 — Isolate fixed-history gradient and mass effects before more radius changes
+- Decision: Assemble CPU-only local scalar witnesses from solver.py:954--961
+  on the exact B triangles. Compare the actual graph with local P1 stiffness
+  under identical nodal-H/lumped reaction terms, then exact consistent P1-H
+  moments, and independently reconstruct actual FEM DG0-H weak-form solves.
+  These are counterfactual scalar solutions, not admissible loaded-state swaps.
+- Checks: K*1=0, affine gradient energy=material area, M*1=reference volumes;
+  exact simplex degree3 moments reduce to P1 mass for constant H. FEM coordinate
+  and cell transfer are permutations with distances<=1e-12. Every CG solve has
+  an explicit residual check; no clipping or fallback. No FEniCS process runs.
+- Evidence at52: stored graph dmax .580436; same-H solved graph .580437,
+  local-gradient/lumped .543529, consistent P1-H .539479, actual FEM-DG0 H
+  .481474 versus saved FEM .481472 (inf difference1.86e-6). Thus gradient/mass
+  choices have measured effects but do not explain the entire coupled gap.
+- Evidence at rejected53: even local/lumped fixed-H solve remains dmax .997547
+  with the already large trial H. Swapping scalar stiffness cannot undo the
+  displacement/history feedback. Same P1 strain estimator on saved candidate52
+  q gives positive-energy cell max893.098 versus FEM353.856; this is a same-field
+  diagnostic, not proof of a mechanics-operator error or BA-driver amplification.
+- Alternatives rejected: assigning additive causal percentages to coupled
+  differences, confusing cumulative BA H with instantaneous P1 driver, or
+  silently adopting local/consistent scalar solutions as new history states.
+- Relation: short_damage_local_witness_20261008/result.json and fields52/53;
+  user-approved warning continuation is running independently.
+
+## 2026-10-09 — Complete candidate warning trend; retain path and budget limitations
+- Decision: Preserve all23 diagnostic states53–75 from the unseeded strict52
+  fork as warning-only. Original model/config/strict fields/gates remain unchanged.
+  Do not claim the early-fracture problem solved from peak proximity or a small
+  terminal equation residual. No additional solve is scheduled this session.
+- Evidence: peak610.649295@.0053 versus fine FEM619.416286@.0054; at.0056 candidate
+  R541.033223 versus fine FEM2.752473, demonstrating delayed unloading. Terminal
+  R2.679365, dmax .999724985, AT2 relative5.78437e-9. All23 SHA/ancestry/BC/H/
+  range/healing/AT2/reaction/free-force checks and actual completed resume pass.
+- Defects: transition AT2 relative reaches.537701, healing.00972475. Current
+  coupling passes65–75 but raw displacement envelope fails; terminal67 excess
+  nodes have d>=.998017 and max ratio1.33764. Auxiliary d<.9 region has no excess
+  (max1.007277); no filtering, exemption or permanent gate change is adopted.
+- Numerical confounder: across.0052->.0056 FEM used552 outer sweeps with full
+  damage updates and softening du2.5e-5, candidate warning128/.5/du1e-4. These
+  different maps/history parents prevent assigning all unloading differences
+  to physics. Prioritize matched-parent budget/step controls before further
+  horizon changes or a constitutive correction.
+- Alternatives rejected: accepting warning75 as a strict/PINN parent, claiming
+  the fixed-H witnesses explain the entire coupled difference, comparing the
+  original advanced-seeded B tail as a pure radius control, or fitting Gc/l0.
+- Relation: warning_short_damage_from52_20261008 summary/replay/plots, same-grid
+  scalar witnesses and current user instruction to inspect warning results first.
+
+## 2026-10-09 — User accepts direct engineering checkpoint and requests PINN transition
+- Decision: Provisionally adopt the latest fine-cloud delta_u=delta_d=.008,
+  l0=.024 direct result for engineering PINN comparisons. Preserve its original
+  strict52 and diagnostic warning53–75 records and all numerical limitations.
+  Add a durable public config matching the verified scratch config exactly.
+- Authorization: User explicitly requests a direct-solver commit and transition
+  to PINN. Commit the reviewed direct changes/docs/tests on dev; subsequent PINN
+  implementation/training is a separate working-tree phase. No push/merge is
+  requested in this turn.
+- PINN contract: Fresh FP64 networks/model identity, no old-model checkpoint
+  reuse, reference arrays for comparisons only, learned predecessor H for the
+  cumulative history. Explicit SHA-bound accepted-warning comparison policy
+  may load the direct tail without granting strict reference/neural status.
+- Reason: User accepts current solver response temporarily and prioritizes PINN
+  progress over additional direct convergence/curve-fitting studies.
+- Alternatives rejected: relabeling warning states as strict, changing PDE/Gc/l0
+  or numerical gates, silently loading warning comparisons under strict mode,
+  and importing reference history into neural training.
+- Relation: current user request, adopted short-damage artifacts and same active
+  fracture2d task. Earlier direct-first strict prerequisite is superseded by
+  this explicit engineering acceptance, not by a numerical validation claim.

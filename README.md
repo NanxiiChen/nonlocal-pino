@@ -49,6 +49,8 @@ D @ φ ≈ -∇²φ    (kernel: cubic / quartic / Wendland)
 Most JAX/nonlocal examples use non-dimensional characteristic length and time
 scales. The `fracture2d` local FEM reference instead uses explicit consistent
 material units with `L0=1`; see its example README and configuration.
+Its FEM mesh controls allow `0 < mesh.lc_near <= mesh.lc_far`, including
+uniform-resolution reference studies.
 The fracture2d direct nonlocal baseline and current PINN research keep geometry,
 quadrature, graphs, and operator inputs in float64 with JAX x64 enabled. A float32 PINN must
 rebuild and revalidate its strict-horizon graph in float32 rather than casting
@@ -57,8 +59,13 @@ the direct-baseline graph.
 ## Fracture2D current entries
 
 `examples/fracture2d/nonlocal_baseline.py` is the frozen GPU direct baseline.
-The current user-selected PINN mainline preserves its original common-horizon
-kernel and refines numerical coupling through `legacy_coupling_refine.py`.
+The current user-accepted engineering comparison model uses the fine material
+cloud with mechanics/damage radii both `0.008` and AT2 length `0.024`:
+`configs/scale_separation_short_damage.py`. Its direct result retains a strict
+52-load prefix and a separately marked warning tail through `0.0075`.
+The PINN stage starts fresh on this model; direct arrays are comparisons only.
+The original common-horizon PINN branch remains available through
+`legacy_coupling_refine.py`.
 `legacy_coupled_loading.py` advances one load from a SHA-verified diagnostic
 predecessor only after rechecking three coupled-readiness confirmations.
 An explicit `--warning-continue` policy supports diagnostic trend studies with
@@ -71,7 +78,14 @@ convergence-gated sequential loading step sizes without changing the kernel.
 derivatives, then compares fixed-d neural force-residual and original A2 energy
 objectives from identical networks with fresh Adam; direct fields are comparisons.
 The independent-horizon research branch uses `split_reference.py` for strict
-comparison states and `split_pinn.py` for FP64 neural loading. The PINN starts
+comparison states and `split_pinn.py` for FP64 neural loading. Configuration B
+(`configs/scale_separation_b.py`) retains the fine mechanics graph and halves
+the damage radius; its direct run explicitly selects `--damage-backend gpu`.
+Fresh direct roots use sparse trial retention (first, latest four and every
+50th generation), while keeping all committed states and scalar reports.
+`warning_reference.py` separately explores a diagnostic tail from a strict
+prefix, retaining original gate failures and excluding it from strict PINN references.
+The PINN starts
 from zero and uses its own learned predecessor history; reference fields enter
 comparisons only. Damage-field RMSE and reaction error lead the research report;
 other unmet checks retain their values, limits and warning provenance. Warning

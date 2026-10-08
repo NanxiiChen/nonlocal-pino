@@ -85,6 +85,8 @@ def comparison_reference(root, index, model_digest, n_dofs, n_material, load):
     """Reject uncommitted/warning/wrong-model references before training."""
     state_dir = reference_state_root(root, index)
     report = json.loads((state_dir / "result.json").read_text())
+    if not report["accepted_reference"] or report["model_digest"] != model_digest or abs(report["load"] - load) > 1e-12:
+        raise ValueError("split PINN comparison requires a matching strict reference and field digest")
     path = state_dir / "committed.npz"
     digest = hashlib.sha256(path.read_bytes()).hexdigest()
     if (not report["accepted_reference"] or report["model_digest"] != model_digest

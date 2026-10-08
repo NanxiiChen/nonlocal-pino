@@ -146,8 +146,8 @@ def _validate_config(config):
         raise ValueError("The notch tip must lie strictly inside the right boundary")
     if slot.center_y - slot.radius <= 0.0 or slot.center_y + slot.radius >= geom.Ly:
         raise ValueError("The notch must not intersect the top or bottom boundary")
-    if mesh_cfg.lc_near >= mesh_cfg.lc_far:
-        raise ValueError("mesh.lc_near must be smaller than mesh.lc_far")
+    if mesh_cfg.lc_near > mesh_cfg.lc_far:
+        raise ValueError("mesh.lc_near must not exceed mesh.lc_far")
     if not loading.du_min <= loading.du <= loading.du_max:
         raise ValueError("loading.du must lie between loading.du_min and loading.du_max")
     if not loading.du_min <= loading.du_softening <= loading.du_max:

@@ -10,6 +10,7 @@ import hashlib
 import json
 from pathlib import Path
 import runpy
+import time
 
 import jax
 import jax.numpy as jnp
@@ -22,6 +23,7 @@ from examples.fracture2d.coupling_diagnostics import atomic_json
 from examples.fracture2d.fp64 import FP64A2Backend
 from examples.fracture2d.losses import FractureResidual
 from examples.fracture2d.split_horizon_model import build_model, read_cloud
+from examples.fracture2d.trial_storage import FIELDS as STORAGE_FIELDS, prune_trial_fields, resolve_storage_policy
 
 
 def damage_pcg(D, volumes, gc0, gc1, H, initial, *, rtol, atol, maxiter):
@@ -47,6 +49,29 @@ def damage_pcg(D, volumes, gc0, gc1, H, initial, *, rtol, atol, maxiter):
         raise RuntimeError(f"fixed-H PCG failed explicit check: info={info}, residual={explicit_norm}, limit={limit}")
     return d, {"iterations": iterations[0], "volume_residual_norm": float(explicit_norm),
                "strong_residual_inf": float(max(abs(rho))), "limit": float(limit)}
+
+
+def make_jax_damage_pcg(operator, volumes, gc0, gc1, *, rtol, atol, maxiter):
+    """Reuse checked volume-SPD CG; host residual is an independent audit only."""
+    from examples.fracture2d.at2_cg import damage_solver
+
+    solve = damage_solver(operator, volumes, gc0, gc1, tol=rtol, atol=atol, maxiter=maxiter)
+    D = operator.to_scipy().tocsr()
+
+    def checked(H, initial):
+        start = time.monotonic()
+        d = np.asarray(solve(jnp.asarray(H), jnp.asarray(initial)))
+        rho = gc0 * d + gc1 * (D @ d) + 2 * H * (d - 1)
+        norm = float(np.linalg.norm(volumes * rho))
+        limit = max(atol, rtol * float(np.linalg.norm(2 * volumes * H)))
+        if not np.isfinite(norm) or norm > limit * (1 + 1e-3):
+            raise RuntimeError(f"JAX AT2 CG failed independent host residual: {norm} > {limit}")
+        return d, {"iterations": None, "iteration_count_available": False,
+                   "backend": "jax_cg", "volume_residual_norm": norm,
+                   "strong_residual_inf": float(max(abs(rho))), "limit": limit,
+                   "seconds": time.monotonic() - start}
+
+    return checked
 
 
 def reference_state_root(root, index):
@@ -112,8 +137,14 @@ def write_trial_fields(state_dir, sweep, *, q, d, H, extra_fields=None):
 
 
 def run(args):
+    storage_policy = resolve_storage_policy(args)
     jax.config.update("jax_enable_x64", True)
     jax.config.update("jax_default_matmul_precision", "highest")
+    damage_backend = args.damage_backend if "damage_backend" in vars(args) else "cpu"
+    if damage_backend not in ("cpu", "gpu"):
+        raise ValueError("damage backend must be cpu or gpu")
+    if damage_backend == "gpu" and jax.devices()[0].platform != "gpu":
+        raise RuntimeError("GPU damage loading requires a visible JAX GPU")
     # Prior schema-v1 programmatic callers have no optional relaxation selector.
     method = args.relaxation_policy if "relaxation_policy" in vars(args) else "picard"
     if method not in ("picard", "anderson_residual"):
@@ -124,6 +155,7 @@ def run(args):
             raise ValueError("invalid explicit Anderson numerical controls")
     restart_policy = args.anderson_restart_policy if "anderson_restart_policy" in vars(args) else "reject_or_rank"
     rank_strategy = args.anderson_rank_strategy if "anderson_rank_strategy" in vars(args) else "restart"
+    build_start = time.monotonic()
     config = runpy.run_path(str(args.config))["get_config"]()
     model = build_model(read_cloud(config.data.cloud, config.data.cloud_sha256),
         delta_u=config.nl.delta_u, delta_d=config.nl.delta_d, grip_extent=config.geometry.grip_extent,
@@ -135,10 +167,27 @@ def run(args):
     D = model.material_operator.to_scipy().tocsr()
     volumes = np.asarray(model.geometry.material_reference_volumes)
     gc0, gc1 = model.Gc / model.l0, model.Gc * model.l0
+    if damage_backend == "gpu":
+        solve_damage = make_jax_damage_pcg(model.material_operator, volumes, gc0, gc1,
+                                         rtol=1e-11, atol=1e-14, maxiter=2000)
+    else:
+        def solve_damage(H, initial):
+            return damage_pcg(D, volumes, gc0, gc1, H, initial,
+                              rtol=1e-11, atol=1e-14, maxiter=2000)
+    build_seconds = time.monotonic() - build_start
+    print(json.dumps({"event": "reference_model_ready", "model_build_seconds": build_seconds,
+                      "damage_backend": damage_backend, "model_digest": model.model_digest}), flush=True)
     root = args.output
     if not root.parent.is_dir():
         raise FileNotFoundError(root.parent)
     policy = {k: str(v) if isinstance(v, Path) else v for k, v in vars(args).items()}
+    for name in STORAGE_FIELDS:
+        if name in policy:
+            del policy[name]
+    if storage_policy is not None:
+        policy.update(storage_policy)
+    if damage_backend == "cpu" and "damage_backend" in policy:
+        del policy["damage_backend"]  # Preserve legacy CPU policy identities.
     if method == "picard":
         for key in ("relaxation_policy", "anderson_depth", "anderson_max_backtracks", "anderson_sufficient_decrease",
                     "anderson_restart_policy", "anderson_rank_strategy"):
@@ -173,7 +222,7 @@ def run(args):
         old = json.loads((args.fork_from / "policy.json").read_text())
         current = policy.copy()
         for key in ("output", "last_load", "max_sweeps", "fork_from", "fork_after_index",
-                    "omega", "trial_from", "trial_seed_sha256", "trial_seed_load"):
+                    "omega", "trial_from", "trial_seed_sha256", "trial_seed_load", *STORAGE_FIELDS):
             if key in old:
                 del old[key]
             if key in current:
@@ -203,6 +252,7 @@ def run(args):
     curve = []
     loads = np.arange(args.load_step, args.last_load + args.load_step * 0.5, args.load_step)
     for index, load in enumerate(loads, 1):
+        load_start = time.monotonic()
         state_dir = root / f"state_{index:04d}"
         inherited = args.fork_from is not None and index <= args.fork_after_index
         if inherited:
@@ -271,8 +321,7 @@ def run(args):
                 config.validation.cg_atol, config.validation.cg_maxiter, initial_guess=q_guess)
             fields_at_candidate = residual.evaluate(solved.displacement, jnp.asarray(candidate), None, jnp.asarray(H_comm))
             candidate_H = np.asarray(fields_at_candidate.trial_history)
-            image, solve_info = damage_pcg(D, volumes, gc0, gc1, candidate_H, candidate,
-                                          rtol=1e-11, atol=1e-14, maxiter=2000)
+            image, solve_info = solve_damage(candidate_H, candidate)
             payload = {"solve": solved, "fields": fields_at_candidate, "d": candidate,
                        "H": candidate_H, "damage_info": solve_info}
             return image, payload
@@ -291,6 +340,7 @@ def run(args):
                 config.validation.cg_atol, config.validation.cg_maxiter, initial_guess=q_guess)
         report = None
         for sweep in range(start_sweep, args.max_sweeps + 1):
+            sweep_start = time.monotonic()
             anderson_info = None
             if method == "anderson_residual":
                 d, current_image, payload, anderson_info, history_x, history_f = safeguarded_step(
@@ -303,8 +353,7 @@ def run(args):
             else:
                 H_used = np.asarray(residual.evaluate(before.displacement, jnp.asarray(d_iter), None,
                                                       jnp.asarray(H_comm)).trial_history)
-                d_solved, damage_info = damage_pcg(D, volumes, gc0, gc1, H_used, d_iter,
-                                                  rtol=1e-11, atol=1e-14, maxiter=2000)
+                d_solved, damage_info = solve_damage(H_used, d_iter)
                 d = d_iter + args.omega * (d_solved - d_iter)
                 after = backend.solve_strict(d, float(load), config.validation.cg_rtol,
                     config.validation.cg_atol, config.validation.cg_maxiter,
@@ -347,6 +396,10 @@ def run(args):
                 "consecutive": consecutive, "damage_solve": damage_info,
                 "mechanics_iterations": int(after.cg_iterations),
                 "mechanics_relative_residual": float(after.free_residual_relative_norm)}
+            if damage_backend == "gpu":
+                report["timing"] = {"model_build_seconds": build_seconds,
+                                    "sweep_seconds": time.monotonic() - sweep_start,
+                                    "load_seconds": time.monotonic() - load_start}
             extra_fields = None
             if anderson_info is not None:
                 report.update({"anderson": anderson_info, "anderson_history_count": len(history_x)})
@@ -356,8 +409,14 @@ def run(args):
             atomic_json(state_dir / f"sweep_{sweep:04d}.json", report)
             trial_binding = write_trial_fields(state_dir, sweep, q=q_guess, d=d, H=H, extra_fields=extra_fields)
             atomic_json(state_dir / "progress.json", {**report, **trial_binding})
+            if storage_policy is not None and storage_policy["trial_retention"] == "sparse":
+                prune_trial_fields(state_dir, trial_binding, tail=storage_policy["trial_tail"],
+                                   stride=storage_policy["trial_stride"])
             d_iter = d
             previous_q, previous_H, previous_reaction = q_guess.copy(), H.copy(), reaction
+            if not all(gates[name] for name in ("finite", "damage_range", "healing", "history_monotonic", "drift")):
+                report["accepted_reference"] = False
+                break
             if anderson_info is not None and not anderson_info["selected_physics_pass"]:
                 report["accepted_reference"] = False
                 break
@@ -394,6 +453,14 @@ def main():
     parser.add_argument("--load-step", type=float, required=True)
     parser.add_argument("--last-load", type=float, required=True)
     parser.add_argument("--max-sweeps", type=int, required=True)
+    parser.add_argument("--damage-backend", choices=("cpu", "gpu"), default="cpu",
+                        help="Explicit damage CG implementation; gpu has no CPU fallback")
+    parser.add_argument("--trial-retention", choices=("sparse", "all"), default=None,
+                        help="Fresh roots default to sparse; resume inherits stored or legacy all policy")
+    parser.add_argument("--trial-tail", type=int, default=None,
+                        help="Latest published generations retained (fresh default 4; minimum 4)")
+    parser.add_argument("--trial-stride", type=int, default=None,
+                        help="Periodic full-field snapshot interval (fresh default 50)")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--fork-from", type=Path)
     parser.add_argument("--fork-after-index", type=int, default=0)
