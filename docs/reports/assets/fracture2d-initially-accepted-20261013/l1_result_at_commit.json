@@ -1,0 +1,2494 @@
+{
+  "certified_path": false,
+  "complete": true,
+  "current": {
+    "H_change_relative": 0.0001652582500194832,
+    "certified_path": false,
+    "completed_sweeps": 128,
+    "coupled_AT2_relative": 0.07145287577138237,
+    "damage_change": 0.004929589374483179,
+    "damage_max": 0.9995201991075193,
+    "damage_min": 1.1548950208739058e-08,
+    "drift_count": 0,
+    "fields_sha256": "74e5c6a8c0857032cf91d6910058677e9832bb6e561325669e67d8d9763f1d05",
+    "fixed_H_image_AT2_relative": 0.07056933242412072,
+    "fixed_H_image_damage_max": 0.9995167275699613,
+    "fixed_H_image_damage_min": 1.1098544309307455e-08,
+    "full_MAE": 5.282813676305692e-05,
+    "full_MSE": 3.0045552296595144e-08,
+    "healing": 0.011439899853042945,
+    "history_decrease": 0.0,
+    "host_force_norm": 2.6276349064139583e-05,
+    "host_reaction": 0.8417369396482002,
+    "index": 20,
+    "last_training_loss": 4.992755833819636e-05,
+    "learning_rate": 1e-05,
+    "load": 0.006,
+    "local_ready": false,
+    "mechanics": {
+      "converged": true,
+      "convergence_limit": 2.6801575141154442e-05,
+      "free_residual_norm": 2.6276348924263557e-05,
+      "seconds": 0.03871877724304795
+    },
+    "network_sha256": "ebc239f7349e0776b863c4b0ee9457ab5a9c9adfdffe031914ef026e1247d3fb",
+    "optimizer_count": 1310720,
+    "optimizer_sha256": "29021363ea26646360d1c3351c8b1d7b8363ba5e4c73cb25bc6df07ce0c665e7",
+    "outer_convergence": {
+      "checks": {
+        "H_change": {
+          "limit": 0.0001,
+          "pass": false,
+          "value": 0.0001652582500194832
+        },
+        "current_AT2": {
+          "limit": 0.001,
+          "pass": false,
+          "value": 0.07145287577138237
+        },
+        "damage_change": {
+          "limit": 1e-05,
+          "pass": false,
+          "value": 0.004929589374483179
+        },
+        "damage_range": {
+          "limit": 0.001,
+          "pass": true,
+          "value": 0.0
+        },
+        "drift": {
+          "limit": 0.0,
+          "pass": true,
+          "value": 0
+        },
+        "fixed_H_image_AT2": {
+          "limit": 0.001,
+          "pass": false,
+          "value": 0.07056933242412072
+        },
+        "healing": {
+          "limit": 0.001,
+          "pass": false,
+          "value": 0.011439899853042945
+        },
+        "history_decrease": {
+          "limit": 0.0,
+          "pass": true,
+          "value": 0.0
+        },
+        "image_range": {
+          "limit": 0.001,
+          "pass": true,
+          "value": 0.0
+        },
+        "mechanics": {
+          "limit": 2.6801575141154442e-05,
+          "pass": true,
+          "value": 2.6276348924263557e-05
+        },
+        "q_change": {
+          "limit": 0.0001,
+          "pass": true,
+          "value": 9.131397526088911e-05
+        },
+        "raw_current_H_AT2": {
+          "limit": 0.001,
+          "pass": false,
+          "value": 0.07056491569843719
+        },
+        "reaction_change": {
+          "limit": 0.0001,
+          "pass": false,
+          "value": 0.0025073794765487884
+        }
+      },
+      "consecutive": 0,
+      "converged": false,
+      "mode": "residual_gated",
+      "pass_this_sweep": false,
+      "reason": "raw_current_H_rejected"
+    },
+    "parent_certified_path": false,
+    "parent_sha256": "b8f053b0bf7523901e84f7371ff3aab7953710f65863e388fbb28e3b83fa9df8",
+    "q_change_over_load": 9.131397526088911e-05,
+    "raw_current_H_AT2_relative": 0.07056491569843719,
+    "reaction": 0.8417369396308647,
+    "reaction_change_relative": 0.0025073794765487884,
+    "seconds": 638.3807538137771,
+    "status": "provisional_budget_exhausted",
+    "sweep": 128
+  },
+  "curve": [
+    {
+      "H_change_relative": 5.171244336124672e-05,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.11423879754598643,
+      "damage_change": 5.5624310743604454e-05,
+      "damage_max": 0.0027384384930657707,
+      "damage_min": 6.925380456656219e-13,
+      "drift_count": 0,
+      "fields_sha256": "b35e60909595de1256ba5fab8dab5f67adf16ec1241d82e863970f45d947fce2",
+      "fixed_H_image_AT2_relative": 0.22894605640878954,
+      "fixed_H_image_damage_max": 0.0027230202377299065,
+      "fixed_H_image_damage_min": 7.001577123289572e-13,
+      "full_MAE": 0.1792802254696438,
+      "full_MSE": 0.2179483592964044,
+      "healing": 0.0,
+      "history_decrease": 0.0,
+      "host_force_norm": 2.230748989027763e-06,
+      "host_reaction": 66.97442071165374,
+      "index": 1,
+      "last_training_loss": 0.19021771380814856,
+      "learning_rate": 1e-05,
+      "load": 0.0005,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 2.2334645950962033e-06,
+        "free_residual_norm": 2.23074897042557e-06,
+        "seconds": 0.03263442264869809
+      },
+      "network_sha256": "c46b561f2e4b6d46a4a5cb0c969bfd6e41fbc4c71c71e880a094cb744b823972",
+      "optimizer_count": 65536,
+      "optimizer_sha256": "4778c6c8b66f9733c6fdbfd38f6810c6ebdeb3bd6218f6fc911a571bbf672dc5",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 5.171244336124672e-05
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.11423879754598643
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 5.5624310743604454e-05
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.22894605640878954
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.2334645950962033e-06,
+            "pass": true,
+            "value": 2.23074897042557e-06
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 1.783597101772099e-06
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.2289465857249581
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 1.1278718742027901e-06
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": true,
+      "parent_sha256": "383130e5e1ae5d6a4210513a9d96055d9cd7f781a0e4d260124fee79bf844412",
+      "q_change_over_load": 1.783597101772099e-06,
+      "raw_current_H_AT2_relative": 0.2289465857249581,
+      "reaction": 66.9744207116085,
+      "reaction_change_relative": 1.1278718742027901e-06,
+      "seconds": 651.0069697308354,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.00021489309082999315,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.13496690786457877,
+      "damage_change": 0.0001312330100267066,
+      "damage_max": 0.011288951180350256,
+      "damage_min": 2.064452493020245e-09,
+      "drift_count": 0,
+      "fields_sha256": "4e800a9b8e57f1de778e332f4efb16ebcf5f51596ad39c0355bf4427ecf6032b",
+      "fixed_H_image_AT2_relative": 0.16840614862673287,
+      "fixed_H_image_damage_max": 0.011183640020220905,
+      "fixed_H_image_damage_min": 2.094743447281533e-09,
+      "full_MAE": 0.1617654196095896,
+      "full_MSE": 0.18641727230056884,
+      "healing": 1.3123738646484241e-07,
+      "history_decrease": 0.0,
+      "host_force_norm": 4.438069808982824e-06,
+      "host_reaction": 133.54242879728642,
+      "index": 2,
+      "last_training_loss": 0.17103842440215575,
+      "learning_rate": 1e-05,
+      "load": 0.001,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 4.466929190192407e-06,
+        "free_residual_norm": 4.438069760026072e-06,
+        "seconds": 0.05767123820260167
+      },
+      "network_sha256": "51432a64a4af425e70dc8eff11881fdf8d6f4bd07c17dcf575c8dba51d62721d",
+      "optimizer_count": 131072,
+      "optimizer_sha256": "af37684962e038cd3d427deb46f0e553c5c9f0917c630099d9c1984a42ba1255",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.00021489309082999315
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.13496690786457877
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.0001312330100267066
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.16840614862673287
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 1.3123738646484241e-07
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 4.466929190192407e-06,
+            "pass": true,
+            "value": 4.438069760026072e-06
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 5.5016600011077894e-06
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.168463081986242
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 5.692972392492173e-06
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "b35e60909595de1256ba5fab8dab5f67adf16ec1241d82e863970f45d947fce2",
+      "q_change_over_load": 5.5016600011077894e-06,
+      "raw_current_H_AT2_relative": 0.168463081986242,
+      "reaction": 133.5424287971943,
+      "reaction_change_relative": 5.692972392492173e-06,
+      "seconds": 608.8713921247981,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.00039554175136569326,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.10276929008496244,
+      "damage_change": 0.00032173730465050523,
+      "damage_max": 0.026402964957650096,
+      "damage_min": 3.957342190123842e-09,
+      "drift_count": 0,
+      "fields_sha256": "46a2607f355cc83daf4019c59e004f1924c3f47dd274c073a28172f6bb15217f",
+      "fixed_H_image_AT2_relative": 0.19170972975109024,
+      "fixed_H_image_damage_max": 0.02647218773474817,
+      "fixed_H_image_damage_min": 4.036243116406071e-09,
+      "full_MAE": 0.14735092404729738,
+      "full_MSE": 0.16981467834473501,
+      "healing": 2.1178761725747407e-06,
+      "history_decrease": 0.0,
+      "host_force_norm": 6.613471733090996e-06,
+      "host_reaction": 199.2345366653999,
+      "index": 3,
+      "last_training_loss": 0.1348813939810723,
+      "learning_rate": 1e-05,
+      "load": 0.0015,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 6.7003937852886104e-06,
+        "free_residual_norm": 6.613471714998729e-06,
+        "seconds": 0.06734630977734923
+      },
+      "network_sha256": "915db0906c2a66988e44cc7093b723fb2ffe4a94a9d2a140dbce1fd85f1f74f6",
+      "optimizer_count": 196608,
+      "optimizer_sha256": "64ca739d9ae6a2e8a5463da1d1675475f2d9c9dd4f56f6293cb065d4ed9c2888",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.00039554175136569326
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.10276929008496244
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.00032173730465050523
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.19170972975109024
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 2.1178761725747407e-06
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 6.7003937852886104e-06,
+            "pass": true,
+            "value": 6.613471714998729e-06
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 1.0605250282342063e-05
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.19165824528257405
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 6.36122177037583e-06
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "4e800a9b8e57f1de778e332f4efb16ebcf5f51596ad39c0355bf4427ecf6032b",
+      "q_change_over_load": 1.0605250282342063e-05,
+      "raw_current_H_AT2_relative": 0.19165824528257405,
+      "reaction": 199.23453666539643,
+      "reaction_change_relative": 6.36122177037583e-06,
+      "seconds": 617.9340054229833,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.001101179622561691,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.09654958048617551,
+      "damage_change": 0.0008178215860782032,
+      "damage_max": 0.04771080941503392,
+      "damage_min": 6.103313034055453e-09,
+      "drift_count": 0,
+      "fields_sha256": "ed1094f827396774b40181e88d1a2d6069c980e6462a8be807c3a6027d15c68b",
+      "fixed_H_image_AT2_relative": 0.14729239116994927,
+      "fixed_H_image_damage_max": 0.04758074349692988,
+      "fixed_H_image_damage_min": 6.134244885620365e-09,
+      "full_MAE": 0.14432099614224436,
+      "full_MSE": 0.16513900129117723,
+      "healing": 2.3773982667353522e-06,
+      "history_decrease": 0.0,
+      "host_force_norm": 8.74063229032479e-06,
+      "host_reaction": 263.6743757811222,
+      "index": 4,
+      "last_training_loss": 0.14509400147174184,
+      "learning_rate": 1e-05,
+      "load": 0.002,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 8.933858380384813e-06,
+        "free_residual_norm": 8.74063224600678e-06,
+        "seconds": 0.12640976626425982
+      },
+      "network_sha256": "602a71d9084e6a07ee6536ee18dc4160b36cbe3a403c038632f49e071685acb0",
+      "optimizer_count": 262144,
+      "optimizer_sha256": "621544ae18389a8b8226acfa4afde0414a7958b602d8ec41207f5c9afde47a6e",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.001101179622561691
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.09654958048617551
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.0008178215860782032
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.14729239116994927
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 2.3773982667353522e-06
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 8.933858380384813e-06,
+            "pass": true,
+            "value": 8.74063224600678e-06
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 3.15291007280203e-05
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.1474790156425723
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 1.8111006956675124e-05
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "46a2607f355cc83daf4019c59e004f1924c3f47dd274c073a28172f6bb15217f",
+      "q_change_over_load": 3.15291007280203e-05,
+      "raw_current_H_AT2_relative": 0.1474790156425723,
+      "reaction": 263.6743757809444,
+      "reaction_change_relative": 1.8111006956675124e-05,
+      "seconds": 630.040012548212,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.00108817071185983,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.1071174719529629,
+      "damage_change": 0.0010712184302704361,
+      "damage_max": 0.07693870805079192,
+      "damage_min": 6.736309508055314e-09,
+      "drift_count": 0,
+      "fields_sha256": "647578438b1d07f27ee136a0e3cfe3704dece5f5c2e02adf8afce826e683b2ff",
+      "fixed_H_image_AT2_relative": 0.1525274567404712,
+      "fixed_H_image_damage_max": 0.07758570539331575,
+      "fixed_H_image_damage_min": 6.431214454385958e-09,
+      "full_MAE": 0.13877677006795386,
+      "full_MSE": 0.15576958435486252,
+      "healing": 4.125614900948881e-06,
+      "history_decrease": 0.0,
+      "host_force_norm": 1.1136456931974084e-05,
+      "host_reaction": 326.4305772689551,
+      "index": 5,
+      "last_training_loss": 0.13710763593395578,
+      "learning_rate": 1e-05,
+      "load": 0.0025,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 1.1167322975481017e-05,
+        "free_residual_norm": 1.113645678437591e-05,
+        "seconds": 0.133155956864357
+      },
+      "network_sha256": "73fa4f76f43c485725d4c401b93ce081c83b8fbad44e3121924b5fa053449e1d",
+      "optimizer_count": 327680,
+      "optimizer_sha256": "b90126149b72c3202049f902487669cb62c731f83a27931ec18fafd9ec0b717c",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.00108817071185983
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.1071174719529629
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.0010712184302704361
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.1525274567404712
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 4.125614900948881e-06
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 1.1167322975481017e-05,
+            "pass": true,
+            "value": 1.113645678437591e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 4.0534254308177003e-05
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.15172136475673267
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 1.6675656262559024e-05
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "ed1094f827396774b40181e88d1a2d6069c980e6462a8be807c3a6027d15c68b",
+      "q_change_over_load": 4.0534254308177003e-05,
+      "raw_current_H_AT2_relative": 0.15172136475673267,
+      "reaction": 326.4305772690476,
+      "reaction_change_relative": 1.6675656262559024e-05,
+      "seconds": 633.2708687609993,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.002075214375366835,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.11046326023903384,
+      "damage_change": 0.0013373479886147344,
+      "damage_max": 0.11473913926260657,
+      "damage_min": 7.231130284650642e-09,
+      "drift_count": 0,
+      "fields_sha256": "998d0f206ca4dc79f16ec42f6fd7e3af99823ebc168a3b041133eff397c0c142",
+      "fixed_H_image_AT2_relative": 0.16713891519333166,
+      "fixed_H_image_damage_max": 0.11543609607952943,
+      "fixed_H_image_damage_min": 7.203756734773571e-09,
+      "full_MAE": 0.13426795579108286,
+      "full_MSE": 0.14786799123258745,
+      "healing": 9.067755886868676e-06,
+      "history_decrease": 0.0,
+      "host_force_norm": 1.3276346769443123e-05,
+      "host_reaction": 387.05387356735,
+      "index": 6,
+      "last_training_loss": 0.14005259126869768,
+      "learning_rate": 1e-05,
+      "load": 0.003,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 1.3400787570577221e-05,
+        "free_residual_norm": 1.3276346742689878e-05,
+        "seconds": 0.08513117209076881
+      },
+      "network_sha256": "32206ccf56e2b0760c128d413bfe5203e31e8b950922bdf3c75d407c54113ea6",
+      "optimizer_count": 393216,
+      "optimizer_sha256": "4aab87baf162304e5c8ba4d73ca42dd96be34abca965334bb42abfa0c04a12c4",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.002075214375366835
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.11046326023903384
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.0013373479886147344
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.16713891519333166
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 9.067755886868676e-06
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 1.3400787570577221e-05,
+            "pass": true,
+            "value": 1.3276346742689878e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 4.457987171788714e-05
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.16671654659658167
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 1.4251664098889009e-05
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "647578438b1d07f27ee136a0e3cfe3704dece5f5c2e02adf8afce826e683b2ff",
+      "q_change_over_load": 4.457987171788714e-05,
+      "raw_current_H_AT2_relative": 0.16671654659658167,
+      "reaction": 387.0538735673392,
+      "reaction_change_relative": 1.4251664098889009e-05,
+      "seconds": 634.9942233441398,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.005885929767406029,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.06881069521618706,
+      "damage_change": 0.0023581728795675494,
+      "damage_max": 0.16472496146542281,
+      "damage_min": 3.0382893939906704e-10,
+      "drift_count": 0,
+      "fields_sha256": "f44b4049e78f36b8bae52a975938c42c39792b1cbf782014a575226c37e98a2e",
+      "fixed_H_image_AT2_relative": 0.13965898880969274,
+      "fixed_H_image_damage_max": 0.16642740472122994,
+      "fixed_H_image_damage_min": 2.9379390566987816e-10,
+      "full_MAE": 0.12649766335752724,
+      "full_MSE": 0.13010861573789131,
+      "healing": 1.588523137297094e-05,
+      "history_decrease": 0.0,
+      "host_force_norm": 1.5601699627606173e-05,
+      "host_reaction": 445.0990407405153,
+      "index": 7,
+      "last_training_loss": 0.1407476513806643,
+      "learning_rate": 1e-05,
+      "load": 0.0035,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 1.5634252165673426e-05,
+        "free_residual_norm": 1.560169948132214e-05,
+        "seconds": 0.13827309990301728
+      },
+      "network_sha256": "1ccbe593491189500a7a74e48fe492d33285aabb90e602d9311502854f0f40b5",
+      "optimizer_count": 458752,
+      "optimizer_sha256": "fa38166af3eadc9789c3a800cfbc21d9debec20e773e62218be9ad438ecbcd16",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.005885929767406029
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.06881069521618706
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.0023581728795675494
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.13965898880969274
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 1.588523137297094e-05
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 1.5634252165673426e-05,
+            "pass": true,
+            "value": 1.560169948132214e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.00011824012308829611
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.12868640013533064
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 3.3352596623583717e-05
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "998d0f206ca4dc79f16ec42f6fd7e3af99823ebc168a3b041133eff397c0c142",
+      "q_change_over_load": 0.00011824012308829611,
+      "raw_current_H_AT2_relative": 0.12868640013533064,
+      "reaction": 445.0990407404036,
+      "reaction_change_relative": 3.3352596623583717e-05,
+      "seconds": 635.9147081370465,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.003399688771845327,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.09650068470828241,
+      "damage_change": 0.002518990924877673,
+      "damage_max": 0.23143115512630916,
+      "damage_min": 5.687020105118563e-11,
+      "drift_count": 0,
+      "fields_sha256": "4e8eaca921e41184286d6e4e6220e1330c28cb0b9ba7753c49908bd39bd242a6",
+      "fixed_H_image_AT2_relative": 0.1873615331198862,
+      "fixed_H_image_damage_max": 0.2311470819283342,
+      "fixed_H_image_damage_min": 5.439390115818634e-11,
+      "full_MAE": 0.11969702846745496,
+      "full_MSE": 0.12128966025950388,
+      "healing": 1.5652933481838728e-05,
+      "history_decrease": 0.0,
+      "host_force_norm": 1.775843401360277e-05,
+      "host_reaction": 499.8971532859346,
+      "index": 8,
+      "last_training_loss": 0.10938362822997645,
+      "learning_rate": 1e-05,
+      "load": 0.004,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 1.7867716760769627e-05,
+        "free_residual_norm": 1.7758434180799612e-05,
+        "seconds": 0.13122281897813082
+      },
+      "network_sha256": "05247cb6a36b4007e6b3cbf6bcc24e6690e3b32bb6b583eab9f9d821ade914b4",
+      "optimizer_count": 524288,
+      "optimizer_sha256": "006f943361b8b0dfeca2f1e40bf9553d263c31ee28af12937ad1cf3be1ae51d8",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.003399688771845327
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.09650068470828241
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.002518990924877673
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.1873615331198862
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 1.5652933481838728e-05
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 1.7867716760769627e-05,
+            "pass": true,
+            "value": 1.7758434180799612e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 8.383862959762938e-05
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.20843889498125118
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 1.650181109445558e-05
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "f44b4049e78f36b8bae52a975938c42c39792b1cbf782014a575226c37e98a2e",
+      "q_change_over_load": 8.383862959762938e-05,
+      "raw_current_H_AT2_relative": 0.20843889498125118,
+      "reaction": 499.8971532855695,
+      "reaction_change_relative": 1.650181109445558e-05,
+      "seconds": 641.5520473257639,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.003869849762707182,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.07659473417505983,
+      "damage_change": 0.00260930187913766,
+      "damage_max": 0.32574740619452314,
+      "damage_min": 1.1038919160951496e-11,
+      "drift_count": 0,
+      "fields_sha256": "d2efb6f28b304f273654cfd84af1b3d529412e6a5514a2604be3986161bfd39a",
+      "fixed_H_image_AT2_relative": 0.10249284475991403,
+      "fixed_H_image_damage_max": 0.3245035198195393,
+      "fixed_H_image_damage_min": 1.1478456511881383e-11,
+      "full_MAE": 0.10666694088401406,
+      "full_MSE": 0.09287111164097306,
+      "healing": 9.215911505535993e-06,
+      "history_decrease": 0.0,
+      "host_force_norm": 2.0096466747404163e-05,
+      "host_reaction": 550.8996591622978,
+      "index": 9,
+      "last_training_loss": 0.10429737907668973,
+      "learning_rate": 1e-05,
+      "load": 0.0045000000000000005,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 2.0101181355865834e-05,
+        "free_residual_norm": 2.009646660420629e-05,
+        "seconds": 0.14312700182199478
+      },
+      "network_sha256": "e8f210ce23ef315f49026c5faa687411ebf7593bed9288ac0c5b3259e15abffa",
+      "optimizer_count": 589824,
+      "optimizer_sha256": "7314e7f356b04809470d85e8dcb3b4069661b48b8e3bd5fc6a4e24a2501fd87c",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.003869849762707182
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.07659473417505983
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.00260930187913766
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.10249284475991403
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 9.215911505535993e-06
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.0101181355865834e-05,
+            "pass": true,
+            "value": 2.009646660420629e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.0002168102310639821
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.11693604945598039
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 9.580681001930822e-05
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "4e8eaca921e41184286d6e4e6220e1330c28cb0b9ba7753c49908bd39bd242a6",
+      "q_change_over_load": 0.0002168102310639821,
+      "raw_current_H_AT2_relative": 0.11693604945598039,
+      "reaction": 550.8996591621973,
+      "reaction_change_relative": 9.580681001930822e-05,
+      "seconds": 639.5755272191018,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.012221446630536578,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.05852388178879265,
+      "damage_change": 0.005892608349485018,
+      "damage_max": 0.4667614559486421,
+      "damage_min": 6.559483822199211e-11,
+      "drift_count": 0,
+      "fields_sha256": "b2f0f0543ebf1c53fe6c070e97c096b07dc3490e25fc9aee93209ec6b20084a9",
+      "fixed_H_image_AT2_relative": 0.16472246398132673,
+      "fixed_H_image_damage_max": 0.46314556115479005,
+      "fixed_H_image_damage_min": 6.912080832114644e-11,
+      "full_MAE": 0.08644521818304807,
+      "full_MSE": 0.06629114186477064,
+      "healing": 2.5191722209582506e-05,
+      "history_decrease": 0.0,
+      "host_force_norm": 2.230562354839173e-05,
+      "host_reaction": 596.6512277200565,
+      "index": 10,
+      "last_training_loss": 0.08864325807617865,
+      "learning_rate": 1e-05,
+      "load": 0.005,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 2.2334645950962034e-05,
+        "free_residual_norm": 2.2305623561255044e-05,
+        "seconds": 0.1473929202184081
+      },
+      "network_sha256": "f89eb80c1e2f90453ec5d932f34de601d349ec1852e635eb909770ed3d4686aa",
+      "optimizer_count": 655360,
+      "optimizer_sha256": "c50d274d6537e53530347540a24a0de196dd9db2d9c4c3b603466a722f6728f8",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.012221446630536578
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.05852388178879265
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.005892608349485018
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.16472246398132673
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 2.5191722209582506e-05
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.2334645950962034e-05,
+            "pass": true,
+            "value": 2.2305623561255044e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.00048312273522987254
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.19222220257176056
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.00010717508218194712
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "d2efb6f28b304f273654cfd84af1b3d529412e6a5514a2604be3986161bfd39a",
+      "q_change_over_load": 0.00048312273522987254,
+      "raw_current_H_AT2_relative": 0.19222220257176056,
+      "reaction": 596.6512277202459,
+      "reaction_change_relative": 0.00010717508218194712,
+      "seconds": 640.1360982190818,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.00264048631162139,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.04432695023180249,
+      "damage_change": 0.0036198379118435597,
+      "damage_max": 0.5140408482446962,
+      "damage_min": 1.0770055754719451e-10,
+      "drift_count": 0,
+      "fields_sha256": "3fc2eed1a8185977b66885e926127871efb6a1d40cd5805dc0f17900c18ca230",
+      "fixed_H_image_AT2_relative": 0.08392661808160734,
+      "fixed_H_image_damage_max": 0.5139079276398739,
+      "fixed_H_image_damage_min": 1.1382796447924496e-10,
+      "full_MAE": 0.07840083197430986,
+      "full_MSE": 0.0522519174566017,
+      "healing": 0.0006411539881121392,
+      "history_decrease": 0.0,
+      "host_force_norm": 2.274275239733603e-05,
+      "host_reaction": 604.6086020271955,
+      "index": 11,
+      "last_training_loss": 0.09046527405262544,
+      "learning_rate": 1e-05,
+      "load": 0.0051,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 2.2781338869981278e-05,
+        "free_residual_norm": 2.2742752314356214e-05,
+        "seconds": 0.10187286511063576
+      },
+      "network_sha256": "20f073f113eae96a1e32e856f6c15f2446e85f2f9bf9290d2c0dceff4b3d09fa",
+      "optimizer_count": 720896,
+      "optimizer_sha256": "8ba4f97da15fb649eac292728ef9a3adf64cfa98a535dfa6205aff68943aadcd",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.00264048631162139
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.04432695023180249
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.0036198379118435597
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.08392661808160734
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0006411539881121392
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.2781338869981278e-05,
+            "pass": true,
+            "value": 2.2742752314356214e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.00020863054411247343
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.08459315092051073
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.00011440013749342645
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "b2f0f0543ebf1c53fe6c070e97c096b07dc3490e25fc9aee93209ec6b20084a9",
+      "q_change_over_load": 0.00020863054411247343,
+      "raw_current_H_AT2_relative": 0.08459315092051073,
+      "reaction": 604.6086020271134,
+      "reaction_change_relative": 0.00011440013749342645,
+      "seconds": 637.5325469193049,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.002680294460064262,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.037924568626122895,
+      "damage_change": 0.004141031708101456,
+      "damage_max": 0.5922994034242068,
+      "damage_min": 5.315049549776461e-11,
+      "drift_count": 0,
+      "fields_sha256": "bc865306a5bc1b8bffae1e45f8d097f65a6d99c396c425a70ec938f846b9cd36",
+      "fixed_H_image_AT2_relative": 0.07470406688571621,
+      "fixed_H_image_damage_max": 0.5912889681225937,
+      "fixed_H_image_damage_min": 5.1680292136093335e-11,
+      "full_MAE": 0.06614744238073347,
+      "full_MSE": 0.03765294770718936,
+      "healing": 0.001070784863480622,
+      "history_decrease": 0.0,
+      "host_force_norm": 2.3059641756487816e-05,
+      "host_reaction": 611.1615472082729,
+      "index": 12,
+      "last_training_loss": 0.0685679703808254,
+      "learning_rate": 1e-05,
+      "load": 0.0052,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 2.3228031789000514e-05,
+        "free_residual_norm": 2.3059641653745498e-05,
+        "seconds": 0.1392085012048483
+      },
+      "network_sha256": "aa674be3cb96c6e5d3de06080f432af3b929c965f5f77ab200d895dc1a498417",
+      "optimizer_count": 786432,
+      "optimizer_sha256": "e5d1acda8fda04458992115991245611c4ba0aa87fe3eb539c3a6fc36ad3cbbe",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.002680294460064262
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.037924568626122895
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.004141031708101456
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.07470406688571621
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.001070784863480622
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.3228031789000514e-05,
+            "pass": true,
+            "value": 2.3059641653745498e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.00016620041412279232
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.08097104295369646
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.00010100538903397143
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "3fc2eed1a8185977b66885e926127871efb6a1d40cd5805dc0f17900c18ca230",
+      "q_change_over_load": 0.00016620041412279232,
+      "raw_current_H_AT2_relative": 0.08097104295369646,
+      "reaction": 611.1615472082963,
+      "reaction_change_relative": 0.00010100538903397143,
+      "seconds": 639.8081408757716,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.043234123339823786,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.05720259530588734,
+      "damage_change": 0.006609309910727057,
+      "damage_max": 0.8961396541404552,
+      "damage_min": 4.825526944793271e-10,
+      "drift_count": 0,
+      "fields_sha256": "6edacb23f8b167d0eb7a7c0d86d1f3620dd781c2f111ec500f4156ab6261a98e",
+      "fixed_H_image_AT2_relative": 0.03621988311263344,
+      "fixed_H_image_damage_max": 0.9005773282296071,
+      "fixed_H_image_damage_min": 4.833762152795167e-10,
+      "full_MAE": 0.01658234945743649,
+      "full_MSE": 0.0023313759677353603,
+      "healing": 0.0007086853729386319,
+      "history_decrease": 0.0,
+      "host_force_norm": 2.3432893595985732e-05,
+      "host_reaction": 604.8067723793157,
+      "index": 13,
+      "last_training_loss": 0.01577280909493332,
+      "learning_rate": 1e-05,
+      "load": 0.0053,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 2.3674724708019758e-05,
+        "free_residual_norm": 2.3432893880870245e-05,
+        "seconds": 0.1595489690080285
+      },
+      "network_sha256": "0def06995c2a8bb73fad43079cd7d8f3f1ad00c78e4a07f39bb7fee0938531c4",
+      "optimizer_count": 851968,
+      "optimizer_sha256": "e56eefbece2467aa914b9c14000cdeabf1bf08f6237e79260c3f8f88d762be7d",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.043234123339823786
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.05720259530588734
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.006609309910727057
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.03621988311263344
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0007086853729386319
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.3674724708019758e-05,
+            "pass": true,
+            "value": 2.3432893880870245e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.0022043984287918425
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.0724279416630778
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.0006459837848828255
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "bc865306a5bc1b8bffae1e45f8d097f65a6d99c396c425a70ec938f846b9cd36",
+      "q_change_over_load": 0.0022043984287918425,
+      "raw_current_H_AT2_relative": 0.0724279416630778,
+      "reaction": 604.8067723794222,
+      "reaction_change_relative": 0.0006459837848828255,
+      "seconds": 641.0398019519635,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.009863336373072896,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.22849727447204135,
+      "damage_change": 0.008105811639679827,
+      "damage_max": 0.9984202184356183,
+      "damage_min": 5.991407177102426e-10,
+      "drift_count": 0,
+      "fields_sha256": "c5840cf0741522111b12f8f64d6e80d0dac87e9f873c70aa8a2148eb4f0bbb91",
+      "fixed_H_image_AT2_relative": 0.22376488644858808,
+      "fixed_H_image_damage_max": 0.998437512110826,
+      "fixed_H_image_damage_min": 5.561547155443091e-10,
+      "full_MAE": 0.0003781250613570777,
+      "full_MSE": 3.384449588424914e-06,
+      "healing": 0.0028561934624529994,
+      "history_decrease": 0.0,
+      "host_force_norm": 2.3744389578616686e-05,
+      "host_reaction": 524.5784504538553,
+      "index": 14,
+      "last_training_loss": 0.0003993604738531862,
+      "learning_rate": 1e-05,
+      "load": 0.0054,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 2.4121417627038998e-05,
+        "free_residual_norm": 2.3744389701370442e-05,
+        "seconds": 0.15984290884807706
+      },
+      "network_sha256": "df0b928dde8aba618283285bd74f0d76524203b0c308c49cf024756c1349e6b0",
+      "optimizer_count": 917504,
+      "optimizer_sha256": "b9760590ada6201012611729dcf5a4768999786b9549eaed43e1fb64c7b29a65",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.009863336373072896
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.22849727447204135
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.008105811639679827
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.22376488644858808
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.0028561934624529994
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.4121417627038998e-05,
+            "pass": true,
+            "value": 2.3744389701370442e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.009049315316830446
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.2246153959745791
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.0008043644870760441
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "6edacb23f8b167d0eb7a7c0d86d1f3620dd781c2f111ec500f4156ab6261a98e",
+      "q_change_over_load": 0.009049315316830446,
+      "raw_current_H_AT2_relative": 0.2246153959745791,
+      "reaction": 524.5784504538445,
+      "reaction_change_relative": 0.0008043644870760441,
+      "seconds": 645.0420373980887,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.008507093787207518,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.2339679068197528,
+      "damage_change": 0.010464974675656324,
+      "damage_max": 0.9990599585617028,
+      "damage_min": 3.6155460641953284e-09,
+      "drift_count": 0,
+      "fields_sha256": "4d9b60d19938b2455e90da3be580aa72e08267a0609884ef248c34e986107819",
+      "fixed_H_image_AT2_relative": 0.23213740042764497,
+      "fixed_H_image_damage_max": 0.9990577082618147,
+      "fixed_H_image_damage_min": 3.959885177025016e-09,
+      "full_MAE": 0.0002146412051428998,
+      "full_MSE": 1.7352753504224396e-06,
+      "healing": 0.013952435245826456,
+      "history_decrease": 0.0,
+      "host_force_norm": 2.4517423764044636e-05,
+      "host_reaction": 430.5539450385279,
+      "index": 15,
+      "last_training_loss": 0.0001933671984199287,
+      "learning_rate": 1e-05,
+      "load": 0.0055,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 2.4568110546058235e-05,
+        "free_residual_norm": 2.4517423824967047e-05,
+        "seconds": 0.17302809609100223
+      },
+      "network_sha256": "fef87927fb43fb14b4963fba952f5a640099baf07e745bf1814bec68e662ceb6",
+      "optimizer_count": 983040,
+      "optimizer_sha256": "fbe7ea52b65b65a5f223efc1c2101682fcee8d06a2ee501bb385aa8b1e4f6f5d",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.008507093787207518
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.2339679068197528
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.010464974675656324
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.23213740042764497
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.013952435245826456
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.4568110546058235e-05,
+            "pass": true,
+            "value": 2.4517423824967047e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.010829734456637237
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.23130361149157908
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.0014700260043950743
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "c5840cf0741522111b12f8f64d6e80d0dac87e9f873c70aa8a2148eb4f0bbb91",
+      "q_change_over_load": 0.010829734456637237,
+      "raw_current_H_AT2_relative": 0.23130361149157908,
+      "reaction": 430.55394503848464,
+      "reaction_change_relative": 0.0014700260043950743,
+      "seconds": 639.692513495218,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.007230420713658559,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.2084438725817627,
+      "damage_change": 0.012027700481650805,
+      "damage_max": 0.9992836287513845,
+      "damage_min": 1.1321656259003375e-08,
+      "drift_count": 0,
+      "fields_sha256": "d587bebb80b3dd3ee8e5e6c0bd4aad3ee2d97bac329f2bbb3cdca69f87ad30b9",
+      "fixed_H_image_AT2_relative": 0.18764662586434244,
+      "fixed_H_image_damage_max": 0.999267499892982,
+      "fixed_H_image_damage_min": 1.0840418039830663e-08,
+      "full_MAE": 0.00014576551208505842,
+      "full_MSE": 6.068503067811223e-07,
+      "healing": 0.019994632673985935,
+      "history_decrease": 0.0,
+      "host_force_norm": 2.475114406037194e-05,
+      "host_reaction": 312.10147757195114,
+      "index": 16,
+      "last_training_loss": 0.00015161475042538893,
+      "learning_rate": 1e-05,
+      "load": 0.0056,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 2.501480346507748e-05,
+        "free_residual_norm": 2.4751144118459158e-05,
+        "seconds": 0.1755681000649929
+      },
+      "network_sha256": "fbfcf2519f8c5ae0c5fa50220ac7d0e6d1bd4d4c163427bf6b5a0599aeea5d66",
+      "optimizer_count": 1048576,
+      "optimizer_sha256": "7878a933629b0951fb6927538230f4d781f0d6b5bf5c1cc22a246eb4073f88f6",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.007230420713658559
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.2084438725817627
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.012027700481650805
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.18764662586434244
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.019994632673985935
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.501480346507748e-05,
+            "pass": true,
+            "value": 2.4751144118459158e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.008756608683177833
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.18759667458156348
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.002703055255659937
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "4d9b60d19938b2455e90da3be580aa72e08267a0609884ef248c34e986107819",
+      "q_change_over_load": 0.008756608683177833,
+      "raw_current_H_AT2_relative": 0.18759667458156348,
+      "reaction": 312.1014775717573,
+      "reaction_change_relative": 0.002703055255659937,
+      "seconds": 642.9517977647483,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.014620248895688932,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.2543068787889116,
+      "damage_change": 0.01965374008148335,
+      "damage_max": 0.9994034548391073,
+      "damage_min": 1.3431540646802164e-08,
+      "drift_count": 0,
+      "fields_sha256": "ede42acf9b7ff5ab45911974ae8e051b968172e5bf3055b17ca999db4c3da061",
+      "fixed_H_image_AT2_relative": 0.1956022154329112,
+      "fixed_H_image_damage_max": 0.9994021552573713,
+      "fixed_H_image_damage_min": 1.3628933212662239e-08,
+      "full_MAE": 0.00010923965744662556,
+      "full_MSE": 2.7158304717802286e-07,
+      "healing": 0.026360840117068074,
+      "history_decrease": 0.0,
+      "host_force_norm": 2.5454948400378993e-05,
+      "host_reaction": 157.42560742431058,
+      "index": 17,
+      "last_training_loss": 0.00010381115245655502,
+      "learning_rate": 1e-05,
+      "load": 0.0057,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 2.546149638409672e-05,
+        "free_residual_norm": 2.545494863605755e-05,
+        "seconds": 0.1920760520733893
+      },
+      "network_sha256": "56fe72e0eba7cfee2e91a45c1141a8b2be86f0c26fdfbd4113c299d39aa51587",
+      "optimizer_count": 1114112,
+      "optimizer_sha256": "219617e8841cfc4d2c953aa8eb03b68d5d08c99801f62c0c2ad9e450bc7bee31",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.014620248895688932
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.2543068787889116
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.01965374008148335
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.1956022154329112
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.026360840117068074
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.546149638409672e-05,
+            "pass": true,
+            "value": 2.545494863605755e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.015023378051315144
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.1955201145126166
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.009444717040101332
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "d587bebb80b3dd3ee8e5e6c0bd4aad3ee2d97bac329f2bbb3cdca69f87ad30b9",
+      "q_change_over_load": 0.015023378051315144,
+      "raw_current_H_AT2_relative": 0.1955201145126166,
+      "reaction": 157.4256074241475,
+      "reaction_change_relative": 0.009444717040101332,
+      "seconds": 644.8452962101437,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.00020532349337604413,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.09227876329047771,
+      "damage_change": 0.005471133352693669,
+      "damage_max": 0.9994431180007608,
+      "damage_min": 1.2713388163438677e-08,
+      "drift_count": 0,
+      "fields_sha256": "d53e4319694f6f6fba7a5de7d8dcd55ee947eb2a6d16eb3a1e1265f2ec441682",
+      "fixed_H_image_AT2_relative": 0.09376577616649408,
+      "fixed_H_image_damage_max": 0.9994488995711016,
+      "fixed_H_image_damage_min": 1.2534051765824737e-08,
+      "full_MAE": 6.869585897630892e-05,
+      "full_MSE": 8.323863278888033e-08,
+      "healing": 0.017490260022760884,
+      "history_decrease": 0.0,
+      "host_force_norm": 2.5505907105781298e-05,
+      "host_reaction": 0.8885696411731683,
+      "index": 18,
+      "last_training_loss": 7.295860690761984e-05,
+      "learning_rate": 1e-05,
+      "load": 0.0058000000000000005,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 2.5908189303115965e-05,
+        "free_residual_norm": 2.55059071144685e-05,
+        "seconds": 0.09148362325504422
+      },
+      "network_sha256": "bbfda59625f2e362a10237af60aef5d30bdd05693fbd020ab572f55c915295dd",
+      "optimizer_count": 1179648,
+      "optimizer_sha256": "e90d37b44f55dea78a28597e3679baf893564e687029c254e6beeffeeed48b52",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.00020532349337604413
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.09227876329047771
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.005471133352693669
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.09376577616649408
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.017490260022760884
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.5908189303115965e-05,
+            "pass": true,
+            "value": 2.55059071144685e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.00016564185423637452
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.09379442781830157
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.014535491403962132
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "ede42acf9b7ff5ab45911974ae8e051b968172e5bf3055b17ca999db4c3da061",
+      "q_change_over_load": 0.00016564185423637452,
+      "raw_current_H_AT2_relative": 0.09379442781830157,
+      "reaction": 0.8885696410562947,
+      "reaction_change_relative": 0.014535491403962132,
+      "seconds": 636.7854433399625,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.000322825877667119,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.10668838302270674,
+      "damage_change": 0.004185728098554775,
+      "damage_max": 0.9994600118119846,
+      "damage_min": 1.072884948046387e-08,
+      "drift_count": 0,
+      "fields_sha256": "b8f053b0bf7523901e84f7371ff3aab7953710f65863e388fbb28e3b83fa9df8",
+      "fixed_H_image_AT2_relative": 0.10657389458509084,
+      "fixed_H_image_damage_max": 0.9994692463818021,
+      "fixed_H_image_damage_min": 1.0889621137448434e-08,
+      "full_MAE": 5.97819474045097e-05,
+      "full_MSE": 4.740654419598686e-08,
+      "healing": 0.023735367655419837,
+      "history_decrease": 0.0,
+      "host_force_norm": 2.6324141350848907e-05,
+      "host_reaction": 0.8906663073926495,
+      "index": 19,
+      "last_training_loss": 5.562226096137776e-05,
+      "learning_rate": 1e-05,
+      "load": 0.0059,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 2.63548822221352e-05,
+        "free_residual_norm": 2.6324141392052743e-05,
+        "seconds": 0.09726990014314651
+      },
+      "network_sha256": "9a1f61c21b956dd1ca9fc473461c0e6fe076f1768010a982bffbbcf3084548e0",
+      "optimizer_count": 1245184,
+      "optimizer_sha256": "de1f889e6df7baa21938b22e4f58f2f9ad6aa43b65a0448c64a84061843e7645",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.000322825877667119
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.10668838302270674
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.004185728098554775
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.10657389458509084
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.023735367655419837
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.63548822221352e-05,
+            "pass": true,
+            "value": 2.6324141392052743e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.00015347438509414815
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.10658697391659809
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.01546317005725129
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "d53e4319694f6f6fba7a5de7d8dcd55ee947eb2a6d16eb3a1e1265f2ec441682",
+      "q_change_over_load": 0.00015347438509414815,
+      "raw_current_H_AT2_relative": 0.10658697391659809,
+      "reaction": 0.8906663070926406,
+      "reaction_change_relative": 0.01546317005725129,
+      "seconds": 636.18095099926,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    },
+    {
+      "H_change_relative": 0.0001652582500194832,
+      "certified_path": false,
+      "completed_sweeps": 128,
+      "coupled_AT2_relative": 0.07145287577138237,
+      "damage_change": 0.004929589374483179,
+      "damage_max": 0.9995201991075193,
+      "damage_min": 1.1548950208739058e-08,
+      "drift_count": 0,
+      "fields_sha256": "74e5c6a8c0857032cf91d6910058677e9832bb6e561325669e67d8d9763f1d05",
+      "fixed_H_image_AT2_relative": 0.07056933242412072,
+      "fixed_H_image_damage_max": 0.9995167275699613,
+      "fixed_H_image_damage_min": 1.1098544309307455e-08,
+      "full_MAE": 5.282813676305692e-05,
+      "full_MSE": 3.0045552296595144e-08,
+      "healing": 0.011439899853042945,
+      "history_decrease": 0.0,
+      "host_force_norm": 2.6276349064139583e-05,
+      "host_reaction": 0.8417369396482002,
+      "index": 20,
+      "last_training_loss": 4.992755833819636e-05,
+      "learning_rate": 1e-05,
+      "load": 0.006,
+      "local_ready": false,
+      "mechanics": {
+        "converged": true,
+        "convergence_limit": 2.6801575141154442e-05,
+        "free_residual_norm": 2.6276348924263557e-05,
+        "seconds": 0.03871877724304795
+      },
+      "network_sha256": "ebc239f7349e0776b863c4b0ee9457ab5a9c9adfdffe031914ef026e1247d3fb",
+      "optimizer_count": 1310720,
+      "optimizer_sha256": "29021363ea26646360d1c3351c8b1d7b8363ba5e4c73cb25bc6df07ce0c665e7",
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.0001652582500194832
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.07145287577138237
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.004929589374483179
+          },
+          "damage_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.07056933242412072
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.011439899853042945
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.6801575141154442e-05,
+            "pass": true,
+            "value": 2.6276348924263557e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 9.131397526088911e-05
+          },
+          "raw_current_H_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.07056491569843719
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.0025073794765487884
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "raw_current_H_rejected"
+      },
+      "parent_certified_path": false,
+      "parent_sha256": "b8f053b0bf7523901e84f7371ff3aab7953710f65863e388fbb28e3b83fa9df8",
+      "q_change_over_load": 9.131397526088911e-05,
+      "raw_current_H_AT2_relative": 0.07056491569843719,
+      "reaction": 0.8417369396308647,
+      "reaction_change_relative": 0.0025073794765487884,
+      "seconds": 638.3807538137771,
+      "status": "provisional_budget_exhausted",
+      "sweep": 128
+    }
+  ],
+  "direct_targets": false,
+  "fresh_draws": 1310720,
+  "fresh_network": true,
+  "loss_norm": "l1",
+  "optimizer_count": 1310720,
+  "own_zero": true,
+  "requested_loads": [
+    0.0005,
+    0.001,
+    0.0015,
+    0.002,
+    0.0025,
+    0.003,
+    0.0035,
+    0.004,
+    0.0045000000000000005,
+    0.005,
+    0.0051,
+    0.0052,
+    0.0053,
+    0.0054,
+    0.0055,
+    0.0056,
+    0.0057,
+    0.0058000000000000005,
+    0.0059,
+    0.006
+  ],
+  "sampling_blocks": 5120,
+  "seconds": 12757.630842533894,
+  "status": "complete"
+}

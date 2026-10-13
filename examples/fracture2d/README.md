@@ -1,5 +1,7 @@
 # 2D Rounded-Notch Fracture: Reference Solvers and Nonlocal PINN
 
+> 阶段评价（2026-10-13）：当前结果初步可接受，仍需大量改善。现有实验代码需要大量精简、合并和整理；本阶段保存可追溯结果，不将 provisional 状态视为充分收敛。详见[阶段报告](../../docs/reports/fracture2d-initially-accepted-20261013.md)。
+
 This example is the 2D stage of the fracture program. The implementation order
 is local FEM reference, direct nonlocal solver, then nonlocal PINN. The
 **adopted direct scheme is one self-contained GPU-only file**,
@@ -1245,6 +1247,969 @@ warning states 53–75 locally. Its terminal field SHA256 is
 The PINN comparison policy must explicitly opt into these accepted warning
 fields; they retain their original diagnostic status.
 
+Fresh PINN loading uses `configs/split_pinn_short_damage.py` with two FP64
+networks, the same fine-cloud model and analytic energy/padded damage gradients.
+Its explicit `data.reference_policy="user_accepted_warning"` and
+`data.reference_policy_sha256` bind the adopted warning-root policy. Legacy
+configs remain strict-only. The reader verifies field hashes, warning hard
+checks and immediate parent identity; reference status/report/policy hashes
+enter checkpoint identity and reporting. Warning reference ancestry prevents
+strict neural labeling even if the current neural checks pass.
+Reference q/d enter comparisons and first-passage reporting only; reference
+history is never imported into neural losses or the learned predecessor.
+
+For an explicitly user-authorized complete warning exploration,
+`configs/split_pinn_full_warning.py` forks the usable neural prefix through53
+and retrains54 onward. `reporting.comparison_gate=False` retains the original
+5% reaction/0.01 damage-RMSE limits and their pass/fail diagnostics but makes
+them nonblocking. Reference-first-passage stopping is disabled as well, so
+unconverged direct comparisons do not decide when an inner block ends.
+Reports retain `comparison_checks_pass`, `comparison_gate_enforced=False`, all
+secondary defects and warning ancestry; this policy never creates strict
+neural acceptance. Finiteness, exact constraints, checkpoint/model/reference
+identity checks and learned maximum-history semantics remain in effect.
+The old rejected54 is preserved and its H is not a new parent floor.
+
+### Direct–PINN stagger: direct mechanics / nonlocal PINN damage
+
+`hybrid_pinn.py` uses the same FP64 fine-cloud nonlocal mechanics and AT2
+operators, but trains only one damage network in a staggered algorithm. The explicit configuration
+`configs/hybrid_pinn_short_damage.py` selects `train.mechanics_solver="direct"`.
+Each outer sweep performs:
+
+1. a strict fixed-d mechanical solve with `FP64A2Backend.solve_strict`;
+2. `H_used=max(own preceding-load cumulative H, current direct-q driver)`,
+   followed by fixed-H nonlocal AT2 damage-network training;
+3. the configured damage relaxation, a second strict mechanical solve, and
+   recomputation of the final history and stagger-consistency residuals.
+
+These are separate frozen-field subproblem solves, not a simultaneous/monolithic
+u/d solve or joint loss. Damage gradients do not pass through the direct solver
+or H_used. The existing report key `coupled_AT2_relative` names the damage
+equation defect evaluated on the final staggered fields; it is a diagnostic,
+not a coupled solution algorithm.
+
+The default two-load control keeps three outer sweeps, 2000 damage updates per
+sweep, Adam `1e-4`, and `omega=0.5`. There are no mechanics-network updates.
+Damage weights/Adam and the hybrid's own q/d/H warm-start later loads; reference
+q/d serve only as comparisons and reference H is never loaded. Both mechanics
+phases must pass the explicit CG residual check. This subproblem check does not
+certify outer convergence, so reports distinguish `fixed_H_image_AT2_relative`
+from `coupled_AT2_relative` and retain change/healing/drift diagnostics. Mechanical
+MSE is normalized by the first-load affine residual times the reference index;
+the CG norm/tolerance is the authoritative mechanical subproblem check.
+
+The dedicated `fracture2d-direct-mechanics-pinn-damage-v1` checkpoint schema
+stores one damage network/Adam state and actual fields. Phase snapshots also
+store the current direct displacement, previous damage and H_used so a resume
+after damage does not repeat damage training or substitute a neural q. The
+runner can start fresh or inherit an explicit SHA-verified matching hybrid
+prefix through output.fork_from/fork_after_index. Full-neural checkpoints are
+not compatible with this one-network schema. Completed endpoint-only resume
+verifies model, reference, config and parent hashes. The default comparison gate is disabled, with the
+original thresholds still reported; completed loading remains warning research.
+
+```bash
+source .venv/bin/activate
+python -m examples.fracture2d.hybrid_pinn \
+  --config examples/fracture2d/configs/hybrid_pinn_short_damage.py
+# Re-read completed states without retraining, or extend the endpoint:
+python -m examples.fracture2d.hybrid_pinn \
+  --config examples/fracture2d/configs/hybrid_pinn_short_damage.py --resume
+```
+
+The initial result root is
+`tf-logs/fracture2d/hybrid_short_damage_first2_20261010`; events are in the sibling
+`events/hybrid_short_damage_first2_20261010`. Each saved sweep includes q/d/H,
+H_used, the unrelaxed damage image and previous damage for independent checks.
+
+The larger-network candidate `configs/hybrid_pinn_swish_fourier.py` follows
+fracture1d's Swish plus trainable Fourier-feature method. The1D baseline has
+200-wide4-layer MLP,32 Fourier frequencies at scale16 and33 local hat
+coefficients. The2D candidate uses256-wide6-layer MLP,64 Fourier frequencies
+at the same initial scale16:128 sine/cosine input features from a trainable
+2x64 frequency kernel, and362369 trainable parameters. The hybrid Adam update
+includes the Fourier kernel together with all trunk/output weights.
+
+This candidate retains the same2D physical/output formulation, Adam1e-4,
+2000 damage updates per block and3 stagger sweeps. Its user-selected loading
+schedule is `reference_indices=[40,41,...,75]`: start fresh at0.0040, then
+increments0.0001. Own d/H start fromzero; skipped reference histories are not
+imported. This changed loading path is not asserted equivalent to the original
+uniform path, so a curve difference cannot be attributed to architecture alone.
+Its default endpoint is2 (0.0040/0.0041) for real-grid validation; full endpoint
+ordinal36 reaches0.0075. It has distinct output
+and event roots and must start fresh. Architecture changes cannot resume an
+old128x4 checkpoint. Parameter count/forward construction alone does not
+validate its damage/unloading accuracy. The1D local hats are specific to a
+fixed1D grid/imperfection patch; a2D local basis for an advancing crack needs
+separate design/support validation and is not included in this candidate.
+
+```bash
+python -m examples.fracture2d.hybrid_pinn \
+  --config examples/fracture2d/configs/hybrid_pinn_swish_fourier.py
+```
+
+The narrower user-selected trial is
+`configs/hybrid_pinn_swish_fourier_128.py`:128-wide6-layer Swish with the same
+64 trainable Fourier frequencies/scale16, FP64 and99329 parameters. Its explicit
+schedule `[48,49,...,75]` starts fresh at0.0048 then increments0.0001; the initial
+endpoint2 tests0.0048/0.0049 and full selected endpoint28 reaches0.0075.
+It uses its own output/events root and zero-floor history, not a256-wide neural
+checkpoint or skipped reference histories. Both width and starting path differ
+from the preceding candidate; field accuracy/runtime need actual validation.
+The optimizer/physical/stagger settings are inherited unchanged.
+
+```bash
+python -m examples.fracture2d.hybrid_pinn \
+  --config examples/fracture2d/configs/hybrid_pinn_swish_fourier_128.py \
+  --last-index 28
+```
+
+### Convergence-controlled outer stagger
+
+The independent `local_damage_trial.py` entry isolates local mechanics from the
+existing A2 model. `configs/local_damage_trial.py` retains the71307-node material
+cloud, all volume-grip vertical constraints/anchor, cubic damage radius0.008,
+plane strain, material parameters and the fresh `[48,...,75]` schedule. Mechanics
+uses the standard P1 weak form on the same union/grip triangulation. Material
+degradation is integrated by degree2 triangle quadrature; grip cells stay
+undegraded. The solver.py hybrid Amor driver is constant per P1 material cell
+and projected onto material nodes using area/3 weights divided by nodal volumes.
+This explicit projection and the mechanical discretization differ from A2;
+neither branch is presumed to be the exact local continuum reference.
+
+Direct and PINN damage paths start with their own zero d/H and retain the same
+previous-committed maximum-history floor and relaxation0.5. They use the existing
+outer gates; exhausted loads do not advance. Direct fields never enter a neural
+loss or parent. Direct/PINN output roots are separate. Completed-state resume
+allows endpoint extension, validates parent/field/network hashes and never skips
+a rejected state. Interrupted unfinished loads require a new identified retry;
+this experimental entry does not implement the older hybrid phase-recovery schema.
+Root reports are snapshots of completed loads; use the curve length/ready count,
+requested endpoint and worker exit to determine whether a whole run has ended.
+`configs/local_damage_trial_2048.py` gives the separately identified larger
+direct-solve budget, and `configs/local_damage_pinn_smoke.py` is a4-sweep own-
+history neural diagnostic. It is not a physical convergence budget.
+`configs/local_damage_trial_from_zero.py` checks all75 loading increments from
+zero through0.0075, with its own committed history. It requests CG absolute
+tolerance1e-13 instead of1e-10 for the small-load volume-weighted damage RHS;
+the relative tolerance and every outer/physical gate remain unchanged.
+Compare readiness, current-history residuals and crack fields together: a
+declining reaction during a moving crack is not a completed outer solve.
+
+`local_damage_comparison.py` and `configs/local_gradient_damage_from_zero.py`
+provide a matched own-zero-history local damage control. Only the scalar spatial
+operator is replaced by standard material P1 gradient stiffness \(S\), with
+\(D_{local}=M_{lumped}^{-1}S\). Its damage weak form is
+
+$$
+[\operatorname{diag}(M_{lumped}(G_c/\ell_0+2H))+G_c\ell_0 S]d
+=2M_{lumped}H.
+$$
+
+Mechanics, volume-grip constraints, nodal-lumped Amor projection, maximum
+committed history, relaxation, load schedule and convergence gates match the
+nonlocal direct zero-start trial. The natural scalar boundary condition is
+zero flux; no damage Dirichlet constraints are introduced. Operator inputs and
+code are SHA-bound, and completed-state resume supports endpoint extension.
+It never imports a nonlocal physical predecessor or promotes exhausted loads.
+`configs/local_gradient_damage_load_refined.py` uses the same87-load critical-
+region quarter-step schedule as `configs/local_damage_load_refined.py`, allowing
+loading sensitivity to be distinguished from scalar-operator differences.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.local_damage_comparison \
+  --config examples/fracture2d/configs/local_gradient_damage_from_zero.py
+```
+
+`local_damage_fem_audit.py` runs in `fenicsenv` after JAX GPU work exits. It
+independently assembles UFL mechanics, scalar stiffness, nodal mass and Amor
+projection, checks every saved accepted state, and compares selected fixed-H
+damage images with independent sparse LU solutions. Required arguments are
+`--geometry-dir`, `--roots`, `--output` and `--oracle-loads`. This is independent
+verification of a discrete coupled path, not a separately generated trajectory
+or a spatially converged continuum reference. The older `solver.py` archive
+uses boundary loading, DG0 history and consistent reaction mass; its warning
+transition states cannot serve as an identical-model strict comparator.
+
+`conditioned_damage_trial.py` is a fixed-own-history neural representation
+experiment. Its separate96x3 Swish MLP receives six geometry features and
+logarithmic/bounded features of the known history averaged on the existing
+nonlocal graph. With \(P_{ij}=-D_{ij}/D_{ii}\) for \(i\ne j\) and
+\(P_{ii}=0\), nonnegative rows sum to one; the explicit powers are
+\(0,1,2,4,8,16\). These are coefficient features, not damage-equation
+iterations. The known \(H\) is detached and changes as an explicit JIT input.
+The neural field uses the existing positive output link/load scaling and the
+same nonlocal AT2 residual. No direct target, damage correction or changed
+physical/history equation is introduced.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.conditioned_damage_trial \
+  --config examples/fracture2d/configs/conditioned_damage_trial.py
+```
+
+The frozen input is the earlier neural checkpoint's own `H_used`; its bytes
+are validated and remain read-only. Full-field residual/range gates determine
+success. Configured residual-MSE and residual-L4 stages explicitly inherit
+neural weights, with bounded L-BFGS work. The latter minimizes
+\(\sqrt{\operatorname{mean}((r/s)^4)+\epsilon^4}\), using the declared
+\(s=2\operatorname{RMS}(H)\) and \(\epsilon=10^{-15}\), to emphasize peaks.
+This changes the training objective, not the physical residual/gate. A direct
+fixed-H solution is evaluated only after all training for independent error
+reporting. Conditioning changes the ansatz and is not proof of unseen-history
+generalization or a speed benefit. Subsequent loading requires its own history
+and both inner and outer gates; fixed-H success alone does not authorize
+unready physical advancement.
+
+`compact_damage_trial.py` continues the same fixed-own-H experiment with a
+frozen conditioned trunk and continuous radial hidden functions
+\(\phi_j(x)=\max(1-\|x-c_j\|/r_j,0)\). Trainable readout coefficients enrich
+the raw neural output before its positive link. Coarse centers cover the
+material; additional centers are chosen from the preceding neural residual,
+with explicit spacing/radius/budget controls. Their geometry and padded arrays
+stay fixed during each optimizer. These are continuous functions, not per-node
+damage correction or an imported direct solution. The code scales each readout
+column by \(2\operatorname{RMS}(H)\sqrt{N}/\|A\phi_j\|_2\), where
+\(A=\operatorname{diag}(G_c/l_0+2H)+G_c l_0D\). This is a checked parameter
+normalization; the residual and gates remain identical. This reduced neural
+ansatz should be distinguished from the plain coordinate MLP.
+Different radii may share a center, including tip/corner centers; separation
+applies within the adaptive scale only. `residual_source` explicitly selects
+another uncorrected neural result with exactly the same own history for center
+selection. Its damage values are not labels or initial readout coefficients.
+`baseline_mode` is explicit: `raw_conditioned` adds readouts to the frozen raw
+trunk; `positive_conditioned` adds them to its positive image before the final
+positive link. The latter changes the initial field by at most the declared
+link floor and gives formerly saturated negative outputs a usable derivative.
+`radius_factor` sets each adaptive radius relative to its nearest material
+spacing, with declared minimum/maximum bounds. `inherited_source` explicitly
+preserves another neural basis and trained readouts before adding smaller
+continuous units. Old columns and the initial physical field must match the
+parent; coefficient scaling is transferred inversely to preserve that field.
+Each optimizer still uses a fixed basis, and all source files are SHA-bound.
+Available explicit `compact.methods` stages are `residual_mse`, `residual_l4`,
+`residual_l16` and `residual_l32`. Zero added units explicitly retains the
+inherited basis for an optimizer-only continuation.
+For an even power \(p\), the peak objective is
+\((\operatorname{mean}((r/(2\operatorname{RMS}(H)))^p)+\epsilon^p)^{2/p}\).
+Increasing \(p\) emphasizes extremes; full-field physical gates are unchanged.
+The implementation evaluates this expression with a detached maximum scale
+to avoid power overflow and zero-residual floor underflow; its algebraic
+objective and checked parameter derivative are unchanged.
+
+```bash
+.venv/bin/python -m examples.fracture2d.compact_damage_trial \
+  --config examples/fracture2d/configs/compact_damage_trial.py
+```
+
+The source conditioned weights/history remain read-only, and direct fixed-H
+damage is evaluated after training only. Fixed-H success still requires a
+separate own-zero coupled loading test before any physical path claim.
+
+`compact_damage_loading.py` supplies that separate own-zero test. It requires
+a seed which has met its declared fixed-H target. Only trained parameters and
+feature geometry transfer. Physical displacement, damage and committed history
+start at zero; the local FEM solve generates each new driving history, using
+the previous accepted load's history as its sole maximum-history floor.
+
+`output_damage_trial.py` provides a separate fixed-own-H output-map control.
+It compares the existing nonnegative map, sigmoid and \(\exp(-z^2)\), as well
+as sigmoid/exp-square maps for the auxiliary neighbor field below. All groups
+use the same frozen own-neural predictor, continuous compact feature geometry,
+conditioned residual MLP, physical initial field and explicit optimizer budget.
+The additional frozen predictor is part of the ansatz, so this experiment does
+not isolate an output map against the older smaller effective representation;
+its matching nonnegative control isolates the head within the new ansatz.
+Direct damage/history are never training targets or physical parents.
+
+For \(g_0=G_c/l_0\), \(g_1=G_c l_0\), \(C_i=g_1D_{ii}\) and
+\(P=I-\operatorname{diag}(D_{ii})^{-1}D\), the checked nonnegative
+row-stochastic graph permits the exact AT2 rearrangement
+
+$$
+(g_0+2H_i+C_i)d_i-C_i(Pd)_i=2H_i.
+$$
+
+The operator-aware output is
+
+$$
+d_{\theta,i}=\frac{2H_i+C_i\sigma_{\theta,i}}{g_0+2H_i+C_i},
+\qquad r_i=C_i\bigl(\sigma_{\theta,i}-(Pd_\theta)_i\bigr).
+$$
+
+Bounding \(\sigma_\theta\) to \([0,1]\) bounds \(d_\theta\) to \([0,1)\).
+This changes the neural parameterization, not the original equation, operator,
+maximum history or irreversibility checks. It applies no iterative nodal
+damage correction. Training and acceptance still evaluate the original AT2
+residual rather than assuming that an output bound establishes convergence.
+
+Matching initialization sets \(\sigma_0=\epsilon+(1-2\epsilon)d_{\rm own}\)
+and uses its reconstructed damage as the common starting field. Each output
+map is analytically inverted; the trainable residual network starts at zero.
+The positive branch \(z_0=\sqrt{-\log(v_0)}\) initializes exp-square away from
+\(z=0\), where its output is1 and its derivative is0. The declared
+`head_trial.initialization_epsilon` makes inverse values finite; predictions
+are not silently clipped. Known H/load enter all later evaluations explicitly.
+Compact columns are normalized by the original residual Jacobian at that
+initial field, including each head derivative and load scaling. The MLP scalar
+gain is the reciprocal initial decoder-derivative RMS. Both are fixed parameter
+scales, and no new weighting or physical tolerance is introduced.
+
+```bash
+.venv/bin/python -m examples.fracture2d.output_damage_trial \
+  --config examples/fracture2d/configs/output_damage_trial.py
+```
+
+Input geometry/source/basis hashes and output fields/networks/scales are recorded
+in a separate run identity. A rejected checkpoint supplies diagnostic own H
+only. It remains rejected; subsequent coupled work must retain the last accepted
+physical parent and explicitly certify the new decoder. Fixed-H head performance
+alone does not establish a converged fracture path or an optimal universal map.
+
+`output_damage_loading.py` compares certified direct sigmoid/exp-square heads
+in separately identified coupled branches. It verifies the complete accepted
+parent prefix, retains its physical displacement/damage/committed H, and checks
+the fixed-H decoder identity, learned weights and parameter scales before
+transfer. The first load's own FEM history is independently reconstructed;
+later loads use each branch's own accepted history. Frozen own-neural baseline
+inputs and the new residual network both receive current H/load. Seeds are
+neural parameters, not diagnostic physical fields or imported direct history.
+The same original inner/outer gates and updated-H raw-network check apply.
+An unready inner result stops before relaxation or history commitment, and a
+rejected physical state cannot become the next parent. These explicit short
+controls do not provide endpoint extension/resume; further continuation needs
+a declared matching-model identity and verified accepted parent.
+
+```bash
+.venv/bin/python -m examples.fracture2d.output_damage_loading \
+  --config examples/fracture2d/configs/output_damage_loading.py
+```
+
+`output_damage_continue.py` supplies separately identified sigmoid continuation
+from a certified bounded-head physical parent. The explicit example config
+selects accepted34 and uniform loads35..75. It validates the old zero-origin
+prefix and subsequent bounded-head ancestry, audited model/configuration/code,
+frozen own-neural predictor, compact basis, fixed scales and residual-network
+weights. Parent H/d/q and both damage images reconstruct before continuation.
+The equation, committed maximum history, half-relaxation, optimizer controls and
+every original inner/outer/physical gate are unchanged; no reference H is used.
+
+`cached_damage_optimization.py` builds value/gradient and metrics functions once
+for a fixed parameter-tree layout. Current parameters/H/load remain dynamic
+arguments. It retains the existing SciPy L-BFGS iteration/readiness policy and
+rejects changed network structure, shapes or dtypes. Startup compares actual
+decoder objectives/gradients/metrics with independently traced evaluations.
+Compilation reuse alone does not establish numerical or overall speed benefit.
+
+```bash
+.venv/bin/python -m examples.fracture2d.output_damage_continue \
+  --config examples/fracture2d/configs/output_damage_continue.py
+# Same configuration and accepted-only restart:
+.venv/bin/python -m examples.fracture2d.output_damage_continue \
+  --config examples/fracture2d/configs/output_damage_continue.py --resume
+```
+
+The new root records the inherited physical prefix and source/code hashes.
+Completed states can be restored only when ready and unchanged; rejected states
+cannot be skipped. An incomplete inner solve restarts from the last completed
+outer checkpoint, with fresh L-BFGS memory; no quasi-Newton optimizer-state
+continuation is claimed. Pending checkpoints preserve q/d/H, network, current
+reaction, mechanics and confirmation count in atomically selected generations.
+The worker retains the latest two pending generations and all final/sweep/inner
+reports. A converged outer checkpoint commits without an extra physical update
+on restart. Changing anything beyond the requested endpoint requires a declared
+new identity. Failed initializer/range/solver checks stop loudly; no numerical
+fallback, direct damage correction or history replacement is applied.
+
+`output_damage_safe_continue.py` supplies a declared fork when the frozen
+positive-only initializer exceeds its original range during later loading.
+Its explicit config selects accepted52 and original loads53..75. Before the
+unchanged seed reconstruction, replace the frozen prediction by
+\(\min(d_{\mathrm{frozen}},1-\epsilon)\), with the existing
+\(\epsilon=10^{-10}\). Thus \(\sigma_0=\epsilon+(1-2\epsilon)
+\min(d_{\mathrm{frozen}},1-\epsilon)\) and
+\(d_0=(2H+C\sigma_0)/(g_0+2H+C)\) remain strictly between0 and1 for
+nonnegative H and positive g0/C, giving a finite logit. The final unknown is
+still \(d_\theta=\operatorname{sigmoid}(\operatorname{logit}(d_0)
++\Delta_\theta)\); it is checked with the full original AT2 residual.
+The cap acts on a frozen initialization coefficient, not the solved damage.
+Below the cap the old and new decoder images agree exactly.
+
+The fork validates the original independent audit, source/code snapshot,
+accepted ancestry and parent hashes. Both saved parent H_used/current-H
+images and exact own-FEM history must reconstruct at startup. Uncommitted
+trial damage/history are never imported. The new operation/configuration and
+wrapper source hash are recorded in a separate identity; the original root
+and archived runner remain retained. The orchestration run API now requires
+explicit parent_loader, setup_fn and extra_code_names; its original CLI passes
+the original functions. Changed orchestration hashes require a new identity
+instead of resuming an old root. Optimizer/physics/gates are unchanged.
+
+```bash
+.venv/bin/python -m examples.fracture2d.output_damage_safe_continue \
+  --config examples/fracture2d/configs/output_damage_safe_continue.py
+# Restart only this new root, with the same configuration:
+.venv/bin/python -m examples.fracture2d.output_damage_safe_continue \
+  --config examples/fracture2d/configs/output_damage_safe_continue.py --resume
+```
+
+The separate `plain_sigmoid_damage.py` factory uses
+\(d_\theta=\operatorname{sigmoid}(f_\theta(x,H,u))\) with the same conditioned
+MLP, continuous compact readouts and explicit parameter scales. Its latent
+field has no frozen predictor or diagonal/H reference term. Current H is
+detached throughout each inner loss; it still updates in the outer physical
+solve. The same42577 parameters remain trainable; the earlier additional
+frozen42577-parameter predictor is removed from the effective representation.
+This is not an equal-total-capacity output-head ablation.
+
+`plain_sigmoid_trial.py` explicitly converts old correction-head parameters:
+retain trunk/readout weights, recenter the existing trainable output bias once
+using the mean own-network teacher logit, then fit those own-network logits.
+The teacher is used only during this one-time conversion, never in the new
+runtime damage output. There are no FEM/direct training labels or per-node
+damage correction. Transfer readiness and subsequent L32/L16 training both
+use the original AT2/range gate; a small teacher-fit loss alone is insufficient.
+Each stage retains explicit2048/check32 controls. Known H features, load
+normalization, graph and physical equation stay unchanged.
+
+The diagnostic config selects completed uncommitted53 sweep77 for parameter
+conversion at its old own H, then original-residual training at failed H78.
+The parent config separately converts accepted52 at its own current H.
+Diagnostic physical fields are never accepted ancestry. A physical continuation
+requires both fixed-H readiness and a certified matching52-parent decoder.
+
+```bash
+.venv/bin/python -m examples.fracture2d.plain_sigmoid_trial \
+  --config examples/fracture2d/configs/plain_sigmoid_trial.py
+.venv/bin/python -m examples.fracture2d.plain_sigmoid_trial \
+  --config examples/fracture2d/configs/plain_sigmoid_parent.py
+```
+
+The explicit `_rms` trial/parent configurations instead normalize latent basis
+columns by their RMS. Changing scale from s_old to s_new is accompanied by
+beta_new=beta_old*s_old/s_new, preserving the initial represented field.
+Inherited reference-head normalization can be unsuitable for plain logits;
+each parameterization uses a separate run identity/root. Original equations
+and gates remain unchanged.
+
+`plain_sigmoid_cold.py` provides the separate fresh-start applicability test.
+Its config selects only displacement0.005 (index50) as the first load. Physical
+q/d/H start at zero; hidden MLP weights are freshly seeded, output weight and
+compact readouts start at zero, and a trainable output bias gives uniform
+initial neural damage0.01. It imports only validated mesh/operator and pinned
+compact feature geometry, with no old trained weights, reference network,
+teacher or physical history. Latent columns use fixed RMS scales; trunk gain
+sets a unit MLP latent factor at reference displacement0.005. All42577
+parameters remain trainable. Current H is detached during each damage solve.
+
+First save the fixed-own-H network/fields/result, then proceed with half-relaxed
+damage and local FEM only if the original inner residual/range gates pass.
+The original coupled gates and three consecutive confirmations still determine
+physical readiness. Failed points are not promoted. The fresh jump from zero
+to0.005 is a distinct schedule from the earlier gradual loading prefix.
+This intentionally one-load entry has no CLI restart or endpoint extension.
+
+The `plain_sigmoid_cold_jacobian.py` configuration is a separate scaling
+control with the same fresh seed, initial field and physical path. It uses
+the initial readout Jacobian
+\(J=[\operatorname{diag}(g_0+2H)+g_1D]
+\operatorname{diag}(d_{\rm init}(1-d_{\rm init}))B\) to normalize each
+column's residual RMS through the existing `residual_column_scale` function.
+The resulting scales remain fixed; the output has no additional reference
+field. Initial physical fields are saved for independent own-H replay.
+
+```bash
+.venv/bin/python -m examples.fracture2d.plain_sigmoid_cold \
+  --config examples/fracture2d/configs/plain_sigmoid_cold.py
+.venv/bin/python -m examples.fracture2d.plain_sigmoid_cold \
+  --config examples/fracture2d/configs/plain_sigmoid_cold_jacobian.py
+```
+
+### Fresh gradual loading without a reference logit
+
+`plain_sigmoid_gradual.py` initializes physical displacement, damage and
+committed history exactly zero and starts training at positive load0.0001.
+Its explicit uniform schedule extends through0.0075, with a milestone after
+the first10 accepted loads. It stops at the first rejected inner or outer
+solve. Only accepted neural parameters and physical states warm start later
+loads; previous output-layer weights and histories are not imported.
+
+The separate `make_gradual_problem` decoder is
+\(d_\theta=\operatorname{sigmoid}(f_\theta(x,H)+B\beta_\theta)\).
+It does not multiply the entire logit by load squared: that scaling would
+also rescale the learned negative bias when increasing the load. Features
+use physical, detached own history. The initial trainable bias gives uniform
+neural damage1e-5; physical initial damage remains0. Readout scales normalize
+the initial-own-H AT2 Jacobian once and stay fixed. These are parameterization
+choices; the local FEM/nonlocal AT2 equations, committed maximum history,
+omega0.5 and original full-field inner/current-history/outer gates remain.
+
+Each fresh output directory retains zero fields, initial/final neural weights,
+source/code hashes and snapshots, per-load parent hashes and pending outer
+checkpoints. Existing directories are rejected; the entry point does not yet
+offer automatic restart. Do not advance from an unready saved checkpoint.
+The preserved single-load decoder and its prior artifacts remain separate.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.plain_sigmoid_gradual \
+  --config examples/fracture2d/configs/plain_sigmoid_gradual.py
+```
+
+`configs/plain_sigmoid_gradual_long.py` declares the same fresh experiment
+with8192 iterations per residual objective instead of2048, in a separate
+output root. It changes the training budget only; all readiness gates remain.
+
+### Fixed-own-history saturation comparison
+
+`plain_damage_head_trial.py` compares fresh sigmoid, \(\exp(-z^2)\) and
+identity outputs at exactly the same audited initial own-zero FEM history
+from the gradual experiment. It imports no trained network or direct labels.
+The MLP/compact basis and trainable parameter count stay the same. Each head
+initializes at uniform damage1e-5. Exp-square starts at a negative latent,
+so its initial derivative is positive; identity has derivative1. Fixed
+readout Jacobian scales and trunk gains match all initial parameter
+sensitivities to the sigmoid control. This avoids mistaking arbitrary initial
+gradient magnitude for an effect of the output map.
+
+Sigmoid has derivative \(d(1-d)\); exp-square has derivative \(-2zd\).
+Both can saturate at small damage. Reports include native/effective derivative
+quantiles and original full-field AT2/range readiness. The identity head may
+leave the physical range during optimization, but final readiness requires
+the unchanged range gate; outputs are never clipped. These are fixed-H
+diagnostics and cannot serve as accepted coupled loading states.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.plain_damage_head_trial \
+  --config examples/fracture2d/configs/plain_damage_head_trial.py
+```
+
+### Linear-output range optimization and damage activity
+
+`range_damage_trial.py` continues the rejected identity-head parameters at
+the exact same audited own history. It compares2048 additional L16 updates
+with a separately declared inequality augmented-Lagrangian range control.
+The network keeps a linear output; the physical AT2 equation, committed
+history and original residual/range gates remain unchanged. There are no
+direct targets, output projection or nodal corrections.
+
+For fixed positive history define \(S=2\operatorname{RMS}(H)/g_0\),
+\(g_-=-d/S\), \(g_+=(d-1)/S\). The training objective is original residual
+L16 plus
+
+$$
+\frac{1}{2\mu}\operatorname{mean}\sum_{a\in\{-,+\}}
+\left[\max(\lambda_a+\mu g_a,0)^2-\lambda_a^2\right].
+$$
+
+After each inner solve update
+\(\lambda_a\leftarrow\max(\lambda_a+\mu g_a,0)\).
+Duals, history and penalty are fixed detached coefficients during training.
+Initial duals are0; the explicit experimental penalty schedule is1,10,100,1000,
+with2048 iterations per stage. This is an optimizer comparison, not a
+different fracture energy or an irreversible-damage constraint.
+
+Diagnostics separate absolute AT2 imbalance, its component denominator,
+fixed forcing scale and volume-weighted damage mean/L2/activity fractions.
+At \(d=0\), the current equation gives \(r=-2H\): positive history yields
+relative residual1. At the exact zero-load state \(d=H=0\), the raw residual
+is0 and relative0/0 is undefined, so training starts at positive load.
+Growing damage and transient residual do not by themselves establish either
+failure or correctness; a submitted load must still pass equilibrium and
+physical checks. Fixed-H diagnostic results are never physical parents.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.range_damage_trial \
+  --config examples/fracture2d/configs/range_damage_trial.py
+```
+
+`range_damage_extend.py` continues only the certified final neural parameters
+and updated duals of that fixed-H diagnostic in a fresh output root. It pins
+the complete parent identity/audit/fields/scales/network/dual summary and
+declares additional penalties1e4,1e5,1e6 with2048 iterations each. It preserves
+the same history, network output and original gates, and skips the already
+completed extra-training control. No physical state is promoted by this entry.
+
+### Own-zero loading with the linear damage head
+
+`linear_damage_loading.py` seeds only the certified own-H neural parameters
+from the range extension and initializes physical displacement/damage/history
+exactly zero. It retains the identical linear decoder, physical history
+features and fixed parameter scales, with no load-squared output scaling or
+old-head physical history. Direct P1 mechanics alternates with fixed-H L16
+range optimization, then omega0.5 physical damage relaxation. The declared
+inner penalty sequence is1e3,1e4,1e5,1e6 with2048 iterations each; reset duals
+to0 for each new fixed-H problem and warm start neural parameters only.
+
+Original uniform loads1..75 and the first10 milestone advance only from
+accepted states. Original inner/current-H AT2, physical range, mechanics,
+history, change and three-consecutive outer gates remain. The raw network
+range at the updated current H is checked explicitly, preserving the range
+property that a bounded decoder previously supplied automatically. Record
+both absolute/forcing-normalized imbalance and damage activity; transient
+outer residual is not equated with physical failure. Commit only a final
+equilibrium that passes all gates. This entry currently starts fresh roots
+only and saves pending checkpoints without an automatic restart CLI.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.linear_damage_loading \
+  --config examples/fracture2d/configs/linear_damage_loading.py
+```
+
+### Same-load recovery with a numerical range tolerance
+
+`linear_damage_continue.py` preserves the strict branch and starts a new root
+from its completed, uncommitted outer iteration at the same load. The last
+accepted load remains the physical history/damage parent; pending fields do
+not become an accepted loading state. The saved failed-inner neural parameters
+are reused at the identical own history, so completed training is retained.
+Source identity, final audit, accepted parent, pending fields and failed neural
+checkpoint are explicitly pinned and checked before recovery.
+
+The user-accepted range tolerance is \(2\times10^{-6}\) on both bounds, applied
+to inner damage, physical relaxation, current-H raw output and mechanics input
+validation. `TolerantLocalMechanics` retains the identical quadrature and
+degradation law; it evaluates the actual signed values without clipping or
+shifting the network output. AT2, force, history, healing, change thresholds
+and three consecutive equilibrium confirmations remain the original controls.
+This entry is a declared fresh continuation root, not a generic restart CLI.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.linear_damage_continue \
+  --config examples/fracture2d/configs/linear_damage_continue.py
+```
+
+### Same-load recovery with additional inner training
+
+`linear_damage_budget_continue.py` starts a separate root from the tolerant
+branch's failed-inner network and last completed physical outer iteration.
+It keeps the accepted loading parent and identical own history, decoder,
+parameter scales and physics. Each of the four existing penalty stages has
+an explicit maximum of8192 L-BFGS iterations instead of2048; training exits
+early as soon as the unchanged full-field AT2 limit0.001 and range tolerance
+\(2\times10^{-6}\) pass. This is an empirical budget experiment, not a
+relaxation of the final equation or coupled acceptance criteria.
+
+The recovery reuses neural parameters and explicitly restarts L-BFGS memory
+and AL duals. Identity/audit, accepted-parent receipt, completed pending fields,
+failed network and source code are pinned; rejected physical fields are never
+promoted to a loading parent. First recovery fields are retained separately
+for independent replay. A budget stop remains a rejected inner solve.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.linear_damage_budget_continue \
+  --config examples/fracture2d/configs/linear_damage_budget_continue.py
+```
+
+### Full-path attempt with relaxed negative damage tolerance
+
+`linear_damage_relaxed_continue.py` uses explicit asymmetric bounds
+\(-10^{-3}\le d\le1+2\times10^{-6}\), as requested by the user for a
+full remaining loading-path experiment. Only the negative bound is relaxed.
+The bounds are checked consistently in fixed-H training, physical damage,
+current-H neural output and FEM input validation. Signed P1 quadrature still
+evaluates the actual damage; there is no clipping or output shift.
+
+It restores the certified tolerant failed-inner124 network at the unchanged
+completed physical123/own history, with accepted52 as physical loading parent.
+Per-stage budget8192 and early residual stopping are retained. The old equation
+limit0.001, physical equilibrium, history, healing, force, drift and three
+consecutive confirmation gates remain. A successful path here uses the declared
+relaxed negative range; it does not certify the stricter previous lower bound.
+The requested remaining loads are53..75, ending at displacement0.0075.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.linear_damage_relaxed_continue \
+  --config examples/fracture2d/configs/linear_damage_relaxed_continue.py
+```
+
+### Recovery after a process interruption
+
+`linear_damage_pending_continue.py` restores the last serialized physical
+iterate and neural weights of the interrupted relaxed-range experiment in a
+fresh output root. The explicit configuration pins the interrupted identity,
+prior audits, accepted parent, parameter scales and pending126 receipts. An
+independent pending replay must certify the own history, neural fields and
+signed FEM force before restart. A finalized or already accepted source state
+is rejected by this particular recovery entry.
+
+Accepted52 remains the physical loading parent. Pending126 is an uncommitted
+iterate at the same load; restart begins at127 with its saved neural parameters,
+while unsaved interrupted inner127 work is not claimed as recovered. L-BFGS
+memory/AL duals restart explicitly. The original model,8192-stage budget,
+negative1e-3/positive2e-6 bounds and final coupled gates are unchanged.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=src \
+  .venv/bin/python -m examples.fracture2d.linear_damage_pending_continue \
+  --config examples/fracture2d/configs/linear_damage_pending_continue.py
+```
+
+The conditioned trunk receives the changing own H. `loading.train_trunk`
+explicitly selects a frozen trunk or joint MLP/readout training; checkpoints
+contain all trainable parameters and identities distinguish these controls.
+`loading.history_feature_scaling` explicitly selects physical H or known-H
+features normalized by \((u_\mathrm{seed}/u)^2\). The latter is identity at
+the seed load and compensates the quadratic driver amplitude at small loads.
+It changes neural inputs only; AT2 and committed maximum history always use
+physical H. Changing damage/history along a path still requires retraining and
+physical gates; this normalization is not a path homogeneity assumption.
+Compact readouts
+are multiplied by \((u/u_\mathrm{seed})^2\), so their physical contribution
+scales with load just as the original trunk output does. The seed prediction
+must reconstruct exactly at its own diagnostic H before physical loading.
+The feature normalization remains fixed; all arrays have fixed JIT shapes.
+
+```bash
+.venv/bin/python -m examples.fracture2d.compact_damage_loading \
+  --config examples/fracture2d/configs/compact_damage_loading.py
+```
+
+Inner MSE/L16/L32 stages train neural parameters with explicit L-BFGS budgets.
+An unready inner solve saves diagnostics and stops before damage relaxation or
+history commitment. Ready images enter the existing half-relaxed staggered
+loop; every original field/mechanics/outer/history/healing/drift gate remains.
+Additionally, the raw neural prediction must satisfy AT2 at the updated H.
+Rejected load states never become parents. `--resume` checks code/config/seed,
+state/network hashes and accepted ancestry. Increasing only the requested
+prefix length supports continuation; all other identity fields must agree.
+`configs/compact_damage_loading_original_gates.py` is a separate control which
+ties the optimizer readiness target to the verified baseline's original inner
+AT2 gate, \(10^{-3}\). The default loading experiment instead tests an added
+\(5\times10^{-4}\) optimizer margin. All original outer/physical checks are
+identical in both, including the raw network residual at updated H. A candidate
+rejected in the tighter-margin root stays rejected there; the original-gate
+control starts its own zero state and does not import that diagnostic H.
+`configs/compact_damage_loading_full.py` requests all75 uniform load points
+with the same original-gate identity. Use `--resume` only after the short
+prefix is accepted; code/config/seed/state/network checks reject mismatches.
+
+`compact_damage_fork.py` supports explicitly recorded optimizer-policy forks
+from accepted own-neural prefixes. It checks parent identity, matching numerical
+model/gates, field/network/report hashes, accepted gate status and exact
+zero-origin/history ancestry. Only accepted states are copied; the new root
+contains `fork.json` and configuration provenance. Requested optimizer stages,
+budgets and output root may change; physical/model/history inputs must match.
+The manifest binds parent and current numerical-runner hashes when an
+independently checked optimizer-objective extension changes the runner code.
+The normal loader then resumes the copied own-history states. For the declared
+peak-first continuation use:
+
+```bash
+.venv/bin/python -m examples.fracture2d.compact_damage_fork \
+  --config examples/fracture2d/configs/compact_damage_loading_peak_first.py
+```
+
+Use the same entry with `--resume` to recheck fork provenance before resuming
+accepted checkpoints. An interrupted or rejected pending state is not an
+accepted prefix. This mechanism does not import direct fields or history.
+This is a continuous compact-basis neural ansatz with a conditioned MLP trunk
+and trained readouts; it should be distinguished from a plain-coordinate MLP.
+
+`damage_optimizer_trial.py` compares bounded optimizers on a read-only neural
+checkpoint's own fixed `H_used`, using identical initial network weights. It
+compares continued Adam, SciPy L-BFGS-B on the existing residual MSE, and L-BFGS-B
+on the equivalent fixed-history damage functional. With nodal mass \(M\),
+reciprocity gives \(MD=(MD)^T\), so
+
+$$
+E_H(d)=\tfrac12 d^T M[(G_c/\ell_0+2H)d+G_c\ell_0 Dd]-2d^TMH,
+\qquad \nabla_d E_H=M r_{\mathrm{AT2}}.
+$$
+
+This equivalence requires the declared reciprocal volume-symmetric operator;
+the runner checks symmetry and an independent CPU directional derivative. It
+is only a frozen-H damage functional, not a joint hybrid mechanics/fracture
+energy. A positive scalar normalization leaves stationary damage unchanged.
+Full-field AT2 residual and range checks determine readiness; energy decrease
+or optimizer termination alone does not. The direct fixed-H solution is
+computed after training for error reporting, never as a loss or neural history.
+`configs/damage_optimizer_trial.py` explicitly bounds extra Adam at2000 updates
+and each L-BFGS at512 iterations/checks every16, with a5e-4 inner target. These
+are experimental controls, not a general optimizer guarantee. Outputs use a
+new root, preserve source hashes and never promote a diagnostic state:
+
+```bash
+PYTHONPATH=src .venv/bin/python -m examples.fracture2d.damage_optimizer_trial \
+  --config examples/fracture2d/configs/damage_optimizer_trial.py
+```
+
+`configs/local_damage_load_refined.py` is a separate own-history loading
+sensitivity test:87 increments with2.5e-5 steps between.0052 and.0056, otherwise
+1e-4. Its integer indices define its explicit schedule, not imported reference
+fields. Material, operators, history and outer gates are unchanged.
+
+`local_damage_corrected_trial.py` is a separately labeled neural predictor with
+a nodal damage solver. Predictor weights come from the own-H optimizer trial;
+physical d/H start at zero. Each load trains the predictor once with bounded
+energy L-BFGS. A damped Jacobi correction then solves the same AT2 equation,
+warm-started from the previous corrected image within the outer stagger:
+
+$$
+d^{k+1}=d^k-\omega_J\frac{r_{\mathrm{AT2}}(d^k,H)}
+{G_c/\ell_0+2H+G_c\ell_0\operatorname{diag}(D)}.
+$$
+
+The runner checks the graph Laplacian/M-matrix assumptions. Positive H, gc0 and
+bounded initial damage imply a contracting, bound-preserving iteration for
+0<omega_J<=1. Controls explicitly use omega_J=.8, at most2048 corrections,
+checks every16 and image residual1e-5; insufficient correction fails loudly.
+The existing coupled outer gates still govern advancement. Raw neural and
+corrected image residuals are reported separately. This is a hybrid nodal
+solution, not evidence that the pure network satisfies AT2. Predictor training,
+pretraining and correction costs must all be included in cost comparisons.
+Completed-prefix resume preserves fields/networks and rejects failed loads;
+unfinished-load recovery requires a new identified retry. Root reports are
+completed-load snapshots, not whole-run completion flags.
+`configs/local_damage_corrected_projected.py` identifies the explicit repair
+for a predictor exceeding1: project only its initial nodal guess into[0,1],
+then solve/verify AT2 without projecting the corrected field. Raw neural
+residuals and projection magnitude remain reported. Its v2 root forks only
+the six ready own-history predecessors of the retained v1 trial; it validates
+model/history/solver configuration, gates and parent/field/network hashes.
+The unfinished seventh v1 load is not copied. Updated v2 entries do not resume
+a v1 identity in place. Use this identified fork to continue that experiment:
+
+```bash
+PYTHONPATH=src .venv/bin/python -m examples.fracture2d.local_damage_corrected_trial \
+  --config examples/fracture2d/configs/local_damage_corrected_projected.py
+```
+
+```bash
+PYTHONPATH=src .venv/bin/python -m examples.fracture2d.local_damage_corrected_trial \
+  --config examples/fracture2d/configs/local_damage_corrected.py --last-index 2
+# After readiness/exit, extend the own-history checkpoint:
+PYTHONPATH=src .venv/bin/python -m examples.fracture2d.local_damage_corrected_trial \
+  --config examples/fracture2d/configs/local_damage_corrected.py --resume --last-index 28
+```
+
+Prepare on CPU, perform an independent FEniCS/UFL stiffness/driver check against
+the saved mesh, then use .venv GPU execution; environments must be exclusive:
+
+```bash
+JAX_PLATFORMS=cpu PYTHONPATH=src .venv/bin/python -m examples.fracture2d.local_damage_trial \
+  --config examples/fracture2d/configs/local_damage_trial.py --prepare
+# In fenicsenv (deactivate .venv first):
+python -m examples.fracture2d.local_fem_validate \
+  --geometry-dir /root/autodl-tmp/tf-logs/fracture2d/local_damage_geometry_20261011
+# Switch back to .venv before GPU work:
+PYTHONPATH=src .venv/bin/python -m examples.fracture2d.local_damage_trial \
+  --config examples/fracture2d/configs/local_damage_trial.py --damage-solver direct
+# Separate own-history PINN trial; no direct-damage checkpoint import:
+PYTHONPATH=src .venv/bin/python -m examples.fracture2d.local_damage_trial \
+  --config examples/fracture2d/configs/local_damage_trial.py --damage-solver pinn --last-index 2
+# Complete own-history direct verification, separate output root:
+PYTHONPATH=src .venv/bin/python -m examples.fracture2d.local_damage_trial \
+  --config examples/fracture2d/configs/local_damage_trial_from_zero.py
+```
+
+`configs/hybrid_pinn_stagger_gated.py` selects explicit `outer_stop` controls:
+minimum3 and maximum128 sweeps,3 consecutive passing confirmations, fixed-H
+image AT2 limit0.001, current AT2 limit0.001 and d-change limit1e-5. Adjacent
+q infinity change/load, H relative infinity change and reaction relative change
+must each be <=1e-4. Mechanical explicit CG, finite/bounded damage/image,
+healing/history and zero-drift checks must also pass. These are explicit
+engineering readiness criteria, not a global convergence theorem.
+
+This configuration is a conditional same-parent .0055 trial: a read-only fork
+through ordinal7/.0054 of the archived128x6 path, preserving its warning ancestry.
+It does not call that preceding history converged or promote exact-inner
+diagnostic arrays. It keeps the128x6 network/Adam and physical model. The
+preceding-load H remains the floor during all outer sweeps; maxima
+from transient iterates never become a new floor.
+
+The policy can stop early after readiness. If the maximum budget is exhausted,
+result.status is `stagger_budget_exhausted`, research_advance=False, and the
+next load is not attempted. Rejected results cannot be resumed as advancing
+parents; changing controls requires a new identified trial. Reference curves
+remain diagnostics under comparison_gate=False, but this does not bypass the
+outer self-consistency gate.
+
+Gated roots use `fracture2d-direct-mechanics-pinn-damage-gated-v1`; the legacy
+fixed-budget schema/behavior is retained when outer_stop is absent/disabled.
+Gated phase snapshots persist prior-sweep q/H/reaction and the confirmation
+counter for recovery. Completed snapshots bind actual early-stop sweep counts,
+not necessarily the maximum budget. Forks validate source schema/model/network/
+physical/loading-prefix/reference/parent identity and preserve old checkpoint bytes.
+
+```bash
+python -m examples.fracture2d.hybrid_pinn \
+  --config examples/fracture2d/configs/hybrid_pinn_stagger_gated.py
+```
+
+The shared checked AT2 oracle CG now packs the same FP64 CSR off-diagonals into
+fixed padded rows for matvecs within CG, avoiding the scan-based nested-CG path
+that failed the current GPU/JAX runtime audit. The equation remains the
+volume-multiplied SPD AT2 system, with the same diagonal preconditioner and
+explicit residual checks; no clipping, tolerance loosening or fallback solver.
+
+New short-damage TensorBoard events use
+`tf-logs/fracture2d/events/pinn_short_damage_first2_20261009`; checkpoints and
+field plots use the sibling `pinn_short_damage_first2_20261009` run directory.
+
+```bash
+source .venv/bin/activate
+python -m examples.fracture2d.split_pinn \
+  --config examples/fracture2d/configs/split_pinn_short_damage.py
+# After a usable two-load result, endpoint-only continuation:
+python -m examples.fracture2d.split_pinn \
+  --config examples/fracture2d/configs/split_pinn_short_damage.py \
+  --resume --last-index 75
+```
+
+The initial run uses the existing three-sweep, `2000/2000/2000` block budget
+and first-passage stopping in the final mechanics block. Primary research
+advancement requires reaction error <=5% and damage RMSE <=0.01; every secondary
+mechanics/coupling/field defect remains reported. A rejected completed load
+requires an explicit retry root rather than endpoint-only resume.
+
+Experimental acceleration configurations are separate from that baseline:
+
+- `split_pinn_adaptive.py` retains uniform loading and introduces explicit
+  post-update inner stopping. It checks every100 updates, keeps a200-update
+  warm-start minimum (2000 on the first load), requires5 stable comparison
+  intervals and retains the2000-update block cap. It reports `converged`,
+  `stagnation_warning` or `budget_exhausted`; stagnation never certifies
+  convergence. The former reference-first-passage block stop is disabled in
+  this experiment. All numerical tolerances are explicit trial controls.
+- `split_pinn_accelerated.py` combines that trial with
+  `data.reference_indices=[10,20,30,40,50,51,...,75]`. The direct grid remains
+  `data.load_step=0.0001`, so the actual target loads are
+  `0.001,0.002,0.003,0.004,0.005,0.0051,...,0.0075` (30 loads).
+  `end_state_index` and `--last-index` refer to the **neural sequence ordinal**,
+  not the direct index; for this configuration the final ordinal is30.
+
+Explicit reference indices must be positive, strictly increasing integers.
+Every selected load uses its actual direct snapshot without interpolation;
+new reports/checkpoints bind the reference index and physical load. Mechanical
+normalization follows the physical load/reference-grid ratio, not the ordinal.
+Resume preserves the entire declared schedule; a numerical fork may change
+future targets only after an identical inherited schedule prefix.
+
+Nonuniform loading preserves weights/Adam and updates learned cumulative H at
+each actual selected load. It does **not** inherit histories from skipped direct
+states. Larger increments can therefore change the discrete history/loading
+path, especially near damage growth: at0.005 the direct peak damage is already
+about0.47. The aggressive30-load example is experimental, not validated as
+equivalent to the uniform path. A transition to smaller increments before0.005
+may be necessary if paired accuracy/coupling checks show degradation.
+
+Inner stopping monitors fixed-d mechanics and the **unrelaxed damage network
+image at fixed H_used** separately. Stable fields/objective/residual with
+inadequate accuracy can return an explicitly enabled warning plateau; current
+outer coupled residuals and original load-advancement diagnostics still apply.
+New per-block JSON files record actual updates, stop reason and post-update
+metrics. Validation must separate stopping speed from load-path changes.
+
 The local FEM mesh controls accept `0 < mesh.lc_near <= mesh.lc_far`;
 equal target sizes support uniform-resolution reference comparisons.
 
@@ -1383,6 +2348,90 @@ deferred:
    project-owned discrete choice; `k_res` sensitivity (`1e-8 -> 1e-5`) was
    falsified as a drift cure rather than resolved.
 
+## Detached residual weighting diagnostic
+
+`weighted_damage_trial.py` compares the original full-domain objective with
+static crack-band and damage-dependent weights at one verified checkpoint and
+identical fixed history. This diagnostic does not advance the loading solver.
+The explicit configuration is `configs/weighted_damage_trial.py`; run with
+`.venv`, CUDA, x64 and `PYTHONPATH=.:src`:
+
+```bash
+XLA_PYTHON_CLIENT_PREALLOCATE=false JAX_PLATFORMS=cuda PYTHONPATH=.:src \
+  .venv/bin/python -m examples.fracture2d.weighted_damage_trial \
+  --config examples/fracture2d/configs/weighted_damage_trial.py
+```
+
+The original AT2 residual is retained. The stabilized degree-two \(L^{16}\)
+objective receives \(\sqrt{w_i}r_i\), where \(w_i\) is positive and normalized
+to nodal mean one. Uniform weights recover the original loss and gradient.
+Experimental raw weights are \(1+\beta a_i\): static activity is a Gaussian
+of distance to a prescribed notch-to-boundary segment; dynamic activity is
+\(\operatorname{clip}(d_i,0,1)^p\) from saved physical damage. Clipping applies
+only to weight construction. Parameters \(\beta,p\) and band width are explicit
+optimizer controls, not material parameters or validated universal settings.
+
+Weights and history use `stop_gradient`. Weights remain fixed throughout each
+L-BFGS fit, including line search; adaptive refresh belongs between outer
+iterations or separate optimizer blocks. A parameter-dependent weight can
+change the loss value during line search even when its derivative is stopped.
+Full-domain original residual and asymmetric range gates decide readiness.
+Reports include same-budget residuals and separate shared-GPU timing status;
+weighted training loss alone does not establish physical accuracy or speedup.
+
+`damage_residual_weighting.py` also packs exact core+halo rows from the existing
+CSR operator. Every original neighbor and coefficient is retained; capacity
+overflow raises an error. Padded arrays/masks have fixed shapes. The diagnostic
+reports support size and checks sampled-row equality, but does not yet train on
+sampled subgraphs. For with-replacement sampling of node \(i\) with probability
+\(p_i>0\), \(f_i/(N p_i)\) estimates the full nodal mean of the supplied moment.
+The subsequent nonlinear \(L^p\) root is not claimed to be unbiased. Deliberately
+uncorrected oversampling changes the training objective. Full-domain acceptance
+is required for either choice, and known history features must retain their
+original full-graph construction before selecting halo rows.
+
+## Fixed-history core+halo network trial
+
+`core_halo_damage_trial.py` compares `full_original`, `full_cached`,
+`sample_uniform` and `sample_crack` from one pinned NN/physical checkpoint.
+The explicit configuration is `configs/core_halo_damage_trial.py`:
+
+```bash
+XLA_PYTHON_CLIENT_PREALLOCATE=false JAX_PLATFORMS=cuda PYTHONPATH=.:src \
+  .venv/bin/python -m examples.fracture2d.core_halo_damage_trial \
+  --config examples/fracture2d/configs/core_halo_damage_trial.py
+```
+
+`core_halo_damage.py` evaluates the shared trunk only on halo nodes, using
+unchanged global compact-basis coefficients and column scales. Known history
+features are built once on the full original graph, then their rows are
+selected. Exact original AT2 rows retain every core neighbor and coefficient;
+neither the operator nor its quadrature is reconstructed on the subgraph.
+All pools use a common padded halo capacity, fixed core count and fixed row
+widths. Unused padded nodes contribute zero through the operator coefficients.
+
+Sampling draws with replacement. Uniform sampling uses \(p_i=1/N\).
+Crack-biased sampling combines the prescribed static-band and detached saved
+damage scores with a positive uniform background:
+
+$$
+p_i=\frac{1-\eta}{N}+\eta\frac{s_i}{\sum_j s_j}.
+$$
+
+Each pool, probability and known-field buffer is frozen throughout one L-BFGS
+block; optimizer memory resets between pools. The sampled residual moment and
+range-AL term use \(1/(N p_i)\), while forcing normalization uses the full
+history RMS. This corrects the moment expectation; the subsequent nonlinear
+\(L^{16}\) root is not claimed unbiased. `stop_gradient` applies to probabilities,
+history, features and AL buffers. Full-domain original residual and asymmetric
+range gates determine readiness, including between optimizer blocks.
+
+The trial performs no coupled update or load advancement and never promotes
+its damage output to an accepted physical state. Reports record actual
+iterations, full-field metrics, optimizer-block time and warmed value/gradient
+time. Use an otherwise idle GPU for the timing comparison; smaller halo size
+or sampled loss alone does not establish speed to full-domain convergence.
+
 ## Implementation layout
 
 `nonlocal_baseline.py` is the single maintained implementation. The merged
@@ -1403,3 +2452,331 @@ per-module implementation, monolithic/arc/reduced solvers, the durable
 workflow, the historical Gmsh loader, and the stage-specific test suites.
 Historical audit detail and rejected alternatives live in
 `docs/tasks/archive/` and `docs/DECISIONS.md`.
+
+### Fresh random crack sampling
+
+`configs/core_halo_damage_resample.py` uses the same audited checkpoint but
+compares fresh cores every8/32 L-BFGS updates. Run with the same entry point:
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 JAX_PLATFORMS=cuda \
+  XLA_PYTHON_CLIENT_PREALLOCATE=false PYTHONPATH=.:src \
+  .venv/bin/python -m examples.fracture2d.core_halo_damage_trial \
+  --config examples/fracture2d/configs/core_halo_damage_resample.py
+```
+
+The elasticity example normalizes \(1+\alpha/r^q\) around its elliptical hole.
+For the crack corridor, use distance \(s_i\) to segment \((.5,.5)\)–\((1,.5)\)
+with \(r_i=\sqrt{1+(s_i/.024)^2}\), \(\alpha=49\), \(q=2\), and
+\(p_i=(1+49/r_i^2)/\sum_j(1+49/r_j^2)\). Density is largest on the segment,
+symmetric and decreasing transversely, with strictly positive background.
+These are explicit experimental sampling parameters; the PDE is unchanged.
+
+Every block draws2048 new independent samples with replacement. Samples and
+probabilities remain frozen within a line search; probabilities and importance
+weights use `stop_gradient`, and L-BFGS curvature memory resets when samples
+change. Samples are generated throughout training rather than cycling a fixed
+pool. Save every core draw for replay; padded halo32768 fails on overflow and
+retains every original operator coefficient. Full-history features are computed
+once and gathered onto the halo. Fit timing includes resampling, packing and
+full-domain checks. Only full-domain original residual/range gates determine
+fixed-H readiness; this experiment does not advance a physical load state.
+
+### Persistent Adam sampling control
+
+`core_halo_adam.py` retains Adam moment/schedule state across fresh random
+cores. `core_halo_adam_trial.py` shares the audited fixed-history problem
+setup with the L-BFGS sampler, checks exact original/cached objectives and
+sampled rows, and performs three sampled rate controls followed by a full
+cached Adam control at the best checked sampled rate.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 JAX_PLATFORMS=cuda \
+  XLA_PYTHON_CLIENT_PREALLOCATE=false PYTHONPATH=.:src \
+  .venv/bin/python -m examples.fracture2d.core_halo_adam_trial \
+  --config examples/fracture2d/configs/core_halo_adam_trial.py
+```
+
+All required settings are explicit: initial rates1e-3/1e-4/1e-5,2048 updates,
+exponential decay to10% over2048, beta1=.9/beta2=.999/eps1e-8/eps_root0,
+global gradient norm cap1000,2048 core nodes, fresh draw every5 updates,
+padded halo32768, full checks every128 plus final. No damage clipping,
+nonfinite sanitization or reference target. History/feature/probability/
+importance/AL buffers are detached; exact original full-domain AT2/range gates
+remain. Adam/schedule counters must equal actual iteration throughout, so a
+batch change cannot silently reset state.
+
+Each case saves final and best checked range-admissible checkpoint, metrics,
+actual core draws and matching optimizer state. Best checkpoint selection uses
+original full residual; it never accepts by sampled loss. Full cached L-BFGS
+polishes the best sampled/full Adam checkpoints and the audited prior cached
+L-BFGS checkpoint, with explicit2048 maximum updates/early full-gate exit.
+Compare measured single-route training-plus-polish time; rate-search cost is
+reported separately. A rate chosen on this snapshot is not claimed generally
+optimal. These are fixed-H optimization trials, not new equilibrated load states.
+
+## User-provisional load continuation
+
+### Certified52 restart with128 alternating updates
+
+`restart_damage_loading.py` restarts the independently audited converged neural
+state at load52/.0052 and advances53..75 in a separate root. The explicit
+`configs/restart_damage_loading_128.py` selects128 alternating mechanics/damage
+updates per load, with early exit on the original three consecutive coupled
+convergence checks. It retains the previous experiment's512 cached full L-BFGS
+updates per penalty stage, original omega.5, signed damage bounds, operators,
+own committed history and original inner/outer diagnostics. Residual/coupling
+failure at the finite budget may advance as user-provisional; numerical range,
+nonfinite or signed FEM equilibrium failure stops. Later convergence does not
+certify a path containing earlier provisional states.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 JAX_PLATFORMS=cuda \
+XLA_PYTHON_CLIENT_PREALLOCATE=false PYTHONPATH=.:src \
+  .venv/bin/python -m examples.fracture2d.restart_damage_loading \
+  --config examples/fracture2d/configs/restart_damage_loading_128.py
+```
+
+The source fields, neural weights, report and inherited parameterization are
+hash-pinned. Physical damage and the raw neural image are distinct stored
+objects: restore both with their corresponding own/frozen training histories,
+rather than requiring the neural image to equal the relaxed physical damage.
+Each load saves immutable fields/network/report at outers8/32/64/128 and at
+early convergence. First-load53 outer8 versus128 uses the identical accepted52
+parent/history; the former8-outer loading experiment instead began with a
+partially evolved53 source. Whole-path comparison therefore includes a changed
+initialization/history and must not be described as changing only outer budget.
+
+### Earlier unready53 restart with8 alternating updates
+
+`provisional_damage_loading.py` tests explicitly authorized advancement past a
+budget-limited, unready critical-load state. It starts from the independently
+audited original omega=.5 physical candidate at.0053 and the polished sampled
+Adam network; original signed FEM, nonlocal AT2, parameterization and committed
+previous-load maximum history are retained.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 JAX_PLATFORMS=cuda \
+  XLA_PYTHON_CLIENT_PREALLOCATE=false PYTHONPATH=.:src \
+  .venv/bin/python -m examples.fracture2d.provisional_damage_loading \
+  --config examples/fracture2d/configs/provisional_damage_loading.py
+```
+
+The explicit trial advances54..75 (.0054..0075), max8 alternating physical
+updates per load, max512 cached full L-BFGS updates per inner fit. Known-H
+features enter a fixed-shape dynamic context and are cached once per outer
+fit. Original full residual/range gates still report readiness and may stop
+a fit early. If damage range fails, explicit original ALpenalties1e3/1e4/1e5/
+1e6 with dual updates provide another512 updates; persistent range/nonfinite/
+FEM-force failures stop the run. No damage clipping or reference targets.
+
+User authorization allows a finite range-admissible state to advance despite
+failed inner/coupled convergence. Such states are `user_provisional`, with
+original gate failures, healing, history, changes, drift and reaction recorded.
+A later locally converged state still has provisional path ancestry; it does
+not retroactively certify earlier states. The original certified branch is
+unchanged. Once provisionally committed, each load's history becomes the parent
+for the next load exactly as the declared committed-history formulation.
+
+Crack extent reports connectivity of nodes with d>=.9 along original material
+mesh edges, from tip radius.024 around(.5,.5) to x=1 (coordinate tolerance1e-12).
+This is a stated visualization diagnostic, not a convergence or energy criterion.
+Fields/network/parent hashes and separate local-readiness/path-certification
+flags are saved per sweep/load. Compare this path to the direct solution at
+identical load sizes; apparent later fracture can reflect insufficient coupling
+iterations and must not be described as a verified material critical load.
+
+### Fresh bounded-output morphology comparison
+
+`bounded_damage_morphology_trial.py` with
+`configs/bounded_damage_morphology_trial.py` tests no-reference sigmoid(z)
+and exp(-z^2) outputs against a fresh identity-output fixed-history control.
+It uses completed own histories52 and60; direct AT2 solves at those histories
+are diagnostics only and never supply labels to training. Initial trainable
+bias gives constant damage0.03, with matched initial residual sensitivities.
+Cached full-domain L16 residual fitting uses4096 updates per fixed case.
+
+Two separate coupled branches then use the original certified52 physical
+q/d/H as parent and the newly trained bounded networks; no old weights are
+loaded. This preserves the physical parent but is not a new own-zero bounded
+loading trajectory or a certified converted52 network. Loads53..60 use at
+most128 alternating updates and512 L-BFGS updates per inner fit, relaxation
+0.5, original equations and committed previous-load maximum history. Exhausted
+loads advance provisionally under the user's existing loading authorization;
+finite fields, bounds and mechanics are still checked. Original residual,
+healing and coupled-change gates remain diagnostics and certify only on pass.
+
+Background mean/fraction outside abs(y-0.5)>3*l0 is a volume-weighted diagnostic
+only; no zero-damage BC, horizontal-crack constraint or sparsity penalty is
+imposed. Smooth positive AT2 damage away from a crack is allowed. Output bounds
+do not themselves guarantee a clean or symmetric crack path.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 XLA_PYTHON_CLIENT_PREALLOCATE=false \
+  PYTHONPATH=.:src .venv/bin/python -m examples.fracture2d.bounded_damage_morphology_trial \
+  --config examples/fracture2d/configs/bounded_damage_morphology_trial.py
+```
+
+`configs/bounded_damage_loading.py` selects **direct loading**, skipping the
+identity-head/own-H60 screening cases and direct oracles. It continues the
+SHA-pinned newly trained same-head52 networks for up to8192 additional L-BFGS
+updates (early exit only when the original inner gates pass). The preceding
+4096 fits initialized these bounded networks fresh; no old identity-output
+weights or direct fields are used as training targets. Additional adaptation
+never changes the certified52 physical parent and never rejects a head solely
+for residual ranking. Then both branches load53..60 with128/512 outer/inner
+budgets. Results remain provisional whenever original coupled gates fail.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 XLA_PYTHON_CLIENT_PREALLOCATE=false \
+  PYTHONPATH=.:src .venv/bin/python -m examples.fracture2d.bounded_damage_morphology_trial \
+  --config examples/fracture2d/configs/bounded_damage_loading.py
+```
+
+### Sigmoid critical-step accuracy controls
+
+`sigmoid_damage_accuracy_trial.py` restores the audited sigmoid load53,
+outer128 physical/network checkpoint with its unchanged committed52 history.
+It compares the same network at the same current own history using full-domain
+L-BFGS budgets512/8192 and persistent crack-biased core+halo Adam8192 at rates
+1e-4/1e-5 followed by full-domain L-BFGS4096. The original inverse-power
+sampling density is positive everywhere; fresh2048-point cores are drawn
+every5 updates with complete original supports and a fixed32768 halo capacity.
+The sigmoid is applied to every halo value before computing diffusion.
+History, features, probabilities and importance corrections are detached.
+Adam moments survive resampling; full-domain metrics are checked every128
+updates. Importance correction estimates the original nodal L16 moment;
+its nonlinear root is not claimed to be an unbiased full-loss estimator.
+
+The candidate with the lowest full-domain AT2 metric only changes the network
+warm start. Physical q/d/H128 remain untouched before continuing at the same
+load53, through at most1024 total outer updates with up to4096 L-BFGS inner
+updates each and the original early stopping/readiness gates. No54 load is
+advanced and committed52 history is not replaced by an unready53 candidate.
+Checkpoints and source hashes preserve physical field/background/reaction
+comparisons. Fixed-H direct values, when independently evaluated, never enter
+training. Numerical budgets are experiment controls rather than new physics.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 XLA_PYTHON_CLIENT_PREALLOCATE=false \
+  PYTHONPATH=.:src .venv/bin/python -m examples.fracture2d.sigmoid_damage_accuracy_trial \
+  --config examples/fracture2d/configs/sigmoid_damage_accuracy_trial.py --preflight
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 XLA_PYTHON_CLIENT_PREALLOCATE=false \
+  PYTHONPATH=.:src .venv/bin/python -m examples.fracture2d.sigmoid_damage_accuracy_trial \
+  --config examples/fracture2d/configs/sigmoid_damage_accuracy_trial.py
+```
+
+### Quarter-load sigmoid continuation
+
+`sigmoid_damage_load_refined.py` starts from the certified physical52 fields
+and the SHA-pinned adapted sigmoid52 network. It loads integer IDs209..212
+times2.5e-5:0.005225,0.005250,0.005275,0.005300. Output state indices53..56
+count this branch's increments; use the explicit `load` field for comparisons,
+since coarse state53 instead means0.0053. The matched existing fine direct
+reference uses these actual loads. No unready coarse53 field or later network
+is used for initialization. The adapted52 network is not itself certified;
+only the retained physical parent is certified.
+
+The equations, local FEM mechanics, nonlocal sigmoid damage, omega.5,
+previous-load maximum history with stop-gradient, and original gates stay
+unchanged. Each small step allows1024 outer/4096 inner L-BFGS updates and early
+exit after three readiness confirmations. This can quadruple total available
+work; reports include cumulative updates and seconds. At a failed cap, the
+previously authorized provisional advancement is explicit and ancestry stays
+uncertified. Within a load, history uses the preceding load's saved floor,
+rather than committing intermediate staggered overshoots. Network fits never
+replace the physical parent or use direct training targets.
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 XLA_PYTHON_CLIENT_PREALLOCATE=false \
+  PYTHONPATH=.:src .venv/bin/python -m examples.fracture2d.sigmoid_damage_load_refined \
+  --config examples/fracture2d/configs/sigmoid_damage_load_refined.py --preflight
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 XLA_PYTHON_CLIENT_PREALLOCATE=false \
+  PYTHONPATH=.:src .venv/bin/python -m examples.fracture2d.sigmoid_damage_load_refined \
+  --config examples/fracture2d/configs/sigmoid_damage_load_refined.py
+```
+
+
+### Low-order residual and persistent optimizer controls
+
+`low_order_damage.py` provides separate MAE (`l1`) and MSE (`l2`) objectives
+for the same raw sigmoid nonlocal AT2 residual. History and features are frozen
+inside each inner solve. The normalization remains twice the full-population
+history RMS. Nonuniform with-replacement core sampling uses the exact original
+CSR supports plus a padded halo; all halo outputs are mapped through sigmoid
+before the core residual is assembled. The detached multiplier `1/(N*p_i)`
+preserves the uniform nodal objective and its expected parameter gradient for
+these linear mean reductions. Mean losses and full-domain maximum-residual
+acceptance are separate quantities.
+
+`make_optimizer` and `make_step` support persistent Adam or upstream
+`pinn.optimizers.soap` (SOAP_JAX 0.2.2); neither uses L-BFGS. All schedule,
+moment, preconditioner and clipping settings are explicit. Retain optimizer
+state when resampling; a change of batch is not a cold start. SOAP's first call
+initializes preconditioners with no parameter update. Shared SOAP now imports
+the pinned [upstream package](https://github.com/haydn-jones/SOAP_JAX), including
+its elementwise projected-gradient second moments. Network weights can warm
+start, but legacy vendored SOAP optimizer states cannot be loaded into its new
+NamedTuple state; initialize new SOAP state at this migration. Run-specific
+budgets, source checkpoints, independent field/force validation and actual
+outcomes belong in the active task.
+
+
+`precomputed_damage_sampling.py` validates and packs immutable operator support
+rows once. Fresh core sets gather cached rows and bulk-remap the exact halo;
+zero padding adds no support. This avoids full-CSR copies/validation and
+per-core Python loops inside the sampling loop. Core probabilities and
+importance weighting are unchanged. It retains fresh random sampling rather
+than cycling a finite pool; unlike a fully prebuilt pool, fresh halo union and
+data transfer still have a per-batch cost. Record preparation, packing and
+training costs separately when assessing sampling frequency.
+
+
+`prebuilt_damage_pool.py` prepares blocks of sampled supports before optimizer
+updates, and selects an entry with a dynamic scalar index inside JIT. The
+compiled objective gathers current frozen history/features and fixed basis
+rows on device. Use a fixed pool size for all blocks; when refreshing blocks,
+retain optimizer state and the detached sampling probabilities. Fresh blocks
+may preserve the exact core-draw stream while each entry is used once. Pool
+preparation and transfer remain real costs and must be included in timing.
+
+`l1_damage_loading.py` supplies a separate loading experiment from exact zero
+physical displacement, damage and history, with fresh sigmoid-network weights
+and precomputed spatial basis columns normalized by their latent RMS.
+The fixed basis retains centers from earlier geometry/neural-residual selection;
+all current readout coefficients and MLP weights are freshly initialized.
+`configs/l1_damage_loading_from_zero.py` declares displacement increments
+`5e-4` through `0.0050`, then `1e-4` through `0.0060`. The network's initial
+constant `1e-3` damage is an optimization seed; it is not the physical state
+at zero load. The first positive-load local elastic solve provides nonzero
+own history, so the normalized residual loss is never evaluated at zero H.
+
+Training uses the original nonlocal AT2 residual, normalized by twice the
+full-history RMS, with an L1 mean and `1/(N*p)` importance correction. The
+declared crack-segment sampling distribution is detached and positive
+everywhere; each Adam update consumes a fresh core sample with full halo.
+There is no extra crack/residual weighting, direct-damage label or output
+reference field. Both the MLP and compact readout remain trainable. Adam
+moments/count persist across pool, outer and load changes, with an explicit
+constant `1e-5` rate and at most `128` outer sweeps of `512` inner updates.
+
+The original local P1 mechanics, half-relaxed stagger scheme and committed
+previous-load maximum-history floor are retained. Full inner/current AT2,
+range, healing, drift, mechanics and update gates require three consecutive
+passes. Budget exhaustion permits only labelled provisional advancement:
+later loads retain provisional ancestry even if they pass their local gates.
+Each load saves fields, network, optimizer, hashes and a reaction/readiness
+report; a sampling-block journal records RNG states and core hashes without
+storing the full core trace. `pending` is the latest restart record and named
+outer checkpoints are immutable. Matched-load reference comparisons must use
+the actual displacement, since sequential state IDs differ from older grids.
+
+```bash
+source .venv/bin/activate
+PYTHONPATH=.:src JAX_ENABLE_X64=true python -m examples.fracture2d.l1_damage_loading \
+  --config examples/fracture2d/configs/l1_damage_loading_from_zero.py
+```
+
+Run this on the GPU with other numerical GPU workers suspended; do not run
+FEniCS MPI concurrently. Results and the exact current resume point live in
+the active project task, rather than in this stable usage guide.

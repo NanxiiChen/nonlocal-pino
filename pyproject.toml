@@ -17,7 +17,11 @@ dependencies = [
     "matplotlib>=3.11.0",
     "ml-collections>=1.1.0",
     "optax>=0.2.8",
+    "soap-jax==0.2.2",
     "tensorboard>=2.20.0",
     "tensorboardx>=2.6.5",
     "scipy>=1.15.0",
 ]
+
+[tool.uv.sources]
+soap-jax = { git = "https://github.com/haydn-jones/SOAP_JAX", rev = "a7c92f174c49b13136294a94ae0d46266b4f671f" }

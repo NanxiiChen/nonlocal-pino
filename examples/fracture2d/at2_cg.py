@@ -22,13 +22,34 @@ def damage_solver(operator, volumes, gc0, gc1, *, tol, atol, maxiter):
     if skew.nnz and np.max(np.abs(skew.data)) > 1e-10 * max(1., np.max(np.abs(mass_D.data))):
         raise ValueError("fixed-H CG requires volume-symmetric damage operator")
     diagonal_D = jnp.asarray(D.diagonal(), jnp.float64)
+    # Global segmented scans agree as standalone matvecs but have produced
+    # divergent nested CG on the current GPU/JAX runtime. Pack the same CSR
+    # rows once and reduce within fixed rows, as in the validated damage PINN.
+    if D.dtype != np.float64 or D.shape != (len(volumes), len(volumes)) or not np.all(np.isfinite(D.data)):
+        raise ValueError("fixed-H CG requires a finite FP64 model-shaped CSR operator")
+    off_diagonal = D.copy()
+    off_diagonal.setdiag(0.)
+    off_diagonal.eliminate_zeros()
+    off_diagonal.sort_indices()
+    counts = np.diff(off_diagonal.indptr)
+    width = int(np.max(counts))
+    columns = np.zeros((len(volumes), width), np.int32)
+    weights = np.zeros((len(volumes), width), np.float64)
+    for row in range(len(volumes)):
+        start, end = off_diagonal.indptr[row:row + 2]
+        columns[row, :end-start] = off_diagonal.indices[start:end]
+        weights[row, :end-start] = off_diagonal.data[start:end]
+    columns, weights = jnp.asarray(columns), jnp.asarray(weights)
+
+    def damage_matvec(d):
+        return diagonal_D*d + jnp.sum(weights*d[columns], axis=1)
 
     @jax.jit
     def solve(H, initial):
         diagonal = V * (gc0 + 2 * H + gc1 * diagonal_D)
 
         def matvec(d):
-            return V * ((gc0 + 2 * H) * d + gc1 * operator.deterministic_matvec(d))
+            return V * ((gc0 + 2 * H) * d + gc1 * damage_matvec(d))
 
         d, _ = cg(matvec, 2 * V * H, x0=initial, tol=tol, atol=atol,
                   maxiter=maxiter, M=lambda r: r / diagonal)

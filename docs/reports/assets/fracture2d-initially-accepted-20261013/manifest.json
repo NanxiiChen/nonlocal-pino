@@ -1,0 +1,89 @@
+{
+  "captured_utc": "2026-10-13T12:17:53.434193+00:00",
+  "user_acceptance": "初步可接受，仍需大量改善；代码需要大量精简、合并、整理。",
+  "files": [
+    {
+      "file": "force_displacement.png",
+      "original_path": "/root/autodl-tmp/tf-logs/fracture2d/l1_damage_loading_from_zero_20261013/independent_review/force_displacement_20261013T120154Z/force_displacement.png",
+      "sha256": "9aa5e5340d80088b7addc7c435a2bbdcfca0383d237ee4a17bd4c38dbbb01271",
+      "immutable_source": true,
+      "included_in_git": false
+    },
+    {
+      "file": "force_displacement.pdf",
+      "original_path": "/root/autodl-tmp/tf-logs/fracture2d/l1_damage_loading_from_zero_20261013/independent_review/force_displacement_20261013T120154Z/force_displacement.pdf",
+      "sha256": "ef76843c4a1f65a6459ee9b8d75608489034462bb66d0362c6eafe063e635ebc",
+      "immutable_source": true,
+      "included_in_git": false
+    },
+    {
+      "file": "curve_data.csv",
+      "original_path": "/root/autodl-tmp/tf-logs/fracture2d/l1_damage_loading_from_zero_20261013/independent_review/force_displacement_20261013T120154Z/curve_data.csv",
+      "sha256": "44621a3eb427e2da382eaac1061f54e65fa41e7ef2f4195935bd7e389956044f",
+      "immutable_source": true,
+      "included_in_git": true,
+      "original_sha256": "0b7cb59cd2b503b83b4cbdf7100931544d7f2537b4005a1596835e81e232d962",
+      "normalization": "CRLF to LF only; CSV rows/values unchanged"
+    },
+    {
+      "file": "force_comparison.json",
+      "original_path": "/root/autodl-tmp/tf-logs/fracture2d/l1_damage_loading_from_zero_20261013/independent_review/force_displacement_20261013T120154Z/comparison.json",
+      "sha256": "06e3930f01b4aa962ce0bb0d2ff924eeacfcbccbf5092d69dd6f4bcc24cc5293",
+      "immutable_source": true,
+      "included_in_git": true
+    },
+    {
+      "file": "force_plot_script.py",
+      "original_path": "/root/autodl-tmp/tf-logs/fracture2d/l1_damage_loading_from_zero_20261013/independent_review/force_displacement_20261013T120154Z/plot_script.py",
+      "sha256": "9cf2ab9d7db1e4b39996aaa3a2711b4498debe845098de0de00d25aaae44410c",
+      "immutable_source": true,
+      "included_in_git": true
+    },
+    {
+      "file": "damage_0058_outer0064.png",
+      "original_path": "/root/autodl-tmp/tf-logs/fracture2d/l1_damage_loading_from_zero_20261013/independent_review/damage_load_0058_outer0064.png",
+      "sha256": "3aeacf00648cdd549b952d41e683d3900e14ba3468376d528ef6986a8227f91e",
+      "immutable_source": true,
+      "included_in_git": false
+    },
+    {
+      "file": "damage_comparison_0058_outer0064.json",
+      "original_path": "/root/autodl-tmp/tf-logs/fracture2d/l1_damage_loading_from_zero_20261013/independent_review/status_comparison_0058_outer0064.json",
+      "sha256": "8f3c61aab22421a6c6675936a9f462647acde3180372ab212d9ae97323efd350",
+      "immutable_source": true,
+      "included_in_git": true
+    },
+    {
+      "file": "l1_identity.json",
+      "original_path": "/root/autodl-tmp/tf-logs/fracture2d/l1_damage_loading_from_zero_20261013/identity.json",
+      "sha256": "3227112c615b9c78a2a00578609077920bbbf97b1ed966c4847b45c02c5be2cd",
+      "immutable_source": true,
+      "included_in_git": true
+    },
+    {
+      "file": "l1_result_at_commit.json",
+      "original_path": "/root/autodl-tmp/tf-logs/fracture2d/l1_damage_loading_from_zero_20261013/result.json",
+      "sha256": "3342dbadf3757879c5f0592adeb3688c35f770b89720d950ae3b62734c4bfa06",
+      "immutable_source": false,
+      "included_in_git": true
+    },
+    {
+      "file": "l1_audit_at_commit.json",
+      "original_path": "/root/autodl-tmp/tf-logs/fracture2d/l1_damage_loading_from_zero_20261013/independent_review/audit.json",
+      "sha256": "78a0defa591c278cee518d2b0d2451af3a8d2d7ee6688efc0bfcbb9c86a9b8a9",
+      "immutable_source": false,
+      "included_in_git": true
+    },
+    {
+      "file": "reference_identity.json",
+      "original_path": "/root/autodl-tmp/tf-logs/fracture2d/l1_damage_loading_from_zero_20261013/independent_review/reference_identity.json",
+      "sha256": "7395edecf91cb7b84c3f415fdcaa6e6c5956a2ef2a4cc53eddfeeb5b0cb825a9",
+      "immutable_source": true,
+      "included_in_git": true
+    }
+  ],
+  "result_complete_at_capture": true,
+  "independent_replay_complete_at_capture": true,
+  "note": "Report/result/audit are fixed capture copies; original jobs continue independently. Independent replay pass is separate from coupled numerical convergence.",
+  "git_scope": "Text source, Markdown, configuration, lockfiles, JSON and CSV only; slides and binary artifacts excluded."
+}

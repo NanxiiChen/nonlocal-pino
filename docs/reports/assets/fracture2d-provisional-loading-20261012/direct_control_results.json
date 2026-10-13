@@ -1,0 +1,2245 @@
+{
+  "certified_path": false,
+  "complete": true,
+  "curve": [
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 34,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.5542562584218229
+      },
+      "index": 53,
+      "load": 0.0053,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "reaction": 535.536511776851,
+      "state_sha256": "bc7c2223b17ab13042958e8c600cac913010878900d073117c55c6443c386cee",
+      "status": "user_provisional",
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 36,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.5577203600369605
+      },
+      "healing": 0.008342076342615315,
+      "host_force_norm": 2.3934962643231494e-05,
+      "index": 54,
+      "inner_AT2": 1.314794842123431e-08,
+      "load": 0.0054,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.0159171244984119
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.07982538554643541
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.010211517368333367
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 1.314794842123431e-08
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.008342076342615315
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.4121417627038998e-05,
+            "pass": true,
+            "value": 2.3934962575088005e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.007465377034964124
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.00138985256903037
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "bc7c2223b17ab13042958e8c600cac913010878900d073117c55c6443c386cee",
+      "physical_AT2": 0.07982538554643541,
+      "reaction": 538.1043405894233,
+      "state_sha256": "e461eb9e9e6e611897af8ab7dee7983228b55ac67ff1a440b413fe685eebe3dc",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 43,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.5646485632672213
+      },
+      "healing": 1.3040920575937281e-05,
+      "host_force_norm": 2.45609062245794e-05,
+      "index": 55,
+      "inner_AT2": 2.4026107538087113e-08,
+      "load": 0.0055000000000000005,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.020967553836568873
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.10466249493238934
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.013494588091779725
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 2.4026107538087113e-08
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 1.3040920575937281e-05
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.456811054605824e-05,
+            "pass": true,
+            "value": 2.4560906162938846e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.010976676256907614
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.0019275862366112206
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "e461eb9e9e6e611897af8ab7dee7983228b55ac67ff1a440b413fe685eebe3dc",
+      "physical_AT2": 0.10466249493238934,
+      "reaction": 537.719602715344,
+      "state_sha256": "8b316a72f2db11b35b6b67faff9f7efe2697c91beb69c1b1f40a17c1d3d2f2fb",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 52,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.5715767664975284
+      },
+      "healing": 2.665893248862683e-08,
+      "host_force_norm": 2.497601707218587e-05,
+      "index": 56,
+      "inner_AT2": 2.2112111444681443e-08,
+      "load": 0.0056,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.025320671039431555
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.1283657219734388
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.016246056398667386
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 2.2112111444681443e-08
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 2.665893248862683e-08
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.501480346507748e-05,
+            "pass": true,
+            "value": 2.4976017144886936e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.014264182459423227
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.00243406995635262
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "8b316a72f2db11b35b6b67faff9f7efe2697c91beb69c1b1f40a17c1d3d2f2fb",
+      "physical_AT2": 0.1283657219734388,
+      "reaction": 534.8491841281913,
+      "state_sha256": "1172e61eb070ef12d2dc0f7c85fe9e01481588400a6526040592b579a47f0b6a",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 61,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.5819690713429441
+      },
+      "healing": 0.0,
+      "host_force_norm": 2.5190910205820655e-05,
+      "index": 57,
+      "inner_AT2": 1.963710437454325e-08,
+      "load": 0.0057,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.02946864956176775
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.15188000136702795
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.01880854459178194
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 1.963710437454325e-08
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.546149638409672e-05,
+            "pass": true,
+            "value": 2.519091002458203e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.016452301846993197
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.002957347208658035
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "1172e61eb070ef12d2dc0f7c85fe9e01481588400a6526040592b579a47f0b6a",
+      "physical_AT2": 0.15188000136702795,
+      "reaction": 529.5359520418235,
+      "state_sha256": "b8744c764a52214b600e013d193c01a7856c96843d007837794b4a3a59514c3d",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 71,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.5923613761883622
+      },
+      "healing": 0.0,
+      "host_force_norm": 2.5889291902444794e-05,
+      "index": 58,
+      "inner_AT2": 2.902001208753725e-08,
+      "load": 0.0058000000000000005,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.03215410478036302
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.17508317357756037
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.021246678645431616
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 2.902001208753725e-08
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.5908189303115965e-05,
+            "pass": true,
+            "value": 2.588929173655531e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.020919466505075607
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.0035176481282769142
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "b8744c764a52214b600e013d193c01a7856c96843d007837794b4a3a59514c3d",
+      "physical_AT2": 0.17508317357756037,
+      "reaction": 521.7498795334111,
+      "state_sha256": "57ab642e6bedc2a24c351bbf181a6e969babc39a50dc1c29071bb3eebe9ff747",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 85,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.6062177826488885
+      },
+      "healing": 3.15065896721381e-05,
+      "host_force_norm": 2.6047208584569135e-05,
+      "index": 59,
+      "inner_AT2": 1.9663425202850288e-08,
+      "load": 0.0059,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.03550814797090964
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.1931750101136063
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.02350729997352541
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 1.9663425202850288e-08
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 3.15065896721381e-05
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.63548822221352e-05,
+            "pass": true,
+            "value": 2.604720817620325e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.02204363151981158
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.004134264031406761
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "57ab642e6bedc2a24c351bbf181a6e969babc39a50dc1c29071bb3eebe9ff747",
+      "physical_AT2": 0.1931750101136063,
+      "reaction": 511.4100155433448,
+      "state_sha256": "7eae9009fd51397c785c14413097dc4fd57c37cba540b35fc495ad8e0bdd3fc5",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 100,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.6200741891094721
+      },
+      "healing": 7.587526165492298e-05,
+      "host_force_norm": 2.6732349027108316e-05,
+      "index": 60,
+      "inner_AT2": 5.1400341538260556e-08,
+      "load": 0.006,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.03784967997914265
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.2136629962616339
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.025773302359962225
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 5.1400341538260556e-08
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 7.587526165492298e-05
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.6801575141154442e-05,
+            "pass": true,
+            "value": 2.6732349229526527e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.02389787115154826
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.004813908977873525
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "7eae9009fd51397c785c14413097dc4fd57c37cba540b35fc495ad8e0bdd3fc5",
+      "physical_AT2": 0.2136629962616339,
+      "reaction": 498.4447968371515,
+      "state_sha256": "8c829d64ec5df1c77c9c97ca5fd2b1d06a3ef20a5c1fbd13db00d6d0d42fcbb7",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 113,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.6373946971851313
+      },
+      "healing": 8.645582817787267e-05,
+      "host_force_norm": 2.71784785659639e-05,
+      "index": 61,
+      "inner_AT2": 2.7615195724634637e-08,
+      "load": 0.0061,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.03885249568056809
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.2376479916708566
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.027879137616819816
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 2.7615195724634637e-08
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 8.645582817787267e-05
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.7248268060173685e-05,
+            "pass": true,
+            "value": 2.717847904420703e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.029181002024381963
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.005575258073759767
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "8c829d64ec5df1c77c9c97ca5fd2b1d06a3ef20a5c1fbd13db00d6d0d42fcbb7",
+      "physical_AT2": 0.2376479916708566,
+      "reaction": 482.78997097868483,
+      "state_sha256": "9e07e10149fcda26071c457e020a34f09681474de60b6bf97c504cd6e7a84780",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 136,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.6547152052608447
+      },
+      "healing": 0.000110588372573453,
+      "host_force_norm": 2.7647039512487515e-05,
+      "index": 62,
+      "inner_AT2": 3.5374184147610554e-08,
+      "load": 0.006200000000000001,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.04097309111329317
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.2542082243291604
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.029912833483569323
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 3.5374184147610554e-08
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.000110588372573453
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.7694960979192925e-05,
+            "pass": true,
+            "value": 2.7647039429829503e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.03059687674197549
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.006422241811268919
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "9e07e10149fcda26071c457e020a34f09681474de60b6bf97c504cd6e7a84780",
+      "physical_AT2": 0.2542082243291604,
+      "reaction": 464.41311324166827,
+      "state_sha256": "e50119ca3b4fe477ba6c659680f3599c46108c9134b34d67b56ec248b216669c",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 161,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.675499814951684
+      },
+      "healing": 0.00019863630893110495,
+      "host_force_norm": 2.8065838907007432e-05,
+      "index": 63,
+      "inner_AT2": 5.3141928773218735e-08,
+      "load": 0.0063,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.04128148151960842
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.27451271577503383
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.03177163433568009
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 5.3141928773218735e-08
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.00019863630893110495
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.8141653898212162e-05,
+            "pass": true,
+            "value": 2.8065838897031227e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.03492279352345586
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.007376930709145179
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "e50119ca3b4fe477ba6c659680f3599c46108c9134b34d67b56ec248b216669c",
+      "physical_AT2": 0.27451271577503383,
+      "reaction": 443.29882606982454,
+      "state_sha256": "43bea01da79ee20eb642f49492c2307d5d1f785143d77ac215b6dea2f3c6aba4",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 187,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.6962844246425033
+      },
+      "healing": 0.00042052242042640853,
+      "host_force_norm": 2.847006010530252e-05,
+      "index": 64,
+      "inner_AT2": 3.4919145970348894e-08,
+      "load": 0.0064,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.043136930732865245
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.2939233361569613
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.033608393106213885
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 3.4919145970348894e-08
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.00042052242042640853
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.858834681723141e-05,
+            "pass": true,
+            "value": 2.8470060220655174e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.03612238557582548
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.008487173903489421
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "43bea01da79ee20eb642f49492c2307d5d1f785143d77ac215b6dea2f3c6aba4",
+      "physical_AT2": 0.2939233361569613,
+      "reaction": 419.4572636249724,
+      "state_sha256": "2943e8ec8e9ef40ca117a2a67605747dd87b1a241f59637fd901b009751dfeaf",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 215,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.7170690343332906
+      },
+      "healing": 0.00029225856181212817,
+      "host_force_norm": 2.8801361249042457e-05,
+      "index": 65,
+      "inner_AT2": 1.506957788223279e-07,
+      "load": 0.006500000000000001,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.04371714571112028
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.3062533585811647
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.035227781617947374
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 1.506957788223279e-07
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.00029225856181212817
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.9035039736250646e-05,
+            "pass": true,
+            "value": 2.8801360989539626e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.039391029030024505
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.009758161152349872
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "2943e8ec8e9ef40ca117a2a67605747dd87b1a241f59637fd901b009751dfeaf",
+      "physical_AT2": 0.3062533585811647,
+      "reaction": 392.92679906764835,
+      "state_sha256": "ae3a0798179f376bf649d8d0fda6abfa631bc8c6692daa97add1a30337156521",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 243,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.7413177456392599
+      },
+      "healing": 0.00025880263464966857,
+      "host_force_norm": 2.9267389307610637e-05,
+      "index": 66,
+      "inner_AT2": 6.192831999119777e-08,
+      "load": 0.0066,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.04586133510170045
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.3231965059280019
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.0368002129020768
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 6.192831999119777e-08
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.00025880263464966857
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.948173265526989e-05,
+            "pass": true,
+            "value": 2.926738886062473e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.04069840469711738
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.011245278663904498
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "ae3a0798179f376bf649d8d0fda6abfa631bc8c6692daa97add1a30337156521",
+      "physical_AT2": 0.3231965059280019,
+      "reaction": 363.7943010443667,
+      "state_sha256": "227ad25c4ab8de6dea46ae972ff14da0edcf478c632b3ac2ee75e69f6d3e6a19",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 273,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.7690305585603605
+      },
+      "healing": 0.00021643218305140988,
+      "host_force_norm": 2.9810812711212016e-05,
+      "index": 67,
+      "inner_AT2": 7.492315854081976e-08,
+      "load": 0.0067,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.04624666689458122
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.33798470176860207
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.03834203285899129
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 7.492315854081976e-08
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.00021643218305140988
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 2.992842557428913e-05,
+            "pass": true,
+            "value": 2.9810813074005196e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.04190586967013795
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.013038140619659355
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "227ad25c4ab8de6dea46ae972ff14da0edcf478c632b3ac2ee75e69f6d3e6a19",
+      "physical_AT2": 0.33798470176860207,
+      "reaction": 332.1624841907809,
+      "state_sha256": "1cabc596333340848bd2bd0657abc519563fdb9aa6ca26361017d91527faa08a",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 304,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.7932792698662146
+      },
+      "healing": 0.00047037930145354956,
+      "host_force_norm": 3.0032739645756372e-05,
+      "index": 68,
+      "inner_AT2": 1.0164314249890544e-07,
+      "load": 0.0068000000000000005,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.04858618468189486
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.3533333231564268
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.03975630622870596
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 1.0164314249890544e-07
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.00047037930145354956
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 3.037511849330837e-05,
+            "pass": true,
+            "value": 3.0032739713109965e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.04284750687317738
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.015308149211069391
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "1cabc596333340848bd2bd0657abc519563fdb9aa6ca26361017d91527faa08a",
+      "physical_AT2": 0.3533333231564268,
+      "reaction": 298.0782804494468,
+      "state_sha256": "2afaf528f11bf45e417f29d2bf63d20fbcd23bf6097215f6ef169e210ddb24b3",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 337,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.8209920827866545
+      },
+      "healing": 9.152468182128948e-05,
+      "host_force_norm": 3.0639846599484035e-05,
+      "index": 69,
+      "inner_AT2": 1.0090400679897318e-07,
+      "load": 0.006900000000000001,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.05002606208703655
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.3648984185330013
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.04133174996008404
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 1.0090400679897318e-07
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 9.152468182128948e-05
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 3.082181141232761e-05,
+            "pass": true,
+            "value": 3.063984699379865e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.04463325637397887
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.018446111545778156
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "2afaf528f11bf45e417f29d2bf63d20fbcd23bf6097215f6ef169e210ddb24b3",
+      "physical_AT2": 0.3648984185330013,
+      "reaction": 261.40908543741773,
+      "state_sha256": "e7e1b741a3ee43e3fb72f0f8e6f2a359f908f17cb648b653dc8dc4a075fbc436",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 373,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.8521689973229092
+      },
+      "healing": 0.0009631780992656047,
+      "host_force_norm": 3.122473253545995e-05,
+      "index": 70,
+      "inner_AT2": 8.619053536761311e-08,
+      "load": 0.007,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.05251549607488783
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.37576254396904235
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.04339033790634317
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 8.619053536761311e-08
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0009631780992656047
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 3.126850433134685e-05,
+            "pass": true,
+            "value": 3.122473235442955e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.046017047854463485
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.023426076842896493
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "e7e1b741a3ee43e3fb72f0f8e6f2a359f908f17cb648b653dc8dc4a075fbc436",
+      "physical_AT2": 0.37576254396904235,
+      "reaction": 221.51968295833933,
+      "state_sha256": "0b85569f6b996fe46dca498cbac792f12c61a6028d91795d7540e1b303f7ee6d",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 410,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.8833459118591428
+      },
+      "healing": 0.0008689765976067632,
+      "host_force_norm": 3.125536080552346e-05,
+      "index": 71,
+      "inner_AT2": 1.675307619168736e-07,
+      "load": 0.0071,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.05706704330269031
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.4014898152697019
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.047166772705063975
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 1.675307619168736e-07
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0008689765976067632
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 3.171519725036609e-05,
+            "pass": true,
+            "value": 3.125536088620664e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.053483644184682516
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.03361437863388142
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "0b85569f6b996fe46dca498cbac792f12c61a6028d91795d7540e1b303f7ee6d",
+      "physical_AT2": 0.4014898152697019,
+      "reaction": 176.27951543642428,
+      "state_sha256": "ef1d5a2456b367855edcb7cfbc62aa670e4ce01302e86eb45382e3f1b68d2f36",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 454,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.9214510296256738
+      },
+      "healing": 0.005288680422862679,
+      "host_force_norm": 3.2105498915562054e-05,
+      "index": 72,
+      "inner_AT2": 2.6934762249810965e-07,
+      "load": 0.007200000000000001,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.07836404748860368
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.45908214504880795
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.05894250019642022
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 2.6934762249810965e-07
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.005288680422862679
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 3.216189016938533e-05,
+            "pass": true,
+            "value": 3.210549910125346e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.06415342744490093
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.07053649347963144
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "ef1d5a2456b367855edcb7cfbc62aa670e4ce01302e86eb45382e3f1b68d2f36",
+      "physical_AT2": 0.45908214504880795,
+      "reaction": 117.08501875782439,
+      "state_sha256": "68403c2e2efc02d40353977ac37721e04f3aaf4a8db578abe4080c70d93be4d7",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 556,
+        "spans_ligament": false,
+        "tip_component_xmax": 0.9905451695072427
+      },
+      "healing": 0.006370988966590607,
+      "host_force_norm": 3.259881780018869e-05,
+      "index": 73,
+      "inner_AT2": 3.8488554698148925e-07,
+      "load": 0.0073,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.19821001543951164
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.6236483947547435
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.06977146230134745
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 3.8488554698148925e-07
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.006370988966590607
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 3.2608583088404576e-05,
+            "pass": true,
+            "value": 3.2598818036718525e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.1083418391450048
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.44586643462967007
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "68403c2e2efc02d40353977ac37721e04f3aaf4a8db578abe4080c70d93be4d7",
+      "physical_AT2": 0.6236483947547435,
+      "reaction": 13.851923962072672,
+      "state_sha256": "e26907a7c55beebb731abbdb53e009a73a46a4120f3bd98c8893b6eb5ddbb546",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 592,
+        "spans_ligament": true,
+        "tip_component_xmax": 1.0
+      },
+      "healing": 0.06256960482500695,
+      "host_force_norm": 3.3000371089665496e-05,
+      "index": 74,
+      "inner_AT2": 4.940066204205726e-07,
+      "load": 0.0074,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.17935210362949622
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.21410245761282792
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 0.004410569162301314
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 4.940066204205726e-07
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.06256960482500695
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 3.305527600742381e-05,
+            "pass": true,
+            "value": 3.3000370840317726e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.12845287803709332
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.09791093349520331
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "e26907a7c55beebb731abbdb53e009a73a46a4120f3bd98c8893b6eb5ddbb546",
+      "physical_AT2": 0.21410245761282792,
+      "reaction": 0.20891566303929976,
+      "state_sha256": "6703cd2b5395b6584294615e6280b6f563fad9699dfab4008a2c62ad1adff026",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    },
+    {
+      "certified_path": false,
+      "crack": {
+        "active_nodes": 592,
+        "spans_ligament": true,
+        "tip_component_xmax": 1.0
+      },
+      "healing": 0.010040359279362976,
+      "host_force_norm": 2.9578375287518672e-05,
+      "index": 75,
+      "inner_AT2": 1.4655005282327918e-06,
+      "load": 0.007500000000000001,
+      "load_advanced": true,
+      "local_strict_ready": false,
+      "outer_convergence": {
+        "checks": {
+          "H_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.009641077483557014
+          },
+          "current_AT2": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.00820319559082977
+          },
+          "damage_change": {
+            "limit": 1e-05,
+            "pass": false,
+            "value": 4.645318847351643e-05
+          },
+          "damage_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "damage_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "drift": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0
+          },
+          "fixed_H_image_AT2": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 1.4655005282327918e-06
+          },
+          "healing": {
+            "limit": 0.001,
+            "pass": false,
+            "value": 0.010040359279362976
+          },
+          "history_decrease": {
+            "limit": 0.0,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_negative_range": {
+            "limit": 0.001,
+            "pass": true,
+            "value": 0.0
+          },
+          "image_positive_range": {
+            "limit": 2e-06,
+            "pass": true,
+            "value": 0.0
+          },
+          "mechanics": {
+            "limit": 3.3501968926443056e-05,
+            "pass": true,
+            "value": 2.9578375447153588e-05
+          },
+          "q_change": {
+            "limit": 0.0001,
+            "pass": false,
+            "value": 0.005243537629401589
+          },
+          "reaction_change": {
+            "limit": 0.0001,
+            "pass": true,
+            "value": 3.6313197108075294e-06
+          }
+        },
+        "consecutive": 0,
+        "converged": false,
+        "mode": "residual_gated",
+        "pass_this_sweep": false,
+        "reason": "iterating"
+      },
+      "parent_sha256": "6703cd2b5395b6584294615e6280b6f563fad9699dfab4008a2c62ad1adff026",
+      "physical_AT2": 0.00820319559082977,
+      "reaction": 0.18216106238955987,
+      "state_sha256": "69274f2f01b007bafeee1ffe9ed9a3c08c89830b89f1e4ba82525796cdb7662f",
+      "status": "user_provisional",
+      "sweeps": 8,
+      "user_forced_advance": true
+    }
+  ],
+  "gpu_shared_with_NN": true
+}

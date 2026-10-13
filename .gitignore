@@ -3,6 +3,8 @@
 nondim.txt
 notes/
 reports/
+# Dated scientific records under docs belong to repository documentation.
+!docs/reports/
 diag_*
 _legacy/
 ref_*

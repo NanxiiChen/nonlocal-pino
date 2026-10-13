@@ -1,7 +1,8 @@
 """FP64 split-horizon neural loading with damage/reaction-first warning reports.
 
 Only learned predecessor fields supply cumulative history and irreversibility
-diagnostics. Strict direct fields are held-out comparisons, never loss targets.
+diagnostics. Direct fields are held-out comparisons, never loss targets.
+User-accepted warning comparisons require an explicit SHA-bound policy.
 Warning progression is explicitly distinct from a strictly validated solution.
 """
 
@@ -27,6 +28,8 @@ from examples.fracture2d.losses import FractureResidual
 from examples.fracture2d.split_horizon_model import build_model, read_cloud
 from examples.fracture2d.split_reference import reference_state_root
 from examples.fracture2d.stagger_checkpoint import read_checkpoint, write_checkpoint
+from examples.fracture2d.split_loading import reference_indices, check_fork_loading
+from examples.fracture2d.inner_stopping import StopWindow, validate_controls
 from examples.fracture2d.train import _build_network, _nonnegative_damage
 
 
@@ -73,36 +76,93 @@ def fork_checkpoint_identity(path, expected):
     for name in ("model_digest", "reference_sha256", "parent_sha256", "index"):
         if stored[name] != expected[name]:
             raise ValueError(f"split neural fork {name} differs")
+    if "reference_provenance" in stored or "reference_provenance" in expected:
+        if ("reference_provenance" not in stored or "reference_provenance" not in expected
+                or stored["reference_provenance"] != expected["reference_provenance"]):
+            raise ValueError("split neural fork reference provenance differs")
     for name in ("arch", "physical", "nl", "geometry"):
         if stored["config"][name] != expected["config"][name]:
             raise ValueError(f"split neural fork {name} differs")
-    if stored["config"]["data"]["load_step"] != expected["config"]["data"]["load_step"]:
-        raise ValueError("split neural fork load step differs")
+    check_fork_loading(stored["config"]["data"], expected["config"]["data"], expected["index"])
     return stored
 
 
-def comparison_reference(root, index, model_digest, n_dofs, n_material, load):
-    """Reject uncommitted/warning/wrong-model references before training."""
+def accepted_warning_policy(root, expected_sha256):
+    """Validate explicit engineering acceptance without relabeling any fields."""
+    path = Path(root) / "policy.json"
+    payload = path.read_bytes()
+    if not isinstance(expected_sha256, str) or hashlib.sha256(payload).hexdigest() != expected_sha256:
+        raise ValueError("accepted-warning reference policy SHA differs")
+    policy = json.loads(payload)
+    if (policy["schema"] != "fracture2d-split-warning-v1"
+            or policy["diagnostic_only"] is not True or policy["fork_after_index"] < 1):
+        raise ValueError("accepted-warning comparisons require a bound diagnostic warning root")
+    return policy
+
+
+def comparison_reference(root, index, model_digest, n_dofs, n_material, load, *,
+                         reference_policy="strict", policy_sha256=None, return_metadata=False):
+    """Strict by default; accepted warning data remain explicitly diagnostic."""
+    if reference_policy not in ("strict", "user_accepted_warning"):
+        raise ValueError("unknown PINN reference comparison policy")
+    policy = None
+    if reference_policy == "user_accepted_warning":
+        policy = accepted_warning_policy(root, policy_sha256)
+        if policy["model_digest"] != model_digest:
+            raise ValueError("accepted-warning reference model differs")
     state_dir = reference_state_root(root, index)
-    report = json.loads((state_dir / "result.json").read_text())
-    if not report["accepted_reference"] or report["model_digest"] != model_digest or abs(report["load"] - load) > 1e-12:
+    report_bytes = (state_dir / "result.json").read_bytes()
+    report = json.loads(report_bytes)
+    is_warning = report["accepted_reference"] is False
+    if report["model_digest"] != model_digest or abs(report["load"] - load) > 1e-12:
         raise ValueError("split PINN comparison requires a matching strict reference and field digest")
-    path = state_dir / "committed.npz"
+    if is_warning:
+        if reference_policy != "user_accepted_warning":
+            raise ValueError("split PINN comparison requires a matching strict reference and field digest")
+        if policy is None:
+            raise ValueError("accepted-warning reference lacks its bound policy")
+        if (report["diagnostic_only"] is not True or report["warning_usable"] is not True
+                or report["strict_accepted"] is not False or report["field_equations_validated"] is not False
+                or set(report["hard_gates"]) != {"finite", "damage_range", "history_monotonic"}
+                or not all(report["hard_gates"].values()) or index <= policy["fork_after_index"]
+                or report["inherited_warning"] != (index > policy["fork_after_index"] + 1)):
+            raise ValueError("invalid accepted-warning reference status/ancestry")
+        previous = reference_state_root(root, index - 1)
+        parent_report = json.loads((previous / "result.json").read_text())
+        parent_strict = parent_report["accepted_reference"] is True
+        parent_path = previous / ("committed.npz" if parent_strict else "warning.npz")
+        parent_sha = hashlib.sha256(parent_path.read_bytes()).hexdigest()
+        parent_key = "committed_sha256" if parent_strict else "warning_sha256"
+        if (parent_sha != report["parent_sha256"] or parent_sha != parent_report[parent_key]
+                or parent_report["model_digest"] != model_digest):
+            raise ValueError("accepted-warning reference parent SHA/model differs")
+        path, digest_key = state_dir / "warning.npz", "warning_sha256"
+    else:
+        if report["accepted_reference"] is not True:
+            raise ValueError("split PINN comparison requires a matching strict reference and field digest")
+        path, digest_key = state_dir / "committed.npz", "committed_sha256"
     digest = hashlib.sha256(path.read_bytes()).hexdigest()
-    if (not report["accepted_reference"] or report["model_digest"] != model_digest
-            or abs(report["load"] - load) > 1e-12
-            or digest != report["committed_sha256"]):
+    if digest != report[digest_key]:
         raise ValueError("split PINN comparison requires a matching strict reference and field digest")
     with np.load(path, allow_pickle=False) as archive:
         q, d = (archive[name] for name in ("q", "d"))
     if (q.shape != (n_dofs,) or d.shape != (n_material,)
-            or any(x.dtype != np.float64 or not np.all(np.isfinite(x)) for x in (q, d))):
+            or any(x.dtype != np.float64 or not np.all(np.isfinite(x)) for x in (q, d))
+            or min(d) < -1e-10 or max(d) > 1 or not np.isfinite(report["reaction"])):
         raise ValueError("split reference fields do not match model shape/dtype")
-    return q, d, float(report["reaction"]), digest
+    result = (q, d, float(report["reaction"]), digest)
+    if return_metadata:
+        metadata = {"status": "warning" if is_warning else "strict",
+                    "report_sha256": hashlib.sha256(report_bytes).hexdigest(),
+                    "comparison_policy": reference_policy, "policy_sha256": policy_sha256,
+                    "warning_failures": report["warning_failures"] if is_warning else [],
+                    "diagnostic_only": is_warning}
+        return (*result, metadata)
+    return result
 
 
 def classify_report(report, limits, *, inherited_warning):
-    """Primary comparisons control research advancement; retain every failure."""
+    """Optionally gate on reference comparisons; retain every diagnostic failure."""
     if not all(np.isfinite(x) for x in report.values() if isinstance(x, (float, int))):
         raise FloatingPointError("split PINN diagnostics are nonfinite")
     checks = {
@@ -121,11 +181,18 @@ def classify_report(report, limits, *, inherited_warning):
                for key, (value, limit) in checks.items()}
     failed = [name for name, entry in metrics.items() if not entry["pass"]]
     primary_pass = all(metrics[name]["pass"] for name in ("damage_rmse", "reaction_relative"))
-    strict = primary_pass and not failed and not inherited_warning
-    return {**report, "checks": metrics, "failed_checks": failed,
-            "inherited_warning": bool(inherited_warning), "research_advance": primary_pass,
-            "strict_accepted": strict, "field_equations_validated": False,
-            "status": "strict_checks_pass" if strict else "warning" if primary_pass else "rejected"}
+    comparison_gate = limits.comparison_gate if "comparison_gate" in limits else True
+    if type(comparison_gate) is not bool:
+        raise ValueError("reporting.comparison_gate must be boolean")
+    strict = comparison_gate and primary_pass and not failed and not inherited_warning
+    advance = primary_pass if comparison_gate else True
+    result = {**report, "checks": metrics, "failed_checks": failed,
+             "inherited_warning": bool(inherited_warning), "research_advance": advance,
+             "strict_accepted": strict, "field_equations_validated": False,
+             "status": "strict_checks_pass" if strict else "warning" if advance else "rejected"}
+    if "comparison_gate" in limits:
+        result.update(comparison_gate_enforced=comparison_gate, comparison_checks_pass=primary_pass)
+    return result
 
 
 def plot_outputs(state_dir, coordinates, triangles, damage, reference, report, curve):
@@ -139,7 +206,7 @@ def plot_outputs(state_dir, coordinates, triangles, damage, reference, report, c
     damage_upper = max(float(np.max(damage)), float(np.max(reference)))
     error_upper = max(float(np.max(np.abs(damage - reference))), np.finfo(np.float64).eps)
     for ax, values, title in zip(axes, (damage, reference, damage - reference),
-                                ("PINN damage", "Strict reference damage", "PINN minus reference")):
+                                 ("PINN damage", "Direct comparison damage", "PINN minus reference")):
         error_plot = title == "PINN minus reference"
         artist = ax.tripcolor(mesh, values, shading="gouraud", cmap="coolwarm" if error_plot else "viridis",
                              vmin=-error_upper if error_plot else 0., vmax=error_upper if error_plot else damage_upper)
@@ -150,7 +217,7 @@ def plot_outputs(state_dir, coordinates, triangles, damage, reference, report, c
     fig.savefig(state_dir / "damage_field.png", dpi=160)
     plt.close(fig)
     fig, ax = plt.subplots(figsize=(6, 4), constrained_layout=True)
-    ax.plot([0., *[row["load"] for row in curve]], [0., *[row["reference_reaction"] for row in curve]], "k.-", label="Strict reference")
+    ax.plot([0., *[row["load"] for row in curve]], [0., *[row["reference_reaction"] for row in curve]], "k.-", label="Direct comparison")
     ax.plot([0., *[row["load"] for row in curve]], [0., *[row["reaction"] for row in curve]], "o--", label="PINN research path")
     warning = [row for row in curve if row["status"] != "strict_checks_pass"]
     ax.scatter([row["load"] for row in warning], [row["reaction"] for row in warning], marker="x", color="red", label="Warning / rejected")
@@ -165,8 +232,24 @@ def run(c):
     jax.config.update("jax_default_matmul_precision", "highest")
     if c.train.dtype != "float64":
         raise ValueError("split PINN requires explicit FP64")
+    targets = reference_indices(c.data)
+    adaptive = "inner_stop" in c and c.inner_stop.enabled
+    if "inner_stop" in c and type(c.inner_stop.enabled) is not bool:
+        raise ValueError("inner_stop.enabled must be boolean")
+    if adaptive:
+        validate_controls(c.inner_stop, min(c.stagger.mechanics_steps, c.stagger.damage_steps))
+        if c.stagger.accept_on_first_passing_report:
+            raise ValueError("adaptive blocks require reference first-passage stopping disabled")
     if c.train.mechanics_objective not in ("residual", "energy"):
         raise ValueError("mechanics_objective must explicitly select residual or energy")
+    # Older schema-v1 configs deliberately retain strict-only comparison behavior.
+    reference_policy = c.data.reference_policy if "reference_policy" in c.data else "strict"
+    if reference_policy not in ("strict", "user_accepted_warning"):
+        raise ValueError("unknown PINN reference comparison policy")
+    policy_sha = None
+    if reference_policy == "user_accepted_warning":
+        policy_sha = c.data.reference_policy_sha256
+        accepted_warning_policy(c.data.reference_root, policy_sha)
     # Schema-v1 configs predate this optional implementation selector. Their
     # missing selector retains the original AD path and unchanged config bytes.
     operator_mode = c.train.operator_mode if "operator_mode" in c.train else "autodiff"
@@ -187,11 +270,18 @@ def run(c):
         raise ValueError("neural Picard omega must lie in (0, 1]")
     if not isinstance(c.stagger.accept_on_first_passing_report, bool):
         raise ValueError("first-passage reporting control must be boolean")
+    if "comparison_gate" in c.reporting:
+        if type(c.reporting.comparison_gate) is not bool:
+            raise ValueError("reporting.comparison_gate must be boolean")
+        if not c.reporting.comparison_gate and c.stagger.accept_on_first_passing_report:
+            raise ValueError("diagnostic reference comparisons require reference first-passage stopping disabled")
     if (isinstance(c.output.fork_after_index, bool) or int(c.output.fork_after_index) != c.output.fork_after_index
             or not 0 <= c.output.fork_after_index < c.data.end_state_index
             or bool(c.output.fork_from) != bool(c.output.fork_after_index)):
         raise ValueError("neural fork requires an explicit nonempty prefix before the endpoint")
     for name, value in c.reporting.items():
+        if name == "comparison_gate":
+            continue
         if not np.isfinite(value) or value < 0:
             raise ValueError(f"reporting.{name} must be nonnegative finite")
     root = Path(c.output.dir)
@@ -279,28 +369,55 @@ def run(c):
         updates, state = optimizer.update(grads, state, net)
         return eqx.apply_updates(net, updates), state, loss
 
+    @eqx.filter_jit
+    def mechanics_monitor(net, d, load, scale):
+        q = displacement(net, load)
+        factor = backend._edge_factor(d)
+        evaluation = backend._evaluate_from_factor(factor, q)
+        objective = energy_function(factor, q) / (c.physical.E * load**2 * union_volume)
+        norm = jnp.mean((evaluation["residual"][backend.free_dofs] / scale)**2)
+        return q, objective, norm, evaluation["top_reaction"]
+
+    @eqx.filter_jit
+    def damage_monitor(net, H, load, H_scale):
+        image = damage(net, load)
+        terms = (gc0*image, gc1*damage_matvec(image), 2*H*(image-1))
+        defect = sum(terms)
+        term_scale = sum(jnp.max(jnp.abs(t)) for t in terms)
+        return image, jnp.mean((defect/H_scale)**2), jnp.max(jnp.abs(defect))/term_scale, term_scale
+
     first_load = jnp.asarray(c.data.load_step, dtype=jnp.float64)
     affine = displacement(q_net, first_load)
     first_scale = jnp.sqrt(jnp.mean(backend._residual_from_factor(backend._edge_factor(d_parent), affine)[backend.free_dofs]**2))
     if not np.isfinite(float(first_scale)) or float(first_scale) <= 0:
         raise ValueError("first-load mechanics scale must be positive finite")
-    writer = SummaryWriter(logdir=str(root / "events"))
+    event_dir = Path(c.output.event_dir) if "event_dir" in c.output else root / "events"
+    writer = SummaryWriter(logdir=str(event_dir))
     try:
-        for index in range(1, c.data.end_state_index + 1):
-            load = jnp.asarray(index * c.data.load_step, dtype=jnp.float64)
-            q_ref, d_ref, reaction_ref, reference_sha = comparison_reference(c.data.reference_root,
-                index, model.model_digest, model.n_dofs, model.n_material, float(load))
+        for index, reference_index in enumerate(targets, 1):
+            load = jnp.asarray(reference_index * c.data.load_step, dtype=jnp.float64)
+            q_ref, d_ref, reaction_ref, reference_sha, reference_metadata = comparison_reference(c.data.reference_root,
+                reference_index, model.model_digest, model.n_dofs, model.n_material, float(load),
+                reference_policy=reference_policy, policy_sha256=policy_sha, return_metadata=True)
             state_dir = root / f"state_{index:04d}"
             inherited = bool(c.output.fork_from) and index <= c.output.fork_after_index
             if inherited:
                 state_dir = neural_state_root(c.output.fork_from, index)
             state_identity = {"model_digest": model.model_digest, "config": values,
-                              "reference_sha256": reference_sha, "parent_sha256": parent_sha, "index": index}
+                               "reference_sha256": reference_sha, "parent_sha256": parent_sha, "index": index}
+            if "reference_policy" in c.data:
+                state_identity["reference_provenance"] = reference_metadata
+            if "reference_indices" in c.data:
+                state_identity.update(reference_index=reference_index, load=float(load))
             template = (q_net, q_state, d_net, d_state, q_parent, d_parent, H_parent)
             if (state_dir / "result.json").exists():
                 report = json.loads((state_dir / "result.json").read_text())
                 if not report["research_advance"]:
                     raise ValueError("completed rejected PINN load requires an explicit new trial root")
+                if "reference_policy" in c.data:
+                    if (report["reference_provenance"] != reference_metadata
+                            or reference_metadata["status"] == "warning" and report["strict_accepted"]):
+                        raise ValueError("restored PINN reference provenance/status differs")
                 checkpoint_identity = (fork_checkpoint_identity(state_dir / "state.zip", state_identity) if inherited
                                        else checkpoint_resume_identity(state_dir / "state.zip", state_identity))
                 _, template = read_checkpoint(state_dir / "state.zip", checkpoint_identity, template, schema=SCHEMA)
@@ -343,23 +460,34 @@ def run(c):
                 state_dir.mkdir()
                 write_checkpoint(state_dir / "progress.zip", state_identity, 1, "before", 0,
                     (q_net, q_state, d_net, d_state, d_iter, d_previous, H_used), schema=SCHEMA)
-            scale = first_scale * index
+            scale = first_scale * reference_index
             report, q, fields = None, None, None
             sweep = 0
             for sweep in range(first_sweep, c.stagger.sweeps + 1):
                 stop_step = c.stagger.mechanics_steps
+                block_stops = []
                 for phase in ("before", "damage", "after"):
                     if sweep == first_sweep and ("before", "damage", "after").index(phase) < ("before", "damage", "after").index(first_phase):
+                        if adaptive:
+                            block_stops.append(json.loads((state_dir / f"inner_stop_{sweep:04d}_{phase}.json").read_text()))
                         continue
                     count = c.stagger.damage_steps if phase == "damage" else c.stagger.mechanics_steps
                     phase_start = time.perf_counter()
+                    reason, monitor_count, last_monitor, previous_field = "budget_exhausted", 0, None, None
+                    window = None
+                    if adaptive:
+                        minimum = c.inner_stop.first_load_min_updates if parent_sha is None else c.inner_stop.min_updates
+                        window = StopWindow(c.inner_stop, phase, minimum)
                     H_scale = None
+                    actual_updates = 0
                     if phase == "damage":
                         H_used = residual.evaluate(displacement(q_net, load), d_iter, None, H_parent).trial_history
                         H_scale = 2 * jnp.sqrt(jnp.mean(H_used**2))
                         if not np.isfinite(float(H_scale)) or float(H_scale) <= 0:
                             raise ValueError("fixed-history damage scale must be positive finite")
                     for step in range(1, count + 1):
+                        actual_updates = step
+                        stop_inner = False
                         phase_updates[phase] += 1
                         if phase == "damage":
                             if H_scale is None:
@@ -367,7 +495,31 @@ def run(c):
                             d_net, d_state, loss = damage_step(d_net, d_state, H_used, load, H_scale)
                         else:
                             q_net, q_state, loss = mechanics_step(q_net, q_state, d_iter, load, scale)
-                        if step % c.output.log_every == 0 or step == count:
+                        if adaptive and (step % c.inner_stop.check_every == 0 or step == count):
+                            if phase == "damage":
+                                current, objective, defect, term_scale = damage_monitor(d_net, H_used, load, H_scale)
+                                if not np.isfinite(float(term_scale)) or float(term_scale) <= 0:
+                                    raise FloatingPointError("inner AT2 term scale must be positive finite")
+                                change = None if previous_field is None else float(jnp.max(jnp.abs(current-previous_field)))
+                                reaction = 0.
+                                physical = bool(jnp.all(jnp.isfinite(current)) & (jnp.min(current) >= 0) & (jnp.max(current) <= 1))
+                            else:
+                                current, objective, defect, reaction = mechanics_monitor(q_net, d_iter, load, scale)
+                                change = None if previous_field is None else float(jnp.max(jnp.abs(current-previous_field))/load)
+                                physical = bool(jnp.all(jnp.isfinite(current)))
+                            last_monitor = dict(step=step, objective=float(objective), residual=float(defect),
+                                                field_change=change, reaction=float(reaction))
+                            if window is None:
+                                raise RuntimeError("adaptive block lacks its stopping window")
+                            reason_checked = window.observe(step, **{k:last_monitor[k] for k in ("objective", "residual", "field_change", "reaction")}, physical_pass=physical)
+                            previous_field = current
+                            monitor_count += 1
+                            if reason_checked is not None:
+                                reason = reason_checked
+                                if phase == "after":
+                                    stop_step = step
+                                stop_inner = True
+                        if step % c.output.log_every == 0 or step == count or stop_inner:
                             if not np.isfinite(float(loss)):
                                 raise FloatingPointError("split PINN training loss is nonfinite")
                             print(json.dumps({"index": index, "sweep": sweep, "phase": phase,
@@ -384,7 +536,18 @@ def run(c):
                                 if (reaction_error <= c.reporting.reaction_relative_limit
                                         and damage_error <= c.reporting.damage_rmse_limit):
                                     stop_step = step
+                                    reason = "reference_first_pass"
                                     break
+                        if stop_inner:
+                            break
+                    if adaptive:
+                        if actual_updates == 0:
+                            raise RuntimeError("adaptive block executed no updates")
+                        block = dict(sweep=sweep, phase=phase, updates=actual_updates, reason=reason,
+                                     checkpoints=monitor_count, last=last_monitor,
+                                     fixed_history=phase == "damage", monitors_unrelaxed_image=phase == "damage")
+                        block_stops.append(block)
+                        atomic_json(state_dir / f"inner_stop_{sweep:04d}_{phase}.json", block)
                     if phase == "damage":
                         d_iter = d_iter + c.stagger.omega * (damage(d_net, load) - d_iter)
                     if phase != "after":
@@ -420,7 +583,17 @@ def run(c):
                     "history_decrease": float(jnp.max(jnp.maximum(H_parent - fields.trial_history, 0))),
                     "drift_count": int(np.count_nonzero(np.linalg.norm(q_np[:2*model.n_material].reshape(-1, 2), axis=1)
                                                         / float(load) > direct.DRIFT_ENVELOPE))},
-                    c.reporting, inherited_warning=inherited_warning)
+                    c.reporting, inherited_warning=inherited_warning or reference_metadata["status"] == "warning")
+                if "reference_policy" in c.data:
+                    report["reference_provenance"] = reference_metadata
+                if "reference_indices" in c.data:
+                    previous_load = 0. if index == 1 else targets[index-2] * c.data.load_step
+                    report.update(reference_index=reference_index, load_increment=float(load)-previous_load)
+                if adaptive:
+                    inner_warning = any(b["reason"] == "stagnation_warning" for b in block_stops)
+                    report.update(inner_stops=block_stops, inner_stagnation_warning=inner_warning)
+                    if inner_warning and report["strict_accepted"]:
+                        report.update(strict_accepted=False, status="warning")
                 d_previous = d_iter
                 print(json.dumps(report), flush=True)
                 atomic_json(state_dir / f"sweep_{sweep:04d}.json", report)

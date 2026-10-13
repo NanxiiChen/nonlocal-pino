@@ -1,0 +1,16 @@
+{
+  "load": 0.0058000000000000005,
+  "sweep": 64,
+  "pinn_reaction": 0.9033133571428849,
+  "direct_reaction": 1.1945721508391154,
+  "pinn_maximum_damage": 0.9994387240677076,
+  "direct_maximum_damage": 0.9993951316386285,
+  "relative_damage_L2": 0.3246799723559688,
+  "RMSE": 0.04244539138515297,
+  "maximum_absolute_error": 0.4522880905929567,
+  "pinn_physical_AT2": 0.10802583949131897,
+  "pinn_inner_AT2": 0.10781271400596819,
+  "source_fields_sha256": "a78cb0b334db88c27408fc5575336a07f23a6ecb084a7aa58f48cd87f6fef3b2",
+  "comparison_stages_differ": true,
+  "early_loading_grids_differ": true
+}
