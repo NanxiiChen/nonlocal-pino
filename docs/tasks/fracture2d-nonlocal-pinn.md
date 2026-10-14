@@ -12622,3 +12622,21 @@ supervised fine pause/resume, inspect actual physical errors/force and plots.
   the authorized du1e-4 path through .0065, inner128/outer cap1024. Each
   completed load publishes synchronized fields/reaction under
   /root/autodl-tmp/tf-logs. Preserve interrupted roots and original audited0052.
+
+## 2026-10-14 — Publish checkpoint dca037e
+
+- User explicitly authorizes push. Fetch confirms local main equals origin/main;
+  unpublished dev commits are b6dc8de, db4dddc and dca037e. Their combined
+  outgoing diff contains no slides, figures/PDF, weights or binary outputs.
+- Record publication authorization in PROGRESS/DECISIONS/this active task,
+  then commit these Markdown updates on dev. Regularly merge dev into main
+  in an isolated temporary worktree and push origin/main only. Do not switch
+  the live /root/nonlocal-KKS directory away from dev or modify pinned numeric
+  modules/configs. Retain excluded untracked artifacts and running processes.
+- /task-end: memory-only changes require diff whitespace checks; numerical
+  regression results from the checkpoint remain valid without rerunning tests.
+  Verify the pushed remote main hash equals the local merge commit, then remove
+  the clean temporary worktree. Broad task stays active, no numerical blocker.
+- Exact resume remains best_full_pinn_loading_1024_tbroot_20261014/fine with
+  supervisor15207/GPU15212/audit15210/monitor15211, inner128/outer1024 and
+  terminal .0065. Read run/audit/monitor receipts before reporting fresh progress.

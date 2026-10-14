@@ -12861,3 +12861,17 @@ Template for each entry:
   modules during a pinned live run, or merging/pushing without authorization.
 - Relation: extends db4dddc. Substantial numerical improvement and source
   simplification/consolidation remain required; the active broad task stays open.
+
+## 2026-10-14 — Publish the saved checkpoint through main
+
+- Decision: following the user's explicit push request, publish saved dev
+  checkpoint dca037e and its unpublished ancestors through a regular merge
+  into main, then push origin/main only. Fetch confirms main and origin/main
+  agree before publication; outgoing paths contain no slides/binary artifacts.
+- Reason: apply the repository Git workflow while retaining the stage record.
+  Use an isolated temporary main worktree so the pinned numerical files in
+  /root/nonlocal-KKS stay on dev throughout the running calculation.
+- Rejected alternatives: pushing dev, force-pushing, squashing, or temporarily
+  checking out older main source in the live numerical working directory.
+- Relation: publication extends the immediately preceding source checkpoint;
+  numerical configuration, provisional status and cleanup requirements persist.

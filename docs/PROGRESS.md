@@ -17,6 +17,10 @@
   Markdown records. Slides, binary figures/PDF/weights and external run data
   remain excluded. Numerical improvement and code consolidation remain open;
   the active 1024-cap run continues unchanged. See the task checkpoint record.
+- Publication (2026-10-14): checkpoint dca037e is saved on dev; user now
+  authorizes publication through a regular dev-to-main merge and origin/main
+  push. Use an isolated main worktree to preserve the live numerical source
+  directory. Outgoing changes contain no slides or binary result artifacts.
 - Main-route preference (2026-10-14): retain L1/Adam/all-node. User explicitly
   rejects symmetry constraints and prescribed straight-path losses; prioritize
   training accuracy and early loading history without added model structure.
