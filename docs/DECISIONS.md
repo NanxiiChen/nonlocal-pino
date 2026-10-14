@@ -12875,3 +12875,78 @@ Template for each entry:
   checking out older main source in the live numerical working directory.
 - Relation: publication extends the immediately preceding source checkpoint;
   numerical configuration, provisional status and cleanup requirements persist.
+
+## 2026-10-14 — Critical-load opening improves with longer all-node coupling
+
+- Decision: regard the new .0053 spanning endpoint as a substantive improvement
+  in crack connectivity and reaction, while retaining its provisional status
+  and the authorized L1/Adam/full-node loading strategy through .0065.
+- Evidence: d>=.9 tip-connected component reaches x1.0 after1024 outers;
+  synchronized reaction1.59543077 versus matched direct1.57095737 differs
+  by1.5579%. The previous own-fine644 endpoint was not spanning, R231.02961.
+  Current recorded stage reaction first falls below2 at outer808.
+- Reason: same-load coupling/training can remove the previously observed
+  opening delay; it is not supported to call that delay an inevitable PINN
+  property or require a new symmetry constraint. Extra outer work is promising,
+  though each outer also adds128 inner updates and its effects are not isolated.
+- Rejected interpretations: force agreement certifies the whole damage field,
+  all residuals are converged, or finite-budget trajectory agreement is exact.
+  Matched-field L2 remains27.8947%, own-H neural L2 is1.6774%, normalized
+  peak AT2 is.0561652 and damage RMS change5.13e-5 exceeds1e-5.
+- Relation: follows the completed coarse/fine644 control and best-current
+ 1024 continuation; physical model, loading history policy and source pins
+  are unchanged. Continue monitoring without new training settings.
+
+## 2026-10-14 — Fresh complete zero-to-.0060 PINN trajectory
+
+- Decision: user accepts the .0053 opening and requests a new full trajectory
+  from zero through .0060, with the same canonical TensorBoard monitoring.
+  Stop and preserve the prior .0065 continuation, then recompute all52 prefix
+  loads and continue only from this new run's audited own52 state.
+- Reason: provide a self-contained loading history rather than reuse earlier
+  weights. Preserve the successful fine du1e-4, full-node L1/Adam1e-5/sigmoid,
+  standard unrelaxed stagger,128 inner updates, prefix128 and critical1024
+  outer budgets; keep field-change early stop and no symmetry constraints.
+- Implementation choice: orchestrate the existing cold-prefix and audited
+  continuation drivers without modifying pinned numerical modules or archived
+  configurations. A single CPU monitor follows the recomputed prefix and
+  continuation as one TensorBoard run, with optimizer-count steps from zero.
+- Rejected alternatives: loading the old0052 checkpoint, allowing two GPU
+  workers concurrently, using large early steps, increasing caps to4096,
+  or claiming a budget-complete trajectory is equation-certified.
+- Relation: supersedes the active .0065 target; old spanning53 and interrupted
+ 54 checkpoints remain preserved. No Git history operation is authorized.
+
+## 2026-10-14 — Stop the fresh trajectory after developed fracture
+
+- Decision: user explicitly cancels the remaining loading, accepting that the
+  developed fracture sufficiently demonstrates the result. Stop this run's
+  supervisor/GPU/native-audit/field-monitor processes, retain completed states
+  and intermediate checkpoints, and leave TensorBoard server6007 running.
+- Reason: own-zero trajectory already spans at0053 and remains spanning through
+  completed0057. Further loading is not requested; stopping saves computation.
+- Evidence: reaction1.59124 at0053 decreases to1.26834 at0057; it is not
+  literally constant after opening. Field stability remains unmet, but the
+  main opening and low-reaction behavior is accepted for this stage.
+- Rejected alternatives: continuing to0060 against user instruction, claiming
+  incomplete0058 as a finished load, declaring full residual convergence, or
+  terminating the independent TensorBoard server.
+- Relation: supersedes the fresh zero-to0060 execution request; completed
+  own-zero0..0057 remains a provisional stage, with57native-replayed and
+  published positive endpoints. Numerical improvement/cleanup task stays open.
+
+## 2026-10-14 — Provisionally accept and commit the fresh PINN stage
+
+- Decision: user explicitly accepts the current result as a provisional stage
+  and authorizes committing the current code and Markdown documentation on dev.
+  Preserve the own-zero loading implementation, single-run TensorBoard monitor,
+  four configurations, focused regression tests and source/result records.
+- Reason: the fresh trajectory reproduces spanning at0053 and its low reaction
+  agrees closely with the same-load nonlocal-direct reference; completed
+  loading0..0057 and matched FEM/direct/PINN figures are available for review.
+- Rejected alternatives: declaring the whole damage field/residual converged,
+  promoting partial0058 or claiming completed0060, including slides or binary
+  figures/PDF/weights/events, or merging/pushing without new authorization.
+- Relation: extends the earlier accepted stage and published6969a25 contents;
+  leaves numerical accuracy improvements and substantial source simplification,
+  merging and organization explicitly open. No new physical solver is launched.

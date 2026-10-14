@@ -3080,3 +3080,56 @@ also saves per-load PNG files under `<solution>/tensorboard_figures/` and
 publishing metadata in `tensorboard_status.json`. Plotting does not change
 the history floor, sampling, JIT shapes, training loss or optimizer memory.
 Native numerical validation remains the independent CPU auditor's task.
+
+### Fresh complete loading through 0.0060
+
+`cold_full_damage_run.py` supervises one complete, newly initialized trajectory.
+It first invokes the unchanged cold-loading solver for52 positive loads at
+1e-4 spacing through0.0052. Physical q/d/H are exactly zero initially;
+network parameters are freshly initialized and Adam count/moments start at
+zero. No earlier solved network or optimizer checkpoint is loaded. The
+geometry-only compact basis and independently validated operators are reused.
+
+After the new prefix finishes and passes its complete native CPU audit, the
+existing continuation solver consumes only that same run's own0.0052 state
+and computes0.0053 through0.0060. Prefix loads allow128 outer sweeps; tail
+loads allow1024. Each outer uses128 full-node L1/Adam1e-5 updates, sigmoid
+output, FP64 and mechanics-first omega1 stagger. Weights and Adam memory
+persist across the new trajectory. The existing P1 field-change early stop
+remains; capped or field-stable positive endpoints are explicitly provisional.
+No symmetry constraint, prescribed straight path or reference training label
+is introduced. The first prefix case directory is called `prefix/coarse`
+because that name initializes the existing paired driver; its actual increment
+is1e-4 throughout. The combined complete trajectory is in `fine/`.
+
+```bash
+PYTHONPATH=.:src .venv/bin/python -m examples.fracture2d.cold_full_damage_run \
+  --config examples/fracture2d/configs/cold_full_damage_run.py
+```
+
+Run this supervisor detached and serialize it with all other GPU numerical
+workers. It refuses an existing output identity or a busy GPU, records process
+launch/exit receipts, and terminates its own children if training, auditing or
+monitoring fails. The canonical output is
+`/root/autodl-tmp/tf-logs/fracture2d/cold_full_pinn_loading_0060_20261014`;
+change all four matching configs before reusing a new run identity. The
+continuation config is frozen from the new audited prefix at the phase boundary,
+not from an older run.
+
+`cold_full_damage_monitor.py` is a read-only CPU consumer. It logs exact-zero
+initial reaction/count, outer scalars from optimizer count0, and damage/ux/uy/H
+plus reaction-curve images for every completed positive load. It keeps the
+prefix journals during the transition so scalar steps remain monotone and
+endpoint images are not duplicated. Images use synchronized q/d; reference
+comparison is at the exact same physical load. Displacement colors use each
+material field's actual extrema. Events are in
+`/root/autodl-tmp/tf-logs/fracture2d/events/cold_full_pinn_loading_0060_20261014`;
+PNG figures and global monitoring status are in the run root. The existing
+TensorBoard6007 server is reused. The monitor argv contains no `tensorboard`
+substring, keeping it separate from server process-name restarts.
+
+Independent prefix and continuation auditors replay native neural output,
+CSR loss, committed history, host FEM forces, optimizer counts and endpoint
+ancestry. Supervisor success requires all60 positive loads and all60 published
+endpoint images. Numerical accuracy limitations and live resume details remain
+in the active task.

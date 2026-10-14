@@ -12640,3 +12640,289 @@ supervised fine pause/resume, inspect actual physical errors/force and plots.
 - Exact resume remains best_full_pinn_loading_1024_tbroot_20261014/fine with
   supervisor15207/GPU15212/audit15210/monitor15211, inner128/outer1024 and
   terminal .0065. Read run/audit/monitor receipts before reporting fresh progress.
+
+## 2026-10-14 — Verified PINN ligament opening at .0053
+
+- User observes .0053 opening in TensorBoard and asks whether this improves
+  on earlier results. Read the completed synchronized endpoint, native CPU
+  audit, actual matched-load damage/reaction images and prior coarse/fine
+  endpoints. This is a review only; no numerical source/configuration edits.
+- New .0053 endpoint:1024 outer sweeps x128 inner Adam updates; optimizer
+  count515072. d>=.9 active graph307nodes connects the tip neighborhood to
+  right edge x1.0. Damage range3.5173e-9.. .999388; history decrease0.
+  Reaction1.5954307743 versus same-load reference1.5709573666, relative
+  difference1.557866%. CPU native/CSR/history/BC/host-FEM/optimizer replay
+  passes the final endpoint, whose field SHA is
+ 612e911adcbeed14f5597b854e2224e98f400dfca068ce95b11dd537f26c56df.
+- Earlier coarse/fine644 endpoints at the same .0053: reactions266.52083/
+ 231.02961, not spanning, tip-connected x.796743/.824456. In the current
+  journal, outer800 stage reaction66.83805; first recorded stage R<2 is
+  outer808 (1.57077). These stage forces pair with preceding damage; final
+  endpoint synchronization confirms complete unloading. This strongly supports
+  insufficient critical-load work as a contributor to the previous delay.
+  Extra outers also add inner training; no claim isolates their two effects.
+- Remaining errors: volume-weighted same-load damage L2=27.8946753%,
+  RMSE=.03644609; own-H direct-oracle damage L2=1.6773643%. The inspected
+  field spans and background is low, but its band still bends slightly upward
+  relative to the straighter direct field. Reaction agreement alone does not
+  establish morphology/profile accuracy. Physical AT2=.05616524, field-stable
+  false (damage RMS5.12975e-5 versus1e-5 limit), healing.00136301.
+  Endpoint is provisional_budget_exhausted; no convergence certification.
+- Image evidence: fine/tensorboard_figures/damage_load_0053.png and
+  reaction_load_0053.png; monitor matched53 L2 agrees exactly with native audit.
+  All46 pinned numerical/configuration source hashes remain unchanged.
+- Current .0054 stage313 at latest inspection; supervisor15207/GPU15212/
+  CPUaudit15210/fieldmonitor15211 remain live. Authorized terminal .0065,
+  outer1024/inner128, L1/Adam/full-node/sigmoid/no symmetry remain unchanged.
+- Publication receipt from preceding turn: origin/main verified at merge
+ 6969a2521cdf7b57327cacd754318e637985286f; current dev457b05a has identical
+  tracked contents. Temporary main worktree removed; excluded assets/slides
+  retained. This review has no Git history authorization or operation.
+- /task-end: updated PROGRESS/DECISIONS/this task only; diff check required,
+  no numerical tests rerun for this read-only physical review. Broad task
+  active, blocker none. Exact resume: inspect current root/fine result, native
+  audit and TensorBoard status for the next completed .0054 endpoint and
+  keep the existing supervised trajectory running through .0065.
+
+## 2026-10-14 — Start a fresh complete trajectory from zero to .0060
+
+- User accepts the .0053 opening and explicitly requests a new complete
+  zero-to-.0060 PINN trajectory, logged in TensorBoard. Previous branch indeed
+  restored the prior own-zero0052 network/Adam384000 before continuing.
+- Preserve the accepted numerical configuration: du1e-4 throughout; zero
+  physical q/d/H, newly initialized sigmoid network and Adam count0; all71307
+  material nodes, L1/Adam1e-5/FP64, mechanics-first omega1 stagger,128 inner
+  updates, outer128 through0052 and1024 from0053 through0060, unchanged
+  P1 field-change early stop. No symmetry constraint or reference labels.
+- Implementation in progress: compose unchanged cold-loading and audited
+  continuation drivers; the continuation will consume only the same fresh
+  run's completed and independently audited prefix52. Separate CPU monitor
+  publishes every fresh positive endpoint and all scalar stages into one
+  canonical-root event run. Existing numerical modules/configs remain pinned.
+- Prior supervisor15207 stopped by user-authorized replacement on
+ 2026-10-14T06:07:07UTC; GPU15212/audit15210/monitor15211 all exited.
+  user_stop_request and exit receipts preserved. Last completed endpoint0053
+  remains intact, plus saved provisional0054 outer checkpoints. Cancellation
+  is not a numerical failure. Old TensorBoard service stays running.
+- Status: preparing new configs/orchestrator/monitor and focused verification.
+  Blocker none. Next: verify pure own-zero configuration, monitor cold-prefix
+  transition, launch detached supervisor, then confirm actual first GPU stage,
+  zero optimizer/physical provenance, CPU replay and canonical event discovery.
+
+### Fresh full trajectory launched and verified
+
+- New supervisor module cold_full_damage_run.py reuses unchanged
+  full_damage_loading.py and best_full_damage_loading.py with their original
+  native auditors. New configs cold_full_damage_{run,prefix,tail,fields}.py
+  specify the fresh run and frozen same-run boundary. Tail controls are created
+  only after the prefix and its complete audit; hashes and actual Adam count
+  are frozen in root/tail_driver_config.json. Source checkpoint is null at launch.
+- Output root:/root/autodl-tmp/tf-logs/fracture2d/
+  cold_full_pinn_loading_0060_20261014. Fresh prefix physical states are in
+  prefix/coarse (case name from the unchanged paired initialization driver,
+  actualdu1e-4). Completed combined own-zero0..0060 trajectory will be in fine/.
+  Optimizer memory is freshly initialized,then persists within this new run.
+- Detached supervisor21331,initial GPU21341,prefix CPUaudit21340,CPUfield
+  monitor21339;launch2026-10-14T06:14:37UTC /14:14:37Asia/Shanghai.
+  Outer status/launch/role_launch/exit receipts own the lifecycle;phase transition
+  automatically replaces GPU/auditor identities and writes new role receipts.
+  Initial prefix ends0052 with128outer cap;8critical loads0053..0060 each
+  allow1024outer/128inner. No second concurrent GPU, no FEniCS job.
+- New cold_full_damage_monitor.py publishes one event stream across both
+  phases. It validates initial exact-zero q/d/H/hash/count,logs reaction/count
+  atstep0, drains prefix scalar journals even after tail initialization, then
+  publishes every fresh positive endpoint once. Globalouterstep=Adamcount/128
+  fromzero;scalar first/every8. Geometry cached,read-only CPU;no extra GPU
+  eval,optimizer/history change or reference training targets.
+- TensorBoard canonical eventrun:
+  fracture2d/events/cold_full_pinn_loading_0060_20261014,under
+  /root/autodl-tmp/tf-logs/fracture2d/events/. Existing6007server reused;
+  actualHTTPdiscovery and EventAccumulator show19scalar and5image tags:
+  damage,ux,uy,H,load-reaction. Real images already published for0001/0002;
+  initialoptimizer event0=0,latest monitoredcount3712/outer29 at firstcheck.
+  Later endpoint images continueautomatically;PNGs/rootmonitorstatus are in
+  runroot/tensorboard_figures andrunroot/tensorboard_status.json.
+- Verification: three focused tests pass0.901s (fresh-grid/complete-audit
+  source freezing,exact-zero and safe phase transition,real TensorBoard
+  matched-load endpoint publication). Allnewmodules/configs AST pass. GPU
+  actualfirst-stage own-zero/fullCSR-loss parity passes; native auditor
+  zero_checked=true/common initialization checked/pass_replay=true. Latest
+  inspection completes0007,with CPU stage/final replay through0006 and
+  first0007;all75 pinned numerical/configsource hashes remain unchanged.
+- Initial runtime estimate5..7h: prior fine prefix~100minutes plus8tail
+  cap1024loads at~30..35minutes each;early stable exits reduce this. No
+  guarantee of numerical field convergence or exact repeated0053 morphology.
+- /task-end: root/exampleREADMEs and PROGRESS/DECISIONS/this active task
+  updated;new supervisor/monitor,4configs and2focused regression cases.
+  Original numerical modules/configs and prior snapshots untouched;no Git
+  operation/slides edit. Broad task active,blocker none;diffcheckpasses.
+- Exact resume:readnewroot/status and role launch receipts;during fresh_prefix
+  readprefix/coarse/result andnativeaudit,then during critical_loading read
+  fine/result,nativeauditandinheritance receipt. Globalmonitorstatus lists
+  allpublishedloads in one eventrun. Let supervisor consume onlyits new audited
+ 52 andcompute through0060;on completion requireprefix/tail GPU/audit and
+  monitor exits0,complete60-load curve and60published endpoint records.
+  Preserveallpreviousruns;do notrestoreold0052 orreturnto0065target.
+
+## 2026-10-14 — Fresh full trajectory status: spanning .0053 reproduced
+
+- User asks current status; read supervisor/phase receipts, actual combined
+  result, prefix/final native replay and global TensorBoard status. No code,
+  configuration, stopping rule or Git history change.
+- New own-zero prefix completes all52 positive loads through0052, native
+  audit complete/pass_replay=true. Prefix GPU21341/auditor21340 exit0;
+  supervisor automatically starts tail GPU28996/auditor28995 on
+ 2026-10-14T07:54:32UTC. Supervisor21331 andmonitor21339 stay alive.
+  Tail restores only this fresh prefix's Adam390912 and own physical0052,
+  not old384000. Early-stop trajectory counts differ slightly between fresh
+  runs; no assertion of bitwise-identical optimization.
+- Fresh0052 synchronizedR606.770124 versus reference606.590691;matched
+  damageL2 .4344039%,same-H neuralL2 .3811335%. All52prefix states preserved.
+- Fresh0053 completes1024outer/128inner,Adam521984,spanning d>=.9 component
+ 312nodes fromtip to x1.0. SynchronizedR1.5912404221 versus same-load direct
+ 1.5709573666 (~1.291%); matched damageL2 27.7115189%. Final native
+  replay passes. Field stable remainsfalse and endpointprovisional. This
+  repeats the prior spanning0053 outcome after actual fresh initialization,
+  supporting the practical improvement without certifying field convergence.
+- Latest inspection:0054outer119/1024,stageR1.505339,Adam537216;stageforce
+  pairs withpreceding damage and isnot acompleted0054 endpoint. Allcurrent
+  supervisor/GPU/auditor/monitor processes alive. CPUfirst54stage passes.
+- TensorBoard active_solution_root nowfine;all53completed positive loads
+  published in one eventrun,lastpublished0053hash
+ 0fba9e961eebabb6a84318311b93e548dcbbbba3ebfd6b81bee9570f7345312c.
+  Matchedfielderroragreeswithnativeaudit. Continuecurrenttarget0060.
+- /task-end: only PROGRESS andthisactive taskupdated;DECISIONS unchanged
+  becauseprotocol unchanged. No testsrerun forstatusread;diffcheck required.
+  Broadtaskactive,blockernone. Exactresume:rootstatus/role receipts,
+  fine/resultandnativeaudit,globaltensorboard_status;keep28996/28995/
+ 21331/21339running andchecknextcompleted0054. Preserveprefix andoldruns.
+
+## 2026-10-14 — User stop after fully developed fracture
+
+- User requests stopping remaining loading after the crack has fully crossed.
+  Before stop, the fresh own-zero trajectory completes57 positive loads
+  through0057 and is training0058. Endpoints0053..0057 all have d>=.9
+  tip-connected components reaching x1.0. Synchronized reactions are
+  1.591240/1.501844/1.419068/1.341018/1.268342 respectively. Results remain
+  slightly evolving; do not assert literally unchanged fields after opening.
+- CPU native replay passes every completed endpoint through0057. Last matched
+  direct reaction1.25915332 versusPINN1.26834235;matched damageL2 .27634519,
+  physicalAT2 .04392632,field_stable=false. Existing accepted morphology/force
+  outcome remains useful; cancellation is not mathematical certification.
+- Identity-check exact argv for supervisor21331,GPU28996,auditor28995 and
+  fieldmonitor21339;sendSIGTERM onlyto supervisor. Its own finally block
+  terminateschildren. Allfourprocessesverifiedabsent; GPUqueryempty. User
+  TensorBoardserver13213/6007 remains running atcanonicalautodl-tmp logroot.
+- StopUTC2026-10-14T10:53:04.835212;user_stop_request.json recordsinstruction
+  andsnapshot. Supervisor exitcode1/InterruptedError(signal15) is expected
+  cancellation,notnumerical failure. PrefixGPU/audit recordedexit0.
+- Actualinterruption0058outer582;lastcompletedload0057. Hash-check all57
+  completed endpoint fields/network/optimizer artifacts againsttheirreports.
+  Allsaved named0058checkpointsalso hashverified;latest fullyverified named
+  checkpointfine/state_0058/outer_0512. Pending/interrupted0058 isnot a
+  completedendpoint andmustnotbeplottedas synchronizedloadreaction.
+- Newuser_stop_verified.json records57verifiedindices,actual/interruptedload,
+  namedpartialcheckpoints,events preserved andserveruntouched. Underlying
+  fine/result complete=false correctlyretainsunfinishedrequested0060path.
+  Do not rewriteit ascomplete60or promoteanypartial0058 physicalstate.
+- TensorBoardalreadycontainsall57completedpositiveendpointsets(d/ux/uy/H/
+  reaction)andpartial0058scalars. Events/PNGs/CPUaudits/prefix/sourcepins
+  preservedin cold_full_pinn_loading_0060_20261014. No data deletion,
+  numerical/config/source edits,tests or Git history operation.
+- /task-end: updatePROGRESS/DECISIONS/thisactivetask;diffcheckrequired.
+  Broadtaskactivewithremainingaccuracyandcodeconsolidationwork,blockernone.
+  No live trainingorautomaticrestart. Exactresume:reviewfine/state_0057
+  result/fieldsandnativeaudit,user_stop_verified andTensorBoard;awaitnextuser
+  direction. If continuationislaterauthorized,usean explicitverifiedpartial
+  restart preservinglastcommitted0057H/Adam,ratherthan treating0058ascomplete.
+
+## 2026-10-14 — Three matched-load comparison figures for the accepted stage
+
+- User requests: three-method force/displacement,3x5damage(FEM/reference/
+  PINN),2x5PINNux/uy,columns0051/0052/0053/0054/0055. Usecurrent
+  cold_full_pinn_loading_0060_20261014/fine endpointfields,notoldbounded
+  orbest-prefixcontinuation. Training remainsstopped.
+- FEMsource:local_gradient_from_zero_20261011,localP1mechanics/localP1
+  gradientAT2damage;operatoridentitymaterial_P1_gradient_stiffness_over_
+  lumped_volume. Reference:local_damage_load_refined_20261011_direct,
+  localP1mechanics/nonlocalAT2directdamage. PINNuseslocalP1mechanics/
+  nonlocalAT2neuraldamage. Allidentitygeometryandmaterialdicts agree;mesh
+  SHA6dafcae4fc4febd296cbc3f9a1706d1449bad465a5b0fb617fec3d45014d7ae8.
+  Preparedmaterialgrid71307nodes/141366triangles;gripsomittedfromclouds.
+- Eachphysicaltargetmatchesuniquelywithin1e-14. Referenceindices are
+ 51/52/56/60/64 forloads0051/0052/0053/0054/0055;donotmatchbyindex.
+  PINNandFEMindices51..55. All15fieldfiles/reports/curverowschecked;
+  PINNendpointsmechanics/damagesynchronizedandnativeCPUreplayed.
+- Reactiontableatrequestedloads(FEM/reference/PINN):
+ 0051:601.836337/600.114200/600.235849;
+ 0052:609.493212/606.590691/606.770124;
+ 0053:616.287397/1.570957/1.591240;
+ 0054:618.449649/1.483806/1.501844;
+ 0055:1.534381/1.403381/1.419068.
+  Bothnonlocalpathsareopenby0053,FEMby0055. Exactcritical-loadshiftisnot
+  identifiedfromthesegridpoints;referencehasfinercriticalloadincrements.
+- Forcefigureincludes3panels:completesaved0..0057,transition0050..0057,
+  smallpost-openingreactions0..2. Plotall3actualcurvesattheirnativegrid;
+  excludepartial0058,noextensiontouncomputed0060. Markersareactualsaved
+  endpoints;connectinglinesareplottinginterpolation,notnewsolves.
+- Damagefigure3x5withshared0..1infernoscale. NativeP1Gouraudtriangle
+  interpolationonly;nofieldarrayclipping,smoothingorstraightnesscorrection.
+  Displacementfigure2x5ux/uywithindividualactualmin/maxoverallplotted
+  materialvertices71307;colorbarsandpanelheadersshowranges. Inparticular
+ 53uy[-6.81227e-7,.00530067328],54uy[-6.40927e-7,.00540063431],
+ 55uy[-6.05214e-7,.00550059904],notforced0..load. Fullprecisionsavedinmanifest.
+- Artifactsunder/root/autodl-tmp/tf-logs/fracture2d/
+  cold_full_pinn_loading_0060_20261014/comparison_0051_0055_20261014/:
+  force_displacement,damage_fields,displacement_fields(eachPNGandPDF),
+  force_displacement.csv,matched_load_reactions.csv,manifest.jsonand
+  plot_comparison.py. PNGdimensions2700x846/2916x1745/3096x1296.
+  Scriptfirstcreatedin/tmp/fracture2d_current_comparison_0051_0055_20261014.py;
+  outputcopyhashrecordedformatchedsourceandfigureprovenance.
+- Verification:sourcegeometry/materialandmeshhashes,readydirectstates,
+  PINNnativefinalforces,curveordering,15exactloadfieldshapes/dtypes/ranges,
+ 10actualdisplacementcolorlimitsandallPNG/PDFoutputhashespass. All3images
+  visuallyinspected;correctedduplicatepost-openingxticksandaddedexplicit
+  displacementextremaheadersfornear-zeroendpoints. PNGdecodingpasses.
+- /task-end: updatedPROGRESSandthisactive task;DECISIONSunchanged(no
+  numerical/protocolchange). Externalplotartifacts only;no solver/test/source
+  numericaledits,Gitoperation,slidesedit orrestart. Diffcheckrequired.
+  Requestedfigurescomplete;broadtaskremainsopenforaccuracy/codecleanup.
+  Exactresume:reviewthese3figuresandmanifestatuserdirection;alltraining
+  remainsstopped,TensorBoard6007andpreservedsourcesuntouched.
+
+## 2026-10-14 — Provisionally accepted fresh trajectory source checkpoint
+
+- User explicitly marks the current result as provisionally acceptable and
+  requests committing current code and Markdown. Preserve the stopped own-zero
+ 0..0057 stage, its spanning0053 result and three exact-load comparison plots.
+  Status: accepted for this stage, numerical and code-cleanup work remain open.
+- Current configuration: du1e-4,localP1mechanics/nonlocalAT2PINNdamage,
+  full71307nodes,L1/Adam1e-5,sigmoid,FP64,unrelaxed mechanics-first stagger,
+ 128inner updates,outer128 through0052/1024 thereafter. Newly initialized
+  q/d/H and network/Adam count0,then warm-start only within the new trajectory.
+  Same-run prefix/continuation is guarded by source hashes and native audit.
+- Representative accepted outcome:0053 spans,R1.591240 versus direct1.570957
+  (~1.29%);0057 remains spanning,R1.268342 versus direct1.259153. Field
+  errors~27.7% and residual/field-stability limitations remain explicitly
+  documented. Acceptance is not a convergence certificate. User stop preserves
+ 57completedendpoints,partial0058outer582 andverifiednamedcheckpoint512;
+  no remaining0060loading or numerical restart is authorized.
+- Commit scope:12files,including7Python source/configuration/test files and
+ 5Markdown files. New supervisor/CPUmonitor/fourconfigs/test,root/example
+  usage,PROGRESS/DECISIONS/this task. Root README now describes the current
+ 2026-10-14acceptance and keeps the previous stage report as historical.
+  Corrected example instruction:allfour matching configs must change for a
+  newrunidentity. Substantial code simplification/consolidation remains required.
+- Verification:all7newPythonfiles parse successfully;unchanged3focused
+  regressions passed during implementation and actual cold-prefix/continuation
+  native replays plus57endpoint artifact hashes pass in the preserved records.
+  No numerical edits/testsrerun for this checkpoint;checkworking/staged diff
+  whitespace and exact staged path set beforecommit.
+- Exclude slides,untrackedPNG/PDFassets,externalfields/weights/events/logs;
+  no binary outputs imported into Git. One local dev commit only,no merge/push.
+- /task-end:README/exampleREADME andall3memoryfiles updated;broadtask
+  active,blockernone. Currentstagecheckpointcomplete when localcommit succeeds.
+  Exactresume:reviewcurrentrun/comparison_0051_0055_20261014/manifest and
+  fine/state_0057/nativeaudit atuserdirection,plan numerical accuracy and
+  code simplification without changing archived sourcepins. Alltraining remains
+  stopped andTensorBoard6007continues servingpreservedlogs.

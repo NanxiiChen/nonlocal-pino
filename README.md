@@ -17,7 +17,7 @@ neighbour pairs — no BC loss terms needed.
 | `pino_elasticity2d` | 2D elasticity PINN | Geometry-aware PINN reference for nonlocal elasticity |
 | `corrosion1d/2d` | KKS pitting corrosion | Legacy; superseded by electropolish2d |
 
-当前 fracture2d 阶段结果由用户初步接受，仍需大量数值改善；实验代码也需要大量精简、合并和整理。阶段结果、已知限制与整理要求见[2026-10-13 阶段报告](docs/reports/fracture2d-initially-accepted-20261013.md)，动态状态见[项目进展](docs/PROGRESS.md)。
+当前 fracture2d 从零求解的阶段结果由用户暂且接受（2026-10-14）：已保存 `0 -> 0.0057`，在 `0.0053` 出现贯通裂纹，反力与同荷载 direct reference 接近。损伤场精度仍需改善，实验代码仍需大量精简、合并和整理。当前结果、已知限制与停止位置见[活动任务](docs/tasks/fracture2d-nonlocal-pinn.md)，概览见[项目进展](docs/PROGRESS.md)；[2026-10-13 阶段报告](docs/reports/fracture2d-initially-accepted-20261013.md)保留为早期记录。
 
 `examples/fracture2d/staggered_damage_trial.py` provides a common-parent, fixed-load mechanics-first stagger comparison with direct damage replacement and explicit P1 field-change stopping. The original physical model and archived results remain unchanged; `field_stable` is distinguished from equation balance. See the [fracture2d usage](examples/fracture2d/README.md#mechanics-first-stagger-and-field-change-control).
 
@@ -36,6 +36,11 @@ neighbour pairs — no BC loss terms needed.
 `examples/fracture2d/best_full_damage_loading.py` preserves an audited fine-load prefix, restores its network and Adam state, and completes a longer all-node staggered trajectory to an explicit terminal load. Prefix and new-state provenance are independently replayed.
 
 `examples/fracture2d/field_monitor.py` starts the separate CPU TensorBoardX logger in `tensorboard_monitor.py`. It logs saved outer diagnostics and completed-load fields/reaction curves under `/root/autodl-tmp/tf-logs/`, preserving numerical optimizer state and remaining separate from TensorBoard server processes.
+
+`examples/fracture2d/cold_full_damage_run.py` recomputes a complete own-zero
+trajectory through displacement0.0060, using the existing cold-prefix and
+audited continuation solvers. One CPU field monitor publishes the freshly
+computed prefix and tail in a single canonical TensorBoard run.
 
 ## Core idea
 

@@ -16,11 +16,18 @@
   current stagger/all-node training, comparison drivers, tests, monitoring and
   Markdown records. Slides, binary figures/PDF/weights and external run data
   remain excluded. Numerical improvement and code consolidation remain open;
-  the active 1024-cap run continues unchanged. See the task checkpoint record.
+  the 1024-cap results are preserved after the user-requested stop.
+  See the task checkpoint record.
 - Publication (2026-10-14): checkpoint dca037e is saved on dev; user now
   authorizes publication through a regular dev-to-main merge and origin/main
   push. Use an isolated main worktree to preserve the live numerical source
   directory. Outgoing changes contain no slides or binary result artifacts.
+- Current own-zero stage provisionally ACCEPTED by user (2026-10-14):
+  preserve0..0057,spanning0053 and matched-load FEM/direct/PINN figures.
+  User authorizes a local dev checkpoint of current Python source/configs/tests
+  and Markdown. Equation accuracy and substantial code simplification/merging
+  remain open; no training restart,merge orpush requested. Binary results,
+  slides,weights andevents excluded;exact stage and acceptance inactive task.
 - Main-route preference (2026-10-14): retain L1/Adam/all-node. User explicitly
   rejects symmetry constraints and prescribed straight-path losses; prioritize
   training accuracy and early loading history without added model structure.
@@ -31,7 +38,26 @@
   optimizer/head/sampling/prefix accuracy also differ,so step-size causality
   remains unproven. Paired cold all-node coarse/fine controls now COMPLETE;
   training-budget attribution and exact supervision/resume are recorded in task.
-- Best-current full PINN loading RUNNING (2026-10-14): user terminal.0065,
+- Fresh own-zero PINN trajectory STOPPED BY USER (2026-10-14): user accepts
+  developed fracture and cancels remaining0060 loading. All57positive loads
+  through0057 are saved and independently replayed; spanning at0053 persists
+  through0057, R1.59124 ->1.26834. Matched damageL2 at0057 is27.6345%.
+  Interrupted0058outer582; latest fully verified named checkpoint isouter512.
+  Supervisor21331/GPU28996/audit28995/monitor21339 are all stopped; GPUfree.
+  Preserve cold_full_pinn_loading_0060_20261014,fine state0000..0057,
+  partial0058 and57 published TensorBoard endpoints. Server6007 remainslive.
+  user_stop_request/user_stop_verified distinguish cancellation from numerical
+  failure;requested0060 trajectory incomplete. No automatic restart or new
+  loading authorized. Next review accepted stage and remaining code/accuracy
+  improvements at user direction; exact receipts/resume in active task.
+- Matched comparison figures GENERATED (2026-10-14): current stopped own-zero
+  PINN versus same-mesh local-damage FEM and nonlocal-direct reference.
+  Reaction curves use completed0..0057;damage3x5 andPINNux/uy2x5 useactual
+  loads0051/0052/0053/0054/0055. Individualactual displacement extrema,
+  shared damage0..1,PNG/PDF/CSV/sourcehashmanifest inrunroot/
+  comparison_0051_0055_20261014. No training resumed;details inactive task.
+- Best-current .0053 continuation STOPPED by user replacement (2026-10-14):
+  prior terminal.0065,
   inherit audited own-zero fine prefix0..0052;rerun.0053 anddu1e-4 to.0065.
   L1/Adam1e-5/all71307/sigmoid/FP64,warm net+Adam384000,omega1,
  128inner/1024outer cap eachload,same P1 field-change early stop,no symmetry.
@@ -40,7 +66,12 @@
   CPUaudit15210/field_monitor15211. Prior10578 logger waskilledbyuser's
   TensorBoardserver restartcommand,causingcontrolledGPUstop atouter196;
   currentrecoveryagainrestores0052. Restore/count/CSR loss andcopied
-  prefix checks pass;GPU executing.0053. Original source/configs preserved.
+  prefix checks pass; .0053 now completes1024 and spans at d>=.9, with
+  synchronized R1.59543 versus same-load direct1.57096 (1.56% difference).
+  Matched damage L2 remains27.89%, same-H neural L2 is1.677%; field-stability
+  and residual gates remain unmet. Preserved0053 and pending0054 when user
+  requested a fresh complete trajectory through0060. Original
+  source/configs preserved.
   CPU TensorBoardX monitor publishesouterloss/residual/change scalars and
   damage/ux/uy/H/reaction images atEVERYcompletedload;baseline0052 already
   published. Existing6007 service HTTP discovers19scalar/5image tags for
