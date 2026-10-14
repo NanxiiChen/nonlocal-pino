@@ -12950,3 +12950,17 @@ Template for each entry:
 - Relation: extends the earlier accepted stage and published6969a25 contents;
   leaves numerical accuracy improvements and substantial source simplification,
   merging and organization explicitly open. No new physical solver is launched.
+
+## 2026-10-14 — Publish the provisionally accepted fresh stage
+
+- Decision: user explicitly authorizes merging dev into main and pushing it.
+  Publish accepted-stage checkpoint8a46afe plus this publication record with
+  a regular merge; push origin/main only. Fetch confirms local/remote main
+  agree at6969a25 and the outgoing12paths are exclusively Python/Markdown.
+- Reason: make the accepted own-zero loading/monitoring implementation and
+  its documented limitations available on the main branch. An isolated main
+  worktree preserves dev and all excluded local artifacts.
+- Rejected alternatives: squash/force push, publishing dev, adding slides or
+  binary results, or restarting the stopped numerical trajectory.
+- Relation: completes publication of the immediately preceding provisional
+  checkpoint; field accuracy and substantial code consolidation remain open.

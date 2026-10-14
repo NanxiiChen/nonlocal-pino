@@ -12926,3 +12926,21 @@ supervised fine pause/resume, inspect actual physical errors/force and plots.
   fine/state_0057/nativeaudit atuserdirection,plan numerical accuracy and
   code simplification without changing archived sourcepins. Alltraining remains
   stopped andTensorBoard6007continues servingpreservedlogs.
+
+## 2026-10-14 — Authorized main merge and publication of8a46afe
+
+- User explicitly authorizes main merge and push. Local saved checkpoint
+ 8a46afe contains12code/config/test/Markdown files;tracked working tree is
+  clean. Fetch verifies main andorigin/main agree at6969a25,with8a46afe
+  as the only unpublished dev commit before this memory update. Outgoing
+ 12paths are allPython/Markdown;slides andbinaryassets remainexcluded.
+- Record authorization inPROGRESS/DECISIONS/this task ondev;regularly merge
+  dev in an isolated main worktree andpushorigin/main. Verifyremotehash
+  equalslocalmain andremoveonlythe clean temporary worktree. No squash,
+  forcepush ordevpush. Keepcurrent /root/nonlocal-KKS ondev.
+- /task-end:publication changesonlythese3memoryfiles;diffcheckrequired.
+  Existing focused regressions and native trajectory/hash checks remain valid;
+  no unchangednumericaltests rerun. Broad taskactive,blockernone.
+- Exactresume:acceptedown-zero0..0057andmatchedcomparisonartifacts remain
+  preservedin cold_full_pinn_loading_0060_20261014;alltraining staysstopped.
+  Awaituserdirection onprecision improvements andcodeconsolidation.

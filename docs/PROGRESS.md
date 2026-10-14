@@ -25,9 +25,10 @@
 - Current own-zero stage provisionally ACCEPTED by user (2026-10-14):
   preserve0..0057,spanning0053 and matched-load FEM/direct/PINN figures.
   User authorizes a local dev checkpoint of current Python source/configs/tests
-  and Markdown. Equation accuracy and substantial code simplification/merging
-  remain open; no training restart,merge orpush requested. Binary results,
-  slides,weights andevents excluded;exact stage and acceptance inactive task.
+  and Markdown, saved in dev8a46afe. User now authorizes a regular main merge
+  and origin/main push. Equation accuracy and substantial code simplification
+  remain open; no training restart requested. Binary results,slides,weights
+  andevents excluded;exact stage and acceptance in the active task.
 - Main-route preference (2026-10-14): retain L1/Adam/all-node. User explicitly
   rejects symmetry constraints and prescribed straight-path losses; prioritize
   training accuracy and early loading history without added model structure.
