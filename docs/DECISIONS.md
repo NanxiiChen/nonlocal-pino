@@ -12411,3 +12411,453 @@ Template for each entry:
 - Commit locally on dev under current-turn authorization. No remote push
   or main merge requested. Relation: preserves completed own-zero L1 stage
   and earlier controls before further numerical and structural improvement.
+
+
+## 2026-10-13 — Mechanics-first, unrelaxed stagger and field-change stopping
+
+- User requests testing the standard fixed-load mechanics -> history ->
+  warm-start damage -> field-change check loop, direct replacement of damage
+  (omega1), and field-change rather than residual-based outer stopping.
+  Reference: https://github.com/saugatsn/Phase-Field-Modeling/blob/main/Phase_Field_Simulation.py
+  lines113..142 (solver_disp/solver_phi then L2 field changes). Borrow the
+  loop structure only: their constitutive/history/BC/projection choices are
+  not identical to this model and are not silently copied.
+- Correct call-count premise: current L1 solver uses one initial mechanics
+  call per load plus one per outer, not two per outer. Reordering at omega.5
+  pipelines the same fixed-point map, apart from diagnostic timing; expect
+  actual convergence changes mainly from omega1 and stopping accuracy.
+- Create an isolated common-parent single-load control: own L1 physical
+  .0052, exact same network/Adam moments/count786432, parameterization and
+  next RNG state; target.0053. Compare direct omega.5/1 (up to2048) and
+  L1 random Adam omega1/.5 (up to128x512); never advance on budget exit.
+  The parent's physical path is provisional and remains so in all controls.
+- Preserve original local P1 mechanics/nonlocal AT2/operator/material,
+  H=max(committed preceding-load H,psi(q)), detached H/features/probabilities
+  and warm persistent Adam state. No reference damage targets or correction.
+- Use exact material P1 L2 field RMS: d tolerance1e-5, displacement RMS
+  divided by current positive load tolerance1e-4, minimum3 sweeps and3
+  consecutive passes. Also record reference-style looser1e-3 field checks
+  without promoting them to exact-equilibrium certificates. All thresholds
+  explicit. Residuals are diagnostics and never gate this control's outer
+  stopping; finite/range/BC/mechanical validity still fail loudly.
+- Each outer saves q at its mechanics-stage damage and d after damage update,
+  explicitly marking the pair unsynchronized. At final/budget exit, perform
+  one extra mechanics solve solely to synchronize final d/q/H/reaction and
+  independently check physical fields. This is one per case, not per outer.
+  Stop labels distinguish field_stable from equation-balanced/certified.
+- Pause owned fine worker reversibly under a supervisor while this GPU trial
+  runs, restore on exit/failure; protected live sources and committed stage
+  artifacts unchanged. Focused tests guard pipeline parity, actual call count,
+  P1 L2 quadrature and false field-stability under inexact inner solves.
+
+## 2026-10-13 — Equal direct outer budget and reduced-inner PINN controls
+
+- User authorizes unrelaxed PINN at the same644 outer updates taken by
+  common-parent direct_full, and exploration of fewer inner training steps.
+  Hold .0053 with the original own-L1 .0052 committed history floor. Run
+  512-inner baseline by continuing its audited128 stage snapshot, and a
+  128-inner control freshly from the identical .0052 physical/network/Adam
+  parent. Both total644 outers; keep field checks diagnostic during this
+  equal-count experiment rather than stopping one case early.
+- Preserve L1, Adam1e-5, sigmoid, detached history/features/probabilities,
+  core2048/halo32768/pool256 and resample1. Baseline retains moments/count
+  851968 and RNG after256 new blocks; reduced-inner retains parent786432
+  and its next RNG. No extra weighting/inner adaptation/load advancement.
+- Restore the baseline's outer128 stage q/d (same d/net/Adam as synced
+  endpoint), avoiding inserting its reporting-only endpoint mechanics solve
+  into the continued fixed-point sequence. Never promote its .0053 H to a
+  preceding-load history floor. Record actual reporting/preflight calls
+  separately from the modeled one mechanics call per outer.
+- Compare equal outer budgets and wall time; different inner-update totals
+  are deliberate, not equal-work controls. Save native fields/network/Adam
+  and exact sampling journals at129/136/192/256/384/512/644 (plus reduced
+  control early checkpoints). Run GPU cases sequentially under owned fine
+  pause/resume supervision; independent CPU audit checks each branch.
+
+## 2026-10-13 — Full-domain damage training and optimizer screening
+
+- User requests returning from random core+halo to all-node damage training,
+  suspecting crack-path waviness, and delegates Adam versus L-BFGS choice.
+  Same own-L1 .0052 physical/network parent, fixed.0053, mechanics-first
+  omega1/frozen committed-floor H/warm-start damage; retain sigmoid/basis,
+  node ordering and original local-mechanics/nonlocal-AT2 model.
+- Preserve uniform nodal L1 objective and its2*RMS(H) normalization to isolate
+  sampling where possible. Full domain means all71307 material nodes at
+  EVERY training update; full original CSR support, no core sampling,
+  importance-density weights, symmetry projection or straight-crack labels.
+- Screen full Adam128 updates (parent moments/count,constant1e-5) and
+  full L-BFGS128 iterations from exactly the same parent weights and first
+  .0053 mechanics-generated frozen H. L-BFGS uses explicit memory20,
+  maxls50,maxfun8192,gtol1e-12,ftol0; L1 is nonsmooth so successful empirical
+  loss decrease is checked rather than assuming quasi-Newton superiority.
+  Select the finite candidate with smaller exact full L1 loss; archive both
+  candidates/status/time/metrics. Screening does not advance physical fields
+  or consume the coupled initial state; selected coupled run starts the same
+  parent again. A screening winner is not a universal optimizer guarantee.
+- Coupled control uses128 inner updates/iterations per outer, up to644
+  outer sweeps; existing exact P1 field criteria remain diagnostics for
+  equal-count comparison, no early stopping or load advancement. Adam keeps
+  moments/count; L-BFGS warm-starts weights but rebuilds curvature memory
+  when fixed H changes. Record actual iterations/evaluations and failed
+  line-search/budget statuses; no swallowed exception or silent fallback.
+- Save stage/final q/d/H/network and applicable optimizer state, pin all
+  source/config/checkpoints, independently replay native network/CSR/H/BC/
+  P1/host FEM/loss/counts. Compare both equal-outer and matched crack-growth
+  stages where available; a shorter crack can look straighter and lower
+  residual alone does not establish an accurate physical endpoint.
+- New driver/backend reuse existing preparation/objective/sweep/audit math;
+  preserve old pinned modules/results and supervised original fine worker.
+  Reversibly pause owned fine GPU job, restore exact identity on exit/failure.
+
+## 2026-10-13 — Empirical full-domain L1 pilot selects Adam
+
+- Same first .0053 H/parent weights,128 updates: full Adam L1.009146298,
+  pointwiseAT2.02979498,time1.36864s; full L-BFGS L1.017523798,
+  AT2.05676481,time3.25956s/133 evaluations. L-BFGS reports explicit128
+  iteration-budget exit, not line-search failure. Both candidates independently
+  replay. Select Adam under the previously declared minimum-full-L1 rule.
+- Formal coupled run restarts original .0052 weights/physical state/Adam
+  count786432; screening weights/moments do not enter it. This preserves a
+  useful all-node-versus-random comparison at128 inner/644 outer counts,
+  same L1/Adam1e-5/basis/sigmoid. No global superiority claim for Adam or
+  attribution of crack waviness to sampling before morphology comparison.
+
+## 2026-10-13 — Test detached damage-based L1 weighting
+
+- User points out earlier L1/Adam omega.5 also produced bent cracks; relaxation
+  is not a sufficient explanation. User now explicitly proposes weighted L1
+  (e.g.1/(1-d+1e-3)) and allows other weights. This supersedes prior deferral
+  of extra spatial weighting for the present declared experiment only.
+- L16 emphasizes large residuals, whereas damage weighting emphasizes large d;
+  they are different. Current all-node644 largest physical residual is in an
+  already damaged node (.564649,.498),d.997555,raw proposed weight290.29.
+  Raw weights span.9990..540.44,mean1.6232; large crack-wake weights can
+  dominate, so compare exact proposal with raw cap50 as an explicit control.
+- First isolate training at the audited all-node644 network/Adam868864 and
+  its synchronized .0053 H, using all71307 nodes. Baseline uniform L1,
+  proposed reciprocal with eps.001, capped reciprocal50;4096 Adam1e-5
+  updates each from identical weights/moments/count. Use w=raw/mean(raw),
+  detach weights and H/features. Freeze weights from source physical d
+  throughout this fixed-H diagnostic (a declared reweighted subproblem).
+  For a future coupled run weights would be recomputed from current damage
+  at each outer and held fixed within its inner solve; not activated yet.
+- Evaluate native outputs, uniform L1, weighted L1, full max residual,
+  same-H unique direct nodal oracle (evaluation only), crack-region/global
+  field error and damage morphology. Fixed-H fits do not promote q/d/H or
+  advance load; no direct target enters loss and no straight/symmetry
+  correction is imposed. Source model/previous-load history remains pinned.
+- This is a weighting diagnostic, not evidence that L16 is decisive or a
+  replacement of the constitutive/history formulation. Compare field error
+  as well as loss: positive weights preserve exact residual-zero states,
+  but finite-network/budget weighted minima and dynamics may differ.
+
+## 2026-10-13 — Retain weighting as a diagnostic after reciprocal fits worsen accuracy
+
+- All three declared4096-update fixed-H fits complete with independent native
+  CPU replay. Initial same-H relative damageL2 4.4874%; uniform4.1598%,
+  reciprocal40.2891%,cap50 33.3165%. Reciprocal weighted L1 decreases from
+ .00351197 to.000547825 (84.4%), while unweighted residual and field errors
+  rise and the inspected damage band broadens. This is an observed objective/
+  accuracy tradeoff, not evidence that training failed to reduce its objective.
+- Do not promote these diagnostic states or enable reciprocal weighting in
+  coupled loading based on its weighted loss. Positive weights preserve exact
+  zero-residual solutions, but do not guarantee finite-network/budget accuracy.
+  L16 residual emphasis and high-d damage emphasis remain distinct.
+- Same retained Adam moments, single source/frozen H and finite budget limit
+  attribution; optimizer-transition and gentler bounded weights remain possible
+  followups. Suggested1+4d^2 has raw range1..5, but is untested, not selected
+  as a validated replacement. This does not reject all spatial weighting or
+  identify L16/L-BFGS as the decisive cause of previous straight crack paths.
+
+## 2026-10-14 — Recommend prioritizing a controlled L16 revisit
+
+- User asks whether another test is worthwhile and whether to return to L16
+  or pursue weighted L1. Recommend a short controlled L16 revisit first:
+  prior all-node/L16/L-BFGS has useful morphology evidence, whereas declared
+  reciprocal/cap50 damage weights worsened same-H field accuracy. This is
+  priority setting, not proof of L16 superiority or rejection of gentler weights.
+- Proposed frozen-H controls share physical/network parent,operator/head/
+  normalization/history: L1/Adam baseline,L16/Adam to compare losses under
+  Adam,L16/L-BFGS to compare optimizers under L16. Use common field-error/
+  residual/time metrics; different objective values cannot rank candidates.
+  Optimizer initialization/transition protocol must be explicit before launch.
+- A favorable frozen-H result needs subsequent same-parent .0052->.0053
+  mechanics-first coupled validation: fixed-H accuracy alone does not certify
+  improved history/crack path/force evolution. Prefer .0052 restart to carrying
+  the mature bent PINN history into a new physical trajectory. Gentler1+4d^2
+  remains an optional small secondary test, not a long loading run first.
+- No new implementation,training,solver interruption or Git operation is
+  performed for this recommendation turn. Existing source/results protected.
+
+## 2026-10-14 — Execute common-parent L1/L16 optimizer screen
+
+- User explicitly authorizes the recommended three-way test. Use the own-L1
+  .0052 parent network and archived first .0053 mechanics-generated H from the
+  audited all-node screen, not mature bent .0053 history. Keep sigmoid,basis,
+  features,AT2/operator/material and full71307 rows unchanged. No direct labels.
+- Screen L1/Adam,L16/Adam,L16/L-BFGS from identical neural parameters. Adam
+  starts zero moments/count in BOTH screen cases to isolate losses from inherited
+  L1 moments; thereafter no resets. Constant1e-5,4096 updates; L-BFGS uses one
+  continuous4096-iteration fit,maxfun65536,memory20,maxls50,gtol1e-12,ftol0.
+  Report actual iterations/evaluations/time, not equal iteration costs.
+- L16 reuses the old stabilized squared nodal L16 objective exactly,power16,
+  floor1e-15,physical residual normalized by2RMS(H). Uniform L1 remains the
+  previous mean absolute normalized residual. All contexts detached.
+- Independent direct same-H volume-SPD solve is evaluation-only. Assess common
+  field L2 error,unweighted MAE,max residual and inspected morphology/cost;
+  do not rank different objectives by their numerical loss. Select an L16
+  candidate for coupled validation only if its same-H fieldL2 AND max residual
+  do not exceed the final L1/Adam baseline. If both qualify,choose smaller fieldL2.
+- After independent screen replay, a qualifying candidate may restart original
+  physical/network .0052 for current mechanics-first omega1 .0053 validation
+  (128 inner,up to644 outer,unchanged field diagnostics/no load advancement).
+  Screening weights are discarded; fresh Adam only at branch initialization,
+  persistent thereafter,or warm network/fresh L-BFGS curvature per new H.
+  This is a declared optimizer transition and current-route test, not bitwise
+  reproduction of the old L16 loading history. Pause/restore owned original
+  fine GPU solver under identity-safe supervision; pinned old modules unchanged.
+
+## 2026-10-14 — Three-way result does not qualify L16 coupled selection
+
+- At identical first .0053 H/own-L1 .0052 parameters,initial same-H fieldL2
+ 6.56785%. Final4096 L1/Adam .448677%/AT2 .00784379/45.608s;
+  L16/Adam44.8637%/.0284471/45.847s with late oscillation; continuous
+  L16/L-BFGS3.00209%/.00114290/105.896s,4096iterations/4711evaluations,
+  explicit iteration-budget exit (not line-search failure or convergence).
+- All9 saved states and eligibility independently replay. L16/L-BFGS lowers
+  peak imbalance about6.9-fold versus L1/Adam but has about6.7-fold higher
+  fieldL2 and2.3-fold cost. Do not equate its better peak metric with overall
+  accuracy or infer that L16 alone explains prior cleaner coupled cracks.
+- Neither L16 meets the predeclared joint fieldL2/max-residual criterion;
+  selection=None. No selected coupled phase or new loading is launched.
+  Do not overwrite the original trajectory with a diagnostic state. This
+  stage is before substantial crack extension,so no universal later-H ranking
+  or final crack-path/coupled convergence conclusion is supported.
+- Retain both objectives as tools for different error emphases; later-H tests
+  or a declared combined mean/peak objective are possible next steps,unrun.
+  Original fine worker identity safely restored; current files/results pinned.
+
+## 2026-10-14 — User prioritizes crack straightness over global field L2
+
+- User clarifies that current concern is a straight crack path despite larger
+  global L2 for L16/L-BFGS. The previous joint L2/peak screen is an agent-chosen
+  criterion,not a physical requirement,and does not evaluate long-crack shape
+  at the first frozenH. It must not veto the authorized coupled experiment.
+- Resume L16/full-node/L-BFGS coupled .0052->fixed.0053 from the same own-L1
+  physical/network parent as the completed all-node L1 control,discarding screen
+  weights. Current mechanics-first omega1,128 inner iterations,644 outer budget,
+  warm network/fresh curvature per newH,one mechanics/outer plus final sync.
+  Preserve original operator/material/sigmoid/features/committed .0052 H floor;
+  do not import bent mature .0053 history or add a symmetry/straightness loss.
+- Primary evaluation: compare clouds and transverse peak paths at overlapping
+  active crack lengths; record lateral drift/variation and local band width.
+  Global L2,residual,force and field changes remain physical diagnostics and
+  cannot be erased to present a straight-looking unbalanced state as converged.
+  No budget-based advancement beyond.0053 and no screen-state promotion.
+- This steering overrides only eligibility priority,not the archived numerical
+  screen result (selection=None remains preserved). Common-parent coupled
+  comparison tests optimizer/loss combination; it is not isolated L16 causality
+  or exact reproduction of older relaxed loading. Preserve pinned old files;
+  serialize GPU execution under identity-safe pause/resume supervision.
+
+## 2026-10-14 — Retain L1/Adam/all-node and distinguish path drift from roughness
+
+- User selects L1/Adam/all-node as the current main route and asks how to
+  obtain a straighter,smoother damage crack. Do not infer that another output
+  head,power norm or sampling change alone resolves this. No new training is
+  launched for this advice turn;the previously supervised L16 diagnostic has
+  its original644 budget unless user explicitly cancels it.
+- Independently compare all-node644 physical d,current-H NN image and unique
+  direct damage oracle at EXACTLY its currentH. P1 transverse maxima .52..85
+  are almost identical:physical/NN y.496..5075,own-H direct y.496..5070.
+  At this checkpoint path drift is present in the history-driven subproblem,
+  not merely final NN output error. This does not prove when it arose or
+  permanent within-load history locking:currentH=max(previous-load floor,
+  current mechanics energy),not maximum of every prior outer iterate.
+- Actual mesh is not exactly reflection-paired about y=.5:nearest mirrored
+  node maxdistance.00240662,mean.0000236418,exact fraction18.7976%. Direct
+  final peak also has mesh-scale deviations. Separate macroscopic drift from
+  P1/mesh/basis roughness;measure shared developed intervals and widths.
+- Suggested sequence,not implemented:find first path/history asymmetry in
+  saved stages,restart before it and tighten/adapt L1 Adam inner accuracy at
+  the moving front. A benchmark-specific weak reflection constraint is a
+  candidate after verifying geometry/loading/history/discrete symmetry;it
+  restricts asymmetric solutions and does not guarantee a single straight
+  crack (paired branches can remain). Do not force a predetermined line.
+- Current ansatz includes MLP plus compact radial hat readout. Smoother local
+  basis functions and reflection-paired centers are representation controls,
+  not changes to D or material length;their benefit remains untested. MLP
+  smoothness alone does not remove hat-basis corners or history-feature noise.
+- A general alternative retaining L1 is a carefully normalized auxiliary
+  SAME-OPERATOR frozen-H AT2 energy. Checked on actual matrix:
+  Phi=sum V*(.5*g0*d^2+H*(1-d)^2)+.5*g1*d^T*V*D*d,
+  grad Phi=V*((g0+2H)*d+g1*D*d-2H). Volume-symmetry maxdefect1.11e-16;
+  independently assembled symmetric-quadratic gradient relative discrepancy
+ 1.55e-13. This is the fixed-H damage functional,not a claim that the full
+  hybrid/history mechanics has a joint variational objective. Auxiliary
+  energy preserves the exact fixed-H nodal optimum but finite NN tradeoffs
+  need testing;no guaranteed straightness or arbitrary smoothing penalty.
+- Primary reference for neural variational fracture approach:
+  Goswami et al.,https://arxiv.org/abs/1907.02531 (method inspiration only;
+  no assertion their formulation is our nonlocal operator or proves its gain).
+  Numerical evidence archived in full_damage_trial_20261013/independent_review/
+  morphology_advice_20261014.json. Main route updated in memory;old sources,
+  results and previous comparisons remain protected,Git/slides unchanged.
+
+## 2026-10-14 — No symmetry constraints; investigate precritical load history
+
+- User explicitly rejects soft/hard symmetry constraints and predetermined
+  straight-crack targets. This supersedes the optional benchmark reflection
+  suggestion above. Keep L1/Adam/all-node,existing sigmoid/architecture,
+  local mechanics/nonlocal damage and mechanics-first unrelaxed stagger.
+  Do not introduce basis changes or auxiliary regularizers for this hypothesis.
+- Investigate whether coarse du5e-4 before .005 creates early training/history
+  bias that later coupling amplifies. Existing finer-load experiment starts
+  only after .0052 and cannot rule out this different hypothesis. Older
+  straighter sigmoid branch inherited a certified du1e-4 prefix; fresh L1
+  coarse prefix uses random sampling and budget-exhausted provisional states.
+  At .0052 matched-reference damageL2 is6.9831% versus old1.4283%,with
+  multiple confounders; at .0050 fixed-own-H neural error is6.6520%.
+- Recommended causal control: two cold L1/Adam/all-node runs with identical
+  initialization,head,features,scales,Adam policy,inner/outer stopping and
+  budgets; only pre-.005 load step differs (5e-4 vs1e-4). Thereafter both
+  use1e-4 and compare .0050/.0052/.0053. Old randomized prefix cannot serve
+  as the sole coarse control for a pure step-size claim. Finer loading also
+  adds training work; distinguish this with cost reporting and,if improvement
+  appears,a matched-total-update coarse control before causal attribution.
+- Smaller steps are a testable warm-start/continuation hypothesis,not a
+  guaranteed cure or proof every crooked path is training error. Reference
+  fields and direct same-H solves remain evaluation-only. Do not restart
+  from the existing .0052 floor when testing pre-.005 history. No new GPU
+  training or numerical source changes in this investigation turn.
+
+## 2026-10-14 — Launch paired cold all-node loading in the background
+
+- User authorizes the proposed coarse/fine control and background execution,
+  requesting a completion estimate. Use shared cold network/Adam initialization,
+  L1/Adam1e-5/all71307 nodes/sigmoid/current physical features and latent scales.
+  Only case identity and pre-.005 increment differ:5e-4 versus1e-4; thereafter
+  both1e-4 to.0053. No symmetry/straight-path constraints or oracle labels.
+- Declare128 Adam updates per frozen-H inner solve,128 outer cap at prefix
+  loads and644 at.0053. Mechanics-first omega1;exact P1 field-change stopping
+  at dRMS1e-5,uRMS/load1e-4 for three passes/minimum three sweeps. Residual
+  remains diagnostic. Endpoints have one mechanics sync; budget continuation
+  stays provisional. Existing sampled coarse run is not the matched control.
+- Serialize the13-load coarse and53-load fine branches on one GPU under a
+  detached supervisor,temporarily pausing identity-checked original fine18811
+  and restoring it on exit. A separate CPU auditor checks saved native network,
+  full CSR loss/history/BC/force/P1/count and matched-reference/same-H errors.
+  Preserve old pinned numerical modules and run receipts. No Git operation.
+- Full caps total9480 sweeps/1213440 Adam updates. Earlier all-node644 cost
+ 1083.59s suggests roughly4.4h total before early exits and startup/audit
+  variance. Initial user estimate3..5h;calibrate after actual new warm sweeps.
+  Do not infer causality from finer-step improvement without accounting for
+  added training work; a cost-matched control remains a followup,not launched.
+
+## 2026-10-14 — Completed cold coarse/fine control improves drift, not full opening
+
+- Both all-node L1/Adam cold paths finish.0053 and independently replay;
+  identical configuration apart from case/precritical increment and identical
+  serialized network/initial optimizer hashes confirmed. All worker/auditor/
+  supervisor exits0. Total elapsed~2h57min,finishing04:23 Asia/Shanghai Oct14.
+- At.0052,matched-reference damageL2 coarse.609786% versus fine.409928%;
+  ownH neural errors.478757%/.380929%. At.0053 after644 same-load outers,
+  coupled errors55.045639%/45.333508%,R266.52083/231.02961 versus matched
+  direct1.57096;ownH errors4.739783%/4.350269%. Neither field is stable or
+  through-cracked. Completing a diagnostic budget is not full convergence.
+- Inspected P1 clouds at.0050/.0052/.0053 and transverse profiles at.0053.
+  Compare the31shared active(d_peak>=.5) cuts x.52..82:peak-position RMS
+  drift .01172879 coarse/.00583095 fine,maximum.0175/.0100;reference
+  RMS.00114652/max.0020. Mean contiguous half-height width.04070968/
+ .03911290 versus reference.0395. Fine path develops to x.85 at this
+  profile threshold,coarse.82;d>=.9 tip-connected fronts .824456/.796743.
+  Finer prefix reduces this measured drift but does not remove it. The
+  profile is an evaluation diagnostic,never a symmetry or straight-line loss.
+- Actual total Adam updates coarse213760/fine466432;pre-.0053 counts
+ 131328/384000. Initial loss/head/sampling/physics confounders are controlled,
+  but added training work remains part of the finer-loading benefit. Do not
+  declare early step size the sole cause of path bending or claim a permanent
+  material critical-load shift. Retain finer prefix as promising and prioritize
+  critical-load inner/coupled accuracy;cost-matched prefix control unrun.
+- Review artifacts and source-field hashes:full_damage_load_steps_20261014/
+  comparison_review/{comparison.json,damage_comparison.png,reaction_and_paths.png}.
+  No new numerical implementation,training,Git history or slides change during
+  this status review;current source and checkpoint ancestry remain preserved.
+
+## 2026-10-14 — Best-current full PINN loading uses finer prefix and longer coupling
+
+- User authorizes a complete best-current PINN trajectory and asks a short
+  configuration description. Follow-up explicitly sets terminal displacement
+ .0065 instead of.0075. Inherit the already audited own-zero du1e-4/all-node
+  fine prefix through.0052,then rerun.0053 and advance by1e-4 through.0065.
+  Do not reuse the unfinished/bent.0053 endpoint as a committed history floor.
+- Preserve local P1 mechanics/nonlocal AT2,MLP96x3+compact readout,sigmoid,
+  physical H features/latent scales,FP64,L1 normalized by2RMS(H),Adam1e-5,
+  full71307 nodes,unrelaxed mechanics-first stagger and persistent weights/
+  Adam384000 state. No symmetry constraints,straight targets,residual weights,
+  randomized cores,new output head or optimizer transition.
+- Keep128 inner updates;raise maximum outer sweeps per load to4096 with the
+  same P1 field-change early stop(d1e-5,u/load1e-4,3passes/min3). Retain
+  force/residual/history/healing/field/path diagnostics independently. Field
+  stability and budget completion are not physical certification;any capped
+  load remains explicitly provisional in the complete curve. Longer coupling
+  is the new test,not a guaranteed cure or a claim4096 is already validated.
+- Preserve existing pinned source/runs;add independent restore/loading driver
+  and CPU native auditor. Serialize one GPU in a detached supervised run,
+  verify actual restore/preflight and first saved stage before reporting launch.
+  Shared prefix avoids repeating the approximately100-minute cold solve.
+
+## 2026-10-14 — User caps outer sweeps at1024 and requests TensorBoard monitoring
+
+- User explicitly requests stopping4096 and restarting with1024 outer cap;
+  follow-up adds TensorBoard scalar/field/reaction-curve monitoring like
+  fracture1d/train.py. Preserve inner128,du1e-4,L1/Adam/all-node,sigmoid,
+  fine source0052/Adam384000,standard unrelaxed stagger andterminal.0065.
+  No symmetry constraints or changes to physical equations/output.
+- Identity-checked4096 supervisor/GPU/audit6147/6153/6152 stopped at saved
+  .0053outer314. Originalrun preserved withuser_stop_request.json andSIGTERM
+  exit receipt. This is user cancellation,not a numerical failure. New run
+  uses a fresh output/config;restore0052 rather than keep training314 state.
+- Reuse unchanged numeric driver;add a separate CPU TensorBoard monitor using
+  tensorboardX SummaryWriter/add_figure (same writer asfracture1d). Read
+  immutable endpoint fields andjournals;each completedload writesdamage,
+  ux,uy,H andcomplete-so-far load/reaction images,with matching-load reference.
+  Outer loss/residual/change scalars use optimizer-count-derived monotone
+  steps;endpoint images use load index. Do not plot an unsynchronized outer
+  reaction as an equilibrated new-damage endpoint or alteroptimizer state.
+- Explicit monitoring cadence/settings andprovenance willbe saved withrun.
+  Useexisting TensorBoard service/logroot if compatible;verify actual event
+  files/tags/images andHTTP discovery after launching1024 run inbackground.
+
+## 2026-10-14 — Canonical TensorBoard root and process-name separation
+
+- User requires all logs under/root/autodl-tmp/tf-logs and has restarted the
+  port6007server with thatlogdir. Actual eventfiles already livedthere;the
+  previous/root/tf-logs path wasonlyan agent-createdsymlink foroldserver.
+  Removeonlythatverifiedsymlink andemptyaliasdirectories;preserveeventfiles.
+  Removealiassetting/creation andvalidateeventdir insideexplicitlog_root.
+- Readback detectsoldGPUrun stoppedat0053outer196:theuser's server-reset
+  commandgreppedtensorboard andkilledthelogger whoseargv contained
+  tensorboard_monitor;supervisor thenstoppedGPU/audit asconfigured. Treat
+  thisasexternal monitoringinterruption,notnumerical failure. Communicated
+  explicitly. Preservefailedroot/eventsandrestoreverifiedfine0052 again
+  innew1024_tbroot run tocontinueauthorizedterminal0065 workload.
+- Startlogger viafield_monitor withbest_full_damage_fields.py (neitherargv
+  contains'tensorboard'). TensorBoard library/moduleinternals remainreused,
+  butserver restartbyprocessname no longeralso matches thefieldlogger.
+  Numericdriver,1024outer/128inner,model,sampling/Adam andsourcepins stay
+  unchanged. Newlogs/events/plots allunderautodl-tmp; no/root/tf-logs alias.
+
+## 2026-10-14 — Local source checkpoint while best-current loading continues
+
+- Decision: the user explicitly authorizes committing the current modifications
+  on dev. Include fracture2d Python drivers/configurations, focused tests and
+  Markdown documentation/memory; exclude slides, binary figures/PDF/weights
+  and external numerical/event artifacts, consistent with prior user scope.
+- Reason: preserve the explored standard stagger, full-node L1/Adam route,
+  controlled comparison branches and canonical-root TensorBoard monitoring as
+  a reviewable stage. This checkpoint does not certify the still-running path.
+- Rejected alternatives: committing all untracked files, reorganizing numerical
+  modules during a pinned live run, or merging/pushing without authorization.
+- Relation: extends db4dddc. Substantial numerical improvement and source
+  simplification/consolidation remain required; the active broad task stays open.

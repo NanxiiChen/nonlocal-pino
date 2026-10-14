@@ -19,6 +19,24 @@ neighbour pairs — no BC loss terms needed.
 
 当前 fracture2d 阶段结果由用户初步接受，仍需大量数值改善；实验代码也需要大量精简、合并和整理。阶段结果、已知限制与整理要求见[2026-10-13 阶段报告](docs/reports/fracture2d-initially-accepted-20261013.md)，动态状态见[项目进展](docs/PROGRESS.md)。
 
+`examples/fracture2d/staggered_damage_trial.py` provides a common-parent, fixed-load mechanics-first stagger comparison with direct damage replacement and explicit P1 field-change stopping. The original physical model and archived results remain unchanged; `field_stable` is distinguished from equation balance. See the [fracture2d usage](examples/fracture2d/README.md#mechanics-first-stagger-and-field-change-control).
+
+`examples/fracture2d/staggered_damage_continue.py` supports pinned same-load stage restarts and equal outer-count PINN controls with reduced inner training budgets; history floors, optimizer memory and sampling provenance remain explicit.
+
+`examples/fracture2d/full_damage_trial.py` tests all-node L1 damage training with a same-history Adam/L-BFGS screen, preserving the parent model and unrelaxed stagger; its CPU auditor checks full losses and physical fields independently.
+
+`examples/fracture2d/weighted_damage_fixedH.py` compares detached damage-based L1 weights at one frozen history field. Its direct damage solve is an evaluation oracle; diagnostic fits do not advance the physical state or loading.
+
+`examples/fracture2d/damage_norm_trial.py` compares full-node L1/Adam, L16/Adam and L16/L-BFGS from identical parameters at the first critical-load history field, using common physical-error metrics and an independent CPU auditor.
+
+`examples/fracture2d/damage_norm_coupled.py` tests L16/full-node/L-BFGS in the standard stagger with crack morphology as the primary comparison, retaining field/residual/force diagnostics and independent native replay.
+
+`examples/fracture2d/full_damage_loading.py` provides paired cold L1/Adam/all-node loading controls that vary only the precritical load increment. The common initialization, persistent optimizer, field-change stopping and provisional ancestry are explicit; a CPU auditor replays saved physical states.
+
+`examples/fracture2d/best_full_damage_loading.py` preserves an audited fine-load prefix, restores its network and Adam state, and completes a longer all-node staggered trajectory to an explicit terminal load. Prefix and new-state provenance are independently replayed.
+
+`examples/fracture2d/field_monitor.py` starts the separate CPU TensorBoardX logger in `tensorboard_monitor.py`. It logs saved outer diagnostics and completed-load fields/reaction curves under `/root/autodl-tmp/tf-logs/`, preserving numerical optimizer state and remaining separate from TensorBoard server processes.
+
 ## Core idea
 
 Standard PINN: $\nabla^2\phi$ via `jax.hessian` on every collocation point — expensive

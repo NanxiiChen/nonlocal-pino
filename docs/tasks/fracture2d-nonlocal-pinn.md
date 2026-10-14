@@ -11448,3 +11448,1177 @@ supervised fine pause/resume, inspect actual physical errors/force and plots.
   and archived hashes. Staged scope contains no slides or binary files;
   previous focused tests/independent numerical replay retained. Working and
   staged whitespace checks pass.
+
+
+### 2026-10-13 — Mechanics-first standard stagger control requested
+
+- Same active task. User authorizes mechanics-first frozen-H warm-start
+  damage, omega1 and field-change outer stopping control; provided GitHub
+  Phase_Field_Simulation.py read in full via web. This is an explicit
+  numerical-policy experiment; old archived/model/live sources remain pinned.
+- Acceptance: run common own-L1 .0052 -> fixed.0053 direct(.5/1) and
+  random L1Adam(1/.5), show speed/field/force/error and equation diagnostic;
+  avoid inferring convergence solely from small field changes. Never advance
+  unready load under this driver; source parent remains provisional.
+- Explicit decisions and exact criteria recorded in DECISIONS before code.
+  Blocker none; next implement reusable sweep/P1 norm helper and run-specific
+  adapter, focused tests, actual GPU restore/preflight, supervised trial and
+  independent native/CSR/H/BC/force/state/core replay. No Git history
+  operation authorized in this turn; do not commit/push. Slides remain excluded.
+
+- Implementation/preflight: shared mechanics-first sweep, exact P1 change
+  norms, explicit case configuration and CPU native/CSR/P1/state/core replay
+  added. Initial GPU restore/image/Adam preflight passes. First launch fails
+  before physical updates on keyword-only adjacency interface; archived as
+  failed_adjacency. Second fails before physical updates on raw dictionaries
+  preserved inside ConfigDict case lists; archived as failed_case_config.
+  Both supervisors restore fine18811. Fix API call and normalize case configs
+  explicitly in driver/auditor; add meaningful JSON roundtrip regression.
+  Four new focused tests pass, plus three existing loading/history tests.
+  Third supervised launch with independent CPU observer now starts; no model
+  or old protected source change. Failed preflights are retained, not hidden.
+
+- Successful launch: supervisor130518/worker130521 and CPUaudit130519;
+  figure watcher132376. Root staggered_damage_trial_20261013 archives source
+  snapshots, supervisor.py/audit.py/figures.py/config identity/checkpoints.
+  Native parent-image/Adam-count GPU preflight passes. All prior own-L1
+  hashes verified; fine18811 owned pause at.005275 and automatic restore
+  remains under supervisor. Coarse10891/13274 stopped; observer20748 alive.
+- Completed common-parent direct omega.5:1294 outers plus1sync,294.234s,
+  R1.58108297,physicalAT2.00116521,field_stable=true,old residual pass=false.
+  Omega1:644 plus1sync,150.332s,R1.58091123,physicalAT21.1097e-6,
+  field_stable=true,old residual pass=true. Both d>=.9 span; same-load refined
+  reference R1.57095737,dL2.744691%/.744699%. Mutual physical damageL2
+  6.45265e-6 (0.0006453%),max absolute.000142487. These are nearly identical
+  damage endpoints with about2x fewer sweeps; all retain provisional parent
+  ancestry and do not advance load.
+- Both direct finals plus snapshots independently replay original CSR,
+  committed-floor H, BC, host FEM reaction/free force and independently
+  assembled consistent-P1 mass norms. Figure outer_convergence.png reviewed,
+  direct_relaxation_comparison.json stores exact endpoint comparison.
+- Reference-style loose1e-3 RMS checks first attain3passes at5 (scalar report:
+  R616.05616,dchange.00024938,u/Uchange.00019829). These changes are small
+  while a much longer crack-growth event remains. Primary d1e-5/u1e-4
+  avoids this early stop. Loose criteria are diagnostic, not imposed as
+  equilibrium certificates. User's original reference has different norm
+  normalization/minimum/consecutive checks; do not claim exact reproduction.
+- Neural omega1 same-parent continuation now39,R612.12758462,
+  stageAT20.04314771,Adamcount806400. Saved snapshots
+  pass native NumPy Swish/sigmoid, CSR, H/BC/hostFEM, exact P1 norms/counts
+  and seeded core stream; audit blocks{'direct_full': 0, 'direct_half': 0, 'pinn_full': 76, 'pinn_half': 0}. Neural128 results
+  and omega.5 paired run remain pending; no PINN speedup conclusion yet.
+- /task-end: shared sweep/norm/case helper, run-specific adapter/config and
+  independent CPU audit added,4 focused regression tests pass; unchanged
+  original3 loading/history tests also passed. README/example usage matches
+  new entry; PROGRESS/DECISIONS/this active task updated. No protected live
+  numerical source/config change, new Git operation or slides edit. Working
+  diff checked; broad task incomplete, retain exact active resume here.
+  Next inspect paired PINN controls and final same-load/own-H errors; do not
+  advance an unready load or silently substitute field stability for equation
+  balance. Live worker/observer/figure scripts continue after this turn.
+
+
+### 2026-10-13 — All stagger controls finish; mechanics call count clarified
+
+- User asks whether only relaxation was compared, whether standard order
+  removes another mechanics solve every iteration, and whether PINN can try.
+  Confirm: all new controls implement mechanics-first/frozen-H/warm-start
+  damage/field-change stopping. Their paired comparison changes only omega.
+  PINN has already run this new order in both variants, not merely planned.
+- Actual old L1 source: solve at203 once before outer loop220; solve at238
+  once per outer. New shared sweep solves once at31; adapter one endpoint
+  synchronization at254. For N iterations both cases useN+1 mechanics
+  solves. Dropping endpoint sync saves one total, not one per outer, and
+  leaves final q/reaction at pre-update damage. Shared GPU preparation adds
+  one preflight mechanics solve outside per-case timings/counts. Tests plus
+  saved counter/host force replay verify loop counts. History/residual/force
+  evaluation is not an additional displacement solve.
+- Both neural controls complete128x512 from same physical/network/Adam
+  parent/count786432 and exact same256 new blocks. Final count851968.
+  Omega1: R539.46480239,dmax.99765260,connected tipx.55425626/34 active,
+  no span;628.0436s,innerAT2.19166656,physicalAT2.18747200,damage RMS
+  change.000403671/uRMSoverload.000293224,field_stable=false. Matched
+  final-reference dL275.7237%. Omega.5: R602.87087034,dmax.91685872,
+  tipx.5/1 active,no span;628.0398s,innerAT2.03513225,physicalAT2.06390442,
+  field_stable=false,matched dL281.1664%. Both hit budget, never advance.
+  More crack growth with omega1 does not prove tighter equation solution.
+- Direct omega1 scalar sweep129 reaction515.308596 evaluates equilibrated
+  d128 before next damage update: fair synchronized same128-update reaction
+  comparison against neural539.464802. Direct at128 also not fully unloaded;
+  it needs644 outers to reach1.580911. Do not compare capped neural128
+  solely to fully converged direct644 and infer irreducible neural delay.
+- Original L1 half-relaxed128 R604.806772 vs new-half602.870870: relative
+  reaction difference.320086%,physical damageL2 difference1.72128%,
+  max damage difference.02720067. At64 damageL2 differs.49710%. Source
+  states/config/model/code remain pinned and all256-block streams in each
+  new case match original L1 blocks3073..3328 exactly. No bitwise trajectory
+  claim or unsupported attribution of finite differences to GPU/compiler
+  ordering. Record in independent_review/order_sampling_comparison.json
+  (early64) and completed_comparison.json (final all cases/source/counts).
+- All4 finals/snapshots and512 actual neural sampling blocks independently
+  replay native NumPy network, original CSR/H/BC, host FEM, independently
+  assembled consistent P1 mass and Adam state/count/LR. Audit complete/pass;
+  final outer_convergence.png reviewed, figure watcher complete.
+- Worker130521/supervisor130518/audit130519/figure132376 now exited.
+  exit.json code0/fine_resumed=true at2026-10-13T13:12:46UTC
+  (21:12:46 Asia/Shanghai). Fine18811/observer20748 running; coarse
+  10891/13274 remain stopped. Fine current load0.005275,
+  outer481,R468.16924444; restored original scheme unchanged.
+- /task-end: documentation/results inspection only this turn. PROGRESS and
+  this task updated, DECISIONS unchanged (no new numerical policy). Protected
+  source/data hashes validated, completed scientific plot inspected and
+  textual comparison archived. No tests rerun, code change, new GPU trial,
+  commit/push or slides edit. git diff --check passes. Broad task stays
+  active; new scheme's128 endpoints ready for a separately declared
+  fixed-load continuation, preserving .0052 history floor and final network/
+  Adam state. No such continuation or next-load advancement launched yet.
+
+### 2026-10-13 — Equal644 unrelaxed PINN work and reduced inner budget
+
+- User requests equal outer counts with direct and fewer inner steps.
+  Same active task; no Git history authorization. Fixed.0053/omega1:
+  continue audited512-inner branch128->644, then128-inner from same.0052
+  source to644. Freeze original preceding-load H floor, retain Adam/RNG,
+  no labels/new weights/load advancement. Equal outer counts are a diagnostic
+  and do not certify convergence. Numerical choice recorded in DECISIONS.
+- Acceptance: audited field/reaction/error/time at matched counts, exact
+  restart/history/optimizer/RNG checks, source artifacts intact. Blocker none.
+  Next implement isolated continuation adapter/config and narrow restart
+  tests, launch serialized GPU controls and independent CPU watchers.
+
+- Implementation: isolated staggered_damage_continue.py reuses existing
+  parent preparation/sweep/norm/sampling helpers. restart_plan validates
+  persistent counts and complete pool boundaries; restore validates old
+  code/state/audit hashes, preceding-load H/d, unrelaxed unsynchronized
+  stage128 and next256-block RNG. No protected old module edited. New
+  configs staggered_damage_644.py / staggered_damage_644_inner128.py
+  explicitly specify512/128 inner budgets, total644 and stop_early=false.
+  Config pin dictionaries explicitly enable dotted file keys; an initial
+  focused configuration test caught this before any GPU launch. Two focused
+  restart tests pass. CUDA stage image parity/preflight and actual129 pass.
+- CPU continuation auditor verifies restart pins/RNG/history/counts then
+  reuses native network/CSR/H/BC/host-FEM/consistent-P1/Adam/sampling replay.
+  Audited129 R539.464802 reproduces prior synchronized endpoint exactly;
+  136 R536.293580 also passes. First116 new sampling blocks replay. Latest
+  worker187/644 R501.121548,innerAT2.38378644,Adamcount882176,
+  high pointwise residual remains unresolved,
+  no equation/stability/through-crack claim. Stage reactions correspond to
+  previous damage; final one-sync report will use current damage.
+- Suite supervisor136211 started2026-10-13T13:30:57UTC
+  (21:30:57 Asia/Shanghai); active512worker136212/auditor136213.
+  Root /root/autodl-tmp/tf-logs/fracture2d/staggered_damage_644_suite_20261013
+  archives supervisor.py/suspend/result and scientific figure/review scripts.
+  Active branch root .../staggered_damage_644_inner512_20261013 archives
+  source/config/preflight/state/journal/reports/audit. Reduced128 root
+  .../staggered_damage_644_inner128_20261013 is queued, not yet created.
+  Supervisor launches it only after baseline worker AND CPUaudit succeed.
+  Both branch exit receipts and final suite resume receipt are recorded.
+- Original fine18811 is owned SIGSTOP at.005275,R465.423862;
+  observer20748 alive. Coarse10891/13274 remain SIGSTOP. Fine start_ticks
+  231802546 and full command checked on pause and before resume. Suite
+  restores only that exact PID identity on normal/failure/signal exit.
+  No FEniCS jobs run. All loaded/pinned new and old numerical modules/configs
+  must stay unchanged while these workers run. Do not relaunch or reset
+  neural parameters, optimizer moments, RNG, or commit current-load H.
+- Scientific progress watcher138147 reports only independently audited
+  snapshots, corrects mechanics-stage reaction x-axis to completed damage
+  count(sweep-1), and compares direct644/original PINN1..128/continued512
+  and queued128. equal_outer_progress.png inspected at136; snapshot source
+  manifest in suite independent_review/comparison.json. Final-review watcher
+  138383 waits for BOTH completed audits, then emits same-parent direct
+  damage errors, endpoint force/residual/time/count table and3-panel damage
+  cloud under independent_review/{final_comparison.json,damage_equal_644.png}.
+  Its current output is pending; do not treat it as a completed comparison.
+- /task-end: new continuation adapter/two explicit configs/CPU provenance
+  auditor and two narrow restart tests added; main/example README usage
+  updated. Memory changed: PROGRESS, DECISIONS and this task. Focused tests,
+  actual CUDA restore and129/136 independent replay pass; scientific figure
+  inspected; git diff --check passes. No commit/push, slides/binary Git
+  changes or original source modifications. Broad task remains incomplete.
+  Exact next action: inspect audited192/256/512/644 baseline, then queued
+  reduced-inner1..644; read suite final_comparison and cloud after BOTH pass;
+  check automatic fine resume receipt. This is equal outer-count accuracy/
+  cost exploration, not a norm-only/initially certified trajectory control.
+
+- Final live read:512-inner baseline202/644,R494.50560486,Adam889856.
+  Saved192 independently replays R498.89309067/innerAT2.28124029;148
+  new sampling blocks pass. Reduced128 branch remains queued; no completed
+  equal644 neural conclusion yet. PROGRESS synchronized to this read.
+
+
+### 2026-10-13 — Equal644 controls live status check
+
+- User asks current progress. Same active experiment; no new numerical
+  choice/source change or Git operation.512-inner baseline442/644 fixed
+  .0053/omega1: R363.34177528,dmax.99898084,innerAT2.20953507,
+  damageRMSchange.000586635,uRMS/Uchange.000410696,Adam1012736.
+  Continued314 sweeps take1530.65s excluding compilation; remaining202
+  at current speed roughly16.4min. No field stability/equation certificate.
+- Independent129/136/192/256/384 snapshots pass;626 fresh support blocks
+  replay.384 R403.53614160,innerAT2.28096853. Reduced128-inner branch
+  still queued/not started. Supervisor136211,worker136212,audit136213,
+  figure138147/final-review138383 alive. Fine18811 remains suite-owned
+  stopped,observer20748 alive;coarse10891/13274 stopped. No exit/failure
+  receipt; supervisor will start reduced branch after first audited endpoint
+  and restore fine after both controls/failure.
+- /task-end: status read only; PROGRESS and this task updated, DECISIONS
+  unchanged. No tests rerun, protected source edits, commit or slides edit.
+  git diff --check passes. Exact next: read512/644 endpoint and independent
+  audit, then queued128-inner progress/final matched comparison and cloud.
+
+
+### 2026-10-13 —512-inner equal644 finishes;128-inner runs
+
+- User status check, no new numerical policy.512-inner fixed.0053/omega1
+  completes644: synchronized R227.14351004,dmax.99916642,tip-component
+  x.83138439 atd>=.9/208active,no ligament span. PhysicalAT2.12118088,
+  innerAT2.13149453,damageRMSchange.000619415,uRMS/U.000465699,
+  field_stable=false,certified_path=false,load_advanced=false,Adam1116160.
+  New516 sweeps plus1sync2520.135s; archived first128628.044s makes
+  total3148.179s excluding compilation/preflight. Full independent replay
+  passes snapshots/final and1032 new sampling blocks. Actual matched-load
+  refined-reference damageL2 41.7495914%,reference R1.57095737.
+- Same-parent unrelaxed direct644 R1.58091123 spans. Increasing neural
+  outers128->644 reduces force539.46->227.14 and advances the crack, but
+  does not reproduce direct endpoint; equal outer counts alone are insufficient
+  under this inner training protocol. Inner/representation/path attribution
+  remains open; reduced-inner result not complete and cannot be judged yet.
+- Firstworker136212 andCPUaudit136213 exited0; first exit receipt
+  2026-10-13T14:13:37UTC (22:13:37 Asia/Shanghai), independent audit completes
+  before next branch launches14:13:42UTC. Supervisor136211 now owns
+  reducedworker140510/CPUaudit140511. Current128-inner161/644,
+  R559.43456503,Adam807040,elapsed231.24s.
+  Audited snapshots[1, 8, 32, 64, 128, 129, 136],sampled blocks77. Same parent/history,
+  128 fresh Adam steps per outer; still fixed.0053 and no advancement.
+- Figure138147/final-review138383 alive; aggregate comparison/cloud remain
+  pending until BOTH branches finish independent audits. Original fine18811
+  still owned stopped,observer20748 alive,coarse10891/13274 stopped; suite
+  restores fine on normal/failure exit. Do not edit pinned numerical sources.
+- /task-end: status read only; PROGRESS/task updated,DECISIONS unchanged.
+  No code/test/commit/slides change. git diff --check passes. Exact next:
+  inspect reduced128-inner256/512/644/audit, read suite final comparison
+  and damage cloud, verify fine resume receipt. Broad task remains active.
+
+
+### 2026-10-13 — Equal644 controls complete and independently reviewed
+
+- User asks status. Both644 fixed.0053/omega1 controls complete, all stage/
+  final native network/CSR/H/BC/host-FEM/P1/Adam/source/RNG checks pass.
+  512-inner: R227.14351004,physicalAT2.12118088,tipx.83138439/208active,
+  no span,damageRMSchange.000619415/uRMSoverload.000465699,count1116160,
+  total time3148.17870s (52.47min,archived128 plusnew516,preflight excluded).
+  128-inner: R382.70689337,innerAT2.33157792,physicalAT2.33111858,
+  tipx.69628442/127active,no span,dmax.99891463,damageRMSchange.000457052,
+  uRMSoverload.000143107,count868864,time920.32363s (15.34min).
+  Both field_stable=false/original_residual_pass=false/certified_path=false,
+  load_advanced=false. Equal outer counts do not establish convergence.
+- Same-parent direct644 R1.58091123,physicalAT21.10972e-6,tipx1/spans,
+ 150.33166s (2.51min). Consistent physical endpoint comparison against this
+  common-parent direct gives damage volume-L2 errors512-inner41.8324253%,
+  128-inner60.9365420%. Distinguish refined loading reference (different
+  preceding path) errors41.7495914%/60.7919223%; both loads exactly.0053.
+  Final comparison records both parent fields identical and all644 counts.
+- All1032 new baseline and322 reduced sampling blocks independently replay.
+  Both worker/auditor pairs exit0; reducedworker140510 andCPUaudit140511
+  finish14:29:43..45UTC. Suite result/exit complete,true/fine_resumed=true
+  at2026-10-13T14:29:45UTC (22:29:45 Asia/Shanghai). Supervisor136211,
+  both worker/auditor pairs and figure138147/final-review138383 now absent.
+  Fine18811 restored with exact start_ticks231802546/command check;
+  observer20748 alive,coarse10891/13274 remain stopped. Latest original
+  fine508/.005275,R458.98054668,physicalAT2.04423166,still unready.
+- Completed equal_outer_progress.png anddamage_equal_644.png inspected.
+  Curves/clouds show smooth mostly horizontal progressing neural cracks,
+  with incomplete right ligament and higher fixed-H residuals than direct.
+  Suite independent_review/final_comparison.json contains paired force/
+  fields/error/count/time/source hashes; no image/binary Git changes.
+- Efficiency clarification: at equal extra82432 Adam updates fromcount786432,
+ 512-inner completes161 damage updates, while128-inner completes644.
+  Correct synchronized baseline reaction comes fromsweep162 mechanics stage
+  (equilibrated d161 before training d162): R519.88099867. Reduced final
+  R382.70689337. First322 fresh sampled core hashes/RNG states match exactly
+  across original baseline256 blocks+continued66 and reduced322 blocks.
+  Times791.47311s versus920.32363s (more mechanics/outer diagnostics in
+  reduced branch); not equal time or outer count. This suggests useful
+  progress per neural-update budget, despite less crack growth at equal644
+  outers. It does not prove closer equilibrium or background-field accuracy.
+  Baseline161 has scalar journal only, no saved native-field audit at161;
+  archive this limitation and source SHA in equal_neural_updates.json.
+- /task-end: completed-subexperiment results/receipts/scientific plots reviewed;
+  PROGRESS and this active task updated,DECISIONS unchanged (no new policy).
+  No numerical source/code/test changes, new training, commit or slides edit.
+  git diff --check passes. Broad task remains active; controls complete.
+  Exact next action: review inner-budget/cost versus physical accuracy and
+  decide a separately declared larger-outer or fixed-H precision control;
+  preserve .0052 history floor if resuming either .0053 checkpoint. Original
+  fine18811 resumes independently. No new equal-count extension launched.
+
+### 2026-10-13 — Full-domain training requested for crack morphology
+
+- Same active task. User authorizes all-node damage training and Adam/L-BFGS
+  choice. Same own-L1 .0052 parent -> fixed.0053,omega1,L1/sigmoid; no crack
+  symmetry imposed. Goal: evaluate whether deterministic full-domain updates
+  improve morphology/accuracy over random core+halo. Acceptance: actual
+  GPU fixed-H optimizer screen and selected coupled run, independent native/
+  host physics replay, matched-control damage/reaction/time and morphology.
+- Numerical protocol/explicit controls recorded in DECISIONS before code.
+  Current blocker none; next implement full-domain training backend and
+  isolated driver/auditor/config, focused tests, GPU preflight/screen/coupling
+  under owned fine pause and automatic restoration. No Git history operation
+  authorized; old pinned code untouched, slides remain excluded.
+
+
+- Implementation: full_damage_optimization.py provides explicitly bounded
+  cached SciPy L-BFGS(dynamic H, fixed parameter layout) and empirical
+  selection, reusing shared Adam. full_damage_trial.py reuses existing
+  source preparation/full-node context/low-order objective/stagger/P1 norms;
+  every update uses all71307 material nodes and original CSR rows. Original
+  modules/old archives untouched; newconfig full_damage_trial.py explicit.
+  full_damage_audit.py reuses independent native network/residual/morphology
+  functions and independently assembled consistent-P1 mass/host FEM.
+- Four focused tests pass: cached optimizer reaches known quadratic minimum
+  for changing frozen contexts, finite screen selection/status behavior, full
+  original-AT2/L1/L2 dense parity and detached history/features/probabilities.
+  Actual CUDA parent-network output and full CSR/L1 parity pass; both
+  optimizer JITs compile without altering parent state. No preflight failure.
+- Same-H pilot128 selects Adam under declared full-loss rule:
+  Adam loss.009146298014/AT2.02979498398,time1.36864s;
+  L-BFGS loss.017523798202/AT2.05676480558,time3.25956s,128 iterations/
+ 133 evaluations, explicit iteration cap status1. Both native/CSR/H/host FEM/
+  loss/state screenings replay. Selection recorded immediately in DECISIONS;
+  not a generic optimizer superiority claim. Formal run restarts original
+  .0052 net/Adamcount786432,not screening net/moments.
+- GPU worker147035/supervisor147033 andCPUaudit147034 start
+  2026-10-13T15:09:14UTC (23:09:14 Asia/Shanghai). Root
+  /root/autodl-tmp/tf-logs/fracture2d/full_damage_trial_20261013 archives
+  identity/preflight/code_snapshot/selection/screen/pinn_full/stage reports.
+  Supervisor.py/suspend/launch preserve exact owned fine18811 start_ticks
+ 231802546 and command. Fine paused at534/.005275,R449.89209934;
+  observer20748 alive,coarse10891/13274 remain stopped. Fine restores on
+  normal/signal/failure GPU exit with identity check. No FEniCS MPI jobs.
+- Latest formal all-nodeAdam151/644: R537.18791047,fullL1.00010386329,
+  fixed-H maxAT2.27897943,count805760,254.56s excluding preflight/screen.
+  Checkpoints1/8/32/64/128 independently replay original CSR/committed H/
+  native image/full L1/P1/BC/host-force/Adam counts.128 R548.78392409,
+  AT2.32657418. Mean loss decreases while peak residual can remain high;
+  no exact-equilibrium/stability/certified/spanning claim. Same loss/head/
+  optimizer/128 budgets with random128 branch is the primary sampling control.
+- CPU scientific watcher148905 archives figures.py, same-outer random128/
+  random512/global clouds at each audited checkpoint, plus direct final644
+  explicitly labeled, full color range0..1 and crack-band zoom.64 figures
+  inspected. Evaluated P1 transverse peaks use47 x cuts(.52..98) and401
+  y samples(.4..6),only maxd>=.5; direct itself shows mesh-scale kinks.
+  These are evaluation-only paths, no field projection; only compare shared
+  crack-length overlap and keep this mesh/interpolation limitation visible.
+  Immutable damage_outer####.png/morphology_outer####.json plus latest aliases
+  under independent_review. No full644 conclusion or image committed yet.
+- /task-end: new full training backend/driver/config/CPU audit and focused
+  tests added, main/example README usage updated. Memory changed: PROGRESS,
+  DECISIONS and this task. Focused4 checks plus actual CUDA/source/CSR-loss
+  preflight and both-screen/1..128 native field replay pass. Scientific64
+  clouds/path inspected;git diff --check passes. No Git history or slides
+  edit, new binary Git additions, original protected numerical source change.
+  Broad task remains active. Exact next: inspect audited256/512/644 and
+  final morphology/force/peak-vs-mean accuracy; compare same .0052 parent and
+  matching crack-length overlap with random controls; check full exit/resume
+  and independent final audit. All loaded/pinned new/old numerical modules
+  must remain unchanged while worker/auditor/figure jobs are live.
+
+- Final live read: all-nodeAdam225/644,R497.49207424,Adam815232,
+  fixed-H AT20.30661318;audited[1, 8, 32, 64, 128, 192].
+  PROGRESS synchronized; original fine remains owned paused.
+
+
+### 2026-10-13 — All-node morphology control completes
+
+- User status check. All-node71307 L1/Adam1e-5/128-inner/644-outer fixed
+  .0053/omega1 completes; synchronized R228.51959469,dmax.99914964,
+  d>=.9 connected tipx.82792029/216active,no span,physicalAT2.24094863,
+  innerAT2.24156658,fullL1 8.87615154e-5. Field changes damage.000366377,
+  uRMS/U.000417831 fail primary limits. count868864,82432updates/evaluations,
+  coupled1083.588905s (18.06min excluding compile/preflight/screen),
+  field_stable=false/certified_path=false/load_advanced=false.
+- Independent screen selection +1/8/32/64/128/192/256/384/512/644 stages
+  andfinal native network/original CSR/committed H/BC/host FEM/full L1/P1/
+  persistent Adam/cumulative counts pass. Common-parent direct damageL2
+  error42.4922828%. Source/parent pins pass worker end check. Physical
+  mechanics645 calls plus preflight1; no new PDE/symmetry constraint.
+- Same644/same parent/load comparison: direct R1.580911/span/2.51min;
+  random128 R382.706893/tipx.696284/AT2.331119/60.9365%dL2/15.34min;
+  random512 R227.143510/tipx.831384/AT2.121181/41.8324%dL2/52.47min.
+  All-node128 moves farther than random128 and gives similar force/extent
+  to random512 with quarter neural-update total and aboutthird elapsedtime.
+  That is not equal pointwise residual accuracy:full.24095 vsrandom512.12118;
+  neither coupled neural state is field stable/equation certified. No claim
+  that lower force by itself proves better physical accuracy.
+- Final damage_outer0644.png/latest_peak_paths.png inspected. Long cracks
+  remain slightly wavy/bent for both all-node and random NN; global training
+  did not visibly remove waviness. P1 transverse peak x.52..85 global y
+  .496..5075,random512 .496..506;direct x.52..98 y.498..5 (mesh-scale
+  kinks). Shared x.52..85 global-vs-direct peak RMSdifference.00421656,
+  max.0085;global-vsrandom512 RMSdifference.00188258,max.004. These are
+  evaluation-only47cut/401y-sample metrics,mesh/interpolation sensitive;
+  do not equate them to a continuum crack-center error or compare unlike
+  active lengths without overlap. Random128 overlap onlyx.52..72.
+- Same off-band definition |y-.5|>.072 with volume weights:means direct
+  .02917777,random128.02842309,random512.02814344,full.02986081. Max full
+  .134612 vsdirect.136867. Nonzero off-band damage alone is not a neural
+  error in this model; field difference/residual/path must be assessed.
+  Completed comparison with native parent equality/checkpoint SHA and
+  times/forces/errors/background/shared paths archived in
+  full_damage_trial_20261013/independent_review/completed_comparison.json.
+- GPUworker147035/supervisor147033/CPUaudit147034/figure148905 now gone.
+  Exit0/fine_resumed=true at2026-10-13T15:28:02UTC
+  (23:28:02 Asia/Shanghai), matching original PID start_ticks231802546/
+  command. Fine18811 restored and running,observer20748 alive;
+  coarse10891/13274 remain stopped. Latest fine539/.005275 R448.20889818,
+  original physicalAT2.04432612 and readiness false. No original source edit.
+- /task-end: status/completed-control inspection only; PROGRESS/task updated,
+  DECISIONS unchanged (no new policy). New textual comparison archived outside
+  Git; scientific plots inspected. No tests rerun, numerical code/new training,
+  Git history or slides change. git diff --check passes. Broad task remains
+  active; full-domain control complete. Exact next: review inner/representation
+  and physical accuracy using same-parent frozen-H controls or another
+  explicitly declared experiment; waviness cannot be assigned solely to
+  random batches from these observations. Original fine continues separately;
+  future same-load restarts must retain .0052 floor and current Adam state.
+
+### 2026-10-13 — Loss/optimizer attribution and weighted L1 diagnostic
+
+- User recalls straighter prior PINN. Verified old sigmoid/all-node L16/
+  L-BFGS comparison damage_3x5.png; old omega.5/128x512, different parent/
+  adaptations/scales/history. User correctly adds L1/Adam withomega.5 was
+  also bent (own-zero L1 archive); relaxation is not a sufficient explanation.
+  L16 residual-gradient ratio for residuals2:1 checked independently as
+ 32768=2^15; L1 has equal nonzero residual-derivative magnitude. Higher
+  emphasis on local peaks is a hypothesis, not proven morphology causality.
+  The recent short L1 pilot Adam winner cannot rank optimizers under L16.
+- User authorizes damage-based L1 weights, including reciprocaleps.001.
+  Prior extra-weighting deferral is superseded for this experiment. Same
+  audited full-domain644 net/Adam868864 and synchronizedH at.0053; compare
+  uniform/proposed/cap50,allnodes,4096 Adam1e-5 each. Frozen source-d
+  weights normalized by their nodal mean, all detached. Diagnostic only:
+  no physical load/stagger advance or source-state promotion. Direct
+  frozen-H nodal solve is an evaluation oracle only, not training labels.
+- Acceptance: actual GPU fits, identical states and pure detached objective,
+  native loss/CSR/H/oracle/field replay and morphology/error comparison.
+  Explicit decision recorded before implementation; blocker none. Next
+  implement isolated weighted backend/frozen driver/config/auditor, focused
+  gradient/normalization checks and supervised GPU trial restoring fine.
+
+### 2026-10-13 — Weighted fixed-H trial completed and inspected
+
+- Added weighted_damage_l1.py (full-node detached normalized L1),
+  weighted_damage_fixedH.py and explicit configs/weighted_damage_fixedH.py,
+  independent CPU weighted_damage_audit.py, and focused test module.
+  Reuses pinned preparation/operator/head/optimizer; no old numerical module
+  changed. Main/example README describe command, formula, evaluation-only
+  oracle and diagnostic scope. No coupled reweighting implementation enabled.
+- Two focused tests pass (10.356s): positive/normalized/capped weights and
+  invalid ranges; uniform reduction to prior L1; independent dense AT2 value
+  and network gradient; exactly zero weight gradient. New driver/backend/config
+  syntax parsed; actual worker/auditor execute successfully. No unchanged
+  expensive suite rerun. git diff --check passes.
+- Root /root/autodl-tmp/tf-logs/fracture2d/weighted_damage_fixedH_20261013.
+  Supervisor154474,worker154477,CPUauditor154476 all exit; GPU workerexit0.
+  Same all-node644 net/Adam868864/current synchronizedH .0053; original
+  .0052 floor/model/geometry/source pins checked. Uniform/reciprocal/cap50
+  use71307 rows,4096 Adam1e-5 each,count872960;45.925/45.111/45.044s.
+  Weights from source physical d frozen/mean-normalized/stop_gradient;
+  H frozen, no physics promotion or load advancement. Positive residual-zero
+  states unchanged by weights; direct oracle never enters training loss.
+- Initial network same-H direct relative damageL2=4.487388%. Finals:
+  uniform4.159846%,reciprocal40.289109%,cap50 33.316531%.
+  Uniform loss8.94603e-5 ->8.29102e-5; reciprocal's own loss.00351197
+  ->.000547825 while uniform loss rises to.000307664; cap50 own loss
+ .00141607 ->.000578876 with uniform loss.000249496. Full normalized
+  max residual initial.241843 ->uniform.229218/reciprocal.701810/cap50.491534.
+  These same-H errors differ from42.4923% coupled endpoint error to the
+  final common-parent direct state, whose history is different.
+- independent_review/audit.json complete/pass: all12 snapshots native
+  network parity,CSR weights/losses/residuals,identicalH,Adam counts and
+  same-H oracle errors independently replay. Volume-SPD oracle host residual
+ 3.203894e-8 passes configured CG tolerance. Native source hashes/pins pass.
+  comparison.json records per-objective initial/final values and source hashes;
+  weighted_fixedH_damage.png and weighted_fixedH_metrics.png inspected.
+  Strong reciprocal weights visibly broaden high-damage band. Direct at this
+  PINN-generated frozenH also retains some path waviness; it is not the final
+  fully coupled straight reference. No straightness improvement claimed.
+- Retained Adam moments are deliberate common initial conditions, but changing
+  objective can create optimizer transients. One source,H,budget does not
+  isolate that effect or establish a universal failure of weighted L1. Gentler
+  bounded1+4d^2 (range1..5) and optimizer-transition controls remain untested.
+- Ownership receipts suspend.json/launch.json/resume.json/exit.json capture
+  identity-safe reversible pause/resume; fine18811 start_ticks231802546
+  resumed15:54:40UTC,observer20748 alive,coarse10891/13274 stopped. Worker
+  training.log/code_snapshot and archived supervision/figure/audit scripts
+  preserve exact experiment. No original running solver source edited.
+- /task-end: isolated weighted diagnostic complete, broad task active; blocker
+  none. README,exampleREADME,PROGRESS,DECISIONS,this task updated. Code/docs
+  uncommitted; no Git history/slides changes. Exact resume: inspect completed
+  fixed-H comparison and declare gentler bounded and/or optimizer-transition
+  controls before any coupled weighting. Keep source all-node644 checkpoints,
+  .0052 physical floor and optimizer state pinned; original fine continues.
+
+### 2026-10-14 — Recommended priority: controlled L16 revisit
+
+- User asks for judgment between returning to L16 and further L1 weighting.
+  Recommend short L16 validation first; keep bounded1+4d^2 as a secondary
+  candidate. Prior L16/full/L-BFGS clouds were cleaner but confound parent,
+  loading,optimizer and loss. Reciprocal/cap50 loss reductions with worsening
+  same-H accuracy do not justify continuing a broad damage-weight sweep first.
+- Proposed small screen: same parent/frozenH/operator/sigmoid/fullnodes and
+  residual normalization; L1/Adam,L16/Adam,L16/L-BFGS. Judge against same-H
+  direct evaluation-only solution,crack-band width/path,full max residual and
+  elapsed work. Do not compare each scheme's numerical loss value as accuracy.
+  State explicit Adam/L-BFGS initialization and any optimizer-transition control
+  before implementation; no reset policy has been activated by this suggestion.
+- If fixed-H accuracy/cost supports L16, validate a common .0052->.0053 coupled
+  restart with current mechanics-first stagger before selecting a loading route.
+  The current mature PINN history already carries path deviations; improving a
+  frozenH inner fit alone cannot establish their removal in coupled evolution.
+- /task-end: planning only, broad active task retained; blocker none. Updated
+  PROGRESS,DECISIONS,this task; no code/tests/newtraining/solver intervention/
+  Git history/slides changes. git diff --check passes. Exact resume: finalize
+  controlled-screen inputs/budgets/optimizer-state protocol if proceeding, then
+  compare physical error/cost and only then consider coupled validation.
+
+### 2026-10-14 — Authorized L16 execution starts
+
+- Execute three-way same-parent first .0053 frozen-H screen per new decision:
+  L1/Adam,L16/Adam,L16/L-BFGS,4096 update/iteration budgets; all71307 nodes.
+  Both Adam cases start identical zero moments and retain them throughout;
+  old parent optimizer/network remains protected. Stable old squared-L16
+  formula/power16/floor1e-15; no physical model/history/output change.
+- Root planned norm_optimizer_damage_20261014. Independently replay source,
+  exact native neural image/CSR losses/history/oracle/optimizer state and
+  compare fields/cost. If L16 fieldL2 and max residual both improve or match
+  baseline,validate selected optimizer from original .0052 physical/network
+  parent at .0053 with current omega1/128inner/644outer; no load advancement.
+- Status implementing; blocker none. Exact resume: finish backend/driver/config/
+  focused derivation tests,launch supervised screen,inspect independent results
+  and decide coupled phase under declared eligibility. No Git/slides changes.
+
+- Execution update: added damage_norm.py,damage_norm_trial.py,
+  damage_norm_audit.py,configs/damage_norm_trial.py and focused test module;
+  main/example README updated. Reuses unchanged source preparation,original
+  loss stabilization/native replay,full Adam/L-BFGS factories. Two independent
+  dense objective/gradient/detachment/finite-zero/selection tests pass12.506s;
+  new driver/auditor/config syntax parsed,git diff --check passes.
+  Supervisor159741/worker159744/CPUaudit159742/figure161848;root
+  norm_optimizer_damage_20261014. Fine18811 safely paused;source receipts
+  preserve identity/restoration. Actual parent-image/source-H/CG GPU preflight
+  passed and CPU snapshots replay. L1/Adam and L16/Adam complete4096;
+  L16/L-BFGS final pending. Exact resume: read final result/selection/native
+  audit and inspected comparison before deciding any coupled phase.
+
+### 2026-10-14 — Three-way norm/optimizer control completes
+
+- Screen from same own-L1 .0052 net and first .0053 mechanics-generated H,
+  all71307 rows,unchanged sigmoid/basis/physical model. Fresh identical zero
+  Adam states retained throughout each Adam fit. Initial same-H direct fieldL2
+ 6.567848%,AT2 .11121376. Final results:
+  L1/Adam4096 ->fieldL2 .448677%,RMSE.000206891,AT2 .00784379,
+  absolute maxr6.01105,uniformL1 .00501535,45.607668s;
+  L16/Adam4096 ->44.863669%,RMSE.0206872,AT2 .02844713,
+  maxr22.5168,uniformL1 .17822034,45.846621s;
+  L16/L-BFGS4096/4711eval ->3.002086%,RMSE.00138430,AT2 .00114290,
+  maxr.879053,uniformL1 .01611366,105.896277s.
+- L16/Adam objective .323794 at2048 rises to1.10696 at4096; the fixed1e-5
+  training is not monotone. Final candidate is the declared budget endpoint,
+  not cherry-picked best intermediate. L-BFGS has finite status1 iteration
+  limit,not line-search failure or certified equation convergence. Different
+  objective values cannot rank accuracy; report work and common metrics.
+- Independent CPU audit complete/pass for9 saves (4 per Adam +LBFGS final):
+  native image parity,exact frozenH/source parents,host CSR objectives/MAE/
+  max residual/volume field errors,saved hashes,Adam counters0->4096 and
+  explicit LR/optimizer identities; initial source mechanics/BC/history and
+  unique oracle volume-SPD residual3.207983e-11 pass. Source/code pins unchanged.
+  Selection independently verified None:neither L16 simultaneously matches
+  L1's fieldL2 and max residual. No coupled branch implementation/launch,
+  physical promotion or load advancement. Proposed conditional phase is
+  inapplicable under these results,not an unresolved execution failure.
+- Scientific norm_screen_damage.png and norm_screen_accuracy_cost.png
+  inspected;comparison.json includes exact reports/source/audit/figure hashes.
+  This H is before long-crack growth; images do not establish final path
+  superiority. The auxiliary d-squared transverse second moment over
+  .52<=x<=.9 includes background and is a distribution statistic,not an
+  isolated crack width; do not present it as a crack-width accuracy measure.
+- Root norm_optimizer_damage_20261014 preserves identity/config/code_snapshot,
+  initial oracle/history,all networks/Adam states,reports,selection/audit and
+  scientific plots. Supervision/auditor/figure scripts and logs archived.
+  Supervisor159741/worker159744/CPUaudit159742/figure161848 all exit;
+  worker0/fine_resumed true at2026-10-13T16:15:57UTC =2026-10-14
+ 00:15:57 Asia/Shanghai. Fine18811 start_ticks231802546 running,
+  observer20748 alive,coarse10891/13274 remain stopped. No protected source edit.
+- /task-end: three-way experiment completed; broad fracture task stays active.
+  Added backend/driver/config/CPUauditor/tests and main/example README;updated
+  PROGRESS,DECISIONS,this task. Two focused tests pass12.506s,syntax checks,
+  actual GPU execution/native replay and git diff --check pass. No expensive
+  unchanged suites rerun,Git history/slides changes. Exact resume: review
+  mean/peak tradeoff using these pinned results; propose later-H or explicitly
+  combined objective if proceeding. No selected coupled run is pending and
+  no conclusion on final coupled crack path follows from this early-H screen.
+
+### 2026-10-14 — Morphology priority restores coupled L16 experiment
+
+- User clarifies straightness is the immediate concern even if global L2 is
+  larger. Previous first-H screen has no developed long crack; its agent-chosen
+  joint field/peak eligibility does not answer this objective and is overridden
+  for the previously authorized coupled experiment. Old result/selection remains.
+- Implement same own-L1 .0052 physical/network parent ->fixed.0053 with
+  L16/full71307/L-BFGS,current mechanics-first omega1/128inner/644outer,
+  warm weights,fresh curvature at each newH;one mechanics perouter/finalsync.
+  No straightness/symmetry loss,reference targets,changed output/model/operator,
+  mature .0053 history import or budget-based load advancement. Pin completed
+  screen provenance for review but use original parent weights,not screen fits.
+- Root planned norm_optimizer_coupled_L16_20261014. Audit native networks,
+  CSR L16/MAE/residual,committedH,BC/hostFEM/P1/counters;show matched-stage
+  clouds and peak paths with same-length overlap. GlobalL2/forces/residuals
+  remain diagnostics,not primary morphology selection. Blocker none;next
+  implement coupled driver/config/auditor,launch supervised branch and inspect
+  actual preflight/early audited state before leaving exact continuation point.
+
+- Implemented damage_norm_coupled.py/configs/damage_norm_coupled.py and
+  independent damage_norm_coupled_audit.py,without changing pinned earlier
+  numerical modules. Reuses original norm factory,cached L-BFGS,preparation,
+  mechanics-first sweep and exact P1 field changes. Main/example README
+  updated. New crack-profile synthetic straight/bent/absent-field test passes
+  (1test,.055s);three changed Python modules parse,git diff --check passes.
+  No unchanged expensive backend tests rerun;actual GPU and native CPU
+  integration reaches new coupled path successfully.
+- Live supervisor164429/GPUworker164431/CPUaudit164430/figure166379 under
+  PID1 sessions. First parent-image/frozenH/FP64 full-gradient/mechanics
+  preflight passes;original .0052 fields/network are restored,screen weights
+  discarded. Saved stages independently replay native sigmoid/CSR L16/
+  committedH/BC/hostFEM/P1 and actual iteration/evaluation counts. Reports
+  distinguish stage reaction (d_previous) from final synchronized reaction.
+- Plot observer generates latest_damage.png/latest_paths_widths.png and
+  morphology_outerXXXX.json from audited fields,with common .0052 parent.
+  Same-outer L1 full Adam controls and direct final644 supply comparisons;
+  primary summaries use shared active transverse cuts .52..98,401 y points
+  .4..6,threshold.5,resolution.0005. Half-height band is contiguous around
+  local peak,with edge-censor flags. Fewer than5shared cuts cannot support
+  a shape conclusion;mesh/P1 interpolation sensitivity remains recorded.
+  No path/width data enters loss. Equal outer count is not equal crack length.
+- Original fine18811 start_ticks231802546 reversibly stopped under supervisor
+  ownership;observer20748 remains alive,coarse10891/13274 remain stopped.
+  launch/suspend receipts and script archive identify exact restoration path.
+  On completion/failure supervisor resumes original fine automatically.
+- /task-end: coupled morphology experiment running; broad task active,blocker
+  none. README/exampleREADME/PROGRESS/DECISIONS/task updated;new driver/
+  config/auditor/test uncommitted,no Git history/slides changes. Exact resume:
+  read root result.json/current,saved native audit and matching morphology JSON;
+  inspect sufficiently developed common intervals before judging straightness.
+  Continue fixed.0053 through644,then independently replay synchronized endpoint
+  and compare path/width/force/errors. Do not advance loads or edit pinned/live
+  numerical modules. Early short-path plots do not decide the user's goal.
+
+- Final session check: current outer70/644 at.0053,stage reaction608.445764,
+  dmax.97476635,innerAT2.01988386;use exact journal for actual work counts.
+  Native stages1/8/32/64 pass. Latest damage_outer0064 comparison inspected;
+  both neural cracks remain short relative to final direct,so no straightness
+  conclusion yet. All supervised GPU/CPU/figure processes alive;fine remains
+  owned paused. Resume from live journal,not the displayed64 plot. No new
+  numerical edit after worker pinning;git diff --check passes.
+
+### 2026-10-14 — Long-crack status check at outer362
+
+- User asks if long crack path is visible. Current live .0053 outer362/644,
+  stageR608.48553536,dmax.99292975,innerAT2.01229178,damageRMSchange
+ .0000953896,uRMS/U.0000323932;field-stopfalse.46336actual L-BFGS
+  iterations/49909evaluations,1212.0267s. No final synchronized reaction yet.
+- Saved native stages1/8/32/64/128/192/256 pass;root audit incomplete because
+  branch continues. Inspected immutable damage_outer0256.png and associated
+  morphology JSON. Same-load columns direct final644,L1/Adam outer256,
+  L16/L-BFGS outer256,not all converged same-outer endpoints. Direct spans;
+  L1 peak(d)>=.5 activecuts reachx.62;L16 reachesonlyx.54 (tipx.50),3cuts.
+  Shared developed extent too short for straightness conclusions. Short L16
+  band cannot be presented as evidence of improved long-crack morphology.
+- Scalar journal shows limited progress:stageR at64/128/192/256/320/362
+ 609.850/611.745/612.063/611.402/609.236/608.486. This is observation,not
+  proof of optimizer impossibility or a physical change in fracture threshold.
+  Keep128inner/644outer declared test running;no intervention or new experiment.
+- Supervisor164429/GPU164431/CPUaudit164430/figure166379 remain alive;
+  original fine18811 paused under ownership,observer20748 alive;no exit/resume
+  receipt yet. Exact resume:read live result,audit and next384 snapshot/figure,
+  then512/final644. If still short,review inner budget/trajectory afterward;
+  current data cannot answer desired long-path straightness.
+- /task-end:status read/figure inspection only;updated PROGRESS/task,
+  DECISIONS unchanged (no new numerical decision). No code/tests/Git history/
+  slides edits;git diff --check passes. Broad task active,blocker none.
+
+- Later same-session check:live393/644,stageR608.95428161;new immutable
+  outer384 native replay passes and damage_outer0384.png inspected. L16
+  still peak(d)>=.5 onlyx.52/.53/.54 (3cuts),stageR606.97680608,
+  innerAT2.01791974;L1 at same384 reachesx.68 (17cuts). Final direct
+  spans,shown explicitly asfinal644. All comparison loads.0053. No long
+  L16 crack yet;show384 cloud to user and retain planned644 budget. This
+  new checkpoint justifies updated cloud inspection;no tests or code changes.
+
+### 2026-10-14 — L1/all-node main route and shape-improvement recommendations
+
+- User retains L1/Adam/all-node and asks methods for straighter/smoother cracks.
+  Main-route preference recorded;this is investigation/advice,not authorization
+  to impose a new symmetry constraint or launch another loading path. Existing
+  L16 supervised trial is a separate diagnostic under its existing budget.
+- Independently checked current all-node644 history from fields.npz against
+  previously independently audited frozen-H oracle (identical H asserted).
+  P1 peak profiles ofphysical d,current-H NN anddirect own-H solution share
+  .52..85 activecuts:physical/NN y.496..5075,direct own-H y.496..5070.
+  The visible drift is already in this history-driven damage solution;it is
+  not solely final readout error. Earlier wrong-sign/asymmetric residuals or
+  mechanics feedback remain hypotheses until first-onset stage diagnostics.
+  Do not claim every previous outerH is permanently frozen:max floor is the
+  preceding load's committedH,current mechanicsH can change within load.
+- Mirror-nearest geometry diagnostic:maximumdistance.0024066232,
+  meandistance2.36418146e-5,exact mirrored nodefraction.187975935. This is
+  geometry evidence,not an exact discrete reflection-invariance test. Avoid
+  hardcoding exact symmetric output without considering D,H and mesh effects.
+  Reflection constraint could suppress drift in this symmetric benchmark but
+  can restrict asymmetric/branching solutions and does not forbid paired cracks.
+- Network inspection confirms MLP+compact hat readout and physical-history
+  features. Smoother basis functions/mirrored center placement are useful
+  representation controls to test;no proof current corners cause global drift.
+- Actual-volume matrix check supports same-operator frozenH energy candidate:
+  Phi=sum V*(.5*g0*d^2+H*(1-d)^2)+.5*g1*d^T*V*D*d;
+  gradient equals V*r,independent quadratic assembly discrepancy1.55268e-13,
+  VD symmetry maxdefect1.11022e-16. Proposed normalized small auxiliary energy
+  with L1 uses existing nonlocal coupling rather than inventing a new length
+  scale;finite-network/budget improvement remains untested. It is a damage
+  subproblem functional only,not a joint hybrid fracture energy claim.
+- Read primary Goswami et al. neural variational fracture paper
+  https://arxiv.org/abs/1907.02531 for precedent. Its local variational method
+  is motivation,not direct validation of our operator/coupled scheme. Diagnostic
+  numerical artifact:full_damage_trial_20261013/independent_review/
+  morphology_advice_20261014.json,pinned source fields hash included.
+- Next recommended independent work:trace first asymmetry in saved .0052->.0053
+  stages and local tip residual/H,then declare a restart frombefore drift with
+  adaptive front-focused inner accuracy. Choose benchmark symmetry versus
+  smooth-basis/same-operator-energy controls according to desired generality;
+  no new training,loss constraint or numerical source edit this advice turn.
+- /task-end:updated PROGRESS,DECISIONS,this task;no code/tests/Git history/
+  slides changes. Read-only actual geometry/field/operator/gradient checks;
+  git diff --check passes. Broad task active,blocker none. Main route L1/Adam/
+  all-node;existing L16 trial may finish original644 for archival comparison.
+
+### 2026-10-14 — User forbids symmetry constraints; early-step hypothesis
+
+- Current goal: improve crack straightness through training/loading accuracy
+  with L1/Adam/all-node. User explicitly forbids symmetry constraints and
+  prescribed straight-path targets. This supersedes the prior optional
+  reflection recommendation; no such constraint has been implemented.
+  Additional basis/energy/smoothing changes are deferred for this experiment.
+- Read-only prefix audit: fresh L1 root l1_damage_loading_from_zero_20261013
+  uses du5e-4 through .005,then1e-4. All positive-load prefix states used
+ 128outer*512 sampled Adam updates and remain provisional,not certified.
+  Older straight-looking bounded sigmoid branch inherited linear_damage_
+  loading_20261012's certified du1e-4 prefix through .0052. Its different
+  optimizer,output adaptation/scaling,sampling and accepted prefix confound
+  attribution to load step alone. Existing quarter-step refinement was only
+  after .0052 and therefore does not test the user's new hypothesis.
+- Existing independently replayed matched-load volume-weighted damage L2
+  errors for fresh L1: .0040=8.2592%,.0045=7.7389%,.0050=7.4393%,
+  .0051=7.3503%,.0052=6.9831%. These decrease over these checkpoints;
+  do not report a measured monotonically accumulating global field error.
+  At .0050 the NN-versus-direct error at its EXACT ownH is6.6520% (oracle
+  residual1.18e-10),showing appreciable inner error already before critical
+  growth. At .0052 old certified prefix matched-load L2 was1.4283%.
+  Current52 R611.16155 versus reference606.59069; current50 R596.65123
+  versus reference592.43389. These are accuracy clues,not pure step controls.
+- Mechanism to test: a large load jump worsens warm-start subproblem changes;
+  incomplete inner solves can bias mechanics and then H. Across LOADS the
+  committed maximum history floor can retain an overestimate; within a load
+  H=max(preceding-load floor,current mechanical psi),not max of every outer
+  iterate. Neither persistent bias nor its onset is proved by current data.
+- Exact proposed next experiment (not launched): cold paired coarse/fine
+  L1/Adam/all-node prefixes,du5e-4 vs1e-4 up to .005,then both1e-4 to .0053.
+  Pin common initialization,head,basis,history feature scales,Adam policy,
+  mechanics-first omega1 scheme and identical stopping/iteration policy.
+  Compare physical d,H,local front residual,field changes,matched-load and
+  ownH errors at .0050/.0052,then .0053 path/force at comparable crack extent.
+  The old sampled coarse run is contextual evidence only. A smaller-step
+  run with equal per-load budgets receives more training; report total Adam
+  updates/time and use a cost-matched coarse control if it improves before
+  claiming step size rather than training budget is decisive. No oracle labels
+  or imposed geometry enter training. Begin from zero to avoid old .0052 bias.
+- Existing L16 coupled diagnostic completed its644 budget during this review:
+  root norm_optimizer_coupled_L16_20261014,result complete,true;
+  final synchronized R593.24537933,physicalAT2.01409147,innerAT2.01409010,
+  damageL2vs common-parent direct81.77054%,training82432iterations/
+ 88249evaluations,2049.76s. No span/field stability/load advance. Audited
+  final transverse d>=.5 path only3cuts/.52..54,so long-path straightness
+  remains unanswered. Root independent_review/audit.json complete/pass_replay
+  true; all saved snapshots and final replay. exit.json worker0/fine_resumed
+  true at2026-10-13T17:04:29UTC. Trial supervisor/worker/audit/figure PIDs
+ 164429/164431/164430/166379 exited; original fine18811 running and observer
+ 20748 alive on current inspection. Future main route remains L1/Adam/full.
+- /task-end: documentation-only updates to PROGRESS,DECISIONS,this task;
+  read-only numerical receipts/config/process checks. No new training,code,
+  Git history or slides changes. Broad task remains active; blocker none.
+  Exact resume: declare cold all-node coarse/fine configurations and shared
+  zero initialization/budget pins before implementing or launching the paired
+  test; preserve all old source/run receipts and serialize GPU execution.
+
+### 2026-10-14 — Paired cold full-node loading launched in background
+
+- User authorizes background execution and asks expected runtime. Root:
+  /root/autodl-tmp/tf-logs/fracture2d/full_damage_load_steps_20261014.
+  coarse and fine branches run serially to.0053 (13 and53 positive loads).
+  Configs full_damage_load_coarse.py/full_damage_load_fine.py differ ONLY in
+  case identity and pre-.005 step5e-4/1e-4; afterward both1e-4. Shared receipt
+  common_initialization.json checks entire remaining config and serialized
+  cold network/Adam hashes; fine must reject any mismatch. No symmetry or
+  straight-path targets,reference labels or output changes.
+- Added full_damage_loading.py and full_damage_loading_audit.py. Reuse current
+  local mechanics,full71307 nonlocal rows,physical H features,MLP+compact
+  latent-scaled readout,sigmoid,L1 residual normalized by2RMS(H),Adam1e-5.
+  Persistent Adam count/moments,warm net perouter/load,mechanics-first omega1,
+  H=max(previous-load endpoint H,current psi) held/detached during inner.
+  Explicit budgets128inner,prefix128outer,critical.0053outer644. Field early
+  stop uses exact P1 RMS(d)1e-5,RMS(u)/load1e-4,3consecutive/min3 sweeps.
+  Residual nongating; one final mechanics synchronization each load. All
+  positive endpoints provisional even if field stable. This is a diagnostic
+  loading experiment,not a newly certified reference or physical path.
+- Every sweep writes scalar journal plus named or overwritten pending full
+  network/optimizer/field records; every load endpoint remains immutable.
+  CPU replay checks initial exact physical zero/native constant network,
+  source/config/init pins,own-H NN/CSR loss,load-parent ancestry,BC,hostFEM,
+  independent consistent-mass P1 changes,Adam counts and matched-load errors.
+  Extra direct ownH oracles only evaluate.0050/.0052/.0053. Auditor watches
+  coarse then fine,while GPU worker runs them serially; audit failure stops
+  worker and supervisor restores old solver. Late CPU audit can finish after
+  GPU work and restoration. No shared source changes after worker pinning.
+- Supervisor /tmp/fracture_full_load_step_supervisor_20261014.py double-fork
+  detached underPID1: supervisor172257,CPUaudit172258,coarseworker172259.
+  LaunchUTC2026-10-13T17:26:23 (localAsia/ShanghaiOct14 01:26:23).
+  Logs suite/coarse/training.log,suite/audit.log and /tmp/fracture_full_load_
+  step_supervisor_20261014.log. Root launch/status/suspend and percase launch/
+  exit receipts track PIDs/transitions. Fine18811/start231802546 identity
+  checked and SIGSTOP acknowledged;20748observeralive,10891/13274stopped.
+  Supervisor owns pause and restores same fine identity on success/failure;
+  old numerical files/run outputs untouched. Fine worker PID assigned later.
+- First actual .0005 load completed21outers/2688updates in54.0898s including
+  first JIT: R66.96657631 versus matched direct66.96340000,dmax.00316822,
+  physicalAT2.13602210,fieldstabletrue,equationpassfalse. Native first/end
+  replay and second-load first snapshot pass; matched dL211.24391%,absolute
+  RMSE4.57563e-5. These early small-damage relative errors do not establish
+  long-crack geometry. Current .001 load has begun,count persists>2688.
+- Full caps9480sweeps/1213440Adam updates. Old all-node644 cost1083.59s
+  implies4.4h before startup/IO/audit and early exits; initial estimate3..5h.
+  New warm128-update inner solves about1.44s plus mechanics/checkpoint costs;
+  use consecutive journal timestamps rather than first compile time for ETA.
+  Fine loading also gives more optimizer work; retain actualcounts/time and
+  do not attribute improvement solely to step size. Cost-matched coarse
+  followup remains unlaunched.
+- Verification: six tests (paired grid/config/rejection2 plus existing
+  stagger pipeline/mass/stop4) pass0.398s; five changed/new runtime modules
+  AST parse;actual GPU full-loss-vs-host-CSR preflight and CPU saved replay
+  pass. README/project overview updated before launch. No FEniCS work,
+  Git history operation or slides edit. Source/config/test and README/memory
+  changes remain uncommitted. Broad task active; blocker none.
+- /task-end resume: read suite/status.json,coarse/result.json and coarse/
+  independent_review/audit.json,then fine result/init hash comparison after
+  automatic transition. Update ETA from rolling warm sweep intervals and
+  actual early-stop rates. On completion verify both independent audits and
+  suite exit/resume receipts,compare.0050/.0052/.0053 fields/H/force/ownH
+  errors before deciding on a cost-matched continuation. Preserve exact
+  source snapshot and pending records if an explicit resume is requested.
+
+- Measured ETA update: atcoarse.0015/outer19,warm consecutive journal
+  intervals median1.69990046s INCLUDING checkpoint overhead. Full-budget
+  projection:coarse1.029h,fine3.447h,total4.476h. Startup/CPU audit variance
+  and early stops remain; retain user estimate3..5h rather than an exact
+  finish promise. Initial first load used21 rather than128 sweeps. All
+  checks reported above plus final git diff --check pass.
+
+### 2026-10-14 — Paired cold loading complete; same-load and shape review
+
+- Both controls completed through.0053 without runtime/audit failures. Suite
+  status/exit show complete/exit0,coarse worker0 atOct14 02:22:13 Asia/Shanghai,
+  fine worker177724 exits0 at04:23:30,auditor/supervisorfinish04:23:32.
+  First launch01:26:23,total elapsed2h57min9s. Driver timings coarse3339.61s
+  (55.66min),fine7264.36s(121.07min). Shared cold network and optimizer hashes
+  plus common config match exactly. Both independent_review/audit.json
+  complete/pass_replay true;all declared snapshots/endpoints replay.
+- Same-load comparison (volume-weighted nodal relative damageL2):
+  .0050 coarse.705019%/fine.426095%,R592.66714/592.57056 vs592.43389;
+  .0052 coarse.609786%/fine.409928%,R606.88441/606.71712 vs606.59069;
+  .0053 coarse55.045639%/fine45.333508%,R266.52083/231.02961 vs1.57096.
+  Reference is local-mechanics/nonlocal-direct damage at EACH matching load,
+  including refined-grid .0053 reference index56,not terminal-reference state.
+  Early coarse/fine accuracy is substantially better than the old sampled
+  coarse prefix;do not use the old6.98% as the new paired-control error.
+- Exact-ownH neural errors:at.0050 .584035%/.391667%;at.0052 .478757%/
+ .380929%;at.0053 4.739783%/4.350269%. Current .0053 physicalAT2
+ .18963933/.15728732 and field-change dRMS .00028859/.00022112,
+  uRMS/load .00032994/.00027556 remain unready after644 outer128inner.
+  Both failed field stopping and residual diagnostics,not runtime/audit.
+  No through-crack:d>=.9 tip-connected xmax .79674337/.82445618.
+- Scientific fields/clouds at.0050/.0052/.0053 and force/path/width plots
+  generated by /tmp/fracture_full_load_steps_review_20261014.py on CPU,
+  reusing previously tested peak_profile. Sources and script hashes recorded
+  in root/comparison_review/comparison.json. Both plots visually inspected.
+  reaction_and_paths.png uses actual profile y extrema with a small margin
+  (initial tighter viewport corrected before publishing);no data clipped.
+  damage_comparison.png rowsreference/coarse/fine,columns.0050/.0052/.0053,
+  common damagecolor0..1,on actual material P1 triangles,no field smoothing.
+- Primary morphology:31shared d_peak>=.5 transverse cutsx.52..82.
+  Coarse/fine maximumlateraldrift .0175/.0100;RMS .01172879/.00583095,
+  versusreference .0020/.00114652. Thus fine RMSdrift is~50% lower within
+  matched developed extent;it remains substantially above mesh-scale reference
+  deviations. Shared mean contiguoushalfheight widths .04070968/.03911290
+  versusreference.0395. Coarse activecuts31/tox.82,fine34/tox.85,reference47/
+  tox.98. Different crack extents cannot alone prove superior straightness.
+  These are postprocessing measurements,not imposed symmetry constraints.
+- Budget attribution:coarse1670totalouters/213760updates,fine3644/466432;
+  .0053 uses identical644outers/82432updates in both. Fine enters.0053 with
+ 384000updates versuscoarse131328. Added training work is a remaining
+  confounder for isolating load-step effect. Current evidence supports finer
+  prefix plus its training continuation,not a sole-cause proof or cure.
+- Old fine18811 was identity-safely restored at04:23:30 perresume.json;
+  current inspection finds18811/20748 and all paired PIDs absent. Original
+  quarter-step result remains incomplete at.005275;do not state it is still
+  running or silently restart its superseded numerical route. Paired suite
+  complete status is verified independently of that older branch's lifecycle.
+- /task-end:updated PROGRESS,DECISIONS,this task;temporary review script and
+  external JSON/PNG artifacts only. No repo numerical-source edit,new training,
+  code tests,Git history operation or slides changes. Existing focused tests
+  unchanged;actual native audit receipts/config/init equality and plot/source
+  checks justify results. Broad task remains active,blocker none.
+- Exact next action:review completed finer-prefix morphology with user;retain
+  fine .0052/.0053 fields,network,Adam andscales as possible common-parent
+  controls for critical-load convergence. Any SAME-load .0053 continuation
+  must keep the preceding-load .0052 H floor (not commit current.0053 H as a
+  newfloor),restore Adam466432 and currentq/d/network,and declare added inner/
+  outer budget separately. No such continuation or cost-matched prefix control
+  launched in this status turn. Preserve original snapshots and receipts.
+
+### 2026-10-14 — Best-current complete PINN trajectory launched to .0065
+
+- User requests best-current complete run and a short strategy description.
+  Latest steering explicitly reduces terminal.0075 to.0065. Reuse the audited
+  finer own-zero prefix through.0052;recompute.0053..0065 (13newloads,65
+  positive loads in the complete curve). No symmetry constraints or imposed
+  straightness. Inherit earlier fine prefix instead of repeating~100min work.
+- Configuration:configs/best_full_damage_loading.py pins original fine source
+  identity/parameterization/audit andstate0052 result/fields/network/optimizer.
+  Source root full_damage_load_steps_20261014/fine;index52,load.0052,
+  Adamcount384000. Original own-H accuracy.380929% andmatched damageL2
+ .409928%;not certified. Do not inherit the old provisional0053 field or H
+  as a newfloor. Current physical model unchanged:local P1 mechanics/direct,
+  nonlocal AT2 damage/sigmoid MLP96x3+compact latent readout,physical H
+  features,FP64,all71307 nodes,L1 normalizedby2RMS(H),Adam1e-5,persistent
+  parameters/moments/count,unrelaxed mechanics-first stagger/one mechanics
+  perouter plusendpoint sync,H=max(preceding-load floor,currentpsi) held and
+  detached during128 inner updates. Every newload gets up to4096 outers.
+- Field early stop unchanged:dP1RMS1e-5,uP1RMS/load1e-4,3consecutive/min3
+  sweeps. Residual is diagnostic,not a stopping gate;budget/field-stable
+  endpoints and inherited prefix retain explicit provisional labels. Longer
+  outer budget is being tested;do not promise it cures path bias/delay.
+- Added best_full_damage_loading.py andfork-aware wrapper
+  best_full_damage_loading_audit.py,reusing old full_damage_loading_audit.py
+  native/CSR/H/BC/hostFEM/consistent-mass/count/reference evaluation.
+  Prefix0..52 fields/result andpositive network/optimizer/report files copied
+  byte-for-byte with perfile receipt. Original zero network/optimizer preserve
+  cold ancestry,while actual continuation restores52state/count384000.
+  Worker image parity atsourceH_used andfirstH full-loss parity pass. GPU
+  compilation update is discarded;restore count unchanged. Effective current
+  config separately records old prefix policy anddriver_config,new end/caps.
+- Tail uses EXACT original fine grid construction (transition.0050) rather
+  than independently multiplying tail indices;this preserves bitwise load
+  values for exact BC replay. Tests verify equality with original load_grid,
+  correct13targets .0053..0065,andrejectwrongsource load/nonfinite fields.
+  Two focused tests pass after this new grid check;five runtime/config/temp
+  scripts AST parse;existing pinned numerical files untouched.
+- Root:/root/autodl-tmp/tf-logs/fracture2d/best_full_pinn_loading_20261014,
+  solution underfine/. Detached double-fork supervisor6147,GPUworker6153,
+  CPUauditor6152,launch2026-10-14T04:30:10UTC /12:30:10Asia/Shanghai.
+  Scripts:/tmp/fracture_best_full_supervisor_20261014.py and
+  /tmp/fracture_best_full_figures_20261014.py. Logsroot/training.log,audit.log,
+  /tmp/fracture_best_full_supervisor_20261014.log. GPU initially empty;no old
+  workers need pausing/resuming. Supervisor stops on worker/audit failure,
+  recognizes a successful audit that finishes during worker exit,then generates
+  final matched-reference curves andfields on CPU after both succeed.
+- Current verified preflight:restore image/CSR loss/sourcecount pass;copied
+  prefix inheritance audit pass. Actual new.0053 outer41,Adam389248,
+  stageR599.97410,innerAT2.0266820,dmax.927715;fieldstilliterating. CPU
+  replay proceeds through inheritedprefix47 ininitial inspection;later native
+  new-stage replay recorded fromaudit. Reaction here equilibrates d_previous,
+  not newly trained d;onlyendpoint reaction/fields are synchronized.
+- Maximumnewwork13*4096=53248outers/6815744Adam updates. Atroughly
+ 1.7..2.0s perouter (including saved records),allcaps~25..30h;early field
+  stabilization may considerably shorten. Do not reuse old3..5h estimate
+  as a promise for the higher budget. Update ETA fromactual warm journal
+  intervals andcompletedloads. No extension beyond.0065 is authorized here.
+- Automatic final_review outputs reaction_curve.png,damage_fields.png,
+  displacement_fields.png andfields_manifest.json. Fieldscompare reference
+  andPINN atMATCHINGloads.0050/.0053/.0055/.0058/.0065;P1triangles,
+  commondamage0..1 color,u_x/u_y EACHpanel actualmin/max. End-to-end curve
+  includesinherited0..0052;FEM(local damage) not imported as training targets.
+- /task-end:README/exampleREADME updated alongside PROGRESS,DECISIONS,
+  thistask;newdriver/wrapper/config/focusedtest andexternal supervisors/scripts.
+  No Git history/slides action,FEniCS work oroldsource edits. Broad task
+  active,blocker none. Exactresume:readrootstatus, fine/result andindependent
+  audit/inheritance/preflight records;keepworker running itsdeclared.0065
+  budget. Onfinishcheckrootexit,auditcomplete andfinalplots. If interrupted,
+  preservependingcheckpoint/network/Adam andoriginal prior-load H floor;
+  do not silently restartfromcurrentH ascommittednewload orresetAdam.
+
+- Final session inspection:new.0053 outer135/4096,stageR555.08654,
+  innerAT2.270406,Adam401280. Independent CPU replaypasses inherited52
+  endpoints andnew1/8/32/64/128 snapshots(57rows total);root auditstill
+  incomplete becauseworkercontinues. Medianwarm journalinterval2.04599s
+  givesall-cap projection30.26h. Field still evolving;no premature
+  certification orcritical-load advancement. Final git diff --checkpasses.
+
+### 2026-10-14 — User-requested1024 restart with live TensorBoard
+
+- Latest user instructions:stop4096 run,restartwith1024 outercap,andadd
+  TensorBoard monitoring likefracture1d/train.py. Everycompletedload should
+  publishphysicalfields andload/reaction curve. Terminal.0065,inner128,
+  fine du1e-4,L1/Adam1e-5/all71307/sigmoid/omega1/source0052/count384000
+  andno-symmetry requirement unchanged. Do notresumethe314 state.
+- Original best_full_pinn_loading_20261014 stopped at.0053outer314 after
+  identity-checking supervisor6147/GPU6153/CPUaudit6152. Allthree absent
+  afterSIGTERM. user_stop_request.json preservessavedrow/identities/reason;
+  exit.json recordsInterruptedError(signal15),notnumerical rejection. Original
+  run/config/numeric source retained,including snapshots andsourcecopies.
+- New configbest_full_damage_loading_1024.py overridesonlyoutputdir,
+  maxouter1024 andcheckpointlist<=1024,usingunchangednumericdriver and
+  restorepins. Newroot:/root/autodl-tmp/tf-logs/fracture2d/
+  best_full_pinn_loading_1024_20261014,fine/subfolder. Tailstill13loads
+  .0053..0065;allcaps13312outers/1703936Adamupdates (~7..8h atcurrent
+  cadence),earlyfieldstop shortens. Inheritedprefix0..0052byte-identical.
+- Addedtensorboard_monitor.py/configbest_full_damage_tensorboard.py:separate
+  CPU reader,TensorBoardXSummaryWriter/add_figure asfracture1d. Poll5s,
+  outer scalarsfirstand every8sweeps;globalstep=(optimizercount-384000)/128.
+  LossdamageL1,innerAT2,d/uRMSchanges,range,load/outer/count/rate,mechanics
+  residual andexplicit previous-damage stage reaction. Endpoint images/scalars
+  usephysical loadindex52..65;curveonlyincludescompleteq/d-synchronized
+  endpoints. Damagecomparesactualsame-load reference andPINN;ux/uy useeach
+  materialfield's actualmin/max. Hfield andcurrentpartialreactioncurvelogged.
+  NoadditionalGPUeval/solve,history/optimizer changes,sampling orregularizer.
+- Endpoint publication validateshash/shapes/dtypes/finiteness/synchronized
+  row beforeplotting. Geometry/triangles/volumes/DOFsizecachedonCPU. Plot
+  PNGs savedtofine/tensorboard_figures/;fine/tensorboard_status.json records
+  publishedload/sourcefield/referencehashes andmonitor/configsha. Monitor
+  doesnot claim uncertifiedendpointsconverged. Initialimageusesinherited52.
+- Canonicaleventroot:/root/autodl-tmp/tf-logs/fracture2d/events/
+  best_full_pinn_loading_1024_20261014. SymlinkaliasunderexistingTensorBoard
+  logroot:/root/tf-logs/fracture2d/events/best_full_pinn_loading_1024_20261014.
+  ExistingserverPID898/port6007/logdir/root/tf-logs reused;no serverrestart
+  orportchange. HTTPscalars/images discovery confirmsrunname
+  fracture2d/events/best_full_pinn_loading_1024_20261014 with19scalar and
+ 5image tags. Tags:train/damage_field,train/ux_field,train/uy_field,
+  train/history_field,train/load_reaction_curve. Realimageeventstep52 and
+  same-load damageL2.409928% confirmedbyindependent EventAccumulator.
+- Backgroundsupervisor10574/GPU10579/CPUaudit10577/monitor10578,launch
+ 2026-10-14T04:51:54UTC /12:51:54Asia/Shanghai. Scripts
+  /tmp/fracture_best_full_1024_supervisor_20261014.py and
+  /tmp/fracture_best_full_1024_figures_20261014.py. Logsroot/training.log,
+  audit.log,monitor.log;launch/status/exitreceiptsownlifecycle. Allprocesses
+  activeandnooldGPUworker. SupervisormonitorsCPUerrors andterminatesown
+  childrenonfailure;successfulaudit/monitorafterworkercompletion thenfinal
+  automaticcomparisonplots. ExistingTensorBoardserver staysrunning.
+- VerifiedGPUrestore/preflight pass;sourceAdam384000 preservedduringdiscarded
+  compilationupdate. Latestinitialinspection.0053outer29/1024,R607.20160
+  atpreviousd,Adam387712;notloadcomplete. NativeCPUauditorreplaysinherited
+  prefix (through31 atinitialcheck);monitorbaseline52 publishedandouter
+  scalarscurrentthrough24. No newterminal.0053 physicalfield yet.
+- Verification: onefocusedend-to-end TensorBoard eventtest passes0.850s,
+  validatingall5image tags/step53,matchedreference reaction/field andrejecting
+  unsynchronizedendpoint. Explicitnewconfig validates13tailsteps/end0065/
+  checkpointcaps;five ASTchecks pass. ActualGPUpreflight,inheritanceand
+  eventfile/readers/HTTPserviceconfirmations pass. Priorunchangedtestsnotrerun.
+- /task-end:README/exampleREADME,PROGRESS,DECISIONS,this task updated;
+  new1024config/monitorconfig/CPUmonitor/focusedtest,externalsupervisor/
+  figurecopyandTensorBoardalias/events. Numericdriverandoldsourceunchanged;
+  noGit historyoperation orslidesedit. Broadtaskactive,blockernone.
+- Exactresume:readnewrootstatus,fine/result,independent_auditand
+  tensorboard_status;checkfourPIDidentities andexisting6007run discovery.
+  Keep1024cap;everycompletedload automaticallyupdatesImagesandpartial
+  reactioncurve. Onterminal0065 verifyGPU/audit/monitor exitcodes andfinal
+  charts;do notreadstopped4096root ascurrentrun orrestartfromits314damage.
+
+### 2026-10-14 — Canonical log root and recovery after server restart
+
+- User clarifiesalllogs mustremainunder/root/autodl-tmp/tf-logs andhas
+  restartedTensorBoard6007 withthatlogdir. Canonicaleventfiles werealready
+  there;old/root/tf-logs/fracture2d/events/... wasonlya task-createdalias.
+  Verifiedexactsymlinktarget,removedonlyaliasandemptyancestor dirs. Actual
+  originaleventsandcalculationdata preserved. Noaliasiscreatedbycurrentcode.
+  Requiredmonitorlog_root=/root/autodl-tmp/tf-logs,withvalidationeventdir
+  isinsideit. ServerHTTPreadback confirmsuser'snewlogdirandexistingtags.
+- Unexpectedexternalinterruption:server-reset command'grep tensorboard'
+  matchedloggerargvtensorboard_monitor,whichwasSIGKILLed(exit-9).
+  Supervisor10574 thenstoppedGPU10579/audit10577 at.0053outer196,
+  Adam409088. Oldsuiteexit/runtimefailure reflectsmonitor death,notnumerical
+  failure. AllfourPIDs absent;currentbest1024 initialrun/events retained.
+  Explainedthisandtheexplicitclean0052restarttouser. Newrecoverydoesnot
+  inherit196currentH asaloadfloor;originalaudited0052/Adam384000 restored.
+- Newconfigsbest_full_damage_loading_1024_tbroot.py andbest_full_damage_
+  fields.py choosefreshsolution/eventdirs;numericdriver,maxouter1024,
+  inner128,L1/full-node/Adam1e-5/sigmoid/stagger andterminal0065unchanged.
+  Entryfield_monitor.py importsTensorBoardmonitor implementationbutargv
+  usesfield_monitorandbest_full_damage_fields.py. Neitherargumentcontains
+  'tensorboard',sorestartingTensorBoardserverbynamewon'tkillthelogger.
+  Monitorcode/requiredconfigremovealiascreation/metadataandusecanonical
+  rootonly. Existingoldconfigs/events remainarchived;nohist/slideschanges.
+- Newrunroot:/root/autodl-tmp/tf-logs/fracture2d/best_full_pinn_loading_
+ 1024_tbroot_20261014,fine/. Events:/root/autodl-tmp/tf-logs/fracture2d/
+  events/best_full_pinn_loading_1024_tbroot_20261014. TBviewrunname:
+  fracture2d/events/best_full_pinn_loading_1024_tbroot_20261014. Userowns
+  alreadyrunning6007server;wedidnotrestart/killanyTensorBoardserver.
+- Detachedsupervisor15207/GPU15212/CPUaudit15210/fieldmonitor15211,
+  launch2026-10-14T05:06:09UTC /13:06:09Asia/Shanghai. Scripts
+  /tmp/fracture_best_full_1024_tbroot_supervisor_20261014.py and
+  /tmp/fracture_best_full_1024_tbroot_figures_20261014.py. Sameprotected
+  sourceprefixandnumericaldriver;freshrootgivestraceablerecovery.
+- Verification:changedruntime/config/supervisor ASTpassed;schema confirms
+ 1024/128/13tailsteps/0065 andeventdirinsidelog_root;actualmonitorargv
+  no'tensorboard'. Existingunchangedpublisher/eventtestnotrerun. Actual
+  GPUrestore/newstage andservereventreadback checkedafterlaunch. NoFEniCS
+  orGit historywork. PublicREADME/exampleusage andPROGRESS/DECISIONS/
+  thistaskupdated. Broadtaskactive,blockernone;formatcheckrequired.
+- /task-end exactresume:newrootstatus/fine result/nativeaudit/monitorstatus,
+  check15207/15212/15210/15211 identities anduser's6007 canonicalrun.
+  Preservebothinterruptedroots;keep1024budgetand0065target. Endpointimages
+  andpartialreactioncurvecontinueeverycompletedloadunderautodl-tmp;
+  donotrestoreany/root/tf-logs aliasorinterpretold196ascurrentprogress.
+
+- Finalactualverification:recovered0053outer33/1024,Adam388224;restore/
+  CSRlossparitypassed. Monitorpublishedsource52 andouter scalarsthrough24.
+  User'scanonical6007serviceHTTPdiscoverscurrent19scalar/5image tags.
+  Loggerargvfield_monitor+best_full_damage_fields.py verifiedno'tensorboard'.
+  Allcurrentfiles/eventsunderautodl-tmp;oldaliasabsent. gitdiffcheckpasses.
+
+## 2026-10-14 — User-authorized source and documentation checkpoint
+
+- User requests committing the current modifications. Scope: 50 files, including
+  45 Python source/configuration/test files and five Markdown files. Save standard
+  mechanics-first stagger and restart controls, full-node optimizer/loss/weight
+  comparisons, cold coarse/fine loading, fine-prefix best-current continuation,
+  independent auditors and canonical-root TensorBoard field monitoring.
+- Preserve prior exclusion: slides and untracked PNG/PDF assets are not staged;
+  external checkpoints, weights, scalar journals and TensorBoard events remain
+  outside Git. One local commit on dev only; no merge or push is authorized.
+- Verification: AST parsing passes for all 45 selected Python files; existing
+  focused regression and native replay results are retained above. No numerical
+  source edits or expensive test reruns during this checkpoint. Working-tree
+  and staged diff whitespace checks are required before the commit.
+- Live status at checkpoint inspection: .0053 outer264/1024, Adam417792;
+  supervisor15207/GPU15212/CPUaudit15210/fieldmonitor15211 all alive. Native
+  replay pass_replay=true, complete=false. Endpoint52 remains published; no
+  completed .0053 endpoint yet. Stage reaction501.63724 belongs to previous
+  damage and is not a synchronized endpoint. Commit does not interrupt workers
+  or change their pinned runtime/configuration contents.
+- /task-end: root/example READMEs and PROGRESS/DECISIONS/this active task are
+  included with source/configurations/tests. Broad task remains active, blocker
+  none. Preliminary results remain acceptable for exploration; numerical
+  accuracy and extensive code simplification/consolidation remain unfinished.
+- Exact resume: read best_full_pinn_loading_1024_tbroot_20261014/status.json,
+  fine/result.json, fine/independent_review/audit.json and
+  fine/tensorboard_status.json; verify the four process identities. Continue
+  the authorized du1e-4 path through .0065, inner128/outer cap1024. Each
+  completed load publishes synchronized fields/reaction under
+  /root/autodl-tmp/tf-logs. Preserve interrupted roots and original audited0052.

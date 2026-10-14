@@ -2780,3 +2780,303 @@ PYTHONPATH=.:src JAX_ENABLE_X64=true python -m examples.fracture2d.l1_damage_loa
 Run this on the GPU with other numerical GPU workers suspended; do not run
 FEniCS MPI concurrently. Results and the exact current resume point live in
 the active project task, rather than in this stable usage guide.
+
+
+## Mechanics-first stagger and field-change control
+
+`staggered_damage_trial.py` is an isolated common-parent fixed-load comparison
+using the existing local P1 mechanics/nonlocal AT2 damage model. Each outer
+iteration solves mechanics at the current damage, forms the committed-floor
+history \(H=\max(H_{n-1},\psi^+(u))\), freezes that history during a warm-start
+damage solve, then checks displacement/damage field changes. It compares
+relaxation0.5 and direct replacement1 for both direct damage and L1 random Adam.
+`staggered_damage.py` provides the shared sweep and exact material P1 norms.
+The reference loop is [Phase_Field_Simulation.py](https://github.com/saugatsn/Phase-Field-Modeling/blob/main/Phase_Field_Simulation.py); its constitutive/history/boundary choices are not copied.
+
+```bash
+PYTHONPATH=.:src JAX_PLATFORMS=cuda JAX_ENABLE_X64=true \
+  .venv/bin/python -m examples.fracture2d.staggered_damage_trial \
+  --config examples/fracture2d/configs/staggered_damage_trial.py
+```
+
+Serialize this GPU command with other GPU solvers. The configured control
+uses own-L1 physical/network/Adam state at0.0052 and its next random stream,
+then holds0.0053. The source path is explicitly provisional. A budget exit
+never advances load. The new configuration pins all source reports/state files,
+uses direct caps2048 and neural caps128x512, and declares all field tolerances.
+
+For a material P1 field \(v\), field changes use \(\|v\|_{L^2}/\sqrt{|\Omega_m|}\),
+integrated with the consistent triangle mass matrix. Displacement change is
+additionally divided by prescribed positive displacement. The configured
+limits are1e-4 for normalized displacement RMS and1e-5 for damage RMS,
+minimum3 sweeps and3 consecutive passes. Looser1e-3 checks are reported
+separately. Original AT2 residuals remain diagnostics; a `field_stable` result
+is not automatically an equation-balanced or certified physical path.
+
+A mechanics-first outer snapshot contains q equilibrated with its pre-update
+damage, then new damage. Reports explicitly label this stage pairing. There
+is exactly one mechanics call per outer and one endpoint synchronization
+solve per case so final fields/reaction are consistent. Current older L1
+code has one initial mechanics call per load plus one per outer, not two
+per outer; order changes alone need not accelerate the fixed-point map.
+
+Independent CPU replay checks saved stage/final force/BC/history/CSR residual,
+consistent-mass field norms, native NumPy neural output, Adam count and
+seeded sampling streams:
+
+```bash
+PYTHONPATH=.:src JAX_PLATFORMS=cpu JAX_ENABLE_X64=true \
+  .venv/bin/python -m examples.fracture2d.staggered_damage_audit \
+  --root /root/autodl-tmp/tf-logs/fracture2d/staggered_damage_trial_20261013 --watch
+```
+
+Original live workers and archived stage sources remain unchanged. Final
+convergence comparisons must account for inner precision, parent history
+and equal work, rather than interpret a smaller stopping metric as proof
+of accurate fracture equilibrium. Current results/resume stay in the active task.
+
+`staggered_damage_continue.py` extends a pinned, independently audited stage
+without committing its same-load history as the preceding-load floor. The
+equal-outer-count configurations hold0.0053 and use644 unrelaxed outer
+updates, matching the completed common-parent direct control. The512-inner
+baseline continues stage128 with unchanged Adam moments/count and next RNG;
+the128-inner control starts from that baseline's original0.0052 parent.
+Field stability is recorded, but does not stop this equal-count diagnostic
+early. These runs compare equal outer work and different inner work.
+
+```bash
+PYTHONPATH=.:src JAX_PLATFORMS=cuda JAX_ENABLE_X64=true \
+  .venv/bin/python -m examples.fracture2d.staggered_damage_continue \
+  --config examples/fracture2d/configs/staggered_damage_644.py
+```
+
+Run the reduced-inner branch separately with
+`configs/staggered_damage_644_inner128.py`; serialize both GPU commands with
+other GPU solvers. `staggered_damage_continue_audit.py --root <output> --watch`
+checks the pinned restart/RNG/history provenance, then reuses independent
+native-network/CSR/P1/host-FEM/Adam/sampling replay. Snapshot q remains the
+mechanics-stage field; final q/reaction gets one synchronization solve.
+Preflight and the archived previous endpoint's reporting-only mechanics
+solve are recorded separately from the644 modeled outer mechanics calls.
+
+`full_damage_trial.py` evaluates all material nodes on every damage training
+update, using the same nodal L1 residual and normalization as the random
+controls. It starts from their own-L1 .0052 physical/network parent and
+holds .0053 with unrelaxed mechanics-first stagger. No symmetry constraint,
+straight-crack target or new residual weight is imposed.
+
+```bash
+PYTHONPATH=.:src JAX_PLATFORMS=cuda JAX_ENABLE_X64=true \
+  .venv/bin/python -m examples.fracture2d.full_damage_trial \
+  --config examples/fracture2d/configs/full_damage_trial.py
+```
+
+The explicit configuration screens full Adam128 updates and full L-BFGS128
+iterations at identical frozen H/weights, then selects the smaller exact
+full L1 loss. Pilot states are archived and do not advance the physical
+state; coupled training begins from the original parent. Each coupled outer
+allows128 inner updates/iterations through644 outers. L-BFGS uses a cached
+fixed-layout value/gradient, explicit function/line-search budgets, warm
+weights and fresh curvature at each new H. Its finite unsuccessful optimizer
+status is recorded without being presented as equation convergence. Adam
+retains parent moments/count. This empirical screen is not a universal
+optimizer ranking or a pure sampling comparison if L-BFGS is selected.
+
+`full_damage_audit.py --root <output> --watch` independently checks native
+network output, the exact full L1 loss, optimizer screen, committed history,
+P1 changes, CSR residuals, BCs and host FEM forces. Compare morphology at
+matched load and outer/crack-growth stages: a shorter crack may look cleaner
+without being more accurate. Serialize the GPU run with existing solvers.
+
+### Frozen-history damage-weighted L1 diagnostic
+
+`weighted_damage_fixedH.py` starts three all-node fits from the same audited
+network and Adam state. The configuration explicitly selects uniform weights,
+\(1/(1-d_*+10^{-3})\), and that reciprocal weight capped at50. Here
+\(d_*\) is the source physical damage; weights and history remain fixed
+throughout each fit. Mean normalization and `stop_gradient` are applied:
+
+$$
+\widetilde w_i=\frac{w_i}{N^{-1}\sum_j w_j},\qquad
+\mathcal L=\frac{\sum_i\operatorname{stop\_gradient}(\widetilde w_i)|\rho_i|}
+{\sum_i\operatorname{stop\_gradient}(\widetilde w_i)}.
+$$
+
+\(\rho_i\) retains the existing AT2 residual normalization. These weights
+emphasize high damage, whereas L16 emphasizes large residuals. They have
+different training objectives. Retained Adam moments are part of this warm
+start diagnostic; it does not isolate optimizer transients after changing loss.
+
+```bash
+PYTHONPATH=.:src JAX_PLATFORMS=cuda JAX_ENABLE_X64=true \
+  .venv/bin/python -m examples.fracture2d.weighted_damage_fixedH \
+  --config examples/fracture2d/configs/weighted_damage_fixedH.py
+```
+
+`weighted_damage_audit.py --root <output> --watch` independently checks
+native network output, weights, full CSR losses, persistent Adam counts and
+field errors against a direct solve at exactly the same frozen H. That solve
+is evaluation only and supplies no training targets. Compare weighted and
+unweighted losses together with field accuracy. No diagnostic damage is
+promoted, no loading advances, and no coupled reweighting is enabled.
+
+### Common-parent L1/L16 optimizer comparison
+
+`damage_norm_trial.py` uses the same .0052 sigmoid network and the archived,
+audited first .0053 mechanics-generated history for all three fits: L1/Adam,
+L16/Adam and L16/L-BFGS. Every update evaluates all material nodes. Adam starts
+identical zero moments in both cases and retains them throughout each fit;
+the original parent moments are preserved in their source archive. This
+initialization isolates the loss comparison from inherited L1 moments.
+
+`damage_norm.py` retains the previous normalized nodal L1 and the archived
+stable squared L16 objective, with power16 and explicit positive floor:
+
+$$
+\rho_i=\frac{r_i}{2\sqrt{N^{-1}\sum_j H_j^2}},\qquad
+\mathcal L_1=N^{-1}\sum_i|\rho_i|,\qquad
+\mathcal L_{16}=\left(N^{-1}\sum_i\rho_i^{16}+\epsilon^{16}\right)^{1/8}.
+$$
+
+The implementation rescales the L16 computation to avoid overflow and detaches
+the scale and all history/features; it does not change the physical residual.
+The screen allows4096 Adam updates or one continuous4096-iteration L-BFGS
+fit with explicit function/line-search budgets. Record actual work and status.
+
+```bash
+PYTHONPATH=.:src JAX_PLATFORMS=cuda JAX_ENABLE_X64=true \
+  .venv/bin/python -m examples.fracture2d.damage_norm_trial \
+  --config examples/fracture2d/configs/damage_norm_trial.py
+```
+
+`damage_norm_audit.py --root <output> --watch` independently replays native
+outputs, full CSR objectives/residuals, source mechanics/history, Adam counts
+and field errors to the unique direct solution at the same H. This oracle is
+evaluation only. Loss values from different objectives cannot rank accuracy.
+Eligibility for a coupled L16 followup requires same-H field L2 and normalized
+max residual no worse than the final L1/Adam baseline; choose smaller field L2
+if both L16 candidates qualify. Screen fits do not advance physical states.
+
+`damage_norm_coupled.py` is a separate coupled morphology experiment. It
+restarts the original .0052 physical/network parent with L16/full-node/L-BFGS
+at fixed .0053, using mechanics-first omega1,128 inner iterations and644
+outer updates. Networks warm-start; curvature restarts when H changes.
+The completed frozen-H screen is preserved, including its selection result;
+user morphology priority explicitly permits this followup despite larger L2.
+Screen-fit states are discarded and no straightness/symmetry loss is added.
+
+```bash
+PYTHONPATH=.:src JAX_PLATFORMS=cuda JAX_ENABLE_X64=true \
+  .venv/bin/python -m examples.fracture2d.damage_norm_coupled \
+  --config examples/fracture2d/configs/damage_norm_coupled.py
+```
+
+`damage_norm_coupled_audit.py --root <output> --watch` checks native output,
+full L16/CSR residuals,committed history,BCs,host FEM,P1 changes and actual
+work counts. Evaluation-only P1 transverse cuts record peak position and
+contiguous half-height width. Compare overlapping active crack intervals and
+adequate developed lengths; a short crack is not evidence of straighter growth.
+Mesh/interpolation resolution limits these geometric measurements. Global
+field error,peak residual and reaction remain reported; morphology alone
+does not certify equilibrium. The fixed-load budget does not advance loading.
+
+### Cold all-node load-step controls
+
+`full_damage_loading.py` compares cold L1/Adam/all-node loading with
+`configs/full_damage_load_coarse.py` and `configs/full_damage_load_fine.py`.
+Only case identity and the increment through displacement0.005 differ:
+5e-4 versus1e-4. Both then use1e-4 through0.0053 (13 versus53 positive
+loads). Local P1 mechanics, nonlocal AT2 damage, sigmoid output, latent-basis
+scales, physical history features and network seed remain identical. Initial
+serialized network/optimizer hashes and the remaining configuration must match.
+No symmetry constraint, crack-path target or reference training label is used.
+
+Each mechanics-first unrelaxed sweep freezes the preceding-load maximum-history
+floor and current mechanical driver during128 full-node Adam updates. Adam1e-5
+moments/count persist across sweeps and loads. Prefix loads allow128 outer
+sweeps;0.0053 allows644. Exact P1 damage RMS1e-5 and displacement RMS/load1e-4
+must pass three consecutive checks after at least three sweeps to stop early.
+Residuals are diagnostics, not stopping gates. Each load ends with one mechanics
+synchronization. Budget-based continuation and field-stable endpoints are
+provisional; this diagnostic never declares a certified physical path.
+
+```bash
+PYTHONPATH=.:src JAX_PLATFORMS=cuda JAX_ENABLE_X64=true \
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 \
+  .venv/bin/python -m examples.fracture2d.full_damage_loading \
+  --config examples/fracture2d/configs/full_damage_load_coarse.py
+```
+
+Run the fine configuration after the coarse branch has created the shared
+initialization receipt; serialize GPU work. Both refuse existing branch
+identities. `full_damage_loading_audit.py --root <case-root> --watch` runs on
+CPU and checks native output, host CSR loss, history floors, boundary values,
+FEM forces, P1 changes, optimizer counts and matching-load reference errors.
+At0.0050/0.0052/0.0053, a direct solve at the exact own history evaluates neural
+accuracy without supplying training targets. Checkpoints and scalar timing
+records support total-work comparisons: finer loading permits more training,
+so an improvement alone does not isolate step size from its added cost.
+
+### Best-current full-node loading from a fine prefix
+
+`best_full_damage_loading.py` and `configs/best_full_damage_loading.py` retain
+the audited own-zero fine prefix through displacement0.0052 and recompute
+0.0053 through the explicit terminal displacement0.0065 with1e-4 increments.
+The complete output contains the52 inherited positive-load endpoints and13
+new loads. Prefix fields/network/optimizer files are copied with source hashes;
+the source0.0053 endpoint is not inherited or used as a history floor.
+
+The physical model, sigmoid network, latent scales, physical history features,
+all71307 residual rows, L1/Adam1e-5 and unrelaxed mechanics-first stagger are
+preserved. Restore Adam count384000 and moments with the0.0052 network.
+Each inner solve uses128 updates. The archived original configuration allows
+4096 outer sweeps; `configs/best_full_damage_loading_1024.py` is the
+user-selected restart with1024 outer sweeps and a separate output root,
+with the existing P1 field-change early stop. Frozen history, features and
+uniform nodal probabilities remain detached. One final mechanical solve
+synchronizes each endpoint. No symmetry constraint or straight-path loss
+is introduced. Residuals and ranges remain diagnostics; advancing a budget
+endpoint retains explicit provisional ancestry rather than certification.
+
+```bash
+PYTHONPATH=.:src JAX_PLATFORMS=cuda JAX_ENABLE_X64=true \
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 \
+  .venv/bin/python -m examples.fracture2d.best_full_damage_loading \
+  --config examples/fracture2d/configs/best_full_damage_loading_1024.py
+```
+
+`best_full_damage_loading_audit.py --root <output>/fine` runs on CPU. It checks
+fork pins and copied prefix provenance, then reuses the native/CSR/history/BC/
+FEM/P1/optimizer/matching-load replay from `full_damage_loading_audit.py`.
+The driver records restored-image parity, first-history loss parity and a
+discarded compilation update; compiling never advances optimizer memory.
+Longer coupling is a numerical trial, not a guarantee of full fracture or
+passed equation gates. Existing source runs and their source snapshots remain
+protected; use a fresh output root for a distinct loading policy.
+
+### TensorBoard monitoring of the full-node loading trajectory
+
+`field_monitor.py --config configs/best_full_damage_fields.py`
+runs separately on CPU. It uses the same `tensorboardX.SummaryWriter` and
+`add_figure` API as `fracture1d/train.py`. Saved scalar journals are read every
+five seconds; scalars are recorded at the first outer sweep and every eight
+sweeps. The global outer step derives from the persistent optimizer count.
+
+Every completed load publishes `train/damage_field`, `train/ux_field`,
+`train/uy_field`, `train/history_field` and `train/load_reaction_curve` images,
+indexed by the physical load index. The0.0052 inherited endpoint supplies the
+initial image. Damage panels compare PINN with the EXACT matching-load direct
+reference, with shared0..1 colors. Displacement color ranges use each field's
+actual material-node minimum/maximum. The reaction curve includes only
+completed, mechanically synchronized endpoints; outer-stage reaction scalars
+are explicitly named `diag/stage_reaction_for_previous_damage`.
+
+Events live under `/root/autodl-tmp/tf-logs/fracture2d/events/`; the current
+recovered run is `best_full_pinn_loading_1024_tbroot_20261014`. TensorBoard
+on port6007 reads `/root/autodl-tmp/tf-logs` directly, without an alias. The
+process entry point is named `field_monitor` so restarting TensorBoard server
+processes by name does not also kill the field logger. The monitor
+also saves per-load PNG files under `<solution>/tensorboard_figures/` and
+publishing metadata in `tensorboard_status.json`. Plotting does not change
+the history floor, sampling, JIT shapes, training loss or optimizer memory.
+Native numerical validation remains the independent CPU auditor's task.
