@@ -3338,6 +3338,6 @@ a strict converged fracture target.
   production horizon; the adopted `delta=0.048` choice and the joint
   mesh/horizon limitation are documented in
   [`examples/fracture2d/README.md`](../../examples/fracture2d/README.md).
-- Next stage: [`fracture2d-nonlocal-pinn.md`](../fracture2d-nonlocal-pinn.md)
+- Next stage: [`fracture2d-nonlocal-pinn.md`](fracture2d-nonlocal-pinn.md)
   reusing the same graph, energy, force, Amor history, and AT2 residual.
 - No further work is planned on this task.

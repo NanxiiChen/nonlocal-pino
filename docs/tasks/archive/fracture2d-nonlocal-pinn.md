@@ -1,3 +1,74 @@
+# Fracture2D nonlocal PINN — closed feasibility stage
+
+## Stage closure — 2026-10-15
+
+Status: CLOSED at the user's explicit request. The current solution is a
+provisionally accepted engineering baseline; this closes the development
+stage, not the outstanding numerical questions. All dated records below
+are historical observations, including old process IDs and superseded routes.
+The next active investigation is [network architecture](../nonlocal-pinn-architecture.md).
+
+### Retained result and configuration
+
+- Main route: local P1 direct mechanics, nonlocal AT2 damage PINN, committed
+  maximum history and mechanics-first stagger. Matched nonlocal direct uses
+  the same model with a direct damage solve; independent FEM uses local damage.
+- Accepted cold full-domain trajectory `pinn_baseline`: saved 0 through
+  0.0057, spanning crack by 0.0053 (reaction 1.59822); user stopped the next
+  load. It is not a completed 0 -> 0.0060 trajectory.
+- Default: FP64, L1, Adam 1e-5, sigmoid, load step 1e-4, 128 inner updates,
+  outer cap 128 below 0.0053 / 1024 from 0.0053; damage-change tolerance 1e-5.
+  Network/Adam warm-start. No symmetry or prescribed crack-path constraints.
+- Full and finite-pool core+halo remain public options. Tested core+halo
+  reduced per-outer work but required more iterations: matched 0.0002..0.0025
+  took 3.35 times the total time despite cheaper updates. No general sampling
+  impossibility or neural speed advantage is claimed.
+- Main entry points/configs consolidated and published. Final publication:
+  dev 69dee98, regular main merge b395e48, remote main verified. All _legacy
+  directories and docs/reports are ignored/local-only; 324 withdrawn files
+  remain on disk. Public configs remain tracked; no missing fracture configs.
+
+### Remaining limitations
+
+Budget exits remain provisional. Damage-field errors, path smoothness,
+critical-load sensitivity, spatial/horizon convergence and neural efficiency
+remain open. Low reaction or a through-crack alone does not certify accuracy.
+Historical records include rejected models, old SHA provenance and obsolete
+process IDs; none reinstate hash checks or the old nonlocal-mechanics route.
+
+### Existing background run handoff
+
+The GPU repeat was subsequently STOPPED at the user's explicit request on
+2026-10-15 after through-fracture. Owner31071/worker31076 verified exited;
+receipt is cancelled. It retains54completed endpoints through0.0054 and
+partial0.0055outer600 (latest named checkpoint512). TensorBoard retained.
+user_stop_request.json and user_stop_verified.json preserve this cancellation.
+The original running handoff below is historical, not a current worker status.
+
+- Root: `/root/autodl-tmp/tf-logs/fracture2d/pinn_baseline_gpu_rerun_20261015`.
+- Events: `/root/autodl-tmp/tf-logs/pinn_baseline_gpu_rerun_20261015`.
+- Supervisor 31071 / worker 31076 verified alive; TensorBoard 6007 retained.
+- Observed 2026-10-15T15:52:06+08:00: 50 completed positive loads through 0.0050; current 0.0051, outer 88.
+- Raw complete flag: false; last endpoint status:
+  `budget_exhausted`. Saved baseline configuration differs only in output paths.
+- On next status request, reread root/result.json, sibling _process.json and
+  actual processes. Continue through 60 completed endpoints / 0.0060; then
+  compare old/new/direct at equal loads. Resume with saved run config, not
+  newly edited defaults. Do not restart automatically or treat a partial
+  outer snapshot as a synchronized completed endpoint.
+
+### /task-end
+
+Closed and archived this stage with accepted result, limitations and exact
+background handoff. Updated root/example task links, PROGRESS and DECISIONS;
+started one architecture investigation. Documentation only: inspect diff,
+check maintained links and run git diff --check; no numerical tests needed.
+No commit, merge or push is authorized or performed in this turn.
+
+---
+
+## Historical working record (preserved)
+
 # Fracture2D Nonlocal PINN
 
 ## Goal
@@ -193,7 +264,7 @@ current entry expects a new output root and cannot be rerun into the live root.
 
 Latest documentation completion (2026-10-12): user requests a standalone stage
 record before further work. Created
-[fracture2d-provisional-loading-20261012.md](../reports/fracture2d-provisional-loading-20261012.md),
+[fracture2d-provisional-loading-20261012.md](../../reports/fracture2d-provisional-loading-20261012.md),
 a dated Chinese report with model/initialization/loading/optimizer settings,
 three-path same-load results, crack diagnostic, residual/healing/error limits,
 independent verification and exact archive/source references. Three inspected
@@ -1313,7 +1384,7 @@ verification and the fixed-d mechanics/driver diagnostic resume point.
 The direct stage is closed: the single GPU-only solver
 `examples/fracture2d/nonlocal_baseline.py` has confirmed default behavior
 against the archived solution
-([archived lean task](archive/fracture2d-lean-direct-solver.md)).
+([archived lean task](fracture2d-lean-direct-solver.md)).
 Documentation handoff checked: the current reuse entry is the single-file
 solver; the README's AT2 strong residual now matches its positive
 `D_delta` operator convention.
@@ -14117,3 +14188,16 @@ supervised fine pause/resume, inspect actual physical errors/force and plots.
   gitdiffcheckPASS. No numeric tests necessary fortracking/docsonlychange.
   ChangedmemoryfilesPROGRESS,DECISIONS,this task. Exactresumeafterpublication:
   verifyoriginmainhead,thencontinuemonitoringexistingGPUbaseline.
+
+
+## 2026-10-15 — User stops the GPU repeat after fracture
+
+User explicitly cancels the remaining older baseline loading after through-
+fracture. Verified supervisor31071/worker31076 ownership and parent relation,
+sent SIGTERM only to supervisor, then verified both exited and receiptcancelled.
+Preserve54synchronized endpoints through0.0054,partial0.0055outer600 and named
+checkpoint512. Latest complete reaction1.50712284402 (actual saved report is
+source of truth). Raw result.complete remains false, correctly distinguishing
+cancellation from target0.0060 completion. TensorBoard6007 untouched.
+External root user_stop_request/user_stop_verified JSON record actual state.
+This does not cancel the separately authorized architecture/replay short probe.

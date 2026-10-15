@@ -153,4 +153,4 @@ adopted `fixed` + `stabilized_warning` path only:
 - Coverage trace of the real strict + warning + `verify` + `plot` paths reaches
   every top-level definition (`0` fully unexecuted), so no free dead-code
   reduction remains.
-- Archived. Next stage: [`fracture2d-nonlocal-pinn.md`](../fracture2d-nonlocal-pinn.md).
+- Archived. Next stage: [`fracture2d-nonlocal-pinn.md`](fracture2d-nonlocal-pinn.md).

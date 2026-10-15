@@ -474,6 +474,6 @@ zero only; no endpoint above `1e-4` is authorized.
   the split between the opening-controlled A2 diagnostic and the volume-grip
   coordinate is recorded in `docs/DECISIONS.md`.
 - Superseded by: `examples/fracture2d/README.md`,
-  [`fracture2d-nonlocal-pinn.md`](../fracture2d-nonlocal-pinn.md) (new PINN
+  [`fracture2d-nonlocal-pinn.md`](fracture2d-nonlocal-pinn.md) (new PINN
   stage), `docs/PROGRESS.md`, `docs/DECISIONS.md`.
 - No further work is planned on this task.

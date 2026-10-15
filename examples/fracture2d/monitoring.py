@@ -37,6 +37,9 @@ class Monitor:
         for name in ('full_loss', 'inner_AT2', 'damage_rms',
                      'displacement_rms_over_load', 'damage_min', 'damage_max'):
             self.writer.add_scalar('diag/'+name, row[name], step)
+        if 'replay_snapshots' in row:
+            for name in ('replay_snapshots', 'replay_training_loss', 'replay_pre_update_loss'):
+                self.writer.add_scalar('diag/'+name, row[name], step)
         self.writer.add_scalar('train/load', row['load'], step)
         self.writer.add_scalar('diag/stage_reaction_for_previous_damage', row['reaction'], step)
 
@@ -44,6 +47,8 @@ class Monitor:
         index = row['index']
         for name in ('reaction', 'load', 'damage_max', 'physical_AT2', 'field_stable'):
             self.writer.add_scalar('train/'+name, row[name], index)
+        if 'replay_snapshots' in row:
+            self.writer.add_scalar('replay/snapshots_at_endpoint', row['replay_snapshots'], index)
         if index % self.c.output.figure_every:
             self.writer.flush()
             return

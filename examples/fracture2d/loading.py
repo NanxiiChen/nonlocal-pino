@@ -29,7 +29,8 @@ def validate(c):
     n = round(a.u_final/a.du)
     if not np.isclose(n*a.du, a.u_final, rtol=0, atol=1e-14):
         raise ValueError('terminal load must be an integer multiple of du')
-    if (c.loss.norm not in ('l1', 'l2', 'l16') or not 0 < c.loss.floor < 1
+    if (c.arch.type not in ('mlp', 'history_operator', 'conditioned_history_operator')
+            or c.loss.norm not in ('l1', 'l2', 'l16') or not 0 < c.loss.floor < 1
             or c.sample.mode not in ('full', 'random')
             or c.train.optimizer not in ('adam', 'soap', 'lbfgs')
             or c.arch.output_head not in ('sigmoid', 'exp_square', 'identity')
@@ -105,7 +106,11 @@ def run(c, *, damage_solver):
     solve_q = m.gpu_solver(tol=c.validation.cg_rtol, atol=c.validation.cg_atol,
                            maxiter=c.validation.cg_maxiter)
     pinn, solve_d = None, None
-    if damage_solver == 'pinn':
+    history_pinn = damage_solver == 'pinn' and c.arch.type in ('history_operator', 'conditioned_history_operator')
+    if history_pinn:
+        from examples.fracture2d.history_training import HistoryDamagePINN
+        pinn = HistoryDamagePINN(c, m, operator)
+    elif damage_solver == 'pinn':
         from examples.fracture2d.train import DamagePINN
         pinn = DamagePINN(c, m, operator)
     else:
@@ -114,7 +119,7 @@ def run(c, *, damage_solver):
     sources = [str(f) for f in Path(__file__).parent.glob('*.py')]
     inputs = [str(Path(c.mesh.prepared_dir)/name)
               for name in ('identity.json', 'mesh.npz', 'damage_operator.npz', 'fenics_parity.json')]
-    if pinn is not None:
+    if pinn is not None and not history_pinn:
         inputs.append(c.data.basis_path)
     identity = dict(schema='local-p1-nonlocal-at2-v1', config=canonical_config(c),
         damage_solver=damage_solver, geometry=geometry, sources=sources, inputs=inputs,
@@ -140,7 +145,13 @@ def run(c, *, damage_solver):
         zero = dict(index=0, load=0., reaction=0., optimizer_count=0,
                     q_d_synchronized=True, status='exact_physical_zero')
         save_checkpoint(root/'state_0000', dict(q=np.asarray(q), d=np.asarray(d), H=np.asarray(H)), zero, pinn)
-        if pinn is not None:
+        if history_pinn:
+            atomic_json(root/'history_parameterization.json', dict(
+                network='point-patch-coordinate-attention',
+                tokens=c.history.coarse_cells**2+c.history.fine_tokens,
+                bank_shape=list(pinn.replay.histories.shape), initial_replay_count=int(pinn.replay.count),
+                history_inputs='own mechanics, first outer and synchronized endpoint'))
+        elif pinn is not None:
             atomic_fields(root/'parameterization.npz', column_scale=pinn.scales,
                           trunk_gain=np.float64(c.arch.trunk_gain))
     if c.output.resume:
@@ -179,6 +190,8 @@ def run(c, *, damage_solver):
             parent_H, parent_d = H, d
             cap = c.loading.outer_steps if load >= c.loading.critical_load-1e-14 else c.loading.prefix_outer_steps
             consecutive, loss_value = 0, 0.
+            if history_pinn:
+                pinn.begin_load(index, load)
 
             def damage(history, old, carry):
                 nonlocal loss_value
@@ -210,6 +223,8 @@ def run(c, *, damage_solver):
                     optimizer_count=0 if pinn is None else pinn.count,
                     q_d_synchronized=False, mechanics_calls=sweep, mechanics=stage['mechanics'],
                     parent_path=str(root/f'state_{index-1:04d}'/'fields.npz'))
+                if history_pinn:
+                    row.update(pinn.diagnostics())
                 if sweep in c.output.checkpoint_sweeps:
                     save_checkpoint(folder/f'outer_{sweep:04d}', dict(q=np.asarray(q),
                         d=np.asarray(d), H=np.asarray(H), H_parent=np.asarray(parent_H)), dict(row), pinn)
@@ -231,6 +246,9 @@ def run(c, *, damage_solver):
             report = dict(row, reaction=reaction, physical_AT2=physical, mechanics=mechanical,
                 q_d_synchronized=True, mechanics_calls=sweep+1, certified_path=False,
                 status='field_stable' if stop['converged'] else 'budget_exhausted')
+            if history_pinn:
+                pinn.end_load(H_sync)
+                report.update(pinn.diagnostics())
             fields = dict(q=np.asarray(q_sync), d=np.asarray(d), H=np.asarray(H_sync),
                 H_used=np.asarray(H), H_parent=np.asarray(parent_H), d_parent=np.asarray(parent_d))
             save_checkpoint(folder, fields, report, pinn)

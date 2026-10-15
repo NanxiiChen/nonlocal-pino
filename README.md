@@ -17,7 +17,7 @@ neighbour pairs — no BC loss terms needed.
 | `pino_elasticity2d` | 2D elasticity PINN | Geometry-aware PINN reference for nonlocal elasticity |
 | `corrosion1d/2d` | KKS pitting corrosion | Legacy; superseded by electropolish2d |
 
-当前 fracture2d 从零求解的阶段结果由用户暂且接受（2026-10-14）：已保存 `0 -> 0.0057`，在 `0.0053` 出现贯通裂纹，反力与同荷载 direct reference 接近。损伤场精度仍需改善，主干代码已合并整理。当前结果、已知限制与停止位置见[活动任务](docs/tasks/fracture2d-nonlocal-pinn.md)，概览见[项目进展](docs/PROGRESS.md)。历史实验 `_legacy/` 与阶段报告 `docs/reports/` 仅在本地保留，已忽略且不纳入 Git 追踪。
+当前 fracture2d 从零求解的阶段结果由用户暂且接受（2026-10-14）：已保存 `0 -> 0.0057`，在 `0.0053` 出现贯通裂纹，反力与同荷载 direct reference 接近。损伤场精度仍需改善，主干代码已合并整理。本阶段已于 2026-10-15 收尾；结果、已知限制和后台复跑交接见[阶段归档](docs/tasks/archive/fracture2d-nonlocal-pinn.md)。下一步正在评估[点云网络架构](docs/tasks/nonlocal-pinn-architecture.md)，概览见[项目进展](docs/PROGRESS.md)。历史实验 `_legacy/` 与阶段报告 `docs/reports/` 仅在本地保留，已忽略且不纳入 Git 追踪。
 
 Fracture2D now has two main entries: `examples/fracture2d/train.py` for
 local P1 direct mechanics/nonlocal damage PINN, and `nonlocal_baseline.py` for
@@ -32,6 +32,17 @@ batches every Adam update. Full-domain sampling with damage-change tolerance
 1e-5 remains the default. In the measured fracture2d comparisons, cheaper
 random updates required more iterations, so total solve time did not improve.
 One-off density/batch/tolerance studies are kept in `_legacy/`.
+An optional `history_probe.py` evaluates a point-patch encoder with coordinate
+cross-attention and fixed-shape history replay; it is a bounded frozen-field
+experiment, separate from the accepted coupled loading route.
+`history_conditioning.py` provides an experimental normalized-history encoder
+and query-local history branch for controlled frozen-field comparisons.
+`train.py --config=examples/fracture2d/configs/train_history.py` runs the optional
+history operator from physical zero, accumulating only its own load-start/end
+history snapshots. The accepted MLP remains the default.
+`configs/train_history_conditioned.py` selects the experimental normalized/local
+history model with a one-time L1-to-L2 bootstrap and later L2 fits for a short
+from-zero loading pilot; replay training is disabled in this profile.
 `examples/fracture2d/plot_sampling.py` plots the configured sampling density,
 a reproducible core+halo batch, notch-tip zoom and probability profiles.
 Historical nonlocal-mechanics experiments and complex diagnostics are preserved

@@ -13318,3 +13318,798 @@ Template for each entry:
   isolatedmainmerge,pushoriginmain;retainrootlocalarchives/reports exactly
   andleavebackgroundtraining untouched. No numericaltestsneededfortracking
   anddocumentation-onlychanges;verifyfilebytes/index/ignorerules/configs.
+
+
+## 2026-10-15 — Close fracture2d feasibility and open architecture research
+
+- Decision: at the user's explicit request, close/archive the broad fracture2d
+  stage as a provisionally accepted engineering baseline and make
+  nonlocal-pinn-architecture the sole active task. Preserve unresolved field,
+  convergence and efficiency questions rather than claiming they are solved.
+- Reason: the accepted full-domain trajectory and consolidated public code
+  provide a useful checkpoint for a new research question. Shorten PROGRESS
+  to a dashboard; keep the full historical task and repair maintained links.
+- Rejected alternatives: keeping the entire historical experiment catalogue
+  active, treating stage closure as PDE certification or cancellation of the
+  already-authorized GPU rerun. That run continues with its saved settings;
+  current receipt/status and exact handoff live in the archived closure.
+- Relation: supersedes prior broad-task-active notes at explicit user steering.
+  Documentation-only; no commit/merge/push or new numerical experiment.
+
+## 2026-10-15 — Separate architecture replacement from operator generalization
+
+- Assessment: Transolver can supply nodal damage while the existing nonlocal
+  matrix supplies spatial derivatives. Parameter backpropagation remains.
+  Original Transolver paper/official irregular-mesh code and PFEM author
+  paper/code support feasibility, not accuracy/speed guarantees for fracture.
+- Recommendation: first compare fixed-H/full-domain fits under unchanged
+  physics and evaluate error versus time; then a matched-parent coupled test;
+  only then shared training across geometries with held-out evaluation.
+  No new architecture/configuration has been adopted yet.
+- Reason: current MLP already includes graph-averaged H features and independent
+  compact basis coefficients tied to this geometry. A trunk swap alone neither
+  isolates spatial-context gains nor makes all parameters transferable.
+- Caveat: complete core+halo preserves residual support, but attention outputs
+  also depend on the supplied context set. Full-domain equivalence, masks and
+  aggregation measure require separate checks for any sampled set network.
+- Rejected alternatives: promising a straighter crack from attention alone,
+  removing local detail by design, calling single-geometry fitting zero-shot
+  transfer, or launching another expensive full solve during source review.
+- Relation: research direction for the new task; retain accepted MLP, physical
+  model, stagger, no-symmetry preference and deferred adaptive-H sampling.
+
+
+## 2026-10-15 — Assess residual replay for history-field forward transfer
+
+- User proposal: on fixed geometry/loading path, train the shared network on
+  the current H residual plus residuals for previously encountered H fields,
+  aiming to reduce adaptation steps on subsequent H. Treat as steering of the
+  current research task, separate from cross-geometry architecture work.
+- Recommendation: first compare current-only warm-start and limited replay
+  with the SAME existing H-conditioned MLP and full spatial nodes. Each H
+  supplies its own features/prediction/residual and existing positive-H RMS
+  normalization. Average across replay fields with an explicit bounded weight.
+  No replay parameters, architecture or source changes adopted this turn.
+- Reason: multi-H constraints may retain/reuse a solution map; warm weights
+  alone do not enforce past tasks. Replay costs computation and may compete
+  with learning a new crack-tip regime. Shared H-independent basis coefficients
+  and compressed H features are representation limits to inspect, not assumed
+  reasons to replace the model before testing the training hypothesis.
+- Rejected alternatives: applying old H to the current single damage field,
+  freezing neural outputs during replay, supervising with old approximate
+  damage, changing physical committed H, or claiming retention guarantees
+  extrapolation/total-time speedup. Exact-zero H cannot use the current RMS
+  normalization unchanged. Keep deferred adaptive spatial sampling parked.
+- Validation plan: chronological no-future-input benchmark, new-H initial
+  error and time to matched same-H accuracy including replay cost, then
+  matched-parent coupled loading if promising. Literature: PINO2111.03794,
+  physics-replay CL-PINN2608.04778 and distillation/LoRA replay PINO2605.04832;
+  related evidence does not establish nonlocal fracture performance.
+- Relation: proposed training direction before combining it with Transolver.
+  Discussion/documentation only; background baseline unchanged, no Git ops.
+
+
+## 2026-10-15 — Prototype a shared-grid branch/trunk history operator
+
+- User selects history-field generalization first and proposes DeepONet or
+  PI-CViT style field encoder plus coordinate decoder. Implement an optional
+  bounded DeepONet probe, not a replacement of the accepted loading solver.
+- Design: branch consumes the complete ordered positive-H field, log-scaled
+  with existing AT2 constants; trunk consumes shared 2D query coordinates;
+  inner-product fusion followed by the existing sigmoid damage constraint.
+  Coefficients are generated from H rather than free per-case parameters.
+- Reason: fixed sensors fit this fixed-geometry task directly. PI-CViT's
+  official encoder uses Conv2D image patches and its decoder cross-attends
+  coordinate queries to field tokens; an irregular-cloud encoder needs an
+  explicit adaptation, not merely reshaping the notched material mesh.
+- Probe: same cold weights, current-only versus old-H residual replay,
+  chronological saved H_used inputs, full spatial domain, Adam and L1,
+  same-H direct evaluation only. Report new-field pre-update accuracy and
+  actual work including replay. No future H in training or old damage labels.
+- Relation: this explicit user steering supersedes the previous recommendation
+  to keep MLP for the first implementation. Retain its result as a future
+  comparator; this two-arm probe isolates replay within the new architecture,
+  not architecture superiority. Accepted solver and live GPU run untouched.
+
+
+## 2026-10-15 — Return to discussion before history-operator implementation
+
+- User explicitly says not to implement yet and asks about DeepONet sensors.
+  Stop the prototype work. The previous implementation decision reflected an
+  overly broad reading of architectural interest; it is superseded by this
+  explicit discussion-only instruction.
+- Three untracked/unvalidated draft files had been written; no tests, training
+  or new worker were started. Move those drafts outside the repository to
+  /tmp/fracture2d_history_operator_unvalidated_draft_20261015, preserving them
+  without presenting them as supported code. Accepted solver untouched.
+- Clarification: fixed DeepONet branch sensors can be a subset of residual
+  particles. Select the same ordered sensor locations for every H. Sensor
+  count/density remain design choices; missing field information can impose
+  an approximation floor irrespective of residual training. Full-field local
+  encoding into spatial tokens is a distinct alternative to sparse sensing.
+- Relation: architecture and sensor design remain under discussion. No new
+  prototype/test/GPU run until the user explicitly asks to proceed. Existing
+  independently authorized baseline is not canceled by this instruction.
+
+
+## 2026-10-15 — Exploit local fracture complexity without dropping bulk history
+
+- Assessment: narrow-band morphology supports coarse global context plus
+  detailed local band/front spatial encoding as a candidate. Nonzero bulk H
+  may be smooth/low complexity, so amplitude alone is not information content.
+- Evidence: same-load direct H_used, fixed diagnostic band area2.454%, contains
+  10.316% of sum(VH) at0.0052 and99.575% at0.0053. Reference index56 matches
+ 0.0053; index53 is a different refined load. Raw H^2 concentration99.919%
+  at0053 drops to72.696% for bounded eta^2; peak ranking is not damage-sensitivity
+  ranking. Exact definitions/paths/results retained in active task.
+- Recommendation under discussion: coarse bulk representation plus positional
+  local tokens covering band shoulders and front/ahead, not only old crack
+  core. Adaptive locations require coordinate-aware encoding/masks; fixed
+  DeepONet sensor ordering cannot be silently reassigned as the crack moves.
+- Rejected alternatives: assuming H=0 outside the crack, using only top raw H
+  values, reconstructing a complete field from a crack length scalar, using
+  direct target damage for sensor selection, or enforcing a straight output.
+- Relation: discussion-only steering remains in force. CPU inspection only;
+  no prototype, encoder, threshold, training or physical-model change adopted.
+
+
+## 2026-10-15 — Specify candidate modules for narrow-band encoding
+
+- Proposal, not adoption: fixed geometric multiscale patch bank; small shared
+  point MLP plus volume-mean/max aggregation into positional tokens; small
+  token transformer; coordinate-query cross-attention and sigmoid damage head.
+  Draw modules from PointNet++, PI-CViT and Perceiver IO primary references.
+- Reason: material cloud is irregular, narrow bands need local profiles and
+  absolute location, and coarse bulk context should survive compression.
+  Concentrate large-network interaction on tokens while retaining full
+  nonlocal-residual query particles. No predefined crack curve or symmetry.
+- Keep architecture separate from active fine-patch selection: eta contrast
+  with diverse spatial coverage is only an illustrative heuristic, not a
+  chosen density, sensitivity guarantee or physical-model modification.
+- Rejected alternatives: all-particle quadratic attention, one global mean
+  erasing location, asserting mean/max is lossless, or caching learned token
+  outputs across weight updates and thereby freezing the field encoder.
+- Relation: user requests concrete architectural explanation only. Suggested
+  dimensions are examples, not defaults. No code/training/Git work launched;
+  current task remains discussion before implementation.
+
+
+## 2026-10-15 — Authorize bounded token/history replay prototype with fixed shapes
+
+- User now explicitly agrees to try the proposed architecture, limits replay
+  collection to per-load outer-loop start/end snapshots, and requires avoiding
+  recompilation as histories accumulate. This supersedes discussion-only notes.
+- Collection: first outer H after mechanics at the new load, then synchronized
+  endpoint H. These are distinct, labeled PDE inputs; do not mislabel endpoint
+  H as final-inner H_used. No inner-step or all-outer trace collection.
+- Replay: fixed-capacity bank128 slots, fixed one-current/one-old batch, current
+  weight.75 and uniformly sampled old weight.25. Before any valid history,
+  old slot uses safe current input and zero weight; dynamic masks/counts/indices
+  remain arrays. Capacity128 covers two snapshots for60 requested loads and
+  raises on overflow instead of silently discarding. No learned-token cache.
+- Architecture first candidate: shared point-patch MLP, volume-mean/max spatial
+  pooling,64 coarse plus64 selected fine tokens, width32/2heads, coordinate
+  cross-attention decoder and sigmoid. Fixed geometry patch banks8x8/32x32;
+  fine selection uses bounded-H range, a declared unverified encoder heuristic.
+  No extra token self-attention in this initial minimal candidate.
+- Validation: focused masking/gradients/residual/history-identity/one-trace tests,
+  then bounded fixed-H replay versus same-architecture current-only GPU probe
+  on historical0.0050..0.0052 start/end pairs;0.0053 held out. Same-H direct
+  evaluation only, no labels or closed-loop load advancement. Keep accepted
+  full-domain solver/defaults and existing background worker untouched.
+- Reason: isolate history retention/forward transfer, not claim architecture
+  superiority or speed from a short equal-budget run. Fixed geometry/support,
+  token count and history batch shapes allow one compiled update across loads.
+  No Git operation authorized.
+
+
+## 2026-10-15 — Stop the old GPU baseline at the user's fracture milestone
+
+- User explicitly asks to stop the older running baseline after through-crack.
+  Verify owner31071/worker31076 command paths and parent relation, signal only
+  owner, then verify exit and supervisor receiptcancelled. No broad process kill.
+- Preserve54complete endpoints through0.0054;partial0.0055outer600 and named512
+  remain on disk. Raw result.completefalse is preserved. TensorBoard untouched.
+- Relation: old stage remains closed. New authorized cross-history short probe
+  is separate and proceeds on the freed GPU; this stop does not cancel it.
+
+
+## 2026-10-15 — Calibrate the cold token prototype before interpreting replay
+
+- First structural GPU pilot complete:6start/end histories,64updates each at
+  inherited1e-5, full71307nodes. Both arms remain~98.4% same-H error; current/
+  replay training11.52/14.72s after46.14scompile. This is not evidence of a
+  useful solution operator or replay speedup. First CLI wrapper returned the
+  report dict to absl and exited1 after success; fix main to returnNone.
+- Bounded follow-up: same architecture/stream/masks,256updates per snapshot
+  and explicit experimental Adam1e-3 in optional probe config only. Preserve
+  first output/config/code/log and run a fresh adaptation directory. User
+  authorized trying the method; no broader tuning sweep or coupled run.
+- Reason: tiny cold-start output and very short inherited low-rate budget
+  barely change the field. A useful accuracy regime is needed before comparing
+  history replay. Retain failed/inconclusive evidence and actual replay cost.
+- Relation: accepted train_base/defaults unchanged. Reuse6focused passing
+  regressions; verify new CLI exitsnormally in the actual nextGPUrun.
+
+
+## 2026-10-15 — Retain the history-token prototype as experimental
+
+- Decision: keep the new entry optional; do not promote it into the accepted
+  coupled solver. Fixed-capacity replay and one compiled GPU update are
+  verified, but the short frozen-H test does not establish useful speedup.
+- Reason: heldout near-load start error improves modestly6.24->5.42%,while
+  final fitting/retention worsen and updates cost45.44->57.49s. Developed-
+  fracture heldout remains86..88%error after only precrack training inputs.
+  Update counts do not measure equal physical accuracy or total production work.
+- Rejected alternatives: extrapolating one intermediate4.94%result to a whole
+  loading path, claiming all previous histories are evaluated every update,
+  calling a fixed-H input stream a new coupled simulation, or adopting new
+  architecture learning rate in train_base. Current H must still train each
+  live outer iteration even if replay stores only load-start/end snapshots.
+- Relation: bounded user-authorized prototype COMPLETE,6focusedtests and GPU
+  evidence retained. Research task active; next common-target adaptation and
+  representation/replay-interference review at user direction. No new run.
+
+
+## 2026-10-15 — Run the history operator online from exact physical zero
+
+- User explicitly requests a from-zero coupled run and real incremental replay
+  accumulation. Integrate the optional token network with the shared stagger
+  loop; retain accepted MLP/direct defaults. No historical H/weights as inputs.
+- Start q/d/H exactly zero, fresh network/Adam and empty128-slot bank. Same
+  du1e-4 to0.0060,128inner,128/1024outer caps and field-change gates; optional
+  history model uses the tested experimental Adam1e-3. Full spatial residual.
+- Collect first mechanics-updated H after the first inner fit at each load,
+  then synchronized endpoint H. Current H still trains every outer; first
+  snapshot becomes available only after its first fit. No inner/all-outer
+  snapshot archive. Bank count2n-1 inside load and2n at completed endpoint.
+- Keep fixed current+one-old batch and detached H/selection/weights, uniform
+  old sampling,current/old.75/.25; no automatic buffer growth/eviction.
+- Checkpoint network/Adam plus replay manifest and write each raw H snapshot
+  once to a shared path-addressed store. Restore pads to the same capacity and
+  resumes RNG via optimizer count. Avoid duplicating a70MiBbank at every outer.
+- Reason: offline input-stream results do not represent feedback through new
+  mechanics/history. Online trial must generate its own trajectory and retain
+  explicit provisional budget exits. TBscalars/fields/curve per completed load
+  go to /root/autodl-tmp/tf-logs. Verify from-zero state and firstbuffer entries
+  before handing off the background run. No source-input hashes or Git ops.
+
+
+## 2026-10-15 — Hand off online trial with explicit early accuracy limitations
+
+- Decision: retain the authorized from-zero experiment and its existing
+  field-change stopping policy as provisional; report large early physical
+  residuals and same-load errors rather than silently declaring PDE convergence
+  or changing learning rate/gates after launch.
+- Reason: firstload has almostzero neuraldamage/AT2~.9999 despitefieldstable;
+  later damage partlyrecovers. This is evidence of earlyaccuracy/stoplimits,
+  not enough to claim permanent saturation or justify silentlyendingthetrial.
+- Validation: truephysicalzero/emptybank;twoownstart/end H pairs independently
+  replayexact;GPUtrainingstepcompilesonce;5TBimages/replaycounts verified.
+ 4focusedintegration/regressiontests pass including exactendpointresume.
+- Relation: online trajectory remains backgroundactive throughrequested0060
+  unlessusersteers. Priorbaseline stayscanceled. No Gitoperations or claim
+  that offline replay gains carry through coupled fracture.
+
+
+## 2026-10-15 — Treat near-zero online damage as an inner-accuracy failure
+
+- Decision: report the completed low-damage trajectory as inaccurate despite
+  its field-stable label. At0.0028 dmax6.949e-5 versus same-load direct0.10957,
+  physicalAT2~0.99975. Fixed-H current-only/replay and cold-start optimization
+  are the recommended next controlled comparisons, not another unchanged
+  full loading run. No additional experiment or live-policy change this turn.
+- Reason: first128updates collapse sigmoid output to~8e-9; tiny subsequent
+  changes pass a field-change gate while r(d=0)=-2H remains nonzero. However,
+  unfinished0.0029 recovers dmax~0.1092/AT2~0.164, so permanent saturation,
+  architecture impossibility or replay causality are not established.
+- Rejected alternatives: interpreting stable fields as PDE convergence,
+  attributing all error to outer history changes, claiming every small damage
+  field is physical, or automatically stopping/restarting the user-authorized
+  run. Existing process continues; accepted MLP defaults/physics unchanged.
+- Relation: online from-zero history-operator trial; user reports poor damage
+  development. Keep exact progress and diagnostic evidence in active task.
+
+
+## 2026-10-15 — Separate replay utility from architecture and cold-start cost
+
+- Decision: current history+replay candidate has not earned baseline status.
+  Atmatched0.0030,volume-L2damageerror2.269%vsoldMLP1.354%,outer128vs13,
+  observedendpointinterval680.3vs28.7s. Recommend replayoff/onsamearchitecture
+  comparison andcurrent-H accuracy first;do notlaunchanunchangedfullrerun.
+- Reason: onlinebaselinecomparison changesnetworkandAdamrateaswellasreplay.
+  Prior frozen-H samearchitecturepilot independently foundfinalfitworseand
+  updatecosthigherwithreplay;smallheldoutgain doesnotestablishnetspeedup.
+  Twohistorytasks/update remainfixeddespitegrowingbuffer.
+- Rejectedalternatives: treatingreplayasprovenacceleration,attributingall
+  deteriorationtoreplay,orautomaticallycanceling/changingtheliveexperiment
+  basedonanobservationwithoutauserstopinstruction. No implementationchange
+  or newnumericalchoice thisturn. Relation: activehistorylearningtask.
+
+
+## 2026-10-15 — Authorize bounded checkpoint replay-off/on adaptation
+
+- User accepts the proposed replay-isolation next step. Pause inefficient
+  online run with owned supervisor TERM, preserve all artifacts/TensorBoard,
+  and verify worker exit before using GPU for a short controlled comparison.
+- Both arms restore exact same0.0030network+Adam, freeze own0.0031first-outerH,
+  use only60past0.0030-and-earlier snapshots, and keep fullL1/sigmoid/FP64.
+  Train1024updates at1e-3 then1024 at1e-4 identically in both arms, carrying
+  Adam moments/count across ratechange. Fixed batch2/token128 shapes; RNG
+  derives original optimizer count. Compare current-only vsold/current.25/.75.
+- Direct same-H damage is evaluationonly; measurecurrentfit,selectedold-field
+  retention and updatewalltime excludingcompile/evaluation. Report phases
+  separately;no accuracy-based candidate cherry-picking or full-rerun claim.
+- Reason: distinguish replayinterference from currentnetwork/optimizer limits
+  before another coupledtrajectory. Lower-rate secondphase is an explicit
+  optimization probe,not a physicalscheme change. No defaultMLPchange/Gitops.
+
+
+## 2026-10-15 — Retain replay's memory benefit while prioritizing current fit
+
+- Same-checkpoint GPU ablation completes exit0. Current-only/replayfinal
+  same-HL2 .3056%/.3373%,updates59.44/79.88s. Old0015Herror29.61%/.5091%.
+  Replaypreservesoldfields here butdoesnotacceleratecurrentfitting.
+- Decision: do notpromotedensereplayintobaseline orconcludereplayuseless.
+  Considerlessfrequent/weakerreplay+current-onlyfinishing aftercoldstart
+  calibration;no newpolicy/defaults/fulltrajectory launched thisturn.
+- Reason: reduced-ratephase stabilizesboth,butextra1024updatesconfounds
+  causalrateattribution. Finalpeakresidual~4.2%,notstrictconvergence.
+  WarmfrozenH doesnotvalidatefromzerocoupledfractureorgeneralizationspeed.
+- Rejectedalternatives: allslownesscausedbyreplay,allerrorcausedbyrate,
+  orcallingthisacoupledcompletion. Relation: useracceptedboundedablation.
+  Oldownedtrialpausedat0030+partial0031outer80;allworkersnowexited,
+  TensorBoardretained. Evidenceandresume inactivetask. No Gitoperations.
+
+
+## 2026-10-15 — Test infrequent replay with current-only inner finishing
+
+- User accepts lower-rate, less-frequent replay and current-field finishing.
+  Add explicit optional history.replay_every/current_only_steps; existing
+  history preset uses1/0 to preserve dense-policy behavior,acceptedMLP unchanged.
+  Candidate uses8/32: replayevery8withinfirst96of128innersteps,then32currentonly.
+  Replayweight stays.25whenactive;Adam1e-4,fullL1/FP64/sigmoid,unchangedphysics.
+- Compareoff/dense/sparse-polish fromsame0030net/Adam/past60H onfrozenown0031
+  firstH,2048updates each,nowallat1e-4. Directevaluationonly;measurecurrent
+  andoldretention andtiming. Keepfixedshapes/detachedflags;neverresetAdam.
+- Then boundedcoupledoffversuscandidate fork fromsamephysical0030endpoint,
+  ownH thereafter,du1e-4to0033,128inner and32outercap/loadbotharms. Cap32
+  deliberatelyboundsdiagnosticcost;budgetexitsareprovisional,notconvergence.
+  Inheritedprefixlabeled;newroots/manifests/directpaths,neveroverwriteoldruns.
+- Reason: establishaccuracy/retention/costtradeoff andwhetherlessgradient
+  variationhelpsouterstopping. No fullfromzero or criticalfractureclaim.
+  RunfixedHfirst;recordreasonsifcandidatefails. No Gitoperations authorized.
+
+
+## 2026-10-15 — Advance sparse replay to a bounded coupled comparison
+
+- Three-arm fixedH trial COMPLETE exit0 at1e-4fromsame0030checkpoint.
+  Currentonly/dense/sparse-polishcurrentvolumeL2 .28987%/.32575%/.34774%,
+  updatewall58.81/79.86/59.97s;old0015H3.848%/.5382%/1.5646%.
+  Sparsepreservessomememoryfor~2%extra updatewall inthissample;doesnot
+  improvecurrentaccuracy. Activeoldtasks0/2048/192. PeakAT2~4.2..4.4%.
+- Decision: proceedwithplannedshortcoupledoffvsbalancedcandidate8/32,
+  commonphysical0030parent/network/Adam,1e-4,0031..0033,32outercapboth.
+  Do notpromoteitintobaseline or claimglobalconvergence/speedupfromfrozenH.
+- Validation:savedfields/targetexact,independentCGresidual,sourceconfig,
+  counters/TB16stepsarmallpass. Sparsecadenceandresume3testsPASS45.256s.
+  Sameupdateinitialstateolder1e-3pilot1024currenterror1.279%vsnew1e-4
+  .3006% supportsrateeffectinthiswarmcase;notcoldstartvalidation.
+- Relation: user-approvedfollow-up;newforksandinheritedprefixexplicit,
+  originalrunsunchanged. No Gitoperations or symmetry/physicalconstraints.
+
+
+## 2026-10-15 — Retain sparse replay as a promising experimental compromise
+
+- Coupled0030->0033comparison COMPLETE,both exits0. Off/sparseouters6/6/11
+  vs6/6/8,matchedload damageL2~.32..36%both. Wholeworkers238/225sinclude
+  compileandoutput. Allnewstatespasssamefieldchangegate;peakAT2~4.3%.
+- Decision: retain8/32withAdam1e-4asoptionalresearchcandidate,notnewdefault.
+  No furtherfullrun started. Originaltrialsremainpaused;allGPUworkersgone.
+- Reason: fixedHshowsusefulmemory/costtradeoff,andshortcoupledpairdoesnot
+  reintroduceprevious128outerplateau. Singleprecracktrial doesnot establish
+  reliableacceleration,criticalcrackpathaccuracy orcold-start robustness.
+- Rejectedalternatives: treating inheritedprefixasnewphysicalzerorun,
+  conflatingfieldstabilitywithstrictPDEconvergence,attributinglearningrate
+  benefitsolelytosparsereplay,orusing32outerdiagnosticcapasfracturedefault.
+- Relation: user-approvedfollow-upcomplete;artifactsandexactresumeinactive
+  architecturetask. No Gitoperations;acceptedMLP/defaultphysicsunchanged.
+
+
+## 2026-10-15 — Validate sparse-history learning from true cold physical zero
+
+- User explicitly requests continuation with the discussed cold-start plan.
+  New independent root pinn_history_sparse_cold_20261015;physicalq/d/H0,
+  freshseed0network/Adam/emptybank. FullL1/FP64/sigmoid,Adam1e-4,replay8/32,
+  inner128,du1e-4,productionoutercaps128/1024,target0060. No oldweights/H.
+- First validate actual endpoints through0010. Keep target0060configunchanged:
+  a temporary driver observes Monitor.endpoint afterflush,checks same-load
+  damageL2<=10%,physicalAT2<=.2,andfieldstable forfirst10loads. These are
+  explicitlyprovisional benchmarkguards,notnewPDE/convergenceformulae or
+  traininglabels. Anyfailstopsatpreservedendpoint forinvestigation;do not
+  silentlycontinue inaccuratecoldtrajectory. Successfulpilotthenresumessame
+  config/network/Adam/store automatically withoutput.resumeTrue only.
+- Reason: previouscoupledtests inherited0030weights anddidnotvalidatecold
+  tinyH. Avoidequatingfieldstabilitywithaccuracy. Independentreferenceonly
+  validation;no gradients/targetsfromit. Initial neuraldamage.001 retained
+  so existing initialization is actuallytested;physicalinitialdamage remains0.
+- Preservepreviouspaused/completedruns/defaultMLP. Logs/TBunderautodl-tmp,
+  fixedcapacity128covers120snapshots,ownstart/endcollection only. No Gitops.
+
+
+## 2026-10-15 — Cold pilot fails early; isolate inner training before retry
+
+- True-zero sparse1e-4pilot stops asdesigned at0001. Fiveouters passfieldgate
+  butmatchedL2 .567945,physicalAT2 .946857,currentL1 .418659. dmax1.969e-5
+  versusreference1.298e-4. Supervisor85531/worker85535 exited;receipt
+  needs_accuracy_review. No erroneouscontinuationto0010/0060.
+- Decision: boundedcurrent-only frozen-own0001H calibration fromactualfailed
+  endpointnetwork/Adam640,2048additionalupdatesat1e-4,evaleach128,same-HCG
+  evaluationonly. Establishwhethermoreinnertrainingresolvesthefailurebefore
+  adoptingadaptiveinnerbudget. Preservefailedcoldrun andunchangedproduction
+  code/policyduringcalibration. No newweightsfromreferenceorphysicalchange.
+- Reason: absolute damage-change1e-5 is large comparedwithearlydamagescale;
+  stableupdates do notcertifyaccurateinnerfit. Warm0030success didnotvalidate
+  coldlearning. Extra trainingbudgetisexperiment,noguaranteedconvergence.
+
+
+## 2026-10-15 — Do not advance a failed cold fit despite warm-start success
+
+- Cold0001pilotfails externalvalidation afterfieldstable5outers. Extra2048
+  current-onlyfrozenHupdates atsame1e-4 reduceL2~56.8->29.1%,peakAT2stays
+  .936;notadequateforloading. No0060continuation or newadaptivebudgetadded.
+- Decision: preservefailedtruezeroexperiment andcalibration;reviewsmall-H
+  conditioning/localtipfitting beforeanothercoldtrajectory. DefaultMLP and
+  productionphysics/architecture/stopsunchanged. AllGPUworkersnowexited.
+- Reason: warm0030pathsuccessdidnotestablishcoldrobustness;67%remaining
+  squaredfield-errorenergyisnearnotchtip. SmallHencoderamplitude is a
+  plausibleissue,butnotcausallyisolated. Do notassertarchitectureimpossible,
+  blameonlyreplay,orpassnearlystablefieldsasaccuratesolutions.
+- Relation: userauthorizedstagedcoldtest,conditionalearlygatefailsandstops
+  beforepropagatingerror. Exactevidence/resumeinactivearchitecturetask.
+  No Gitoperations;outputs/TBretainedandearlyfailureclearlylabelled.
+
+
+## 2026-10-15 — Isolate history conditioning and query-local information
+
+- User accepts investigation of small-H input scale and notch-tip fitting.
+  Add an optional experimental model,leaving HistoryOperator/production
+  loading/defaults unchanged. Four capacity-matched arms use one freshseed0
+  parameter tree and Adamzero:neutralpaddedrawcontrol,normalizedencoder,
+  query-localHskip,normalizedencoder+localHskip. Same frozenown0001H/fullL1/
+  sigmoidinitial.001/FP64/Adam1e-4/2048updates;no replay or load advancement.
+- Normalize H by stable global nodalRMS s=Hmax*sqrt(mean((H/Hmax)^2)),valid
+  positivecontexts only. Encoder uses log1p(H/s),boundedH/s. Preserve absolute
+  amplitude via decoderfeature log(2s/g0). Rawcontrol keeps2H/g0 features.
+  Localquery features use the same raw/normalized transformsat explicitquery
+  indices. This changes representation only,neverphysicalH/residual/operator.
+- Allarms have same decoderinput width+3,zero inactivechannels andsame
+  parameter values. Boolean arrayflags keep onecompiledupdate;flagsarenot
+  trainable. Normalizedmodeincludesamplitude bydesign;no false attribution
+  to normalization alone. Newquery-local branchisnotpurecoordinate-only
+  DeepONet anddoesnotprescribe a crackpath or replace the nonlocalresidual.
+- Validate RMS/features,queryordering,masking,detachedH/flags,parametergradients,
+  onejittrace andsave-resume. Same-HCGonlyevaluation;retainfailures and actual
+  cost. No broadtuning/fullcoldretry until this test is reviewed;no Gitops.
+
+
+## 2026-10-15 — Input factorial alone fails; test the residual objective
+
+- Fourfresh2048/1e-4L1armsfinish:raw/normalized/local/bothvolumeL2
+  33.655%/35.660%/33.438%/33.494%,tipL2~79.6..82.5%,peakAT2 .917..949.
+  Inputnormalization/localfeaturesalone do notsolvefirstH;do notpromote them.
+- Decision: boundedpairedlossdiagnostic fromEXACTSAME both-featuresL1
+  checkpoint/Adam2048. ContinueL1 versus switchL2,each2048extra1e-4updates,
+  samefrozenH/decoder/weights/moments. This isolatesobjectiveafterpartialbulk
+  fit;it isnotafreshL2coldtrajectory. Useexisting residual_mean L1/L2 formulas,
+  dynamiclossflag/onecompiledstep,rawphysicalH. No weighting/pathconstraints.
+- Reason: remainingerrorconcentratesnear tip despiteavailablelocalH;need
+  distinguish insufficientinputrepresentation fromuniformL1optimization
+  before redesigningmodel. L2penalizeslargeresidualmorestronglybutbenefit
+  remainshypothesis. Announcedboundedfollow-up,userauthorizedinvestigation.
+  Directevalonly;productiondefaults/losses/trajectoryunchanged,no Gitops.
+
+
+## 2026-10-15 — Complete the loss/input interaction control
+
+- Both-featureswarmL1/L2continuation COMPLETE at4096totalupdates. L1/L2
+  globalL2 9.244%/7.332%,tipL2 26.50%/7.258%,peakAT2 .2572/.1896.
+  L2bettertipfit despitehigherL1metric .06163vs.03484. No strictconvergence.
+- Decision: repeatONLYthispairedcontinuation fromcapacitymatchedraw2048
+  checkpoint,equaladditional2048/1e-4/counter4096. Needed toattributebenefit
+  tolossaloneversusinteractionwithnormalized/localinputs. SamePDE/oracle,
+  bothlossesexistingnorms;notabroadhyperparametersweep or extra loading.
+- Reason: firstinputfactorial showednobenefit,butL2mayunlockusefulfeatures.
+  Avoidpromotingnewinputarchitecturebasedonlyononecombinedconfiguration.
+  Productionmodel/defaultsunchanged;no Gitoperations.
+
+
+## 2026-10-15 — Favor combined conditioning and L2 finishing, retain limits
+
+- Full4096updatecontrol:raw L1/L2finishingglobal19.54/10.74%,combinedinputs
+  L1/L2finishing9.24/7.33%;besttip7.26%,peakAT2.1896. Allfirst2048L1,
+  second2048objectiveaslabelled. SamephysicalH/AT2/operator/seed/Adamrate.
+- Decision: candidatefornextcoldprofileiscombinednormalization+localinput
+  withadequatebootstrapandL2finishing;noonlineintegration/fullrunthissession.
+  KeepacceptedMLP/defaultphysics/loss/stopping unchanged. AllGPUworkersdone.
+- Reason: short2048inputfactorialalonewasmisleadingaboutlatefeatureutility;
+  equal4096controlsdemonstrateinput/optimizationinteraction. L2canimprove
+  tipaccuracywhileL1metricrises. StillonlysinglefrozenH,materialerrorremains.
+- Rejectedalternatives:claiminginputsbythemselvesresolvefirstH,representative
+  capacityfailurefromshorttraining,assumingswitchL2freshfrom0hasbeentested,
+  orpromotingcalibrationweightsintosynchronizedphysicalendpoint. Newclass
+  decoder/checkpointsrequireexplicitnewprofile,notoldentrysilentmigration.
+- Relation:userauthorizedfeatureisolationandboundedlossdiagnostic,completed
+  withvalidatedartifactsandexactresumeinactivearchitecturetask. No Gitops.
+
+## 2026-10-15 — Discuss history-guided local encoding before further changes
+
+- User questions fixed-grid encoding of a narrow crack-related history band.
+  Retain a candidate design for discussion, not an approved implementation:
+  H-guided spatially spread anchors, multiscale point neighborhoods, shared
+  point-set encoding, optional token interaction and coordinate decoding.
+  Keep background tokens and query-local H; use raw H for the unchanged PDE.
+- Reason: fixed patches can divide a narrow band and spend representation on
+  background; current fine selector already uses H contrast, so a purely
+  uniform encoder is not the actual control. A representational bottleneck
+  has not been established by existing input/loss experiments.
+- Defer explicit crack-skeleton extraction: diffuse history is not a binary
+  crack path, early loading has no developed crack, and branching complicates
+  an ordered curve. Do not impose straightness, symmetry or use reference d.
+- Proposed engineering contract: fixed anchor/neighborhood counts and masks,
+  selection detached and frozen for each frozen-H inner solve; refresh with
+  new outer H and replay each context's own selection. Neural embeddings must
+  be recomputed as parameters change. Encoder selection does not subsample
+  the physical residual. No new density/score formula or hyperparameter adopted.
+- Sources for architectural building blocks: PointNet++ (arXiv:1706.02413)
+  and Zhao et al. Point Transformer (ICCV 2021 open access).
+  H-guided anchor allocation here is a project hypothesis, not a paper result.
+- No code/run/default changes or Git operations. Compare equal-budget frozen-H
+  tip/field accuracy and cost before claiming improvement or retrying cold runs.
+
+## 2026-10-15 — Discuss optimization priorities without starting experiments
+
+- Recommend establishing a stronger current-architecture training control:
+  fresh L2 versus existing L1-to-L2 under equal update and recorded wall-time
+  budgets, initially without replay. Existing 7.33% result is one frozen H,
+  not evidence of cold-trajectory or history-generalization success.
+- If localized errors persist, isolate H-guided multiscale neighborhoods as
+  an encoder comparison, retaining background coverage, local-H input,
+  decoder, physical operator and full residual. PointNet++ supports the local
+  grouping building block; H-guided allocation remains a project hypothesis.
+- Then measure unseen-next-H error before fitting, time/updates to matched
+  accuracy, and retained-old-H accuracy for no replay versus sparse replay.
+  Count encoding/selection/replay cost; fewer updates alone do not prove speed.
+- This is discussion, not authorization for implementation or new runs. Avoid
+  simultaneously increasing network depth, altering sampling and changing loss,
+  or launching another full cold path before a bounded control is reviewed.
+
+## 2026-10-15 — Execute fresh L2 versus staged L1/L2 control
+
+- User says continue execution. Implement the first proposed bounded control:
+  two fresh identical seed0 ConditionedHistoryOperator networks, Adamzero,
+  combined normalization/localH, same own cold0001 frozen H and physical
+  nonlocal residual. Each4096updates at1e-4: allL2 versus2048L1+2048L2.
+  Carry moments across the switch; no replay, geometry/sampling change or
+  load advancement. Prior same-H direct solution is evaluation only.
+- Use an independent fresh output/TB root and store the worker/source snapshot,
+  config, identical initial state, final states, per128 metrics and plots.
+  Separate common compile, updates and evaluation/recording times; validate
+  raw-H/operator oracle residual, optimizer counters and finite metrics.
+- Reason: previous L2 benefit was continuation after L1; fresh-L2 behavior was
+  unknown. Equal starts/budgets remove that ambiguity before architecture work.
+  No mathematical or production default change, no Git operations.
+
+## 2026-10-15 — Fresh-loss control favors staged training for this first H
+
+- Both4096-update arms COMPLETE: allL2 field/tip29.274/61.252%, staged L1-to-L2
+  7.374/7.338%. Peak AT2 .29625/.19005; update times78.240/76.889s, evaluation
+  .604/.550s, one shared discarded compile45.080s. Both starts byte-identical,
+  both saved Adam counts4096. Staged result is close to previous7.332% control.
+- Decision: retain staged training as this experiment's candidate control;
+  pure L2 is not favored under the tested initialization/history/budget.
+  No production-loss change or claim that L2 is universally inferior. Inspect
+  representative H and localization before more architecture/online work.
+- Independent CPU validation reproduces metrics/raw H, checks saved oracle
+  residual9.603e-14<=1e-13, state flags/counters and TB32points/metric/arm plus
+  images. CPU fresh initialization differs from GPU by at most1.11e-16:
+  allow explicit roundoff tolerance for that cross-device check, retaining
+  byte-exact equality for the two actual saved GPU starting states.
+- No strict convergence, coupled trajectory, cross-H retention or speedup has
+  been demonstrated. Worker exited0; no GPU jobs left; prior/defaults intact.
+
+## 2026-10-15 — Start a bounded conditioned-history cold-loading pilot
+
+- User asks whether cold calculation can start; proceed with a bounded0->0010
+  pilot (du1e-4), not a full fracture run. Add explicit optional architecture
+  dispatch/config for ConditionedHistoryOperator; preserve default MLP and
+  original history_operator behavior and checkpoint layouts.
+- Start exact physical q/d/H0, fresh seed0 network/Adamzero/empty bank. Combined
+  normalized/local inputs,full residual,sigmoid,Adam1e-4. Bootstrap only the
+  first frozen-H fit with2048L1+2048L2; later fits128L2 warm-starting weights
+  and Adam across outer/load updates. Objective flags are traced arrays;
+  real start/end H snapshots are collected with fixed capacity128, replay
+  training disabled to isolate the newly selected model/training scheme.
+- Preserve standard local mechanics/nonlocal AT2 mechanics-first stagger,
+  previous-load history floor and field stopping. No budget advancement.
+  At saved synchronized endpoints, use previous external diagnostic guards:
+  same-load direct-reference global damageL2<=10%,physicalAT2<=.20,fieldstable.
+  Record same-own-H direct error and tip error separately; references never
+  supply weights, initial states, PDE histories or training labels. Fail guard
+  stops advancement with all artifacts retained; these are provisional external
+  experiment checks, not certified PDE convergence or a production stop change.
+- Verify dynamic losses/rawH, bootstrap occurs once, persistent optimizer and
+  exact endpoint restart on small fixtures before GPU pilot. New root/TB
+  pinn_history_conditioned_cold_20261015. No architecture anchor redesign,
+  symmetry/path constraint, Git operation or automatic0060continuation.
+
+## 2026-10-15 — Conditioned model passes the true-zero early-loading pilot
+
+- Pilot0->0010 COMPLETE: all10saved endpoints pass provisional same-load10%,
+  AT2.20 and field-stability checks. Global error6.35% at0001,4.76% at0010;
+  final own-H error4.73%,own-H tip2.13%,AT2.09676, reaction difference.00325%.
+  Sweeps5/5/5/5/5/5/12/6/5/5; final Adam11392 and actual snapshots20.
+  Shared loading time467.677s includes compilation/evaluation/figures.
+- Decision: conditioned model with one-time L1/L2 bootstrap is viable for this
+  bounded cold early-load path. Preserve it as an experimental candidate;
+  no accepted-default promotion or automatic continuation beyond0010.
+  Replay training was disabled, so this does not establish replay retention,
+  zero-update transfer, fracture-stage robustness or a speed advantage over MLP.
+- Five focused CPU tests PASS64.859s. Post-run independent CPU audit verifies
+  committed H, synchronized force/reaction, physical residual, all reference/
+  own-H/tip metrics, direct oracle residuals, snapshot contents, restored state
+  and all TB endpoint figures/scalars. Worker/session exited0; no GPU job left.
+- Any later terminal-load extension needs an explicitly declared fresh run or
+  continuation/fork; preserve the completed pilot's configuration and identity.
+  No Git operations. Default MLP/original history model presets unchanged.
+
+## 2026-10-15 — Continue the verified conditioned pilot toward 0.0060
+
+- User requests loading beyond0010. Explicit new continuation root/TB
+  pinn_history_conditioned_continue_20261015 targets0060,du1e-4. Preserve
+  completed pilot unchanged; inherit states0000..0010, actual replay store,
+  network/Adam11392 and20H snapshots. Rewrite only fork-local path manifests
+  and declare new terminal/root/event config/identity with provenance.
+  Verify physical arrays and serialized network/Adam are identical at0010.
+- Retain128L2 warm fits,full residual,Adam1e-4,combined input conditioning,
+  replay training OFF,standard stagger/history floor,field thresholds and
+  outer caps. No bootstrap repetition,old-H regeneration or reference labels.
+- Same-load reference error remains a recorded comparison. Continuation's
+  external inner-accuracy guard uses same-own-H direct fieldL2<=10%,physical
+  AT2<=.20 andfieldstable, separating innerfit from differing crack onset in
+  coupled trajectories. This is an explicitly changed provisional experiment
+  diagnostic, not physical or production stop policy. Failed guard saves/stops;
+  no outer-budget advancement. Numerical range/force/history checks persist.
+- Seed continuation TB with inherited endpoint fields/curve, label inherited
+  prefix in provenance. Background worker stores progress and completion/error
+  receipt; inspect actual restoration/start before reporting launch. No default
+  or production source/API change; no Git operation.
+
+## 2026-10-15 — Verify continuation restored exact state and first new endpoint
+
+- Explicit fork preserves source pilot; CPU and GPU independently verify exact
+  physical/network/Adam state at0010,11392updates/bank20. First new0011passed
+  after11outers: same-load4.338%,own-H4.318%,tip2.085%,AT2.09032;Adam12800,
+  bank22. Independent saved-field/CSR/oracle/TB audit PASS.
+- Keep continuation running unchanged under detached owner123483/worker123500.
+  Source pilot remains complete0010; new target0060 is still running. Both
+  actual state restoration and new training are verified, not only process
+  creation. Inherited60TB images match original PNG bytes. No source/default
+  changes or unchanged expensive suite rerun; no Git operations.
+
+## 2026-10-15 — Diagnose0017 field-stability stall before changing solver policy
+
+- User observes TB staying at0016. Process was live at0017outer72; endpoint
+  plots refresh only when a load finishes. During inspection0017 reached128
+  outer cap, saved a mechanically synchronized candidate, and stopped by the
+  existing external fieldstable guard. Owner123483/worker123500 exited0,
+  receipt needs_accuracy_review; last accepted fieldstable load0016.
+- Final candidate accuracy passes: same-load1.9023%,own-H1.8848%,tip.2388%,
+  AT2.04813. Only field change fails: damageRMS2.07984e-5>1e-5 and no three
+  consecutive passes. Keep candidate labelled budget_exhausted,not converged.
+- Read-only CPU same-H direct solves atouters1/8/32/64 verify decreasing
+  global3.866/3.624/2.797/2.227% andtip2.281/2.233/.855/.294%. H drift from
+  outer8->32 .0162%,32->64 .0864%; selected fine-token sets unchanged at all
+  four inspected contexts. This supports optimization-update oscillations as
+  a practical bottleneck, but does not causally isolate the learning rate.
+- Decision: preserve original policy and run artifacts; recommend a bounded
+  same-H smaller-rate finishing control before changing tolerance, architecture
+  or outer caps. No new training, automatic restart or source/default change.
+  Raw-H/oracle/endpoint metrics independently checked; no Git operations.
+
+## 2026-10-15 — Test learning-rate reduction before restarting stalled loading
+
+- User agrees learning-rate decay is needed. First isolate fixed own0017H:
+  two identical saved networks/Adam35328,512L2updates each at1e-4 versus1e-5,
+  full residual,no replay,128-update field-change/error evaluations. Dynamic
+  update scale.1 is equivalent to reducing Adam's final learning-rate factor,
+  preserving moments/counters; validate first-step equivalence and finite
+  metrics. Direct solution is evaluation only; no trajectory promotion of
+  these frozen-H diagnostic weights.
+- If lower rate stabilizes updates without losing accuracy, fork a declared
+  continuation: inherited physical prefix0..0016, seed network/Adam from failed
+  0017; redo0017 with preceding-load0016H floor. Truncate logical replay to32
+  accepted-prefix snapshots, discard failed0017snapshots from active bank,
+  recollect start/end once. Preserve failed/root records and all Adam moments.
+- Use existing explicit exponential-decay configuration, floor1e-5, without
+  resetting its global count; at restored35328 the new schedule is already
+  at the floor. This continuation is an immediate reduction from prior1e-4,
+  not evidence of a gradual-decay cold trajectory. No threshold/physics/cap/
+  architecture change; target0060,regular128L2updates and existing own-H guards.
+
+## 2026-10-16 — Reduced-rate control stabilizes updates; launch declared retry
+
+- Fixed-own-H0017 paired512update control COMPLETE from exact35328-count
+  network/Adam. Rate1e-4 final block damageRMS5.0373e-5,all4blocks fail1e-5;
+  rate1e-5 changes1.8435e-5/3.6201e-7/1.7206e-7/1.1844e-7,last3pass.
+  Final global errors1.84909/1.84967%,similar accuracy; low-rate tip.3632%
+  versusinitial.2381%,so do not claim every metric improved. Adam35840both.
+- One actual trainingJIT,first-step Adam scale equivalence checked and exact
+  starting states retained. Independent CPU finalmetrics/TB/restart-lifecycle
+  audit passes. Initial bit-exact comparison of separately evaluated GPU
+  moments failed at~1e-18; repeat same-rate call shows comparable roundoff.
+  Preserve failed pretraining check; floatmoments use explicit tolerance,
+  counters and actual initial states remain exact. No numeric field changed.
+- Launch new root/TB pinn_history_conditioned_decay_20261015. Accepted physical
+  prefixthrough0016;failed0017network/Adam35328seed;logicalbank32;redo0017.
+  Existing exponential.5per4096,floor1e-5 yields floor at restoredglobalcount,
+  an immediate rate reduction for this retry. Oldconstant trajectory preserved.
+  Optax scalar schedule isFP32,so verify the exact representable floor in its
+  dtype; field/net FP64 unchanged. Lowering rate preserves all Adam moments.
+- Detached owner140094/worker140110 started. Target0060,128L2updates/outer,
+  unchanged field/accuracy guards and physics, replay trainingOFF. Verify GPU
+  restart and first new endpoint before reporting the retry as healthy.
+
+
+## 2026-10-16 — Verify reduced-rate coupled retry and delimit performance claims
+
+- Record previously unwritten verification: independent first-three-endpoint
+  audit passes for retried0017/0018/0019, five outer sweeps each, including
+  previous-load H commitment, force/reaction, raw-H metrics, serialized states,
+  actual snapshots and TensorBoard. This supports continuation under unchanged
+  tolerances; relaxing the field gate or resetting Adam is unnecessary here.
+- Retain current reduced-rate optional run without additional intervention.
+  Completed through0052 (38outers, same-load damage1.874%, own-H1.605%,
+  own-Htip0.331%);0053 ongoing. First-three audit is not an independent audit
+  of all subsequent endpoints. Provisional guards are not exact convergence.
+- Explain economical early-load work using measured counts: median6outers
+  across36retryloads0017..0052, range5..38. Reject causal architecture speedup
+  claims without a matched benchmark: model, L1/L2 strategy and initialization
+  differ from accepted MLP. Fixed-H rate control supports update stabilization,
+  not uniform improvement of every accuracy metric or fracture-stage success.
+- Both baseline and optional model already use H. New learned patch encoding
+  replaces handcrafted graph-average features/compact readout. Replay training
+  remains OFF; snapshot collection is not replay training. Related: declared
+  reduced-rate retry above and active nonlocal-pinn-architecture task. Repair
+  failed closing documentation without changing live solver, defaults or Git.
+
+
+## 2026-10-16 — Inspect crack extent rather than peak damage at0053
+
+- For user-requested intermediate fields, use actual savedouter256 and compare
+  64/128/256 at fixedU=.0053; outer272 has logs only. Select direct reference
+  by exact load (index56), not a matching index or terminal load.
+- A declared diagnostic threshold d>=.8 with mesh connectivity to notch-tip
+  neighborhood shows front x=.520/.540/.579; direct spans to1.0. Together with
+  inspected fields, this establishes slow extension of a short nearly straight
+  crack, not a spanning crack despite peakdamage~.997. Threshold is a visual
+  descriptor only; no model/path/symmetry constraint or convergence change.
+- Keep stage reactions explicitly provisional because q uses previous damage.
+  Current-H fit loss reduction is not a sufficient measure of coupled crack
+  propagation. Preserve read-only CPU figures/summary and let existing job run.
+
+
+## 2026-10-16 — Preserve provisionally accepted through-crack candidate and publish code
+
+- Reduced-rate conditioned run stops normally at0053outer1024: saved endpoint
+  q/d synchronized, field-change3.19e-4 fails1e-5; no advancement to0060.
+  Final image spans, reaction1.55179 vs reference1.57096,damageL2 7.130%.
+  Preserve numerical budget_exhausted/needs_accuracy_review labels; user's
+  provisional engineering acceptance does not imply exact field convergence.
+- User authorizes commit and push of current code/docs. Follow dev commit,
+  regular merge into main, push only main; include optional architecture,
+  configs, tests, stage archive/link repairs and current memory. Exclude
+  generated results/slides/ignored legacy. Keep accepted MLP defaults and all
+  saved physical/network states. Do not restart or alter tolerances merely
+  because this candidate is provisionally accepted. Related: reduced-rate
+  retry, active nonlocal-pinn-architecture task and archived feasibility stage.

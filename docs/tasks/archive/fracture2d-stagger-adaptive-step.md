@@ -1874,6 +1874,6 @@ attempting more expensive same-control cutbacks.
   tracking and listed in `.gitignore` (kept on disk for local reference).
 - Superseded by: `examples/fracture2d/README.md` (formulation, parameters,
   accepted limitations),
-  [`fracture2d-nonlocal-pinn.md`](../fracture2d-nonlocal-pinn.md) (next stage),
+  [`fracture2d-nonlocal-pinn.md`](fracture2d-nonlocal-pinn.md) (next stage),
   `docs/PROGRESS.md`, `docs/DECISIONS.md`.
 - No further work is planned on this task.

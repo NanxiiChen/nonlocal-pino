@@ -5127,6 +5127,6 @@ probe before that review.
   untracked and gitignored on 2026-09-27; they remain on disk for local
   reference only and are not part of the tracked repository.
 - Superseded by: `examples/fracture2d/README.md`,
-  [`fracture2d-nonlocal-pinn.md`](../fracture2d-nonlocal-pinn.md),
+  [`fracture2d-nonlocal-pinn.md`](fracture2d-nonlocal-pinn.md),
   `docs/PROGRESS.md`, `docs/DECISIONS.md`.
 - No further work is planned on this task.
