@@ -60,7 +60,7 @@ def occurrence_rows(rows, size):
 
 class LocalMechanics:
     def __init__(self, coordinates, triangles, n_material, n_material_cells,
-                 volumes, *, E, nu, k_res, constrained, load_direction):
+                 volumes, *, E, nu, k_res, constrained, load_direction, range_atol):
         if (type(n_material) is not int or not 0 < n_material <= len(coordinates)
                 or type(n_material_cells) is not int or not 0 < n_material_cells <= len(triangles)
                 or not np.isfinite(k_res) or not 0 < k_res < 1
@@ -75,7 +75,9 @@ class LocalMechanics:
             raise ValueError("invalid material prefix, volumes, stiffness or boundary constraints")
         self.coordinates, self.triangles = coordinates, triangles
         self.n_material, self.n_material_cells = n_material, n_material_cells
-        self.volumes, self.k_res = volumes, k_res
+        if not np.isfinite(range_atol) or not 0 <= range_atol <= 1e-3:
+            raise ValueError("damage range tolerance must be explicit in [0, 1e-3]")
+        self.volumes, self.k_res, self.range_atol = volumes, k_res, range_atol
         self.areas, self.B, self.element_stiffness, self.dofs, self.lam, self.mu = triangle_data(
             coordinates, triangles, E, nu)
         if np.max(triangles[:n_material_cells]) >= n_material:
@@ -95,8 +97,8 @@ class LocalMechanics:
 
     def factors(self, damage):
         if (damage.shape != (self.n_material,) or damage.dtype != np.float64
-                or not np.all(np.isfinite(damage)) or np.min(damage) < -1e-10
-                or np.max(damage) > 1+1e-10):
+                or not np.all(np.isfinite(damage)) or np.min(damage) < -self.range_atol
+                or np.max(damage) > 1+self.range_atol):
             raise ValueError("invalid P1 material damage")
         factors = np.full(len(self.triangles), 1+self.k_res)
         values = damage[self.triangles[:self.n_material_cells]] @ QUADRATURE.T

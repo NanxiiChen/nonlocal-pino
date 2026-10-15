@@ -12964,3 +12964,337 @@ Template for each entry:
   binary results, or restarting the stopped numerical trajectory.
 - Relation: completes publication of the immediately preceding provisional
   checkpoint; field accuracy and substantial code consolidation remain open.
+
+## 2026-10-14 — Consolidate fracture2d around the accepted local-mechanics route
+
+- Decision: user requests substantial source consolidation. Public PINN entry is
+  train.py; nonlocal_baseline.py solves the same local P1 mechanics/nonlocal AT2
+  model with direct damage. Both share one mechanics-first loading loop and
+  explicit ml_collections configuration. Preserve accepted FP64 initialization,
+  history, full-node L1/Adam, load grid and iteration/stopping defaults.
+- Reason: numerous one-off drivers and the old 11k-line nonlocal-mechanics
+  baseline obscure the usable route. Keep L1/L2/L16, full/core+halo sampling,
+  optimizer/head and relaxation comparisons as explicit settings.
+- Rejected alternatives: wrapping the old experiment chain as the public API,
+  deleting historical experiments, adding symmetry constraints, or silently
+  changing equations/default training policy. Archive historical modules,
+  configurations and detailed README under a tracked _legacy namespace;
+  archived run code snapshots and original Git revisions remain authoritative
+  for exact hash-bound replay. New public code must not depend on _legacy.
+- Relation: continues the existing active fracture2d task after publication of
+  the accepted own-zero stage. Cleanup is authorized; no commit, push or long
+  training restart is authorized in this turn.
+
+## 2026-10-14 — Use direct file paths without SHA verification
+
+- Decision: user explicitly rejects hash-based loading/validation. Remove all
+  SHA configuration, fingerprint verification and checkpoint hash ancestry
+  from the consolidated public fracture2d route. Use direct file paths for
+  cloud, prepared mesh/operator, compact basis, reference and saved weights.
+- Reason: simplify configuration and normal workflow as requested. Keep actual
+  array ordering/shape/dtype, material settings, rebuilt operator coefficients,
+  numerical ranges/equilibrium, zero initial state and optimizer count checks.
+- Rejected alternative: keeping hidden mandatory SHA checks or introducing a
+  switch that still makes hashing the default. Historical records/legacy code
+  retain their original integrity contracts as archived material only.
+- Relation: supersedes the source-hash part of the preceding consolidation
+  plan; equations and accepted default training policy remain unchanged.
+
+## 2026-10-14 — Full consolidated PINN rerun named pinn_baseline
+
+- Decision: user requests a complete fresh rerun and TensorBoard name
+  pinn_baseline. Run the consolidated train.py from physical/network/Adam zero
+  through0060 with accepted default numerical policy and direct file paths.
+- Reason: validate the full loading trajectory after source consolidation,
+  beyond existing frozen-H and first-outer equivalence checks. Physical results
+  are in tf-logs/fracture2d/pinn_baseline; a separate explicit output.event_dir
+  places events in tf-logs/pinn_baseline, giving exactly that UI run name.
+- Rejected alternatives: reusing0052weights, raising iteration caps, changing
+  loss/sampling, adding SHA verification, or silently writing to /root/tf-logs.
+  Correct current6007server's stale /root/tf-logs logdir to canonicalautodl-tmp.
+- Relation: supersedes the earlier no-new-loading state at user authorization;
+  preserve the stopped accepted trajectory and all existing event directories.
+  No commit/merge/push is authorized. Fresh run background receipts and final
+  matched-load comparisons remain direct-file records.
+
+## 2026-10-15 — Preserve user-stopped pinn_baseline and plot matched loads
+
+- Decision: user reports manually stopping the consolidated rerun after
+  developed fracture,requests the same three scientific figures,and selects
+  columns0025/0050/0052/0053/0054. Use this newpinn_baseline,not the older
+  accepted PINN run;retain matched local-gradientFEM andnonlocal-direct sources.
+- Reason:57positive endpoints through0057 are complete and synchronized;
+  supervisor22942/worker22947 are absent andGPUqueryempty. Last journal is
+  unfinished0058outer160. Its unsynchronized stage force mustnot enter curves.
+- Rejected alternatives: restarting loading,plottingpartial0058,promoting the
+  requested0060path tocomplete,reusing an oldPINNfigure,or SHA checking inputs.
+- Relation: supersedes the live-rerun dashboard state. Keep rawresult/receipt
+  files unchanged;write a separateuser-stop observation because the supervisor
+  receipt still saysrunning after external termination. No Git operation.
+
+## 2026-10-15 — Fixed 2048-entry core+halo comparison from zero
+
+- Decision: user authorizes one finite pool of 2048 random with-replacement
+  core batches, all padded to the actual maximum complete core+halo union.
+  Cycle this pool at every optimizer update; never regenerate it during a run
+  or reset Adam on batch changes. Record TensorBoard as `pinn_core+halo` under
+  `/root/autodl-tmp/tf-logs` and solve from zero through 0.0060.
+- Reason: measured exact-support pool storage (~1.2 GiB) and construction
+  (~8 seconds) are acceptable; one fixed shape avoids recompilation. Keep the
+  previous full-domain model, network initialization, loss, optimizer, loading,
+  stopping tolerances and budgets so sampling is the numerical comparison.
+- Rejected alternatives: arbitrary 32768 padding, statistical safety margins,
+  dropped neighbors, periodic pool regeneration, symmetry constraints, or
+  restarting from trained weights. Importance weights and frozen H remain
+  detached. A finite reused pool is an empirical approximation, not an exact
+  equality of the full-domain objective at each training update.
+- Relation: continues the active fracture2d task; preserves stopped
+  `pinn_baseline`. No commit, merge or push is authorized.
+
+
+## 2026-10-15 — Stop core+halo after measured loss of total efficiency
+
+- Decision: user conditionally authorizes stopping if the finite-pool run is
+  slower. Stop only its verified supervisor8794/worker8797; preserve completed
+  endpoints, partial stage, events and receipts, without restarting training.
+- Reason: matched TensorBoard endpoint wall times over loads0002..0030 give
+  full605.278s/320outers versus random3046.669s/2779outers:5.0335xwall and
+  8.6844xouters. Per-outer work is faster, but this run repeatedly hits128outer
+  budgets from0010; it is not a total-solve speed improvement.
+- Rejected alternatives: stopping unrelated TensorBoard or processes, inferring
+  final fracture accuracy from an early prefix, attributing every extra outer
+  to deterministic coupling rather than stochastic field-change noise, or
+  silently changing tolerances/learning rates to improve the comparison.
+- Relation: supersedes the prior background-to0060 authorization at this
+  measured condition. Audit full baseline defaults/source/numerical replay;
+  no new trajectory or Git operation is authorized.
+
+
+## 2026-10-15 — Test tip refinement and ten-update batch holds
+
+- Decision: user authorizes further core+halo optimization by increasing crack
+  and especially notch-tip density and switching batch about every10inner
+  optimizer updates. Add an explicit optional inverse-power tip bump centered
+  at sample.start; default tipboost0 preserves current probability policy.
+  Candidate uses segmentboost18 (was9),tipboost36,tipwidth.024,tippower2,
+  andresample_every10. Keep pool2048/core2048,fullsupports,exactmaxpadding,
+  detachedweights andpersistentAdam; full-domain numerical defaults unchanged.
+- Reason: holding a batch can reduce the disturbance from changing sampled
+  gradients; additional tip samples may improve the high-gradient region.
+  These are empirical optimizer/sampling controls,not a changed fracture law.
+  Positivebaseline ensures allnodes havepositiveprobability;1/(N*p) corrects
+  nodalmoments over randomdraws. We do not assume that holdingbatches always
+  improves fieldstability or that finitepool gives exactfullobjectives.
+- Rejected alternatives: relaxedstoppingtolerances,symmetryconstraints,dropping
+  halos,reinitializingAdam,changingfull defaults,or immediately committing to
+  an untestedfulltrajectory. Use a bounded2x2same-parent comparison to isolate
+  density andfrequency;original stoppedrunsremainunchanged. NoGitoperation.
+- Relation: continues the existingactivefracture2dtask at new user direction,
+  superseding the prior no-new-experiment state only for this optimization.
+
+
+## 2026-10-15 — Retain tip refinement as an option; do not adopt ten-step holds
+
+- Decision: after completing the bounded2x2trial,set the optional tip-density
+  config to per-update resampling; keep10-step holds available via the explicit
+  sample.resample_every override. Preserve full-domain defaults and launch no
+  full loading trajectory automatically. Candidate outputname drops the10
+  suffix to match its final sampling policy.
+- Reason: same0009parent->0010,all fourcases exhaust128outers. Withk1,
+  refinement lowerssame-load referenceglobaldamageL2 from20.33%to18.63%
+  andtipradius.024error22.76%to10.37%,without solvingouterstop. Withk10,
+  globalerrors72.88%/72.09% andlargerfieldfluctuations do not support adoption.
+  FullL1 alone would miss thetipprecision improvement;retain field validation.
+- Rejected alternatives: claimingdensitysolvesouterconvergence,looseningstop,
+  replacingfull defaults,calling theone-parent/seedprobeuniversal,or retaining
+  a poorer-performinghold policy merely because it sounded plausible.
+- Relation: refines the preceding empiricalcandidate based on completed
+  results;alltrialstates/events retained. Core+halooptimization remains open.
+
+
+## 2026-10-15 — Extend the tip-density sweep without changing the training budget
+
+- Decision: user asks for still more refinement. Probe three stronger geometric
+  densities atsegment/tip boosts36/144,72/576,144/2304;allwidths.024,powers2,
+  k1resampling,core2048/fixedpool2048. Reuse the sameactual0009parent and
+  solve0010 withinner128/outer128 andunchangedphysics/stop/Adam.
+- Reason: previous18/36 improves tipaccuracy butdoesnotresolveouterbudget.
+  Calibratedactualtipradius.024 expecteddraws rise49.55->84.67->119.84->144.86
+  (withreplacement;91availablenodes). Segmentbanddraws410->481/472/422;
+  normalizationandstrongertipfocus makebandmassnonmonotonic. Assessactual
+  density andoff-banderrors instead ofassumingboostequalsphysicalnodecount.
+- Rejected alternatives: increasingcorecountsimultaneously,changingwidth/kernel,
+  ten-stepholds,relaxedstops,discardinghalo,or fulltrajectorywithout evidence.
+  Globalpositivebaseline,detachedimportanceweights andcompleteDrowsretained.
+  Maximportanceweights2.00->3.31/5.72/8.10;focusingmayincreasebackground
+  estimatorvariance,so evaluatesame-loadglobal/tip/offbandfield errors.
+- Relation: boundedextension ofcompletedtip/holdprobe,usingstoredprevious
+  controlsratherthanrerunningunchangedarms. No change tofullbaseline/default
+  orGitoperation. Strongerdensityisexperimental,notautomaticallyadopted.
+
+
+## 2026-10-15 — Keep moderate refinement after the stronger-density sweep
+
+- Decision: retain optional18/36 refinement andfull-domain defaults. Keep the
+  three strongerdensityresults as explicitcomparisondata;do notpromote a
+  strongerdefault orstartfullloadingautomatically.
+- Reason: stronger36/144,72/576,144/2304 reduces tiperror10.37->8.31/6.73/
+  5.87% butincreasesglobalerror18.63->19.76/21.71/22.26% at0010. Farthest
+  caseoffbandRMSE grows~25%,all128outerbudgets exhausted. Localprecision
+  gains tradeagainstglobal/backgroundprecision anddo notsolveouterstop.
+- Rejected alternatives: treatingtiperrororpeakresidualalone asoverall
+  improvement,looseningstop,assumingoneearlyloadproveslatecrackbehavior,
+  ordeclaringlargerrawboostsproportionaltouniqueparticles. Fulloperator,
+  frozenhistory,optimizerandweightdetachmentremainunchanged.
+- Relation: closes the boundedextension;currentmoderatecandidate stays the
+  morebalancedobservedpoint. Furtherstochastic-convergencework remainsopen.
+
+
+## 2026-10-15 — Park adaptive-H sampling; test a two-times field tolerance
+
+- Decision: user explicitly parks history/loghistory-based online sampling.
+  Record it forfuturework,implementnorun none. Currentworktests damagefield
+  P1RMS outerchange tolerance2e-5,usingusersteeredpreviousbalanced
+  segment18/tip36 density,k1 resampling. Keep allother model/training/stop
+  settings,includingu/load tolerance1e-4,min3and3consecutivepasses.
+- Reason: existingcompletejournal counterfactual with the actualfield_stop
+  function gives first2e-5stop atouter6 formoderatek1,versusno1e-5stopwithin
+  128. This testswhether deterministic-scale stopping overworks stochastic
+  training;evaluateactualearlierfieldsbefore adoptingaproductiondefault.
+- Rejected alternatives: continuingparkedHwork,usingstrongerdensityor10step
+  holds,silentlychangingfulldefaults,orcallingearlystop proof ofPDEaccuracy.
+  Retainoldstrictresultsascontrols;runonefinite same0009->0010case only.
+- Relation: followsstrongerdensitytradeoffanduser's latestdensity/frequency
+  steering. NoGitoperation/fulltrajectory ornewadaptivephysics isauthorized.
+
+
+## 2026-10-15 — Treat tolerance2e-5 as a measured speed/accuracy tradeoff
+
+- Decision: record the actualrelaxedcase andretain public/full defaults.
+  Tolerance2e-5 remains an explicitrunoverride,not an equivalentaccuracy
+  replacement or PDEcertification. AdaptiveHsampling staysparked.
+- Reason: balanced18/36,k1,same0009->0010 reachesfieldstopat6sweeps,
+  7.54stimedwork versusstrict128budget/123.37s. Globaldamageerror rises
+  18.63->29.37%,tip10.37->35.93%,althoughreactionerrorstays.063->.098%.
+  Extraoptimizationhasrealaccuracybenefit inadditiontooscillatorychanges.
+- Rejected alternatives: claiming1e-5ismerelywastednoise,judgingqualityby
+  reactionalone,silentlyupdatingbaseline,or extrapolatingoneearlyload's
+  speedratio tofullfracturetrajectory. Futureloadingvalidationmustcheck
+  erroraccumulationandcriticalcrackfieldsatmatchedphysicalloads.
+- Relation: closes theusersteeredboundedthresholdtest;unchangedscheme,
+  model,historyandk1samplingpreserved. No newlongrunorGitoperation.
+
+## 2026-10-15 — Plot actual sampling probabilities and complete supports
+
+- Decision: add a small optional plot_sampling.py using the production density,
+  fixed-pool RNG and exact CSR halo extraction. Show normalized per-node
+  probability relative to uniform, a real batch, tip zoom and cross-sections.
+- Reason: raw boosts18/36 do not equal normalized density enrichment or unique
+  particle counts. Reproduce all2048 draws/batches and their maximum union,
+  without allocating/uploading the entire packed training pool.
+- Rejected alternatives: illustrative synthetic cores, treating halos as random
+  draws, hiding repeated cores, or changing the solver to make the plot.
+- Relation: user requests an elasticity2d-style scientific visualization;
+  existing training defaults, deferred H sampling and stopped runs remain intact.
+
+
+## 2026-10-15 — Run the plotted moderate core+halo strategy from zero
+
+- Decision: user authorizes a complete cold0->.0060 trajectory with the plotted
+  moderate18/36 density,k1,2048core/fixed2048pool. Carry the latest tested
+  damage-change2e-5 as an explicit run override, announced before launch;
+  keep public/full defaults1e-5. L1/Adam1e-5/sigmoid,du1e-4,128inner,
+  outercap128below.0053/1024from.0053 and all other controls unchanged.
+- Reason: assess accumulated loading and fracture behavior rather than infer
+  whole-path quality from the bounded early-load probe. Fresh network/Adam
+  and physicalq/d/H zero, no inherited trained prefix or direct labels.
+- Rejected alternatives: resuming0009, reusing an existing run directory,
+  onlineH sampling, stronger tip density, batch holds or symmetry constraints.
+  Preserve exact halos, padding22450, importance correction and warm Adam
+  across the new trajectory. Record provisional budget exits explicitly.
+- Relation: supersedes previous no-new-long-run restriction at user's request.
+  New root/events pinn_core+halo_tip_tol2e5, existing6007 TensorBoard service;
+  per-completed-load fields/reaction plots and same-load reference diagnostics.
+  No Git operations authorized.
+
+
+## 2026-10-15 — Record the renewed core+halo slowdown without retuning
+
+- Decision: review user-reported slowdown using matched-load completed endpoints
+  and TensorBoard walltimes; keep current worker and controls unchanged. Recommend
+  retaining full-domain production and consider ending this slower trial; do not
+  silently infer a cancellation from a performance observation.
+- Reason: at0.0002..0.0025 full520.53s/278outers versus moderatek1/tol2e-5
+ 1742.35s/1643outers,3.35xwall/5.91xouters;random12budgetexits versusfull0.
+  Per-outer workat0024 isfaster(.9942vs1.5983s), but at0025 randomdamageL2
+ 9.466%vsfull2.010% tosame-load direct. Raising the field-change threshold
+  alone has not produced acceleration; extra work cannotallbeassumednoise.
+- Rejected alternatives: secretly raisingtoleranceagain, callingeverybudgetexit
+  converged, changingbatchfrequency, startingnewGPUexperimentsalongsideworker,
+  orcanceling a user-requested completepathwithout clearsteering.
+- Relation: actualcold-path evidence qualifies the earlier single-load16x
+  speedup. Full/random have differentstops and evolvedH,so noisolatedthreshold
+  causality. DeferredonlineH work remains parked; no Gitoperation.
+
+
+## 2026-10-15 — Cancel core+halo and rerun the saved full baseline on current GPU
+
+- Decision: user explicitly cancels current core+halo and asks to recheck the
+  previous pinn_baseline after replacing GPU. Stop only verified owner27821/
+  worker27824, retain endpoints/events, then cold-run the SAVED baseline config
+  with only outputroot/eventdir changed. Fullsample,tolerance1e-5,L1/Adam/
+  sigmoid/FP64,du1e-4,128inner,128/1024outercaps,terminal.0060 unchanged.
+- Reason: isolate rerun/hardware effects without introducing numerical tuning
+  or overwriting original accepted trajectory. Preserve unused historical
+  random-only configfields too, so configcomparison differsonly in outputpaths.
+  Record current NVIDIA RTX6000D identity and Python/JAX/library environment.
+- Rejected alternatives: resumingtrainedweights, using2e-5, mixingbothGPUruns,
+  changingseed/precision/stop/sampling, renaming/deleting oldbaseline ormaking
+  claims that an identical GPU-independent nonlinear trajectory is guaranteed.
+- Relation: supersedes former completecore+halo authorization. Verifiedcancel
+  at27completedloads through.0027;partialnextload retained,receiptcancelled,
+  GPUfree. New result/events pinn_baseline_gpu_rerun_20261015. NoGitoperation.
+
+
+## 2026-10-15 — Retain full/core+halo routes and archive sampling experiments
+
+- Decision: user asks to persist the insight and clean unrelated new scripts.
+  Keep full(default) and core+halo as the two PINN sampling routes, with direct
+  baseline/FEM comparator and shared numerical modules retained. Consolidate
+  the latestmoderate18/36 candidate into train_core_halo.py; archive the
+  redundant tip config and preserve the original9/0 preset as historical.
+  Keep plot_sampling.py as a directly useful tool for the retained sampler.
+- Insight: in measured fracture2d runs, cheaper core+halo updates required more
+  iterations and did not reduce total solve time. Latestmatched0002..0025
+  wall3.35x/outer5.91x; evendtol2e-5 failed toresolve this. This is a measured
+  limitation of the tested strategy,not a universal impossibility result.
+- Reason: preserve usable current sampling without presenting experimental
+  density/batch/tolerance drivers as main entry points. Archive sourcecopies
+  of completed one-off resource/count/density/hold/tolerance probes and reviews,
+  plus the long historical rootREADME index. Existing external snapshots and
+  active /tmp baseline launcher stay intact. No public numericalcore changes.
+- Rejected alternatives: removingrandomsupport, changingfull dtol1e-5/defaults,
+  moving necessary shared imports, deleting past evidence, addingnewsolver
+  entrypoints orstopping theactivebaseline. Publicsourcefilenames staystable
+  so live runsource-list/resumeidentity isnot invalidated by this cleanup.
+- Relation: user additionally permitsGPUverification. Run focused GPU loss/
+  gradient/sampling regressions withpreallocationoff, alongside existingworker;
+  noFEniCS, no secondfulltrajectory andnoGitoperation.
+
+
+## 2026-10-15 — Publish the consolidated fracture2d sources
+
+- Decision: user explicitly authorizes commit to main andpush. Follow repository
+  dev commit -> regular mainmerge -> origin/mainpush, using an isolatedmain
+  worktree to leave live GPUtraining/source directory ondev.
+- Scope: source/config/test/Markdown andarchive-preserving.gitignore changes
+  accumulated since6ce5162, includingfull-default/core+halooption, legacy
+  migration, fixedpool/tipconfig/plotutility andregularcheckpointlist. Exclude
+  slides, PNG/PDF/results, weights/events andexternaldata.
+- Reason: preserve a reviewable source checkpoint oftheacceptedcleanup while
+  the GPUbaseline reruncontinues. All267removedhistoricalPythonfiles have
+  archivecounterparts; recent4GPUregressions/config/source/linkchecksPASS.
+- Rejected alternatives: committingrawdeletionswithoutarchive, all-filesgitadd,
+  switchingtheliveworkspace tomain, squash/rebase/forcepush orpushingdev.
+- Relation: current-turnGit authorization supersedes priornoGitnotes onlyfor
+  this publication; broad numericaltask andbackgroundbaseline remainactive.

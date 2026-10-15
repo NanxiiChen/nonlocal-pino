@@ -12944,3 +12944,1114 @@ supervised fine pause/resume, inspect actual physical errors/force and plots.
 - Exactresume:acceptedown-zero0..0057andmatchedcomparisonartifacts remain
   preservedin cold_full_pinn_loading_0060_20261014;alltraining staysstopped.
   Awaituserdirection onprecision improvements andcodeconsolidation.
+
+## 2026-10-14 — Active source consolidation
+
+- Goal: substantially reduce active fracture2d code; local direct mechanics,
+  nonlocal PINN/direct damage only. train.py and nonlocal_baseline.py share
+  stagger/loading, use ml_collections CLI, and retain accepted numerical defaults.
+- Acceptance: no active dependency on _legacy; historical source/configuration
+  and diagnostics preserved there; meaningful optional norms, sampling,
+  optimizers/heads remain explicit; README reflects new API; initialization,
+  loss/gradient/history/operator/mechanics/default configuration parity checked.
+- Status: implementation in progress. Blocker: none. Next action: extract
+  numerically unchanged kernels, consolidate loading and monitoring, migrate
+  historical imports/tests, verify CPU integration and production-size parity.
+- Preserve stopped own-zero results and TensorBoard; no long run or Git history
+  operation requested. Exact historical hash-bound sources remain in run code
+  snapshots and published commit 4f0f5e7.
+
+## 2026-10-14 — Main-route consolidation completed; direct paths only
+
+- User request fulfilled: public fracture2d keeps local P1 direct mechanics
+  with nonlocal AT2 PINN/direct damage. The top-level Python tree decreases
+  from126files/35329lines to17files/~3130lines (about91% fewer active lines);
+  active configs decrease from92 to3. All218 original Python/config files,
+  previous detailed README and60 legacy test modules are preserved in tracked
+  _legacy directories. No source/result/slides deletion or Git operation.
+- Public entries: train.py/run_training and nonlocal_baseline.py/run_baseline,
+  absl + ml_collections ConfigDict/file flags and dotted overrides. Shared
+  loading.py/stagger.py implement mechanics-first, prior-load H floor,
+  warm-start damage and one final mechanics synchronization per load.
+  Main code has no import of _legacy. Root/example READMEs describe new API.
+- Accepted defaults unchanged: physical E210000/nu.3/Gc2.7/l0.024/kres1e-8,
+  cubic damage horizon.008; own-zero q/d/H, seed0 swish96x3 plus compact readout,
+  initial sigmoid.001, fixed latent RMS scales and physical graph-H features;
+  full71307 nodes/L1/Adam1e-5,128inner,du1e-4,target0060,
+  prefix128outer and1024from0053,omega1,exactP1change stopping and
+  provisional budget advancement. No symmetry/straight-path constraint.
+- Retained explicit comparisons: L1/L2/stabilized squaredL16; full or exact
+  fixed-shape prebuilt core+halo random pools, resample1, counter-derived
+  reproducible seeded blocks and importance correction; persistent Adam/SOAP;
+  fixed-full-objective L-BFGS; sigmoid/exp-square/identity output; detached
+  uniform/damage/capped-reciprocal weights; relaxation, loading and budgets.
+  Random stream identity is new, not bitwise reuse of an old experiment.
+- Per user steering, NO SHA fields/checks in public source/configuration or
+  saved public identities/checkpoints. Direct cloud/mesh/operator/basis/reference/
+  network/optimizer paths only. Validate actual cloud-to-mesh array ordering,
+  rebuilt CSR coefficients, physical settings/ranges, field shape/dtype/finite
+  values, exact zero initial state, parent-load ordering/H and optimizer count.
+  Remove only the newly generated migration SHA index after proving it was
+  untracked/current-agent output; original historical records remain intact.
+- Simplified output contract: single state0000.. directory sequence, atomic
+  fields/result JSON, net/optimizer leaves and parameterization file, optional
+  code copies and config/path identity. Named outer checkpoints for inspection;
+  resume restores last completed load and recomputes interrupted load.
+  No automatic legacy prefix/tail import or hidden fallback. Output roots are
+  protected against accidental overwrite; resume checks configuration/paths.
+- TensorBoard is integrated in public loop: five damage/ux/uy/H/reaction images
+  per completed load, exact-load optional direct comparison,actual displacement
+  extrema and0..1damage, synchronized reactions. Defaults write under
+  /root/autodl-tmp/tf-logs; existing6007server and old events remain untouched.
+  Stage forces remain explicitly associated with preceding damage.
+- Validation: main16tests pass (3 GPU/FEniCS environment skips); focused
+  full/random/direct endpoint resume test passes after final field-validation
+  and direct diagnostic changes; monitor test reads five image tags and
+  matched-reference scalars. Optional SOAP/L-BFGS/heads, importance estimates,
+  detached buffers and exact full/halo gradients pass.
+- Legacy migration: initial discovery runs169tests with5skips; only8import
+  placeholders fail due moved test-to-test dependencies. Fix all those imports;
+  focused rerun of those8modules passes23tests. The other161 discovered cases
+  are unchanged/passed; no unchanged563s suite repeated.
+- Production GPU parity on71307 nodes: fresh parameter leaves/scales and
+  history features equal; fullL1loss/gradients equal;128persistentAdam updates
+  damage max difference1.86483e-17. P1 field-change stopping formula unchanged.
+  Record /tmp/fracture2d_consolidation_parity.json. Cold first outer against
+  saved accepted-stage fields differs maxq1.06488e-13/d2.94923e-14/H7.63740e-11
+  (HrelativeL2~3.99e-9); ordinary CG/reduction rounding, not bitwise equivalence
+  of historical coupled runs. Record /tmp/fracture2d_consolidated_gpu_smoke.json.
+- Actual public CLI GPU PINN/direct smoke each completes one load with five
+  image tags and path-only identity in /tmp/fracture2d_consolidated_*_gpu_path_only.
+  Fix absl callback returningPath (which exits1 despite finished solves);
+  subsequent manufactured CPU CLI PINN/direct complete two loads and exit0,
+  with default-file/dotted CLI overrides. No long numerical trajectory started.
+  Both invalid loading overrides fail at explicit startup validation.
+- All218 original paths verified archived; all active/archived Python syntax
+  parses; main dependency boundary and absence of SHA checks verified.
+  git diff --check passes. Binary plots/checkpoints only in /tmp; existing
+  untracked report assets/slides remain excluded and untouched.
+- /task-end: changed README/exampleREADME, PROGRESS, DECISIONS andthis task;
+  source/config/test/archive and scoped .gitignore changes remain uncommitted.
+  Consolidation stage COMPLETE, blocker none. Broad task remains open for
+  numerical accuracy and future useful cleanup. Exact resume: review new
+  train_base/nonlocal_base and shared loading loop, then user-directed next
+  experiment under a fresh output root. Preserve accepted stopped0..0057
+  cold_full_pinn_loading_0060_20261014; no automatic restart/commit/push.
+
+- Final entrypoint check: production GPU PINN CLI resumes the completed smoke
+  endpoint with direct paths and exits0 after the callback fix; no additional
+  damage training is performed. Existing field/network/Adam state is restored.
+
+## 2026-10-14 — Full fresh consolidated run: pinn_baseline (launch preparation)
+
+- User authorizes a complete fresh solve; numerical target0060,du1e-4,
+  fullL1/Adam1e-5/sigmoid,128inner,prefix128outer/1024from0053,omega1,
+  persistent network/Adam,unchangedP1 field-stop/provisional advancement.
+- Physical output /root/autodl-tmp/tf-logs/fracture2d/pinn_baseline;
+  event directory /root/autodl-tmp/tf-logs/pinn_baseline;noSHApolicy.
+  Both directories absent before launch,GPU query empty.
+- Status: launch preparation;blocker none. Existing6007serverPID902 reads
+  /root/tf-logs (a real directory,not an alias),so restart only that identified
+  service againstcanonical/root/autodl-tmp/tf-logs. Preserveoldlogs/results.
+- Add explicit output.event_dir (empty retains previousroot/events default),
+  update monitor regression/README. Run focused monitor test,preflight60exact
+  reference loads,thenlaunch detached stdlib supervisor andactualtrainCLI.
+  Receipt/logpaths andstartup state to be recorded after verified launch.
+
+### Verified background launch and TensorBoard discovery
+
+- Detached stdlib supervisorPID22942 runs /tmp/pinn_baseline_supervisor.py;
+  actualpublictrainCLIGPUPID22947. Process receipt:
+  /root/autodl-tmp/tf-logs/fracture2d/pinn_baseline_process.json;
+  stdout /root/autodl-tmp/tf-logs/fracture2d/pinn_baseline.log;
+  supervisorlog /tmp/pinn_baseline_supervisor.log. Receipt statusrunning.
+- Start2026-10-14T13:17:27UTC =21:17:27Asia/Shanghai. CLI usestrain_base,
+  overrides only output.root and output.event_dir. No numerical settings change.
+  Explicit output.event_dir empty default preserves previousroot/events behavior;
+  focused endpoint-monitor regression passes with a separately named eventdir.
+- config.json proves fresh resumeFalse, physicalq/d/H arrays exactlyzero
+  (154662/71307/71307), state0000 optimizercount0. Fixed preparedgeometry/
+  compactbasis only; no previous weights or optimizer loaded. GPUquery shows
+  only22947. Native force/CSR/field checks remain in public loop;noSHAchecks.
+- TensorBoardserver902 was identifiedandstopped;its old logdir/root/tf-logs
+  was a realdirectory. Firstserverlaunch via.venv fails beforebinding due
+  missingpkg_resources;use the original working baseenvironment executable,
+  /root/miniconda3/bin/python /root/miniconda3/bin/tensorboard, withcanonical
+  /root/autodl-tmp/tf-logs. ServerPID22340/6007healthy. Service receipts/log
+  /tmp/pinn_baseline_tensorboard_service.json/.log. No old logs deleted.
+- HTTPdata/environment confirmscanonical root;actualHTTPscalar/image discovery
+  showsrunname EXACTpinn_baseline,14scalar/5image tags. EventAccumulator agrees.
+  Everycompletedload publishesdamagevsdirectatmatchedload,ux,uy,H,forcecurve.
+- Initialinspection:9completedpositiveloadsthrough0009,current0010outer1;
+  supervisor/worker running. Oldsame-loadPINNfirst4reaction differencesbelow
+ 9e-7absolute,damagevolumeL2relative differences~.0274/.0678/.0768/.0856percent.
+  Ordinaryfiniteprecision/coupledhistory differences;fullcriticaltrajectory
+  equivalence stillunder evaluation. Stageforceisnot anendpointnew-damageforce.
+- Completion supervisor automaticallyrequires60endpoints/terminal0060 and
+  writescomparison/matched_loads.csv,result.jsonandforce_displacement.png,
+  comparingnewPINNtoexistingdirectreferenceandoldaccepted0..0057PINN at
+  actualphysicalloads. No old0058partialpromotion;oldmissingloads remainempty.
+  Status/workerexit/endedreceipt recorded;SIGTERMtosupervisor stopsits ownworker
+  andrecords cancellation. It doesnotautorestart or touchTensorBoardserver.
+- Estimate5..7hoursfrompreviouscritical1024costandfineprefix;reassessfrom
+  actualtimings. Background continues afterthischatturn. No Git operation.
+- /task-end:PROGRESS/DECISIONS/thisactivetask updated;smallconfig/monitor/test/
+  READMEchange onlyfornamed eventdirectory. Focusedtestpassed anddiffcheck
+  required. Broadtaskactive,blockernone. Exactresume:receipt/status,root/result,
+  completedstatefields/figuresandevents;confirmremainingloads and finalcomparison
+  when process exits. Keep22942/22947running;no separateFEniCSMPIwork.
+
+## 2026-10-15 — User-stopped pinn_baseline matched scientific figures
+
+- User confirms manual stop around0057 after crack crossing. Both recorded
+  supervisor22942 andGPU22947 are absent;GPUqueryempty. Rawreceipt remains
+  running (externally interrupted);rootresultcompleteFalse,57completedloads
+  through0057,last journal0058outer160. No restart or furtherloading requested.
+- Requested figurecolumns revised to0025/0050/0052/0053/0054. Three plots:
+  FEM/reference/PINNreactioncurves throughcompleted0057;damage3x5;PINNux/uy2x5
+  with actualperpanel extrema. Newpinn_baseline sourceonly,nooldPINNswap.
+- Status: plotting inprogress;blockernone. Reuse priorfigurelayout only;
+  adapt loader to new path-onlyschema,no SHA. Validate actual commonmesh,
+  physicalparameters,exact-load matching,15fieldshapes and synchronizedPINN
+  reports. Preserveoriginalrawresults/stopartifacts;saveindependent observation.
+
+### Figures completed and checked
+
+- Output /root/autodl-tmp/tf-logs/fracture2d/pinn_baseline/
+  comparison_0025_0054_20261015/:force_displacement,damage_fields,
+  displacement_fields(eachPNG/PDF),force_displacement.csv,
+  matched_load_reactions.csv,manifest.json,plot_comparison.py.
+  Script /tmp/pinn_baseline_comparison_20261015.py;CPUonly/readonlydata.
+- Columns0025/0050/0052/0053/0054. Exactreferenceindices25/50/52/56/60,
+  FEMandPINN25/50/52/53/54. Verifyactualmesh/boundaryarrays and5material
+  parameters,horizon,15fieldfiles/FP64/shapes/ranges andsavedmechanical checks.
+  NoSHAverification;noindependentnativePINNreplayclaimedforthisnewrun.
+- Reactiontable(FEM/reference/newPINN):0025=325.806019/325.765745/325.838648;
+ 0050=593.673575/592.433886/592.559886;
+ 0052=609.493212/606.590691/606.798553;
+ 0053=616.287397/1.570957/1.598218;
+ 0054=618.449649/1.483806/1.507663.
+  Curveusesnativegrids through0057;connectinglinesarenotadditionalstates.
+  0053PINNreaction~1.735%above reference. AllsavedPINNstatesremainprovisional.
+- Independent threshold/connectivitycheckonoriginalP1adjacency:d>=.9 has
+  tip-connected309nodesreachingx1at0053;308at0054and311at0057,allspanning.
+ 0052hasnotip-connectedhighdamageband. Thisconfirmstheuser'sfractureobservation
+  withoutsymmetrycorrectionorfieldprocessing.
+- Stopobservation/root/user_stop_observation_20261015.json:recordsuserstop,
+  absentPIDs,57finite/shape-validendpointfields andexistingnetwork/Adamfiles,
+  unfinished0058journal160/latestnamedcheckpoint128. Rawrunningreceipt and
+  completeFalse resultpreserved;nosynchronized0058 endpointplotted.
+- Allthreefiguresvisuallyinspected;PNG2700x846/2916x1745/3096x1296,
+  decodedPNGs/PDFheaders,15exactloadmatches and10actualdisplacement extrema
+  checked. Damagecommon0..1,ux/uyindependenttrueextrema,originalmaterial
+  trianglesonly,nostraightness/smoothing/clippingandgripsomitted.
+- /task-end:updatedPROGRESS/DECISIONS/thisactivetask;plotartifacts external
+  only,no solverchanges,training/tests/Gitoperations,slideeditsornewloading.
+  Diffcheckrequired. Threefigurescomplete;broadnumericalaccuracytaskremains
+  active,blockernone. Exactresume:newcomparisonmanifest/PNGsandstate0057
+  reportsatuserdirection;trainingstaysstopped,existingTensorBoardpreserved.
+
+## 2026-10-15 — Core+halo forward particle count investigation
+
+- User asks for actual particle/forward counts before a random-sampling
+  comparison. Scope: statistics only,no training or numerical implementation
+  change. Current default random controls:core2048,halo_capacity32768,
+  pool256,resample1,seed1729,inverse-power crack density (width.024,boost9,power2).
+- Plan: use actual prepared nonlocal CSR and the current sampling code;count
+  repeated/uniquecore,uniqueunion andextra halo across seeded pools;separate
+  effective particles from padded32768 MLP rows. Check statistical means
+  against exact with-replacement inclusion expectations. Keep broadtaskactive.
+- Status: inprogress;blockernone. Next: run CPU-only count script,record
+  distributions and explain amortized full end-of-inner checks/runtime limits.
+
+### Core+halo counts completed (statistics only)
+
+- Source realprepared71307-node nonlocalD (1138075nonzeros,mean15.9602
+  coefficients/row,max20). Use currentdetachedgeometrydensity onsegment
+  (.5,.5)->(1,.5),width.024/boost9/power2,seed1729. Productionmode remainsfull;
+  evaluate randombranchcontrolswithoutchangingtrainingconfigorweights.
+- Four seed-counterblocks of256 batches=1024 independent2048-core draws,
+  withreplacement. Unique coremean1998.0449(range1973..2019);extra halo
+  excludingcoremean22070.4355;uniqueunionmean24068.4805,std229.3029,
+  range23337..24801,p95=24442.85,p99=24607.31. Union33.7533%ofallnodes.
+- Current fixedhalo_capacity32768 is the actual pointwiseMLPbatch rows.
+  make_pool_objective gathers paddedglobal_ids;predict_rowsvmapsallrows,
+  including repeatedparticle0padding. Mean8699.52paddingrows,26.55%ofthe
+  paddedforward. Actualforward rowcount45.9534%offull,54.0466%fewer,
+  rowratio2.17612. Onebatchedforward,not32768serialPythoncalls.
+- Deduplication verifiedagainstdirectCSRsupportunionforeach1024batch,and
+  againstactualbuild_sampling_pool(first8entries). Exactexpectation using
+  sum_j[1-(1-sum_i p_i*support_ij)^2048]=24066.6142 agreeswithinMonteCarlo
+  standarderror. Exactexpecteduniquecore1997.8930. Nohorizon/supporttruncation.
+- Additional256batchespercount:core256meanunion3894.36(max4030);
+ 512=>7446.35(max7669);1024=>13757.14(max14187);2048=>24073.00(max24777);
+ 4096=>38855.49(max39493),which EXCEEDScurrent32768capacity andmustnot
+  be advertisedasvalidwithoutanexplicitlargercapacity. Lowercorecountalone
+  leavesforwardshape32768unchangedunlesscapacityisalsoconfiguredsmaller.
+  Finite-samplemaximaareobservations,notguaranteedsafe futurecapacities.
+- Uniform2048-core controlmeanunion26171.69 versuscrack-biased24068.48;
+  densityconcentrationraisesneighborhoodoverlap. Current probabilities are
+  geometry-only/staticwithstopgradient;notdependentonthe evolvingdamage.
+- Each128-update inner solve alsoevaluatesfullnetworktwice(image+fullloss):
+  full71307*(128+2)=9269910pointrows;random32768*128+2*71307=4336918.
+  This is a count,notwall-clockbenchmark;mechanics/globalfeatures/optimizer/
+  support-poolbuilds/backpropalsocontributetoruntime. NoGPUtraininglaunched.
+- Report /root/autodl-tmp/tf-logs/fracture2d/sampling_counts_20261015/
+  result.json,batches.csv,count_particles.py;temporaryscript/login/tmp.
+  NoSHAchecks. Allrowcountidentitiesandexpectation/CSRcross-checkspass.
+- /task-end:PROGRESSandthisactivetaskupdated,DECISIONSunchangedbecause
+  noimplementation/numericalpolicydecisionmade. No mainsource/configedits,
+  optimizerupdates,testsuite/Gitoperationsorrestart. Diffcheckrequired.
+  CountrequestCOMPLETE,broadtaskactive,blockernone. Exactresume:review
+  particle/capacitycountswithuserbeforechoosingafuturetrainingcomparison;
+  no randomtrainingorpaddingchangeyetauthorizedbythisstatisticsrequest.
+
+## 2026-10-15 — Corrosion2D pool-maximum padding cross-check
+
+- User correctly recalls corrosion2d/train.py:359..385 prebuilds one finite
+  subgraph pool;src/pinn/operators.py:439..459 computes exactmaximum nodes/
+  edges across its entries andpads tothosemaxima. Train:417..419 cycles
+  entries with it%len(pool);itdoesnot regenerateallspatialcores eachcycle.
+- Currentfracture2d differs:DamagePINN.sampled_context draws256newcorebatches
+  percounterblock andregeneratespool after256resamplings. Its explicit32768
+  capacitykeepsshapesstable acrossfutureblocks. Per-block exactmaxwould vary,
+  changingJITarray shapes onpoolreplacement. Fixedfinitepoolmaximumisfully
+  sufficientforits ownentries;nohand-chosen32768isrequired forthatpolicy.
+- ExistingcountCSV confirmsblockmaxima24777/24792/24732/24801. Foronefixed
+ 256-entrypool0,forwardshape24777wouldbe34.75%of71307and24.39%smallerthan
+ 32768. All1024precomputedentries couldshare24801instead. Theseareexact
+  boundsforstoredentries,notboundsfornewlygeneratedfuturepools.
+- /task-end:readonlysourcecomparisonandderivedcounts only;PROGRESSandthis
+  taskupdated,DECISIONSunchanged. No samplingpolicy/code/optimizer/training/
+  Git changes. Broadtaskactive,blockernone. Exactresume:ifimplementingpool
+  maximumlater,keepthedistinctionbetweencyclingfiniteprecomputedpooland
+  generatingnewpools;avoid silentlyclaimingbothidentical randomstreams.
+
+## 2026-10-15 — Finite1024/2048 pool resource assessment
+
+- User first asks about1024-entry calibrationplus10/20percentheadroom and
+  overflowdiscard,then proposes a fixedfinite1024or2048-entry pool withno
+  regeneration. Latestscope:measurestartupconstruction/RAM/GPUstorageand
+  explainshape/operatorcorrectness;no coupledtraining requested.
+- Plan:constructactualCSRcore+halo entries,current2048-corecrack-biaseddensity,
+  padtofinitepool exactmax;benchmark1024and2048in fresh CPUprocesses with
+  actualndarraybytes/peakRSS;uploadonepool toGPU withpreallocationdisabled
+  andmeasurelivebufferbytes/transfer. Networkevaluatesoneentryatatime.
+- Status:inprogress;blockernone. Preservemain numericalconfig/code andstopped
+  pinn_baseline. Fixedpoolrequiresnohalo truncationorstatisticalbound;
+  distinguishnetworkADshape fromdiscreteoperator/gradientcorrectness.
+
+### Finite pool resource measurements completed
+
+- Measure currentexactCSRpacking with2048core perbatch,newseedsequence
+  [1729,0]andonefinite1024or2048draw matrix. Two-pass enumerationdetermines
+  maxthenpacks;poolincludesindices/localremapping/CSRvalues/probabilities,
+  NOT1024or2048copiesofNNactivations/features. Maincode unchanged.
+-1024entries:max24777,mean24081.6064,std216.6507,var46937.52;
+  actualpoolarrays608.785MiB;CPUconstruction3.886s(draw.393/count1.468/pack2.025),
+  processpeakRSS1890.145MiB(~1.846GiB),baselineRSS658.78MiB.
+  GPUupload.30245s,deviceallocatorlivebufferdelta736MiB.
+-2048entries:max24787,mean24076.8936,std223.8457;
+  actualpoolarrays1217.648MiB;CPUconstruction8.381s,processpeakRSS3133.809MiB
+  (~3.060GiB),baselineRSS672.79MiB. GPUupload.64380s,deviceallocator
+  livebufferdelta1280MiB. GPU/CPUcountsandarraybytesagree.
+- BothGPUstorageprobesdisableJAXpreallocation;allocatorreportedbytesinclude
+  overhead/rounding anddifferfromarraynbytes. MeasuredprocessRSSincludes
+  Python/JAXandtemporaryrawlist+stackcopies;notpermanentnetpoolminimum.
+  NoNNforward/backward/trainingorFEniCSrun. GPUqueriesemptyafterexit.
+- Currenthostavailable~385GiB,GPUtotal85651MiB,so1.2GiBpoolisreasonable
+  onthismachine;network/CG/ADmemoryadditionalandnotbenchmarkedhere.
+ 1024->2048 doublesstoragebutperstepNNnodes24777->24787(~34.75%of71307).
+  Constructiontimesexcludeinitialimports/backendstartup,arelocalmeasurements.
+- Fixedfinitepoolcanuseits EXACTmaxwithzerostatisticalassumption/no10or20
+  percentmargin. Everyfuturebatchcomesfromknownentries;fixedshapesretain
+  JITreuse. Switchingentriesdoesnotresetoptimizerorchangeoperatorcoefficients.
+  Entryordering/randomselectionpolicywouldneedexplicitimplementationlater.
+- Clarificationfororiginaloverflowquestion:padding/masksmaintainJITshape,
+  butarbitraryhalodiscardchangesD*danditsparametergradient;preservingarray
+  sizesdoesnotpreservediscretederivatives. Keepingonlycoreswithcomplete
+  supportswouldchangebatchsamplingandrequiresitsownweightinganalysis.
+  Fixedfinitepoolavoidsalloverflow/discard;recommendthissimplerpolicy.
+- Reports /root/autodl-tmp/tf-logs/fracture2d/finite_pool_resources_20261015/
+  summary.json,cpu_1024/2048.json,gpu_1024/2048.json,measure_pool.py.
+  NoSHAchecks. Notesonfinitepoolvscontinuouslynewdrawsretained.
+- /task-end:PROGRESSandthisactivetaskupdated;DECISIONSunchanged(no
+  implementationpolicyadopted). AssessmentCOMPLETE;no main source/config/
+  optimizerchanges,training,testsuiteorGitoperations. Diffcheckrequired.
+  Broadtaskactive,blockernone. Exactresume:reviewmeasured1024/2048cost,
+  thenuser-directedfinitepoolimplementation/experiment;currentbaseline
+  stoppedresults/eventsremainuntouched.
+
+
+## 2026-10-15 — Fixed 2048-entry pool full trajectory (RUNNING)
+
+- Goal/acceptance: user authorizes a fresh zero->0.0060 PINN trajectory with
+  one finite 2048-entry core+halo pool, padded to its exact largest full support.
+  Keep all other numerical settings identical to the preceding full-domain
+  `pinn_baseline`. User explicitly names TensorBoard `pinn_core+halo`.
+- Changes: `sampling.py` counts complete unions and packs the finite set at its
+  maximum; `train.py` builds/uploads once at initialization, cycles slots from
+  persistent optimizer count, never regenerates or resets optimizer during
+  training. Resume deterministically reconstructs the same pool at process
+  initialization and restores the exact slot. Remove manual `halo_capacity`
+  from public config, use pool_size2048, retain full-domain default. Add
+  `configs/train_core_halo.py`; save `sampling_pool.json` at startup. Update
+  example/root READMEs and focused regression tests; clarify archived root
+  README entries. No SHA, PDE/BC/weight changes, or Git operation.
+- Sampling: 2048 cores with replacement per batch, seedSequence[1729,0],
+  crack-segment [.5,.5]->[1,.5],width.024,boost9,power2; positive baseline,
+  detached probabilities and 1/(N*p) importance correction. One finite pool
+  realizes an empirical approximation of the full objective; equality of
+  complete halo operator rows does not imply identical stochastic training.
+  Selection cycles the pre-randomized batches every optimizer update.
+- Actual production pool: 2048 entries, union min23221/mean24076.8935546875/
+  std223.84572934142713/variance50106.91054439545/max24787; fixed forward
+  shape24787 (34.76% of71307nodes), arrays1276796928bytes=1217.648MiB.
+  No actual neighbor dropped, no statistical padding margin needed.
+- Verification: main-route suite six tests pass; one new support-size assertion
+  initially had a mistaken expected union, corrected its synthetic core IDs
+  and reran that test successfully: all7 focused regressions pass. They cover
+  exact maximum padding, repeated cores/full operator reconstruction, pooled
+  versus full loss/gradient parity, no rebuild/reset across cycles, detached
+  history/weights, two-load direct/full/random and bitwise interrupted/resumed
+  q/d/H (including multiple pool cycles), optimizer/head/norm options and five
+  TensorBoard endpoint images. No unchanged expensive archive rerun.
+- Production configuration check against actual `pinn_baseline/config.json`:
+  only sample.mode full->random, pool_size256->2048, removal of unused manual
+  capacity, and output root/event directory differ. Initial network9 array
+  leaves and optimizer20 leaves exactly equal; physical q/d/H exactly zero;
+  compact column scales/gain exactly equal. Receipt:
+  `pinn_core+halo/baseline_configuration_comparison.json`.
+- Background launch: supervisor8794/worker8797, started2026-10-15T03:34:23Z.
+  Results `/root/autodl-tmp/tf-logs/fracture2d/pinn_core+halo`,
+  events `/root/autodl-tmp/tf-logs/pinn_core+halo`,
+  log `/root/autodl-tmp/tf-logs/fracture2d/pinn_core_halo.log`,
+  receipt `/root/autodl-tmp/tf-logs/fracture2d/pinn_core_halo_process.json`.
+  Supervisor `/tmp/pinn_core_halo_supervisor.py` copied into runroot; on worker
+  success validates60 endpoints and writes matched-load field/force comparison
+  to full baseline (through0057 only) and nonlocal-direct reference. Failure
+  and signals are recorded; terminating supervisor stops only its own worker.
+- TensorBoard: current environment had reset server900 to `/root/tf-logs`;
+  verified exact process identity, SIGTERM that service only, restarted working
+  global executable PID8303 on6007 with canonical autodl-tmp root. HTTP
+  `/data/environment` confirms root. No alias or dependency changes.
+- Status: RUNNING; pool built and exact-zero checkpoint verified. Initial
+  compilation/first endpoint and TensorBoard image publication being checked.
+  No blocker. Next action: inspect live receipt/result.json and first completed
+  endpoint; record timing/monitor evidence, then let background loading run.
+  Subsequent progress must distinguish completed synchronized endpoints from
+  provisional outer fields; do not overwrite/restart old fullbaseline or
+  claim training complete. Preserve all prior results/slides/unrelated changes.
+
+
+### Session end / exact resume
+
+- Startup verified:8 completed synchronized endpoints through0.0008; background
+  worker8797 andsupervisor8794 continue toward0060. Complete=False; no claim
+  of final accuracy or critical-load behavior at this early stage.
+- HTTP TensorBoard tags show exact run `pinn_core+halo`,14scalar tags and all5
+  images (damage,ux,uy,H,load-reaction). Evidence in runroot
+  `startup_monitor_verification.json`; serverdata_location canonicalautodl-tmp.
+- Memory files changed: `docs/DECISIONS.md`, `docs/PROGRESS.md`, this task.
+  Diff-level code/docs: finite automatic max-support builder, one-time device
+  pool and count-based cyclic sampling, capacity-free public configuration,
+  dedicated core+halo launch config, startup pool statistics, regression
+  coverage and README sampling/archive clarification. Focused checks7pass;
+  `git diff --check` passes. No commit/push/slides or historical result edits.
+- Exact resume: inspect `/root/autodl-tmp/tf-logs/fracture2d/pinn_core_halo_process.json`
+  plus `pinn_core+halo/result.json` for currentcompletedload/outer, then check
+  log/processidentity if needed. Supervisor automatically writes final
+  matched-load comparison after successful0060. Do not start a second worker
+  while this one runs. If failure occurs, diagnose first; explicit resume
+  rebuilds identical finite pool and restores last completed endpoint.
+
+
+## 2026-10-15 — Stop slower finite-pool run; audit full baseline
+
+- User asks to check total speed/outer counts, stop background run if slower,
+  and confirm recent changes preserve yesterday's full `pinn_baseline`.
+- Matched TensorBoard `train/reaction` endpoint wall times,0002..0030,
+  exclude first-load startup/JIT for both. Full29loads:605.2783198357s,
+  320outers;random29loads:3046.6689286232s,2779outers. Ratios5.0335xwall,
+  8.684375xouters. At same0024,sweeps16..96 without endpoints,full1.5983173s/
+  outer versusrandom1.0838589s/outer (32.19%less). More iterations outweigh
+  cheaper batches. This is empirical current-scheme behavior,not a claim
+  that random sampling is universally slower or physically less accurate.
+- Full29/29common loads meet field criterion;random8meet/21exhaustcap.
+  At0030,full11outers,dRMS9.628e-6 versusrandom128,dRMS1.0241e-4,
+  threshold1e-5. Stochastic field fluctuations may affect stopping; extra
+  outers cannot all be interpreted as necessary deterministic coupling work.
+  No tolerance/optimizer changes or accuracy certification introduced.
+- Verified exact supervisor/worker cmdlines and parent PID; sent SIGTERM only
+  tosupervisor8794,which terminatedworker8797. Both exited,receipt status
+  cancelled,workerexit-15,ended2026-10-15T04:28:54Z (12:28:54Asia/Shanghai).
+  Preserve30synchronizedpositiveendpoints through0030 andpartial0031outer112;
+  requested0060 remainsincomplete. TensorBoard8303/8319 remainslive.
+- Configuration/source audit: after matching output paths,currenttrain_base
+  differs from savedbaseline config only in random-only pool_size256->2048
+  and removed manualhalo_capacity32768. sample.mode remainsfull; material,
+  mesh,features,network,lossL1,Adam,seed,du1e-4,inner128,outer128/1024,
+  history/stopping/monitoring all unchanged.14of17savedmain source files
+  byte-identical (direct comparison,no SHA);train/loading/sampling differences
+  are pool construction/selection/statistics and validation of removedcapacity.
+  The full branch still skips pool construction and all sampled contexts.
+- Important resume detail: oldrun identity compares the entire saved config,
+  including unused random settings. Exact resume of an oldrun should use its
+  saved ConfigDict (including oldunusedsamplefields),not rebuild from changed
+  random defaults. validate accepts the old full config; no old config/identity,
+  weights,fields or events are rewritten. Normal freshfull defaults unchanged.
+- Audit outputs `/root/autodl-tmp/tf-logs/fracture2d/core_halo_speed_baseline_audit_20261015/`:
+  matched_speed.json,stopping_and_stage_timing.json,configuration_source_audit.json.
+- Bounded production replay in progress: restored actual0052/0053parents,
+  currentfull code versus savedtrain.py and archivedfirst0053/0054outers,
+  each128Adamsteps. Initialnet/Adam exact arrays checked. First stringent
+  bitwise check differed only at5.55e-16damage in independently compiledGPU
+  graphs;rerunning with explicitroundoff comparison rather thanbitwise.
+  Script `/tmp/fracture2d_full_baseline_replay_20261015.py`; doesnot advance
+  or write oldtrajectory. No production source changes or Git operation.
+
+
+### Audit complete / session end
+
+- Full-domain audit PASS. Currentfull initialnetwork9arrayleaves andAdam20
+  arrayleaves exactly equal to originalzero checkpoint. Actual71307-node
+  tests restore parent0052/0053 and holdsavedH fixed at0053/0054,then each
+  perform128Adamupdates. Currentversussavedsource dmaxabs6.67e-16/5.56e-16;
+  currentversusrecorded dmaxabs7.78e-16 atbothloads. Network/Adam leaf
+  differences atmost4.45e-16. Optimizer counts match383872/514944.
+- Independently recomputedlocal mechanics givesqmaxabs7.43e-12/5.41e-12,
+  Hmaxabs2.06e-6/2.15e-4. Bothcurrentandarchiveddamageimplementations agree
+  with eachother onrecomputedH,but strictoldstage replay at0053 differs
+  indby8.78e-4 whenH isrecomputed. HoldingidenticalsavedH restores archived
+  result to roundoff. This distinguishes iterativeCG/reduction forcing
+  variation and nonsmoothL1 trajectory sensitivity fromsamplingbranch changes;
+  do not claim whole freshloading isbitwiseidentical or fullycertified.
+- Savedfull ConfigDict withresumeTrue passescurrentvalidate andits
+  canonicalconfiguration exactlymatchesoriginalidentity;oldconfigremains
+  intact. Numericaldefaultsunchanged,random-onlyconfigfieldsdiffer asabove.
+  context/solve/save/restore ASTs identical. Fullbranch constructsnopool.
+- Evidence complete in `core_halo_speed_baseline_audit_20261015`:
+  configuration_source_audit.json,matched_speed.json,
+  stopping_and_stage_timing.json,stop_verification.json,
+  full_domain_replay.json,full_baseline_replay.py,review.md.
+- /task-end: review/conditionalstop COMPLETE;broaderfracture2dtaskremains
+  active,blockernone. No longloadingrunningorautoresumeauthorized.
+  Retaincurrentfull default andstoppedbaselines;nextactionisuser-directed
+  review/improvement,not restartingcore+halo. TensorBoardserverremainslive.
+  Memoryfiles changedPROGRESS,DECISIONS,this task;no productioncodechanges,
+  no redundantunchangedsuite rerun,no Git/slides/historicalartifactwrites.
+  Diffcheckpasses;GPUqueryemptyafterboundedreplaycheckedseparately.
+
+
+## 2026-10-15 — Tip refinement and ten-update hold (RUNNING)
+
+- User requests continuedoptimization: more samplingdensityaroundcrack,
+  especiallynotchtip, andholdingonebatchforabout10innerupdates. Goal:
+  reduce stochasticfieldchange/outerbudget waste withoutchangingPDE,
+  fullsamplingdefaults,optimizer/budgetsorstopthresholds. Broadtask unchanged.
+- Publicchanges: samplingprobabilityraw density adds explicit inversepower
+  bump atsample.start withtip_width/tip_boost/tip_power. Basevalues.024/0/2
+  preserve originalprobabilities;fullbranchneverreadsnewtipfields. Candidate
+  configs/train_core_halo_tip.py derivesrandomconfig withsegmentboost18,
+  tipboost36 andresample_every10,outputs pinn_core+halo_tip10. Existingglobal
+  count//resample_every%pool_size alreadyholdsacrossinner/outerboundaries;
+  noAdamreset/newpool. Probability/weights/Hdetached;fullhalo/Drowsunchanged.
+- Densitycheck onactual71307nodes:tipradius.024 mass.0075813->.0241968,
+  expectedcores15.526->49.555;radius.048 mass.0238466->.0655880;
+  crackbandx>=.5,abs(y-.5)<.024mass.1431437->.2002013,
+  expectedcores293.158->410.012. Minimumprob1.0295e-5->7.0070e-6,
+  maximportanceweight1.3622->2.0014. Positive supporteverywhere.
+- Focusedtests3PASS,32.37s:tip0normalization/oldformula,tipconcentration,
+  zeroprobabilityJacobian,exactL1importanceexpectation,invalidtipwidth;
+  no-rebuild/no-reset slotcyclesk1/k10includingcount128boundary;
+  manufacturedtwo-load direct/full/random1/random10+tiprefinement,
+  interrupted/resumedq/d/Hbitwise andoptimizer count12. Noarchive/fullsuite.
+- Bounded2x2productionprobe: sharedactualparent
+  `/root/autodl-tmp/tf-logs/fracture2d/pinn_core+halo/state_0009`,
+  sameq/d/H,networkandAdamcount14592,load.0010. Originaldensityboost9/tip0
+  versusrefinedboost18/tip36,eachk1/k10. Core/pool2048,seed1729,inner128,
+  omega1,outer128cap,unchangedP1fieldtolerances/consecutive3. Parentis
+  inheritedrandomtrajectory,notfreshzeroorcompleteproductionrerun.
+- Perpublicpolicy firstslot=(14592//k)%2048;frequencyarmsuse samefinite
+  seededpoolbutdifferentinitialphase/unique batchcounts. Recordphase in
+  fork.json;do notclaim identicaldraws whencomparingholdingpolicies.
+  Densityarmsnaturallyhave differentdraws/capacity. No labeltraining.
+- Probecompilesusingpurecandidateupdates whicharediscarded;Adamstate/count
+  remainsparent. Reportpoolbuild/compileseparately;timedsolvesincludeusual
+  stage/checkpoint/CSRdiagnosticsbutexcludeendpointfigures andcompile.
+  Allarmsusethe samegeometry/mechanics andstandardstagger/stop functions.
+  Finalendpoint synchronized andindependenthostforcechecked. Monitorreports
+  fullresidual,matchedreferenceerror,fieldsandreaction,notstopalone.
+- Launchsupervisor17456/worker17459 at2026-10-15T04:45:04Z
+  (12:45:04Asia/Shanghai),receipt
+  `/root/autodl-tmp/tf-logs/fracture2d/core_halo_tip_hold_20261015_process.json`,
+  logwithsameprefix.log,root`.../core_halo_tip_hold_20261015`.
+  Scripts `/tmp/fracture2d_tip_hold_probe_20261015.py`and
+  `/tmp/fracture2d_tip_hold_supervisor_20261015.py`;probescriptcopiedtoroot.
+  Events `/root/autodl-tmp/tf-logs/pinn_core+halo_tuning/<case>`.
+  Casesoriginal_k1,original_k10,refined_k1,refined_k10;serialoneGPU,
+  noFEniCS. Supervisorstopstargetworkeronsignal andrecordsexit/status.
+- StatusRUNNING,blockernone. Nextinspectprogress.json andpercasejournal/
+  result;compare dRMS,stopcount,fullL1,physicalAT2/refdamageerrorandreaction,
+  andtimedsolve. Holding canstilloverfitafinitebatch:donotpromotefaster
+  fieldstoppingwithoutcheckingglobalaccuracy. Fulltrajectorydecision follows
+  evidence;oldstoppedrunsandTensorBoard remainintact. NoGitoperation.
+
+
+### Completed probe and session end
+
+- All4arms COMPLETE,workerexit0,supervisorexitcomplete at2026-10-15T04:56:21Z
+  (12:56:21Asia/Shanghai);PIDs17456/17459 absent. GPUemptyafterexit.
+  No newcompletezero-starttrajectory or continuation past0010 launched.
+- Sameparent0009->0010,all4 exhaust128outers. Results:
+  original_k1:126.949s,dRMS1.08443e-5,fullL1.187037,physicalAT2.327440,
+  nodalvolumeweightedrelativeL2versussameloadreference20.3324%,
+  tipradius.024relativeL2 22.7602%,reaction133.56644;
+  original_k10:136.304s,dRMS1.50808e-5,L1.485348,AT2.756522,
+  global72.8801%,tip97.0263%,reaction133.87425;
+  refined_k1:123.372s,dRMS1.08284e-5,L1.190565,AT2.339924,
+  global18.6272%,tip10.3730%,reaction133.55698;
+  refined_k10:129.094s,dRMS1.60052e-5,L1.486277,AT2.775992,
+  global72.0881%,tip91.3998%,reaction133.87193.
+  ReferenceactualphysicalU.0010,reaction133.47244. Matchbyphysicalvalue,
+  notstateindex;oldreferenceusedforevaluationonly,nottrainingtargets.
+- Tiprefinement helpsfieldaccuracyespeciallylocally despite slightlyhigher
+  fullL1/peakresidual;it doesnotyet solveouterstopping. k10degradesaccuracy
+  andfluctuationsinbothdensityarms. Fewerfreshbatches per128updates may
+  exacerbatebatchbias/correlation;this is an interpretation,not aproved
+  causeoruniversalhold-policyranking. Parent/seedandinitialphase limitations
+  above stillapply. StoppingthresholdsandAdamunchanged.
+- Candidatefinalpolicy: configs/train_core_halo_tip.py keeps density18/36
+  butresample_every1,outputs pinn_core+halo_tip. ExplicitCLIoverride10 is
+  retained forcomparison. README/rootREADME adjusted tofinalpolicy. Full
+  default remainsfull/L1/Adam/sigmoid with allphysical/loading/training
+  settings exactlymatchingactualpinn_baseline config;fullcontext/solve/save/
+  restore ASTs unchanged. Newtipconfig and10overridevalidate60loadgrid.
+- Reports underroot: review.json,review.md,comparison.csv,comparison.png,
+  review_probe.py,density_statistics.json,full_default_audit.json,
+  monitor_verification.json,percaseconfig/source/fork/pool/journal/field/
+  network/optimizerfiles. comparison.png visuallyinspected:allcurvesabove
+  dRMSthreshold,k10fullL1riseswhilek1decreases;timingslabelcompileexcluded.
+  All4TensorBoard `pinn_core+halo_tuning/<case>` expose5endpointimages.
+  Finitepoolcapacityoriginal24787/refined22450,completeCSRsupported.
+- /task-end: boundedoptimizationtrial COMPLETE;broadfracture2dtaskactive,
+  blockernone. No longworkerrunning. Nextuser-directedstep canvalidate
+  tiprefinedk1onadditionalhistory/criticalloads or investigategradientnoise;
+  do notclaimpositivefulltrajectoryresultsorrestart automatically.
+  MemorychangedPROGRESS,DECISIONS,this task. Codechanges limitedtooptional
+  tipsamplingdensity,explicit3tipconfigfields,train.pywiring,candidateconfig,
+  focusedtestsandREADMEs.3meaningfulfocusedtestsPASS;configschemaPASS;
+  gitdiffcheckPASS. NoGitoperations,slidesoroldresultwrites.
+
+
+## 2026-10-15 — More tip-density refinement (RUNNING)
+
+- User asks forstillmoredensity. Goal:determinewhetherstrongercrack/tip
+  samplingcontinuesimprovingfieldsandreducesouterbudgetwaste;acceptance
+  requiressame-loadtip/global/offbanderrorsandruntime/stopcounts,notjust
+  lowerbatchloss. Remainswithinbroadactivefracture2dtask;noPDE change.
+- Newthreecases: dense2(segment36,tip144),dense4(72,576),dense8(144,2304).
+  Labelsrefertosegment2/4/8timesprevious18,whiletipis4/16/64times36;
+  do notinterpretthem asactualsamplecountmultipliers. Keepbothwidths.024,
+  powers2,k1resampling,core2048,pool2048,seed1729,fullCSRsupport,
+  exactpoolmaximum padding,detachedimportance,H andpersistentAdam.
+- CPUdensitycalibrationPASS:91materialnodeswithintipradius.024. Expected
+  withreplacementtipdraws49.5549(previous)->84.6721/119.8424/144.8614;
+  crackbanddraws410.0123->480.8753/472.1079/422.0571. Strongernormalized
+  tipmasscanreduceotherbandshare,despiteincreasedrawsegmentboost.
+  Maximportance2.0014->3.3119/5.7177/8.0965. Positiveglobalbaseline;
+  allthree explicitconfigsvalidatethe60loadgrid. Sourceformulaisunchanged;
+  no redundantunchangedunittests/newproductionAPIneeded.
+- Inputs: sameactualrandompathparent
+  `/root/autodl-tmp/tf-logs/fracture2d/pinn_core+halo/state_0009`,
+  q/d/Handnetwork/Adam14592restored;solveonly0010. Same128inner/128outer,
+  minimum3/consecutive3,P1dRMS1e-5,uRMS/load1e-4,omega1;previousstored
+  original_k1/refined_k1 controlsreusedratherthanrerun. Compilepreflight
+  candidatesdiscarded;timedsolveexcludespool/compile/endpointfigures.
+- Implementation:derive `/tmp/fracture2d_more_tip_probe_20261015.py` from
+  validatedpreviousprobe bychangingonlyROOT,caselist,eventpath,statsfile,
+  andscope. ASTparsePASS;underlyingsharedstandardstagger/solves unchanged.
+  Threecaseoutputsconfigs/sourcecopies/journals/fields/weights/stats/events
+  recorded. No newpublicconfigfiles orsourceeditsinthissession.
+- Launchsupervisor20900,receipt
+  `/root/autodl-tmp/tf-logs/fracture2d/core_halo_more_tip_20261015_process.json`,
+  rootwithsameprefix,logsameprefix.log. Supervisor
+  `/tmp/fracture2d_more_tip_supervisor_20261015.py`,ownsoneworker,records
+  success/failure/cancellation;exactworkerPIDinreceipt. Events
+  `/root/autodl-tmp/tf-logs/pinn_core+halo_more_tip/<case>`.
+- StatusRUNNING,blockernone. Nextinspectprogress/caseendpoints,thencompare
+  allsameloadfieldsincludingdistancetosegment>.048offbandregion. Keep
+  earlieracceptedfullbaselineandstoppedrandomrunsunchanged. NoGitoperation,
+  FEniCS,newfulltrajectoryorautopromotionofstrongerdensity.
+
+
+### Stronger-density results / session end
+
+- Threecases COMPLETE,workerexit0,supervisorcomplete at2026-10-15T05:12:01Z
+  (13:12:01Asia/Shanghai). Supervisor20900/worker20903 absent,GPUqueryempty.
+  All3TensorBoard `pinn_core+halo_more_tip/<case>` expose5endpointimages;
+  monitor_verification.json recordschecks. No longworker/newtrajectoryruns.
+- Same0009parent->0010,all128outerbudgets exhausted. Referenceat actualU.0010,
+  R133.4724377150. Nodalvolumeweightedglobal/tipradius.024errors:
+  previous18/36:18.6272%/10.3730%,offbandRMSE2.8667618e-4,123.372s;
+  dense2(36/144):19.7627%/8.3105%,offband3.1161922e-4,117.769s,
+  dRMS1.0734404e-5,L1.1990276,AT2.3382099,R133.5614955,capacity19987;
+  dense4(72/576):21.7082%/6.7290%,offband3.4764903e-4,113.428s,
+  dRMS1.0539609e-5,L1.2134337,AT2.1614913,R133.5693617,capacity18551;
+  dense8(144/2304):22.2612%/5.8683%,offband3.5816213e-4,112.771s,
+  dRMS1.0577899e-5,L1.2196707,AT2.2493522,R133.5706648,capacity17892.
+  Timesexcludeinit/compile/endpointfigures,includeusualsolver/checkpoint/
+  diagnosticwork. Fieldsmechanicallysynchronized,hostforcechecksPASS.
+- Morefocusedtipdensityimprovestipaccuracy withdiminishingreturns;global/
+  offbanderrorsincrease. StrongestoffbandRMSE+24.93%versuspreviousmoderate.
+  Forwardcostreduces butouterstopdoesnotimprove. Keep18/36 optionalcandidate
+  asbalancedobservedpoint;no publicdefaults/config/source edits thissession.
+  Strongervaluesremainavailablethrough existingexplicitCLIboostfields.
+- Additionaldiagnostic usesexactconsistentP1RMS onmaterialtriangles:
+  ||d128-d64|| / sum_{65..128}||d_s-d_{s-1}|| = .08012(originalk1),
+  .06808(previousmoderate),.06102(dense2),.06048(dense4),.06083(dense8).
+  Netmovementissmallrelativeaccumulatedchanges:substantialdirectional
+  cancellation/oscillation. This isnot acompletestochasticnoise decomposition
+  orproofthat everyremainingupdateismeaningless. Stopcriterionunchanged.
+  p1norm/triangleinequalityboundschecked;analysisdoesnotaltertraining.
+- Evidence `.../core_halo_more_tip_20261015`:review.json,review.md,
+  comparison.csv,density_comparison.png (visuallyinspected,all5controls/arms),
+  comparison.png(new3armhistories),review_probe.py,probe.py,
+  density_statistics.json,directed_change_diagnostic_partial.json,
+  monitor_verification.json andeachcaseconfig/source/fork/pool/journal/
+  fields/network/optimizer. Previouscontrolsread-only,reusedwith identical
+  physical/network/training/loadsettings verified;allparentsd arrays match.
+- /task-end: stronger-densityrequest COMPLETE;broadtaskactive,blockernone.
+  Exactresume: no workerrunning;reviewtheseexportsandcurrentmoderateconfig
+  before anyuser-directedfurthertraining. Oneearlyload/parent/seeddoesnot
+  establishoptimaldensityorlatercrack-pathbehavior. Stochasticouterstop/
+  trainingprecisionissuesremainopen;noautofulltrajectoryorGitoperation.
+  Sessionchanges:3memoryfiles(PROGRESS,DECISIONS,this task),externalprobe/
+  supervisor/reviewdrivers andresultartifacts. No newpublicAPI/code/config,
+  no slides/oldresultwrites;explicitprobability/config/ASTchecks andthree
+  productioncoupledprobesPASS. Unchangedsuitesnotrerun. DiffcheckPASS.
+
+
+## 2026-10-15 — Park adaptive history sampling; compare damage tolerance2e-5
+
+- User explicitly parks the H/logH online-sampling proposal. Preserve forlater:
+  usecurrentiterationH,notstaleinitialloadH,withstopgradient. Currentcode
+  refreshesHaftereachmechanicsouterandfreezesitthroughdamageinnertraining;
+  before implementationdistinguishlatestouterH fromrecomputingmechanics
+  every5Adamsteps. NoadaptiveH code/probes were launchedintheinterrupted
+  discussion. Thisdeferreditemdoesnotblockcurrentthresholdcomparison.
+- Currentuserasksifdamagechangethreshold1e-5istoostrict,suggests2e-5,
+  thensteersto previousbalancedsegment18/tip36densityandeveryAdamresampling.
+  Nochangeinloss/PDE/architecture/Adam/innersteps/core/pool/duorotherstops.
+  Testonly damageP1RMS2e-5;u/load1e-4,min3,consecutive3 retained.
+- CPUcounterfactualusesactualfield_stoponcomplete128-sweepjournals,
+  notsparseTensorBoardlogs. Allsevenarmsmiss1e-5;2e-5 firstpasses:
+  originalk1=5,refinedk1=6,dense2=7,dense4=8,dense8=7;
+  originalk10=27,refinedk10=43. Lasttwoarenotselected(currentk1only).
+  A counterfactualsingle-loadstop doesnotpredictlaterwarmstarttrajectory.
+- Oneactualboundedreplay: sameactual0009parent,network/Adam14592,
+  solve0010 with18/36/k1,inner128,outer128cap,damage2e-5. Earlierstrict
+  refined_k1 storedresult128 servesascontrol. ActualconfigcomparisonPASS:
+  allphysical/features/network/loss/training/sampling/validationidentical;
+  onlyloading.damage_tolerance differs. Captureearlypairedq/d/H andcheck
+  referenceerror/forcebeforejudgingengineeringacceptability.
+- Root `/root/autodl-tmp/tf-logs/fracture2d/core_halo_tol2e5_20261015`,
+  supervisor24388/worker24392,started2026-10-15T05:23:47Z
+  (13:23:47Asia/Shanghai),receipt/logsameprefix_process.json/.log.
+  Probe `/tmp/fracture2d_tol2e5_probe_20261015.py`,supervisor
+  `/tmp/fracture2d_tol2e5_supervisor_20261015.py`,events
+  `/root/autodl-tmp/tf-logs/pinn_core+halo_tol2e5/refined_tol2e5`.
+  ASTparsePASS;preflightupdatesdiscarded;configvalidates. NoFEniCS orGit.
+- StatusRUNNING,blockernone. Nextcomparecompletedendpointtooriginal128
+  actualsameloadnonlocaldirect;separatespeedbenefitfrominnerPDEaccuracy.
+  No defaultthresholdchange/fulltrajectory/adaptiveHworkunlessuserdirects.
+
+
+### Threshold comparison complete / session end
+
+- Userselecteddensity/frequencyconfirmed:segment18/tip36,k1,core2048/
+  pool2048/seed1729,fullhalos/cap22450. Onlynumericalchange isdamageP1RMS
+  threshold1e-5->2e-5;u/load1e-4,min3/consecutive3 unchanged. Actualconfig
+  comparisonagainststoredrefined_k1 PASS for allotherphysical/network/
+  sampling/training/validationfields. Publicdefaultsnotchanged.
+- Actualsame0009->0010replay completesatouter6 asjournalpredicted;
+  consecutivepasses3,dRMS1.4266069e-5,u/load5.13845e-6. Adam15360,
+  meaning768updatesaboveparent14592. Pairedendpointq/d/Hsaved;hostforce
+  equilibrium/BC/reaction checksPASS. Timedwork7.5397s versusstrict128
+  budgetexit123.3721s (~16.36x),excludinginit/compile/endpointfigures.
+- SamephysicalU.0010directreferenceR133.4724377. Strict1e-5control remains
+  budgetexhausted(notconverged):globalnodalvolumeL2 18.6272%,tipradius.024
+  L2 10.3730%,R133.5569846,relativeRerror.06334%,AT2.339924,
+  fullL1.190565,globalRMSE3.0306031e-4.
+  Relaxed2e-5field-stableendpoint:globalL2 29.3690%,tip35.9304%,
+  R133.6028322,relativeRerror.09769%,AT2.685105,L1.224869,
+  globalRMSE4.7782828e-4. EarlyversusstrictdfieldRMS2.4534073e-4.
+  Bothcertified_pathFalse;fieldstopisnotaninnerPDEaccuracycertificate.
+- Interpretation:thresholdstronglycontrolsruntime;looseningofferslarge
+  speedbenefit atthisstep,butremainingupdatesimproveactualfields,especially
+  tip. Cannotattributeall122extrasweepswaste(noise) orchoosebyreaction
+  alone. Accumulatedloading/critical0053behaviorunknown.2e-5isanexplicit
+  engineeringcomparisonoption;do notsilentlyreplaceacceptedfullbaseline.
+- Processcompleteexit0 at2026-10-15T05:25:09Z(13:25:09Asia/Shanghai),
+  supervisor24388/worker24392absent,GPUqueryempty. TensorBoard
+  `pinn_core+halo_tol2e5/refined_tol2e5`has5endpointimages;receiptand
+  monitor_verification.json checked. No furtherloading/launchedworkers.
+- Reportfix: copiedexperimentaldriver initiallykeptadescriptive
+  stopping_tolerances_unchanged=True and plottedc0's1e-5reference line,
+  whileactualper-caseconfig/field_stopused2e-5correctly. Reviewcorrects
+  onlynewrunflag/plotfromactualconfig;raworiginalspreservedas
+  result_as_launched.json/comparison_as_launched.png. Nofields,optimizer,
+  physicalresultsoroldcontrolsmodified. correctedcomparison.png visually
+  inspected(actual2e-5line,stop6,time/errortables). Sourceaslaunchedretained.
+- Evidence root`core_halo_tol2e5_20261015`:review.json/md,comparison.png,
+  review_probe.py,threshold_counterfactual.json,config/fork/pool/journal/
+  network/Adam/fields andmonitorcheck. CompleteCPUjournalcounterfactual
+  andoneproductionGPUreplay PASS;no redundantunchangedtestsuites.
+- /task-end: currentthresholdrequest COMPLETE;broadfracturetaskactive,
+  blockernone. Exactresume: no workerrunning. Reviewtradeoffanduserpreference
+  beforeanynewloading. H/logHadaptiveonline sampling remainsexplicitly
+  deferred;currentinnerHfreezeclarificationrecordedabove. NoGit/slides,
+  publiccode/defaultchangesorautomaticfulltrajectory. Memoryfileschanged
+  PROGRESS,DECISIONS,this task;externalboundedprobe/reviewonly. DiffcheckPASS.
+
+
+## 2026-10-15 — Visualize the current fixed core+halo sampling
+
+- User asks for density and sample plots following elasticity2d/plot_sampling.py.
+  Retain the active broad task; no training or numerical-control changes.
+- Plot current moderate18/36,widths.024,powers2,k1,2048core/2048pool,seed1729.
+  Reproduce production probability and RNG; display a real pool slot256
+  (first update from optimizercount14592 in the latest probe), complete
+  operator halo, tip zoom and transverse probability profiles.
+- Acceptance: probability normalization and independent formula agree, actual
+  mesh/operator ordering checked, finite-pool counts match recorded22450max,
+  plotted core/halo counts match exact CSR union; view exported scientific plot.
+- Status: in progress; blocker none. Next add a small reusable plotting entry,
+  render CPU-only, verify statistics, update docs and record final artifacts.
+
+### Sampling visualization complete / session end
+
+- Added optional examples/fracture2d/plot_sampling.py, ml_collections config
+  entry defaulting to train_core_halo_tip.py; explicit output, pool_slot, dpi.
+  Uses production crack_sampling_probabilities/make_sampling_rows/
+  sample_core_halo and exact training SeedSequence([1729,0]) draw order.
+  Computes all finite-pool support sizes without allocating padded poolarrays.
+  Checks actual cloud/material mesh ordering, operator shape, FP64 data,
+  probability normalization and independent NumPy formula; no SHA or GPU.
+- CPU rendered slot256, the actual first batch from parent Adamcount14592.
+  2048draws,1956unique cores,19685halo-only,21641unique union. All2048
+  batches min20653,mean21584.37158203125,std264.1419483164077,max22450;
+  exact statistics and sample config match latest refined_tol2e5 savedrun.
+  Padded forward22450/71307=31.48%;no halo discarded.
+- Per-node probability divided by uniform lies [.49964643,25.87290409].
+  Tip radius.024 contains91nodes,expected49.55495draws/batch;slot256 has45.
+  Density geometry is the line from(.5,.5)to(1,.5) plus start-centered bump;
+  plotting guide marks sampling geometry, not an output/path constraint.
+  H-adaptive proposal remains deferred.
+- Artifacts: /root/autodl-tmp/tf-logs/fracture2d/sampling_density_20261015/
+  current_sampling.png/.pdf/.json and validation.json. Four panels: log-color
+  normalized probability, full actual batch, tip zoom(radius.024), transverse
+  profiles atx.5/.65/.85. Final PNG visually inspected; exported files nonempty,
+  savedconfig/fullpool/support comparisons PASS. No training/resume launched.
+- Updated root README first for new visualization entry, then example README
+  file table, interpretation and exact CPU command. Existing consolidation
+  changes remain untouched; no Git operations or binary additions to source.
+- /task-end: visualization request COMPLETE; broad fracture task remainsactive,
+  blocker none. Next action: review these plots with user; no automatic further
+  numerical experiments. Session memory changes PROGRESS,DECISIONS,this task;
+  source plot_sampling.py and two READMEs; external scientific artifacts only.
+  Verification: actual CPU plotting command, independent density formula,
+  production pool/config/support reproduction and git diff --check PASS.
+
+
+## 2026-10-15 — Cold moderate core+halo full loading to0.0060
+
+- User accepts plotted sampling and asks for complete0->.0060. Current
+  explicit plan: moderate18/36,widths.024,powers2,k1,core/pool2048,seed1729;
+  damage-field tolerance2e-5(run override),all other accepted model/training/
+  loading controls retained. L1/Adam1e-5/sigmoid/FP64,du1e-4,128inner,
+ 128prefix/1024critical outercaps,omega1,localP1 direct mechanics/nonlocal
+  PINNdamage. Fresh networkseed0/Adamcount0 and physicalq/d/H exactlyzero.
+- Acceptance for launch: config validates60loadsteps, output/event paths fresh,
+  GPU free, supervisor/worker detached/live, pool matches22450supportcap,
+  cold checkpoint confirmszero fields/count0, first endpoint synchronized
+  and5TensorBoard image tags visible. Fulltrajectory acceptance pending.
+- Root /root/autodl-tmp/tf-logs/fracture2d/pinn_core+halo_tip_tol2e5
+  events /root/autodl-tmp/tf-logs/pinn_core+halo_tip_tol2e5
+  supervisor owns only this worker and writes completion/failure/cancel receipt.
+  Prior results stay intact; Hadaptive sampling deferred; no Git/FEniCS.
+- Status PREPARING,blocker none;nextvalidate coldconfig then launch and verify
+  first completed endpoint/monitor before handing off background execution.
+
+### Detached launch verified
+
+- Started2026-10-15T05:39:47Z(13:39:47Asia/Shanghai),supervisor27821,
+  worker27824. CLI uses public train.py +train_core_halo_tip.py with only
+  damage_tolerance2e-5 and fresh output/event paths overridden. Supervisor
+  /tmp/fracture2d_cold_tip_tol2e5_supervisor_20261015.py;copyunder
+  runroot/code_snapshot/supervisor.py and3config sources preserved.
+- Receipt/root sibling pinn_core+halo_tip_tol2e5_process.json, fullstdout
+  pinn_core+halo_tip_tol2e5.log; pinn_core+halo_tip_tol2e5_launch.json
+  records full resolved config/cold-start intent before launch. Worker owns
+  only this run; completion requires60synchronized endpoints through.0060.
+- PreflightCPU validate PASS60loads, pathsfresh and plotted sampleexact;
+  physics/architecture/features/loss/train/sample/nl/validation/data/mesh
+  match latest probe. GPU wasfree. Current config equals recordedlaunch.
+- launch_verification.json: q/d/H areexactFP64zero,initialoptimizer_count0;
+  initialnetwork.eqx AND optimizer.eqx match acceptedcoldbaseline byteforbyte
+  via directcomparison(no hashes). Confirms no inherited trainedprefix.
+- Production pool stats exactly match plotted all2048batches: capacity22450,
+  min20653/mean21584.371582/std264.141948;onebatchpereveryAdam,k1,
+  completehalo, no regeneration/truncation. BothPIDs live,GPUactive. First
+  outerat.0001/128Adam saved;initialcompilation completed. Monitoring
+  first completed endpoint and image discovery before session handoff.
+- Budget estimate using measured~1s/outer:52*128+8*1024 about4.1h timed
+  sweepwork ifallcaps exhausted,plusinitialization/plots/I/O;early field
+  stops may substantiallyreduce. This isnot a promisedcompletiontime.
+
+### Background handoff / session end
+
+- Monitor verification PASS: first.0001 completes22outers,fieldstable,
+  synchronizedR13.4070818498. Existing6007TensorBoard discovers all5tags
+  forpinn_core+halo_tip_tol2e5(damage,ux,uy,history,loadreaction).
+  Per-load images/sourcefields/weights and same-load reference comparisons
+  are being saved automatically. monitor_verification.json records proof.
+- Observation 2026-10-15T13:42:16.297167+08:00: worker27824/supervisor27821 running;
+  8positive endpoints completed through0.0008,
+  lastR107.2297961,statusfield_stable. Requested.0060 still
+  inprogress; do not classifylaunch orfieldstable as completedPDEvalidation.
+- /task-end: launch/setup COMPLETE; fullrun ACTIVE in background,blocker none.
+  Exactresume: inspect siblingreceipt/log and root/result.json completedcurve;
+  trust synchronized state_XXXX endpoints,not partialouterreaction. Allow
+  existing worker to continue toward60endpoints/.0060,then reviewmatched-load
+  force/damage/clouds versusbaseline/direct before assessing this strategy.
+  Foruser-directedstop terminate only supervisor27821(ownerof27824),
+  preserve checkpoints/events,leave TensorBoard8303/8319 alone.
+- Thissession changes only PROGRESS,DECISIONS,this task and external launch/
+  supervisor/validationfiles; no public solver/config changes orGitoperations.
+  Config/coldzero/initialweights/pool/firstload/5TBimage checks PASS;
+  AST of supervisor checked,git diff --check PASS. No unchangedsuite rerun.
+
+
+## 2026-10-15 — Review renewed slowdown after tolerance relaxation
+
+- User observes continuedlargeiterationcounts andslowperformance. Read-only
+  audit of current moderate18/36,k1,tol2e-5 coldpath versusacceptedfullbaseline.
+  Sameactive task, no solver/config changes,newtraining orimplicitcancellation.
+- Captured14:11:46Asia/Shanghai,completed25through.0025;current.0026.
+  Matched0002..0025 (excludeinitialization/firstload) TensorBoard reaction
+  endpointwalltimes:full520.5262s/278outers/0budgetexits vsrandom1742.3487s/
+ 1643outers/12budgetexits. Wall3.3473x,outer5.9101x. At.0024outer16..96
+  full1.5983171s/outer,random.9941714s/outer (~38%cheaper).
+- Recent.0018..0025 all128budgets. Damagechanges3.60e-5to6.66e-5 exceed
+ 2e-5,whereasfullmostly5outers except0024uses118. Cannot claim that
+  threshold2e-5resolvesstochasticfieldstop as damage develops.
+- Same-load nodalvolume relativeL2 todirect at0025:full2.00964% versus
+  random9.46628%;tipradius.024errors.54347% vs4.99825%;reactionrelative
+  errors.022379% vs.176706%. At0010random ismoreaccurate(32.31%vs95.97%),
+  at0020global10.29%vs12.47%;no universalfieldaccuracyranking. Different
+  evolvedH/stops/density make thiswhole-strategycomparison,not isolated
+  thresholdcausality. Randomgradientvariationisplausible,notnoiseproof.
+- Evidence currentrun/performance_review_20261015/review.json and review.md;
+  source /tmp/fracture2d_tip_tol_speed_review/review.py. Usescompleted
+  synchronizedendpointfields,actualsame-load directstates andallTBscalars.
+  No speculativePDEchange; no newGPUwork.
+- Recommendation only: considerending this slowertrial andretainfullproduction.
+  A laterbounded randomtraining+fullfinish control might testmatchedaccuracy
+  savings;no suchcontrol,stepcountchange,relaxation orresamplingchange launched.
+- /task-end: performanceinvestigation COMPLETE;broadtask/fullrunremainACTIVE,
+  blocker none. Supervisor27821/worker27824 stillrunning toward0060 under
+  prioruserauthorization. Exactresume inspectreceipt/log/latest completedcurve;
+  awaitclearusersteering beforecancelingorreplacingthetrajectory. Current
+  memorychanges PROGRESS,DECISIONS,this task;externalCPUreport only. NoGit.
+  Matchedloads/events/fields validated;git diff --check PASS.
+
+
+## 2026-10-15 — Saved full baseline rerun after GPU replacement
+
+- User explicitly cancels core+halo and requests previousfullbaseline1e-5
+  rerun on replacementGPU. Continue sameactivebroadtask; full0->.0060,
+  coldnetworkseed0/Adamcount0/physicalzero;numericalconfigfromsaved
+  /root/autodl-tmp/tf-logs/fracture2d/pinn_baseline/config.json.
+- Core+halo verifiedstop: onlyowner27821 signaledafter/proc command/parent
+  checks. Worker27824 gone,receiptcancelled, GPUfree. Saved27completed
+  synchronizedloads through.0027 andpartial.0028;rawresultunchanged.
+  Runrootuser_stop_request.json/user_stop_verified.json recordauthorization
+  andobservation;leave6007TensorBoardserver8303/data8319 untouched.
+- Newroot /root/autodl-tmp/tf-logs/fracture2d/pinn_baseline_gpu_rerun_20261015
+  events /root/autodl-tmp/tf-logs/pinn_baseline_gpu_rerun_20261015.
+  RestoreoriginalConfigDict(allfieldsexcept2outputpaths), validate60loads
+  andsamplefull/dtol1e-5; freshisolateddirectory, no inheritedcheckpoint.
+- GPUquery NVIDIA RTX6000D,UUID GPU-878b117e-b9d1-8fc2-412a-096dbfa04a96,
+  memory85651MiB,driver595.71.05. Record software/environment alongside
+  launch forlaterreproducibilityreview. Fulltrajectorycomparisonpending.
+- StatusPREPARING,blocker none; nextvalidate exactconfig/source,detachlaunch,
+  verifycoldstate/firstendpoint/all5TensorBoardimages beforehandoff.
+
+### Saved-config preflight and detached launch
+
+- CPU validate PASS60loads; fullsavedconfig restored verbatim apartfrom
+  output.root/event_dir. Retain historicalunusedrandomfields(pool256,
+  halo_capacity32768,no tipfields); fullbranch doesnotaccess them.
+  New externalml_collections wrapper
+  /tmp/fracture2d_pinn_baseline_gpu_rerun_20261015.py.
+- Sourceaudit:fullcontext/solve/save/restore ASTequal. Losses/network/
+  optimization/stagger/local_mechanics/at2_cg byteequaltooldsourcecopy.
+  Initialstrictloadingbytecheck correctlyreportsdifference;inspecteddiff
+  onlyremovedrandomhalo-capacityvalidation andrandom-onlypool-infooutput.
+  Exacttextcomparisonafterremovingthose2knownchangespasses. No altered
+  full numericalscheme;preflightfailurebeforelaunchcreatedno worker.
+- Preflight/source/environmentdata savedinsibling
+  pinn_baseline_gpu_rerun_20261015_launch.json;Python/JAX/jaxlib/CUDA/plugin/
+  NumPy/SciPy/Equinox/Optax versionsandGPU identityrecorded, nohashes.
+- Started2026-10-15T06:17:54Z(14:17:54Asia/Shanghai),supervisor31071,
+  worker31076. Externalowned supervisor
+  /tmp/fracture2d_pinn_baseline_gpu_supervisor_20261015.py; receipt/log
+  root siblings _process.json/.log. Onlycompleted60endpoints/.0060with
+  synchronizedfinalfields marksuccess;noearlyfracturestop configured.
+- launch_verification.json PASS:configexact,physicalq/d/H FP64zero,
+  Adamcount0, initialnetANDAdamstate byteequalacceptedbaseline, no random
+  poolconstructed. Supervisor/config/preflight andoriginalconfigcopies
+  preservedunder code_snapshot;hardware_and_launch.json innewroot.
+- StatusRUNNING,blocker none. Initialcompiledsolve underway; nextverify
+  firstsynchronizedendpoint and5TensorBoard image tags beforehandoff.
+
+### GPU baseline background handoff / session end
+
+- First.0001 endpoint verifiedsynchronized/hostforcechecks byproductiondriver,
+  fieldstableafter23outers sameasoldbaseline. FiveTBimages(damage/ux/uy/H/
+  reactioncurve) visible inrunpinn_baseline_gpu_rerun_20261015 on6007.
+  monitor_verification.json recordschecks. Initialnet/Adam remainbyteequal
+  andconfig differsonly2outputpaths; no nonlocalrandompoolallocated.
+- Initial_endpoint_comparison.json: oldR13.4067789193,new13.4067778474,
+  relativedifference7.99486e-8; maxqdiff8.82e-12,d4.52894e-7,H2.91454e-8;
+  damage nodalvolume relativeL2difference.0271494%. Smallfirstloadagreement
+  isnotproof ofentirecriticaltrajectoryequivalence orisolatedGPUcausality.
+- Observation 2026-10-15T14:20:33.396038+08:00: supervisor31071/worker31076 live,
+  6completepositiveendpoints through0.0006,
+  lastR80.43836413. Requested0->.0060 remains inprogress.
+- /task-end: replacement/setup COMPLETE; fullbaseline rerun ACTIVEbackground,
+  blocker none. Exactresume inspectnewroot/result.json, siblingprocessreceipt/
+  log; continueexistingworker through60positiveendpoints, thencompare
+  same-loadreaction/damage/crackonsetwithoriginalpinn_baseline. Preserve
+  alloldoutputs andcancelledcore+halodata; no restart unlessusersteers.
+  Ifuserlaterstops, signalonlyowner31071 forworker31076,notTB8303/8319.
+- Sessionchanges PROGRESS,DECISIONS,this task,externalconfig/preflight/
+  supervisor/provenance/checkreports. No publicsolver/config edits,Git,
+  FEniCS,slidessubmissions orsourcebinaryartifacts. Validation:exactconfig/
+  sourceaudit,coldzero/net/Adamchecks,firstendpoint,5TBimages PASS;
+  git diff --check PASS; unchangedtest suitesnotrerun.
+
+
+## 2026-10-15 — Cleanup of new sampling experiments
+
+- User requests permanentinsight: currentcore+haloreducesper-iterationcost
+  but requiresmoreiterations,totaltrainingtime hasnotimproved. Keepfull
+  andcore+halobranches,defaultfull1e-5. Currentmatchedspeed/accuracydata
+  andlimitations retained above;qualitativelesson in stableREADME/DECISIONS.
+- Plan: merge18/36 densityinto solepublictrain_core_halo.py; archive
+  separate_tip andoriginal9/0 presets, pluscompletedtemporarycount/resource/
+  density/hold/tolerance/review sources in _legacy/sampling_experiments_20261015.
+  CopiesleaveexternalhistoricalpathsandactiveGPUlauncher intact.
+  Retaincurrentplot_sampling toolbutpointit atconsolidatedcoreconfig.
+  ShortenrootREADMEhistoricalcatalogue bymovingit toarchiveindex.
+- Keepallsharedsolvermodules/FEMcomparison/directbaseline andpublicsource
+  filenames intact; running31076 hasloadedsolverconfig,currentlyfull.
+  Neitheralterlaunchsettingsnorupdaterawrunidentity. Fourpublicconfigs
+  remain(train_base/train_core_halo/nonlocal_base/solver_base).
+- UsersteersverificationtoGPU;focusedexistingfull/halo gradient andsample
+  regression tests with CUDA/preallocatefalse,smallproblemsonly, noFEniCS.
+  Config/schema/CLI/importboundary checks plus gitdiffcheck.
+- StatusINPROGRESS,blockernone;nextdoarchival/docs/configmerge,thenverify
+  unchangedfullconfig andlatestcoreprobabilities,andGPUfocusedchecks.
+
+### Cleanup complete / session end
+
+- Publicconfigs5->4:train_base(full default),train_core_halo(optionalmoderate
+ 18/36),nonlocal_base(direct),solver_base(FEM). Separate_tip movedinto
+  _legacy/configs;original9/0preset preservedastrain_core_halo_original.py.
+  Coreconfigmatchespreviousvisualizedprobabilities/settings exactly.
+  Fullbase file/model/stopping/optimizer andallsolvermodulesunchanged.
+- Archived13completedone-offcount/resource/density/hold/tolerance/speed
+  sourcesunder _legacy/sampling_experiments_20261015 withsourcepathindex.
+  Copies byteequal /tmp originals;externalpathsandsnapshots retained for
+  historicalreceipts/replay. No activebaseline launcher/configmoved.
+- Keptplot_sampling.py asrelatedretainedsamplerutility;itsCLIdefault now
+  train_core_halo.py. Keptall18publicsource filenamessoexistinglive identity
+  andfuturebaseline resumeareunchanged. All17nonplotpublicmodules byteequal
+  runningbaseline code_snapshot; publiccodeimportsnoarchive.
+- RootREADMEhistoricalcatalogue movedto_legacy/EXPERIMENT_INDEX.md with
+  correctedrelativelinks. Root/example/archiveREADMEs nowdescribe supported
+  entries andqualitativeinsight:cheaperupdatesdidnotreducewhole-solve cost
+  becausemoreiterationswereneeded. Specificresultsremainintask/reports.
+- GPUverification authorizedbyuser andCOMPLETE:4existingfocusedtests PASS
+ 39.622s,onRTX6000D,cuda:0,preallocatefalse,~696MiBtestallocation. Checks
+  full/exacthalo lossandgradients,detachedtipprobability/importance,finitepool
+  cyclingwithoutAdamreset,anddirect/full/random(1and10)end-to-end/resume.
+  Fixtureonlyoverridesruntime.platformtogpu;physicalsolverunchanged.
+  Testworkerexits0. Existingbaseline continued concurrently.
+- Configschema/currentplotmatch/defaultfull1e-5/sourceidentity/importboundary/
+  archiveexactcopy checks PASS. Trainandplot CLIhelp resolve correctdefault
+  configs (abslhelpshort exits1normally); updatedMarkdownlocal linksvalidate.
+  All13archivePythonfiles ASTparse. Evidence
+  /root/autodl-tmp/tf-logs/fracture2d/cleanup_sampling_20261015/
+  gpu_checks.json/.log andconfiguration_checks.json. No redundant suite.
+- Observation 2026-10-15T15:05:34.629534+08:00:owner31071/worker31076 running,
+  39completedloads through0.0039;current
+  0.0040/outer64. Full.0060pending.
+- /task-end:cleanuprequest COMPLETE;broadtask/GPUbaseline remainACTIVE,
+  blocker none. Exactresume: allowexistingbaseline tocontinue,inspect
+  completed synchronizedcurve beforematchedold/new/directcomparison.
+  Newexperimentsnotlaunched;noFEniCS,Gitoperations,slidesorresultbinaries
+  addedtosource. SessionmemoryfilesPROGRESS,DECISIONS,this task;source
+  coreconfig/plotdefault,archivepresets/scripts/index,andREADMEs changed.
+  git diff --check PASS.
+
+## 2026-10-15 — Explain checkpoint_sweeps diagnostic indices
+
+- User asks purpose and unusual644/808 entries. Read loading.py: these are
+  per-load outer stagger indices for saving fields/network/optimizer under
+  state_XXXX/outer_YYYY; they do not set inner Adam counts or stopping gates.
+  Every completed load saves a synchronized endpoint regardless of this list.
+- Provenance:644 was the same-parent direct-reference outer-count comparator;
+  808 was a recorded critical-load stage where reaction first fell below2.
+  These are historical diagnostic points, not mathematical/physical constants.
+  A regular checkpoint list can replace them for future runs, or [] can omit
+  intermediate checkpoints while retaining completed endpoints. No config or
+  running-baseline changes were requested/executed in this explanation.
+- /task-end: explanation COMPLETE; broad task/backgroundbaseline remainsactive.
+  Only this task memory updated; no new decision, source/API change or tests.
+  Resume existing baseline/result comparison; git diff --check PASS.
+
+
+## 2026-10-15 — Regularize default checkpoint positions
+
+- User explicitly sets output.checkpoint_sweeps to
+  [1,8,32,64,128,256,512,1024]. Updated train_base.py; core+halo and
+  direct presets inherit the same exact list. Historical archived presets
+  and runningGPUbaseline config/snapshots stay unchanged. No restart.
+- Example README documents checkpoint positions as output controls and
+  unconditional synchronized endpoint saving. Numerical settings unchanged.
+- /task-end: config request COMPLETE;broadtask/backgroundbaselineactive.
+  Config-load validation PASS for full/core/direct; fullmode/dtol1e-5
+  preserved. Diff inspected/git diff --check PASS; no numerical tests needed.
+  Changed memory PROGRESS andthis task; no newnontrivialdecision/Gitoperation.
+  Exactresume: existing baselineworker31076,owner31071,through0060.
+
+
+## 2026-10-15 — Authorized source publication
+
+- User explicitlyrequests commitcurrentcode tomain andpush. Currentbranchdev
+ 6ce5162;main/originmain4f0f5e7 afterfetch, no external main divergence.
+  Existingindexempty; accumulatedcleanup has267historicalPythondeletions,
+  all267archivedcounterparts verified. Stageonlysource/config/tests/Markdown
+  and.gitignore;excludeallslides/PNG/PDF/binaries/weights/externaloutputs.
+- Verificationreuse: completedcleanup4GPUregressions39.622s andoriginal
+  consolidation/paritychecks recordedabove;lastchangeonlycheckpointoutputlist
+  validatedforfull/core/direct. Nounchangedexpensive suitesrerun.
+- Plan: commitdev,addisolatedmainworktree,regular--no-ffmerge dev,pushonly
+  originmain,andverifyremotecommit. Keep liveworker31076 andmainworkspace
+  sourcepathsondev;neverstash/reset/clean orrewritehistory.
+- StatusREADYTOPUBLISH,blockernone. SessionmemoryfilesPROGRESS,DECISIONS,
+  this task; exactpublicationresult willberecordedaftercommandverification.
+  Broadtask remainsactive;afterpublicationresumeGPUbaseline monitoring.

@@ -4,6 +4,140 @@
 
 ## Current focus
 
+- Source publication AUTHORIZED/PREPARING (2026-10-15): currentdevcleanup
+  code/config/tests/Markdown andarchives toregularmainmerge/originmainpush.
+  Slides/results/binaries excluded;267historicaldeletionshavearchives.
+  Isolatedmainworktree preservesliveGPUbaseline; exactscope in active task.
+
+- Default outer checkpoints regularized (2026-10-15) to
+  [1,8,32,64,128,256,512,1024] for new full/core/direct runs. Existing
+  GPUbaseline continues with its saved startup config; numericalcontrols
+  unchanged. Config-load checks PASS; details in active task.
+
+- Sampling cleanup COMPLETE (2026-10-15): defaultfull1e-5 retained;
+  optionalcore+halo consolidatedat18/36,k1. Fourpublicconfigs;13one-off
+  scripts/2historicalpresets/rootcatalogue archived. plot_sampling remains
+  samplerutility,nowusescoreconfig. Insightrecorded:lowerupdatecosthasnot
+  improvedtotaltimebecausemoreiterationsareneeded. FourGPUregressionsPASS
+  (39.6s),config/source/import/linkchecksPASS;livebaselinecontinues,source
+  pathidentityunchanged. Evidence cleanup_sampling_20261015;exacttaskresume.
+
+- Saved full-baseline GPU rerun RUNNING (2026-10-15):
+  fullsample/dtol1e-5,alloldnumericalconfig retained, cold0->.0060 on
+  currentRTX6000D. New root/events pinn_baseline_gpu_rerun_20261015.
+  Supervisor31071/worker31076,started14:17Asia/Shanghai;exactconfig/
+  source/coldzero/net/Adam/firstendpointchecks PASS,all5TBimages visible.
+  Firstload23outers,relativeRdifference8.0e-8 fromold;fullpathpending.
+  Hardware/software recorded.
+  Priorcore+halo CANCELLED at27endpoints/.0027,partial.0028 retained;
+  owner27821/worker27824 stopped,receiptcancelled,GPUfreedbeforefullrerun. Exactresume
+  andlaunchvalidation in active task; noGit/newnumericalchanges.
+
+- Renewed slowdown CONFIRMED (2026-10-15): current moderatek1/tol2e-5
+  coldpath,matched0002..0025 takes1742.35s/1643outers vsfull520.53s/278,
+ 3.35xwall/5.91xouters;random12budgetexits. Perouter.994vs1.598s yet
+  damageL2at0025 is9.47%vs2.01%full. Evidence currentrun/
+  performance_review_20261015;latercancelled atuserrequest forfullrerun.
+  Suggestfullproduction;exact audit andnextaction in active task.
+
+- Prior full cold core+halo trajectory CANCELLED (2026-10-15): user authorizes
+ 0->.0060 with plotted18/36 density,k1,fixed2048pool,2048cores and explicit
+ 2e-5damage-change tolerance. Fresh network/Adam and zero physical fields;
+  L1/Adam/sigmoid/fine du1e-4,128inner and128/1024outercaps retained.
+  Root/events pinn_core+halo_tip_tol2e5; supervisor27821/worker27824
+  stopped,user_stop_verified.json saved;27endpoints through.0027 retained.
+  Started13:39Asia/Shanghai;
+  exact launch/resume in active task.
+
+- Sampling visualization COMPLETE (2026-10-15): moderate18/36 density,
+  actual pool slot256 and exact halo/tip zoom/profiles. Normalized enrichment
+  .500..25.873;2048draws->1956unique cores+19685halo=21641 actualnodes,
+  padding22450/71307(31.48%). Reproduced all2048batch support statistics
+  exactly match latest saved run. CPU-only PNG/PDF/JSON and validation in
+  `sampling_density_20261015`;new optional plot_sampling.py, no training
+  or numerical-default changes. Exact resume in the active fracture2d task.
+
+- Outer damage-change tolerance comparison COMPLETE (2026-10-15): user
+  parksadaptiveHsampling;balanced18/36,k1 unchanged. Same0009->0010,
+  onlydP1RMStol1e-5->2e-5:128budget->6fieldstable,123.37s->7.54s,
+  globaldamageL2 18.63->29.37%,tip10.37->35.93%;reactionerror.063->.098%.
+  Measuredspeed/accuracytradeoff;no public/full defaultchange orwholepath
+  equivalenceclaim. Actualconfig/force/monitorchecksPASS,workerexit0,
+  PIDs24388/24392absent,GPUfree. Evidence`core_halo_tol2e5_20261015`review/
+  fields/counterfactual;report-onlyinheritedlabels corrected withoriginals
+  retained. Exactresume in task;history/loghistorysampling remainsdeferred.
+- Stronger tip-density sweep COMPLETE (2026-10-15): same0009->0010,
+  boosts36/144,72/576,144/2304,k1,core/pool2048. Tiperror10.37%->
+  8.31/6.73/5.87%,global18.63%->19.76/21.71/22.26%,offbandRMSE+25%
+  atstrongest;all128outerbudgets exhausted. Forwardcap19987/18551/17892,
+  118/113/113s;localgaintradesagainstbackgroundaccuracy. Keepmoderate18/36
+  optionalcandidate/full defaults unchanged. Last64net/pathchange~6..8%
+  indicatescancellation;notanoisedecomposition. Threeworkerserialarms
+  exit0,supervisor20900/worker20903absent,GPUfree;all3TBrunsvisible.
+  Evidence`core_halo_more_tip_20261015`review.json/md,csv,comparisonplots;
+  nofulltrajectory/newpublicsourcechange;exactresume in task.
+- Tip-density/batch-hold core+halo probe COMPLETE (2026-10-15): same0009
+  parent->0010,4density/holdarms all exhaust128outers. Original/refinedk1
+  globaldamageL2 20.33/18.63%,tipradius.024L2 22.76/10.37%,127/123s.
+  Bothk10arms worsen globalerror to~72%,136/129s;noouterstop improvement.
+  Keepoptional tipboost36/segment18/width.024/power2 withk1;10remainsCLI
+  override. Full default unchanged. Core2048/pool2048 completehalos,
+  capacity24787->22450;3focusedtests/configvalidation pass. Supervisor/
+  worker exit0/absent,GPUfree;all4TensorBoardruns with5images visible.
+  Evidence `core_halo_tip_hold_20261015` review.json/md,comparison.csv/png;
+  core+halooptimization remainsopen;no newfulltrajectory. Exactresume in task.
+- Fixed2048 core+halo rerun STOPPED at user's condition (2026-10-15):
+  matched0002..0030 needs3046.67s/2779outers versusfull605.28s/320outers,
+  5.03xwall despite faster per-outer work (same0024:1.084s versus1.598s).
+  Random21/29loads exhaust128cap;full29/29 meetfield criterion. Preserve
+  30completeendpoints through0030 andpartial0031outer112. Supervisor8794/
+  worker8797 verified exited;receiptcancelled,TensorBoard remainslive.
+  Full default/model/source audit PASS,apart from unused random-only pool
+  settings. Same savedH,critical0053/0054each128Adam steps reproduce archived
+  damage within7.78e-16;initialnetwork/Adam exact,oldconfig validates/resumes.
+  No newtrajectory;GPUfree after bounded replay. Evidence
+  `core_halo_speed_baseline_audit_20261015`;exactresume inactive task.
+- Finite1024/2048 pool resource assessment COMPLETE (2026-10-15):
+  core2048,finitepool exactmax24777/24787;CPUbuild3.9s/8.4s;
+  poolarrays609/1218MiB,measuredGPUallocationdelta736/1280MiB,
+  CPUprocesspeak~1.85/3.06GiB. Eachstepstillforwardsone~24.8kentry,
+  notentirepool. Fixedpoolneedsnomarginorhalodiscard;arbitraryneighbor
+  removalchangesoperator/gradientsdespitefixedshapes. No maincode/training
+  changes;reportsfinite_pool_resources_20261015,exactresume inactive task.
+- Core+halo particle-count statistics COMPLETE (2026-10-15):1024real
+  crack-biased2048-corebatches haveaverage1998uniquecore+22070extra halo
+  =24068uniqueunion(33.75%of71307,range23337..24801). Currentpadding
+  actuallyevaluates32768MLProws(45.95%offull,54.05%fewer),not2048.
+  CSRunion/poolandanalyticalexpectationcross-checkspass;noGPUtrainingor
+  implementationchange. Smaller-core supportcounts andglobal-checkoverhead
+  in sampling_counts_20261015/result.json;details/exactresume inactive task.
+- Corrosion2D pool-padding cross-check COMPLETE (2026-10-15):userrecall
+  confirmed;onefinitepoolpads toexactmaxandcyclesentries. Currentfracture2d
+  regeneratespool every256draws withfixed32768capacity. Pool0exactmax24777;
+  cyclingitwouldneedonly24777rows;per-newpoolmax changesJITshapes.
+  No implementation/sampling-policychange;detailsinactive task.
+- Consolidated PINN rerun STOPPED BY USER (2026-10-15): pinn_baseline
+  saves57positive loads through0057;newPINN opensby0053,R1.59822,then
+ 0057R1.27532. Supervisor22942/GPU22947 absent,GPUfree;unfinished0058outer160
+  excluded from endpoint curves. Raw completeFalse/running receipt preserved.
+  Three matched scientific figures COMPLETE,columns
+ 0025/0050/0052/0053/0054,newpinn_baseline versus same-mesh local-gradientFEM/
+  nonlocal-direct. Curve0..0057,damage3x5,ux/uy2x5withactualextrema;
+  PNG/PDF/CSV/pathmanifest inrunroot/comparison_0025_0054_20261015.
+  Userstopobservation preservesrawreceipt;all57endpointarrayschecked and
+  tip-connected d>=.9componentspansat0053. No training restart.
+  Exactsources/stopobservation/results inactivetask.
+- Fracture2D source consolidation COMPLETE (2026-10-14): active126->17
+  Python files,92->3configs; train.py PINN/nonlocal_baseline.py direct share
+  localP1mechanics/nonlocalAT2stagger. Accepted fullL1/Adam/sigmoid/fine-load
+  defaults preserved; optional norms/core+halo/optimizers/heads/weights retained.
+  All218originalsource/configfiles andlegacytests preserved undertracked
+  _legacy;public code independent ofarchive. User explicitly removesSHA:
+  direct file paths only,actual array/operator/field/config checks retained.
+  Main16regressions (3envskips),migration rechecks andproduction71307-node/
+ 128Adam parity pass (~1.9e-17damage difference);CLI/5TensorBoard-image
+  smoke checks pass. Sources uncommitted; fresh full rerun now authorized below.
+  Exact changes/validation/resume in active task; accepted stoppedstage intact.
 - Active task: [`docs/tasks/fracture2d-nonlocal-pinn.md`](tasks/fracture2d-nonlocal-pinn.md).
   Goal: verified fracture2d using nonlocal differentiation; current branch uses
   direct local P1 mechanics, nonlocal AT2 damage and committed maximum history.

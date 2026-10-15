@@ -9,6 +9,8 @@ diag_*
 _legacy/
 ref_*
 refs/
+slides/
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -236,3 +238,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Preserve fracture2d experiments/tests as a tracked source archive.
+!examples/fracture2d/_legacy/
+!examples/fracture2d/_legacy/**/
+!examples/fracture2d/_legacy/*.py
+!examples/fracture2d/_legacy/*.md
+!examples/fracture2d/_legacy/configs/*.py
+!tests/_legacy/
+!tests/_legacy/fracture2d/
+!tests/_legacy/fracture2d/*.py

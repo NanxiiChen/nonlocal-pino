@@ -12,7 +12,7 @@ def model():
     volumes = np.array([1/6, 1/3, 1/3, 1/6])
     direction = np.array([0., 0., 0., 0., 0., 1., 0., 1.])
     return LocalMechanics(points, triangles, 4, 2, volumes, E=210000., nu=.3,
-        k_res=1e-8, constrained=np.array([0, 1, 3, 5, 7], np.int64), load_direction=direction)
+        k_res=1e-8, constrained=np.array([0, 1, 3, 5, 7], np.int64), load_direction=direction, range_atol=1e-3)
 
 
 class LocalMechanicsTest(unittest.TestCase):
