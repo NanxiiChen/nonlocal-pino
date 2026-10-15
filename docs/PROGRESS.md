@@ -4,6 +4,12 @@
 
 ## Current focus
 
+- Tracking correction COMPLETE (2026-10-15): all_legacy anddocs/reports
+  nowignored/local-only;324indexentriesremovedwithalllocalbytespreserved.
+  Fourpublicfracture2dconfigs alreadymatchmain,includingnewcheckpointlist;
+  theyremaintracked. Ignore/index/filebytes/configchecksPASS. Corrective
+  publicationfollow-up andexactresume in active task.
+
 - Source publication COMPLETE (2026-10-15): dev68ab5f6,regularmainmerge
  4220c65 pushed toorigin/main andindependentlyverifiedremote. Source/docs/
   tests/archives only;slides/results/binaries excluded. Isolatedmainworktree

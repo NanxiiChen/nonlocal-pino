@@ -25,7 +25,7 @@ Run-specific results remain in the [active task](../../docs/tasks/fracture2d-non
 | `storage.py`, `monitoring.py` | Atomic checkpoints and TensorBoard figures |
 | `solver.py`, `geometry.py`, `gmsh_reference_mesh.py`, `mesh.geo` | Independent local FEM comparison |
 | `configs/` | `train_base.py`, `train_core_halo.py`, `nonlocal_base.py`, `solver_base.py` |
-| `_legacy/` | Historical solvers, diagnostics, experiment configs and README |
+| `_legacy/` | Local ignored historical solvers, diagnostics and experiment configs |
 
 ## Model
 
@@ -56,7 +56,7 @@ same residual on its neural nodal output; it receives no direct/FEM damage
 labels. This hybrid history scheme is preserved, without a new joint
 variational minimization or explicit damage irreversibility constraint.
 The original formulation/reference/validation record is retained in
-[_legacy/HISTORICAL_README.md](_legacy/HISTORICAL_README.md).
+the local ignored `_legacy/HISTORICAL_README.md`, when available.
 
 At fixed load: solve mechanics with current damage; update/freeze/detach H;
 warm-start and train damage; replace damage; check P1 field changes; repeat.

@@ -13298,3 +13298,23 @@ Template for each entry:
   switchingtheliveworkspace tomain, squash/rebase/forcepush orpushingdev.
 - Relation: current-turnGit authorization supersedes priornoGitnotes onlyfor
   this publication; broad numericaltask andbackgroundbaseline remainactive.
+
+
+## 2026-10-15 — Keep local archives/reports outside Git tracking
+
+- Decision: user explicitly requests ignoringall_legacy directories and
+  withdrawingdocs/reports fromtracking, preservinglocalfiles. Remove earlier
+  archive/reportnegations from.gitignore andgit rm--cachedonlythosepaths.
+  Keep main source/config/tests and PROGRESS/DECISIONS/active task tracked.
+- Reason: userprefers local researcharchives/reports overpublishedrepository
+  payload. This supersedes the earlierdecision totrackarchivedsources; prior
+  commits remainhistorywithoutrebaseorforcepush. UpdateREADMEs soignored
+  localmaterialisnot presentedasavailablepublishedfiles.
+- Configaudit: usercorrectscorrosion2d tofracture2d. Allfour publicfracture2d
+  configs matchmain byteforbyte andalreadyinclude eightcheckpointpositions.
+  There are no uncommittedpublicconfigedits toinventorforceadd;ignored
+  caches are notsourceconfigs. Historicalpresets are intentionallylocal.
+- Relation: correctivefollow-uptoauthorizedpublication. Commitondev,regular
+  isolatedmainmerge,pushoriginmain;retainrootlocalarchives/reports exactly
+  andleavebackgroundtraining untouched. No numericaltestsneededfortracking
+  anddocumentation-onlychanges;verifyfilebytes/index/ignorerules/configs.

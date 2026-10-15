@@ -14078,3 +14078,42 @@ supervised fine pause/resume, inspect actual physical errors/force and plots.
   inspectGPUbaseline root/result.json/receipt thenmatchedold/new/reference
   fields andcurvesatuserdirection. Untrackedresultimagesremainlocal.
   Changedmemoryfiles PROGRESS,DECISIONS,this task areincludedinpublication.
+
+
+## 2026-10-15 — Correct Git tracking for local archives and reports
+
+- User asks toignore_legacy andwithdrawdocs/reports fromtracking; retain
+  localdata. Usercorrectsinitialcorrosionconfigreference tofractureconfigs.
+  Publicfracture2dconfigs4/4trackedandbyteequalmain;train_basecheckpoint
+  listalready[1,8,32,64,128,256,512,1024]. No missingconfigedits.
+- Inventory:300trackedlegacyfiles(239example+61testarchive),24tracked
+  docs/reports files. Remove indexentriesonly andremoveignore-negations;
+  rootworkspacecopiesmustremain byteequal. Preserveallpublicconfigs.
+- Syncroot/exampleREADME local-onlyarchive/reportpolicy andpublication
+  follow-upunderexistingcommit/main/pushauthorization. Sameactivebroadtask,
+  no newphysics/numericaltask.
+- StatusINPROGRESS,blockernone; nexteditignores/docs,untrackexact324files,
+  verifylocalbytes/ignore/index/configs,diffcheck,commit/regularmerge/push.
+
+### Tracking policy applied / session end
+
+- Removedindexentries for324files:300legacy(239example+61testarchive)and
+ 24docs/reports. git rm--cachedonly; all324files remainbyteequalonrootdisk.
+  Removedalllegacy/reportignoreexceptions; existing_legacy/ rule ignores
+  allsuchdirectories,andexplicit/docs/reports/ ignoreadded.
+- All324paths checked withgitcheck-ignore. Nolegacy/reportpaths remainin
+  index. Fourpublicfracture2dconfigs staytracked andbyteequalpublishedmain:
+  train_base/train_core_halo/nonlocal_base/solver_base. Correctcheckpointlist
+  alreadyexistsinmain; no missingconfigchanges andno artificialconfigedits.
+  Earliercorrosionquerywasusercorrected;nocorrosionfileschanged.
+- Root/exampleREADME nowdescribelocal-onlyignoredarchives/reports andremove
+  publishedlinkstoignoredfiles. PROGRESS/DECISIONS/thistask staytracked.
+  Receipt /tmp/nonlocal_untracking_receipt_20261015.json records324paths
+  andfilepreservation;noforceadd,historyrewrite orphysicalfiledeletion.
+- /task-end:trackingchanges COMPLETE,blocker none. Correctivecommit/main
+  regularmerge/originmainpush followscontinuedpublicationauthorization.
+  Broadnumericaltask/backgroundbaseline remainsactive;sourcepaths/models
+  untouched. Validation:filebytes/index/ignore/config/defaultsPASS and
+  gitdiffcheckPASS. No numeric tests necessary fortracking/docsonlychange.
+  ChangedmemoryfilesPROGRESS,DECISIONS,this task. Exactresumeafterpublication:
+  verifyoriginmainhead,thencontinuemonitoringexistingGPUbaseline.

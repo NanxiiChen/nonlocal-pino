@@ -3,8 +3,7 @@
 nondim.txt
 notes/
 reports/
-# Dated scientific records under docs belong to repository documentation.
-!docs/reports/
+/docs/reports/
 diag_*
 _legacy/
 ref_*
@@ -238,13 +237,3 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
-
-# Preserve fracture2d experiments/tests as a tracked source archive.
-!examples/fracture2d/_legacy/
-!examples/fracture2d/_legacy/**/
-!examples/fracture2d/_legacy/*.py
-!examples/fracture2d/_legacy/*.md
-!examples/fracture2d/_legacy/configs/*.py
-!tests/_legacy/
-!tests/_legacy/fracture2d/
-!tests/_legacy/fracture2d/*.py

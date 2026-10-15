@@ -1,8 +1,0 @@
-{
-  "pass": true,
-  "geometry_matches": true,
-  "material_and_relaxation_match": true,
-  "damage_horizon_matches": true,
-  "reference_identity_sha256": "b36cd818ea30402ae93cde9c46bfe14572e4cf6d48ffe9686018d7fcd3df39d9",
-  "loading_grids_differ": true
-}

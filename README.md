@@ -17,7 +17,7 @@ neighbour pairs — no BC loss terms needed.
 | `pino_elasticity2d` | 2D elasticity PINN | Geometry-aware PINN reference for nonlocal elasticity |
 | `corrosion1d/2d` | KKS pitting corrosion | Legacy; superseded by electropolish2d |
 
-当前 fracture2d 从零求解的阶段结果由用户暂且接受（2026-10-14）：已保存 `0 -> 0.0057`，在 `0.0053` 出现贯通裂纹，反力与同荷载 direct reference 接近。损伤场精度仍需改善，主干代码已合并整理，历史实验与诊断保留在 `_legacy/`。当前结果、已知限制与停止位置见[活动任务](docs/tasks/fracture2d-nonlocal-pinn.md)，概览见[项目进展](docs/PROGRESS.md)；[2026-10-13 阶段报告](docs/reports/fracture2d-initially-accepted-20261013.md)保留为早期记录。
+当前 fracture2d 从零求解的阶段结果由用户暂且接受（2026-10-14）：已保存 `0 -> 0.0057`，在 `0.0053` 出现贯通裂纹，反力与同荷载 direct reference 接近。损伤场精度仍需改善，主干代码已合并整理。当前结果、已知限制与停止位置见[活动任务](docs/tasks/fracture2d-nonlocal-pinn.md)，概览见[项目进展](docs/PROGRESS.md)。历史实验 `_legacy/` 与阶段报告 `docs/reports/` 仅在本地保留，已忽略且不纳入 Git 追踪。
 
 Fracture2D now has two main entries: `examples/fracture2d/train.py` for
 local P1 direct mechanics/nonlocal damage PINN, and `nonlocal_baseline.py` for
@@ -35,7 +35,8 @@ One-off density/batch/tolerance studies are kept in `_legacy/`.
 `examples/fracture2d/plot_sampling.py` plots the configured sampling density,
 a reproducible core+halo batch, notch-tip zoom and probability profiles.
 Historical nonlocal-mechanics experiments and complex diagnostics are preserved
-in [the archive](examples/fracture2d/_legacy/README.md).
+in local ignored `_legacy/` directories. Public solver/configuration/test
+sources remain tracked and do not require these archives.
 
 ## Core idea
 
@@ -78,11 +79,11 @@ the direct-baseline graph.
 
 ## Fracture2D archived experiments
 
-Historical solvers, one-off sampling diagnostics and experimental presets live
-under [the archive](examples/fracture2d/_legacy/README.md). The detailed
-[experiment index](examples/fracture2d/_legacy/EXPERIMENT_INDEX.md) preserves
-past formulations and comparisons. Current use is documented in the
-[example README](examples/fracture2d/README.md).
+Historical solvers, one-off sampling diagnostics and experimental presets may
+be kept locally under `examples/fracture2d/_legacy/`; dated reports may be kept
+under `docs/reports/`. Both are ignored and untracked. Current use is documented
+in the [example README](examples/fracture2d/README.md); current work records
+remain in the tracked `docs/PROGRESS.md`, `docs/DECISIONS.md` and `docs/tasks/`.
 
 ## Environment
 
