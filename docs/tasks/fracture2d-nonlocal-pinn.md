@@ -14055,3 +14055,26 @@ supervised fine pause/resume, inspect actual physical errors/force and plots.
 - StatusREADYTOPUBLISH,blockernone. SessionmemoryfilesPROGRESS,DECISIONS,
   this task; exactpublicationresult willberecordedaftercommandverification.
   Broadtask remainsactive;afterpublicationresumeGPUbaseline monitoring.
+
+### Source publication verified / session end
+
+- Devsourcecommit68ab5f6: refactor(fracture2d):consolidatefullandcore-halo
+  solverroutes. Gitrecognizeshistoricalmoves/copies;325changedpaths,all
+  source/config/test/Markdown/.gitignore. No slides,PNG,PDF,binaries,weights,
+  eventfiles orexternalrundata included. All267removedoldfilesarchived.
+- Isolatedmainworktree /tmp/nonlocal-kks-publish-main-20261015,regular
+  --no-ffmerge4220c65. Mergedtree exactlyequalsdevsource tree. Pushonly
+  originmain succeeded4f0f5e7->4220c65;gitls-remote independentlyconfirms
+  4220c6568f9318c8259dea4e55276360c067300a atrefs/heads/main.
+- Publicationrecord is a Markdown-onlyfollow-up ondev,toalsomerge/pushto
+  main underthesameexplicituserauthorization. No numericalsourcechanges.
+- Staged/mergeddiffchecks PASS. Existing4GPUregressions,config/schema/
+  archive/importboundary/link/parityevidence reused;unchangedsuitesnotrerun.
+  FixedoneextraEOFblanklineinarchivedindex afterstagingcheckreported it.
+- /task-end: requestedsourcecommit/regularmerge/push COMPLETE. Broad
+  numericaltask staysACTIVE,blocker none. Liveworkspace remainsdev,
+  backgroundowner31071/worker31076 untouched. Latestobservation43complete
+  loads through.0043,current.0044/outer8;notcomplete0060. Exactresume
+  inspectGPUbaseline root/result.json/receipt thenmatchedold/new/reference
+  fields andcurvesatuserdirection. Untrackedresultimagesremainlocal.
+  Changedmemoryfiles PROGRESS,DECISIONS,this task areincludedinpublication.

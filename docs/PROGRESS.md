@@ -4,10 +4,11 @@
 
 ## Current focus
 
-- Source publication AUTHORIZED/PREPARING (2026-10-15): currentdevcleanup
-  code/config/tests/Markdown andarchives toregularmainmerge/originmainpush.
-  Slides/results/binaries excluded;267historicaldeletionshavearchives.
-  Isolatedmainworktree preservesliveGPUbaseline; exactscope in active task.
+- Source publication COMPLETE (2026-10-15): dev68ab5f6,regularmainmerge
+ 4220c65 pushed toorigin/main andindependentlyverifiedremote. Source/docs/
+  tests/archives only;slides/results/binaries excluded. Isolatedmainworktree
+  preservesliveGPUbaseline(current43endpoints/.0043). Markdownpublication
+  receiptfollow-up underthesameauthorization;exactrecord in active task.
 
 - Default outer checkpoints regularized (2026-10-15) to
   [1,8,32,64,128,256,512,1024] for new full/core/direct runs. Existing
