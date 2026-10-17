@@ -8,6 +8,6 @@ def get_config():
     c.sample.boost = 18.
     c.sample.tip_boost = 36.
     c.sample.resample_every = 1
-    c.output.root = '/root/autodl-tmp/tf-logs/fracture2d/pinn_core+halo'
-    c.output.event_dir = '/root/autodl-tmp/tf-logs/pinn_core+halo'
+    c.output.root = '/root/autodl-tmp/tf-logs/fracture2d/runs/pinn_core_halo'
+    c.output.event_dir = c.output.root + '/events'
     return c

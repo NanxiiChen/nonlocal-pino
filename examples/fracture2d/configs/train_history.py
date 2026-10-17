@@ -12,6 +12,6 @@ def get_config():
         replay_every=1, current_only_steps=0))
     c.train.learning_rate = 1e-3
     c.train.minimum_rate = 1e-3
-    c.output.root = '/root/autodl-tmp/tf-logs/fracture2d/pinn_history_replay_from_zero_20261015'
-    c.output.event_dir = '/root/autodl-tmp/tf-logs/pinn_history_replay_from_zero_20261015'
+    c.output.root = '/root/autodl-tmp/tf-logs/fracture2d/runs/pinn_history_replay'
+    c.output.event_dir = c.output.root + '/events'
     return c

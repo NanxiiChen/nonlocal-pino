@@ -11,6 +11,10 @@ Run-specific results and the background rerun handoff are preserved in the
 A separate [architecture investigation](../../docs/tasks/nonlocal-pinn-architecture.md)
 is evaluating point-cloud networks; the public solver still uses the accepted MLP.
 
+Artifact locations and accepted/diagnostic distinctions are listed in
+[ARTIFACTS.md](ARTIFACTS.md). Event files live inside the fracture2d subtree;
+the TensorBoard server can keep reading `/root/autodl-tmp/tf-logs`.
+
 ## Files
 
 | File | Role |
@@ -85,7 +89,7 @@ damage. History/features/weights/probabilities receive `stop_gradient`.
 - Residual remains a diagnostic. Budget exits may advance, are explicitly
   recorded, and are not convergence certificates. Damage range tolerance1e-3
   permits the earlier small signed-output diagnostic; fields are never clipped.
-- TensorBoard figures every completed load, under `/root/autodl-tmp/tf-logs/`.
+- TensorBoard figures every completed load, under `/root/autodl-tmp/tf-logs/fracture2d/`.
 
 ## Run
 
@@ -331,8 +335,9 @@ not a reconstructed bank from external reference data. Buffer overflow or
 missing/inconsistent snapshot files fail explicitly. A partial load is rerun
 from the last complete endpoint by the shared loading resume workflow.
 
-TensorBoard run pinn_history_replay_from_zero_20261015 lives under
-/root/autodl-tmp/tf-logs. It logs current/replay losses and buffer count, plus
+New history runs write under
+`/root/autodl-tmp/tf-logs/fracture2d/runs/`, with event files in each run's
+`events/` subdirectory. These runs log current/replay losses and buffer count, plus
 damage,ux,uy,H and reaction curve at each completed load. Field-stability and
 budget-exit labels retain their existing meaning; this experimental network
 has not established an accuracy or speed advantage over the accepted MLP.

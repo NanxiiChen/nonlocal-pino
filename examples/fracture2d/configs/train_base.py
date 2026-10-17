@@ -10,9 +10,9 @@ def get_config():
     c.nl = ConfigDict(dict(delta_d=.008, visibility_tolerance=1e-12))
     c.data = ConfigDict(dict(
         cloud='/root/autodl-tmp/data/fracture2d/scale_separation_20261001/cloud_h004_api.npz',
-        basis_path='/root/autodl-tmp/tf-logs/fracture2d/compact_damage_polish_fixedH_20261011/basis.npz'))
+        basis_path='/root/autodl-tmp/tf-logs/fracture2d/diagnostics/compact_damage_polish_fixedH_20261011/basis.npz'))
     c.mesh = ConfigDict(dict(
-        prepared_dir='/root/autodl-tmp/tf-logs/fracture2d/local_damage_geometry_20261011',
+        prepared_dir='/root/autodl-tmp/data/fracture2d/geometry_assets',
         prepare=False))
     c.arch = ConfigDict(dict(type='mlp', hidden_dim=96, num_layers=3,
         activation='swish', use_spatial_emb=False, spatial_emb_dim=64,
@@ -40,8 +40,8 @@ def get_config():
     c.validation = ConfigDict(dict(cg_rtol=1e-9, cg_atol=1e-13,
         cg_maxiter=10000, roundoff_factor=1024., range_atol=1e-3))
     c.output = ConfigDict(dict(
-        root='/root/autodl-tmp/tf-logs/fracture2d/pinn', resume=False, event_dir='',
-        reference_root='/root/autodl-tmp/tf-logs/fracture2d/local_damage_load_refined_20261011_direct',
+        root='/root/autodl-tmp/tf-logs/fracture2d/runs/pinn', resume=False, event_dir='',
+        reference_root='/root/autodl-tmp/data/fracture2d/nonlocal_reference',
         tensorboard=True, figure_every=1, figure_dpi=110, scalar_every=8,
         checkpoint_sweeps=[1, 8, 32, 64, 128, 256, 512, 1024],
         cpu_threads=4))

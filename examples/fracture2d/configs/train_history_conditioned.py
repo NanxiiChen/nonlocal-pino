@@ -17,6 +17,6 @@ def get_config():
     c.train.minimum_rate = 1e-4
     c.loading.u_final = .0010
     c.loading.advance_on_budget = False
-    c.output.root = '/root/autodl-tmp/tf-logs/fracture2d/pinn_history_conditioned_cold_20261015'
-    c.output.event_dir = '/root/autodl-tmp/tf-logs/pinn_history_conditioned_cold_20261015'
+    c.output.root = '/root/autodl-tmp/tf-logs/fracture2d/runs/pinn_history_conditioned_pilot'
+    c.output.event_dir = c.output.root + '/events'
     return c

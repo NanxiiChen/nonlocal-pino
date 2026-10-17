@@ -72,9 +72,9 @@ def get_config():
     c.output = config_dict.ConfigDict()
     c.output.log_every = 10
     c.output.save_every = 1.0e-4
-    c.output.dir = "/root/autodl-tmp/data/fracture2d/local_fem_point_anchor"
+    c.output.dir = "/root/autodl-tmp/data/fracture2d/runs/fem_point_anchor"
     c.output.filename = "results_point_anchor.npz"
-    c.output.plot_dir = "/root/autodl-tmp/data/fracture2d/local_fem_point_anchor"
+    c.output.plot_dir = "/root/autodl-tmp/data/fracture2d/runs/fem_point_anchor"
     c.output.field_grid_loads = [0.0055, 0.0058, 0.0059, 0.0060, 0.0061, 0.0062]
 
     return c

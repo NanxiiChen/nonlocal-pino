@@ -32,6 +32,13 @@ batches every Adam update. Full-domain sampling with damage-change tolerance
 1e-5 remains the default. In the measured fracture2d comparisons, cheaper
 random updates required more iterations, so total solve time did not improve.
 One-off density/batch/tolerance studies are kept in `_legacy/`.
+Fracture2D artifacts use `/root/autodl-tmp/tf-logs/fracture2d/`: accepted
+`pinn_mlp_baseline/` and `pinn_history_conditioned_baseline/` each contain their
+TensorBoard `events/`; historical experiments live in `diagnostics/`.
+Current local FEM and matched local-mechanics/nonlocal-damage direct references
+are named `/root/autodl-tmp/data/fracture2d/fem_reference/` and
+`nonlocal_reference/`. Their engineering acceptance and remaining convergence
+limits are documented in the artifact index and active task.
 An optional `history_probe.py` evaluates a point-patch encoder with coordinate
 cross-attention and fixed-shape history replay; it is a bounded frozen-field
 experiment, separate from the accepted coupled loading route.

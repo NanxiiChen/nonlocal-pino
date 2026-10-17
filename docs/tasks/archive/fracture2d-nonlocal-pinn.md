@@ -1,5 +1,10 @@
 # Fracture2D nonlocal PINN — closed feasibility stage
 
+> Artifact paths were reorganized on 2026-10-16. Canonical accepted and
+> diagnostic locations are in [ARTIFACTS.md](../../../examples/fracture2d/ARTIFACTS.md).
+> Dated paths below describe the historical layout; the migration map preserves
+> their correspondence without compatibility symlinks.
+
 ## Stage closure — 2026-10-15
 
 Status: CLOSED at the user's explicit request. The current solution is a

@@ -14113,3 +14113,921 @@ Template for each entry:
   saved physical/network states. Do not restart or alter tolerances merely
   because this candidate is provisionally accepted. Related: reduced-rate
   retry, active nonlocal-pinn-architecture task and archived feasibility stage.
+
+
+## 2026-10-16 — Plan stage-aware fracture optimization; no experiment launched
+
+- User observes fewer early-load outers but slower attention iterations, with
+  savings consumed by0053cap1024; requests analysis only. Inspect existing
+  logs/source and primary references. Do not change model/defaults, optimizer,
+  tolerances, physical history, or launch training/Git operations this turn.
+- Current0053uses1e-5 throughout,128updates/outer =131072updates. StageR at
+  outer256/512/768/896 is518.901/348.083/214.592/1.247. Thus much of the cost
+  precedes strong unloading; reducing only the final finishing rate cannot
+  remove the preceding propagation work. At1024 synchronizedR1.55179 but
+  dRMS3.19e-4, physicalAT2.1641; meanL2~1e-7 is insufficient convergence proof.
+- Working hypothesis, not conclusion: an elastic-stage rate floor may limit
+  adaptation during changing H, while near-final fluctuations may need smaller
+  updates. Lowering all fracture-stage rates, resetting all Adam state, or
+  increasing every inner budget is not justified by current evidence.
+- Proposed next bounded control (not authorized/executed): exact saved0053
+  outer256 and final1024 network/Adam states, freeze each own saved H, compare
+  512updates at3e-6/1e-5/3e-5 (experimental values), same objective/moments and
+  time accounting; inspect raw-H residual, own-H direct field/tip errors and
+  update stability. Oracle is evaluation only. This distinguishes fitting-rate
+  effects from coupled H motion; do not promote frozen-H weights to endpoints.
+- If warranted, subsequent declared same0052-start coupled A/B would compare
+  unchanged rate against modest larger-rate adaptation then lower-rate finish.
+  Preserve Adam moments and global counters; a separate schedule-phase counter
+  can express a restart without optimizer reset. Evaluate time to matched
+  accuracy, total Adam updates/mechanics calls, crack extent and endpoint q/d,
+  not outer count or mean residual alone. No fixed physical-load trigger is
+  claimed generally valid; material-H change and stability need explicit rules.
+- Secondary proposal: adjust inner accuracy/budget instead of fixed128 only
+  after measuring when fixed-H training is useful. Fewer inner updates can
+  refresh mechanics sooner but may worsen damage error; more can reduce outer
+  work but total updates/time must win. Encoder freezing/cached learned tokens
+  requires explicit frozen encoder weights, never stale cache while training.
+- Longer-term outer acceleration has primary precedent: Storvik etal,
+  https://arxiv.org/abs/2008.11787 combines Anderson and over-relaxation for
+  fracture stagger. This is not validated for our inexact neural mapping;
+  requires a separate safeguarded range/history/network-state design. Optax
+  official schedules support composed/warm restart schedules:
+  https://optax.readthedocs.io/en/stable/api/optimizer_schedules.html.
+  Scheduling support does not establish optimal rates for this problem.
+
+
+## 2026-10-16 — Authorize paired coupled learning-rate tests from accepted0052
+
+- User authorizes direct warm-start exploration0052→0053. Use the same saved
+  accepted0052q/d/H, conditioned network and Adam74368, bank104; no failed0053
+  seed, no bootstrap, no moment reset, replay OFF. Full domain FP64sigmoidL2,
+ 128inner, same mechanics-first history-floor stagger and field-stop rules.
+- First run32outers at original1e-5 to check reproduction against savedouter32.
+  Then serially run constant3e-5 and1e-4, each capped1024 with normal early
+  field-stop. Experimental rates, not production defaults. Dynamic scaling
+  of final Adam update preserves the original state/counters; baseline
+  exponential schedule is already at1e-5floor throughout this interval.
+- Use one shared fixed-shape JIT, geometry and optimizer layout across arms.
+  Each arm restores identical seed independently. Separate compilation,
+  warm-update/mechanics time, output/evaluation overhead and total elapsed.
+  Original full1e-5trajectory is preserved comparator; short replay checks
+  numerical correspondence, not a new full matched-wall-time baseline.
+- External experiment driver and separate output/TB roots, no public API or
+  default edits. Persist fields/network/Adam/replay, rate/log/time and final
+  same-load and own-H/tip errors plus physicalAT2 and synchronized reaction.
+  Own-Hdirect is evaluation only; phase/stage reactions remain provisional.
+  Cap-exit results are not converged; do not advance load after cap or use
+  reference labels in training. No Git operation authorized this turn.
+
+
+## 2026-10-16 — Verify actual0052restart and baseline trace before high-rate arms
+
+- Exact initial physical/network/Adam74368/bank104 checks pass; original22source
+  modules match saved comparator. Shared dryGPUstep scales finalupdates while
+  preserving moments/counters, with declared floating tolerance. Drywarmup
+  113.13s excluded from warm-armtiming; no dry weights committed.
+- Actual32coupledouters at1e-5 reproduce saved originalq/d/H to relative
+  1.63e-10/6.31e-10/5.62e-9. This validates the external shared-stagger driver,
+  not only its input files. Proceed with authorized3e-5then1e-4arms,cap1024each,
+  stop rules unchanged. Do not infer speedup before matched-accuracy outcomes.
+- Owner3221/worker3226 running; externalroot history_lr_from0052_20261016,
+  TBpinn_history_lr_from0052_20261016. Source immutability, separate arm seeds/
+  replaystores, labels/timing and exact resume cautions in active task. No new
+  production API/default, sampling, replay objective or Git changes.
+
+
+## 2026-10-16 — Separate earlier unloading from converged-quality speedup
+
+- Current constant3e-5coupled arm reaches firstloggedstageR<3atouter344
+  (~23.6min),original1e-5at896. This supports earlier unloading at fewer
+  updates from the verifiedsame0052seed. It does not prove equal fielderror,
+  endpoint convergence or a matched-walltime speedup; stageRusespreviousd.
+- Current damage changes~1e-3 andRoscillatesaround1..2. Preserve ongoing
+  constant-rate control and queued1e-4arm; do not introduce a decay or stop
+  merely during a status inquiry. Evaluate512fields and finalown-Herrors
+  before selecting a faster accurate strategy. No code/process/Git changes.
+
+
+## 2026-10-16 — Verify earlier crack spanning using actual512damagefield
+
+- Requestedcurrentcloudwasnotsavedat400;waitforexisting512checkpointthenplot
+  truefieldswithactualiterationlabels. Same-load directindex56,nativesamemesh,
+  fixed0..1colorbar. CPUglobalL2matchesruntime9.0366%for3e-5versus55.7499%
+  fororiginal1e-5at512. Connected d>=.8front1.0versus.730925;visualfieldshows
+  nearlystraightspanningpath. Earlierunloadingnowhasdirectspatialevidence.
+- Current512own-H8.88%andAT2.1807passprovisionalaccuracybounds,butdamage
+  change.00303failsstability. Keepconstantratecomparisonandqueuedarmunchanged;
+  do not convert fasterpropagation into matchedconvergencespeedclaim.
+
+
+## 2026-10-16 — Assess Schedule-Free for changing-H stagger; discussion only
+
+- User asks cold-start adaptive learning-rate design, then specifically whether
+  Schedule-Free could work. Inspect installedOptax0.2.8 source and original
+  paper/repository. schedule_free_adamw/schedule_free_eval_params available.
+  No optimizer/code/default/process change or newtraining under this discussion;
+  currently authorized constant3e-5then1e-4 comparison continues.
+- Schedule-Free replaces base momentum with interpolation/parameter averaging;
+  it avoids requiring a prescribed decay horizon, not choosing/tuning baseLR.
+  Largerconstantstep plus averaged evaluation is a plausible fit for our
+  fast-propagation/stable-finishing goal, but not a fracture-aware LR detector.
+  Primary refs https://arxiv.org/abs/2405.15682 and
+  https://github.com/facebookresearch/schedule_free .
+- StandardOptaximplementation trains at y, maintains fastz and evaluates atx.
+  Its instantaneous averaging coefficient decreases with accumulatedweight.
+  Our H/objective changes everyouter; long elastic-stage accumulation could
+  impede rapid adaptation of evaluationweights during fracture. This is an
+  algorithm-structure inference, not measured failure or proven need to reset.
+  Do not equate parameter averaging with averaging old/new damage fields.
+- Any laterintegration must evaluate damage/residual/fieldstops/mechanics using
+  x extractedfunctionally, preserve y/z/state for training/restart, and compare
+  those actual fieldmetrics. Small changes of averagedx alone can give apparent
+  convergence without adequate physicalresidual. Weightdecayexplicitly0 for
+  formulation-preserving comparison. Baseoptimizer momentum must not be added
+  twice; use official Optax convenience implementation.
+- Proposed bounded next test, not executed: exact0052weights/physicalstate,
+  initialize newSchedule-Free state and matched ordinaryAdam-freshstate control;
+  retainedAdam productioncontrol remains separate. OldAdamstate cannot be
+  relabelled as Schedule-Free. Probe one/two explicitlytunedbaseLRs with same
+  128inner and budgets; measure propagation/time/own-Herror/stability. If useful,
+  test genuinecold0path including longelasticprefix and unknownstop horizon.
+  Per-load restart of averaging would be an explicitlychanged variant requiring
+  separate validation, not silently called standardSchedule-Free.
+- Also clarify user's stopping interpretation: current1e-5 is the exactP1
+  area-normalized RMSofdelta-d betweenouters, not boundon1-dmax or relative
+  error. dmaxnear1 doesnot mathematically prevent this criterion; sigmoid
+  derivative is d(1-d), so saturation itself doesnot imply large output motion.
+  Which midband/token/H/optimization component causes observed fluctuations
+  remains unisolated. Engineeringacceptance may differ from strictstability.
+
+
+## 2026-10-16 — Authorize measured adaptive LR probes, keep field-stop explicit
+
+- User authorizes history/training-response LR adaptation and asks outer limits;
+  then requests per-load outer-count plot (additional visualization, not task
+  cancellation). Continue preparing independent adaptive experiment. Current
+  fixed3e-5/1e-4 protocol remains unchanged and occupiesGPUserially.
+- Original limits: prefix128below0053,critical1024;128inner; minimum3outers,
+  3consecutive passes of exactP1damageRMS<=1e-5 and normalizeddisplacementRMS
+  <=1e-4. Residual not outer stop gate. Earlier spanning does not automatically
+  satisfy field stability. Prototypeadaptivepilot will use a bounded512cap,
+  retaining thresholds/labels; capexit is saved,not claimed converged.
+- Prototype controller: fixed candidateLRs3e-6/1e-5/3e-5/1e-4,initial1e-5;
+  probe current and adjacent candidates from identical network/Adam on fixedH,
+ 16updates each,select by postprobe current-HL2 with1%hysteresis. Commit whole
+  winning network/Adam branch; discarded branches count as actual extra work.
+  Remaining accepted updates complete128perouter. No moment reset.
+- Probe firstouter,periodicallyevery8outers,or when localbounded-H innovation
+  exceeds.02subject4outercooldown. Innovation is RMStop1%of changes of
+  eta=2H/(Gc/l0+2H). This is detached optimizercontrol only,not new physics/
+  history floor or proven optimal heuristic. Positive/finite/range controls
+  explicit. Avoid comparing loss values across differentH for LR selection.
+- Independent warm0052→0053pilot first,queued after existingfixed-rate job;
+  no concurrenttimingcompetition, no publicdefault edits, noSchedule-Free.
+  Save controller phase/rate/probe records,accepted/discardedupdate counts,
+  rawH/Adam/fields andTB. A cold-start claim requires latergenuine0trajectory;
+  this pilot alone only tests coupled adaptation near fracture.
+
+
+## 2026-10-16 — Stop experiments at user request; group stage-dependent LR issues
+
+- User explicitlystopsallcurrentexperiments anddefers groupedresolution.
+  Verify identities,terminatefixed-comparisonowner3221/worker3226groupbySIGTERM,
+  verifybothgoneandGPUempty;cancelqueued1e-4beforestart.3e-5lastlog920,
+  lastfullcheckpoint512; preserveallartifactsandnumericalflags. Root stop
+  receipts/jobstatuscancelled_by_user; noautomaticrestartornewqueuedwork.
+- Recordsharedfamily,notexclusivecausalproof:0017high1e-4oscillationsimproved
+  at1e-5;0052→0053low1e-5slowpropagationimprovedat3e-5;postspanningfinish
+  still fluctuates. Keep current-Hfittingerror,H/tokenresponseandstrict-vs-
+  engineeringacceptance asunresolvedcontributors. No threshold relaxation.
+- Clarifycoldprovenance: newhistorymodelstartsfromzeroat1e-4,then0017retry
+  usesaccepted0016physicalstateandfailedfitweights/Adamwith1e-5. It wasnot
+  a constant1e-5coldrun; iterationcostsinclude128failedoutersplus5retry.
+- Adaptivecontrollerprototypeand4CPUtestscompletedbeforestop; noGPUdriver,
+  queueoradaptiveexperimentlaunched. Saveexternalfilesforlaterreview. Research
+  taskonhold/incomplete,notarchived; source/defaultsunchanged,noGitoperation.
+
+
+## 2026-10-16 — Consolidate fracture2d events and name accepted artifacts explicitly
+
+- User authorizes filesystemcleanup: allfracture2devents underexampletfsubdir,
+  clearacceptedhistoryPINNbaseline name, clearFEM/directreferencenames. This is
+  artifactmaintenancewithinactive task; numericalresearch remainsonhold. Only
+  TensorBoard6007isrunning; no solver/autorestart authorized. NoGitoperations.
+- CanonicalacceptedPINNroots tf-logs/fracture2d/pinn_mlp_baseline and
+  pinn_history_conditioned_baseline,events insideeach/events. Otherfracture2d
+  historicalruns/logs gatheredunderdiagnostics; futureoutputsunderruns. Accepted
+  isprovisionalengineeringstatus,notstrictconvergenceorcompleted0060claim.
+- Currentthree-wayFEMcomparator actuallylocal_gradient_from_zero_20261011,
+  localP1mechanics/localP1gradientAT2;matchednonlocaldirectis
+  local_damage_load_refined_20261011_direct. Relocate todata/fracture2d/
+  fem_reference andnonlocal_reference. Retainolderpoint-anchorFEniCSand
+  nonlocal-mechanicsarchiveswithclearlyseparatelegacyreference names; do not
+  substituteoldmodelsascurrentcomparators. Sharedgeometrymovesasassetifneeded.
+- Builddirectold/newpathmanifest,noaliases/symlinks/SHAchecks. Renameon same
+  filesystem,mergeeventdirectoriesonlywithoutfilecollisions,preserveeventand
+  numericalbinarybytes. Backuppath-bearingJSONmetadata,thenrewritephysical
+  paths inconfigs/checkpointmanifests/identities. Historicaleventsources/code
+  snapshots remainoriginalprovenance; currententryconfigs/docsusecanonicalpaths.
+  Maintainappend-onlyDECISIONSentries,addmigrationrecordinsteadofrewritehistory.
+- Verifycompleteeventinventoryandfileidentity/size,acceptedq/d/H/reactions,
+  rewrittenparent/replaystores,configloading/defaultnumericalequivalence,
+  currentmodelreferenceidentityandTensorBoardrun-discovery. NoFEM/GPUtraining
+  rerunforpath-onlychange; no deletingcomputedresultsorclaims ofnewaccuracy.
+
+- Completion evidence: 421 moves/77,543 original files/201 events verified;
+  2,183 JSON path updates exactly match backed-up originals under the map.
+  Accepted U=.0053 q/d/H and complete curves unchanged. Seven presets retain
+  all numerical settings. Both baseline checkpoints restore on CPU, including
+  106 history snapshots; TensorBoard6007 discovers renamed baselines without
+  restart. Receipt: fracture2d/_layout_migration_20261016/verification.json and
+  checkpoint_restore.json. Research remains held; no training or Git operation.
+
+## 2026-10-16 — Qualify FEM reference resolution and boundary provenance
+
+- User asks whether current FEM reference is refined. Inspect saved identity,
+  actual prepared mesh constraints and original cloud metadata: globally fine
+  h_far=h_near=.004,71307materialnodes/141366P1cells, shared with current PINN
+  and direct. Earlier h008 has18367nodes. Reject interpreting refined loading
+  or a finer mesh as proof of continuum mesh convergence; no such study adopted.
+- Preserve actual engineering volume-grip BCs: lower uy0,upper uyU on all added
+  strip nodes, extent.048; only ux anchor node0 at(0,0), others horizontallyfree.
+  Interfaces are solved nodes; exposed surfaces natural traction-free, local
+  damage natural zero flux. Document in ARTIFACTS rather than silently equating
+  this comparator to the older independent FEniCS boundary model. No model edits.
+
+
+## 2026-10-16 — Resume LR design with fixed-H reversible trials
+
+- User reopens learning-rate discussion; cancelled numerical work remains
+  stopped. Prefer periodically measured current/neighbor rates on identical
+  currentH/network/Adamstate over load-index switches or raw changingHloss
+  plateau decisions. Candidate rates may rise or fall; state follows winner.
+- Reuse external CPU-only prototype as design input, not a finished cold driver.
+  First consider periodic every8outer/16step trials, with128acceptedupdates;
+  defer added Hnovelty trigger until benefit established. Discarded branchwork
+  is counted; nominal3.125%update overhead is not measured walltime.
+- Validate short-horizon rankings and all-candidates-worsen handling, then two
+  difficult warm windows0016→0017 and0052→0053 before cold0trajectory. Unchanged
+  PDE/history/replayOFF/fullsampling/fieldstops; no assumed convergence gain.
+  Plain Optax reduce_on_plateau decreases rate only; official API inspected.
+  No productioncode, optimizerstate or numericaljob change under discussion.
+
+
+## 2026-10-16 — Execute bounded adaptive LR pilot, separate from baselines
+
+- User says try it: authorize independent diagnostic implementation and GPU
+  experiments. Keep public training/model/defaults untouched; archive scripts
+  under diagnostics/adaptive_lr_pilot_20261016/scripts, all events under each
+  arm/events. Do not restart cancelled comparison or overwrite accepted roots.
+- Explicit protocol: fixed-H all-four-rate calibration with16/32/64/128losses
+  on0016→0017,0052→0053 and retained late0053state; coupled current+neighbor
+ 16step trials every8outers with1%hysteresis. Trial candidates start from exact
+  same network/Adam. Winning fullstate committed, discarded work counted.
+- Reject all-candidates-worsen against pretrialloss: expand to remaining lower
+  ladder rates explicitly, if none reduces loss fail with saved diagnostics;
+  no solver fallback or hidden numeric change. Adam moments never reset.
+- Serial coupled controls:0017fixed1e-4 andfixed1e-5 up to32outers each;
+  adaptive0017up to128 starting1e-4;0053fixed1e-5control32forreproduction then
+  adaptive0053up to512 starting1e-5.128acceptedupdates, original strict stops.
+  Preserved original0016pre-failure state and0052state, no failed0017netseed.
+  Ranking is measured, not assumed;16stepvs128regret reported, not used to
+  silently tune protocol. Independent final q/H synchronization and own-H
+  direct solve assess accuracy; no reference data used in training/LRchoice.
+
+- Initial pilot evidence: fixed-H16step winners differ from128step winners in
+  allthree contexts (128lossregrets.312%,.147%,1.023%). At0053firstandlate,
+ 16steps prefers3e-6,128steps prefers1e-5;3e-5/1e-4 may initially worsenloss.
+  This exposes a possible mismatch between greedy innerloss and outercrack
+  progression; continue bounded declaredcontrols without silently altering
+ 16step rule. Not evidence adaptive has worked or failed in coupling yet.
+
+- Actual0017warm results: fixed1e-4 budgets32outers,2.80%damageerror;
+  fixed1e-5 passesfieldstop5outers,4.00%;adaptive chooses3e-5andpasses5,
+ 3.94%. Adaptiveaddresseslocalstability without proven matched-accuracy
+  speedup. Keep physical/ownHdiagnostics and unchanged strictstop definitions;
+  do not accept smallerparametersteps as an accuracycertificate. Continue
+  declaredfracturewindow to testpropagation, no newthresholdadjustment.
+
+
+## 2026-10-16 — Conditional true cold run authorized after pilot review
+
+- User explicitlypermits full coldtrajectory after experiments finish and
+  suitability confirmed; no repeatedpermissionneeded. Target0→.0060 from
+  latestacceptedfullrange, newnetwork/Adam,emptybank,one-timeL1/L2bootstrap.
+  Full-domain conditioned/nonlocalPINN/localmechanics/replayOFF unchanged.
+- Prepare and CPUvalidate a cold-capable wrapper; keep productioncode/defaults
+  untouched. Conditionalfollowup must inspect pilotcomplete/reproduction and
+  rawendpointmetadata,notlaunch merely on exitcode. NoGPUoverlap or autorestart.
+- Explicit conservative engineering screen for a cold experiment:
+  elasticdamageerror<=5%;fracturetipconnectedfront>=.99,same-loadL2d<=7.843%
+  (1.10xaccepted7.130%),reactionerror<=5%,ownHerror<=10%,physicalAT2<=.20.
+  Executedupdates mustbe less than original1024x128; actualadaptivearmtime must
+  bebelow1024times current32controlperoutertime (a work/costscreen,not matched-
+  accuracywalltimespeedup proof). Baselinequality/stops remain labeled; a
+  qualifying budgetexit is provisional engineeringacceptance only.
+- Ifscreenfails, preserve report/reasons and do not coldlaunch. Ifpasses,
+  coldstartsautomatically after pilotGPUexit and requiredCPUtestreceipt.
+  Preserve originalstrictstops/caps128/1024 and advance_on_budgetFalse;
+  savedbudgetexit haltsratherthan silently advancing or relaxingaccuracy.
+
+- Conditional pipeline verified: cold2CPUtests31.684s andgate2CPUtestsPASS;
+  coldconfig60loadtargetsvalid. Followup20541waitingforpilot, GPUonly15321;
+  coldrootnotcreated. Coldwrapperpreservesbootstrap/Adam/controller/restores
+  andpublicsharedstagger; no publicdefault changes. Receipt paths in active
+  task. A future stop must cancelpilotgroup15296ANDfollowupgroup20541 so a
+  pendingcoldlaunchcannotoutlivestop. Failedscreens recordreasons,no coldjob.
+
+
+## 2026-10-16 — Reject greedy fixed-H LR controller for cold launch
+
+- Completedpilot512outers/36.17min at0053 remainsunspanned(front.76557),
+  syncreaction301.873vs1.57096,same-loaddamageerror51.05%,ownH10.39%.
+  Priorfixed3e-5at512spans/error9.04%/34.89min. Controllerused3e-6on416/512
+  outers (81.25%). CPUcorrectness/lowfixed-Hloss are insufficient evidence
+  of coupledfractureefficiency. Do not promoteorlaunch coldwiththisvariant.
+- Explicitconditionalgatefailedfield/front/reaction/ownHchecks;followup
+  correctlyexitedno coldjob. AllthreejobPIDsgone,GPUidle; no autorestart.
+  Preserveweights/Adam/H,source/currentrefs,fields,TB,probehistoryandcloseout.
+- Nextscientificissue: shortfixed-Hlossselection can overfavor smallsteps,
+  whilecoupledtargetevolves. This is experimentallysupportedhere,notproven
+  universality or an exclusive rootcause. Revisitselectionprotocol ratherthan
+  increasingbudgetorlooseningphysicalquality. No newprotocol/GPUjob adopted.
+  Userconditionalcoldauthorization persists for a suitable futuremethod.
+
+
+## 2026-10-16 — Investigate coupled response before choosing a new LR controller
+
+- Userauthorizescontinuation. Run bounded diagnosticbranches,not anotherfull
+ 512controller or coldwithfailedrule. Fourstates: accepted0016→0017,
+  accepted0052→0053, failedgreedy0053outer512, spanningfixed3e-5outer512.
+  FourconstantabsoluteLRs3e-6/1e-5/3e-5/1e-4,8standardstaggerouters each,
+ 128Adamupdates/outer,same exactnet/moments/q/d/preceding-loadHfloor percase.
+- Measure after1/2/4/8: frozen-Hloss and physicalresidual; diagnosticmechanics
+  update followedby synchronizedH residual; networkoutputchange onnewH before
+  training; boundedetaHinnovation; diagonal-Jacobi correction and exactown-H
+  directerror asdiagnosticonly. Same-loadreferenceerror isofflinevalidation,
+  nevertraining/LRselection. No candidatechooser is adopted inthisdiagnosis.
+- Checkedderivation: A=diag(gc0+2H)+gc1D,r=Ad-2H; oneJacobicorrection
+  delta=-r/(gc0+2H+gc1diagD). Positive/negative corrections arediagnostics,
+  not exacterrors,bounds,extraoutputconstraints or a modifiedPDE. Verify with
+  independent small densematrix beforeapplying. No coupledenergymerit because
+  thishybridmechanics/historyformulation isnot a joint u/d energyminimization.
+- Diagnosticextra mechanics solves neverfeed back into actual8outers.
+  The real branchkeepsone mechanics perouter and preceding-loadHfloor.
+  Publicmodel/loss/BC/stoppingdefinitions remainunchanged; fixed8horizon is
+  comparisonbudget,not acceptedloadstep. Sourcebank/phase restored explicitly
+  forin-loadstates; no bogusendpointpromotion or usingouterH asirreversiblefloor.
+- Newrootdiagnostics/coupled_lr_response_20261016; scripts/eventsinside.
+  Oldgatealreadyexitedandwillnotrestart. Conditionalcoldauthorizationpersists
+  onlyafter suitablemethodverified; no newcoldqueuedbythisdiagnosis.
+
+
+## 2026-10-16 — Test full-block LR admission using actual history-input response
+
+- Four-state response diagnosis completed. Updated-Hmeanloss/Jacobiscoring
+  doesnot universally rank longcoupledquality. ElasticHinputresponse tiny;
+  propagationresponse~1e-4;spanningafterlowerLR~1e-7. Large abruptlateLRcan
+  createwidespreadwrongdamage; highestLRwithoutaccuracycheck is unsafe.
+- Next bounded experimentalpolicy: full128update trials (not16) fromsame
+  net/Adam/currentH, currentandneighborLRs every8outers. Eligibility requires
+  postloss<=preloss onthatidenticalH. If pretrainingnetworkH-inputresponse
+  P1RMS exceeds EXISTINGdamagefieldtolerance1e-5, choosehighesteligibleLR;
+  otherwise chooseminimumloss eligibleforfinishing. No newPDE/objective,
+  spatialpathconstraint,directtarget or extraactualmechanics. This is an
+  experimentalcontroller, not a provenoptimalcriterion or standardlinesearch.
+- Signal is RMS(net_theta(Hcurrent)-d_previous), detached. It distinguishes
+  targetinputmotion from trainingmotion, using sameexactP1norm asstopping.
+  No load-index/crack-location LRswitch. Period8 limitschatter; finite/range
+  checks and lower-ladderexplicitsearch/allworsefailure retained. Everydiscarded
+  fullblock counted (up to25%extra updates, not3%oldshortprobeoverhead).
+- Warm0016→0017cap128 and0052→0053cap512 first. Reuseimmutable prior32outer
+  controlwithverifiedsame-seedtrace ratherthanpayunchangedrepetition. Separate
+  diagnostics/history_response_lr_pilot_20261016. No publiccode/default edits.
+- Conditionalcold permission persists. For this newexperiment screenfielderror
+  <=10%, anchoredto user's previouslyacceptedfixed3e-5spanning9.04%result;
+  otherfront/reaction/ownH/physical/workchecks unchanged. Declare before any
+  outcome,not posthocrelaxfailed51%trial. 7.843%earlierscreenwasmoreconservative
+  than user'spriorengineeringacceptance. No strictconvergenceclaim.
+
+- Newpolicy initialGPUevidence:0017passes12outers/error3.60%, switches1e-4
+  to3e-5 forfinishing at9.0053firstfullprobe selects3e-5 despite1e-5lower
+  loss becausebothdescend andHinputmovesfield; nextprobegreater1e-4raises
+  lossandisrejected. These arecorrectinitialcontrollerbehavior, notproofof
+  wholefractureefficiency. Pilot29778/29829active,conditional30771waits;
+  startupgate29779racepreservedandfixedwithoutGPUrestart. No coldlaunchyet.
+
+
+## 2026-10-16 — Full-block history-response pilot unloads earlier but fails finishing admission
+
+- Actual0017 converged12outers/64.49s/error3.60%. Fracture0053 first logged
+  stageR<3 at304/24.92min versus originalfixed1e-5at896. At432/35.01min
+  stageR1.20625,dmax.999291,dRMS8.81e-5>1e-5; directR1.57096. Faster
+  unloading alone does not establish final accuracy or matched-quality speedup.
+- Outer433 all-worse controller rejection: frozen-Hpre3.767005e-7,
+  post128updates3e-6=3.795903e-7(+.767%),1e-5=3.014176e-6. Lowest
+  ladder exhausted; explicit RuntimeError, not demonstrated mechanics failure.
+  No silent acceptance/fallback or automatic restart. Finishing rule needs
+  diagnosis before any new bounded protocol, not a blanket budget increase.
+- Latest complete checkpoint256 remains unspanned/front.79328/error44.49%;
+  later432state only has scalars, no same-load field validation. Do not label
+  crack path or endpoint quality from reaction alone or reuse256error as432.
+- Pilot and conditional owner exited; cold never launched. Preserve evidence
+  under diagnostics/history_response_lr_pilot_20261016. Prior user conditional
+  cold authorization persists only for a suitable physically validated method.
+  Relation: continues full-block history-input decision; rejects promotion of
+  this incomplete result while retaining its propagation improvement evidence.
+
+
+## 2026-10-16 — Audit adaptive scope and record user acceptance of late scalar level
+
+- User considers outer432 R1.21/dRMS8.81e-5 acceptable provisionally. Respect
+  engineering acceptance rather than reject it solely at strict1e-5. No
+  implicit global threshold change; saved432 field/strict convergence remain
+  unverified. R is stage-unsynchronized; same-load direct R1.57096.
+- Actual script audit: control.py chooses by current H-input damage response
+  and same-H full128-update trial losses, every8outers; no prescribed loading
+  thresholds or manually triggered fracture-stage LR change within either arm.
+  But experiment.py uses independent0016→0017 and0052→0053 warm seeds with
+  manually initialized1e-4 and1e-5. Reject describing this as already verified
+  whole-path adaptive cold training.
+- Prepared cold.py keeps controller state across loads, with one initial1e-4;
+  one-time2048L1+2048L2 bootstrap uses fixed1e-4 before adaptive blocks. It has
+  not run. Disclose bootstrap exception to an all-iterations-adaptive claim.
+- Next recover/reproduce a complete post-unloading field and sync mechanics.
+  Any future stopping relaxation must be explicit and must not silently change
+  the controller's currently shared damage_tolerance response classifier.
+  Relation: updates interpretation of prior rejection with user acceptance,
+  retaining provenance and numerical-convergence distinctions. No new run.
+
+
+## 2026-10-16 — Compare actual load-step counts and recover accepted late state
+
+- User authorizes preceding proposal to supplement432field/synchronized force
+  and asks for per-load iteration curves againstMLP. Use canonical accepted
+  pinn_mlp_baseline, not the laterGPUrerun: early totals2998 vs history422
+  successful-attempt outers; count failed0017extra128 explicitly (history550).
+  This differs from earlierGPUrerun total2991 because source run differs.
+- Plot same53loads, cap exits and failed retry; latest adaptive windows are
+  separate stars at0017/12 and0053/432, never connected into a fake cold path.
+  Counts exclude bootstrap/discarded probe work; do not call work/time savings
+  at matched accuracy. Plots/CSV/provenance in current pilot/outer_counts_comparison.
+- Reproduce256→432 from exact saved net/Adam/bank/q/d/H_parent/controller
+  into separate recovery_outer0432_20261016; unchanged policy/model/tolerances.
+  Check each logged8outer against original scalars, stop before rejected433,
+  preserve raw in-load432 and separately synchronized candidate with physical
+  validation. No load advancement or cold launch. GPU first continuation
+  serves focused restore verification; public code unchanged.
+
+- Recovery launch receipt: owner/group39675,worker39700, source256/target432,
+  no auto-restart/cold. Restore receipt generated, continuation still compiling
+  when inspected; do not claim reproduction complete. User's follow-up asks
+  if adaptive was cold; explicitly clarified no, only two warm windows. The
+  original history baseline's cold start/manual restart does not validate
+  the new controller across earlier loads. Next inspect recovery and preserve
+  this distinction in any next full-cold proposal.
+
+
+## 2026-10-16 — User requests actual adaptive cold trajectory and exactly two curves
+
+- New deliverable: fresh net/Adam/q/d/H/bank,0→.0060, then plot ONLYMLP
+  baseline and actual new adaptive cold per-load outer iterations; no stars,
+  cap/retry markers or spliced warm points. Earlier multiseries figure is
+  diagnostic and does not satisfy this new final request.
+- User clarifies1e-4 damage-change acceptance applies to fracture; main cold
+  comparison therefore retains1e-5 before existingcritical_load.0053 and1e-4
+  from that load. This is stopping only. Explicit adaptive_stopping config;
+  LRresponse remains1e-5 at all loads. No additional load-based LR switch.
+- Existing initial4096(L1/L2) bootstrap at1e-4 remains disclosed; thereafter
+  same full128-block adaptive rule every8outers across loads, controller/Adam
+  persist. Full-domain/L2/Adam/sigmoid/localmechanics/nonlocaldamage,replayOFF.
+- Address known finishing rejection explicitly: strict loss descent preferred;
+  only if no descending candidate and inputresponse is small, allow best
+  candidate within1%relative loss increase. Tracking still requires descent;
+  bigger increase/nonfinite still fails loudly. Not a standard-method claim.
+  Focused tests include actual433scores, mode separation and stop/LR separation.
+- Prior recovery39675/39700 exited1 at first264 scalar-agreement check
+  (damageRMS relative difference.2693%); no full432 reproduction is claimed.
+  It will not auto-restart or delay independent new cold. Preserve failed
+  receipt/logs. New scripts/job in diagnostics/adaptive_cold_launch_20261016;
+  actual output runs/pinn_history_conditioned_adaptive_cold_20261016 must
+  be fresh to pass public loading no-overwrite guard. No Git operations.
+
+- Actual cold launched08:18:21UTC: owner/group43941,worker43968. Actual
+  state0000physical q/d/H exactlyzero,Adam0,bank0 independently checked.
+ 9CPUchecksPASS52.933s; no concurrentGPUworker. Stop adapter implements
+  separate limits without mutating savedconfig, preserving resumeidentity.
+  Supervisor plots exactlytwo unmarkedsolidcurves only after all60loads
+  complete. MLPsource has57loads; its missing later points are not extrapolated.
+  No old warm gate or recovery is used to initialize or splice actualcold.
+
+
+## 2026-10-16 — Actual cold uses fewer early outers but more wall time
+
+- User-observed first14 slowdown verified:557.94s new vs288.62s canonical
+  MLP (339.87s laterGPUrerun),71 vs132outers. Excludingfirststep new354.54s
+  vs214.81s; median27.07s vs11.04s. Compare actualhistoricalrecords, not
+  claim controlledsamehardware or architecture-only cause.
+- Initialization4096updates179.84s plus1536discardedtrialupdates at14 add
+  work. executed14592updates still belowMLP16896, so model/loop per-update
+  cost matters. Probe_seconds77.35 includes keptcandidate; do not count
+  wholeprobe_time as extra. Most earlyloads already5outers; lower iteration
+  count has little headroom there. Avoid equating count reduction withspeedup.
+- Continue alreadyrequested fullcold without midrunpolicychanges, then assess
+  actualtime/quality across laterloads/fracture. New15needed29vsMLP6,17
+  stabilized5,18needed14; current19outer1. No optimization or stop requested.
+  Relation: qualifies prior adaptive-efficiency expectations with actualcold
+  measurements. Receipt launcher/early14_cost_audit.json. Historicalconditioned
+  TB endpointtimestamps reconstruct first14in1.12s; unusable for trainingtime.
+
+
+## 2026-10-16 — Cold critical-step behavior limits transfer of warm LR result
+
+- User's slowfracture concern supported sofar:0053outer192stageR540.04;
+ 48outers3e-6,104at1e-5,40at3e-5. Hresponse tracking active;higherLRwas
+  tried and oftenrejected. At1503e-5loss~8.36xpre;158~19.47xpre. Hence
+  not a missingtrigger nor merely0.77%finishingnoise. No blindrelaxation.
+- Existing128field tipconnected d>=.8 frontx.54386 vs warmadaptive.64779;
+  both dmax~.996. Fullcrack not establishedbyhighmaximum. Actualcoldparent
+  net/Adam/count and fields differ from warmseed (d~.996%,H~.307%relative);
+  reject claiming identical-state controlledproof or alreadyfullcold success.
+- Currentcriterion evaluates frozen-H128block loss, not long coupledprogress;
+  small-rate bias persists empirically but actual high-rate instability matters.
+  Next causalcomparison should seed from newcold0052 and compare fixedrates
+  before anothercontroller. No newGPUjob or midrunchange; currentfullcold
+  continues. Relaxed stopping1e-4 must not be equated with fullfracturequality.
+  Relation: qualifies earlier warm-success interpretation with actualcolddata.
+  Evidence launcher/critical_lr_audit.json.
+
+
+## 2026-10-16 — Qualify interpretation of loss growth during fracture
+
+- User emphasizes legitimate residual growth as localized damage develops.
+  Agree outertarget-changing loss need not be monotone and loss rise alone
+  must not veto physical progress or imply failure. No damage/force-only
+  proxy is adopted as optimizer objective.
+- Actualcontrol.py audit: candidate pre/post share identical frozenH,token
+  context and normalization; rejected increases cannot simply be attributed
+  to updatingH inside the trial (none occurs). Conversely one128update sameH
+  increase does not establish physicaldivergence or poor longcoupled outcome.
+  Correct prior too-strong 'instability' wording when based on lossalone.
+- CurrentlinearAT2residual r=A(H)d-2H: growthd need not mathematicallyraise
+  loss, and d=0 is not zeroresidual whereHpositive. Keep residual,energy,
+  targetchange and damageprogress conceptually distinct. No PDEchange.
+- Next compare nonmonotone larger-rate behavior over multipleactualcoupled
+  updates from newcold0052seed, inspect fields/equation/force before adopting
+  any newcontroller. Not implemented/launched under this discussion. Current
+  cold continues, latest216stageR529.21,LR1e-5.
+
+
+## 2026-10-16 — Stop old cold run and compare nonmonotone fixed-rate coupling
+
+- User agrees same-cold-seed multistagger comparison, then explicitly stops
+  current cold. Verified43941/43968exited afterSIGINT; jobcancelled_by_user,
+  lastscalar0053outer264R481.29,latestfull256,52endpoints through0052.
+  Preserve stop receipts, no resume/autorestart or full-cold completion claim.
+- Bounded two-arm diagnostic from EXACT newcold0052 net/Adam/bank/q/d/H:
+  adaptive rule with savedcontrollerphase vs fixed3e-5 with no descentveto.
+  Both128outerhorizon,128innerupdates each; noearlyfield-stop orloadadvance
+  during observational horizon. Fixedarm permits temporary lossgrowth without
+  treating it asfailure; nonfinite/invalidfields/failedmechanics stillabort.
+- Record frozen-Hloss pre/post, P1fieldchanges, stageforce eachouter; diagnose
+  synchronizedforce/H/residual/ownHdirecterror/referenceerror/front at8/32/64/128.
+  Extra diagnosticmechanics do not feed back. IdenticalpriorloadHfloor, same
+  physics/Adamupdates/currentHtraining/replayOFF. No newonlinecontroller adopted
+  and no force/damagegrowth-only optimization or directtrainingtargets.
+- Both arms restoredsame69888Adamcount and104bank; savedcontroller global
+  phase515 preserved. Compile once with discarded dryupdate; comparetime and
+  executedupdates including trialoverhead. Sourceimmutable; separate root
+  diagnostics/cold0052_nonmonotone_lr_20261016. Fixedarm is diagnostic, NOT
+  an adaptivecold replacement. Earlier final2curve deliverable remainspending.
+
+- Newboundedjob launched owner/group54204,worker54232,09:34:43UTC;
+ 2focusedCPUtestsPASS17.201s and scriptssyntaxverified. Initialcompilation
+  pending; no numericalquality conclusion yet. Oldcold cancellation receipts
+  verify bothPIDs gone. Originalfinal2curvefullcold task remainspending;
+  comparison arms cannot be spliced into coldhistory or relabeledadaptivecold.
+
+
+## 2026-10-16 — Completed no-veto fixed3e-5 comparison does not accelerate128outer crack progress
+
+- Botharms128completedexit0, sameactualcold0052 net/Adam/bank/fields.
+  Adaptive/fixed syncedR552.86/554.60,frontx.54386/.54386, same-load
+  damageerror74.63%/76.42%,ownH11.66%/11.52%. Fieldimages bothlocalized
+  at notch,neither spans or fieldstable. ReferencefullyspanningR1.57096.
+- Fixedtime538.09s vs644.35s,16.49%less; accepted16384both, executed
+  fixed16384vsadaptive19584. Candidateoverhead saved, no meaningfulsame-
+  horizon fractureadvance benefit. FixedsameHlossrise allowed, but sampled
+  measurements17only, not proof of all128stepbehavior.
+- Reject promoting fixedrate/no-veto alone as a validated adaptivecold remedy
+  from this test. Also reject claiming nonmonotone coupling neverhelps or
+  that128 determines finalbreakthroughtime. Next optional same-state longer
+  horizon/otheroptimizer diagnosis requires explicit boundedprotocol.
+- Former54204/54232gone,GPUidle; no extension/restart queued. Oldfullcold
+  remains usercancelled; final2curvecompletedadaptivecold deliverable pending.
+  Preserve closeout/comparison/rawinloadstates/validation/figures/events.
+  Relation: limits hypothesis that hardlossveto alone causes observedcoldslowness.
+
+
+## 2026-10-16 — Matched horizon reconciles old fixed3e-5 benefit with new short test
+
+- User challenges apparent loss ofprevious3e-5acceleration. Auditactualsame
+  metricstageforce:OLDfixed128R555.7168,NEWfixed128R553.5990;bothsaved
+  d>=.8connectedfrontx.54386395. No evidence currentfixedrate is worseat
+  matched128horizon. Earlier broadinterpretation was premature.
+- OLDfixedrapidunloadoccurred later:256R365.92,304R230.15,firstloggedR<3
+  at344(R1.1938). Newtest ends128,so cannotdeclare formerbenefit lost.
+  Distinctnetwork/Adamcounts remainprovenance,not a demonstratedcauseof
+  failure here. Separate oldwarmADAPTIVE128R447 included1e-4periods and
+  mustnot be mistakenforconstant3e-5control.
+- Preserve bounded128nullcomparison vsadaptive, but reject extrapolatingit
+  tofinalbreakthroughfailure/nonmonotoneinefficacy. Possible nextcomparison
+  extends BOTHnewarms to384/512 and checksfield/error/time; noextension
+  launchedunder current explanationquery. Evidence matched_horizon_audit.json.
+  Relation: refines prior128closeout with oldfixed-rate matched-window evidence.
+
+
+## 2026-10-16 — Extend both matched cold branches from128 to512
+
+- User explicitly agrees longerhorizon. Continue EACHarm from its own saved
+  rawin_load outer0128, not from0052again:net/Adamcount86272,bank105,
+  controllerglobal643/rate/probephase and executioncounters preserved. H_parent
+  independently checked against actualcold0052H, never useouter128H asfloor.
+- Same originalpolicies,384additionalouters×128updates,loadfixed.0053,
+  no earlyfieldstop or advance. Source128stateimmutable. Sourceadaptive vs
+  fixedcontrollerflags mustmatch; fixedremains3e-5 without lossveto.
+- Two independent serialGPUworkerprocesses permit fixedarm tofinish evenif
+  adaptiveguardrejects; that failure must be explicit, no rule relaxation or
+  fallback. Nonfinite/invalidmechanics remainerrors. No autorestart.
+- Save rawcheckpoints at129 and every16; synchronizedphysicaldiagnostics
+  at192/256/320/384/448/512 do not feed back. Track cumulativeprevious128
+  pluscontinuation work/time, keep stage/sync forces distinct. Newroot
+  diagnostics/cold0052_nonmonotone_lr_to512_20261016. No newcoldrestart.
+- FocusedCPUchecks exercise in-load adaptive ANDfixedphase restore and exact
+  next128updates; no unchangedexpensive suite. Publiccode/defaultsunchanged.
+
+- Continuation launched10:23:33UTC owner/group60313,adaptiveworker60340;
+  fixedrunsserially next. 2focusedCPUtestsPASS32.098s, driver/supervisor
+  syntaxchecked. Startupcompilepending, no newphysicalcomparisonyet. No old
+  coldresume/autorestart; stopownerGROUP to prevent nextserialarm aftercancel.
+
+
+## 2026-10-16 — Extended adaptive branch spans and settles by512
+
+- Adaptivecontinuationfinished512exit0: firstloggedstageR<3 at376,front1.0
+  at384diagnostic. At512syncR1.43456vs1.57096,damageL2error8.768%,ownH
+ 8.342%,AT2.19854,dRMS5.844e-5 and10consecutivefieldpasses. Imageinspected
+  nearlyhorizontalspanningpath. Cumulativebranchwall43.01min excludingrestart
+  compilation, continuation32.27min. FinalLR3e-6finishing, controllerunchanged.
+- Confirms128window missed delayedcrackgrowth; do not retain generalfailure
+  interpretation. Fixed3e-5notfinished (64187 latest160stageR523.16 at first
+  query), so finalrelativeefficiency/quality stillpending. No newpolicyadopted
+  or automaticallycontinuedload. Raw512state in_load/bank105; diagnostic
+  fieldstable is not a completed0→.0060trajectory or acceptedloadpromotion.
+- Owner60313continuesfixedserialarm; oldcold stayscancelled. Evidence
+  intermediate_adaptive512.json, adaptive summary/diagnostics/validation/cloud.
+
+
+## 2026-10-16 — Final512 comparison favors adaptive accuracy but not wall time
+
+- Bothcompleted512andspan; adaptive/fixedfirstloggedR<3 at376/432outers,
+  but cumulative32.18/30.40min respectively. Do notcall fewerouters a walltime
+  acceleration. Fullbranchwall43.01/35.98min(excludingrestartcompilation),
+  fixed16.33%less;executed79744/65536,accepted65536both.
+- Adaptive/fixedfinalsyncR1.43456/1.05498vsreference1.57096;fieldL2error
+ 8.768/20.631%,ownH8.342/20.694%. Damagechange5.844e-5/2.100e-3,adaptive
+  meets1e-4with10passes,fixednotstable. FixedAT2.11718lowerthanadaptive
+ .19854 doesnotreversefieldaccuracyconclusion. Bothclouds inspected.
+- Supports adaptivefinishingquality with currentprobeoverhead stillunresolved.
+  Reject promotingconstant3e-5 asfinalbaseline or claimingmatched-quality
+  walltimespeedup. Candidate nextfocuscostreduction/fullcoldvalidation; no new
+  runadoptedunder statusquery. Previous128negativeinterpretation superseded
+  bylongerhorizon;nonmonotonebehavior judged withfields andtime jointly.
+- Former60313/60340/64187gone,GPUidle,no autorestart/extension. Raw512states
+  remainin_load/bank105, no acceptedloadadvance or completedfullcold. Original
+  fullcold remainsusercancelled and final2curve requestpending. Evidencecloseout.
+
+## 2026-10-17 — Plan coordinated LR cost reduction and field-scale stopping
+
+- User asks how to achieve efficient actual-cold fracture, based on completed
+  matched512 results. Preserve adaptive finishing benefit; reject adopting
+  constant3e-5, monotone outer-loss requirements, force-drop-only optimization,
+  or globally relaxing damage tolerance to1e-4 as established remedies.
+- First investigate persistent rates with sparse/event-triggered full-block
+  probing; current79744/65536 updates include21.68%extra work. Nominal every32
+  vs8 reduces two-discarded-block overhead25%→6.25% at equal horizon, not a
+  demonstrated wall-time or iteration-count gain. Sustained state response,
+  oscillation and fitting progress must distinguish tracking from finishing;
+  small H motion alone is insufficient. Exact new rule not yet implemented.
+- Propose bounded absolute+relative P1field tolerance min(1e-4,1e-5+1e-3*s),
+  where s=max(current committed-parent damage increment, largest prior accepted
+  load increment). It avoids known-critical-load switching and retains scale
+  after fracture. CPU saved-field audit gives1.00–1.25e-5 elastic and1e-4 after
+  large crack growth. This is empirical calibration, no theorem/solution-error
+  bound, no all-iteration stopping replay; broad wrong damage is still possible.
+- Keep displacement1e-4; validate provisional passes against window drift and
+  fixed-H fit adequacy, especially after LR changes. Then separately test64vs
+  128 inner updates. Do not change bootstrap/sampling/architecture concurrently
+  or assume fewer Adam updates save total time with inexact stagger.
+- Primary sources checked: Eisenstat/Walker doi10.1137/0917003 (inexact Newton
+  motivation, not a theorem for this hybrid); Rannou etal doi10.1002/nme.7544
+  section3.7 (under-solved subproblems may stagnate stagger). Proposed constants
+  are not taken from these papers. No physics/PDE/history change.
+- Next validate elastic0016→0018 and actualcold0052→0053 from matched seeds,
+  with direct reference offline only; then a qualified NEW zero→0060 run and
+  requested two-curve plot. No code/default changes, new GPU job or automatic
+  resumption of cancelled cold during this planning turn. Relation: follows
+  completed512accuracy-vs-time decision; exact protocol remains to settle.
+
+## 2026-10-17 — Execute bounded sparse-probe validation before new cold
+
+- User authorizes execution. New independent diagnostic root
+  diagnostics/sparse_response_lr_20261017. Compare baseline8 against event32
+  from identical actualcold endpoint0016 (loads0017/18) and0052 (fixed0053,
+  512outer horizon). Keep128 inner updates, full/L2/sigmoid/replayOFF and all
+  physical/history/Adam state. No existing run is overwritten or resumed.
+- event32 uses the same full-block adjacent-rate selection/admission as the
+  measured controller, but probes every32 global outers. An event can trigger
+  after8 outers since lastprobe: two sustained high-input responses >=2e-5,
+  three low responses <=5e-6 with no rapid ongoing fit, or three fixed-H
+  post/pre ratios>1.05. Rapid fit means median ratio<.9 and fitfield motion
+  >1e-5. Mode transitions have hysteresis; no reference/load/front drives LR.
+  These are explicit engineering hypotheses, not a convergence theorem.
+- Dynamic bounded tolerance is shadow-evaluated on the same trajectories.
+  Three consecutive passes plus a windowed field-drift check:3samples for
+  tau<=1.5e-5,8 otherwise, perstep bounds3*tolerance, mean net drift<=tolerance;
+  median same-H ratio<=1.01 and H-input motion<=tau. Rate changes clear the
+  confirmation window. First confirmed critical snapshot is evaluated offline,
+  never replaced by a later oracle-selected snapshot to disguise early stop.
+- Elastic arms use strict1e-5 standard field stopping; fracture arms both run
+ 512 regardless shadowstop. Offline qualification checks synchronizedfields,
+  same-load and own-H errors, force/path and actual time/work. New cold only
+  after explicit successful qualification; strict failure exits, no silent
+  altered rates or advance-on-budget. Maintain complete failure receipts.
+
+- Execution qualified by9focusedCPUchecks:5scheduler21.491s,2cold32.471s,
+  2gate0.000s; AST/copyverification all12scripts. Rootprepared with explicit
+  protocol/CPU/gpu/configprovenance; launchedowner/group5367,worker5373 at
+  22:23:33Shanghai. GPUallocation1046MiB verified during compile. No public
+  numericaldefault change or Gitoperation; TensorBoard6007 retained.
+- Offlinecoldgate declared beforeGPU: firstconfirmed criticalcandidate spans
+  (front>=.99),same-loadderror<=.10,ownH<=.12,forceerror<=.15,offcrack RMS
+  <=baseline+.002 andderror<=baseline+.02; wall<=.98baseline andexecutedwork
+  fewer. Elasticderror<=baseline+.01,wall<=1.10baseline. Missingcandidate or
+  anyfailedarm disqualifies. Never use lateroracle-selectedcandidate instead.
+- Ifqualified, supervisor launches NEW runs/pinn_history_conditioned_sparse_
+  adaptive_cold_20261017 fromzeroto0060 withsamebootstrapand128inner, dynamic
+  fieldconfirmation andevent32, thenexactlytwo plaincurves onactualcompletion.
+  Unqualifiedscreen exitswithoutcold; failedcold exitswithoutrestart/loosening.
+  Ownergroupincludesallqueuedarms/conditionalworker: usercancellation muststop
+  wholeverifiedgroup. Originalcoldcancelledforeverunlessexplicitlyresumed.
+
+- Startupaudit foundall4attempt0001workers failedbeforewarmup/training on
+  tuple-vs-JSON-list controlcomparison. Preservedfailedroot as
+  sparse_response_lr_20261017_attempt0001. Fixed migration JSONnormalization;
+  extended actual128CPUtest to coverlegacy migrationexactweights/moments/rate/
+  global/probephase andnew-event reset, PASS19.088s. No altered numericalrule.
+  Manuallyrelaunchedcanonicalroot attempt2 owner/group7468,worker7474 at
+  22:26:19Shanghai, GPUallocation1046MiB verified. Earlier5367terminal/stale;
+  stopcurrentwholegroup7468 ifrequested. Failure/correctionreceipts preserved;
+  supervisor now labels failedscreen coldnotstarted explicitly.
+
+## 2026-10-17 — Sparse-probe elastic regression blocks conditional cold
+
+- Statusquery23:13Shanghai:threecomplete,thefourthcriticalevent32worker17367
+  initiallycompiling underowner7468. Elastic0017both5outers;0018baseline14 vs
+  event39. Wholewindows85.83/170.48s excludingwarmup;0018fieldL2errors3.422/
+  2.827%. Lowerfittingerror doesnotcompensate1.986xwallforcurrentefficiencygoal.
+- Keeppredeclaredelasticwall<=1.10gate: italreadyfails, so noconditionalfullcold
+  withthisversion. Finishauthorizedcriticaldiagnosis, no midrunrate/threshold
+  changes orsilentloosening. NeedfasterresponsewhenanotherwiseusefullargeLR
+  oscillates; sparseperiodalone can delaynecessaryfinishingreduction.
+- Currentbaseline0053rerun512spans butfieldL2error21.56%,syncR1.23188vs
+  reference1.57096,dRMS2.676e-4,notstable/no shadowcandidate. Prior8.77%
+  finishingqualityisnotreproduced. Causeunresolved; nohardware-onlyattribution
+  ormatched-qualityspeedupclaim. Preservebothprovenancesandinspectbefore
+  promotingnewpolicy. No newcoldexists; userstatusquerydoesnotcancelarm4.
+
+## 2026-10-17 — Sparse-probe critical arm spans by384, finishing pending
+
+- Status23:37Shanghai: fourtharm event32 reached384/512, physicalsavedfront1.0,
+  syncR1.15780vsref1.57096,same-loadderror20.608%. Baseline384front.86256,
+  syncR185.22550,derror37.086%. Supports earlierpropagation inthiscomparison,
+  not settledaccuracy orqualifiedfullcold. New376dchange1.207e-3stilltoo large.
+- Matched376wall1377.01vs1525.41s,executed51584vs57600;9.73%lesswall at
+  equaloutercount, not matchedaccuracy speedup. Keepelastic2xwallregression
+  disqualification; noautomaticcoldorparameterchange understatusquery.
+- Owner7468/worker17367alive,GPU6000MiB; finishremaining128outers to512,
+  thenreviewfinalfields/confirmation/qualification. No newcode/tests/Gitops.
+
+## 2026-10-17 — Completed sparse-probe screen improves fracture but fails global gate
+
+- Fourarmscompletedexit0 at23:44:45Shanghai; owner7468/worker17367gone,
+  GPUidle,no conditionalcoldroot. Qualificationeligiblefalse,coldnotstarted.
+- At0053/512,event32 vsbaseline8 bothspan:fieldL2error10.342/21.564%,
+  syncR1.42092/1.23188 vsreference1.57096;wall31.262/34.656min excluding
+  warmup (9.795%less),executed70400/78592. Usefulfixedhorizonimprovement;
+  bothdchanges1.580e-4/2.676e-4stillfail1e-4,notconvergedqualityspeedup.
+- Firsteventconfirmedstop409has17.619%field/17.665%ownHerror andsyncR1.28275
+  despitedchange9.165e-5/7passes. Do notpromotefieldstabilitytosolutionaccuracy
+  orreplacefirstcandidatewithlateroracle-selectedfield. Currentconfirmation
+  doesnotmeetproposedtargetaccuracy; no universalrejectionof1e-4inferred.
+- Gatefailsbaselinecandidateabsentandelasticwall1.986x. Actualgateomitsjoint
+  candidatequalitycheckswhenbaselineabsent; independentevaluationofthefirst
+  eventcandidatealsoexceeds10%field/12%ownH/15%forcetargets. Rejectautomatic
+  fullcoldforcurrentversion,retainpartialfracturebenefit. Baselineprior8.77%
+  qualitynotreproduced,causestillunresolved. Nextresearchreproducibilityand
+  finishing/stopadequacy; no newrun/publicdefault/Gitoperationunderstatusquery.
+
+## 2026-10-17 — Discuss equivalent fixed-H damage energy before more LR rules
+
+- User requests combined remedy, then exactenergyform. Propose a bounded
+  fixed-H energy-vs-residual training comparison rather than assuming more LR
+  heuristics alone resolve slow fitting and false field-stability stops.
+- For current reciprocal positive D andM=diag(V), J_H=sum V[g0*d^2/2+
+  H*(1-d)^2]+g1*d^T M D d/2 hasgradientM*r, exactly currentAT2forfixedH.
+  Nonlocal directed-pair coefficientg1/4 checked. ActualMDskew1.11e-16,
+  independent finite-difference gradientrelativeerror2.13e-11. No changedPDE,
+  graph, BC, history update, architecture or output constraint.
+- Energyfieldcurvature avoids least-squares A^T A-type squaring, but nonlinear
+  network convergence/speed andfinite-representation agreement remainunproven.
+  This is a damage-only frozen-H functional, not a jointmechanics/history
+  energy theorem or a requirement ofmonotonic energy acrosschangingH.
+- Coercive weightedresidualbound verified analytically, conservative in actual
+  409/512snapshots (.0892/.0663 vsactualRMSerrors.0230/.0135). No bound/energy-
+  change threshold adopted. Do notreuse currentpositive-score ratio policy
+  blindly on shifted/constant-dominated energy; scaling/LR/Adam protocol must
+  be explicit beforetests. PrimarycontextDeepRitz arxiv1710.00211; outer
+  Anderson literature arxiv2008.11787 remainsfutureoption, not implemented.
+- Currentturndiscussiononly; next auditbaseline reproducibility anddefine
+  fixed-H comparison beforecoupled/coldtrial. No newnumericalcode/GPU/Gitops;
+  previousscreen completed/unqualified, finalcold deliverable stillpending.
+
+## 2026-10-18 — Assess mesh-shape-function energy as an optional neural damage route
+
+- User proposes differentiating damage with existing FEshape functions instead
+  ofnonlocaloperator. Recommend testing neuralnodal/P1interpolant/FEenergy as
+  the mostpromisingnew engineering candidate, while keepingnonlocalenergy as
+  same-model control. No establishedwinner, codechange ornewrun claimed.
+- P1interiorLaplacianzero andinterfacegradientjumps require weak/energy
+  treatment. Existingacceptedlocaldamagecontrol alreadyprovides S=integral
+  gradN.gradN; reaction/historymasslumped. Matchedenergy sumV[g0*d²/2+
+  H*(1-d)²]+g1*d^T S d/2 hasexactoriginalFEgradient. Consistentquadrature
+  would be a differentdiscretization; P1H*d²term iscubic, so reusingmechanics
+  degree2 rule withoutchecking would not reproduceitexactly.
+- Auditedactualmesh: lumpedvolumemismatch5.08e-21; S496651nnz vsnonlocal
+  1138075, ratio2.2915. Energygradientfinite-difference relativeerror1.71e-8.
+  Fullnetworkforwardnodecount unchanged71307; do not claim2.29xtotalgain.
+- This changes finite-horizon damage model while retainingl0regularization.
+  Same-Hlocaldirectcomparator and explicit commoncoupled scheme required;
+  oldreferenceouterrelaxation/stopping cannotbe silentlyassumedidentical.
+  Neuralcapacity/optimization/outercriticalslowing maypersist. Geometry/H
+  generalization doesnotfollowfromshape-function differentiationalone.
+- Primarycontext FE-PINNs arxiv2412.07126,DeepRitz arxiv1710.00211; no
+  transferofpublishedfracturespeedclaims. Firstoptionaltest frozenHenergy
+  fits, thenqualifiedcoupling/cold. DiscussionandCPUalgebraonly; no Git/GPU/
+  productiondefaultchanges. Currentacceptednonlocalroute remainspreserved.
+
+## 2026-10-18 — Keep mesh-based physics compatible with cross-geometry final goal
+
+- User clarifies cross-geometry generalization is the final objective. Mesh
+  FE differentiation does not prevent shared-weight operator learning: each
+  geometry has its own physical mesh/operators while networkweights are common.
+  Reject equating remeshing with new-shape generalization or requiring nodewise
+  correspondence across all geometries. No route replacement implemented.
+- Recommend geometry/boundary set encoder + multiscale Hencoder + coordinate
+  decoder, retaining FEenergy as viable physicsloss. Fixed-Hdamage maps geometry
+  andH (plus varying materials/damageBC) to d; fullfracture stillneedsmechanics,
+  committedhistory andstagger. No one-shotfullpathgeneralization assumed.
+- Current conditioned network has position/mask-based implicit geometry and
+  sharedqueries, but no validated geometrytraining/fullboundaryencoder. Node
+  indices retrieve inputH, not learnednodeIDweights. Older compactfree-nodal
+  coefficients are separate; do not falsely attribute them to thismodel.
+- Fixedshape buckets/padding/masks can support variable meshes. Test whole
+  held-out geometries separately from meshrefinement and held-out histories;
+  separate frozenprediction fromphysicsfine-tuning. Include newmesh/operator
+  preprocessing andmechanics inreportedruntime. No symmetryconstraint added.
+- Primarycontext MeshGraphNets arxiv2010.03409, GINO NeurIPS2023 andTransolver
+  PMLR235/wu24r; no borrowedfracturespeed/zero-shotguarantees. Discussiononly,
+  memory/source/literature review; no newnumericalcode/GPU/Gitoperation.
+
+## 2026-10-18 — Single-geometry first; distinguish direct FEM costs from PINN training
+
+- User agrees singlegeometryfirst while retainingcrossgeometry possibility,
+  thenasks mechanicsvsdamagecost inactualFEM. Forcurrenthybridfixed-HAT2,
+  mechanicsusuallycostlier perlinear solve: vectorcoupling,~148637freeDOFs
+  vs71307scalar,crack-inducedstiffnesscontrastk_res1e-8/near-rigidmodes.
+  Damagehaspositive reactiong0+2H anddiffusion. No universalorderingclaimed
+  for otherconstitutivelaws/activeconstraints/meshes/preconditioners.
+- Actualcodealreadytimes synchronizedmechanicssolve; directdamagehelperdoes
+  nothavematchingtimefield. Exactprojectwallshares remainunmeasured. Do not
+  infer FEMdamagecost from128-update neuraltraining orquoteunverifiedratios.
+- Overallloadtime also depends onoutercoupling count: approximatedamage can
+  causeadditionalmechanicssolves. Futureend-to-end accelerationmighttarget
+  mechanicswarmstarts/preconditioning orouteriterations afterprofiling; current
+  localdirectmechanics remains unchanged. Discussingbottlenecks isnotpermission
+  to replace a physicalsolver orlaunchbenchmark automatically.
+- PrimarycontextFarrell/Maurini arxiv1511.08463; Rannouetaldoi10.1002/nme.7544
+  report caseswherephasefieldcostisnegligible vsmechanics. No transferofpaper
+  costratios tothisproject. Memory/source/literature reviewonly,noGPU/Gitops.
