@@ -62,6 +62,10 @@ with damage-scaled stopping and progress-aware128outer checks; see the example
 README for its explicit accuracy/budget tradeoffs. Its completed trajectory
 and TensorBoard events are under
 `/root/autodl-tmp/tf-logs/fracture2d/pinn_history_fem_scaled_stop_baseline/`.
+`configs/train_history_fem_replay.py` selects an isolated cold replay trial:
+five distinct H sampled from all completed loads, fixed task shapes and the
+same FEM-energy/stagger scheme. Its coordinate query features are shared
+across histories within each update. The accepted baseline stays replay-free.
 `configs/train_history_conditioned.py` selects the experimental normalized/local
 history model with a one-time L1-to-L2 bootstrap and later L2 fits for a short
 from-zero loading pilot; replay training is disabled in this profile.

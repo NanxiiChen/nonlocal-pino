@@ -8,6 +8,72 @@
 [Nonlocal PINN history-field learning and architectures](tasks/nonlocal-pinn-architecture.md).
 Opened 2026-10-15 after the user closed the fracture2d feasibility stage.
 
+Publication handoff, 2026-10-19: user provisionally retains the random5 replay
+result and authorizes commit on dev, regular merge into main, and push ONLY
+main. Code/tests/Markdown include replay selection and exact shared-coordinate
+AD plus complete work/accuracy/retention records. Logs/data/slides remain
+local. The accepted replay-free FEM baseline and nonlocal MLP default are
+preserved. Existing9focused+1legacy checks and full60-load GPU validation
+remain valid; no numerical code changed during publication. Main is checked
+out in `/tmp/nonlocal-kks-publish-main-20261015`; use that clean worktree for
+the merge. Delivery commits are identifiable in main/origin/main Git history;
+verify their equality after push. No new training or research work queued.
+
+Random5 replay cold run COMPLETE, 2026-10-18, including retention audit; GPU
+idle. All60loads to0.0060 fieldstable, 778outers/100480Adam, 2595.99s
+(43.27min), versus accepted no-replay930outers/3423.28s(57.05min):16.34%
+fewer outers,24.17% less loading/reporting time. Critical0055:377vs482;
+prefixthrough0054:317vs295; after0055:84vs153. Both kept1e-4 throughout.
+Replay damage L2 errors0055/0060 are7.508%/6.935%, worse than baseline
+1.359%/1.130%; equal stop thresholds do not establish equal accuracy. Old-H
+audit shows improved retention (replay2.67–7.52% over five fixed-H checks),
+but this is combined replay/shared-query implementation, not isolated replay
+speedup. Full60step CSV/plots/receipt in diagnostics/
+replay_random5_comparison_20261018. No baseline replacement or new training.
+
+Global random5 replay IMPLEMENTED/VERIFIED/RUNNING, 2026-10-18. Worker46793/
+session32676, log/tmp/fracture2d_fem_replay_random5.log; run
+`runs/pinn_history_fem_replay_random5`, launch receipts in diagnostics/
+history_fem_replay_random5_launch_20261018. Actual state0000 q=d=H=0,
+Adam0/bank0 and initial network/Adam bytes equal accepted fresh baseline;
+config differs only in replay settings/output paths. Current+5 fixed shape,
+all completed-history snapshots eligible, no window, no current-load snapshot,
+no replacement; total replay0.1 every4Adam, last32current-only. Coordinate
+MLP/query normalization shared per update with summed query adjoints and one
+coordinate pullback; H encoders/attention remain distinct. Final9 focused
+shared/gradient/query/resume cases PASS55.137s plus legacy replay regression
+PASS11.869s; earlier9basic/rate cases PASS41.331s. GPU now completed loads
+0.0001/0.0002/0.0003 in5/5/6outers (baseline5/5/5), running0.0004 with six
+eligible old snapshots and five sampled. First no-old-history endpoint agrees
+with baseline: max d difference1.76e-14, reaction difference4.30e-10. Events
+and first_endpoints_audit.json saved; no overall speed/quality claim. Preserve accepted
+baseline; monitor actual job/results next. No Git operation in this turn.
+
+Replay experiment authorized, 2026-10-18: user clarifies the alternatives are
+all recent snapshots versus random samples from ALL past H; do not combine
+window and randomness. Implement the latter: five distinct snapshots sampled
+from completed loads, total old-task weight0.1, replay every4Adam with last32
+current-only updates. Fixed current+5 shape, early shortage masked. Retain
+baseline physics/rate/stopping and start an isolated cold trajectory to0.0060
+after sampling/gradient/resume checks. Accepted baseline remains untouched.
+
+Replay discussion, 2026-10-18: user wants to begin retaining past-H behavior
+and asks global random versus a five-load window. Recommend random sampling
+WITHIN the preceding five completed loads for the first isolated comparison,
+one old H per replay event and current-H-dominated normalized energy. Keep
+all collected snapshots for later global-memory assessment. Window replay
+does not guarantee retention outside the window. Proposal only: no replay
+flag, sampling policy, LR constraint or training job changed in this turn.
+
+Route audit, 2026-10-18: baseline code was committed on dev as e73301d,
+without push/merge. Confirmed accepted route is local P1 direct mechanics +
+history-conditioned neural damage trained by local P1 lumped FE energy,
+full sampling/sigmoid/Adam, replay training OFF. This accepted optional route
+uses no nonlocal spatial damage operator; the nonlocal MLP remains the default
+profile. History floor is the preceding load endpoint, frozen within each
+damage fit; no explicit nodal irreversibility projection is added. No new
+policy, configuration or training change in this explanatory review.
+
 The user ACCEPTED the full FEM-history cold result as a baseline, 2026-10-18.
 Canonical directory is now
 `/root/autodl-tmp/tf-logs/fracture2d/pinn_history_fem_scaled_stop_baseline/`;

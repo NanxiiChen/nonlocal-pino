@@ -254,3 +254,33 @@ network/Adam states and frozen source snapshots were preserved; frozen source
 and raw run.log retain their historical path text. Baseline acceptance,
 configuration characteristics and limitations are recorded in the run's
 `baseline.json` and `README.md`.
+
+## Global random five-history replay trial
+
+`tf-logs/fracture2d/runs/pinn_history_fem_replay_random5/` is an independent
+fresh0→0.0060 trial configured by `configs/train_history_fem_replay.py`.
+It samples five snapshots from all completed loads, without replacement,
+with early shortage masked. It does not use a recent-load window or source
+baseline histories for training. Replay total weight0.1, every4Adam, last32
+current-only; other baseline physical/training/stopping settings are retained.
+Coordinate query features share one forward/pullback per update; H-dependent
+encoders and attention remain task-specific. The accepted replay-free baseline
+is preserved. Launcher/job/verification and retention audit, when produced,
+are under `diagnostics/history_fem_replay_random5_launch_20261018/`.
+The run directory alone is not a completion or acceptance claim.
+
+Completion verified2026-10-18: all60loads through0.0060,778totalouters,
+100480Adam updates,2595.99s loading/reporting; retention audit also completed.
+Both this run and accepted no-replay baseline retained1e-4. Comparison plots,
+all60load iteration/time/error rows and CSV are under
+`diagnostics/replay_random5_comparison_20261018/`. Replay reduces totalouters
+16.34% and loading/reportingtime24.17% in this combined replay/shared-query
+implementation. Damage relativeL2errors7.51% at0.0055 and6.93% at0.0060
+are larger than acceptedbaseline1.36%/1.13%. The final retained-H audit shows
+better old-input accuracy. This experimental result has not replaced the
+accepted baseline, and no new training remains queued.
+
+The user provisionally retained this result on2026-10-19 and authorized
+publication of the corresponding code/tests/Markdown. Numerical artifacts
+remain local at the paths above; the replay-free baseline is still preserved
+separately. Provisional retention does not erase the recorded accuracy tradeoff.

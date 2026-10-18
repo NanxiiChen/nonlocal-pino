@@ -15327,3 +15327,70 @@ historical names in dated records and provide the old-to-new path map.
 The accepted nonlocal MLP remains the default; this is the accepted optional
 local-FE damage baseline. Commit code/tests/Markdown on dev only. No push,
 merge, new training, hashes or compatibility symlinks are requested.
+
+## 2026-10-18 — Recommend local-window random replay as the first comparison
+
+User asks how to begin past-H replay. Recommend random selection inside the
+previous five completed loads, rather than treating window and randomness as
+alternatives. One old task and a dominant current task limit work and expose
+the retention/adaptation tradeoff without making all old elastic snapshots
+dominate by count. This is a proposed empirical starting point, not a proven
+improvement or an implemented policy. Preserve the full bank; local replay
+alone cannot prevent forgetting of distant histories. Each task uses its own
+normalized FE energy, not past neural predictions as supervised targets.
+Exclude the current-load start snapshot from the completed-load window and
+keep fixed batch shapes. Current LR-control validation excludes replay, so a
+future implementation must address that constraint explicitly and test it.
+No baseline modification or training launch during this design discussion.
+
+## 2026-10-18 — User clarification: trial global random five-history replay
+
+User rejects the mixed window/random interpretation: the alternatives are
+all recent states or random states from all history. Adopt the second for the
+authorized trial: five distinct H from completed loads, without replacement,
+mask early shortages and exclude current-load start snapshots. Keep total
+old-task energy weight0.1 independent of count, current0.9 on replay events,
+every4Adam and last32current-only. All are declared empirical trial settings.
+Use sequential task-gradient accumulation before a SINGLE clipped Adam update
+to bound activation memory; verify equivalence to the weighted joint gradient.
+An independent fresh cold run to0.0060 will collect its own real bank. Preserve
+the accepted baseline/config defaults. This supersedes the proposed five-load
+window, not the physical history law; detached replay never updates mechanics.
+
+## 2026-10-18 — Share coordinate features across replay tasks with exact adjoints
+
+User notes that all H share the same spatial nodes. Hoist the coordinate MLP
+and query normalization out of per-history work, once per parameter update.
+History token inputs already differ before cross-attention; their encoders,
+attention and local-H output features remain task-specific. Accumulate each
+task's direct parameter gradient and query adjoint sequentially, then apply
+one shared coordinate VJP and one clipped Adam update. Do not detach cached
+queries or reuse them after parameters change. Network fields/weights and
+single-history predictions stay compatible with the accepted baseline. Check
+full-network gradients, including nonzero query gradients, against ordinary
+joint AD before GPU. This optimizes reuse, not the physical model or loss.
+
+## 2026-10-18 — Completed replay trial is faster but trades current accuracy for memory
+
+Both true cold runs reach0.0060 under the same configured field stop. Replay5
+uses778vs930outers and2595.99vs3423.28s loading/reporting, reductions16.34%
+and24.17%. Prefixthrough0054 is worse317vs295outers; critical0055 improves
+377vs482 and postcritical84vs153. Keep the observed timing result, while
+rejecting causal attribution to replay alone because shared coordinate AD is
+also new. Both rates stay1e-4. Same-load damage errors0055/0060 worsen from
+1.36%/1.13% to7.51%/6.93%; equal stopping is not equal field accuracy. Final
+network audit on identical old H shows much better retention with replay.
+Preserve this as an experimental speed/retention/accuracy tradeoff, not an
+automatic replacement of the accepted replay-free baseline. Save complete
+per-load work/time/quality data and plots; no new training/policy change.
+
+## 2026-10-19 — Retain replay stage result and publish the accumulated implementation
+
+User provisionally accepts retaining the replay result and explicitly
+authorizes commit→regular dev/main merge→push origin main. Publish code,
+tests and Markdown, including the earlier unmerged FEM-energy baseline work;
+keep dev local and logs/data/slides outside Git. This preserves the measured
+speed/retention/current-accuracy tradeoff without changing baseline selection
+or claiming replay is uniformly more accurate. Reuse valid focused checks
+and completed GPU validation; no new numerical edits or experiment requested.
+Use the existing clean main publication worktree and verify remote delivery.

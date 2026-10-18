@@ -90,3 +90,28 @@ def make_energy_loss(*, coarse, fine, points, operator, volumes, gc0, gc1, floor
         return jax.lax.scan(body, jnp.zeros((), jnp.float64),
             (batch['H'], batch['fine_ids'], batch['weights']))[0]
     return image, objective
+
+
+def make_shared_energy_loss(*, coarse, fine, points, operator, volumes, gc0, gc1, floor):
+    """Same energy with coordinate features supplied once for multiple H."""
+    energy = make_energy(operator, volumes, gc0=gc0, gc1=gc1, floor=floor)
+    indices = jnp.arange(len(points), dtype=jnp.int32)
+
+    def queries(net):
+        return net.encode_queries(points)
+
+    def objective(model, batch):
+        net, shared = model
+        batch = jax.tree.map(jax.lax.stop_gradient, batch)
+        def body(total, task):
+            H, ids, weight = task
+            def single(_):
+                d = net.decode_queries(dict(H=H, fine_ids=ids), shared, indices,
+                                       coarse, fine, gc0=gc0)
+                return energy(d, H)
+            value = jax.lax.cond(weight > 0, single,
+                lambda _: jnp.zeros((), jnp.float64), None)
+            return total+weight*value, None
+        return jax.lax.scan(body, jnp.zeros((), jnp.float64),
+            (batch['H'], batch['fine_ids'], batch['weights']))[0]
+    return queries, objective

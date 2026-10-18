@@ -90,11 +90,24 @@ class ConditionedHistoryOperator(HistoryOperator):
         return self._predict_queries(context, points, query_indices, coarse, fine, gc0=gc0)
 
     def _predict_queries(self, context, points, query_indices, coarse, fine, *, gc0):
+        return self.decode_queries(context, self.encode_queries(points), query_indices,
+                                   coarse, fine, gc0=gc0)
+
+    def encode_queries(self, points):
+        """Coordinate-only features shared by all H in one optimizer update."""
+        if points.ndim != 2 or points.shape[1] != 2:
+            raise ValueError('conditioned queries require 2D coordinate points')
+        query = jax.vmap(self.query_mlp)(points)
+        return query, jax.vmap(self.query_norm)(query)
+
+    def decode_queries(self, context, queries, query_indices, coarse, fine, *, gc0):
+        """History-dependent token encoding and decoding of shared queries."""
         H = jax.lax.stop_gradient(context['H'])
         selected = jax.lax.stop_gradient(context['fine_ids'])
         query_indices = jax.lax.stop_gradient(query_indices)
-        if (H.ndim != 1 or points.ndim != 2 or points.shape[1] != 2
-                or query_indices.shape != (len(points),)
+        query, normalized = queries
+        if (H.ndim != 1 or query.ndim != 2 or normalized.shape != query.shape
+                or query_indices.shape != (len(query),)
                 or query_indices.dtype != jnp.int32):
             raise ValueError('conditioned queries require matching explicit int32 indices')
         encoded, local, amplitude = history_inputs(H, gc0=gc0, normalized=self.normalized)
@@ -102,12 +115,11 @@ class ConditionedHistoryOperator(HistoryOperator):
         fine_tokens, fine_valid = self._tokens(encoded, fine, selected, gc0)
         tokens = jax.vmap(self.token_norm)(jnp.concatenate((coarse_tokens,fine_tokens)))
         valid = jnp.concatenate((coarse_valid,fine_valid))
-        query = jax.vmap(self.query_mlp)(points)
-        values = query+self.attention(jax.vmap(self.query_norm)(query), tokens, tokens,
-            mask=jnp.broadcast_to(valid,(len(points),len(valid))))
+        values = query+self.attention(normalized, tokens, tokens,
+            mask=jnp.broadcast_to(valid,(len(query),len(valid))))
         local = jnp.where(self.local_history, local[query_indices], 0.)
         features = jnp.concatenate((values, local,
-            jnp.broadcast_to(amplitude,(len(points),1))),axis=-1)
+            jnp.broadcast_to(amplitude,(len(query),1))),axis=-1)
         return jax.nn.sigmoid(jax.vmap(self.head)(features)[:,0])
 
     def __call__(self, context, points, coarse, fine, *, gc0):

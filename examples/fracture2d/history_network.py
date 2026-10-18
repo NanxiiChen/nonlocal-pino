@@ -170,6 +170,26 @@ class HistoryReplay(eqx.Module):
         """Fixed shape even with an empty bank; inactive tasks get finite inputs."""
         if type(old_count) is not int or old_count < 1 or not 0 < fraction < 1:
             raise ValueError('explicit fixed replay batch count and fraction required')
+        if 'replay_count' in current:
+            # Count only completed loads, excluding the current load's first H.
+            if old_count > self.histories.shape[0]:
+                raise ValueError('replay batch exceeds fixed history capacity')
+            count = current['replay_count']
+            count = eqx.error_if(count, (count < 0) | (count > self.count),
+                                 'completed replay count exceeds collected history')
+            scores = jax.random.uniform(key, (self.histories.shape[0],), dtype=jnp.float64)
+            scores = jnp.where(jnp.arange(len(scores)) < count, scores, -jnp.inf)
+            _, indices = jax.lax.top_k(scores, old_count)
+            valid = jnp.logical_and(enabled, indices < count)
+            active = jnp.any(valid)
+            old_H = jnp.where(valid[:, None], self.histories[indices], current['H'][None])
+            old_ids = jnp.where(valid[:, None], self.fine_ids[indices], current['fine_ids'][None])
+            old_weight = jnp.where(active, fraction, 0.)
+            weights = old_weight*valid/jnp.maximum(jnp.sum(valid), 1)
+            return jax.tree.map(jax.lax.stop_gradient, dict(
+                H=jnp.concatenate((current['H'][None], old_H)),
+                fine_ids=jnp.concatenate((current['fine_ids'][None], old_ids)),
+                weights=jnp.concatenate((jnp.reshape(1-old_weight, (1,)), weights))))
         active = jnp.logical_and(enabled, self.count > 0)
         indices = jax.random.randint(key, (old_count,), 0, jnp.maximum(self.count, 1), dtype=jnp.int32)
         old_H = jnp.where(active, self.histories[indices], current['H'][None])

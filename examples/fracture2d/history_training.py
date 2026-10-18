@@ -1,5 +1,6 @@
 """Online token damage network with replay collected from its own loading path."""
 import json
+from functools import partial
 from pathlib import Path
 import equinox as eqx
 import jax
@@ -46,6 +47,12 @@ class HistoryDamagePINN:
                 or type(h.current_only_steps) is not int
                 or not 0 <= h.current_only_steps <= c.train.inner_steps):
             raise ValueError('invalid replay cadence or current-only finishing length')
+        self.completed_replay = 'replay_sampling' in h
+        if self.completed_replay and (
+                h.replay_sampling != 'completed_without_replacement'
+                or not h.replay_enabled or not self.energy
+                or 'rate_control' not in c.train or h.replay_batch > h.replay_capacity):
+            raise ValueError('completed replay requires explicit FEM energy rate control and a valid fixed batch')
         self.c, self.n = c, mechanics.n_material
         self.gc0 = c.physical.Gc/c.physical.l0
         self.coarse = build_patches(mechanics.coordinates[:self.n], mechanics.volumes, cells=h.coarse_cells)
@@ -67,6 +74,10 @@ class HistoryDamagePINN:
         if self.energy:
             from examples.fracture2d.fem_damage import make_energy_loss
             image, objective = make_energy_loss(**common, operator=operator, volumes=mechanics.volumes)
+            if self.completed_replay:
+                from examples.fracture2d.fem_damage import make_shared_energy_loss
+                shared_functions = make_shared_energy_loss(**common,
+                    operator=operator, volumes=mechanics.volumes)
             step_factory = make_step
         else:
             D = operator.to_scipy()
@@ -85,13 +96,14 @@ class HistoryDamagePINN:
         self.rate_control = None
         if 'rate_control' in c.train:
             from examples.fracture2d.learning_rate import BudgetLearningRate, make_rate_step
-            if not self.energy or c.history.replay_enabled:
-                raise ValueError('budget rate control currently requires replay-off FEM energy training')
+            if not self.energy or (c.history.replay_enabled and not self.completed_replay):
+                raise ValueError('rate control requires FEM energy and explicit completed-history replay policy')
             self.rate_control = BudgetLearningRate(c.train.rate_control,
                 initial_rate=c.train.learning_rate, minimum_rate=c.train.minimum_rate,
                 decay_rate=c.train.decay_rate)
             settings.update(learning_rate=1., minimum_rate=1.)
-            step_factory = make_rate_step
+            step_factory = (partial(make_rate_step, shared_functions=shared_functions)
+                            if self.completed_replay else make_rate_step)
         self.optimizer, _ = make_optimizer(kind='adam', **settings)
         self.state = self.optimizer.init(eqx.filter(self.net, eqx.is_inexact_array))
         self.step = step_factory(objective, self.optimizer, old_count=h.replay_batch, fraction=h.replay_fraction)
@@ -127,6 +139,8 @@ class HistoryDamagePINN:
         if self.phase != 'in_load' or load != self.load:
             raise ValueError('history solve must follow begin_load at the current load')
         context = self.context(history)
+        if self.completed_replay:
+            context = dict(context, replay_count=jnp.asarray(2*(self.load_index-1), jnp.int32))
         if not self.start_recorded:
             self.pre_update_loss = self._current_loss(context)
         bootstrap = self.conditioned and self.count == 0

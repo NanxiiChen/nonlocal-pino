@@ -1,5 +1,239 @@
 # Nonlocal PINN history-field learning and architecture investigation
 
+## /task-end — 2026-10-19, provisionally retained replay result and publication handoff
+
+User explicitly requests commit, merge and push, retaining the current replay
+result as a stage outcome. Delivery scope is the optional full-history random5
+replay profile, fixed masked task batch, shared coordinate feature forward/
+pullback, focused tests and code/formulation/artifact/memory documentation.
+No numerical behavior is changed in this publication session. Existing final
+9shared/replay/query/stop tests PASS55.137s, legacy replay regression PASS11.869s
+and complete60-load GPU+retention audit remain valid; inspected logs again.
+New config/test AST syntax checked, final diff check required. Do not rerun
+unchanged expensive training/tests only to publish. No slides, event files,
+network weights, arrays, ignored legacy or reports are included in Git.
+
+The actual result remains at
+`/root/autodl-tmp/tf-logs/fracture2d/runs/pinn_history_fem_replay_random5`;
+comparison JSON/CSV/figures in diagnostics/replay_random5_comparison_20261018.
+User's provisional retention does not replace the accepted replay-free FEM
+baseline: replay is faster in this combined implementation and remembers old
+H better, while coupled postfracture damage error remains higher. No new
+baseline renaming, policy adjustment or experiment is implied by publication.
+
+Authorized workflow: regular commit on current dev, then merge dev into main
+and push origin main only. Main is already checked out in the clean existing
+worktree `/tmp/nonlocal-kks-publish-main-20261015`; use it rather than forcing
+a checkout in the research worktree. Include earlier unmerged FEM baseline
+and research-documentation commits, preserving normal history. Fetch remote
+main and verify ancestry/worktree cleanliness before merge; verify local main
+and origin/main agree afterward. Publication identifiers are available from
+Git history and the session delivery response, not experiment path hashes.
+
+Memory updated PROGRESS/DECISIONS/this task; ARTIFACTS records the provisional
+retention. Broader architecture task remains active, so no archive. Exact next
+research action after delivery: await user direction; no solver or numerical
+comparison is running/queued. Completed experiments and validation receipts
+stay preserved locally. If remote publication fails, report the concrete
+failure and keep this delivery incomplete rather than claiming a push.
+
+## /task-end — 2026-10-18, complete replay/no-replay iteration and time comparison
+
+User asks if replay is faster and requests matched per-load iteration curves.
+Verified both actual cold trajectories complete60loads to0.0060; replay
+launcher job.json status complete, retention_audit_status complete, GPUidle.
+Replay worker46793 has finished; do not signal/restart the former PID. It ran
+22:58:35→23:41:59 Asia/Shanghai on2026-10-18. Both all60endpoints are
+fieldstable and both retain1e-4 for the entire run. Source configs/seeds,
+physics and stopping remain as previously checked; no additional experiment.
+
+| Scope | No replay | Replay random5 |
+| --- | ---: | ---: |
+| Through0.0054 outer count | 295 | 317 |
+| 0.0055 outer count | 482 | 377 |
+| After0.0055 outer count | 153 | 84 |
+| Total outer count | 930 | 778 |
+| Adam updates including bootstrap | 119936 | 100480 |
+| Loading/reporting wall seconds | 3423.280 | 2595.990 |
+
+Total outers16.344% lower, critical0055outers21.784% lower, loading/reporting
+time24.167% lower (57.055→43.266min). Prefix actually7.46% more outers;
+savings occur in the critical and unloading stages. Per-load0054→0060 counts:
+baseline12/482/44/41/49/11/8; replay15/377/34/6/28/5/11. Do not describe every
+load as faster or attribute all wall-time improvement to replay alone: this
+variant ALSO uses shared-coordinate forward/pullback and staged task AD.
+
+Timing scope: result.seconds starts after mesh/network/monitor setup and
+includes initial JIT/bootstrap, loading and plotting/reporting; excludes the
+separate final retention audit. Event endpoint intervals are approximate and
+include the preceding endpoint's plot work, not isolated inner solve timers.
+Persisted matched60rows, JSON/CSV, log-scale per-load outer plot and cumulative
+outer/time plot at
+`/root/autodl-tmp/tf-logs/fracture2d/diagnostics/replay_random5_comparison_20261018/`.
+Plot driver `/tmp/plot_fracture2d_replay_iterations.py` copied to output.
+Inspected outer_iterations.png: exactly two trajectories, all60load endpoints,
+logarithmic y-axis explicitly labeled to show both5-outer prefix and fracture.
+
+Quality qualification: same-load direct damage volumeL2 errors at0055/0060
+are baseline1.359%/1.130% versus replay7.508%/6.935%. Replay0060R1.32536 vs
+same-model reference1.17955; baselineR1.05458. Reaction quality is not uniformly
+worse or better. Faster configured stopping is not a matched-field-accuracy
+speedup. Retention audit evaluates both FINAL networks on the SAME5oldH from
+the trial against fixed-H direct targets. Replay errors for snapshots1/25/49/
+81/107:7.111%/2.949%/2.988%/2.666%/7.515%. No-replay relative errors much
+larger (ratios14850/193.9/56.0/20.65/10.25), indicating severe loss of old-H
+accuracy; small early reference amplitudes magnify relative numbers, so keep
+raw ratios and residuals in retention_audit.json rather than oversell them.
+This supports memory retention alongside a current-field accuracy tradeoff.
+
+Only offline plotting and memory/ARTIFACTS updates this turn; no numerical
+code, config, tests or Git operations. Existing verification remains valid;
+final diff check required. Task remains active; no queued/running experiment.
+Exact next: show user the two iteration curves, totals and accuracy caveat;
+await further choice, preserve accepted replay-free baseline unchanged.
+Memory files changed PROGRESS/DECISIONS/this task, plus example ARTIFACTS.
+
+## /task-end — 2026-10-18, random-five replay with shared spatial queries launched
+
+The user authorized trying replay and clarified two alternatives: all recent
+states OR random samples from ALL past H. Implemented the latter, without a
+five-load window. New optional profile `configs/train_history_fem_replay.py`:
+five distinct completed-load snapshots sampled without replacement, current
+weight0.9 and total old weight0.1, every4Adam, last32current-only;128inner,
+initial1024energy bootstrap, du1e-4 to0.0060 and baseline stop/rate unchanged.
+Insufficient histories use all available states and finite zero-weight padding;
+task shape is always6. Eligible count is2*(current_load_index-1), explicitly
+excluding the current load's start H. Full bank128 retains first/end snapshots.
+
+User additionally points out shared spatial points. Coordinates/patch geometry
+and FE arrays already share. Added encode_queries/decode_queries methods with
+unchanged network fields/weights: coordinate MLP and query normalization are
+computed once per optimizer update. H-token encoders already differ BEFORE
+cross-attention, as do attention outputs and local-H head features. The new
+shared FE objective and staged AD accumulate per-task direct net gradients
+and query adjoints, then perform one coordinate VJP, one gradient clipping and
+one Adam update. No detach/reuse of learned query features across updates.
+The existing plain/conditioned nonlocal paths and accepted replay-OFF profile
+retain their old policy. Optional explicit completed-history replay is now
+accepted by the FEM rate-controller validation; no hidden global switch.
+
+Final targeted verification:9 tests PASS55.137s (new replay selection/masking/
+one trace4; full-network gradient equivalence with nonzero coordinate and
+LayerNorm gradients; exact real FE replay/rate/network/Adam/field restart;
+existing conditioned input/query behavior4; existing stop/rate loop1).
+Legacy nonlocal replay cadence/moments/restart regression PASS11.869s.
+Earlier9 basic replay/rate/stop checks PASS41.331s before query sharing;
+the affected new cases were rerun in the final suite. No test failures.
+READMEroot/example and ARTIFACTS describe exact semantics; diff check passes.
+
+GPU worker46793, managedsession32676 RUNNING. Launch UTC14:58:35;
+stdout `/tmp/fracture2d_fem_replay_random5.log`. Output root
+`/root/autodl-tmp/tf-logs/fracture2d/runs/pinn_history_fem_replay_random5`.
+Launcher/config/job/initialization_verification.json at
+`/root/autodl-tmp/tf-logs/fracture2d/diagnostics/history_fem_replay_random5_launch_20261018/`.
+External launch.py is copied there. Verified actualzero q/d/H, optimizer0,
+bank0 and EXACT initial network/Adam bytes versus accepted cold baseline,
+without hashes or source weights. Config differences only replay mode/count/
+fraction/cadence/enabled and output paths; last32 was already in baseline.
+Event file exists; initial GPU compilation has now finished. Completed loads
+0.0001/0.0002/0.0003 in5/5/6outers versus baseline5/5/5; currently0.0004/
+outer1, with six eligible snapshots and five sampled. GPU memory about2887MiB
+with preallocationOFF; do not compare it to the baseline's preallocated memory
+as an efficiency gain. The first endpoint has no eligible old H and matches
+baseline within d1.76e-14, q6.61e-14, H4.73e-10, reaction4.30e-10. Receipt
+first_endpoints_audit.json retained. No overall speed/quality/generalization
+claim from these very early loads; real five-task replay has now started.
+
+The launcher targets all60loads; existing budget/stability failures remain
+explicit. If loading completes, it automatically evaluates final replay and
+baseline networks on the SAME selected old H from this trial, against fixed-H
+direct damage solves; saves retention_audit.json. This is evaluation only.
+Audit failure remains separate from loading completion in job.json. No source
+baseline mutation, compatibility symlinks, Git operations or FEM MPI runs.
+
+Exact resume: leave worker46793 running, inspect job.json/runresult and events,
+check first completed loads/active five-task replay timing, then cracking at
+0.0055, total work and final retained-H audit. Do not restart on failure or
+label an incomplete diagnostic as a full cold trajectory. Task remains active;
+memory changed PROGRESS/DECISIONS/task, public artifacts/docs updated. No
+new commit authorization in this turn. Initial implementation is delivered;
+numerical comparison awaits background completion.
+
+## Current action — 2026-10-18, global random five-history replay
+
+User authorizes trying multiple old H and clarifies: choose either all recent
+states or random samples from the entire past, not random inside a window.
+Choose global random5 from completed loads, without replacement when enough;
+early shortage uses all available snapshots with zero-weight padding. Total
+replay weight0.1 shared equally, current0.9 at events; every4Adam, last32
+current-only. Keep current baseline's physics, network, step schedule and
+stopping; fixed batch6 throughout. Exclude current-load first-H snapshot.
+Implement explicit optional sampling mode, safe sequential task-gradient
+accumulation for full-field replay and persistent Adam/rate state. Validate
+masked sampling, gradient equivalence and exact endpoint resume, then launch
+an independent true cold0→0060 with real online history collection. No warm
+weights, no reference training, no baseline overwrite or Git operations.
+
+## /task-end — 2026-10-18, replay scope recommendation
+
+User confirms replay was OFF and now asks how to select past H: global random
+or the last five loads. Inspected actual collection/batch code: two snapshots
+per load, first encountered/fitted H and synchronized endpoint H, fixed bank128.
+Current sampler is uniform over all valid snapshots; current-load start H is
+appended after the first fit. A true preceding-five-load policy must exclude
+that current-load snapshot explicitly, using completed load indices. Every
+replayed H must be paired with its own fine-token IDs/normalization, detached
+and independent of physical history commits. Rate-control validation currently
+requires replay OFF, so enabling replay needs deliberate implementation and
+focused validation rather than only flipping the config flag.
+
+Recommendation for a first experiment, not an implemented policy: select one
+old H uniformly from the previous five COMPLETED loads (at most10 start/end
+snapshots), current-plus-old batch shape fixed, independently normalized FE
+energy with current0.9/old0.1 at a replay event. Keep replay lightweight, e.g.
+one event per4Adam updates with the existing last32 current-only finishing
+updates; settings are empirical candidates, not demonstrated optima. Empty
+window uses a zero-weight finite placeholder, without including physical H=0
+in positive-context encoding. Preserve all bank snapshots, allowing later
+global-memory evaluation or occasional older replay. A short window helps
+focus on adjacent states but cannot ensure distant-history retention; fixed
+H-conditioned targets are not physically contradictory, while finite shared
+network capacity/optimization can trade off current and old accuracy.
+
+Monitor current crack/force/outerwork plus retained-H energy/residual/field
+drift and wall time. Replaying energy enforces old physics rather than forcing
+the previous network's imperfect d as a target. No implementation, config,
+training or Git operation in this discussion. Updated PROGRESS/this task and
+appended DECISIONS; final diff check required. Same active task; next action
+is settle replay design and implement an isolated profile when proceeding.
+
+## /task-end — 2026-10-18, accepted scheme clarified for route alignment
+
+Commit e73301d on dev completed the preceding authorized delivery; no push
+or merge. User now requests a scheme inventory. Checked actual baseline
+configuration, stagger, history conditioning/token encoder and FE energy.
+Confirmed local P1 mechanics/direct solve; local P1 AT2 neural energy damage,
+full-domain evaluation, conditioned history/coordinate cross-attention with
+sigmoid; width32/two heads, coarse8x8 plus64 selected fine32x32 patches,
+normalized history/local channels and separate amplitude. Fine-token selection
+is encoder compression, not stochastic loss sampling. Replay collection has
+capacity128/two snapshots per load but replay training is OFF. No demonstrated
+cross-history or cross-geometry generalization follows from this trajectory.
+
+One mechanics call per stagger iteration, no relaxation, preceding-LOAD
+history floor (not previous-outer maximum), detached fixed H within each fit.
+Energy replaces residual L1/L2/L16 training; FE shape gradients replace spatial
+AD/nonlocal differentiation. Parameter AD remains. Adam128/outer, one-time
+1024 bootstrap, persistent weights/moments; scaled damage RMS stopping plus
+uRMS/load1e-4, three passes;128-observation blocks/max512. Whole accepted
+run kept1e-4 despite configured fallback ladder. Endpoint synchronization and
+block diagnostic solves are extra reporting/control mechanics calls.
+
+No numerical code/config/policy changed or training launched. Existing checks
+remain valid; only PROGRESS and this task record updated, diff check required.
+No Git authorization in this turn. Task remains active; exact next action is
+await route feedback, with no background experiment queued.
+
 ## /task-end — 2026-10-18, accepted baseline named and code prepared for commit
 
 The user explicitly accepted the completed cold trajectory and requested a

@@ -75,11 +75,14 @@ def validate(c):
             initial_rate=c.train.learning_rate, minimum_rate=c.train.minimum_rate,
             decay_rate=c.train.decay_rate)
         if (c.damage.discretization != 'fem' or c.arch.type != 'conditioned_history_operator'
-                or c.train.optimizer != 'adam' or c.history.replay_enabled
+                or c.train.optimizer != 'adam'
+                or (c.history.replay_enabled and (
+                    'replay_sampling' not in c.history
+                    or c.history.replay_sampling != 'completed_without_replacement'))
                 or not a.field_stop or a.advance_on_budget
                 or a.prefix_outer_steps != control.outers_per_rate
                 or a.outer_steps != control.outers_per_rate):
-            raise ValueError('budget rate control requires replay-off FEM Adam, field stopping, '
+            raise ValueError('budget rate control requires FEM Adam with explicit replay policy, field stopping, '
                              'no budget advancement, and matching outer blocks')
     return np.arange(1, n+1, dtype=np.float64)*a.du
 

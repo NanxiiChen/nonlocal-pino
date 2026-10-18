@@ -73,12 +73,49 @@ class BudgetLearningRate:
         return dict(action=action, relative_decrease=decrease)
 
 
-def make_rate_step(objective, unit_optimizer, *, old_count, fraction):
+def taskwise_value_and_grad(objective, net, batch):
+    """Accumulate exact task gradients before clipping/Adam; one task's tape."""
+    zero = jax.tree.map(jnp.zeros_like, eqx.filter(net, eqx.is_inexact_array))
+
+    def single(model, H, ids):
+        return objective(model, dict(H=H[None], fine_ids=ids[None],
+                                    weights=jnp.ones(1, jnp.float64)))
+
+    def body(carry, task):
+        value, gradient = carry
+        H, ids, weight = task
+        loss, derivative = jax.lax.cond(weight > 0,
+            lambda _: eqx.filter_value_and_grad(single)(net, H, ids),
+            lambda _: (jnp.zeros((), jnp.float64), zero), None)
+        gradient = jax.tree.map(lambda a, b: a+weight*b, gradient, derivative)
+        return (value+weight*loss, gradient), None
+
+    result, _ = jax.lax.scan(body, (jnp.zeros((), jnp.float64), zero),
+        (batch['H'], batch['fine_ids'], batch['weights']))
+    return result
+
+
+def shared_value_and_grad(functions, net, batch):
+    """One coordinate forward/tape; sum task adjoints before its pullback."""
+    query_fn, objective = functions
+    shared, pullback = eqx.filter_vjp(query_fn, net)
+    value, (direct, shared_gradient) = taskwise_value_and_grad(objective, (net, shared), batch)
+    indirect, = pullback(shared_gradient)
+    return value, jax.tree.map(lambda a, b: a+b, direct, indirect)
+
+
+def make_rate_step(objective, unit_optimizer, *, old_count, fraction,
+                   taskwise=False, shared_functions=None):
     """Scale unit-rate Adam updates with a dynamic scalar, preserving moments."""
     @eqx.filter_jit
     def step(net, state, current, replay, key, enabled, rate):
         batch = replay.batch(current, key, enabled, old_count=old_count, fraction=fraction)
-        value, gradient = eqx.filter_value_and_grad(objective)(net, batch)
+        if shared_functions is not None:
+            value, gradient = shared_value_and_grad(shared_functions, net, batch)
+        elif taskwise:
+            value, gradient = taskwise_value_and_grad(objective, net, batch)
+        else:
+            value, gradient = eqx.filter_value_and_grad(objective)(net, batch)
         updates, state = unit_optimizer.update(gradient, state, eqx.filter(net, eqx.is_inexact_array))
         updates = jax.tree.map(lambda x: rate*x, updates)
         return eqx.apply_updates(net, updates), state, value

@@ -538,3 +538,38 @@ node-ID values. This leaves room for new geometry inputs and per-geometry FE
 operators later; only a single fixed geometry is tested here. Old run
 identities lack the new explicit damage field; do not resume/mutate them with
 this configuration or silently migrate their optimizer states.
+
+## Global random five-history replay trial
+
+Run `train.py` with `configs/train_history_fem_replay.py` for a separate fresh
+0→0.0060 experiment. It inherits the accepted FEM-energy baseline's material,
+geometry, network, loading, stopping and learning-rate policy. At a replay
+event, select five distinct snapshots uniformly without replacement from ALL
+completed loads. This is not a recent-five-load window. Each completed load
+contributes its first-outer and synchronized endpoint H; the current load's
+first H is excluded. With fewer than five eligible snapshots, use every
+available one and pad the other slots with finite current-H inputs and zero
+weight. Task shape is always current+5 and bank capacity remains128.
+
+The explicit setting is `history.replay_sampling='completed_without_replacement'`,
+with `replay_batch=5`, `replay_fraction=0.1`, `replay_every=4` and
+`current_only_steps=32`. At a replay event, current energy has weight0.9 and
+the old-task weights sum to0.1, independently of how many valid old slots
+exist. Otherwise the current task has weight1. Each H uses its own energy
+normalization, fine-token selection and local-history channels. Sampling is
+keyed by the persistent Adam count, so exact restart preserves the sequence.
+Replay inputs are detached and do not modify the physical history floor.
+
+Coordinates, geometry grouping and FE data are shared. The coordinate MLP and
+query normalization run once per optimizer update. History token encoders,
+cross-attention and output heads still depend on each H. Task gradients are
+accumulated sequentially; the query adjoints are summed before one shared
+coordinate pullback. Gradient clipping and Adam run ONCE on the full weighted
+gradient, preserving the joint-loss derivative without retaining all tasks'
+activation tapes. Query features are recalculated after each parameter update,
+not cached across updates or detached from parameter differentiation.
+
+The accepted baseline is unchanged. Trial logs/events/fields live under
+`/root/autodl-tmp/tf-logs/fracture2d/runs/pinn_history_fem_replay_random5/`.
+Assess both current crack/force/work and old-H physics accuracy; replay is not
+assumed to accelerate training or guarantee cross-history generalization.
