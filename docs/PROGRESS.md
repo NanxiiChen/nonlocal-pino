@@ -8,6 +8,238 @@
 [Nonlocal PINN history-field learning and architectures](tasks/nonlocal-pinn-architecture.md).
 Opened 2026-10-15 after the user closed the fracture2d feasibility stage.
 
+The user ACCEPTED the full FEM-history cold result as a baseline, 2026-10-18.
+Canonical directory is now
+`/root/autodl-tmp/tf-logs/fracture2d/pinn_history_fem_scaled_stop_baseline/`;
+the old `runs/pinn_history_fem_cold_damage_scaled` was relocated. Config and
+path-bearing JSON are updated; original metadata and migration verification
+are in `diagnostics/fem_history_baseline_promotion_20261018/`. All 60 endpoint
+TensorBoard errors remain readable, 240 checkpoint paths and 61 replay store
+paths verified; 856 payload files retain original size/mtime, final arrays
+exactly equal. User authorizes committing code/tests/Markdown on dev, without
+push/merge. No new training; nonlocal MLP remains the default.
+
+Fresh phase-free cold run COMPLETE, 2026-10-18: all 60 loads from zero to
+0.0060 passed the configured joint field stop. Root
+`pinn_history_fem_scaled_stop_baseline` under tf-logs/fracture2d; launcher
+`diagnostics/history_fem_cold_scaled_launch_20261018/job.json` is complete.
+930 total outers, 119936 Adam updates, loading/reporting wall 3423.28s
+(57.05min). Same-model FE direct and PINN both span at 0.0055; PINN uses
+482 outers there versus direct 388. Damage volume-weighted relative L2 error
+is 1.359% at 0.0055 and 1.130% at 0.0060; plots show a straight, clean band.
+Tail reactions remain imperfect: 1.76914 vs 1.53605 at 0.0055 (15.17%),
+1.05458 vs 1.17955 at 0.0060 (10.59%). All rates remained 1e-4: no lowering
+occurred, so this supports scaled stopping/continued propagation, not evidence
+of adaptive-LR benefit. True fresh initialization verified in launch receipt;
+no reference-dependent training/stopping, no manual fracture labels. Existing
+8 focused checks remain valid; default nonlocal branch unchanged. No further
+training queued. Baseline promotion is now accepted; further accuracy or
+generalization experiments await the next user request. Task remains active.
+
+Damage-scaled forwardvalidation COMPLETE,2026-10-18: worker30165 exited,
+GPUidle; firstactualstop468(matchesofflineprediction),84extra fromraw384,
+Adam132480. Passes466–468 underuserformula/u1e-4/3passes. SyncR1.83023257
+vsreference1.53605241 (19.1517%tailerror), damageL2error10.35993%; straight
+spanningband confirmedvisually/materialedge d>=.9componentx.4997→1.0.
+Accepted768 remainsfiner(R1.54923,error6.663%). Saves3000055outersrelative
+to768endpoint, notmatched-qualityspeedup. SingleJIT/hostforcechecksPASS,
+restoretraceagreesmetricsto~1e-9/force2.12e-5. Newrootdiagnostics/
+fem_energy_damage_scaled_stop_0055_20261018/stop0468. No newcoldqueued;
+recommend fullfresh experiment asquality/speedtradeoff, ensure128checks
+allowcontinuedpropagation ratherthanold256hardcut. Defaultsunchanged.
+
+Forwardstopvalidation chosen,2026-10-18: resumeprogressdiagnostic raw0055/
+outer384, net/Adam121728 andsourcebank110/0054floor. Keep1e-5/128inner,
+useuserformula(dmax+.01)*1e-3,u1e-4/3passes, max128extra. SaveFIRST
+actualstop andindependentlysyncforce/plotfields beforenewcolddecision.
+Preparing diagnostics/fem_energy_damage_scaled_stop_0055_20261018; no
+fullcoldlaunch orpublicdefaultchange yet.
+
+Damage-scaled tolerance discussion,2026-10-18: user rejectsmanualpostfracture
+phase andproposes(dmax+.01)*1e-3=1e-5+1e-3*dmax. Offline257–768jointstop
+withu1e-4/3passes givesfirst468,error10.3599%,stageR1.83076. Capat1e-4
+gives695,error6.6962%,stageR1.55452. Early0055outer128alreadydmax.99777
+whileR467.77: maxdamage is notspanningdetector; jointu gate matters.
+Bothformulas are phase-free tolerancecandidates, rawversion potentially
+acceptablegivenuserpriorities; capconservativecomparison, not mandatory.
+No newtraining/configchange; fullcold/actualcandidatefields stillunvalidated.
+Receipt damage_scaled_tolerance_audit.json inprogressdiagnosticroot.
+
+User accepts current768 crack/force result and questions strictfieldstop,
+2026-10-18. Offlineaudit ofactual257–768records supports postfracturecandidate
+damage1e-4 withunchangedu/load1e-4/3passes: firstcandidate695,error6.6962%
+vsfinal6.6632%. Original1e-5neverpasses; damage5e-4first474error9.1074%.
+Relaxingbothlimits1e-3wouldstop259witherror51.38%/stageR325.86, premature.
+Auditjson inprogressdiagnosticroot. Candidate695hasno fullsavedfields/net,
+reaction1.55452 isstageonly, no finalsynccertification. No actualthresholds
+changed orjobslaunched. Record768asuser-acceptedphysicalresult whilekeeping
+strictstopfailure; recommendvalidatepostfracture1e-4withoutglobalrelaxation.
+
+Progress-block trial COMPLETE butfieldstopNOTmet,2026-10-18. Former21637
+exited/GPUidle. All4blocks/512extra done,total0055outer768,Adam170880.
+SyncR at384/512/640/768:211.46693/1.72118/1.56826/1.54923; finalsame-load
+reference1.53605 (forceerror0.85795%),damageL2error6.66319%. FirststageR<3
+at463, bandvisuallystraight/spanning. Finaldchange7.68852e-4, maxconsecutive
+passes2<3, no advancement. Allblockdrops>1% (last1.213%) so1e-5NEVERlowered;
+heuristic delayedfinishing afterunload. OneJITtrace/hostforcechecksPASS.
+Trialcost1694.98s plus112.66swarmup (~30.13min); source256workadditional.
+Exactfinalstate diagnostic/outer0768 raw+sync/net/Adam. Nextcandidate3e-6
+finishing fromthisstate; no newjob or globalpolicyadoption yet.
+
+Progress-block trial VERIFIED/RUNNING,2026-10-18. GPU21637/session77941,
+log/tmp/fracture2d_fem_progress_blocks_0055.log; diagnostics/
+fem_energy_progress_blocks_0055_20261018. Sixsynthetic policychecks andtwo
+warmAdam rateequivalence checksPASS (zeroupdatediff, identicalmoments/counts).
+Restored0055seedAdam105344/bank110/rate1e-5 and0054floor/hostforce verified;
+commonwarmup112.657s. Actualextra8/total264 nowRstage320.828 vsseedR328.097,
+fieldL2error50.7810% vs51.7870%,Adam106368. No fieldstop orblockboundaryyet.
+Leavejobrunning, next128boundarytotal384; same-load diagnostic only, no
+publicsolver/config/Git changes. No new fullcold/completion claim.
+
+Progress-block trial authorized,2026-10-18: restore incompletecold0055 endpoint
+Adam105344/bank110 and0054floor. Stay1e-5, inspect every128outers; own syncR
+drop>1% keepsrate, plateau lowers3e-6; finalrateplateau or4blocks512extra
+endsdiagnostic. Originalfieldstop everyouter, reference evaluationonly. Empirical
+localrule, not adoptedglobalpolicy. Preparing separate diagnostics/
+fem_energy_progress_blocks_0055_20261018; no loadadvance/sourceoverwrite.
+
+Latestcold audit,2026-10-18: budget128run STOPPED automatically0055outer256,
+not converged. Jobfailed18:56:30Shanghai; former16172 gone/GPUidle. Rates
+dropped0049after128(1e-4→3e-5),0055after128(3e-5→1e-5), thenfinal128block
+exhausted. SyncR328.097 vsreference1.53605, damageL2error51.78697%,dchange
+4.90964e-4. Through0054error0.63045%/65outers. Same-horizon0055raw128forces
+467.77new/468.94old;256329.24new/316.79old. Bothfar fromunloaded at256;
+old3e-5firstR<3 at416. Totalbudget insufficient; earlylowering modestlyslower
+in this nonidentical-seed comparison, not solecause. No0060completion orlivejob.
+Next distinguish propagation fromfinishing, use128 as observation blocks rather
+than assume everyrateblock suffices. No restart or newpolicy implemented.
+
+Freshcold budget128 implementation VERIFIED and GPU RUNNING,2026-10-18.
+Worker16172/session54587, log/tmp/fracture2d_fem_cold_budget128.log; root
+runs/pinn_history_fem_cold_budget128, launchreceipt diagnostics/
+history_fem_cold_budget128_launch_20261018. Verified actualstate0000 has
+q=d=H=0,Adam0,bank0, and exactsameNN/Adambytes as originalfreshseed. Config
+diff limited tooptionalratecontrol, criticalcap1024→128 andoutputpaths.
+16focusedchecks covered:14passinitialsuite plus2fixturecorrected rerunsPASS
+(fieldstop had been disabled by inheritedtestfixture). Defaultnonlocal and
+fixedFE regressionPASS; dynamicrate oneJITtrace, budget/stop/exactresumePASS.
+Rate ladder1e-4→3e-5→1e-5 with128outers perrate, persistacrossloads; same
+60loads to0060 and128inner/bootstrap1024. Newinitialrun compiling/bootstrap;
+no completedfullpath claim. Monitorjob/results/TB next; noGitoperations.
+
+New cold run authorized,2026-10-18: optional budget-rate ladder1e-4→3e-5→1e-5,
+user specifies128outers PERrate (includingfracture),128inner and unchanged
+fieldstop; rate/moments persist acrossloads. Fresh0→0060, no warmweights.
+Implement/test optionalcheckpointed ratecontrol, preserve fixedrate defaults,
+then launch separate pinn_history_fem_cold_budget128. Finalratebudgetfailure
+must stop, not silently advance. Prior completed0055diagnostics preserved.
+
+0055 matched finishing COMPLETE,2026-10-18. Identical Adam203904/bank110/q/d
+seed and0054Hfloor,128inner, originalthreepass stop. Baseline3e-5 fails32extra
+outers;1e-5 and3e-6 bothpass at4extraouters/512updates (passes2–4), final
+dchanges4.671e-6/3.308e-6. SyncR1.536913/1.536590 vs1.536052 (errors0.0560%/
+0.0350%); damageL2errors6.57715%/6.57744% essentially unchanged. LowerLR
+fixes fluctuation, not remainingfieldbias. Root diagnostics/
+fem_energy_lr_finish_0055_20261018; worker10757 exited0,GPUidle. CPUequivalence,
+oneJITtrace and finalhostforce checksPASS; imagesinspected. No furtherloadqueued,
+no source/defaultchange. Candidate1e-5finishing supported locally, not a global
+automaticpolicy. Exactnext: explicitnormalendpoint/fork withupdatedlastH before
+0056continuation;1024+4=1028totalouters, preservemoments204416/bank110.
+
+2026-10-18 next trial authorized: matched0055 finishing from saved synchronized
+budget endpoint net/Adam203904/replay110. Compare fixed3e-5,1e-5,3e-6 for at
+most32extraouters each,128inner and original fieldstop; preserve0054Hfloor.
+Prepare separate diagnostics/fem_energy_lr_finish_0055_20261018, no advance,
+reset or mutation of source. Verify dynamic-LR Adam equivalence before GPU.
+
+Latest terminal audit, 2026-10-18: pinn_history_fem_lr3e5_continuation STOPPED
+automatically at0055outer1024 (budget_exhausted); former3427 exited, job.json
+failed with explicit budget message. Saved synchronized0055R1.4109715 vs
+matched direct1.5360524 (8.143%relativeerror), damagevolumeL2error6.56737%,
+dmax.9992177, dchange4.50395e-4>1e-5. Outer512error6.71150%: extra512outers
+barely improve fielderror; persistent late fluctuation, not missing crack
+propagation. Completed fieldstable endpoints only through0054;0055saved but
+unconverged, no0056–0060. No live continuation/restart/defaultchange. Next
+candidate is a matched lower-LR finishing test, not more unchanged iterations.
+
+Latest0055 audit, 2026-10-18: worker3427 still running, outer584 stageR1.49635,
+dchange4.9957e-4, not yet1e-5 fieldstop. First loggedR<3 atouter416 (R1.73279).
+Savedouter512 damage relative volumeL2error6.7115% vs same-load direct;
+stageR1.40915, high-damage(d>=.9) component extends x.49970→1.0 near y.5
+on existing damage-edge graph. Reference endpointR1.53605/388outers. Crack
+has developed across remaining ligament; settling/field accuracy still open.
+Latest reaction is in-load/unsynchronized, not a completed endpoint. No changes
+to LR/tolerances, no restart; continue existing job toward0060.
+
+Latest verified update, 2026-10-18: low-LR FE-energy continuation completed
+0050–0054 with11/13/15/21/66outers, versus matched direct11/13/15/20/63.
+Volume-weighted damageL2errors0.5408/0.5435/0.5461/0.5461/0.6210%;0054
+force619.85033 vs619.54858 (0.04870%error). GPU3427 remains running0055,
+latestouter40: stageR578.1581,dmax0.98614,dchange6.8544e-4; not converged
+or mechanically synchronized. Matched direct0055 requires388outers and
+finishesR1.53605. Continue unchanged; no breakthrough/speedup claim yet.
+
+2026-10-18 continuation authorized after successful0049finish. Prepare NEW
+runs/pinn_history_fem_lr3e5_continuation, retain0→0048prefix and accepted
+0049refinement (136totalouters,Adam56704), then load0050→0060 atfixed3e-5.
+Rebuildbank98 endpointH/fine_ids forrefined0049, preserveprevious-loadfloor,
+verify exact model/Adam/replay roundtrip before GPU. CPUforkverificationPASS:
+allprefixfields preserved, model/Adam/bankexact, lastendpointHreplaced, host
+forceresidual2.168e-5withinlimit. GPU3427/session63149 RUNNING futureloads,
+job/log under newroot and/tmp/fracture2d_fem_continue_lr3e5.log. Verified0050
+endpoint COMPLETE in11outers: damageL2error0.54075%, R593.69470 vs593.68024
+(forceerror0.002435%); now at0051. FirstAdamcount56832 (56704+128), no reset. Originalfailed
+full/diagnostic trials preserved. Same task, no adaptivecontroller/defaultchange.
+
+2026-10-18 matched0049 finishing COMPLETE. Identical failedendpoint NN/Adam
+55680/q/d seed and0048Hfloor,128inner, unchanged1e-5/1e-4/threepass stopping.
+Baseline1e-4:32extraouters/104.38s stillfails; low3e-5:8extraouters/25.75s
+passes (dchange3.065e-6), fieldL2errors.5368%/.5391% respectively. Lowrate
+syncR585.15451 vs585.14517(error.001598%),Adam56704. Sharedwarmup108.14s
+excluded from armtimings; oneJITtrace and exact Adamupdate/state checksPASS.
+Diagnostic root fem_energy_lr_finish_0049_20261018. Worker42674 exited0/GPUidle;
+no loadadvance, originalfullrun remains stopped0049. Next integrate validated
+finishing into a traceable continuation; no globaladaptivepolicy adopted yet.
+
+2026-10-18 next stage AUTHORIZED: user accepts pilot field appearance and asks
+to proceed. Started a separate full0→0060 cold pair (new direct then fresh NN),
+retaining the pilot hyperparameters and old saved trials. du1e-4, energy/Adam
+1e-4/128inner, bootstrap1024, fieldtol1e-5, unrelaxed local-mechanics stagger,
+full sampling/replayoff. Config-only addition; numerical core unchanged.
+Owner35936/session17231; direct35987 completed60loads to0060 in316.46s.
+NN36601/owner35936 now EXITED: automatic budget stop at0049outer128, not user
+cancellation. Saved synchronized0049 endpoint has dL2error1.086%, R585.78965
+vs585.14517 (error.1101%), dchange3.218e-4>1e-5. Raw8/64errors.821%/.677%
+were smaller: additional updates oscillated rather than steadily improving.
+TBtiming3.176s/outer at0049 vs3.194s at0048: iterationcount, not slowerforward,
+caused the slowdown (~6.8min for128outers). GPUidle, no automaticrestart.
+Exact audit in launcher/budget_0049_audit.json. Next candidate: matched low-LR
+finishing trial retaining moments, before furtherloading; not launched yet.
+New direct spans0055
+with388outers (R1.53605), giving a matched critical-stage comparator.
+Roots runs/fem_damage_reference_full and
+runs/pinn_history_fem_full below tf-logs/fracture2d. Receipts/logs under
+diagnostics/history_fem_full_launch_20261018. Pilot parameter equality checked,
+128bankcapacity covers120snapshots. No completed full trajectory claimed yet.
+Same active task; monitor job.json and per-run result.json next.
+
+2026-10-18: existing work committed on dev as82c2f3c (no push). Optional
+single-geometry conditioned-history neural damage now uses material-P1 shape
+gradients and matched lumped-FE energy; local direct mechanics/nonlocal
+defaults retained. New implementation uncommitted;16targetedCPUchecks PASS.
+GPU fixed-H512updates each at0025/0052/0053:damageL2errors21.54/13.22/10.85%.
+Postfracture0055/4096updates:straight spanning band, error34.26%, so not yet
+an accuracy/speed improvement. Actual S matches independentcache to4.04e-14.
+Both matched direct/neuralcold0→0010 COMPLETE10endpoints. Fresh NN/Adam0/
+bank0 verified; final dL2error9.360%, absoluteRMS1.520e-4, forceerror.00746%.
+Neural/direct totalouters56/50, loadingwall244.36/37.85s includingJIT/reporting;
+no matched-qualityspeedup claim. Former31171/session6589 exited0,GPUidle.
+Runs below tf-logs/fracture2d/runs; exact paths/metrics in task. No full0060
+queued. Next calibrate inner accuracy/stopping before extension. Same task.
+Result figures displayed: same-load0010 damage with tip zoom/actual shared
+color range, cold reaction curve, and separately labeled fixed-H0055 damage.
+New plots saved in diagnostics/history_fem_energy_20261018/display/.
+
 2026-10-18: user agrees SINGLE geometry first, retaining cross-geometry
 architecture potential. Current question is FEM mechanics-vs-damage cost.
 Typical hybrid fixed-H AT2: vector elasticity is usually costlier than scalar

@@ -1,4 +1,4 @@
-"""Shared local-mechanics/nonlocal-damage mechanics-first incremental solver."""
+"""Local-mechanics stagger with nonlocal or explicit experimental P1 damage."""
 import json
 import os
 from pathlib import Path
@@ -10,7 +10,7 @@ import numpy as np
 from examples.fracture2d.at2_cg import damage_solver as direct_damage_solver
 from examples.fracture2d.losses import damage_weights, residual_mean, residual_metrics
 from examples.fracture2d.mesh import load_geometry, prepare
-from examples.fracture2d.stagger import committed_history, field_changes, field_stop, mechanics_first_sweep
+from examples.fracture2d.stagger import committed_history, damage_change_limit, field_changes, field_stop, mechanics_first_sweep
 from examples.fracture2d.storage import atomic_fields, atomic_json, load_fields
 
 
@@ -30,7 +30,8 @@ def validate(c):
     if not np.isclose(n*a.du, a.u_final, rtol=0, atol=1e-14):
         raise ValueError('terminal load must be an integer multiple of du')
     if (c.arch.type not in ('mlp', 'history_operator', 'conditioned_history_operator')
-            or c.loss.norm not in ('l1', 'l2', 'l16') or not 0 < c.loss.floor < 1
+            or c.loss.norm not in ('l1', 'l2', 'l16', 'energy') or not 0 < c.loss.floor < 1
+            or c.damage.discretization not in ('nonlocal', 'fem')
             or c.sample.mode not in ('full', 'random')
             or c.train.optimizer not in ('adam', 'soap', 'lbfgs')
             or c.arch.output_head not in ('sigmoid', 'exp_square', 'identity')
@@ -42,6 +43,12 @@ def validate(c):
                 c.loss.weight_epsilon, c.loss.weight_cap) <= 0
             or not 0 <= c.validation.range_atol <= 1e-3):
         raise ValueError('invalid explicit loss/sampling/optimizer/head/runtime setting')
+    if c.damage.discretization == 'fem' and (
+            c.arch.type != 'conditioned_history_operator' or c.loss.norm != 'energy'
+            or c.sample.mode != 'full' or c.loss.weight_mode != 'uniform'):
+        raise ValueError('FEM damage requires conditioned history, full uniform energy training')
+    if c.loss.norm == 'energy' and c.damage.discretization != 'fem':
+        raise ValueError('energy training currently requires explicit FEM damage')
     integers = (a.prefix_outer_steps, a.outer_steps, a.minimum_sweeps,
         a.consecutive_passes, c.train.inner_steps, c.sample.core_count,
         c.sample.pool_size, c.sample.resample_every,
@@ -58,6 +65,22 @@ def validate(c):
     if any(type(v) is not bool for v in
            (a.field_stop, a.advance_on_budget, c.output.resume, c.output.tensorboard, c.mesh.prepare)):
         raise ValueError('boolean policies must be explicit booleans')
+    if 'damage_stop' in a:
+        damage_change_limit(a, damage_max=0.)
+        if not a.field_stop or a.advance_on_budget or c.arch.output_head != 'sigmoid':
+            raise ValueError('scaled damage stopping requires sigmoid, field stopping and no budget advancement')
+    if 'rate_control' in c.train:
+        from examples.fracture2d.learning_rate import BudgetLearningRate
+        control = BudgetLearningRate(c.train.rate_control,
+            initial_rate=c.train.learning_rate, minimum_rate=c.train.minimum_rate,
+            decay_rate=c.train.decay_rate)
+        if (c.damage.discretization != 'fem' or c.arch.type != 'conditioned_history_operator'
+                or c.train.optimizer != 'adam' or c.history.replay_enabled
+                or not a.field_stop or a.advance_on_budget
+                or a.prefix_outer_steps != control.outers_per_rate
+                or a.outer_steps != control.outers_per_rate):
+            raise ValueError('budget rate control requires replay-off FEM Adam, field stopping, '
+                             'no budget advancement, and matching outer blocks')
     return np.arange(1, n+1, dtype=np.float64)*a.du
 
 
@@ -92,6 +115,12 @@ def run(c, *, damage_solver):
         prepare(c)
         return Path(c.mesh.prepared_dir)
     m, operator, geometry = load_geometry(c)
+    if c.damage.discretization == 'fem' and c.output.reference_root:
+        reference = json.loads((Path(c.output.reference_root)/'identity.json').read_text())
+        if (reference['schema'] != 'local-p1-lumped-at2-v1'
+                or reference['damage_solver'] != 'direct' or reference['geometry'] != geometry
+                or reference['config']['physical'] != c.physical.to_dict()):
+            raise ValueError('FEM monitoring requires a matched P1 direct reference: schema, geometry and material must agree')
     parity = json.loads((Path(c.mesh.prepared_dir)/'fenics_parity.json').read_text())
     if not parity['pass']:
         raise ValueError('local mechanics geometry has not passed independent FEM parity')
@@ -107,6 +136,9 @@ def run(c, *, damage_solver):
                            maxiter=c.validation.cg_maxiter)
     pinn, solve_d = None, None
     history_pinn = damage_solver == 'pinn' and c.arch.type in ('history_operator', 'conditioned_history_operator')
+    rate_controlled = 'rate_control' in c.train
+    if rate_controlled and not history_pinn:
+        raise ValueError('budget rate control is only defined for history-network damage training')
     if history_pinn:
         from examples.fracture2d.history_training import HistoryDamagePINN
         pinn = HistoryDamagePINN(c, m, operator)
@@ -116,12 +148,19 @@ def run(c, *, damage_solver):
     else:
         solve_d = direct_damage_solver(operator, m.volumes, g0, g1,
             tol=c.validation.cg_rtol, atol=c.validation.cg_atol, maxiter=c.validation.cg_maxiter)
+        if c.loss.norm == 'energy':
+            from examples.fracture2d.fem_damage import make_energy
+            direct_energy = jax.jit(make_energy(operator, m.volumes,
+                gc0=g0, gc1=g1, floor=c.loss.floor))
     sources = [str(f) for f in Path(__file__).parent.glob('*.py')]
     inputs = [str(Path(c.mesh.prepared_dir)/name)
               for name in ('identity.json', 'mesh.npz', 'damage_operator.npz', 'fenics_parity.json')]
+    if c.damage.discretization == 'fem':
+        inputs.remove(str(Path(c.mesh.prepared_dir)/'damage_operator.npz'))
     if pinn is not None and not history_pinn:
         inputs.append(c.data.basis_path)
-    identity = dict(schema='local-p1-nonlocal-at2-v1', config=canonical_config(c),
+    identity = dict(schema=('local-p1-lumped-at2-v1' if c.damage.discretization == 'fem'
+                            else 'local-p1-nonlocal-at2-v1'), config=canonical_config(c),
         damage_solver=damage_solver, geometry=geometry, sources=sources, inputs=inputs,
         history_floor='preceding_load_endpoint', reference_training_targets=False,
         residual_is_stopping_gate=False, physical_initial_damage=0., physical_initial_history=0.)
@@ -168,12 +207,18 @@ def run(c, *, damage_solver):
         from examples.fracture2d.monitoring import Monitor
         monitor = Monitor(root, c, m, damage_solver.upper())
     tri, area = m.triangles[:m.n_material_cells], m.areas[:m.n_material_cells]
+    monitor_span = c.loading.outer_steps
+    if rate_controlled:
+        control = pinn.rate_control
+        monitor_span *= (control.max_blocks_per_load if control.mode == 'progress_blocks' else len(control.rates))
     started = time.perf_counter()
     try:
         for index, target in enumerate(loads, 1):
             folder = root/f'state_{index:04d}'
             if c.output.resume and (folder/'result.json').is_file():
                 report = json.loads((folder/'result.json').read_text())
+                if report['status'] == 'budget_exhausted' and not c.loading.advance_on_budget:
+                    raise ValueError('cannot resume past a budget-exhausted load; refine it explicitly first')
                 if (report['q_d_synchronized'] is not True or report['load'] != float(target)
                         or report['parent_path'] != str(root/f'state_{index-1:04d}'/'fields.npz')):
                     raise ValueError('saved endpoint load or parent path differs')
@@ -190,6 +235,7 @@ def run(c, *, damage_solver):
             parent_H, parent_d = H, d
             cap = c.loading.outer_steps if load >= c.loading.critical_load-1e-14 else c.loading.prefix_outer_steps
             consecutive, loss_value = 0, 0.
+            block_reaction, control_calls = None, 0
             if history_pinn:
                 pinn.begin_load(index, load)
 
@@ -201,27 +247,36 @@ def run(c, *, damage_solver):
                 m.factors(np.asarray(image))
                 raw, relative = residual_metrics(np.asarray(image), np.asarray(history), D, gc0=g0, gc1=g1)
                 if pinn is None:
-                    loss_value = float(residual_mean(jnp.asarray(raw), history,
-                        jnp.full(m.n_material, 1/m.n_material), damage_weights(old, c.loss),
-                        population_size=m.n_material, norm=c.loss.norm, floor=c.loss.floor))
+                    if c.loss.norm == 'energy':
+                        loss_value = float(direct_energy(image, history))
+                    else:
+                        loss_value = float(residual_mean(jnp.asarray(raw), history,
+                            jnp.full(m.n_material, 1/m.n_material), damage_weights(old, c.loss),
+                            population_size=m.n_material, norm=c.loss.norm, floor=c.loss.floor))
                 return image, carry, dict(AT2_relative=relative)
 
-            for sweep in range(1, cap+1):
+            sweep = 0
+            while sweep < cap:
+                sweep += 1
                 stage, _ = mechanics_first_sweep(q, d, parent_H, load, None,
                     mechanics=solve_q, driver=m.driver, damage=damage, omega=c.loading.omega)
                 q, d, H = (stage[k] for k in ('q', 'd', 'H'))
+                if block_reaction is None:
+                    block_reaction = stage['reaction']
                 changes = field_changes(q, stage['q_previous'], d, stage['d_previous'], tri, area, load=load)
+                damage_max = float(d.max())
+                damage_limit = damage_change_limit(c.loading, damage_max=damage_max)
                 stop = field_stop(changes, displacement_limit=c.loading.displacement_tolerance,
-                    damage_limit=c.loading.damage_tolerance, sweep=sweep,
+                    damage_limit=damage_limit, sweep=sweep,
                     minimum_sweeps=c.loading.minimum_sweeps,
                     consecutive_passes=c.loading.consecutive_passes, previous_consecutive=consecutive)
                 consecutive = stop['consecutive']
                 row = dict(index=index, load=load, sweep=sweep, outer_cap=cap, **changes,
                     field_stable=stop['converged'], field_stopping=stop, full_loss=loss_value,
                     inner_AT2=stage['inner']['AT2_relative'], reaction=stage['reaction'],
-                    damage_min=float(d.min()), damage_max=float(d.max()),
+                    damage_min=float(d.min()), damage_max=damage_max, damage_tolerance=damage_limit,
                     optimizer_count=0 if pinn is None else pinn.count,
-                    q_d_synchronized=False, mechanics_calls=sweep, mechanics=stage['mechanics'],
+                    q_d_synchronized=False, mechanics_calls=sweep+control_calls, mechanics=stage['mechanics'],
                     parent_path=str(root/f'state_{index-1:04d}'/'fields.npz'))
                 if history_pinn:
                     row.update(pinn.diagnostics())
@@ -232,9 +287,34 @@ def run(c, *, damage_solver):
                     atomic_json(root/'result.json', dict(complete=False, curve=curve, current=row))
                     print(json.dumps(dict(event='outer', **row)), flush=True)
                     if monitor is not None:
-                        monitor.stage(row, (index-1)*c.loading.outer_steps+sweep)
+                        monitor.stage(row, (index-1)*monitor_span+sweep)
                 if c.loading.field_stop and stop['converged']:
                     break
+                if sweep == cap and rate_controlled:
+                    control = pinn.rate_control
+                    if control.mode == 'progress_blocks':
+                        # Diagnostic solve only: preserve raw q/H and preceding-load floor.
+                        q_control, reaction_control, mechanical_control = solve_q(d, load, q)
+                        control_calls += 1
+                        force_control = m.matrix(np.asarray(d))@np.asarray(q_control)
+                        if np.linalg.norm(force_control[m.free]) > mechanical_control['convergence_limit']*(1+1e-3):
+                            raise RuntimeError('progress-block independent host force check failed')
+                        np.testing.assert_allclose(force_control@m.load_direction, reaction_control, rtol=1e-9, atol=1e-6)
+                        decision = control.progress_action(block=sweep//control.outers_per_rate,
+                            previous_reaction=block_reaction, reaction=reaction_control)
+                        if decision['action'] in ('continue', 'lower'):
+                            cap += control.outers_per_rate
+                        print(json.dumps(dict(event='progress_block', index=index, load=load,
+                            after_sweep=sweep, previous_reaction=block_reaction,
+                            synchronized_reaction=reaction_control, outer_cap=cap,
+                            **decision, **pinn.diagnostics())), flush=True)
+                        block_reaction = reaction_control
+                    elif control.lower():
+                        previous_cap = cap
+                        cap += control.outers_per_rate
+                        print(json.dumps(dict(event='learning_rate_lowered', index=index,
+                            load=load, after_sweep=sweep, previous_cap=previous_cap,
+                            outer_cap=cap, **pinn.diagnostics())), flush=True)
             # Save mechanically synchronized endpoints; keep preceding-load H floor.
             q_sync, reaction, mechanical = solve_q(d, load, q)
             H_sync = committed_history(parent_H, jnp.asarray(m.driver(np.asarray(q_sync))))
@@ -244,7 +324,7 @@ def run(c, *, damage_solver):
             np.testing.assert_allclose(force @ m.load_direction, reaction, rtol=1e-9, atol=1e-6)
             _, physical = residual_metrics(np.asarray(d), np.asarray(H_sync), D, gc0=g0, gc1=g1)
             report = dict(row, reaction=reaction, physical_AT2=physical, mechanics=mechanical,
-                q_d_synchronized=True, mechanics_calls=sweep+1, certified_path=False,
+                q_d_synchronized=True, mechanics_calls=sweep+control_calls+1, certified_path=False,
                 status='field_stable' if stop['converged'] else 'budget_exhausted')
             if history_pinn:
                 pinn.end_load(H_sync)

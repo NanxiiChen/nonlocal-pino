@@ -3,6 +3,16 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 
+def damage_change_limit(loading, *, damage_max):
+    """Optional state-scaled tolerance, evaluated outside parameter gradients."""
+    if 'damage_stop' not in loading:
+        return loading.damage_tolerance
+    s = loading.damage_stop
+    if (s.mode != 'scaled_max' or not np.isfinite([s.offset, s.factor, damage_max]).all()
+            or min(s.offset, s.factor) <= 0 or not 0 <= damage_max <= 1):
+        raise ValueError('scaled damage stopping needs positive offset/factor and damage maximum in [0,1]')
+    return (damage_max+s.offset)*s.factor
+
 def committed_history(parent, current_driver):
     """Freeze the preceding load's history floor, not the preceding outer H."""
     if parent.shape != current_driver.shape:

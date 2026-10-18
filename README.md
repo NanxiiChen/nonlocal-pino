@@ -47,6 +47,21 @@ and query-local history branch for controlled frozen-field comparisons.
 `train.py --config=examples/fracture2d/configs/train_history.py` runs the optional
 history operator from physical zero, accumulating only its own load-start/end
 history snapshots. The accepted MLP remains the default.
+`configs/train_history_fem.py` optionally replaces damage derivatives with
+material-P1 shape gradients and trains the history-conditioned network by
+lumped FE energy; `configs/fem_damage_reference.py` selects its matched direct
+control through `nonlocal_baseline.py`. This local damage discretization is an
+experimental alternative; the default remains nonlocal. See the example README.
+`configs/train_history_fem_full.py` and `configs/fem_damage_reference_full.py`
+extend this experimental configuration to a separate zero-to-0.006 trajectory;
+compute the matched direct reference first.
+`configs/train_history_fem_cold.py` tests a fresh cold path with128outer
+blocks and budget-triggered Adam rate lowering, retaining moments acrossloads.
+`configs/train_history_fem_cold_scaled.py` selects the accepted cold baseline
+with damage-scaled stopping and progress-aware128outer checks; see the example
+README for its explicit accuracy/budget tradeoffs. Its completed trajectory
+and TensorBoard events are under
+`/root/autodl-tmp/tf-logs/fracture2d/pinn_history_fem_scaled_stop_baseline/`.
 `configs/train_history_conditioned.py` selects the experimental normalized/local
 history model with a one-time L1-to-L2 bootstrap and later L2 fits for a short
 from-zero loading pilot; replay training is disabled in this profile.

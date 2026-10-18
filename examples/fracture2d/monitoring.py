@@ -40,6 +40,10 @@ class Monitor:
         if 'replay_snapshots' in row:
             for name in ('replay_snapshots', 'replay_training_loss', 'replay_pre_update_loss'):
                 self.writer.add_scalar('diag/'+name, row[name], step)
+        if 'learning_rate' in row:
+            self.writer.add_scalar('diag/learning_rate', row['learning_rate'], step)
+        if 'damage_tolerance' in row:
+            self.writer.add_scalar('diag/damage_tolerance', row['damage_tolerance'], step)
         self.writer.add_scalar('train/load', row['load'], step)
         self.writer.add_scalar('diag/stage_reaction_for_previous_damage', row['reaction'], step)
 
@@ -49,6 +53,9 @@ class Monitor:
             self.writer.add_scalar('train/'+name, row[name], index)
         if 'replay_snapshots' in row:
             self.writer.add_scalar('replay/snapshots_at_endpoint', row['replay_snapshots'], index)
+        self.writer.add_scalar('train/outer_iterations', row['sweep'], index)
+        if 'learning_rate' in row:
+            self.writer.add_scalar('train/learning_rate', row['learning_rate'], index)
         if index % self.c.output.figure_every:
             self.writer.flush()
             return
@@ -68,8 +75,9 @@ class Monitor:
             if denominator <= 0:
                 raise ValueError('relative damage comparison requires nonzero reference damage')
             error = np.sqrt(self.volumes @ (fields['d']-reference)**2/denominator)
-            self.writer.add_scalar('eval/direct_nonlocal/rel_L2_d', float(error), index)
-            self.writer.add_scalar('eval/direct_nonlocal/reaction', ref['reaction'], index)
+            tag = 'direct_fem' if self.c.damage.discretization == 'fem' else 'direct_nonlocal'
+            self.writer.add_scalar('eval/'+tag+'/rel_L2_d', float(error), index)
+            self.writer.add_scalar('eval/'+tag+'/reaction', ref['reaction'], index)
         for name, values, cmap in [('damage', fields['d'], 'inferno'),
                 ('ux', q[:, 0], 'coolwarm'), ('uy', q[:, 1], 'coolwarm'),
                 ('history', fields['H'], 'viridis')]:

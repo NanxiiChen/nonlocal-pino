@@ -8,6 +8,7 @@ def get_config():
     c.physical = ConfigDict(dict(E=210000., nu=.3, Gc=2.7, l0=.024, k_res=1e-8))
     c.geometry = ConfigDict(dict(grip_extent=.048, h_grip=.004))
     c.nl = ConfigDict(dict(delta_d=.008, visibility_tolerance=1e-12))
+    c.damage = ConfigDict(dict(discretization='nonlocal'))
     c.data = ConfigDict(dict(
         cloud='/root/autodl-tmp/data/fracture2d/scale_separation_20261001/cloud_h004_api.npz',
         basis_path='/root/autodl-tmp/tf-logs/fracture2d/diagnostics/compact_damage_polish_fixedH_20261011/basis.npz'))

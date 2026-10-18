@@ -1,4 +1,4 @@
-"""Prepare/load the same validated local-P1/nonlocal-damage geometry."""
+"""Validated local-P1 geometry with explicitly selected damage discretization."""
 import json
 from pathlib import Path
 import numpy as np
@@ -111,6 +111,13 @@ def load_geometry(c):
     mechanics = LocalMechanics(values['coordinates'], values['triangles'], int(values['n_material']),
         int(values['n_material_cells']), values['volumes'], E=c.physical.E, nu=c.physical.nu,
         k_res=c.physical.k_res, constrained=values['constrained'], load_direction=values['load_direction'], range_atol=c.validation.range_atol)
+    if c.damage.discretization == 'fem':
+        from examples.fracture2d.fem_damage import P1DamageOperator
+        operator = P1DamageOperator(mechanics)
+        return mechanics, operator, dict(config=expected, mesh_path=str(root/'mesh.npz'),
+            damage_discretization='material-p1-lumped', operator_path=None)
+    if c.damage.discretization != 'nonlocal':
+        raise ValueError('unknown explicit damage discretization')
     operator = ExplicitVolumeSparseD(mechanics.coordinates[:mechanics.n_material], mechanics.volumes,
                                     values['damage_edges'], c.nl.delta_d, 'cubic')
     from scipy.sparse import load_npz

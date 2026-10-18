@@ -1,4 +1,4 @@
-"""Local P1 direct mechanics + nonlocal AT2 direct damage, matched PINN scheme."""
+"""Matched direct AT2 damage; nonlocal by default, P1 through explicit config."""
 from pathlib import Path
 
 

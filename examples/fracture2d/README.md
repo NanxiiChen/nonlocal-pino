@@ -27,6 +27,7 @@ the TensorBoard server can keep reading `/root/autodl-tmp/tf-logs`.
 | `history_network.py`, `history_probe.py` | Optional point-patch architecture and frozen-history replay experiment |
 | `history_conditioning.py` | Experimental history normalization and local-query input comparison |
 | `history_training.py` | Online history solver, snapshot lifecycle and replay checkpoint store |
+| `fem_damage.py` | Optional material-P1 shape gradients, lumped AT2 energy and matching direct operator |
 | `sampling.py` | Full rows and fixed-shape exact core+halo pools |
 | `plot_sampling.py` | Sampling density, actual pool batch, tip zoom and profiles |
 | `optimization.py`, `at2_cg.py` | Adam/SOAP/L-BFGS and checked direct AT2 CG |
@@ -384,3 +385,156 @@ accuracy. The CLI uses the ordinary field stopping rule; the recorded pilot's
 external driver additionally checks same-load reference error and physical
 residual after each saved endpoint, stopping on a failed diagnostic guard.
 Normal `train_base.py` and original `train_history.py` defaults are unchanged.
+
+## Optional history-conditioned FE damage
+
+The default `damage.discretization='nonlocal'` is unchanged. Select
+`configs/train_history_fem.py` for the optional single-geometry experiment:
+
+```bash
+PYTHONPATH=.:src .venv/bin/python -m examples.fracture2d.train \
+  --config=examples/fracture2d/configs/train_history_fem.py
+PYTHONPATH=.:src .venv/bin/python -m examples.fracture2d.nonlocal_baseline \
+  --config=examples/fracture2d/configs/fem_damage_reference.py
+```
+
+Both profiles start at exact physical zero and currently end at 0.0010 as a
+short pilot. Mechanics, maximum-history ownership and the mechanics-first
+stagger remain the same. The network receives H and coordinates and outputs
+material-node damage. Its existing point-patch encoder, coordinate decoder,
+local-H channels and sigmoid head are retained; replay training is initially
+off, while the fixed-shape snapshot bank still records load-start/end inputs.
+No damage labels or symmetry constraints are added.
+
+For a separate full loading trial, use `configs/fem_damage_reference_full.py`
+with `nonlocal_baseline.py` first, then `configs/train_history_fem_full.py`
+with `train.py`. These profiles run from zero to 0.0060 with du=1e-4, preserving
+the pilot's architecture, optimization and stopping controls. Their roots are
+`runs/fem_damage_reference_full` and `runs/pinn_history_fem_full`, under the
+fracture2d log directory. The neural run evaluates only against this matching
+new FE reference. The physical state, network, Adam and history bank start
+fresh; completed short-pilot artifacts are preserved. The replay capacity128
+already holds both snapshots for all60loads, so no shape change is needed.
+Outer budgets remain128 below0.0053 and1024 thereafter. Exhausting a budget
+saves the endpoint and stops advancement (`advance_on_budget=False`); this
+trial does not silently loosen tolerances or adapt its constant learning rate.
+
+For the optional budget-triggered cold experiment, select
+`configs/train_history_fem_cold.py` with `train.py`. It starts fresh from0
+to0.0060 and reuses the completed matching FE direct reference for evaluation:
+
+```bash
+PYTHONPATH=.:src .venv/bin/python -m examples.fracture2d.train \
+  --config=examples/fracture2d/configs/train_history_fem_cold.py
+```
+
+This profile explicitly declares `train.rate_control` with
+`mode='budget_finishing'`, `rates=[1e-4,3e-5,1e-5]` and
+`outers_per_rate=128`; both loading caps are128. At a failed128outer block,
+lower to the next rate and continue the SAME load for another128outers.
+Retain the current rate, Adam moments/count and network across subsequent
+loads. Finish early on the existing fieldstop; at the final rate, exhaustion
+saves the state and stops advancement. Thus128 is a per-rate block, not a
+guaranteed per-load total limit. A load entering the initial rate can use
+at most384outers. No reference, absolute load or loss-growth trigger chooses
+the rate. An early reduction during crack propagation may slow growth; this
+is an experiment rather than a validated general adaptive strategy.
+
+The optional block is absent from fixed-rate profiles, whose behavior stays
+unchanged. Controlled runs use dynamic scalar scaling after unit-rate Adam,
+with the same effective FP32 rate scalars as the existing Optax schedule;
+field/network arithmetic remainsFP64. Rate values do not change JIT shapes.
+Checkpoints store `rate_control.json`; endpoint resume restores the rate as
+well as Adam and the history bank. A failed endpoint cannot be skipped on
+resume when `advance_on_budget=False`. TensorBoard records learning rates,
+outer counts, physical fields and reaction curves under
+`/root/autodl-tmp/tf-logs/fracture2d/runs/pinn_history_fem_cold_budget128/`.
+
+`configs/train_history_fem_cold_scaled.py` selects the accepted complete
+0→0.0060 cold baseline with phase-free stopping. Its explicit
+`loading.damage_stop={mode:'scaled_max', offset:0.01, factor:0.001}` sets
+the damage-change tolerance to `(dmax+0.01)*0.001` at every outeriteration.
+Displacement/load tolerance1e-4 and threeconsecutivepasses remain. The formula
+does not detect crack connectivity or enter parameter gradients. Fixedprofiles
+omit this optional block and retain `loading.damage_tolerance`.
+
+The new profile uses `train.rate_control.mode='progress_blocks'`, the same
+rate ladder and128outer checks, with `max_blocks_per_load=4` and
+`minimum_reaction_decrease=0.01`. After each failed block, an independent
+mechanics synchronization measures ownreaction. A decrease exceeding1%
+continues the current rate; otherwise lower one rate. At the minimum rate,
+a plateau stops; the four-block overall cap also saves/stops on failure.
+These extra mechanics calls are counted and do not replace the rawstagger
+carry or commit a historyfloor. Rates/moments persist across loads, and
+checkpointed policy settings are validated on resume. Reference values and
+absolute loads never choose stops/rates. The1% rule is an empirical heuristic
+for testing, not a convergence proof. TensorBoard includes the active damage
+tolerance, learning rate, fields, endpointoutercounts and forcecurve under
+`/root/autodl-tmp/tf-logs/fracture2d/pinn_history_fem_scaled_stop_baseline/`.
+
+The accepted cold run completed all 60 loads in 930 outer iterations and
+57.05min loading/reporting time. It spans at 0.0055, matching the new FE direct
+reference, with volume-weighted damage relative L2 errors 1.359% at 0.0055
+and 1.130% at 0.0060. Tail reaction errors remain 15.17% and 10.59%.
+The learning rate remained 1e-4 throughout; no rate reduction occurred.
+This is the accepted optional FEM-energy baseline; the nonlocal MLP remains
+the default. Its `baseline.json` and `README.md` record acceptance and paths.
+To reproduce in a fresh directory, override both `output.root` and
+`output.event_dir`; the saved baseline has `output.resume=False`, so it must
+not be overwritten. The matching reference is `runs/fem_damage_reference_full`.
+
+A same-load forwardtest of the rawformula stopped atouter468 with a straight
+spanningband, damageerror10.36% and synchronizedreaction1.83023 vs1.53605
+reference. This older warm-start diagnostic is a faster, less accurate
+candidate than accepted outer768, separate from the completed cold baseline
+above. A large local maximum alone does not prove spanning.
+
+Set `damage.discretization='fem'` and `loss.norm='energy'` explicitly. The
+network nodal values define a continuous P1 field on material triangles:
+
+$$
+d_h=\sum_iN_i d_i,\qquad \nabla d_h|_T=\sum_{i\in T}d_i\nabla N_i.
+$$
+
+The frozen-H damage energy matches the existing lumped local FEM comparator:
+
+$$
+J_H(d)=\sum_iV_i\left[\frac{G_c}{2l_0}d_i^2+H_i(1-d_i)^2\right]
+       +\frac{G_cl_0}{2}\sum_T|T|\,|\nabla d_h|_T^2.
+$$
+
+The training loss drops the H-only constant and divides by
+`max(sum(V*2*H**2/(Gc/l0+2*H)), (Gc/l0)*sum(V)*loss.floor)`.
+H and this positive normalization are detached; the frozen-H minimizer is
+unchanged. Negative loss values are expected and must not be interpreted as
+negative physical energy. Use energy gaps and same-H field/residual errors
+for evaluation; old residual-loss LR veto rules do not apply.
+
+The direct control solves exactly
+`[diag(V*(Gc/l0+2*H)) + Gc*l0*S] d = 2*V*H`, with
+`S_ij=integral(grad(N_i).grad(N_j))`. Both routes exclude grip cells and use
+natural zero-flux damage boundaries. Geometry loading checks that V is the
+material-triangle lumped mass and assembles S once; no nonlocal derivative
+matrix is read/built for this option. Spatial differentiation uses FE shape
+functions, while parameter gradients still use AD. P1 pointwise second
+spatial derivatives are not used.
+
+This is the local gradient AT2 model, distinct from finite-horizon nonlocal
+AT2. Comparisons must use a matching FE reference, not the nonlocal damage
+reference. `output.reference_root=''` initially; populate it only with a
+matching new direct run. The older `fem_reference` shares the spatial
+operator but used an older stagger/stopping implementation and cannot be
+claimed to be the identical coupled-scheme control.
+
+The initial learning rate is a constant 1e-4, 128 Adam steps per outer, with a
+one-time 1024-update **energy** bootstrap (`history.bootstrap_energy_steps`).
+There is no residual L1/L2 bootstrap or inherited adaptive LR controller.
+These are explicit pilot settings, not a validated optimal schedule. Full
+node shapes and replay capacity remain fixed throughout loading. New logs
+stay under `/root/autodl-tmp/tf-logs/fracture2d/`.
+
+Network weights are shared point/token/query functions rather than learned
+node-ID values. This leaves room for new geometry inputs and per-geometry FE
+operators later; only a single fixed geometry is tested here. Old run
+identities lack the new explicit damage field; do not resume/mutate them with
+this configuration or silently migrate their optimizer states.

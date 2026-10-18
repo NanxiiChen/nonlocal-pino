@@ -15031,3 +15031,299 @@ Template for each entry:
 - PrimarycontextFarrell/Maurini arxiv1511.08463; Rannouetaldoi10.1002/nme.7544
   report caseswherephasefieldcostisnegligible vsmechanics. No transferofpaper
   costratios tothisproject. Memory/source/literature reviewonly,noGPU/Gitops.
+
+## 2026-10-18 — Start optional material-P1 energy-trained history network
+
+Decision: preserve existing work in dev commit 82c2f3c, then implement an
+explicit local-P1 damage option with the existing conditioned-history network.
+The frozen-H objective uses lumped nodal reaction/history and exact element
+shape gradients; direct comparison solves the identical mass/stiffness system.
+Drop the H-only constant and normalize by the unconstrained reaction-only
+energy release (with explicit floor). This changes neither frozen-H minimizer
+nor parameter descent direction. Negative losses are expected; do not reuse
+residual-loss increase vetoes or previous adaptive LR policies.
+Reason: test mesh differentiation/energy conditioning independently of neural
+architecture. Nonlocal stays default; no pointwise P1 Laplacian, full consistent
+reaction quadrature, prescribed symmetry, damage supervision or multigeometry
+claim. Fixed-H inputs are detached; replay initially off. Related: prior
+mesh-energy and cross-geometry discussions in the active architecture task.
+
+## 2026-10-18 — Keep FE-energy pilot diagnostic and add a true fracture input
+
+First512-update frozen-H fits reduce field errors to21.54/13.22/10.85% for
+local-FEM H at .0025/.0052/.0053. Verified actual local reference spans at
+.0055, unlike nonlocal reference .0053. Therefore add a bounded4096-update
+.0055 frozen-H fit and a separate new-zero0→.0010 coupled pilot pair; do not
+call the first sequence a full cold solve or a fracture validation. Direct
+damage remains evaluation-only. Early postfracture energy gaps are small
+while field errors exceed100%, so do not adopt loss closeness or max(d) near1
+as a field-accuracy certificate. Rejected: promoting the route solely from
+energy decrease or comparing with a different nonlocal model. Related: current
+optional mesh-energy implementation and prior stopping-accuracy discussion.
+
+## 2026-10-18 — Finish bounded FE pilot before any full loading extension
+
+Both new matched zero-start pilots completed to0010,10loads: neural final
+volume-L2damageerror9.36%,absoluteRMS1.52e-4,reactionerror.00746%;56outers
+vsdirect50. Postfracture fixed-H4096fit remains34.26%field error despite
+energy gap8.31e-4 and a visible spanning band. Decision: retain as an optional
+validated implementation, not a newly accepted numerical baseline or speedup.
+Calibrate inner-fit accuracy/stopping before fullcold fracture loading; no
+full0060 launch queued. Earlysmall-amplitude damage passesabsolute fieldchange
+stopping while inaccurate (0001error49.27%), so reject fieldstable/forceclose
+as stand-alone accuracy evidence. This conclusion is limited to the explicit
+pilot budget/LR/architecture; it does not establish an inherent FE-energy
+limitation. AllGPUworkers exited normally; nonlocal defaults remain unchanged.
+
+## 2026-10-18 — User accepts FE pilot and authorizes full-path evaluation
+
+Decision: proceed with a separate true-zero0→0060 direct/neural trajectory
+pair, preserving the accepted-for-exploration0010 pilot and frozen-H tests.
+Keep architecture/FEenergy/Adam1e-4/128inner/bootstrap1024/full sampling/
+replayoff/fieldtol1e-5/du1e-4 and unrelaxed mechanics-first scheme unchanged.
+Reason: user judges the initial fields promising and wants to see subsequent
+loading; evaluate accumulation and actual crack growth before changing more
+variables. Prior calibration-first recommendation is not a user restriction.
+Rejected: overwrite prior immutable run metadata to extend its terminal load,
+splice fixed-H weights into cold loading, add symmetry constraints, or silently
+introduce another LR policy. Repeating the short initial prefix gives one
+self-contained cold record at about4minutes initial cost. Direct reference is
+computed in the same current stagger and used for evaluation only. No claims
+of inherent FE superiority, convergence or matched-quality speedup are made.
+
+## 2026-10-18 — Matched low-LR0049 finishing with preserved Adam memory
+
+User authorizes trying3e-5. Compare3e-5 and baseline1e-4 from the identical
+saved0049budget endpoint NN/Adam55680/q/d, at most32additionalouters×128inner,
+originalthreepass fieldstop and same0048committedHfloor. No loadadvance or
+reference supervision. Retain moments; do not restart optimizer or warm-start
+from a different earliercheckpoint. For one fixed-shape compiledstep, compute
+unit-rate Adam updates then multiply by dynamic scalar LR, validating numerical
+andstate equivalence to existing make_optimizer with warmmoments. LR does not
+enter Adam moment accumulation; only its final update scaling changes.
+Reason: distinguish ordinary continuation from actual finishing-LR benefit
+without repeated heavyweight compilations. Reject loosening tolerances or
+simply skipping the failed0049endpoint to0050. Store diagnostics separately;
+a successful finish alone is not a new global LR controller or fullcold result.
+
+## 2026-10-18 — Match effective Optax LR scalar precision in finishing control
+
+Strict warm-state equivalence caught the existing exponential schedule's FP32
+rate scalar even with FP64fields: effective1e-4/3e-5 are9.999999747378752e-5
+and2.9999999242136255e-5. The diagnostic now uses the SAME schedule output,
+cast tofielddtype, in its dynamic scalar multiplier. Existing production
+optimizer behavior remains untouched. Both testedrates then give exactlyequal
+updates and identical allmoment/count arrays. Reject loosening numerical
+checks or silently replacing old rateprecision with exactPythonfloat values.
+This is an experiment-reproducibility correction, not a new optimizer policy.
+
+## 2026-10-18 — Low3e-5 finishing suppresses0049 oscillations at similar accuracy
+
+Matched seed trial completed: source net/Adam55680/q/d and0048committedHfloor
+identical,128inner andoriginalstopping unchanged. Baseline1e-4 fails after
+32additionalouters; lower3e-5 passes at8 (threeconsecutivepasses6–8).
+FinaldamageL2errors.5368%/.5391% are comparable; lowrate syncforceerror.001598%.
+Therefore retain lowerLRfinishing as a supported local remedy, not proof that
+allloads should use3e-5 or that a globaladaptivecontroller is validated.
+Separate armtimes104.38/25.75s exclude108.14scommonwarmup; firstbaselineimage
+adds~2scompile, so use count/accuracy/stability as primary comparison. No
+source files or historybank overwritten and no loadsadvanced. Futurecontinuation
+must explicitly refine/commit0049in a newrecord and count128+8outerwork,
+with Adam56704andupdatedsame-load endpointH; cannot skipfailed0049or claim a
+fresh unchangedconstant-LR fullcold. No productiondefault or Git changes.
+
+## 2026-10-18 — Continue from refined0049 with explicit provenance and fixed3e-5
+
+User asks nextvalidation. Fork the saved cold-origin path through0048 and
+accepted low-LR0049 refinement into a newrun; continue0050→0060 atfixed3e-5.
+Keep optimizer moments/count56704, model, mesh, FEenergy,128inner and old
+fieldstop. Replacebank98's lastendpointH/fine_ids with refined0049values,
+retainallolder97entries and0048floor. Record136total0049outers andmanualLR
+change; do not call this an all3e-5fromzero run or automaticglobalcontroller.
+Reason: directly evaluate whether the testedfinishing rate permits subsequent
+loading without introducing an unvalidated stage-switch rule. Rejected: mutate
+oldrun identity/data, skip failed0049, reset Adam, promote diagnosismanifest as
+ordinaryendpoint without history reconstruction, or loosen tolerance. Actual
+array/phase/path/force checks and roundtrip required before GPU continuation.
+
+## 2026-10-18 — Matched lower-LR finishing after0055 fracture
+
+User authorizes testing a smaller finishing rate after the fixed3e-5 path
+reached1024outers at0055 without fieldstop. Compare3e-5/1e-5/3e-6 from the
+same saved synchronized network/Adam203904/q/d seed, preserving allmoments,
+replay110 and0054committedHfloor. At most32extraouters perarm,128inner and
+existing three-pass stopping unchanged. Reason: distinguish update-fluctuation
+suppression from ordinary extra iterations, and inspect actual fieldaccuracy
+alongside stops. Reject resetAdam, relaxthreshold, skipfailedload or silently
+promote a new adaptivepolicy. Externaldiagnostics only; independentstate/rate
+equivalence and mechanicsforce checks precede any later continuation decision.
+
+## 2026-10-18 —0055 lower-LR finishing stabilizes fields without removing bias
+
+Matched trial completed: baseline3e-5 fails32extraouters,1e-5 and3e-6 pass
+originalthreeconsecutivefieldstops in4extraouters each. Synchronizedreaction
+errors0.0560%/0.0350%, damageL2errors6.5771%/6.5774%. Keep lowerLRfinishing
+as evidence-backed remedy for thissavedpostfracturestate;1e-5 is sufficient
+among testedrates and a candidate for subsequentloadingvalidation. Reject
+claiming the6.58%fieldbias solved, earlypropagation acceleration, automatic
+globalpolicy qualification or a freshcoldspeedup. Commonwarmup115.825s not
+included in arm13.425/13.778s; original1024outers remain partof trajectory.
+No source/defaults overwritten or loadadvanced. A latercontinuation requires
+normalendpoint reconstruction and lastbankHreplacement, not skippingfailed0055.
+
+## 2026-10-18 — User requests a fresh cold path with128outer rate blocks
+
+User accepts current crack morphology and requests a fresh zero-start path,
+then explicitly asks to replace critical1024outer budgets with128 before
+automatic lowering. Use an optional budget-triggered Adam rate ladder
+1e-4→3e-5→1e-5,128outers per rate block, unchanged fieldstop/128inner. This
+supersedes the proposed32outer finishing extension for thiscoldtest. Persist
+the current rate and allAdam memory across loads; do not reset highrate at
+each load or use reference/absolute load/loss-growth to choose rates. Stop
+and save if the finalrate's128block fails. At most384outers in a load that
+starts at the first rate, fewer if it starts lower. Reason: test whether
+earlier lowering avoids wasted oscillatingiterations; propagation slowdown
+from premature lowering remains a possibility, not an established benefit.
+Implement optionalstatefulratecontrol with exactcheckpointresume and fixed
+JIT shapes; retain all existing fixed-rate/nonlocaldefaults. Newrun to0060
+must start fresh network/Adam0/q=d=H=0/bank0, no oldweight warmstart.
+
+## 2026-10-18 — Cold budget128 failure is incomplete propagation, not fieldstop
+
+Audit confirms automaticbudgetstop at0055outer256, R328.097 vsreference1.536,
+damageerror51.79%. Previousrate already3e-5, so onlytwo128blocks remained.
+At256, olderfixed3e-5trajectoryalso hasR316.79; fullunload occurred later
+(firstloggedR<3 at416). Thus reject treating per-rate128 as sufficienttotal
+propagationwork or attributingfailureonly to earlyLRlowering. LowerLRfinishing
+evidence came from alreadyspanningstates and doesnot certify fastpropagation.
+Keep128block result asdiagnostic, not acceptedcompletecoldpath. Recommend
+separating progress observation fromtotalbudget andpostfracturefinishing;
+no revisedcontroller, automaticrestart, tolerancechange orfailedloadskip yet.
+
+## 2026-10-18 — Try128outer progress blocks on the saved incomplete0055 state
+
+User authorizes trying progress-aware blocks. Restore cold_budget128's saved
+synchronized0055 q/d/net/Adam105344/bank110, precedingLOAD0054Hfloor. Keep
+current1e-5 while propagating; do not raise to3e-5 or reuse the old already-
+spanning seed. Check originalthreepass fieldstop everyouter; after128outers,
+compare own synchronizedreactions at blockboundaries. Morethan1%relative
+decrease means continue same rate; otherwise lower1e-5→3e-6 and tryanother
+block. If finalrate stalls withoutfieldstop, stop explicitly. Atmost4blocks/
+512extraouters. The1% threshold is an empirical diagnostic heuristic for
+this already-unloading load, not a physicalconvergence criterion or validated
+globaladaptivepolicy. Reference is evaluation-only. Independentblock-end
+mechanics checks do not feed synchronizedq/H back into the stagger carry or
+advance historyfloor. Preserve rawcarry separately from syncdiagnosticfields.
+Use externaldriver/isolateddiagnostic; no publicpolicy/default changes or
+automaticloadadvance. Check synthetic keep/lower/stop decisions and Adam
+equivalence beforeGPU. No sourcecheckpoint/replay mutation.
+
+## 2026-10-18 — Progress blocks enable fracture but relative-force gate delays finish
+
+Completed4blocks512extra at1e-5 fromcold0055outer256. FirststageR<3 at463;
+final768syncR1.54923 vs1.53605reference, fieldL2error6.663%. Originalthreepass
+fieldstopfails despite10singlepasses (maximumconsecutive2). Allblockrelative
+Rdecreases exceed1%, includinglast1.213%; theheuristic nevertried3e-6.
+Retain thisas evidence that128can be an observationinterval and morepropagation
+work solves thetruncatedcrack. Do not claim thetestedprogressgate gives
+efficientfinishing/globalcoldconvergence. Its percentage is sensitive to
+smallpostfractureforces andkeptthehigher rate. Nextcandidate:3e-6finishing
+fromsaved768state, or a separatelyvalidated progressnormalization anchored
+toownpre-unloadingforce. No revisedpolicy/restart adopted by thisstatusaudit.
+
+## 2026-10-18 — Accept current crack physics and audit less restrictive stopping
+
+User accepts768shape/path/force despite6.66%fieldL2error andquestions1e-5
+damagechange gate. Retain userphysicalacceptance, originalstrictstopfailure
+andfulltrajectoryincompletion as distinct records. Offline257–768 replay:
+damage1e-4/u1e-4/3passes firstcandidate695 has6.696%field error vsfinal6.663%;
+damage5e-4 permits474/error9.107%; relaxingboth1e-3permits259/error51.38%.
+Recommend testing1e-4postfracture whilepreserving strictearlierstages,
+u1e-4/3passes andreference-free runtimegates. Reject claiming relaxedstop
+alreadyvalidated prospectively, candidate695syncforce known, final768meets
+1e-4, or globalrelaxation safe. No thresholds actuallychanged/no newtraining.
+Nextcandidate can beforwardvalidated fromsavedraw640 ratherthanrerunning
+fullcold or spendingmorework chasingstrictstability unconditionally.
+
+## 2026-10-18 — Prefer phase-free state-scaled tolerance to manual fracture labels
+
+User proposes(dmax+.01)*1e-3 andexplicitlyrejectsmanualspanningphase. Treat
+thisasabsoluteplusrelative stoppingtolerance, notspanningdetection: local
+dmaxalready.99777 at0055outer128whileR467.77. Preservejointu1e-4/3passes.
+Offline257–768firstcandidates:rawformula468/error10.36%/stageR1.83076;
+cap1e-4version695/error6.696%/stageR1.55452. Keeprawformula asreasonable
+speed-quality experiment underuser'smorphologypriority; cap is a conservative
+comparison, not a newlyrequiredconstraint. No candidatefullfields/syncforces
+or fullcoldtrajectoryvalidated; no config/trainingchange. Rejectclaiming
+maxdamagecertifies spanning or imposingmanualphase thresholds byload.
+
+## 2026-10-18 — Forward-validate the actual damage-scaled first stop before new cold
+
+User asks whether tovalidate orlaunchcold. Choose boundedforwardvalidation
+fromsavedraw0055outer384/net/Adam121728, sourcebank110 and0054floor. Keep
+1e-5/128inner andsamephysics; onlystopdamage_limit=(dmax+.01)*1e-3 changes,
+withoriginalu1e-4/3passes. Recover newcriterion'sincomingconsecutivecount
+fromsavedmetrics, notoldstrictstopcounter. Atmost128extraouters; stop/save
+theFIRST actualcandidate, not the retrospectivelybestfield. Independently
+sync/checkmechanics andshowcandidatefield/reactionagainstsame-loadreference
+anduseraccepted768. This directlyaddressesmissing468fullfields atsmallcost;
+it doesnot validateearliercoldloads orauthorize anunsupportedclaim ofglobal
+convergence. No manualspanninglabels, referencegate oroldsourceoverwrite.
+
+## 2026-10-18 — Actual damage-scaled first stop confirms a speed-quality tradeoff
+
+Forwardrestore raw384 withfullAdam/replay/floor yieldsfirststop468, matching
+offlinereplay, andsavescompletecandidatefields/net. Materialedge d>=.9 band
+spansfromnotchtiptorightboundary; visualpathstraight. SyncR1.83023 vs1.53605
+reference (19.15%tailerror), damageerror10.36%; accepted768 remainsmoreaccurate
+(R1.54923,error6.66%). This supports a phase-free fastercandidate, notsame-
+qualityspeedup orglobalcoldvalidation. Fourhelperchecks, actualrestoretrace,
+oneJITtrace andindependenthostforcePASS. No reference-dependentgate or
+retroactivebestfieldselection. No newcoldqueued; nextfreshtrajectory must
+declarecontinued128blockpropagation soold256hardcutdoesnotrecur. Keepallold
+results andcurrentdiagnosticphase; no normalendpointpromotion by implication.
+
+## 2026-10-18 — Integrate scaled stopping and progress blocks for an isolated cold test
+
+Actual468candidate is spanning, so proceedwith anexperimental fresh0→0060
+path using user'sformula globally, u1e-4/3passes, no manualphase/loadcut.
+Do not adopt it asacceptedbaseline: candidate tailforce19.15%/field10.36%
+remain reportedtradeoffs. Optionalprogress-block ratecontrol checks every128
+outers; ownsyncRdecrease>1% continuescurrentrate, otherwise1e-4→3e-5→1e-5.
+Persistmoments/currentrate acrossloads, atmost4blocksperload, save/stop on
+finalrateplateau oroverallbudgetfailure. Reference neverchoosesstops/rates.
+This replacesonly the newprofile'sprevious256hardcut; fixed/budget-only
+profiles stay unchanged. Extra boundarymechanics is reporting/controlonly,
+not additionalphysicalhistorycommit orcarryupdate. Verify optionalbranch,
+statepersistence andexistingloop regressions beforeGPU; freshseed/zero checks
+required. Newnamepinn_history_fem_cold_damage_scaled, nooldartifactoverwrite.
+
+## 2026-10-18 — Completed cold trajectory supports scaled stopping, not an LR claim
+
+The isolated phase-free cold run completed all 60 loads to 0.0060 in 930
+outers and 57.05min loading/reporting time. Same-model direct and neural runs
+both span at 0.0055; neural damage relative volume L2 errors are 1.359% there
+and 1.130% at 0.0060. Preserve it as a promising complete candidate. The whole
+run retained 1e-4, including its 482-outer critical step: no rate lowering was
+needed or exercised. Reject attributing completion to demonstrated adaptive-LR
+benefit, claiming a matched-quality speedup against incomplete older runs, or
+equating field stability with exact numerical certification. Tail reaction
+errors remain 15.17% and 10.59% at those loads despite close crack fields.
+No reference entered training or stopping. This outcome follows the previous
+scaled-stop/progress-block decision; public defaults and older artifacts stay
+unchanged pending an explicit acceptance decision or focused improvement.
+
+## 2026-10-18 — Promote the completed FEM-history trajectory to a named baseline
+
+The user accepts the completed cold result and authorizes renaming logs and
+committing code. Use `pinn_history_fem_scaled_stop_baseline` under the
+fracture2d log directory: the name identifies history conditioning, FEM damage
+gradients/energy and damage-scaled stopping, without implying that learning
+rate reduction occurred. Move the completed run as an ordinary directory;
+update path-bearing JSON metadata and the profile output path, preserving
+original JSON in a separate migration archive. Keep event payloads, arrays,
+network/Adam checkpoints and frozen source snapshots unchanged. Preserve
+historical names in dated records and provide the old-to-new path map.
+The accepted nonlocal MLP remains the default; this is the accepted optional
+local-FE damage baseline. Commit code/tests/Markdown on dev only. No push,
+merge, new training, hashes or compatibility symlinks are requested.

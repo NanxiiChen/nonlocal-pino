@@ -24,17 +24,21 @@ class HistoryDamagePINN:
     def __init__(self, c, mechanics, operator):
         h = c.history
         self.conditioned = c.arch.type == 'conditioned_history_operator'
+        self.energy = c.loss.norm == 'energy'
         if (c.arch.type not in ('history_operator', 'conditioned_history_operator') or c.sample.mode != 'full'
-                or c.loss.norm != ('l2' if self.conditioned else 'l1') or c.loss.weight_mode != 'uniform'
+                or c.loss.norm != ('energy' if self.energy else 'l2' if self.conditioned else 'l1')
+                or (self.energy and (not self.conditioned or c.damage.discretization != 'fem'))
+                or c.loss.weight_mode != 'uniform'
                 or c.train.optimizer != 'adam' or c.arch.output_head != 'sigmoid'
                 or type(h.replay_enabled) is not bool or type(h.replay_capacity) is not int
                 or h.replay_capacity < 2*round(c.loading.u_final/c.loading.du)
                 or type(h.replay_batch) is not int or h.replay_batch < 1
                 or not np.isfinite(h.replay_fraction) or not 0 < h.replay_fraction < 1):
-            raise ValueError('online history model requires full/uniform/Adam/sigmoid, L1 (original) or L2 (conditioned), and fixed replay capacity for two snapshots per load')
+            raise ValueError('online history model requires full/uniform/Adam/sigmoid, L1 (original), L2 (conditioned) or FEM energy (conditioned), and fixed replay capacity for two snapshots per load')
         if self.conditioned:
-            if (any(type(v) is not int or v < 1 for v in
-                    (h.bootstrap_l1_steps, h.bootstrap_l2_steps))
+            bootstraps = ((h.bootstrap_energy_steps,) if self.energy else
+                          (h.bootstrap_l1_steps, h.bootstrap_l2_steps))
+            if (any(type(v) is not int or v < 1 for v in bootstraps)
                     or type(h.normalized) is not bool or type(h.local_history) is not bool):
                 raise ValueError('conditioned history needs explicit positive bootstrap lengths and Boolean input modes')
         if (type(h.replay_every) is not int or h.replay_every < 1
@@ -51,8 +55,6 @@ class HistoryDamagePINN:
         low = mechanics.coordinates[:self.n].min(0)
         span = np.ptp(mechanics.coordinates[:self.n], axis=0)
         points = jnp.asarray(2*(mechanics.coordinates[:self.n]-low)/span-1)
-        D = operator.to_scipy()
-        columns, values = pack_rows(D, width=int(np.max(np.diff(D.indptr))))
         loss_factory, step_factory, network = make_loss, make_step, HistoryOperator
         network_modes = {}
         if self.conditioned:
@@ -60,9 +62,17 @@ class HistoryDamagePINN:
                 ConditionedHistoryOperator, make_conditioned_loss, make_conditioned_step)
             loss_factory, step_factory, network = make_conditioned_loss, make_conditioned_step, ConditionedHistoryOperator
             network_modes = dict(normalized=h.normalized, local_history=h.local_history)
-        image, objective = loss_factory(coarse=self.coarse, fine=self.fine, points=points,
-            columns=jnp.asarray(columns), values=jnp.asarray(values), gc0=self.gc0,
-            gc1=c.physical.Gc*c.physical.l0, floor=c.loss.floor)
+        common = dict(coarse=self.coarse, fine=self.fine, points=points, gc0=self.gc0,
+                      gc1=c.physical.Gc*c.physical.l0, floor=c.loss.floor)
+        if self.energy:
+            from examples.fracture2d.fem_damage import make_energy_loss
+            image, objective = make_energy_loss(**common, operator=operator, volumes=mechanics.volumes)
+            step_factory = make_step
+        else:
+            D = operator.to_scipy()
+            columns, values = pack_rows(D, width=int(np.max(np.diff(D.indptr))))
+            image, objective = loss_factory(**common,
+                columns=jnp.asarray(columns), values=jnp.asarray(values))
         self.image, self.value = eqx.filter_jit(image), eqx.filter_jit(objective)
         self.net = network(width=h.width, point_depth=h.point_depth,
             query_depth=h.query_depth, head_depth=h.head_depth, heads=h.heads,
@@ -71,7 +81,18 @@ class HistoryDamagePINN:
             'grad_clip', 'b1', 'b2', 'eps', 'eps_root', 'shampoo_beta',
             'correct_bias', 'precondition_frequency', 'max_precond_dim',
             'precondition_1d', 'weight_decay')
-        self.optimizer, _ = make_optimizer(kind='adam', **{key:c.train[key] for key in keys})
+        settings = {key:c.train[key] for key in keys}
+        self.rate_control = None
+        if 'rate_control' in c.train:
+            from examples.fracture2d.learning_rate import BudgetLearningRate, make_rate_step
+            if not self.energy or c.history.replay_enabled:
+                raise ValueError('budget rate control currently requires replay-off FEM energy training')
+            self.rate_control = BudgetLearningRate(c.train.rate_control,
+                initial_rate=c.train.learning_rate, minimum_rate=c.train.minimum_rate,
+                decay_rate=c.train.decay_rate)
+            settings.update(learning_rate=1., minimum_rate=1.)
+            step_factory = make_rate_step
+        self.optimizer, _ = make_optimizer(kind='adam', **settings)
         self.state = self.optimizer.init(eqx.filter(self.net, eqx.is_inexact_array))
         self.step = step_factory(objective, self.optimizer, old_count=h.replay_batch, fraction=h.replay_fraction)
         self.replay = HistoryReplay(capacity=h.replay_capacity, nodes=self.n, fine_count=h.fine_tokens)
@@ -97,7 +118,7 @@ class HistoryDamagePINN:
     def _current_loss(self, context):
         batch = dict(H=context['H'][None], fine_ids=context['fine_ids'][None],
             weights=jnp.ones(1, jnp.float64))
-        if self.conditioned:
+        if self.conditioned and not self.energy:
             batch['l2'] = jnp.asarray(True)
         return float(self.value(self.net, batch))
 
@@ -109,21 +130,31 @@ class HistoryDamagePINN:
         if not self.start_recorded:
             self.pre_update_loss = self._current_loss(context)
         bootstrap = self.conditioned and self.count == 0
-        steps = (self.c.history.bootstrap_l1_steps+self.c.history.bootstrap_l2_steps
-                 if bootstrap else self.c.train.inner_steps)
+        steps = self.c.train.inner_steps
+        if bootstrap:
+            steps = (self.c.history.bootstrap_energy_steps if self.energy else
+                     self.c.history.bootstrap_l1_steps+self.c.history.bootstrap_l2_steps)
+        rate_args = ()
+        if self.rate_control is not None:
+            from examples.fracture2d.learning_rate import effective_rate
+            rate_args = (effective_rate(self.rate_control.rate),)
         for update in range(steps):
             key = jax.random.fold_in(jax.random.PRNGKey(self.c.train.seed+1729), self.count)
             active = replay_active(update, enabled=self.c.history.replay_enabled,
                 every=self.c.history.replay_every, inner_steps=steps,
                 current_only_steps=self.c.history.current_only_steps)
-            args = (jnp.asarray(not bootstrap or update >= self.c.history.bootstrap_l1_steps),) if self.conditioned else ()
+            args = ((jnp.asarray(not bootstrap or update >= self.c.history.bootstrap_l1_steps),)
+                    if self.conditioned and not self.energy else ())
+            if self.rate_control is not None:
+                args = rate_args
             self.net, self.state, value = self.step(self.net, self.state, context,
                 self.replay, key, jnp.asarray(active), *args)
             self.count += 1
             if bootstrap and self.count % 128 == 0:
                 print(json.dumps(dict(event='history_bootstrap', load=load,
                     optimizer_count=self.count, total_updates=steps,
-                    objective='l2' if bool(args[0]) else 'l1', loss=float(value))), flush=True)
+                    objective=('energy' if self.energy else 'l2' if bool(args[0]) else 'l1'),
+                    loss=float(value))), flush=True)
         self.training_loss = float(value)
         if optimizer_count(self.state, kind='adam') != self.count:
             raise RuntimeError('online history Adam counter changed across outer updates')
@@ -146,11 +177,17 @@ class HistoryDamagePINN:
         self.phase = 'endpoint'
 
     def diagnostics(self):
-        return dict(replay_snapshots=int(self.replay.count),
+        values = dict(replay_snapshots=int(self.replay.count),
                     replay_training_loss=self.training_loss, replay_pre_update_loss=self.pre_update_loss)
+        if self.rate_control is not None:
+            values.update(learning_rate=self.rate_control.rate,
+                          learning_rate_index=self.rate_control.index)
+        return values
 
     def save(self, folder):
         folder = Path(folder)
+        if self.rate_control is not None:
+            atomic_json(folder/'rate_control.json', self.rate_control.snapshot())
         eqx.tree_serialise_leaves(folder/'network.eqx', self.net)
         eqx.tree_serialise_leaves(folder/'optimizer.eqx', self.state)
         self.store.mkdir(parents=True, exist_ok=True)
@@ -168,6 +205,8 @@ class HistoryDamagePINN:
 
     def restore(self, folder, count):
         folder = Path(folder)
+        if self.rate_control is not None:
+            self.rate_control.restore(json.loads((folder/'rate_control.json').read_text()))
         saved = json.loads((folder/'replay_state.json').read_text())
         snapshots, capacity = saved['snapshots'], self.c.history.replay_capacity
         if (saved['store'] != str(self.store) or saved['capacity'] != capacity

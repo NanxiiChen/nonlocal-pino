@@ -1,5 +1,929 @@
 # Nonlocal PINN history-field learning and architecture investigation
 
+## /task-end — 2026-10-18, accepted baseline named and code prepared for commit
+
+The user explicitly accepted the completed cold trajectory and requested a
+descriptive baseline log name and code commit. Canonical run directory:
+`/root/autodl-tmp/tf-logs/fracture2d/pinn_history_fem_scaled_stop_baseline/`.
+Moved the old `runs/pinn_history_fem_cold_damage_scaled` directory without a
+compatibility symlink. The name identifies history conditioning, local P1
+damage gradients/energy and damage-amplitude-scaled stopping; it does not
+claim LR reduction. All 60 endpoints and original convergence flags remain.
+The nonlocal MLP continues as the default; this is an accepted optional route.
+
+Migration receipt and original JSON backup:
+`/root/autodl-tmp/tf-logs/fracture2d/diagnostics/fem_history_baseline_promotion_20261018/`.
+Updated 279 path-bearing JSON files in the run/launcher. Verified 240 endpoint
+checkpoint paths, 61 replay-store paths and no old-root text in active JSON.
+All 856 numerical/event/frozen-source payload files preserve size and mtime;
+final arrays compare exactly equal. No hashes. TensorBoard reads 60 same-load
+damage-error endpoints from the new event directory, ending at 1.12982%.
+Added local baseline.json/README.md acceptance metadata; copied the original
+stdout to run.log. Raw stdout and frozen code retain historical path text.
+The parent log index includes the newly accepted baseline.
+
+Repository changes this session: updated only the accepted profile's output
+paths/docstring and README/ARTIFACTS acceptance documentation plus memory.
+Prior uncommitted implementation covers P1 damage operator/energy, matched
+direct configs, cold profiles, optional persisted rate policy, stopping and
+monitoring, with focused tests. No numerical behavior changed in the rename.
+CPU config validation passes and its canonical saved identity exactly equals
+the relocated identity.json; saved config also exactly equals get_config().
+Existing 8 focused regression cases and completed GPU trajectory remain valid;
+do not repeat unchanged expensive training/tests for this rename. Final
+git diff --check passes. User authorizes a regular commit on current dev,
+including code/tests/Markdown only, without push or merge. External numerical
+data, logs, slides, ignored legacy/reports stay outside the commit.
+
+Memory files updated: PROGRESS, DECISIONS and this task. Task stays active
+for the broader architecture/generalization work, so do not archive it merely
+because this baseline promotion is complete. Exact next action after delivery:
+no training is running or queued; await the user's next research direction.
+Acceptance does not erase tail force errors or validate cross-geometry transfer.
+
+## /task-end — 2026-10-18, complete cold trajectory reviewed
+
+The latest run has finished successfully, rather than remaining in initial
+compilation as recorded below. Root:
+`/root/autodl-tmp/tf-logs/fracture2d/runs/pinn_history_fem_cold_damage_scaled`.
+Launcher job.json in `diagnostics/history_fem_cold_scaled_launch_20261018`
+reports complete, from 13:19:26 to 14:16:37 UTC. All 60 endpoints through
+0.0060 have status `field_stable`, synchronized mechanics, and three joint
+passes. Actual zero-state initialization was independently verified earlier.
+Total outer count 930; Adam count 119936; bank 120/128; loading/reporting wall
+3423.280s. This is local P1 mechanics plus history-conditioned neural damage
+trained through local P1 FE energy; replay training remains OFF. Compare only
+to the matched `runs/fem_damage_reference_full`, not the old nonlocal model.
+
+| Load | PINN outers | Direct outers | PINN reaction | Direct reaction | Damage relative L2 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 0.0052 | 7 | 15 | 609.76684 | 609.51151 | 0.978% |
+| 0.0053 | 8 | 20 | 616.86263 | 616.32850 | 1.181% |
+| 0.0054 | 12 | 63 | 622.25571 | 619.54858 | 3.316% |
+| 0.0055 | 482 | 388 | 1.76914 | 1.53605 | 1.359% |
+| 0.0056 | 44 | 5 | 1.28510 | 1.45416 | 1.280% |
+| 0.0057 | 41 | 5 | 1.37332 | 1.37787 | 1.108% |
+| 0.0058 | 49 | 5 | 1.41230 | 1.30701 | 1.174% |
+| 0.0059 | 11 | 5 | 1.18715 | 1.24105 | 1.251% |
+| 0.0060 | 8 | 5 | 1.05458 | 1.17955 | 1.130% |
+
+Damage errors read from TensorBoard `eval/direct_fem/rel_L2_d`, using material
+nodal volumes and same-load reference fields. Inspected damage_0055.png,
+damage_0060.png and reaction_0060.png: straight spanning band, little visible
+background damage, and matching load interval for force collapse. Tail force
+relative errors 15.17%/10.59% at 0.0055/0.0060 remain; small field error and
+configured field stability do not certify the residual or tail reaction.
+Final physical_AT2 is 0.08274 and certified_path remains false.
+
+All endpoints and all three 0.0055 block events retained learning rate 1e-4.
+Blocks at 128/256/384 continued to caps 256/384/512; stopping occurred at 482.
+No LR reduction was exercised in this full run. Attribute the success to the
+combined tested stopping/propagation configuration, not proven adaptive-LR
+superiority or matched-quality speedup over prior incomplete trajectories.
+This is a promising complete candidate; no default replacement, training,
+Git operation or new numerical code in this review. Existing focused tests
+remain valid; documentation diff check required. Memory changed: PROGRESS,
+DECISIONS and this task; ARTIFACTS completion record updated.
+
+Exact resume: no background work remains for this run. Preserve its full
+trajectory and configuration. Discuss acceptance or a narrowly scoped tail
+accuracy/finishing comparison before new experiments. Broader architecture
+task remains active and cross-geometry generalization is still unvalidated.
+
+## /task-end —2026-10-18, short validation completed and new cold trajectory launched
+
+After actual468candidate inspection andexplicittradeoffreport, integrated an
+independentexperimentalphase-freecoldprofile andlaunched fresh0→0060. GPU
+35400/managedsession92554 running, stdout
+`/tmp/fracture2d_fem_cold_damage_scaled.log`. Runroot
+`/root/autodl-tmp/tf-logs/fracture2d/runs/pinn_history_fem_cold_damage_scaled`;
+launcher/config/job/verification atdiagnostics/
+history_fem_cold_scaled_launch_20261018. Externalwrapper
+`/tmp/fracture2d_fem_cold_scaled_launch.py` copiedtolauchroot/launch.py.
+Started21:19:26Shanghai. Actualstate0000 verified q/d/H exact0, Adam0, bank0,
+loadindex0; network/Adamfilebytes equalpriortruefreshseed, source_checkpoint
+None. Configcomparison withpreviouscold permitsonlydamage_stop/control/paths.
+No warmstart from468/768. Fullreference to0060 reused for evaluationonly.
+
+Diffchanges: optionalstagger.damage_change_limit implements user'srawformula
+outsideAD; loading validatesoptionalblock andrecordsactivetolerance;
+BudgetLearningRate optionalprogress_blocks mode persistspolicy/rate andkeeps
+rate afterownsyncRdrop>1%,otherwise lowersladder. Loading performs/counts
+control-onlyboundarymechanics withoutalteringrawq/H/floor; max4*128perload,
+plateauatminimum stops andsaves. Fixed/budget-onlypaths stayunchanged. Stage
+monitor span accountsfor4blocks, recordsactivetolerance. Newconfig
+train_history_fem_cold_scaled.py retainsglobaldu1e-4/60loads,128inner,
+bootstrap1024, replayOFF, samegeometry/material/architecture andu1e-4/3passes;
+no manualphase/loadcut. READMEroot/example updated; oldartifacts preserved.
+
+Verification aftercodechanges:7casesPASS40.479s (newscaled/progress/state-
+resume3, priorbudget3, FEzero/resume/direct1); additionaldefaultnonlocal
+direct/PINNrandomresumePASS21.973s. Coverscontinueatminimumwhileprogress,
+boundedbudget, plateau lowering, policyconfigmismatch andexactendpointnet/
+Adam/physicalstate recovery includingextraboundarysolves. No suitefailures or
+weakenedtests inthisphase. Initialcoldreceiptpassed; GPUallocated24864MiB,
+stillinitialcompile/no firstloadendpoint. Earlierdirectmath16tests not rerun
+unchanged beyondaffectedcase. No Gitoperations ordefaultreplacement.
+
+Exactresume: leaveworker35400running, inspectlauncherjob.json/runresult.json,
+firstload andTB`fracture2d/runs/pinn_history_fem_cold_damage_scaled`; then
+checkrate/progress events, active damagetol, perloadoutercounts, crackpath and
+same-loadforce/error. Fullcold isexperimentalquality-speedtest; prior468tail
+19.15%error mustnotbehidden orcalledmatched-qualityspeedup. Terminalfailure
+mustnotbypassed; no extra GPUjob orsilentautoresume. Taskremainsactive, no
+archive. MemorychangedPROGRESS/DECISIONS/task; ARTIFACTS updatedwithnewrun;
+finaldiffcheckrequired. Userwillbe toldcoldactuallyrunning plustradeoff.
+
+## Current action —2026-10-18, integrate and launch a phase-free cold experiment
+
+Shortforwardvalidation468saved/checked; userquestionvalidationvscold hasnow
+completedvalidation. Proceedexperimental0→0060 underoriginalformula, no
+acceptance/baselineclaim. Addoptionalglobaldamage_stop block andprogress
+ratecontrol modewith128checks,max4blocksperload,1%ownsyncRprogress, ladder
+1e-4→3e-5→1e-5,moments/currentratepersist. Keepdefaults/budgetprofile intact;
+verify targetedcontroller/stop/resume/loop cases thenlaunchindependent
+runs/pinn_history_fem_cold_damage_scaled fromfreshzero. No manualphase gate,
+referencecontrol, sourceweightreuse orGitoperations. Statusimplementing;
+shortvalidation finished, no liveGPUjobcurrently.
+
+## /task-end —2026-10-18, actual first adaptive stop saved and checked
+
+Forwardtest COMPLETE, worker30165/session31737 ended/GPUidle. Root
+`/root/autodl-tmp/tf-logs/fracture2d/diagnostics/fem_energy_damage_scaled_stop_0055_20261018`.
+Restoredraw384/net/Adam121728 withsourcebank110/0054floor; helperchecksPASS,
+sourceindependenthostforce andnetworkimage-vsrawd checksPASS. No bootstrap,
+momentreset, sourcewrites orsyncq/Hfeedback. Firstactualnewcriterionpass
+sequence466/467/468; stop468after84extraouters/10752updates,Adam132480.
+Passdchanges1.000576e-3/8.242189e-4/7.053490e-4, uchanges1.22358e-5/
+6.89575e-6/4.19480e-6; damagetolabout1.009e-3. Candidatewasnotforced.
+
+FinalsyncR1.8302325676 vsreference0055R1.5360524107, relativeerror19.1517%
+(absolute.29418); damagevolumeL2error10.35993294%,physicalAT2.428069.
+Compareuseraccepted768syncR1.54923/error6.66319%: actualspeed/qualitytradeoff,
+notmatched-qualityspeedup.300fewer0055outers than768. Trialwall282.977s
+excluding85.119swarmup (~6.13minwithwarmup); original384work stillcounts.
+Recordedtrajectorymaximumdifferences vsoriginal385–468: dchange1.68e-9,
+uchange4.94e-9,stageR2.12e-5,fieldL2error4.19e-9. EndoneJITtrace andfinal
+independenthostforce/reaction consistencychecksPASS. Visualdamage.png inspected:
+candidatecrackstraight/spanning, slightlybroader/backgroundlessclean than768.
+Materialtriangle-edge d>=.9 largestcomponent315nodes spansx.4997045→1.0,
+y.494→.506 (diagnosticonly, neverthestopgate), receiptconnectivity_check.json.
+
+Fullraw/syncfields/net/Adam atstop_0468, manifestexplicitdiagnosticphase and
+source_replay_manifest; no normalendpoint/bankcommit. Sourcebank110stillhas
+failed256endpointH, so doNOTresume normal0056withoutreconstruction. No loads
+advanced, coldpathnotcompleted0060. Source/currentphysics untouched. Newtest
+supportsrawuserformula asafastcandidate, not equalaccuracy/globalcertification.
+Nextrecommendedexperiment fresh0→0060 withphase-freeformula/u1e-4/3passes,
+explicit128observationblockpolicy permittingpropagation beyond256 andLRmemory
+retention; do not reuseoldlowest-ratehardcut. Suchnewglobalcontroller/config
+stillneedsimplementation/targetedverification; no newcoldqueuedthissession.
+User'squestionwasvalidationvscold; shortvalidation completedconcretely and
+tradeoffreported beforeanotherfullrun. Onlyexternaldriverplusmemory/ARTIFACTS,
+no publicsolver/config/Git changes; existing16tests remainvalid/notrerun.
+ChangedmemoryPROGRESS/DECISIONS/task; finaldiffcheckrequired; taskactive.
+
+## Current action —2026-10-18, forward validation of damage-scaled stop
+
+User asks validationvscold. Execute shortforwardtest tofillmissingcandidate
+fields beforeanynewfullcold. Restoreprogress_blocks0055/outer0384 raw_fields,
+net/Adam121728, originalcoldbank110/0054Hfloor; do NOTstartfrom384syncq/H.
+Keep1e-5,128inner, unchangedFEenergy/stagger. Stopdamage_limit=(dmax+.01)*
+1e-3 plusu1e-4/3passes, max128extra. Incomingconsecutivecounter replayed
+fromactualsavedmetrics undernewcriterion, notcopiedstrictcounter. Expected
+candidate468 is onlyprediction; acceptFIRSTactualstop, thenhostchecksyncforce,
+savefullnet/Adam/raw+syncfields andcompareimages/reference/accepted768.
+No referencecriterion/manualphase/coldlaunch/sourcewrites. Rootdiagnostics/
+fem_energy_damage_scaled_stop_0055_20261018; statuspreparingexternaldriver.
+
+Launchupdate: CPUfourformula/joint-gate checks andofflinefirstcandidate replay
+passed. Externaldriver `/tmp/fracture2d_fem_damage_scaled_stop_0055.py`, receipt
+`/tmp/fracture2d_fem_damage_scaled_stop_checks.json`; GPUworker30165 running
+managedsession31737, log `/tmp/fracture2d_fem_damage_scaled_stop_0055.log`.
+Sourceblock384syncforce independentlychecked butcarry restoredfromRAWfields;
+networkimage atrestoredHmust matchsavedrawd, Adam121728 andbank110 validated.
+Currentjob initialization/JIT, no candidatefield orcoldlaunchclaimed yet.
+
+## /task-end —2026-10-18, phase-free damage-scaled stopping proposal
+
+User explicitly requires adaptive ratherthanmanuallydesignatedpostfracture
+phase andproposes(dmax+1e-2)*1e-3. Algebra:1e-5+1e-3*dmax, anabsoluteplus
+damage-amplitude-relative tolerance ranging1e-5→1.01e-3 forsigmoiddamage.
+Thisavoidsstageclassification; do notdescribe it as atopologicalspanningtest.
+Actual0055outer128dmax.997771 yetstageR467.772, so it canloosenwellbefore
+spanning. Retainjointu/load1e-4 and3consecutivepasses; damagealonewould
+permitincompletepropagation. No needcoordinateAD/newshape/symmetryconstraint.
+
+Offlineall257–768metrics: user'srawformula firstcandidate468, damageerror
+10.35993%,stageR1.8307627,dmax.9990009,damagetol.00100900,dchange7.05349e-4,
+uchange4.19504e-6. Conservativecomparison min(1e-4,(dmax+.01)*1e-3) first695,
+error6.69622%,stageR1.5545225; retains1e-5floorfornearzerodamage. Bothhave
+no manual load/phasecut. Rawcandidate may stillmeetuser'sengineeringquality
+priority; do not reject solelybecause itsreferenceerror exceeds6.66%. Full
+candidatefields/net notsavedat468or695, so crackquality andsyncforces at
+thoseexactcandidates require forwardvalidation. No globalcoldfirststop or
+accumulatederror certification. Preservednewreceipt
+diagnostics/fem_energy_progress_blocks_0055_20261018/damage_scaled_tolerance_audit.json.
+
+Recommendation: evaluate rawuserformula aslooser speed/quality candidate,
+optionallycap1e-4 asconservativecontrol, preservingu/threepassconditions.
+Do notreturn to manualpostfracturegate, introducecomplicatedphaseclassifier,
+or assume candidate10.36%fieldnormerror alone invalidates acceptablepath.
+Thisturndiscusses/audits only; no runtimecriteria/config/GPUrun orGit changes.
+Thresholdadaptivefunction livesoutsidegradienttrainingifimplementedlater;
+reference remains evaluationonly. Allprevioussourceartifacts intact.
+UpdatedmemoryPROGRESS/DECISIONS/task; no tests requiredforofflinearithmetic,
+finalgit diff --check required. Sameactiveincompletetask, no liveGPUjob.
+
+## /task-end —2026-10-18, accepted physics and stopping-tolerance sensitivity
+
+User explicitly accepts current768shape/path/force andasks whether original
+stop is too strict. Read-onlynumericalaudit ofall512 savedrows257–768,
+no retraining orparameterchange. Originalcriterion controls exactP1RMS
+successivefieldchanges: damage1e-5,displacement/load1e-4,3consecutivepasses.
+It is not the samequantity asvolumeL2erroragainstreference. Saved768 remains
+strict-stop-failed; user acceptance is physical/engineeringacceptance, not a
+retroactiveclaim thatfinaldchange7.69e-4 satisfies1e-4.
+
+Offlinefirstthreepass candidates WITHINRECORDED continuation, keepingu1e-4:
+damage1e-5:none;1e-4:outer695, damageerror6.69622%, stageR1.5545225;
+5e-4:outer474,error9.10736%,stageR1.8097634. Comparefinal768syncR1.54923,
+error6.66319%. Changingbothlimits1e-3wouldstopouter259,error51.37854%,
+stageR325.8629, before fullpropagation. This supports testingmoderate
+postfractureloosening, not arbitraryglobalrelaxation. Candidate695couldsave
+73outersrelative totrialend withessentiallysamefieldquality, butfullfields/
+weights were not savedat695, so no independentq/dsync or continuationtest
+performed. Stageforceis not an accepted synchronizedreaction. Earlier0–256
+firststops andnewcoldaccumulation are not certifiedbythisofflineaudit.
+
+Receipt `diagnostics/fem_energy_progress_blocks_0055_20261018/stopping_tolerance_audit.json`
+contains scopes/candidates/limitations. Last129rows640–768:median dchange
+2.632e-4,90th6.130e-4, medianerror6.6923%; narrowreferenceerrorrange despite
+noisyfieldchanges supports diminishingreturn fromchasing1e-5atcurrentrate.
+Recommend candidatepostfracturedamage1e-4,unchangedu1e-4/3passes, retain
+strictpriorstages andkeepreference evaluationonly. No newphasegateformula,
+thresholdconfig,run orGitoperations adoptedthisdiscussion. Ifvalidatingnext,
+canrestore savedraw640/net/Adam154496 withsourcebank110/0054floor andtrain
+forwardtofirstrelaxedstop, saveactual695(ornewcandidate)syncfields; do not
+simplylabelunsavedcandidateasexistingresult orskipfailedsource0055.
+Memoryupdated PROGRESS/DECISIONS/task andacceptedphysicalstateinARTIFACTS.
+No unchangedtests neededforofflineaudit; finaldiffcheckrequired. Sameactive
+unfinishedtask, noGPUjob orautomaticextension.
+
+## /task-end —2026-10-18, progress-block trial terminal audit
+
+Statusrequest: diagnosticexecution complete, convergedFalse, stop_reason
+diagnostic_budget_exhausted. Worker21637 absent/GPUidle. No loadadvance;
+originalcold stillstopped0055, no0060completion. Additional512outers across
+4blocks, total0055outers768, Adam170880 (105344+512*128). Finalcheckpoint:
+`/root/autodl-tmp/tf-logs/fracture2d/diagnostics/fem_energy_progress_blocks_0055_20261018/outer_0768`.
+Contains raw_fields.npz, synchronizedfields.npz(namedfields.npz),net/Adam,
+diagnosticmanifest anddamage.png. Bank110 notmodified ornewnormalendpoint.
+
+Block384/512/640/768 syncR211.4669329/1.7211849/1.5682559/1.5492309,
+damageL2errors34.52984/7.13531/6.72591/6.66319%. Finalreference0055R1.5360524,
+forceerror0.857947%; physicalAT2.192659,finaldchange7.68852e-4,
+uchange1.01666e-4. Across512outers,10singlepasses butmaxconsecutive2<3;
+originalfieldstopnotmet. FirstactualstageR<3 attotal463 (R2.04651).
+At640passedonce(dchange9.85876e-6), laterfluctuatedagain; do not use
+bestobservedpass asacceptedendpoint. OneJITtrace passed; all4blockhostforce
+checks passed (final2.42878e-5within2.45681e-5). Visuallyinspectedfinaldamage
+figure:straightspanningband similarreference, smallband/tipdifferences.
+
+Allblocks kept1e-5: fractionalRdecreases35.547/99.186/8.885/1.213%, all>1%.
+Therefore3e-6 NEVERexecuted. Theblockrule enabledpropagation beyondfailed
+256budget but relativepercentage onalreadytinyR delayedfinishing. This
+trialdoesnot validate theglobalcontroller orshow3e-6finishingfailed. Next
+candidate is explicit3e-6finishing fromnew768seed, plus evaluating progress
+scale againstpre-unloadingforce ratherthantinycurrentforce. No suchnewtrial
+launchedsolelybystatusrequest. Fixedloadtrialcost1694.979s excluding112.657s
+warmup (~30.13minincludingwarmup); original256work mustalso count, no
+matched-qualityspeedupclaim. Normalendpointpromotion stillrequires refined
+lastbankH/fine_ids and0054floor preservation, notordinaryskipfailed0055.
+Updated PROGRESS/DECISIONS/task/ARTIFACTS; no code/config/Gitchanges/tests
+forread-onlyaudit. Taskactive, finaldiffcheckrequired; exactnextpoint above.
+
+## /task-end —2026-10-18, progress-block continuation verified and running
+
+User authorizes trial. Implemented onlyexternaldriver
+`/tmp/fracture2d_fem_progress_blocks_0055.py`, copied in diagnosticroot
+`/root/autodl-tmp/tf-logs/fracture2d/diagnostics/fem_energy_progress_blocks_0055_20261018/run.py`.
+Source remains cold_budget128/state0055, no originalfilewrites. Newjob21637/
+managedsession77941 running; stdout `/tmp/fracture2d_fem_progress_blocks_0055.log`.
+CPUchecks PASS:6 synthetic keep/lower/stall/converged/invalidforce cases and
+1e-5/3e-6 warmAdam exactupdate/moment/counter equivalence. Sharedpublic
+make_rate_step reused, numericalcore/defaults unchanged, old16tests notrerun.
+ActualGPUrestore verifies load55/bank110/rate1e-5/Adam105344,0054floor exact
+equality, independentseedhostforce andcachedreaction. Seedreceipt saved;
+discardedwarmup112.657s leavesinitialstate unchanged. At8extra/total264,
+stageR320.82835,dchange3.96850e-4,damageL2error50.7810%,Adam106368 (105344+
+8*128). Seed syncR328.09714/error51.78697%; this is continuingpropagation,
+not completedfieldfit. Firstboundary expectedtotal384 unlessearlyfieldstop.
+
+Precise policy:128outerblocks, max4blocks512extra(totalmax768); start1e-5,
+syncRdrop>1% betweenboundaries keepsrate, otherwise3e-6; minrateplateau stops
+diagnostic iforiginalfieldstopfails. Everyouter checks originalthreepass
+damage1e-5/uchange1e-4. Reference onlycomputes evaluationerrors. Extra
+boundarysync control/reportfields do NOT feed back into rawstaggercarry,
+Hfloor orreplaybank. Eachboundarysaves network/Adam, raw_fields.npz,
+syncfields.npz(namedfields.npz), explicitdiagnosticmanifest/phase, damage.png
+andTBimage. EndassertoneJITtrace stillpendinguntil trialcompletion. Events
+inroot/events withtotaloutersteps, result.records latest and result.blocks
+boundarydecisions. No loadadvance ornormalendpoint reconstruction queued.
+
+Exactnext: leavejobrunning, inspectjob.json/result.json andfirstblocksyncR,
+fieldcloud/error/decision; atterminal distinguish completeexecution from
+convergedfieldstop. No restart orduplicateGPUjob. Alloriginalstates preserved;
+iflaterpromoting endpoint, explicitlyreplace bank110lastHsynchronized and
+retain0054floor/sourcepath/count. Changedmemory PROGRESS/DECISIONS/task,
+ARTIFACTS index; no README/publicAPI/code changes orGitoperations thistrial.
+Task remainsactive/unarchived; finalgit diff --check required.
+
+## Current action —2026-10-18,128outer progress blocks at0055
+
+User authorizes continuing the failedcold0055state rather than ending after
+smallratebudgets. Exactsource runs/pinn_history_fem_cold_budget128/state0055:
+net/Adam105344, bank110, q/d/H synchronized, load0055, preceding0054Hfloor.
+Use current1e-5, unchanged128inner/fullFEenergy/originalthreepass fieldstop.
+Check syncR at128outerboundaries: relative decrease>1% keepsrate foranother
+block; otherwise lower to3e-6; stop atminimumrateplateau ifnotfieldstable.
+Atmost4additionalblocks512outers; zero loadadvance. This1% rule is explicitly
+empirical/local, not a mathematicallycertified/globalcontroller. Reference
+does not enter decisions. Extra boundarysync is reporting/controlonly, not
+staggercarry orhistoryfloor mutation; save rawand synchronizedfields apart.
+Isolate diagnostics/fem_energy_progress_blocks_0055_20261018. Verify branch
+decisions/Adamdynamicrate equivalence andsourcefloor/count beforeGPU. Status
+preparingexternaldriver; no publicsolver/config or Gitchanges. Same active task.
+
+Launchupdate: CPUpreflight passed6 decisionchecks plus both1e-5/3e-6 exact
+unitAdam equivalence, identicalmoment/countarrays. Externaldriver
+`/tmp/fracture2d_fem_progress_blocks_0055.py` saved as diagnosticroot/run.py;
+receipt `/tmp/fracture2d_fem_progress_blocks_0055_checks.json`, stdout
+`/tmp/fracture2d_fem_progress_blocks_0055.log`. GPU21637/session77941 RUNNING
+initializing;24618MiB allocated. Sourcefloor equality, restoredbank110/load55/
+rate1e-5/Adam105344 andindependenthostseedforce are enforced before training.
+Extra syncsolutions atblockends are control/reportonly; nextstagger startsfrom
+rawcarry. Recordsinresult.json andevents usecumulativeouter257onward; raw/sync
+fullcheckpoints at128boundaries, originalfieldstop mayterminate insideablock.
+
+## /task-end —2026-10-18, cold budget128 stopped before full fracture
+
+User observes laststep poorlyfit. Verifiedjobfailed, resultcompleteFalse,
+state0055statusbudget_exhausted, worker16172 absent/GPUidle. Started18:06:04,
+ended18:56:30Shanghai (~50m27totalwall). Completed fieldstable loads1–54,
+lastsaved0055 notconverged; no0056–0060. Counttotal816outers including560
+through0054 and256at0055; Adam105344, bank110, allfields/network/state saved.
+Ratechanges inlog:0049outer128→3e-5;0055outer128→1e-5. Sincealready3e-5
+onentering0055, onlytwo128blocks available (256total, not384). Finalsync
+R328.09713555 vsmatchedreference1.53605241, damagevolumeL2error51.78697%,
+dmax.99790059,dchange4.90964e-4,uchange5.12347e-4. A largepeakdamage here
+does not prove ligamentspanning.0054error0.630446%,R619.86545,65outers.
+
+Same-horizon raw-stage comparison: cold128R467.7721 vsoldfixed3e-5continuation
+128R468.9366; cold256R329.2394 vsold256R316.7883. Theoldsourcehas a slightly
+different0054state/net/Adam (72832vs72576), so this is a descriptivecomparison,
+not an identical-seed causaltest. Bothpaths incompleteat256;oldfirstlogged
+R<3 at416 and512stageR1.40915. Strongest inference: total256budget insufficient
+forpropagation. Earlylowering maymodestlyslowgrowth, but cannot solelyexplain
+failure; current1e-5stillunloads acrosssecondblock (467.77→329.24).
+
+No numericalcode/configchange or newrun authorized solelybythisobservation.
+Next recommendation: retain128asobservationinterval, allowcontinuedcurrent-
+loadpropagation while progressing andreserve lowerLRforfinishing; an exact
+onlinerule needs separateevaluation. Do notskipfailed0055or silentlyresume
+0056. Candidatefurthertrials shouldrestore currentraw256orendpoint with
+Adam105344 and0054floor, explicitly labelbudgetextension andsourcebankstate;
+ifusingraw256 bank109 vsendpoint110 must beaccounted for. Allold16tests remain
+valid, no rerunsforread-onlyaudit. Updated PROGRESS/DECISIONS/task/ARTIFACTS,
+git diff --check required; sameunfinishedtask, noGitoperations or taskarchive.
+
+## /task-end —2026-10-18, budget128 cold run implemented and launched
+
+Newworker16172/session54587 RUNNING fresh0→0060. Root
+`/root/autodl-tmp/tf-logs/fracture2d/runs/pinn_history_fem_cold_budget128`;
+wrapperjob/config/verification under diagnostics/
+history_fem_cold_budget128_launch_20261018. Externalwrapper
+`/tmp/fracture2d_fem_cold_budget128_launch.py`, stdout
+`/tmp/fracture2d_fem_cold_budget128.log`. Initialstateverified q/d/H exactzero,
+Adamcount0,bank0,loadindex0; network AND Adamserializedleaves equal oldtrue
+freshstate0000, notoldwarmstate. Configcomparison withoriginalfull confirms
+onlyoptionalrateblock, criticalouter1024→128, andoutputpaths differ. Matching
+directFEreference complete0060 reused for evaluation only, noFEMjob launched.
+
+Diff-levelchanges thissession: newlearning_rate.py validates monotonebudget
+ladder, dynamicunitAdam scalarstep andcheckpointstate; HistoryDamagePINN
+optionally usesratecontrol, persistsrate_control.json anddiagnosticrates;
+loading.loop extends128blocks on failedbudget andlowers withoutreset, stops
+atfinalratebudget andforbids skippingfailedsavedendpoint onresume. Existing
+profiles omitoptionaltrain.rate_control and retainfixedbehavior. Newprofile
+train_history_fem_cold.py definesladder1e-4/3e-5/1e-5 and128blocks forALLloads;
+rates/moments persistacrossloads, unchanged128inner/bootstrap1024/fieldstops.
+Monitorlogs learningrate/outercounts; stageindexspan384 prevents scalarstep
+overlap acrossloadboundaries. Updatedroot/exampleREADME andARTIFACTS.
+
+Verification:16focusedcases covered (new3 + priorFE3/conditioned3/main7).
+Initialsuite98.910s:14passed,2newintegrationerrors frominheritedfixture
+field_stop=False. CorrectedONLYfixture toexplicitTrue; those2PASSED19.794s.
+No numericalcriterion weakened. Newcases cover warmAdam rateequivalence/
+oneJITtrace, forcedbudgetboundaries, fullendpointrate/NN/Adam/fields exactresume,
+finalminimum-rate stop andfailed-endpoint skiprejection. Prior fixed/nonlocal
+tests not rerun unchanged afterfixturefix. Finaldiffcheck required.
+
+Currentstartup is compilation/bootstrap; no firstendpoint orfullcompletion
+claimed yet. Next inspect livejob/result/TB, firstcoldload andactualrate
+lowering onbudget; preserveknownrisk that earlylowering can slow propagation.
+Atmost384outers in aloadenteringinitialrate,128 ifalreadyatminimum. This is
+the user's requested experiment, not a proven universaladaptivepolicy. No
+otherGPUjob, nooldartifactmutation and noGitoperations. Memorychanged:
+PROGRESS/DECISIONS/this task; ongoingtask not archived. Leavecurrentjobrunning.
+
+## Current action —2026-10-18, fresh cold run with128outer rate blocks
+
+User accepts current crack shape/path despite6.58%fieldL2error and requests
+fullfreshzero training to0060. Latest steering explicitly asks allouter caps
+128 then automaticLRlowering. Plan optionalratecontroller1e-4→3e-5→1e-5,
+128outers perrate, retaincurrentrate andAdam acrossloads, originalthreepass
+stops and128inner, FEenergy/samearchitecture/full/replayOFF. Finalrateblock
+exhaustion saves/stops. Atmost384outers at a load enteringinitialrate; this
+does not promise fullfracture success. No reference orload-specific triggers,
+no loss-growth veto; lower solely on failedbudget. This supersedes32extra
+finishing proposal for currentcoldrun. Addexplicitoptionalconfig, validate
+dynamicAdam equivalence, budgetboundaries, and exactendpointresume. Start
+new independent pinn_history_fem_cold_budget128 withzero q/d/H/Adam/bank;
+reuse matchingcompleted directreference for evaluation only. Statusimplementing;
+no liveGPUjob, sourceartifacts untouched. Same active task, no Gitoperations.
+
+## /task-end — 2026-10-18,0055 lower-LR finishing completed
+
+All three arms complete; worker10757/session32082 exited0, GPUidle verified.
+Root `/root/autodl-tmp/tf-logs/fracture2d/diagnostics/fem_energy_lr_finish_0055_20261018`.
+Same synchronizedsource0055/net/Adam203904/bank110 and0054Hfloor,128inner,
+originalthreepass damage1e-5/displacement1e-4. Baseline3e-5 stillfails after
+32extraouters/4096updates,107.555s, dchange4.42554e-4, damageerror6.58136%,
+syncR1.5669562 (2.01190%error), count208000. Lower1e-5 and3e-6 bothPASS at
+4extraouters/512updates (passes2/3/4),13.425/13.778s, dchanges4.67112e-6/
+3.30821e-6, uchanges1.29488e-7/8.09993e-7, damageerrors6.57715%/6.57744%,
+syncR1.53691313/1.53658968 vs1.53605241 (forceerrors0.0560346%/0.0349771%),
+count204416. Commonwarmup115.825s excluded; do not call this an overallcold
+speedup or omit original1024outers. Chosen finish would total1028outers.
+Sourceerror6.56737%: reducedrate suppresses fluctuation and matchesforce but
+does NOT remove remaining6.58%fieldbias. EnergyresidualphysicalAT2 remains
+0.15787/0.15838. Fieldstop alone does not certify fieldaccuracy. Both lower
+rates equally short;1e-5 is a supported next finishing candidate, not an adopted
+globaladaptivepolicy or proof of benefit if used earlier in propagation.
+
+Verification: warm-stateCPUupdate exact for all3rates withsameAdamleaves;
+actual restore count/load/bank andpreviousLOADfloor checks passed. One dynamic
+LR JITtrace. Eachfinalsync checked against independenthostforce andsame-load
+directreference; comparison.png anddamage.png visuallyinspected (straight
+spanning bands). Allsource files preserved. Perarm fields/net/Adam andraw
+1025+checkpoints saved with explicitdiagnosticphase; source_replay_manifest
+stillpoints tooriginalbank110, not a newlycommittedrefinedendpoint.
+
+Exactresume: if continuing0056→0060, explicitlyfork/reconstruct chosen1e-5
+finalstate as a normal0055endpoint, preserve alloldbankentries0..108 and
+replaceONLY last0055endpoint109 withrefinedsynchronizedH/fine_ids; preserve
+0054floor andmoments204416. Do not ordinaryresume failedsource toskip0055
+or pass diagnosticmanifest asnormalendpoint. No loadsadvanced or continuation
+queued THIStrial. Active architecturetask remainsincomplete. Onlyexternal
+script plusmemory/ARTIFACTS edited; no publicsolver/config/Git changes and no
+unchanged16tests rerun. Finalgit diff --check required. Changedmemoryfiles:
+PROGRESS.md,DECISIONS.md,this task; archiveindexupdated, no taskarchive.
+
+## Current action — 2026-10-18, matched0055 lower-LR finishing
+
+User authorizes the proposed lower-LR finishing comparison. From exact saved
+state0055 of runs/pinn_history_fem_lr3e5_continuation (net/Adam203904, bank110,
+physical q/d/H and precedingLOAD0054Hfloor), compare3e-5/1e-5/3e-6 with at
+most32additionalouters each and128innerupdates. Use original three-pass
+damage1e-5/displacement1e-4 stops; no advance or newglobalcontroller. Reuse
+independently checked dynamic-rate Adam mechanism from0049 trial with a new
+three-rate equivalence receipt. Fixed-shape JIT, all arms identical initial
+seed includingmoments/counts. Evaluate same-load direct0055 fields/force and
+independent final mechanics residual. Isolate outputs/TB under diagnostics/
+fem_energy_lr_finish_0055_20261018, preserve oldsource. Status: preparing
+externaldiagnostic, GPUidle verified. No publicsolver/config or Git changes.
+
+Launch update: three-rate warm-moment CPU equivalence PASSED, exactly zero
+update differences and identical moment/countarrays; preserves originalFP32
+effective schedule scalars cast toFP64 (3e-5/1e-5/3e-6). External script
+`/tmp/fracture2d_fem_lr_finish_0055.py`, equivalencereceipt
+`/tmp/fracture2d_fem_lr_equivalence_0055.json`. GPUworker10757 running in
+managedsession32082, log `/tmp/fracture2d_fem_lr_finish_0055.log`; diagnostic
+job.json records initialization. At88s, process active236%CPU/GPUallocation
+24684MiB while compiling. No duplicateworker or automaticloadcontinuation.
+
+## /task-end — 2026-10-18,0055 budget stop and final endpoint audit
+
+User asks status. Existing continuation has automatically STOPPED0055outer1024;
+process3427 absent and continuation_job.json statusfailed, explicit RuntimeError
+from loading.py budget gate. No manual termination/restart, no0060completion.
+Saved state0055 endpoint is mechanically synchronized but budget_exhausted,
+not fieldstable. Result: R1.4109714969 vs matched direct0055R1.5360524107
+(relativeerror~8.143%), damagevolumeL2error6.56736896%, dmax.9992176924,
+dchange4.5039483e-4>1e-5, displacementchange1.2506554e-4>1e-4,
+Adam203904, replaybank110,1025mechanicscalls. Direct needs388outers.
+Compare saved512damageerror6.7114963%: another512outers atsame3e-5 gives
+little fielderror improvement, with persistent field fluctuations. This shows
+the current fixedrate did not solve postfracture settling, even though0050–54
+matched direct closely and a spanningdamage band developed by512. Exact cause
+not established by thisaudit; do not equate small normalizedenergy change or
+reactiondrop with fieldconvergence. Reference arrays are same-load0055,
+volumeweights fromgeometry_assets/mesh.npz. Full fields/net/Adam preserved in
+state0055; rawouter1024 also saved separately. Ordinaryresume must NOT skip
+thisfailed endpoint to0056. Next candidate: matched lower-LR finishing from
+same saved0055seed, preservemoments/0054Hfloor and validate actualerrors; no
+newtrial launched by thisstatusrequest. Incomplete architecture task remains
+active. Updated PROGRESS/task; no numericalcode/config/Git changes, no tests
+repeated; git diff --check required before finalresponse.
+
+## /task-end — 2026-10-18,0055 unloading and field checkpoint audit
+
+Same active task; user requests progress, no solver/config/Git changes. Worker
+3427/session63149 remains running0055, newest loggedouter584: stageR1.4963521,
+dmax.9991062, damagechange4.99571e-4. Earlierouter576R1.41588,dchange4.70285e-4;
+lateupdates still fluctuate above1e-5. No accepted0055endpoint or0060completion.
+First loggedouter withR<3 is416 (R1.7327861); current reference endpoint has
+R1.536052 and388outers, so earlier elastic count agreement does not extend
+to final fracture settling. Stage reactions use pre-update mechanics and are
+not the final synchronized force; do not infer exactforceaccuracy from them.
+Saved fullfields128/256/512 have same-load volumeL2damageerrors67.2374/50.8390/
+6.71150%;512stageR1.40915. All use geometry_assets volumes and reference0055,
+not final0060reference. At512, d>=.9 largest connected component on existing
+damage_edges graph has362nodes, x.4997045→1.0,y.4959988→.5060000: highdamage
+band reaches from notch-tip neighborhood to rightboundary. This graph has
+finite support; this check is spatial-development evidence, not a new mesh
+connectivity or convergence certificate. No new fieldimage produced thisaudit.
+Next: leave same fixed3e-5/oldthreshold run active; inspect0055endpoint/budget,
+synchronizedfields/force and subsequentloads. No ratechange or budgetskip is
+authorized by a statusrequest. Updated PROGRESS/task; git diff --check required;
+no unchanged numericaltests repeated or new decision necessary.
+
+## /task-end — 2026-10-18, continuation progress audit through0054
+
+User requests current results. Same task and job; no solver/config/Git changes.
+Read live process3427, log and result.json; calculate volume-weighted damage
+relativeL2 from each saved endpoint against SAME-load fem_damage_reference_full,
+using geometry_assets/mesh.npz volumes. Completed0050/51/52/53/54 require
+11/13/15/21/66outers versus direct11/13/15/20/63. Damage errors respectively
+0.5407529/0.5434838/0.5460785/0.5460691/0.6209708%. Force errors respectively
+0.0024347/0.0037111/0.0060465/0.0102320/0.0487037%. At0054 syncR619.8503254
+vs619.5485821, dmax0.67914; original three-pass fieldstop satisfied.
+Current0055outer40 stageR578.1580562,dmax0.9861386,dchange6.85443e-4,
+Adam77952. This is in-load/unsynchronized, not a final endpoint or proof of
+spanning. Earlierouter1R631.3291; unloading has started. Matched direct0055
+endsR1.53605 after388outers. Do not confuse local-FE0055 fracture with old
+nonlocal0053 fracture. Keep current worker/session63149 running; next inspect
+0055 actual crack path/width, synchronized reaction, fielderror and stop, then
+remaining loads through0060. Progress/task updated; no new decision warranted,
+no unchanged tests repeated; run git diff --check before closing this audit.
+
+## Current action — 2026-10-18, continuation after accepted0049 finishing
+
+User asks to continue validation. Prepare separate
+`/root/autodl-tmp/tf-logs/fracture2d/runs/pinn_history_fem_lr3e5_continuation`.
+Keep same physics/mesh/history scheme/energy/128inner/old stopping, use fixed
+3e-5 for0050→0060. Inherit originalfull0→0048 acceptedprefix and refined0049
+fromdiagnostic lower_3e5, notfailed0049. Preserve all originalartifacts and
+trace manualLRchange; this is a continued cold-origin path, not a newall3e-5
+cold start or validatedautomaticLRcontroller. Load49 counts128+8=136outers.
+Retain NN/Adam56704 and fixedbank98; replaceONLY bankentry97 with refined
+synchronized0049H/fine_ids, keepfirst49start snapshot96 andallolderentries.
+Verify previousLOAD0048floor, monotonecommittedH andactualstate roundtrip,
+before ordinaryloading.run resumes at0050. No skippingfailedendpoint.
+Status: CPUforkmigration PASS, GPUworker3427 RUNNING, managedsession63149.
+Script `/tmp/fracture2d_fem_continue_lr3e5.py` (saved in newroot as
+prepare_and_run.py); preparation log `/tmp/fracture2d_fem_continue_lr3e5_prepare.log`,
+runtime log `/tmp/fracture2d_fem_continue_lr3e5.log`. Newrootconfig.json and
+continuation_job.json are exact runtimeinputs/status. Actual0050outer8 now
+verified, firstAdamcount56832=56704+128 (no bootstrap/reset), bank99 duringload.
+Atouter8 dchange1.42458e-5,u-change1.33315e-5,dmax.429658. Not yetendpoint.
+
+Latest endpoint update:0050 COMPLETE in11outers, Adam58112; damage relativeL2
+error0.0054075292 (0.54075%), synchronizedR593.6946957 vs593.6802412,
+relativeforceerror2.4347265e-5 (0.002435%). Currentloading0051. This verifies
+advancement after the0049 rescue; fracture-stage convergence remains untested.
+
+Verification receipt fork_manifest.json: prefixstates0..48 copied bytevalues
+withoutdiagnosticoutertrees; everyphysicalarray compared exact. Final0049
+q/d/H/net/Adam from successful lower_3e5, allstateleaves/replay/lifecycle passed
+standardHistoryDamagePINN.restore roundtrip with56704/count98. Bankentries
+0..96 preserved;97replaced withrefinedHsynchronized/fine_ids, capacity128fixed.
+H_parent exactlystate0048H, finalH>=parent, sourcefiles nevermodified.
+Independenthostforceresidual2.16777e-5 within2.18880e-5limit; reaction matches
+savedrefinement. Restored49report has136totalouters (original128+extra8),
+explicitrescuecap160 (128+32),138productionmechanicscalls including both
+endpointsyncs, source/refinementprovenance and originalthresholdpasses.
+OnlyfutureLR/minrate andoutput/resume paths differ from originalconfig;
+physics/operator/sampling/replay/trainingcapacity/stopping unchanged.
+
+NewTBname `pinn_history_fem_lr3e5_continuation`, events underroot/events.
+Historicalacceptedload/reaction scalars retained and refined0049physicalfigures
+regenerated; futurefigures and fullcurves use normalMonitor againstexisting
+matched fem_damage_reference_full. Sourceoriginalfull remainsfailed0049;
+this is an explicitmanual-LR continuation, not a fresh/all-low-rate/adaptive
+coldstart. Oldfulltime andfinishingwork are provenance, not erased; future
+result.seconds is only this resumeinvocation's runtime.
+Next monitor first0050iteration count (must start56704→56832), later0054/0055
+crackpath/width/force and actualfieldstop. Do not launch duplicates or silently
+loosen criteria on budgetfailure. No publicsolver/config/Git changes thisturn;
+actualstate-roundtrip/hostforce/config-equivalence checks replace unchanged
+expensive16tests. Finaldiffcheck required afterdocumentationupdate.
+
+## /task-end — 2026-10-18, explicit low-rate continuation verified and launched
+
+User asks nextverification; created independent continuation retaining accepted
+cold-originprefix and refined0049. CPUactualstate checks passed: allpast
+physicalarrays, exactNN/Adam/replay roundtrip, previousfloor equality, refined
+Hmonotonicity, independenthostforce. Newbank98 correctlastHsynchronized;
+newconfigonlyLR/minrate3e-5 andoutput/resume paths differ. StandardGPUloading
+nowrunning3427/session63149 at0050outer8; firstcount56832 provescontinuous
+128updates. Allsourcefailed/diagnostic data retained. Addedartifactindex and
+memoryPROGRESS/DECISIONS/task, externalprepare/run script saved withrun.
+No publicsolver/config or Git changes; no repeatedunchanged16tests. Final
+diffcheck, leavejobrunning; next inspect0050endpoint then0054/0055 actualcrack
+growth, bandwidth, force andouters againstfullFEreference. Not a newlycold
+orautomaticLR run; totalworkincludesoriginal136outers at0049.
+
+End-of-turn update:0050 finished11outers with0.54075%damageerror and0.002435%
+forceerror, now0051. Leave managedjobrunning; same later0054/0055validation.
+
+## Current experiment — 2026-10-18, matched0049 LR finishing
+
+User says try recommended3e-5 finishing. Source: saved synchronized budget
+endpoint `runs/pinn_history_fem_full/state_0049`, net/Adam55680/bank98 and
+q/d/H/H_parent. Compare baseline1e-4 and reduced3e-5 from IDENTICAL seed,
+max32additionalouters each,128inner; stop each on originalthreeconsecutive
+fieldpasses at1e-5damage/1e-4displacement, globalouters129onward. Keep
+precedingLOAD0048 Hfloor, not0049synchronizedH as a newfloor. Replayoff,
+physics/architecture/energy unchanged. No loadadvance or source mutation.
+Use one compiled Adam step with a dynamic scalar LR after unit-rate Adam;
+moments/counts are restored unchanged. Verify equivalence against existing
+make_optimizer for both rates with warmmoments before GPU trial. This avoids
+duplicating full-cloud JIT solely for two LR constants. No adaptivepolicy claim.
+Status: COMPLETE, formerGPUworker42674/session59658 exited0, GPUidle verified.
+Root `/root/autodl-tmp/tf-logs/fracture2d/diagnostics/fem_energy_lr_finish_0049_20261018`.
+Script `/tmp/fracture2d_fem_lr_finish.py`, stdout `/tmp/fracture2d_fem_lr_finish.log`;
+sourcecopy/config/seedreceipt, job.json, result.json and per-arm events/checkpoints
+are stored under diagnostic root. No normal-loading resume or original writes.
+
+CPU preflight passed: with13warmmoment updates, scaledunitAdam vs existing
+make_optimizer gives ZEROupdate difference, identical allmoment/countarrays
+andcount14 for both rates. Actual source Optax exponential schedule returns
+FP32rate scalars despite FP64fields:9.999999747378752e-5/2.9999999242136255e-5.
+Use these actual scheduleoutputs cast toFP64 for final scaling, matching old
+behavior; do not silently change scalarprecision. Initial strict check caught
+2.5e-8relative discrepancy from exactPythonfloat rate, corrected without
+relaxing1e-13/1e-16check. An early startup before receipt existence failed before
+creating diagnostic output or training; successful validated launch42674 is the
+only activeworker. Source NN/Adam55680/replay98 verified by restore; floor
+array equality against state0048 enforced. Warmup uses discarded outputs,
+so actualtrialseeds/moments are untouched. No numerical core/config changes.
+
+Finalmatchedresults: baseline1e-4 fails originalfieldstop after32extraouters
+(4096Adamupdates),104.378s excludingcommonwarmup, finaldchange1.78359e-4,
+u-change7.33294e-5, dL2error.536792%, syncR585.201718(error.00966476%),
+Adam59776,physicalAT2.0397812. Reduced3e-5 PASSES after8extraouters
+(1024updates),25.750s, finaldchange3.06483e-6,u-change3.97016e-6; passes
+occur at6/7/8consecutively. dL2error.539075%,syncR585.154515 vsreference
+585.145166(error.00159777%),Adam56704,physicalAT2.0430442. Bothsamefield
+accuracy, lowerLR suppressesupdateoscillation and meets oldstop without
+looseningtolerances. One dynamicLR JITtrace verified. Common discardedwarmup
+108.143s; baselinefirstforward adds~2s JIT tofirstrow, so avoid claiming a
+universalwalltimespeedup. The compelling result is8passesvs32withoutpasses
+at comparablefieldaccuracy. Visuallyinspected comparison.png anddamage.png.
+
+No loadadvanced beyond0049 and no originalrun/replay file modified. Both
+diagnostic arms save explicitraw-stage and finalmechanicallysynchronized
+q/d/H/network/Adam; finalphase is diagnostic_finished_same_load, not a normal
+HistoryDamagePINN endpoint manifest. For latercontinuation use lower_3e5/
+network.eqx,optimizer.eqx andfields.npz WITH originalbank98/first49startH;
+recompute/replace its last0049endpointH/fine_ids in a NEW store/explicitfork,
+retaining0048committedfloor. Do not call ordinaryresume and skipfailed0049 or
+pretend rescuescostzero: load49 consumed128original+8finishing=136outers.
+Separate32outercontrol work is experimental overhead, not partof chosenpath.
+No automatic continuation or globalLR schedule implemented thisturn.
+
+## /task-end — 2026-10-18, successful low-LR0049 finishing control
+
+User authorized trial. Externaldiagnostic compared identicalfullsaved seeds,
+preserved allmoments/counts/replay andpreviousLOADfloor; strict CPUoptimizer
+equivalencepassed, sourceFP32ratescalar honored, GPUone-trace checkpassed.
+Low3e-5 passes existingthreefieldstops in8additionalouters, old1e-4 doesnot
+pass in32; samefieldaccuracy~.54%. Finalindependenthostforce checks passed,
+figures visuallyinspected. Allworkers exited0, GPUidle,no furtherloadqueued.
+Originalfulltrialstillstopped0049; exactfuturefork inputs/protocol above.
+No publicsolver/config/Git changes; onlyexternaldiagnostic andmemory
+PROGRESS/DECISIONS/this task updated. Previous16tests not rerun unchanged.
+Finaldiffcheck aftermemoryedit. Same incompletearchitecture task active.
+
+## Current action — 2026-10-18, full FE-energy cold trajectory
+
+User accepts cold0010 and provisional frozen-Hfracture appearance, and asks
+to proceed. Run a SEPARATE full0→0060 direct/neural pair using the same pilot
+architecture, material, FE energy, LR1e-4,128inner, bootstrap1024, full sampling,
+replayoff, du1e-4, field tolerance1e-5 and outercaps128/1024. Preserve pilot
+artifacts; start all physical fields, NN, Adam and bank at zero/new, rather
+than changing the completed pilot's immutable run identity. Prior initial
+10loads cost about4minutes, small relative to possible critical-stage work.
+No direct damage targets enter training. Generate matching direct reference
+first, then neural run serially on GPU. User accepts provisional errors;
+previous preference to calibrate before any full run is superseded by this
+explicit next-stage experiment. This is an evaluation, not a certified speedup.
+Status: STOPPED automatically at0049outer128 (budget exhaustion), not user
+cancellation. NN36601 andowner35936 exited, GPUidle; formerexecsession17231.
+Direct35987 exited0,60endpoints through0060 complete in316.463s.
+Verified neural48fieldstable endpoints through0048 plus saved0049budgetendpoint.
+Neural trajectory not complete. Next: matched lower-LR finishing investigation
+at0049 before extending; do not silently skip the failed budget on resume.
+
+Configs `train_history_fem_full.py` / `fem_damage_reference_full.py` validated:
+60loads to0060, fixedbank128>=120, ALLfields equal to actual saved neuralpilot
+configuration except terminal load and output/reference/event paths. No core
+solver/math/optimizer changes; prior16tests remain applicable. Config-only
+checks include schema/import, explicit equality comparison and diffcheck;
+no unchanged numerical suite rerun. Default nonlocal config stays unchanged.
+
+Neuralroot `/root/autodl-tmp/tf-logs/fracture2d/runs/pinn_history_fem_full`,
+directroot `/root/autodl-tmp/tf-logs/fracture2d/runs/fem_damage_reference_full`.
+Events in each root/events; server6007 untouched. Owner files:
+`/root/autodl-tmp/tf-logs/fracture2d/diagnostics/history_fem_full_launch_20261018/`
+contains job.json, launch.py, eacharm_config.json, direct.log and laterpinn.log.
+Launcher source `/tmp/run_fracture2d_fem_full.py`, stdout
+`/tmp/fracture2d_fem_full_launch.log`. Direct successful terminal0060 is
+required before NN begins; any nonzero childexit records failure and stops.
+Field budget exhaustion uses existing advance_on_budget=False, not hidden
+tolerance/LR relaxation. No damage labels are used to choose training updates.
+
+Latest status audit: saved `latest_comparison.json` in launcher root with
+same-load endpoint matching and material-volume L2/RMS errors. At0027 damage
+relativeL2 1.01808%, absoluteRMS1.19846e-4; reaction350.194288 vs350.190478,
+relativeerror1.08792e-5=0.001088%; maxd.0931152 vsreference.0932885;5outers.
+PhysicalAT2.206992 remains nonzero, so no residual-convergence certificate.
+0010same-runerror9.36014%,0020error1.34326%,0025error1.06638%: prefracture
+field approximation improves during ongoing warmtraining. Completed27steps
+total159outers,Adam21248; actualNNprocesselapsed12m19s at audit. Driveralive,
+GPUworker36601 memory24912MiB; no stop, extension, hyperparameter or codechange.
+New direct critical endpoints:0052R609.5115/15outers,0053R616.3285/20,
+0054R619.5486/63,0055R1.53605/388,0056R1.45416/5. This is the matching current
+stagger reference, not the older local comparator or nonlocal reference.
+
+Newerstatus: completed0048 same-load damageL2error.823686%, absoluteRMS
+3.06407e-4; reaction576.334255 vs576.309899, relativeerror.0042262%;
+maxd.374018 vs.374752,10outers. Recent0041→0048iterations7,7,7,8,8,9,9,10;
+field errors.862→.824%, so no accumulatedaccuracy collapse in this prefix.
+Current0049outer80/128 has damageRMSchange6.32784e-5 and displacement/load
+1.15403e-4, both above1e-5/1e-4; logged losses/changes oscillate. Latest full
+rawcheckpoint64damageL2error.677333% at SAME0049load; its q/reaction correspond
+to preceding damage (stage), so do not report them as synchronized endpoint
+forces. Field nearreference does not imply stopping criterion is met. Current
+stageR585.3072/dmax.398316,Adam49536. No runtimehyperparameter/stopping change
+or jobinterrupt. NN36601/owner35936alive, GPU24912MiB; elapsedNN24m28s atfirst
+audit. latest_comparison.json refreshed with48endpoint errors/current80.
+
+## /task-end — 2026-10-18, nearing critical loading; iteration growth
+
+User asks lateststatus. Verified actual running job/logs;48endpoints through
+0048 andcurrent0049outer80. Recomputed same-load endpointandraw64damage
+errors(.824%/.677%); distinguish stage reaction from synchronized endpoint.
+Report higheroutercounts andthreshold oscillations explicitly, without claiming
+failure or changingconstantLR/tolerances. Leave authorized job running. Updated
+PROGRESS/active task andexternal latestcomparison; no code/Git/tests or newjob.
+Next monitor0049 acceptance/budget andactual0054→0055propagation. Diffcheck.
+
+## /task-end — 2026-10-18, full FE cold interim status
+
+User asks progress. Verified owner35936/NN36601 alive, GPU active, direct
+finished0→0060/exit0 and NNcompleted0027/current0028. Recomputed same-load
+damage/force errors and saved latest_comparison.json; fielderror1.018% at0027
+vs9.36%at0010. Current step5outers/maxd.093, still before criticalfracture.
+Leave authorized job running unchanged. UpdatedPROGRESS andthis task; no
+numericalcode/default/Git operations/tests or newtraining launches. Taskactive,
+nextmonitor critical0054→0055 andbandwidth/force. Diffcheck after memory edit.
+
+## /task-end — 2026-10-18, full matched FE cold pair launched
+
+User accepts preliminary fields and asks to proceed. Added two explicit full
+configs and user-facing run/artifact documentation; external serial launcher
+saved with its actual configs and process receipts. All pilot hyperparameters
+verified unchanged apart from endpoint/outputpaths. Owner35936/session17231
+and directGPU35987 verified alive, real12endpoints saved; independent neural
+cold arm pending reference completion. Old trials preserved. No fullresult,
+speedup or completed neural-fracture claim. No Git operations or code tests;
+configuration validation/diffcheck only because core unchanged. Memory changed:
+PROGRESS, DECISIONS, this task. Same incomplete active task; monitor background
+progress and report actual stage next.
+
+## Completed pilot implementation — 2026-10-18, mesh-energy history network
+
+User authorized committing current work and starting the single-geometry FE
+damage experiment. Existing work committed on dev as 82c2f3c, no push/merge.
+Acceptance: optional explicit FE damage operator; neural nodal values with P1
+shape gradients; frozen-H lumped reaction energy matching local reference;
+independent energy-gradient/direct-solution checks; bounded actual-GPU fits
+against same-operator direct damage. Keep local direct mechanics and existing
+nonlocal defaults. No symmetry constraints, supervised damage labels, or new
+cross-geometry claim. Replay initially disabled; fixed-shape bank retained.
+Status: implementation, focused CPU checks, frozen-H/postfracture fits and
+independent direct/neural cold0→0010 pilots COMPLETE. No compute active.
+Next: calibrate inner-fit accuracy and stopping before extending cold loading.
+
+Implementation now present (uncommitted): `damage.discretization` explicit
+nonlocal default / fem option; P1 scalar operator/shape-gradient energy;
+energy bootstrap and conditioned-network integration; train_history_fem and
+fem_damage_reference configurations; shared direct/PINN stagger and monitoring.
+No nonlocal matrix rebuilt/read for FEM loading. Fixed H/normalization are
+detached. Sources/configs/paths are saved without SHA checks. No adaptive LR
+controller reused; constant1e-4/128inner, pilot bootstrap1024, replayoff.
+
+CPU checks: 16 targeted tests covered FE affine gradients, independently known
+patch stiffness, energy derivative=weak residual, direct SPD minimizer, detached
+H/finite neural gradients, decreasing energy, physical-zero starts, endpoint
+resume with byte-identical NN/Adam and identical fields, direct FE loading,
+nonlocal MLP/full/random and history/conditioned regressions. Initial test-only
+matrix-vs-sparse error fixed;15passed together, corrected remaining test passed
+separately4.781s. No unchanged expensive suite repeated.
+
+Actual GPU frozen-H pilot COMPLETE, root
+`/root/autodl-tmp/tf-logs/fracture2d/diagnostics/history_fem_energy_20261018`.
+Fresh NN initially, then warm sequence H from old local FEM at .0025/.0052/.0053;
+512Adam updates EACH, no replay, labels never used for training. Same-H direct
+solutions recomputed independently with SciPy, weak residuals1.6–2.5e-14.
+New S vs independently UFL-checked cached scalar stiffness maxdiff4.041e-14.
+Final volume-weighted relative damageL2:21.5404%,13.2162%,10.8485%; normalized
+energy gaps .0537079,.0226844,.0166497. First128 training chunk81.38s includes
+JIT; later128chunks2.97–3.01s. Before first fit error92.995%, not94% (earlier
+commentary rounded imprecisely). Not a coupled cold trajectory, no accuracy or
+speed advantage over the prior nonlocal route established. .0053 is not local
+FE spanning: old local reference spans at .0055 (R1.53438,dmax.999079).
+
+Executed in managed worker PID31171 (exec session6589, now exited0),
+`/tmp/fracture2d_fem_continue.py`, log
+`/tmp/fracture2d_fem_continue.log`. Serial protocol: restore only frozen-H
+pilot NN/Adam1536 for .0055 fixed-H fit4096updates, record postfracture/;
+then completely NEW physical/NN/Adam state for direct and neural cold pilots
+0→.0010 using matching new P1 loop/config. Roots respectively
+`tf-logs/fracture2d/runs/fem_damage_reference_pilot_20261018` and
+`tf-logs/fracture2d/runs/pinn_history_fem_cold_pilot_20261018`.
+All events below fracture2d, user TensorBoard server unchanged. No full0060
+run queued. Inspect postfracture/result.json and cold run result.json before
+reporting success or extending. Do not splice the frozen-H weights into the
+cold pilot or present old local FEM stagger as matched coupled reference.
+First detached launch30475 disappeared before any training output; cause not
+established. Preserved its output as postfracture_attempt0001, then restarted
+identical protocol in the managed exec session. No fabricated result or silent
+numerical fallback; replacement31171 completed normally. Config validation
+also passed for unchanged nonlocal default60loads and both new10load profiles.
+
+Postfracture extension now COMPLETE:4096updates at0055, relative damageL2
+34.2628%, energy gap8.31214e-4, maxd.994345. Total training chunks205.82s;
+first128112.34s includes JIT, subsequent128 approximately2.98–3.03s.
+Visually inspected postfracture/damage.png: straight spanning band is present
+but width/background differ from exact same-H P1 direct field. Small energy
+gap does not certify field accuracy. Warm jump to final fractured H is not a
+coupled loading comparison and cannot alone predict cold fracture speed.
+
+Matched new direct cold pilot COMPLETE0→0010,10endpoints, each5outers with
+field stopping. Neural cold root exists, exactphysicalzero checkpoint saved,
+NN/Adam optimizer_count0,bank0 verified; now COMPLETE10endpoints. It used
+original1024energy bootstrap,128inner,
+constant1e-4, own mechanics/H and replayoff; reference monitoring uses ONLY the
+new matching direct pilot. No frozen-H weights reused, no full0060 queued.
+
+Final cold comparison saved in diagnostic root `cold_comparison.json`.
+At0010:volume-weighted relative damageL2error9.36018%, absoluteRMS1.52008e-4,
+reaction133.484582 vs direct133.474623 (relativeerror7.46077e-5=0.00746%).
+PhysicalAT2.45947, so close force does not establish damage PDE accuracy.
+Neural/direct totalouter56/50; allsteps5exceptneural0007needs11.
+NN8064Adamupdates,20own-history snapshots, bootstrap applied once only.
+Loadingseconds244.359/37.850 includingfirstJIT/figures, excludinggeometry/
+networkconstruction; no matched-accuracy speedup or fracturecold claim.
+Early0001error49.27% even though fieldstable after5 demonstrates absolute
+fieldchange stopping can terminate training early for small damage amplitudes.
+0005error29.91%, laterimproves through warmtraining to9.36%. Do not extend
+automatically to0060 with these stopping/fit settings. Exact next: choose an
+inner-accuracy/stopping calibration using frozen-H direct evaluation, including
+0055 bandwidth/background error; retain labels as evaluation only. No policy
+change made from these observations. Bothjobs exited0, owner31171 gone and
+GPUidle verified; userTensorBoard server retained, all events belowfracture2d.
+
+## /task-end — 2026-10-18, optional FE-energy route implemented and piloted
+
+Preserved preexisting work in authorized dev commit82c2f3c; no push/merge and
+new implementation remains uncommitted. Added P1 operator/energy and two
+explicit configs, integrated conditioned energy bootstrap, same direct/PINN
+loop, model-aware reference validation/TensorBoard tags, public README/API
+and artifact documentation. New focused tests plus existing nonlocal/history
+regressions16PASS (one test-only sparse construction corrected and rerun).
+GPU fixed-H and independent matrix comparisons completed; postfracture fit
+still34.26%error despite visible spanning. Bothreal-mesh coldpilots COMPLETE;
+neuralfinal0010damageerror9.36%,Rerror.00746%,56outers; direct50outers.
+Former31171/session6589 exited0, log /tmp/fracture2d_fem_continue.log,
+GPUidle andno queuedfullcold. Inneraccuracy/stopping calibration is next;
+do not extend/promote from small field changes or close force alone.
+Memory changed: PROGRESS, DECISIONS, this active task. Task remains incomplete
+and active; no archive or extra task. Final diffcheck required after this edit.
+
 ## Current scope and question — 2026-10-18, direct FEM subproblem costs
 
 User agrees to start with ONE geometry while preserving cross-geometry
@@ -2960,3 +3884,44 @@ Adaptivebetterstablefield8.77%vs20.63%;fixedlowerwall36.0vs43.0min, so no
 matched-qualityspeedupclaim. Explicitlyseparatedoutercount376/432 fromwalltime
 32.18/30.40min tofirstloggedR<3. No newrun/config/tests/Gitops. UpdatedPROGRESS/
 DECISIONS/task anddiffcheck; exactresume currentcheckpoint.
+
+## /task-end — 2026-10-18, display FE pilot results
+
+User requested result figures. Read current records, matched saved0010 load
+endpoints explicitly, validated field shapes/finiteness, and generated
+`diagnostics/history_fem_energy_20261018/display/cold_damage_0010.png` plus
+`cold_reaction.png`, with reproducible plot_results.py alongside. Damage plots
+use identical actual min/max5.456e-7/0.0121155 for direct/neural, separate
+absolute-error colorbar0–0.00228485, full material domain and notch-tip zoom.
+Visually inspected both new figures and existing postfracture/damage.png.
+Show cold0010 damage/force separately from frozen-H0055 damage (4096updates,
+34.26%error), never imply a cold fracture trajectory. No solver/training or
+numerical/default changes, Git operations, tests or GPU launches. Memory files
+changed: PROGRESS and this task. Same incomplete active task; next calibration
+and no queued compute remain unchanged. Final git diff --check passes.
+
+## /task-end — 2026-10-18, slowdown audit and automatic0049 budget stop
+
+User notes slowdown. Actual job.json failed/pinnexit1, traceback is deliberate
+loading.py budget policy at0049outer128; former35936/36601 gone/GPUidle.
+Endpoint saved/synchronized, statusbudget_exhausted, fieldstablefalse, no full
+fracturecold completed. Preserve all NN/Adam55680/replay98 andfields.
+Audit stored `diagnostics/history_fem_full_launch_20261018/budget_0049_audit.json`:
+raw1/8/32/64/128damageL2errors1.5576/.8210/.7747/.6773/1.0861%. Final128
+synchronizedR585.78965 vs585.14517, relativeerror.11014%; maxd.390298 vs
+reference.401184, dRMSchange3.21812e-4, displacementchange2.57147e-5.
+Atouter8 bothsinglepasschangesalready belowlimits but requiredthreeconsecutive
+passes were not sustained; late largerfluctuations preventacceptance. This is
+not steadyimprovement rewarded by anotherlargeouterbudget.
+
+Measured actual TBwall timestamps (`diag/full_loss`):0049sweeps8→128 take
+381.081s /120 =3.17568s perouter;0048sweeps1→8=3.19432s perouter. Single-call
+compute is stable, increasedoutercount causes ~6.8min0049 vs~32s0048.
+No fixed-H LR control yet, so hypothesize optimizer/coupling fluctuations and
+possibly excessive finishingLR1e-4; do not assert LR as proven sole cause or
+that tolerance alone explains it. Proposed next: bounded lower-LR3e-5 finishing
+comparison from same NN/Adam/physical state, retaining moments; not launched
+in response to this status comment. Do not simply resume standardloading and
+skip existingbudget0049endpoint to0050. Inspect/explicitly refine0049 first.
+No numerical/config/Git changes or newcompute. UpdatedPROGRESS andtask;
+read-only diagnostics plusdiffcheck, no tests. Same active incomplete task.
