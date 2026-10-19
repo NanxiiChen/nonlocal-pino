@@ -8,6 +8,94 @@
 [Nonlocal PINN history-field learning and architectures](tasks/nonlocal-pinn-architecture.md).
 Opened 2026-10-15 after the user closed the fracture2d feasibility stage.
 
+Shear snapshot authorized for commit on dev, 2026-10-19: include material-edge
+shear example, explicit configs, shared mesh BC guards, focused tests and
+completed cold-result records. Verification remains4focusedPASS plus UFL and
+both200-load runs; changed Python syntax and whitespace checked. Data/events/
+figures remain local. No merge/push or new training requested; commit identity
+is available from Git history. Active architecture task remains open.
+
+Shear PINN COMPLETE, 2026-10-19: true cold0→0.0200,200field-stable endpoints,
+3026outers/388224Adam,10619.25s(176.99min); owner11419/child12667 exited.
+All logged rates1e-4. Peak359.833at0.0100 vsFEM359.228at0.0099; first
+postpeakR<1 at0.0137 vs0.0135. FinalR0.0544799 vs0.0551178(error1.157%),
+damage volume-relativeL2 error31.812%: similar downward-curved topology,
+remaining position/width differences. No accuracy-equivalent speedup claim
+(FEM6388outers/25.11min uses stricter damage stop). Same-load force/damage
+plots and receipt at shear diagnostics/completed_comparison_20261019.
+No further training queued; next discuss refinement, not automatic restart.
+Earlier running observations below are historical.
+
+Shear PINN verified running, 2026-10-19: existing child12667/owner11419 alive,
+84 field-stable endpoints through0.0084, latest5outers,R326.580,dmax0.30520.
+Actual state0000 q/d/H are zero; saved config replayOFF, matching edge BCs,
+u_final0.0200 and evaluation-only FEM path. No duplicate run or solver change.
+Monitor next near-reference initiation0.0101 and spanning0.0135; events under
+tf-logs/fracture2d_shear/pinn_history_conditioned/events.
+
+Shear FEM figures delivered, 2026-10-19: full reaction-displacement curve,
+five damage snapshots and two-row ux/uy snapshots at0.0099/0.0101/0.0120/
+0.0140/0.0200. Stored with reproducible script/CSV/receipt in reference
+`figures/overview_20261019/`. Damage0–1; displacement actual per-panel extrema.
+Visual check confirms downward-curving crack reaches right edge by0.0140.
+No solver changes or new training; existing background PINN continues.
+
+Shear reference COMPLETE, 2026-10-19: all200 loads through0.0200 are
+field-stable, 6388outers,1506.59s(25.11min) including original prefix.
+Final R0.0551178,dmax0.9999503. Launcher transitioned to fresh replay-OFF
+PINN, child12667; reference data remain in data/fracture2d_shear/fem_reference.
+Earlier reference-running notes below are historical observations.
+
+Reference-path confirmation, 2026-10-19: shear FEM fields, checkpoints,
+figures and result.json already reside in
+`/root/autodl-tmp/data/fracture2d_shear/fem_reference/`.
+Only event logs reside in `tf-logs/fracture2d_shear/fem_reference/events/`;
+no relocation needed. Latest read: 140 completed loads through0.0140,
+reference still running; PINN has not started.
+
+Material-only shear IMPLEMENTED/VERIFIED/RUNNING, 2026-10-19. New
+`examples/fracture2d_shear/` shares local FEM-energy/conditioned-history core,
+top edge ux=U,uy=0; bottom edge ux=uy=0, no extra grips. Original geometry
+and tension baselines unchanged. Four focused CPU cases PASS30.077s;
+actual UFL stiffness/driver/scalar checks ~1e-15, actual P1/UFL scalar~1e-14,
+GPU elastic q relative error1.37e-8 and horizontal reaction4.32422584 match.
+Initial reference completed100loads to0.0100 (688outers/346.94s), dmax0.594,
+R358.82. Extended to0.0200 with unchanged physical prefix; newbank512 covers
+400snapshots. Initial automatically started short PINN had no outer report,
+was cancelled/archived; extended PINN will start fresh only after reference.
+Active launcher11419/session68686, child11423 currentlyFEM; logs/job/backup
+at tf-logs/fracture2d_shear/diagnostics/extended_cold_launch_20261019.
+Reference0.0101 grows a downward-kinking crack, converged558outers/R253.62;
+completedthrough0.0104, continuing. No full0.0200 or neural-completion claim.
+Reference data/fracture2d_shear/fem_reference; futurePINN TensorBoard
+tf-logs/fracture2d_shear/pinn_history_conditioned. No Git operations this turn.
+
+Shear update, 2026-10-19: user requests removing added grip regions for this
+pure local-FEM case. Use original MATERIAL mesh only: top y=1 ux=U,uy=0;
+bottom y=0 ux=uy=0. Remaining exposed faces traction-free; damage natural
+zero flux. Supersedes the preceding grip-strip plan. New reference required
+because stiffness/BC domain changes. Existing tension assets stay untouched.
+
+Shear BC CONFIRMED, 2026-10-19: top grip ux=U,uy=0; bottom grip ux=uy=0.
+Implement `examples/fracture2d_shear/`, shared FEM-energy/conditioned-history
+core, replayOFF, separate BC cache/reference/logs. Reference first explores
+0→0.0100 in1e-4 steps; bank256 covers200 snapshots. Other accepted neural
+settings retained (128inner,1024bootstrap, scaledstop/progress blocks).
+Independently validate UFL mechanics/history/scalar damage and horizontal
+reaction before directGPU, then freshPINN. No Git operations authorized.
+
+New case requested, 2026-10-19: same rounded-notch geometry with horizontal
+top loading, separate `examples/fracture2d_shear/`, matched local FEM direct
+reference and history-conditioned replay-OFF PINN. Continue the same active
+architecture investigation. Required BC clarification is pending: clamped
+top/bottom vertical motion versus vertical freedom with one anchor. Existing
+tension cache fixes grip uy and one ux anchor, so it cannot be silently reused
+as shear BC data. No shear solve or assumption-dependent implementation yet.
+Prepare separate boundary/cache/log/reference identities, validate independent
+UFL mechanics and damage, then select loading extent from direct behavior.
+No Git operation authorized in this turn. Previous publication completed as
+dev6d0c720/main3b11dd3, independently verified on origin/main.
+
 Publication handoff, 2026-10-19: user provisionally retains the random5 replay
 result and authorizes commit on dev, regular merge into main, and push ONLY
 main. Code/tests/Markdown include replay selection and exact shared-coordinate

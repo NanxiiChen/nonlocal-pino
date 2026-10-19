@@ -51,18 +51,54 @@ def read_cloud(path):
 
 
 def geometry_identity(c):
-    return dict(cloud=str(c.data.cloud), delta_d=c.nl.delta_d,
+    identity = dict(cloud=str(c.data.cloud), delta_d=c.nl.delta_d,
                 visibility_tolerance=c.nl.visibility_tolerance,
                 grip_extent=c.geometry.grip_extent, h_grip=c.geometry.h_grip,
                 E=c.physical.E, nu=c.physical.nu, k_res=c.physical.k_res,
                 schema='p1-local-volume-grips-amor-lumped-v1')
+    if 'boundary' in c:
+        if (c.boundary.mode != 'horizontal_clamped_edges'
+                or c.damage.discretization != 'fem' or c.geometry.grip_extent != 0):
+            raise ValueError('edge shear requires explicit FEM damage and zero grip extent')
+        identity.update(boundary=c.boundary.to_dict(), schema='p1-local-edge-clamps-amor-lumped-v1')
+    return identity
+
+
+def shear_boundary(cloud):
+    """Top ux=U,uy=0; bottom ux=uy=0 on original material edges."""
+    points = cloud['coordinates']
+    for name in ('bottom', 'top'):
+        if cloud[name].dtype != bool or cloud[name].shape != (len(points),):
+            raise ValueError('shear boundary masks must be material-node Boolean arrays')
+    bottom = direct._g_validate_interface_coordinates(points, cloud['bottom'], 0., 'shear bottom')
+    top = direct._g_validate_interface_coordinates(points, cloud['top'], 1., 'shear top')
+    tolerance = direct._g_geometry_tolerance(points)
+    if (not np.array_equal(cloud['bottom'], abs(points[:, 1]) <= tolerance)
+            or not np.array_equal(cloud['top'], abs(points[:, 1]-1.) <= tolerance)):
+        raise ValueError('shear masks must cover the complete y=0 and y=1 edges')
+    nodes = np.concatenate((bottom, top))
+    constrained = np.sort((2*nodes[:, None]+np.arange(2)).ravel()).astype(np.int64)
+    direction = np.zeros(2*len(points), np.float64)
+    direction[2*top] = 1.
+    return constrained, direction
 
 def prepare(c):
+    identity = geometry_identity(c)
     root = Path(c.mesh.prepared_dir)
     root.mkdir()
     cloud = read_cloud(c.data.cloud)
     points, tri, V = cloud['coordinates'], cloud['triangles'], cloud['volumes']
     print(json.dumps(dict(event='prepare', material_nodes=len(points), cells=len(tri))), flush=True)
+    if 'boundary' in c:
+        constrained, direction = shear_boundary(cloud)
+        np.savez_compressed(root/'mesh.npz', coordinates=points, triangles=tri,
+            n_material=np.int64(len(points)), n_material_cells=np.int64(len(tri)),
+            volumes=V, constrained=constrained, load_direction=direction)
+        atomic_json(root/'identity.json', dict(config=identity,
+            mesh_path=str(root/'mesh.npz'), operator_path=None))
+        print(json.dumps(dict(event='prepared', root=str(root), material_only=True,
+            constrained_dofs=len(constrained), load_component='ux')), flush=True)
+        return
     offsets = np.arange(c.geometry.h_grip, c.geometry.grip_extent, c.geometry.h_grip)
     offsets = np.concatenate((offsets[offsets < c.geometry.grip_extent], [c.geometry.grip_extent]))
     coordinates = points.tolist()
@@ -96,12 +132,18 @@ def load_geometry(c):
     expected = geometry_identity(c)
     prepared = identity['config']
     for key in expected:
-        if key != 'cloud' and prepared[key] != expected[key]:
+        if key != 'cloud' and (key not in prepared or prepared[key] != expected[key]):
             raise ValueError(f'prepared geometry setting differs: {key}')
     with np.load(root/'mesh.npz', allow_pickle=False) as f:
         values = {name: f[name].copy() for name in f.files}
     cloud = read_cloud(c.data.cloud)
     n, nc = int(values['n_material']), int(values['n_material_cells'])
+    if 'boundary' in c:
+        constrained, direction = shear_boundary(cloud)
+        if (len(values['coordinates']) != n or len(values['triangles']) != nc
+                or not np.array_equal(values['constrained'], constrained)
+                or not np.array_equal(values['load_direction'], direction)):
+            raise ValueError('prepared edge shear domain or boundary differs from configuration')
     for actual, expected_values in (
             (values['coordinates'][:n], cloud['coordinates']),
             (values['triangles'][:nc], cloud['triangles']),

@@ -1,5 +1,272 @@
 # Nonlocal PINN history-field learning and architecture investigation
 
+## /task-end — 2026-10-19, commit completed shear case and result records
+
+User explicitly authorizes committing the current result, with no merge/push.
+Reviewed all pending files: new shear train/solver/prepare/independent-UFL
+entries, two explicit ml_collections configs, stable case README, optional
+shared mesh edge BC identity/validation, focused tests and project memories.
+Stage only code/tests/Markdown; external checkpoints, events, plots and ignored
+legacy remain local. No numerical changes during this commit session.
+
+Rechecked stored4focused test PASS30.077s, independent UFL pass and both
+completed200-load receipts. AST syntax check passes for all8changed/new Python
+modules, final git diff --check required. Do not repeat unchanged expensive
+tests or full solves just to commit. Preserve all accuracy/time caveats from
+the completed audit above: final damageerror31.812%, reactionerror1.157%,
+FEM1506.591s versus PINN10619.252s with differing stop thresholds. This is a
+saved shear-stage result, not a claim of improved spatial accuracy or speed.
+
+Commit on existing dev; commit identity and file list are recorded by Git.
+No merge, push, new experiment or source-default change authorized. Memory
+files updated: PROGRESS, DECISIONS and this task. Broad architecture task stays
+active; exact resume is the completed comparison, no running workers/queued
+training. After commit verify branch, HEAD and clean status, then report hash.
+
+## /task-end — 2026-10-19, completed shear PINN and matched-load audit
+
+Actual job complete/ended11:00:00UTC, both11419/12667 exited. Full truecold
+0→0.0200 has200field-stable synchronized endpoints,3026outers/388224Adam,
+10619.252s(176.988min), replayOFF. All endpoint rates remain1e-4; do not
+attribute this completion to a rate reduction. FEM6388outers/1506.591s with
+stricter damage stop; fewer neural outers are not a matched-quality speedup.
+PINN peak359.832719 at0.0100 vs FEM359.228185 at0.0099; initial rapid growth
+PINN0.0102(266outers), FEM0.0101(558). First postpeakR<1 PINN0.0137 versus
+FEM0.0135, not a connectivity criterion by itself. FinalR0.054479918 vs
+0.055117825,relativeerror1.157%;dmax0.99995824.
+
+Saved reproducible plot_comparison.py, reaction_comparison.png,
+damage_comparison.png and comparison.json under
+`/root/autodl-tmp/tf-logs/fracture2d_shear/diagnostics/completed_comparison_20261019/`.
+Identical loads0.0099/0.0101/0.0120/0.0140/0.0200, damage0–1 and actual
+material triangles. Checked endpointcomplete/stable/sync, fieldshape/finiteness.
+Damage volume-weighted relativeL2errors1.0412/57.1171/35.2353/31.8972/31.8116%.
+At0.0101 PINN stillprecrackR357.553 vs FEM253.616; at0.0120R165.966 vs
+180.027. Visual inspection confirms both cracks curve downward to rightedge,
+with remaining spatial/width offsets; finalfield error is not explained away
+by similar reaction or accepted field-change stops. No symmetry imposed and
+no new baseline acceptance inferred. No solver/config/numerical/Git changes,
+new experiments or repeatedtests; updated PROGRESS/task and diff check.
+Exact resume: completedrun/comparison above; no worker to monitor or signal.
+Next user may accept/inspect/refine this coldresult; no automatic rerun queued.
+
+## /task-end — 2026-10-19, confirm shear PINN already implemented and running
+
+User asks whether PINN can now be implemented. Existing new train.py/config
+are implemented and the serial launcher already started fresh neural training
+after completed reference. Checked actual owner11419/child12667 alive, stage
+pinn, result has84 field-stable endpoints through0.0084, latest5outers,
+R326.5801515,dmax0.3051965,Adam55296,rate1e-4. Actual zero-state q/d/H are
+all zero; saved config confirms replayOFF, material edge clamps,200loads,
+history-conditioned local P1 energy/full-domain damage and direct mechanics.
+History bank collecting168snapshots does not mean replay training is enabled.
+Events exist at pinn_history_conditioned/events. Leave existing run active;
+do not duplicate or restart. No code/config/numerical/Git change or tests.
+Updated PROGRESS/task; diff check. Next assess same-load crack growth versus
+FEM around0.0101 and0.0135, not old tensile critical loads.
+
+## /task-end — 2026-10-19, display completed shear FEM fields and force curve
+
+Generated reaction_displacement.png, damage_evolution.png and
+displacement_evolution.png from the completed200-load direct reference.
+Five exact endpoints:0.0099/0.0101/0.0120/0.0140/0.0200; nodal q interleaved
+ux/uy, actual material triangulation and undeformed coordinates. Damage
+fixed0–1, each displacement panel uses its actual extrema. Saved script,
+curve CSV and receipt alongside figures at
+`/root/autodl-tmp/data/fracture2d_shear/fem_reference/figures/overview_20261019/`.
+Validated complete/stable/synchronized endpoints, field shapes/finiteness and
+damage range. Visually inspected all three figures: crack curves downward and
+reaches right edge by0.0140, upper/lower blocks separate horizontally with
+near-zero remaining reaction. Peak R359.228185 atU0.0099; initial sharp drop
+at0.0101 and later collapse are distinct events. No reference/PINN source,
+configuration, numerical policy or Git operation changed; no solver rerun.
+Updated PROGRESS/task, diff check; active background PINN left running.
+
+## /task-end — 2026-10-19, shear reference completion status
+
+Read actual job.json/result.json and direct log: reference complete=true,
+all200 endpoints to0.0200 field-stable,6388outers,1506.591s including saved
+prefix346.941s. Final horizontal reaction0.055117825,dmax0.999950283.
+Launcher automatically transitioned to fresh replay-OFF PINN at08:02:48UTC,
+child12667. Reference output location unchanged. No numerical/config changes,
+new launch, tests or Git operation; updated PROGRESS/task and diff check.
+Next resume: inspect new PINN result/job before reporting its load progress;
+do not infer crack connectivity solely from maximum damage.
+
+## /task-end — 2026-10-19, confirm shear reference output placement
+
+User clarifies reference data belong below
+`/root/autodl-tmp/data/fracture2d_shear/`. Verified actual config and files:
+`fem_reference/` there contains result.json, field checkpoints and figures;
+only TensorBoard events live in
+`/root/autodl-tmp/tf-logs/fracture2d_shear/fem_reference/events/`.
+Existing paths already satisfy the request; no move, numerical/config change,
+new compute or Git operation. Latest read: 140 completed loads through0.0140,
+reference incomplete, current outer5 of next load. Extended launcher remains
+in fem_reference stage; fresh PINN starts only after direct completion.
+Updated PROGRESS/task; whitespace check passes, no repeated tests.
+
+## /task-end — 2026-10-19, material-edge shear implemented and extended reference running
+
+Delivered independent `examples/fracture2d_shear/` with README, ml_collections
+train.py/solver.py, prepare.py, independent validate_fem.py, and train/solver
+configs. Reuses existing fracture2d stagger, local mechanics, P1 energy,
+history-conditioned network and monitoring. Shared mesh.py adds an optional
+horizontal_clamped_edges preparation/load/identity path; absence of boundary
+preserves old profile identities. New path writes ONLY material nodes/cells,
+top ux=U,uy=0 and bottom ux=uy=0, complete checked edge masks; no added grips,
+no nonlocal matrix or visibility graph. Loader checks actual BC arrays and
+domain against configuration. Root README lists the new example. No symmetry,
+contact law, material or prior baseline change; no runtime legacy dependency.
+
+Material geometry exact-array comparison to original mesh prefix passes:
+71307nodes,141366triangles,142614DOFs,1004constrainedDOFs. Actual cache
+`/root/autodl-tmp/data/fracture2d_shear/geometry_assets/`. Four CPU tests
+PASS30.077s: original material/BC/cache guards; analytic affine shear reaction,
+energy and hybrid driver/direct damage; matched direct/neural cold+resume and
+wrong-reference rejection; existing tension FE zero/resume/direct regression.
+Final200-load config validation passes, bank512>=400 snapshots, replayOFF,
+exact extended direct canonical identity verified. No unchanged broad suite.
+
+Independent FEniCS validation completed/exit0 in7.40s. Relative stiffness
+8.8674e-16, hybrid-history driver3.3592e-16, scalar stiffness1.2071e-15.
+Actual training P1 scalar versus saved UFL matrix1.0096e-14. Checked UFL DOF
+edge constraints, free equilibrium, horizontal reaction and elastic solution.
+Actual GPU reference first outer compared with UFL: q relativeL2 error
+1.3651e-8, R4.324225835734 vs4.324225835724 atU1e-4. Receipt
+`diagnostics/cold_launch_20261019/elastic_gpu_verification.json`. Cache holds
+fenics_parity.json, local_scalar_stiffness.npz and elastic_check.npz, no SHA.
+FEniCS completed before GPU work; never concurrent environments. Initial CLI
+issues were fixed before long runs: avoid importing old solver's globally
+registered config flag; express the independently checked 3D plane-strain
+Amor UFL driver directly. New absl callbacks now return None, not Path/dict
+exit codes. Actual validation CLI exit0 and original reference CLI exit0.
+
+First direct cold0→0.0100 completed100fieldstable loads,688outers,346.9409s.
+Endpoint dmax0.59413794/R358.82250: local damage only, insufficient range.
+Initial serial launcher8238 had automatically spawned PINN8724; it was
+cancelled during initialization before ANY outer/result report, and its folder
+preserved under `diagnostics/cold_launch_20261019/initial_pinn_cancelled`.
+All former8238/8239/8724 exited. Original job explicitly cancelled_for_range_extension.
+No claim this initial short neural trial completed a load or is reusable state.
+
+Extended default range0→0.0200,du1e-4, bank512 fixed for400start/end snapshots;
+all other neural settings remain accepted replay-free baseline:128Adam per
+outer,1024initialenergy bootstrap,scaled damage/u stop,progress128/max4blocks,
+rates1e-4→3e-5→1e-5. Direct uses strictd1e-5/u1e-4/threepasses and1024cap.
+The direct100load prefix is REUSED with q/d/H untouched. Explicit metadata
+continuation changes only u_final, unused direct bankcapacity, and resumeflag;
+no direct network/optimizer exists. Backed up config/identity/result JSON,
+checked all parent links/status/synchronization and101prefixfield files.
+Final continuation code checks every prefixfile size/mtime and endpoint arrays
+again after completion. Root identity/config reflect the extended run; no
+hash/fallback or silent skip of an unconverged endpoint. Total direct seconds
+will be prefix346.94+extension seconds, separately recorded. The initial gap
+and aborted neural initialization are not hidden in direct solve time.
+
+ACTIVE launcher11419, child11423 FEM, managedsession68686. Externaldriver
+`/tmp/fracture2d_shear_extend_launch.py`, stdout
+`/tmp/fracture2d_shear_extend_launch.log`; copied launch.py, configs, case
+snapshot, original-reference-metadata and continuation_verification.json at
+`/root/autodl-tmp/tf-logs/fracture2d_shear/diagnostics/extended_cold_launch_20261019/`.
+Started07:43:23UTC=15:43:23Shanghai. Direct reference path
+`/root/autodl-tmp/data/fracture2d_shear/fem_reference`.
+Actual new0.0101 load converged558outers withR253.61605 anddmax~.998;
+inspected damage_0101.png: a downward-kinking crack from the notch tip,
+not a spanning horizontal tensile crack.0.0102/0.0103/0.0104 completed in
+135/110/102outers withR247.55/243.99/240.84. Reference continues to0.0200;
+do not claim fullrange complete or spanning fromdmax alone.
+
+When the reference fully completes, launcher starts a FRESH replay-OFF PINN
+in a separate process, using matching reference for evaluation only. Output
+`/root/autodl-tmp/tf-logs/fracture2d_shear/pinn_history_conditioned` with events/.
+Reference TensorBoard `tf-logs/fracture2d_shear/fem_reference/events`.
+Both under example-specific log subdirectory. No neural warmweights or fields
+from the direct endpoint; actual newzero state still needs verification once
+the extended neural process starts. Any reference or PINN budget failure
+saves/stops and marks the job failed; no automatic relaxation/restart.
+
+Exact resume: inspect extended job.json and direct result.json/log first,
+then neural stage/actualzero fields/optimizer/bank. Leave current pipeline
+running. No second solver or FEniCS job while GPU active. Inspect reference
+throughfracture/loadrange and later neural field/force/error/work at SAME load.
+Do not impose old tension's straight path on the shear case. No Git operation
+authorized this turn. Changed memory PROGRESS/DECISIONS/this task; task active,
+no archive. Final diffcheck required. Implementation delivered; numerical
+trajectory comparison remains running in background.
+
+## Steering update — 2026-10-19, material-only shear with direct edge constraints
+
+User explicitly asks to remove added grip regions now both fields are local
+FEM. Adopt original material mesh only, with top y=1 ux=U,uy=0 and bottom
+y=0 ux=uy=0. New explicit boundary mode horizontal_clamped_edges, declared
+grip_extent0; no independent horizontal anchor needed. Other exposed faces
+natural zero traction; scalar damage natural zero flux. This supersedes the
+strip-based plan below, not a change to existing tension profiles. Shared mesh
+prepare/load gets an optional checked material-only boundary path and identity.
+No nonlocal operator/support cache needed. Independent FEniCS verifies the
+material stiffness, scalar operator, hybrid driver and horizontal reaction
+before direct reference/PINN runs. New reference and PINN both use edge BCs.
+
+## Current action — 2026-10-19, confirmed clamped shear implementation
+
+User selects top grip ux=U,uy=0 and bottom grip ux=uy=0. Essential BC answer
+received; proceed without further confirmation. Independent new directory
+`examples/fracture2d_shear/`, train.py for neural and solver.py for matched
+direct FEM; prepare.py creates a distinct cache from unchanged union geometry,
+validate_fem.py checks independent UFL. Share existing stagger/energy/network.
+Add explicit optional boundary config/identity to shared mesh loading while
+leaving old profiles/identities unchanged. Do not copy tension parity receipt.
+
+Reference exploratory extent0→0.0100,du1e-4, unchanged material/mesh; expand
+history bank to256 to cover200start/end snapshots at fixed shapes. Neural
+profile inherits accepted scaled-stop cold baseline, replayOFF,128Adam/outer,
+initial1024energy bootstrap, progress128/max4blocks and same rates. Direct
+profile uses original strict field tolerances and1024outercap, no neural LR
+controller. Both use one-mechanics stagger and preceding-load history floor.
+After tests/UFL validation, run direct first, examine crack/force/load range,
+then start fresh neural loading with matched reference and TensorBoard.
+No geometry symmetry, crack-path constraint, contact law or parameter change.
+
+## Current action — 2026-10-19, independent horizontal-loading example
+
+User requests another case on the SAME rounded-notch geometry: top loading
+horizontal, a new examples/ subdirectory, new FEM reference, history-conditioned
+PINN without replay and otherwise comparable accepted settings. This is a
+new loading case within the active architecture task, not a silent task switch.
+Proposed directory `examples/fracture2d_shear/`, thin train.py/solver.py and
+ml_collections configs sharing verified fracture2d numerical core. Separate
+mesh BC cache, ordinary paths, reference and TensorBoard subdirectory. No copy
+of the entire training engine or legacy dependency. Previous authorized Git
+delivery completed dev6d0c720/main3b11dd3 and remote verified, both worktrees
+clean at the start. No Git authorization this new turn.
+
+Required clarification sent asynchronously: horizontal clamped grips
+(bottom ux=uy=0; top ux=U,uy=0) versus horizontal roller-style grips
+(bottom ux=0; top ux=U; uy free except one anchor). The user only specified
+the top direction. These are different valid physics, so repository numerical
+policy forbids inventing the remaining essential BCs. Do not launch either
+while the question is pending. Existing tension cache constrains uy in all
+grip-strip nodes and one material ux anchor; simply swapping load_direction
+would be incorrect. Material occupies0<=y<=1, grips extend0.048 each side.
+
+Independent work completed: inspected local mechanics/mesh/cache, shared
+loading, reference identity and monitoring; located legacy independent UFL
+parity script for formulation guidance ONLY. It has stale imports and SHA
+checks and must not become a runtime dependency. New checks should use current
+LocalMechanics, direct arrays and no hashes. FEniCS environment is
+`/root/miniconda3/envs/fenicsenv/bin/python`; JAX `.venv`, never concurrent
+FEniCS MPI and JAX GPU. GPU RTX5090 idle. Old mesh has71307material nodes,
+77331union nodes/153366triangles; reuse geometry, not old BC/reference results.
+
+Next after BC answer: add explicit optional boundary identity to shared mesh
+handling while preserving baseline identities; prepare/validate new shear
+cache; independently check UFL stiffness, history driver, horizontal boundary
+displacements and reaction, plus P1 damage. Then new matched direct coupled
+trajectory to calibrate load range (tension0.006 need not span under shear),
+followed by fresh replay-OFF conditioned FEM-energy PINN with TensorBoard.
+No shear code/solve has yet been implemented/launched. Keep question pending,
+do not treat elapsed time as a BC answer. Task remains active.
 ## /task-end — 2026-10-19, provisionally retained replay result and publication handoff
 
 User explicitly requests commit, merge and push, retaining the current replay

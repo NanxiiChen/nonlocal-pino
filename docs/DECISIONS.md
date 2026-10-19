@@ -15394,3 +15394,63 @@ speed/retention/current-accuracy tradeoff without changing baseline selection
 or claiming replay is uniformly more accurate. Reuse valid focused checks
 and completed GPU validation; no new numerical edits or experiment requested.
 Use the existing clean main publication worktree and verify remote delivery.
+
+## 2026-10-19 — Isolate horizontal loading and clarify essential grip constraints
+
+User authorizes a separate horizontal-top-loading example on the current
+geometry, matched FEM reference and replay-OFF history-conditioned PINN.
+Keep the verified numerical core shared and give the new case separate BC,
+cache/reference/log identities. Do not reuse tension BC results or silently
+rotate load_direction: vertical clamp versus free vertical grips changes the
+physical problem. Ask for that essential choice before dependent implementation
+or solves. Independent code/cache inspection continues while awaiting input.
+Do not infer shear fracture displacement from the tension endpoint or introduce
+new physical laws; preserve AT2/hybrid-history model for the initial comparison.
+
+## 2026-10-19 — Confirm standard clamped shear with an isolated local-FEM case
+
+User selects upper-grip ux=U,uy=0 and lower-grip ux=uy=0. Keep the rounded
+notch, material, hybrid AT2/history law and neural FEM-energy scheme. Create
+fracture2d_shear as thin entries/config/BC-cache preparation sharing verified
+numerical code. Optional boundary identity prevents mixing shear/tension;
+original profiles/identities stay compatible. Independently verify new BCs,
+horizontal reaction and weak operators in FEniCS before GPU. Direct first
+explores0→0.0100 withdu1e-4; use bank256 for200snapshots. This exploratory
+range is a numerical run setting, not an asserted fracture displacement.
+PINN starts fresh without replay using accepted128inner/scaledstop settings.
+
+## 2026-10-19 — Remove artificial grip strips in the new local-FEM shear case
+
+User requests direct boundary constraints instead of appended grip regions.
+Use the unchanged material-only rounded-notch mesh with top ux=U,uy=0 and
+bottom ux=uy=0. Both FEM reference and neural solver share this domain/BC;
+existing tension assets remain unchanged. The former strip-based comparison
+is superseded: it would have different compliance, so do not reuse its force
+curve or parity receipt as shear validation. Optional boundary mode is explicit
+in configuration/cache identity; independently validate weak operators and
+horizontal reactions. Local P1 damage requires no nonlocal support halo.
+
+## 2026-10-19 — Extend shear exploration after the initial reference remains local
+
+Actual direct reference completed0→0.0100 but endpoint dmax is only0.594 and
+horizontal reaction358.82. Extend to0.0200,du unchanged, before committing a long
+neural trajectory to an insufficient range. Preserve all100 completed direct
+endpoints and explicitly update only range/bank-capacity/resume metadata for
+continuation (no neural state exists in the direct solver). Backup original
+metadata and verify arrays/parent chain. The initial automatically launched
+short-range PINN is cancelled and archived; the extended PINN will restart
+from fresh zero/net/Adam/bank, with capacity512 for400snapshots. No physical
+parameter, BC, tolerance, old baseline or converged direct state is changed.
+
+## 2026-10-19 — Save the completed shear case as a local development snapshot
+
+User authorizes committing the current shear result. Include implementation,
+explicit configs, independent UFL validation, focused regressions and Markdown
+records of the completed FEM/PINN cold comparison. Keep arrays, network states,
+events and generated figures in their existing local artifact paths. Commit
+on dev only; merge and push are outside this turn's authorization. Preserve
+the measured limitations (31.812% final damage-field error and roughly7.05x
+neural wall time) rather than promoting this snapshot as an accuracy or speed
+improvement. Existing four focused checks, independent UFL and full trajectories
+remain valid; no repeated solve or numerical alteration is needed to save it.
+Relation: material-edge shear and extended-range decisions above.
