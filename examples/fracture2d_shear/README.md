@@ -35,8 +35,8 @@ H-only constant as `fracture2d/fem_damage.py`. Spatial derivatives come from
 shape functions; parameter derivatives use AD. The history-conditioned
 point-patch encoder/coordinate-query network, sigmoid output and full-domain
 training are inherited from the accepted replay-free baseline. Replay training
-is OFF. The bank has a fixed capacity512 for the two snapshots at each of200
-loads; collecting snapshots does not enable replay.
+is OFF by default. The bank has a fixed capacity512 for the two snapshots at
+each of200 loads; collecting snapshots does not enable replay.
 
 Each stagger iteration solves mechanics once, forms
 H=max(previous-load endpoint H, current tensile driver), freezes/detaches H,
@@ -96,6 +96,24 @@ Pass `--config=examples/fracture2d_shear/configs/train_base.py` or
 to overwrite outputs. Exact resume requires the same configuration and an
 existing valid endpoint; an unconverged budget endpoint cannot be skipped.
 
+To run an independent cold replay comparison using the same reference:
+
+```bash
+PYTHONPATH=.:src .venv/bin/python -m examples.fracture2d_shear.train \
+  --config=examples/fracture2d_shear/configs/train_replay.py
+```
+
+This preset samples five distinct H snapshots from all completed loads, using
+the first-outer and endpoint snapshots already stored by the baseline. It
+excludes the current load's snapshots. Every fourth Adam update uses total
+old-task weight0.1 and current-task weight0.9; the last32updates of each inner
+fit use only the current H. Early buffer shortages are masked in a fixed
+current-plus-five batch, without replacement. Coordinate features/queries are
+shared across histories; field encoders and cross-attention remain H-dependent.
+The physical mesh, material, loading, network seed, optimizer and stopping
+policy match the replay-free preset. This adds no reference targets or spatial
+sampling; it trains on previous frozen-H energy objectives.
+
 ## Artifacts
 
 | Role | Default directory |
@@ -103,6 +121,7 @@ existing valid endpoint; an unconverged budget endpoint cannot be skipped.
 | Material mesh, explicit shear BCs, UFL receipts | `/root/autodl-tmp/data/fracture2d_shear/geometry_assets/` |
 | Local FEM direct reference | `/root/autodl-tmp/data/fracture2d_shear/fem_reference/` |
 | PINN results and TensorBoard | `/root/autodl-tmp/tf-logs/fracture2d_shear/pinn_history_conditioned/` |
+| Random-five replay comparison | `/root/autodl-tmp/tf-logs/fracture2d_shear/pinn_history_conditioned_replay_random5/` |
 | Reference TensorBoard | `/root/autodl-tmp/tf-logs/fracture2d_shear/fem_reference/events/` |
 
 Every completed load records damage, ux/uy, history and load-reaction curves.

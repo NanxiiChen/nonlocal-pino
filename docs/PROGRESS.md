@@ -8,6 +8,41 @@
 [Nonlocal PINN history-field learning and architectures](tasks/nonlocal-pinn-architecture.md).
 Opened 2026-10-15 after the user closed the fracture2d feasibility stage.
 
+Shear replay result retained for commit, 2026-10-19: user explicitly wants
+both choices, default replayOFF. Existing train_base remainsFalse; opt-in
+train_replay selects the completed random5 experiment. Commit preset, README
+and completed accuracy/time records on dev only. Validate both schemas and
+saved-config equality; no numerical changes, repeated full tests, data/events
+in Git, new training, merge or push. No-replay snapshot is dev3625b99.
+
+Shear random5 replay COMPLETE, 2026-10-19: all200cold loads through0.0200,
+2892outers/371072Adam,8961.17s(149.35min), versus no-replay3026outers/
+10619.25s(176.99min).15.61%less time,4.43%fewerouters, not equal accuracy.
+PostpeakR<1 delayed0.0143 vsno-replay0.0137/FEM0.0135; finaldL2error36.053%
+vs31.812%, finalR0.0788702 vsFEM0.0551178. At0.0120replaydL2error17.087%
+vsno-replay35.235%, so effects vary byload. Both neural rates stayed1e-4.
+Visualcomparison shows replaypath steeper towardlower-right corner. Saved
+threecurve/matched-load damage plots+receipt under shear diagnostics/
+replay_random5_comparison_20261019. No old-H retention audit or baseline
+replacement yet; no further training queued. Earlier running notes historical.
+
+Shear random5 replay RUNNING, 2026-10-19: owner26889/worker26894, managed
+session15729, launch diagnostics/replay_random5_launch_20261019/job.json.
+Actual cold q/d/H zero, Adam0/bank0 and identical initial network/optimizer
+bytes verified against no-replay. Preset matches saved baseline except replay
+and output paths;200loads/bank512/fixed6tasks validated. Events created under
+pinn_history_conditioned_replay_random5/events. Initial compilation, no load
+endpoint yet at last check. Same physical/stopping/seed settings; no core
+edits, new full tests or Git operations. Inspect actual job/log/result next.
+
+Shear replay experiment authorized, 2026-10-19: add an isolated train_replay
+preset inheriting the completed no-replay shear config. Reuse validated global
+random5 completed-H policy: totaloldweight0.1/every4Adam/last32current-only,
+fixed6task shape,bank512. Cold0→0.0200; same physics/rates/stops/full-domain
+energy and seed. Preserve original results and matched FEM. Validate config
+diff/fresh state, then background run with separate replay TensorBoard root.
+No Git operation authorized in this turn.
+
 Shear snapshot authorized for commit on dev, 2026-10-19: include material-edge
 shear example, explicit configs, shared mesh BC guards, focused tests and
 completed cold-result records. Verification remains4focusedPASS plus UFL and

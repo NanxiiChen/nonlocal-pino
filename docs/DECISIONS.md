@@ -15454,3 +15454,28 @@ neural wall time) rather than promoting this snapshot as an accuracy or speed
 improvement. Existing four focused checks, independent UFL and full trajectories
 remain valid; no repeated solve or numerical alteration is needed to save it.
 Relation: material-edge shear and extended-range decisions above.
+
+## 2026-10-19 — Test existing global random-five history replay on shear
+
+User requests replay for the completed shear PINN case. Use the previously
+validated global completed-H sampler rather than introducing a new window or
+replay objective: five distinct old snapshots, total weight0.1 every4Adam,
+last32updates current-only, fixed masked six-task batch and shared coordinate
+queries. Inherit all no-replay shear physics, seeds, optimizer/stopping and
+0→0.0200 loading settings. Start fresh so both runs accumulate their own real
+history bank; preserve the saved no-replay trajectory and use the same FEM
+reference only for evaluation. Separate preset/artifact root makes the trial
+reviewable without changing the default. Relation: original random5 replay
+and completed shear snapshot; no Git publication or baseline replacement.
+
+## 2026-10-19 — Retain shear replay as an opt-in result, default OFF
+
+User accepts saving the replay result and explicitly requires that replay
+remain optional with default false. Preserve train_base.py replay_enabled=False
+and train.py's existing default; commit the separate train_replay.py preset
+plus CLI/result documentation on dev. Do not replace the no-replay default or
+infer merge/push permission. This retains the measured time/field-accuracy
+tradeoff for future comparisons rather than declaring replay uniformly better.
+No core numerical change or repeated full solve is necessary; verify both
+explicit schemas and their equality with actual saved200-load configs.
+Relation: globalrandom5 shear trial and completed comparison in active task.

@@ -1,5 +1,115 @@
 # Nonlocal PINN history-field learning and architecture investigation
 
+## /task-end — 2026-10-19, commit optional shear replay with default OFF
+
+User accepts retaining this result and authorizes commit, explicitly keeping
+replay optional and OFF by default. Existing train.py default config remains
+train_base.py with replay_enabled=False. New train_replay.py explicitly opts
+into the tested globalrandom5 scheme; README documents both choices. Do not
+change default mesh/model/optimizer/controller or auto-enable replay.
+
+Commit only the optional preset, README and PROGRESS/DECISIONS/task records.
+Both200-load schemas validate and saved actual configs exactly match their
+presets; both trajectories complete/fieldstable/synchronized. New preset AST
+syntax checked, whitespace check required. Existing sampler/gradient/resume
+checks and actual fullreplay trajectory remain valid; no unchanged costly
+tests or training rerun. Raw events/weights/arrays/figures remain local.
+Keep measured speed/accuracy tradeoff:149.35vs176.99min and36.053vs31.812%
+finaldamagefield error; old-H retention unmeasured in shear. Stage retention
+does not make replay the preferred default or establish equal-quality speedup.
+
+Commit on dev only, no merge/push in this turn. Result roots and comparison
+receipts above are the exact resume point; no live workers or new compute
+queued. Broad history/architecture task remains active. Memory files changed:
+PROGRESS,DECISIONS,this task; after commit verify cleanstatus and report hash.
+
+## /task-end — 2026-10-19, shear random-five replay completion and comparison
+
+User asks status. Initial read was196complete/current197; while preparing
+matched comparison the run finished200/0.0200 naturally, all endpoints
+field-stable and q/d synchronized. No stop/restart/config change. Final
+2892outers,371072Adam,8961.170s(149.353min); no-replay3026/388224/
+10619.252s(176.988min). Time reduces15.6139%,outercount4.4283%; differing
+output accuracy precludes equal-quality speedup. All endpoint rates1e-4.
+Peak replay360.035342 at0.0099, no-replay359.832719 at0.0100 and FEM
+359.228185 at0.0099. First postpeakR<1 replay0.0143(R0.353383), versus
+no-replay0.0137 and FEM0.0135. Final reaction0.078870161 vsno-replay
+0.054479918/FEM0.055117825; replay finaldamage relativevolumeL2error36.0532%
+vsno-replay31.8116%. Early0.0120replayerror17.0870% vs35.2353%,reaction
+188.865 vs165.966/FEM180.027. At0.0140replayR121.517, not yetspanning;
+its29.802%field error alone would misleadingly look better than already
+unloaded no-replay31.897%. Joint force/path assessment matters.
+
+Saved reproducible plot_comparison.py, reaction_comparison.png,
+damage_comparison.png and readout.json under
+`/root/autodl-tmp/tf-logs/fracture2d_shear/diagnostics/replay_random5_comparison_20261019/`.
+Refreshed after completion to use final0.0200 plus identical0.0120/0.0140,
+all materialtriangles/shared0–1damage scale. Visualinspection: all paths
+curve downward, replay propagates more steeply towardlower-rightcorner,
+remaining spatialbias and delayedunloading; do not label same crackpath or
+uniformlybetter/worsefieldaccuracy at everyload. Historical partialreadout
+timestamp spans are not direct full FEM solve times (direct had a pause);
+use recorded result.seconds for totals. No retention audit of pastH performed.
+
+No numerical/core/Git changes or repeatedtests; only localreadout/figures and
+PROGRESS/task update, whitespace check. No new run queued, preserve all three
+trajectories. Exactresume: completed launch job/result and comparison above;
+if user asks about replay generalization, evaluate frozen oldH using its
+appropriate scalar target separately from coupledtrajectoryfield error.
+No baseline promotion, symmetryconstraint or learning-rate change inferred.
+
+## /task-end — 2026-10-19, isolated shear replay cold run launched
+
+Added configs/train_replay.py and documented CLI, completed-history sampler,
+fixed batch and artifact path in shear README. No shared numerical core or
+default change. CPU config/schema validationPASS: original shear preset equals
+actual saved no-replay config; exact diff only replaybatch/enabled/every/
+fraction/sampling and outputroot/eventdir.200loads,bank512>=400,fixed6tasks.
+Reused existing validated sampler/shared-query gradients/resume tests; no
+unchanged expensive regression suite or FEM validation rerun.
+
+Actual background owner26889/worker26894, managed session15729, started
+12:49:17UTC. External driver /tmp/fracture2d_shear_replay_launch.py is copied
+to `/root/autodl-tmp/tf-logs/fracture2d_shear/diagnostics/replay_random5_launch_20261019/launch.py`.
+That directory holds job.json, pinn.log, config.json, config_diff.json,
+case/shared-core source snapshots and cold_start_verification.json. Driver
+records completion/failure; a field-budget failure stops, no auto relaxation.
+Only neural GPU now; nvidia-smi was empty before launch, no FEniCS process.
+
+Actual state0000 q/d/H exactly zero, Adam0/historybank0, network.eqx and
+optimizer.eqx bytes exactly equal baselinefresh state. Cold receiptPASS at
+12:49:27UTC. Worker alive, TensorBoard event file exists. Initial compilation
+at last observation; no root result.json/completed load yet, no numerical or
+speed/retention claim. Output and events under
+`/root/autodl-tmp/tf-logs/fracture2d_shear/pinn_history_conditioned_replay_random5/`.
+Previous no-replay result and FEMreference unchanged. No Git action authorized.
+
+Memory updated: PROGRESS,DECISIONS,this task. Whitespace check required.
+Task remains active, no archive. Exact resume: read launch job.json/pinn.log,
+then replay result.json; verify first endpoints, subsequently compare crack
+growth/force/field error and work/time at IDENTICAL loads against no-replay
+and FEM. Do not start another training process or resume former exited jobs.
+
+## Current action — 2026-10-19, cold shear random-five replay trial
+
+User asks to try PINN with replay after saving no-replay shear as dev3625b99.
+Reuse the already validated FEM-energy completed-history replay implementation;
+no new scheme or shared core change. New train_replay.py inherits shear base,
+samples5distinct snapshots globally from all completed loads, totaloldweight.1
+every4Adam, last32updates current-only. Current load snapshots excluded;
+fixedcurrent+5 batch with shortage masks,bank512 for400snapshots. Same mesh,
+BCs,material,seed,full-domain energy,stagger,128inner/bootstrap1024, rates and
+field stops; fresh0→0.0200. Previous no-replay result remains intact.
+
+Output `/root/autodl-tmp/tf-logs/fracture2d_shear/pinn_history_conditioned_replay_random5`,
+events beneath events/. Reference stays data/fracture2d_shear/fem_reference.
+Before launch check GPU/process idleness, exact config diff and no-overwrite;
+record config/source snapshot and fresh q/d/H/net/Adam/bank evidence. Existing
+replay sampling/shared-coordinate gradient/resume tests remain valid because
+only a preset and docs change. Validate config schema and run startup checks;
+no FEniCS rerun while GPU active, no Git operation. Monitor same-load force,
+damagefield accuracy and iteration/wall cost; no speed/retention claim yet.
+
 ## /task-end — 2026-10-19, commit completed shear case and result records
 
 User explicitly authorizes committing the current result, with no merge/push.
