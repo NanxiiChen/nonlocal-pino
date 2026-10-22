@@ -15479,3 +15479,95 @@ tradeoff for future comparisons rather than declaring replay uniformly better.
 No core numerical change or repeated full solve is necessary; verify both
 explicit schemas and their equality with actual saved200-load configs.
 Relation: globalrandom5 shear trial and completed comparison in active task.
+
+## 2026-10-19 — Propose a physical dynamic branching benchmark before coding
+
+User requests setup discussion only. Recommend the published precracked
+rectangular plate under suddenly applied opposed tensile tractions (Borden
+2012sec4.2), with inertia and physical-time integration explicitly required.
+Do not promise that current quasistatic AT2/hybrid shear will branch simply
+by increasing load. Manav2024sec4.5 offers a closer quasi-static unsplit-shear
+topology test, but explicitly identifies its branching as unphysical, so do
+not present it as physicalbranching validation. Preserve source conventions:
+Borden epsilon=.25mm corresponds to current AT2l0=.5mm by energy matching.
+This is a proposal, not authorization to alter physics or start a new run.
+Relation: completed shear and history-conditioned solver; full references
+and candidate resolution/time settings are recorded in active task.
+
+## 2026-10-20 — Defer dynamic branching and try a quasi-static L-shaped panel
+
+User explicitly sets dynamics/branching aside and requests irregulargeometry.
+Choose a reentrant L-panel with bottomclamp and upward shortarmend patch,
+following geometry/BC pattern in Manav2024sec4.3/Fig5/AppendixH. Preserve
+current AT2/hybrid-history/material rather than changing constitutivephysics
+and geometry together; document this as an adaptation, not exact published
+experiment reproduction. Newmatched FEM reference precedes replayOFF neural
+training. Use no precrack, symmetryconstraint or guessedbranchpath. Maintain
+separate config/cache/artifacts and preserve all originaltension/shear defaults.
+Relation: prior dynamicbenchmark was proposalonly and is now deferred.
+
+## 2026-10-20 — Confirm L-panel data layout and fresh geometry-specific scope
+
+User explicitly confirms the present neuralgoal is a full coldstart, not
+crossgeometry generalization, and requests FEMdata under
+`/root/autodl-tmp/data/fracture2d_lshape`. Existing fem_reference/ output
+already complies; TensorBoardevents remain in the example-specific tf-logs
+subdirectory. Keep newrandom initialization, zero optimizer/historybank and
+zero physicalfields atloadzero; do not reuse trainedweights or referencefields
+as initialization. Preserve ordinary warmstart after initialization. This
+clarification matches current presets/launcher and requires no numericalchange.
+Relation: irregular L-panel implementation and serialcoldrun.
+
+## 2026-10-20 — Preserve cold trajectory after unexplained process interruption
+
+L-panel PINN lost both launcher and worker without a solver traceback or
+terminal exit record. Do not label this numerical divergence, OOM, or a
+confirmed tool timeout. Managed-session lifetime is a suspected mechanism;
+the original launch lacked independent detachment/supervision. Retain full
+FEM and cold-origin neural endpoints. Actual read-only restore validates
+state0006 network, Adam4736, physical fields and12historysnapshots, so a
+continuation can recompute incomplete0007 with unchanged numericalpolicy.
+Prefer a detached/supervised launcher with persistent exit recording on
+continuation instead of retraining fromzero or altering optimizer/tolerance
+without evidence. This turn investigates and corrects stale jobstatus only;
+no training restarted. Relation: L-panel coldrun and interruption audit.
+
+## 2026-10-20 — Resume L-panel with an independently detached supervisor
+
+User authorizes continuation. Restore complete0006 using existing endpoint
+resume with network/Adam4736/physicalhistory and12snapshots; recompute0007.
+Archive partial0007 and its extra snapshot before restarting to preserve
+interruption evidence. Keep all physics, training/stopping and replayOFF
+settings, original TensorBoard root and completed FEM. Run an independent
+session supervisor with redirected standard streams, a duplicate-run lock,
+persistent PID/heartbeat/exitcode records and explicit failure handling.
+Do not rerunFEM, silently skip unfinishedloads, reset the coldtrajectory,
+or automatically relax budgets/retry numericalfailures. Relation: verified
+endpointrestore and unexplained managed-session interruption above.
+
+## 2026-10-21 — Test global random-five replay on the L-shaped panel
+
+User requests a replay trial after the completed no-replay L-panel run.
+Reuse the tested completed-history random-five policy: five distinct past H
+snapshots from all completed loads, total replay weight0.1 every4Adam,
+last32updates current-only, current+5 fixed task shape with shared coordinate
+queries. Start from the same seed at physicalzero with fresh Adam/bank;
+keep geometry, FEM reference, full-domain energy, rates/stops and300loads
+to0.0300 unchanged. Add an opt-in preset and separate output/event root,
+leaving default replayOFF and completed no-replay artifacts intact. Use a
+detached supervisor with startup verification, heartbeat and exit receipt.
+This is an experiment, not a presumption of equal accuracy or faster solving.
+Relation: prior tension/shear random5 trials and completed L-panel cold run.
+
+## 2026-10-22 — Save L-panel code and documentation on dev
+
+User explicitly authorizes committing current code and Markdown. Include
+the isolated L-panel example, validated shared boundary/UFL extensions,
+focused regressions, opt-in replay preset and exact result/progress records.
+Retain default replayOFF; completed replay has much larger final damage-field
+error and is an experimental control, not a replacement baseline. Keep raw
+data, weights, events, generated figures/slides and external launch drivers
+outside Git. Existing numerical checks remain valid because actual code
+matches validation/run snapshots; check syntax/configs/whitespace and staging
+without rerunning unchanged costly suites. Commit on dev only; do not infer
+merge or push permission. Relation: completed L-panel no-replay/replay trials.

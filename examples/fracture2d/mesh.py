@@ -57,10 +57,13 @@ def geometry_identity(c):
                 E=c.physical.E, nu=c.physical.nu, k_res=c.physical.k_res,
                 schema='p1-local-volume-grips-amor-lumped-v1')
     if 'boundary' in c:
-        if (c.boundary.mode != 'horizontal_clamped_edges'
+        if (c.boundary.mode not in ('horizontal_clamped_edges', 'l_shaped_panel')
                 or c.damage.discretization != 'fem' or c.geometry.grip_extent != 0):
-            raise ValueError('edge shear requires explicit FEM damage and zero grip extent')
+            raise ValueError('edge clamps require explicit FEM damage and zero grip extent')
         identity.update(boundary=c.boundary.to_dict(), schema='p1-local-edge-clamps-amor-lumped-v1')
+        if c.boundary.mode == 'l_shaped_panel':
+            identity.update(width=c.geometry.width, height=c.geometry.height,
+                            schema='p1-local-l-panel-amor-lumped-v1')
     return identity
 
 
@@ -82,6 +85,64 @@ def shear_boundary(cloud):
     direction[2*top] = 1.
     return constrained, direction
 
+
+def l_panel_boundary(cloud, c):
+    """Validate the L polygon; clamp bottom and lift only the underside patch."""
+    b = c.boundary
+    width, height = c.geometry.width, c.geometry.height
+    cx, cy, start, end = b.corner_x, b.corner_y, b.load_start, b.load_end
+    if (not np.isfinite([width, height, cx, cy, start, end]).all()
+            or not 0 < cx < width or not 0 < cy < height
+            or not cx < start < end <= width):
+        raise ValueError('invalid explicit L-panel dimensions or load interval')
+    points, cells = cloud['coordinates'], cloud['triangles']
+    if (points.dtype != np.float64 or points.ndim != 2 or points.shape[1] != 2
+            or not np.isfinite(points).all() or cells.dtype != np.int64):
+        raise ValueError('invalid L-panel coordinates or connectivity dtype')
+    tol = direct._g_geometry_tolerance(points)
+    inside = ((points[:, 0] >= -tol) & (points[:, 0] <= width+tol)
+              & (points[:, 1] >= -tol) & (points[:, 1] <= height+tol)
+              & ((points[:, 0] <= cx+tol) | (points[:, 1] >= cy-tol)))
+    if not np.all(inside):
+        raise ValueError('L-panel mesh contains points outside the material')
+    polygon = direct._g_boundary_polygon_from_triangles(points, cells)
+    vertices = np.array([[0., 0.], [cx, 0.], [cx, cy],
+                         [width, cy], [width, height], [0., height]])
+    a, z = polygon, np.roll(polygon, -1, axis=0)
+    on_edge = np.zeros(len(polygon), bool)
+    for p, q in zip(vertices, np.roll(vertices, -1, axis=0), strict=True):
+        axis = int(np.flatnonzero(p == q)[0])
+        other = 1-axis
+        lo, hi = sorted((p[other], q[other]))
+        on_edge |= ((abs(a[:, axis]-p[axis]) <= tol) & (abs(z[:, axis]-p[axis]) <= tol)
+                    & (a[:, other] >= lo-tol) & (a[:, other] <= hi+tol)
+                    & (z[:, other] >= lo-tol) & (z[:, other] <= hi+tol))
+    area = .5*abs(np.sum(a[:, 0]*z[:, 1]-a[:, 1]*z[:, 0]))
+    expected_area = width*height-(width-cx)*cy
+    if not np.all(on_edge) or not np.isclose(area, expected_area, rtol=1e-12, atol=1e-14):
+        raise ValueError('prepared material boundary is not the configured L polygon')
+    bottom = abs(points[:, 1]) <= tol
+    loaded = ((abs(points[:, 1]-cy) <= tol)
+              & (points[:, 0] >= start-tol) & (points[:, 0] <= end+tol))
+    for name, expected in (('bottom', bottom), ('top', loaded)):
+        if (cloud[name].dtype != bool or cloud[name].shape != (len(points),)
+                or not np.array_equal(cloud[name], expected) or not np.any(expected)):
+            raise ValueError('L-panel fixed/loaded masks differ from the complete configured edges')
+    fixed = (2*np.flatnonzero(bottom)[:, None]+np.arange(2)).ravel()
+    driven = 2*np.flatnonzero(loaded)+1
+    constrained = np.sort(np.concatenate((fixed, driven))).astype(np.int64)
+    direction = np.zeros(2*len(points), np.float64)
+    direction[driven] = 1.
+    return constrained, direction
+
+
+def edge_boundary(cloud, c):
+    if c.boundary.mode == 'horizontal_clamped_edges':
+        return shear_boundary(cloud)
+    if c.boundary.mode == 'l_shaped_panel':
+        return l_panel_boundary(cloud, c)
+    raise ValueError('unknown explicit edge-boundary mode')
+
 def prepare(c):
     identity = geometry_identity(c)
     root = Path(c.mesh.prepared_dir)
@@ -90,14 +151,14 @@ def prepare(c):
     points, tri, V = cloud['coordinates'], cloud['triangles'], cloud['volumes']
     print(json.dumps(dict(event='prepare', material_nodes=len(points), cells=len(tri))), flush=True)
     if 'boundary' in c:
-        constrained, direction = shear_boundary(cloud)
+        constrained, direction = edge_boundary(cloud, c)
         np.savez_compressed(root/'mesh.npz', coordinates=points, triangles=tri,
             n_material=np.int64(len(points)), n_material_cells=np.int64(len(tri)),
             volumes=V, constrained=constrained, load_direction=direction)
         atomic_json(root/'identity.json', dict(config=identity,
             mesh_path=str(root/'mesh.npz'), operator_path=None))
         print(json.dumps(dict(event='prepared', root=str(root), material_only=True,
-            constrained_dofs=len(constrained), load_component='ux')), flush=True)
+            constrained_dofs=len(constrained), boundary=c.boundary.mode)), flush=True)
         return
     offsets = np.arange(c.geometry.h_grip, c.geometry.grip_extent, c.geometry.h_grip)
     offsets = np.concatenate((offsets[offsets < c.geometry.grip_extent], [c.geometry.grip_extent]))
@@ -139,11 +200,11 @@ def load_geometry(c):
     cloud = read_cloud(c.data.cloud)
     n, nc = int(values['n_material']), int(values['n_material_cells'])
     if 'boundary' in c:
-        constrained, direction = shear_boundary(cloud)
+        constrained, direction = edge_boundary(cloud, c)
         if (len(values['coordinates']) != n or len(values['triangles']) != nc
                 or not np.array_equal(values['constrained'], constrained)
                 or not np.array_equal(values['load_direction'], direction)):
-            raise ValueError('prepared edge shear domain or boundary differs from configuration')
+            raise ValueError('prepared edge domain or boundary differs from configuration')
     for actual, expected_values in (
             (values['coordinates'][:n], cloud['coordinates']),
             (values['triangles'][:nc], cloud['triangles']),

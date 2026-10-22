@@ -1,5 +1,393 @@
 # Nonlocal PINN history-field learning and architecture investigation
 
+## /task-end — 2026-10-22, authorized L-panel code and Markdown snapshot
+
+User requests commit of currentcode/Markdown ondev. Diff-levelscope: new
+examples/fracture2d_lshape withprepare/train/solver/UFLentry,base/direct/replay
+ml_collectionsconfigs andstableREADME; sharedmesh validatesconcavepolygon,
+materialarea andcompletebottom/loadpatch masks withloadeduxfree; sharedUFL
+validator independently handlesLpaneluyloading whilepreservingshearuxmode.
+RootREADMEaddsnewexample. ThreefocusedLtests covergeometry/freeDOF/cache,
+natural scalarconstantH andfreeequilibrium, matchedcold/direct/neuralresume.
+Documentation retains numericalchoices, actualcompletedresults, interrupted
+startup andverifiedcontinuation,conditioning/backendclarifications andlimits.
+No standaloneexternaldiagnostic/launchscripts, arrays/networks/events/figures
+or slides staged. DefaultreplayOFF, otherexamplespreserved. No newcompute,
+physicschange, merge orpush authorizedinthisturn.
+
+Verified production/sharedcode byteequaltoindependentlyvalidated/runsnapshots;
+10changed/newPythonmodules ASTPASS. All3configs validate300loads, equaltheir
+savedactualconfig, andeachactualtrajectory completewith300fieldstable,
+synchronizedendpoints. PrevioussixfocusedL/shearcases remainvalid (original
+fivePASS pluscorrectedmessageassertion rerunPASS),UFL~1e-15/GPUelasticparity,
+actualcoldandendpointrestorePASS. No unchangedexpensivesuite rerun. Whitespace
+andexplicitstagedfileinspection requiredbeforecommit, cleanstatusafterward.
+
+Also refreshedreplaystatus so snapshotdoesnotcallcompletedjobrunning:
+detachedjobcomplete/exit0,2026-10-21 06:55:02UTC(14:55:02Shanghai),300loads,
+2630outers,7443.006s,peakR98.031530 at.0220,finalR17.590588 vsFEM18.491486.
+Actualsame-final-loadvolumeweightedL2damageerror52.4498585%, whereasretained
+no-replay4.630923%. Do not promoteexperimentalreplay, inferitscrackpath
+withoutvisualinspection, orclaimmatched-qualityspeedup. Currentturnonly
+readsfinitesavedarrays forerror; no newplot oroldHretentionaudit. No-replay
+7749.351s iscontinuedinvocationexcludingoriginalfirstsixloads/startup;
+comparisonofwalltime mustrespectthisscope. DefaultremainsOFF.
+
+ChangedmemoryPROGRESS,DECISIONS,this task. Broadarchitecturetask remains
+active/incomplete, noarchive. Exactresume: commitdelivery identifiableinGit;
+then analyzecompletedreplay atmatchedloads againstno-replay/FEM ifrequested,
+using diagnostics/replay_random5_launch_20261021/job.json and eachresult.
+No backgroundjobneedscontinuation andno newexperimentqueued.
+
+## /task-end — 2026-10-21, clarify reference CPU/GPU execution
+
+User asks currentFEMreference backend. Actualsaved Lreference config has
+runtime.platform=gpu,damage.discretization=fem,identitydamage_solver=direct.
+loading.py115 checksbackend,138builds localmechanicsgpu_solver and152scalar
+AT2CG. local_mechanics.gpu_solver and at2_cg both use jittedJAXCG onGPU;
+preparation, numpyhistorydriver, hostforcechecks andI/O remainCPU. Independent
+fenicsenv/UFLvalidation wasCPU operator/elasticparity, not the full300load
+reference. ActualGPUelasticreceipt qerror7.47e-9 and matchingreaction confirm
+GPUtrajectory. Reference1599.40s must not be describedasCPUFEniCS timing.
+Explanationonly; no training/config/job/Gitoperation or tests. UpdatedPROGRESS
+andthis task, diffcheck. Existingreplayexperiment remainsunchanged; monitor
+itsactualjob/log fornextstatus, no newrun or artificialspeedcomparison.
+
+## /task-end — 2026-10-21, clarify current-H conditioning versus snapshot storage
+
+User asks whether conditioningH is computedonlyatloadstart and heldthrough
+allouter/inneriterations. Codeaudit showsotherwise: loading.py238 freezes
+parent_H frompreviousLOADendpoint; eachouter invokesmechanics_first_sweep,
+stagger.py31–33 solveslocalFEM withcurrentdamage andsets
+H=max(parent_H,currenttensiledriver), stop_gradient applied. This newH goes
+directly to pinn.solve and context(history) at history_training.py141 onEVERY
+outer. Both physicsenergy and networkcondition usecurrentfrozenfitH. Within
+thatoneinnerAdamfit, contextH/fine_ids remainfixed; encoderweights stilltrain,
+so learnedlatentfeatures neednotremainconstant. Nextouter refreshesH/context.
+Historyfloor is previousLOADendpoint, not accumulatedmaximumovertrialouters.
+
+Separately, replaybank appends onlyfirstouterH andsynchronizedendpointH per
+load. Completedold snapshots remainimmutable andsampled asoldtasks; limited
+snapshotcollection doesnotfreeze currentcondition. ConditionH comesfromthe
+PINNtrajectory's ownlocalmechanics, notprecomputedFEMreferencetrajectory.
+FEMreference evaluationonly. No change to current scheme orrunningexperiment.
+UpdatedPROGRESS andthis task; diffcheck, no tests/Gitoperation/newcompute.
+Exactresume: existingreplaylaunch job/log remains monitoringpoint; this is
+an explanatoryaudit, not instruction to freezeconditioningperload.
+
+## /task-end — 2026-10-21, retain completed L-panel and launch cold random5 replay
+
+User views no-replay result favorably and requests replay trial. Actualprior
+supervisor complete/exit0, ended2026-10-20 07:38:58UTC(15:38:58Shanghai).
+No-replay all300loads through.0300 fieldstable/synchronized,2554outers,
+327808Adam, ratesall1e-4,max138outers. PeakR97.988244 at.0220 vsFEM
+97.765389 at.0219; final18.715052 vs18.491486(relativeerror1.20902%).
+FinaldamagevolumeL2error4.630923%; visuallyinspected existingdamage0300.png
+with matchedFEM shows samecurvedband nearreentrantcorner. This doesnot prove
+fullseparation; remainingreaction18.49. Priorresult.seconds7749.351 covers
+only continuation after0006, excludesoriginalprefix/startup andinterruption;
+do not callfullcoldwalltime. FEMfull1599.399s. Retainedallbaselineartifacts;
+no_replay_completed_summary.json innewdiagnostics preservesaccuratecomparison.
+
+Added examples/fracture2d_lshape/configs/train_replay.py inheritingbase,
+explicitglobalcompleted_without_replacement,5distinctoldH,oldweight.1,
+every4Adam,last32current-only,root pinn_history_conditioned_replay_random5.
+Fixed current+5 tasks, shortagesmasked; selectedonlyfromcompletedloads,
+twoHsnapshots/load,bank1024>=600. Sharedcoordinatequeries andindividualH
+encoders/attention fromexistingtestedimplementation; no numericalcoreedit.
+Same mesh/FEM/fullenergy/seed/rates/stops/300loads0→.0300, replayOFFdefault
+untouched. README documentsopt-inCLI/policy/separateartifacts. Configschema
+andASTPASS; actualsavedbaseline exactlymatchespreset; only7diffkeys(history
+batch/enabled/every/fraction/sampling,outputroot/eventdir). current_only32
+unchanged. Reuse prior sampler,sharedqueryAD,rate/resume tests; no unchanged
+costly suite orFEniCS rerun. GPU wasidle andnoFEniCSprocess atlaunch.
+
+Detached supervisorPID2489,actualPPID1/SID2489,worker2494 launched
+2026-10-21 04:50:42UTC(12:50:42Shanghai). Driver
+/tmp/fracture2d_lshape_replay_launch.py copiedinto
+`/root/autodl-tmp/tf-logs/fracture2d_lshape/diagnostics/replay_random5_launch_20261021/launch.py`.
+Job/log/configdiff/config/source snapshots andcold_start_verification.json
+there; supervisorlog inparentdiagnostics. Filelock preventsduplicates,
+10sheartbeat,exitsignal/code receipts,failuresstop withoutretry/relaxation.
+ActualcoldreceiptPASS:q/d/H exactzero,Adam0/bank0,network/optimizerbytes
+equalno-replaystate0000,sourcecheckpointnull. No oldweights/FEMtrainingtarget.
+Initialcompile atlastread; no newloadcompletion/speed/qualityclaim yet.
+Events/results under
+`/root/autodl-tmp/tf-logs/fracture2d_lshape/pinn_history_conditioned_replay_random5/`.
+
+No Gitoperationauthorized/performed. ChangedmemoryPROGRESS,DECISIONS,this
+task; diffcheck. Active taskremainsincomplete. Exactresume: readnewjob/log,
+verifyinitialendpoints thencomparecompleted-load reaction/path/error/outer
+counts withretainedno-replay andmatchedFEM. Do not replacebaseline or claim
+replaybetter beforematched-qualityresults. No separate notificationautomation.
+
+## /task-end — 2026-10-20, detached continuation of the L-panel cold trajectory
+
+User authorizes continuation. Preserve complete six-load prefix and FEM.
+External /tmp/fracture2d_lshape_resume.py validates savedconfig equality,
+oldprocess absence, sixstable/synchronized endpoints and priorrestorePASS.
+Archive unfinishedstate0007 and extra replay snapshot0012 into
+`/root/autodl-tmp/tf-logs/fracture2d_lshape/diagnostics/resume_20261020/`;
+retain result_before_resume and original_job_before_resume. No deletion of
+prior evidence. Worker usesexisting run_training withonly output.resume=True;
+restores network/Adam4736/q/d/H/12snapshots fromcomplete0006, then recomputes
+0007. No changes to geometry, model, rates, tolerances, seed orreplayOFF.
+
+Supervisor launched13:29:37Shanghai,PID12481,newSID/PGID12481 and actual
+PPID1 verifiedafter startupcommand exited. Worker12483 shares supervisorSID,
+PPID12481. Detached via start_new_session=True, stdinin/devnull, standard
+streams redirected to persistentlogs, SIGHUPignored. Duplicate-run flock,
+10satomic heartbeat, terminalexitcode/signal/error receipt; no automaticretry,
+budgetrelaxation or silentloadadvance. Newjob.json andpinn.log inresume
+diagnostics, originalcoldlaunch job links newjob/status. Supervisorlog in
+diagnostics/resume_20261020_supervisor.log. Launchsource copiedintodiagnostics.
+
+Existing eventdir continues
+`/root/autodl-tmp/tf-logs/fracture2d_lshape/pinn_history_conditioned/events`;
+new eventfilecreated. GPUworker seenat3072MiB andactiveCPUduring initialJAX
+compile. Subsequent actual0007outer1 checkpoint PASS: Adam4864=4736+128,
+H_parent array exactlyequals0006endpointH. Reaction3.8026202264381337 and
+dmax.0003972386569992517 reproduce originalpartialouter. Saved
+resumption_verification.json. Traininghasactuallyresumed; no newcompleted
+load claim fromthe singleouterrecord.
+Finalstatusread subsequently confirms7completedloads through.0007 and
+current.0008outer1; detachedjob stillrunning.
+FEMreference remainscomplete, not rerun. Future result.seconds measures this
+continuation invocationonly; originalfirst-six-load/startup time is separate,
+do not mislabel itfullcoldwalltime. Original neuralstartUTC retainedinjob.
+
+Validation: launcherASTparse, preflightlayout/config checks, earlieractual
+read-only endpointrestorePASS, newPPID/SID/GPU/event/heartbeat checks. No new
+core/test/config changes or expensive suite rerun, no Gitoperation. Updated
+PROGRESS,DECISIONS,this task; diffcheck. Active taskincomplete; exactresume:
+readresume job/log/result, follow fullcold-origin trajectory towardU.0300;
+firstoutercontinuity alreadyverified. No separate
+notification/monitoringautomation created; supervisor tracksjob locally.
+
+## /task-end — 2026-10-20, investigate interruption and verify endpoint restore
+
+User requests confirmation of why the process stopped. Both originalprocesses
+remain absent, GPUidle. Container memory.events records oom=0/oom_kill=0;
+current host memory ample and disk44GBfree, but currentcapacity does not
+establish historicalcapacity. No traceback/fatalerror in pinn.log, no core
+dump, no terminal record from launcher. Kernelbuffer read denied; systemlog
+files absent/journalempty. Appservercontrol log only has duplicatecontrolsocket
+startup at12:40:48 and unknownsession at12:57; this does NOT prove server
+restart, timeout, or kill. Exact signal/sender/rootcause cannot be recovered
+from availableevidence. Managedexecsession lifecycle interruption is suspected,
+not confirmed. Original launchwasattached to managedsession59527 without
+independent detachedsession/OSsupervisor, a launchrobustness limitation.
+
+Read-only actual CPU restore via HistoryDamagePINN.restore PASS: currentconfig
+equals savedconfig, complete state0006 fields/network/optimizerfinite,
+Adamcount4736,12historysnapshots, phaseendpoint/loadindex6; begin_load(7,.0007)
+validates in memory. No training/evaluationsteps or trajectorywrites. Extra
+store snapshot0012 frompartial0007 is outside restored count12; nextload must
+be recomputed from complete0006, never skipped. No need to redoFEM or discard
+initialcoldtrajectory. Receipt endpoint_restore_verification.json saved in
+`/root/autodl-tmp/tf-logs/fracture2d_lshape/diagnostics/cold_launch_20261020/`.
+
+Saved interruption_audit.json withobserved/unknown/unavailableevidence;
+job_before_interruption_audit.json preserves originaljob, job.json status now
+interrupted with explicitunknownreason and auditpath. No invented exitcode or
+terminationtimestamp. No solverrestart/numerical/config/Gitoperation. Updated
+PROGRESS,DECISIONS,this task; whitespacecheck. Active taskremains incomplete.
+Exactresume: continue intendedcold-origin run from complete0006 usingexisting
+output.resume endpointrestore, recomputing0007 and retaining NN/Adam/H/bank;
+use independently detached/supervised launcher with persistent exitrecord.
+First preserve partial0007 and ensure no duplicateworker; leaveFEM untouched.
+
+## /task-end — 2026-10-20, FEM complete; neural process unexpectedly absent
+
+Actual status inspection at12:57 Shanghai supersedes earlier running notes.
+Reference completed all300 stable/synchronized loads to U=.0300,5329outers,
+1599.399s(26m39s). PeakR97.765389 at.0219; finalR18.491486,dmax.99984238.
+Data remain `/root/autodl-tmp/data/fracture2d_lshape/fem_reference`.
+No physical spanning claim from maximum damage alone; fields need inspection.
+
+Launcher transitioned to PINN at12:35:59 Shanghai. Saved
+neural_cold_verification.json PASS confirms q=d=H=0, Adam0/bank0,
+source_checkpoint=null,replayOFF, same-seed initial network/optimizer bytes.
+PINN has six stable completed loads through.0006 (last5outers,R3.259383,
+dmax.000294619). Current saved record is.0007outer1,R3.802620,
+dmax.000397239; pinn.log last modified12:40:00 Shanghai.
+
+However owner5578/child7250 no longer exist in /proc; ps finds no L-panel
+solver, and managedsession59527 is unknown. job.json still says running/pinn
+with no terminal exception; this label is stale. No traceback in log, so
+interruption cause is unknown, not evidence of convergence failure. Do not
+claim background computation continues. Preserve all artifacts and inspect
+complete checkpoint/partial-step semantics before any continuation; never
+advance past unfinished.0007 solely because an endpoint checkpoint exists.
+
+Status inquiry only: no restart, numerical/config changes, Git operations or
+tests. Updated PROGRESS and this task; git diff --check. Active task remains
+incomplete. Exact resume: diagnose process interruption and check resumable
+state (network, optimizer, H floor and step status), then continue the intended
+cold-origin trajectory without resetting or duplicating results.
+
+## /task-end — 2026-10-20, confirm FEM placement and full neural cold start
+
+User confirms currentobjective is entirely fresh training on the Lgeometry,
+without crossgeometry generalization, and FEMdata belong under
+`/root/autodl-tmp/data/fracture2d_lshape`. Verified actualoutput config:
+root `/root/autodl-tmp/data/fracture2d_lshape/fem_reference`, with fields,
+checkpoints/figures/results there. Onlyeventfiles are below
+`/root/autodl-tmp/tf-logs/fracture2d_lshape/fem_reference/events`.
+Existing paths already satisfy request; no move or source change needed.
+
+Actual jobrunning/fem_reference, owner5578/child5583 alive,215completed
+endpoints through.0215, current.0216outer8,R97.4356,dmax.528847. No PINN
+result or neuralcoldreceipt yet, so do not claim neuraltraining alreadybegan.
+Launcher/presets cold_starttrue,source_checkpointnull,resumefalse. Intended
+initialization is randomNN atconfigured seed, zeroAdam/bank andq=d=H=0;
+comparison to oldcase's INITIAL random bytes is validation only, neverloading
+trainedweights. FEMfields are evaluationtargets only, neverinitial/training
+targets. Normal warmstart within subsequentloads/stagger remains unchanged.
+
+No numerical/config/Git action, relocation, solverrerun or tests inthisturn.
+Updated PROGRESS,DECISIONS,this task and whitespacechecked. Taskactive,
+samepipeline continues; nextinspectFEMrange/crack andlater actualneuralzero
+receipt. No new task/geometrytransfer effort or dynamicsbranching work.
+
+## /task-end — 2026-10-20, L-panel implementation validated and serialrun launched
+
+Delivered examples/fracture2d_lshape withtrain.py/solver.py/prepare.py,
+two ml_collections configs, thin UFLvalidation entry and stableREADME. Root
+README listsit. Sharedmesh adds explicit l_shaped_panel mode with actual
+Lpolygon area/edges/domain checks, fixedbottom mask and finiteuyloadpatch;
+no extra grips or nonlocaloperator. Existing shearidentity unchanged;
+old roundednotch/tension mode untouched. The material-edge UFL validator
+now branches independently between originalshear and L-panel BCs, retaining
+shear's horizontalreaction field and adding genericreaction/loadcomponent.
+No extra sharedmodulefilename was added, preserving old sourcepath lists.
+
+Sixfocused cases exercised newconcavity/freeux/loadpatch/cache guards,
+natural scalarconstantH and freeequilibrium, direct/neural cold+exactresume,
+and all3prior shear regressions. Initialrun5PASS/1FAIL24.231s: failedtest
+expected dimensionerror but earlierpreparedidentity guard correctly rejected
+the modifiedboundary; corrected messageassertion and reran thatonePASS0.758s.
+No numericalfailure or rerun ofunchanged expensive suites. AST9changed/new
+modulesPASS. ActualGmsh hnominal.004 materialmesh54618nodes/108234triangles,
+area.75,268constrainedDOFs,16drivenuyDOFs withallloadeduxfree. Commongeometry
+cache/config guards validated forboth300load routes,bank1024>=600snapshots.
+
+Actual independent FEniCS CLIexit0,5.998s: stiffnessrelativeinf1.05038e-15,
+Amorhistorydriver5.02499e-16,scalar1.20042e-15; actualP1operator relative
+UFLerror3.31541e-15. Configured loadpatch independently derived fromUFLDOFs,
+zero horizontalconstraintthere,freeequilibrium and verticalreaction verified.
+AtU1e-4 UFLR.543285050995, actualGPUfirstouterR.543285051019,
+qrelativeL2error7.46705e-9. Save receipts in geometry_assets andlaunchdiag.
+FEniCS finished beforeGPU started; no concurrentMPI/GPU environments.
+
+Actual background launcher5578/child5583,session59527, started04:09:14UTC
+(12:09:14Shanghai). Driver/tmp/fracture2d_lshape_launch.py copiedto
+`/root/autodl-tmp/tf-logs/fracture2d_lshape/diagnostics/cold_launch_20261020/launch.py`.
+Directory holdsjob.json,fem_reference.log,futurepinn.log,config/source snapshots,
+parity andelastic_gpu_verification.json. Pipeline runsmatchedFEM first, then
+freshPINN automatically ONLY ifreference completes300stable/synchronized
+loads. Anybudget/CG/parityfailure stops andrecordsfailed; nofallback orsilent
+advancement. Initialneuralcoldverification (q/d/H zero,Adam0/bank0 andsame
+seednetwork/optimizer bytes against shear freshstate) runs atneuralstartup;
+not yetperformed. Latestprogressreference55complete/.0055,dmax.02386,
+R29.5630; no claim ofalready developedlongcrack or fulltrajectorycompletion.
+
+Actualgeometry/BC/meshzoom figure visuallyinspected at
+`/root/autodl-tmp/data/fracture2d_lshape/geometry_assets/setup.png`, reproducible
+plot_setup.py alongside. No precrack/dashedfuturepath/symmetryconstraint.
+Reference data data/fracture2d_lshape/fem_reference,referenceevents
+tf-logs/fracture2d_lshape/fem_reference/events,futurePINNroot
+tf-logs/fracture2d_lshape/pinn_history_conditioned. Allpathsordinary; nohash.
+
+No Gitoperation authorized orperformed. ChangedmemoryPROGRESS,DECISIONS,this
+task. Earlier branchingproposal remainsdeferred. Broadtask active,noarchive.
+Exactresume: inspectlaunchjob/log anddirectresult first; verifyactualnewcrack
+nucleates atconcavecorner andexploratory.0300 range coversgrowth,thencompare
+same-loadfields/force andfreshneuralinitialization. Ifreference isstillweakly
+damaged atterminal, explicitlyreview range beforecalling thisafullfracture
+test. Freshsolveonanewgeometry isnot crossgeometryweightgeneralization.
+Finaldiffcheck required; no new numericaltests afterunchangedGPUlaunch.
+
+## Current action — 2026-10-20, irregular L-panel within quasi-static route
+
+User defers dynamics/branching and asks to try an irregular geometry. Select
+standard L-panel geometry/BC pattern, primary reference Manav etal2024sec4.3,
+Fig5,AppendixH: https://arxiv.org/pdf/2404.13154 . Translate boundingbox to
+[0,1]², remove x>.5,y<.5 quadrant, fix bothcomponents on bottomy0,x<=.5,
+prescribe uy=U on underside y.5,x∈[.94,1], leave uxfree there; remaining
+boundaries naturaltractionfree and damage naturalzero flux. No initialcrack,
+q/d/H coldzero. This tests reentrantcorner nucleation and curvedpropagation.
+
+Deliberate adaptation: retain existing E210000,nu.3,Gc2.7,l0.024, hybrid
+Amor-history/AT2 and P1 mechanics/energy, not paper's nu.18,l/L.01,fully
+variational penalty-irreversible formulation. Source geometry justifies BC;
+do not claim experimental or exactpaper parity. Use matched newFEMreference
+for this actualmodel; no blind copying of old forcecurve/loadrange. Initial
+exploratory loading0→.0300 in1e-4, h.004, bank1024 covers600snapshots;
+adjust only with explicit recorded evidence if reference shows inadequate
+range. Default replayOFF, sameaccepted conditionednetwork/Adam128inner/
+bootstrap1024/scaledstopping/progress128blocks. Nonlocal damage not used.
+
+Implement thin new examples/fracture2d_lshape entries/configs/meshprep sharing
+numericalengine. Shared mesh optionalLedge boundary/geometryidentity must
+preserve previousshear/tension cacheidentities. New cloud topmask denotes
+loadedpatch, bottom fixededge; prepared actualconstraints checked atload.
+Independently validate BCs and material/scalaroperators inFEniCS beforeGPU,
+then directFEM tocalibrate physicaltrajectory, finally freshPINN. Separate
+data/fracture2d_lshape and tf-logs/fracture2d_lshape. Fixed shapes withinrun;
+one newshape compile acrossdifferentgeometry expected. No forcegeometry
+generalization claim: training fromscratch onnewgeometry is only firsttest.
+No Git operations authorized. Prior branchproposal only changedmemory and
+remainsdeferred. Broadarchitecturetask staysactive; next implement/verify.
+
+## /task-end — 2026-10-19, proposed branching benchmark, discussion only
+
+User wants a suitable branching-fracture setup first, not implementation.
+Continue this active fracture/history-architecture investigation; no new task
+or numerical run. Prior publication succeeded: main1414b5c equalsremote,
+normal two-parent merge includes3625b99/8e3ff4b. Root dev8e3ff4b stayslocal;
+main publication memory was included in that merge, both worktrees clean.
+
+Read primary sources and distinguish physicaldynamic branching from a
+quasi-static mathematical branching test. Preferred candidate: Borden etal,
+A phase-field description of dynamic brittle fracture (2012),sec4.2,
+https://www.ices.utexas.edu/media/reports/2011/1114.pdf
+Geometry100×40mm,midheight y20 edgecrack fromx0to50mm,plane-strain,
+E32GPa,nu.2,rho2450kg/m3,Gc3J/m2. Top traction(0,+1MPa),bottom(0,-1MPa)
+applied at initialtime and held; other surfacesfree. Original precrack is
+induced through initialH (AppendixA), not an imposed futurebranchpath.
+Paper uses C1 quadraticNURBS and generalizedalpha; do not label current
+P1/hybrid stagger an exact reproduction without constitutive/time checks.
+Report to80us; h.125mm/dt.05us correspond to original middlemesh, only
+a candidate startingresolution for P1, not an established P1converged choice.
+
+Checked regularization convention by matching coefficients: source fracture
+energy Gc[d²/(4epsilon)+epsilon|grad d|²], current Gc/2[d²/l0+l0|grad d|²].
+Thus l0=2epsilon; sourceepsilon.25mm maps to currentl0.5mm. Do not enter
+.25mm as currentl0 and claim same regularization. Proposed adaptation needs
+mass/inertia and physicaltime integration in direct mechanics, while neural
+damage can retain FEshape gradients/history-conditioned energy and stagger.
+First validate dynamic FEM with mesh/dt/energy checks, then neural replayOFF;
+no claim this existing quasi-static solver already captures this instability.
+
+Alternative primary source: Manav,Molinaro,Mishra,DeLorenzis (2024),
+https://arxiv.org/pdf/2404.13154 sec4.5/Fig14. Quasi-static single-edge
+notched shear deliberately removes tensile/compressive decomposition,
+Psi+=Psi/Psi-=0; authors explicitly call resulting branching unphysical.
+Their propagation cases useAT1 and penalty irreversibility, unlike current
+AT2/history. It can test neural solution topology with less mechanics work,
+but is not preferred physicalbranching evidence; currentAT2roundednotch
+variant cannot be promised to reproduce it merely by flipping a splitflag.
+
+Generated/visuallychecked illustrative geometry schematic
+`/tmp/fracture_branching_setup.png`, script/tmp/plot_fracture_branching_setup.py.
+DashedY is illustration only; no path/symmetry constraint. No code/config or
+training change, no Git operation, no extra expensive tests. UpdatedPROGRESS,
+DECISIONS,this task; diffcheck. Exactresume: discuss whether physicaldynamic
+branching justifies extending the current quasistatic mechanics, then derive
+and validate matched FE model/time scheme before any implementation/run.
+Proposal has not been adopted or launched; no mathematical fallback implied.
+
 ## /task-end — 2026-10-19, commit optional shear replay with default OFF
 
 User accepts retaining this result and authorizes commit, explicitly keeping

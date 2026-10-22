@@ -14,6 +14,7 @@ neighbour pairs — no BC loss terms needed.
 | `fracture1d` | AT2 phase-field fracture | Analytical crack profile, staggered incremental loading |
 | `fracture2d` | Rounded-notch AT2 phase-field fracture | Local P1 mechanics, nonlocal AT2 PINN/direct damage, FP64 loading |
 | `fracture2d_shear` | Rounded-notch AT2 under horizontal shear | Material-only mesh, direct edge clamps, local FEM-energy history-conditioned PINN and matched FEM reference |
+| `fracture2d_lshape` | Quasi-static fracture of an L-shaped panel | Reentrant-corner nucleation, local FEM-energy history-conditioned PINN and matched FEM reference |
 | `elasticity2d` | 2D elasticity | Nonlocal elasticity and boundary-aware operators |
 | `pino_elasticity2d` | 2D elasticity PINN | Geometry-aware PINN reference for nonlocal elasticity |
 | `corrosion1d/2d` | KKS pitting corrosion | Legacy; superseded by electropolish2d |

@@ -1,4 +1,4 @@
-"""Independent UFL operator, edge-BC and horizontal-reaction checks; fenicsenv."""
+"""Independent UFL checks for material-edge shear and L-panel cases; fenicsenv."""
 from pathlib import Path
 import json
 import time
@@ -23,13 +23,15 @@ def validate(config):
     root = Path(config.mesh.prepared_dir)
     metadata = json.loads((root/'identity.json').read_text())
     p = metadata['config']
-    if p['boundary']['mode'] != 'horizontal_clamped_edges' or p['grip_extent'] != 0:
-        raise ValueError('independent check requires material-only clamped edge shear')
+    mode = p['boundary']['mode']
+    if (mode not in ('horizontal_clamped_edges', 'l_shaped_panel') or p['grip_extent'] != 0
+            or p['boundary'] != config.boundary.to_dict()):
+        raise ValueError('independent check requires the configured material-edge boundary')
     with np.load(root/'mesh.npz', allow_pickle=False) as z:
         a = {k: z[k].copy() for k in z.files}
     n, nc = int(a['n_material']), int(a['n_material_cells'])
     if len(a['coordinates']) != n or len(a['triangles']) != nc:
-        raise ValueError('shear cache must not contain added grip regions')
+        raise ValueError('material-edge cache must not contain added grip regions')
     m = LocalMechanics(a['coordinates'], a['triangles'], n, nc, a['volumes'],
         E=p['E'], nu=p['nu'], k_res=p['k_res'], constrained=a['constrained'],
         load_direction=a['load_direction'], range_atol=config.validation.range_atol)
@@ -101,13 +103,23 @@ def validate(config):
 
     # Independently derive edge constraints from UFL DOF coordinates.
     coordinates = space.tabulate_dof_coordinates().reshape(-1, 2)
-    edge_dofs = abs(coordinates[:, 1]) < 1e-12
-    edge_dofs |= abs(coordinates[:, 1]-1.) < 1e-12
-    np.testing.assert_array_equal(np.sort(mapping[edge_dofs]), m.constrained)
     direction = np.zeros(2*n)
-    x_dofs = np.array(space.sub(0).dofmap().dofs())
-    top = x_dofs[abs(coordinates[x_dofs, 1]-1.) < 1e-12]
-    direction[mapping[top]] = 1.
+    edge_dofs = abs(coordinates[:, 1]) < 1e-12
+    if mode == 'horizontal_clamped_edges':
+        edge_dofs |= abs(coordinates[:, 1]-1.) < 1e-12
+        loaded_dofs = np.array(space.sub(0).dofmap().dofs())
+        loaded_dofs = loaded_dofs[abs(coordinates[loaded_dofs, 1]-1.) < 1e-12]
+        component = 'ux'
+    else:
+        b = config.boundary
+        loaded_dofs = np.array(space.sub(1).dofmap().dofs())
+        xy = coordinates[loaded_dofs]
+        loaded_dofs = loaded_dofs[(abs(xy[:, 1]-b.corner_y) < 1e-12)
+            & (xy[:, 0] >= b.load_start-1e-12) & (xy[:, 0] <= b.load_end+1e-12)]
+        edge_dofs[loaded_dofs] = True
+        component = 'uy'
+    np.testing.assert_array_equal(np.sort(mapping[edge_dofs]), m.constrained)
+    direction[mapping[loaded_dofs]] = 1.
     np.testing.assert_array_equal(direction, m.load_direction)
     K = checked_csr((1+p['k_res'])*elastic*dx, space.dim())
     order = np.argsort(mapping); K = K[order][:, order].tocsr()
@@ -124,14 +136,15 @@ def validate(config):
     np.testing.assert_allclose(reaction, (host_matrix@host)@direction, rtol=1e-8, atol=1e-7)
     np.testing.assert_allclose(displacement[m.constrained], load*direction[m.constrained], atol=1e-15)
     if reaction <= 0 or np.linalg.norm(force[m.free]) > 1e-9*max(1., np.linalg.norm(rhs)):
-        raise AssertionError('UFL horizontal reaction/free equilibrium failed')
+        raise AssertionError('UFL prescribed-direction reaction/free equilibrium failed')
     np.savez_compressed(root/'elastic_check.npz', q=displacement, load=np.float64(load),
                         reaction=np.float64(reaction))
     result = dict(pass_checks=True, independent_ufl=True, material_only=True,
         nodes=n, cells=nc, boundary=p['boundary'], stiffness_relative_inf=stiffness_error,
         driver_relative_inf=driver_error, scalar_relative_inf=scalar_error,
-        elastic_load=load, horizontal_reaction=reaction,
+        elastic_load=load, reaction=reaction, load_component=component,
         seconds=time.perf_counter()-started)
+    result['horizontal_reaction' if component == 'ux' else 'vertical_reaction'] = reaction
     result['pass'] = True
     (root/'fenics_parity.json').write_text(json.dumps(result, indent=2)+'\n')
     print(json.dumps(result), flush=True)
