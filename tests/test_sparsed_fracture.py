@@ -6,7 +6,7 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 
-from pinn.operators import SparseD
+from nonlocal_pinn.operators import SparseD
 
 
 def _grid(n):

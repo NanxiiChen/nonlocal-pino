@@ -18,9 +18,9 @@ from tensorboardX import SummaryWriter
 
 log = logging.getLogger(__name__)
 
-from pinn.operators import build_D
-from pinn.arch import make_pinn
-from pinn.utils import log_config_text, load_example_losses, setup_run_dir
+from nonlocal_pinn.operators import build_D
+from nonlocal_pinn.nn.arch import make_pinn
+from nonlocal_pinn.io.utils import log_config_text, load_example_losses, setup_run_dir
 
 # ── Config ──────────────────────────────────────────────────────────────────
 
@@ -50,7 +50,7 @@ def _build_network(config, key):
                      key=key)
 
     if c.use_hard_constraint:
-        from pinn.constraints import kks_constraint, ConstrainedForward
+        from nonlocal_pinn.nn.constraints import kks_constraint, ConstrainedForward
         phys = config.physical
         c_se, c_le = phys.c_se, phys.c_le
         net = ConstrainedForward(net, lambda raw: kks_constraint(raw, c_se, c_le))
@@ -65,7 +65,7 @@ def _build_D(config, x_all):
 
 
 def _build_optimizer(config):
-    from pinn.optimizers import make_optimizer
+    from nonlocal_pinn.training.optimizers import make_optimizer
     return make_optimizer(config)
 
 
@@ -249,7 +249,7 @@ def _main(_):
     causal_eps_ac = jnp.array(1.0)
     causal_eps_ch = jnp.array(1.0)
     if config.loss.use_causal:
-        from pinn.causal import CausalWeightor
+        from nonlocal_pinn.training.causal import CausalWeightor
         causal = CausalWeightor(n_chunks=config.causal.n_chunks)
         causal_eps_ac = jnp.array(config.causal.eps_init)
         causal_eps_ch = jnp.array(config.causal.eps_init)

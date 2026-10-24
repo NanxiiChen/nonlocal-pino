@@ -64,9 +64,9 @@ def _time_steps(step, net, opt_state, make_args, warmup=3, iters=20):
 # ── 2D corrosion workload ───────────────────────────────────────────────────
 
 def bench_2d(tf32=False):
-    from pinn.operators import build_D
-    from pinn.arch import make_pinn
-    from pinn.optimizers import make_optimizer
+    from nonlocal_pinn.operators import build_D
+    from nonlocal_pinn.nn.arch import make_pinn
+    from nonlocal_pinn.training.optimizers import make_optimizer
 
     losses = _load('examples/corrosion2d/losses.py', 'c2d_losses')
     config = _load('examples/corrosion2d/configs/train_1pit.py',
@@ -157,9 +157,9 @@ def bench_2d(tf32=False):
 # ── 3D icemelting workload ──────────────────────────────────────────────────
 
 def bench_3d(n_pool=4):
-    from pinn.operators import build_D
-    from pinn.arch import make_pinn
-    from pinn.optimizers import make_optimizer
+    from nonlocal_pinn.operators import build_D
+    from nonlocal_pinn.nn.arch import make_pinn
+    from nonlocal_pinn.training.optimizers import make_optimizer
 
     losses = _load('examples/icemelting3d/losses.py', 'i3d_losses')
     config = _load('examples/icemelting3d/configs/train_base.py',

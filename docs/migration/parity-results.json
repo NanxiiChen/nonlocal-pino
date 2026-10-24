@@ -1,0 +1,59 @@
+{
+  "source_commit": "61352f1",
+  "arrays_bitwise_equal": 6,
+  "configs_exactly_equal": 14,
+  "arrays": [
+    {
+      "array": "scalar_matrix",
+      "shape": [
+        49,
+        49
+      ],
+      "dtype": "float64",
+      "max_absolute_difference": 0.0
+    },
+    {
+      "array": "scalar_matvec",
+      "shape": [
+        49
+      ],
+      "dtype": "float64",
+      "max_absolute_difference": 0.0
+    },
+    {
+      "array": "scalar_gradient",
+      "shape": [
+        49
+      ],
+      "dtype": "float64",
+      "max_absolute_difference": 0.0
+    },
+    {
+      "array": "elastic_residual",
+      "shape": [
+        49,
+        2
+      ],
+      "dtype": "float64",
+      "max_absolute_difference": 0.0
+    },
+    {
+      "array": "network_output",
+      "shape": [
+        49,
+        1
+      ],
+      "dtype": "float64",
+      "max_absolute_difference": 0.0
+    },
+    {
+      "array": "network_jacobian",
+      "shape": [
+        1,
+        2
+      ],
+      "dtype": "float64",
+      "max_absolute_difference": 0.0
+    }
+  ]
+}

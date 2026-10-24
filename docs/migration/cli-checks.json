@@ -1,0 +1,32 @@
+[
+  {
+    "case": "icemelting3d",
+    "exit_code": 1,
+    "help_without_training": true,
+    "output": "ython examples/icemelting3d/train.py --config=examples/icemelting3d/configs/train_base.py\n\nflags:\n\n/root/nonlocal-pinn/examples/icemelting3d/train.py:\n  --config: Config file\n    (default: '/root/nonlocal-pinn/examples/icemelting3d/configs/train_base.py')\n\nTry --helpfull to get a list of all flags.\n"
+  },
+  {
+    "case": "electropolish2d",
+    "exit_code": 1,
+    "help_without_training": true,
+    "output": "es/electropolish2d/train.py --config.nl.method=fd --config.log.run_name=fd_run\n\nflags:\n\n/root/nonlocal-pinn/examples/electropolish2d/train.py:\n  --config: Config file\n    (default: '/root/nonlocal-\n    pinn/examples/electropolish2d/configs/train_base.py')\n\nTry --helpfull to get a list of all flags.\n"
+  },
+  {
+    "case": "elasticity2d",
+    "exit_code": 1,
+    "help_without_training": true,
+    "output": "n examples/elasticity2d/train.py --config.nl.method=local --config.log.run_name=local_run\n\nflags:\n\n/root/nonlocal-pinn/examples/elasticity2d/train.py:\n  --config: Config file\n    (default: '/root/nonlocal-pinn/examples/elasticity2d/configs/train_base.py')\n\nTry --helpfull to get a list of all flags.\n"
+  },
+  {
+    "case": "corrosion1d",
+    "exit_code": 1,
+    "help_without_training": true,
+    "output": " python examples/corrosion1d/train.py --config.train.iterations=1000 --config.nl.delta=0.05\n\nflags:\n\n/root/nonlocal-pinn/examples/corrosion1d/train.py:\n  --config: Config file\n    (default: '/root/nonlocal-pinn/examples/corrosion1d/configs/train_pinn.py')\n\nTry --helpfull to get a list of all flags.\n"
+  },
+  {
+    "case": "corrosion2d",
+    "exit_code": 1,
+    "help_without_training": true,
+    "output": " python examples/corrosion2d/train.py --config.train.iterations=1000 --config.nl.delta=0.05\n\nflags:\n\n/root/nonlocal-pinn/examples/corrosion2d/train.py:\n  --config: Config file\n    (default: '/root/nonlocal-pinn/examples/corrosion2d/configs/train_1pit.py')\n\nTry --helpfull to get a list of all flags.\n"
+  }
+]

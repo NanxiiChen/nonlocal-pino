@@ -79,3 +79,13 @@ change. More checks are not automatically better.
 Markdown intended for OpenCode Web uses inline `\(...\)` and display `$$`
 delimiters, with each display delimiter on its own line. Do not use `$...$` or
 `\[...\]`.
+
+## Project split package layout
+
+Reusable implementation lives in `src/nonlocal_pinn`; example directories own
+case geometry, BCs, formulation and CLI. Imports use `nonlocal_pinn`, with no
+`pinn` compatibility namespace and no sibling checkout dependency.
+Operator implementation is preserved as one module inside `operators/` pending
+separately justified subdivision.
+
+See migration/source-map.json for old-to-new source ownership.

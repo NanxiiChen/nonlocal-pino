@@ -41,8 +41,8 @@ def _grad_dev(g1, g2):
 
 
 def main():
-    from pinn.operators import build_D
-    from pinn.arch import make_pinn
+    from nonlocal_pinn.operators import build_D
+    from nonlocal_pinn.nn.arch import make_pinn
 
     losses = _load('examples/corrosion2d/losses.py', 'c2d_losses')
 

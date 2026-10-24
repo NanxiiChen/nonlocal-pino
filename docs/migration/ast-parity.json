@@ -1,0 +1,56 @@
+[
+  {
+    "source": "src/pinn/operators.py",
+    "target": "src/nonlocal_pinn/operators/__init__.py",
+    "nonimport_ast_equal": true,
+    "operational_change_reviewed": false
+  },
+  {
+    "source": "src/pinn/arch.py",
+    "target": "src/nonlocal_pinn/nn/arch.py",
+    "nonimport_ast_equal": true,
+    "operational_change_reviewed": false
+  },
+  {
+    "source": "src/pinn/embedding.py",
+    "target": "src/nonlocal_pinn/nn/embedding.py",
+    "nonimport_ast_equal": true,
+    "operational_change_reviewed": false
+  },
+  {
+    "source": "src/pinn/constraints.py",
+    "target": "src/nonlocal_pinn/nn/constraints.py",
+    "nonimport_ast_equal": true,
+    "operational_change_reviewed": false
+  },
+  {
+    "source": "src/pinn/causal.py",
+    "target": "src/nonlocal_pinn/training/causal.py",
+    "nonimport_ast_equal": true,
+    "operational_change_reviewed": false
+  },
+  {
+    "source": "src/pinn/optimizers.py",
+    "target": "src/nonlocal_pinn/training/optimizers.py",
+    "nonimport_ast_equal": true,
+    "operational_change_reviewed": false
+  },
+  {
+    "source": "src/pinn/utils.py",
+    "target": "src/nonlocal_pinn/io/utils.py",
+    "nonimport_ast_equal": true,
+    "operational_change_reviewed": false
+  },
+  {
+    "source": "src/pinn/mesh.py",
+    "target": "src/nonlocal_pinn/geometry/mesh.py",
+    "nonimport_ast_equal": true,
+    "operational_change_reviewed": false
+  },
+  {
+    "source": "src/pinn/fd.py",
+    "target": "src/nonlocal_pinn/baselines/fd.py",
+    "nonimport_ast_equal": true,
+    "operational_change_reviewed": false
+  }
+]

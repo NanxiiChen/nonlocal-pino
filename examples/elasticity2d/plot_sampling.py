@@ -25,7 +25,7 @@ from matplotlib.patches import Ellipse
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 import jax.numpy as jnp
-from pinn.operators import ElasticD
+from nonlocal_pinn.operators import ElasticD
 
 
 def main():

@@ -17,9 +17,9 @@ from tensorboardX import SummaryWriter
 
 log = logging.getLogger(__name__)
 
-from pinn.operators import build_D
-from pinn.arch import make_pinn
-from pinn.utils import log_config_text, load_example_losses, setup_run_dir
+from nonlocal_pinn.operators import build_D
+from nonlocal_pinn.nn.arch import make_pinn
+from nonlocal_pinn.io.utils import log_config_text, load_example_losses, setup_run_dir
 
 
 # ── Config ──────────────────────────────────────────────────────────────────
@@ -57,7 +57,7 @@ def _build_network(config, key):
                      film_hidden_dim=c.film_hidden_dim, film_num_layers=c.film_num_layers,
                      key=key)
     if c.use_hard_constraint:
-        from pinn.constraints import kks_constraint, ConstrainedForward
+        from nonlocal_pinn.nn.constraints import kks_constraint, ConstrainedForward
         phys = config.physical
         c_se, c_le = phys.c_se, phys.c_le
         net = ConstrainedForward(net, lambda raw: kks_constraint(raw, c_se, c_le))
@@ -68,14 +68,14 @@ def _build_D(config, x_all):
     if config.nl.method == "local":
         return None   # autograd Laplacian, no pre-built operator
     if config.nl.method == "fd":
-        from pinn.fd import FiniteDiff
+        from nonlocal_pinn.baselines.fd import FiniteDiff
         return FiniteDiff(x_all, Nx=config.sample.Nx, Ny=config.sample.Ny)
     return build_D(x_all, config.nl.delta, kernel=config.nl.kernel,
                    method=config.nl.method)
 
 
 def _build_optimizer(config):
-    from pinn.optimizers import make_optimizer
+    from nonlocal_pinn.training.optimizers import make_optimizer
     return make_optimizer(config)
 
 
@@ -250,7 +250,7 @@ def _main(_):
     causal_eps_ac = jnp.array(1.0)
     causal_eps_ch = jnp.array(1.0)
     if config.loss.use_causal:
-        from pinn.causal import CausalWeightor
+        from nonlocal_pinn.training.causal import CausalWeightor
         n_ch = config.causal.n_chunks if config.causal.n_chunks > 0 else None
         causal = CausalWeightor(n_chunks=n_ch)
         causal_eps_ac = jnp.array(config.causal.eps_init)

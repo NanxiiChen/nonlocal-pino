@@ -20,9 +20,9 @@ from tensorboardX import SummaryWriter
 
 log = logging.getLogger(__name__)
 
-from pinn.operators import ElasticD
-from pinn.arch import make_pinn
-from pinn.utils import log_config_text, load_example_losses, setup_run_dir
+from nonlocal_pinn.operators import ElasticD
+from nonlocal_pinn.nn.arch import make_pinn
+from nonlocal_pinn.io.utils import log_config_text, load_example_losses, setup_run_dir
 
 
 # ── Config ────────────────────────────────────────────────────────────────────
@@ -102,7 +102,7 @@ def _build_network(config, key):
                      key=key)
 
     if c.use_hard_constraint:
-        from pinn.constraints import ConstrainedForward
+        from nonlocal_pinn.nn.constraints import ConstrainedForward
 
         def constraint(raw, x, _t):
             """Hard constraint: u_x = (x/Lx)*u_load + x(Lx-x)*N_x,
@@ -140,7 +140,7 @@ def _build_pde_mask(config, x_all):
 
 def _build_optimizer(config):
     """Create optimizer from config."""
-    from pinn.optimizers import make_optimizer
+    from nonlocal_pinn.training.optimizers import make_optimizer
     return make_optimizer(config)
 
 

@@ -1,12 +1,12 @@
-# AGENTS.md — AI Agent Instructions for nonlocal-KKS-PINN
+# AGENTS.md — AI Agent Instructions for nonlocal-pinn
 
 This file is the mandatory policy and navigation index for coding agents in
 this repository. Detailed, changing guidance lives in the linked documents.
 
 ## 1. Scope And Required Reading
 
-This project develops nonlocal PINNs for phase-field and solid-mechanics
-problems. The repository README is the project overview; update it first when
+This project develops nonlocal operators and PINNs for melting,
+corrosion and elasticity. The repository README is the project overview; update it first when
 its file structure or public API is stale.
 
 Before implementation, read the relevant reference documents:
@@ -18,8 +18,7 @@ Before implementation, read the relevant reference documents:
 - [`docs/JAX_GUIDELINES.md`](docs/JAX_GUIDELINES.md) — Equinox, JIT, fixed-shape,
   sampling, and functional-style rules.
 
-The main examples are `icemelting3d`, `electropolish2d`, `fracture1d`,
-`fracture2d`, `elasticity2d`, and `pino_elasticity2d`.
+The examples are `icemelting3d`, `electropolish2d`, `elasticity2d`, `corrosion1d`, `corrosion2d`.
 
 ### Documentation Roles
 
@@ -135,3 +134,12 @@ Before completion, apply proportionate verification:
 - configs and numerical choices are explicit and documented;
 - README/docs match changed APIs or formulations;
 - no debugging code or dead commented code remains.
+
+## Split provenance and recovery
+
+Origin: /root/nonlocal-KKS dev@61352f1. This repository is independent of its
+sibling; do not add sibling/source PYTHONPATH dependencies. The inherited push
+remote was removed. Do not commit, merge, push or change history without
+explicit current-turn authorization. Read docs/migration/README.md before
+changing old checkpoint compatibility or external artifact paths. Keep data
+and tf-logs at their existing paths until a separate migration is authorized.

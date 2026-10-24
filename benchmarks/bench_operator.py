@@ -13,7 +13,7 @@ import numpy as np
 import jax
 import jax.numpy as jnp
 
-from pinn.operators import build_D
+from nonlocal_pinn.operators import build_D
 
 jax.config.update("jax_default_matmul_precision", "highest")
 

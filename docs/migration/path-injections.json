@@ -1,0 +1,14 @@
+[
+  {
+    "file": "_virtualenv.pth",
+    "contents": "import _virtualenv"
+  },
+  {
+    "file": "distutils-precedence.pth",
+    "contents": "import os; var = 'SETUPTOOLS_USE_DISTUTILS'; enabled = os.environ.get(var, 'local') == 'local'; enabled and __import__('_distutils_hack').add_shim(); \n"
+  },
+  {
+    "file": "_editable_impl_nonlocal_pinn.pth",
+    "contents": "/root/nonlocal-pinn\n/root/nonlocal-pinn/src"
+  }
+]

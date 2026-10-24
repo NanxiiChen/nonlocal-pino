@@ -99,7 +99,7 @@ Stress-strain (Hooke's law):
 ### 2.1 Nonlocal: ElasticD Correspondence Peridynamics
 
 The nonlocal formulation uses the **correspondence peridynamic model**
-(Silling et al., 2007), implemented in `ElasticD` (`src/pinn/operators.py`).
+(Silling et al., 2007), implemented in `ElasticD` (`src/nonlocal_pinn/operators/__init__.py`).
 
 **How it works** (single matvec call):
 
@@ -187,7 +187,7 @@ both Dirichlet edges (\(x=0\) and \(x=L_x\)):
 | Left edge (\(x=0\)) | \(= 0\) ✓ | \(= 0\) ✓ |
 | Right edge (\(x=L_x\)) | \(= u_{\text{load}}\) ✓ | \(= 0\) ✓ |
 
-Implemented via `ConstrainedForward` (`src/pinn/constraints.py`) with
+Implemented via `ConstrainedForward` (`src/nonlocal_pinn/nn/constraints.py`) with
 `pass_input=True` so the constraint closure receives spatial coordinates.
 
 ---
@@ -373,7 +373,7 @@ This directory implements a **single-geometry** PINN.  For solving a
 shape), a PINO (Physics-Informed Neural Operator) design using mask-based
 weight-zeroing with shared COO sparsity is proposed.
 
-See [`../pino_elasticity2d/README.md`](../pino_elasticity2d/README.md) for the full PINO design document.
+See [`../../docs/design/pino_elasticity2d.md`](../../docs/design/pino_elasticity2d.md) for the full PINO design document.
 
 ---
 
@@ -387,3 +387,12 @@ See [`../pino_elasticity2d/README.md`](../pino_elasticity2d/README.md) for the f
    Physics of Solids*, 48(1), 175–209.
 3. Bobaru, F., Foster, J.T., Geubelle, P.H., & Silling, S.A. (2016).
    *Handbook of Peridynamics*. CRC Press.
+
+
+## Project split (2026-10-24)
+
+This example belongs to `nonlocal-pinn`. Install the project and run from its
+repository root; existing external data/output paths are retained. Shared
+implementation paths changed during the split; see
+[the source map](../../docs/migration/source-map.json) and
+[migration notes](../../docs/migration/README.md).

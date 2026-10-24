@@ -7,7 +7,7 @@ import jax.numpy as jnp
 import numpy as np
 from scipy.spatial import cKDTree
 
-from pinn.operators import ExplicitVolumeSparseD
+from nonlocal_pinn.operators import ExplicitVolumeSparseD
 
 
 def _star_case(dtype=None):
