@@ -1,5 +1,12 @@
 # Project Progress
 
+## Private GitHub publication — 2026-10-24
+
+Repository: [NanxiiChen/nonlocal-pinn](https://github.com/NanxiiChen/nonlocal-pinn).
+Created as private; default branch main. Split code and publication records
+follow dev commit -> regular merge into main -> push main only. Local dev
+remains local. Original source and recovery backup are retained.
+
 ## Project split complete — 2026-10-24
 
 Independent package, explicit configs and artifact index are delivered.

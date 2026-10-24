@@ -40,3 +40,14 @@ https://github.com/NanxiiChen/nonlocal-pinn
 Reason: private remote backup and independent project development. Rejected:
 empty repositories, pushing dev or changing the original project's remote.
 Relation: completed split; publication coordinator record in the source project.
+
+## 2026-10-24 — Confirm private GitHub publication
+
+Created NanxiiChen/nonlocal-pinn as private under the authenticated NanxiiChen
+account. Configured only this project's origin and host-scoped local credential
+helper; published main after a regular dev merge. Verified private visibility,
+main default branch, only main remote branch and local/remote SHA equality.
+Reason: user requested private repositories after approving the split and
+completed browser authorization. Rejected: pushing dev, modifying original
+source origin, or relaxing privacy before publication. No numerical changes
+or repeated expensive tests; existing validations remain valid.
