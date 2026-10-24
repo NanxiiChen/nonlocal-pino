@@ -114,6 +114,65 @@ The physical mesh, material, loading, network seed, optimizer and stopping
 policy match the replay-free preset. This adds no reference targets or spatial
 sampling; it trains on previous frozen-H energy objectives.
 
+## Experimental current-driver irreversibility
+
+The working default remains the maximum-history scheme described above.
+The current-driver penalty presets below are retained for reproducing the
+irreversibility comparison and require explicit selection.
+
+An opt-in trial replaces maximum history in the damage energy by the current
+tensile driver \(\psi^+(u)\), with the same projection/lumped quadrature:
+
+$$
+L=\frac{J_{\psi^+}(d)+\beta\frac{G_c}{l_0}
+        \sum_i V_i\operatorname{ReLU}(d_i^n-d_i)}{C(\psi^+)}.
+$$
+
+Here \(J\) has the same omitted driver-only constant as above, and BOTH terms
+use its original detached positive normalization \(C\). The dimensionless
+\(\beta\) is explicit, initially1 for exploration, not a universal optimum.
+The lower bound \(d^n\) is the preceding completed LOAD endpoint; it stays
+fixed across all stagger/Adam iterations, and is detached together with psi.
+Current psi is refreshed after every mechanics solve and fixed within each
+inner fit. The network conditions on current psi rather than maximum H.
+For storage compatibility the field key `H` holds current psi in this mode;
+`identity.json` explicitly declares `history_floor=none_current_psi`.
+
+This L1 penalty is a soft constraint. Field stopping also requires maximum
+nodal healing <=1e-3. Logs separate physical energy, penalty, maximum healing,
+volume-RMS healing and affected volume fraction; they do not demand a zero
+unconstrained AT2 residual on an active inequality bound. Larger beta may
+impede training. Compare several weights before accepting a new baseline.
+No damage projection or per-outer monotone ratchet is applied.
+
+```bash
+PYTHONPATH=.:src .venv/bin/python -m examples.fracture2d_shear.train \
+  --config=examples/fracture2d_shear/configs/train_current_psi.py
+```
+
+Replay remains OFF: an old psi alone would not supply its path-dependent
+damage bound. The original history-field reference, baseline and default
+configuration remain unchanged. Reference differences now include a different
+irreversibility treatment; identical solutions are not guaranteed. Mechanics
+still uses the existing hybrid full degradation/tensile-driver scheme, not a
+new jointly variational split. Penalty approaches are discussed in
+[Gerasimov and De Lorenzis (2019)](https://arxiv.org/abs/1811.05334);
+this L1 trial does not borrow their quadratic-penalty parameter formula.
+
+For the screened beta10 candidate, run an independent cold trajectory:
+
+```bash
+PYTHONPATH=.:src .venv/bin/python -m examples.fracture2d_shear.train \
+  --config=examples/fracture2d_shear/configs/train_current_psi_cold.py
+```
+
+This preset starts with a fresh same-seed network/Adam/bank and zero physical
+fields, loading0→0.0200 in1e-4 increments. It retains the inherited inner
+updates, bootstrap, progress-based rate ladder and field stopping plus the
+1e-3 healing gate; it does not load the warm-screen checkpoint. Results and
+TensorBoard events use `pinn_current_psi_l1_beta10_cold/`. Beta10 is a trial
+candidate selected for healing control, not an accepted replacement baseline.
+
 ## Artifacts
 
 | Role | Default directory |

@@ -44,6 +44,10 @@ class Monitor:
             self.writer.add_scalar('diag/learning_rate', row['learning_rate'], step)
         if 'damage_tolerance' in row:
             self.writer.add_scalar('diag/damage_tolerance', row['damage_tolerance'], step)
+        if 'maximum_healing' in row:
+            for name in ('energy_loss', 'irreversibility_loss', 'penalized_loss',
+                         'maximum_healing', 'healing_volume_rms', 'healing_volume_fraction'):
+                self.writer.add_scalar('irreversibility/'+name, row[name], step)
         self.writer.add_scalar('train/load', row['load'], step)
         self.writer.add_scalar('diag/stage_reaction_for_previous_damage', row['reaction'], step)
 
@@ -54,6 +58,8 @@ class Monitor:
         if 'replay_snapshots' in row:
             self.writer.add_scalar('replay/snapshots_at_endpoint', row['replay_snapshots'], index)
         self.writer.add_scalar('train/outer_iterations', row['sweep'], index)
+        if 'maximum_healing' in row:
+            self.writer.add_scalar('train/maximum_healing', row['maximum_healing'], index)
         if 'learning_rate' in row:
             self.writer.add_scalar('train/learning_rate', row['learning_rate'], index)
         if index % self.c.output.figure_every:

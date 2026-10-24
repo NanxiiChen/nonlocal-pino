@@ -19,17 +19,25 @@ def committed_history(parent, current_driver):
         raise ValueError('committed history and current driver shapes differ')
     return jax.lax.stop_gradient(jnp.maximum(parent, current_driver))
 
+def damage_driving_field(parent, current_driver, *, mode):
+    """Explicit maximum-history or instantaneous tensile-driver treatment."""
+    if mode == 'maximum_history':
+        return committed_history(parent, current_driver)
+    if mode != 'current_psi_l1' or parent.shape != current_driver.shape:
+        raise ValueError('unknown damage driving mode or inconsistent nodal fields')
+    return jax.lax.stop_gradient(current_driver)
+
 def mechanics_first_sweep(q, d, parent_H, load, carry, *, mechanics, driver,
-                          damage, omega):
+                          damage, omega, history_mode='maximum_history'):
     """One mechanics call; returned q equilibrates d_previous, not new d.
 
-    Damage callback returns (image, new_carry, diagnostics). Its history is
-    detached and the previous load's history floor is never mutated.
+    Damage callback returns (image, new_carry, diagnostics). The detached
+    driver uses the explicit history_mode; the parent field is never mutated.
     """
     if not np.isfinite(omega) or not 0 < omega <= 1:
         raise ValueError('explicit stagger relaxation must be in (0, 1]')
     q_new, reaction, mechanical = mechanics(d, load, q)
-    H = committed_history(parent_H, jnp.asarray(driver(np.asarray(q_new))))
+    H = damage_driving_field(parent_H, jnp.asarray(driver(np.asarray(q_new))), mode=history_mode)
     image, carry, inner = damage(H, d, carry)
     d_new = image if omega == 1 else d + omega*(image-d)
     return dict(q=q_new, d=d_new, H=H, damage_image=image,

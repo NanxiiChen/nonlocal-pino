@@ -5,8 +5,226 @@
 
 ## Active task
 
-[Nonlocal PINN history-field learning and architectures](tasks/nonlocal-pinn-architecture.md).
-Opened 2026-10-15 after the user closed the fracture2d feasibility stage.
+[Split nonlocal PINN and fracture PINN projects](tasks/project-split-planning.md).
+Opened 2026-10-24 with explicit user approval to switch active tasks.
+Scope: first commit current code/docs on dev, then discuss a concrete split;
+implementation and artifact relocation require the user's later confirmation.
+
+The previous [history-field architecture investigation](tasks/nonlocal-pinn-architecture.md)
+is suspended, incomplete, and retained in place; it is not archived or closed.
+Its exact research resume point remains at the top of that task.
+
+Snapshot verification, 2026-10-24: four CPU irreversibility regressions PASS
+(30.505s), including weak derivatives, fixed load-parent bounds, exact endpoint
+restart, and the healing stop gate. Existing broader numerical/GPU validations
+remain recorded below. No new simulation or external artifact changes.
+
+## Retained research context (suspended task)
+
+The following dated records belong to the suspended architecture investigation.
+They are historical context, not additional active tasks.
+
+Multi-mesh batching discussed, 2026-10-24: one mesh pergeometry but one shared
+network/optimizer; keep dataset/history onhost and stage a smallGPU batch.
+ActualLcounts54618nodes/108234triangles give8.69MiB compactdamagepayload,
+versus426.70MiB for existing1024H buffer; denseN×128×2 FP64 attention alone
+wouldbe106.68MiB (size estimates, not measured trainingpeak). Bucket/pad all
+mesh/patch arrays and vmap loss with sharedparameters; microbatch gradients
+at fixedparameters ifneeded. Existing meshclosures/percasebanks need refactor,
+not duplicate trainers. No GPUbenchmark/implementation; details in task.
+
+Irregular-geometry patch design discussed, 2026-10-24: current box-grid
+patches collect materialnodes but lack explicit occupiedarea/boundary metadata
+and connected-local support. Proposed coarseglobal summaries + physical-radius
+mesh-connected fine neighborhoods + separate generic boundary patches; no pit
+parameters/landmarks. Precompute candidate supports permesh, refresh H-based
+fine selection eachouter and freeze duringinner fits. Preserve full FE loss;
+patch encoding is not residual sampling. Fixedtoken budgets/padding and
+remeshing/density checks remain required. No code/training launched; taskdetails.
+
+User input constraint, 2026-10-23: no hand-engineered pit depth/width/root
+radius (or pit-bottom/location shortcuts) as network inputs. Geometry should
+enter through actual mesh/point-set/boundary representation or a spatial
+material mask; shape parameters may generate/evaluate cases only. Favor
+independent physical meshes plus generic boundary/H encoders; mask-based
+encoding remains an alternative, FE loss still on true material elements.
+Material occupancy is distinct from padding masks and zeroH. Discussion only,
+no implementation/training; exact revised input contract in active task.
+
+New geometry-family discussion, 2026-10-23: user proposes no interior holes,
+variable boundary corrosion pits with crack nucleation. Recommend frozen
+post-corrosion geometries first: fixed specimen/material/loading, smooth
+single-pit depth/width/root-curvature/asymmetry variations, independently
+meshed under h/l0 AND curvature/quality controls. Boundary-point encoder plus
+existing multiscale H/query model is the minimal candidate; Transolver is an
+optional matched comparator. No prescribed pit-bottom crack or symmetry;
+direct reference must establish initiation. Whole-geometry splits/remeshing
+tests and cold own-H trajectories distinguish actual transfer. Proposal only;
+illustration and exact discussion/next action in task, no solver run.
+
+Density audit clarified, 2026-10-23: existing conditioned model also has
+mesh-sensitive operations. Patch means and FE energy use material measure;
+global H RMS is unweighted by nodal volume, while maxpool/topK depend on
+sampled extrema. Correct weightedloss does not guarantee mesh-independent
+encoding; no measured superiority over Transolver. Volume-weighted H RMS and
+same-domain remeshing tests proposed only, not implemented. Details in task.
+
+Transolver suitability assessed, 2026-10-23: viable history-conditioned
+alternative, not a replacement for maximum history/FE energy/stagger. Current
+model already has coarse+fine tokens and coordinate cross-attention; Transolver
+adds learned slicing and repeated slice-to-slice interaction. Potential benefit
+for cross-geometry fields, unproven fracture accuracy/time. Original unweighted
+node aggregation has mesh-density sensitivity (also explicit in PFEMsec6.3);
+volume-weighted slicing is an unimplemented candidate. Preserve local detail
+and explicit geometry, compare fixed-H/remeshing/held-out shapes before full
+paths. Discussion only; no architecture change, budget or GPU job selected.
+
+IFENN mechanism clarified, 2026-10-23: geometry/BC handled by new-case FEM;
+fixed pretrained networks reuse H-to-d patterns.2025 uses fully convolutional
+pixel maps;2026 initiation DeepOKAN requires fixed branch sensor count/order
+and coordinate matching on the new mesh, while its propagation CNN still
+interpolates unstructured H to pixels and damage back. Not an explicit hole
+geometry encoder or unrestricted permutation-invariant branch. Physical-length
+drift, local-zone/artificial far-field assumptions remain limits. Discussion
+only; fulltext anchors and comparison with our online fitting recorded in task.
+
+Literature search completed, 2026-10-23: screened recent2025–2026 geometry/
+mesh operator work and checked primary papers/code. Prioritize GINOT for
+boundary-point geometry+query decoding, PFEM for physics-only FE differentiation
+on random-hole domains, RIGNO for resolution tests, and IFENN2025/June2026 for
+hybrid FE/history-to-damage fracture. IFENN limitations matter: structured
+pixel/FD propagation and physical-length drift in2025; stage-specific models
+and artificial far-field constraints in2026. GAOT/SNI and discretization/
+topology studies retained as alternatives/validation guidance. Detailed links,
+evidence and limits in active task; no implementation or training launched.
+
+Current discussion, 2026-10-23: move from individual solves to shared
+geometry/history-conditioned damage learning. User proposes variable L-panel
+width/height and highlights arbitrary holes and stretching-induced mesh
+errors. Prefer independently generated physical meshes with controlled h/l0,
+shared boundary/history point encoders and coordinate decoder; no node
+correspondence or fixed topology requirement. Template stretching is only an
+optional controlled comparison. Fixed-size token sets and padded mesh-size
+buckets are implementation candidates. Preserve local FE energy, mechanics
+and maximum history. No new training/production change; design and staged
+held-out-geometry/remeshing validation are in the active task.
+
+Energy figure extended,2026-10-23: new left column pairs final FEM/PINN
+material damage for tension.0060/shear.0200/L-panel.0300, shared0–1 scale;
+original three energy columns read unchanged CSVs. Saved/visuallychecked
+energy_evolution_with_damage.png/pdf in energy_comparison_20261023, with
+script andsix-field provenance. Originalfigure retained; no newsolve/training
+orproductionchange. Exactartifactpaths inactivetask.
+
+Energy audit COMPLETE,2026-10-23: accepted no-replay maximum-history local
+FE tension/shear/L-panel, all1120 saved endpoints paired at identical loads.
+Final elastic+crack energies FEM/PINN:1.596162/1.598386(.1393%),
+2.316278/2.303814(.5381%),1.352157/1.353181(.0757%). Finalcrack-energy
+differences.1632/.5380/.2167%. Transitiontiming stilldiffers: shear largest
+drop.0135/.0137, L-panel.0220/.0222; finalagreement isnotwhole-pathaccuracy.
+Separate external-work gaps persist in BOTH FEM/PINN (~5–14%): do notclaim
+exactenergybalance orattributeuniquelytoPINN.18assembledK/S/loss checksPASS;
+strainenergy/reactionidentity worstabsolute4.44e-6. Plots/CSV/PDF/report at
+fracture2d/diagnostics/energy_comparison_20261023 undertf-logs, exactpaths/
+formulas inactivetask. No training, solver/configchange orGitoperation.
+
+Completed work, 2026-10-23: physical energy audit of accepted maximum-history,
+replay-free tension/shear/L-panel FEM versus PINN. Reconstruct actual elastic
+and lumped-P1 AT2 crack energies at matched loads; plot evolution and final
+differences, independently check stiffness/quadrature and reaction identity.
+Training loss is shifted/normalized and excluded as physical energy. No new
+simulation or config/Git change; exact scope and output paths in active task.
+
+Working route restored/confirmed, 2026-10-22: user sets aside the explicit
+penalty trial and chooses the default MAXIMUM HISTORY treatment. Shear
+train.py still selects train_base.py: local P1 direct mechanics, conditioned
+neural damage/FE energy, H=max(previous-load H,current psi+), replay OFF.
+Accepted configuration was never changed; verify it matches saved baseline.
+Penalty presets/results retained only as opt-in comparison artifacts. No
+new run, automatic retry, numerical rollback or Git operation; exact current
+research direction and retained failure record are in the active task.
+
+Beta10 cold shear STOPPED on budget, 2026-10-22; user asks to retain result.
+104 accepted loads through U=.0104; .0105 saved/synchronized but fails after
+512 outers. Damage change .00555865 > .00100962; max healing .00698483 >
+.001, while u/load change2.04e-5 passes. Final crack visibly reaches right
+edge, R=.445869 versus same-load history FEM236.0434: early spanning, not
+failure to propagate. All rates stayed1e-4; reaction-progress controller kept
+extending without lowering. No full.0200 trajectory or accepted.0105 claimed.
+Saved cold_failure_summary.json in launch diagnostics; task has exact fields,
+policy evidence and limits. GPU idle, no restart; previous RUNNING notes are
+historical. Current-psi+soft penalty differs from history reference, so cause
+of trajectory difference is not isolated. No code or Git operation this turn.
+
+Beta10 COLD shear RUNNING,2026-10-22: detachedsupervisor27724(PPID1/SID27724),
+GPUworker27728,start11:29:35UTC(19:29:35Shanghai). Preset
+configs/train_current_psi_cold.py, target200loads0→.0200/du1e-4, samebaseline
+numerics exceptcurrentpsi/L1beta10/healinggate1e-3. ReplayOFF,freshweights;
+actualcoldreceiptPASS:q/d/psi0,Adam0/bank0,initialnetwork/optimizerbytesexact
+freshbaseline,checkpointsourceNULL,maxHdisabled. Logs/results/events at
+shear/pinn_current_psi_l1_beta10_cold; job/log/receipts in diagnostics/
+current_psi_l1_beta10_cold_launch_20261022. Initialcompile/bootstrap, no load
+endpoint claim yet. Schema/configdiff/ASTPASS; existingnumericalchecksvalid,
+no unchangedexpensivetests rerun. No Gitoperation. Exactresume inactivetask.
+
+Cold beta10 shear trial authorized,2026-10-22: user requests bestcandidate
+fromphysicalzero. Selectbeta10 forhealingcontrol, notprovenspeed. Newnamed
+preset planned,0→.0200/du1e-4, freshnetwork/Adam/bank andzeroq/d/psi,
+fullP1energy/currentpsi/L1/replayOFF; same rates/fieldstopplushealing1e-3.
+Prepare schema/path/cold-start verification anddetached TensorBoard run;
+acceptedhistoryreferenceunchanged. No Gitoperation authorized.
+
+Penalty screen COMPLETE,2026-10-22: correctedjobexit0 at09:15:15UTC
+(17:15:15Shanghai), all4same-state arms128outers, GPUidle. AtU=.0102,
+history/beta.1/1/10 synchronizedR273.6997/250.0470/277.8023/292.3515 vs
+historyFEM247.5547; maxhealing.0149388/.131165/.00822833/.000419086.
+VolumeL2differences vsoldFEM35.699/36.635/36.712/39.313%; no armjointstop.
+Beta10finalhealingpasses1e-3 butonly77/128outerspass, so nohardconstraint
+guarantee. Smallerweightcanunloadfasterwhilehealing; don'trankbyforcealone.
+Inspectedplots:beta.1longerdowncurvedband,beta10shorter; nodeaccuracy not
+establishedasbetter. Keepbeta10candidateforfinishingstudy, no baseline
+replacement/newcold/runqueued. Exactallinitialnetwork/Adambytes verified;
+job/comparison.json/png andfinalfieldplots inexistingdiagnosticroot.
+Prior runningobservationsbelow arehistorical. Details/next inactivetask.
+
+Penalty pilot logging repair/resume,2026-10-22: originaljobfailed08:44:40UTC
+at beta.1 firstrow due duplicate maximum_healing keyword in externaldriver,
+not a numerical exception. No penaltyprogress saved; beta1/10unstarted.
+Fixed diagnostic dictassembly only; exactASTrow regressions bothPASS.
+Archived failedattempt/log/job in failed_attempt_001; history128retained.
+Detached correctedowner13960(PPID1/SID13960)/worker13961 started08:52:14UTC,
+same3penaltyarms only. Actualnewconfig andinitialnetwork/Adam bytes exactly
+equal failedattempt/source; currentfirstcompile, no newphysicalresultyet.
+No numericalcore/default/reference change or Gitoperation. Exactresume in task.
+
+Latest penalty-screen audit,2026-10-22: history arm completed128outers at
+U=.0102, synchronizedR273.69974 vs same-loadFEM247.55467; damageL2error
+35.6993%, no observedfieldstop. Visuallyinspected shorter downwardcurving
+crack thanreference. Maxhealing vsloadparent.0149388 (parent.205188→.190249
+atnode70639), volumeRMS.000640611. This is measuredneuralfield regression,
+not proofabout exacthistoryFEM. beta.1worker10545 restoredexactseed andis
+infirstfit/compile withnoouterreport; beta1/10queued. Supervisor6802alive,
+heartbeat08:44:30UTC. No penaltyefficacy/weightchoice claim yet. Details in
+active task; no newtraining/code/config/Gitoperation this status turn.
+
+Current work, 2026-10-22: optional shear current-psi FE energy plus weighted
+L1 irreversibility penalty, previous completed-load d fixed/detached. Same
+architecture/mechanics, replay OFF, accepted history-field FEM unchanged.
+Implement/verify explicit scaling and healing diagnostics, then bounded
+matched warm fracture-window beta comparison. No full cold result yet and no
+Git operation authorized. Exact implementation/experiment resume in task.
+
+Penalty implementation/verification and GPU launch,2026-10-22: new optional
+train_current_psi preset, no default change.10distinct focused numerical/
+neural/restart/healing-gate/oldFE/shear checks PASS (8initial successes plus
+one corrected assertion rerun andone newgate check); config/source-path
+identity of accepted shear exactly preserved. Detached supervisor6802
+(PPID1/SID6802), initial history worker6804; warm0101→0102 fourarms, each
+128x128, beta.1/1/10. Same-network/Adam restorePASS71040/bank202. Job/receipts
+under shear diagnostics/current_psi_l1_beta_20261022. Historyarm hasreached
+24actualouters (latestread), penaltyarms queuedserially;
+no comparative weight result or completedcold claim. Independent healing
+gate1e-3; unchanged history FEM is a different-irreversibility comparator.
 
 L-panel snapshot for authorized dev commit, 2026-10-22: include thin new
 example, mesh/BC validation, generalized UFL checks,3configs(default replay

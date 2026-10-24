@@ -15571,3 +15571,305 @@ outside Git. Existing numerical checks remain valid because actual code
 matches validation/run snapshots; check syntax/configs/whitespace and staging
 without rerunning unchanged costly suites. Commit on dev only; do not infer
 merge or push permission. Relation: completed L-panel no-replay/replay trials.
+
+## 2026-10-22 — Test current-driver energy with explicit shear irreversibility
+
+User authorizes replacing maximum H by current tensile psi in the neural
+damage energy and adding a weighted ReLU penalty. Keep the local P1 hybrid
+mechanics, architecture, mesh and existing history-field FEM reference. Use
+the preceding completed LOAD damage as a detached lower bound, never the
+previous outer trial. Penalize sum(V*relu(d_parent-d)) with gamma=beta*Gc/l0;
+divide physical energy and penalty by the SAME detached normalization.
+This is an L1 penalty experiment, not a guaranteed exact constraint at an
+arbitrary finite beta. Check maximum healing independently of field changes;
+do not require the unconstrained AT2 residual to vanish on active bounds.
+Reference remains a history-model comparator, not an identical formulation
+or training target. Replay stays OFF because old psi alone does not identify
+the additional old damage lower bound. Preserve all accepted defaults and
+outputs. First verify derivatives, lower-bound ownership and restart, then
+screen beta on a bounded matched shear fracture window before any new full
+cold trajectory. Related penalty literature: Gerasimov/De Lorenzis (2019),
+https://arxiv.org/abs/1811.05334; the L1 scaling here is an explicit trial,
+not that paper's quadratic-penalty parameter formula. No Git authorization.
+
+## 2026-10-22 — Bound the first penalty comparison to a matched fracture window
+
+Before committing to a new cold trajectory, restore the accepted shear
+state0101 (U=.0101, Adam71040,202 collected snapshots), with identical network
+and optimizer bytes in each branch. Compare original maximum history with
+current-psi L1 beta=.1/1/10 for128outers x128Adam at U=.0102. Retain Adam
+moments and the same rate1e-4; no rate-policy interventions, early-stop
+selection, load advancement or accepted-reference writes. Record the first
+observed joint field/healing stop without accepting the diagnostic load;
+save synchronized evaluation fields/force at fixed horizons. A warm-window
+result cannot establish full cold robustness or reference-equivalent physics.
+Separate detached supervisor/serialworkers and example-local diagnostic
+events preserve all existing baselines. Related to explicit-constraint trial.
+
+## 2026-10-22 — Repair the penalty pilot's diagnostic collision and retain control
+
+First penalty worker exited after its first fit because the external driver
+passed maximum_healing/healing_volume_rms twice to dict(), not because of a
+numerical exception. Fix only diagnostic assembly via dict then update;
+exercise the exact AST row with both history and penalty metrics. Preserve
+the completed128-outer history arm and archive the failed first attempt and
+traceback. Restart only the three unreported penalty arms from the SAME
+state0101, beta/rate/iterations/lowerbound unchanged; never skip the lost
+first update or claim a saved penalty result exists. Use an explicit audited
+resume, not an automatic numerical retry or a full history rerun. Relation:
+authorized bounded shear experiment; no Git operation authorized.
+
+## 2026-10-22 — Retain beta10 as a constraint candidate, not an accepted faster solve
+
+All128-outer warm comparisons completed. Beta.1 has near-reference reaction
+but substantial healing; do not accept its force match as successful fracture
+solving. Beta10 suppresses final worst healing below the declared1e-3 gate,
+but propagation lags and field changes have not settled; it did not satisfy
+the joint stopping test. Retain it for a bounded finishing/longer-horizon
+investigation, without promoting a default, launching a new cold trajectory,
+or declaring exact irreversibility/all-time feasibility from one finalfield.
+The historyFEM stays unchanged as a different-treatment comparator. Existing
+completed artifacts suffice for this status turn; no further run queued.
+
+## 2026-10-22 — Run beta10 current-psi irreversibility from physical zero
+
+User explicitly requests a cold trajectory with the best screened candidate.
+Select beta10 for its final healing control, not an unproven convergence-speed
+advantage. Run shear0→.0200 withdu1e-4, fresh same-seed network/Adam/bank and
+q=d=psi=0; no trained warm checkpoint. Keep full-domain local P1 energy,
+current-psi conditioning, L1 penalty, replayOFF, inherited128inner/1024bootstrap,
+progress-block rate ladder1e-4→3e-5→1e-5 and joint field/healing stop1e-3.
+Use a separate named cold preset, output/events and detached supervised run;
+preserve accepted history FEM/reference/baseline. Stop/save on exhausted
+budget instead of silently advancing or manually changing load phases.
+Relation: completed matched warm screening; cold robustness remains unproven.
+No Git commit/merge/push authorized.
+
+## 2026-10-22 — Retain the beta10 cold budget failure as a separate outcome
+
+User asks to record the failed cold trial. Preserve its104 accepted loads,
+unaccepted synchronized.0105 endpoint, TensorBoard, fields and exit receipts;
+do not restart, relax tolerances or promote the warm candidate by default.
+Record both early spanning/force collapse and the unmet field-change/healing
+gates. The tiny integrated penalty value does not establish local feasibility.
+Warm-window final healing control did not establish cold robustness; it does
+not prove that explicit irreversibility itself is invalid. Current-psi soft
+penalty and maximum history are different treatments, and the cold solve is
+unsettled, so do not attribute the new fracture path/load uniquely to physics
+or optimizer error. Rate policy never lowered during continued reaction
+decrease; retain this evidence for a future finishing investigation rather
+than silently changing the policy now. Relation: authorized beta10 cold run.
+
+## 2026-10-22 — Return to maximum history as the working route
+
+User chooses to set aside current-psi plus soft irreversibility after the
+cold trial and return to the default maximum-history scheme. Confirm the
+shear CLI still defaults to train_base.py, which has no irreversibility
+override and keeps replay OFF. Continue with local P1 direct mechanics and
+history-conditioned neural damage trained by frozen maximum-H FE energy.
+Keep the penalty presets/code and recorded results as opt-in comparison
+artifacts, without promoting, restarting or refining them automatically.
+No numerical rollback is necessary because accepted defaults were never
+changed. This is a practical route choice, not a claim that all explicit
+irreversibility methods fail. No Git operation or new training authorized.
+
+## 2026-10-23 — Audit physical endpoint energies on the three accepted FE cases
+
+User requests FEM/PINN energy evolution and final agreement. Use accepted
+replay-free maximum-history tension, shear and L-panel trajectories, each
+with its saved matching local P1 direct reference and exactly matched loads.
+Reconstruct elastic storage from the actual plane-strain stiffness, including
+undegraded grip cells when present; use the same lumped d-squared mass and
+P1 gradient term as the implemented AT2 crack energy. Report material/grip
+elastic contributions separately and their total, with unit-thickness/model
+units rather than inventing physical units. Independently check element
+elastic energy against half U*reaction and selected assembled quadratic
+forms; check fracture gradient against scalar stiffness. Normalized shifted
+H-training loss is not physical stored energy and cannot be compared across
+different H as such. Optional trapezoidal reaction work is an energy-balance
+diagnostic only: hybrid history and finite-load jumps do not establish exact
+joint variational energy balance. Keep all simulation data/configs unchanged;
+write reproducible postprocessing externally and results in the active task.
+No new training or Git operation authorized.
+
+## 2026-10-23 — Distinguish endpoint agreement, fracture timing and energy balance
+
+The completed energy audit supports reporting final elastic+AT2 crack-energy
+agreement as a global check only. Keep same-load transition differences
+visible, including load-step shifts; never align the curves by crack stage
+or infer identical crack fields from close final integrals. Keep boundary
+work versus stored-plus-crack energy as a separate diagnostic, since the FEM
+comparator itself has a gap and the postprocessing does not isolate its
+cause. Do not silently change the implemented lumped mass or use normalized
+H loss to make energy totals appear balanced. Retain raw CSVs, component
+splits and verification records for later model/load-resolution investigation;
+no numerical scheme change is authorized by this audit request. Relation:
+accepted maximum-history FE baseline energy comparison, not the penalty trial.
+
+## 2026-10-23 — Pair final crack morphology with the energy curves
+
+User requests a left cloud-map column in the existing three-case energy
+figure. Use a wider first column with FEM/PINN side by side for each case,
+at the same final loads as their energy endpoints. Show material triangles
+only, with one common0–1 damage scale; do not include artificial grip cells
+or imply complete separation of the L-panel. Retain the three original
+energy columns unchanged, render from saved fields/CSV and export a separate
+PNG/PDF plus reproducible script and field provenance. No image synthesis,
+new simulation, baseline overwrite or numerical changes are needed.
+
+## 2026-10-23 — Explore geometry transfer without requiring mesh correspondence
+
+User moves toward geometry generalization, suggests parameterized L width/
+height, then highlights arbitrary holes and stretching-induced resolution
+errors. Prefer independent physical meshes and a shared geometry/history
+conditioned network as the general design. Each mesh supplies its own P1
+gradients, quadrature, mechanics and BCs; the network receives boundary/void
+information and H, with physical scale retained under normalization. A common
+node count/order or topology is unnecessary. Template stretching remains only
+a bounded comparison, not a general hole/topology solution. Correct affine
+gradients do not eliminate changing h/l0 or aspect ratio, so assess independent
+mesh quality and selected direct mesh-refinement controls. Fixed-token and
+masked mesh-bucket layouts are candidates for JAX, never a reason to truncate
+real FE nodes. No new architecture, configuration, dataset size, training or
+solver run is adopted in this discussion. Retain accepted local FE energy,
+maximum history and stagger. Distinguish remeshing, held-out geometry and hole
+topology tests, and frozen weights versus refinement. Relation: existing
+architecture task and October18 mesh-compatible transfer discussion. Primary
+GINO/DIMON/PFEM references and exact next design discussion are in that task.
+
+## 2026-10-23 — Ground transfer design in recent geometry and fracture work
+
+User explicitly requests recent cross-geometry/mesh papers. Search2025–2026
+and check primary fulltexts and author/proceedings sources. Prioritize GINOT
+for boundary geometry encoding/query decoding, PFEM for physics-only FE
+differentiation on random-hole domains, RIGNO for resolution studies, and
+IFENN2025/June2026 for the actual FEM-mechanics/history-to-damage split.
+Retain GAOT/domain-decomposition alternatives without replacing the network.
+Distinguish supervised architecture evidence from physics-trained fracture
+evidence. Record IFENN's structured pixel/FD/propagation-only and physical
+length versus elementsize limitations, and its2026 stage splitting/artificial
+far-field constraints. These restrictions prevent treating it as an already
+validated solution to our arbitrary-hole, unified no-path-constraint task.
+Accepting varied meshes is not by itself accuracy under remeshing or topology
+change; retain separate validation axes and fixed physical length scales.
+Detailed citations and reading priority live in the current task. This is
+research only: no productionchange, training, new dependency or Gitoperation.
+
+## 2026-10-23 — Describe IFENN transfer as field reuse with explicit alignment
+
+Rechecking the actual fracture papers shows its geometry adaptation is largely
+handled by FEM-generatedH and input representations.2025 fully convolutional
+propagation supports variable-sized pixel maps, with structured-domain and
+physical-length limitations.2026 DeepOKAN branch is fixed-count and ordered;
+itssec3.1.5 requires coordinate-matched test sensors, while the query count can
+vary. Its CNN propagation interpolates unstructuredfields to pixels and back.
+Do not claim native arbitrary-mesh CNNs, unorderedbranch invariance, explicit
+arbitrary-hole geometry encoding, or demonstrated zero-state neural damage
+for the entire loading path. User's current question authorizes explanation,
+not adopting kernel symmetries, smoothing, damageprojection, artificial
+far-field restrictions or changing our training. Record these distinctions
+and the frozen-pretrained versus current online-fitting difference in task.
+
+## 2026-10-23 — Consider Transolver as a conditioned-backbone comparator
+
+User asks suitability relative to current history-conditioned PINN. Treat
+Transolver as a possible backbone for the same H-conditioned damage task,
+retaining FE energy, maximum history and local direct mechanics/stagger.
+Current model already has spatial coarse/fine tokens and coordinate attention;
+the proposed gain is learned slicing and repeated token interaction, not
+the first introduction of spatial context. Original irregular attention uses
+unweighted node sums; PFEM explicitly records input-density sensitivity, so
+do not assume independent meshes/local refinement are accuracy-invariant.
+Volume-weighted/masked aggregation is a candidate requiring separate checks.
+Preserve narrowband/local detail, explicit geometry and physical scale, and
+compare fixedH and remeshing/heldout geometries at matched accuracy/time before
+any fullcoupled promotion. Architecture alone neither proves transfer nor
+removes training/outer iteration costs. No implementation/config/budget/GPU
+job or extra symmetry/path restriction is selected in this discussion.
+
+## 2026-10-23 — Apply the mesh-density critique to the existing model as well
+
+User asks whether our conditioned model has the same issue. Audit confirms
+volume-weighted patch means/FE objective but unweighted nodalH RMS, plus
+extrema/topK sampling sensitivity. Explicitly distinguish partial measure
+handling from proven mesh invariance; no measured ranking against Transolver.
+Weighted physicalH RMS is a proposed control, not an authorized change.
+Maxpool/tokenattention are not automatically quadrature integrals, so do not
+blindly multiply all operations by area. Preserve baseline and record the
+need for same-domain remeshing and identical-input backbone comparisons.
+
+## 2026-10-23 — Focus geometry-transfer discussion on rounded surface pits
+
+User proposes variable surface indentations without interiorholes and pit-
+initiated fracture. Recommend a fixed post-corrosion singlepit specimenfamily
+before active corrosion/fracture coupling: vary depth,width,rootshape and
+asymmetry under one fixedmechanical setup. Each geometry has its own mesh;
+resolution must capture physical l0 AND pitcurvature/shape. Shared boundary
+and history encoders are a minimalcandidate, with matched Transolver optional.
+No predetermined pitbottom damage seed, futurepath, symmetry or weakline;
+directreference must establish initiation for each shape. Keep whole-geometry
+holdouts, remeshing controls and ownH coupledvalidation distinct from frozenH
+training. Geometry/sampling presets and a numerical run are not selected by
+this discussion. Do not label frozen mechanical pit fracture as an active
+electrochemical corrosion or fatigue simulation. Exactproposal inactivetask.
+
+## 2026-10-23 — Represent pit geometry directly rather than by manual scalars
+
+User explicitly rejects pitdepth,width,rootradius and analogous handcrafted
+geometry descriptors as networkinputs. Use actual mesh/pointset/boundary
+geometry or spatialmaterialmask representation; generation/evaluation may
+retain such parameters separately. This supersedes prior optional pitrelative
+center/bottom input suggestions. Distinguish materialoccupancy frompadding
+validity, and solidzeroH from exterior. Preserve physicalFE energy on actual
+materialmesh; a maskencoder does not authorize a fictitiousdomain PDEchange.
+No representation/architecture implementation or numericalrun selected yet.
+
+## 2026-10-24 — Separate global, material-local and boundary patch roles
+
+For irregular surface-pit conditioning, recognize current rectangular bins
+already accept material-only pointsets, but have no explicit boundary/area
+metadata and may mix locally separated pieces. Propose coarseglobal summaries,
+physical-radius mesh-connected finepatches, and generic boundaryencoding.
+No handcrafted pitparameters or geometrymatching IDs. Fine neighborhood
+membership precomputes permesh, H-based selection refreshes perouter and stays
+fixed duringinnerfits. Avoid fixednodenum/fixedhop as the only spatialscale
+under remeshing; pad/mask supports without blindtruncation. This is an encoder
+proposal only: full physicalFE loss/support and maximumhistory remain intact,
+global attention is not literal force coupling, and graphcomplexity has no
+proven accuracy/speed advantage. Record a simpler grid+geometry comparator.
+
+## 2026-10-24 — Separate dataset size from GPU microbatch memory
+
+For independent-geometry meshes, propose one sharednetwork/optimizer and host-
+resident meshes/history dataset, staging only smallGPU batches. Do not copy
+the current pergeometrytrainer and1024H devicebank across allcases. Explicit
+dynamicmesh payloads plus maskedsizebuckets permit sharedparameter vmap;
+current capturedsinglemesh closures require actualrefactoring first. Byte
+estimates onLcounts separate compactFEdata8.69MiB,426.70MiB historycapacity
+and106.68MiB potentialattentionarray from unmeasured totaltrainingpeak.
+Ifneeded accumulate microbatchgradients at fixedparameters and update once;
+do not claim grad-of-scan automatically avoids allactivationretention.
+Retain physicalmesh/FP64/fullenergy, no blindpaddingtruncation or vmapping of
+wholevariablelength loadingpaths. This is design/arithmetic only, not a
+measuredGPUfit claim, selectedbatchsize, implementation or newrun.
+
+## 2026-10-24 — Snapshot before an explicitly gated project split
+
+Decision: commit current code/tests/docs on dev before discussing two research
+repositories. The user explicitly authorizes this commit; merge/push and actual
+project/artifact migration are not requested. Preserve the working maximum-
+history defaults and retain optional penalty experiments with their limits.
+Reason: establish a reproducible rollback/reference point before restructuring.
+Rejected: splitting directories before review, dropping historical nonlocal
+fracture controls, or moving data/checkpoints as part of the snapshot.
+Relation: current irreversibility experiments and upcoming project split.
+
+## 2026-10-24 — Explicitly switch planning tasks without closing research
+
+Decision: user selects retaining the history-field architecture task incomplete
+and explicitly switching to project-split-planning as the sole active task.
+Reason: repository AGENTS.md forbids silently replacing an unrelated active
+task; user answered the task-handling question. Retain the old task in place,
+mark suspended and preserve its exact resume point. Rejected: silently closing
+or archiving unfinished research, or tracking two simultaneous active tasks.
+Relation: split proposal only; implementation waits for later user confirmation.

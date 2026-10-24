@@ -10,7 +10,7 @@ import numpy as np
 from examples.fracture2d.at2_cg import damage_solver as direct_damage_solver
 from examples.fracture2d.losses import damage_weights, residual_mean, residual_metrics
 from examples.fracture2d.mesh import load_geometry, prepare
-from examples.fracture2d.stagger import committed_history, damage_change_limit, field_changes, field_stop, mechanics_first_sweep
+from examples.fracture2d.stagger import damage_driving_field, damage_change_limit, field_changes, field_stop, mechanics_first_sweep
 from examples.fracture2d.storage import atomic_fields, atomic_json, load_fields
 
 
@@ -84,6 +84,9 @@ def validate(c):
                 or a.outer_steps != control.outers_per_rate):
             raise ValueError('budget rate control requires FEM Adam with explicit replay policy, field stopping, '
                              'no budget advancement, and matching outer blocks')
+    if 'irreversibility' in c:
+        from examples.fracture2d.irreversibility import validate_penalty
+        validate_penalty(c)
     return np.arange(1, n+1, dtype=np.float64)*a.du
 
 
@@ -109,6 +112,10 @@ def run(c, *, damage_solver):
     if damage_solver not in ('direct', 'pinn'):
         raise ValueError('unknown damage solver')
     loads = validate(c)
+    constrained = 'irreversibility' in c
+    if constrained and damage_solver != 'pinn':
+        raise ValueError('current-psi penalty is an experimental PINN option; direct reference is unchanged')
+    history_mode = c.irreversibility.mode if constrained else 'maximum_history'
     jax.config.update('jax_enable_x64', True)
     jax.config.update('jax_default_matmul_precision', 'highest')
     os.sched_setaffinity(0, sorted(os.sched_getaffinity(0))[:c.output.cpu_threads])
@@ -144,7 +151,11 @@ def run(c, *, damage_solver):
         raise ValueError('budget rate control is only defined for history-network damage training')
     if history_pinn:
         from examples.fracture2d.history_training import HistoryDamagePINN
-        pinn = HistoryDamagePINN(c, m, operator)
+        if constrained:
+            from examples.fracture2d.irreversibility import CurrentEnergyDamagePINN
+            pinn = CurrentEnergyDamagePINN(c, m, operator)
+        else:
+            pinn = HistoryDamagePINN(c, m, operator)
     elif damage_solver == 'pinn':
         from examples.fracture2d.train import DamagePINN
         pinn = DamagePINN(c, m, operator)
@@ -155,7 +166,9 @@ def run(c, *, damage_solver):
             from examples.fracture2d.fem_damage import make_energy
             direct_energy = jax.jit(make_energy(operator, m.volumes,
                 gc0=g0, gc1=g1, floor=c.loss.floor))
-    sources = [str(f) for f in Path(__file__).parent.glob('*.py')]
+    # The optional module must not change existing history-run path identities.
+    sources = [str(f) for f in Path(__file__).parent.glob('*.py')
+               if constrained or f.name != 'irreversibility.py']
     inputs = [str(Path(c.mesh.prepared_dir)/name)
               for name in ('identity.json', 'mesh.npz', 'damage_operator.npz', 'fenics_parity.json')]
     if c.damage.discretization == 'fem':
@@ -167,6 +180,10 @@ def run(c, *, damage_solver):
         damage_solver=damage_solver, geometry=geometry, sources=sources, inputs=inputs,
         history_floor='preceding_load_endpoint', reference_training_targets=False,
         residual_is_stopping_gate=False, physical_initial_damage=0., physical_initial_history=0.)
+    if constrained:
+        identity.update(history_floor='none_current_psi',
+            irreversibility_bound='preceding_load_endpoint_damage',
+            reference_same_irreversibility=False)
     if c.output.resume:
         if json.loads((root/'identity.json').read_text()) != identity:
             raise ValueError('resume configuration, solver or file paths differ')
@@ -227,8 +244,10 @@ def run(c, *, damage_solver):
                     raise ValueError('saved endpoint load or parent path differs')
                 fields = load_fields(folder/'fields.npz', nodes=m.n_material, dofs=len(m.load_direction))
                 m.factors(fields['d'])
-                if np.any(fields['H'] < np.asarray(H)):
+                if not constrained and np.any(fields['H'] < np.asarray(H)):
                     raise ValueError('saved load history decreases relative to its parent')
+                if constrained and np.max(np.asarray(d)-fields['d']) > c.irreversibility.healing_tolerance:
+                    raise ValueError('saved endpoint violates configured irreversible damage tolerance')
                 q, d, H = [jnp.asarray(fields[k]) for k in ('q', 'd', 'H')]
                 if pinn is not None:
                     pinn.restore(folder, report['optimizer_count'])
@@ -240,7 +259,10 @@ def run(c, *, damage_solver):
             consecutive, loss_value = 0, 0.
             block_reaction, control_calls = None, 0
             if history_pinn:
-                pinn.begin_load(index, load)
+                if constrained:
+                    pinn.begin_load(index, load, parent_damage=parent_d)
+                else:
+                    pinn.begin_load(index, load)
 
             def damage(history, old, carry):
                 nonlocal loss_value
@@ -262,7 +284,8 @@ def run(c, *, damage_solver):
             while sweep < cap:
                 sweep += 1
                 stage, _ = mechanics_first_sweep(q, d, parent_H, load, None,
-                    mechanics=solve_q, driver=m.driver, damage=damage, omega=c.loading.omega)
+                    mechanics=solve_q, driver=m.driver, damage=damage, omega=c.loading.omega,
+                    history_mode=history_mode)
                 q, d, H = (stage[k] for k in ('q', 'd', 'H'))
                 if block_reaction is None:
                     block_reaction = stage['reaction']
@@ -273,6 +296,11 @@ def run(c, *, damage_solver):
                     damage_limit=damage_limit, sweep=sweep,
                     minimum_sweeps=c.loading.minimum_sweeps,
                     consecutive_passes=c.loading.consecutive_passes, previous_consecutive=consecutive)
+                if constrained:
+                    healing_pass = pinn.penalty_diagnostics['maximum_healing'] <= c.irreversibility.healing_tolerance
+                    if not healing_pass:
+                        stop.update(pass_this_sweep=False, consecutive=0, converged=False)
+                    stop['irreversibility_pass'] = healing_pass
                 consecutive = stop['consecutive']
                 row = dict(index=index, load=load, sweep=sweep, outer_cap=cap, **changes,
                     field_stable=stop['converged'], field_stopping=stop, full_loss=loss_value,
@@ -318,9 +346,9 @@ def run(c, *, damage_solver):
                         print(json.dumps(dict(event='learning_rate_lowered', index=index,
                             load=load, after_sweep=sweep, previous_cap=previous_cap,
                             outer_cap=cap, **pinn.diagnostics())), flush=True)
-            # Save mechanically synchronized endpoints; keep preceding-load H floor.
+            # Synchronize mechanics and refresh the explicitly selected driver.
             q_sync, reaction, mechanical = solve_q(d, load, q)
-            H_sync = committed_history(parent_H, jnp.asarray(m.driver(np.asarray(q_sync))))
+            H_sync = damage_driving_field(parent_H, jnp.asarray(m.driver(np.asarray(q_sync))), mode=history_mode)
             force = m.matrix(np.asarray(d)) @ np.asarray(q_sync)
             if np.linalg.norm(force[m.free]) > mechanical['convergence_limit']*(1+1e-3):
                 raise RuntimeError('endpoint independent host FEM force check failed')
@@ -332,6 +360,8 @@ def run(c, *, damage_solver):
             if history_pinn:
                 pinn.end_load(H_sync)
                 report.update(pinn.diagnostics())
+            if constrained:
+                report.update({'synchronized_'+k:v for k,v in pinn.field_diagnostics(d, H_sync).items()})
             fields = dict(q=np.asarray(q_sync), d=np.asarray(d), H=np.asarray(H_sync),
                 H_used=np.asarray(H), H_parent=np.asarray(parent_H), d_parent=np.asarray(parent_d))
             save_checkpoint(folder, fields, report, pinn)
