@@ -1,0 +1,22 @@
+[
+  {
+    "module": "test_elasticd",
+    "exit_code": 0,
+    "seconds": 18.563
+  },
+  {
+    "module": "test_scalar_operator_2d",
+    "exit_code": 0,
+    "seconds": 16.848
+  },
+  {
+    "module": "test_soap_optimizer",
+    "exit_code": 0,
+    "seconds": 2.421
+  },
+  {
+    "module": "test_sparsed_fracture",
+    "exit_code": 0,
+    "seconds": 9.314
+  }
+]

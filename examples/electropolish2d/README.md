@@ -289,3 +289,12 @@ python examples/electropolish2d/train.py --config.sample.K_core=400 --config.sam
 - **Rough initial interface** is defined by SDF to a piecewise-linear profile, not simple y-distance, for smooth $\phi$ at t=0
 - **IC oversampling** near the interface (`N_ic_local`) ensures the sharp tanh transition is adequately resolved
 - **Hard constraint** (`use_hard_constraint=True`) enforces $c \in [c_{Le}, c_{Se}]$ via sigmoid rescaling, improving physical consistency
+
+
+## Project split (2026-10-24)
+
+This example belongs to `nonlocal-pinn`. Install the project and run from its
+repository root; existing external data/output paths are retained. Shared
+implementation paths changed during the split; see
+[the source map](../../docs/migration/source-map.json) and
+[migration notes](../../docs/migration/README.md).

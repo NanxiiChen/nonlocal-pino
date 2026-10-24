@@ -19,7 +19,7 @@ import jax.numpy as jnp
 import jax.random as jr
 import equinox as eqx
 
-from pinn.arch import make_pinn
+from nonlocal_pinn.nn.arch import make_pinn
 
 jax.config.update("jax_default_matmul_precision", "highest")
 

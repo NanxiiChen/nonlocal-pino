@@ -9,7 +9,7 @@ import jax.numpy as jnp
 import numpy as np
 from ml_collections import ConfigDict
 
-from pinn.optimizers import make_optimizer, soap
+from nonlocal_pinn.training.optimizers import make_optimizer, soap
 
 
 class SoapOptimizerTest(unittest.TestCase):

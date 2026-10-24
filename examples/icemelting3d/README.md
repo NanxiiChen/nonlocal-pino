@@ -85,3 +85,12 @@ $$r_\phi = \frac{\partial\phi}{\partial t^*} + N_1\,D_\delta\phi + N_2\,(\phi^3 
 conda activate fenicsenv
 mpirun --allow-run-as-root -np 12 python examples/icemelting3d/solver.py
 ```
+
+
+## Project split (2026-10-24)
+
+This example belongs to `nonlocal-pinn`. Install the project and run from its
+repository root; existing external data/output paths are retained. Shared
+implementation paths changed during the split; see
+[the source map](../../docs/migration/source-map.json) and
+[migration notes](../../docs/migration/README.md).

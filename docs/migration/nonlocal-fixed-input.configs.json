@@ -1,0 +1,985 @@
+{
+  "examples.corrosion1d.configs.solver_activation": {
+    "init": {
+      "center": 0.5
+    },
+    "mesh": {
+      "n_cells": 250
+    },
+    "nl": {
+      "delta": 0.02,
+      "kernel": "cubic"
+    },
+    "nondim": {
+      "L_c": 0.0001,
+      "T_c": 100000.0
+    },
+    "output": {
+      "dir": "/root/autodl-tmp/data/corrosion1d",
+      "filename": "results_activation_cn.npz"
+    },
+    "physical": {
+      "A": 53500000.0,
+      "D": 8.5e-10,
+      "L": 1e-11,
+      "alpha_phi": 0.000103,
+      "c_le": 0.03566433566433566,
+      "c_se": 1.0,
+      "omega_phi": 17600000.0
+    },
+    "solver": {
+      "atol": 1e-08,
+      "max_iters": 10,
+      "rtol": 1e-06
+    },
+    "time": {
+      "dt": 0.005,
+      "t_final": 1.0,
+      "theta": 0.5
+    }
+  },
+  "examples.corrosion1d.configs.solver_diffusion": {
+    "init": {
+      "center": 0.8
+    },
+    "mesh": {
+      "n_cells": 250
+    },
+    "nl": {
+      "delta": 0.02,
+      "kernel": "cubic"
+    },
+    "nondim": {
+      "L_c": 0.0001,
+      "T_c": 50.0
+    },
+    "output": {
+      "dir": "/root/autodl-tmp/data/corrosion1d",
+      "filename": "results_diffusion_cn.npz"
+    },
+    "physical": {
+      "A": 53500000.0,
+      "D": 8.5e-10,
+      "L": 2.0,
+      "alpha_phi": 0.000103,
+      "c_le": 0.03566433566433566,
+      "c_se": 1.0,
+      "omega_phi": 17600000.0
+    },
+    "solver": {
+      "atol": 1e-08,
+      "max_iters": 10,
+      "rtol": 1e-06
+    },
+    "time": {
+      "dt": 0.005,
+      "t_final": 1.0,
+      "theta": 0.5
+    }
+  },
+  "examples.corrosion1d.configs.train_activation": {
+    "arch": {
+      "activation": "gelu",
+      "film_hidden_dim": 32,
+      "film_num_layers": 2,
+      "hidden_dim": 64,
+      "num_layers": 4,
+      "rank_p": 50,
+      "spatial_emb_dim": 64,
+      "spatial_scale": 1.0,
+      "temporal_emb_dim": 64,
+      "temporal_scale": 1.0,
+      "type": "mlp",
+      "use_bias": true,
+      "use_hard_constraint": true,
+      "use_spatial_emb": true,
+      "use_temporal_emb": true
+    },
+    "causal": {
+      "eps_init": 1.0,
+      "max_eps": 1000.0,
+      "max_last_weight": 0.99,
+      "min_mean_weight": 0.5,
+      "n_chunks": 20,
+      "step_size": 1.5
+    },
+    "fem": {
+      "data_path": "/root/autodl-tmp/data/corrosion1d/results_activation_cn.npz"
+    },
+    "init": {
+      "center": 0.5
+    },
+    "log": {
+      "eval_every": 100,
+      "log_dir": "/root/autodl-tmp/tf-logs/corrosion1d/",
+      "log_every": 20,
+      "run_diag": false,
+      "run_name": "",
+      "save_ckpt": true
+    },
+    "loss": {
+      "ac_scale": 1.0,
+      "bias_schedule": [],
+      "ch_scale": 0.001,
+      "gradnorm_bias": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gradnorm_weight_cap": 10000.0,
+      "iface_gamma": 0.0,
+      "stagger_steps": 0,
+      "stagger_switch_every": 25,
+      "use_causal": false
+    },
+    "nl": {
+      "delta": 0.02,
+      "kernel": "cubic",
+      "method": "sparse"
+    },
+    "nondim": {
+      "L_c": 0.0001,
+      "T_c": 100000.0
+    },
+    "physical": {
+      "A": 53500000.0,
+      "D": 8.5e-10,
+      "L": 1e-11,
+      "alpha_phi": 0.000103,
+      "c_le": 0.03566433566433566,
+      "c_se": 1.0,
+      "omega_phi": 17600000.0
+    },
+    "sample": {
+      "Nt": 100,
+      "Nx": 201,
+      "t_min": 0.001
+    },
+    "train": {
+      "alpha_gradnorm": 1.0,
+      "grad_clip": 1.0,
+      "iterations": 5000,
+      "lr_decay_every": 100,
+      "lr_decay_rate": 0.95,
+      "lr_init": 0.0005,
+      "lr_min": 1e-05,
+      "matmul_precision": "highest",
+      "optimizer": "adam",
+      "soap_b1": 0.95,
+      "soap_b2": 0.95,
+      "soap_max_precond_dim": 10000,
+      "soap_precond_1d": false,
+      "soap_precond_freq": 5
+    }
+  },
+  "examples.corrosion1d.configs.train_diffusion": {
+    "arch": {
+      "activation": "gelu",
+      "film_hidden_dim": 32,
+      "film_num_layers": 2,
+      "hidden_dim": 64,
+      "num_layers": 4,
+      "rank_p": 50,
+      "spatial_emb_dim": 64,
+      "spatial_scale": 1.0,
+      "temporal_emb_dim": 64,
+      "temporal_scale": 1.0,
+      "type": "mlp",
+      "use_bias": true,
+      "use_hard_constraint": true,
+      "use_spatial_emb": true,
+      "use_temporal_emb": true
+    },
+    "causal": {
+      "eps_init": 1.0,
+      "max_eps": 10.0,
+      "max_last_weight": 0.99,
+      "min_mean_weight": 0.5,
+      "n_chunks": 20,
+      "step_size": 1.2
+    },
+    "fem": {
+      "data_path": "/root/autodl-tmp/data/corrosion1d/results_diffusion_cn.npz"
+    },
+    "init": {
+      "center": 0.8
+    },
+    "log": {
+      "eval_every": 100,
+      "log_dir": "/root/autodl-tmp/tf-logs/corrosion1d/",
+      "log_every": 20,
+      "run_diag": false,
+      "run_name": "",
+      "save_ckpt": true
+    },
+    "loss": {
+      "ac_scale": 1e-07,
+      "bias_schedule": [],
+      "ch_scale": 1.0,
+      "gradnorm_bias": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gradnorm_weight_cap": 10000.0,
+      "iface_gamma": 0.0,
+      "stagger_steps": 0,
+      "stagger_switch_every": 10,
+      "use_causal": false
+    },
+    "nl": {
+      "delta": 0.02,
+      "kernel": "cubic",
+      "method": "sparse"
+    },
+    "nondim": {
+      "L_c": 0.0001,
+      "T_c": 50.0
+    },
+    "physical": {
+      "A": 53500000.0,
+      "D": 8.5e-10,
+      "L": 2.0,
+      "alpha_phi": 0.000103,
+      "c_le": 0.03566433566433566,
+      "c_se": 1.0,
+      "omega_phi": 17600000.0
+    },
+    "sample": {
+      "Nt": 100,
+      "Nx": 201,
+      "t_min": 0.001
+    },
+    "train": {
+      "alpha_gradnorm": 1.0,
+      "grad_clip": 100.0,
+      "iterations": 5000,
+      "lr_decay_every": 100,
+      "lr_decay_rate": 0.95,
+      "lr_init": 0.0005,
+      "lr_min": 1e-05,
+      "matmul_precision": "highest",
+      "optimizer": "adam",
+      "soap_b1": 0.95,
+      "soap_b2": 0.95,
+      "soap_max_precond_dim": 10000,
+      "soap_precond_1d": false,
+      "soap_precond_freq": 5
+    }
+  },
+  "examples.corrosion2d.configs.solver_1pit": {
+    "mesh": {
+      "nx": 160,
+      "ny": 80
+    },
+    "nondim": {
+      "L_c": 0.0001,
+      "T_c": 50.0
+    },
+    "output": {
+      "dir": "/root/autodl-tmp/data/corrosion2d",
+      "filename": "results_1pit.npz",
+      "save_every": 0.05
+    },
+    "physical": {
+      "A": 53500000.0,
+      "D": 8.5e-10,
+      "L": 2.0,
+      "alpha_phi": 0.000103,
+      "c_le": 0.03566433566433566,
+      "c_se": 1.0,
+      "omega_phi": 17600000.0
+    },
+    "pits": {
+      "entries": [
+        [
+          0.5,
+          0.0,
+          0.1
+        ]
+      ]
+    },
+    "solver": {
+      "atol": 1e-08,
+      "max_iters": 20,
+      "rtol": 1e-06
+    },
+    "time": {
+      "dt": 0.005,
+      "t_final": 1.0,
+      "theta": 1.0
+    }
+  },
+  "examples.corrosion2d.configs.solver_2pit": {
+    "mesh": {
+      "nx": 160,
+      "ny": 80
+    },
+    "nondim": {
+      "L_c": 0.0001,
+      "T_c": 15.0
+    },
+    "output": {
+      "dir": "/root/autodl-tmp/data/corrosion2d",
+      "filename": "results_2pit_cn.npz",
+      "save_every": 0.05
+    },
+    "physical": {
+      "A": 53500000.0,
+      "D": 8.5e-10,
+      "L": 2.0,
+      "alpha_phi": 0.000103,
+      "c_le": 0.03566433566433566,
+      "c_se": 1.0,
+      "omega_phi": 17600000.0
+    },
+    "pits": {
+      "entries": [
+        [
+          0.35,
+          0.0,
+          0.08
+        ],
+        [
+          0.65,
+          0.0,
+          0.08
+        ]
+      ]
+    },
+    "solver": {
+      "atol": 1e-08,
+      "max_iters": 20,
+      "rtol": 1e-06
+    },
+    "time": {
+      "dt": 0.005,
+      "t_final": 1.0,
+      "theta": 0.5
+    }
+  },
+  "examples.corrosion2d.configs.train_1pit": {
+    "arch": {
+      "activation": "gelu",
+      "film_hidden_dim": 32,
+      "film_num_layers": 2,
+      "hidden_dim": 64,
+      "num_layers": 4,
+      "spatial_emb_dim": 64,
+      "spatial_scale": 2.0,
+      "temporal_emb_dim": 64,
+      "temporal_scale": 1.0,
+      "tensor_split": false,
+      "type": "film",
+      "use_hard_constraint": true,
+      "use_spatial_emb": true,
+      "use_temporal_emb": true
+    },
+    "causal": {
+      "eps_init": 1.0,
+      "max_eps": 1000.0,
+      "max_last_weight": 0.99,
+      "min_mean_weight": 0.5,
+      "n_chunks": 10,
+      "step_size": 1.5
+    },
+    "fem": {
+      "data_path": "/root/autodl-tmp/data/corrosion2d/results_1pit_cn_200nx.npz"
+    },
+    "log": {
+      "eval_every": 500,
+      "log_dir": "/root/autodl-tmp/tf-logs/corrosion2d/",
+      "log_every": 20,
+      "run_diag": false,
+      "run_name": "",
+      "save_ckpt": true
+    },
+    "loss": {
+      "ac_scale": 1e-07,
+      "bias_schedule": [],
+      "ch_scale": 1.0,
+      "gradnorm_bias": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gradnorm_weight_cap": 10000.0,
+      "iface_gamma_decay_steps": 2000,
+      "iface_gamma_decay_to": 0.0,
+      "iface_gamma_init": 5.0,
+      "stagger_steps": 1000,
+      "stagger_switch_every": 25,
+      "t_ramp_early": 1.0,
+      "t_ramp_late": 1.0,
+      "t_ramp_steps": 0,
+      "use_causal": false
+    },
+    "nl": {
+      "delta": 0.02,
+      "kernel": "cubic",
+      "method": "conv"
+    },
+    "nondim": {
+      "L_c": 0.0001,
+      "T_c": 50.0
+    },
+    "physical": {
+      "A": 53500000.0,
+      "D": 8.5e-10,
+      "L": 2.0,
+      "alpha_phi": 0.000103,
+      "c_le": 0.03566433566433566,
+      "c_se": 1.0,
+      "omega_phi": 17600000.0
+    },
+    "pits": {
+      "entries": [
+        [
+          0.5,
+          0.0,
+          0.1
+        ]
+      ]
+    },
+    "sample": {
+      "K_core": 0,
+      "K_pool": 200,
+      "N_bc_dir": 1000,
+      "N_bc_solid": 500,
+      "N_ic_global": 2000,
+      "N_ic_local": 2000,
+      "Nt": 50,
+      "Nx": 201,
+      "Ny": 101,
+      "t_min": 0.001
+    },
+    "train": {
+      "alpha_gradnorm": 1.0,
+      "grad_clip": 100.0,
+      "gradnorm_update_every": 20,
+      "iterations": 50000,
+      "lr_decay_every": 1000,
+      "lr_decay_rate": 0.95,
+      "lr_init": 0.0005,
+      "lr_min": 1e-05,
+      "matmul_precision": "highest",
+      "optimizer": "adam",
+      "soap_b1": 0.95,
+      "soap_b2": 0.95,
+      "soap_max_precond_dim": 100000,
+      "soap_precond_1d": false,
+      "soap_precond_freq": 5
+    }
+  },
+  "examples.corrosion2d.configs.train_2pit": {
+    "arch": {
+      "activation": "gelu",
+      "film_hidden_dim": 128,
+      "film_num_layers": 3,
+      "hidden_dim": 64,
+      "num_layers": 4,
+      "spatial_emb_dim": 64,
+      "spatial_scale": 2.0,
+      "temporal_emb_dim": 64,
+      "temporal_scale": [
+        1.0,
+        5.0
+      ],
+      "type": "film",
+      "use_hard_constraint": true,
+      "use_spatial_emb": true,
+      "use_temporal_emb": true
+    },
+    "causal": {
+      "eps_init": 1.0,
+      "max_eps": 1000.0,
+      "max_last_weight": 0.99,
+      "min_mean_weight": 0.5,
+      "n_chunks": 10,
+      "step_size": 1.5
+    },
+    "fem": {
+      "data_path": "/root/autodl-tmp/data/corrosion2d/results_2pit_cn_200nx.npz"
+    },
+    "log": {
+      "eval_every": 200,
+      "log_dir": "/root/autodl-tmp/tf-logs/corrosion2d/",
+      "log_every": 20,
+      "run_diag": false,
+      "run_name": "",
+      "save_ckpt": true
+    },
+    "loss": {
+      "ac_scale": 1e-07,
+      "bias_schedule": [],
+      "ch_scale": 1.0,
+      "gradnorm_bias": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gradnorm_weight_cap": 10000.0,
+      "iface_gamma_decay_steps": 0,
+      "iface_gamma_decay_to": 0.0,
+      "iface_gamma_init": 5.0,
+      "stagger_steps": 10000,
+      "stagger_switch_every": 10,
+      "t_ramp_early": 0.3,
+      "t_ramp_late": 3.0,
+      "t_ramp_steps": 500,
+      "use_causal": false
+    },
+    "nl": {
+      "delta": 0.02,
+      "kernel": "cubic",
+      "method": "sparse"
+    },
+    "nondim": {
+      "L_c": 0.0001,
+      "T_c": 15.0
+    },
+    "physical": {
+      "A": 53500000.0,
+      "D": 8.5e-10,
+      "L": 2.0,
+      "alpha_phi": 0.000103,
+      "c_le": 0.03566433566433566,
+      "c_se": 1.0,
+      "omega_phi": 17600000.0
+    },
+    "pits": {
+      "entries": [
+        [
+          0.35,
+          0.0,
+          0.08
+        ],
+        [
+          0.65,
+          0.0,
+          0.08
+        ]
+      ]
+    },
+    "sample": {
+      "K_core": 0,
+      "K_pool": 200,
+      "N_bc_dir": 1000,
+      "N_bc_solid": 1500,
+      "N_ic_global": 2000,
+      "N_ic_local": 2000,
+      "Nt": 50,
+      "Nx": 201,
+      "Ny": 101,
+      "t_min": 0.001
+    },
+    "train": {
+      "alpha_gradnorm": 1.0,
+      "grad_clip": 100.0,
+      "gradnorm_update_every": 5,
+      "iterations": 20000,
+      "lr_decay_every": 1000,
+      "lr_decay_rate": 0.95,
+      "lr_init": 0.0005,
+      "lr_min": 1e-05,
+      "matmul_precision": "highest",
+      "optimizer": "adam",
+      "soap_b1": 0.95,
+      "soap_b2": 0.95,
+      "soap_max_precond_dim": 10000,
+      "soap_precond_1d": false,
+      "soap_precond_freq": 5
+    }
+  },
+  "examples.elasticity2d.configs.solver_base": {
+    "geometry": {
+      "Lx": 1.0,
+      "Ly": 0.75,
+      "a_x": 0.1,
+      "a_y": 0.15
+    },
+    "load": {
+      "u_load": 1.0
+    },
+    "mesh": {
+      "geo_file": "examples/elasticity2d/mesh.geo",
+      "msh_file": "examples/elasticity2d/mesh.msh"
+    },
+    "output": {
+      "dir": "/root/autodl-tmp/data/elasticity2d",
+      "filename": "results.npz"
+    },
+    "physical": {
+      "E": 1.0,
+      "lam": 0.5769,
+      "mu": 0.3846,
+      "nu": 0.3
+    }
+  },
+  "examples.elasticity2d.configs.train_base": {
+    "arch": {
+      "activation": "gelu",
+      "film_hidden_dim": 64,
+      "film_num_layers": 1,
+      "hidden_dim": 64,
+      "multi_head": true,
+      "num_layers": 4,
+      "out_dim": 2,
+      "spatial_dim": 2,
+      "spatial_emb_dim": 64,
+      "spatial_scale": 2.0,
+      "tensor_split": false,
+      "type": "mlp",
+      "use_hard_constraint": true,
+      "use_spatial_emb": true,
+      "use_temporal_emb": false
+    },
+    "fem": {
+      "data_path": "/root/autodl-tmp/data/elasticity2d/results.npz"
+    },
+    "geometry": {
+      "Lx": 1.0,
+      "Ly": 0.75,
+      "a_x": 0.1,
+      "a_y": 0.15,
+      "u_load": 1.0
+    },
+    "log": {
+      "eval_every": 200,
+      "log_dir": "/root/autodl-tmp/tf-logs/elasticity2d/",
+      "log_every": 20,
+      "run_name": "",
+      "save_ckpt": true
+    },
+    "loss": {
+      "gradnorm_bias": [
+        1.0
+      ],
+      "gradnorm_weight_cap": 1000.0
+    },
+    "nl": {
+      "delta": 0.0075,
+      "kernel": "cubic",
+      "method": "sparse"
+    },
+    "physical": {
+      "E": 1.0,
+      "lam": 0.5769,
+      "mu": 0.3846,
+      "nu": 0.3
+    },
+    "sample": {
+      "K_core": 2000,
+      "N_lhs": 2000,
+      "Nx": 400,
+      "Ny": 300,
+      "n_pool": 200,
+      "refine_weight": 10.0,
+      "resample_every": 5,
+      "weight_power": 2.0
+    },
+    "train": {
+      "alpha_gradnorm": 1.0,
+      "grad_clip": 1000.0,
+      "gradnorm_update_every": 10,
+      "iterations": 40000,
+      "lr_decay_every": 2000,
+      "lr_decay_rate": 0.95,
+      "lr_init": 0.002,
+      "lr_min": 1e-05,
+      "matmul_precision": "highest",
+      "optimizer": "adam",
+      "soap_b1": 0.9,
+      "soap_b2": 0.99,
+      "soap_max_precond_dim": 100000,
+      "soap_precond_1d": false,
+      "soap_precond_freq": 5
+    }
+  },
+  "examples.electropolish2d.configs.solver_base": {
+    "mesh": {
+      "nx": 200,
+      "ny": 100
+    },
+    "nondim": {
+      "L_c": 0.0001,
+      "T_c": 5.0
+    },
+    "output": {
+      "dir": "/root/autodl-tmp/data/electropolish2d",
+      "filename": "results_rough.npz",
+      "save_every": 0.05
+    },
+    "physical": {
+      "A": 53500000.0,
+      "D": 8.5e-10,
+      "L": 1e-06,
+      "alpha_phi": 2.575e-05,
+      "c_le": 0.03566433566433566,
+      "c_se": 1.0,
+      "omega_phi": 17600000.0
+    },
+    "solver": {
+      "atol": 1e-08,
+      "max_iters": 20,
+      "rtol": 1e-06
+    },
+    "surface": {
+      "amplitude": 0.03,
+      "freq_hi": 5.0,
+      "freq_lo": 1.0,
+      "n_modes": 6,
+      "seed": 42,
+      "y0": 0.33
+    },
+    "time": {
+      "dt": 0.01,
+      "t_final": 1.0,
+      "theta": 0.5
+    }
+  },
+  "examples.electropolish2d.configs.train_base": {
+    "arch": {
+      "activation": "gelu",
+      "film_hidden_dim": 32,
+      "film_num_layers": 2,
+      "hidden_dim": 64,
+      "num_layers": 6,
+      "spatial_emb_dim": 64,
+      "spatial_scale": 2.0,
+      "temporal_emb_dim": 64,
+      "temporal_scale": 2.0,
+      "tensor_split": true,
+      "type": "mlp",
+      "use_hard_constraint": true,
+      "use_spatial_emb": true,
+      "use_temporal_emb": true
+    },
+    "causal": {
+      "eps_init": 1.0,
+      "max_eps": 100.0,
+      "max_last_weight": 0.9,
+      "min_mean_weight": 0.01,
+      "n_chunks": 0,
+      "step_size": 1.1
+    },
+    "fem": {
+      "data_path": "/root/autodl-tmp/data/electropolish2d/results_rough.npz"
+    },
+    "log": {
+      "eval_every": 200,
+      "log_dir": "/root/autodl-tmp/tf-logs/electropolish2d/",
+      "log_every": 25,
+      "run_diag": false,
+      "run_name": "",
+      "save_ckpt": true
+    },
+    "loss": {
+      "ac_scale": 1.0,
+      "bias_schedule": [],
+      "ch_scale": 1.0,
+      "gradnorm_bias": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gradnorm_weight_cap": 1000.0,
+      "iface_gamma_decay_steps": 0,
+      "iface_gamma_decay_to": 0.0,
+      "iface_gamma_init": 0.0,
+      "stagger_steps": 1000,
+      "stagger_switch_every": 25,
+      "t_ramp_early": 0.0,
+      "t_ramp_late": 1.0,
+      "t_ramp_steps": 0,
+      "use_causal": false
+    },
+    "nl": {
+      "delta": 0.02,
+      "kernel": "cubic",
+      "method": "sparse"
+    },
+    "nondim": {
+      "L_c": 0.0001,
+      "T_c": 5.0
+    },
+    "physical": {
+      "A": 53500000.0,
+      "D": 8.5e-10,
+      "L": 1e-06,
+      "alpha_phi": 2.575e-05,
+      "c_le": 0.03566433566433566,
+      "c_se": 1.0,
+      "omega_phi": 17600000.0
+    },
+    "sample": {
+      "K_core": 0,
+      "K_pool": 400,
+      "N_bc_bottom": 500,
+      "N_bc_top": 500,
+      "N_ic_global": 2000,
+      "N_ic_local": 2000,
+      "N_lhs": 2000,
+      "Nt": 50,
+      "Nx": 301,
+      "Ny": 151,
+      "t_min": 0.001
+    },
+    "surface": {
+      "amplitude": 0.03,
+      "freq_hi": 5.0,
+      "freq_lo": 1.0,
+      "n_modes": 6,
+      "seed": 42,
+      "y0": 0.33
+    },
+    "train": {
+      "alpha_gradnorm": 1.0,
+      "grad_clip": 50.0,
+      "gradnorm_update_every": 25,
+      "iterations": 6000,
+      "lr_decay_every": 1000,
+      "lr_decay_rate": 0.95,
+      "lr_init": 0.005,
+      "lr_min": 1e-05,
+      "matmul_precision": "highest",
+      "optimizer": "soap",
+      "soap_b1": 0.9,
+      "soap_b2": 0.99,
+      "soap_max_precond_dim": 100000,
+      "soap_precond_1d": false,
+      "soap_precond_freq": 5
+    }
+  },
+  "examples.icemelting3d.configs.solver_base": {
+    "mesh": {
+      "N": 64
+    },
+    "nondim": {
+      "L_c": 100.0,
+      "T_c": 5.0
+    },
+    "output": {
+      "dir": "/root/autodl-tmp/data/icemelting3d/",
+      "filename": "icemelting3d.npz",
+      "save_every": 0.05
+    },
+    "physical": {
+      "M": 0.1,
+      "R0": 35.0,
+      "lam": 5.0
+    },
+    "solver": {
+      "atol": 1e-08,
+      "max_iters": 20,
+      "rtol": 1e-06
+    },
+    "time": {
+      "T": 1.0,
+      "dt": 0.001,
+      "theta": 0.5
+    }
+  },
+  "examples.icemelting3d.configs.train_base": {
+    "arch": {
+      "activation": "tanh",
+      "film_hidden_dim": 64,
+      "film_num_layers": 1,
+      "hidden_dim": 64,
+      "num_layers": 4,
+      "out_dim": 1,
+      "spatial_dim": 3,
+      "spatial_emb_dim": 64,
+      "spatial_scale": 2.0,
+      "temporal_emb_dim": 64,
+      "temporal_scale": 1.0,
+      "tensor_split": true,
+      "type": "mlp",
+      "use_hard_constraint": false,
+      "use_spatial_emb": true,
+      "use_temporal_emb": true
+    },
+    "causal": {
+      "eps_init": 1.0,
+      "max_eps": 100.0,
+      "max_last_weight": 0.9,
+      "min_mean_weight": 0.01,
+      "step_size": 1.1
+    },
+    "log": {
+      "eval_every": 200,
+      "log_dir": "/root/autodl-tmp/tf-logs/icemelting3d/",
+      "log_every": 20,
+      "run_diag": false,
+      "run_name": "",
+      "save_ckpt": true
+    },
+    "loss": {
+      "gradnorm_bias": [
+        1.0,
+        1.0
+      ],
+      "gradnorm_weight_cap": 1000.0,
+      "iface_gamma_decay_steps": 0,
+      "iface_gamma_decay_to": 0.0,
+      "iface_gamma_init": 0.0,
+      "use_causal": false
+    },
+    "nl": {
+      "delta": 0.01,
+      "kernel": "cubic",
+      "method": "sparse"
+    },
+    "nondim": {
+      "L_c": 100.0,
+      "T_c": 4.0,
+      "xc": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "physical": {
+      "M": 0.1,
+      "R0": 35.0,
+      "eps_star": 0.0225,
+      "lam": 5.0
+    },
+    "sample": {
+      "K_core": 2000,
+      "K_pool": 200,
+      "N_ic": 20000,
+      "N_lhs": 2000,
+      "Nt": 64,
+      "Nx": 128,
+      "Ny": 128,
+      "Nz": 128,
+      "t_min": 0.001
+    },
+    "train": {
+      "alpha_gradnorm": 0.9,
+      "grad_clip": 100.0,
+      "gradnorm_update_every": 1,
+      "iterations": 20000,
+      "lr_decay_every": 1000,
+      "lr_decay_rate": 0.95,
+      "lr_init": 0.005,
+      "lr_min": 1e-05,
+      "matmul_precision": "highest",
+      "optimizer": "soap",
+      "soap_b1": 0.9,
+      "soap_b2": 0.99,
+      "soap_max_precond_dim": 100000,
+      "soap_precond_1d": false,
+      "soap_precond_freq": 5
+    }
+  }
+}

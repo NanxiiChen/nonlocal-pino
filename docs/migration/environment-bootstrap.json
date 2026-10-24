@@ -1,0 +1,10 @@
+{
+  "method": "independent copy of installed baseline dependency payloads, standard local editable wheel installation",
+  "source_environment": "/root/nonlocal-KKS/.venv",
+  "runtime_source_dependency": false,
+  "reason": "mirror and files.pythonhosted.org downloads timed out; preserve exact installed versions instead",
+  "lock_versions_unchanged": true,
+  "source_checkout": "dev@61352f1",
+  "project_install": "standard PEP660 editable installation from this project via uv pip install --editable, using locally cached build backend",
+  "mesh_extra": "gmsh==4.15.2, same as source optional installation"
+}

@@ -163,3 +163,12 @@ Key config overrides (examples):
 # Staggered AC/CH training in the beginning 2k steps
 --config.loss.stagger_steps=2000
 ```
+
+
+## Project split (2026-10-24)
+
+This example belongs to `nonlocal-pinn`. Install the project and run from its
+repository root; existing external data/output paths are retained. Shared
+implementation paths changed during the split; see
+[the source map](../../docs/migration/source-map.json) and
+[migration notes](../../docs/migration/README.md).

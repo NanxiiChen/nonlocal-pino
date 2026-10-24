@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "source_repository": "/root/nonlocal-KKS",
+  "source_commit": "61352f103e6beadaa2960f81f8379af28d9e7658",
+  "project": "nonlocal-pinn",
+  "files": [
+    {
+      "source": "src/pinn/operators.py",
+      "target": "src/nonlocal_pinn/operators/__init__.py",
+      "source_sha256": "d95ddaf41163c7af855e797bc4df6c91f83e49afe2d87b32a50f32f762940cc2",
+      "target_sha256": "d95ddaf41163c7af855e797bc4df6c91f83e49afe2d87b32a50f32f762940cc2"
+    },
+    {
+      "source": "src/pinn/arch.py",
+      "target": "src/nonlocal_pinn/nn/arch.py",
+      "source_sha256": "29c5a8f2b5735d9a9f96ec28d045e328ec5b54440e0236aa09acdde3b8d284c3",
+      "target_sha256": "29c5a8f2b5735d9a9f96ec28d045e328ec5b54440e0236aa09acdde3b8d284c3"
+    },
+    {
+      "source": "src/pinn/embedding.py",
+      "target": "src/nonlocal_pinn/nn/embedding.py",
+      "source_sha256": "b255535c66acdd6122a25f263ee613cb16f891174ef9a7fb1198c8d5d228d215",
+      "target_sha256": "b255535c66acdd6122a25f263ee613cb16f891174ef9a7fb1198c8d5d228d215"
+    },
+    {
+      "source": "src/pinn/constraints.py",
+      "target": "src/nonlocal_pinn/nn/constraints.py",
+      "source_sha256": "081961c26e8c304f8ccf47998b5e3ff8abcf44602598a5fccf7d2792062159ff",
+      "target_sha256": "081961c26e8c304f8ccf47998b5e3ff8abcf44602598a5fccf7d2792062159ff"
+    },
+    {
+      "source": "src/pinn/causal.py",
+      "target": "src/nonlocal_pinn/training/causal.py",
+      "source_sha256": "0c4cff77fe01c41e15b175d5264dfa93746980fc5f37a8f7ecce33e8ba17860b",
+      "target_sha256": "0c4cff77fe01c41e15b175d5264dfa93746980fc5f37a8f7ecce33e8ba17860b"
+    },
+    {
+      "source": "src/pinn/optimizers.py",
+      "target": "src/nonlocal_pinn/training/optimizers.py",
+      "source_sha256": "c687282a02987d93e0105fcde79bc8ee1a32f7e2a235f6976d2a495ebdc65199",
+      "target_sha256": "c687282a02987d93e0105fcde79bc8ee1a32f7e2a235f6976d2a495ebdc65199"
+    },
+    {
+      "source": "src/pinn/utils.py",
+      "target": "src/nonlocal_pinn/io/utils.py",
+      "source_sha256": "5c75bad64311b015358159a2682c014020153fb8ed2832ef0ff08655b3676944",
+      "target_sha256": "5c75bad64311b015358159a2682c014020153fb8ed2832ef0ff08655b3676944"
+    },
+    {
+      "source": "src/pinn/mesh.py",
+      "target": "src/nonlocal_pinn/geometry/mesh.py",
+      "source_sha256": "2066147d9ec297ca703a363b0763c2d677c7377084a8a077848edf1c29b3a058",
+      "target_sha256": "2066147d9ec297ca703a363b0763c2d677c7377084a8a077848edf1c29b3a058"
+    },
+    {
+      "source": "src/pinn/fd.py",
+      "target": "src/nonlocal_pinn/baselines/fd.py",
+      "source_sha256": "cb53daf7cf30299dce5d1a8343656cf45182ea0d6f0da0da5317e17805a915a1",
+      "target_sha256": "9d9cf548446eaaf467e8725af51c34122c40eb1cdb902a8ba5d2ecb294041c01"
+    },
+    {
+      "source": "tests/test_elasticd.py",
+      "target": "tests/test_elasticd.py",
+      "source_sha256": "4dac73891634ecedc854ad077848398713c1ff7599d8eb81c2ccb473c5436bc3",
+      "target_sha256": "3461698ba58dbaea21236e1ae16f9849fa0bf65ffbaa344a35e30690c5907b9f"
+    },
+    {
+      "source": "tests/test_scalar_operator_2d.py",
+      "target": "tests/test_scalar_operator_2d.py",
+      "source_sha256": "56755b6ccf4f723fa424217005dcc31e745c7b772d7f03cc996e2e93c56f5d1f",
+      "target_sha256": "c3a4ab5157ec3970cef95464413760f4b7f461380944fa26b650bb54e1d84ee1"
+    },
+    {
+      "source": "tests/test_sparsed_fracture.py",
+      "target": "tests/test_sparsed_fracture.py",
+      "source_sha256": "d4ab856bf18bd5d8ae0da41bc0aafe0da51763abca32f8fbcff75b1846379c76",
+      "target_sha256": "9021d0e1915caf0d842713d4844592ef2c2f4461bd2e0ec7d71f2c7d4ed47783"
+    },
+    {
+      "source": "tests/test_soap_optimizer.py",
+      "target": "tests/test_soap_optimizer.py",
+      "source_sha256": "d21dbf1b7ec56bc555c3c273ae1f0447d0deeb059bffebd388d7d1a6f18d909e",
+      "target_sha256": "64ba20a295f2aca05b54ecdc3c22e4c7a2a25fa109d8a3dfde05aa71d0be7a31"
+    },
+    {
+      "source": "examples/pino_elasticity2d/README.md",
+      "target": "docs/design/pino_elasticity2d.md",
+      "source_sha256": "fc37bfea9430c3342c81c3dcfd97e34aa7635ed876505bc927c7addab23b5109",
+      "target_sha256": "18dc5bb36d883be6a979a3090c53ecf44098204ebaeff811e8f7134d3419ab58"
+    },
+    {
+      "source": "docs/DEVELOPMENT.md",
+      "target": "docs/DEVELOPMENT.md",
+      "source_sha256": "afba1a859d80e076e318d9f8270d51b2c8738a94d21de7d187ada8578a260bf5",
+      "target_sha256": "e25b616b9a9be3d614366be93b3aa7e608b96a56dfbfde6faddbf498eff5c693"
+    },
+    {
+      "source": "docs/NUMERICAL_METHODS.md",
+      "target": "docs/NUMERICAL_METHODS.md",
+      "source_sha256": "415d16da297e621b48d6d142c611c6bbefa372633d689a88f0b2aba76454ad6c",
+      "target_sha256": "415d16da297e621b48d6d142c611c6bbefa372633d689a88f0b2aba76454ad6c"
+    },
+    {
+      "source": "docs/JAX_GUIDELINES.md",
+      "target": "docs/JAX_GUIDELINES.md",
+      "source_sha256": "09eeef7aaad018d244154a2a7b596d1ed94284aa82820728f753b7c265bd2d89",
+      "target_sha256": "09eeef7aaad018d244154a2a7b596d1ed94284aa82820728f753b7c265bd2d89"
+    }
+  ]
+}

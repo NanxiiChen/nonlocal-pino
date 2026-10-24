@@ -5,7 +5,7 @@ import equinox as eqx
 import numpy as np
 
 from examples.elasticity2d.losses import loss_pde, make_loss_fn
-from pinn.operators import ElasticD
+from nonlocal_pinn.operators import ElasticD
 
 
 def _grid(n=13):

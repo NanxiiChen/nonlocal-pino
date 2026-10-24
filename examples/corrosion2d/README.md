@@ -189,3 +189,12 @@ python examples/corrosion2d/train.py --config=examples/corrosion2d/configs/train
 The historical graph-model files (`train_graph.py`, `losses_graph.py`, and their
 configs) are not present in the current checkout. The supported training path
 is `train.py` with `train_1pit.py` or `train_2pit.py`.
+
+
+## Project split (2026-10-24)
+
+This example belongs to `nonlocal-pinn`. Install the project and run from its
+repository root; existing external data/output paths are retained. Shared
+implementation paths changed during the split; see
+[the source map](../../docs/migration/source-map.json) and
+[migration notes](../../docs/migration/README.md).

@@ -1,0 +1,8 @@
+{
+  "project": "/root/nonlocal-pinn",
+  "diff_check": "PASS including newly added files using a temporary index",
+  "diff_summary": "192 files changed, 2751 insertions(+), 68619 deletions(-)",
+  "head": "61352f103e6beadaa2960f81f8379af28d9e7658",
+  "remotes": [],
+  "actual_user_index_unchanged": true
+}

@@ -20,11 +20,11 @@ import matplotlib.pyplot as plt
 from absl import app as _absl_app
 from ml_collections import config_flags as _config_flags
 
-from pinn.operators import build_D, SparseD
-from pinn.arch import make_pinn
-from pinn.utils import log_config_text, load_example_losses, setup_run_dir
-from pinn.causal import CausalWeightor
-from pinn.optimizers import make_optimizer
+from nonlocal_pinn.operators import build_D, SparseD
+from nonlocal_pinn.nn.arch import make_pinn
+from nonlocal_pinn.io.utils import log_config_text, load_example_losses, setup_run_dir
+from nonlocal_pinn.training.causal import CausalWeightor
+from nonlocal_pinn.training.optimizers import make_optimizer
 
 log = logging.getLogger(__name__)
 
@@ -53,7 +53,7 @@ def _build_network(config, key):
                      key=key)
 
     if arch.use_hard_constraint:
-        from pinn.constraints import tanh_constraint, ConstrainedForward
+        from nonlocal_pinn.nn.constraints import tanh_constraint, ConstrainedForward
         net = ConstrainedForward(net, tanh_constraint)
     return net
 
@@ -226,7 +226,7 @@ def _main(_):
         D = None  # no pre-built operator; use autograd Laplacian
         log.info("D: local (autograd Laplacian, LHS sampling)")
     elif config.nl.method == "fd":
-        from pinn.fd import FiniteDiff
+        from nonlocal_pinn.baselines.fd import FiniteDiff
         D = FiniteDiff(x_base, Nx=Nx, Ny=Ny, Nz=Nz)
         log.info("D: FiniteDiff N=%d k_max=%d", D._N, D._k_max)
     else:
