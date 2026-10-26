@@ -1,0 +1,25 @@
+{
+  "policy": "deterministic",
+  "xla_flags": "--xla_gpu_deterministic_ops=true",
+  "jax": "0.10.1",
+  "jaxlib": "0.10.1",
+  "values_shape": [
+    2559,
+    16
+  ],
+  "edges": 3032,
+  "repeats": 10,
+  "results": {
+    "forward": {
+      "repeat_max_abs_difference": 0.0,
+      "repeat_max_relative_difference": 0.0
+    },
+    "gradient": {
+      "repeat_max_abs_difference": 0.0,
+      "repeat_max_relative_difference": 0.0
+    }
+  },
+  "optimized_hlo_control_ops": [
+    "%while = (s32[], f32[2559,16]{1,0}, s32[3032]{0}, f32[3032,16]{1,0}) while(%tuple.3), condition=%while_cond, body=%while_body, metadata={op_name=\"jit(graph_action)/scatter-add\" stack_frame_id=4}, backend_config={\"dynamic_variable_tuple_indices\":[],\"known_induction_variable\":{\"tuple_index\":\"0\"},\"known_init_step\":{\"init\":\"0\",\"step\":\"1\"},\"known_trip_count\":{\"n\":\"3032\"}}"
+  ]
+}

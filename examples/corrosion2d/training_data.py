@@ -110,4 +110,3 @@ def electropolish_initial_points(config):
     points.append(np.column_stack([xs_l, ys_l]))
 
     return jnp.array(np.vstack(points)[:N_global + N_local])
-

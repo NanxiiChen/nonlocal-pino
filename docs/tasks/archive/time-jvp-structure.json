@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "dtype": "float64",
+  "field_shape": [
+    4,
+    3,
+    2
+  ],
+  "jvp_shape": [
+    4,
+    3,
+    2
+  ],
+  "full_time_jacobian_shape": [
+    4,
+    3,
+    2,
+    4
+  ],
+  "max_error_vs_pointwise_grad": 0.0,
+  "cross_time_jacobian_blocks_exact_zero": true,
+  "performance_measured": false
+}

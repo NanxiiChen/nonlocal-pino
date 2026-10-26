@@ -30,6 +30,9 @@ from examples.corrosion2d.residuals import (bounded_phase_weight, make_loss_vect
     make_normalized_data_loss_vector, make_transport_loss_vector, phase_only_constraint,
     validate_normalized_data, validate_transport_options)
 from examples.corrosion2d.transport_optimizer import make_tail_optimizer, make_tail_schedule
+from examples.corrosion2d.training_precision import (
+    computation_dtype, cast_floating, audit_floating,
+)
 from examples.corrosion2d.training_data import (
     corrosion_boundary_points, corrosion_initial_points,
     electropolish_boundary_points, electropolish_initial_points,
@@ -263,18 +266,19 @@ def build_model(config, key):
 
 def make_step(loss_vector, optimizer, config):
     bias = jnp.asarray(config.loss.gradnorm_bias)
+    n_losses = len(config.loss.gradnorm_bias)
     alpha, cap = config.train.alpha_gradnorm, config.loss.gradnorm_weight_cap
 
     @eqx.filter_jit
     def step(net, state, weights, times, x, sub_data, mask, update_weights, active):
-        if active.shape != (5,) or active.dtype != jnp.bool_:
-            raise ValueError("active must be a fixed-shape boolean vector of length5")
+        if active.shape != (n_losses,) or active.dtype != jnp.bool_:
+            raise ValueError(f"active must be a fixed-shape boolean vector of length{n_losses}")
         values, pullback = eqx.filter_vjp(lambda n: loss_vector(n, times, x, sub_data, mask), net)
 
         def refresh(_):
             norms = []
-            for i in range(5):
-                grad = pullback(jax.nn.one_hot(i, 5))[0]
+            for i in range(n_losses):
+                grad = pullback(jax.nn.one_hot(i, n_losses))[0]
                 norms.append(sum(jnp.sum(jnp.abs(a)) for a in jax.tree.leaves(grad) if eqx.is_array(a)))
             norms = jnp.clip(jnp.stack(norms), 1e-6, 1e6)
             proposed = jnp.clip(jnp.mean(norms) / norms, 1e-6, cap)
@@ -425,6 +429,13 @@ def make_training_losses(config, nd, x_ic, ic, x_zero, x_one):
 
 
 def train(config):
+    if config.experiment.spatial_operator in ("local_ad_tensor", "local_ad_joint"):
+        from examples.corrosion2d.local_training import train_local
+        return train_local(config)
+    if config.experiment.spatial_operator != "nonlocal_graph":
+        raise ValueError(f"Unknown spatial operator: {config.experiment.spatial_operator}")
+    dtype = computation_dtype(config)
+    jax.config.update("jax_enable_x64", dtype == np.dtype("float64"))
     validate_loss_schedule(config)
     validate_time_window(config)
     learning_rate = make_tail_schedule(config)
@@ -444,7 +455,7 @@ def train(config):
     bias = np.asarray(config.loss.gradnorm_bias)
     if bias.shape != (5,) or not np.all(np.isfinite(bias)) or np.any(bias <= 0):
         raise ValueError("loss.gradnorm_bias must contain five finite positive values")
-    if config.experiment.formulation == "bounded":
+    if config.experiment.formulation in ("bounded", "bounded_frozen"):
         bounded_phase_weight(0.5, config.experiment.bounded_eta)
     for name in ("ac_scale", "ch_scale"):
         value = config.loss[name]
@@ -470,6 +481,7 @@ def train(config):
              repo / "src/nonlocal_pinn/training/runtime.py",
              Path(__file__).with_name("training_data.py"),
              Path(__file__).with_name("training_entry.py"),
+             Path(__file__).with_name("training_precision.py"),
              repo / f"examples/{config.experiment.case}/train.py",
              repo / f"examples/{config.experiment.case}/configs/train_base.py",
              repo / "examples/corrosion2d/configs/train_1pit.py",
@@ -479,50 +491,70 @@ def train(config):
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(f, target)
     (source / "files.json").write_text(json.dumps([str(f.relative_to(repo)) for f in files], indent=2))
-    xx, yy, points = grid(config)
-    x_grid = jnp.asarray(points, dtype=jnp.float32)
-    op = build_D(x_grid, config.nl.delta, method=config.nl.method, kernel=config.nl.kernel)
-    if not np.array_equal(np.asarray(op._row_idx), reference["graph_row"]) or not np.array_equal(np.asarray(op._col_idx), reference["graph_col"]) or not np.array_equal(-np.asarray(op._vals), reference["graph_weight"]):
-        raise ValueError("Training/reference graph edges or weights differ")
-    zero, one, _ = boundary_values(config, points)
-    free_np = ~(zero | one)
-    dc, cle = config.physical.c_se - config.physical.c_le, config.physical.c_le
-    reference_cl = reference["c"] - dc * (3 * reference["phi"]**2 - 2 * reference["phi"]**3)
-    reference_q = reference_cl - cle
-    diagnostic_matrix = graph_matrix(op, len(points))
-    reference_dq_terminal = diagnostic_matrix @ reference_q[-1].ravel()
-    if config.experiment.case == "corrosion2d":
-        x_zero, x_one = corrosion_boundary_points(config.pits.entries, config.sample.N_bc_dir, config.sample.N_bc_solid)
-        x_ic = corrosion_initial_points(config.pits.entries, config.sample.N_ic_global, config.sample.N_ic_local)
-    else:
-        x_zero, x_one = electropolish_boundary_points(config)
-        x_ic = electropolish_initial_points(config)
-    x_zero, x_one = training_boundary_data(config, points, x_zero, x_one)
-    x_ic, ic = training_initial_data(config, points, x_ic)
-    # Match the independently prescribed initial state, without using trajectory data.
-    if config.experiment.initial_sampling == "matched_graph":
-        expected = np.stack([reference["phi"][0].ravel(), reference["c"][0].ravel()], axis=-1)
-        if not np.allclose(np.asarray(ic), expected, rtol=0, atol=3e-7):
-            raise ValueError("Graph training IC differs from the reference initial state")
+    # Common stored inputs and RNG draws are generated in FP32 for both modes.
+    with jax.enable_x64(False):
+        xx, yy, points = grid(config)
+        x_grid = jnp.asarray(points, dtype=jnp.float32)
+        op = build_D(x_grid, config.nl.delta, method=config.nl.method, kernel=config.nl.kernel)
+        if not np.array_equal(np.asarray(op._row_idx), reference["graph_row"]) or not np.array_equal(np.asarray(op._col_idx), reference["graph_col"]) or not np.array_equal(-np.asarray(op._vals), reference["graph_weight"]):
+            raise ValueError("Training/reference graph edges or weights differ")
+        zero, one, _ = boundary_values(config, points)
+        free_np = ~(zero | one)
+        dc, cle = config.physical.c_se - config.physical.c_le, config.physical.c_le
+        reference_cl = reference["c"] - dc * (3 * reference["phi"]**2 - 2 * reference["phi"]**3)
+        reference_q = reference_cl - cle
+        diagnostic_matrix = graph_matrix(op, len(points))
+        reference_dq_terminal = diagnostic_matrix @ reference_q[-1].ravel()
+        if config.experiment.case == "corrosion2d":
+            x_zero, x_one = corrosion_boundary_points(config.pits.entries, config.sample.N_bc_dir, config.sample.N_bc_solid)
+            x_ic = corrosion_initial_points(config.pits.entries, config.sample.N_ic_global, config.sample.N_ic_local)
+        else:
+            x_zero, x_one = electropolish_boundary_points(config)
+            x_ic = electropolish_initial_points(config)
+        x_zero, x_one = training_boundary_data(config, points, x_zero, x_one)
+        x_ic, ic = training_initial_data(config, points, x_ic)
+        # Match the independently prescribed initial state, without using trajectory data.
+        if config.experiment.initial_sampling == "matched_graph":
+            expected = np.stack([reference["phi"][0].ravel(), reference["c"][0].ravel()], axis=-1)
+            if not np.allclose(np.asarray(ic), expected, rtol=0, atol=3e-7):
+                raise ValueError("Graph training IC differs from the reference initial state")
+        key_net, key_time = jr.split(jr.PRNGKey(config.train.seed))
+        net = build_model(config, key_net)
+        pool = op.build_subgraph_pool(config.sample.K_core, config.sample.K_pool)
+        batches = []
+        free = jnp.asarray(~(zero | one))
+        for ids, sub_data, core_mask, _ in pool:
+            mask = core_mask & free[ids]
+            if not np.any(np.asarray(mask)):
+                raise ValueError("Graph batch contains no free PDE core nodes")
+            batches.append((x_grid[ids], sub_data, mask))
+        del pool
+    x_grid, x_ic, ic, x_zero, x_one, net, batches = cast_floating(
+        (x_grid, x_ic, ic, x_zero, x_one, net, batches), dtype)
+    row_sums = np.bincount(np.asarray(op._row_idx),
+                           weights=-np.asarray(op._vals, dtype=np.float64),
+                           minlength=len(points))
+    diagonal_defect = np.asarray(op._diag, dtype=np.float64) - row_sums
     loss_vector, final_loss_vector = make_training_losses(config, nondim(config), x_ic, ic, x_zero, x_one)
-    key_net, key_time = jr.split(jr.PRNGKey(config.train.seed))
-    net = build_model(config, key_net)
     eqx.tree_serialise_leaves(run / "model_initial.eqx", net)
     optimizer = make_tail_optimizer(config)
     state = optimizer.init(eqx.filter(net, eqx.is_array))
+    precision_record = {
+        "compute_dtype": str(dtype),
+        "input_policy": "Common FP32 initialization/data/time draws and stored graph coefficients, exactly promoted",
+        "graph_diagonal_policy": "Preserve stored FP32 diagonal; no row-sum correction",
+        "graph_constant_defect_max": float(np.max(np.abs(diagonal_defect))),
+        "graph_diagonal_relative_defect_max": float(np.max(np.abs(diagonal_defect)/row_sums)),
+        "parameters": audit_floating(net, dtype),
+        "optimizer_initial": audit_floating(state, dtype),
+        "data": audit_floating((x_grid, x_ic, ic, x_zero, x_one, batches), dtype),
+        "lr_schedule": "Existing Optax FP32 scalar schedule; updates cast to parameter dtype",
+    }
+    (run / "precision.json").write_text(json.dumps(precision_record, indent=2) + "\n")
     step = make_step(loss_vector, optimizer, config)
     final_step = make_step(final_loss_vector, optimizer, config) if config.experiment.ch_rms_after else step
-    pool = op.build_subgraph_pool(config.sample.K_core, config.sample.K_pool)
-    batches = []
-    free = jnp.asarray(~(zero | one))
-    for ids, sub_data, core_mask, _ in pool:
-        mask = core_mask & free[ids]
-        if not np.any(np.asarray(mask)):
-            raise ValueError("Graph batch contains no free PDE core nodes")
-        batches.append((x_grid[ids], sub_data, mask))
-    del pool
     writer = SummaryWriter(str(run))
-    times_eval = jnp.asarray(reference["time"], dtype=jnp.float32)
+    times_eval = jnp.asarray(np.asarray(reference["time"], dtype=np.float32), dtype=dtype)
 
     @eqx.filter_jit
     def predict(n):
@@ -588,7 +620,9 @@ def train(config):
     evaluate(0)
     previous_stage = None
     for iteration in range(config.train.iterations):
-        times = sample_training_times(config, key_time, iteration)
+        with jax.enable_x64(False):
+            times = sample_training_times(config, key_time, iteration)
+        times = times.astype(dtype)
         x, sub_data, mask = batches[iteration % len(batches)]
         stage = stagger_phase(iteration, config.loss.stagger_steps, config.loss.stagger_switch_every)
         active = stage_masks[stage]
@@ -621,6 +655,9 @@ def train(config):
             final_metrics, prediction = evaluate(completed)
         if completed % config.experiment.checkpoint_every == 0:
             eqx.tree_serialise_leaves(run / f"ckpt_{completed:06d}.eqx", net)
+    precision_record["parameters_final"] = audit_floating(net, dtype)
+    precision_record["optimizer_final"] = audit_floating(state, dtype)
+    (run / "precision.json").write_text(json.dumps(precision_record, indent=2) + "\n")
     eqx.tree_serialise_leaves(run / "model_final.eqx", net)
     np.savez_compressed(run / "prediction.npz", X=xx, Y=yy, time=reference["time"],
                         phi=prediction[..., 0], c=prediction[..., 1])
@@ -629,7 +666,7 @@ def train(config):
                "formulation": config.experiment.formulation, "hard_initial_condition": False,
                "concentration_map": "kks" if config.arch.use_hard_constraint else "direct",
                "ac_scale": config.loss.ac_scale, "ch_scale": config.loss.ch_scale,
-               "bounded_eta": config.experiment.bounded_eta if config.experiment.formulation == "bounded" else None,
+               "bounded_eta": config.experiment.bounded_eta if config.experiment.formulation in ("bounded", "bounded_frozen") else None,
                "stagger_steps": config.loss.stagger_steps, "stagger_switch_every": config.loss.stagger_switch_every,
                "activation_counts": activation_counts,
                "adaptive_weight_state": "unmasked and unbiased; weights in loss_history are effective",
@@ -661,7 +698,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=("reference", "train"))
     parser.add_argument("--case", choices=("corrosion2d", "electropolish2d"), required=True)
-    parser.add_argument("--formulation", choices=("phase", "latent", "bounded"), default="phase")
+    parser.add_argument("--formulation", choices=("phase", "latent", "bounded", "bounded_frozen"), default="phase")
     parser.add_argument("--bounded-eta", type=float,
                         help="Positive bounded-mode parameter; weight cap is 1+1/eta")
     parser.add_argument("--seed", type=int, default=42)
@@ -696,13 +733,13 @@ def main():
                 parser.error("--stagger-switch-every must be positive")
             config.loss.stagger_switch_every = args.stagger_switch_every
     if args.bounded_eta is not None:
-        if args.action != "train" or args.formulation != "bounded":
+        if args.action != "train" or args.formulation not in ("bounded", "bounded_frozen"):
             parser.error("--bounded-eta requires training with --formulation bounded")
         if not np.isfinite(args.bounded_eta) or args.bounded_eta <= 0:
             parser.error("--bounded-eta must be finite and positive")
         config.experiment.bounded_eta = args.bounded_eta
     if (args.concentration_map != "kks" or args.ac_scale is not None or args.ch_scale is not None
-            or args.formulation == "bounded"):
+            or args.formulation in ("bounded", "bounded_frozen")):
         if args.action != "train":
             parser.error("Output mapping and loss-scale overrides apply only to training")
         config.arch.use_hard_constraint = args.concentration_map == "kks"
@@ -710,8 +747,8 @@ def main():
             config.loss.ac_scale = args.ac_scale
         if args.ch_scale is not None:
             config.loss.ch_scale = args.ch_scale
-        prefix = (f"20261025-residual-bounded-eta{config.experiment.bounded_eta}"
-                  if args.formulation == "bounded" else f"20261024-residual-{args.formulation}")
+        prefix = (f"20261025-residual-{args.formulation}-eta{config.experiment.bounded_eta}"
+                  if args.formulation in ("bounded", "bounded_frozen") else f"20261024-residual-{args.formulation}")
         config.log.run_name = (f"{prefix}-map{args.concentration_map}"
                                f"-ac{config.loss.ac_scale}-ch{config.loss.ch_scale}-seed{args.seed}")
     if args.stagger_steps is not None or args.stagger_switch_every is not None:

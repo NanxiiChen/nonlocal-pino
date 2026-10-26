@@ -1,0 +1,138 @@
+{
+  "status": "completed",
+  "maximum_GPU_workers": 1,
+  "updates_each": 5000,
+  "runs": [
+    {
+      "case": "electropolish2d",
+      "dtype": "float32",
+      "seed_as_run_provenance": 42,
+      "policy": "ordinary",
+      "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float32-seed42",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/electropolish2d/train.py",
+        "--seed=42",
+        "--config.train.iterations=5000",
+        "--config.train.gpu_policy=ordinary",
+        "--config.log.run_name=20261026-defaultcheck-ordinary-float32-seed42",
+        "--config.train.compute_dtype=float32",
+        "--config.experiment.checkpoint_every=200"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/ordinary-policy-defaults-20261026/electropolish2d-float32-42.log",
+      "status": "completed",
+      "returncode": 0,
+      "wall_seconds": 180.69595877081156
+    },
+    {
+      "case": "electropolish2d",
+      "dtype": "float32",
+      "seed_as_run_provenance": 2026,
+      "policy": "ordinary",
+      "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float32-seed2026",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/electropolish2d/train.py",
+        "--seed=2026",
+        "--config.train.iterations=5000",
+        "--config.train.gpu_policy=ordinary",
+        "--config.log.run_name=20261026-defaultcheck-ordinary-float32-seed2026",
+        "--config.train.compute_dtype=float32",
+        "--config.experiment.checkpoint_every=200"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/ordinary-policy-defaults-20261026/electropolish2d-float32-2026.log",
+      "status": "completed",
+      "returncode": 0,
+      "wall_seconds": 70.49785598739982
+    },
+    {
+      "case": "electropolish2d",
+      "dtype": "float64",
+      "seed_as_run_provenance": 42,
+      "policy": "ordinary",
+      "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float64-seed42",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/electropolish2d/train.py",
+        "--seed=42",
+        "--config.train.iterations=5000",
+        "--config.train.gpu_policy=ordinary",
+        "--config.log.run_name=20261026-defaultcheck-ordinary-float64-seed42",
+        "--config.train.compute_dtype=float64",
+        "--config.experiment.checkpoint_every=200"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/ordinary-policy-defaults-20261026/electropolish2d-float64-42.log",
+      "status": "completed",
+      "returncode": 0,
+      "wall_seconds": 317.4240903407335
+    },
+    {
+      "case": "electropolish2d",
+      "dtype": "float64",
+      "seed_as_run_provenance": 2026,
+      "policy": "ordinary",
+      "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float64-seed2026",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/electropolish2d/train.py",
+        "--seed=2026",
+        "--config.train.iterations=5000",
+        "--config.train.gpu_policy=ordinary",
+        "--config.log.run_name=20261026-defaultcheck-ordinary-float64-seed2026",
+        "--config.train.compute_dtype=float64",
+        "--config.experiment.checkpoint_every=200"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/ordinary-policy-defaults-20261026/electropolish2d-float64-2026.log",
+      "status": "completed",
+      "returncode": 0,
+      "wall_seconds": 223.85637981817126
+    },
+    {
+      "case": "corrosion2d",
+      "dtype": "float64",
+      "seed_as_run_provenance": 2026,
+      "policy": "ordinary",
+      "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-defaultcheck-ordinary-float64-seed2026",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/corrosion2d/train.py",
+        "--seed=2026",
+        "--config.train.iterations=5000",
+        "--config.train.gpu_policy=ordinary",
+        "--config.log.run_name=20261026-defaultcheck-ordinary-float64-seed2026",
+        "--config.train.compute_dtype=float64",
+        "--config.experiment.checkpoint_every=200"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/ordinary-policy-defaults-20261026/corrosion2d-float64-2026.log",
+      "status": "completed",
+      "returncode": 0,
+      "wall_seconds": 201.0960917212069
+    },
+    {
+      "case": "icemelting3d",
+      "dtype": "float32",
+      "seed_as_run_provenance": 42,
+      "policy": "ordinary",
+      "run": "/root/autodl-tmp/tf-logs/icemelting3d/20261026-defaultcheck-ordinary-float32-seed42",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/icemelting3d/train.py",
+        "--seed=42",
+        "--config.train.iterations=5000",
+        "--config.train.gpu_policy=ordinary",
+        "--config.log.run_name=20261026-defaultcheck-ordinary-float32-seed42",
+        "--config.eval.graph_reference_path=/root/nonlocal-pinn/reports/icemelting-weak-prior-20261024/reference.npz"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/ordinary-policy-defaults-20261026/icemelting3d-float32-42.log",
+      "status": "completed",
+      "returncode": 0,
+      "wall_seconds": 218.91452653333545
+    }
+  ]
+}

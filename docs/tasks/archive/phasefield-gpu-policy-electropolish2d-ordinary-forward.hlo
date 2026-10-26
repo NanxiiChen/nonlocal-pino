@@ -1,0 +1,77 @@
+HloModule jit_graph_action, is_scheduled=true, entry_computation_layout={(f32[2559,16]{1,0}, s32[3032]{0}, s32[3032]{0}, f32[3032]{0}, f32[2559]{0})->f32[2559,16]{1,0}}, allow_spmd_sharding_propagation_to_parameters={true,true,true,true,true}, allow_spmd_sharding_propagation_to_output={true}, frontend_attributes={fingerprint_before_lhs="3d4f5ba86c0dd66970cb0eb61bf54475"}
+
+FileNames
+1 "/root/nonlocal-pinn/docs/tasks/phasefield-gpu-policy-benchmark.py"
+2 "/root/nonlocal-pinn/examples/corrosion2d/residuals.py"
+
+FunctionNames
+1 "<module>"
+2 "main"
+3 "worker"
+4 "kernels"
+5 "graph_action"
+
+FileLocations
+1 {file_name_id=1 function_name_id=1 line=225 end_line=225 column=24 end_column=30}
+2 {file_name_id=1 function_name_id=2 line=205 end_line=205 column=8 end_column=37}
+3 {file_name_id=1 function_name_id=3 line=189 end_line=189 column=22 end_column=92}
+4 {file_name_id=1 function_name_id=4 line=115 end_line=115 column=43 end_column=72}
+5 {file_name_id=2 function_name_id=5 line=49 end_line=51 column=10 end_column=5}
+6 {file_name_id=2 function_name_id=5 line=52 end_line=52 column=11 end_column=24}
+7 {file_name_id=2 function_name_id=5 line=50 end_line=50 column=8 end_column=21}
+8 {file_name_id=2 function_name_id=5 line=50 end_line=50 column=24 end_column=35}
+
+StackFrames
+1 {file_location_id=1 parent_frame_id=1}
+2 {file_location_id=2 parent_frame_id=2}
+3 {file_location_id=3 parent_frame_id=3}
+4 {file_location_id=4 parent_frame_id=4}
+5 {file_location_id=5 parent_frame_id=5}
+6 {file_location_id=6 parent_frame_id=5}
+7 {file_location_id=7 parent_frame_id=5}
+8 {file_location_id=8 parent_frame_id=5}
+
+
+%region_0.1 (scatter-add.2: f32[], scatter-add.3: f32[]) -> f32[] {
+  %scatter-add.3 = f32[] parameter(1), metadata={op_name="scatter-add"}
+  %scatter-add.2 = f32[] parameter(0), metadata={op_name="scatter-add"}
+  ROOT %add.3.0 = f32[] add(%scatter-add.2, %scatter-add.3), metadata={op_name="jit(graph_action)/add" stack_frame_id=5}
+}
+
+%fused_scatter (param_0.1: f32[2559,16], param_1.8: s32[3032], param_2.6: f32[2559,16], param_3.3: f32[3032], param_4.4: s32[3032]) -> f32[2559,16] {
+  %param_0.1 = f32[2559,16]{1,0} parameter(0)
+  %param_1.8 = s32[3032]{0} parameter(1)
+  %bitcast.3 = s32[3032,1]{1,0} bitcast(%param_1.8), metadata={op_name="sub_data[0]"}
+  %param_3.3 = f32[3032]{0} parameter(3)
+  %broadcast.2.1 = f32[3032,1,16]{2,1,0} broadcast(%param_3.3), dimensions={0}, metadata={op_name="jit(graph_action)/mul" stack_frame_id=7}
+  %param_2.6 = f32[2559,16]{1,0} parameter(2)
+  %param_4.4 = s32[3032]{0} parameter(4)
+  %constant_5_1 = s32[] constant(0)
+  %lt.2.3 = s32[3032]{0} broadcast(%constant_5_1), dimensions={}, metadata={op_name="jit(graph_action)/lt" stack_frame_id=8}
+  %lt.3.3 = pred[3032]{0} compare(%param_4.4, %lt.2.3), direction=LT, metadata={op_name="jit(graph_action)/lt" stack_frame_id=8}
+  %constant_4_1 = s32[] constant(2559)
+  %add.5.1 = s32[3032]{0} broadcast(%constant_4_1), dimensions={}, metadata={op_name="jit(graph_action)/add" stack_frame_id=8}
+  %add.6.3 = s32[3032]{0} add(%param_4.4, %add.5.1), metadata={op_name="jit(graph_action)/add" stack_frame_id=8}
+  %select_n.1.3 = s32[3032]{0} select(%lt.3.3, %add.6.3, %param_4.4), metadata={op_name="jit(graph_action)/select_n" stack_frame_id=8}
+  %bitcast.1.5 = s32[3032,1]{1,0} bitcast(%select_n.1.3), metadata={op_name="jit(graph_action)/select_n" stack_frame_id=8}
+  %gather.7 = f32[3032,1,16]{2,1,0} gather(%param_2.6, %bitcast.1.5), offset_dims={1,2}, collapsed_slice_dims={}, start_index_map={0}, index_vector_dim=1, slice_sizes={1,16}, metadata={op_name="jit(graph_action)/gather" stack_frame_id=8}
+  %mul.0.3 = f32[3032,1,16]{2,1,0} multiply(%broadcast.2.1, %gather.7), metadata={op_name="jit(graph_action)/mul" stack_frame_id=7}
+  ROOT %scatter-add.5.1 = f32[2559,16]{1,0} scatter(%param_0.1, %bitcast.3, %mul.0.3), update_window_dims={1,2}, inserted_window_dims={}, scatter_dims_to_operand_dims={0}, index_vector_dim=1, to_apply=%region_0.1, metadata={op_name="jit(graph_action)/scatter-add" stack_frame_id=5}
+}
+
+%fused_multiply (param_0.6: f32[2559,16], param_1.10: f32[2559]) -> f32[2559,16] {
+  %param_1.10 = f32[2559]{0} parameter(1)
+  %mul.14.1 = f32[2559,16]{1,0} broadcast(%param_1.10), dimensions={0}, metadata={op_name="jit(graph_action)/mul" stack_frame_id=6}
+  %param_0.6 = f32[2559,16]{1,0} parameter(0)
+  ROOT %mul.15.1 = f32[2559,16]{1,0} multiply(%mul.14.1, %param_0.6), metadata={op_name="jit(graph_action)/mul" stack_frame_id=6}
+}
+
+ENTRY %main.2 (values.1: f32[2559,16], sub_data_0_.1: s32[3032], sub_data_1_.1: s32[3032], sub_data_2_.1: f32[3032], sub_data_3_.1: f32[2559]) -> f32[2559,16] {
+  %values.1 = f32[2559,16]{1,0} parameter(0), metadata={op_name="values"}
+  %sub_data_1_.1 = s32[3032]{0} parameter(2), metadata={op_name="sub_data[1]"}
+  %sub_data_2_.1 = f32[3032]{0} parameter(3), metadata={op_name="sub_data[2]"}
+  %sub_data_0_.1 = s32[3032]{0} parameter(1), metadata={op_name="sub_data[0]"}
+  %sub_data_3_.1 = f32[2559]{0} parameter(4), metadata={op_name="sub_data[3]"}
+  %loop_multiply_fusion = f32[2559,16]{1,0} fusion(%values.1, %sub_data_3_.1), kind=kLoop, calls=%fused_multiply, metadata={op_name="jit(graph_action)/mul" stack_frame_id=6}
+  ROOT %input_scatter_fusion = f32[2559,16]{1,0} fusion(%loop_multiply_fusion, %sub_data_0_.1, %values.1, %sub_data_2_.1, %sub_data_1_.1), kind=kInput, calls=%fused_scatter, metadata={op_name="jit(graph_action)/scatter-add" stack_frame_id=5}
+}

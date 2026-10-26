@@ -1,0 +1,10 @@
+{
+  "checkpoint": "ckpt_001000.eqx",
+  "dtype": {
+    "dtype": "float64",
+    "leaves": 18,
+    "bytes": 345104
+  },
+  "independent_cpu_terminal_phi_l2": 0.5344325565690978,
+  "GPU_logged_phi_l2": 0.5344325565690978
+}

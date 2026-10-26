@@ -2,6 +2,21 @@
 
 ## SOTA default
 
+The canonical default uses **ordinary GPU compilation and FP64**, with the
+**original phase residual**, stable raw-KKS CH edges, normalized concentration
+BCs and all graph IC/BC nodes. Full5000-update/50s controls at seeds42/2026 give
+terminal phi/c **0.002499/0.002944** and **0.006833/0.008077**. Worst-seed late
+4000–5000 phi median is0.005004, versus0.009514 for the previous deterministic
+FP32 default. This is the best supported speed/field-accuracy compromise among
+the explored configurations; it does not establish a global optimum.
+
+Late maxima do not improve for every seed; Dq transport errors remain high
+(terminal free-node relative L2 about1.36–1.38), including large late spikes.
+The historical individual bounded winner remains separate. Neither seed nor
+an intermediate checkpoint is selected to promise low error. See the
+[full default validation](../../docs/tasks/archive/ordinary-policy-defaults.md)
+and [all convergence curves](../../docs/tasks/archive/ordinary-policy-defaults-corrosion2d-convergence.png).
+
 Seed is not a strategy parameter. The canonical `get_config()` has no
 `train.seed`; choose a run with `train.py --seed=2026`. With no override, the
 common untuned run seed is42. Saved resolved config metadata still includes
@@ -27,10 +42,10 @@ python examples/corrosion2d/train.py
 python -m examples.corrosion2d.train --config.log.run_name=my-corrosion-run
 ```
 
-SOTA denotes the **best observed final5000 terminal phi+c relative L2** in
-40 completed run summaries, for that recorded run. It does not denote
+Historical single-run SOTA denotes the **best observed final5000 terminal
+phi+c relative L2** among40 run summaries at the earlier promotion. It does not denote
 best pooled-time error, concentration transport, or cross-seed robustness.
-The selected bounded residual uses
+That historical bounded checkpoint uses
 
 $$
 r_\eta=\frac{1+\eta}{4\phi(1-\phi)+\eta}r_\phi,\qquad \eta=0.1.
@@ -43,7 +58,7 @@ are retained. Initial and boundary conditions remain soft losses. Nodal ICs
 use the prescribed analytic initial field and Dirichlet overrides at time0;
 positive-time reference fields are evaluation targets only.
 
-| Setting | Default SOTA |
+| Setting | Current default |
 |---|---|
 | Physical horizon / updates | 50 s /5000 |
 | Network | FiLM,4 layers x64,gelu; FiLM conditioning2 layers x32 |
@@ -52,7 +67,7 @@ positive-time reference fields are evaluation targets only.
 | Core / pool / times | 256 /100 /16; uniform t* in[0.001,1) |
 | IC / BC sampling | All5151 graph IC nodes;9 pit +201 solid BC nodes |
 | Data objective | `s_bc`: phi and c_L/c_Le at BC; physical phi,c at IC |
-| Phase / CH objective | `bounded`,eta0.1 / `kks_raw_edges`,L1 |
+| Phase / CH objective | `phase` / `kks_raw_edges`,L1 |
 | AC / CH scale | 1e-7 /1 |
 | Optimizer / initial rate | SOAP /1e-3 |
 | SOAP beta1 / beta2 / refresh | 0.95 /0.95 /5 updates |
@@ -60,17 +75,204 @@ positive-time reference fields are evaluation targets only.
 | GradNorm alpha / refresh / cap | 1 /25 updates /10000 |
 | Stagger / causal / interface weight / time window | Off /off /0 /off |
 | Late rate / CH-RMS continuation | Off /off |
-| Matmul / GPU runtime | `highest`; `--xla_gpu_deterministic_ops=true` |
+| Floating arithmetic | FP64 (`train.compute_dtype="float64"`) |
+| Matmul / GPU runtime | `highest`; ordinary (`train.gpu_policy="ordinary"`) |
 
-`train.py` sets the audited deterministic GPU flag before backend initialization,
-keeping unrelated XLA flags and rejecting a conflicting setting. Deterministic
-compilation alone is not a promise of identical trajectories on other hardware.
+The [local FP64 performance benchmark](../../docs/tasks/archive/fp64-performance.md)
+measures the same-size SOAP/GradNorm workload. The canonical matched trainer now
+accepts `--config.train.compute_dtype=float32` or `float64` (default `float64`). Both modes
+generate initialization, targets, coordinates, stored graph coefficients and time
+samples in FP32, then cast floating arrays to the selected arithmetic precision.
+Model, PDE, gradients and SOAP states follow that precision; the existing Optax
+scalar learning-rate schedule remains FP32. The global x64 flag alone is not a
+substitute for this option. Each new run records dtype checks in `precision.json`.
+
+The FP64 control preserves the stored FP32 graph diagonal, whose constant-field
+defect is measured separately; it does not silently rebuild a different operator.
+The [completed accuracy control](../../docs/tasks/archive/corrosion-fp64-accuracy.md)
+uses one paired seed42,5000 updates and unchanged stored graph coefficients:
+
+| Terminal50s metric | FP32 | FP64 |
+|---|---:|---:|
+| phi relative L2 | 0.00883538 | 0.00267672 |
+| c relative L2 | 0.01042560 | 0.00320701 |
+| q relative L2, free nodes | 0.01372465 | 0.00686141 |
+| Dq relative L2, free nodes | 1.70256 | 1.22047 |
+
+This final checkpoint improves, but late stability does not improve uniformly:
+4000–5000 phi median0.007191->0.006069, maximum0.008835->0.014882;
+Dq median1.706->1.852. FP32 already reaches phi0.002689 at4800. Frozen-model
+cross-precision inference changes fields by less than1.7e-6, so the difference
+comes from training trajectories. That earlier pair established neither a lower accuracy
+floor nor cross-seed reliability; Dq remains inaccurate. Its FP32 default was
+superseded by the full ordinary42/2026 validation above.
+The new FP64 model is
+`/root/autodl-tmp/tf-logs/corrosion2d/20261026-precision-float64-phase-seed42/ckpt_005000.eqx`.
+
+The [ordinary-policy FP64 full control](../../docs/tasks/archive/ordinary-fp64-accuracy.md)
+completes the precision/policy comparison with one additional seed42 cold start.
+All four use the same graph/reference, exact common initial values, SOAP1e-3,
+data/scales and5000 updates/50s. Independent CPU reloads give:
+
+| Policy / precision | Terminal phi L2 | Terminal c L2 | Late phi median | Observed total minutes |
+|---|---:|---:|---:|---:|
+| Deterministic FP32 | 0.008835 | 0.010426 | 0.007191 | 19.66 |
+| Ordinary FP32 | 0.020680 | 0.024565 | 0.012737 | 1.30 |
+| Deterministic FP64 | 0.002677 | 0.003207 | 0.006069 | 24.91 |
+| Ordinary FP64 | 0.002499 | 0.002944 | 0.004685 | 3.28 |
+
+Ordinary FP64 is about6x faster end-to-end than the previous default in these observed runs,
+with72% lower final phi error and35% lower late phi median. Compilation-cache
+histories differ; these times include actual JIT/evaluation/save costs and are
+not a fresh-cache compilation benchmark. Prior steady-update measurements give
+~35ms ordinary FP64 versus~229ms deterministic FP32 independently.
+
+This is not uniform stability improvement: ordinary FP64 late phi mean0.006661
+is slightly worse than default0.006348, and maximum0.014885 exceeds0.008835.
+Its final free q/Dq errors0.007739/1.357 improve on default0.013725/1.703, but
+late Dq reaches18.665 at4600, versus default maximum1.915. Compared with
+deterministic FP64, final phi/c improve slightly while final q/Dq worsen.
+One paired seed establishes this outcome, not cross-seed robustness or a
+guaranteed accuracy benefit. The subsequent independent2026 control supports
+the current ordinary FP64 promotion, subject to the limitations above.
+
+Replay this explicit research option through the same entry:
+
+```bash
+XLA_FLAGS='' python examples/corrosion2d/train.py --config=examples/corrosion2d/configs/train_graph_ordinary.py --config.train.compute_dtype=float64 --config.log.run_name=my-ordinary-fp64
+```
+
+Checkpoint:
+`/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-graph_ordinary-float64-seed42/ckpt_005000.eqx`.
+[Full field L2 curves](../../docs/tasks/archive/ordinary-fp64-accuracy-convergence.png),
+[transport curves](../../docs/tasks/archive/ordinary-fp64-accuracy-transport.png),
+[terminal fields](../../docs/tasks/archive/ordinary-fp64-accuracy-terminal-fields.png)
+and [CPU audit](../../docs/tasks/archive/ordinary-fp64-accuracy-audit.json) retain
+every evaluation, including spikes.
+
+The [local-AD throughput study](../../docs/tasks/archive/local-ad-performance.md)
+measures complete synchronized updates with the same model, IC/BC, SOAP/GradNorm
+and3760–4032 active PDE pairs.50 warm-up and75 measured updates per method:
+
+| Method | FP32 ms/update | FP64 ms/update |
+|---|---:|---:|
+| Current nonlocal, deterministic GPU policy | 229.31 | 266.11 |
+| Local spatial AD, shared-time tensor sampling and time JVP | 11.98 | 31.32 |
+| Local spatial AD, joint random space/time and time grad | 16.12 | 47.77 |
+| Nonlocal, ordinary GPU policy diagnostic | 12.49 | 35.13 |
+
+The large historical default-policy gap is chiefly associated with deterministic graph
+aggregation: isolated actions cost~38ms versus~0.17ms under ordinary policy.
+The ordinary full-step control is measured, not inferred from that kernel ratio.
+Joint random sampling still permits time JVP; time-only grad/JVP controls agree.
+That study measures throughput only and omits the explicit local no-flux loss.
+The full-training controls below complete the local boundary-value problem;
+their six-loss update costs are distinct from the earlier five-loss timings.
+The canonical adapter now defaults to ordinary policy. These historical local
+research presets explicitly retain FP32 deterministic behavior; the graph
+ordinary research preset explicitly retains FP32.
+
+### Full local-AD research controls
+
+All variants use `train.py`, FP32,5000 updates and50 physical seconds:
+
+```bash
+python examples/corrosion2d/train.py --config=examples/corrosion2d/configs/train_local_tensor.py --config.log.run_name=my-local-tensor
+python examples/corrosion2d/train.py --config=examples/corrosion2d/configs/train_local_joint.py --config.log.run_name=my-local-joint
+# Requires XLA_FLAGS without --xla_gpu_deterministic_ops:
+python examples/corrosion2d/train.py --config=examples/corrosion2d/configs/train_graph_ordinary.py --config.log.run_name=my-graph-ordinary
+```
+
+Local AD replaces the nonlocal action by the negative Laplacian of physical
+phi and stable raw-KKS q. Tensor sampling keeps shared time JVP and the matched
+free graph core coordinates; joint sampling draws independent space/time pairs
+and differentiates time with scalar grad. Counts match3760–4032 active PDE
+pairs/update; IC/Dirichlet data and SOAP/scales remain the same.
+
+The local PDE additionally needs natural conditions on the90 bottom nodes
+outside the open pit mouth and solid corners:
+
+$$
+\partial_n\phi=0,\qquad \partial_n q=0.
+$$
+
+`local_training.py` adds a sixth GradNorm loss for squared derivatives of
+phi and \(s=c_L/c_{Le}\), so \(q_n/c_{Le}=s_n\). This boundary choice is
+traceable to the original local FEM weak form in `solver.py`. The graph keeps
+its existing truncated-domain operator and five-term objective.
+
+The independent local reference is
+`/root/autodl-tmp/data/corrosion2d/results_local_ad_20261026.npz`, with specification
+and refinement records in the adjacent JSON. `local_reference.py` integrates
+physical fields with SciPy BDF, centered finite differences, mirror no-flux
+closure and an analytic Jacobian. Its401x201 solution is sampled onto the common
+101x51 evaluation grid. The201-grid time-refinement error is below2.75e-9, but201->401
+terminal phi/c differences are1.42%/1.68%; **sub-percent continuum accuracy is
+not established**. Score graph and local training against their own reference,
+and show cross-reference discrepancies separately. Ordinary GPU policy is an
+explicit option and now the canonical policy; it is not a reproducibility guarantee.
+
+The [full5000-update comparison](../../docs/tasks/archive/local-ad-full-training.md)
+uses one paired seed42 cold start per method, identical initial parameters,
+unchanged SOAP/learning rate/PDE scales and the matched local boundary above.
+Independent CPU checkpoint reloads give terminal50s relative L2:
+
+| Method | phi | c | Late4000–5000 phi median | Observed total minutes |
+|---|---:|---:|---:|---:|
+| Nonlocal, previous deterministic default | 0.008835 | 0.010426 | 0.007191 | 19.66 |
+| Nonlocal, ordinary policy | 0.020680 | 0.024565 | 0.012737 | 1.30 |
+| Local AD, tensor/time JVP | 0.346112 | 0.373221 | 0.360579 | 3.75 |
+| Local AD, joint/time grad | 0.411813 | 0.425739 | 0.546657 | 3.72 |
+
+Times include actual compilation, evaluation and saves, reuse existing compiler
+caches and exclude reference generation. Thus they describe this run sequence,
+not a fresh-cache compilation benchmark. Each method is scored against its own
+reference; graph/local reference terminal phi/c discrepancies are1.28%/1.51%,
+combining operator/boundary/discretization effects. Against the common local
+reference, default/ordinary nonlocal phi errors are2.11%/3.28%, still much
+smaller than these local training errors. The local runs are not separately
+tuned local SOTA controls, and one seed does not establish intrinsic superiority
+or stability. This historical comparison predates the ordinary FP64 promotion
+above. The ordinary FP32
+run has better terminal free-q/Dq errors (0.00934/1.238 versus0.01372/1.703),
+so field accuracy and transport accuracy should remain separate criteria.
+
+[Step/time convergence curves](../../docs/tasks/archive/local-ad-full-training-convergence.png),
+[terminal phi fields](../../docs/tasks/archive/local-ad-full-training-terminal-phi.png)
+and [independent audit](../../docs/tasks/archive/local-ad-full-training-audit.json)
+retain all outcomes rather than selecting the best intermediate checkpoint.
+
+GPU determinism specifies reproducibility, not a higher arithmetic precision or
+guaranteed lower trained-model L2. The [policy diagnosis](../../docs/tasks/archive/compiler-policy-explanation.md)
+finds that the current JAX0.10.1 deterministic graph kernel lowers3032 edge
+updates into a3032-iteration while loop, while ordinary mode retains parallel
+scatter. Fixed-input ordinary forward/input-gradient repeats vary at roughly
+1e-8 relative; both policies agree with independent SciPy at that scale. Full
+training amplifies small initial differences into different adaptive weights
+and parameter paths. A single paired run cannot rank their expected accuracy.
+
+Representative current-default run (the common untuned seed42):
+`/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-graph_ordinary-float64-seed42/ckpt_005000.eqx`.
+Its resolved configuration is `config.json` in the same directory; it matches
+current numerical defaults apart from explicit run metadata. Load this FP64
+model with JAX x64 enabled and a promoted template, as described above.
+The independent2026 checkpoint is
+`/root/autodl-tmp/tf-logs/corrosion2d/20261026-defaultcheck-ordinary-float64-seed2026/ckpt_005000.eqx`.
+
+`train.py` applies the explicit policy before backend initialization. Ordinary
+mode requires no deterministic flag in `XLA_FLAGS`; a conflict raises an error.
+Use `XLA_FLAGS='' python -m examples.corrosion2d.train` if necessary. For the old
+precision/policy control, pass `--config.train.compute_dtype=float32` and
+`--config.train.gpu_policy=deterministic`. Unrelated flags remain intact.
+Deterministic compilation alone does not promise identical cross-hardware results.
 Empty `log.run_name` creates a fresh timestamped directory; an existing explicit
 name fails. Evaluation is every200 updates; checkpoints every1000 completed
 updates, with initial/final models, metrics/loss JSONL, TensorBoard and source
 snapshots. Load arrays/models by direct paths, with no file hashing.
 
-| Verified final50 s metric | Selected checkpoint |
+### Historical best individual bounded checkpoint
+
+| Verified final50 s metric | Historical checkpoint |
 |---|---:|
 | phi relative L2,all5151 nodes | 0.0014330496603163906 |
 | c relative L2,all5151 nodes | 0.001718589539743543 |
@@ -87,14 +289,15 @@ The old local-FEM array is not the SOTA error reference.
 
 **Limitations:** the same bounded setting at seed7 gives phi/c0.4220/0.4461;
 seed42's late-window phi median is~0.0181, substantially above its final value.
-The low final total-field errors coexist with Dq error~1.50. This preset is an
-explicit best-observed-field selection requested for the default, not a robust
-transport remedy. For the less seed-sensitive original-residual comparison,
-set `experiment.formulation=phase` and `experiment.transport_evaluation=kks_raw_edges`;
-for the seed42 late-rate variant also set `experiment.lr_tail_start=3000`.
-These are alternative measured configurations, not the selected field SOTA.
+The low final total-field errors coexist with Dq error~1.50. This was an
+explicit best-observed-field selection, now superseded as the default by the
+original-residual setting after cross-seed validation. It is not a robust
+transport remedy. To replay it set `experiment.formulation=bounded`; the
+research frozen variant is `bounded_frozen`. The optional original-residual
+seed42 late-rate variant additionally uses `experiment.lr_tail_start=3000`;
+it is not the current default.
 See the [full audit](../../docs/tasks/archive/corrosion-transport-optimization.md)
-and [current promotion](../../docs/tasks/archive/phasefield-sota-defaults.md).
+and [earlier promotion](../../docs/tasks/archive/phasefield-sota-defaults.md).
 
 Historical large-grid presets remain available through the same entry:
 `--config=examples/corrosion2d/configs/train_1pit.py` or `train_2pit.py`.
@@ -102,7 +305,52 @@ Those use the legacy loop and their original sampling/objectives. The sections
 below distinguish legacy usage and research controls from the SOTA table.
 
 
-### Independent seed check —2026-10-26
+### Frozen bounded-weight research control
+
+`--config.experiment.formulation=bounded_frozen` uses the same positive
+multiplier and the same forward residual as `bounded`, with
+`stop_gradient(w_eta(phi))`. For the L1 AC loss the update differentiates
+only the physical residual (for nonzero residual; at zero use its L1
+subgradient):
+
+$$
+g_{AC}=\mathbb E\left[w_\eta(\phi)\operatorname{sign}(r_\phi)
+\nabla_\theta r_\phi\right].
+$$
+
+The differentiated `bounded` objective additionally contains
+\(\mathbb E[|r_\phi|\nabla_\theta w_\eta]\). Thus the forward PDE zero set
+and reported residual values agree, but the optimization directions differ.
+Frozen weighting is a reweighted update, not the gradient of the original
+state-weighted scalar objective. CH, KKS, data constraints and pre-scales
+are unchanged. This is an experimental option; it is not the default.
+
+### Matched cross-seed objective comparison
+
+All entries are final5000 full-grid50 s **phi/c relative L2**, with the same
+physical/reference model, soft nodal IC/BC, optimizer and sample budgets.
+Same-seed initial parameters and temporal streams are held fixed.
+
+| Phase objective | Seed42 | Seed7 | Seed2026 |
+|---|---:|---:|---:|
+| Original (`phase`, current default) | 0.00884 /0.01043 | 0.00422 /0.00501 | 0.01074 /0.01273 |
+| Differentiated `bounded` | 0.00143 /0.00172 | 0.42200 /0.44614 | 0.40702 /0.43103 |
+| `bounded_frozen` | 0.01457 /0.01727 | 0.01090 /0.01293 | 0.01062 /0.01262 |
+
+Original also has the smallest worst-seed late phi median:0.009514 versus
+bounded0.422158 and frozen0.014632. Frozen rescues bounded7/2026 but does not
+consistently outperform original. Its final Dq errors improve7/2026 to~1.36/1.40,
+but regress42 to~3.01 versus original~1.70. Original Dq remains~1.70–1.76:
+accurate total concentration does not certify transport-gradient accuracy.
+Original/frozen have one liquid component at all21 reference times; the failed
+bounded models retain spurious bands. No sampling, hard-IC or pre-scale change
+was needed for these interventions. Three observed seeds are a limited validation.
+
+See the [complete controlled study](../../docs/tasks/archive/corrosion-robust-objective.md),
+[raw convergence curves](../../docs/tasks/archive/corrosion-robust-objective-plot-convergence.png)
+and [same-scale phi fields](../../docs/tasks/archive/corrosion-robust-objective-plot-fields.png).
+
+### Earlier bounded independent seed check —2026-10-26
 
 Keeping every strategy setting and the5000-update/50 s budget fixed, a new
 predeclared run at `--seed=2026` gives terminal phi/c **0.407016/0.431025**,
@@ -113,9 +361,10 @@ Independent CPU q/Dq free errors are0.310697/4.013898. At t*>=.6 the liquid
 field has2 connected components instead of reference1; terminal liquid area
 is9.92% of the domain, reference29.33%. This bounded strategy is **not stable
 across the tested runs**, despite its strong best observed checkpoint.
-Do not call it robust SOTA or choose seed42 to make it appear stable. The
-current mathematical strategy is preserved for this fixed-control study;
-no new loss tuning or replacement default is inferred from one validation.
+Do not call it robust SOTA or choose seed42 to make it appear stable. That
+fixed-control study preserved the then-default. The subsequent matched
+objective comparison supersedes its default selection with original phase
+residuals while preserving the physical/reference model.
 See the [full validation](../../docs/tasks/archive/phasefield-seed-stability.md) and
 [curves](../../docs/tasks/archive/phasefield-seed-stability-results-convergence.png).
 

@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "archived_artifacts_including_this": 10,
+  "full_new_updates": 5000,
+  "controls_reused": 3,
+  "canonical_entry": "examples/corrosion2d/train.py",
+  "independent_cpu_reloads": 4,
+  "all_initial_values_exact": true,
+  "config_dtype_precision_source_controls": "passed",
+  "all26_evaluations_each": true,
+  "new_periodic_checkpoints": 25,
+  "source_snapshot_paths": "passed",
+  "strict_json_syntax_links": "passed",
+  "plots_inspected": 3,
+  "registered_cases": 5,
+  "registered_directories": 308,
+  "production_code_changed": false,
+  "full_unchanged_suite_rerun": false,
+  "git_diff_check": "passed",
+  "git_history_operation": false,
+  "memory_files": [
+    "docs/PROGRESS.md",
+    "docs/DECISIONS.md",
+    "docs/tasks/archive/ordinary-fp64-accuracy.md"
+  ]
+}

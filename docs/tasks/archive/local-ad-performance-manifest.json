@@ -1,0 +1,103 @@
+{
+  "status": "completed",
+  "maximum_GPU_workers": 1,
+  "runs": [
+    {
+      "kind": "graph",
+      "dtype": "float32",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/local-ad-performance.py",
+        "--worker",
+        "graph",
+        "--dtype",
+        "float32"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/local-ad-performance-20261026/graph-float32.log",
+      "returncode": 0,
+      "wall_seconds": 231.56564543023705
+    },
+    {
+      "kind": "local_tensor",
+      "dtype": "float32",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/local-ad-performance.py",
+        "--worker",
+        "local_tensor",
+        "--dtype",
+        "float32"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/local-ad-performance-20261026/local_tensor-float32.log",
+      "returncode": 0,
+      "wall_seconds": 160.60318391025066
+    },
+    {
+      "kind": "local_joint",
+      "dtype": "float32",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/local-ad-performance.py",
+        "--worker",
+        "local_joint",
+        "--dtype",
+        "float32"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/local-ad-performance-20261026/local_joint-float32.log",
+      "returncode": 0,
+      "wall_seconds": 237.42502849176526
+    },
+    {
+      "kind": "graph",
+      "dtype": "float64",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/local-ad-performance.py",
+        "--worker",
+        "graph",
+        "--dtype",
+        "float64"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/local-ad-performance-20261026/graph-float64.log",
+      "returncode": 0,
+      "wall_seconds": 218.61055290326476
+    },
+    {
+      "kind": "local_tensor",
+      "dtype": "float64",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/local-ad-performance.py",
+        "--worker",
+        "local_tensor",
+        "--dtype",
+        "float64"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/local-ad-performance-20261026/local_tensor-float64.log",
+      "returncode": 0,
+      "wall_seconds": 162.220927644521
+    },
+    {
+      "kind": "local_joint",
+      "dtype": "float64",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/local-ad-performance.py",
+        "--worker",
+        "local_joint",
+        "--dtype",
+        "float64"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/local-ad-performance-20261026/local_joint-float64.log",
+      "returncode": 0,
+      "wall_seconds": 214.64974111318588
+    }
+  ],
+  "hardware": "NVIDIA GeForce RTX 3090, 49152 MiB, 580.82.09"
+}

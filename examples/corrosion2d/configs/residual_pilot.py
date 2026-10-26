@@ -10,7 +10,7 @@ def get_strategy_config(case, formulation):
         from examples.electropolish2d.configs.train_legacy import get_config as base
     else:
         raise ValueError(f"Unknown KKS experiment case: {case}")
-    if formulation not in ("phase", "latent", "bounded"):
+    if formulation not in ("phase", "latent", "bounded", "bounded_frozen"):
         raise ValueError(f"Unknown phase residual: {formulation}")
     c = base()
     c.sample.Nx, c.sample.Ny = 101, 51
@@ -25,6 +25,8 @@ def get_strategy_config(case, formulation):
     c.train.iterations = 5000
     c.train.lr_init = 1e-3
     c.train.optimizer = "soap"
+    c.train.compute_dtype = "float32"  # promote common FP32 inputs for FP64 controls
+    c.train.gpu_policy = "deterministic"  # historical research baseline; canonical presets override
     c.train.gradnorm_update_every = 25
     c.loss.iface_gamma_init = 0.0
     c.loss.iface_gamma_decay_steps = 0
@@ -37,6 +39,8 @@ def get_strategy_config(case, formulation):
     c.log.eval_every = 200
     c.experiment = config_dict.ConfigDict()
     c.experiment.case = case
+    c.experiment.spatial_operator = "nonlocal_graph"
+    c.experiment.local_reference_path = "/root/autodl-tmp/data/corrosion2d/results_local_ad_20261026.npz"
     c.experiment.formulation = formulation
     c.experiment.reference_path = (
         f"/root/autodl-tmp/data/{case}/results_matched_graph_20261024.npz"

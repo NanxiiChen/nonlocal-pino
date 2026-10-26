@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "archived_files_including_this": 21,
+  "new_serial_GPU_workers": 4,
+  "updates_each": 125,
+  "warmup_each": 50,
+  "measured_each": 75,
+  "total_new_updates": 500,
+  "cases_statically_inspected": 5,
+  "new_measured_cases": 2,
+  "all_initial_pool_data_time_arrays_exact": true,
+  "independent_GPU_forward_gradient_checks": 8,
+  "independent_CPU_stable_ratio_derivative": "passed",
+  "max_independent_GPU_relative_error": 2.56696899298003e-07,
+  "source_snapshot_files": 26,
+  "json_syntax_hlo_links_outputs": "passed",
+  "plot_inspected": true,
+  "registered_cases": 5,
+  "registered_directories": 308,
+  "git_diff_check": "passed",
+  "production_numerical_code_or_default_changed": false,
+  "long_accuracy_claim": false,
+  "git_history_operation": false,
+  "memory_files": [
+    "docs/PROGRESS.md",
+    "docs/DECISIONS.md",
+    "docs/tasks/archive/phasefield-gpu-policy-audit.md"
+  ]
+}

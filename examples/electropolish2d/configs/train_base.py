@@ -1,6 +1,6 @@
 """Original-residual/random-data strategy for 5 s; seed is runtime data.
 
-The best observed run used seed7; that seed is not a strategy parameter.
+Ordinary FP32 selected from full42/2026 controls; seed is runtime data.
 See the example README for the independent-seed evidence.
 """
 from examples.corrosion2d.configs.residual_pilot import get_strategy_config as matched_config
@@ -8,6 +8,8 @@ from examples.corrosion2d.configs.residual_pilot import get_strategy_config as m
 
 def get_config():
     c = matched_config("electropolish2d", "phase")
+    c.train.gpu_policy = "ordinary"
+    c.train.compute_dtype = "float32"
     c.experiment.data_loss_mode = "physical"
     c.experiment.initial_sampling = "random_interior"
     c.experiment.boundary_sampling = "random"

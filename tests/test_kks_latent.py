@@ -30,6 +30,42 @@ class Raw(eqx.Module):
 
 
 class KKSResidualTests(unittest.TestCase):
+    def test_frozen_bounded_preserves_values_and_reweights_only_physical_gradient(self):
+        def residual(net, form):
+            return compute_transport_pde(net, self.x, self.times, self.sub,
+                self.nd, form, .5, transport_evaluation="kks_raw_edges", bounded_eta=.1)
+
+        frozen, ch = residual(self.net, "bounded_frozen")
+        full, full_ch = residual(self.net, "bounded")
+        np.testing.assert_array_equal(frozen, full)
+        np.testing.assert_array_equal(ch, full_ch)
+        fields = jax.vmap(lambda t: jax.vmap(self.net, in_axes=(0, None))(
+            self.x, t))(self.times)
+        fixed_weight = bounded_phase_weight(fields[..., 0].T, .1)
+        actual = eqx.filter_jit(eqx.filter_grad(
+            lambda net: jnp.mean(jnp.abs(residual(net, "bounded_frozen")[0]))))(self.net)
+        expected = eqx.filter_grad(lambda net: jnp.mean(
+            fixed_weight * jnp.abs(residual(net, "phase")[0])))(self.net)
+        differentiated = eqx.filter_grad(lambda net: jnp.mean(
+            jnp.abs(residual(net, "bounded")[0])))(self.net)
+        np.testing.assert_allclose(actual.net.weights, expected.net.weights, rtol=2e-6, atol=2e-6)
+        self.assertGreater(float(jnp.linalg.norm(actual.net.weights-differentiated.net.weights)), .01)
+
+        config = get_config("corrosion2d", "bounded_frozen", 7)
+        config.experiment.transport_evaluation = "kks_raw_edges"
+        config.experiment.data_loss_mode = "s_bc"
+        losses, same = make_training_losses(config, self.nd, self.x[:3],
+            jnp.full((3, 2), .25), self.x[:2], self.x[-2:])
+        self.assertIs(losses, same)
+        optimizer = make_optimizer(config)
+        state = optimizer.init(eqx.filter(self.net, eqx.is_array))
+        _, _, weights, values, finite = make_step(losses, optimizer, config)(
+            self.net, state, jnp.ones(5), self.times, self.x, self.sub,
+            jnp.ones(len(self.x), dtype=bool), jnp.array(True), jnp.ones(5, dtype=bool))
+        self.assertTrue(bool(finite))
+        self.assertTrue(np.all(np.isfinite(np.asarray(values))))
+        self.assertTrue(np.all(np.asarray(weights) > 0))
+
     def test_late_rms_losses_preserve_other_components_and_soap_state(self):
         c=get_config('corrosion2d','phase',42);c.physical.c_le=.035
         c.train.iterations=6;c.train.gradnorm_update_every=1

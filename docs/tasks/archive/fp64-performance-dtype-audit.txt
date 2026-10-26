@@ -1,0 +1,37 @@
+Full StableHLO: /root/nonlocal-pinn/reports/fp64-performance-20261026/audit-float64.stablehlo.mlir
+No non-scalar FP32 tensors; all remaining FP32 values below belong to the LR schedule.
+
+15447:     %3308 = stablehlo.convert %3307 : (tensor<i32>) -> tensor<f32>
+15448:     %cst_863 = stablehlo.constant dense<1.000000e+03> : tensor<f32>
+15449:     %3309 = stablehlo.divide %3308, %cst_863 : tensor<f32>
+15452:     %cst_865 = stablehlo.constant dense<0.949999988> : tensor<f32>
+15453:     %3311 = stablehlo.power %cst_865, %3309 : tensor<f32>
+15454:     %cst_866 = stablehlo.constant dense<1.000000e-03> : tensor<f32>
+15455:     %3312 = stablehlo.multiply %cst_866, %3311 : tensor<f32>
+15457:     %3313 = call @_where_1021(%3310, %cst_867, %3312) : (tensor<i1>, tensor<f64>, tensor<f32>) -> tensor<f32>
+15458:     %cst_868 = stablehlo.constant dense<9.99999974E-6> : tensor<f32>
+15459:     %3314 = stablehlo.maximum %3313, %cst_868 : tensor<f32>
+15460:     %cst_869 = stablehlo.constant dense<-1.000000e+00> : tensor<f32>
+15461:     %3315 = stablehlo.multiply %cst_869, %3314 : tensor<f32>
+15462:     %3316 = stablehlo.convert %3315 : (tensor<f32>) -> tensor<f64>
+15465:     %3319 = stablehlo.convert %3315 : (tensor<f32>) -> tensor<f64>
+15468:     %3322 = stablehlo.convert %3315 : (tensor<f32>) -> tensor<f64>
+15471:     %3325 = stablehlo.convert %3315 : (tensor<f32>) -> tensor<f64>
+15474:     %3328 = stablehlo.convert %3315 : (tensor<f32>) -> tensor<f64>
+15477:     %3331 = stablehlo.convert %3315 : (tensor<f32>) -> tensor<f64>
+15480:     %3334 = stablehlo.convert %3315 : (tensor<f32>) -> tensor<f64>
+15483:     %3337 = stablehlo.convert %3315 : (tensor<f32>) -> tensor<f64>
+15486:     %3340 = stablehlo.convert %3315 : (tensor<f32>) -> tensor<f64>
+15489:     %3343 = stablehlo.convert %3315 : (tensor<f32>) -> tensor<f64>
+15492:     %3346 = stablehlo.convert %3315 : (tensor<f32>) -> tensor<f64>
+15495:     %3349 = stablehlo.convert %3315 : (tensor<f32>) -> tensor<f64>
+15498:     %3352 = stablehlo.convert %3315 : (tensor<f32>) -> tensor<f64>
+15501:     %3355 = stablehlo.convert %3315 : (tensor<f32>) -> tensor<f64>
+15504:     %3358 = stablehlo.convert %3315 : (tensor<f32>) -> tensor<f64>
+15507:     %3361 = stablehlo.convert %3315 : (tensor<f32>) -> tensor<f64>
+15510:     %3364 = stablehlo.convert %3315 : (tensor<f32>) -> tensor<f64>
+15513:     %3367 = stablehlo.convert %3315 : (tensor<f32>) -> tensor<f64>
+16690:   func.func private @_where_1021(%arg0: tensor<i1>, %arg1: tensor<f64>, %arg2: tensor<f32>) -> tensor<f32> {
+16691:     %0 = stablehlo.convert %arg1 : (tensor<f64>) -> tensor<f32>
+16692:     %1 = stablehlo.select %arg0, %0, %arg2 : tensor<i1>, tensor<f32>
+16693:     return %1 : tensor<f32>

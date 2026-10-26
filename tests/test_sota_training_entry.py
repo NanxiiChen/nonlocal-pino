@@ -8,13 +8,39 @@ from unittest.mock import patch
 
 from examples.corrosion2d.configs.train_base import get_config
 from examples.corrosion2d.training_entry import train_matched, validate_matched_options
-from nonlocal_pinn.training.runtime import with_run_seed
+from nonlocal_pinn.training.runtime import with_run_seed, configure_gpu_policy
 
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class CanonicalTrainingEntryTests(unittest.TestCase):
+    def test_shared_policy_rejects_unknown_values_before_backend_work(self):
+        with patch.dict(os.environ, {'XLA_FLAGS': '--xla_gpu_autotune_level=0'}):
+            self.assertEqual(configure_gpu_policy('ordinary'), '--xla_gpu_autotune_level=0')
+            self.assertEqual(configure_gpu_policy('deterministic'),
+                             '--xla_gpu_autotune_level=0 --xla_gpu_deterministic_ops=true')
+            with self.assertRaisesRegex(ValueError, 'Ordinary GPU policy'):
+                configure_gpu_policy('ordinary')
+        with patch.dict(os.environ, {'XLA_FLAGS': '--xla_gpu_deterministic_ops'}):
+            with self.assertRaisesRegex(ValueError, 'Ordinary GPU policy'):
+                configure_gpu_policy('ordinary')
+            self.assertEqual(configure_gpu_policy('deterministic'),
+                             '--xla_gpu_deterministic_ops')
+        with self.assertRaisesRegex(ValueError, 'Unknown train.gpu_policy'):
+            configure_gpu_policy('automatic')
+
+    def test_ordinary_policy_is_explicit_and_does_not_override_environment(self):
+        c=get_config();c.train.gpu_policy='ordinary'
+        with patch.dict(os.environ,{'XLA_FLAGS':''}):
+            with patch('examples.corrosion2d.residual_experiment.train') as train:
+                train_matched(c,'corrosion2d')
+                train.assert_called_once_with(c)
+                self.assertEqual(os.environ['XLA_FLAGS'],'')
+        with patch.dict(os.environ,{'XLA_FLAGS':'--xla_gpu_deterministic_ops=true'}):
+            with self.assertRaisesRegex(ValueError,'Ordinary GPU policy'):
+                train_matched(c,'corrosion2d')
+
     def test_seed_is_run_provenance_and_legacy_configs_remain_loadable(self):
         config = get_config()
         self.assertNotIn('seed', config.train)
@@ -72,9 +98,11 @@ with patch('examples.corrosion2d.residual_experiment.train', return_value=None) 
     assert config.train.seed == 2026
     assert config.train.lr_init == 0.0002
     assert config.log.run_name == 'cli-test'
-    assert '--xla_gpu_deterministic_ops=true' in os.environ['XLA_FLAGS']
+    assert config.train.gpu_policy == 'ordinary'
+    assert config.train.compute_dtype == ('float64' if {case!r} == 'corrosion2d' else 'float32')
+    assert os.environ['XLA_FLAGS'] == ''
 """
-                    env = dict(os.environ, JAX_PLATFORMS='cpu', XLA_FLAGS='--xla_gpu_deterministic_ops=true')
+                    env = dict(os.environ, JAX_PLATFORMS='cpu', XLA_FLAGS='')
                     result = subprocess.run([sys.executable, '-c', code], cwd=ROOT,
                                             env=env, capture_output=True, text=True, timeout=60)
                     self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
@@ -84,7 +112,7 @@ with patch('examples.corrosion2d.residual_experiment.train', return_value=None) 
 import runpy, sys
 from pathlib import Path
 from unittest.mock import patch
-from nonlocal_pinn.training.runtime import with_run_seed
+from nonlocal_pinn.training.runtime import with_run_seed, configure_gpu_policy
 from examples.icemelting3d.configs.train_base import get_config
 assert 'seed' not in get_config().train
 sys.argv = ['examples/icemelting3d/train.py', '--seed=2026']
@@ -100,12 +128,14 @@ def stop_run_directory(path, *args, **kwargs):
         raise StopBeforeWrite
     return original_mkdir(path, *args, **kwargs)
 with patch('nonlocal_pinn.training.runtime.with_run_seed', side_effect=resolve), \\
+     patch('nonlocal_pinn.training.runtime.configure_gpu_policy', wraps=configure_gpu_policy) as gpu, \\
      patch('pathlib.Path.mkdir', new=stop_run_directory):
     try:
         runpy.run_path('examples/icemelting3d/train.py', run_name='__main__')
     except StopBeforeWrite:
         pass
 assert records == [2026], records
+gpu.assert_called_once_with('ordinary')
 """
         result = subprocess.run([sys.executable, '-c', code], cwd=ROOT,
                                 env=dict(os.environ, JAX_PLATFORMS='cpu'),
@@ -114,6 +144,7 @@ assert records == [2026], records
 
     def test_adapter_preserves_unrelated_flags_and_rejects_conflicts_and_wrong_case(self):
         c = get_config()
+        c.train.gpu_policy = 'deterministic'
         with patch.dict(os.environ, {'XLA_FLAGS': '--xla_gpu_autotune_level=0'}):
             with patch('examples.corrosion2d.residual_experiment.train') as train:
                 train_matched(c, 'corrosion2d')

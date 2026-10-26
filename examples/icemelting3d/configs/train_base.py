@@ -60,6 +60,7 @@ def get_config():
 
     # Training
     c.train = config_dict.ConfigDict()
+    c.train.gpu_policy = "ordinary"  # explicit fast default; deterministic remains selectable
     c.train.iterations = 5000
     c.train.lr_init = 1e-3
     c.train.lr_decay_every = 1000

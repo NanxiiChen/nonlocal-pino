@@ -64,6 +64,30 @@ provenance. The common run default42 is not tuned per case; existing serialized
 seed values remain loadable. Keep default selection criteria, seed limitations and direct checkpoint paths
 in the example README and `artifacts/index.yaml`.
 
+Matched KKS configs declare `train.compute_dtype` explicitly: canonical corrosion
+uses `float64`, electropolish `float32`, selected from full ordinary-policy controls.
+The shared trainer generates common FP32 initialization,
+geometry/operator storage, IC/BC and temporal samples before promoting floating
+arrays through `corrosion2d/training_precision.py`. Preserve these common inputs
+when comparing arithmetic precision; rebuilding graph weights/diagonals or using
+native FP64 random draws is a separate control. Each run writes `precision.json`.
+Historical checkpoint templates must match their saved parameter dtype; load an
+FP64 checkpoint into a functionally promoted template, with JAX x64 enabled.
+Old FP32 checkpoints remain unchanged and load through their original templates.
+
+Corrosion research presets `train_local_tensor.py` and `train_local_joint.py`
+retain the canonical `train.py` entry, dispatching to `local_training.py` with
+AD spatial Hessians and a separate refined local reference. They add a sixth
+GradNorm loss for natural bottom no-flux conditions, while graph training keeps
+its five losses. `train_graph_ordinary.py` explicitly selects ordinary GPU
+FP32 compilation as a historical control; local presets explicitly retain FP32
+and deterministic policy. Canonical corrosion/electropolish/melting now explicitly
+select `train.gpu_policy=ordinary`. The shared `training.runtime.configure_gpu_policy`
+runs before backend initialization, preserves unrelated flags and rejects conflicting
+inherited settings. Deterministic policy remains an explicit override. The full
+selection evidence and limitations are in the example READMEs and archived
+ordinary-policy-defaults task. No physical operator was changed by this promotion.
+
 ## Artifact Paths
 
 Load models, configs and reference arrays by explicit file path. Do not introduce

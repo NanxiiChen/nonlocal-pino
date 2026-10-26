@@ -1,0 +1,1224 @@
+{
+  "scope": "Matched objective intervention; common full graph/times and final5000 checkpoints, no seed selection",
+  "cases": {
+    "corrosion2d": {
+      "coverage": {
+        "IC_nodes": 5151,
+        "zero_graph_BC_nodes": 9,
+        "one_graph_BC_nodes": 201,
+        "PDE_free_nodes": 4941,
+        "never_PDE_core_nodes": 35,
+        "core_inclusions_per_100_batches_free": {
+          "0": 35,
+          "1": 158,
+          "2": 421,
+          "3": 711,
+          "4": 858,
+          "5": 917,
+          "6": 682,
+          "7": 532,
+          "8": 312,
+          "9": 168,
+          "10": 86,
+          "11": 45,
+          "12": 12,
+          "13": 2,
+          "15": 2
+        },
+        "pool_used_repeatedly": 50,
+        "PDE_times_represented_by_common_positive_snapshots": 20
+      },
+      "runs": {
+        "bounded42": {
+          "initial_phi_relative_l2": 0.0005727356156729413,
+          "initial_c_relative_l2": 0.0006301632846514699,
+          "initial_q_rmse_over_cle_free": 0.021117401234688638,
+          "initial_Dq_relative_l2_free": 0.4200195278934385,
+          "terminal_phi_relative_l2": 0.0014330452547757842,
+          "terminal_c_relative_l2": 0.0017185850609688913,
+          "zero_bc_q_rmse_over_cle": 8.400531577587308e-06,
+          "one_bc_q_rmse_over_cle": 0.0002912309110361153,
+          "graph_bc_max_abs_physical_error": 0.0024459660053253174,
+          "terminal_q_relative_l2_free": 0.0178326181120497,
+          "terminal_Dq_relative_l2_free": 1.500409437820655,
+          "full_positive_time_scaled_AC_MAE": 0.06609734726329378,
+          "pool_distribution_scaled_AC_MAE": 0.06579799555152838,
+          "full_positive_time_CH_MAE": 0.09231706262280069,
+          "pool_distribution_CH_MAE": 0.08134622197207127,
+          "terminal_CH_rms_free": 0.8660842246845203,
+          "never_core_phi_squared_error_fraction": 0.011017354603179918,
+          "never_core_Dq_squared_error_fraction": 2.829802360076758e-05,
+          "terminal_phase_output_jacobian_median": 0.0011866196541632235,
+          "terminal_cL_output_jacobian_median": 0.0030880979239118634,
+          "terminal_cL_derivative_zero_fraction_fp32": 0.0013589594253543,
+          "phase_bulk_absolute_residual_fraction": 0.44225061276121314,
+          "AC_term_rms_positive_times_free": {
+            "dt": 0.7377241556297306,
+            "diffusion": 105992520.0,
+            "reaction": 102696344.0,
+            "drive": 17616420.0
+          },
+          "liquid_components_by_time": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "per_time_phi_relative_l2": [
+            0.0005727356156729413,
+            0.005953898514419164,
+            0.006476610226640639,
+            0.005693415253802916,
+            0.004082731141910956,
+            0.0025809303223496695,
+            0.0015025836849325111,
+            0.0008772211965866849,
+            0.001188965173176328,
+            0.0018829604661012118,
+            0.0024865013632325273,
+            0.0028334362949570683,
+            0.002818538103933685,
+            0.0025297638051320448,
+            0.002142026131406179,
+            0.0017655854279594943,
+            0.0014743790808781753,
+            0.001331877160673376,
+            0.0013088647234370447,
+            0.0013547653217350554,
+            0.0014330452547757842
+          ],
+          "last_logged_loss_weights": {
+            "step": 5000,
+            "losses": [
+              0.0701255351305008,
+              0.1379062682390213,
+              3.51006645971097e-09,
+              9.676983836470754e-08,
+              6.721681984345196e-07
+            ],
+            "weights": [
+              0.2317272573709488,
+              1.4611177444458008,
+              10000.0,
+              10000.0,
+              5795.64013671875
+            ],
+            "adaptive_weights": [
+              0.2317272573709488,
+              1.4611177444458008,
+              10000.0,
+              10000.0,
+              5795.64013671875
+            ],
+            "active": [
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            "stage": "joint",
+            "update_weights": false
+          },
+          "late_window_4000_5000": {
+            "phi": {
+              "median": 0.018132060940149367,
+              "min": 0.0014330496603163906,
+              "max": 0.029903057351599937
+            },
+            "c": {
+              "median": 0.021503306554479004,
+              "min": 0.001718589539743543,
+              "max": 0.035542069982837265
+            },
+            "q": {
+              "median": 0.012502595522034301,
+              "min": 0.008612917380597275,
+              "max": 0.038574418917605935
+            },
+            "Dq_free": {
+              "median": 1.615066537905536,
+              "min": 1.3397719127612042,
+              "max": 2.08113462119851
+            }
+          },
+          "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed42"
+        },
+        "bounded7": {
+          "initial_phi_relative_l2": 0.0007282484181956626,
+          "initial_c_relative_l2": 0.0005620598660149785,
+          "initial_q_rmse_over_cle_free": 0.01469587953724455,
+          "initial_Dq_relative_l2_free": 0.3201252407892268,
+          "terminal_phi_relative_l2": 0.42200096047918084,
+          "terminal_c_relative_l2": 0.446139544147691,
+          "zero_bc_q_rmse_over_cle": 0.00025119939944323084,
+          "one_bc_q_rmse_over_cle": 0.0002880770334521676,
+          "graph_bc_max_abs_physical_error": 0.0028166770935058594,
+          "terminal_q_relative_l2_free": 0.1939243872531424,
+          "terminal_Dq_relative_l2_free": 3.9428636388149165,
+          "full_positive_time_scaled_AC_MAE": 1.5137983156044297,
+          "pool_distribution_scaled_AC_MAE": 1.4194951411084868,
+          "full_positive_time_CH_MAE": 0.13312779537700173,
+          "pool_distribution_CH_MAE": 0.1123539351824816,
+          "terminal_CH_rms_free": 1.9678174677071656,
+          "never_core_phi_squared_error_fraction": 0.009384970895139339,
+          "never_core_Dq_squared_error_fraction": 0.0010000799920891871,
+          "terminal_phase_output_jacobian_median": 0.0003082277059718308,
+          "terminal_cL_output_jacobian_median": 0.005004613451012176,
+          "terminal_cL_derivative_zero_fraction_fp32": 0.0013589594253543,
+          "phase_bulk_absolute_residual_fraction": 0.5352506007350802,
+          "AC_term_rms_positive_times_free": {
+            "dt": 1.3574533216343316,
+            "diffusion": 118913024.0,
+            "reaction": 108569216.0,
+            "drive": 65400176.0
+          },
+          "liquid_components_by_time": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "per_time_phi_relative_l2": [
+            0.0007282484181956626,
+            0.05047148409106238,
+            0.0817479734779901,
+            0.10900784764834283,
+            0.13298368366016394,
+            0.15317509799926077,
+            0.16967802093927278,
+            0.18193939742892773,
+            0.1876110060697566,
+            0.25427132939582336,
+            0.29286210531163515,
+            0.30754504943488314,
+            0.31708744923262133,
+            0.32743863311946914,
+            0.33967119793509337,
+            0.35369878955427025,
+            0.3691534385637921,
+            0.3853767949921332,
+            0.4011634877483076,
+            0.414413993636933,
+            0.42200096047918084
+          ],
+          "last_logged_loss_weights": {
+            "step": 5000,
+            "losses": [
+              1.5278927087783813,
+              0.20540517568588257,
+              1.2064448640103365e-07,
+              1.090732837383257e-07,
+              3.582863996598462e-07
+            ],
+            "weights": [
+              0.25891637802124023,
+              0.8791062235832214,
+              10000.0,
+              10000.0,
+              4428.998046875
+            ],
+            "adaptive_weights": [
+              0.25891637802124023,
+              0.8791062235832214,
+              10000.0,
+              10000.0,
+              4428.998046875
+            ],
+            "active": [
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            "stage": "joint",
+            "update_weights": false
+          },
+          "late_window_4000_5000": {
+            "phi": {
+              "median": 0.4221578395762615,
+              "min": 0.421613593306308,
+              "max": 0.4253109688992524
+            },
+            "c": {
+              "median": 0.4462124253493769,
+              "min": 0.445578711967463,
+              "max": 0.4490243056542897
+            },
+            "q": {
+              "median": 0.18833869479731669,
+              "min": 0.18185202636658476,
+              "max": 0.19262634057482725
+            },
+            "Dq_free": {
+              "median": 3.9107725360236576,
+              "min": 3.1707436966036373,
+              "max": 4.237542251561903
+            }
+          },
+          "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed7"
+        },
+        "bounded2026": {
+          "initial_phi_relative_l2": 0.0007973905576993446,
+          "initial_c_relative_l2": 0.000701574299565493,
+          "initial_q_rmse_over_cle_free": 0.023630845680032878,
+          "initial_Dq_relative_l2_free": 0.6631668540788129,
+          "terminal_phi_relative_l2": 0.40701614971615463,
+          "terminal_c_relative_l2": 0.43102531775061165,
+          "zero_bc_q_rmse_over_cle": 1.5224856407044612e-06,
+          "one_bc_q_rmse_over_cle": 0.00026784119909081144,
+          "graph_bc_max_abs_physical_error": 6.276369094848633e-05,
+          "terminal_q_relative_l2_free": 0.3106973569939486,
+          "terminal_Dq_relative_l2_free": 4.013897941318463,
+          "full_positive_time_scaled_AC_MAE": 1.1940483677952216,
+          "pool_distribution_scaled_AC_MAE": 1.1387138186911931,
+          "full_positive_time_CH_MAE": 0.16324281170585273,
+          "pool_distribution_CH_MAE": 0.14336732250841677,
+          "terminal_CH_rms_free": 1.5596337993196552,
+          "never_core_phi_squared_error_fraction": 0.009346308961555638,
+          "never_core_Dq_squared_error_fraction": 0.001137057066548195,
+          "terminal_phase_output_jacobian_median": 0.00027295201149968307,
+          "terminal_cL_output_jacobian_median": 0.004098842157548656,
+          "terminal_cL_derivative_zero_fraction_fp32": 0.0015530964861192001,
+          "phase_bulk_absolute_residual_fraction": 0.645486747443363,
+          "AC_term_rms_positive_times_free": {
+            "dt": 1.305343706542992,
+            "diffusion": 111902272.0,
+            "reaction": 102005496.0,
+            "drive": 57685748.0
+          },
+          "liquid_components_by_time": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "per_time_phi_relative_l2": [
+            0.0007973905576993446,
+            0.05478733125917554,
+            0.09360976365167696,
+            0.12707354436464918,
+            0.15609847052684628,
+            0.1814513328273146,
+            0.20334155558701644,
+            0.22156452391270687,
+            0.23591467878267053,
+            0.2478583805428534,
+            0.25994733631778055,
+            0.27444116188801476,
+            0.2835424533285367,
+            0.31594276287097606,
+            0.334952118622226,
+            0.34878490872083723,
+            0.3638823211683397,
+            0.38048063384600683,
+            0.3962392355397369,
+            0.4071041357103005,
+            0.40701614971615463
+          ],
+          "last_logged_loss_weights": {
+            "step": 5000,
+            "losses": [
+              1.6960320472717285,
+              0.25841909646987915,
+              5.851381011667822e-12,
+              8.296094478055238e-08,
+              7.242380775096535e-07
+            ],
+            "weights": [
+              0.2553749084472656,
+              0.9224459528923035,
+              10000.0,
+              10000.0,
+              8860.78125
+            ],
+            "adaptive_weights": [
+              0.2553749084472656,
+              0.9224459528923035,
+              10000.0,
+              10000.0,
+              8860.78125
+            ],
+            "active": [
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            "stage": "joint",
+            "update_weights": false
+          },
+          "late_window_4000_5000": {
+            "phi": {
+              "median": 0.40494646399325873,
+              "min": 0.39975977979573346,
+              "max": 0.40809303760812604
+            },
+            "c": {
+              "median": 0.42927369653610603,
+              "min": 0.4240875603352945,
+              "max": 0.43240735033639754
+            },
+            "q": {
+              "median": 0.2841100946515064,
+              "min": 0.2512846042795232,
+              "max": 0.31222450460793644
+            },
+            "Dq_free": {
+              "median": 3.7279509325458546,
+              "min": 3.29665988022525,
+              "max": 4.536869247390254
+            }
+          },
+          "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-independent-seed2026-default-strategy"
+        },
+        "original42": {
+          "initial_phi_relative_l2": 0.001336831975777574,
+          "initial_c_relative_l2": 0.0011136381957046958,
+          "initial_q_rmse_over_cle_free": 0.04245136395520421,
+          "initial_Dq_relative_l2_free": 0.8812116290309361,
+          "terminal_phi_relative_l2": 0.008835376880778161,
+          "terminal_c_relative_l2": 0.010425604023629577,
+          "zero_bc_q_rmse_over_cle": 1.9675976020439098e-06,
+          "one_bc_q_rmse_over_cle": 0.00023211942358067138,
+          "graph_bc_max_abs_physical_error": 0.0011040568351745605,
+          "terminal_q_relative_l2_free": 0.01372464609277622,
+          "terminal_Dq_relative_l2_free": 1.7025566454529093,
+          "full_positive_time_scaled_AC_MAE": 0.05740788597026126,
+          "pool_distribution_scaled_AC_MAE": 0.057157834149515814,
+          "full_positive_time_CH_MAE": 0.08496945259470522,
+          "pool_distribution_CH_MAE": 0.0725017660703415,
+          "terminal_CH_rms_free": 0.981598880052891,
+          "never_core_phi_squared_error_fraction": 0.007537938643937442,
+          "never_core_Dq_squared_error_fraction": 2.697528196602144e-05,
+          "terminal_phase_output_jacobian_median": 0.0011385151236709135,
+          "terminal_cL_output_jacobian_median": 0.0031115238498251705,
+          "terminal_cL_derivative_zero_fraction_fp32": 0.0015530964861192001,
+          "phase_bulk_absolute_residual_fraction": 0.20182347876428347,
+          "AC_term_rms_positive_times_free": {
+            "dt": 0.7366657439026517,
+            "diffusion": 104607408.0,
+            "reaction": 102727552.0,
+            "drive": 17635028.0
+          },
+          "liquid_components_by_time": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "per_time_phi_relative_l2": [
+            0.001336831975777574,
+            0.0035293472976276885,
+            0.0044160226314531046,
+            0.004265375761414426,
+            0.003735045480272986,
+            0.003537976448676117,
+            0.0038580520896110385,
+            0.004293960542785201,
+            0.004542422051039907,
+            0.00467783769687597,
+            0.004897495750897992,
+            0.005265748881230101,
+            0.005715502687634379,
+            0.006113944859686797,
+            0.0063681926113680065,
+            0.00653331521807826,
+            0.0067779234181661015,
+            0.007205561775725755,
+            0.007755792707775789,
+            0.008320681618338448,
+            0.008835376880778161
+          ],
+          "last_logged_loss_weights": {
+            "step": 5000,
+            "losses": [
+              0.056406233459711075,
+              0.15364781022071838,
+              1.9190851685557675e-10,
+              6.845718303338799e-08,
+              4.776934474648442e-06
+            ],
+            "weights": [
+              0.26208001375198364,
+              0.845310389995575,
+              10000.0,
+              10000.0,
+              729.6256103515625
+            ],
+            "adaptive_weights": [
+              0.26208001375198364,
+              0.845310389995575,
+              10000.0,
+              10000.0,
+              729.6256103515625
+            ],
+            "active": [
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            "stage": "joint",
+            "update_weights": false
+          },
+          "late_window_4000_5000": {
+            "phi": {
+              "median": 0.0071909587899031315,
+              "min": 0.002689092798879784,
+              "max": 0.00883527856062115
+            },
+            "c": {
+              "median": 0.008512023009636402,
+              "min": 0.0031905280975841957,
+              "max": 0.010425488872358878
+            },
+            "q": {
+              "median": 0.016682218805407316,
+              "min": 0.004200790663183449,
+              "max": 0.022067140436335796
+            },
+            "Dq_free": {
+              "median": 1.7057344264053214,
+              "min": 0.8908836611618551,
+              "max": 1.915019712867594
+            }
+          },
+          "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42"
+        },
+        "original7": {
+          "initial_phi_relative_l2": 0.00045575440756142417,
+          "initial_c_relative_l2": 0.0004225473883315975,
+          "initial_q_rmse_over_cle_free": 0.006013716311060828,
+          "initial_Dq_relative_l2_free": 0.1973201050984359,
+          "terminal_phi_relative_l2": 0.004224766264671563,
+          "terminal_c_relative_l2": 0.005005778971289945,
+          "zero_bc_q_rmse_over_cle": 2.0744138301867783e-08,
+          "one_bc_q_rmse_over_cle": 0.00015906623626102132,
+          "graph_bc_max_abs_physical_error": 0.00032711029052734375,
+          "terminal_q_relative_l2_free": 0.009900142253401505,
+          "terminal_Dq_relative_l2_free": 1.7298121380087907,
+          "full_positive_time_scaled_AC_MAE": 0.019080213033154936,
+          "pool_distribution_scaled_AC_MAE": 0.019012464471765782,
+          "full_positive_time_CH_MAE": 0.07496376080902618,
+          "pool_distribution_CH_MAE": 0.0647962235160291,
+          "terminal_CH_rms_free": 0.9982985128564783,
+          "never_core_phi_squared_error_fraction": 0.006629933606525932,
+          "never_core_Dq_squared_error_fraction": 1.8373173298679255e-05,
+          "terminal_phase_output_jacobian_median": 0.0012404368252418863,
+          "terminal_cL_output_jacobian_median": 0.0030659825907870175,
+          "terminal_cL_derivative_zero_fraction_fp32": 0.0017472335468841002,
+          "phase_bulk_absolute_residual_fraction": 0.24350240210760332,
+          "AC_term_rms_positive_times_free": {
+            "dt": 0.7471126991136403,
+            "diffusion": 106109840.0,
+            "reaction": 102876928.0,
+            "drive": 17309546.0
+          },
+          "liquid_components_by_time": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "per_time_phi_relative_l2": [
+            0.00045575440756142417,
+            0.002384341647453422,
+            0.0030013278607296323,
+            0.0026423675433408836,
+            0.002427490199566942,
+            0.0023968357945798676,
+            0.0023450182393434243,
+            0.0025814549663207296,
+            0.0031617745615464773,
+            0.003744251316736589,
+            0.004043724204397513,
+            0.0040911022768934085,
+            0.004026198592765346,
+            0.0038932986248256265,
+            0.0037083170400573156,
+            0.0035793095604092252,
+            0.003598288758327709,
+            0.0036944836580458675,
+            0.0038458678931862916,
+            0.004093528230584745,
+            0.004224766264671563
+          ],
+          "last_logged_loss_weights": {
+            "step": 5000,
+            "losses": [
+              0.01777750253677368,
+              0.06701774150133133,
+              1.1394589427820428e-13,
+              2.602934401352286e-08,
+              1.2339094723756716e-07
+            ],
+            "weights": [
+              0.3909775912761688,
+              0.4094698429107666,
+              10000.0,
+              10000.0,
+              8085.38671875
+            ],
+            "adaptive_weights": [
+              0.3909775912761688,
+              0.4094698429107666,
+              10000.0,
+              10000.0,
+              8085.38671875
+            ],
+            "active": [
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            "stage": "joint",
+            "update_weights": false
+          },
+          "late_window_4000_5000": {
+            "phi": {
+              "median": 0.005065321567958591,
+              "min": 0.001440496519450405,
+              "max": 0.011593094989722557
+            },
+            "c": {
+              "median": 0.0060119348801919515,
+              "min": 0.0016966550196533745,
+              "max": 0.013787433659654694
+            },
+            "q": {
+              "median": 0.01029510194434606,
+              "min": 0.009121554348989331,
+              "max": 0.015194756020653481
+            },
+            "Dq_free": {
+              "median": 1.6961344732692396,
+              "min": 1.6319400006143605,
+              "max": 2.163067382336488
+            }
+          },
+          "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed7"
+        },
+        "original2026": {
+          "initial_phi_relative_l2": 0.0006859927357037358,
+          "initial_c_relative_l2": 0.0007513175721263787,
+          "initial_q_rmse_over_cle_free": 0.015471567270034726,
+          "initial_Dq_relative_l2_free": 0.3397221110531129,
+          "terminal_phi_relative_l2": 0.010744165666294192,
+          "terminal_c_relative_l2": 0.01272650225413949,
+          "zero_bc_q_rmse_over_cle": 0.00038214024316003746,
+          "one_bc_q_rmse_over_cle": 0.0003223739664957136,
+          "graph_bc_max_abs_physical_error": 0.0028980374336242676,
+          "terminal_q_relative_l2_free": 0.012221265380229688,
+          "terminal_Dq_relative_l2_free": 1.7571468113229383,
+          "full_positive_time_scaled_AC_MAE": 0.032507828467882756,
+          "pool_distribution_scaled_AC_MAE": 0.03242232179504971,
+          "full_positive_time_CH_MAE": 0.07370925710351048,
+          "pool_distribution_CH_MAE": 0.06436190529182749,
+          "terminal_CH_rms_free": 1.013728065433698,
+          "never_core_phi_squared_error_fraction": 0.007931370500059072,
+          "never_core_Dq_squared_error_fraction": 1.3952546260973428e-05,
+          "terminal_phase_output_jacobian_median": 0.0011239880520577117,
+          "terminal_cL_output_jacobian_median": 0.0030469192024138113,
+          "terminal_cL_derivative_zero_fraction_fp32": 0.0013589594253543,
+          "phase_bulk_absolute_residual_fraction": 0.20045701627043716,
+          "AC_term_rms_positive_times_free": {
+            "dt": 0.7363581241492022,
+            "diffusion": 105174040.0,
+            "reaction": 102475104.0,
+            "drive": 17423566.0
+          },
+          "liquid_components_by_time": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "per_time_phi_relative_l2": [
+            0.0006859927357037358,
+            0.0016880520372830289,
+            0.00222290507040345,
+            0.003059148113183076,
+            0.0038859736815563223,
+            0.004851468976865017,
+            0.005654509654841841,
+            0.006200129414165595,
+            0.006558877476964388,
+            0.006704105139271035,
+            0.0066599467504259175,
+            0.006608070668862998,
+            0.006715205823443405,
+            0.007071082811536318,
+            0.00767335454035149,
+            0.008356522242055034,
+            0.008959488747161935,
+            0.009520059570716177,
+            0.010059054022973477,
+            0.01044004013259633,
+            0.010744165666294192
+          ],
+          "last_logged_loss_weights": {
+            "step": 5000,
+            "losses": [
+              0.0373028926551342,
+              0.08721661567687988,
+              1.4534322190229432e-07,
+              1.281107842032725e-07,
+              5.205894240134512e-07
+            ],
+            "weights": [
+              0.25876161456108093,
+              0.8812514543533325,
+              10000.0,
+              10000.0,
+              1460.4713134765625
+            ],
+            "adaptive_weights": [
+              0.25876161456108093,
+              0.8812514543533325,
+              10000.0,
+              10000.0,
+              1460.4713134765625
+            ],
+            "active": [
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            "stage": "joint",
+            "update_weights": false
+          },
+          "late_window_4000_5000": {
+            "phi": {
+              "median": 0.009514078842499111,
+              "min": 0.0034489806741238387,
+              "max": 0.016322461260265996
+            },
+            "c": {
+              "median": 0.011298768785807208,
+              "min": 0.00411882993018249,
+              "max": 0.01946486518283852
+            },
+            "q": {
+              "median": 0.012006988905171274,
+              "min": 0.0057674434461638165,
+              "max": 0.018619577523543984
+            },
+            "Dq_free": {
+              "median": 1.7865662072420885,
+              "min": 1.2149992251716981,
+              "max": 2.354781693791062
+            }
+          },
+          "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-phase-seed2026"
+        },
+        "frozen42": {
+          "initial_phi_relative_l2": 0.0004199247493321071,
+          "initial_c_relative_l2": 0.0006592261810059594,
+          "initial_q_rmse_over_cle_free": 0.012514664007298422,
+          "initial_Dq_relative_l2_free": 0.3309532998251607,
+          "terminal_phi_relative_l2": 0.014569380045466141,
+          "terminal_c_relative_l2": 0.017272164582676053,
+          "zero_bc_q_rmse_over_cle": 8.965526432369066e-06,
+          "one_bc_q_rmse_over_cle": 0.00022484148587370836,
+          "graph_bc_max_abs_physical_error": 0.003586709499359131,
+          "terminal_q_relative_l2_free": 0.026735680727149942,
+          "terminal_Dq_relative_l2_free": 3.007510274942095,
+          "full_positive_time_scaled_AC_MAE": 0.09245900748425959,
+          "pool_distribution_scaled_AC_MAE": 0.09299535281258674,
+          "full_positive_time_CH_MAE": 0.11520554829727798,
+          "pool_distribution_CH_MAE": 0.09973869332564701,
+          "terminal_CH_rms_free": 1.7355252353392931,
+          "never_core_phi_squared_error_fraction": 0.008797585031665781,
+          "never_core_Dq_squared_error_fraction": 6.909823179401989e-06,
+          "terminal_phase_output_jacobian_median": 0.0012994894949542868,
+          "terminal_cL_output_jacobian_median": 0.0031069051445277744,
+          "terminal_cL_derivative_zero_fraction_fp32": 0.0013589594253543,
+          "phase_bulk_absolute_residual_fraction": 0.38477993089480317,
+          "AC_term_rms_positive_times_free": {
+            "dt": 0.7541403681060181,
+            "diffusion": 105448672.0,
+            "reaction": 103157144.0,
+            "drive": 17685848.0
+          },
+          "liquid_components_by_time": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "per_time_phi_relative_l2": [
+            0.0004199247493321071,
+            0.0034417334150088053,
+            0.005410954725315025,
+            0.005373227455571891,
+            0.005164407362740439,
+            0.005303766952066259,
+            0.00530062778761166,
+            0.005098739647482586,
+            0.00473533474146077,
+            0.004313227216245611,
+            0.0040679417845772775,
+            0.004076847461002008,
+            0.004220160149059602,
+            0.004465094846216711,
+            0.0049578121333036336,
+            0.005832317983785015,
+            0.007122940958027303,
+            0.00878137933300396,
+            0.01065396598897751,
+            0.012603053156468287,
+            0.014569380045466141
+          ],
+          "last_logged_loss_weights": {
+            "step": 5000,
+            "losses": [
+              0.10063454508781433,
+              0.112164206802845,
+              7.992817074864433e-09,
+              7.249859379498957e-08,
+              2.9352929686865536e-07
+            ],
+            "weights": [
+              0.2397189736366272,
+              1.207217812538147,
+              10000.0,
+              10000.0,
+              10000.0
+            ],
+            "adaptive_weights": [
+              0.2397189736366272,
+              1.207217812538147,
+              10000.0,
+              10000.0,
+              10000.0
+            ],
+            "active": [
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            "stage": "joint",
+            "update_weights": false
+          },
+          "late_window_4000_5000": {
+            "phi": {
+              "median": 0.011558863788552112,
+              "min": 0.006036810847921047,
+              "max": 0.014569245607010825
+            },
+            "c": {
+              "median": 0.013745620217007405,
+              "min": 0.007190600642312179,
+              "max": 0.017272001754110294
+            },
+            "q": {
+              "median": 0.025939462200298483,
+              "min": 0.013257246736615705,
+              "max": 0.033406016368321655
+            },
+            "Dq_free": {
+              "median": 3.2460503410468937,
+              "min": 2.829670381723083,
+              "max": 4.307842841244795
+            }
+          },
+          "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-bounded_frozen-seed42"
+        },
+        "frozen7": {
+          "initial_phi_relative_l2": 0.0005969581155449311,
+          "initial_c_relative_l2": 0.0005830599058139468,
+          "initial_q_rmse_over_cle_free": 0.009779820212023968,
+          "initial_Dq_relative_l2_free": 0.2525123198833417,
+          "terminal_phi_relative_l2": 0.010900231486211998,
+          "terminal_c_relative_l2": 0.012933355315530227,
+          "zero_bc_q_rmse_over_cle": 1.9843220858606882e-07,
+          "one_bc_q_rmse_over_cle": 0.0003209013058077205,
+          "graph_bc_max_abs_physical_error": 0.002254962921142578,
+          "terminal_q_relative_l2_free": 0.009552580099967989,
+          "terminal_Dq_relative_l2_free": 1.3571911087628172,
+          "full_positive_time_scaled_AC_MAE": 0.05470335929635336,
+          "pool_distribution_scaled_AC_MAE": 0.054445311569555926,
+          "full_positive_time_CH_MAE": 0.06683591205535531,
+          "pool_distribution_CH_MAE": 0.053784051404383096,
+          "terminal_CH_rms_free": 0.782086854325023,
+          "never_core_phi_squared_error_fraction": 0.010897738978877962,
+          "never_core_Dq_squared_error_fraction": 4.443287430495467e-05,
+          "terminal_phase_output_jacobian_median": 0.0011264290911707775,
+          "terminal_cL_output_jacobian_median": 0.0030758108035798034,
+          "terminal_cL_derivative_zero_fraction_fp32": 0.0013589594253543,
+          "phase_bulk_absolute_residual_fraction": 0.4918105320041739,
+          "AC_term_rms_positive_times_free": {
+            "dt": 0.7270036637955427,
+            "diffusion": 105574560.0,
+            "reaction": 102678424.0,
+            "drive": 17184240.0
+          },
+          "liquid_components_by_time": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "per_time_phi_relative_l2": [
+            0.0005969581155449311,
+            0.008235856182098024,
+            0.006956442029655503,
+            0.005028517945530631,
+            0.0037419549114406153,
+            0.0030736426885767452,
+            0.002845930435460147,
+            0.002807425851033105,
+            0.0028217071048508152,
+            0.0029758681640401088,
+            0.0033416935212741586,
+            0.0039985476640784215,
+            0.004833335512199459,
+            0.005543073287856844,
+            0.006064605315743982,
+            0.006543303623202605,
+            0.007092517514509406,
+            0.007824922607149164,
+            0.00881041284624882,
+            0.009902782135065945,
+            0.010900231486211998
+          ],
+          "last_logged_loss_weights": {
+            "step": 5000,
+            "losses": [
+              0.07928312569856644,
+              0.12606967985630035,
+              2.9417354663330286e-10,
+              1.1289687051885267e-07,
+              6.479864964603621e-07
+            ],
+            "weights": [
+              0.22823141515254974,
+              1.618125319480896,
+              10000.0,
+              10000.0,
+              2084.52197265625
+            ],
+            "adaptive_weights": [
+              0.22823141515254974,
+              1.618125319480896,
+              10000.0,
+              10000.0,
+              2084.52197265625
+            ],
+            "active": [
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            "stage": "joint",
+            "update_weights": false
+          },
+          "late_window_4000_5000": {
+            "phi": {
+              "median": 0.014632382456824682,
+              "min": 0.004972218950611547,
+              "max": 0.020875662360234717
+            },
+            "c": {
+              "median": 0.017349729090616498,
+              "min": 0.0059354523710323315,
+              "max": 0.02477589360819372
+            },
+            "q": {
+              "median": 0.015136363255319812,
+              "min": 0.00819146121891988,
+              "max": 0.0210827015873893
+            },
+            "Dq_free": {
+              "median": 1.8520795017981806,
+              "min": 1.3572025957893483,
+              "max": 2.283906311646612
+            }
+          },
+          "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-bounded_frozen-seed7"
+        },
+        "frozen2026": {
+          "initial_phi_relative_l2": 0.0007681032545993553,
+          "initial_c_relative_l2": 0.0007243608600874582,
+          "initial_q_rmse_over_cle_free": 0.020617103732554536,
+          "initial_Dq_relative_l2_free": 0.5848146923662301,
+          "terminal_phi_relative_l2": 0.01062354673196812,
+          "terminal_c_relative_l2": 0.012616523645643573,
+          "zero_bc_q_rmse_over_cle": 8.969679206098913e-05,
+          "one_bc_q_rmse_over_cle": 0.00025994116544673696,
+          "graph_bc_max_abs_physical_error": 0.0023463964462280273,
+          "terminal_q_relative_l2_free": 0.01076940255867243,
+          "terminal_Dq_relative_l2_free": 1.3971686595546886,
+          "full_positive_time_scaled_AC_MAE": 0.06361472699138233,
+          "pool_distribution_scaled_AC_MAE": 0.06393724107621655,
+          "full_positive_time_CH_MAE": 0.09020860787635487,
+          "pool_distribution_CH_MAE": 0.08216140379447769,
+          "terminal_CH_rms_free": 0.8069073246508668,
+          "never_core_phi_squared_error_fraction": 0.005842893359315739,
+          "never_core_Dq_squared_error_fraction": 6.889138969457441e-05,
+          "terminal_phase_output_jacobian_median": 0.0011411347370255953,
+          "terminal_cL_output_jacobian_median": 0.0030036930335805827,
+          "terminal_cL_derivative_zero_fraction_fp32": 0.0013589594253543,
+          "phase_bulk_absolute_residual_fraction": 0.42314920845912596,
+          "AC_term_rms_positive_times_free": {
+            "dt": 0.7451939527394453,
+            "diffusion": 105423480.0,
+            "reaction": 102457792.0,
+            "drive": 17536656.0
+          },
+          "liquid_components_by_time": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "per_time_phi_relative_l2": [
+            0.0007681032545993553,
+            0.005859772254548675,
+            0.004594192135546787,
+            0.005063860795648296,
+            0.005151923377478214,
+            0.004664064060683875,
+            0.004104178752940281,
+            0.003686961315210155,
+            0.003448362439208419,
+            0.003402061940258179,
+            0.003593976031224372,
+            0.0038881374153620866,
+            0.004013729298883413,
+            0.003989004210884727,
+            0.00414301430376457,
+            0.004675072480210771,
+            0.005598143670830627,
+            0.006901916502765806,
+            0.008385792947167748,
+            0.00966815833117477,
+            0.01062354673196812
+          ],
+          "last_logged_loss_weights": {
+            "step": 5000,
+            "losses": [
+              0.10379824042320251,
+              0.12836843729019165,
+              1.4063835429567462e-08,
+              7.883156172283634e-08,
+              2.364318106629071e-06
+            ],
+            "weights": [
+              0.23205535113811493,
+              1.4486616849899292,
+              10000.0,
+              10000.0,
+              2573.4853515625
+            ],
+            "adaptive_weights": [
+              0.23205535113811493,
+              1.4486616849899292,
+              10000.0,
+              10000.0,
+              2573.4853515625
+            ],
+            "active": [
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            "stage": "joint",
+            "update_weights": false
+          },
+          "late_window_4000_5000": {
+            "phi": {
+              "median": 0.01190649605837054,
+              "min": 0.004496885694061172,
+              "max": 0.02345446659839824
+            },
+            "c": {
+              "median": 0.014180077247964037,
+              "min": 0.005334529196845579,
+              "max": 0.02787092346495065
+            },
+            "q": {
+              "median": 0.011010924266327096,
+              "min": 0.008717458574320424,
+              "max": 0.02501689885140708
+            },
+            "Dq_free": {
+              "median": 1.656198282846597,
+              "min": 1.397179248485272,
+              "max": 2.2834490291119867
+            }
+          },
+          "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-bounded_frozen-seed2026"
+        }
+      }
+    }
+  },
+  "matched_control_validation": "Same-seed initial bytes/configs equal except formulation/run name and explicitly source-verified absent historical disabled CH/LR continuation fields"
+}

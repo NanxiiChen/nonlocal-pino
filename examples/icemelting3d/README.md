@@ -26,17 +26,22 @@ Causal/interface weighting is disabled. Detailed options and error definitions
 follow below.
 
 Selected checkpoint:
-`/root/autodl-tmp/tf-logs/icemelting3d/20261024-5s-soap-lr1e3-seed42/ckpt_005000.eqx`.
-Its full-grid terminal phi relative L2 against the same-graph numerical
-reference is **6.10970108092214e-5**. The direct reference is
+`/root/autodl-tmp/tf-logs/icemelting3d/20261026-defaultcheck-ordinary-float32-seed42/ckpt_005000.eqx`.
+This new explicit ordinary-FP32 cold start completes5000 updates; its full-grid
+terminal phi relative L2 against the same-graph numerical reference is
+**3.9052947454328864e-5** (independent CPU3.90581606e-5). Solid-fraction relative
+L2 is3.54455e-4; predicted/reference solid-volume node fractions both equal
+0.00407791. Late4000–5000 sampled graph phi median is3.48832e-5, with
+range2.89452e-5–6.54558e-5. See the
+[completed default validation](../../docs/tasks/archive/ordinary-policy-defaults.md). The direct reference is
 `/root/nonlocal-pinn/reports/icemelting-weak-prior-20261024/reference.npz`;
 pass it with `--config.eval.graph_reference_path=...` to enable graph-L2
 monitoring. This optional monitoring does not change training.
 SOTA here means the selected verified5 s graph-error result, distinct from
 error against the approximate analytic profile and the historical4 s run
-whose directory retains a `sota` tag. The saved run originally declared20000
-updates and was stopped at the user-selected5000 checkpoint; the default
-correctly declares5000. See the
+whose directory retains a `sota` tag. The earlier seed42 run
+`20261024-5s-soap-lr1e3-seed42` had full-grid L2=6.10970e-5; it originally declared
+20000 updates and stopped at5000. The new validation and default both declare5000. See the
 [selected-default record](../../docs/tasks/archive/icemelting-default-preset.md).
 
 ### Independent seed check —2026-10-26
@@ -52,6 +57,39 @@ range2.73270e-5–5.92417e-5; full-grid late monitoring has only two snapshots,
 statistical guarantee. Sparse time keys, graph-pool and evaluation randomness
 remain fixed. See the [validation](../../docs/tasks/archive/phasefield-seed-stability.md)
 and [curves](../../docs/tasks/archive/phasefield-seed-stability-results-convergence.png).
+
+### GPU compilation policy and speed
+
+`train.py` now explicitly applies `train.gpu_policy="ordinary"` before backend
+initialization. It retains unrelated `XLA_FLAGS` and rejects an inherited
+`--xla_gpu_deterministic_ops=true` conflict. Use
+`--config.train.gpu_policy=deterministic` to run a deterministic control.
+The default arithmetic stays FP32. Earlier versions inherited external flags;
+historical run records do not establish every shell's policy.
+
+The [paired GPU audit](../../docs/tasks/archive/phasefield-gpu-policy-audit.md)
+uses the complete128^3 sparse grid,2000 core points,200 pool entries,Nt64,
+ic_latent residual and production SOAP step. Complete synchronized updates cost
+26.62ms ordinary versus468.26ms with `--xla_gpu_deterministic_ops=true`, a17.6x
+slowdown. Each mode runs125 updates (50 warm-up/75 measured), with identical
+initial parameters, complete pool and time samples. These are steady updates
+including sampling/optimizer, excluding first compile/evaluation/logging/saves.
+
+The isolated latent diffusion uses11929 padded edges. Current deterministic
+HLO introduces one11929-iteration loop in forward and three in its input-gradient
+computation; ordinary retains scatter. Independent FP64 NumPy edge/transpose
+formulas agree with both policies at better than3e-7 relative in the measured
+controls. Optimizing only forward would miss substantial backward overhead.
+
+For an explicit ordinary-policy run in a shell that previously set the flag:
+
+```bash
+XLA_FLAGS='' python -m examples.icemelting3d.train
+```
+
+No formulation, default sampling or optimizer was changed. The full ordinary5000-update replay above confirms low graph error. The short
+paired benchmark alone does not establish equal long-run accuracy/reproducibility
+across policies; FP64 melting was not part of this FP32 comparison.
 
 ## Current strategy
 
@@ -70,7 +108,7 @@ residual. Subsequent motion is learned from the PDE.
 | Spatial discretisation | Sparse cubic graph, \(128^3\) nodes, \(\delta=0.01\), six axial neighbours |
 | Sampling | Precomputed fixed-shape core/halo subgraph pool; fresh uniform time samples each update |
 | Network | Fourier-embedded MLP, four hidden layers of 64 units with tanh activations |
-| Optimizer | SOAP, explicit FP32 `matmul_precision="highest"` |
+| Optimizer / runtime | SOAP, FP32 `matmul_precision="highest"`; `train.gpu_policy="ordinary"` |
 | Additional weighting | Interface weighting zero; causal weighting disabled by default |
 | Training data | PDE and prescribed IC; reference fields are evaluation-only |
 | Time convention | Physical 0–5 s mapped to \(t^*\in[0,1]\) |
@@ -79,7 +117,7 @@ residual. Subsequent motion is learned from the PDE.
 
 The canonical default is the selected SOAP configuration from the
 [five-second optimizer comparison](../../docs/tasks/archive/icemelting-soap-adam-5s.md):
-5000 updates, initial learning rate 0.001, seed 42, 2000 spatial core points and
+5000 updates, initial learning rate 0.001, 2000 spatial core points and
 64 time samples per update. Run `python -m examples.icemelting3d.train` to start
 this configuration. The [artifact index](../../artifacts/index.yaml) records its
 selected checkpoint under `default_training`; the older `sota` directory tag

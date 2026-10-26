@@ -86,12 +86,17 @@ def compute_transport_pde(net, x, times, sub_data, nd, formulation, normalizatio
     else:
         raise ValueError(f"Unknown transport evaluation: {transport_evaluation}")
     r_ch = f_t[..., 1] + n_ch * dq
-    if formulation in ("phase", "bounded"):
+    if formulation in ("phase", "bounded", "bounded_frozen"):
         gp = 4.0 * phi**3 - 6.0 * phi**2 + 2.0 * phi
         hp = -6.0 * phi**2 + 6.0 * phi
         r_ac = f_t[..., 0] + n3 * graph_action(phi, sub_data) + n2 * gp - n1 * q * dc * hp
-        if formulation == "bounded":
-            r_ac = bounded_phase_weight(phi, bounded_eta) * r_ac
+        if formulation in ("bounded", "bounded_frozen"):
+            weight = bounded_phase_weight(phi, bounded_eta)
+            if formulation == "bounded_frozen":
+                # Reweighted update: identical residual values, different VJP.
+                # This is not the gradient of the state-weighted scalar loss.
+                weight = jax.lax.stop_gradient(weight)
+            r_ac = weight * r_ac
     elif formulation == "latent":
         row, col, vals, _ = sub_data
         edge = -vals[:, None] * tanh_edge_ratio(z[row], z[col])
@@ -183,8 +188,8 @@ def _make_data_loss_vector(config, nd, x_ic, ic, x_bc_zero, x_bc_one, *,
                           normalize_bc, normalize_ic, transport_evaluation, ch_norm, rms_floor):
     formulation = config.experiment.formulation
     normalization = config.experiment.latent_normalization
-    eta = config.experiment.bounded_eta if formulation == "bounded" else None
-    if formulation == "bounded":
+    eta = config.experiment.bounded_eta if formulation in ("bounded", "bounded_frozen") else None
+    if formulation in ("bounded", "bounded_frozen"):
         bounded_phase_weight(0.5, eta)
     ac_scale, ch_scale = config.loss.ac_scale, config.loss.ch_scale
 

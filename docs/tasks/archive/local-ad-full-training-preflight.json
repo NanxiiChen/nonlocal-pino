@@ -1,0 +1,251 @@
+{
+  "focused_tests_passed": 12,
+  "checks": [
+    "7 entry/precision checks",
+    "4 local numerical + shared optimizer checks",
+    "1 ordinary-policy environment check",
+    "Canonical CPU tensor and joint cold starts: 2 updates, all output files checked",
+    "Default deterministic graph exact historical prefix: 6 evaluations through step1000"
+  ],
+  "smokes": {
+    "tensor": {
+      "run": "/tmp/nonlocal-local-smoke/tensor",
+      "updates": 2,
+      "physical_seconds": 50.0,
+      "model_path": "model_final.eqx",
+      "reference": "/root/autodl-tmp/data/corrosion2d/results_local_ad_20261026.npz",
+      "spatial_operator": "local_ad_tensor",
+      "sampling": "local_tensor",
+      "Neumann": "bottom outside mouth: phi_n=0,q_n/c_le=0; sixth GradNorm loss",
+      "Neumann_nodes": 90,
+      "active_PDE_pairs_min_max": [
+        3760,
+        4032
+      ],
+      "reference_refinement": {
+        "time201": {
+          "phi": {
+            "terminal": 1.4224286737859871e-09,
+            "pooled": 1.3861369352045219e-09,
+            "max_per_time": 2.243830874327433e-09
+          },
+          "c": {
+            "terminal": 1.686016236010571e-09,
+            "pooled": 1.7242396423852912e-09,
+            "max_per_time": 2.742669093354939e-09
+          }
+        },
+        "space101_201": {
+          "phi": {
+            "terminal": 0.02886254125821739,
+            "pooled": 0.01903307952832967,
+            "max_per_time": 0.02886254125821739
+          },
+          "c": {
+            "terminal": 0.03422772399716843,
+            "pooled": 0.02266302175586356,
+            "max_per_time": 0.03422772399716843
+          }
+        },
+        "space201_401": {
+          "phi": {
+            "terminal": 0.014171048872772995,
+            "pooled": 0.009351303626108302,
+            "max_per_time": 0.014171048872772995
+          },
+          "c": {
+            "terminal": 0.01681437009336896,
+            "pooled": 0.011141654688198924,
+            "max_per_time": 0.01681437009336896
+          }
+        }
+      },
+      "final_metrics": {
+        "pooled_rel_l2_phi": 0.5254751952736796,
+        "terminal_rel_l2_phi": 0.5682458803705247,
+        "rel_l2_by_time_phi": [
+          0.48013291536561786,
+          0.4854068858993953,
+          0.4911112722730881,
+          0.4968858644545003,
+          0.5024392576683733,
+          0.5075949349323204,
+          0.5123093353960243,
+          0.5166541879855079,
+          0.5207663997935661,
+          0.5247920210547045,
+          0.5288453358012957,
+          0.5329888266098967,
+          0.5372289800226249,
+          0.541521656147544,
+          0.5457871253831327,
+          0.5499366192627941,
+          0.5539040037861184,
+          0.5576695031024994,
+          0.5612655342865162,
+          0.5647632544818554,
+          0.5682458803705245
+        ],
+        "pooled_rel_l2_c": 0.5240889664635788,
+        "terminal_rel_l2_c": 0.5672861553867552,
+        "rel_l2_by_time_c": [
+          0.4730315896622502,
+          0.4785672708025201,
+          0.48578522742088315,
+          0.49292233784848416,
+          0.4996327866895973,
+          0.5056950947774438,
+          0.5110631742389857,
+          0.515849841136851,
+          0.5202576575214395,
+          0.5244990594904992,
+          0.528738062433568,
+          0.5330634006986231,
+          0.5374840360727502,
+          0.5419375813230815,
+          0.5463115377827586,
+          0.5504804945300781,
+          0.5543509632532257,
+          0.5578953852682245,
+          0.5611607730883116,
+          0.5642504847007951,
+          0.5672861553867555
+        ],
+        "terminal_interface_present": false,
+        "terminal_interface_mean_distance": null,
+        "terminal_interface_max_distance": null,
+        "terminal_rel_l2_q_free": 2.3768005772570873,
+        "terminal_rel_l2_q": 2.3766646322850398,
+        "pooled_rel_l2_q": 2.7235074252967495,
+        "boundary_max_abs_error": 0.5315852761268616,
+        "neumann_phi_rms": 1.5452614723549492e-06,
+        "neumann_q_rms_over_cle": 8.668751621508916e-07,
+        "step": 2,
+        "elapsed_seconds": 24.3215394243598
+      },
+      "xla_flags": "--xla_gpu_deterministic_ops=true",
+      "wall_seconds": 24.344653643667698
+    },
+    "joint": {
+      "run": "/tmp/nonlocal-local-smoke/joint",
+      "updates": 2,
+      "physical_seconds": 50.0,
+      "model_path": "model_final.eqx",
+      "reference": "/root/autodl-tmp/data/corrosion2d/results_local_ad_20261026.npz",
+      "spatial_operator": "local_ad_joint",
+      "sampling": "local_joint",
+      "Neumann": "bottom outside mouth: phi_n=0,q_n/c_le=0; sixth GradNorm loss",
+      "Neumann_nodes": 90,
+      "active_PDE_pairs_min_max": [
+        3760,
+        4032
+      ],
+      "reference_refinement": {
+        "time201": {
+          "phi": {
+            "terminal": 1.4224286737859871e-09,
+            "pooled": 1.3861369352045219e-09,
+            "max_per_time": 2.243830874327433e-09
+          },
+          "c": {
+            "terminal": 1.686016236010571e-09,
+            "pooled": 1.7242396423852912e-09,
+            "max_per_time": 2.742669093354939e-09
+          }
+        },
+        "space101_201": {
+          "phi": {
+            "terminal": 0.02886254125821739,
+            "pooled": 0.01903307952832967,
+            "max_per_time": 0.02886254125821739
+          },
+          "c": {
+            "terminal": 0.03422772399716843,
+            "pooled": 0.02266302175586356,
+            "max_per_time": 0.03422772399716843
+          }
+        },
+        "space201_401": {
+          "phi": {
+            "terminal": 0.014171048872772995,
+            "pooled": 0.009351303626108302,
+            "max_per_time": 0.014171048872772995
+          },
+          "c": {
+            "terminal": 0.01681437009336896,
+            "pooled": 0.011141654688198924,
+            "max_per_time": 0.01681437009336896
+          }
+        }
+      },
+      "final_metrics": {
+        "pooled_rel_l2_phi": 0.5254628030334147,
+        "terminal_rel_l2_phi": 0.5686815163104652,
+        "rel_l2_by_time_phi": [
+          0.480762847571743,
+          0.4861332280295576,
+          0.49176218484326906,
+          0.49732361801117947,
+          0.5025843469098741,
+          0.5074335841811587,
+          0.5118835765869798,
+          0.5160412744249273,
+          0.520056337895565,
+          0.5240694505005765,
+          0.5281784832919327,
+          0.5324260631246185,
+          0.536801309788507,
+          0.5412472533271868,
+          0.5456739465796979,
+          0.5499817784744517,
+          0.5540922208697941,
+          0.5579737858180648,
+          0.5616508783465962,
+          0.565191730937478,
+          0.5686815163104648
+        ],
+        "pooled_rel_l2_c": 0.5240941525994975,
+        "terminal_rel_l2_c": 0.5679198345637606,
+        "rel_l2_by_time_c": [
+          0.4739599568660254,
+          0.47963276583032755,
+          0.48674239651620393,
+          0.4935776586477499,
+          0.4998746557200874,
+          0.5055040517381393,
+          0.5104980398002069,
+          0.5150187246536478,
+          0.5192866511808201,
+          0.5235065773980377,
+          0.5278197410537991,
+          0.5322873627850438,
+          0.5368945448018168,
+          0.541561345945905,
+          0.5461612816742,
+          0.5505537598317787,
+          0.5546275242391843,
+          0.5583378822012836,
+          0.5617199998427689,
+          0.5648726272158552,
+          0.56791983456376
+        ],
+        "terminal_interface_present": false,
+        "terminal_interface_mean_distance": null,
+        "terminal_interface_max_distance": null,
+        "terminal_rel_l2_q_free": 2.3753790134511226,
+        "terminal_rel_l2_q": 2.3752578503288184,
+        "pooled_rel_l2_q": 2.7285784001099995,
+        "boundary_max_abs_error": 0.5306161642074585,
+        "neumann_phi_rms": 1.376972733397452e-06,
+        "neumann_q_rms_over_cle": 9.010707246904852e-07,
+        "step": 2,
+        "elapsed_seconds": 28.77373382076621
+      },
+      "xla_flags": "--xla_gpu_deterministic_ops=true",
+      "wall_seconds": 28.87408659607172
+    }
+  },
+  "reference_metadata_path": "/root/autodl-tmp/data/corrosion2d/results_local_ad_20261026.json",
+  "reference_raw_levels": "/root/nonlocal-pinn/reports/local-ad-reference-20261026",
+  "status": "passed"
+}

@@ -1,0 +1,90 @@
+{
+  "status": "completed",
+  "maximum_GPU_workers": 1,
+  "seed_as_run_provenance": 42,
+  "updates": 5000,
+  "physical_seconds": 50,
+  "dtype": "float32",
+  "runs": [
+    {
+      "label": "graph_deterministic",
+      "status": "completed",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/corrosion2d/train.py",
+        "--config=examples/corrosion2d/configs/train_base.py",
+        "--seed=42",
+        "--config.train.iterations=5000",
+        "--config.train.compute_dtype=float32",
+        "--config.experiment.checkpoint_every=200",
+        "--config.log.run_name=20261026-full-graph_deterministic-seed42"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-graph_deterministic-seed42",
+      "stdout": "/root/nonlocal-pinn/reports/local-ad-full-training-20261026/graph_deterministic.log",
+      "gpu_policy": "deterministic",
+      "returncode": 0,
+      "wall_seconds": 1179.8126433752477
+    },
+    {
+      "label": "graph_ordinary",
+      "status": "completed",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/corrosion2d/train.py",
+        "--config=examples/corrosion2d/configs/train_graph_ordinary.py",
+        "--seed=42",
+        "--config.train.iterations=5000",
+        "--config.train.compute_dtype=float32",
+        "--config.experiment.checkpoint_every=200",
+        "--config.log.run_name=20261026-full-graph_ordinary-seed42"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-graph_ordinary-seed42",
+      "stdout": "/root/nonlocal-pinn/reports/local-ad-full-training-20261026/graph_ordinary.log",
+      "gpu_policy": "ordinary",
+      "returncode": 0,
+      "wall_seconds": 78.0257545299828
+    },
+    {
+      "label": "local_tensor",
+      "status": "completed",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/corrosion2d/train.py",
+        "--config=examples/corrosion2d/configs/train_local_tensor.py",
+        "--seed=42",
+        "--config.train.iterations=5000",
+        "--config.train.compute_dtype=float32",
+        "--config.experiment.checkpoint_every=200",
+        "--config.log.run_name=20261026-full-local_tensor-seed42"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-local_tensor-seed42",
+      "stdout": "/root/nonlocal-pinn/reports/local-ad-full-training-20261026/local_tensor.log",
+      "gpu_policy": "deterministic",
+      "returncode": 0,
+      "wall_seconds": 224.87537982314825
+    },
+    {
+      "label": "local_joint",
+      "status": "completed",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/corrosion2d/train.py",
+        "--config=examples/corrosion2d/configs/train_local_joint.py",
+        "--seed=42",
+        "--config.train.iterations=5000",
+        "--config.train.compute_dtype=float32",
+        "--config.experiment.checkpoint_every=200",
+        "--config.log.run_name=20261026-full-local_joint-seed42"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-local_joint-seed42",
+      "stdout": "/root/nonlocal-pinn/reports/local-ad-full-training-20261026/local_joint.log",
+      "gpu_policy": "deterministic",
+      "returncode": 0,
+      "wall_seconds": 223.26071992889047
+    }
+  ]
+}

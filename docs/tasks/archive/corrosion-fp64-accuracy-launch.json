@@ -1,0 +1,18 @@
+{
+  "status": "completed",
+  "command": [
+    "/root/nonlocal-pinn/.venv/bin/python",
+    "-u",
+    "examples/corrosion2d/train.py",
+    "--seed=42",
+    "--config.train.compute_dtype=float64",
+    "--config.log.run_name=20261026-precision-float64-phase-seed42"
+  ],
+  "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-precision-float64-phase-seed42",
+  "stdout": "/root/nonlocal-pinn/reports/corrosion-fp64-accuracy-20261026/train-float64.log",
+  "maximum_GPU_workers": 1,
+  "updates": 5000,
+  "sampling_initialization_policy": "Common FP32 generated values promoted exactly",
+  "returncode": 0,
+  "wall_seconds": 1494.4504690803587
+}

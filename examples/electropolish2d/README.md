@@ -24,14 +24,21 @@ python examples/electropolish2d/train.py
 python -m examples.electropolish2d.train --config.log.run_name=my-electropolish-run
 ```
 
-The default matches the **best observed terminal phi+c relative L2** at5000
-updates among11 completed matched-reference runs. It also has the smallest
-terminal phi error among45 saved checkpoints in the current nine-run cohort.
-This is the original-residual, random-data **seed7** model shown in the
-[three-row field panel](../../docs/tasks/archive/electropolish-best-phi-panel.md).
-The data mode defines the strategy; seed7 identifies this historical observation.
-Default invocation uses the common run seed42, which did not reproduce this
-best observation. Seed is deliberately not selected to promise low error.
+The default now explicitly uses **ordinary GPU compilation and FP32**, with the
+original residual and physical random IC/BC losses. Two full5000-update/5s
+cold starts at predeclared seeds42/2026 give terminal phi/c
+**0.004757/0.005738** and **0.003399/0.004118**. Both retain a single interface
+in every column at all21 reference times. Late4000–5000 phi medians are
+0.004421/0.004525. The historical deterministic FP32 seed42 failure (phi0.290928)
+is rescued in this ordinary run, while deterministic seed2026 was slightly
+more accurate at the final checkpoint (phi0.002832). This supports the new
+speed/reliability choice, not uniform superiority or statistical robustness.
+
+Ordinary FP64 fails seed42 (phi0.299757 with extra bands); seed2026 gives0.003551.
+Higher precision is therefore not the default here. See the
+[completed validation](../../docs/tasks/archive/ordinary-policy-defaults.md) and
+[unfiltered convergence curves](../../docs/tasks/archive/ordinary-policy-defaults-electropolish2d-convergence.png).
+The historical individual seed7 winner below is preserved separately.
 
 | Setting | Default SOTA |
 |---|---|
@@ -51,14 +58,46 @@ best observation. Seed is deliberately not selected to promise low error.
 | GradNorm alpha / refresh / cap | 1 /25 updates /1000 |
 | Stagger / causal / interface weight / time window | Off /off /0 /off |
 | Late rate / CH-RMS continuation | Off /off |
-| Matmul / GPU runtime | `highest`; `--xla_gpu_deterministic_ops=true` |
+| Floating arithmetic | FP32 (`train.compute_dtype="float32"`) |
+| Matmul / GPU runtime | `highest`; ordinary (`train.gpu_policy="ordinary"`) |
 
 Network/time RNG uses the runtime `--seed`; the prescribed rough surface and fixed random
-IC/BC samplers retain their original seed42. The entry enables the audited GPU
-flag before backend initialization, keeps unrelated XLA flags and rejects a
-conflicting setting. This is not a cross-hardware exact-replay guarantee.
+IC/BC samplers retain their original seed42. Before backend initialization, the
+entry applies the explicit policy and rejects a deterministic flag inherited
+from `XLA_FLAGS` in ordinary mode. Unrelated flags are retained. Use
+`--config.train.gpu_policy=deterministic` for the historical policy. This is not a
+cross-hardware exact-replay guarantee.
 Both IC and BC are soft losses. Positive-time interior reference fields enter
 only evaluation; no hard IC or interface-motion prior is introduced.
+
+The [GPU policy performance audit](../../docs/tasks/archive/phasefield-gpu-policy-audit.md)
+measures this exact default configuration in FP32 using production loss/step
+functions:197.73ms/update under deterministic policy versus10.98ms ordinary,
+about18.0x. Each worker runs125 updates, with50 warm-up and75 synchronized
+measurements including sampling, SOAP refreshes and GradNorm; evaluation/logging/
+saving are excluded. Initial arrays, all100 pool batches and125 time samples
+match exactly across policies. Fixed operator forward/input-gradient errors
+against independent SciPy are below2e-7. Deterministic HLO expands3032-edge
+aggregation into loops, including the reverse path; ordinary keeps scatter.
+This establishes the previous default-policy speed bottleneck. The full-run
+accuracy evidence for the new default is reported above.
+
+For an ordinary default run in a shell that previously set the deterministic flag:
+
+```bash
+XLA_FLAGS='' python -m examples.electropolish2d.train --config.train.gpu_policy=ordinary
+```
+
+Switching policy changes floating-point update paths. The completed control
+above validates this default at two seeds. Compiled-step throughput and first
+compilation cost are reported separately in the audit.
+
+Representative current-default checkpoint (untuned seed42):
+`/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float32-seed42/ckpt_005000.eqx`.
+The independent2026 checkpoint is
+`/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float32-seed2026/ckpt_005000.eqx`.
+
+### Historical best individual checkpoint (deterministic FP32)
 
 | Verified final5 s metric | Selected checkpoint |
 |---|---:|
@@ -76,16 +115,17 @@ time-refinement discrepancy1.52e-8; it is not the older local-FEM array or a
 continuum-convergence result. Pooled phi/c L2 is0.00213641/0.00260170, distinct
 from the terminal values above.
 
-**Seed limitation:** the same random-data setting with seed42 ends at
+**Historical deterministic-policy seed limitation:** the same random-data setting with seed42 ends at
 phi/c0.29093/0.29901. The all-node IC/BC + `s_bc` candidate instead gives
 0.002106/0.002518(seed42) and0.002389/0.002869(seed7), but does not beat the
 selected seed7 endpoint. To reproduce that candidate through the same entry,
-set `experiment.initial_sampling=matched_graph`,
+set `train.gpu_policy=deterministic`, `train.compute_dtype=float32`,
+`experiment.initial_sampling=matched_graph`,
 `experiment.boundary_sampling=matched_graph`, `experiment.data_loss_mode=s_bc`,
 and the runtime argument `--seed=42`. The best observed seed is not a general strategy guarantee.
 See the [optimization record](../../docs/tasks/archive/electropolish-field-optimization.md),
 [convergence curves](../../docs/tasks/archive/electropolish-convergence-curves.md)
-and [current promotion](../../docs/tasks/archive/phasefield-sota-defaults.md).
+and [earlier promotion](../../docs/tasks/archive/phasefield-sota-defaults.md).
 
 Empty `log.run_name` generates a fresh timestamped directory. Existing explicit
 names fail; no saved checkpoint is overwritten or automatically resumed.
@@ -97,7 +137,7 @@ canonical user entry. The old301x151/6000-update preset and FD/local controls
 remain under [configs/train_legacy.py](configs/train_legacy.py).
 
 
-### Independent seed check —2026-10-26
+### Historical deterministic-policy independent seed check —2026-10-26
 
 The same strategy with new predeclared `--seed=2026`,5000 updates and5 s gives
 terminal phi/c **0.00283171/0.00342674**, with pooled phi/c0.00225795/0.00275241.

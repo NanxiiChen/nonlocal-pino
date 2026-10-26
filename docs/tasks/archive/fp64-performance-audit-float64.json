@@ -1,0 +1,208 @@
+{
+  "dtype": "float64",
+  "suite": "audit",
+  "device": "cuda:0",
+  "device_kind": "NVIDIA GeForce RTX 3090",
+  "jax_enable_x64": true,
+  "matmul_precision": "highest",
+  "versions": {
+    "jax": "0.10.1",
+    "jaxlib": "0.10.1",
+    "equinox": "0.13.8",
+    "optax": "0.2.8",
+    "soap-jax": "0.2.2"
+  },
+  "memory_at_start": {
+    "num_allocs": 0,
+    "bytes_in_use": 0,
+    "peak_bytes_in_use": 0,
+    "largest_alloc_size": 0,
+    "bytes_limit": 38182404096,
+    "bytes_reserved": 0,
+    "peak_bytes_reserved": 0,
+    "largest_free_block_bytes": 0,
+    "pool_bytes": 0,
+    "peak_pool_bytes": 0
+  },
+  "xla_flags": "--xla_gpu_deterministic_ops=true",
+  "status": "completed",
+  "parameter_audit": {
+    "leaves": 18,
+    "bytes": 345104,
+    "dtype": "float64"
+  },
+  "optimizer_initial_audit": {
+    "leaves": 76,
+    "bytes": 6129840,
+    "dtype": "float64"
+  },
+  "data_audit": {
+    "leaves": 429,
+    "bytes": 8751392,
+    "dtype": "float64"
+  },
+  "config": {
+    "arch": {
+      "activation": "gelu",
+      "film_hidden_dim": 32,
+      "film_num_layers": 2,
+      "hidden_dim": 64,
+      "num_layers": 4,
+      "spatial_emb_dim": 64,
+      "spatial_scale": 2.0,
+      "temporal_emb_dim": 64,
+      "temporal_scale": 1.0,
+      "tensor_split": false,
+      "type": "film",
+      "use_hard_constraint": true,
+      "use_spatial_emb": true,
+      "use_temporal_emb": true
+    },
+    "causal": {
+      "eps_init": 1.0,
+      "max_eps": 1000.0,
+      "max_last_weight": 0.99,
+      "min_mean_weight": 0.5,
+      "n_chunks": 10,
+      "step_size": 1.5
+    },
+    "experiment": {
+      "boundary_sampling": "matched_graph",
+      "bounded_eta": 0.1,
+      "case": "corrosion2d",
+      "ch_norm": "l1",
+      "ch_rms_after": 0,
+      "ch_rms_floor": 1e-12,
+      "checkpoint_every": 1000,
+      "data_loss_mode": "s_bc",
+      "formulation": "phase",
+      "initial_sampling": "matched_graph",
+      "latent_normalization": 0.5,
+      "lr_tail_end": 1e-05,
+      "lr_tail_start": 0,
+      "reference_atol": 1e-10,
+      "reference_error_tolerance": 0.0001,
+      "reference_max_step": 0.01,
+      "reference_path": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+      "reference_rtol": 1e-07,
+      "reference_snapshots": 21,
+      "refined_atol": 1e-11,
+      "refined_max_step": 0.005,
+      "refined_rtol": 1e-08,
+      "transport_evaluation": "kks_raw_edges"
+    },
+    "fem": {
+      "data_path": "/root/autodl-tmp/data/corrosion2d/results_1pit_cn_200nx.npz"
+    },
+    "log": {
+      "eval_every": 200,
+      "log_dir": "/root/autodl-tmp/tf-logs/corrosion2d/",
+      "log_every": 100,
+      "run_diag": false,
+      "run_name": "",
+      "save_ckpt": true
+    },
+    "loss": {
+      "ac_scale": 1e-07,
+      "bias_schedule": [],
+      "ch_scale": 1.0,
+      "gradnorm_bias": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gradnorm_weight_cap": 10000.0,
+      "iface_gamma_decay_steps": 0,
+      "iface_gamma_decay_to": 0.0,
+      "iface_gamma_init": 0.0,
+      "stagger_steps": 0,
+      "stagger_switch_every": 25,
+      "t_ramp_early": 1.0,
+      "t_ramp_late": 1.0,
+      "t_ramp_steps": 0,
+      "use_causal": false
+    },
+    "nl": {
+      "delta": 0.02,
+      "kernel": "cubic",
+      "method": "sparse"
+    },
+    "nondim": {
+      "L_c": 0.0001,
+      "T_c": 50.0
+    },
+    "physical": {
+      "A": 53500000.0,
+      "D": 8.5e-10,
+      "L": 2.0,
+      "alpha_phi": 0.000103,
+      "c_le": 0.03566433566433566,
+      "c_se": 1.0,
+      "omega_phi": 17600000.0
+    },
+    "pits": {
+      "entries": [
+        [
+          0.5,
+          0.0,
+          0.1
+        ]
+      ]
+    },
+    "sample": {
+      "K_core": 256,
+      "K_pool": 100,
+      "N_bc_dir": 128,
+      "N_bc_solid": 128,
+      "N_ic_global": 1000,
+      "N_ic_local": 1000,
+      "Nt": 16,
+      "Nx": 101,
+      "Ny": 51,
+      "t_min": 0.001
+    },
+    "train": {
+      "alpha_gradnorm": 1.0,
+      "grad_clip": 100.0,
+      "gradnorm_update_every": 25,
+      "iterations": 5000,
+      "lr_decay_every": 1000,
+      "lr_decay_rate": 0.95,
+      "lr_init": 0.001,
+      "lr_min": 1e-05,
+      "matmul_precision": "highest",
+      "optimizer": "soap",
+      "seed": 42,
+      "soap_b1": 0.95,
+      "soap_b2": 0.95,
+      "soap_max_precond_dim": 100000,
+      "soap_precond_1d": false,
+      "soap_precond_freq": 5
+    }
+  },
+  "model_initial_path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42/model_initial.eqx",
+  "graph_values": "Production FP32 coefficients promoted exactly; same graph/discretization",
+  "batch_shapes": {
+    "nodes": 2559,
+    "edges": 3032,
+    "times": 16,
+    "IC": 5151,
+    "BC_zero": 9,
+    "BC_one": 201
+  },
+  "stablehlo_float_type_tokens": {
+    "f16": 0,
+    "bf16": 0,
+    "f32": 36,
+    "f64": 24721
+  },
+  "lowering_seconds": 2.8550761714577675,
+  "compile_executed": false,
+  "dtype_conclusion": {
+    "non_scalar_fp32_tensors": 0,
+    "fp32_scalar_role": "Optax exponential learning-rate schedule: int32 count division, then cast rate to float64 for updates",
+    "network_PDE_gradient_SOAP_dtype": "float64"
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "spec": {
+    "case": "corrosion2d",
+    "physical": {
+      "A": 53500000.0,
+      "D": 8.5e-10,
+      "L": 2.0,
+      "alpha_phi": 0.000103,
+      "c_le": 0.03566433566433566,
+      "c_se": 1.0,
+      "omega_phi": 17600000.0
+    },
+    "nondim": {
+      "L_c": 0.0001,
+      "T_c": 50.0
+    },
+    "pits": {
+      "entries": [
+        [
+          0.5,
+          0.0,
+          0.1
+        ]
+      ]
+    },
+    "domain": [
+      [
+        0.0,
+        1.0
+      ],
+      [
+        0.0,
+        0.5
+      ]
+    ],
+    "operator": "local negative Laplacian",
+    "dirichlet": "bottom open pit mouth zero; left/right/top one",
+    "other_boundary": "bottom outside mouth: d_n phi=d_n q=0",
+    "initial_condition": "analytic pit profile,c=c_se*h(phi); Dirichlet overrides"
+  },
+  "method": "independent SciPy BDF + centered FD/Neumann mirror; analytic Jacobian",
+  "levels": {
+    "grid101": {
+      "nx": 101,
+      "ny": 51,
+      "rtol": 1e-07,
+      "atol": 1e-10,
+      "max_step": 0.01,
+      "nfev": 1344,
+      "njev": 65,
+      "nlu": 151,
+      "seconds": 9.645430486649275,
+      "field_min": 0.0,
+      "field_max": 1.0000000000000002,
+      "q_min": -0.03566433566433566,
+      "q_max": 2.7755575615628914e-17,
+      "max_network_q_bound_violation": 2.7755575615628914e-17
+    },
+    "grid201": {
+      "nx": 201,
+      "ny": 101,
+      "rtol": 1e-07,
+      "atol": 1e-10,
+      "max_step": 0.01,
+      "nfev": 1445,
+      "njev": 65,
+      "nlu": 158,
+      "seconds": 74.79954602569342,
+      "field_min": 0.0,
+      "field_max": 1.0000000000000002,
+      "q_min": -0.03566433566433566,
+      "q_max": 2.7755575615628914e-17,
+      "max_network_q_bound_violation": 2.7755575615628914e-17
+    },
+    "grid201_timefine": {
+      "nx": 201,
+      "ny": 101,
+      "rtol": 1e-08,
+      "atol": 1e-11,
+      "max_step": 0.005,
+      "nfev": 2104,
+      "njev": 89,
+      "nlu": 206,
+      "seconds": 105.41906072944403,
+      "field_min": 0.0,
+      "field_max": 1.0000000000000002,
+      "q_min": -0.03566433566433566,
+      "q_max": 2.7755575615628914e-17,
+      "max_network_q_bound_violation": 2.7755575615628914e-17
+    },
+    "grid401": {
+      "nx": 401,
+      "ny": 201,
+      "rtol": 1e-08,
+      "atol": 1e-11,
+      "max_step": 0.005,
+      "nfev": 2249,
+      "njev": 90,
+      "nlu": 217,
+      "seconds": 792.6149622611701,
+      "field_min": 0.0,
+      "field_max": 1.0000000000000002,
+      "q_min": -0.03566433566433566,
+      "q_max": 2.7755575615628914e-17,
+      "max_network_q_bound_violation": 2.7755575615628914e-17
+    }
+  },
+  "refinement": {
+    "time201": {
+      "phi": {
+        "terminal": 1.4224286737859871e-09,
+        "pooled": 1.3861369352045219e-09,
+        "max_per_time": 2.243830874327433e-09
+      },
+      "c": {
+        "terminal": 1.686016236010571e-09,
+        "pooled": 1.7242396423852912e-09,
+        "max_per_time": 2.742669093354939e-09
+      }
+    },
+    "space101_201": {
+      "phi": {
+        "terminal": 0.02886254125821739,
+        "pooled": 0.01903307952832967,
+        "max_per_time": 0.02886254125821739
+      },
+      "c": {
+        "terminal": 0.03422772399716843,
+        "pooled": 0.02266302175586356,
+        "max_per_time": 0.03422772399716843
+      }
+    },
+    "space201_401": {
+      "phi": {
+        "terminal": 0.014171048872772995,
+        "pooled": 0.009351303626108302,
+        "max_per_time": 0.014171048872772995
+      },
+      "c": {
+        "terminal": 0.01681437009336896,
+        "pooled": 0.011141654688198924,
+        "max_per_time": 0.01681437009336896
+      }
+    }
+  },
+  "evaluation_grid": [
+    101,
+    51
+  ],
+  "time_refinement_pass": true,
+  "space_refinement_below_1e_3": false,
+  "source_grid": [
+    401,
+    201
+  ]
+}

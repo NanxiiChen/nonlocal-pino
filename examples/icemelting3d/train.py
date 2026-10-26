@@ -27,7 +27,7 @@ from nonlocal_pinn.nn.arch import make_pinn
 from nonlocal_pinn.io.utils import log_config_text, load_example_losses
 from nonlocal_pinn.training.causal import CausalWeightor
 from nonlocal_pinn.training.optimizers import make_optimizer
-from nonlocal_pinn.training.runtime import with_run_seed
+from nonlocal_pinn.training.runtime import with_run_seed, configure_gpu_policy
 from examples.icemelting3d.phase import FORMULATIONS, wrap_phase
 from examples.icemelting3d.evaluation import MeltingEvaluator
 
@@ -223,6 +223,7 @@ def _main(_):
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
     config = with_run_seed(FLAGS.config, _SEED.value)
     _validate_config(config)
+    configure_gpu_policy(config.train.gpu_policy)
     _prec = config.train.matmul_precision
     if _prec:
         jax.config.update("jax_default_matmul_precision", _prec)
@@ -451,6 +452,7 @@ def _main(_):
     eqx.tree_serialise_leaves(final_path, net)
     log.info("Final model: %s", final_path)
     summary = {"updates": cfg.iterations, "training_wall_seconds": time.perf_counter()-started,
+               "gpu_policy": cfg.gpu_policy, "xla_flags": os.environ["XLA_FLAGS"],
                "final_metrics": metrics, "cold_start": True,
                "model_path": "model_final.eqx"}
     (Path(run_dir)/"summary.json").write_text(json.dumps(summary, indent=2, allow_nan=False)+"\n")

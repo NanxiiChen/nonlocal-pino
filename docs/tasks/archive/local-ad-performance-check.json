@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "manufactured_lap_time_max_error": 5.551115123125783e-17,
+  "stable_q_vs_mixture_laplacian_max_error": 2.418990572086721e-16,
+  "tensor_joint_same_points_equal": true,
+  "normalized_BC_IC_losses_exactly_equal": true,
+  "joint_time_grad_jvp_max_error": 8.326672684688674e-17,
+  "mixed_parameter_gradient": 0.10456590621797873,
+  "finite_difference": 0.10456590621155114,
+  "local_sign_reference": "examples/electropolish2d/losses.py:152; D_delta -> -Laplacian"
+}

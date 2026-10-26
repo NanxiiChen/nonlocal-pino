@@ -1,0 +1,37 @@
+{
+  "7": {
+    "initial_parameter_bytes_equal": true,
+    "strategy_equal_except_formulation": true,
+    "historical_fixed_l1_no_continuation_field": [
+      "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed7"
+    ],
+    "runs": [
+      "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed7",
+      "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-bounded_frozen-seed7"
+    ]
+  },
+  "2026": {
+    "initial_parameter_bytes_equal": true,
+    "strategy_equal_except_formulation": true,
+    "historical_fixed_l1_no_continuation_field": [],
+    "runs": [
+      "/root/autodl-tmp/tf-logs/corrosion2d/20261025-independent-seed2026-default-strategy",
+      "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-bounded_frozen-seed2026",
+      "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-phase-seed2026"
+    ]
+  },
+  "42": {
+    "initial_parameter_bytes_equal": true,
+    "strategy_equal_except_formulation": true,
+    "historical_disabled_fields_verified_from_source": [
+      "ch_rms_after",
+      "lr_tail_start",
+      "lr_tail_end"
+    ],
+    "runs": [
+      "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed42",
+      "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
+      "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-bounded_frozen-seed42"
+    ]
+  }
+}

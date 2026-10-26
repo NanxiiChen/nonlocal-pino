@@ -1218,3 +1218,429 @@ no improvement or gradient of the original scalar objective is claimed.
 Rejected: seed shopping, changing multiple sampling/physics mechanisms at once,
 or treating fixed BC data as the established cause. Relation:
 corrosion-robust-objective.
+
+
+## 2026-10-26 — Validate frozen weighting at the previously successful seed too
+
+Decision: add bounded_frozen seed42, queued until an original worker exits,
+keeping at most3 GPU workers. Declare it before any new final5000 result.
+Reason: improvements on failed7/2026 alone cannot show the modification retains
+successful behavior. Compare all3 objectives at42/7/2026 with final checkpoints
+and six late-window evaluations. Reject choosing a different seed per objective
+or treating good total-field L2 as proof of accurate q/Dq transport. Relation:
+corrosion-robust-objective.
+
+
+## 2026-10-26 — Select corrosion default by observed cross-seed reliability
+
+Decision: change corrosion's canonical formulation from bounded to original
+phase, retaining raw KKS CH edges, s_bc, full nodal IC/BC, SOAP/lr1e-3/5000
+and every physical parameter. The historical best bounded42 checkpoint remains
+recorded separately. Reason: original42/7/2026 all finish with phi<=0.01075 and
+c<=0.01273; bounded fails7/2026 near0.4. Original's worst late phi median is
+0.00952, whereas frozen7 alone already has0.01463; remaining frozen42 cannot
+reverse that worst-case comparison. Frozen weighting rescues the failed bounded
+seeds and improves some final transport values, but does not consistently beat
+original late field/transport errors; retain it as an explicit research control.
+No seed is included in the strategy config, and no single-run L2 or universal
+robustness guarantee is claimed. Rejected: leave the known2/3-failing default,
+choose a winner by best intermediate checkpoint, or hide q/Dq tradeoffs. Relation:
+corrosion-robust-objective.
+
+
+## 2026-10-26 — Complete controlled frozen-weight study with mixed outcomes
+
+Decision: retain original phase as the revised corrosion default and frozen
+weighting as an explicit research option. Four new5000-update/50s runs finish;
+all9 final models pass independent CPU field/transport/topology/config audits.
+Reason: frozen7/2026 reduce prior bounded phi~0.4 to~0.01, but frozen42 gives
+phi/c0.01457/0.01727 and Dq3.01. Original three-seed worst phi/c0.01074/0.01273,
+q0.01372, Dq1.757 and late phi median0.009514 are all smaller than corresponding
+frozen worst cases. All original/frozen fields have one liquid component over
+21 times. Dq errors remain substantial, so no concentration-gradient cure is
+claimed. Reject selecting the lowest intermediate model, masking frozen42
+regression, attributing failures solely to fixed IC/BC samples, or promoting a
+universal generalization claim. Retain historical bounded42 as an individual
+field-best record; no old assets move. Archive sources/manifests/raw metrics/
+plots and close task; GPU idle. Relation: corrosion-robust-objective.
+
+
+## 2026-10-26 — Benchmark local FP64 before committing to full training
+
+Decision: honor the user's request to measure this machine first. Run serial
+isolated FP32/FP64 workers on identical promoted stored geometry/parameters,
+with JAX highest matmul precision, synchronized timings, explicit floating dtype
+checks, graph kernels and the real corrosion SOAP/GradNorm step. Report compile,
+warm-up, steady timing and memory separately; no full training or default
+precision change. Reason: large GEMM alone does not predict this sparse,
+small-network, multi-loss workload, and current explicit FP32 data would defeat
+an x64-flag-only comparison. Reject an advertised peak-throughput estimate as
+a substitute for measurement or claiming L2 improvement from timing probes.
+Relation: fp64-performance.
+
+
+## 2026-10-26 — Separate native GEMM throughput from production compiler policy
+
+Decision: supplement the serial realistic benchmark with GEMM-only runs under
+production deterministic=true and the ordinary XLA policy, both highest precision.
+Reason: measured strict FP32/FP64 large GEMM ratio alone can conflate hardware
+throughput with compiler restrictions; actual sparse training remains the
+primary decision metric. Repeat GEMM-only strict32 also verifies a corrected
+IR-type diagnostic (initial regex missed shaped xf32 tokens; input/output and
+independent numeric checks already passed). No training-policy change or graph
+rebenchmark is needed. Relation: fp64-performance.
+
+
+## 2026-10-26 — FP64 core is feasible for the measured corrosion workload
+
+Decision: report measured FP64 feasibility and retain FP32 production defaults
+until a separate accuracy experiment. Eight serial GPU workers and1 IR audit
+finish: realistic SOAP/GradNorm mean0.203262->0.226737s/update (~11.5% slower),
+peak active1.535->3.063GiB, compile157.0/155.7s.5000-update-only estimates
+16.94/18.89min exclude compilation/evaluation/saves. Large4096 GEMM is57.39/
+216.04ms (~3.76x); ordinary/deterministic policies give similar values, so do
+not attribute the actual result to that flag. Model/data/PDE/gradient/SOAP tensors
+are FP64 with exact2x floating storage; only the unchanged Optax scalar LR
+schedule remains FP32. Reason: actual measured workload matters more than square
+GEMM ratio and this device has memory headroom. Reject claiming an L2 improvement,
+a complete5000-step run, literal all-operations FP64, or automatically changing
+training precision. Sources/raw samples/dtype evidence archived; checks pass,
+GPU idle. Relation: fp64-performance.
+
+
+## 2026-10-26 — Isolate FP64 arithmetic before changing graph coefficients
+
+Decision: run the approved5000-update corrosion seed42 accuracy control through
+the canonical train.py with common FP32-generated parameters/data/time draws
+and stored graph arrays promoted exactly. Retain the stored diagonal and audit
+its row-sum rounding defect separately against the exact-row-sum reference.
+Reason: regenerating geometry, initial RNG draws or diagonal coefficients would
+confound arithmetic precision. Reject x64-flag-only training, silent operator
+correction and precision default promotion from one run. Model/PDE/SOAP arrays
+are FP64; unchanged Optax scalar LR schedule remains FP32. Relation: corrosion-fp64-accuracy.
+
+
+## 2026-10-26 — Record rather than silently repair stored-diagonal roundoff
+
+Preflight verifies exact GPU initialization replay and identical reference edges/
+weights. Stored FP32 diagonal differs from float64 row sums by at most4.8828e-4
+(relative3.49e-8); AC coefficient amplifies constant-field defect to502.93,
+or5.03e-5 after AC L1 scale. Decision: retain it in the predeclared arithmetic-only
+control, report the limitation and do not infer high-accuracy operator equivalence
+from matching edge weights alone. Stable CH edge evaluation annihilates constants.
+A diagonal-consistent control, if needed, is a separate numerical evaluation
+change, not an unreported FP64-only fix. Relation: corrosion-fp64-accuracy.
+
+
+## 2026-10-26 — Retain FP64 as an explicit control, not the stable default
+
+Decision: close the paired5000-update seed42 FP64 accuracy control and retain
+FP32 default. Deliver train.compute_dtype with common FP32 inputs promoted,
+unchanged stored diagonal/scales/residuals/SOAP and explicit dtype records.
+Reason: independent CPU final phi/c improve0.008835/0.010426 to0.002677/0.003207;
+free q halves, Dq1.703->1.220 and CH RMS0.982->0.704. But late phi median only
+improves~16%, mean/max worsen, and late Dq median1.706->1.852 worsens. FP32
+at4800 already reaches phi0.002689. Frozen-model inference precision changes
+fields<1.7e-6, indicating different learned trajectories rather than evaluation
+precision alone. Reject final-checkpoint-only claims of lower error floor,
+resolved concentration gradients, improved late stability or cross-seed benefit.
+One pair is complete; further paired seeds or separately specified row-sum
+correction remain potential follow-up. Source/results/plots archived, all
+training exits0 and GPU idle; no Git operation. Relation: corrosion-fp64-accuracy.
+
+
+## 2026-10-26 — Distinguish batched time JVP from point-count speedup claims
+
+Decision: confirm the current shared spatial batch and already-enabled time JVP;
+do not claim Nx*Nt-fold acceleration over properly jitted/vmapped pointwise grad.
+Reason: all-ones JVP extracts the desired derivatives because cross-time blocks
+vanish, while network/AD batch work still scales with point count. Independent
+CPU float64 two-field checks match pointwise grad exactly. Python loops/full
+Jacobians are different baselines; parameter reverse AD is still necessary for
+the current many-parameter loss. No timing, retraining or production change.
+Relation: time-jvp-structure.
+
+
+## 2026-10-26 — Benchmark local AD with matched active residual counts
+
+Decision: compare current corrosion graph/time-JVP against local tensor and
+joint-uniform-space/time AD at equal active PDE counts, with same model,
+initialization, SOAP/GradNorm, nodal IC/BC, data scales and precision. Measure
+FP32/64 separately; include sampling dispatch in synchronized update timings,
+report halo overhead, compile and isolated residual timing. Local signs follow
+the existing verified local PDE; direct stable-q Laplacian is independently
+checked against the mixture chain rule. Reject claiming equal physics/reference
+accuracy from this throughput study or assuming random pairing forbids JVP.
+No production/default change, full convergence experiment or Git operation.
+Relation: local-ad-performance.
+
+
+## 2026-10-26 — Preserve time JVP in the local tensor control
+
+Decision: local tensor sampling uses the same batched time JVP principle as
+current nonlocal training, with AD only replacing the spatial operator. Joint
+space/time sampling uses per-field time grad as requested; its time-only JVP
+control verifies alternative differentiation remains valid. Reason: needlessly
+using separate reverse time sweeps in the shared-time local control would conflate
+spatial locality and avoidable time-AD overhead. Updated independent float64
+manufactured/mixture/data/mixed-gradient preflight passes. Relation: local-ad-performance.
+
+
+## 2026-10-26 — Diagnose the unexpectedly large graph/local throughput gap
+
+FP32 graph229.3ms/update versus local tensor12.0ms (~19x), both same active
+PDE/data counts and validated AD. Decision: after all six serial training-step
+workers finish, add isolated graph-action/edge-action kernel controls under
+production deterministic=true and ordinary compiler policy, same shapes/values
+and independent SciPy checks. Reason: halo overhead alone does not establish
+the cause; scatter determinism may contribute and needs direct measurement.
+This is a read-only microbenchmark, not a training-policy change or a claim of
+ordinary-policy reproducibility/whole-step performance. Relation: local-ad-performance.
+
+
+## 2026-10-26 — Measure ordinary full updates before extrapolating kernel gains
+
+Isolated kernels validate against SciPy: production deterministic graph
+aggregation~38ms versus ordinary~0.17ms for the actual padded batch, both
+precisions. Decision: add two serial ordinary-policy graph full-step workers
+(FP32/64), same125-update protocol, after all main/operator workers end.
+Reason: kernel policy explains a major PDE-forward cost but is not itself a
+whole-step acceleration measurement. Preserve original default deterministic
+policy and do not claim ordinary-policy training reproducibility or equal L2.
+Relation: local-ad-performance.
+
+
+## 2026-10-26 — Separate deterministic graph bottleneck from local-AD cost
+
+Decision: close the throughput study with defaults unchanged. All12 serial
+workers exit0. At equal active PDE counts and shared network/data/SOAP, FP32
+current graph/local tensor/local joint means229.31/11.98/16.12ms; FP64
+266.11/31.32/47.77ms. Isolated deterministic graph actions~38ms versus ordinary
+~0.17ms, independently correct against SciPy. Actual ordinary-policy graph
+updates12.49/35.13ms confirm a major compiler-policy-sensitive graph bottleneck;
+ordinary graph and local tensor are close. Joint sampling is slower at equal
+count here; time grad and JVP remain both valid. Reject explaining the large
+default-policy gap by AD mode or equations alone, extrapolating kernel ratios
+into training speed, claiming equal local accuracy/boundaries or promoting
+ordinary-policy long-run stability from125-step timing runs. Archive source/raw
+records/plots; no production/config/reference/Git history changes. Potential
+next work is deterministic aggregation optimization or separately matched local
+accuracy experiments. Relation: local-ad-performance.
+
+
+## 2026-10-26 — Distinguish nonlocal structural value from untested PINN gains
+
+Decision: identify defensible benefits as lower spatial regularity demands for
+bounded integrable kernels, explicit reciprocal pair/energy structure, field-only
+spatial-operator interfaces and finite-range physical modeling. Independently
+verify actual reference graph symmetry/nonnegative weights, constant nullspace,
+pair energy and internal flux cancellation. Treat bounded high-frequency
+amplification as mathematical structure and improved optimizer conditioning as
+an untested hypothesis. Reject claims that current nonlocal PINNs are proven
+more accurate/stable, automatically conserve mass under Dirichlet reservoirs,
+have fully corrected AC row sums, or necessarily outperform a local target
+after finite-delta/quadrature/boundary bias. Du/Yang2016 and primary nPINN/PDDO
+references inform scope; external formulations are not transferred as proof of
+corrosion performance. No training/default/production/Git change.
+Relation: nonlocal-advantages.
+
+
+## 2026-10-26 — Complete local boundary/reference before full L2 controls
+
+Decision: run four5000-step FP32/seed42 cold starts (default graph, ordinary
+graph, local tensor, local joint) with shared initialization/data/scales/SOAP.
+Local reference and PINN explicitly impose natural phi_n=q_n=0 on non-mouth
+bottom, traceable to existing FEM weak form; do not rank a missing-BC local
+benchmark against graph reference. Use independently refined local MOL/BDF,
+retain graph reference and measure model-reference differences separately.
+Extend canonical train.py research options without promoting new defaults;
+ordinary compiler-policy L2 remains an experimental full-run control.
+Relation: local-ad-full-training.
+
+
+## 2026-10-26 — Retain measured local reference uncertainty
+
+Decision: retain all four independent local MOL solves and explicitly qualify
+local accuracy against the401x201 FD reference. Temporal201-grid refinement
+changes fields by at most2.75e-9, but201->401 terminal phi/c differences remain
+0.01417/0.01681 (101->201:0.02886/0.03423). Spatial convergence below1e-3 is
+false and recorded as such. Reject calling this a spatially converged continuum
+truth or using sub-percent local errors to rank methods. Full5000-update runs
+remain informative for training failure/success and policy controls; report
+reference-model bias and refinement separately. No extrapolated or silently
+corrected reference. Relation: local-ad-full-training.
+
+
+## 2026-10-26 — Keep graph default after four full accuracy controls
+
+Decision: keep deterministic nonlocal FP32 defaults. All four paired seed42
+cold starts finish5000 updates/50s with identical initial arrays. Finalphi/c:
+default0.008835/0.010426; ordinary0.020680/0.024565; local tensor0.346112/0.373221;
+local joint0.411813/0.425739 against own-model references. Ordinary is much
+faster but worsens final/late field errors, while improving q/Dq; no universal
+accuracy regression or robustness guarantee follows. Local inherited scales/
+SOAP plus six-loss no-flux objective fail this budget; reject claiming intrinsic
+nonlocal superiority from one seed/different boundary objectives, or blaming
+34–43% field error on1.4–1.7% reference refinement. Retain explicit research
+presets, separate common-reference scores, cache-dependent observed timings,
+all curves and independent CPU reload/transport audit. Relation: local-ad-full-training.
+
+
+## 2026-10-26 — Explain policy effects as lowering plus training sensitivity
+
+Decision: separate execution determinism, single-operation numerical accuracy
+and trained-model L2. New frozen JAX/jaxlib0.10.1 controls with3032 edges show
+deterministic scatter lowering to a3032-iteration while; ordinary retains scatter.
+Ten repeats are exact for deterministic forward/input gradient, versus relative
+variation6.47e-8/6.07e-8 ordinary. Existing SciPy comparisons give O(1e-8) errors
+for both. Full-run first loss/weight vectors differ only1.47e-7/2.96e-7 relative,
+but weight vectors differ44% at step200. This supports floating-point perturbation
+and sensitive training paths; reject treating0.884% versus2.068% finalphi as a
+guaranteed deterministic accuracy benefit, or attributing amplification uniquely
+to SOAP/GradNorm/scatter without isolation. Fixed-neighbor deterministic forward
+and transpose aggregation is a potential performance direction, not implemented
+or promised numerically identical. No training/default/Git change.
+Relation: compiler-policy-explanation.
+
+
+## 2026-10-26 — Test ordinary FP64 without combining separate benefits by assumption
+
+Decision: complete one ordinary-policy FP64 seed42 cold start at5000 updates/50s,
+same common FP32 inputs promoted exactly and same stored graph/scales/SOAP.
+Reuse three completed policy/precision controls. Reason: ordinary FP64 throughput
+is measured (~35ms/update), but deterministic FP64 accuracy does not establish
+ordinary FP64 accuracy. Reject inferring additive speed/accuracy benefits or
+promoting defaults before the actual full-run/late-window/transport audit.
+No extra seeds, mathematical changes or Git operation. Relation: ordinary-fp64-accuracy.
+
+
+## 2026-10-26 — Retain ordinary FP64 as a promising, nonuniform one-seed control
+
+Decision: keep defaults unchanged after the completed ordinary FP64 control.
+5000-update/50s finalphi/c0.00249850/0.00294446, wall196.5s vsdefault1179.8s:
+this realization is faster with lower final and median field errors. Initial
+values match all four exactly; CPU reload/dtype/config/source/transport checks
+pass. However, latephi max0.014885 and mean0.006661 exceed default0.008835/
+0.006348; late Dq spike18.665 is much worse than default max1.915. Final q/Dq
+improve versus default but regress versus deterministic FP64. Reject claiming
+uniform stability/transport/cross-seed superiority or a fair fresh-cache compile
+speedup. Archive complete curves and direct checkpoint; no extra optimization,
+seed trials, numerical/default or Git history changes. Relation: ordinary-fp64-accuracy.
+
+
+## 2026-10-26 — Audit each case's actual policy before generalizing the slowdown
+
+Decision: measure canonical electropolish and ic_latent melting FP32 workloads
+under both policies with identical initial/data/graph arrays and production step
+functions,125 updates (50 warm-up/75 synchronized measured), plus frozen graph
+forward/input-gradient/HLO controls and independent numerical checks. Electropolish
+default adapter enforces determinism; melting entry inherits environment (currently
+unset), so distinguish current default behavior from artificially forced policy.
+Inspect elasticity/corrosion1d statically; do not silently repair missing1d default
+train_pinn.py or choose a different physical regime. No full accuracy cohort,
+production/default/physics/Git change. Relation: phasefield-gpu-policy-audit.
+
+
+## 2026-10-26 — Distinguish an enforced KKS bottleneck from inherited melting policy
+
+Decision: close the other-case audit with defaults and numerical code unchanged.
+All four serial FP32 workers complete125 updates,50 warm-up/75 measured with
+identical complete pool/initial/time arrays. Electropolish197.73/10.98ms and
+melting468.26/26.62ms deterministic/ordinary (~18.0x/~17.6x). Current optimized
+HLO shows3032-edge forward/gradient loops for electropolish and11929-edge
+forward/three-gradient loops for melting; independent frozen forward/transpose
+errors stay below3e-7. Electropolish adapter enforces deterministic default;
+melting inherits environment and already uses ordinary policy when unset.
+Reject saying melting is necessarily slow by default, inferring equal final L2,
+transferring measured ratios to elasticity/1D, or automatically choosing a1D
+physical regime to repair its missing default config. Document explicit options,
+separate compilation/steady timing and preserve all raw evidence.
+Relation: phasefield-gpu-policy-audit.
+
+
+## 2026-10-26 — Validate ordinary defaults against complete field trajectories
+
+Decision: run four ordinary electropolish controls (FP32/64 x seeds42/2026),
+ordinary FP64 corrosion2026 and ordinary FP32 melting42 before selecting
+canonical defaults. Existing42/2026 controls are reused. Preserve the established
+cross-seed field-reliability criterion alongside final/late L2 and throughput;
+do not choose a seed or declare the fastest short benchmark numerically optimal.
+Centralize policy parsing in training.runtime, keep explicit conflict rejection
+and unrelated flags, and add ordinary policy explicitly to melting before any
+backend/filesystem work. This makes its existing ordinary behavior explicit;
+KKS candidate runs use explicit overrides while canonical promotion awaits data.
+Historical checkpoints still load using their physical/architecture templates;
+no saved metadata/artifact path is rewritten or in-place resume promised.
+Relation: ordinary-policy-defaults.
+
+
+## 2026-10-26 — Select ordinary precision per case from complete controls
+
+Decision: canonical corrosion uses ordinary FP64; electropolish ordinary FP32;
+melting explicitly ordinary FP32. All six predeclared5000-update jobs finish;
+independent CPU reloads, exact paired initial values, allowed-config/reference/
+dtype/history/final-checkpoint/topology checks pass. Corrosion42/2026 phi/c
+0.002499/0.002944 and0.006833/0.008077 improve final fields versus deterministic
+FP32; worst late median0.005004 versus0.009514. Late maxima/Dq spikes remain
+worse, so selection is a speed/field-accuracy compromise, not uniform stability.
+Electro ordinary FP3242/2026 phi0.004757/0.003399 rescues historical42 failure;
+ordinary FP64 still fails42(phi0.299757), reject universal precision promotion.
+Melting explicit ordinary full-grid phi3.9053e-5 agrees with independent CPU.
+Keep physical models/references/data/losses/scales/SOAP/horizons unchanged;
+seed is run provenance. Preserve historical local FP32 deterministic and
+graph-ordinary FP32 research presets explicitly so default changes do not alter
+those controls. Retain deterministic override with conflict validation, direct
+old loading and fresh run paths. No Git history operation.
+Relation: ordinary-policy-defaults.
+
+
+## 2026-10-26 — Close validated per-case ordinary defaults
+
+Decision: finish promotion after six full GPU jobs,10KKS and1full-grid melting
+CPU reloads,11focused tests,7affected policy-parser checks and2actual canonical
+GPU starts. Shared parser additionally rejects a bare deterministic Boolean
+flag in ordinary mode; empty-flag numerical behavior of completed runs remains
+unchanged. Current-vs-saved selected defaults match numerically; only run name,
+checkpoint cadence and optional melting evaluation reference differ. Preserve
+historical FP32 ordinary graph and deterministic local research presets, prior
+default/index records and old artifact paths. Archive all failures/late spikes
+alongside selected results; no additional seed search or global-optimum claim.
+README/index/memory synchronized; task closed, no workers or Git operation.
+Relation: ordinary-policy-defaults.
+
+
+## 2026-10-26 — Recommend phase-field benchmarks and matched-density two-phase flow
+
+Decision: recommendations only; first scalar extension is periodic2D CH spinodal
+decomposition, while preferred first coupled-flow case is equal-density/viscosity
+CHNS elliptical-droplet relaxation without gravity. Primary PFHub1–4 and
+Jacqmin1999 / Colli-Frigeri-Grasselli2011 / Zeng et al2023 sources support models.
+Existing scalar negative-Laplacian machinery covers diffusion/chemical potential;
+flow requires gradient/divergence, pressure gauge and compatible conservative
+transport/capillarity. Distinguish local-model nonlocal derivative approximation
+from a native nonlocal interaction-energy model. Do not claim arbitrary operator
+replacement preserves mass/energy or removes actual CHNS training stiffness.
+Reject starting with high density-ratio rising bubbles, unvalidated contact lines
+or presuming full-local AD must use fourth derivatives (mixed mu lowers order).
+No case implemented, train started, default/reference/physics changed or Git
+history operation. Relation: phasefield-case-recommendations.
+
+
+## 2026-10-26 — Use Qiu2022 as a checked local-AD baseline, include later mixed form
+
+Decision: attached35-page Qiu et al PF-PINNs manuscript is a useful local CHNS
+reference: four outputs(u,v,p,C), AD including fourth-order CH, sequential time
+windows, material-coefficient clipping only, PDE+IC/BC forward losses. Confirm
+two benchmarks: prescribed reversed vortex, then coupled1000:1 rising bubble.
+Treat reported u/v errors5.55–15.12%/3.56–7.92%, ~1.12% area drift and published
+reference comparisons as evidence, not sub-percent field accuracy or exact
+conservation. Rendered pages7/14 confirm potential/initial-condition formula
+inconsistencies; no silent correction or assumption about actual author code.
+Chemical-potential scale, phase/flux BCs, coordinates/gravity and clipping
+derivative compatibility require explicit resolution before implementation.
+Same-group2022 MIM follow-up already outputs chemical potential, so include
+AD mixed formulation as the efficient comparator for nonlocal mixed form.
+Prefer reversed-vortex pilot before full CHNS; keep physical reference/model/
+windowing/optimizer/budget fixed between derivative methods. No training,
+default, PDE/code modification or Git history operation.
+Relation: two-phase-pinn-paper-review.

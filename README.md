@@ -18,23 +18,20 @@ The unimplemented [PINO elasticity design](docs/design/pino_elasticity2d.md) is
 retained as a design document. Electropolish2d is the primary corrosion case;
 corrosion2d supplies the pit-corrosion case; corrosion1d is retained for reference.
 
-## Current phase-field strategies and recorded best results
+## Current phase-field defaults
 
-All three canonical training commands load `configs/train_base.py`. SOTA here
-records the best verified final5000-update physical-field observation in the
-recorded studies. Seed is not a strategy parameter: each canonical config
-omits it; `--seed` controls a run (common untuned default42). Saved run config
-metadata retains the resolved seed for replay. Single-run SOTA is not a
-cross-seed guarantee.
-KKS cases are ranked by terminal phi+c relative L2, melting by terminal phi
-against the same-graph numerical reference. The KKS winners have independently
-checked checkpoints; transport and seed limitations remain in their READMEs.
+All three canonical `train.py` entries load `configs/train_base.py` and now
+explicitly use **ordinary GPU compilation** (`train.gpu_policy="ordinary"`).
+Precision is selected per case from complete5000-update controls, rather than
+assuming FP64 always improves a training trajectory. All use SOAP, initial
+lr1e-3 and5000 updates. Physics, reference, sampling, residuals and loss scales
+are unchanged by this policy promotion.
 
-| Case | Default strategy | Time | Terminal phi / c relative L2 |
+| Case | Default strategy / arithmetic | Physical time | Terminal phi / c relative L2, seeds42 and2026 |
 |---|---|---:|---:|
-| [corrosion2d](examples/corrosion2d/README.md#sota-default) | Bounded phase residual, eta0.1; raw KKS CH edges; s_bc; nodal data | 50 s | 1.43305e-3 / 1.71859e-3 |
-| [electropolish2d](examples/electropolish2d/README.md#sota-default) | Original residual; physical data losses; random IC/BC | 5 s | 1.13782e-3 / 1.35782e-3 |
-| [icemelting3d](examples/icemelting3d/README.md#sota-default) | IC-only latent residual | 5 s | 6.10970e-5 / — |
+| [corrosion2d](examples/corrosion2d/README.md#sota-default) | Original phase; raw KKS CH edges; s_bc; nodal data; **FP64** | 50 s | 0.002499–0.006833 /0.002944–0.008077 |
+| [electropolish2d](examples/electropolish2d/README.md#sota-default) | Original residual; physical data; random IC/BC; **FP32** | 5 s | 0.003399–0.004757 /0.004118–0.005738 |
+| [icemelting3d](examples/icemelting3d/README.md#sota-default) | IC-only latent residual; **FP32** | 5 s | Full-grid graph phi3.9053e-5 (new42),5.9857e-5 (earlier2026) |
 
 ```bash
 source .venv/bin/activate
@@ -43,21 +40,36 @@ python -m examples.electropolish2d.train
 python -m examples.icemelting3d.train
 ```
 
-Use `--seed=2026` to repeat a strategy with another random run. Historical
-best values in the table describe individual observations, not default-run
-guarantees; see each README for the full cross-seed results.
+Run these GPU jobs individually. If your shell previously forced deterministic
+operations, prefix the command with `XLA_FLAGS=''`; ordinary mode explicitly
+rejects a conflicting inherited deterministic flag. Unrelated flags are retained.
+Use `--config.train.gpu_policy=deterministic` for a deterministic control; matched
+KKS additionally accepts `--config.train.compute_dtype=float32` or `float64`.
+Old local-AD and ordinary-FP32 research presets retain their previous choices.
 
-The [independent seed2026 validation](docs/tasks/archive/phasefield-seed-stability.md)
-completed5000 updates per case: corrosion phi/c0.4070/0.4310 fails with extra
-phase bands; electropolish0.002832/0.003427 succeeds but retains a historical
-seed42 failure; melting full-grid phi5.99e-5 agrees with the earlier6.11e-5.
-The corrosion best-single-run preset is therefore not a stable SOTA strategy.
+Seed is run provenance: canonical configs omit `train.seed`; `--seed=2026`
+selects another run, while the common untuned default is42. Resolved saved
+metadata retains it for direct checkpoint loading. Two seeds are evidence,
+not statistical proof or a guarantee of low error on every run. New directories
+are fresh; checkpoints and reference arrays load by explicit path without hashes.
 
-These are separate GPU jobs; run them individually. All use SOAP, initial
-lr1e-3 and5000 updates. New cold starts use fresh run directories; existing
-checkpoints/reference arrays load by direct file path. Legacy configurations
-remain explicit alternatives. [Artifact provenance](artifacts/index.yaml)
-records the selected checkpoint/reference and exact metrics for each default.
+The [completed default validation](docs/tasks/archive/ordinary-policy-defaults.md)
+includes six new full cold starts, independent CPU field/transport/topology
+checks and complete convergence curves. Electropolish ordinary FP64 fails seed42
+(phi0.2998), so its default stays FP32. Corrosion FP64 improves final fields
+and worst-seed late median, but late spikes and free-node Dq errors1.36–1.38
+remain; it is a speed/field-accuracy compromise. Historical individual best
+checkpoints remain separate from the representative current-default runs in the
+[artifact index](artifacts/index.yaml).
+
+The [isolated steady-update measurements](docs/tasks/archive/phasefield-gpu-policy-audit.md)
+give electropolish ordinary FP3210.98ms versus deterministic FP32197.73ms,
+and melting26.62ms versus468.26ms. The
+[corrosion precision/policy benchmark](docs/tasks/archive/local-ad-performance.md)
+gives ordinary FP6435.13ms versus deterministic FP32229.31ms. These include
+sampling/SOAP/GradNorm but exclude first compilation, evaluation and saving;
+full-run times have different compiler-cache histories. Elasticity and1D corrosion
+were inspected statically, without full accuracy/default promotion.
 
 ## Setup and use
 

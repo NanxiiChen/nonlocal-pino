@@ -1,13 +1,16 @@
-"""Bounded-residual/nodal-data strategy for 50 s corrosion; seed is runtime data.
+"""Original-residual/nodal-data strategy for 50 s corrosion.
 
-This selects the best verified final5000 phi+c result, not a cross-seed or
-transport guarantee. See the example README and artifacts/index.yaml.
+Ordinary FP64 selected from full42/2026 controls; seed is runtime data.
+The historical best single bounded checkpoint is documented separately.
+See the example README and artifacts/index.yaml for transport limitations.
 """
 from examples.corrosion2d.configs.residual_pilot import get_strategy_config as matched_config
 
 
 def get_config():
-    c = matched_config("corrosion2d", "bounded")
+    c = matched_config("corrosion2d", "phase")
+    c.train.gpu_policy = "ordinary"
+    c.train.compute_dtype = "float64"
     c.experiment.bounded_eta = 0.1
     c.experiment.data_loss_mode = "s_bc"
     c.experiment.initial_sampling = "matched_graph"
