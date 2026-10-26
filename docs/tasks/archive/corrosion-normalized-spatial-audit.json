@@ -1,0 +1,191 @@
+{
+  "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42",
+  "scope": "Terminal50 s stable raw-q graph error; fixed training core pool reconstructed exactly",
+  "coverage_count_range_free": [
+    0,
+    15
+  ],
+  "regions": {
+    "never_core": {
+      "nodes": 35,
+      "Dq_squared_error_fraction": 2.8441079432886753e-06,
+      "Dq_error_rms": 0.033021249871497606,
+      "reference_Dq_rms": 0.16021367338835035,
+      "Dq_relative_l2": 0.20610756356266588
+    },
+    "ever_core": {
+      "nodes": 4906,
+      "Dq_squared_error_fraction": 0.9999971558920568,
+      "Dq_error_rms": 1.653827093965393,
+      "reference_Dq_rms": 0.1356353022329332,
+      "Dq_relative_l2": 12.193190612906912
+    },
+    "near_dirichlet": {
+      "nodes": 414,
+      "Dq_squared_error_fraction": 0.9920434738117201,
+      "Dq_error_rms": 5.67047805056129,
+      "reference_Dq_rms": 3.884119120825773e-05,
+      "Dq_relative_l2": 145991.35284387806
+    },
+    "away_dirichlet": {
+      "nodes": 4527,
+      "Dq_squared_error_fraction": 0.007956526188279954,
+      "Dq_error_rms": 0.1535716297203202,
+      "reference_Dq_rms": 0.14189988464364459,
+      "Dq_relative_l2": 1.0822533795991944
+    },
+    "interface": {
+      "nodes": 970,
+      "Dq_squared_error_fraction": 5.678385781989383e-05,
+      "Dq_error_rms": 0.02802728774041534,
+      "reference_Dq_rms": 0.3064863380905409,
+      "Dq_relative_l2": 0.09144710304227538
+    },
+    "bulk": {
+      "nodes": 3971,
+      "Dq_squared_error_fraction": 0.99994321614218,
+      "Dq_error_rms": 1.838197697195066,
+      "reference_Dq_rms": 0.0030893565524961002,
+      "Dq_relative_l2": 595.0098882920659
+    }
+  },
+  "top_1_percent_squared_Dq_error_fraction": 0.9995067791658673,
+  "absolute_Dq_error_quantiles": {
+    "p50": 0.00441111137999417,
+    "p90": 0.03414511645547422,
+    "p99": 0.4422718281248153,
+    "max": 111.5197417590286
+  },
+  "worst_nodes": [
+    {
+      "xy": [
+        0.55,
+        0.0
+      ],
+      "Dq_error": -111.5197417590286,
+      "core_occurrences_per_cycle": 6,
+      "reference_phi": 1.2337624443221226e-07,
+      "raw_concentration_output": -3.345573902130127,
+      "predicted_s": 0.0012403162515123602,
+      "reference_s": 0.173169303825729,
+      "float32_ds_draw": 0.0024775564670562744
+    },
+    {
+      "xy": [
+        0.55,
+        0.01
+      ],
+      "Dq_error": 19.764126060863834,
+      "core_occurrences_per_cycle": 2,
+      "reference_phi": 1.6493790618548557e-07,
+      "raw_concentration_output": -0.7686777710914612,
+      "predicted_s": 0.17692003001449894,
+      "reference_s": 0.21557985537828897,
+      "float32_ds_draw": 0.29123860597610474
+    },
+    {
+      "xy": [
+        0.56,
+        0.0
+      ],
+      "Dq_error": 17.181158808143923,
+      "core_occurrences_per_cycle": 2,
+      "reference_phi": 2.621730998727325e-07,
+      "raw_concentration_output": -0.6222012042999268,
+      "predicted_s": 0.22367061253859521,
+      "reference_s": 0.2740967485201551,
+      "float32_ds_draw": 0.34728413820266724
+    },
+    {
+      "xy": [
+        0.54,
+        0.01
+      ],
+      "Dq_error": 7.9210484102456995,
+      "core_occurrences_per_cycle": 1,
+      "reference_phi": 7.864615882223723e-08,
+      "raw_concentration_output": -0.9975070357322693,
+      "predicted_s": 0.11972740725091131,
+      "reference_s": 0.14009294577048448,
+      "float32_ds_draw": 0.21078550815582275
+    },
+    {
+      "xy": [
+        0.56,
+        0.01
+      ],
+      "Dq_error": 6.7229786166790255,
+      "core_occurrences_per_cycle": 7,
+      "reference_phi": 3.1470145338493657e-07,
+      "raw_concentration_output": -0.5413188934326172,
+      "predicted_s": 0.25300716462897227,
+      "reference_s": 0.29317827545310154,
+      "float32_ds_draw": 0.3779890835285187
+    },
+    {
+      "xy": [
+        0.44,
+        0.0
+      ],
+      "Dq_error": 6.559791561607637,
+      "core_occurrences_per_cycle": 3,
+      "reference_phi": 2.6217309987273255e-07,
+      "raw_concentration_output": -0.4712468385696411,
+      "predicted_s": 0.28039690674172196,
+      "reference_s": 0.2740967485201547,
+      "float32_ds_draw": 0.4035489559173584
+    },
+    {
+      "xy": [
+        0.45,
+        0.0
+      ],
+      "Dq_error": -6.377178032388838,
+      "core_occurrences_per_cycle": 4,
+      "reference_phi": 1.2337624443221226e-07,
+      "raw_concentration_output": -0.8102656006813049,
+      "predicted_s": 0.16513162405894935,
+      "reference_s": 0.17316930382572862,
+      "float32_ds_draw": 0.275726318359375
+    },
+    {
+      "xy": [
+        0.5700000000000001,
+        0.0
+      ],
+      "Dq_error": 5.165833573996812,
+      "core_occurrences_per_cycle": 5,
+      "reference_phi": 4.926087242034207e-07,
+      "raw_concentration_output": -0.38250505924224854,
+      "predicted_s": 0.3175595049708065,
+      "reference_s": 0.34720305376540994,
+      "float32_ds_draw": 0.433430939912796
+    },
+    {
+      "xy": [
+        0.5,
+        0.01
+      ],
+      "Dq_error": 3.2803333670496326,
+      "core_occurrences_per_cycle": 4,
+      "reference_phi": 1.750372584296978e-08,
+      "raw_concentration_output": -1.2598060369491577,
+      "predicted_s": 0.07449468640522787,
+      "reference_s": 0.07751555061359593,
+      "float32_ds_draw": 0.13789039850234985
+    },
+    {
+      "xy": [
+        0.48,
+        0.01
+      ],
+      "Dq_error": 2.8423143998948004,
+      "core_occurrences_per_cycle": 3,
+      "reference_phi": 2.5515146685552152e-08,
+      "raw_concentration_output": -1.194599986076355,
+      "predicted_s": 0.08399996873597351,
+      "reference_s": 0.085960399701334,
+      "float32_ds_draw": 0.15388792753219604
+    }
+  ]
+}

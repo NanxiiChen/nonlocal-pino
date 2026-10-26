@@ -55,34 +55,20 @@ def _rough_surface(x, y0, modes, rng):
 
 
 class _RoughIC(UserExpression):
-    """φ = tanh(k * sdf(x)), bilinearly interpolated from precomputed grid."""
+    """Evaluate the same piecewise-linear SDF used by the PINN at each node."""
 
     def __init__(self, k, y0, modes, c_se, **kwargs):
         super().__init__(**kwargs)
-        # Precompute SDF on a dense grid, then evaluate phi once
-        _nx, _ny = 2000, 1000
-        self._xs = np.linspace(0, 1, _nx)
-        self._ys = np.linspace(0, 0.5, _ny)
-        x_curve = np.linspace(0, 1, _nx)
-        y_curve = np.full_like(x_curve, y0)
-        for amp, freq, phase in modes:
-            y_curve += amp * (np.sin(2.0 * np.pi * freq * x_curve + phase)
-                              + np.cos(2.0 * np.pi * freq * x_curve + phase + 0.3))
-        Yg, Xg = np.meshgrid(self._ys, self._xs, indexing='ij')
-        sdf = _segment_sdf(Xg.ravel(), Yg.ravel(), x_curve, y_curve,
-                           _rough_surface(Xg.ravel(), y0, modes, None)).reshape(_ny, _nx)
-        self._phi = 0.5 * (1.0 + np.tanh(k * sdf))
-        self._c = _h(self._phi) * c_se
-        self._dx = self._xs[1] - self._xs[0]
-        self._dy = self._ys[1] - self._ys[0]
+        self.k, self.y0, self.modes, self.c_se = k, y0, modes, c_se
+        self.x_curve = np.linspace(0, 1, 2000)
+        self.y_curve = _rough_surface(self.x_curve, y0, modes, None)
 
     def eval(self, value, x):
-        ix = (x[0] - self._xs[0]) / self._dx
-        iy = (x[1] - self._ys[0]) / self._dy
-        ix = int(np.clip(ix, 0, len(self._xs) - 1))
-        iy = int(np.clip(iy, 0, len(self._ys) - 1))
-        value[0] = self._phi[iy, ix]
-        value[1] = self._c[iy, ix]
+        xq, yq = np.array([x[0]]), np.array([x[1]])
+        surface = _rough_surface(xq, self.y0, self.modes, None)
+        sdf = _segment_sdf(xq, yq, self.x_curve, self.y_curve, surface)[0]
+        value[0] = 0.5 * (1.0 + np.tanh(self.k * sdf))
+        value[1] = _h(value[0]) * self.c_se
 
     def value_shape(self):
         return (2,)
@@ -206,6 +192,9 @@ def solve(config):
         DirichletBC(V.sub(0), Constant(1.0), bottom),
         DirichletBC(V.sub(1), Constant(1.0), bottom),
     ]
+    for bc in bcs:
+        bc.apply(sol.vector())
+    sol_prev.assign(sol)
 
     # ── weak form ────────────────────────────────────────────────────────
     theta = config.time.theta
@@ -267,10 +256,11 @@ def solve(config):
     main_step = 0
     while t_current < config.time.t_final - 1e-12:
         main_step += 1
-        t_current += dt_main
-        t_current = min(t_current, config.time.t_final)
+        t_next = min(t_current + dt_main, next_save, config.time.t_final)
+        dt_const.assign(t_next - t_current)
         sol_prev.assign(sol)
         solver.solve()
+        t_current = t_next
 
         if t_current >= next_save - 1e-12 or t_current >= config.time.t_final - 1e-12:
             coords, phi_vals, c_vals = _gather_2d(sol, V, comm)

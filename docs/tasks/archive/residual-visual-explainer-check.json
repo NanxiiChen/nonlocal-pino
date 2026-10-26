@@ -1,0 +1,89 @@
+{
+  "checked": "12 states, both phase maps, exact residual identities, change/save/restore handlers, 4 schematic widths; text bounds use a synthetic DOM, not a real browser",
+  "sampleStates": [
+    {
+      "range": "corrosion",
+      "u": -3.5,
+      "original": 0.00364,
+      "bounded": 0.03864,
+      "response": "相场：0.00091 → 0.00247 · 变化 0.00156"
+    },
+    {
+      "range": "corrosion",
+      "u": -3,
+      "original": 0.00987,
+      "bounded": 0.09878,
+      "response": "相场：0.00247 → 0.00669 · 变化 0.00422"
+    },
+    {
+      "range": "corrosion",
+      "u": 0,
+      "original": 1,
+      "bounded": 1,
+      "response": "相场：0.50000 → 0.73106 · 变化 0.23106"
+    },
+    {
+      "range": "corrosion",
+      "u": 2,
+      "original": 0.07065,
+      "bounded": 0.45541,
+      "response": "相场：0.98201 → 0.99331 · 变化 0.01129"
+    },
+    {
+      "range": "corrosion",
+      "u": 3,
+      "original": 0.00987,
+      "bounded": 0.09878,
+      "response": "相场：0.99753 → 0.99909 · 变化 0.00156"
+    },
+    {
+      "range": "corrosion",
+      "u": 3.5,
+      "original": 0.00364,
+      "bounded": 0.03864,
+      "response": "相场：0.99909 → 0.99966 · 变化 0.00058"
+    },
+    {
+      "range": "melting",
+      "u": -3.5,
+      "original": 0.00364,
+      "bounded": 0.03864,
+      "response": "相场：-0.99818 → -0.99505 · 变化 0.00312"
+    },
+    {
+      "range": "melting",
+      "u": -3,
+      "original": 0.00987,
+      "bounded": 0.09878,
+      "response": "相场：-0.99505 → -0.98661 · 变化 0.00844"
+    },
+    {
+      "range": "melting",
+      "u": 0,
+      "original": 1,
+      "bounded": 1,
+      "response": "相场：0.00000 → 0.46212 · 变化 0.46212"
+    },
+    {
+      "range": "melting",
+      "u": 2,
+      "original": 0.07065,
+      "bounded": 0.45541,
+      "response": "相场：0.96403 → 0.98661 · 变化 0.02259"
+    },
+    {
+      "range": "melting",
+      "u": 3,
+      "original": 0.00987,
+      "bounded": 0.09878,
+      "response": "相场：0.99505 → 0.99818 · 变化 0.00312"
+    },
+    {
+      "range": "melting",
+      "u": 3.5,
+      "original": 0.00364,
+      "bounded": 0.03864,
+      "response": "相场：0.99818 → 0.99933 · 变化 0.00115"
+    }
+  ]
+}

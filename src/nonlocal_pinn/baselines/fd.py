@@ -9,7 +9,7 @@ import jax
 import jax.numpy as jnp
 import equinox as eqx
 
-from nonlocal_nonlocal_pinn.operators import _pad_entry
+from nonlocal_pinn.operators import _pad_entry
 
 
 class FiniteDiff(eqx.Module):

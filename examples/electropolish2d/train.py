@@ -3,7 +3,7 @@
 Usage (from project root):
   python examples/electropolish2d/train.py
   python examples/electropolish2d/train.py --config=examples/electropolish2d/configs/train_base.py
-  python examples/electropolish2d/train.py --config.nl.method=fd --config.log.run_name=fd_run
+  python examples/electropolish2d/train.py --config=examples/electropolish2d/configs/train_legacy.py
 """
 
 import json, logging, os, time
@@ -20,6 +20,11 @@ log = logging.getLogger(__name__)
 from nonlocal_pinn.operators import build_D
 from nonlocal_pinn.nn.arch import make_pinn
 from nonlocal_pinn.io.utils import log_config_text, load_example_losses, setup_run_dir
+from nonlocal_pinn.training.runtime import with_run_seed
+from examples.corrosion2d.training_data import (
+    electropolish_boundary_points as _bc_info,
+    electropolish_initial_points as _sample_ic_points,
+)
 
 
 # ── Config ──────────────────────────────────────────────────────────────────
@@ -30,6 +35,7 @@ from ml_collections import config_flags as _config_flags
 _DEFAULT = os.path.join(os.path.dirname(__file__), 'configs', 'train_base.py')
 _CONFIG = _config_flags.DEFINE_config_file('config', _DEFAULT, 'Config file')
 FLAGS = _absl_flags.FLAGS
+_SEED = _absl_flags.DEFINE_integer('seed', None, 'Run seed; defaults to 42, recorded for reproduction, not strategy tuning')
 
 
 # ── Setup helpers ───────────────────────────────────────────────────────────
@@ -89,47 +95,6 @@ def _nondim_params(config):
             phys.L * phys.omega_phi * T_c,   # N_AC2
             phys.L * phys.alpha_phi * T_c / L_c**2,  # N_AC3
             dc0, phys.c_le)
-
-
-def _bc_info(config):
-    """Sample BC points.
-
-    Top (y=0.5): liquid — φ=0, c=0.
-    Bottom (y=0): solid — φ=1, c=1.
-    Left/Right: Neumann — no BC points (key ablation point!).
-    """
-    rng = np.random.RandomState(42)
-
-    # Top edge: y=0.5, x ∈ [0, 1]
-    xs_top = rng.uniform(0.0, 1.0, config.sample.N_bc_top)
-    x_bc_top = jnp.column_stack([xs_top, np.full_like(xs_top, 0.5)])
-
-    # Bottom edge: y=0, x ∈ [0, 1]
-    xs_bot = rng.uniform(0.0, 1.0, config.sample.N_bc_bottom)
-    x_bc_bottom = jnp.column_stack([xs_bot, np.zeros_like(xs_bot)])
-
-    return jnp.array(x_bc_top), jnp.array(x_bc_bottom)
-
-
-def _sample_ic_points(config):
-    """Sample IC points: global uniform + local oversampling near interface."""
-    rng = np.random.RandomState(42)
-    N_global = config.sample.N_ic_global
-    N_local = config.sample.N_ic_local
-
-    # Global uniform samples
-    xs_g = rng.uniform(0.0, 1.0, N_global)
-    ys_g = rng.uniform(0.0, 0.5, N_global)
-    points = [np.column_stack([xs_g, ys_g])]
-
-    # Local oversampling near rough interface: y ∈ [y0-2*A, y0+2*A]
-    y_lo = max(config.surface.y0 - 2.0 * config.surface.amplitude, 0.0)
-    y_hi = min(config.surface.y0 + 2.0 * config.surface.amplitude, 0.5)
-    xs_l = rng.uniform(0.0, 1.0, N_local)
-    ys_l = rng.uniform(y_lo, y_hi, N_local)
-    points.append(np.column_stack([xs_l, ys_l]))
-
-    return jnp.array(np.vstack(points)[:N_global + N_local])
 
 
 # ── Training step ───────────────────────────────────────────────────────────
@@ -207,12 +172,17 @@ def _eval_fem(net, fem_data, writer, step):
     return rel_phi, rel_c
 
 
-
 # ── Main ────────────────────────────────────────────────────────────────────
 
 def _main(_):
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
     config = FLAGS.config
+    if 'experiment' in config:
+        config = with_run_seed(config, _SEED.value)
+        from examples.corrosion2d.training_entry import train_matched
+        return train_matched(config, 'electropolish2d')
+    if _SEED.value is not None:
+        raise ValueError('--seed is supported by the matched train_base strategy; legacy presets retain their fixed RNGs')
     _prec = config.train.get('matmul_precision', '')
     if _prec:
         jax.config.update("jax_default_matmul_precision", _prec)

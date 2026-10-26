@@ -1,0 +1,612 @@
+{
+  "case": "corrosion2d",
+  "loss_order": [
+    "ac",
+    "ch",
+    "bc_zero",
+    "bc_one",
+    "ic"
+  ],
+  "probe": "first deterministic core and time batch; recomputed proposals, not historical training weights",
+  "ac_scale": 1e-07,
+  "ch_scale": 1.0,
+  "nondimensional_coefficients": [
+    4.25,
+    10700000000.0,
+    1760000000.0,
+    1030000.0,
+    0.9643356643356643,
+    0.03566433566433566
+  ],
+  "checkpoints": {
+    "initial": {
+      "phase": {
+        "scaled_losses": [
+          26.0159854888916,
+          0.0338747501373291,
+          0.5119724869728088,
+          0.4882846772670746,
+          0.401687890291214
+        ],
+        "configured_scaling": {
+          "gradient_norms": [
+            1997.3890380859375,
+            23.29850196838379,
+            26.83951187133789,
+            26.15767478942871,
+            22.930328369140625
+          ],
+          "norm_floor_active": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "norm_ceiling_active": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "weight_cap_active": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "proposed_weights": [
+            0.20993557240039504,
+            17.997852891394892,
+            15.623347139358515,
+            16.030591954079565,
+            18.286829750818825
+          ],
+          "weighted_gradient_norms": [
+            419.3230110168457,
+            419.3230110168458,
+            419.3230110168457,
+            419.3230110168458,
+            419.32301101684567
+          ]
+        },
+        "hypothetical_no_pre_scale": {
+          "gradient_norms": [
+            19973890380.859375,
+            23.29850196838379,
+            26.83951187133789,
+            26.15767478942871,
+            22.930328369140625
+          ],
+          "norm_floor_active": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "norm_ceiling_active": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "weight_cap_active": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "proposed_weights": [
+            0.20001984520339966,
+            8585.094675821983,
+            7452.439752341484,
+            7646.698218154892,
+            8722.93854599065
+          ],
+          "weighted_gradient_norms": [
+            3995174462.0891657,
+            200019.84520339966,
+            200019.84520339966,
+            200019.84520339966,
+            200019.84520339966
+          ]
+        }
+      },
+      "latent": {
+        "scaled_losses": [
+          26.01979637145996,
+          0.0338747501373291,
+          0.5119724869728088,
+          0.4882846772670746,
+          0.401687890291214
+        ],
+        "configured_scaling": {
+          "gradient_norms": [
+            1987.501708984375,
+            23.29850196838379,
+            26.83951187133789,
+            26.15767478942871,
+            22.930328369140625
+          ],
+          "norm_floor_active": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "norm_ceiling_active": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "weight_cap_active": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "proposed_weights": [
+            0.20998499941406298,
+            17.912977656798436,
+            15.549669725633853,
+            15.954994033536881,
+            18.200591743735867
+          ],
+          "weighted_gradient_norms": [
+            417.3455451965332,
+            417.3455451965332,
+            417.3455451965332,
+            417.3455451965332,
+            417.3455451965332
+          ]
+        },
+        "hypothetical_no_pre_scale": {
+          "gradient_norms": [
+            19875017089.84375,
+            23.29850196838379,
+            26.83951187133789,
+            26.15767478942871,
+            22.930328369140625
+          ],
+          "norm_floor_active": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "norm_ceiling_active": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "weight_cap_active": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "proposed_weights": [
+            0.20001984520339966,
+            8585.094675821983,
+            7452.439752341484,
+            7646.698218154892,
+            8722.93854599065
+          ],
+          "weighted_gradient_norms": [
+            3975397841.7254696,
+            200019.84520339966,
+            200019.84520339966,
+            200019.84520339966,
+            200019.84520339966
+          ]
+        }
+      }
+    },
+    "phase_final": {
+      "phase": {
+        "scaled_losses": [
+          0.024783816188573837,
+          0.28108543157577515,
+          1.607734702702146e-06,
+          2.2828116286177647e-08,
+          2.6142379283555783e-06
+        ],
+        "configured_scaling": {
+          "gradient_norms": [
+            1996.316650390625,
+            1794.523193359375,
+            0.01705903746187687,
+            0.0001745323243085295,
+            1.2161235809326172
+          ],
+          "norm_floor_active": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "norm_ceiling_active": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "weight_cap_active": [
+            false,
+            false,
+            true,
+            true,
+            false
+          ],
+          "proposed_weights": [
+            0.3799069852128632,
+            0.4226273825753012,
+            10000.0,
+            10000.0,
+            623.6328709279143
+          ],
+          "weighted_gradient_norms": [
+            758.4146401801438,
+            758.4146401801438,
+            170.5903746187687,
+            1.745323243085295,
+            758.4146401801438
+          ]
+        },
+        "hypothetical_no_pre_scale": {
+          "gradient_norms": [
+            19963166503.90625,
+            1794.523193359375,
+            0.01705903746187687,
+            0.0001745323243085295,
+            1.2161235809326172
+          ],
+          "norm_floor_active": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "norm_ceiling_active": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "weight_cap_active": [
+            false,
+            false,
+            true,
+            true,
+            true
+          ],
+          "proposed_weights": [
+            0.200359151310102,
+            111.65035484162598,
+            10000.0,
+            10000.0,
+            10000.0
+          ],
+          "weighted_gradient_norms": [
+            3999803098.1849127,
+            200359.15131010202,
+            170.5903746187687,
+            1.745323243085295,
+            12161.235809326172
+          ]
+        }
+      },
+      "latent": {
+        "scaled_losses": [
+          15.589259147644043,
+          0.28108543157577515,
+          1.607734702702146e-06,
+          2.2828116286177647e-08,
+          2.6142379283555783e-06
+        ],
+        "configured_scaling": {
+          "gradient_norms": [
+            25203.828125,
+            1794.523193359375,
+            0.01705903746187687,
+            0.0001745323243085295,
+            1.2161235809326172
+          ],
+          "norm_floor_active": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "norm_ceiling_active": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "weight_cap_active": [
+            false,
+            false,
+            true,
+            true,
+            false
+          ],
+          "proposed_weights": [
+            0.2142498714211502,
+            3.009109581355308,
+            10000.0,
+            10000.0,
+            4440.269903294653
+          ],
+          "weighted_gradient_norms": [
+            5399.916935102019,
+            5399.916935102019,
+            170.5903746187687,
+            1.745323243085295,
+            5399.916935102019
+          ]
+        },
+        "hypothetical_no_pre_scale": {
+          "gradient_norms": [
+            252038281250.0,
+            1794.523193359375,
+            0.01705903746187687,
+            0.0001745323243085295,
+            1.2161235809326172
+          ],
+          "norm_floor_active": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "norm_ceiling_active": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "weight_cap_active": [
+            false,
+            false,
+            true,
+            true,
+            true
+          ],
+          "proposed_weights": [
+            0.200359151310102,
+            111.65035484162598,
+            10000.0,
+            10000.0,
+            10000.0
+          ],
+          "weighted_gradient_norms": [
+            50498176128.9068,
+            200359.15131010202,
+            170.5903746187687,
+            1.745323243085295,
+            12161.235809326172
+          ]
+        }
+      }
+    },
+    "latent_final": {
+      "phase": {
+        "scaled_losses": [
+          2.4875588417053223,
+          0.0009104180498979986,
+          2.6311599867767654e-06,
+          0.0012719439109787345,
+          0.0010895836167037487
+        ],
+        "configured_scaling": {
+          "gradient_norms": [
+            2028.6409912109375,
+            0.06410207599401474,
+            0.06935138255357742,
+            3.9160643477975654e-11,
+            1.8601117134094238
+          ],
+          "norm_floor_active": [
+            false,
+            false,
+            false,
+            true,
+            false
+          ],
+          "norm_ceiling_active": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "weight_cap_active": [
+            false,
+            false,
+            false,
+            true,
+            false
+          ],
+          "proposed_weights": [
+            0.200196542037807,
+            6335.628061632502,
+            5856.07520027197,
+            10000.0,
+            218.33468847534078
+          ],
+          "weighted_gradient_norms": [
+            406.1269114765789,
+            406.1269114765789,
+            406.1269114765789,
+            3.9160643477975654e-07,
+            406.1269114765789
+          ]
+        },
+        "hypothetical_no_pre_scale": {
+          "gradient_norms": [
+            20286409912.109375,
+            0.06410207599401474,
+            0.06935138255357742,
+            3.9160643477975654e-11,
+            1.8601117134094238
+          ],
+          "norm_floor_active": [
+            false,
+            false,
+            false,
+            true,
+            false
+          ],
+          "norm_ceiling_active": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "weight_cap_active": [
+            false,
+            true,
+            true,
+            true,
+            true
+          ],
+          "proposed_weights": [
+            0.2000003987132344,
+            10000.0,
+            10000.0,
+            10000.0,
+            10000.0
+          ],
+          "weighted_gradient_norms": [
+            4057290070.8819857,
+            641.0207599401474,
+            693.5138255357742,
+            3.9160643477975654e-07,
+            18601.11713409424
+          ]
+        }
+      },
+      "latent": {
+        "scaled_losses": [
+          4.911247730255127,
+          0.0009104180498979986,
+          2.6311599867767654e-06,
+          0.0012719439109787345,
+          0.0010895836167037487
+        ],
+        "configured_scaling": {
+          "gradient_norms": [
+            12252.201171875,
+            0.06410207599401474,
+            0.06935138255357742,
+            3.9160643477975654e-11,
+            1.8601117134094238
+          ],
+          "norm_floor_active": [
+            false,
+            false,
+            false,
+            true,
+            false
+          ],
+          "norm_ceiling_active": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "weight_cap_active": [
+            false,
+            true,
+            true,
+            true,
+            false
+          ],
+          "proposed_weights": [
+            0.20003254217171254,
+            10000.0,
+            10000.0,
+            10000.0,
+            1317.576213267974
+          ],
+          "weighted_gradient_norms": [
+            2450.8389476093917,
+            641.0207599401474,
+            693.5138255357742,
+            3.9160643477975654e-07,
+            2450.8389476093917
+          ]
+        },
+        "hypothetical_no_pre_scale": {
+          "gradient_norms": [
+            122522011718.75,
+            0.06410207599401474,
+            0.06935138255357742,
+            3.9160643477975654e-11,
+            1.8601117134094238
+          ],
+          "norm_floor_active": [
+            false,
+            false,
+            false,
+            true,
+            false
+          ],
+          "norm_ceiling_active": [
+            true,
+            false,
+            false,
+            false,
+            false
+          ],
+          "weight_cap_active": [
+            false,
+            true,
+            true,
+            true,
+            true
+          ],
+          "proposed_weights": [
+            0.2000003987132344,
+            10000.0,
+            10000.0,
+            10000.0,
+            10000.0
+          ],
+          "weighted_gradient_norms": [
+            24504451194.89758,
+            641.0207599401474,
+            693.5138255357742,
+            3.9160643477975654e-07,
+            18601.11713409424
+          ]
+        }
+      }
+    }
+  },
+  "coupled_jacobian_ad_max_error": 5.960464477539063e-08
+}

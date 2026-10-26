@@ -1,0 +1,432 @@
+{
+  "seed": 2026,
+  "budget": 5000,
+  "cases": {
+    "corrosion2d": {
+      "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-independent-seed2026-default-strategy",
+      "config_differences_from_strategy": {
+        "log.run_name": {
+          "default": "",
+          "run": "20261025-independent-seed2026-default-strategy"
+        },
+        "train.seed": {
+          "strategy": "not a parameter",
+          "run": 2026
+        }
+      },
+      "endpoint": {
+        "pooled_rel_l2_phi": 0.2671337667988233,
+        "terminal_rel_l2_phi": 0.40701613387252306,
+        "rel_l2_by_time_phi": [
+          0.0007973697307439029,
+          0.05478732628101675,
+          0.0936097006507035,
+          0.1270735254739744,
+          0.15609844982639676,
+          0.18145132407794876,
+          0.20334166958515792,
+          0.22156465163541672,
+          0.23591464886615796,
+          0.2478583166404236,
+          0.25994723700193956,
+          0.27444116367022514,
+          0.28354238232865214,
+          0.3159427129677088,
+          0.33495215823790414,
+          0.3487848163182694,
+          0.363882333844135,
+          0.38048057049871636,
+          0.3962392926992871,
+          0.40710407276860294,
+          0.407016133872523
+        ],
+        "pooled_rel_l2_c": 0.2846336160287214,
+        "terminal_rel_l2_c": 0.4310253110489792,
+        "rel_l2_by_time_c": [
+          0.0007015665887258902,
+          0.06408442292348068,
+          0.10767152848402273,
+          0.14356220908380662,
+          0.17364661425921438,
+          0.1993428552028166,
+          0.2212794681301446,
+          0.23953020144518467,
+          0.25402906887592164,
+          0.26618382957917636,
+          0.2784867537727143,
+          0.29273226877486813,
+          0.2998126977296762,
+          0.33383400188416357,
+          0.35134341935990676,
+          0.3663367795701558,
+          0.38329401526086027,
+          0.40136112163465487,
+          0.41814325349615744,
+          0.43025654082564907,
+          0.43102531104897923
+        ],
+        "terminal_interface_present": true,
+        "terminal_interface_mean_distance": 0.09788630641857943,
+        "terminal_interface_max_distance": 0.2505890247482539,
+        "terminal_rel_l2_cL": 0.056839191102025996,
+        "pooled_rel_l2_cL": 0.05274783044858629,
+        "terminal_rel_l2_q": 0.3014197454576375,
+        "pooled_rel_l2_q": 0.320546349490529,
+        "terminal_rel_l2_Dq_free": 4.013883685167288,
+        "bc_pit_q_rmse_over_cle": 1.5218820549732297e-06,
+        "bc_pit_c_max_error": 5.736594630434411e-07,
+        "bc_solid_q_rmse_over_cle": 0.0002678621846946038,
+        "bc_solid_c_max_error": 3.0994415283203125e-05,
+        "initial_q_rmse_over_cle_free": 0.023630888792409727,
+        "initial_rel_l2_Dq_free": 0.6631681999530259,
+        "boundary_max_abs_error": 6.276369094848633e-05,
+        "concentration_min": 0.0,
+        "concentration_max": 1.0,
+        "concentration_fraction_outside_0_1": 0.0,
+        "step": 5000,
+        "elapsed_seconds": 2223.019212950021
+      },
+      "existing_same_strategy_runs": {
+        "42": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed42",
+        "7": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed7"
+      },
+      "late_terminal_rel_l2_phi": {
+        "median": 0.40494646399325873,
+        "min": 0.39975977979573346,
+        "max": 0.40809303760812604,
+        "evaluations": 6
+      },
+      "late_terminal_rel_l2_c": {
+        "median": 0.42927369653610603,
+        "min": 0.4240875603352945,
+        "max": 0.43240735033639754,
+        "evaluations": 6
+      },
+      "late_terminal_rel_l2_q": {
+        "median": 0.2841100946515064,
+        "min": 0.2512846042795232,
+        "max": 0.31222450460793644,
+        "evaluations": 6
+      },
+      "late_terminal_rel_l2_Dq_free": {
+        "median": 3.7279509325458546,
+        "min": 3.29665988022525,
+        "max": 4.536869247390254,
+        "evaluations": 6
+      },
+      "independent_cpu": {
+        "field_metrics_cpu": {
+          "terminal_rel_l2_phi": 0.40701614971615463,
+          "pooled_rel_l2_phi": 0.2671337819942165,
+          "terminal_rel_l2_c": 0.4310253178410081,
+          "pooled_rel_l2_c": 0.2846336331582517
+        },
+        "transport_cpu": {
+          "terminal_q_rel_l2_free": 0.3106973569939486,
+          "terminal_Dq_rel_l2_free": 4.013897941318463,
+          "terminal_ct_rel_l2_free": 2.806355326627562,
+          "stable_CH_rms_free": 1.5596338484100312
+        },
+        "topology": {
+          "liquid_components_by_time": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "reference_liquid_components_by_time": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "terminal_liquid_area_fraction": 0.0992040380508639,
+          "reference_terminal_liquid_area_fraction": 0.2933410988157639
+        },
+        "cpu_vs_saved_gpu_fields_max_abs_difference": 2.86102294921875e-06
+      }
+    },
+    "electropolish2d": {
+      "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-independent-seed2026-default-strategy",
+      "config_differences_from_strategy": {
+        "log.run_name": {
+          "default": "",
+          "run": "20261025-independent-seed2026-default-strategy"
+        },
+        "train.seed": {
+          "strategy": "not a parameter",
+          "run": 2026
+        }
+      },
+      "endpoint": {
+        "pooled_rel_l2_phi": 0.002257955004064409,
+        "terminal_rel_l2_phi": 0.0028317064360897297,
+        "rel_l2_by_time_phi": [
+          0.0016146425871085047,
+          0.003825383341163135,
+          0.0030298126586250224,
+          0.0024611447725453903,
+          0.0020007699534401358,
+          0.0017251095680806787,
+          0.001643008052991751,
+          0.001614127755001487,
+          0.0017590758631472992,
+          0.001983423915653974,
+          0.002217198812918828,
+          0.0023387556350328615,
+          0.0023426295459513897,
+          0.0022408445946675223,
+          0.002174177944123458,
+          0.0020193938844723573,
+          0.0018908219526628531,
+          0.0018898728241147887,
+          0.0020171400618602116,
+          0.002356604148949735,
+          0.00283170643608973
+        ],
+        "pooled_rel_l2_c": 0.002752405880294018,
+        "terminal_rel_l2_c": 0.003426740578967856,
+        "rel_l2_by_time_c": [
+          0.0021771191479010954,
+          0.004665497401110256,
+          0.0036824381261632523,
+          0.0029750268922026407,
+          0.002425111268409382,
+          0.0020932964119834145,
+          0.001998495662866515,
+          0.0019679827417876964,
+          0.00212913858587172,
+          0.002407000693586712,
+          0.0026784908709451966,
+          0.00284282647560496,
+          0.002830711319864183,
+          0.0027257117722711494,
+          0.0026375824288345368,
+          0.0024532929934154004,
+          0.0023223908007308555,
+          0.002304575773277347,
+          0.0024667744055618334,
+          0.002873121645786265,
+          0.003426740578967856
+        ],
+        "terminal_interface_present": true,
+        "terminal_interface_mean_distance": 0.00026092056950631016,
+        "terminal_interface_max_distance": 0.0031042962315674947,
+        "terminal_rel_l2_cL": 0.009528751470825597,
+        "pooled_rel_l2_cL": 0.01677651743496604,
+        "terminal_rel_l2_q": 0.018036640335797965,
+        "pooled_rel_l2_q": 0.03368591766644916,
+        "terminal_rel_l2_Dq_free": 0.05490593678054317,
+        "bc_pit_q_rmse_over_cle": 0.014660081116005289,
+        "bc_pit_c_max_error": 0.0012079046573489904,
+        "bc_solid_q_rmse_over_cle": 0.004057054181686923,
+        "bc_solid_c_max_error": 0.0002308487892150879,
+        "initial_q_rmse_over_cle_free": 0.052457644582997676,
+        "initial_rel_l2_Dq_free": 0.5396363165159649,
+        "boundary_max_abs_error": 0.0012079046573489904,
+        "concentration_min": 1.955993411684176e-07,
+        "concentration_max": 0.9999709725379944,
+        "concentration_fraction_outside_0_1": 0.0,
+        "step": 5000,
+        "elapsed_seconds": 1965.3196125924587
+      },
+      "existing_same_strategy_runs": {
+        "7": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7",
+        "42": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed42"
+      },
+      "late_terminal_rel_l2_phi": {
+        "median": 0.004636667420889129,
+        "min": 0.0027522563221148654,
+        "max": 0.007127570175738932,
+        "evaluations": 6
+      },
+      "late_terminal_rel_l2_c": {
+        "median": 0.005603744910290342,
+        "min": 0.0032911829214899036,
+        "max": 0.008551931634648718,
+        "evaluations": 6
+      },
+      "late_terminal_rel_l2_q": {
+        "median": 0.01678717524057586,
+        "min": 0.012142156988901396,
+        "max": 0.018036640335797965,
+        "evaluations": 6
+      },
+      "late_terminal_rel_l2_Dq_free": {
+        "median": 0.06815350837560791,
+        "min": 0.048278159782491004,
+        "max": 0.08323416043256175,
+        "evaluations": 6
+      },
+      "independent_cpu": {
+        "field_metrics_cpu": {
+          "terminal_rel_l2_phi": 0.002831698347738159,
+          "pooled_rel_l2_phi": 0.0022579544555588467,
+          "terminal_rel_l2_c": 0.0034267288018683725,
+          "pooled_rel_l2_c": 0.0027524059521013416
+        },
+        "transport_cpu": {
+          "terminal_q_rel_l2_free": 0.018538423351758215,
+          "terminal_Dq_rel_l2_free": 0.05490646663773508,
+          "terminal_ct_rel_l2_free": 0.04820610808332078,
+          "stable_CH_rms_free": 0.022272403679785408
+        },
+        "topology": {
+          "vertical_crossings_by_time": [
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            },
+            {
+              "1": 101
+            }
+          ],
+          "single_interface_every_column_every_time": true
+        },
+        "cpu_vs_saved_gpu_fields_max_abs_difference": 2.1457672119140625e-06
+      }
+    },
+    "icemelting3d": {
+      "run": "/root/autodl-tmp/tf-logs/icemelting3d/20261025-independent-seed2026-default-strategy",
+      "config_differences_from_strategy": {
+        "log.run_name": {
+          "default": "",
+          "run": "20261025-independent-seed2026-default-strategy"
+        },
+        "eval.graph_reference_path": {
+          "default": "",
+          "run": "/root/nonlocal-pinn/reports/icemelting-weak-prior-20261024/reference.npz"
+        },
+        "train.seed": {
+          "strategy": "not a parameter",
+          "run": 2026
+        }
+      },
+      "endpoint": {
+        "step": 5000,
+        "physical_terminal_s": 5.0,
+        "sample_points": 8000,
+        "full_grid_points": 2097152,
+        "analytic_pooled_rel_l2": 0.0007837638421741661,
+        "analytic_terminal_rel_l2": 0.0003753467612678764,
+        "graph_pooled_rel_l2": 4.5957342474346924e-05,
+        "graph_terminal_rel_l2": 5.220037813639748e-05,
+        "analytic_terminal_full_rel_l2": 0.000381617443295,
+        "graph_terminal_full_rel_l2": 5.985733837322923e-05
+      },
+      "existing_same_strategy_runs": {
+        "42": "/root/autodl-tmp/tf-logs/icemelting3d/20261024-5s-soap-lr1e3-seed42"
+      },
+      "late_graph_terminal_rel_l2": {
+        "median": 4.973452494844469e-05,
+        "min": 2.732702524805401e-05,
+        "max": 5.924170118436219e-05,
+        "evaluations": 6
+      },
+      "late_analytic_terminal_rel_l2": {
+        "median": 0.000378279302337835,
+        "min": 0.00037470118972625225,
+        "max": 0.0004052164718648704,
+        "evaluations": 6
+      },
+      "independent_cpu": {
+        "terminal_graph_full_phi_relative_l2_cpu": 5.985387826936396e-05,
+        "phase_max_absolute_error": 0.00215874440721886,
+        "solid_volume_fraction": 0.004077911376953125,
+        "reference_solid_volume_fraction": 0.004077911376953125,
+        "solid_fraction_relative_l2": 0.0005431769502545736
+      }
+    }
+  },
+  "scope": "One predeclared additional seed per fixed strategy; no claim of statistical robustness"
+}

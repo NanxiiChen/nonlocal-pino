@@ -53,6 +53,27 @@ def make_loss_fn(x_all, D, ...physical_params...,
 - Fail loudly with context. Never catch an arbitrary exception and silently
   switch to another numerical method.
 
+Canonical phase-field training starts in each example's `train.py` and
+`configs/train_base.py`. Corrosion/electropolish matched configs dispatch to
+the shared KKS engine through `training_entry.py`; legacy configs explicitly
+retain their original loop. Pure IC/BC samplers live in `training_data.py`,
+so the shared engine never imports CLI modules or registers duplicate flags.
+Canonical strategy configs omit `train.seed`; the runtime `--seed` is resolved
+by `training.runtime.with_run_seed` into a copied config for serialized run
+provenance. The common run default42 is not tuned per case; existing serialized
+seed values remain loadable. Keep default selection criteria, seed limitations and direct checkpoint paths
+in the example README and `artifacts/index.yaml`.
+
+## Artifact Paths
+
+Load models, configs and reference arrays by explicit file path. Do not introduce
+file-hash computation, expected-checksum gates or hash-manifest dependencies.
+Record paths and source snapshots when useful; relative checkpoint paths are
+resolved from their run directory so directory retagging remains straightforward.
+Preserve physical-parameter, grid, shape and time compatibility validation.
+Older static checksum records are historical evidence and are not prerequisites
+for loading an artifact.
+
 ## Verification
 
 Choose the smallest verification set that gives credible evidence for the

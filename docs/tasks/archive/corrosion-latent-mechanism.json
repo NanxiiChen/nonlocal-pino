@@ -1,0 +1,374 @@
+{
+  "normalized_times": [
+    0.2,
+    0.5,
+    1.0
+  ],
+  "physical_times_seconds": [
+    10,
+    25,
+    50
+  ],
+  "runs": {
+    "good_original_kks_1e-7": {
+      "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-phase-seed42",
+      "nd": [
+        4.25,
+        10700000000.0,
+        1760000000.0,
+        1030000.0,
+        0.9643356643356643,
+        0.03566433566433566
+      ],
+      "ac_scale": 1e-07,
+      "native_graph_arrays_equal": true,
+      "mean_abs_original_residual": 236776.515625,
+      "mean_abs_latent_residual": 135762512.0,
+      "partitions": {
+        "reference_bulk": {
+          "count": 11239,
+          "fraction_of_free_samples": 0.7582135869931863,
+          "mean_abs_phi_error": 0.00023578137921186857,
+          "original_abs_residual_fraction": 0.0854029729962349,
+          "latent_abs_residual_fraction": 0.99471116065979,
+          "original_abs_residual_mean": 26669.818359375,
+          "latent_abs_residual_mean": 178108768.0
+        },
+        "reference_interface": {
+          "count": 3584,
+          "fraction_of_free_samples": 0.24178641300681372,
+          "mean_abs_phi_error": 0.03435061244620838,
+          "original_abs_residual_fraction": 0.9145970344543457,
+          "latent_abs_residual_fraction": 0.005288823042064905,
+          "original_abs_residual_mean": 895646.3125,
+          "latent_abs_residual_mean": 2969662.0
+        },
+        "correct_solid_bulk": {
+          "count": 9671,
+          "fraction_of_free_samples": 0.6524320313027052,
+          "mean_abs_phi_error": 0.00014911879691350025,
+          "original_abs_residual_fraction": 0.05168462172150612,
+          "latent_abs_residual_fraction": 0.8460599780082703,
+          "original_abs_residual_mean": 18757.056640625,
+          "latent_abs_residual_mean": 176053936.0
+        },
+        "correct_liquid_bulk": {
+          "count": 1404,
+          "fraction_of_free_samples": 0.0947176684881603,
+          "mean_abs_phi_error": 0.0004740232164952681,
+          "original_abs_residual_fraction": 0.021874504163861275,
+          "latent_abs_residual_fraction": 0.1482044905424118,
+          "original_abs_residual_mean": 54682.18359375,
+          "latent_abs_residual_mean": 212427264.0
+        },
+        "predicted_saturated": {
+          "count": 5584,
+          "fraction_of_free_samples": 0.37671186669365175,
+          "mean_abs_phi_error": 5.26592635317366e-07,
+          "original_abs_residual_fraction": 0.0025622458197176456,
+          "latent_abs_residual_fraction": 0.8784570693969727,
+          "original_abs_residual_mean": 1610.4605712890625,
+          "latent_abs_residual_mean": 316585568.0
+        }
+      },
+      "term_abs_mean": {
+        "time": 2.40055783633913,
+        "diffusion": 745093717.1874634,
+        "double_well": 815032456.1417145,
+        "concentration_drive": 48963157.94230918
+      },
+      "latent_float64_reassembly_abs_difference_mean": 299.87564241454373,
+      "latent_float64_reassembly_difference_over_residual_mae": 2.2088252545026398e-06,
+      "phase_coupling_partial_derivative_wrt_c": -15477587412.587412,
+      "concentration_error_contribution_mae_fixed_phi": 128982623.77919799,
+      "physical_phi_mean_absolute_error_free_samples": 0.008484284013234367,
+      "terminal_full_grid_phi_relative_l2": 0.03483963388822768,
+      "fixed_checkpoint_ac_parameter_gradients": {
+        "phase": {
+          "bulk": {
+            "unscaled_parameter_gradient_l1": 578274006.2181273,
+            "unscaled_parameter_gradient_l2": 9037549.995304633,
+            "cosine_with_physical_phi_squared_relative_l2_gradient": -0.018976976146278093
+          },
+          "interface": {
+            "unscaled_parameter_gradient_l1": 19014678736.830093,
+            "unscaled_parameter_gradient_l2": 305720988.02067614,
+            "cosine_with_physical_phi_squared_relative_l2_gradient": 0.005470552320743562
+          },
+          "all": {
+            "unscaled_parameter_gradient_l1": 19444515441.04606,
+            "unscaled_parameter_gradient_l2": 312639261.14621794,
+            "cosine_with_physical_phi_squared_relative_l2_gradient": 0.004800923864558586
+          }
+        },
+        "latent": {
+          "bulk": {
+            "unscaled_parameter_gradient_l1": 194955643028.60568,
+            "unscaled_parameter_gradient_l2": 2755957369.2813444,
+            "cosine_with_physical_phi_squared_relative_l2_gradient": 0.09037442008504669
+          },
+          "interface": {
+            "unscaled_parameter_gradient_l1": 58913321338.10611,
+            "unscaled_parameter_gradient_l2": 953503943.2418194,
+            "cosine_with_physical_phi_squared_relative_l2_gradient": -0.04243556544069253
+          },
+          "all": {
+            "unscaled_parameter_gradient_l1": 188880983313.90115,
+            "unscaled_parameter_gradient_l2": 2527161251.73003,
+            "cosine_with_physical_phi_squared_relative_l2_gradient": 0.08254541331848521
+          }
+        }
+      },
+      "gradient_probe_scope": "Full graph, free nodes at 10/25/50 s, same global normalization for both regions. Unweighted AC only; not historical GradNorm/SOAP update directions. Reference used only to define diagnostic masks and error gradient."
+    },
+    "latent_kks_1e-7": {
+      "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-latent-seed42",
+      "nd": [
+        4.25,
+        10700000000.0,
+        1760000000.0,
+        1030000.0,
+        0.9643356643356643,
+        0.03566433566433566
+      ],
+      "ac_scale": 1e-07,
+      "native_graph_arrays_equal": true,
+      "mean_abs_original_residual": 16808192.0,
+      "mean_abs_latent_residual": 43233176.0,
+      "partitions": {
+        "reference_bulk": {
+          "count": 11239,
+          "fraction_of_free_samples": 0.7582135869931863,
+          "mean_abs_phi_error": 0.08326697403829735,
+          "original_abs_residual_fraction": 0.7683396935462952,
+          "latent_abs_residual_fraction": 0.7668387293815613,
+          "original_abs_residual_mean": 17032668.0,
+          "latent_abs_residual_mean": 43724980.0
+        },
+        "reference_interface": {
+          "count": 3584,
+          "fraction_of_free_samples": 0.24178641300681372,
+          "mean_abs_phi_error": 0.41525464866249656,
+          "original_abs_residual_fraction": 0.23166032135486603,
+          "latent_abs_residual_fraction": 0.23316124081611633,
+          "original_abs_residual_mean": 16104259.0,
+          "latent_abs_residual_mean": 41690932.0
+        },
+        "correct_solid_bulk": {
+          "count": 9835,
+          "fraction_of_free_samples": 0.663495918505026,
+          "mean_abs_phi_error": 0.0005356309301418771,
+          "original_abs_residual_fraction": 0.00041960887028835714,
+          "latent_abs_residual_fraction": 0.05127670243382454,
+          "original_abs_residual_mean": 10629.8564453125,
+          "latent_abs_residual_mean": 3341173.0
+        },
+        "correct_liquid_bulk": {
+          "count": 39,
+          "fraction_of_free_samples": 0.0026310463468933415,
+          "mean_abs_phi_error": 0.005273766154700955,
+          "original_abs_residual_fraction": 0.006509135942906141,
+          "latent_abs_residual_fraction": 0.15756888687610626,
+          "original_abs_residual_mean": 41583004.0,
+          "latent_abs_residual_mean": 2589161216.0
+        },
+        "predicted_saturated": {
+          "count": 7635,
+          "fraction_of_free_samples": 0.5150779194495041,
+          "mean_abs_phi_error": 0.0003352128591673758,
+          "original_abs_residual_fraction": 3.877707422361709e-05,
+          "latent_abs_residual_fraction": 0.017911609262228012,
+          "original_abs_residual_mean": 1265.38623046875,
+          "latent_abs_residual_mean": 1503414.625
+        }
+      },
+      "term_abs_mean": {
+        "time": 0.011105817607819334,
+        "diffusion": 362156771.064223,
+        "double_well": 852899618.0355657,
+        "concentration_drive": 551997832.9875357
+      },
+      "latent_float64_reassembly_abs_difference_mean": 189.31638915839324,
+      "latent_float64_reassembly_difference_over_residual_mae": 4.378961836862126e-06,
+      "phase_coupling_partial_derivative_wrt_c": -15477587412.587412,
+      "concentration_error_contribution_mae_fixed_phi": 2726093372.3330455,
+      "physical_phi_mean_absolute_error_free_samples": 0.16353708304815567,
+      "terminal_full_grid_phi_relative_l2": 0.5683857291011941
+    },
+    "latent_kks_1e-9": {
+      "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-latent-mapkks-ac1e-09-ch1.0-seed42",
+      "nd": [
+        4.25,
+        10700000000.0,
+        1760000000.0,
+        1030000.0,
+        0.9643356643356643,
+        0.03566433566433566
+      ],
+      "ac_scale": 1e-09,
+      "native_graph_arrays_equal": true,
+      "mean_abs_original_residual": 19444762.0,
+      "mean_abs_latent_residual": 27611184.0,
+      "partitions": {
+        "reference_bulk": {
+          "count": 11239,
+          "fraction_of_free_samples": 0.7582135869931863,
+          "mean_abs_phi_error": 0.09618803041423647,
+          "original_abs_residual_fraction": 0.5562571883201599,
+          "latent_abs_residual_fraction": 0.6338863372802734,
+          "original_abs_residual_mean": 14265492.0,
+          "latent_abs_residual_mean": 23083670.0
+        },
+        "reference_interface": {
+          "count": 3584,
+          "fraction_of_free_samples": 0.24178641300681372,
+          "mean_abs_phi_error": 0.35349885850354984,
+          "original_abs_residual_fraction": 0.4437428116798401,
+          "latent_abs_residual_fraction": 0.3661137521266937,
+          "original_abs_residual_mean": 35686348.0,
+          "latent_abs_residual_mean": 41808940.0
+        },
+        "correct_solid_bulk": {
+          "count": 7934,
+          "fraction_of_free_samples": 0.5352492747756864,
+          "mean_abs_phi_error": 0.0007358770245687211,
+          "original_abs_residual_fraction": 0.00025493238354101777,
+          "latent_abs_residual_fraction": 0.0728558674454689,
+          "original_abs_residual_mean": 9261.2919921875,
+          "latent_abs_residual_mean": 3758317.5
+        },
+        "correct_liquid_bulk": {
+          "count": 162,
+          "fraction_of_free_samples": 0.01092896174863388,
+          "mean_abs_phi_error": 0.004206484260650774,
+          "original_abs_residual_fraction": 0.0013372600078582764,
+          "latent_abs_residual_fraction": 0.09206268191337585,
+          "original_abs_residual_mean": 2379247.5,
+          "latent_abs_residual_mean": 232589312.0
+        },
+        "predicted_saturated": {
+          "count": 3845,
+          "fraction_of_free_samples": 0.2593941847129461,
+          "mean_abs_phi_error": 0.0005159012930263813,
+          "original_abs_residual_fraction": 1.585189784236718e-05,
+          "latent_abs_residual_fraction": 0.04004182294011116,
+          "original_abs_residual_mean": 1188.2933349609375,
+          "latent_abs_residual_mean": 4262247.0
+        }
+      },
+      "term_abs_mean": {
+        "time": 0.1557142613798457,
+        "diffusion": 713341439.1857849,
+        "double_well": 731169864.9201434,
+        "concentration_drive": 90700107.05529404
+      },
+      "latent_float64_reassembly_abs_difference_mean": 305.07971874688747,
+      "latent_float64_reassembly_difference_over_residual_mae": 1.1049125800051366e-05,
+      "phase_coupling_partial_derivative_wrt_c": -15477587412.587412,
+      "concentration_error_contribution_mae_fixed_phi": 2470713645.202276,
+      "physical_phi_mean_absolute_error_free_samples": 0.15840229256576444,
+      "terminal_full_grid_phi_relative_l2": 0.43678762337922844
+    },
+    "latent_direct_1e-9": {
+      "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-latent-mapdirect-ac1e-09-ch1.0-seed42",
+      "nd": [
+        4.25,
+        10700000000.0,
+        1760000000.0,
+        1030000.0,
+        0.9643356643356643,
+        0.03566433566433566
+      ],
+      "ac_scale": 1e-09,
+      "native_graph_arrays_equal": true,
+      "mean_abs_original_residual": 11913621.0,
+      "mean_abs_latent_residual": 68407744.0,
+      "partitions": {
+        "reference_bulk": {
+          "count": 11239,
+          "fraction_of_free_samples": 0.7582135869931863,
+          "mean_abs_phi_error": 0.0650718842590428,
+          "original_abs_residual_fraction": 0.6835598945617676,
+          "latent_abs_residual_fraction": 0.828942060470581,
+          "original_abs_residual_mean": 10740606.0,
+          "latent_abs_residual_mean": 74789024.0
+        },
+        "reference_interface": {
+          "count": 3584,
+          "fraction_of_free_samples": 0.24178641300681372,
+          "mean_abs_phi_error": 0.38817327874951296,
+          "original_abs_residual_fraction": 0.3164401948451996,
+          "latent_abs_residual_fraction": 0.1710580438375473,
+          "original_abs_residual_mean": 15592061.0,
+          "latent_abs_residual_mean": 48396828.0
+        },
+        "correct_solid_bulk": {
+          "count": 9835,
+          "fraction_of_free_samples": 0.663495918505026,
+          "mean_abs_phi_error": 0.000538120114033574,
+          "original_abs_residual_fraction": 0.00026832829462364316,
+          "latent_abs_residual_fraction": 0.6057903170585632,
+          "original_abs_residual_mean": 4818.0576171875,
+          "latent_abs_residual_mean": 62458180.0
+        },
+        "correct_liquid_bulk": {
+          "count": 129,
+          "fraction_of_free_samples": 0.008702691762801052,
+          "mean_abs_phi_error": 0.004672146091335566,
+          "original_abs_residual_fraction": 0.005358600523322821,
+          "latent_abs_residual_fraction": 0.05431361496448517,
+          "original_abs_residual_mean": 7335700.0,
+          "latent_abs_residual_mean": 426933632.0
+        },
+        "predicted_saturated": {
+          "count": 9050,
+          "fraction_of_free_samples": 0.610537677932942,
+          "mean_abs_phi_error": 0.0019222264932786679,
+          "original_abs_residual_fraction": 4.753610119223595e-05,
+          "latent_abs_residual_fraction": 0.5779724717140198,
+          "original_abs_residual_mean": 927.58740234375,
+          "latent_abs_residual_mean": 64758976.0
+        }
+      },
+      "term_abs_mean": {
+        "time": 0.12383615859239894,
+        "diffusion": 759717407.4583731,
+        "double_well": 841132077.3967077,
+        "concentration_drive": 176778388.7794147
+      },
+      "latent_float64_reassembly_abs_difference_mean": 330.31842199000704,
+      "latent_float64_reassembly_difference_over_residual_mae": 4.8286819122636285e-06,
+      "phase_coupling_partial_derivative_wrt_c": -15477587412.587412,
+      "concentration_error_contribution_mae_fixed_phi": 2192651462.3274584,
+      "physical_phi_mean_absolute_error_free_samples": 0.1431934114703931,
+      "terminal_full_grid_phi_relative_l2": 0.536446754143613
+    }
+  },
+  "concentration_sensitivity_finite_difference_relative_error": 4.567368705465924e-11,
+  "sensitivity_amplification_over_original": {
+    "0.001": 250.25025025025022,
+    "0.01": 25.25252525252525,
+    "0.5": 1.0,
+    "0.99": 25.252525252525228,
+    "0.999": 250.25025025025002
+  },
+  "uniform_stationary_solid_limit": {
+    "scope": "Dphi=0, phi_t=0, c=c_se. Reactions only; not a claim that diffusion/drive cannot cancel in the actual spatial solution.",
+    "epsilon": [
+      0.001,
+      1e-06,
+      1e-09
+    ],
+    "original": [
+      -3509625.8486820874,
+      -3519.989440287369,
+      -3.5199998898875897
+    ],
+    "transformed": [
+      -878284746.9174384,
+      -879998240.0447774,
+      -879999998.239997
+    ],
+    "transformed_limit": -880000000.0
+  }
+}

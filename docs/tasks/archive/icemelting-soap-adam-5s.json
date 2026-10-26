@@ -1,0 +1,954 @@
+{
+  "physical_terminal_s": 5.0,
+  "updates": 5000,
+  "lr_init": 0.001,
+  "seed": 42,
+  "reference_path": "/root/nonlocal-pinn/reports/icemelting-weak-prior-20261024/reference.npz",
+  "runs": {
+    "soap": {
+      "run_dir": "/root/autodl-tmp/tf-logs/icemelting3d/20261024-5s-soap-lr1e3-seed42",
+      "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/20261024-5s-soap-lr1e3-seed42/ckpt_005000.eqx",
+      "config": {
+        "arch": {
+          "activation": "tanh",
+          "film_hidden_dim": 64,
+          "film_num_layers": 1,
+          "hidden_dim": 64,
+          "num_layers": 4,
+          "out_dim": 1,
+          "spatial_dim": 3,
+          "spatial_emb_dim": 64,
+          "spatial_scale": 2.0,
+          "temporal_emb_dim": 64,
+          "temporal_scale": 1.0,
+          "tensor_split": true,
+          "type": "mlp",
+          "use_hard_constraint": false,
+          "use_spatial_emb": true,
+          "use_temporal_emb": true
+        },
+        "causal": {
+          "eps_init": 1.0,
+          "max_eps": 100.0,
+          "max_last_weight": 0.9,
+          "min_mean_weight": 0.01,
+          "step_size": 1.1
+        },
+        "eval": {
+          "chunk_size": 32768,
+          "full_grid_every": 1000,
+          "graph_reference_path": "reports/icemelting-weak-prior-20261024/reference.npz"
+        },
+        "log": {
+          "eval_every": 200,
+          "log_dir": "/root/autodl-tmp/tf-logs/icemelting3d/",
+          "log_every": 20,
+          "run_diag": false,
+          "run_name": "20261024-5s-soap-lr1e3-seed42",
+          "save_ckpt": true
+        },
+        "loss": {
+          "gradnorm_bias": [
+            1.0,
+            1.0
+          ],
+          "gradnorm_weight_cap": 1000.0,
+          "iface_gamma_decay_steps": 0,
+          "iface_gamma_decay_to": 0.0,
+          "iface_gamma_init": 0.0,
+          "use_causal": false
+        },
+        "nl": {
+          "delta": 0.01,
+          "kernel": "cubic",
+          "method": "sparse"
+        },
+        "nondim": {
+          "L_c": 100.0,
+          "T_c": 5.0,
+          "xc": [
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        "phase": {
+          "formulation": "ic_latent"
+        },
+        "physical": {
+          "M": 0.1,
+          "R0": 35.0,
+          "eps_star": 0.0225,
+          "lam": 5.0
+        },
+        "sample": {
+          "K_core": 2000,
+          "K_pool": 200,
+          "N_ic": 20000,
+          "N_lhs": 2000,
+          "Nt": 64,
+          "Nx": 128,
+          "Ny": 128,
+          "Nz": 128,
+          "t_min": 0.001
+        },
+        "train": {
+          "alpha_gradnorm": 0.9,
+          "grad_clip": 100.0,
+          "gradnorm_update_every": 1,
+          "iterations": 20000,
+          "lr_decay_every": 1000,
+          "lr_decay_rate": 0.95,
+          "lr_init": 0.001,
+          "lr_min": 1e-05,
+          "matmul_precision": "highest",
+          "optimizer": "soap",
+          "seed": 42,
+          "soap_b1": 0.9,
+          "soap_b2": 0.99,
+          "soap_max_precond_dim": 100000,
+          "soap_precond_1d": false,
+          "soap_precond_freq": 5
+        }
+      },
+      "history": [
+        {
+          "step": 0,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.5822457159950256,
+          "analytic_terminal_rel_l2": 0.7619684851193196,
+          "graph_pooled_rel_l2": 0.5820681069969533,
+          "graph_terminal_rel_l2": 0.7619120389418105,
+          "analytic_terminal_full_rel_l2": 0.7718606845105584,
+          "graph_terminal_full_rel_l2": 0.7718035010588686
+        },
+        {
+          "step": 200,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.4129766403912663,
+          "analytic_terminal_rel_l2": 0.510352800165776,
+          "graph_pooled_rel_l2": 0.41272716905638185,
+          "graph_terminal_rel_l2": 0.5102598435248629
+        },
+        {
+          "step": 400,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.1955342907785905,
+          "analytic_terminal_rel_l2": 0.23325984137370537,
+          "graph_pooled_rel_l2": 0.19506809005256645,
+          "graph_terminal_rel_l2": 0.23304782327213788
+        },
+        {
+          "step": 600,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.019481913096747547,
+          "analytic_terminal_rel_l2": 0.019814626996406192,
+          "graph_pooled_rel_l2": 0.018754344937143296,
+          "graph_terminal_rel_l2": 0.019417082183820208
+        },
+        {
+          "step": 800,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.000785091075957717,
+          "analytic_terminal_rel_l2": 0.00023827284562448104,
+          "graph_pooled_rel_l2": 0.00020533086840730157,
+          "graph_terminal_rel_l2": 0.00019945388866955216
+        },
+        {
+          "step": 1000,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.000964707668110007,
+          "analytic_terminal_rel_l2": 0.0005775097626698225,
+          "graph_pooled_rel_l2": 0.0001658117378765432,
+          "graph_terminal_rel_l2": 0.0001969155367062137,
+          "analytic_terminal_full_rel_l2": 0.0005912858048299406,
+          "graph_terminal_full_rel_l2": 0.00021179125797689884
+        },
+        {
+          "step": 1200,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0007713244856202493,
+          "analytic_terminal_rel_l2": 0.0003146751164430642,
+          "graph_pooled_rel_l2": 7.555270869472389e-05,
+          "graph_terminal_rel_l2": 0.00011928412419121853
+        },
+        {
+          "step": 1400,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0008250207282255724,
+          "analytic_terminal_rel_l2": 0.0003830111347447079,
+          "graph_pooled_rel_l2": 4.0568190714395274e-05,
+          "graph_terminal_rel_l2": 7.508031688687817e-05
+        },
+        {
+          "step": 1600,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.000854915066868164,
+          "analytic_terminal_rel_l2": 0.0004196477168399969,
+          "graph_pooled_rel_l2": 5.1335549439051984e-05,
+          "graph_terminal_rel_l2": 6.996129011657435e-05
+        },
+        {
+          "step": 1800,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0009156179529907304,
+          "analytic_terminal_rel_l2": 0.0004647743850232934,
+          "graph_pooled_rel_l2": 0.00010674111158217862,
+          "graph_terminal_rel_l2": 8.786497330858737e-05
+        },
+        {
+          "step": 2000,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.0008308232016992829,
+          "analytic_terminal_rel_l2": 0.00039022268360734935,
+          "graph_pooled_rel_l2": 3.305651725155892e-05,
+          "graph_terminal_rel_l2": 5.8806335424049856e-05,
+          "analytic_terminal_full_rel_l2": 0.00040260928861284863,
+          "graph_terminal_full_rel_l2": 6.151860742681482e-05
+        },
+        {
+          "step": 2200,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0007855723481525551,
+          "analytic_terminal_rel_l2": 0.00034795961466439713,
+          "graph_pooled_rel_l2": 5.03741825437099e-05,
+          "graph_terminal_rel_l2": 8.077839729505024e-05
+        },
+        {
+          "step": 2400,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0007935868133435673,
+          "analytic_terminal_rel_l2": 0.0003461151682878331,
+          "graph_pooled_rel_l2": 4.926175961938718e-05,
+          "graph_terminal_rel_l2": 8.644116067095746e-05
+        },
+        {
+          "step": 2600,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0008639446870877876,
+          "analytic_terminal_rel_l2": 0.0004500003719723631,
+          "graph_pooled_rel_l2": 5.001599438865523e-05,
+          "graph_terminal_rel_l2": 5.3626658713631504e-05
+        },
+        {
+          "step": 2800,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0008158710640452045,
+          "analytic_terminal_rel_l2": 0.000416498278903722,
+          "graph_pooled_rel_l2": 1.8424394235390384e-05,
+          "graph_terminal_rel_l2": 2.761213111745911e-05
+        },
+        {
+          "step": 3000,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.0008589154583119777,
+          "analytic_terminal_rel_l2": 0.0004904858413361228,
+          "graph_pooled_rel_l2": 5.4216821935313835e-05,
+          "graph_terminal_rel_l2": 8.231335265649646e-05,
+          "analytic_terminal_full_rel_l2": 0.0005026043213032794,
+          "graph_terminal_full_rel_l2": 8.513704415452148e-05
+        },
+        {
+          "step": 3200,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0008049856714042045,
+          "analytic_terminal_rel_l2": 0.0003986252412760913,
+          "graph_pooled_rel_l2": 2.352491510656102e-05,
+          "graph_terminal_rel_l2": 2.5831444301209773e-05
+        },
+        {
+          "step": 3400,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0008608258646534014,
+          "analytic_terminal_rel_l2": 0.0004712441022893453,
+          "graph_pooled_rel_l2": 4.8741866771631784e-05,
+          "graph_terminal_rel_l2": 6.0997852062003316e-05
+        },
+        {
+          "step": 3600,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0008814220692756749,
+          "analytic_terminal_rel_l2": 0.0004735465219962306,
+          "graph_pooled_rel_l2": 6.684907210811715e-05,
+          "graph_terminal_rel_l2": 6.331460127747586e-05
+        },
+        {
+          "step": 3800,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0008545649742212391,
+          "analytic_terminal_rel_l2": 0.00045414051135234205,
+          "graph_pooled_rel_l2": 4.0964292698078905e-05,
+          "graph_terminal_rel_l2": 4.517361883229324e-05
+        },
+        {
+          "step": 4000,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.0008666762560557851,
+          "analytic_terminal_rel_l2": 0.0004821299830309215,
+          "graph_pooled_rel_l2": 5.3524638974623624e-05,
+          "graph_terminal_rel_l2": 7.158998489123357e-05,
+          "analytic_terminal_full_rel_l2": 0.0004901266704244667,
+          "graph_terminal_full_rel_l2": 7.07954833046234e-05
+        },
+        {
+          "step": 4200,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0008065553638590371,
+          "analytic_terminal_rel_l2": 0.00041499835015649215,
+          "graph_pooled_rel_l2": 2.1212032042339962e-05,
+          "graph_terminal_rel_l2": 1.78092201656067e-05
+        },
+        {
+          "step": 4400,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0008516267543775986,
+          "analytic_terminal_rel_l2": 0.00045587392806761563,
+          "graph_pooled_rel_l2": 3.8356321973259174e-05,
+          "graph_terminal_rel_l2": 4.6159025758120046e-05
+        },
+        {
+          "step": 4600,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0008503055006795277,
+          "analytic_terminal_rel_l2": 0.00045127029763248797,
+          "graph_pooled_rel_l2": 3.611330401740195e-05,
+          "graph_terminal_rel_l2": 4.2737939313359076e-05
+        },
+        {
+          "step": 4800,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0008427545051057552,
+          "analytic_terminal_rel_l2": 0.00045964131250924564,
+          "graph_pooled_rel_l2": 3.439766571322896e-05,
+          "graph_terminal_rel_l2": 5.21898469860045e-05
+        },
+        {
+          "step": 5000,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.000857295179775941,
+          "analytic_terminal_rel_l2": 0.0004687589618628939,
+          "graph_pooled_rel_l2": 4.5185991593244034e-05,
+          "graph_terminal_rel_l2": 6.110865403938133e-05,
+          "analytic_terminal_full_rel_l2": 0.00047590030926562035,
+          "graph_terminal_full_rel_l2": 6.10970108092214e-05
+        }
+      ],
+      "endpoint": {
+        "step": 5000,
+        "physical_terminal_s": 5.0,
+        "sample_points": 8000,
+        "full_grid_points": 2097152,
+        "analytic_pooled_rel_l2": 0.000857295179775941,
+        "analytic_terminal_rel_l2": 0.0004687589618628939,
+        "graph_pooled_rel_l2": 4.5185991593244034e-05,
+        "graph_terminal_rel_l2": 6.110865403938133e-05,
+        "analytic_terminal_full_rel_l2": 0.00047590030926562035,
+        "graph_terminal_full_rel_l2": 6.10970108092214e-05
+      },
+      "timing": {
+        "seconds_to_5000_checkpoint_after_initial_eval": 227.05540204048157,
+        "median_update_ms_excluding_eval_boundaries": 26.659750938415527,
+        "elapsed_to_eval_s": {
+          "0": 0.0,
+          "200": 69.92936897277832,
+          "400": 87.82804107666016,
+          "600": 93.6614899635315,
+          "800": 99.70476412773132,
+          "1000": 105.8488290309906,
+          "1200": 111.69357299804688,
+          "1400": 117.47389698028564,
+          "1600": 123.50200915336609,
+          "1800": 129.3493790626526,
+          "2000": 135.41070103645325,
+          "2200": 141.16323900222778,
+          "2400": 147.0269911289215,
+          "2600": 153.09393000602722,
+          "2800": 158.86166214942932,
+          "3000": 164.98384714126587,
+          "3200": 170.7879979610443,
+          "3400": 176.5663321018219,
+          "3600": 182.7610170841217,
+          "3800": 188.81610894203186,
+          "4000": 195.2235929965973,
+          "4200": 201.6467990875244,
+          "4400": 208.23126006126404,
+          "4600": 214.20572113990784,
+          "4800": 220.0706911087036,
+          "5000": 226.45444893836975
+        }
+      },
+      "independent_terminal_graph_rel_l2": 6.109696587230637e-05,
+      "phase_max_error": 0.002156479430717395,
+      "interface_mae": 0.00046041031736556294,
+      "solid_fraction_rel_l2": 0.0005544580326604311,
+      "radius_axes": [
+        0.10008065105539123,
+        0.10007432110809393,
+        0.10006607899572423,
+        0.10007464231307057,
+        0.10008165902428742,
+        0.10006786528952366
+      ],
+      "width_axes": [
+        0.03224746913171812,
+        0.03226255268488685,
+        0.032256768430782415,
+        0.032257126809127484,
+        0.0322420129165747,
+        0.03226292892034152
+      ],
+      "reference_radius": 0.10004903533800638,
+      "reference_width": 0.03226806955595625,
+      "max_radius_relative_error": 0.0003260769698660848,
+      "last_five_full_graph_rel_l2": [
+        0.00021179125797689884,
+        6.151860742681482e-05,
+        8.513704415452148e-05,
+        7.07954833046234e-05,
+        6.10970108092214e-05
+      ],
+      "initial_checkpoint_matches_fresh_builder": true,
+      "last_1000_updates_sample_graph_median": 4.917443637206228e-05,
+      "last_1000_updates_sample_graph_range": [
+        1.78092201656067e-05,
+        7.158998489123357e-05
+      ],
+      "last_five_full_graph_median": 7.07954833046234e-05,
+      "error_cosine_with_reference_minus_analytic": 0.8155708578785259
+    },
+    "adam": {
+      "run_dir": "/root/autodl-tmp/tf-logs/icemelting3d/20261024-5s-adam-lr1e3-seed42",
+      "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/20261024-5s-adam-lr1e3-seed42/ckpt_005000.eqx",
+      "config": {
+        "arch": {
+          "activation": "tanh",
+          "film_hidden_dim": 64,
+          "film_num_layers": 1,
+          "hidden_dim": 64,
+          "num_layers": 4,
+          "out_dim": 1,
+          "spatial_dim": 3,
+          "spatial_emb_dim": 64,
+          "spatial_scale": 2.0,
+          "temporal_emb_dim": 64,
+          "temporal_scale": 1.0,
+          "tensor_split": true,
+          "type": "mlp",
+          "use_hard_constraint": false,
+          "use_spatial_emb": true,
+          "use_temporal_emb": true
+        },
+        "causal": {
+          "eps_init": 1.0,
+          "max_eps": 100.0,
+          "max_last_weight": 0.9,
+          "min_mean_weight": 0.01,
+          "step_size": 1.1
+        },
+        "eval": {
+          "chunk_size": 32768,
+          "full_grid_every": 1000,
+          "graph_reference_path": "reports/icemelting-weak-prior-20261024/reference.npz"
+        },
+        "log": {
+          "eval_every": 200,
+          "log_dir": "/root/autodl-tmp/tf-logs/icemelting3d/",
+          "log_every": 20,
+          "run_diag": false,
+          "run_name": "20261024-5s-adam-lr1e3-seed42",
+          "save_ckpt": true
+        },
+        "loss": {
+          "gradnorm_bias": [
+            1.0,
+            1.0
+          ],
+          "gradnorm_weight_cap": 1000.0,
+          "iface_gamma_decay_steps": 0,
+          "iface_gamma_decay_to": 0.0,
+          "iface_gamma_init": 0.0,
+          "use_causal": false
+        },
+        "nl": {
+          "delta": 0.01,
+          "kernel": "cubic",
+          "method": "sparse"
+        },
+        "nondim": {
+          "L_c": 100.0,
+          "T_c": 5.0,
+          "xc": [
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        "phase": {
+          "formulation": "ic_latent"
+        },
+        "physical": {
+          "M": 0.1,
+          "R0": 35.0,
+          "eps_star": 0.0225,
+          "lam": 5.0
+        },
+        "sample": {
+          "K_core": 2000,
+          "K_pool": 200,
+          "N_ic": 20000,
+          "N_lhs": 2000,
+          "Nt": 64,
+          "Nx": 128,
+          "Ny": 128,
+          "Nz": 128,
+          "t_min": 0.001
+        },
+        "train": {
+          "alpha_gradnorm": 0.9,
+          "grad_clip": 100.0,
+          "gradnorm_update_every": 1,
+          "iterations": 5000,
+          "lr_decay_every": 1000,
+          "lr_decay_rate": 0.95,
+          "lr_init": 0.001,
+          "lr_min": 1e-05,
+          "matmul_precision": "highest",
+          "optimizer": "adam",
+          "seed": 42,
+          "soap_b1": 0.9,
+          "soap_b2": 0.99,
+          "soap_max_precond_dim": 100000,
+          "soap_precond_1d": false,
+          "soap_precond_freq": 5
+        }
+      },
+      "history": [
+        {
+          "step": 0,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.5822457159950256,
+          "analytic_terminal_rel_l2": 0.7619684851193196,
+          "graph_pooled_rel_l2": 0.5820681069969533,
+          "graph_terminal_rel_l2": 0.7619120389418105,
+          "analytic_terminal_full_rel_l2": 0.7718606845105584,
+          "graph_terminal_full_rel_l2": 0.7718035010588686
+        },
+        {
+          "step": 200,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.00221535426930088,
+          "analytic_terminal_rel_l2": 0.0023580413156509025,
+          "graph_pooled_rel_l2": 0.002980526878837786,
+          "graph_terminal_rel_l2": 0.00275600137959128
+        },
+        {
+          "step": 400,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0021819420546259154,
+          "analytic_terminal_rel_l2": 0.0023842719917456577,
+          "graph_pooled_rel_l2": 0.002944279934353384,
+          "graph_terminal_rel_l2": 0.002782193980871311
+        },
+        {
+          "step": 600,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0019103671912413822,
+          "analytic_terminal_rel_l2": 0.0023874022260969795,
+          "graph_pooled_rel_l2": 0.0026360505932508074,
+          "graph_terminal_rel_l2": 0.0027853187986217527
+        },
+        {
+          "step": 800,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0006656857534398407,
+          "analytic_terminal_rel_l2": 0.00020069843083156484,
+          "graph_pooled_rel_l2": 0.00024639738572733287,
+          "graph_terminal_rel_l2": 0.000252951556784235
+        },
+        {
+          "step": 1000,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.0006768799516170189,
+          "analytic_terminal_rel_l2": 0.00016328307506487932,
+          "graph_pooled_rel_l2": 0.0001984616649362747,
+          "graph_terminal_rel_l2": 0.0002758876570936148,
+          "analytic_terminal_full_rel_l2": 0.0001707691028586602,
+          "graph_terminal_full_rel_l2": 0.0002819078167399482
+        },
+        {
+          "step": 1200,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0004040838247447071,
+          "analytic_terminal_rel_l2": 0.00048442834478939486,
+          "graph_pooled_rel_l2": 0.0007189368367113478,
+          "graph_terminal_rel_l2": 0.0008865877808613774
+        },
+        {
+          "step": 1400,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0005333342524300952,
+          "analytic_terminal_rel_l2": 0.0008293035279583378,
+          "graph_pooled_rel_l2": 0.001195803225178216,
+          "graph_terminal_rel_l2": 0.0012305136038118873
+        },
+        {
+          "step": 1600,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0016991437237613863,
+          "analytic_terminal_rel_l2": 0.0012990064631123426,
+          "graph_pooled_rel_l2": 0.0009133489036616181,
+          "graph_terminal_rel_l2": 0.0009089746526840952
+        },
+        {
+          "step": 1800,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0016968480822252738,
+          "analytic_terminal_rel_l2": 0.0011276834494764769,
+          "graph_pooled_rel_l2": 0.0009064640691177865,
+          "graph_terminal_rel_l2": 0.0007390828085129995
+        },
+        {
+          "step": 2000,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.0011694147031051478,
+          "analytic_terminal_rel_l2": 0.0008796911995024374,
+          "graph_pooled_rel_l2": 0.0003943913667959615,
+          "graph_terminal_rel_l2": 0.0004972258149444648,
+          "analytic_terminal_full_rel_l2": 0.000894623998555756,
+          "graph_terminal_full_rel_l2": 0.0005138734595759047
+        },
+        {
+          "step": 2200,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0013586480480403719,
+          "analytic_terminal_rel_l2": 0.0010041074899944233,
+          "graph_pooled_rel_l2": 0.0005777187965223657,
+          "graph_terminal_rel_l2": 0.0006183694111321059
+        },
+        {
+          "step": 2400,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0008746654620184622,
+          "analytic_terminal_rel_l2": 0.00043977504224443977,
+          "graph_pooled_rel_l2": 8.373601006349302e-05,
+          "graph_terminal_rel_l2": 0.00012099679550064212
+        },
+        {
+          "step": 2600,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0009774956216671285,
+          "analytic_terminal_rel_l2": 0.0005680211389395976,
+          "graph_pooled_rel_l2": 0.0001790912081452356,
+          "graph_terminal_rel_l2": 0.00020466641794540257
+        },
+        {
+          "step": 2800,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.001500956192339247,
+          "analytic_terminal_rel_l2": 0.0011373445336259683,
+          "graph_pooled_rel_l2": 0.0007212141959048436,
+          "graph_terminal_rel_l2": 0.0007483773308693227
+        },
+        {
+          "step": 3000,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.0008852644095833934,
+          "analytic_terminal_rel_l2": 0.0004169953469746276,
+          "graph_pooled_rel_l2": 9.192340901090127e-05,
+          "graph_terminal_rel_l2": 0.00010958682080789049,
+          "analytic_terminal_full_rel_l2": 0.0004304935602214046,
+          "graph_terminal_full_rel_l2": 0.000125433470834403
+        },
+        {
+          "step": 3200,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0003951383489683112,
+          "analytic_terminal_rel_l2": 0.0001945485264463414,
+          "graph_pooled_rel_l2": 0.0005389948004813306,
+          "graph_terminal_rel_l2": 0.0005948509422729336
+        },
+        {
+          "step": 3400,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0006870161519643302,
+          "analytic_terminal_rel_l2": 0.00023873928073573443,
+          "graph_pooled_rel_l2": 0.0001597408199672152,
+          "graph_terminal_rel_l2": 0.00019230563581430573
+        },
+        {
+          "step": 3600,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0008014806748329707,
+          "analytic_terminal_rel_l2": 0.00039452761328250186,
+          "graph_pooled_rel_l2": 6.0495271603644966e-05,
+          "graph_terminal_rel_l2": 0.00010126524681067742
+        },
+        {
+          "step": 3800,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.000920215138631819,
+          "analytic_terminal_rel_l2": 0.0004495154031421217,
+          "graph_pooled_rel_l2": 0.00012312607688523373,
+          "graph_terminal_rel_l2": 0.00011270061388081421
+        },
+        {
+          "step": 4000,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.0008442642114246392,
+          "analytic_terminal_rel_l2": 0.000425789674509511,
+          "graph_pooled_rel_l2": 7.069310561701777e-05,
+          "graph_terminal_rel_l2": 9.700083866979327e-05,
+          "analytic_terminal_full_rel_l2": 0.00044072407368783223,
+          "graph_terminal_full_rel_l2": 0.0001154865172054562
+        },
+        {
+          "step": 4200,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0006569641303924992,
+          "analytic_terminal_rel_l2": 0.0001697231271482156,
+          "graph_pooled_rel_l2": 0.00021064957107545218,
+          "graph_terminal_rel_l2": 0.00025709540733963445
+        },
+        {
+          "step": 4400,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.000984748113755508,
+          "analytic_terminal_rel_l2": 0.0006108311528768668,
+          "graph_pooled_rel_l2": 0.0001982170688821056,
+          "graph_terminal_rel_l2": 0.00023401579073193023
+        },
+        {
+          "step": 4600,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.00037752564406570867,
+          "analytic_terminal_rel_l2": 0.0005625376853579246,
+          "graph_pooled_rel_l2": 0.000851318782143837,
+          "graph_terminal_rel_l2": 0.0009584564258422618
+        },
+        {
+          "step": 4800,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0006203132437539995,
+          "analytic_terminal_rel_l2": 0.00021018922468150057,
+          "graph_pooled_rel_l2": 0.00022258790290719392,
+          "graph_terminal_rel_l2": 0.00021559233012074334
+        },
+        {
+          "step": 5000,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.0003420319881689287,
+          "analytic_terminal_rel_l2": 0.00034462124696755506,
+          "graph_pooled_rel_l2": 0.0007086778113304691,
+          "graph_terminal_rel_l2": 0.0007398464548312032,
+          "analytic_terminal_full_rel_l2": 0.0003411065685686807,
+          "graph_terminal_full_rel_l2": 0.0007395354226400773
+        }
+      ],
+      "endpoint": {
+        "step": 5000,
+        "physical_terminal_s": 5.0,
+        "sample_points": 8000,
+        "full_grid_points": 2097152,
+        "analytic_pooled_rel_l2": 0.0003420319881689287,
+        "analytic_terminal_rel_l2": 0.00034462124696755506,
+        "graph_pooled_rel_l2": 0.0007086778113304691,
+        "graph_terminal_rel_l2": 0.0007398464548312032,
+        "analytic_terminal_full_rel_l2": 0.0003411065685686807,
+        "graph_terminal_full_rel_l2": 0.0007395354226400773
+      },
+      "timing": {
+        "seconds_to_5000_checkpoint_after_initial_eval": 200.48976802825928,
+        "median_update_ms_excluding_eval_boundaries": 28.09574604034424,
+        "elapsed_to_eval_s": {
+          "0": 0.0,
+          "200": 36.87520408630371,
+          "400": 55.62803792953491,
+          "600": 61.740614891052246,
+          "800": 67.79896807670593,
+          "1000": 74.46905589103699,
+          "1200": 80.70343708992004,
+          "1400": 86.86760592460632,
+          "1600": 93.0606279373169,
+          "1800": 99.29739189147949,
+          "2000": 106.16003704071045,
+          "2200": 112.33504700660706,
+          "2400": 118.57832598686218,
+          "2600": 124.80373811721802,
+          "2800": 130.96255493164062,
+          "3000": 137.36411809921265,
+          "3200": 143.56341791152954,
+          "3400": 149.73467302322388,
+          "3600": 156.21218609809875,
+          "3800": 162.42893409729004,
+          "4000": 168.91260290145874,
+          "4200": 175.0501790046692,
+          "4400": 181.18394207954407,
+          "4600": 187.48193502426147,
+          "4800": 193.5968189239502,
+          "5000": 199.9735939502716
+        }
+      },
+      "independent_terminal_graph_rel_l2": 0.0007395353995968941,
+      "phase_max_error": 0.012318034489750981,
+      "interface_mae": 0.005846529348330206,
+      "solid_fraction_rel_l2": 0.0067113208796690926,
+      "radius_axes": [
+        0.09973709630261857,
+        0.09970199151484055,
+        0.09971151201016355,
+        0.0997214530305755,
+        0.09973020884971286,
+        0.09972272412901066
+      ],
+      "width_axes": [
+        0.032299998586063056,
+        0.032296522092336175,
+        0.03229311936734963,
+        0.03228416794170167,
+        0.03227341188539363,
+        0.03229285096944049
+      ],
+      "reference_radius": 0.10004903533800638,
+      "reference_width": 0.03226806955595625,
+      "max_radius_relative_error": 0.003468737324586635,
+      "last_five_full_graph_rel_l2": [
+        0.0002819078167399482,
+        0.0005138734595759047,
+        0.000125433470834403,
+        0.0001154865172054562,
+        0.0007395354226400773
+      ],
+      "initial_checkpoint_matches_fresh_builder": true,
+      "last_1000_updates_sample_graph_median": 0.00024555559903578235,
+      "last_1000_updates_sample_graph_range": [
+        9.700083866979327e-05,
+        0.0009584564258422618
+      ],
+      "last_five_full_graph_median": 0.0002819078167399482,
+      "error_cosine_with_reference_minus_analytic": -0.9725018263846343
+    }
+  },
+  "scope": "Configured SOAP versus configured Adam at shared lr, not separately tuned optima",
+  "budget_note": "SOAP was stopped after a user budget reduction; only its5000-step checkpoint/history/timing are compared.",
+  "optax_version": "0.2.8",
+  "adam_defaults": {
+    "b1": 0.9,
+    "b2": 0.999,
+    "eps": 1e-08,
+    "eps_root": 0.0,
+    "nesterov": false
+  },
+  "config_differences": [
+    "log.run_name",
+    "train.iterations",
+    "train.optimizer"
+  ],
+  "initial_models_identical": true,
+  "configured_update_limits_note": "SOAP saved its original20000-update limit before interruption; both selected states are at5000; the schedule does not depend on that limit.",
+  "adam_over_soap_terminal_graph_l2": 12.104290107344035,
+  "graph_reference_versus_analytic_rel_l2": 0.0004247571263261258
+}

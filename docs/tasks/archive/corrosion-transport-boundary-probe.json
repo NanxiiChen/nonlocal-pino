@@ -1,0 +1,25 @@
+{
+  "scope": "Frozen original/s_bc terminal50 s graph q boundary substitution; no retraining or change to free-node output",
+  "runs": {
+    "42": {
+      "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42",
+      "original_Dq_rel_l2_free": 12.132972155231068,
+      "exact_bc_Dq_rel_l2_free": 12.13327585319817,
+      "squared_Dq_error_ratio_exact_bc_to_original": 1.0000500622212125,
+      "original_CH_rms_free": 7.003667538329903,
+      "exact_bc_CH_rms_free": 7.003842882976758,
+      "boundary_substitution_effect_Dq_rms_free": 0.0111031756313078,
+      "original_Dq_error_rms_free": 1.647961514015976
+    },
+    "7": {
+      "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed7",
+      "original_Dq_rel_l2_free": 1.104407451451984,
+      "exact_bc_Dq_rel_l2_free": 1.1045635031067684,
+      "squared_Dq_error_ratio_exact_bc_to_original": 1.0002826179405973,
+      "original_CH_rms_free": 0.636815855376698,
+      "exact_bc_CH_rms_free": 0.6369048253211241,
+      "boundary_substitution_effect_Dq_rms_free": 0.010394491866624786,
+      "original_Dq_error_rms_free": 0.15000619407180002
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "selection_rule": "lowest sum of terminal phi/c relative L2 among final5000 checkpoints with one vertical crossing in all columns/all21 times",
+  "selected_record": {
+    "path": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42",
+    "formulation": "phase",
+    "data_loss_mode": "s_bc",
+    "time_ramp": false,
+    "seed": 42,
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-u",
+      "-m",
+      "examples.corrosion2d.residual_experiment",
+      "train",
+      "--case",
+      "electropolish2d",
+      "--formulation",
+      "phase",
+      "--seed",
+      "42",
+      "--data-loss-mode",
+      "s_bc",
+      "--initial-sampling",
+      "matched_graph",
+      "--boundary-sampling",
+      "matched_graph"
+    ],
+    "xla_flags": "--xla_gpu_deterministic_ops=true",
+    "returncode": 0,
+    "maximum_workers": 3
+  },
+  "terminal_field_score": 0.004623836769818655,
+  "eligible_count": 5,
+  "note": "Seed7 validation is independent; this is a declared field criterion, not proof of transport superiority"
+}

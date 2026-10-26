@@ -1,0 +1,278 @@
+{
+  "selection_rule": "Lowest terminal phi relative L2 among45 saved checkpoints in current9-run cohort",
+  "selected": {
+    "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7/ckpt_005000.eqx",
+    "step": 5000,
+    "terminal_rel_l2_phi": 0.0011378188435460965
+  },
+  "ranked_checkpoints": [
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7/ckpt_005000.eqx",
+      "step": 5000,
+      "terminal_rel_l2_phi": 0.0011378188435460965
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42/ckpt_005000.eqx",
+      "step": 5000,
+      "terminal_rel_l2_phi": 0.0021060143833975826
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42/ckpt_005000.eqx",
+      "step": 5000,
+      "terminal_rel_l2_phi": 0.0023544182175093027
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed7/ckpt_005000.eqx",
+      "step": 5000,
+      "terminal_rel_l2_phi": 0.0023894404686661927
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-timeramp3000-early0.05/ckpt_005000.eqx",
+      "step": 5000,
+      "terminal_rel_l2_phi": 0.0023908465996358916
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7/ckpt_002000.eqx",
+      "step": 2000,
+      "terminal_rel_l2_phi": 0.0025873205604477847
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed7/ckpt_004000.eqx",
+      "step": 4000,
+      "terminal_rel_l2_phi": 0.0026964937643860305
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42/ckpt_003000.eqx",
+      "step": 3000,
+      "terminal_rel_l2_phi": 0.0027327074396517755
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7/ckpt_003000.eqx",
+      "step": 3000,
+      "terminal_rel_l2_phi": 0.0029102805089480685
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-timeramp3000-early0.05/ckpt_004000.eqx",
+      "step": 4000,
+      "terminal_rel_l2_phi": 0.00320284680002478
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-timeramp3000-early0.05/ckpt_004000.eqx",
+      "step": 4000,
+      "terminal_rel_l2_phi": 0.003242641346876522
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-timeramp3000-early0.05/ckpt_003000.eqx",
+      "step": 3000,
+      "terminal_rel_l2_phi": 0.0034021455948483516
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42/ckpt_004000.eqx",
+      "step": 4000,
+      "terminal_rel_l2_phi": 0.00407476515222412
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42/ckpt_003000.eqx",
+      "step": 3000,
+      "terminal_rel_l2_phi": 0.004093774270925615
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42/ckpt_002000.eqx",
+      "step": 2000,
+      "terminal_rel_l2_phi": 0.004975244988173713
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-timeramp3000-early0.05/ckpt_003000.eqx",
+      "step": 3000,
+      "terminal_rel_l2_phi": 0.005372861498785007
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42/ckpt_004000.eqx",
+      "step": 4000,
+      "terminal_rel_l2_phi": 0.006257716420873812
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-timeramp3000-early0.05/ckpt_005000.eqx",
+      "step": 5000,
+      "terminal_rel_l2_phi": 0.00651636646462946
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed7/ckpt_003000.eqx",
+      "step": 3000,
+      "terminal_rel_l2_phi": 0.00708087589389249
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7/ckpt_004000.eqx",
+      "step": 4000,
+      "terminal_rel_l2_phi": 0.007688247629373709
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed7/ckpt_002000.eqx",
+      "step": 2000,
+      "terminal_rel_l2_phi": 0.00835980691875521
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42/ckpt_002000.eqx",
+      "step": 2000,
+      "terminal_rel_l2_phi": 0.012089410007418616
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42/ckpt_001000.eqx",
+      "step": 1000,
+      "terminal_rel_l2_phi": 0.024217105624263865
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7/ckpt_001000.eqx",
+      "step": 1000,
+      "terminal_rel_l2_phi": 0.02570080695245822
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed7/ckpt_001000.eqx",
+      "step": 1000,
+      "terminal_rel_l2_phi": 0.040053112090147794
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42-timeramp3000-early0.05/ckpt_005000.eqx",
+      "step": 5000,
+      "terminal_rel_l2_phi": 0.046768538455120044
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42-timeramp3000-early0.05/ckpt_004000.eqx",
+      "step": 4000,
+      "terminal_rel_l2_phi": 0.05681223243834017
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42/ckpt_001000.eqx",
+      "step": 1000,
+      "terminal_rel_l2_phi": 0.07662206951095807
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42-timeramp3000-early0.05/ckpt_003000.eqx",
+      "step": 3000,
+      "terminal_rel_l2_phi": 0.08880736618028685
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-timeramp3000-early0.05/ckpt_002000.eqx",
+      "step": 2000,
+      "terminal_rel_l2_phi": 0.22452154775541014
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-timeramp3000-early0.05/ckpt_002000.eqx",
+      "step": 2000,
+      "terminal_rel_l2_phi": 0.2308546149525189
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed42/ckpt_005000.eqx",
+      "step": 5000,
+      "terminal_rel_l2_phi": 0.29092777063291053
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed42/ckpt_004000.eqx",
+      "step": 4000,
+      "terminal_rel_l2_phi": 0.30164456065276524
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed42/ckpt_003000.eqx",
+      "step": 3000,
+      "terminal_rel_l2_phi": 0.3078283098062028
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed42/ckpt_002000.eqx",
+      "step": 2000,
+      "terminal_rel_l2_phi": 0.3205948100268913
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42-timeramp3000-early0.05/ckpt_002000.eqx",
+      "step": 2000,
+      "terminal_rel_l2_phi": 0.32432112337015573
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-timeramp3000-early0.05/ckpt_001000.eqx",
+      "step": 1000,
+      "terminal_rel_l2_phi": 0.37535605745620204
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed42/ckpt_001000.eqx",
+      "step": 1000,
+      "terminal_rel_l2_phi": 0.38633207417087134
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-timeramp3000-early0.05/ckpt_001000.eqx",
+      "step": 1000,
+      "terminal_rel_l2_phi": 0.3901148643494293
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42-timeramp3000-early0.05/ckpt_001000.eqx",
+      "step": 1000,
+      "terminal_rel_l2_phi": 0.44228348426695213
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42/ckpt_005000.eqx",
+      "step": 5000,
+      "terminal_rel_l2_phi": 0.5193980609662805
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42/ckpt_004000.eqx",
+      "step": 4000,
+      "terminal_rel_l2_phi": 0.6148427727561934
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42/ckpt_003000.eqx",
+      "step": 3000,
+      "terminal_rel_l2_phi": 0.6485554679854821
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42/ckpt_002000.eqx",
+      "step": 2000,
+      "terminal_rel_l2_phi": 0.6630791342041021
+    },
+    {
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42/ckpt_001000.eqx",
+      "step": 1000,
+      "terminal_rel_l2_phi": 0.6693942985108027
+    }
+  ],
+  "reference_path": "/root/autodl-tmp/data/electropolish2d/results_matched_graph_20261024.npz",
+  "config_path": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7/config.json",
+  "cpu_replay_max_abs_difference": 1.6093254089355469e-06,
+  "nondimensional_times": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "physical_times_seconds": [
+    0.0,
+    1.25,
+    2.5,
+    3.75,
+    5.0
+  ],
+  "relative_l2_phi_by_time": [
+    0.0016662805934637554,
+    0.0024426623034327862,
+    0.0019813047661386756,
+    0.001854289957847727,
+    0.0011378260228475628
+  ],
+  "terminal_phi_relative_l2_cpu": 0.0011378260228475628,
+  "max_absolute_error_by_time": [
+    0.013848847552019039,
+    0.017402666455589744,
+    0.01240004825272717,
+    0.014613326558207018,
+    0.007938841619742898
+  ],
+  "color_limits": {
+    "field": [
+      0,
+      1
+    ],
+    "absolute_error": [
+      0,
+      0.017402666455589744
+    ]
+  },
+  "note": "One checkpoint for every column. Best by terminal phi only, not pooled error or transport. CPU replay."
+}

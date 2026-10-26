@@ -4,9 +4,9 @@ Environment:
   conda activate fenicsenv
 
 Usage:
-  python examples/corrosion2d/solver.py --config=examples/corrosion2d/configs/solver_diffusion.py
+  python examples/corrosion2d/solver.py --config=examples/corrosion2d/configs/solver_1pit.py
   mpirun --allow-run-as-root -np 12 python examples/corrosion2d/solver.py \
-      --config=examples/corrosion2d/configs/solver_diffusion.py
+      --config=examples/corrosion2d/configs/solver_1pit.py
 """
 
 import gc, os, sys
@@ -153,7 +153,9 @@ def solve(config):
 
     class _PitMouth(SubDomain):
         def inside(self, x, on_boundary):
-            if not on_boundary:
+            # Pointwise BC checks do not set on_boundary. Restrict to the
+            # bottom edge explicitly, so a narrow mouth cannot miss all facets.
+            if not near(x[1], 0.0):
                 return False
             for cx, cy, R in pits:
                 d = np.sqrt((x[0]-cx)**2 + (x[1]-cy)**2)
@@ -161,11 +163,22 @@ def solve(config):
                     return True
             return False
 
+    class _SolidBoundary(SubDomain):
+        def inside(self, x, on_boundary):
+            return on_boundary and (near(x[0], 0.0) or near(x[0], 1.0)
+                                    or near(x[1], 0.5))
+
     pit_mouth = _PitMouth()
+    solid_boundary = _SolidBoundary()
     bcs = [
-        DirichletBC(V.sub(0), Constant(0.0), pit_mouth),
-        DirichletBC(V.sub(1), Constant(0.0), pit_mouth),
+        DirichletBC(V.sub(0), Constant(0.0), pit_mouth, method="pointwise"),
+        DirichletBC(V.sub(1), Constant(0.0), pit_mouth, method="pointwise"),
+        DirichletBC(V.sub(0), Constant(1.0), solid_boundary),
+        DirichletBC(V.sub(1), Constant(1.0), solid_boundary),
     ]
+    for bc in bcs:
+        bc.apply(sol.vector())
+    sol_prev.assign(sol)
 
     # ── time integration method ───────────────────────────────────────────
     # theta = 1.0: backward Euler (default, O(dt))
@@ -236,10 +249,11 @@ def solve(config):
     main_step = 0
     while t_current < config.time.t_final - 1e-12:
         main_step += 1
-        t_current += dt_main
-        t_current = min(t_current, config.time.t_final)
+        t_next = min(t_current + dt_main, next_save, config.time.t_final)
+        dt_const.assign(t_next - t_current)
         sol_prev.assign(sol)
         solver.solve()
+        t_current = t_next
 
         if t_current >= next_save - 1e-12 or t_current >= config.time.t_final - 1e-12:
             coords, phi_vals, c_vals = _gather_2d(sol, V, comm)
@@ -313,7 +327,7 @@ def _plot_snapshots(output_dir, xs, ys, times, phi_grid, c_grid):
 
 # ── Config ──────────────────────────────────────────────────────────────────
 
-_DEFAULT = os.path.join(os.path.dirname(__file__), 'configs', 'solver_diffusion.py')
+_DEFAULT = os.path.join(os.path.dirname(__file__), 'configs', 'solver_1pit.py')
 _CONFIG = _config_flags.DEFINE_config_file('config', _DEFAULT, 'Config file')
 FLAGS = _absl_app.flags.FLAGS
 

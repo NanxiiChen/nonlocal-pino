@@ -1,0 +1,726 @@
+{
+  "protocol": "matched5000 updates, soft ICs, normalized phase residual only",
+  "seed": 42,
+  "cases": {
+    "corrosion2d": {
+      "reference_path": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+      "reference_validation": {
+        "spec": {
+          "case": "corrosion2d",
+          "physical": {
+            "A": 53500000.0,
+            "D": 8.5e-10,
+            "L": 2.0,
+            "alpha_phi": 0.000103,
+            "c_le": 0.03566433566433566,
+            "c_se": 1.0,
+            "omega_phi": 17600000.0
+          },
+          "nondim": {
+            "L_c": 0.0001,
+            "T_c": 50.0
+          },
+          "geometry": {
+            "entries": [
+              [
+                0.5,
+                0.0,
+                0.1
+              ]
+            ]
+          },
+          "Nx": 101,
+          "Ny": 51,
+          "domain": [
+            [
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.5
+            ]
+          ],
+          "delta": 0.02,
+          "kernel": "cubic",
+          "operator": "in-domain symmetric pair graph, D=sum(w*(value_i-value_j))",
+          "dirichlet": "pit mouth zero; left/right/top one",
+          "other_boundary": "no external graph edges",
+          "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+        },
+        "solver": "SciPy BDF, analytic sparse Jacobian, physical phi/c",
+        "coarse": {
+          "rtol": 1e-07,
+          "atol": 1e-10,
+          "max_step": 0.01,
+          "nfev": 1344,
+          "njev": 66,
+          "nlu": 151,
+          "seconds": 19.465663803974167,
+          "field_min": 0.0,
+          "field_max": 1.0000000000000002,
+          "q_min": -0.03566433566433566,
+          "q_max": 2.7755575615628914e-17,
+          "max_network_q_bound_violation": 2.7755575615628914e-17
+        },
+        "fine": {
+          "rtol": 1e-08,
+          "atol": 1e-11,
+          "max_step": 0.005,
+          "nfev": 1940,
+          "njev": 91,
+          "nlu": 197,
+          "seconds": 27.669751389999874,
+          "field_min": 0.0,
+          "field_max": 1.0000000000000002,
+          "q_min": -0.03566433566433566,
+          "q_max": 2.7755575615628914e-17,
+          "max_network_q_bound_violation": 2.7755575615628914e-17
+        },
+        "refinement_max_relative_l2": 3.6408888266410613e-09,
+        "refinement_relative_l2_by_time": [
+          [
+            0.0,
+            2.996115662952104e-09,
+            2.014024238500275e-09,
+            1.7676558089112738e-09,
+            1.741743813055028e-09,
+            1.7099799945280567e-09,
+            1.7128218694955304e-09,
+            1.7138372016337176e-09,
+            1.6850649133418245e-09,
+            1.6852479258856975e-09,
+            1.672191280961598e-09,
+            1.6637900090945716e-09,
+            1.6652546822103068e-09,
+            1.6602395286982312e-09,
+            1.67021307449914e-09,
+            1.678251405373663e-09,
+            1.6853271784783277e-09,
+            1.681173702139535e-09,
+            1.7004948628052008e-09,
+            1.714187624579589e-09,
+            1.7046783582940633e-09
+          ],
+          [
+            2.7351498950718338e-18,
+            3.6408888266410613e-09,
+            2.454644987231111e-09,
+            2.1748158369360815e-09,
+            2.374644362960715e-09,
+            2.0694020230320572e-09,
+            2.066097379194435e-09,
+            2.1333432960678686e-09,
+            2.0122820266356556e-09,
+            2.128778195511531e-09,
+            2.069720468148891e-09,
+            2.0530785599916954e-09,
+            2.07930803814193e-09,
+            2.014731370579177e-09,
+            2.0803738831460403e-09,
+            2.118792526300058e-09,
+            2.121259111580286e-09,
+            2.010727283088237e-09,
+            2.0959739222600947e-09,
+            2.130454280045764e-09,
+            2.022755588643971e-09
+          ]
+        ],
+        "continuum_convergence_claimed": false
+      },
+      "initial_weights_identical": true,
+      "config_differences": [
+        "experiment.formulation",
+        "log.run_name"
+      ],
+      "runs": {
+        "phase": {
+          "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-phase-seed42",
+          "summary": {
+            "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-phase-seed42",
+            "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+            "model_path": "model_final.eqx",
+            "updates": 5000,
+            "formulation": "phase",
+            "hard_initial_condition": false,
+            "final_metrics": {
+              "pooled_rel_l2_phi": 0.022482156179874212,
+              "terminal_rel_l2_phi": 0.03483970324176635,
+              "rel_l2_by_time_phi": [
+                0.0006762891926509877,
+                0.00907510436363966,
+                0.01162129895153461,
+                0.013319376309053015,
+                0.015071826857252566,
+                0.01678416657184987,
+                0.01849185946497342,
+                0.0199829363244319,
+                0.021143411756978977,
+                0.021991668711655844,
+                0.022733602899327975,
+                0.02353471798026301,
+                0.024401523697405943,
+                0.025265930962769762,
+                0.026148919408028024,
+                0.027194527353954043,
+                0.02850252619083018,
+                0.030006042128957643,
+                0.0315760197975986,
+                0.03317123820937631,
+                0.03483970324176634
+              ],
+              "pooled_rel_l2_c": 0.026816745382790285,
+              "terminal_rel_l2_c": 0.04135162629750127,
+              "rel_l2_by_time_c": [
+                0.0007216954087087598,
+                0.010896535611472592,
+                0.013937082768892505,
+                0.01596043792641427,
+                0.018043414329495355,
+                0.020076170046332005,
+                0.022102160668000997,
+                0.023867594627852103,
+                0.025238590426439524,
+                0.02623856789649672,
+                0.027113514861892552,
+                0.028058941612967726,
+                0.029080278790073362,
+                0.03009590669026118,
+                0.031132014741548433,
+                0.03236102737432724,
+                0.03390073593329106,
+                0.035669938504160746,
+                0.03751508089456559,
+                0.03938918282795138,
+                0.04135162629750127
+              ],
+              "terminal_interface_present": true,
+              "terminal_interface_mean_distance": 0.007089464219770989,
+              "terminal_interface_max_distance": 0.010017887307156331,
+              "boundary_max_abs_error": 0.0033181309700012207,
+              "step": 5000,
+              "elapsed_seconds": 193.33317931601778
+            },
+            "wall_seconds": 193.41332055302337
+          },
+          "independent_field_checks": {
+            "terminal_rel_l2_phi": 0.03483970324176635,
+            "terminal_rel_l2_c": 0.04135162629750127,
+            "last1000_terminal_phi_l2_median": 0.0462878639331408,
+            "last1000_terminal_phi_l2_min": 0.03483970324176635,
+            "last1000_terminal_phi_l2_max": 0.05952776470620908,
+            "best_logged_terminal_phi_l2": 0.020230782506758853,
+            "initial_phi_rel_l2_at_final_model": 0.0006762891926509877,
+            "terminal_solid_fraction": 0.6946224034168123,
+            "vertical_crossing_histogram": {
+              "0": 38,
+              "1": 63
+            },
+            "fraction_columns_with_extra_crossings": 0.019801980198019802,
+            "phase_error_partition": {
+              "solid": {
+                "rmse": 0.003932401712914947,
+                "squared_error_fraction": 0.011458354879111978
+              },
+              "liquid": {
+                "rmse": 0.004151116850681136,
+                "squared_error_fraction": 0.004369538662631738
+              },
+              "interface": {
+                "rmse": 0.06530935980565691,
+                "squared_error_fraction": 0.9841721064582561
+              }
+            },
+            "checkpoint_probe": {
+              "checkpoint_prediction_max_abs_difference_cpu_gpu": 2.5033950805664062e-06,
+              "raw_phase_min": -12.363723754882812,
+              "raw_phase_max": 11.797622680664062,
+              "raw_concentration_min": -6.717804908752441,
+              "raw_concentration_max": 6.468358993530273,
+              "liquid_concentration_min": 5.2081119861213665e-08,
+              "liquid_concentration_max": 0.03566424921154976,
+              "fraction_zero_liquid_concentration_derivative": 0.0,
+              "all_sampled_times_fraction_cL_zero": 0.0,
+              "terminal_fraction_cL_zero": 0.0
+            }
+          }
+        },
+        "latent": {
+          "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-latent-seed42",
+          "summary": {
+            "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-latent-seed42",
+            "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+            "model_path": "model_final.eqx",
+            "updates": 5000,
+            "formulation": "latent",
+            "hard_initial_condition": false,
+            "final_metrics": {
+              "pooled_rel_l2_phi": 0.3679187575623201,
+              "terminal_rel_l2_phi": 0.568385719526229,
+              "rel_l2_by_time_phi": [
+                0.0037275264157983837,
+                0.0683217026991731,
+                0.1230336626687791,
+                0.16818939526061277,
+                0.2067584519675049,
+                0.24071249230797473,
+                0.27132338379132365,
+                0.29942521281254936,
+                0.3255833989817158,
+                0.35019526962255215,
+                0.37354934181821703,
+                0.39586102841139076,
+                0.41729516912850345,
+                0.4379805148271812,
+                0.4580193244866099,
+                0.4774939935042718,
+                0.49647165816513705,
+                0.51500755683739,
+                0.5331474649438913,
+                0.5509295605074839,
+                0.5683857195262288
+              ],
+              "pooled_rel_l2_c": 0.361024997608539,
+              "terminal_rel_l2_c": 0.5458450196137687,
+              "rel_l2_by_time_c": [
+                0.03551937397791988,
+                0.0816378288315957,
+                0.136847576912296,
+                0.1804806859524332,
+                0.21651262566022614,
+                0.24769578700440348,
+                0.2755940778318014,
+                0.301127354450732,
+                0.32487339845037777,
+                0.34721793757142955,
+                0.3684316278586507,
+                0.38871190206014644,
+                0.408207440930417,
+                0.42703307149683206,
+                0.44527927536623524,
+                0.4630185541610684,
+                0.48030977958687093,
+                0.49720126729555875,
+                0.513733008512929,
+                0.5299383175677614,
+                0.5458450196137689
+              ],
+              "terminal_interface_present": true,
+              "terminal_interface_mean_distance": 0.20716320736967855,
+              "terminal_interface_max_distance": 0.20979039976182323,
+              "boundary_max_abs_error": 0.03566443920135498,
+              "step": 5000,
+              "elapsed_seconds": 196.51898747502128
+            },
+            "wall_seconds": 196.56574822199764
+          },
+          "independent_field_checks": {
+            "terminal_rel_l2_phi": 0.568385719526229,
+            "terminal_rel_l2_c": 0.5458450196137687,
+            "last1000_terminal_phi_l2_median": 0.5685095101228852,
+            "last1000_terminal_phi_l2_min": 0.5654917966510492,
+            "last1000_terminal_phi_l2_max": 0.5694952446991567,
+            "best_logged_terminal_phi_l2": 0.503169887642868,
+            "initial_phi_rel_l2_at_final_model": 0.0037275264157983837,
+            "terminal_solid_fraction": 0.9681615220345564,
+            "vertical_crossing_histogram": {
+              "0": 80,
+              "1": 21
+            },
+            "fraction_columns_with_extra_crossings": 0.0,
+            "phase_error_partition": {
+              "solid": {
+                "rmse": 0.008939088539471543,
+                "squared_error_fraction": 0.0002224618639275504
+              },
+              "liquid": {
+                "rmse": 0.8734106114667447,
+                "squared_error_fraction": 0.7267836952895593
+              },
+              "interface": {
+                "rmse": 0.5611578432529231,
+                "squared_error_fraction": 0.27299384284651307
+              }
+            },
+            "checkpoint_probe": {
+              "checkpoint_prediction_max_abs_difference_cpu_gpu": 1.043081283569336e-06,
+              "raw_phase_min": -6.623591899871826,
+              "raw_phase_max": 11.601584434509277,
+              "raw_concentration_min": -15.473119735717773,
+              "raw_concentration_max": -6.924978733062744,
+              "liquid_concentration_min": 0.0,
+              "liquid_concentration_max": 3.507503976152293e-08,
+              "fraction_zero_liquid_concentration_derivative": 0.8516792855756163,
+              "all_sampled_times_fraction_cL_zero": 0.8516792855756163,
+              "terminal_fraction_cL_zero": 0.852455833818676
+            }
+          }
+        }
+      },
+      "reference_vertical_crossing_histogram": {
+        "0": 40,
+        "1": 61
+      },
+      "reference_terminal_solid_fraction": 0.706658901184236,
+      "original_over_latent_terminal_phi_l2": 0.06129588067554998
+    },
+    "electropolish2d": {
+      "reference_path": "/root/autodl-tmp/data/electropolish2d/results_matched_graph_20261024.npz",
+      "reference_validation": {
+        "spec": {
+          "case": "electropolish2d",
+          "physical": {
+            "A": 53500000.0,
+            "D": 8.5e-10,
+            "L": 1e-06,
+            "alpha_phi": 2.575e-05,
+            "c_le": 0.03566433566433566,
+            "c_se": 1.0,
+            "omega_phi": 17600000.0
+          },
+          "nondim": {
+            "L_c": 0.0001,
+            "T_c": 5.0
+          },
+          "geometry": {
+            "amplitude": 0.03,
+            "freq_hi": 5.0,
+            "freq_lo": 1.0,
+            "n_modes": 6,
+            "seed": 42,
+            "y0": 0.33
+          },
+          "Nx": 101,
+          "Ny": 51,
+          "domain": [
+            [
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.5
+            ]
+          ],
+          "delta": 0.02,
+          "kernel": "cubic",
+          "operator": "in-domain symmetric pair graph, D=sum(w*(value_i-value_j))",
+          "dirichlet": "top zero; bottom one",
+          "other_boundary": "no external graph edges",
+          "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+        },
+        "solver": "SciPy BDF, analytic sparse Jacobian, physical phi/c",
+        "coarse": {
+          "rtol": 1e-07,
+          "atol": 1e-10,
+          "max_step": 0.01,
+          "nfev": 1174,
+          "njev": 35,
+          "nlu": 103,
+          "seconds": 13.165857867046725,
+          "field_min": 0.0,
+          "field_max": 1.0000000000000002,
+          "q_min": -0.03566433566433566,
+          "q_max": 2.7755575615628914e-17,
+          "max_network_q_bound_violation": 2.7755575615628914e-17
+        },
+        "fine": {
+          "rtol": 1e-08,
+          "atol": 1e-11,
+          "max_step": 0.005,
+          "nfev": 1670,
+          "njev": 39,
+          "nlu": 135,
+          "seconds": 16.838462953048293,
+          "field_min": 0.0,
+          "field_max": 1.0000000000000002,
+          "q_min": -0.03566433566433566,
+          "q_max": 2.7755575615628914e-17,
+          "max_network_q_bound_violation": 2.7755575615628914e-17
+        },
+        "refinement_max_relative_l2": 1.523935937181892e-08,
+        "refinement_relative_l2_by_time": [
+          [
+            0.0,
+            1.524282594107124e-09,
+            2.1833751967475057e-09,
+            2.753477665410568e-09,
+            3.840338856551506e-09,
+            8.882871184962956e-09,
+            1.285811974024412e-08,
+            6.548598019743782e-09,
+            4.402260915831372e-09,
+            4.192981938194613e-09,
+            5.990809524367161e-09,
+            9.002785584417035e-09,
+            1.1376733075627271e-08,
+            8.09391163761068e-09,
+            7.2955921795070465e-09,
+            8.349599094378257e-09,
+            3.67834773558616e-09,
+            8.832169508556259e-09,
+            9.84208871521698e-09,
+            7.672651937408484e-09,
+            1.2361641076928167e-08
+          ],
+          [
+            2.321790243840329e-39,
+            2.1501230676414076e-09,
+            2.5852301331225036e-09,
+            3.353910571300857e-09,
+            4.599119647181949e-09,
+            1.060347359250212e-08,
+            1.523935937181892e-08,
+            7.896409050473049e-09,
+            5.15951765808834e-09,
+            5.094797324472922e-09,
+            7.057844638459356e-09,
+            1.0873037711080562e-08,
+            1.4276453228421592e-08,
+            9.786516774203468e-09,
+            8.734720191099044e-09,
+            1.0140749332713919e-08,
+            4.438073851312325e-09,
+            1.0630583323875823e-08,
+            1.1989316264036449e-08,
+            9.562364212633688e-09,
+            1.5064090861881144e-08
+          ]
+        ],
+        "continuum_convergence_claimed": false
+      },
+      "initial_weights_identical": true,
+      "config_differences": [
+        "experiment.formulation",
+        "log.run_name"
+      ],
+      "runs": {
+        "phase": {
+          "path": "/root/autodl-tmp/tf-logs/electropolish2d/20261024-residual-phase-seed42",
+          "summary": {
+            "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261024-residual-phase-seed42",
+            "reference": "/root/autodl-tmp/data/electropolish2d/results_matched_graph_20261024.npz",
+            "model_path": "model_final.eqx",
+            "updates": 5000,
+            "formulation": "phase",
+            "hard_initial_condition": false,
+            "final_metrics": {
+              "pooled_rel_l2_phi": 0.28211338703687655,
+              "terminal_rel_l2_phi": 0.28604333038646146,
+              "rel_l2_by_time_phi": [
+                0.0021358734150296642,
+                0.008247584470139862,
+                0.19013314819215785,
+                0.2570141402478683,
+                0.2891707789087528,
+                0.3007311399760314,
+                0.3062702990109218,
+                0.30902633800325685,
+                0.3110243916925802,
+                0.3127491359940637,
+                0.31407099840787317,
+                0.31497991537447134,
+                0.315312552027152,
+                0.31494453745562306,
+                0.3138707634588937,
+                0.31208787945170346,
+                0.30952608089009914,
+                0.30596526658341716,
+                0.30107847139770433,
+                0.2945119384983755,
+                0.2860433303864614
+              ],
+              "pooled_rel_l2_c": 0.291948941925099,
+              "terminal_rel_l2_c": 0.2944289156240351,
+              "rel_l2_by_time_c": [
+                0.0037806827499303904,
+                0.004872514512712973,
+                0.1965839829936296,
+                0.26495991283947645,
+                0.2995329857670354,
+                0.31151059192094355,
+                0.3171637264983622,
+                0.31996231213887466,
+                0.3220078446836319,
+                0.32379416187456783,
+                0.3251704292390545,
+                0.32612229887943067,
+                0.3264821835024107,
+                0.32612430668731596,
+                0.32503002997295866,
+                0.323185523085895,
+                0.32050398448723305,
+                0.31669591736553004,
+                0.31139322236791606,
+                0.3041465677777119,
+                0.29442891562403506
+              ],
+              "terminal_interface_present": true,
+              "terminal_interface_mean_distance": 0.0451819321017006,
+              "terminal_interface_max_distance": 0.12728633244626053,
+              "boundary_max_abs_error": 0.0027441978454589844,
+              "step": 5000,
+              "elapsed_seconds": 190.47348221001448
+            },
+            "wall_seconds": 190.52799296804005
+          },
+          "independent_field_checks": {
+            "terminal_rel_l2_phi": 0.28604333038646146,
+            "terminal_rel_l2_c": 0.2944289156240351,
+            "last1000_terminal_phi_l2_median": 0.2913188707851633,
+            "last1000_terminal_phi_l2_min": 0.28604333038646146,
+            "last1000_terminal_phi_l2_max": 0.29498808065409327,
+            "best_logged_terminal_phi_l2": 0.28604333038646146,
+            "initial_phi_rel_l2_at_final_model": 0.0021358734150296642,
+            "terminal_solid_fraction": 0.42321879246748206,
+            "vertical_crossing_histogram": {
+              "3": 101
+            },
+            "fraction_columns_with_extra_crossings": 1.0,
+            "phase_error_partition": {
+              "solid": {
+                "rmse": 0.2868348344611257,
+                "squared_error_fraction": 0.9384972395644099
+              },
+              "liquid": {
+                "rmse": 0.003969447498318855,
+                "squared_error_fraction": 0.00017157764722864453
+              },
+              "interface": {
+                "rmse": 0.16013795157121638,
+                "squared_error_fraction": 0.06133118278836154
+              }
+            },
+            "checkpoint_probe": {
+              "checkpoint_prediction_max_abs_difference_cpu_gpu": 1.8477439880371094e-06,
+              "raw_phase_min": -10.738020896911621,
+              "raw_phase_max": 16.455036163330078,
+              "raw_concentration_min": -4.060242176055908,
+              "raw_concentration_max": 2.64768385887146,
+              "liquid_concentration_min": 1.0602228030620608e-05,
+              "liquid_concentration_max": 0.0354863777756691,
+              "fraction_zero_liquid_concentration_derivative": 0.0,
+              "all_sampled_times_fraction_cL_zero": 0.0,
+              "terminal_fraction_cL_zero": 0.0
+            }
+          }
+        },
+        "latent": {
+          "path": "/root/autodl-tmp/tf-logs/electropolish2d/20261024-residual-latent-seed42",
+          "summary": {
+            "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261024-residual-latent-seed42",
+            "reference": "/root/autodl-tmp/data/electropolish2d/results_matched_graph_20261024.npz",
+            "model_path": "model_final.eqx",
+            "updates": 5000,
+            "formulation": "latent",
+            "hard_initial_condition": false,
+            "final_metrics": {
+              "pooled_rel_l2_phi": 0.34334031300041645,
+              "terminal_rel_l2_phi": 0.34397927604422535,
+              "rel_l2_by_time_phi": [
+                0.002486043549176455,
+                0.16953500378766334,
+                0.2351903905490179,
+                0.2769692873044032,
+                0.30704977682395695,
+                0.33026607055469914,
+                0.3487932558153077,
+                0.3637152676306877,
+                0.37565379653846487,
+                0.38489336575993544,
+                0.39176508985295183,
+                0.39648111822703436,
+                0.39914757975736737,
+                0.3996219150758375,
+                0.3977714164273049,
+                0.39358465190769304,
+                0.3872217488203605,
+                0.37894795220205424,
+                0.3689279479822352,
+                0.35722691529281875,
+                0.34397927604422535
+              ],
+              "pooled_rel_l2_c": 0.3771591158666223,
+              "terminal_rel_l2_c": 0.3792039111983612,
+              "rel_l2_by_time_c": [
+                0.003237247419579906,
+                0.18080169637534013,
+                0.25517858625891227,
+                0.30123450550543707,
+                0.33381070993329126,
+                0.3588127789549062,
+                0.378905761462729,
+                0.3954272596194806,
+                0.40907836054807495,
+                0.4201237174362066,
+                0.4288362064240117,
+                0.4353394723926126,
+                0.4396577699116674,
+                0.4415234077733851,
+                0.4406944013414894,
+                0.43699273473806466,
+                0.4304419104321148,
+                0.4212675722383485,
+                0.40962737159532553,
+                0.39556392212070984,
+                0.3792039111983613
+              ],
+              "terminal_interface_present": true,
+              "terminal_interface_mean_distance": 0.029272035939207054,
+              "terminal_interface_max_distance": 0.07169057167699366,
+              "boundary_max_abs_error": 0.004219412337988615,
+              "step": 5000,
+              "elapsed_seconds": 179.60373479302507
+            },
+            "wall_seconds": 179.65692902402952
+          },
+          "independent_field_checks": {
+            "terminal_rel_l2_phi": 0.34397927604422535,
+            "terminal_rel_l2_c": 0.3792039111983612,
+            "last1000_terminal_phi_l2_median": 0.3366303572714463,
+            "last1000_terminal_phi_l2_min": 0.3319010195708957,
+            "last1000_terminal_phi_l2_max": 0.34467816994277856,
+            "best_logged_terminal_phi_l2": 0.31836787309061915,
+            "initial_phi_rel_l2_at_final_model": 0.002486043549176455,
+            "terminal_solid_fraction": 0.5546495826053194,
+            "vertical_crossing_histogram": {
+              "3": 101
+            },
+            "fraction_columns_with_extra_crossings": 1.0,
+            "phase_error_partition": {
+              "solid": {
+                "rmse": 0.07198160143804298,
+                "squared_error_fraction": 0.04087062871698195
+              },
+              "liquid": {
+                "rmse": 0.30130846879439027,
+                "squared_error_fraction": 0.6836319574645222
+              },
+              "interface": {
+                "rmse": 0.40814343398085917,
+                "squared_error_fraction": 0.2754974138184958
+              }
+            },
+            "checkpoint_probe": {
+              "checkpoint_prediction_max_abs_difference_cpu_gpu": 1.3113021850585938e-06,
+              "raw_phase_min": -13.449906349182129,
+              "raw_phase_max": 20.71649169921875,
+              "raw_concentration_min": -2.4254517555236816,
+              "raw_concentration_max": 2.484158754348755,
+              "liquid_concentration_min": 0.00027677821344695985,
+              "liquid_concentration_max": 0.035418007522821426,
+              "fraction_zero_liquid_concentration_derivative": 0.0,
+              "all_sampled_times_fraction_cL_zero": 0.0,
+              "terminal_fraction_cL_zero": 0.0
+            }
+          }
+        }
+      },
+      "reference_vertical_crossing_histogram": {
+        "1": 101
+      },
+      "reference_terminal_solid_fraction": 0.5117452921762764,
+      "original_over_latent_terminal_phi_l2": 0.8315714064985849
+    }
+  }
+}

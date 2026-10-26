@@ -1,0 +1,124 @@
+{
+  "physical_times_seconds": [
+    0.0,
+    1.0,
+    2.5,
+    5.0
+  ],
+  "seed": 42,
+  "updates": 5000,
+  "reference_path": "/root/autodl-tmp/data/electropolish2d/results_matched_graph_20261024.npz",
+  "runs": {
+    "Original": {
+      "path": "/root/autodl-tmp/tf-logs/electropolish2d/20261024-residual-phase-seed42",
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261024-residual-phase-seed42/model_final.eqx",
+      "cpu_replay_max_abs_difference": 1.817941665649414e-06,
+      "per_time": [
+        {
+          "seconds": 0.0,
+          "vertical_phi_05_crossing_histogram": {
+            "1": 101
+          },
+          "phi_relative_l2": 0.002135873415029664,
+          "c_relative_l2": 0.003780682749930391
+        },
+        {
+          "seconds": 1.0,
+          "vertical_phi_05_crossing_histogram": {
+            "3": 101
+          },
+          "phi_relative_l2": 0.2891707789087528,
+          "c_relative_l2": 0.29953298576703546
+        },
+        {
+          "seconds": 2.5,
+          "vertical_phi_05_crossing_histogram": {
+            "3": 101
+          },
+          "phi_relative_l2": 0.31407099840787306,
+          "c_relative_l2": 0.3251704292390544
+        },
+        {
+          "seconds": 5.0,
+          "vertical_phi_05_crossing_histogram": {
+            "3": 101
+          },
+          "phi_relative_l2": 0.28604333038646146,
+          "c_relative_l2": 0.2944289156240351
+        }
+      ]
+    },
+    "Transformed": {
+      "path": "/root/autodl-tmp/tf-logs/electropolish2d/20261024-residual-latent-seed42",
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261024-residual-latent-seed42/model_final.eqx",
+      "cpu_replay_max_abs_difference": 1.0728836059570312e-06,
+      "per_time": [
+        {
+          "seconds": 0.0,
+          "vertical_phi_05_crossing_histogram": {
+            "1": 101
+          },
+          "phi_relative_l2": 0.0024860435491764546,
+          "c_relative_l2": 0.003237247419579907
+        },
+        {
+          "seconds": 1.0,
+          "vertical_phi_05_crossing_histogram": {
+            "3": 101
+          },
+          "phi_relative_l2": 0.30704977682395684,
+          "c_relative_l2": 0.3338107099332913
+        },
+        {
+          "seconds": 2.5,
+          "vertical_phi_05_crossing_histogram": {
+            "3": 101
+          },
+          "phi_relative_l2": 0.39176508985295183,
+          "c_relative_l2": 0.4288362064240117
+        },
+        {
+          "seconds": 5.0,
+          "vertical_phi_05_crossing_histogram": {
+            "3": 101
+          },
+          "phi_relative_l2": 0.34397927604422535,
+          "c_relative_l2": 0.3792039111983612
+        }
+      ]
+    }
+  },
+  "reference_vertical_crossing_histograms": [
+    {
+      "1": 101
+    },
+    {
+      "1": 101
+    },
+    {
+      "1": 101
+    },
+    {
+      "1": 101
+    }
+  ],
+  "plots": {
+    "phi": "/root/nonlocal-pinn/docs/tasks/archive/electropolish-physical-field-gallery-phi.png",
+    "c": "/root/nonlocal-pinn/docs/tasks/archive/electropolish-physical-field-gallery-c.png",
+    "errors": "/root/nonlocal-pinn/docs/tasks/archive/electropolish-physical-field-gallery-errors.png",
+    "profiles": "/root/nonlocal-pinn/docs/tasks/archive/electropolish-physical-field-gallery-profiles.png"
+  },
+  "conventions": {
+    "field_color_scales": [
+      0,
+      1
+    ],
+    "signed_error_scale": [
+      -1,
+      1
+    ],
+    "L2_scope": "all spatial nodes, selected physical time, saved GPU fields",
+    "crossings": "strict sign changes of phi-0.5 along y in each x column",
+    "contours": "reference black dashed; PINN red solid"
+  }
+}

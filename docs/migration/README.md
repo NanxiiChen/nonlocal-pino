@@ -1,5 +1,12 @@
 # Migration and recovery — 2026-10-24
 
+Subsequent user-authorized run naming: two icemelting3d log child directories
+were renamed, with all file contents verified unchanged. Roots remain at their
+original locations. Current paths and the exact old/new mapping are in the
+[artifact index](../../artifacts/index.yaml) and
+[rename record](../tasks/archive/icemelting-run-tags.md). This is an explicitly
+requested naming update, independent of the original project split.
+
 Source: /root/nonlocal-KKS, dev61352f103e6beadaa2960f81f8379af28d9e7658.
 User approved two independent projects and explicitly required rollback.
 [source-map.json](source-map.json) records original and migrated file hashes.
@@ -23,8 +30,15 @@ archive; their original locations remain available.
 
 ## Behavioral boundaries
 
-No PDE, kernel normalization, boundary conditions, history/irreversibility,
-precision, loss, seed, optimizer or stopping parameters change. Old presets
+The2026-10-25 user-requested SOTA consolidation explicitly supersedes the
+original split's default-preservation boundary for the three phase-field
+canonical presets. Legacy configs and external artifact locations remain
+unchanged. See the [promotion record](../tasks/archive/phasefield-sota-defaults.md);
+this is a new cold-start preset selection, not historical in-place resume.
+
+The original project split changed no PDE, kernel normalization, boundary
+conditions, history/irreversibility, precision, loss, seed, optimizer or
+stopping parameters. Preserved legacy presets
 keep their external paths and default choices. The new package layout changes
 run provenance: old identity equality checks remain strict and historical
 in-place resume should use the original checkout. An explicit checkpoint
