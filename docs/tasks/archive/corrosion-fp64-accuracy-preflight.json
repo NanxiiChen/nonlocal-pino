@@ -1,0 +1,43 @@
+{
+  "status": "passed",
+  "device": "cuda:0",
+  "initial_parameters_exactly_match_baseline": true,
+  "graph_edges_weights_exactly_match_reference": true,
+  "promoted_inputs_exact": true,
+  "dtype_audit": {
+    "dtype": "float64",
+    "leaves": 24,
+    "bytes": 510448
+  },
+  "config_differences": [
+    {
+      "field": "experiment.ch_rms_after",
+      "old": null,
+      "new": 0
+    },
+    {
+      "field": "experiment.lr_tail_end",
+      "old": null,
+      "new": 1e-05
+    },
+    {
+      "field": "experiment.lr_tail_start",
+      "old": null,
+      "new": 0
+    },
+    {
+      "field": "log.run_name",
+      "old": "20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
+      "new": ""
+    },
+    {
+      "field": "train.compute_dtype",
+      "old": null,
+      "new": "float32"
+    }
+  ],
+  "constant_defect_max": 0.00048828125,
+  "constant_defect_relative_to_diagonal_max": 3.4915587900114746e-08,
+  "scaled_AC_constant_defect_max": 502.9296875,
+  "baseline": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42"
+}

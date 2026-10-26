@@ -1,0 +1,24 @@
+{
+  "scope": "Historical301x151-trained SOTA evaluated on101x51 reference; lr0.005/stagger1000/full spatial batches; NOT matched-budget/discretization optimization evidence",
+  "reference_path": "/root/autodl-tmp/data/electropolish2d/results_matched_graph_20261024.npz",
+  "runs": {
+    "/root/autodl-tmp/tf-logs/electropolish2d/SOTA/ckpt_005000.eqx": {
+      "terminal_phi_relative_l2": 0.02607934332028809,
+      "pooled_phi_relative_l2": 0.033403995652971294,
+      "terminal_c_relative_l2": 0.03106385018928328,
+      "pooled_c_relative_l2": 0.03980329170740817,
+      "terminal_vertical_crossing_histogram": {
+        "1": 101
+      }
+    },
+    "/root/autodl-tmp/tf-logs/electropolish2d/SOTA/ckpt_005800.eqx": {
+      "terminal_phi_relative_l2": 0.019958197439474294,
+      "pooled_phi_relative_l2": 0.033619772450047866,
+      "terminal_c_relative_l2": 0.023878232744244967,
+      "pooled_c_relative_l2": 0.04010102320975488,
+      "terminal_vertical_crossing_histogram": {
+        "1": 101
+      }
+    }
+  }
+}

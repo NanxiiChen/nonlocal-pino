@@ -1,0 +1,65 @@
+{
+  "printed_potential": {
+    "psi": "C^2*(1-C)^2/4",
+    "derivative": "C^3-3*C^2/2+C/2",
+    "printed_equation6_reaction": "C^3-C",
+    "at_C_minus1": {
+      "printed_potential_derivative": -3,
+      "equation6_reaction": 0
+    },
+    "consistent": false
+  },
+  "printed_initial_condition": {
+    "equation25": "-tanh(r/(sqrt(2)*epsilon))",
+    "center_value": 0.0,
+    "value_at_stated_interface_radius_0p15_eps0p01": -0.9999999987746707,
+    "zero_contour_is_stated_circle": false,
+    "compatible_candidate_from_stated_phase_labels": "tanh((r-R)/(sqrt(2)*epsilon)); proposal only, actual author implementation unknown"
+  },
+  "table_IV": {
+    "times_s": [
+      0.5,
+      1,
+      1.5,
+      2,
+      2.5,
+      3
+    ],
+    "u_relative_L2": [
+      0.0555,
+      0.0702,
+      0.1347,
+      0.1289,
+      0.1512,
+      0.1348
+    ],
+    "v_relative_L2": [
+      0.0356,
+      0.0438,
+      0.0781,
+      0.065,
+      0.0792,
+      0.0705
+    ]
+  },
+  "table_A1_mass": {
+    "initial_area": 0.1965,
+    "terminal_area": 0.1943,
+    "relative_terminal_drift": 0.0111959287531807
+  },
+  "time_windows": {
+    "listed_endpoints_s": [
+      0,
+      0.5,
+      1,
+      1.5,
+      2,
+      2.5,
+      3
+    ],
+    "intervals_from_list": 6,
+    "training_epochs_per_window_from_table_III": 80000,
+    "total_epochs_if_each_listed_window_uses_table_III": 480000
+  },
+  "status": "checked; mathematical/text consistency audit only; no new solver or experiment"
+}

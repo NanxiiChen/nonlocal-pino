@@ -1,0 +1,70 @@
+{
+  "status": "completed",
+  "maximum_GPU_workers": 1,
+  "runs": [
+    {
+      "dtype": "float32",
+      "policy": "deterministic",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/local-ad-performance-operator.py",
+        "--worker",
+        "float32",
+        "--policy",
+        "deterministic"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/local-ad-performance-20261026/operator-deterministic-float32.log",
+      "returncode": 0,
+      "wall_seconds": 5.555989541113377
+    },
+    {
+      "dtype": "float32",
+      "policy": "ordinary",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/local-ad-performance-operator.py",
+        "--worker",
+        "float32",
+        "--policy",
+        "ordinary"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/local-ad-performance-20261026/operator-ordinary-float32.log",
+      "returncode": 0,
+      "wall_seconds": 2.7719175778329372
+    },
+    {
+      "dtype": "float64",
+      "policy": "deterministic",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/local-ad-performance-operator.py",
+        "--worker",
+        "float64",
+        "--policy",
+        "deterministic"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/local-ad-performance-20261026/operator-deterministic-float64.log",
+      "returncode": 0,
+      "wall_seconds": 5.729332085698843
+    },
+    {
+      "dtype": "float64",
+      "policy": "ordinary",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/local-ad-performance-operator.py",
+        "--worker",
+        "float64",
+        "--policy",
+        "ordinary"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/local-ad-performance-20261026/operator-ordinary-float64.log",
+      "returncode": 0,
+      "wall_seconds": 2.9582100212574005
+    }
+  ]
+}

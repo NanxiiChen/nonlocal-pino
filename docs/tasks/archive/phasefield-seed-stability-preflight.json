@@ -1,0 +1,71 @@
+{
+  "corrosion2d": {
+    "config_differences": {
+      "train.seed": {
+        "old": 42,
+        "new": 2026
+      },
+      "log.run_name": {
+        "old": "20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed42",
+        "new": "20261025-independent-seed2026-default-strategy"
+      }
+    },
+    "explicit_added_disabled_fields": {
+      "experiment.ch_rms_after": 0,
+      "experiment.lr_tail_end": 1e-05,
+      "experiment.lr_tail_start": 0
+    },
+    "initial_parameter_files_differ": true,
+    "numerical_function_checks": {
+      "compute_pde": "identical function AST",
+      "compute_transport_pde": "identical function AST",
+      "make_transport_loss_vector": "identical function AST",
+      "make_loss_vector": "identical function AST",
+      "make_step": "identical function AST"
+    }
+  },
+  "electropolish2d": {
+    "config_differences": {
+      "train.seed": {
+        "old": 7,
+        "new": 2026
+      },
+      "log.run_name": {
+        "old": "20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7",
+        "new": "20261025-independent-seed2026-default-strategy"
+      }
+    },
+    "explicit_added_disabled_fields": {},
+    "initial_parameter_files_differ": true,
+    "numerical_function_checks": {
+      "compute_pde": "identical function AST",
+      "compute_transport_pde": "identical function AST",
+      "make_transport_loss_vector": "identical function AST",
+      "make_loss_vector": "identical function AST",
+      "make_step": "identical function AST"
+    }
+  },
+  "icemelting3d": {
+    "config_differences": {
+      "train.iterations": {
+        "old": 20000,
+        "new": 5000
+      },
+      "train.seed": {
+        "old": 42,
+        "new": 2026
+      },
+      "log.run_name": {
+        "old": "20261024-5s-soap-lr1e3-seed42",
+        "new": "20261025-independent-seed2026-default-strategy"
+      },
+      "eval.graph_reference_path": {
+        "old": "reports/icemelting-weak-prior-20261024/reference.npz",
+        "new": "/root/nonlocal-pinn/reports/icemelting-weak-prior-20261024/reference.npz"
+      }
+    },
+    "explicit_added_disabled_fields": {},
+    "initial_parameter_files_differ": true,
+    "numerical_function_checks": {}
+  }
+}

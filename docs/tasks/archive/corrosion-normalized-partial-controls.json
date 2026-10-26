@@ -1,0 +1,26 @@
+[
+  {
+    "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-physical-icmatched_graph-phase-stagger0-seed42",
+    "status": "intentionally stopped for coherent graph BC/IC sampling before formal comparison",
+    "last_logged_update": 2700,
+    "last_evaluated_update": 2600,
+    "completed_5000": false,
+    "exclude_from_final_cohort": true
+  },
+  {
+    "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc-icmatched_graph-phase-stagger0-seed42",
+    "status": "intentionally stopped for coherent graph BC/IC sampling before formal comparison",
+    "last_logged_update": 500,
+    "last_evaluated_update": 400,
+    "completed_5000": false,
+    "exclude_from_final_cohort": true
+  },
+  {
+    "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc_ic-icmatched_graph-phase-stagger0-seed42",
+    "status": "intentionally stopped for coherent graph BC/IC sampling before formal comparison",
+    "last_logged_update": 500,
+    "last_evaluated_update": 400,
+    "completed_5000": false,
+    "exclude_from_final_cohort": true
+  }
+]

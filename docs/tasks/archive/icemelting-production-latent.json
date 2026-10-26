@@ -1,0 +1,639 @@
+{
+  "physical_terminal_s": 4.0,
+  "formulation": "ic_latent",
+  "runs": {
+    "20261024-ic-latent-coldstart-01": {
+      "run_dir": "/root/autodl-tmp/tf-logs/icemelting3d/20261024-ic-latent-coldstart-01-sota",
+      "config": {
+        "arch": {
+          "activation": "tanh",
+          "film_hidden_dim": 64,
+          "film_num_layers": 1,
+          "hidden_dim": 64,
+          "num_layers": 4,
+          "out_dim": 1,
+          "spatial_dim": 3,
+          "spatial_emb_dim": 64,
+          "spatial_scale": 2.0,
+          "temporal_emb_dim": 64,
+          "temporal_scale": 1.0,
+          "tensor_split": true,
+          "type": "mlp",
+          "use_hard_constraint": false,
+          "use_spatial_emb": true,
+          "use_temporal_emb": true
+        },
+        "causal": {
+          "eps_init": 1.0,
+          "max_eps": 100.0,
+          "max_last_weight": 0.9,
+          "min_mean_weight": 0.01,
+          "step_size": 1.1
+        },
+        "eval": {
+          "chunk_size": 32768,
+          "full_grid_every": 1000,
+          "graph_reference_path": "reports/icemelting-weak-prior-20261024/reference.npz"
+        },
+        "log": {
+          "eval_every": 200,
+          "log_dir": "/root/autodl-tmp/tf-logs/icemelting3d/",
+          "log_every": 20,
+          "run_diag": false,
+          "run_name": "20261024-ic-latent-coldstart-01",
+          "save_ckpt": true
+        },
+        "loss": {
+          "gradnorm_bias": [
+            1.0,
+            1.0
+          ],
+          "gradnorm_weight_cap": 1000.0,
+          "iface_gamma_decay_steps": 0,
+          "iface_gamma_decay_to": 0.0,
+          "iface_gamma_init": 0.0,
+          "use_causal": false
+        },
+        "nl": {
+          "delta": 0.01,
+          "kernel": "cubic",
+          "method": "sparse"
+        },
+        "nondim": {
+          "L_c": 100.0,
+          "T_c": 4.0,
+          "xc": [
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        "phase": {
+          "formulation": "ic_latent"
+        },
+        "physical": {
+          "M": 0.1,
+          "R0": 35.0,
+          "eps_star": 0.0225,
+          "lam": 5.0
+        },
+        "sample": {
+          "K_core": 256,
+          "K_pool": 200,
+          "N_ic": 20000,
+          "N_lhs": 2000,
+          "Nt": 16,
+          "Nx": 128,
+          "Ny": 128,
+          "Nz": 128,
+          "t_min": 0.001
+        },
+        "train": {
+          "alpha_gradnorm": 0.9,
+          "grad_clip": 100.0,
+          "gradnorm_update_every": 1,
+          "iterations": 2000,
+          "lr_decay_every": 1000,
+          "lr_decay_rate": 0.95,
+          "lr_init": 0.001,
+          "lr_min": 1e-05,
+          "matmul_precision": "highest",
+          "optimizer": "soap",
+          "seed": 42,
+          "soap_b1": 0.9,
+          "soap_b2": 0.99,
+          "soap_max_precond_dim": 100000,
+          "soap_precond_1d": false,
+          "soap_precond_freq": 5
+        }
+      },
+      "summary": {
+        "updates": 2000,
+        "training_wall_seconds": 83.33367346297018,
+        "final_metrics": {
+          "step": 2000,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.0008941623878967274,
+          "analytic_terminal_rel_l2": 0.0010785076950395717,
+          "graph_pooled_rel_l2": 2.6204288477874013e-05,
+          "graph_terminal_rel_l2": 3.095497771277864e-05,
+          "analytic_terminal_full_rel_l2": 0.0010282672415416931,
+          "graph_terminal_full_rel_l2": 3.0180799394496855e-05
+        },
+        "cold_start": true,
+        "model_sha256": "6acc3bd91cad7d75996b3fcf69379049dc42a23ebaab71dfed7740dbb9305665"
+      },
+      "history": [
+        {
+          "step": 0,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.5386131264955695,
+          "analytic_terminal_rel_l2": 0.7312136459484737,
+          "graph_pooled_rel_l2": 0.5383943395066817,
+          "graph_terminal_rel_l2": 0.7310014215132401,
+          "analytic_terminal_full_rel_l2": 0.7416749306050195,
+          "graph_terminal_full_rel_l2": 0.7414720596697536
+        },
+        {
+          "step": 200,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.35591944212820853,
+          "analytic_terminal_rel_l2": 0.46404012221308316,
+          "graph_pooled_rel_l2": 0.35558850168776257,
+          "graph_terminal_rel_l2": 0.46369850984898237
+        },
+        {
+          "step": 400,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.09760271086916691,
+          "analytic_terminal_rel_l2": 0.1252400512931817,
+          "graph_pooled_rel_l2": 0.09689355690721693,
+          "graph_terminal_rel_l2": 0.1243508281548693
+        },
+        {
+          "step": 600,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0008271782654706373,
+          "analytic_terminal_rel_l2": 0.0013950076445283048,
+          "graph_pooled_rel_l2": 0.0007836699151351144,
+          "graph_terminal_rel_l2": 0.00046573090340637545
+        },
+        {
+          "step": 800,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0009148241182250951,
+          "analytic_terminal_rel_l2": 0.0010636132809958327,
+          "graph_pooled_rel_l2": 0.0001104851515004609,
+          "graph_terminal_rel_l2": 6.400819384033778e-05
+        },
+        {
+          "step": 1000,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.0008832124091004594,
+          "analytic_terminal_rel_l2": 0.0010544019836880901,
+          "graph_pooled_rel_l2": 5.6615601161222154e-05,
+          "graph_terminal_rel_l2": 5.247567704021843e-05,
+          "analytic_terminal_full_rel_l2": 0.0010089254081176247,
+          "graph_terminal_full_rel_l2": 5.232160312138417e-05
+        },
+        {
+          "step": 1200,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0007132730713894079,
+          "analytic_terminal_rel_l2": 0.0008359632742852017,
+          "graph_pooled_rel_l2": 0.00019838412790748822,
+          "graph_terminal_rel_l2": 0.00023607635076557015
+        },
+        {
+          "step": 1400,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0008724808671326188,
+          "analytic_terminal_rel_l2": 0.0010774780245438864,
+          "graph_pooled_rel_l2": 4.710507833435731e-05,
+          "graph_terminal_rel_l2": 4.683572450112897e-05
+        },
+        {
+          "step": 1600,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0008497632033510311,
+          "analytic_terminal_rel_l2": 0.0010076333717125448,
+          "graph_pooled_rel_l2": 5.670495533046182e-05,
+          "graph_terminal_rel_l2": 7.409312299321545e-05
+        },
+        {
+          "step": 1800,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0009990334613871968,
+          "analytic_terminal_rel_l2": 0.0012515911046513924,
+          "graph_pooled_rel_l2": 0.00012107635177900959,
+          "graph_terminal_rel_l2": 0.00019150554902794116
+        },
+        {
+          "step": 2000,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.0008941623878967274,
+          "analytic_terminal_rel_l2": 0.0010785076950395717,
+          "graph_pooled_rel_l2": 2.6204288477874013e-05,
+          "graph_terminal_rel_l2": 3.095497771277864e-05,
+          "analytic_terminal_full_rel_l2": 0.0010282672415416931,
+          "graph_terminal_full_rel_l2": 3.0180799394496855e-05
+        }
+      ],
+      "reference": {
+        "analytic": "approximate linear-radius tanh profile",
+        "graph": {
+          "path": "/root/nonlocal-pinn/reports/icemelting-weak-prior-20261024/reference.npz",
+          "sha256": "010d7b8b6e8cae852acf46a786b857845d33cb18d92d92c994a83f006fbe1164",
+          "indices": [
+            0,
+            4,
+            8,
+            12,
+            16
+          ],
+          "stored_T_c": 5.0,
+          "comparison": "identical dimensional parameters and spatial graph, matched physical snapshot times"
+        }
+      },
+      "initial_sha256": "995ab18059a507f9045978a08410723d1b7caae5335c213ac17d53ce05a30dc0",
+      "checkpoint_reloaded": true,
+      "initial_checkpoint_matches_fresh_builder": true,
+      "initial_field_unchanged_after_training": true,
+      "source_hashes_verified": 29,
+      "source_hashes": {
+        "icemelting3d/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "icemelting3d/accuracy.py": "51dec9fe08364a33c4164a1ce32769b5ab9c75fca9e745621c6f8d92562c9c31",
+        "icemelting3d/configs/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "icemelting3d/configs/accuracy_pilot.py": "7d0a3da8f02868d51be4bb02ca90fcaeb8a8c61d1abd81995d2f1b117fb366bb",
+        "icemelting3d/configs/accuracy_weak_prior.py": "df1ee1271d119cdf8ffc55256b0670d3d9f2f9c957754a163947e64ab473a4c4",
+        "icemelting3d/configs/solver_base.py": "5b830bdcb97bfb01cd438373c3386c9a6ca444868486ff397c2949fa017dcb99",
+        "icemelting3d/configs/train_base.py": "1abe26da4c2757ed29061acc39f5306c18b0aac0b857ddbcba29b85ed87a0d6b",
+        "icemelting3d/configs/train_cold_start.py": "2acccba27629adb69995e5429c1c3e9ceddc2ed0fcf9dc55787106d97025e166",
+        "icemelting3d/create_mesh.py": "57bcddf42ccad00a3b797bf53debf9757870bf8d40bdffc70e1428df76c8b7c5",
+        "icemelting3d/evaluation.py": "871031ecde50ae71f05eca9b38f264ce8ab38d5e5a5bcc7ba465b8d23a1a543f",
+        "icemelting3d/losses.py": "f1cec04102df828b452e5f9b00f34a4603882f0c82a582c060d24e4f5b2d8ee8",
+        "icemelting3d/phase.py": "1130a62d8765e6945e41b6cb40118832ec476081a2932c8df21ba128994af8e3",
+        "icemelting3d/solver.py": "1aacff4c7c20fd9e6897b6314ceb5657f87fb2b533abbb295878276a3a76517c",
+        "icemelting3d/train.py": "85d17932e8035308d169a495ba03cfac330daec863a919321995f4f0fa5d366e",
+        "nonlocal_pinn/__init__.py": "e4d964e7e6308d8afcf5b29c06a47e9f982baac6f1b1c064b084ba3be55b2f6b",
+        "nonlocal_pinn/baselines/__init__.py": "e4d964e7e6308d8afcf5b29c06a47e9f982baac6f1b1c064b084ba3be55b2f6b",
+        "nonlocal_pinn/baselines/fd.py": "9384f3df400787fa9d18634944184de2935af97e5eafd63e177e105e23536098",
+        "nonlocal_pinn/geometry/__init__.py": "e4d964e7e6308d8afcf5b29c06a47e9f982baac6f1b1c064b084ba3be55b2f6b",
+        "nonlocal_pinn/geometry/mesh.py": "2066147d9ec297ca703a363b0763c2d677c7377084a8a077848edf1c29b3a058",
+        "nonlocal_pinn/io/__init__.py": "e4d964e7e6308d8afcf5b29c06a47e9f982baac6f1b1c064b084ba3be55b2f6b",
+        "nonlocal_pinn/io/utils.py": "5c75bad64311b015358159a2682c014020153fb8ed2832ef0ff08655b3676944",
+        "nonlocal_pinn/nn/__init__.py": "e4d964e7e6308d8afcf5b29c06a47e9f982baac6f1b1c064b084ba3be55b2f6b",
+        "nonlocal_pinn/nn/arch.py": "29c5a8f2b5735d9a9f96ec28d045e328ec5b54440e0236aa09acdde3b8d284c3",
+        "nonlocal_pinn/nn/constraints.py": "081961c26e8c304f8ccf47998b5e3ff8abcf44602598a5fccf7d2792062159ff",
+        "nonlocal_pinn/nn/embedding.py": "b255535c66acdd6122a25f263ee613cb16f891174ef9a7fb1198c8d5d228d215",
+        "nonlocal_pinn/operators/__init__.py": "d95ddaf41163c7af855e797bc4df6c91f83e49afe2d87b32a50f32f762940cc2",
+        "nonlocal_pinn/training/__init__.py": "e4d964e7e6308d8afcf5b29c06a47e9f982baac6f1b1c064b084ba3be55b2f6b",
+        "nonlocal_pinn/training/causal.py": "0c4cff77fe01c41e15b175d5264dfa93746980fc5f37a8f7ecce33e8ba17860b",
+        "nonlocal_pinn/training/optimizers.py": "c687282a02987d93e0105fcde79bc8ee1a32f7e2a235f6976d2a495ebdc65199"
+      },
+      "geometry": {
+        "radius_axes": [
+          0.15021160014307197,
+          0.15020978379266534,
+          0.15021070762018923,
+          0.1502137627662154,
+          0.15020842665993228,
+          0.15021003701111388
+        ],
+        "width_axes": [
+          0.03199143280573944,
+          0.031986854797856734,
+          0.03198262266196333,
+          0.031992978469733105,
+          0.031991190703981605,
+          0.03198905842996578
+        ],
+        "reference_radius": 0.15020458341289405,
+        "reference_width": 0.03197378137454897,
+        "max_radius_relative_error": 6.111233833738794e-05,
+        "ray_max_phase_error": 0.00042539198382418597
+      },
+      "original_run_dir": "/root/autodl-tmp/tf-logs/icemelting3d/20261024-ic-latent-coldstart-01"
+    },
+    "20261024-ic-latent-default-coldstart-01": {
+      "run_dir": "/root/autodl-tmp/tf-logs/icemelting3d/20261024-ic-latent-default-coldstart-01",
+      "config": {
+        "arch": {
+          "activation": "tanh",
+          "film_hidden_dim": 64,
+          "film_num_layers": 1,
+          "hidden_dim": 64,
+          "num_layers": 4,
+          "out_dim": 1,
+          "spatial_dim": 3,
+          "spatial_emb_dim": 64,
+          "spatial_scale": 2.0,
+          "temporal_emb_dim": 64,
+          "temporal_scale": 1.0,
+          "tensor_split": true,
+          "type": "mlp",
+          "use_hard_constraint": false,
+          "use_spatial_emb": true,
+          "use_temporal_emb": true
+        },
+        "causal": {
+          "eps_init": 1.0,
+          "max_eps": 100.0,
+          "max_last_weight": 0.9,
+          "min_mean_weight": 0.01,
+          "step_size": 1.1
+        },
+        "eval": {
+          "chunk_size": 32768,
+          "full_grid_every": 1000,
+          "graph_reference_path": "reports/icemelting-weak-prior-20261024/reference.npz"
+        },
+        "log": {
+          "eval_every": 200,
+          "log_dir": "/root/autodl-tmp/tf-logs/icemelting3d/",
+          "log_every": 20,
+          "run_diag": false,
+          "run_name": "20261024-ic-latent-default-coldstart-01",
+          "save_ckpt": true
+        },
+        "loss": {
+          "gradnorm_bias": [
+            1.0,
+            1.0
+          ],
+          "gradnorm_weight_cap": 1000.0,
+          "iface_gamma_decay_steps": 0,
+          "iface_gamma_decay_to": 0.0,
+          "iface_gamma_init": 0.0,
+          "use_causal": false
+        },
+        "nl": {
+          "delta": 0.01,
+          "kernel": "cubic",
+          "method": "sparse"
+        },
+        "nondim": {
+          "L_c": 100.0,
+          "T_c": 4.0,
+          "xc": [
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        "phase": {
+          "formulation": "ic_latent"
+        },
+        "physical": {
+          "M": 0.1,
+          "R0": 35.0,
+          "eps_star": 0.0225,
+          "lam": 5.0
+        },
+        "sample": {
+          "K_core": 2000,
+          "K_pool": 200,
+          "N_ic": 20000,
+          "N_lhs": 2000,
+          "Nt": 64,
+          "Nx": 128,
+          "Ny": 128,
+          "Nz": 128,
+          "t_min": 0.001
+        },
+        "train": {
+          "alpha_gradnorm": 0.9,
+          "grad_clip": 100.0,
+          "gradnorm_update_every": 1,
+          "iterations": 2000,
+          "lr_decay_every": 1000,
+          "lr_decay_rate": 0.95,
+          "lr_init": 0.005,
+          "lr_min": 1e-05,
+          "matmul_precision": "highest",
+          "optimizer": "soap",
+          "seed": 42,
+          "soap_b1": 0.9,
+          "soap_b2": 0.99,
+          "soap_max_precond_dim": 100000,
+          "soap_precond_1d": false,
+          "soap_precond_freq": 5
+        }
+      },
+      "summary": {
+        "updates": 2000,
+        "training_wall_seconds": 139.47237002296606,
+        "final_metrics": {
+          "step": 2000,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.0011440345359785445,
+          "analytic_terminal_rel_l2": 0.0014563611605305905,
+          "graph_pooled_rel_l2": 0.0002720422355178935,
+          "graph_terminal_rel_l2": 0.0003960837317280373,
+          "analytic_terminal_full_rel_l2": 0.0013969054615030456,
+          "graph_terminal_full_rel_l2": 0.00038621762819902606
+        },
+        "cold_start": true,
+        "model_sha256": "0b081587459c24f4c079a5a3b8998ae78c00b500649a725a99baab77d224480b"
+      },
+      "history": [
+        {
+          "step": 0,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.5386131264955695,
+          "analytic_terminal_rel_l2": 0.7312136459484737,
+          "graph_pooled_rel_l2": 0.5383943395066817,
+          "graph_terminal_rel_l2": 0.7310014215132401,
+          "analytic_terminal_full_rel_l2": 0.7416749306050195,
+          "graph_terminal_full_rel_l2": 0.7414720596697536
+        },
+        {
+          "step": 200,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0022561976276709206,
+          "analytic_terminal_rel_l2": 0.0032657650653628205,
+          "graph_pooled_rel_l2": 0.0030944781358900986,
+          "graph_terminal_rel_l2": 0.004322775229865829
+        },
+        {
+          "step": 400,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0007927464151050629,
+          "analytic_terminal_rel_l2": 0.0007835221789271307,
+          "graph_pooled_rel_l2": 0.0001570013829215756,
+          "graph_terminal_rel_l2": 0.00028923297108835675
+        },
+        {
+          "step": 600,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0010487758486313835,
+          "analytic_terminal_rel_l2": 0.0012388421316881213,
+          "graph_pooled_rel_l2": 0.00018740002256336969,
+          "graph_terminal_rel_l2": 0.00019792628589379582
+        },
+        {
+          "step": 800,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0010300887259447073,
+          "analytic_terminal_rel_l2": 0.0012366580476625214,
+          "graph_pooled_rel_l2": 0.00015949704199807972,
+          "graph_terminal_rel_l2": 0.00018885437049845499
+        },
+        {
+          "step": 1000,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.0010718698272241171,
+          "analytic_terminal_rel_l2": 0.0012852819095684268,
+          "graph_pooled_rel_l2": 0.0002036779702784385,
+          "graph_terminal_rel_l2": 0.0002374568909277148,
+          "analytic_terminal_full_rel_l2": 0.0012358542112252938,
+          "graph_terminal_full_rel_l2": 0.00023990120084202204
+        },
+        {
+          "step": 1200,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0011127375957882771,
+          "analytic_terminal_rel_l2": 0.0013545085934983528,
+          "graph_pooled_rel_l2": 0.00024253791720169415,
+          "graph_terminal_rel_l2": 0.0003010258067374568
+        },
+        {
+          "step": 1400,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.000550928644067539,
+          "analytic_terminal_rel_l2": 0.0006348541441619181,
+          "graph_pooled_rel_l2": 0.00040586592211766845,
+          "graph_terminal_rel_l2": 0.0004727416614982745
+        },
+        {
+          "step": 1600,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0006473382316003701,
+          "analytic_terminal_rel_l2": 0.0006913837708861441,
+          "graph_pooled_rel_l2": 0.0002867153114352988,
+          "graph_terminal_rel_l2": 0.0003982809610613537
+        },
+        {
+          "step": 1800,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": null,
+          "analytic_pooled_rel_l2": 0.0007124877826757895,
+          "analytic_terminal_rel_l2": 0.0008599204666902847,
+          "graph_pooled_rel_l2": 0.00020437995677862394,
+          "graph_terminal_rel_l2": 0.0002287464538582089
+        },
+        {
+          "step": 2000,
+          "physical_terminal_s": 4.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.0011440345359785445,
+          "analytic_terminal_rel_l2": 0.0014563611605305905,
+          "graph_pooled_rel_l2": 0.0002720422355178935,
+          "graph_terminal_rel_l2": 0.0003960837317280373,
+          "analytic_terminal_full_rel_l2": 0.0013969054615030456,
+          "graph_terminal_full_rel_l2": 0.00038621762819902606
+        }
+      ],
+      "reference": {
+        "analytic": "approximate linear-radius tanh profile",
+        "graph": {
+          "path": "/root/nonlocal-pinn/reports/icemelting-weak-prior-20261024/reference.npz",
+          "sha256": "010d7b8b6e8cae852acf46a786b857845d33cb18d92d92c994a83f006fbe1164",
+          "indices": [
+            0,
+            4,
+            8,
+            12,
+            16
+          ],
+          "stored_T_c": 5.0,
+          "comparison": "identical dimensional parameters and spatial graph, matched physical snapshot times"
+        }
+      },
+      "initial_sha256": "995ab18059a507f9045978a08410723d1b7caae5335c213ac17d53ce05a30dc0",
+      "checkpoint_reloaded": true,
+      "initial_checkpoint_matches_fresh_builder": true,
+      "initial_field_unchanged_after_training": true,
+      "source_hashes_verified": 29,
+      "source_hashes": {
+        "icemelting3d/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "icemelting3d/accuracy.py": "51dec9fe08364a33c4164a1ce32769b5ab9c75fca9e745621c6f8d92562c9c31",
+        "icemelting3d/configs/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "icemelting3d/configs/accuracy_pilot.py": "7d0a3da8f02868d51be4bb02ca90fcaeb8a8c61d1abd81995d2f1b117fb366bb",
+        "icemelting3d/configs/accuracy_weak_prior.py": "df1ee1271d119cdf8ffc55256b0670d3d9f2f9c957754a163947e64ab473a4c4",
+        "icemelting3d/configs/solver_base.py": "5b830bdcb97bfb01cd438373c3386c9a6ca444868486ff397c2949fa017dcb99",
+        "icemelting3d/configs/train_base.py": "1abe26da4c2757ed29061acc39f5306c18b0aac0b857ddbcba29b85ed87a0d6b",
+        "icemelting3d/configs/train_cold_start.py": "2acccba27629adb69995e5429c1c3e9ceddc2ed0fcf9dc55787106d97025e166",
+        "icemelting3d/create_mesh.py": "57bcddf42ccad00a3b797bf53debf9757870bf8d40bdffc70e1428df76c8b7c5",
+        "icemelting3d/evaluation.py": "871031ecde50ae71f05eca9b38f264ce8ab38d5e5a5bcc7ba465b8d23a1a543f",
+        "icemelting3d/losses.py": "f1cec04102df828b452e5f9b00f34a4603882f0c82a582c060d24e4f5b2d8ee8",
+        "icemelting3d/phase.py": "1130a62d8765e6945e41b6cb40118832ec476081a2932c8df21ba128994af8e3",
+        "icemelting3d/solver.py": "1aacff4c7c20fd9e6897b6314ceb5657f87fb2b533abbb295878276a3a76517c",
+        "icemelting3d/train.py": "85d17932e8035308d169a495ba03cfac330daec863a919321995f4f0fa5d366e",
+        "nonlocal_pinn/__init__.py": "e4d964e7e6308d8afcf5b29c06a47e9f982baac6f1b1c064b084ba3be55b2f6b",
+        "nonlocal_pinn/baselines/__init__.py": "e4d964e7e6308d8afcf5b29c06a47e9f982baac6f1b1c064b084ba3be55b2f6b",
+        "nonlocal_pinn/baselines/fd.py": "9384f3df400787fa9d18634944184de2935af97e5eafd63e177e105e23536098",
+        "nonlocal_pinn/geometry/__init__.py": "e4d964e7e6308d8afcf5b29c06a47e9f982baac6f1b1c064b084ba3be55b2f6b",
+        "nonlocal_pinn/geometry/mesh.py": "2066147d9ec297ca703a363b0763c2d677c7377084a8a077848edf1c29b3a058",
+        "nonlocal_pinn/io/__init__.py": "e4d964e7e6308d8afcf5b29c06a47e9f982baac6f1b1c064b084ba3be55b2f6b",
+        "nonlocal_pinn/io/utils.py": "5c75bad64311b015358159a2682c014020153fb8ed2832ef0ff08655b3676944",
+        "nonlocal_pinn/nn/__init__.py": "e4d964e7e6308d8afcf5b29c06a47e9f982baac6f1b1c064b084ba3be55b2f6b",
+        "nonlocal_pinn/nn/arch.py": "29c5a8f2b5735d9a9f96ec28d045e328ec5b54440e0236aa09acdde3b8d284c3",
+        "nonlocal_pinn/nn/constraints.py": "081961c26e8c304f8ccf47998b5e3ff8abcf44602598a5fccf7d2792062159ff",
+        "nonlocal_pinn/nn/embedding.py": "b255535c66acdd6122a25f263ee613cb16f891174ef9a7fb1198c8d5d228d215",
+        "nonlocal_pinn/operators/__init__.py": "d95ddaf41163c7af855e797bc4df6c91f83e49afe2d87b32a50f32f762940cc2",
+        "nonlocal_pinn/training/__init__.py": "e4d964e7e6308d8afcf5b29c06a47e9f982baac6f1b1c064b084ba3be55b2f6b",
+        "nonlocal_pinn/training/causal.py": "0c4cff77fe01c41e15b175d5264dfa93746980fc5f37a8f7ecce33e8ba17860b",
+        "nonlocal_pinn/training/optimizers.py": "c687282a02987d93e0105fcde79bc8ee1a32f7e2a235f6976d2a495ebdc65199"
+      },
+      "geometry": {
+        "radius_axes": [
+          0.15032039552138093,
+          0.1502927940848281,
+          0.15034407955747625,
+          0.1503123280860015,
+          0.15032255638647882,
+          0.15031741665027523
+        ],
+        "width_axes": [
+          0.031994648264568035,
+          0.031982452315806036,
+          0.03199159550017932,
+          0.03197570187463011,
+          0.03197604435992087,
+          0.031994086481188906
+        ],
+        "reference_radius": 0.15020458341289405,
+        "reference_width": 0.03197378137454897,
+        "max_radius_relative_error": 0.0009287076426871543,
+        "ray_max_phase_error": 0.004418537648718593
+      }
+    }
+  }
+}

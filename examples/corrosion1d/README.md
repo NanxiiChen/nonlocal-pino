@@ -1,5 +1,15 @@
 # 1D KKS Phase-Field Corrosion — PINN + FEM Reference
 
+The inherited `train.py` default currently references the missing
+`configs/train_pinn.py`. Select an existing physical regime explicitly with
+`--config=examples/corrosion1d/configs/train_activation.py` or
+`--config=examples/corrosion1d/configs/train_diffusion.py`; this note does not
+choose a regime or repair that legacy default. Both presets use `SparseD`.
+The entry inherits `XLA_FLAGS` and does not force determinism. The
+[GPU policy audit](../../docs/tasks/archive/phasefield-gpu-policy-audit.md)
+identifies the same potentially policy-sensitive scatter path statically;
+no complete1D update timings or policy accuracy comparison were performed.
+
 ## Governing Equations (Local / Classical)
 
 The KKS (Kim-Kim-Suzuki) phase-field model for diffusion-controlled corrosion:

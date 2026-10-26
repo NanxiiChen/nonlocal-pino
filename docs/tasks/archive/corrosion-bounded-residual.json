@@ -1,0 +1,845 @@
+{
+  "reference_used_for_training": false,
+  "runs": {
+    "historical original": {
+      "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-phase-seed42",
+      "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+      "config_differences_beyond_formulation_eta_name": [],
+      "initial_parameters_byte_equal": true,
+      "cpu_terminal_replay_max_abs_difference": 2.562999725341797e-06,
+      "metrics": {
+        "pooled_rel_l2_phi": 0.022482156179874212,
+        "terminal_rel_l2_phi": 0.03483970324176635,
+        "rel_l2_by_time_phi": [
+          0.0006762891926509877,
+          0.00907510436363966,
+          0.01162129895153461,
+          0.013319376309053015,
+          0.015071826857252566,
+          0.01678416657184987,
+          0.01849185946497342,
+          0.0199829363244319,
+          0.021143411756978977,
+          0.021991668711655844,
+          0.022733602899327975,
+          0.02353471798026301,
+          0.024401523697405943,
+          0.025265930962769762,
+          0.026148919408028024,
+          0.027194527353954043,
+          0.02850252619083018,
+          0.030006042128957643,
+          0.0315760197975986,
+          0.03317123820937631,
+          0.03483970324176634
+        ],
+        "pooled_rel_l2_c": 0.026816745382790285,
+        "terminal_rel_l2_c": 0.04135162629750127,
+        "rel_l2_by_time_c": [
+          0.0007216954087087598,
+          0.010896535611472592,
+          0.013937082768892505,
+          0.01596043792641427,
+          0.018043414329495355,
+          0.020076170046332005,
+          0.022102160668000997,
+          0.023867594627852103,
+          0.025238590426439524,
+          0.02623856789649672,
+          0.027113514861892552,
+          0.028058941612967726,
+          0.029080278790073362,
+          0.03009590669026118,
+          0.031132014741548433,
+          0.03236102737432724,
+          0.03390073593329106,
+          0.035669938504160746,
+          0.03751508089456559,
+          0.03938918282795138,
+          0.04135162629750127
+        ],
+        "terminal_interface_present": true,
+        "terminal_interface_mean_distance": 0.007089464219770989,
+        "terminal_interface_max_distance": 0.010017887307156331
+      },
+      "boundary_max_abs_error": 0.0033181309700012207,
+      "physical_phi_range": [
+        0.0,
+        1.0
+      ],
+      "physical_c_range": [
+        5.5449731917178724e-08,
+        0.9999999403953552
+      ],
+      "columns_with_multiple_terminal_vertical_crossings": 0,
+      "terminal_vertical_crossings_max": 1,
+      "terminal_fraction_zero_concentration_output_derivative": 0.0,
+      "terminal_raw_concentration_range": [
+        -5.242690563201904,
+        3.5026304721832275
+      ],
+      "last_1000_update_terminal_phi_l2_median": 0.0462878639331408,
+      "last_1000_update_terminal_c_l2_median": 0.05486192866779287
+    },
+    "original": {
+      "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-phase-control-seed42",
+      "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+      "config_differences_beyond_formulation_eta_name": [],
+      "initial_parameters_byte_equal": true,
+      "cpu_terminal_replay_max_abs_difference": 1.9073486328125e-06,
+      "metrics": {
+        "pooled_rel_l2_phi": 0.023463001020277457,
+        "terminal_rel_l2_phi": 0.039838328699560395,
+        "rel_l2_by_time_phi": [
+          0.0005958411896949705,
+          0.00898127449536692,
+          0.011622623654054986,
+          0.013130704121619376,
+          0.014297616222700022,
+          0.01591232395969258,
+          0.017619719434688014,
+          0.019004368625068754,
+          0.02017048921655529,
+          0.021059512513174845,
+          0.02169913059378245,
+          0.02238685251005363,
+          0.023396949338955534,
+          0.02486242001580191,
+          0.026788723413920607,
+          0.02904634588933899,
+          0.03141902365328096,
+          0.033700645221873556,
+          0.03577751736377858,
+          0.03773878963725255,
+          0.03983832869956038
+        ],
+        "pooled_rel_l2_c": 0.027951609521014952,
+        "terminal_rel_l2_c": 0.0472191756311614,
+        "rel_l2_by_time_c": [
+          0.00039790252678725976,
+          0.010772114037451925,
+          0.013918879534626357,
+          0.015716865695768092,
+          0.017101289095213794,
+          0.019013781757701787,
+          0.021036194174506542,
+          0.02267522244842167,
+          0.024054758690049943,
+          0.02510340403868517,
+          0.02585346181544326,
+          0.026659542711899117,
+          0.027848618471704948,
+          0.02957891937717505,
+          0.03185605442242464,
+          0.03452469258627525,
+          0.03732659223397896,
+          0.040016123456067115,
+          0.042458199965257244,
+          0.04475889454661267,
+          0.0472191756311614
+        ],
+        "terminal_interface_present": true,
+        "terminal_interface_mean_distance": 0.008013463801300033,
+        "terminal_interface_max_distance": 0.010567987920841822
+      },
+      "boundary_max_abs_error": 0.0051413774490356445,
+      "physical_phi_range": [
+        0.0,
+        1.0
+      ],
+      "physical_c_range": [
+        1.3179712254896003e-07,
+        1.0
+      ],
+      "columns_with_multiple_terminal_vertical_crossings": 0,
+      "terminal_vertical_crossings_max": 1,
+      "terminal_fraction_zero_concentration_output_derivative": 0.0,
+      "terminal_raw_concentration_range": [
+        -5.995871543884277,
+        3.405714988708496
+      ],
+      "last_1000_update_terminal_phi_l2_median": 0.047715225813541526,
+      "last_1000_update_terminal_c_l2_median": 0.056529959520880926
+    },
+    "full inverse": {
+      "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-latent-seed42",
+      "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+      "config_differences_beyond_formulation_eta_name": [],
+      "initial_parameters_byte_equal": true,
+      "cpu_terminal_replay_max_abs_difference": 6.705522537231445e-07,
+      "metrics": {
+        "pooled_rel_l2_phi": 0.3679187575623201,
+        "terminal_rel_l2_phi": 0.568385719526229,
+        "rel_l2_by_time_phi": [
+          0.0037275264157983837,
+          0.0683217026991731,
+          0.1230336626687791,
+          0.16818939526061277,
+          0.2067584519675049,
+          0.24071249230797473,
+          0.27132338379132365,
+          0.29942521281254936,
+          0.3255833989817158,
+          0.35019526962255215,
+          0.37354934181821703,
+          0.39586102841139076,
+          0.41729516912850345,
+          0.4379805148271812,
+          0.4580193244866099,
+          0.4774939935042718,
+          0.49647165816513705,
+          0.51500755683739,
+          0.5331474649438913,
+          0.5509295605074839,
+          0.5683857195262288
+        ],
+        "pooled_rel_l2_c": 0.361024997608539,
+        "terminal_rel_l2_c": 0.5458450196137687,
+        "rel_l2_by_time_c": [
+          0.03551937397791988,
+          0.0816378288315957,
+          0.136847576912296,
+          0.1804806859524332,
+          0.21651262566022614,
+          0.24769578700440348,
+          0.2755940778318014,
+          0.301127354450732,
+          0.32487339845037777,
+          0.34721793757142955,
+          0.3684316278586507,
+          0.38871190206014644,
+          0.408207440930417,
+          0.42703307149683206,
+          0.44527927536623524,
+          0.4630185541610684,
+          0.48030977958687093,
+          0.49720126729555875,
+          0.513733008512929,
+          0.5299383175677614,
+          0.5458450196137689
+        ],
+        "terminal_interface_present": true,
+        "terminal_interface_mean_distance": 0.20716320736967855,
+        "terminal_interface_max_distance": 0.20979039976182323
+      },
+      "boundary_max_abs_error": 0.03566443920135498,
+      "physical_phi_range": [
+        1.7583370208740234e-06,
+        1.0
+      ],
+      "physical_c_range": [
+        8.944440674230059e-12,
+        0.9643357992172241
+      ],
+      "columns_with_multiple_terminal_vertical_crossings": 0,
+      "terminal_vertical_crossings_max": 1,
+      "terminal_fraction_zero_concentration_output_derivative": 0.852455833818676,
+      "terminal_raw_concentration_range": [
+        -15.473121643066406,
+        -6.944395542144775
+      ],
+      "last_1000_update_terminal_phi_l2_median": 0.5685095101228852,
+      "last_1000_update_terminal_c_l2_median": 0.5460409202951388
+    },
+    "cap2": {
+      "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-bounded-eta1.0-mapkks-ac1e-07-ch1.0-seed42",
+      "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+      "config_differences_beyond_formulation_eta_name": [],
+      "initial_parameters_byte_equal": true,
+      "cpu_terminal_replay_max_abs_difference": 2.1457672119140625e-06,
+      "metrics": {
+        "pooled_rel_l2_phi": 0.03681367186639538,
+        "terminal_rel_l2_phi": 0.059985480516625486,
+        "rel_l2_by_time_phi": [
+          0.000859243733825673,
+          0.011546282667303802,
+          0.013957275924634539,
+          0.016397020388121707,
+          0.019139487062892733,
+          0.022245260020937237,
+          0.025308589031213465,
+          0.028129035879330064,
+          0.03088996530099602,
+          0.03363259666779759,
+          0.03629855992700482,
+          0.0388321479680517,
+          0.04118514117880826,
+          0.043374081601933054,
+          0.04547361039046727,
+          0.04759731309085405,
+          0.04985383374067151,
+          0.052236721490097345,
+          0.054668836913105534,
+          0.05723011234259206,
+          0.05998548051662548
+        ],
+        "pooled_rel_l2_c": 0.043787673454262606,
+        "terminal_rel_l2_c": 0.0709242114431658,
+        "rel_l2_by_time_c": [
+          0.0009883650598740482,
+          0.013895993628523366,
+          0.016742577552187908,
+          0.019644976661649632,
+          0.022889789863464127,
+          0.026566560666675586,
+          0.030198088305731563,
+          0.03353954094850204,
+          0.03680926605130008,
+          0.04005428623077353,
+          0.04320412022123976,
+          0.046193168475018,
+          0.048963660751078934,
+          0.051534683933019396,
+          0.053995047791208346,
+          0.056479550207748946,
+          0.05911649030869119,
+          0.06189825123948486,
+          0.06473427310478598,
+          0.06771820713432976,
+          0.0709242114431658
+        ],
+        "terminal_interface_present": true,
+        "terminal_interface_mean_distance": 0.011392648804517836,
+        "terminal_interface_max_distance": 0.01502527348074328
+      },
+      "boundary_max_abs_error": 0.0003432035446166992,
+      "physical_phi_range": [
+        0.0,
+        1.0
+      ],
+      "physical_c_range": [
+        2.8697760612317325e-08,
+        0.9999989867210388
+      ],
+      "columns_with_multiple_terminal_vertical_crossings": 0,
+      "terminal_vertical_crossings_max": 1,
+      "terminal_fraction_zero_concentration_output_derivative": 0.0,
+      "terminal_raw_concentration_range": [
+        -6.732264995574951,
+        3.076453685760498
+      ],
+      "last_1000_update_terminal_phi_l2_median": 0.04509669200410337,
+      "last_1000_update_terminal_c_l2_median": 0.05344399638737864
+    },
+    "cap11": {
+      "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-bounded-eta0.1-mapkks-ac1e-07-ch1.0-seed42",
+      "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+      "config_differences_beyond_formulation_eta_name": [],
+      "initial_parameters_byte_equal": true,
+      "cpu_terminal_replay_max_abs_difference": 1.2516975402832031e-06,
+      "metrics": {
+        "pooled_rel_l2_phi": 0.009669764527144558,
+        "terminal_rel_l2_phi": 0.016188594632662992,
+        "rel_l2_by_time_phi": [
+          0.0008628488916960876,
+          0.007245454323374421,
+          0.0077662546748027295,
+          0.007839513127175627,
+          0.007792004324638115,
+          0.007786505570616784,
+          0.007934126980618775,
+          0.008173482532720863,
+          0.008503030978703092,
+          0.008907563176856677,
+          0.009302492952465225,
+          0.00959556960974028,
+          0.009757862106336973,
+          0.009894495839447933,
+          0.01015487193278635,
+          0.010584080483491517,
+          0.011150614549714024,
+          0.011923426109158617,
+          0.013031585621072253,
+          0.014456229064395537,
+          0.016188594632662992
+        ],
+        "pooled_rel_l2_c": 0.011566393659425809,
+        "terminal_rel_l2_c": 0.01927955788357932,
+        "rel_l2_by_time_c": [
+          0.0007278222629211043,
+          0.008686667973966678,
+          0.009325849562455319,
+          0.009405604946346064,
+          0.009345100872665536,
+          0.009337395802140883,
+          0.009510501324204765,
+          0.009793880275882322,
+          0.010182703352088904,
+          0.010658120109287173,
+          0.011123111745470374,
+          0.011469416834506677,
+          0.011660507894628575,
+          0.011819508474576343,
+          0.012125095400126096,
+          0.012632781720701003,
+          0.013305060715929063,
+          0.014221908993672774,
+          0.015535194101286762,
+          0.017223864642984605,
+          0.01927955788357932
+        ],
+        "terminal_interface_present": true,
+        "terminal_interface_mean_distance": 0.0033906928411043006,
+        "terminal_interface_max_distance": 0.006460982846107503
+      },
+      "boundary_max_abs_error": 0.0021290481090545654,
+      "physical_phi_range": [
+        0.0,
+        1.0
+      ],
+      "physical_c_range": [
+        4.570383893565122e-08,
+        0.9999999403953552
+      ],
+      "columns_with_multiple_terminal_vertical_crossings": 0,
+      "terminal_vertical_crossings_max": 1,
+      "terminal_fraction_zero_concentration_output_derivative": 0.0,
+      "terminal_raw_concentration_range": [
+        -6.785440444946289,
+        3.176675796508789
+      ],
+      "last_1000_update_terminal_phi_l2_median": 0.03016798593796137,
+      "last_1000_update_terminal_c_l2_median": 0.03582495596291302
+    },
+    "cap101": {
+      "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-bounded-eta0.01-mapkks-ac1e-07-ch1.0-seed42",
+      "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+      "config_differences_beyond_formulation_eta_name": [],
+      "initial_parameters_byte_equal": true,
+      "cpu_terminal_replay_max_abs_difference": 7.152557373046875e-07,
+      "metrics": {
+        "pooled_rel_l2_phi": 0.3684939640872115,
+        "terminal_rel_l2_phi": 0.5689028026221339,
+        "rel_l2_by_time_phi": [
+          0.0037849063453262682,
+          0.06964661015416213,
+          0.1241671392505602,
+          0.16918553363118374,
+          0.2076538882649999,
+          0.2415333324993831,
+          0.2720872369684412,
+          0.30014423205263346,
+          0.326266371722561,
+          0.35084900577184314,
+          0.3741792640961975,
+          0.39647163409049657,
+          0.41789008545011747,
+          0.4385624022460507,
+          0.4585900187580573,
+          0.4780545779886771,
+          0.4970228333762357,
+          0.515549764820959,
+          0.5336810183116358,
+          0.5514547312897095,
+          0.5689028026221338
+        ],
+        "pooled_rel_l2_c": 0.3614732689960971,
+        "terminal_rel_l2_c": 0.5462226603958364,
+        "rel_l2_by_time_c": [
+          0.03541240790754725,
+          0.0828626253382488,
+          0.13784692887397362,
+          0.18131605498720504,
+          0.2172383907549169,
+          0.24834644323622918,
+          0.27619054057223635,
+          0.3016828474480792,
+          0.32539675728823036,
+          0.3477154827265887,
+          0.36890800180966876,
+          0.389170697040548,
+          0.4086514821084553,
+          0.4274645451901927,
+          0.44569995946945085,
+          0.46342981400718547,
+          0.4807127603620742,
+          0.4975968975442819,
+          0.5141220386210453,
+          0.5303213741172014,
+          0.5462226603958366
+        ],
+        "terminal_interface_present": true,
+        "terminal_interface_mean_distance": 0.20771176780276185,
+        "terminal_interface_max_distance": 0.2110180746696354
+      },
+      "boundary_max_abs_error": 0.03566443920135498,
+      "physical_phi_range": [
+        4.234910011291504e-05,
+        1.0
+      ],
+      "physical_c_range": [
+        5.1883062290869475e-09,
+        0.9643357992172241
+      ],
+      "columns_with_multiple_terminal_vertical_crossings": 0,
+      "terminal_vertical_crossings_max": 1,
+      "terminal_fraction_zero_concentration_output_derivative": 0.7361677344205009,
+      "terminal_raw_concentration_range": [
+        -18.203439712524414,
+        -7.126416206359863
+      ],
+      "last_1000_update_terminal_phi_l2_median": 0.5680566693275513,
+      "last_1000_update_terminal_c_l2_median": 0.5462936163886724
+    },
+    "original seed7": {
+      "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-phase-control-seed7",
+      "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+      "config_differences_beyond_formulation_eta_name": [
+        "train.seed"
+      ],
+      "initial_parameters_byte_equal": true,
+      "cpu_terminal_replay_max_abs_difference": 2.5033950805664062e-06,
+      "metrics": {
+        "pooled_rel_l2_phi": 0.020312811910130586,
+        "terminal_rel_l2_phi": 0.02663607569393721,
+        "rel_l2_by_time_phi": [
+          0.0005123786905242576,
+          0.008904200484583088,
+          0.010922531124443158,
+          0.013165736397961115,
+          0.015034304248259125,
+          0.016402671456668388,
+          0.017535382317247456,
+          0.01867198252924634,
+          0.0197932138515011,
+          0.020843976596089886,
+          0.021769872186873193,
+          0.022571583968148484,
+          0.02338456620190189,
+          0.024270788200216328,
+          0.025158926641706058,
+          0.025815215210912745,
+          0.025966418040686376,
+          0.025723442891784538,
+          0.025610337252202124,
+          0.025939779817862507,
+          0.026636075693937205
+        ],
+        "pooled_rel_l2_c": 0.024211006780955103,
+        "terminal_rel_l2_c": 0.03159772341971101,
+        "rel_l2_by_time_c": [
+          0.00035075683311063454,
+          0.01066777991665743,
+          0.013078645877254417,
+          0.015744688137670885,
+          0.017971914985762137,
+          0.019600113529400047,
+          0.02094307411736522,
+          0.022287897669834578,
+          0.023612899875450122,
+          0.024853197483046218,
+          0.02594330230569891,
+          0.02688475084153471,
+          0.02784037526509755,
+          0.028883768938172183,
+          0.029927111429861514,
+          0.03069188181706936,
+          0.03085763242781447,
+          0.03055782191335607,
+          0.030411499210219392,
+          0.03078760753462459,
+          0.03159772341971101
+        ],
+        "terminal_interface_present": true,
+        "terminal_interface_mean_distance": 0.005555313159316436,
+        "terminal_interface_max_distance": 0.008651350107827289
+      },
+      "boundary_max_abs_error": 0.009476989507675171,
+      "physical_phi_range": [
+        0.0,
+        1.0
+      ],
+      "physical_c_range": [
+        6.890651093272027e-06,
+        1.0
+      ],
+      "columns_with_multiple_terminal_vertical_crossings": 0,
+      "terminal_vertical_crossings_max": 1,
+      "terminal_fraction_zero_concentration_output_derivative": 0.0,
+      "terminal_raw_concentration_range": [
+        -4.02689266204834,
+        3.5505435466766357
+      ],
+      "last_1000_update_terminal_phi_l2_median": 0.029781319975497766,
+      "last_1000_update_terminal_c_l2_median": 0.03536807862538804
+    },
+    "cap11 seed7": {
+      "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-bounded-eta0.1-mapkks-ac1e-07-ch1.0-seed7",
+      "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+      "config_differences_beyond_formulation_eta_name": [
+        "train.seed"
+      ],
+      "initial_parameters_byte_equal": true,
+      "cpu_terminal_replay_max_abs_difference": 2.5033950805664062e-06,
+      "metrics": {
+        "pooled_rel_l2_phi": 0.02387792217383556,
+        "terminal_rel_l2_phi": 0.036610328819492576,
+        "rel_l2_by_time_phi": [
+          0.0007955196252651324,
+          0.014018232142846273,
+          0.014991499423897848,
+          0.01564962118466976,
+          0.016523787385645475,
+          0.017512642831058935,
+          0.018535833852250234,
+          0.01975995763205169,
+          0.021164034558145098,
+          0.022389987269772066,
+          0.023272114073306698,
+          0.024011071083242783,
+          0.024929909959196826,
+          0.026278635896621768,
+          0.02800685052080923,
+          0.02970758297568559,
+          0.031114908526431454,
+          0.032410182343212975,
+          0.03374637400447863,
+          0.03509432270407481,
+          0.03661032881949257
+        ],
+        "pooled_rel_l2_c": 0.028452613517034715,
+        "terminal_rel_l2_c": 0.04342720083078448,
+        "rel_l2_by_time_c": [
+          0.0005197046042540722,
+          0.01679352767151077,
+          0.017952001002526717,
+          0.018724384339707818,
+          0.019761592980348058,
+          0.02092970945463599,
+          0.022133992638515718,
+          0.02357785143607774,
+          0.02523746911974503,
+          0.026684664833426575,
+          0.027721765134243823,
+          0.028589246499193977,
+          0.02967174683265429,
+          0.03126385051783678,
+          0.033303587881229155,
+          0.03530888880154769,
+          0.03696606636896637,
+          0.03849032660649766,
+          0.04006251367403881,
+          0.04164738992750856,
+          0.043427200830784475
+        ],
+        "terminal_interface_present": true,
+        "terminal_interface_mean_distance": 0.0074877517461845065,
+        "terminal_interface_max_distance": 0.009557247252611673
+      },
+      "boundary_max_abs_error": 0.0014421939849853516,
+      "physical_phi_range": [
+        0.0,
+        1.0
+      ],
+      "physical_c_range": [
+        4.464771791390376e-06,
+        1.0
+      ],
+      "columns_with_multiple_terminal_vertical_crossings": 0,
+      "terminal_vertical_crossings_max": 1,
+      "terminal_fraction_zero_concentration_output_derivative": 0.0,
+      "terminal_raw_concentration_range": [
+        -4.301714897155762,
+        3.348445415496826
+      ],
+      "last_1000_update_terminal_phi_l2_median": 0.03631664712831496,
+      "last_1000_update_terminal_c_l2_median": 0.043099421714464944
+    },
+    "original no scale": {
+      "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-phase-noscale-seed42",
+      "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+      "config_differences_beyond_formulation_eta_name": [
+        "loss.ac_scale"
+      ],
+      "initial_parameters_byte_equal": true,
+      "cpu_terminal_replay_max_abs_difference": 2.980232238769531e-07,
+      "metrics": {
+        "pooled_rel_l2_phi": 0.4067857678007122,
+        "terminal_rel_l2_phi": 0.5123895686828867,
+        "rel_l2_by_time_phi": [
+          0.29609857575149445,
+          0.30863673780366874,
+          0.3208651872004315,
+          0.332799563348025,
+          0.3444714267055602,
+          0.35591570070588185,
+          0.367162072332553,
+          0.3782345543313304,
+          0.38915246174790047,
+          0.3999320280589181,
+          0.41058734358268123,
+          0.4211310551946947,
+          0.43157432641587823,
+          0.4419268501460495,
+          0.4521969470805912,
+          0.4623915638417811,
+          0.47251624568304895,
+          0.4825752270590871,
+          0.4925718797149593,
+          0.502509148169004,
+          0.5123895686828867
+        ],
+        "pooled_rel_l2_c": 0.3915252981644949,
+        "terminal_rel_l2_c": 0.5169686463506508,
+        "rel_l2_by_time_c": [
+          0.24348395774781642,
+          0.2609122890499872,
+          0.27911434603793633,
+          0.2960833771778408,
+          0.31212839999224,
+          0.3274468704157248,
+          0.34217478993543526,
+          0.35641071916822425,
+          0.37022890867110675,
+          0.38368738483627757,
+          0.39683274006483304,
+          0.40970320859443143,
+          0.4223303625650291,
+          0.43474041118987483,
+          0.44695512579906593,
+          0.45899247927501985,
+          0.4708673173247027,
+          0.48259212011962516,
+          0.49417780458694655,
+          0.5056340325200305,
+          0.5169686463506509
+        ],
+        "terminal_interface_present": false,
+        "terminal_interface_mean_distance": null,
+        "terminal_interface_max_distance": null
+      },
+      "boundary_max_abs_error": 0.7896337509155273,
+      "physical_phi_range": [
+        0.718966007232666,
+        0.719184935092926
+      ],
+      "physical_c_range": [
+        0.7894245982170105,
+        0.7896555662155151
+      ],
+      "columns_with_multiple_terminal_vertical_crossings": 0,
+      "terminal_vertical_crossings_max": 0,
+      "terminal_fraction_zero_concentration_output_derivative": 0.0,
+      "terminal_raw_concentration_range": [
+        -0.419108510017395,
+        -0.4189389944076538
+      ],
+      "last_1000_update_terminal_phi_l2_median": 0.5123768504095099,
+      "last_1000_update_terminal_c_l2_median": 0.5169074700435523
+    },
+    "cap11 no scale": {
+      "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-bounded-eta0.1-mapkks-ac1.0-ch1.0-seed42",
+      "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+      "config_differences_beyond_formulation_eta_name": [
+        "loss.ac_scale"
+      ],
+      "initial_parameters_byte_equal": true,
+      "cpu_terminal_replay_max_abs_difference": 2.384185791015625e-07,
+      "metrics": {
+        "pooled_rel_l2_phi": 0.40882267951301066,
+        "terminal_rel_l2_phi": 0.5121877837327867,
+        "rel_l2_by_time_phi": [
+          0.3015424373803102,
+          0.3135707587099294,
+          0.3253464637628896,
+          0.33687488811020316,
+          0.34817614540051967,
+          0.35927691970894965,
+          0.3702012296970155,
+          0.3809695720541584,
+          0.39159948912233394,
+          0.4021060842253477,
+          0.4125022510595496,
+          0.4227989938921599,
+          0.4330058749081573,
+          0.4431311422108065,
+          0.4531818216987239,
+          0.46316381855299577,
+          0.4730820867776902,
+          0.482940662125629,
+          0.4927427865376772,
+          0.5024911429405146,
+          0.5121877837327867
+        ],
+        "pooled_rel_l2_c": 0.3924144246227458,
+        "terminal_rel_l2_c": 0.5156336864737935,
+        "rel_l2_by_time_c": [
+          0.24855047053197313,
+          0.2652468706773822,
+          0.28282660185700703,
+          0.2992723486944621,
+          0.31486295014260096,
+          0.32977725666084423,
+          0.3441392779666155,
+          0.35803983725143745,
+          0.3715481321997779,
+          0.3847184885446631,
+          0.39759435410854027,
+          0.4102110007862474,
+          0.4225976049416247,
+          0.43477840334044415,
+          0.446773617832679,
+          0.4586002044857594,
+          0.4702724793839349,
+          0.4818024588057282,
+          0.4932003831433656,
+          0.5044750686572848,
+          0.5156336864737934
+        ],
+        "terminal_interface_present": false,
+        "terminal_interface_mean_distance": null,
+        "terminal_interface_max_distance": null
+      },
+      "boundary_max_abs_error": 0.7830004096031189,
+      "physical_phi_range": [
+        0.7128715515136719,
+        0.7129371166229248
+      ],
+      "physical_c_range": [
+        0.7829387187957764,
+        0.7830087542533875
+      ],
+      "columns_with_multiple_terminal_vertical_crossings": 0,
+      "terminal_vertical_crossings_max": 0,
+      "terminal_fraction_zero_concentration_output_derivative": 0.0,
+      "terminal_raw_concentration_range": [
+        -0.3741980195045471,
+        -0.37414056062698364
+      ],
+      "last_1000_update_terminal_phi_l2_median": 0.5121130549082271,
+      "last_1000_update_terminal_c_l2_median": 0.5148361375449646
+    }
+  },
+  "screening": {
+    "worst_field_error_ratio_to_original": {
+      "cap2": 1.5057228170640453,
+      "cap11": 0.4082993323343015,
+      "cap101": 14.280287883372266
+    },
+    "best_bounded": "cap11",
+    "both_terminal_errors_improved": true,
+    "scope": "Three-eta same-seed screen; not independent hyperparameter validation."
+  },
+  "validation": {
+    "second_seed": {
+      "phi": {
+        "original": 0.02663607569393721,
+        "bounded": 0.036610328819492576
+      },
+      "c": {
+        "original": 0.03159772341971101,
+        "bounded": 0.04342720083078448
+      }
+    },
+    "without_pre_scales": {
+      "phi": {
+        "original": 0.5123895686828867,
+        "bounded": 0.5121877837327867
+      },
+      "c": {
+        "original": 0.5169686463506508,
+        "bounded": 0.5156336864737935
+      }
+    }
+  }
+}

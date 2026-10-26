@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "archived_files_before_this_record": 10,
+  "strict_json_sources_links": "passed",
+  "actual_runs": 4,
+  "updates_each": 5000,
+  "checkpoints_each": 25,
+  "evaluations_each": 26,
+  "all_source_snapshot_paths": "passed",
+  "reference_and_artifact_paths": "passed",
+  "focused_tests": 12,
+  "canonical_cpu_smokes": 2,
+  "registered_cases": 5,
+  "registered_directories": 307,
+  "plots_inspected": true,
+  "git_diff_check": "passed",
+  "git_history_operations": false,
+  "memory_files": [
+    "docs/PROGRESS.md",
+    "docs/DECISIONS.md",
+    "docs/DEVELOPMENT.md",
+    "docs/tasks/archive/local-ad-full-training.md"
+  ]
+}

@@ -13,6 +13,14 @@ both clamped and pulled edges.  The reference solution comes from a **FEniCS
 FEM solver** — there is no analytical solution (the Inglis solution for an
 elliptical hole assumes an infinite plate, which this is not).
 
+`train.py` inherits `XLA_FLAGS` and does not force GPU determinism. Its `ElasticD`
+gradient and residual operators use multiple `segment_sum` aggregations, so an
+externally forced deterministic flag may affect both forward and reverse cost.
+The [cross-case policy audit](../../docs/tasks/archive/phasefield-gpu-policy-audit.md)
+checks this path statically; its measured speed ratios belong to electropolish/
+melting and must not be transferred to elasticity. No elasticity timing or
+accuracy experiment/default change was made in that audit.
+
 ---
 
 ## 1. Physical Problem

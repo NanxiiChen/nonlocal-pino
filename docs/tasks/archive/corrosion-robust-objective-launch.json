@@ -1,0 +1,62 @@
+{
+  "status": "completed",
+  "maximum_workers": 3,
+  "updates": 5000,
+  "selection": "Every final5000 checkpoint and late window; no seed selection",
+  "runs": [
+    {
+      "label": "bounded_frozen-seed2026",
+      "formulation": "bounded_frozen",
+      "seed": 2026,
+      "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-bounded_frozen-seed2026",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "-m",
+        "examples.corrosion2d.train",
+        "--seed=2026",
+        "--config.experiment.formulation=bounded_frozen",
+        "--config.log.run_name=20261026-objective-bounded_frozen-seed2026"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/corrosion-robust-objective-20261026/bounded_frozen-seed2026.log",
+      "returncode": 0,
+      "wall_seconds": 2445.922034893185
+    },
+    {
+      "label": "bounded_frozen-seed7",
+      "formulation": "bounded_frozen",
+      "seed": 7,
+      "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-bounded_frozen-seed7",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "-m",
+        "examples.corrosion2d.train",
+        "--seed=7",
+        "--config.experiment.formulation=bounded_frozen",
+        "--config.log.run_name=20261026-objective-bounded_frozen-seed7"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/corrosion-robust-objective-20261026/bounded_frozen-seed7.log",
+      "returncode": 0,
+      "wall_seconds": 2444.3522952087224
+    },
+    {
+      "label": "phase-seed2026",
+      "formulation": "phase",
+      "seed": 2026,
+      "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-phase-seed2026",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "-m",
+        "examples.corrosion2d.train",
+        "--seed=2026",
+        "--config.experiment.formulation=phase",
+        "--config.log.run_name=20261026-objective-phase-seed2026"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/corrosion-robust-objective-20261026/phase-seed2026.log",
+      "returncode": 0,
+      "wall_seconds": 2418.649205893278
+    }
+  ]
+}

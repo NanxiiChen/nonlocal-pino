@@ -1,0 +1,47 @@
+{
+  "scope": "CPU reduced-network entry/serialization smoke tests; not SOTA training or accuracy results",
+  "runs": [
+    {
+      "path": "/tmp/nonlocal-sota-entry-smoke/20261025-154528-943702-bounded-seed42",
+      "case": "corrosion2d",
+      "updates": 1,
+      "formulation": "bounded",
+      "initial_nodes": 5151,
+      "boundary_nodes": {
+        "pit": 9,
+        "solid": 201
+      },
+      "xla_flags": "--xla_gpu_deterministic_ops=true",
+      "run_name_saved_correctly": true,
+      "source_files_saved": 12
+    },
+    {
+      "path": "/tmp/nonlocal-sota-entry-smoke/corrosion2d",
+      "case": "corrosion2d",
+      "updates": 2,
+      "formulation": "bounded",
+      "initial_nodes": 5151,
+      "boundary_nodes": {
+        "pit": 9,
+        "solid": 201
+      },
+      "xla_flags": "--xla_gpu_deterministic_ops=true",
+      "run_name_saved_correctly": true,
+      "source_files_saved": 12
+    },
+    {
+      "path": "/tmp/nonlocal-sota-entry-smoke/electropolish2d",
+      "case": "electropolish2d",
+      "updates": 2,
+      "formulation": "phase",
+      "initial_nodes": 2000,
+      "boundary_nodes": {
+        "pit": 128,
+        "solid": 128
+      },
+      "xla_flags": "--xla_gpu_deterministic_ops=true",
+      "run_name_saved_correctly": true,
+      "source_files_saved": 12
+    }
+  ]
+}

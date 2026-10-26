@@ -1,0 +1,74 @@
+{
+  "reference": "/root/autodl-tmp/data/electropolish2d/results_matched_graph_20261024.npz",
+  "runs": {
+    "Random seed42": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed42",
+    "Candidate seed42": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42",
+    "Random seed7": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7",
+    "Candidate seed7": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed7"
+  },
+  "times_seconds": [
+    0.0,
+    1.0,
+    2.5,
+    5.0
+  ],
+  "per_time_relative_l2": {
+    "Random seed42": {
+      "phi": [
+        0.07921733890474335,
+        0.30824030613489534,
+        0.3188586275785139,
+        0.29092777063291053
+      ],
+      "c": [
+        0.08149157386729126,
+        0.3192777216141517,
+        0.33002710767060517,
+        0.2990126992243743
+      ]
+    },
+    "Candidate seed42": {
+      "phi": [
+        0.0011400112086889012,
+        0.0037295504281608686,
+        0.0021853055692295145,
+        0.0021060143833975826
+      ],
+      "c": [
+        0.001244326100374246,
+        0.004485205179939692,
+        0.0026197645043965784,
+        0.0025178223864210725
+      ]
+    },
+    "Random seed7": {
+      "phi": [
+        0.0016662751032830104,
+        0.0029666150919383074,
+        0.0019813080372049225,
+        0.0011378188435460965
+      ],
+      "c": [
+        0.002447693516034543,
+        0.003581506728381426,
+        0.002384490900459903,
+        0.0013578160145092115
+      ]
+    },
+    "Candidate seed7": {
+      "phi": [
+        0.0010798579069502615,
+        0.0033485395430460723,
+        0.0022693419280057562,
+        0.0023894404686661927
+      ],
+      "c": [
+        0.0010942512739876178,
+        0.004031148974257235,
+        0.0027205681080872254,
+        0.0028692667849457955
+      ]
+    }
+  },
+  "note": "Both current-code random-data baselines are shown; older pilots/SOTA are separate historical context in the audit/report"
+}

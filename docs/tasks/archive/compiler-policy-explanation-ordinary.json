@@ -1,0 +1,25 @@
+{
+  "policy": "ordinary",
+  "xla_flags": "",
+  "jax": "0.10.1",
+  "jaxlib": "0.10.1",
+  "values_shape": [
+    2559,
+    16
+  ],
+  "edges": 3032,
+  "repeats": 10,
+  "results": {
+    "forward": {
+      "repeat_max_abs_difference": 0.015625,
+      "repeat_max_relative_difference": 6.474716229831756e-08
+    },
+    "gradient": {
+      "repeat_max_abs_difference": 0.0390625,
+      "repeat_max_relative_difference": 6.066235869184311e-08
+    }
+  },
+  "optimized_hlo_control_ops": [
+    "ROOT %scatter-add.5.1 = f32[2559,16]{1,0} scatter(%param_0.1, %bitcast.3, %mul.0.3), update_window_dims={1,2}, inserted_window_dims={}, scatter_dims_to_operand_dims={0}, index_vector_dim=1, to_apply=%region_0.1, metadata={op_name=\"jit(graph_action)/scatter-add\" stack_frame_id=4}"
+  ]
+}

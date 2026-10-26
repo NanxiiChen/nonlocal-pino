@@ -1,0 +1,28 @@
+{
+  "baseline": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42",
+  "replay": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-replay",
+  "updates": 5000,
+  "xla_flags": "--xla_gpu_deterministic_ops=true",
+  "same_configuration_except_run_name": true,
+  "checkpoint_bytes_equal": {
+    "model_initial.eqx": true,
+    "ckpt_001000.eqx": true,
+    "ckpt_002000.eqx": true,
+    "ckpt_003000.eqx": true,
+    "ckpt_004000.eqx": true,
+    "model_final.eqx": true,
+    "prediction.npz": true,
+    "ckpt_005000.eqx": true
+  },
+  "physical_prediction_arrays_equal": {
+    "X": true,
+    "Y": true,
+    "time": true,
+    "phi": true,
+    "c": true
+  },
+  "trajectory_replay_exact": true,
+  "scope": "1000-update saved checkpoints and final fields/parameters; optimizer state not serialized",
+  "logged_loss_weights_exact": true,
+  "all_evaluations_equal_excluding_elapsed_time": true
+}

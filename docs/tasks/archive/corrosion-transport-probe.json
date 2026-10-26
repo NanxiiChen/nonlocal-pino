@@ -1,0 +1,19 @@
+{
+  "source_run": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42",
+  "backend": "gpu",
+  "legacy_full_batch_exact": {
+    "losses": true,
+    "weights": true,
+    "gradients": true
+  },
+  "terminal_CH_rms": {
+    "legacy": 7.003677845001221,
+    "raw_edges": 7.003676891326904,
+    "float64_graph_raw_q": 7.003674601404779
+  },
+  "terminal_CH_evaluation_error_rms": {
+    "legacy": 0.003003367519777895,
+    "raw_edges": 0.0002291025294337341
+  },
+  "scope": "Old/new legacy first-batch losses/weights/parameter gradients; frozen winner evaluation only, not retraining evidence"
+}

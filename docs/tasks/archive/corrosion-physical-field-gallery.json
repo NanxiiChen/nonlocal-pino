@@ -1,0 +1,101 @@
+{
+  "physical_times_seconds": [
+    0.0,
+    10.0,
+    25.0,
+    50.0
+  ],
+  "seed": 42,
+  "updates": 5000,
+  "reference_path": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+  "runs": {
+    "Original": {
+      "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-physical_difference-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
+      "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-physical_difference-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42/model_final.eqx",
+      "per_time": [
+        {
+          "seconds": 0.0,
+          "phi_relative_l2_all_nodes": 0.00045739378472000984,
+          "c_relative_l2_all_nodes": 0.0004722523588725707,
+          "q_relative_l2_free_nodes": 0.06039159977934616
+        },
+        {
+          "seconds": 10.0,
+          "phi_relative_l2_all_nodes": 0.005300185790494855,
+          "c_relative_l2_all_nodes": 0.006370365554419348,
+          "q_relative_l2_free_nodes": 0.030278830015859102
+        },
+        {
+          "seconds": 25.0,
+          "phi_relative_l2_all_nodes": 0.006088783751894951,
+          "c_relative_l2_all_nodes": 0.007289257931536447,
+          "q_relative_l2_free_nodes": 0.03017987369025178
+        },
+        {
+          "seconds": 50.0,
+          "phi_relative_l2_all_nodes": 0.011770707566104236,
+          "c_relative_l2_all_nodes": 0.014020721083460606,
+          "q_relative_l2_free_nodes": 0.03828551024399008
+        }
+      ]
+    },
+    "Stable KKS/edges": {
+      "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
+      "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42/model_final.eqx",
+      "per_time": [
+        {
+          "seconds": 0.0,
+          "phi_relative_l2_all_nodes": 0.001336811725055604,
+          "c_relative_l2_all_nodes": 0.0011136179032762764,
+          "q_relative_l2_free_nodes": 0.26282436711224777
+        },
+        {
+          "seconds": 10.0,
+          "phi_relative_l2_all_nodes": 0.0037350967545844082,
+          "c_relative_l2_all_nodes": 0.004469830058273366,
+          "q_relative_l2_free_nodes": 0.012348044264455408
+        },
+        {
+          "seconds": 25.0,
+          "phi_relative_l2_all_nodes": 0.004897534194182884,
+          "c_relative_l2_all_nodes": 0.005847738215661291,
+          "q_relative_l2_free_nodes": 0.008948458731119416
+        },
+        {
+          "seconds": 50.0,
+          "phi_relative_l2_all_nodes": 0.00883527856062115,
+          "c_relative_l2_all_nodes": 0.010425488872358878,
+          "q_relative_l2_free_nodes": 0.013724648306854803
+        }
+      ]
+    }
+  },
+  "plots": {
+    "phi": "/root/nonlocal-pinn/docs/tasks/archive/corrosion-physical-field-gallery-phi.png",
+    "c": "/root/nonlocal-pinn/docs/tasks/archive/corrosion-physical-field-gallery-c.png",
+    "q_scaled": "/root/nonlocal-pinn/docs/tasks/archive/corrosion-physical-field-gallery-q_scaled.png",
+    "errors": "/root/nonlocal-pinn/docs/tasks/archive/corrosion-physical-field-gallery-errors.png"
+  },
+  "plot_conventions": {
+    "field_scales": {
+      "phi": [
+        0,
+        1
+      ],
+      "c": [
+        0,
+        1
+      ],
+      "q_scaled": [
+        -1,
+        0
+      ]
+    },
+    "signed_error_scale": [
+      -0.05,
+      0.05
+    ],
+    "contours": "reference black dashed; PINN red solid",
+    "q_evaluation": "raw KKS network output in float64; free-node norm"
+  }
+}

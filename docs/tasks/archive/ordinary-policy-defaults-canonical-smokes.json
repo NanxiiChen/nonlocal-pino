@@ -1,0 +1,39 @@
+{
+  "status": "passed",
+  "runs": [
+    {
+      "case": "corrosion2d",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "examples/corrosion2d/train.py",
+        "--config.train.iterations=2",
+        "--config.log.eval_every=1",
+        "--config.experiment.checkpoint_every=1",
+        "--config.log.log_dir=/root/nonlocal-pinn/reports/ordinary-policy-defaults-20261026",
+        "--config.log.run_name=canonical-smoke-corrosion2d"
+      ],
+      "run": "/root/nonlocal-pinn/reports/ordinary-policy-defaults-20261026/canonical-smoke-corrosion2d",
+      "returncode": 0,
+      "updates": 2,
+      "dtype": "float64",
+      "policy": "ordinary"
+    },
+    {
+      "case": "electropolish2d",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "examples/electropolish2d/train.py",
+        "--config.train.iterations=2",
+        "--config.log.eval_every=1",
+        "--config.experiment.checkpoint_every=1",
+        "--config.log.log_dir=/root/nonlocal-pinn/reports/ordinary-policy-defaults-20261026",
+        "--config.log.run_name=canonical-smoke-electropolish2d"
+      ],
+      "run": "/root/nonlocal-pinn/reports/ordinary-policy-defaults-20261026/canonical-smoke-electropolish2d",
+      "returncode": 0,
+      "updates": 2,
+      "dtype": "float32",
+      "policy": "ordinary"
+    }
+  ]
+}

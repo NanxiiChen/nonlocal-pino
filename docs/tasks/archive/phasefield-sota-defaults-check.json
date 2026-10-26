@@ -1,0 +1,65 @@
+{
+  "scope": "Configuration/initialization/data parity, not a new full training replay",
+  "cases": {
+    "corrosion2d": {
+      "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed42",
+      "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed42/ckpt_005000.eqx",
+      "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+      "allowed_config_differences": {
+        "log.run_name": {
+          "saved": "20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed42",
+          "default": ""
+        }
+      },
+      "explicit_new_fields": {
+        "experiment.ch_rms_after": 0,
+        "experiment.lr_tail_end": 1e-05,
+        "experiment.lr_tail_start": 0
+      },
+      "same_cpu_saved_vs_default_initialization": "exact array equality",
+      "cpu_vs_saved_gpu_initial_parameter_max_abs_difference": 4.76837158203125e-07
+    },
+    "electropolish2d": {
+      "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7",
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7/ckpt_005000.eqx",
+      "reference": "/root/autodl-tmp/data/electropolish2d/results_matched_graph_20261024.npz",
+      "allowed_config_differences": {
+        "log.run_name": {
+          "saved": "20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7",
+          "default": ""
+        }
+      },
+      "explicit_new_fields": {},
+      "same_cpu_saved_vs_default_initialization": "exact array equality",
+      "cpu_vs_saved_gpu_initial_parameter_max_abs_difference": 4.76837158203125e-07
+    },
+    "icemelting3d": {
+      "run": "/root/autodl-tmp/tf-logs/icemelting3d/20261024-5s-soap-lr1e3-seed42",
+      "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/20261024-5s-soap-lr1e3-seed42/ckpt_005000.eqx",
+      "reference": "/root/nonlocal-pinn/reports/icemelting-weak-prior-20261024/reference.npz",
+      "allowed_config_differences": {
+        "train.iterations": {
+          "saved": 20000,
+          "default": 5000
+        },
+        "log.run_name": {
+          "saved": "20261024-5s-soap-lr1e3-seed42",
+          "default": ""
+        },
+        "eval.graph_reference_path": {
+          "saved": "reports/icemelting-weak-prior-20261024/reference.npz",
+          "default": ""
+        }
+      },
+      "explicit_new_fields": {},
+      "same_cpu_saved_vs_default_initialization": "exact array equality",
+      "cpu_vs_saved_gpu_initial_parameter_max_abs_difference": 4.76837158203125e-07
+    }
+  },
+  "sampler_parity": {
+    "corrosion_boundary_points": "exact array equality against original CLI function",
+    "corrosion_initial_points": "exact array equality against original CLI function",
+    "electropolish_boundary_points": "exact array equality against original CLI function",
+    "electropolish_initial_points": "exact array equality against original CLI function"
+  }
+}

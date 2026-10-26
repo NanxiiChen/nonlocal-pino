@@ -1,0 +1,98 @@
+[
+  {
+    "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-stagger0-every25-phase-mapkks-ac1e-07-ch1.0-seed42",
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-u",
+      "-m",
+      "examples.corrosion2d.residual_experiment",
+      "train",
+      "--case",
+      "corrosion2d",
+      "--formulation",
+      "phase",
+      "--stagger-steps",
+      "0",
+      "--stagger-switch-every",
+      "25",
+      "--seed",
+      "42"
+    ],
+    "returncode": 0,
+    "formulation": "phase",
+    "stagger_steps": 0,
+    "log": "/tmp/20261025-stagger0-every25-phase-mapkks-ac1e-07-ch1.0-seed42.log"
+  },
+  {
+    "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-stagger1000-every25-phase-mapkks-ac1e-07-ch1.0-seed42",
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-u",
+      "-m",
+      "examples.corrosion2d.residual_experiment",
+      "train",
+      "--case",
+      "corrosion2d",
+      "--formulation",
+      "phase",
+      "--stagger-steps",
+      "1000",
+      "--stagger-switch-every",
+      "25",
+      "--seed",
+      "42"
+    ],
+    "returncode": 0,
+    "formulation": "phase",
+    "stagger_steps": 1000,
+    "log": "/tmp/20261025-stagger1000-every25-phase-mapkks-ac1e-07-ch1.0-seed42.log"
+  },
+  {
+    "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-stagger0-every25-latent-mapkks-ac1e-07-ch1.0-seed42",
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-u",
+      "-m",
+      "examples.corrosion2d.residual_experiment",
+      "train",
+      "--case",
+      "corrosion2d",
+      "--formulation",
+      "latent",
+      "--stagger-steps",
+      "0",
+      "--stagger-switch-every",
+      "25",
+      "--seed",
+      "42"
+    ],
+    "returncode": 0,
+    "formulation": "latent",
+    "stagger_steps": 0,
+    "log": "/tmp/20261025-stagger0-every25-latent-mapkks-ac1e-07-ch1.0-seed42.log"
+  },
+  {
+    "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-stagger1000-every25-latent-mapkks-ac1e-07-ch1.0-seed42",
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-u",
+      "-m",
+      "examples.corrosion2d.residual_experiment",
+      "train",
+      "--case",
+      "corrosion2d",
+      "--formulation",
+      "latent",
+      "--stagger-steps",
+      "1000",
+      "--stagger-switch-every",
+      "25",
+      "--seed",
+      "42"
+    ],
+    "returncode": 0,
+    "formulation": "latent",
+    "stagger_steps": 1000,
+    "log": "/tmp/20261025-stagger1000-every25-latent-mapkks-ac1e-07-ch1.0-seed42.log"
+  }
+]

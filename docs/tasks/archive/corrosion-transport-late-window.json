@@ -1,0 +1,107 @@
+{
+  "physical_difference/l1": {
+    "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-physical_difference-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
+    "late_step_range": [
+      4000,
+      5000
+    ],
+    "terminal_rel_l2_phi": {
+      "median": 0.013652953285712019,
+      "range": [
+        0.007489092331592357,
+        0.09206611179242659
+      ]
+    },
+    "terminal_rel_l2_c": {
+      "median": 0.016186507545349074,
+      "range": [
+        0.008895698047262647,
+        0.10831181108911958
+      ]
+    },
+    "terminal_rel_l2_q": {
+      "median": 0.025051168554987385,
+      "range": [
+        0.006202404035882038,
+        0.08023072229970117
+      ]
+    },
+    "terminal_rel_l2_Dq_free": {
+      "median": 2.7151768394272846,
+      "range": [
+        1.4682385115096808,
+        12.132981500962583
+      ]
+    }
+  },
+  "physical_difference/rms": {
+    "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-physical_difference-chrms-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
+    "late_step_range": [
+      4000,
+      5000
+    ],
+    "terminal_rel_l2_phi": {
+      "median": 0.45430219967196095,
+      "range": [
+        0.4432661090518938,
+        0.466012695997785
+      ]
+    },
+    "terminal_rel_l2_c": {
+      "median": 0.4633686203743199,
+      "range": [
+        0.45367768915606876,
+        0.47393242034878375
+      ]
+    },
+    "terminal_rel_l2_q": {
+      "median": 0.32472129504424785,
+      "range": [
+        0.3097177174830193,
+        0.3568998493801896
+      ]
+    },
+    "terminal_rel_l2_Dq_free": {
+      "median": 1.950446581730228,
+      "range": [
+        1.6805347851870063,
+        11.094339390706105
+      ]
+    }
+  },
+  "kks_raw_edges/l1": {
+    "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
+    "late_step_range": [
+      4000,
+      5000
+    ],
+    "terminal_rel_l2_phi": {
+      "median": 0.0071909587899031315,
+      "range": [
+        0.002689092798879784,
+        0.00883527856062115
+      ]
+    },
+    "terminal_rel_l2_c": {
+      "median": 0.008512023009636402,
+      "range": [
+        0.0031905280975841957,
+        0.010425488872358878
+      ]
+    },
+    "terminal_rel_l2_q": {
+      "median": 0.016682218805407316,
+      "range": [
+        0.004200790663183449,
+        0.022067140436335796
+      ]
+    },
+    "terminal_rel_l2_Dq_free": {
+      "median": 1.7057344264053214,
+      "range": [
+        0.8908836611618551,
+        1.915019712867594
+      ]
+    }
+  }
+}

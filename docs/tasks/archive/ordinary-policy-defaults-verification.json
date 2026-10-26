@@ -1,0 +1,79 @@
+{
+  "status": "passed",
+  "new_completed_full_runs": 6,
+  "independently_replayed_KKS_models": 10,
+  "independently_replayed_melting_models": 1,
+  "run_snapshot_python_files_present": 100,
+  "selected_configurations": [
+    {
+      "case": "corrosion2d",
+      "selected_run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-graph_ordinary-float64-seed42",
+      "current_vs_saved_metadata_only_differences": {
+        "log.run_name": {
+          "current": "",
+          "saved": "20261026-full-graph_ordinary-float64-seed42"
+        },
+        "experiment.checkpoint_every": {
+          "current": 1000,
+          "saved": 200
+        }
+      }
+    },
+    {
+      "case": "electropolish2d",
+      "selected_run": "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float32-seed42",
+      "current_vs_saved_metadata_only_differences": {
+        "log.run_name": {
+          "current": "",
+          "saved": "20261026-defaultcheck-ordinary-float32-seed42"
+        },
+        "experiment.checkpoint_every": {
+          "current": 1000,
+          "saved": 200
+        }
+      }
+    },
+    {
+      "case": "icemelting3d",
+      "selected_run": "/root/autodl-tmp/tf-logs/icemelting3d/20261026-defaultcheck-ordinary-float32-seed42",
+      "current_vs_saved_metadata_only_differences": {
+        "log.run_name": {
+          "current": "",
+          "saved": "20261026-defaultcheck-ordinary-float32-seed42"
+        },
+        "eval.graph_reference_path": {
+          "current": "",
+          "saved": "/root/nonlocal-pinn/reports/icemelting-weak-prior-20261024/reference.npz"
+        }
+      }
+    }
+  ],
+  "historical_research_presets": {
+    "train_graph_ordinary": {
+      "dtype": "float32",
+      "policy": "ordinary"
+    },
+    "train_local_tensor": {
+      "dtype": "float32",
+      "policy": "deterministic"
+    },
+    "train_local_joint": {
+      "dtype": "float32",
+      "policy": "deterministic"
+    }
+  },
+  "current_source_direct_snapshot": "/root/nonlocal-pinn/reports/ordinary-policy-defaults-20261026/selected-default-source",
+  "source_files": [
+    "src/nonlocal_pinn/training/runtime.py",
+    "examples/corrosion2d/training_entry.py",
+    "examples/corrosion2d/configs/train_base.py",
+    "examples/electropolish2d/configs/train_base.py",
+    "examples/icemelting3d/configs/train_base.py",
+    "examples/icemelting3d/train.py",
+    "examples/corrosion2d/configs/train_graph_ordinary.py",
+    "examples/corrosion2d/configs/train_local_tensor.py",
+    "examples/corrosion2d/configs/train_local_joint.py"
+  ],
+  "file_hashes": "none; direct paths and parameter/grid/config checks only",
+  "git_history_operations": "none"
+}

@@ -3,7 +3,7 @@
   "format": "JSON-compatible YAML",
   "project": "nonlocal-pinn",
   "source_commit": "61352f103e6beadaa2960f81f8379af28d9e7658",
-  "artifact_policy": "Existing roots retained; no physical migration or result-status reinterpretation. Unclassified children are inventory only.",
+  "artifact_policy": "Existing roots retained; explicitly authorized run renames/tags recorded; unclassified children are inventory only.",
   "cases": [
     {
       "case": "icemelting3d",
@@ -35,8 +35,11 @@
         "/root/autodl-tmp/tf-logs/icemelting3d/20260717-172957",
         "/root/autodl-tmp/tf-logs/icemelting3d/20260717-173606",
         "/root/autodl-tmp/tf-logs/icemelting3d/20260717-174049",
+        "/root/autodl-tmp/tf-logs/icemelting3d/20261024-5s-adam-lr1e3-seed42",
+        "/root/autodl-tmp/tf-logs/icemelting3d/20261024-5s-soap-lr1e3-seed42",
+        "/root/autodl-tmp/tf-logs/icemelting3d/20261024-ic-latent-coldstart-01-sota",
+        "/root/autodl-tmp/tf-logs/icemelting3d/20261024-ic-latent-default-coldstart-01",
         "/root/autodl-tmp/tf-logs/icemelting3d/5s",
-        "/root/autodl-tmp/tf-logs/icemelting3d/SOTA",
         "/root/autodl-tmp/tf-logs/icemelting3d/baseline",
         "/root/autodl-tmp/tf-logs/icemelting3d/baseline-FD",
         "/root/autodl-tmp/tf-logs/icemelting3d/baseline-adam",
@@ -44,12 +47,472 @@
         "/root/autodl-tmp/tf-logs/icemelting3d/baseline2",
         "/root/autodl-tmp/tf-logs/icemelting3d/eps0.0225_sparse",
         "/root/autodl-tmp/tf-logs/icemelting3d/fast",
+        "/root/autodl-tmp/tf-logs/icemelting3d/legacy-raw-phase-soft-ic",
         "/root/autodl-tmp/tf-logs/icemelting3d/local_ad",
         "/root/autodl-tmp/tf-logs/icemelting3d/nonlocal_eps_4",
         "/root/autodl-tmp/tf-logs/icemelting3d/split_on-update_w_1",
         "/root/autodl-tmp/tf-logs/icemelting3d/tensor_split_off",
-        "/root/autodl-tmp/tf-logs/icemelting3d/tensor_split_on"
-      ]
+        "/root/autodl-tmp/tf-logs/icemelting3d/tensor_split_on",
+        "/root/autodl-tmp/tf-logs/icemelting3d/20261025-independent-seed2026-default-strategy",
+        "/root/autodl-tmp/tf-logs/icemelting3d/20261026-defaultcheck-ordinary-float32-seed42"
+      ],
+      "sota_run": "/root/autodl-tmp/tf-logs/icemelting3d/20261026-defaultcheck-ordinary-float32-seed42",
+      "sota_metric": {
+        "criterion": "terminal_graph_rel_l2",
+        "value": 3.9052947454328864e-05,
+        "physical_terminal_s": 5.0,
+        "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/20261026-defaultcheck-ordinary-float32-seed42/ckpt_005000.eqx",
+        "reference": "reports/icemelting-weak-prior-20261024/reference.npz"
+      },
+      "run_directory_renames": {
+        "/root/autodl-tmp/tf-logs/icemelting3d/SOTA": "/root/autodl-tmp/tf-logs/icemelting3d/legacy-raw-phase-soft-ic",
+        "/root/autodl-tmp/tf-logs/icemelting3d/20261024-ic-latent-coldstart-01": "/root/autodl-tmp/tf-logs/icemelting3d/20261024-ic-latent-coldstart-01-sota"
+      },
+      "default_training": {
+        "config": "examples/icemelting3d/configs/train_base.py",
+        "formulation": "ic_latent",
+        "optimizer": "soap",
+        "updates": 5000,
+        "physical_terminal_s": 5.0,
+        "selected_checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/20261026-defaultcheck-ordinary-float32-seed42/ckpt_005000.eqx",
+        "terminal_graph_rel_l2": 3.9052947454328864e-05,
+        "evaluation_reference": "reports/icemelting-weak-prior-20261024/reference.npz",
+        "report": "docs/tasks/archive/ordinary-policy-defaults.md",
+        "entry": "examples/icemelting3d/train.py",
+        "selection_criterion": "Per-case precision/policy speed and complete5000-update field accuracy/reliability from predeclared42/2026 controls; final and late-window metrics, not seed or intermediate minimum. No global optimum or universal stability claim.",
+        "selected_checkpoint_seed": 42,
+        "seed_input": "--seed; common untuned run default42; omitted from strategy config",
+        "seed_scope": "Selected checkpoint seed is historical provenance, not a strategy parameter or promised default accuracy.",
+        "stability_assessment": "Explicit ordinary seed42 full-grid phi3.9053e-5; earlier2026 phi5.9857e-5 supports field accuracy but historical external XLA flags are not established. Two seeds do not prove statistical robustness.",
+        "gpu_policy": "ordinary",
+        "compute_dtype": "float32",
+        "saved_config": "/root/autodl-tmp/tf-logs/icemelting3d/20261026-defaultcheck-ordinary-float32-seed42/config.json",
+        "independent_cpu_terminal_graph_rel_l2": 3.9058160588499425e-05
+      },
+      "optimizer_comparison_5s": {
+        "updates": 5000,
+        "lr_init": 0.001,
+        "seed": 42,
+        "report": "docs/tasks/archive/icemelting-soap-adam-5s.md",
+        "checkpoints": {
+          "soap": "/root/autodl-tmp/tf-logs/icemelting3d/20261024-5s-soap-lr1e3-seed42/ckpt_005000.eqx",
+          "adam": "/root/autodl-tmp/tf-logs/icemelting3d/20261024-5s-adam-lr1e3-seed42/ckpt_005000.eqx"
+        },
+        "terminal_graph_rel_l2": {
+          "soap": 6.10970108092214e-05,
+          "adam": 0.0007395354226400773
+        }
+      },
+      "historical_sota_run": "/root/autodl-tmp/tf-logs/icemelting3d/20261024-ic-latent-coldstart-01-sota",
+      "historical_sota_metric": {
+        "physical_terminal_s": 4.0,
+        "grid": [
+          128,
+          128,
+          128
+        ],
+        "field": "phi",
+        "reference": "same-graph numerical integration",
+        "terminal_relative_l2": 3.0180799394496855e-05
+      },
+      "independent_seed_validation_20261026": {
+        "seed": 2026,
+        "run": "/root/autodl-tmp/tf-logs/icemelting3d/20261025-independent-seed2026-default-strategy",
+        "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/20261025-independent-seed2026-default-strategy/ckpt_005000.eqx",
+        "updates": 5000,
+        "selection": "Predeclared seed; use final5000, no rerolls or intermediate selection",
+        "assessment": "Seed2026 agrees with seed42 full-grid graph error; two runs support initialization stability, not statistical proof.",
+        "endpoint": {
+          "step": 5000,
+          "physical_terminal_s": 5.0,
+          "sample_points": 8000,
+          "full_grid_points": 2097152,
+          "analytic_pooled_rel_l2": 0.0007837638421741661,
+          "analytic_terminal_rel_l2": 0.0003753467612678764,
+          "graph_pooled_rel_l2": 4.5957342474346924e-05,
+          "graph_terminal_rel_l2": 5.220037813639748e-05,
+          "analytic_terminal_full_rel_l2": 0.000381617443295,
+          "graph_terminal_full_rel_l2": 5.985733837322923e-05
+        },
+        "independent_cpu": {
+          "terminal_graph_full_phi_relative_l2_cpu": 5.985387826936396e-05,
+          "phase_max_absolute_error": 0.00215874440721886,
+          "solid_volume_fraction": 0.004077911376953125,
+          "reference_solid_volume_fraction": 0.004077911376953125,
+          "solid_fraction_relative_l2": 0.0005431769502545736
+        },
+        "late_metrics": {
+          "late_graph_terminal_rel_l2": {
+            "median": 4.973452494844469e-05,
+            "min": 2.732702524805401e-05,
+            "max": 5.924170118436219e-05,
+            "evaluations": 6
+          },
+          "late_analytic_terminal_rel_l2": {
+            "median": 0.000378279302337835,
+            "min": 0.00037470118972625225,
+            "max": 0.0004052164718648704,
+            "evaluations": 6
+          }
+        },
+        "report": "docs/tasks/archive/phasefield-seed-stability.md",
+        "results": "docs/tasks/archive/phasefield-seed-stability-results.json",
+        "convergence": "docs/tasks/archive/phasefield-seed-stability-results-convergence.png"
+      },
+      "gpu_compilation_policy_audit": {
+        "status": "completed historical speed/static audit; defaults subsequently promoted by ordinary_policy_defaults_20261026",
+        "task": "docs/tasks/archive/phasefield-gpu-policy-audit.md",
+        "summary": "docs/tasks/archive/phasefield-gpu-policy-summary.json",
+        "raw_directory": "/root/nonlocal-pinn/reports/phasefield-gpu-policy-20261026",
+        "dtype": "float32",
+        "new_measured": true,
+        "updates_per_worker": 125,
+        "warmup": 50,
+        "measured": 75,
+        "mean_update_ms": {
+          "ordinary": 26.615990151961643,
+          "deterministic": 468.25661455591523
+        },
+        "speed_ratios": {
+          "steady": 17.593056350052937,
+          "pde_only": 21.287783368904215,
+          "forward": 1170.1668831726956,
+          "input_gradient": 1615.9504086102104
+        },
+        "paired_initial_and_all_pool_time_arrays_exact": true,
+        "policy_at_audit": "inherits XLA_FLAGS; no entry/config forced deterministic setting; inspected parent environment unset",
+        "current_policy": "ordinary; per-case precision selected by ordinary_policy_defaults_20261026"
+      },
+      "prior_default_training_20261026": {
+        "config": "examples/icemelting3d/configs/train_base.py",
+        "formulation": "ic_latent",
+        "optimizer": "soap",
+        "updates": 5000,
+        "physical_terminal_s": 5.0,
+        "selected_checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/20261024-5s-soap-lr1e3-seed42/ckpt_005000.eqx",
+        "terminal_graph_rel_l2": 6.10970108092214e-05,
+        "evaluation_reference": "reports/icemelting-weak-prior-20261024/reference.npz",
+        "report": "docs/tasks/archive/icemelting-soap-adam-5s.md",
+        "entry": "examples/icemelting3d/train.py",
+        "selection_criterion": "Selected verified5 s/5000-update full-grid terminal graph phi relative L2; distinct from historical4 s directory tag and approximate analytic error.",
+        "selected_checkpoint_seed": 42,
+        "seed_input": "--seed; common untuned run default42; omitted from strategy config",
+        "seed_scope": "Selected checkpoint seed is historical provenance, not a strategy parameter or promised default accuracy.",
+        "stability_assessment": "Seed2026 agrees with seed42 full-grid graph error; two runs support initialization stability, not statistical proof."
+      },
+      "prior_sota_before_explicit_policy_20261026": {
+        "run": "/root/autodl-tmp/tf-logs/icemelting3d/20261024-5s-soap-lr1e3-seed42",
+        "metric": {
+          "criterion": "terminal_graph_rel_l2",
+          "value": 6.10970108092214e-05,
+          "physical_terminal_s": 5.0,
+          "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/20261024-5s-soap-lr1e3-seed42/ckpt_005000.eqx",
+          "reference": "reports/icemelting-weak-prior-20261024/reference.npz"
+        }
+      },
+      "ordinary_policy_defaults_20261026": {
+        "report": "docs/tasks/archive/ordinary-policy-defaults.md",
+        "manifest": "docs/tasks/archive/ordinary-policy-defaults-manifest.json",
+        "audit": "docs/tasks/archive/ordinary-policy-defaults-melting-audit.json",
+        "cohort": {
+          "new_run": {
+            "status": "passed",
+            "run": "/root/autodl-tmp/tf-logs/icemelting3d/20261026-defaultcheck-ordinary-float32-seed42",
+            "seed_as_run_provenance": 42,
+            "policy": "ordinary",
+            "xla_flags": "",
+            "terminal_graph_full_phi_relative_l2_cpu": 3.9058160588499425e-05,
+            "terminal_solid_fraction_relative_l2": 0.0003544547682530773,
+            "solid_volume_fraction": 0.004077911376953125,
+            "reference_solid_volume_fraction": 0.004077911376953125,
+            "maximum_phase_absolute_error": 0.0018384886508406861,
+            "trainer_wall_seconds": 171.40560542047024,
+            "late_sampled_graph_phi": {
+              "graph_terminal_rel_l2": {
+                "min": 2.894520086945485e-05,
+                "median": 3.4883245683977e-05,
+                "mean": 4.284959041588355e-05,
+                "max": 6.545582234330085e-05
+              }
+            },
+            "history": [
+              {
+                "step": 0,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": 2097152,
+                "analytic_pooled_rel_l2": 0.5822457159950256,
+                "analytic_terminal_rel_l2": 0.7619684851193196,
+                "graph_pooled_rel_l2": 0.5820681069969533,
+                "graph_terminal_rel_l2": 0.7619120389418105,
+                "analytic_terminal_full_rel_l2": 0.7718606845105584,
+                "graph_terminal_full_rel_l2": 0.7718035010588686
+              },
+              {
+                "step": 200,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.4128249384074907,
+                "analytic_terminal_rel_l2": 0.5097585162157547,
+                "graph_pooled_rel_l2": 0.41257541840479134,
+                "graph_terminal_rel_l2": 0.5096654336954964
+              },
+              {
+                "step": 400,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.20277429546519635,
+                "analytic_terminal_rel_l2": 0.2417399896254438,
+                "graph_pooled_rel_l2": 0.20231855432650905,
+                "graph_terminal_rel_l2": 0.24153445502800786
+              },
+              {
+                "step": 600,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.013884598456786239,
+                "analytic_terminal_rel_l2": 0.013261882255149186,
+                "graph_pooled_rel_l2": 0.013159526296175977,
+                "graph_terminal_rel_l2": 0.012864378448877656
+              },
+              {
+                "step": 800,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.0007332588131721133,
+                "analytic_terminal_rel_l2": 0.00024213886014380425,
+                "graph_pooled_rel_l2": 0.0002480259869655038,
+                "graph_terminal_rel_l2": 0.00027121412624909845
+              },
+              {
+                "step": 1000,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": 2097152,
+                "analytic_pooled_rel_l2": 0.0007689694942411437,
+                "analytic_terminal_rel_l2": 0.0003860652291595571,
+                "graph_pooled_rel_l2": 0.00010592967200507888,
+                "graph_terminal_rel_l2": 0.0001143422413166721,
+                "analytic_terminal_full_rel_l2": 0.0003875806000231972,
+                "graph_terminal_full_rel_l2": 0.00012132558184313012
+              },
+              {
+                "step": 1200,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.0008208470557232038,
+                "analytic_terminal_rel_l2": 0.0004109433799188815,
+                "graph_pooled_rel_l2": 5.755435670316685e-05,
+                "graph_terminal_rel_l2": 9.15590935339755e-05
+              },
+              {
+                "step": 1400,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.0008469373047785494,
+                "analytic_terminal_rel_l2": 0.0004299209289186831,
+                "graph_pooled_rel_l2": 5.3887701174028244e-05,
+                "graph_terminal_rel_l2": 8.070167942941915e-05
+              },
+              {
+                "step": 1600,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.0008132777656808178,
+                "analytic_terminal_rel_l2": 0.00035668103499452005,
+                "graph_pooled_rel_l2": 5.546159880014838e-05,
+                "graph_terminal_rel_l2": 9.403192291143802e-05
+              },
+              {
+                "step": 1800,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.0007617707426404006,
+                "analytic_terminal_rel_l2": 0.0003334731939317014,
+                "graph_pooled_rel_l2": 7.641258488544716e-05,
+                "graph_terminal_rel_l2": 9.787937999374615e-05
+              },
+              {
+                "step": 2000,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": 2097152,
+                "analytic_pooled_rel_l2": 0.0008473152573277067,
+                "analytic_terminal_rel_l2": 0.0004113323392202137,
+                "graph_pooled_rel_l2": 4.502186208347034e-05,
+                "graph_terminal_rel_l2": 6.534723436550405e-05,
+                "analytic_terminal_full_rel_l2": 0.00042494550460204676,
+                "graph_terminal_full_rel_l2": 6.938719245262176e-05
+              },
+              {
+                "step": 2200,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.0007859304568440078,
+                "analytic_terminal_rel_l2": 0.00033131376772412106,
+                "graph_pooled_rel_l2": 5.766137554228704e-05,
+                "graph_terminal_rel_l2": 9.865660307194403e-05
+              },
+              {
+                "step": 2400,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.0007968947083171486,
+                "analytic_terminal_rel_l2": 0.00035634861696617117,
+                "graph_pooled_rel_l2": 4.866424409685551e-05,
+                "graph_terminal_rel_l2": 7.922652931041786e-05
+              },
+              {
+                "step": 2600,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.0008565833960712314,
+                "analytic_terminal_rel_l2": 0.00042699375807576175,
+                "graph_pooled_rel_l2": 4.9751608580780285e-05,
+                "graph_terminal_rel_l2": 6.068114111890894e-05
+              },
+              {
+                "step": 2800,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.0008766168885195054,
+                "analytic_terminal_rel_l2": 0.00046057583202240487,
+                "graph_pooled_rel_l2": 6.769145665550059e-05,
+                "graph_terminal_rel_l2": 7.694120396842548e-05
+              },
+              {
+                "step": 3000,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": 2097152,
+                "analytic_pooled_rel_l2": 0.0008109411688603348,
+                "analytic_terminal_rel_l2": 0.00038737055074409654,
+                "graph_pooled_rel_l2": 3.289637365663511e-05,
+                "graph_terminal_rel_l2": 5.811715006768917e-05,
+                "analytic_terminal_full_rel_l2": 0.00040059685952255873,
+                "graph_terminal_full_rel_l2": 5.7105720279252715e-05
+              },
+              {
+                "step": 3200,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.0008809447606851582,
+                "analytic_terminal_rel_l2": 0.0004576042746884587,
+                "graph_pooled_rel_l2": 7.547027556224566e-05,
+                "graph_terminal_rel_l2": 7.025904901281295e-05
+              },
+              {
+                "step": 3400,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.0008076860726138907,
+                "analytic_terminal_rel_l2": 0.0003959210099048532,
+                "graph_pooled_rel_l2": 2.8691758498242693e-05,
+                "graph_terminal_rel_l2": 4.526817424528939e-05
+              },
+              {
+                "step": 3600,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.00085746362004999,
+                "analytic_terminal_rel_l2": 0.00045902227933965694,
+                "graph_pooled_rel_l2": 4.459917212575548e-05,
+                "graph_terminal_rel_l2": 5.766825446773824e-05
+              },
+              {
+                "step": 3800,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.0008478856268941399,
+                "analytic_terminal_rel_l2": 0.00046995993504142514,
+                "graph_pooled_rel_l2": 3.963242807917304e-05,
+                "graph_terminal_rel_l2": 6.375334661397203e-05
+              },
+              {
+                "step": 4000,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": 2097152,
+                "analytic_pooled_rel_l2": 0.0008613196422247943,
+                "analytic_terminal_rel_l2": 0.0004748874939136008,
+                "graph_pooled_rel_l2": 4.930178832513552e-05,
+                "graph_terminal_rel_l2": 6.545582234330085e-05,
+                "analytic_terminal_full_rel_l2": 0.0004844708297221695,
+                "graph_terminal_full_rel_l2": 6.545195751172446e-05
+              },
+              {
+                "step": 4200,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.00086414268282097,
+                "analytic_terminal_rel_l2": 0.0004723144898750128,
+                "graph_pooled_rel_l2": 5.207028759234978e-05,
+                "graph_terminal_rel_l2": 6.119779752418389e-05
+              },
+              {
+                "step": 4400,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.0008459074939911146,
+                "analytic_terminal_rel_l2": 0.0004416842791714402,
+                "graph_pooled_rel_l2": 3.0430521091434042e-05,
+                "graph_terminal_rel_l2": 3.173223039040773e-05
+              },
+              {
+                "step": 4600,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.000853528655135866,
+                "analytic_terminal_rel_l2": 0.000443100561361466,
+                "graph_pooled_rel_l2": 4.095390070713241e-05,
+                "graph_terminal_rel_l2": 3.480188963408973e-05
+              },
+              {
+                "step": 4800,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": null,
+                "analytic_pooled_rel_l2": 0.0008518926633534581,
+                "analytic_terminal_rel_l2": 0.0004392715240745102,
+                "graph_pooled_rel_l2": 3.6115776993606305e-05,
+                "graph_terminal_rel_l2": 2.894520086945485e-05
+              },
+              {
+                "step": 5000,
+                "physical_terminal_s": 5.0,
+                "sample_points": 8000,
+                "full_grid_points": 2097152,
+                "analytic_pooled_rel_l2": 0.0008509915966317476,
+                "analytic_terminal_rel_l2": 0.0004460681655377339,
+                "graph_pooled_rel_l2": 3.582753895887175e-05,
+                "graph_terminal_rel_l2": 3.496460173386426e-05,
+                "analytic_terminal_full_rel_l2": 0.00045750461649398354,
+                "graph_terminal_full_rel_l2": 3.9052947454328864e-05
+              }
+            ]
+          },
+          "prior_seed2026_run": "/root/autodl-tmp/tf-logs/icemelting3d/20261025-independent-seed2026-default-strategy"
+        }
+      }
     },
     {
       "case": "electropolish2d",
@@ -90,6 +553,18 @@
         "/root/autodl-tmp/tf-logs/electropolish2d/20260717-154928",
         "/root/autodl-tmp/tf-logs/electropolish2d/20260720-140327",
         "/root/autodl-tmp/tf-logs/electropolish2d/20260720-140552",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261024-residual-latent-seed42",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261024-residual-phase-seed42",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261024-residual-phase-seed42-setup-failed",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-timeramp3000-early0.05",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed42",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42-timeramp3000-early0.05",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-timeramp3000-early0.05",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed7",
         "/root/autodl-tmp/tf-logs/electropolish2d/SOTA",
         "/root/autodl-tmp/tf-logs/electropolish2d/ablate_adam",
         "/root/autodl-tmp/tf-logs/electropolish2d/baseline-soap",
@@ -100,8 +575,1725 @@
         "/root/autodl-tmp/tf-logs/electropolish2d/nonlocal_baseline",
         "/root/autodl-tmp/tf-logs/electropolish2d/test_sf",
         "/root/autodl-tmp/tf-logs/electropolish2d/test_sf2",
-        "/root/autodl-tmp/tf-logs/electropolish2d/test_sf_cpu"
-      ]
+        "/root/autodl-tmp/tf-logs/electropolish2d/test_sf_cpu",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261025-independent-seed2026-default-strategy",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float32-seed42",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float32-seed2026",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float64-seed42",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float64-seed2026"
+      ],
+      "residual_comparison_20261024": {
+        "report": "docs/tasks/archive/coupled-latent-residual-experiments.md",
+        "reference": "/root/autodl-tmp/data/electropolish2d/results_matched_graph_20261024.npz",
+        "reference_kind": "same-graph float64 BDF with aligned Dirichlet nodes",
+        "reference_refinement_max_relative_l2": 1.523935937181892e-08,
+        "updates": 5000,
+        "seed": 42,
+        "grid": [
+          101,
+          51
+        ],
+        "hard_initial_condition": false,
+        "latent_phase_residual": "r_phi / [4*phi*(1-phi)]",
+        "production_default_changed": false,
+        "runs": {
+          "phase": {
+            "path": "/root/autodl-tmp/tf-logs/electropolish2d/20261024-residual-phase-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261024-residual-phase-seed42/ckpt_005000.eqx",
+            "terminal_rel_l2_phi": 0.28604333038646146,
+            "terminal_rel_l2_c": 0.2944289156240351
+          },
+          "latent": {
+            "path": "/root/autodl-tmp/tf-logs/electropolish2d/20261024-residual-latent-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261024-residual-latent-seed42/ckpt_005000.eqx",
+            "terminal_rel_l2_phi": 0.34397927604422535,
+            "terminal_rel_l2_c": 0.3792039111983612
+          }
+        }
+      },
+      "field_optimization_20261025": {
+        "report": "docs/tasks/archive/electropolish-field-optimization.md",
+        "audit": "docs/tasks/archive/electropolish-optimization-audit.json",
+        "reference": "/root/autodl-tmp/data/electropolish2d/results_matched_graph_20261024.npz",
+        "horizon_seconds": 5.0,
+        "updates": 5000,
+        "initial_rate": 0.001,
+        "seeds": [
+          42,
+          7
+        ],
+        "grid": [
+          101,
+          51
+        ],
+        "hard_initial_condition": false,
+        "production_default_changed": false,
+        "selected_seed42": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42",
+        "strategy": "original phase + full-grid analytic IC + graph-node BC + normalized liquid-concentration BC; full time interval",
+        "outcome": "single-interface candidate in both seeds; large seed42 field/transport gain; seed7 q improves but terminal/pooled phi/c,Dq,c_t regress vs successful random baseline; no all-metric promotion",
+        "all_new_sources_identical": true,
+        "runs": {
+          "phase/s_bc/matched_graph/ramp0/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42/model_final.eqx",
+            "config": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42/config.json",
+            "physical_metrics": {
+              "terminal_rel_l2_phi": 0.0021060143833975826,
+              "pooled_rel_l2_phi": 0.0028932789570128344,
+              "rel_l2_by_time_phi": [
+                0.0011400112086889012,
+                0.005013944703383858,
+                0.005021272132178181,
+                0.004467773844523893,
+                0.0037295504281608686,
+                0.003272383986851607,
+                0.00292925108758235,
+                0.00262504538011491,
+                0.002320296220789158,
+                0.0021779189403615855,
+                0.0021853055692295145,
+                0.002231483117309942,
+                0.0020341911436088235,
+                0.0017929680386446073,
+                0.0017614466802309521,
+                0.0018766935770522515,
+                0.0020608757627294167,
+                0.0022231675592290015,
+                0.0022504737674468034,
+                0.0022393316445929834,
+                0.0021060143833975826
+              ],
+              "terminal_rel_l2_c": 0.0025178223864210725,
+              "pooled_rel_l2_c": 0.0034826947894725816,
+              "rel_l2_by_time_c": [
+                0.001244326100374246,
+                0.006099103405461607,
+                0.006073559499804228,
+                0.005383463184326353,
+                0.004485205179939692,
+                0.003943468197319032,
+                0.0035189873060489808,
+                0.0031666877996100913,
+                0.0027921894433239054,
+                0.0026237647279807466,
+                0.0026197645043965784,
+                0.0026805846444736244,
+                0.002434309663485595,
+                0.0021528634281977104,
+                0.002104537994072004,
+                0.002238559003484835,
+                0.0024599410790628828,
+                0.0026544093948874417,
+                0.0026906599480897493,
+                0.0026782457568604026,
+                0.0025178223864210725
+              ]
+            },
+            "transport": {
+              "terminal_q_rel_l2_free": 0.003100279885844809,
+              "pooled_q_rel_l2_free": 0.015572802666870727,
+              "terminal_Dq_rel_l2_free": 0.04433674888619244,
+              "stable_CH_rms_free": 0.02140564657292062,
+              "terminal_ct_rel_l2_free": 0.03287503293013471,
+              "reference_terminal_ct_rms_free": 0.45778857821899327,
+              "initial_q_rmse_over_cle_free": 0.026429208380393806,
+              "top_s_rmse": 0.00016746204616707424,
+              "bottom_s_rmse": 9.62012209023392e-05,
+              "terminal_zero_cL_derivative_fraction": 0.0
+            },
+            "terminal_crossings": {
+              "1": 101
+            },
+            "all_times_single_interface": true
+          },
+          "phase/physical/matched_graph/ramp0/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42/model_final.eqx",
+            "config": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42/config.json",
+            "physical_metrics": {
+              "terminal_rel_l2_phi": 0.0023544182175093027,
+              "pooled_rel_l2_phi": 0.0022020444264120908,
+              "rel_l2_by_time_phi": [
+                0.0014111883894413607,
+                0.003150885497239349,
+                0.003236568361015893,
+                0.0029936605807506338,
+                0.002621840906391397,
+                0.002229706486887074,
+                0.0018599159232495885,
+                0.0017187599296481324,
+                0.0017275956437690467,
+                0.0016496009927502214,
+                0.0015667191048259097,
+                0.0016521323584586694,
+                0.0018658931101758407,
+                0.001967847858676684,
+                0.0019824996342698727,
+                0.001977179258215745,
+                0.002049243759274816,
+                0.0021739382531441595,
+                0.0022544122683759776,
+                0.0023263089448885372,
+                0.0023544182175093027
+              ],
+              "terminal_rel_l2_c": 0.002838762663136095,
+              "pooled_rel_l2_c": 0.002660044265148857,
+              "rel_l2_by_time_c": [
+                0.00186325824610518,
+                0.00382000820255233,
+                0.0038967421575243195,
+                0.003597251723122834,
+                0.003147534853858364,
+                0.002698205901154813,
+                0.0022414031828099997,
+                0.002082342929082309,
+                0.002071525948721225,
+                0.001986738971959757,
+                0.0018743990475151046,
+                0.001997428303664728,
+                0.002238929146136131,
+                0.002381575562432967,
+                0.002388020214139735,
+                0.002378060575048163,
+                0.0024768895290967962,
+                0.0026106977341489564,
+                0.0027174169427201075,
+                0.002817587587919805,
+                0.002838762663136095
+              ]
+            },
+            "transport": {
+              "terminal_q_rel_l2_free": 0.013282672247482748,
+              "pooled_q_rel_l2_free": 0.026349369264091982,
+              "terminal_Dq_rel_l2_free": 0.04504597525563955,
+              "stable_CH_rms_free": 0.015669356699485673,
+              "terminal_ct_rel_l2_free": 0.028013929163665484,
+              "reference_terminal_ct_rms_free": 0.45778857821899327,
+              "initial_q_rmse_over_cle_free": 0.04141502609435794,
+              "top_s_rmse": 0.009799383141748648,
+              "bottom_s_rmse": 0.003737087433242452,
+              "terminal_zero_cL_derivative_fraction": 0.0
+            },
+            "terminal_crossings": {
+              "1": 101
+            },
+            "all_times_single_interface": true
+          },
+          "latent/s_bc/matched_graph/ramp0/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42/model_final.eqx",
+            "config": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42/config.json",
+            "physical_metrics": {
+              "terminal_rel_l2_phi": 0.5193980609662805,
+              "pooled_rel_l2_phi": 0.3978731549011976,
+              "rel_l2_by_time_phi": [
+                0.0022844704005960353,
+                0.18270729442636266,
+                0.24305199017999424,
+                0.28134518901311745,
+                0.310314956908358,
+                0.3342950854558174,
+                0.3550047258981322,
+                0.37323585497582046,
+                0.38968992523336005,
+                0.40488711128719623,
+                0.419053288654938,
+                0.4322015205355155,
+                0.4443823162775223,
+                0.4556717735211784,
+                0.4662657517998853,
+                0.4762789755041963,
+                0.48579273914601323,
+                0.494939170629409,
+                0.5037446181379599,
+                0.5119978686976896,
+                0.5193980609662805
+              ],
+              "terminal_rel_l2_c": 0.5369483067035535,
+              "pooled_rel_l2_c": 0.4104286426348037,
+              "rel_l2_by_time_c": [
+                0.002408308568076536,
+                0.19508111188205468,
+                0.2562542264984237,
+                0.2938210665482455,
+                0.3221700421870413,
+                0.34585982035278046,
+                0.36652170600036754,
+                0.38474040154620515,
+                0.4012500437002846,
+                0.4166555103389494,
+                0.4310729650935056,
+                0.44445258612150823,
+                0.4568201910023037,
+                0.46828687182500545,
+                0.47910859122379285,
+                0.4894720989967074,
+                0.49947594861634664,
+                0.50934299738793,
+                0.5191242618669846,
+                0.528485313631823,
+                0.5369483067035535
+              ]
+            },
+            "transport": {
+              "terminal_q_rel_l2_free": 0.13811628211376495,
+              "pooled_q_rel_l2_free": 0.4332666388174132,
+              "terminal_Dq_rel_l2_free": 1.056250828764958,
+              "stable_CH_rms_free": 0.06792972962741733,
+              "terminal_ct_rel_l2_free": 1.0498642177201931,
+              "reference_terminal_ct_rms_free": 0.45778857821899327,
+              "initial_q_rmse_over_cle_free": 0.05193651430099018,
+              "top_s_rmse": 0.001893511722109686,
+              "bottom_s_rmse": 0.0010111594175523544,
+              "terminal_zero_cL_derivative_fraction": 0.0
+            },
+            "terminal_crossings": {
+              "3": 101
+            },
+            "all_times_single_interface": false
+          },
+          "phase/physical/matched_graph/ramp1/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-timeramp3000-early0.05",
+            "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-timeramp3000-early0.05/model_final.eqx",
+            "config": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-timeramp3000-early0.05/config.json",
+            "physical_metrics": {
+              "terminal_rel_l2_phi": 0.00651636646462946,
+              "pooled_rel_l2_phi": 0.003567008146954153,
+              "rel_l2_by_time_phi": [
+                0.0014226550330980528,
+                0.0033372161280139758,
+                0.0033354238327111267,
+                0.003050643073984718,
+                0.0025453636667530995,
+                0.0019573558142874235,
+                0.0014585251419681844,
+                0.0012344499988119597,
+                0.001381247097833262,
+                0.0016088449277361404,
+                0.001835459906148464,
+                0.0019840637603878485,
+                0.0022843838516245695,
+                0.0028852265677158143,
+                0.003671873236364713,
+                0.0043717206600020365,
+                0.004991053937561669,
+                0.005580162641854375,
+                0.0060765982059799665,
+                0.006411327742846826,
+                0.00651636646462946
+              ],
+              "terminal_rel_l2_c": 0.00785130765919143,
+              "pooled_rel_l2_c": 0.0043110343490919845,
+              "rel_l2_by_time_c": [
+                0.0018941290069006572,
+                0.004065588898001127,
+                0.004036185957646197,
+                0.0036697454580604206,
+                0.003065429194102762,
+                0.0023502310953732856,
+                0.001756720726177699,
+                0.0014986434418285323,
+                0.001661397894575675,
+                0.0019388566747505882,
+                0.002204239438573559,
+                0.0024114285279171967,
+                0.0027656251799880083,
+                0.0035027473261249375,
+                0.004442549347753324,
+                0.005274131261253589,
+                0.006020997673561687,
+                0.006732997363398993,
+                0.007328240749067177,
+                0.0077291693132466545,
+                0.00785130765919143
+              ]
+            },
+            "transport": {
+              "terminal_q_rel_l2_free": 0.01646383188325754,
+              "pooled_q_rel_l2_free": 0.02754070775721735,
+              "terminal_Dq_rel_l2_free": 0.08277623584635695,
+              "stable_CH_rms_free": 0.02058881018880524,
+              "terminal_ct_rel_l2_free": 0.06523859487218066,
+              "reference_terminal_ct_rms_free": 0.45778857821899327,
+              "initial_q_rmse_over_cle_free": 0.04276371292588551,
+              "top_s_rmse": 0.013332798071655246,
+              "bottom_s_rmse": 0.004682957941646665,
+              "terminal_zero_cL_derivative_fraction": 0.0
+            },
+            "terminal_crossings": {
+              "1": 101
+            },
+            "all_times_single_interface": true
+          },
+          "phase/s_bc/matched_graph/ramp1/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-timeramp3000-early0.05",
+            "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-timeramp3000-early0.05/model_final.eqx",
+            "config": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-timeramp3000-early0.05/config.json",
+            "physical_metrics": {
+              "terminal_rel_l2_phi": 0.0023908465996358916,
+              "pooled_rel_l2_phi": 0.002891633577901923,
+              "rel_l2_by_time_phi": [
+                0.0010773121723000748,
+                0.0032986540230948735,
+                0.0036964901855193245,
+                0.003715311848990312,
+                0.0034898765405539764,
+                0.0033331400362110832,
+                0.0033483174145186043,
+                0.003356929930719967,
+                0.003261224608246962,
+                0.00313943447899702,
+                0.0030152918224285964,
+                0.0029566029354334577,
+                0.0028653625675868267,
+                0.002714439189246471,
+                0.002486856271670365,
+                0.0022157390038052057,
+                0.0019180565306077012,
+                0.0018410568982062075,
+                0.002049768961198614,
+                0.0022845310503656377,
+                0.0023908465996358916
+              ],
+              "terminal_rel_l2_c": 0.0028729240834523572,
+              "pooled_rel_l2_c": 0.0034826336748259535,
+              "rel_l2_by_time_c": [
+                0.001119630872720594,
+                0.004059555582514881,
+                0.004507724591705577,
+                0.004496859837640672,
+                0.0042036549577645,
+                0.004007739356832525,
+                0.00402238627671985,
+                0.004032214524363932,
+                0.003910724547716035,
+                0.003773235662952126,
+                0.0036212580321402666,
+                0.003550382332804395,
+                0.003437635729791279,
+                0.0032623061367689473,
+                0.0029824488616497485,
+                0.0026622772984869936,
+                0.002297701328825357,
+                0.0022156328496612905,
+                0.0024662999286317,
+                0.002740647863606017,
+                0.0028729240834523572
+              ]
+            },
+            "transport": {
+              "terminal_q_rel_l2_free": 0.005913620373017795,
+              "pooled_q_rel_l2_free": 0.01272295179389076,
+              "terminal_Dq_rel_l2_free": 0.08898758821125745,
+              "stable_CH_rms_free": 0.038624610558155525,
+              "terminal_ct_rel_l2_free": 0.030624476613370175,
+              "reference_terminal_ct_rms_free": 0.45778857821899327,
+              "initial_q_rmse_over_cle_free": 0.02002622512150352,
+              "top_s_rmse": 0.00014715881930559845,
+              "bottom_s_rmse": 0.00016738107209452013,
+              "terminal_zero_cL_derivative_fraction": 0.0
+            },
+            "terminal_crossings": {
+              "1": 101
+            },
+            "all_times_single_interface": true
+          },
+          "latent/s_bc/matched_graph/ramp1/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42-timeramp3000-early0.05",
+            "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42-timeramp3000-early0.05/model_final.eqx",
+            "config": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42-timeramp3000-early0.05/config.json",
+            "physical_metrics": {
+              "terminal_rel_l2_phi": 0.046768538455120044,
+              "pooled_rel_l2_phi": 0.0342707898130378,
+              "rel_l2_by_time_phi": [
+                0.0026980796428277267,
+                0.011311737811242733,
+                0.017984408243596487,
+                0.022997424960595474,
+                0.02651368370897282,
+                0.028903747926891956,
+                0.030677205176437947,
+                0.0321196277381592,
+                0.033412815717886665,
+                0.034527384018712436,
+                0.035717827820043145,
+                0.03688357223802748,
+                0.03811085034086689,
+                0.039161622544922205,
+                0.04014994941336439,
+                0.04107843384751709,
+                0.04207234434648931,
+                0.04320062784558285,
+                0.044350194479131314,
+                0.045515847642559705,
+                0.046768538455120044
+              ],
+              "terminal_rel_l2_c": 0.05500047307385798,
+              "pooled_rel_l2_c": 0.0406877474299569,
+              "rel_l2_by_time_c": [
+                0.0037051655665311313,
+                0.0135854098477012,
+                0.021658594910705386,
+                0.02763692087584007,
+                0.03185849292127969,
+                0.03471462028892803,
+                0.03676414774466564,
+                0.03850688470553991,
+                0.03994628622594741,
+                0.04118904600460015,
+                0.04258534704136491,
+                0.04384314826936123,
+                0.045285338628202595,
+                0.04639414666282085,
+                0.047528650531386406,
+                0.04857218745765236,
+                0.04967463040299948,
+                0.050968241887775004,
+                0.052259127067962347,
+                0.05355087264444644,
+                0.05500047307385798
+              ]
+            },
+            "transport": {
+              "terminal_q_rel_l2_free": 0.017968355433826085,
+              "pooled_q_rel_l2_free": 0.05753872537684985,
+              "terminal_Dq_rel_l2_free": 0.45713603980931755,
+              "stable_CH_rms_free": 0.030268838886526633,
+              "terminal_ct_rel_l2_free": 0.4536412424721507,
+              "reference_terminal_ct_rms_free": 0.45778857821899327,
+              "initial_q_rmse_over_cle_free": 0.09043079197664201,
+              "top_s_rmse": 0.0009086800189928285,
+              "bottom_s_rmse": 0.0006331123048223402,
+              "terminal_zero_cL_derivative_fraction": 0.0
+            },
+            "terminal_crossings": {
+              "1": 101
+            },
+            "all_times_single_interface": true
+          },
+          "phase/s_bc/matched_graph/ramp0/seed7": {
+            "path": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed7",
+            "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed7/model_final.eqx",
+            "config": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed7/config.json",
+            "physical_metrics": {
+              "terminal_rel_l2_phi": 0.0023894404686661927,
+              "pooled_rel_l2_phi": 0.0031341878605845026,
+              "rel_l2_by_time_phi": [
+                0.0010798579069502615,
+                0.005166533554542016,
+                0.004369228259720584,
+                0.003737454145909756,
+                0.0033485395430460723,
+                0.002969725463399639,
+                0.0026806324114730883,
+                0.0025092186333465416,
+                0.0023664209239335735,
+                0.0023087399754521485,
+                0.0022693419280057562,
+                0.0025042909930094626,
+                0.003074470903512944,
+                0.0034714032997533637,
+                0.0034021808381492764,
+                0.003054990073290899,
+                0.0028797094165725493,
+                0.0030931759746359823,
+                0.0033687638432294575,
+                0.003184218374010402,
+                0.0023894404686661927
+              ],
+              "terminal_rel_l2_c": 0.0028692667849457955,
+              "pooled_rel_l2_c": 0.0037687298558664217,
+              "rel_l2_by_time_c": [
+                0.0010942512739876178,
+                0.006228620410759534,
+                0.0052550798682433585,
+                0.004493745584665036,
+                0.004031148974257235,
+                0.0035761478447141524,
+                0.0032193154393873598,
+                0.0030127867789432657,
+                0.0028405304153522448,
+                0.0027737999380206602,
+                0.0027205681080872254,
+                0.003009051021305901,
+                0.003694288889822022,
+                0.004190887363401904,
+                0.004101994995365802,
+                0.0036732961891656345,
+                0.0034743910758007973,
+                0.0037250493745967987,
+                0.004062381872218234,
+                0.0038400813429629267,
+                0.0028692667849457955
+              ]
+            },
+            "transport": {
+              "terminal_q_rel_l2_free": 0.0049985320376530985,
+              "pooled_q_rel_l2_free": 0.013206727500467317,
+              "terminal_Dq_rel_l2_free": 0.05837541673957519,
+              "stable_CH_rms_free": 0.03320208607450758,
+              "terminal_ct_rel_l2_free": 0.06224765309130769,
+              "reference_terminal_ct_rms_free": 0.45778857821899327,
+              "initial_q_rmse_over_cle_free": 0.02160616332691744,
+              "top_s_rmse": 0.00011730204070187364,
+              "bottom_s_rmse": 0.00014186766260358046,
+              "terminal_zero_cL_derivative_fraction": 0.0
+            },
+            "terminal_crossings": {
+              "1": 101
+            },
+            "all_times_single_interface": true
+          },
+          "phase/physical/random_interior/ramp0/seed7": {
+            "path": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7",
+            "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7/model_final.eqx",
+            "config": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7/config.json",
+            "physical_metrics": {
+              "terminal_rel_l2_phi": 0.0011378188435460965,
+              "pooled_rel_l2_phi": 0.0021364124353669954,
+              "rel_l2_by_time_phi": [
+                0.0016662751032830104,
+                0.003057782038888684,
+                0.00306326124622967,
+                0.0031878681290295496,
+                0.0029666150919383074,
+                0.002442638831226334,
+                0.0019092472775949657,
+                0.0016631396755340708,
+                0.0017090387363057997,
+                0.0018971806318216053,
+                0.0019813080372049225,
+                0.001909670819642532,
+                0.0018064439360573462,
+                0.0017864459237273763,
+                0.001845377081586955,
+                0.0018542908230832975,
+                0.0018920738004026875,
+                0.0018452849074852853,
+                0.001643853522006998,
+                0.0013976475494775033,
+                0.0011378188435460965
+              ],
+              "terminal_rel_l2_c": 0.0013578160145092115,
+              "pooled_rel_l2_c": 0.0026017000530087213,
+              "rel_l2_by_time_c": [
+                0.002447693516034543,
+                0.0037672391237514734,
+                0.003731845011912149,
+                0.0038569834109249044,
+                0.003581506728381426,
+                0.002941578357913519,
+                0.0022959175588471597,
+                0.001997771284405357,
+                0.0020567925954818283,
+                0.002287173699366667,
+                0.002384490900459903,
+                0.002301243658086839,
+                0.0021651515105981876,
+                0.0021494406603104663,
+                0.0022119292082340403,
+                0.002223336823221805,
+                0.002275838503348026,
+                0.0022124747567785043,
+                0.001973706071485338,
+                0.0016782236786381964,
+                0.0013578160145092115
+              ]
+            },
+            "transport": {
+              "terminal_q_rel_l2_free": 0.011507961344136964,
+              "pooled_q_rel_l2_free": 0.03235997718187371,
+              "terminal_Dq_rel_l2_free": 0.0377613453779106,
+              "stable_CH_rms_free": 0.020866800282135774,
+              "terminal_ct_rel_l2_free": 0.029407256782455884,
+              "reference_terminal_ct_rms_free": 0.45778857821899327,
+              "initial_q_rmse_over_cle_free": 0.05275215674870124,
+              "top_s_rmse": 0.013361895378368249,
+              "bottom_s_rmse": 0.005151018137777289,
+              "terminal_zero_cL_derivative_fraction": 0.0
+            },
+            "terminal_crossings": {
+              "1": 101
+            },
+            "all_times_single_interface": true
+          },
+          "phase/physical/random_interior/ramp0/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed42/model_final.eqx",
+            "config": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed42/config.json",
+            "physical_metrics": {
+              "terminal_rel_l2_phi": 0.29092777063291053,
+              "pooled_rel_l2_phi": 0.2970032112434495,
+              "rel_l2_by_time_phi": [
+                0.07921733890474335,
+                0.1788642943048801,
+                0.2884507443183203,
+                0.3035962139695043,
+                0.30824030613489534,
+                0.3110939077882662,
+                0.3133919347788931,
+                0.3153641867663981,
+                0.3168263473120467,
+                0.3179838888226669,
+                0.3188586275785139,
+                0.31930239659811904,
+                0.319218414826914,
+                0.3185454451607363,
+                0.3172633730454474,
+                0.31533360504494623,
+                0.31263873542209086,
+                0.3089882481001134,
+                0.3042128010862991,
+                0.29826290476938383,
+                0.29092777063291053
+              ],
+              "terminal_rel_l2_c": 0.2990126992243743,
+              "pooled_rel_l2_c": 0.30722905040094733,
+              "rel_l2_by_time_c": [
+                0.08149157386729126,
+                0.1831997745313333,
+                0.2990587360920227,
+                0.3147030142180628,
+                0.3192777216141517,
+                0.32211243277352164,
+                0.32444620080530384,
+                0.3264746670833027,
+                0.32796879827733894,
+                0.3291426788921162,
+                0.33002710767060517,
+                0.33047912837704047,
+                0.33039081818939725,
+                0.329687180399703,
+                0.3283347058627978,
+                0.3262874279961984,
+                0.32341802365406963,
+                0.319471666328738,
+                0.3141951380061869,
+                0.3074817921527642,
+                0.2990126992243743
+              ]
+            },
+            "transport": {
+              "terminal_q_rel_l2_free": 0.15809171882275014,
+              "pooled_q_rel_l2_free": 0.12126773769497423,
+              "terminal_Dq_rel_l2_free": 0.9559717116122914,
+              "stable_CH_rms_free": 0.04442923766654121,
+              "terminal_ct_rel_l2_free": 0.9799184541402456,
+              "reference_terminal_ct_rms_free": 0.45778857821899327,
+              "initial_q_rmse_over_cle_free": 0.11421310193950822,
+              "top_s_rmse": 0.022385608131189155,
+              "bottom_s_rmse": 0.04068536096793887,
+              "terminal_zero_cL_derivative_fraction": 0.0
+            },
+            "terminal_crossings": {
+              "3": 101
+            },
+            "all_times_single_interface": false
+          }
+        }
+      },
+      "default_training": {
+        "entry": "examples/electropolish2d/train.py",
+        "config": "examples/electropolish2d/configs/train_base.py",
+        "selection_criterion": "Per-case precision/policy speed and complete5000-update field accuracy/reliability from predeclared42/2026 controls; final and late-window metrics, not seed or intermediate minimum. No global optimum or universal stability claim.",
+        "formulation": "phase",
+        "optimizer": "soap",
+        "updates": 5000,
+        "physical_terminal_s": 5.0,
+        "selected_checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float32-seed42/ckpt_005000.eqx",
+        "saved_config": "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float32-seed42/config.json",
+        "evaluation_reference": "/root/autodl-tmp/data/electropolish2d/results_matched_graph_20261024.npz",
+        "physical_metrics": {
+          "terminal_rel_l2_phi": 0.004757155147631114,
+          "terminal_rel_l2_c": 0.005738106608838946,
+          "pooled_rel_l2_phi": 0.004204417934627131,
+          "pooled_rel_l2_c": 0.005076732615706296
+        },
+        "transport_metrics": {
+          "terminal_q_rel_l2_free": 0.012832037561776349,
+          "terminal_Dq_rel_l2_free": 0.059228994695408446
+        },
+        "report": "docs/tasks/archive/ordinary-policy-defaults.md",
+        "prior_audit": "docs/tasks/archive/electropolish-optimization-audit.json",
+        "selected_checkpoint_seed": 42,
+        "seed_input": "--seed; common untuned run default42; omitted from strategy config",
+        "seed_scope": "Selected checkpoint seed is historical provenance, not a strategy parameter or promised default accuracy.",
+        "stability_assessment": "Both ordinary FP3242/2026 retain one interface and low fields; historical deterministic42 failure rescued in this run. Ordinary FP64 still fails42. No statistical robustness claim.",
+        "gpu_policy": "ordinary",
+        "compute_dtype": "float32",
+        "audit": "docs/tasks/archive/ordinary-policy-defaults-kks-audit.json"
+      },
+      "sota_run": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7",
+      "sota_metric": {
+        "criterion": "terminal_phi_plus_c_relative_l2",
+        "reference": "/root/autodl-tmp/data/electropolish2d/results_matched_graph_20261024.npz",
+        "terminal_rel_l2_phi": 0.0011378188435460965,
+        "terminal_rel_l2_c": 0.0013578160145092115,
+        "caveat": "Best observed final5000 terminal phi+c relative L2 among11 saved run summaries; selected seed7. Same random-data seed42 has phi/c~0.29/0.30."
+      },
+      "independent_seed_validation_20261026": {
+        "seed": 2026,
+        "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-independent-seed2026-default-strategy",
+        "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-independent-seed2026-default-strategy/ckpt_005000.eqx",
+        "updates": 5000,
+        "selection": "Predeclared seed; use final5000, no rerolls or intermediate selection",
+        "assessment": "Seed2026 reproduces low fields; seed42 still fails, so not universally stable.",
+        "endpoint": {
+          "pooled_rel_l2_phi": 0.002257955004064409,
+          "terminal_rel_l2_phi": 0.0028317064360897297,
+          "rel_l2_by_time_phi": [
+            0.0016146425871085047,
+            0.003825383341163135,
+            0.0030298126586250224,
+            0.0024611447725453903,
+            0.0020007699534401358,
+            0.0017251095680806787,
+            0.001643008052991751,
+            0.001614127755001487,
+            0.0017590758631472992,
+            0.001983423915653974,
+            0.002217198812918828,
+            0.0023387556350328615,
+            0.0023426295459513897,
+            0.0022408445946675223,
+            0.002174177944123458,
+            0.0020193938844723573,
+            0.0018908219526628531,
+            0.0018898728241147887,
+            0.0020171400618602116,
+            0.002356604148949735,
+            0.00283170643608973
+          ],
+          "pooled_rel_l2_c": 0.002752405880294018,
+          "terminal_rel_l2_c": 0.003426740578967856,
+          "rel_l2_by_time_c": [
+            0.0021771191479010954,
+            0.004665497401110256,
+            0.0036824381261632523,
+            0.0029750268922026407,
+            0.002425111268409382,
+            0.0020932964119834145,
+            0.001998495662866515,
+            0.0019679827417876964,
+            0.00212913858587172,
+            0.002407000693586712,
+            0.0026784908709451966,
+            0.00284282647560496,
+            0.002830711319864183,
+            0.0027257117722711494,
+            0.0026375824288345368,
+            0.0024532929934154004,
+            0.0023223908007308555,
+            0.002304575773277347,
+            0.0024667744055618334,
+            0.002873121645786265,
+            0.003426740578967856
+          ],
+          "terminal_interface_present": true,
+          "terminal_interface_mean_distance": 0.00026092056950631016,
+          "terminal_interface_max_distance": 0.0031042962315674947,
+          "terminal_rel_l2_cL": 0.009528751470825597,
+          "pooled_rel_l2_cL": 0.01677651743496604,
+          "terminal_rel_l2_q": 0.018036640335797965,
+          "pooled_rel_l2_q": 0.03368591766644916,
+          "terminal_rel_l2_Dq_free": 0.05490593678054317,
+          "bc_pit_q_rmse_over_cle": 0.014660081116005289,
+          "bc_pit_c_max_error": 0.0012079046573489904,
+          "bc_solid_q_rmse_over_cle": 0.004057054181686923,
+          "bc_solid_c_max_error": 0.0002308487892150879,
+          "initial_q_rmse_over_cle_free": 0.052457644582997676,
+          "initial_rel_l2_Dq_free": 0.5396363165159649,
+          "boundary_max_abs_error": 0.0012079046573489904,
+          "concentration_min": 1.955993411684176e-07,
+          "concentration_max": 0.9999709725379944,
+          "concentration_fraction_outside_0_1": 0.0,
+          "step": 5000,
+          "elapsed_seconds": 1965.3196125924587
+        },
+        "independent_cpu": {
+          "field_metrics_cpu": {
+            "terminal_rel_l2_phi": 0.002831698347738159,
+            "pooled_rel_l2_phi": 0.0022579544555588467,
+            "terminal_rel_l2_c": 0.0034267288018683725,
+            "pooled_rel_l2_c": 0.0027524059521013416
+          },
+          "transport_cpu": {
+            "terminal_q_rel_l2_free": 0.018538423351758215,
+            "terminal_Dq_rel_l2_free": 0.05490646663773508,
+            "terminal_ct_rel_l2_free": 0.04820610808332078,
+            "stable_CH_rms_free": 0.022272403679785408
+          },
+          "topology": {
+            "vertical_crossings_by_time": [
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              },
+              {
+                "1": 101
+              }
+            ],
+            "single_interface_every_column_every_time": true
+          },
+          "cpu_vs_saved_gpu_fields_max_abs_difference": 2.1457672119140625e-06
+        },
+        "late_metrics": {
+          "late_terminal_rel_l2_phi": {
+            "median": 0.004636667420889129,
+            "min": 0.0027522563221148654,
+            "max": 0.007127570175738932,
+            "evaluations": 6
+          },
+          "late_terminal_rel_l2_c": {
+            "median": 0.005603744910290342,
+            "min": 0.0032911829214899036,
+            "max": 0.008551931634648718,
+            "evaluations": 6
+          },
+          "late_terminal_rel_l2_q": {
+            "median": 0.01678717524057586,
+            "min": 0.012142156988901396,
+            "max": 0.018036640335797965,
+            "evaluations": 6
+          },
+          "late_terminal_rel_l2_Dq_free": {
+            "median": 0.06815350837560791,
+            "min": 0.048278159782491004,
+            "max": 0.08323416043256175,
+            "evaluations": 6
+          }
+        },
+        "report": "docs/tasks/archive/phasefield-seed-stability.md",
+        "results": "docs/tasks/archive/phasefield-seed-stability-results.json",
+        "convergence": "docs/tasks/archive/phasefield-seed-stability-results-convergence.png"
+      },
+      "gpu_compilation_policy_audit": {
+        "status": "completed historical speed/static audit; defaults subsequently promoted by ordinary_policy_defaults_20261026",
+        "task": "docs/tasks/archive/phasefield-gpu-policy-audit.md",
+        "summary": "docs/tasks/archive/phasefield-gpu-policy-summary.json",
+        "raw_directory": "/root/nonlocal-pinn/reports/phasefield-gpu-policy-20261026",
+        "dtype": "float32",
+        "new_measured": true,
+        "updates_per_worker": 125,
+        "warmup": 50,
+        "measured": 75,
+        "mean_update_ms": {
+          "ordinary": 10.977079421281815,
+          "deterministic": 197.72698496778807
+        },
+        "speed_ratios": {
+          "steady": 18.012713343810272,
+          "pde_only": 63.25077706561479,
+          "forward": 285.9137186189021,
+          "input_gradient": 692.0218830693179
+        },
+        "paired_initial_and_all_pool_time_arrays_exact": true,
+        "policy_at_audit": "shared train_matched adapter enforces deterministic default; explicit gpu_policy=ordinary supported",
+        "current_policy": "ordinary; per-case precision selected by ordinary_policy_defaults_20261026"
+      },
+      "prior_default_training_20261026": {
+        "entry": "examples/electropolish2d/train.py",
+        "config": "examples/electropolish2d/configs/train_base.py",
+        "selection_criterion": "Recorded best final5000 terminal phi+c observation among11 saved run summaries (seed7). Common default42 is not tuned and its historical error was high.",
+        "formulation": "phase",
+        "optimizer": "soap",
+        "updates": 5000,
+        "physical_terminal_s": 5.0,
+        "selected_checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7/ckpt_005000.eqx",
+        "saved_config": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7/config.json",
+        "evaluation_reference": "/root/autodl-tmp/data/electropolish2d/results_matched_graph_20261024.npz",
+        "physical_metrics": {
+          "terminal_rel_l2_phi": 0.0011378188435460965,
+          "pooled_rel_l2_phi": 0.0021364124353669954,
+          "terminal_rel_l2_c": 0.0013578160145092115,
+          "pooled_rel_l2_c": 0.0026017000530087213
+        },
+        "transport_metrics": {
+          "terminal_q_rel_l2_free": 0.011507961344136964,
+          "terminal_Dq_rel_l2_free": 0.0377613453779106
+        },
+        "report": "docs/tasks/archive/phasefield-sota-defaults.md",
+        "prior_audit": "docs/tasks/archive/electropolish-optimization-audit.json",
+        "selected_checkpoint_seed": 7,
+        "seed_input": "--seed; common untuned run default42; omitted from strategy config",
+        "seed_scope": "Selected checkpoint seed is historical provenance, not a strategy parameter or promised default accuracy.",
+        "stability_assessment": "Seed2026 reproduces low fields; seed42 still fails, so not universally stable."
+      },
+      "ordinary_policy_defaults_20261026": {
+        "report": "docs/tasks/archive/ordinary-policy-defaults.md",
+        "manifest": "docs/tasks/archive/ordinary-policy-defaults-manifest.json",
+        "audit": "docs/tasks/archive/ordinary-policy-defaults-kks-audit.json",
+        "cohort": {
+          "electropolish2d-deterministic-float32-42": {
+            "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed42",
+            "case": "electropolish2d",
+            "policy": "deterministic",
+            "dtype": "float32",
+            "seed_as_run_provenance": 42,
+            "parameter_dtype": {
+              "dtype": "float32",
+              "leaves": 16,
+              "bytes": 150280
+            },
+            "cpu_saved_max_abs_difference": {
+              "phi": 1.6689300537109375e-06,
+              "c": 2.2649765014648438e-06
+            },
+            "trainer_wall_seconds": 1658.0123028978705,
+            "terminal_phi": 0.29092776080403926,
+            "terminal_c": 0.29901268668194914,
+            "pooled_phi": 0.29700320352886955,
+            "pooled_c": 0.3072290421814715,
+            "terminal_q_free": 0.15809171882275014,
+            "terminal_Dq_free": 0.9559717116122914,
+            "terminal_CH_rms_free": 0.04442925725044936,
+            "late_4000_5000": {
+              "terminal_rel_l2_phi": {
+                "min": 0.28957649637886107,
+                "median": 0.29196189126241356,
+                "mean": 0.29352755819708337,
+                "max": 0.30164456065276524
+              },
+              "terminal_rel_l2_c": {
+                "min": 0.2974447322578381,
+                "median": 0.30012863885656116,
+                "mean": 0.3019148803095684,
+                "max": 0.310983658433262
+              },
+              "terminal_rel_l2_q": {
+                "min": 0.1195912866829834,
+                "median": 0.1402924172780809,
+                "mean": 0.13962864466330902,
+                "max": 0.150892438300765
+              },
+              "terminal_rel_l2_Dq_free": {
+                "min": 0.754525206226288,
+                "median": 0.9019180218599878,
+                "mean": 0.9001287909825127,
+                "max": 0.9930735503267007
+              }
+            },
+            "topology": {
+              "single_interface_every_column_every_time": false,
+              "vertical_crossings_by_time": [
+                {
+                  "1": 92,
+                  "3": 9
+                },
+                {
+                  "1": 54,
+                  "3": 47
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                }
+              ]
+            }
+          },
+          "electropolish2d-deterministic-float32-2026": {
+            "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261025-independent-seed2026-default-strategy",
+            "case": "electropolish2d",
+            "policy": "deterministic",
+            "dtype": "float32",
+            "seed_as_run_provenance": 2026,
+            "parameter_dtype": {
+              "dtype": "float32",
+              "leaves": 16,
+              "bytes": 150280
+            },
+            "cpu_saved_max_abs_difference": {
+              "phi": 1.4901161193847656e-06,
+              "c": 2.1457672119140625e-06
+            },
+            "trainer_wall_seconds": 1965.6603966727853,
+            "terminal_phi": 0.002831698347738159,
+            "terminal_c": 0.0034267280359444137,
+            "pooled_phi": 0.0022579544555588467,
+            "pooled_c": 0.002752405773937968,
+            "terminal_q_free": 0.018538423351758215,
+            "terminal_Dq_free": 0.05490646663773508,
+            "terminal_CH_rms_free": 0.022272507305650887,
+            "late_4000_5000": {
+              "terminal_rel_l2_phi": {
+                "min": 0.0027522563221148654,
+                "median": 0.004636667420889129,
+                "mean": 0.004770081740092231,
+                "max": 0.007127570175738932
+              },
+              "terminal_rel_l2_c": {
+                "min": 0.0032911829214899036,
+                "median": 0.005603744910290342,
+                "mean": 0.005748202463413693,
+                "max": 0.008551931634648718
+              },
+              "terminal_rel_l2_q": {
+                "min": 0.012142156988901396,
+                "median": 0.01678717524057586,
+                "mean": 0.015843213321098993,
+                "max": 0.018036640335797965
+              },
+              "terminal_rel_l2_Dq_free": {
+                "min": 0.048278159782491004,
+                "median": 0.06815350837560791,
+                "mean": 0.06723948742932744,
+                "max": 0.08323416043256175
+              }
+            },
+            "topology": {
+              "single_interface_every_column_every_time": true,
+              "vertical_crossings_by_time": [
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                }
+              ]
+            }
+          },
+          "electropolish2d-ordinary-float32-42": {
+            "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float32-seed42",
+            "case": "electropolish2d",
+            "policy": "ordinary",
+            "dtype": "float32",
+            "seed_as_run_provenance": 42,
+            "parameter_dtype": {
+              "dtype": "float32",
+              "leaves": 16,
+              "bytes": 150280
+            },
+            "cpu_saved_max_abs_difference": {
+              "phi": 1.4901161193847656e-06,
+              "c": 2.086162567138672e-06
+            },
+            "trainer_wall_seconds": 165.1275258027017,
+            "terminal_phi": 0.004757155147631114,
+            "terminal_c": 0.005738106608838946,
+            "pooled_phi": 0.004204417934627131,
+            "pooled_c": 0.005076732615706296,
+            "terminal_q_free": 0.012832037561776349,
+            "terminal_Dq_free": 0.059228994695408446,
+            "terminal_CH_rms_free": 0.0147914059261576,
+            "late_4000_5000": {
+              "terminal_rel_l2_phi": {
+                "min": 0.002646202302052554,
+                "median": 0.004421084459009728,
+                "mean": 0.004308362288071942,
+                "max": 0.005465906514901351
+              },
+              "terminal_rel_l2_c": {
+                "min": 0.0032055702388723685,
+                "median": 0.0053379243420707025,
+                "mean": 0.005189361320624814,
+                "max": 0.006580718545482007
+              },
+              "terminal_rel_l2_q": {
+                "min": 0.011391327013620278,
+                "median": 0.014059503425587802,
+                "mean": 0.014504653109379652,
+                "max": 0.019031897324619042
+              },
+              "terminal_rel_l2_Dq_free": {
+                "min": 0.05379329040099638,
+                "median": 0.06033595156137401,
+                "mean": 0.05959203179532651,
+                "max": 0.06310650760042326
+              }
+            },
+            "topology": {
+              "single_interface_every_column_every_time": true,
+              "vertical_crossings_by_time": [
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                }
+              ]
+            }
+          },
+          "electropolish2d-ordinary-float32-2026": {
+            "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float32-seed2026",
+            "case": "electropolish2d",
+            "policy": "ordinary",
+            "dtype": "float32",
+            "seed_as_run_provenance": 2026,
+            "parameter_dtype": {
+              "dtype": "float32",
+              "leaves": 16,
+              "bytes": 150280
+            },
+            "cpu_saved_max_abs_difference": {
+              "phi": 1.5497207641601562e-06,
+              "c": 2.175569534301758e-06
+            },
+            "trainer_wall_seconds": 63.176713798195124,
+            "terminal_phi": 0.003399227266780634,
+            "terminal_c": 0.004117775223104077,
+            "pooled_phi": 0.0029818633936774383,
+            "pooled_c": 0.003599017449085026,
+            "terminal_q_free": 0.0171203822573507,
+            "terminal_Dq_free": 0.05810616090200096,
+            "terminal_CH_rms_free": 0.030385690704069154,
+            "late_4000_5000": {
+              "terminal_rel_l2_phi": {
+                "min": 0.0017534512227522865,
+                "median": 0.004524646616587627,
+                "mean": 0.004286673093658939,
+                "max": 0.006241372292351086
+              },
+              "terminal_rel_l2_c": {
+                "min": 0.0020626224862603597,
+                "median": 0.005459333473481246,
+                "mean": 0.005152770990073752,
+                "max": 0.0074803349597284295
+              },
+              "terminal_rel_l2_q": {
+                "min": 0.01208792682625816,
+                "median": 0.01595051933269832,
+                "mean": 0.016333062355952492,
+                "max": 0.02192870412736233
+              },
+              "terminal_rel_l2_Dq_free": {
+                "min": 0.052506684391945,
+                "median": 0.06924444157998563,
+                "mean": 0.06654149386122395,
+                "max": 0.0752658558932647
+              }
+            },
+            "topology": {
+              "single_interface_every_column_every_time": true,
+              "vertical_crossings_by_time": [
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                }
+              ]
+            }
+          },
+          "electropolish2d-ordinary-float64-42": {
+            "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float64-seed42",
+            "case": "electropolish2d",
+            "policy": "ordinary",
+            "dtype": "float64",
+            "seed_as_run_provenance": 42,
+            "parameter_dtype": {
+              "dtype": "float64",
+              "leaves": 16,
+              "bytes": 300560
+            },
+            "cpu_saved_max_abs_difference": {
+              "phi": 2.1649348980190553e-15,
+              "c": 3.1086244689504383e-15
+            },
+            "trainer_wall_seconds": 308.90622959658504,
+            "terminal_phi": 0.299756728767103,
+            "terminal_c": 0.3089813618850885,
+            "pooled_phi": 0.3040030369836136,
+            "pooled_c": 0.3146464968294062,
+            "terminal_q_free": 0.132509121092933,
+            "terminal_Dq_free": 0.9002166387806947,
+            "terminal_CH_rms_free": 0.05672977749433362,
+            "late_4000_5000": {
+              "terminal_rel_l2_phi": {
+                "min": 0.29780450336744013,
+                "median": 0.29900886498121654,
+                "mean": 0.29950913068069923,
+                "max": 0.30283961831488176
+              },
+              "terminal_rel_l2_c": {
+                "min": 0.30641103780395385,
+                "median": 0.3078880242949894,
+                "mean": 0.3085973971448326,
+                "max": 0.31283068632938377
+              },
+              "terminal_rel_l2_q": {
+                "min": 0.11323726218366059,
+                "median": 0.122123999789396,
+                "mean": 0.12328559024348355,
+                "max": 0.1382700370410386
+              },
+              "terminal_rel_l2_Dq_free": {
+                "min": 0.8183158763560856,
+                "median": 0.8922310520014853,
+                "mean": 0.9080354177906469,
+                "max": 1.0540666470287314
+              }
+            },
+            "topology": {
+              "single_interface_every_column_every_time": false,
+              "vertical_crossings_by_time": [
+                {
+                  "1": 92,
+                  "3": 9
+                },
+                {
+                  "1": 5,
+                  "3": 96
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                },
+                {
+                  "3": 101
+                }
+              ]
+            }
+          },
+          "electropolish2d-ordinary-float64-2026": {
+            "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float64-seed2026",
+            "case": "electropolish2d",
+            "policy": "ordinary",
+            "dtype": "float64",
+            "seed_as_run_provenance": 2026,
+            "parameter_dtype": {
+              "dtype": "float64",
+              "leaves": 16,
+              "bytes": 300560
+            },
+            "cpu_saved_max_abs_difference": {
+              "phi": 2.4980018054066022e-15,
+              "c": 3.6637359812630166e-15
+            },
+            "trainer_wall_seconds": 215.52123989909887,
+            "terminal_phi": 0.0035508219783929183,
+            "terminal_c": 0.004281192174768075,
+            "pooled_phi": 0.0035461777474466534,
+            "pooled_c": 0.004317777561131097,
+            "terminal_q_free": 0.010727106849294522,
+            "terminal_Dq_free": 0.061827301891599906,
+            "terminal_CH_rms_free": 0.027714116276092018,
+            "late_4000_5000": {
+              "terminal_rel_l2_phi": {
+                "min": 0.0035508219783929305,
+                "median": 0.006019051792729688,
+                "mean": 0.005812851142081109,
+                "max": 0.008311914265505172
+              },
+              "terminal_rel_l2_c": {
+                "min": 0.004281192174768088,
+                "median": 0.007210717070977337,
+                "mean": 0.006973149594820773,
+                "max": 0.009957100662370209
+              },
+              "terminal_rel_l2_q": {
+                "min": 0.010792754381153622,
+                "median": 0.014901427112670118,
+                "mean": 0.0145134665693916,
+                "max": 0.017122549006626603
+              },
+              "terminal_rel_l2_Dq_free": {
+                "min": 0.05309802766909481,
+                "median": 0.06809989809277112,
+                "mean": 0.0708626864286301,
+                "max": 0.09727572717132964
+              }
+            },
+            "topology": {
+              "single_interface_every_column_every_time": true,
+              "vertical_crossings_by_time": [
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                },
+                {
+                  "1": 101
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "case": "elasticity2d",
@@ -175,7 +2367,20 @@
         "/root/autodl-tmp/tf-logs/elasticity2d/baseline",
         "/root/autodl-tmp/tf-logs/elasticity2d/delta015",
         "/root/autodl-tmp/tf-logs/elasticity2d/local"
-      ]
+      ],
+      "gpu_compilation_policy_audit": {
+        "status": "completed; speed/static audit only; defaults unchanged",
+        "task": "docs/tasks/archive/phasefield-gpu-policy-audit.md",
+        "summary": "docs/tasks/archive/phasefield-gpu-policy-summary.json",
+        "default_policy": "inherits XLA_FLAGS; no forced flag found",
+        "raw_directory": "/root/nonlocal-pinn/reports/phasefield-gpu-policy-20261026",
+        "new_measured": false,
+        "scope": {
+          "entry": "examples/elasticity2d/train.py",
+          "policy": "inherits XLA_FLAGS; no forced flag found",
+          "operator": "ElasticD multiple gradient/residual segment_sum; potential forced-determinism cost, not timed here"
+        }
+      }
     },
     {
       "case": "corrosion1d",
@@ -190,7 +2395,21 @@
         "/root/autodl-tmp/tf-logs/corrosion1d/.ipynb_checkpoints",
         "/root/autodl-tmp/tf-logs/corrosion1d/activation_SOTA",
         "/root/autodl-tmp/tf-logs/corrosion1d/diffusion_SOTA"
-      ]
+      ],
+      "gpu_compilation_policy_audit": {
+        "status": "completed; speed/static audit only; defaults unchanged",
+        "task": "docs/tasks/archive/phasefield-gpu-policy-audit.md",
+        "summary": "docs/tasks/archive/phasefield-gpu-policy-summary.json",
+        "default_policy": "inherits XLA_FLAGS; no forced flag found",
+        "raw_directory": "/root/nonlocal-pinn/reports/phasefield-gpu-policy-20261026",
+        "new_measured": false,
+        "scope": {
+          "entry": "examples/corrosion1d/train.py",
+          "policy": "inherits XLA_FLAGS; no forced flag found",
+          "operator": "explicit activation/diffusion presets both SparseD",
+          "limitation": "default references missing configs/train_pinn.py; no automatic regime replacement; no complete-update timing here"
+        }
+      }
     },
     {
       "case": "corrosion2d",
@@ -278,12 +2497,1721 @@
         "/root/autodl-tmp/tf-logs/corrosion2d/20260709-153627",
         "/root/autodl-tmp/tf-logs/corrosion2d/20260713-163607",
         "/root/autodl-tmp/tf-logs/corrosion2d/20260808-161742",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-latent-mapdirect-ac1e-09-ch1.0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-latent-mapkks-ac1e-09-ch1.0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-latent-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-phase-mapdirect-ac1e-09-ch1.0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-phase-mapkks-ac1e-09-ch1.0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-phase-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-physical-icmatched_graph-bcmatched_graph-latent-stagger0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-replay",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed7",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-physical-icmatched_graph-phase-stagger0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed7",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc-icmatched_graph-phase-stagger0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc_ic-icmatched_graph-bcmatched_graph-latent-stagger0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc_ic-icmatched_graph-bcmatched_graph-phase-stagger0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc_ic-icmatched_graph-phase-stagger0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-bounded-eta0.01-mapkks-ac1e-07-ch1.0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-bounded-eta0.1-mapkks-ac1.0-ch1.0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-bounded-eta0.1-mapkks-ac1e-07-ch1.0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-bounded-eta0.1-mapkks-ac1e-07-ch1.0-seed7",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-bounded-eta1.0-mapkks-ac1e-07-ch1.0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-phase-control-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-phase-control-seed7",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-phase-noscale-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-stagger-diagnostic-legacy-joint-phase-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-stagger0-every25-latent-mapkks-ac1e-07-ch1.0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-stagger0-every25-phase-mapkks-ac1e-07-ch1.0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-stagger1000-every25-latent-mapkks-ac1e-07-ch1.0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-stagger1000-every25-phase-mapkks-ac1e-07-ch1.0-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed7",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42-rmsafter4000",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42-tail3000-end1e-05",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed7",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed7-rmsafter4000",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed7-tail3000-end1e-05",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chrms-s_bc-icmatched_graph-bcmatched_graph-latent-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chrms-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-physical_difference-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-physical_difference-chrms-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
         "/root/autodl-tmp/tf-logs/corrosion2d/2pits-baseline",
         "/root/autodl-tmp/tf-logs/corrosion2d/2pits-baseline2",
         "/root/autodl-tmp/tf-logs/corrosion2d/2pits-baseline3",
         "/root/autodl-tmp/tf-logs/corrosion2d/2pits-baseline4",
-        "/root/autodl-tmp/tf-logs/corrosion2d/SOTA"
-      ]
+        "/root/autodl-tmp/tf-logs/corrosion2d/SOTA",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261025-independent-seed2026-default-strategy",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-phase-seed2026",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-bounded_frozen-seed7",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-bounded_frozen-seed2026",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-bounded_frozen-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261026-precision-float64-phase-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-graph_deterministic-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-graph_ordinary-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-local_tensor-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-local_joint-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-graph_ordinary-float64-seed42",
+        "/root/autodl-tmp/tf-logs/corrosion2d/20261026-defaultcheck-ordinary-float64-seed2026"
+      ],
+      "residual_comparison_20261024": {
+        "report": "docs/tasks/archive/coupled-latent-residual-experiments.md",
+        "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+        "reference_kind": "same-graph float64 BDF with aligned Dirichlet nodes",
+        "reference_refinement_max_relative_l2": 3.6408888266410613e-09,
+        "updates": 5000,
+        "seed": 42,
+        "grid": [
+          101,
+          51
+        ],
+        "hard_initial_condition": false,
+        "latent_phase_residual": "r_phi / [4*phi*(1-phi)]",
+        "production_default_changed": false,
+        "runs": {
+          "phase": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-phase-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-phase-seed42/ckpt_005000.eqx",
+            "terminal_rel_l2_phi": 0.03483970324176635,
+            "terminal_rel_l2_c": 0.04135162629750127
+          },
+          "latent": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-latent-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-latent-seed42/ckpt_005000.eqx",
+            "terminal_rel_l2_phi": 0.568385719526229,
+            "terminal_rel_l2_c": 0.5458450196137687
+          }
+        }
+      },
+      "constraint_scale_ablation_20261024": {
+        "report": "docs/tasks/archive/corrosion-kks-scale-ablation.md",
+        "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+        "updates": 5000,
+        "seed": 42,
+        "physical_final_time_seconds": 50,
+        "hard_initial_condition": false,
+        "production_default_changed": false,
+        "runs": {
+          "kks_ac1e-07_phase": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-phase-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-phase-seed42/ckpt_005000.eqx",
+            "terminal_rel_l2_phi": 0.03483970324176635,
+            "terminal_rel_l2_c": 0.04135162629750127,
+            "concentration_min": 5.5449731917178724e-08,
+            "concentration_max": 0.9999999403953552
+          },
+          "kks_ac1e-07_latent": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-latent-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-latent-seed42/ckpt_005000.eqx",
+            "terminal_rel_l2_phi": 0.568385719526229,
+            "terminal_rel_l2_c": 0.5458450196137687,
+            "concentration_min": 8.944440674230059e-12,
+            "concentration_max": 0.9643357992172241
+          },
+          "kks_ac1e-09_phase": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-phase-mapkks-ac1e-09-ch1.0-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-phase-mapkks-ac1e-09-ch1.0-seed42/ckpt_005000.eqx",
+            "terminal_rel_l2_phi": 0.042121779902826596,
+            "terminal_rel_l2_c": 0.04992269260691036,
+            "concentration_min": 2.039642595264013e-06,
+            "concentration_max": 1.0
+          },
+          "kks_ac1e-09_latent": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-latent-mapkks-ac1e-09-ch1.0-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-latent-mapkks-ac1e-09-ch1.0-seed42/ckpt_005000.eqx",
+            "terminal_rel_l2_phi": 0.4367875468027747,
+            "terminal_rel_l2_c": 0.44956616360549756,
+            "concentration_min": 1.9479792001675378e-08,
+            "concentration_max": 0.9999995231628418
+          },
+          "direct_ac1e-09_phase": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-phase-mapdirect-ac1e-09-ch1.0-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-phase-mapdirect-ac1e-09-ch1.0-seed42/ckpt_005000.eqx",
+            "terminal_rel_l2_phi": 0.5384584588345603,
+            "terminal_rel_l2_c": 0.5368544889351805,
+            "concentration_min": -0.000978805124759674,
+            "concentration_max": 0.9999424815177917
+          },
+          "direct_ac1e-09_latent": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-latent-mapdirect-ac1e-09-ch1.0-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-latent-mapdirect-ac1e-09-ch1.0-seed42/ckpt_005000.eqx",
+            "terminal_rel_l2_phi": 0.536446770443981,
+            "terminal_rel_l2_c": 0.5296501701778026,
+            "concentration_min": -0.0050223469734191895,
+            "concentration_max": 0.997918426990509
+          }
+        }
+      },
+      "bounded_residual_experiment_20261025": {
+        "report": "docs/tasks/archive/corrosion-bounded-residual.md",
+        "audit": "docs/tasks/archive/corrosion-bounded-residual.json",
+        "replay_script": "docs/tasks/archive/corrosion-bounded-residual.py",
+        "controller": "docs/tasks/archive/corrosion-bounded-controls.py",
+        "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+        "updates_per_run": 5000,
+        "physical_terminal_s": 50.0,
+        "hard_initial_condition": false,
+        "screen_eta": [
+          1.0,
+          0.1,
+          0.01
+        ],
+        "validation_eta": 0.1,
+        "runs": {
+          "historical original": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-phase-seed42",
+          "original": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-phase-control-seed42",
+          "full inverse": "/root/autodl-tmp/tf-logs/corrosion2d/20261024-residual-latent-seed42",
+          "cap2": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-bounded-eta1.0-mapkks-ac1e-07-ch1.0-seed42",
+          "cap11": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-bounded-eta0.1-mapkks-ac1e-07-ch1.0-seed42",
+          "cap101": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-bounded-eta0.01-mapkks-ac1e-07-ch1.0-seed42",
+          "original seed7": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-phase-control-seed7",
+          "cap11 seed7": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-bounded-eta0.1-mapkks-ac1e-07-ch1.0-seed7",
+          "original no scale": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-phase-noscale-seed42",
+          "cap11 no scale": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-bounded-eta0.1-mapkks-ac1.0-ch1.0-seed42"
+        },
+        "terminal_phi_c_l2": {
+          "historical original": [
+            0.03483970324176635,
+            0.04135162629750127
+          ],
+          "original": [
+            0.039838328699560395,
+            0.0472191756311614
+          ],
+          "full inverse": [
+            0.568385719526229,
+            0.5458450196137687
+          ],
+          "cap2": [
+            0.059985480516625486,
+            0.0709242114431658
+          ],
+          "cap11": [
+            0.016188594632662992,
+            0.01927955788357932
+          ],
+          "cap101": [
+            0.5689028026221339,
+            0.5462226603958364
+          ],
+          "original seed7": [
+            0.02663607569393721,
+            0.03159772341971101
+          ],
+          "cap11 seed7": [
+            0.036610328819492576,
+            0.04342720083078448
+          ],
+          "original no scale": [
+            0.5123895686828867,
+            0.5169686463506508
+          ],
+          "cap11 no scale": [
+            0.5121877837327867,
+            0.5156336864737935
+          ]
+        },
+        "default_changed": false,
+        "pre_scales_removed": false,
+        "conclusion": "Seed-dependent bounded benefit; no-scale controls fail. Original/KKS/scales retained."
+      },
+      "stagger_residual_experiment_20261025": {
+        "report": "docs/tasks/archive/corrosion-stagger-experiment.md",
+        "audit": "docs/tasks/archive/corrosion-stagger-audit.json",
+        "replay_script": "docs/tasks/archive/corrosion-stagger-audit.py",
+        "controller": "docs/tasks/archive/corrosion-stagger-controls.py",
+        "reproducibility": "docs/tasks/archive/corrosion-stagger-reproducibility.json",
+        "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+        "updates_per_run": 5000,
+        "physical_terminal_s": 50.0,
+        "seed": 42,
+        "hard_initial_condition": false,
+        "stagger_steps_on": 1000,
+        "switch_every": 25,
+        "production_weight_state_bug_fixed": true,
+        "configuration_defaults_changed": false,
+        "pre_scales_removed": false,
+        "runs": {
+          "phase joint": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-stagger0-every25-phase-mapkks-ac1e-07-ch1.0-seed42",
+            "terminal_rel_l2_phi": 0.5690248887544196,
+            "terminal_rel_l2_c": 0.5467999565009726,
+            "stable_terminal_q_rel_l2_free": 5.337033994859052,
+            "stable_terminal_Dq_rel_l2_free": 1.0000001647069283
+          },
+          "phase stagger": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-stagger1000-every25-phase-mapkks-ac1e-07-ch1.0-seed42",
+            "terminal_rel_l2_phi": 0.5692185738178086,
+            "terminal_rel_l2_c": 0.5466736100044607,
+            "stable_terminal_q_rel_l2_free": 5.337033428742909,
+            "stable_terminal_Dq_rel_l2_free": 1.0000028006332433
+          },
+          "latent joint": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-stagger0-every25-latent-mapkks-ac1e-07-ch1.0-seed42",
+            "terminal_rel_l2_phi": 0.5685210051384626,
+            "terminal_rel_l2_c": 0.5471635122097248,
+            "stable_terminal_q_rel_l2_free": 5.337034002291746,
+            "stable_terminal_Dq_rel_l2_free": 1.000000000711202
+          },
+          "latent stagger": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-stagger1000-every25-latent-mapkks-ac1e-07-ch1.0-seed42",
+            "terminal_rel_l2_phi": 0.5700104105473474,
+            "terminal_rel_l2_c": 0.5506597154497622,
+            "stable_terminal_q_rel_l2_free": 5.3369557819361555,
+            "stable_terminal_Dq_rel_l2_free": 0.9999886483776236
+          }
+        },
+        "supplemental_legacy_joint_step": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-stagger-diagnostic-legacy-joint-phase-seed42",
+        "conclusion": "No concentration rescue in four failed arms. Joint baseline replay is unstable; identical-input GPU variation is measured but its causal role is not isolated. No promotion."
+      },
+      "normalized_concentration_data_20261025": {
+        "report": "docs/tasks/archive/corrosion-normalized-data.md",
+        "audit": "docs/tasks/archive/corrosion-normalized-audit.json",
+        "audit_script": "docs/tasks/archive/corrosion-normalized-audit.py",
+        "controller": "docs/tasks/archive/corrosion-normalized-controls.py",
+        "second_seed_controller": "docs/tasks/archive/corrosion-normalized-validation.py",
+        "determinism_probe": "docs/tasks/archive/corrosion-normalized-determinism.json",
+        "trajectory_replay": "docs/tasks/archive/corrosion-normalized-replay.json",
+        "spatial_transport_audit": "docs/tasks/archive/corrosion-normalized-spatial-audit.json",
+        "early_reference_check": "docs/tasks/archive/corrosion-normalized-early-reference.json",
+        "stopped_preliminary_controls": "docs/tasks/archive/corrosion-normalized-partial-controls.json",
+        "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+        "updates_per_completed_run": 5000,
+        "physical_terminal_s": 50.0,
+        "optimizer": "soap",
+        "lr_init": 0.001,
+        "seeds": [
+          42,
+          7
+        ],
+        "initial_sampling": "matched_graph",
+        "initial_nodes": 5151,
+        "boundary_sampling": "matched_graph",
+        "pit_boundary_nodes": 9,
+        "solid_boundary_nodes": 201,
+        "hard_initial_condition": false,
+        "ac_pre_scale": 1e-07,
+        "ch_pre_scale": 1.0,
+        "xla_flags": "--xla_gpu_deterministic_ops=true",
+        "full_baseline_trajectory_replay_exact": true,
+        "default_changed": false,
+        "pre_scales_removed": false,
+        "runs": {
+          "phase/physical/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42/ckpt_005000.eqx",
+            "terminal_rel_l2_phi": 0.5707238864093096,
+            "terminal_rel_l2_c": 0.5462930302735699,
+            "stable_terminal_q_rel_l2_free": 5.337034022983492,
+            "stable_terminal_Dq_rel_l2_free": 1.0000000011129777,
+            "native_full_CH_rms_free": 0.001134455087594688
+          },
+          "phase/s_bc/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42/ckpt_005000.eqx",
+            "terminal_rel_l2_phi": 0.011770707566104236,
+            "terminal_rel_l2_c": 0.014020721083460606,
+            "stable_terminal_q_rel_l2_free": 0.03828552184220769,
+            "stable_terminal_Dq_rel_l2_free": 12.132976585749802,
+            "native_full_CH_rms_free": 7.003671646118164
+          },
+          "phase/s_bc_ic/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc_ic-icmatched_graph-bcmatched_graph-phase-stagger0-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc_ic-icmatched_graph-bcmatched_graph-phase-stagger0-seed42/ckpt_005000.eqx",
+            "terminal_rel_l2_phi": 0.4193655507207773,
+            "terminal_rel_l2_c": 0.44151874325225327,
+            "stable_terminal_q_rel_l2_free": 0.6127381865051484,
+            "stable_terminal_Dq_rel_l2_free": 5.792903730451031,
+            "native_full_CH_rms_free": 1.4400845766067505
+          },
+          "latent/physical/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-physical-icmatched_graph-bcmatched_graph-latent-stagger0-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-physical-icmatched_graph-bcmatched_graph-latent-stagger0-seed42/ckpt_005000.eqx",
+            "terminal_rel_l2_phi": 0.5672164430636778,
+            "terminal_rel_l2_c": 0.5456842318821326,
+            "stable_terminal_q_rel_l2_free": 5.337032534972682,
+            "stable_terminal_Dq_rel_l2_free": 1.0000033995954445,
+            "native_full_CH_rms_free": 0.0016713293734937906
+          },
+          "latent/s_bc/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-latent-stagger0-seed42/ckpt_005000.eqx",
+            "terminal_rel_l2_phi": 0.4200053713273317,
+            "terminal_rel_l2_c": 0.4403575867881719,
+            "stable_terminal_q_rel_l2_free": 0.31054308190012847,
+            "stable_terminal_Dq_rel_l2_free": 2.57975823115,
+            "native_full_CH_rms_free": 1.3772047758102417
+          },
+          "latent/s_bc_ic/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc_ic-icmatched_graph-bcmatched_graph-latent-stagger0-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc_ic-icmatched_graph-bcmatched_graph-latent-stagger0-seed42/ckpt_005000.eqx",
+            "terminal_rel_l2_phi": 0.44362930839279185,
+            "terminal_rel_l2_c": 0.4661421363376812,
+            "stable_terminal_q_rel_l2_free": 0.40777324581543434,
+            "stable_terminal_Dq_rel_l2_free": 2.589063372568245,
+            "native_full_CH_rms_free": 1.3789829015731812
+          },
+          "phase/physical/seed7": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed7",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed7/ckpt_005000.eqx",
+            "terminal_rel_l2_phi": 0.5704188655807283,
+            "terminal_rel_l2_c": 0.5474590617129337,
+            "stable_terminal_q_rel_l2_free": 5.33703318531581,
+            "stable_terminal_Dq_rel_l2_free": 1.0000004878667674,
+            "native_full_CH_rms_free": 0.0013129555154591799
+          },
+          "phase/s_bc/seed7": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed7",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed7/ckpt_005000.eqx",
+            "terminal_rel_l2_phi": 0.006201988812976021,
+            "terminal_rel_l2_c": 0.007379193606737986,
+            "stable_terminal_q_rel_l2_free": 0.006391109000080083,
+            "stable_terminal_Dq_rel_l2_free": 1.1044123808122732,
+            "native_full_CH_rms_free": 0.6368270516395569
+          }
+        },
+        "replay_run": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-physical-icmatched_graph-bcmatched_graph-phase-stagger0-seed42-replay",
+        "partial_runs_excluded": [
+          "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-physical-icmatched_graph-phase-stagger0-seed42",
+          "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc-icmatched_graph-phase-stagger0-seed42",
+          "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc_ic-icmatched_graph-phase-stagger0-seed42"
+        ],
+        "conclusion": "BC-only s normalization improves original-residual fields in both seeds; normalized IC and full latent residual do not improve later fields. Local mouth transport errors and late fluctuations remain; retain original residual/KKS/pre-scales and production defaults."
+      },
+      "transport_optimization_20261025": {
+        "report": "docs/tasks/archive/corrosion-transport-optimization.md",
+        "audit": "docs/tasks/archive/corrosion-transport-audit.json",
+        "audit_script": "docs/tasks/archive/corrosion-transport-audit.py",
+        "baseline_replay": "docs/tasks/archive/corrosion-transport-replay.json",
+        "frozen_evaluation_probe": "docs/tasks/archive/corrosion-transport-probe.json",
+        "frozen_boundary_probe": "docs/tasks/archive/corrosion-transport-boundary-probe.json",
+        "controllers": [
+          "docs/tasks/archive/corrosion-transport-controls.py",
+          "docs/tasks/archive/corrosion-transport-bounded.py",
+          "docs/tasks/archive/corrosion-transport-validation.py",
+          "docs/tasks/archive/corrosion-transport-bounded-validation.py",
+          "docs/tasks/archive/corrosion-transport-continuation.py"
+        ],
+        "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+        "new_cold_starts": 12,
+        "audited_models_including_prior": 15,
+        "updates_per_run": 5000,
+        "physical_terminal_s": 50.0,
+        "optimizer": "soap",
+        "initial_learning_rate": 0.001,
+        "data_loss_mode": "s_bc",
+        "initial_sampling": "matched_graph",
+        "boundary_sampling": "matched_graph",
+        "hard_initial_condition": false,
+        "ac_pre_scale": 1e-07,
+        "ch_pre_scale": 1.0,
+        "configuration_defaults_changed": false,
+        "production_defaults_changed": false,
+        "pre_scales_removed": false,
+        "focused_checks_passed": 22,
+        "legacy5000_replay_exact": true,
+        "both_seed_pre_tail3000_exact": true,
+        "both_seed_pre_RMS4000_exact": true,
+        "source_groups": "six initial5-file snapshots; four later6-file snapshots; two continuation6-file snapshots, with checked expected wiring differences",
+        "field_candidate": {
+          "formulation": "phase",
+          "transport_evaluation": "kks_raw_edges",
+          "ch_norm": "l1",
+          "lr_tail_start": 0,
+          "ch_rms_after": 0,
+          "scope": "Phi/c improves in both seeds; seed7 q/Dq regresses. No all-metric default promotion."
+        },
+        "conclusion": "Raw KKS/edge arithmetic improves field L2 and roundoff, but not all concentration/transport metrics in both seeds. Tail, bounded, cold RMS and late RMS have no robust joint win. Retain original phase/KKS/scales/defaults and full diagnostics.",
+        "runs": {
+          "phase/physical_difference/l1/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-physical_difference-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-physical_difference-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42/ckpt_005000.eqx",
+            "source_schema": "initial",
+            "transport_evaluation": "physical_difference",
+            "ch_norm_initial": "l1",
+            "ch_rms_after": 0,
+            "lr_tail_start": 0,
+            "terminal_rel_l2_phi": 0.011770707566104236,
+            "terminal_rel_l2_c": 0.014020721083460606,
+            "stable_terminal_q_rel_l2_free": 0.03828552184220769,
+            "stable_terminal_Dq_rel_l2_free": 12.132976585749802,
+            "stable_full_CH_rms_free": 7.003670110775315
+          },
+          "phase/physical_difference/rms/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-physical_difference-chrms-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-physical_difference-chrms-s_bc-icmatched_graph-bcmatched_graph-phase-seed42/ckpt_005000.eqx",
+            "source_schema": "initial",
+            "transport_evaluation": "physical_difference",
+            "ch_norm_initial": "rms",
+            "ch_rms_after": 0,
+            "lr_tail_start": 0,
+            "terminal_rel_l2_phi": 0.44435059381669084,
+            "terminal_rel_l2_c": 0.45468447264789164,
+            "stable_terminal_q_rel_l2_free": 0.3299799965533135,
+            "stable_terminal_Dq_rel_l2_free": 1.8511600991563884,
+            "stable_full_CH_rms_free": 0.873861562650212
+          },
+          "phase/kks_raw_edges/l1/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42/ckpt_005000.eqx",
+            "source_schema": "initial",
+            "transport_evaluation": "kks_raw_edges",
+            "ch_norm_initial": "l1",
+            "ch_rms_after": 0,
+            "lr_tail_start": 0,
+            "terminal_rel_l2_phi": 0.00883527856062115,
+            "terminal_rel_l2_c": 0.010425488872358878,
+            "stable_terminal_q_rel_l2_free": 0.013724646092776474,
+            "stable_terminal_Dq_rel_l2_free": 1.7025566454529941,
+            "stable_full_CH_rms_free": 0.9815988895714058
+          },
+          "phase/kks_raw_edges/rms/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chrms-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chrms-s_bc-icmatched_graph-bcmatched_graph-phase-seed42/ckpt_005000.eqx",
+            "source_schema": "initial",
+            "transport_evaluation": "kks_raw_edges",
+            "ch_norm_initial": "rms",
+            "ch_rms_after": 0,
+            "lr_tail_start": 0,
+            "terminal_rel_l2_phi": 0.3552129832915085,
+            "terminal_rel_l2_c": 0.37505877798019654,
+            "stable_terminal_q_rel_l2_free": 0.21446561582316168,
+            "stable_terminal_Dq_rel_l2_free": 1.9510545823526793,
+            "stable_full_CH_rms_free": 0.8625981161483796
+          },
+          "latent/kks_raw_edges/rms/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chrms-s_bc-icmatched_graph-bcmatched_graph-latent-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chrms-s_bc-icmatched_graph-bcmatched_graph-latent-seed42/ckpt_005000.eqx",
+            "source_schema": "initial",
+            "transport_evaluation": "kks_raw_edges",
+            "ch_norm_initial": "rms",
+            "ch_rms_after": 0,
+            "lr_tail_start": 0,
+            "terminal_rel_l2_phi": 0.44922126766158954,
+            "terminal_rel_l2_c": 0.47254116931938966,
+            "stable_terminal_q_rel_l2_free": 0.6600748206015268,
+            "stable_terminal_Dq_rel_l2_free": 1.7444454410069796,
+            "stable_full_CH_rms_free": 0.4784041440521445
+          },
+          "bounded/kks_raw_edges/l1/seed42": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed42",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed42/ckpt_005000.eqx",
+            "source_schema": "initial",
+            "transport_evaluation": "kks_raw_edges",
+            "ch_norm_initial": "l1",
+            "ch_rms_after": 0,
+            "lr_tail_start": 0,
+            "terminal_rel_l2_phi": 0.0014330496603163906,
+            "terminal_rel_l2_c": 0.001718589539743543,
+            "stable_terminal_q_rel_l2_free": 0.017832618112049784,
+            "stable_terminal_Dq_rel_l2_free": 1.5004094378207053,
+            "stable_full_CH_rms_free": 0.8660842172396924
+          },
+          "phase/kks_raw_edges/l1/seed42/tail3000": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42-tail3000-end1e-05",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42-tail3000-end1e-05/ckpt_005000.eqx",
+            "source_schema": "rate_helper",
+            "transport_evaluation": "kks_raw_edges",
+            "ch_norm_initial": "l1",
+            "ch_rms_after": 0,
+            "lr_tail_start": 3000,
+            "terminal_rel_l2_phi": 0.002117063356265344,
+            "terminal_rel_l2_c": 0.002514213876361085,
+            "stable_terminal_q_rel_l2_free": 0.0029034924363823,
+            "stable_terminal_Dq_rel_l2_free": 1.103837756875522,
+            "stable_full_CH_rms_free": 0.6369404200165871
+          },
+          "phase/kks_raw_edges/l1/seed7": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed7",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed7/ckpt_005000.eqx",
+            "source_schema": "rate_helper",
+            "transport_evaluation": "kks_raw_edges",
+            "ch_norm_initial": "l1",
+            "ch_rms_after": 0,
+            "lr_tail_start": 0,
+            "terminal_rel_l2_phi": 0.004224879510675442,
+            "terminal_rel_l2_c": 0.00500591080397049,
+            "stable_terminal_q_rel_l2_free": 0.009900142253401358,
+            "stable_terminal_Dq_rel_l2_free": 1.7298121380088523,
+            "stable_full_CH_rms_free": 0.9982985122477028
+          },
+          "phase/kks_raw_edges/l1/seed7/tail3000": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed7-tail3000-end1e-05",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed7-tail3000-end1e-05/ckpt_005000.eqx",
+            "source_schema": "rate_helper",
+            "transport_evaluation": "kks_raw_edges",
+            "ch_norm_initial": "l1",
+            "ch_rms_after": 0,
+            "lr_tail_start": 3000,
+            "terminal_rel_l2_phi": 0.005658272476039739,
+            "terminal_rel_l2_c": 0.0067297758314776935,
+            "stable_terminal_q_rel_l2_free": 0.010733378659174647,
+            "stable_terminal_Dq_rel_l2_free": 2.7319271185802783,
+            "stable_full_CH_rms_free": 1.5768420899693298
+          },
+          "bounded/kks_raw_edges/l1/seed7": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed7",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed7/ckpt_005000.eqx",
+            "source_schema": "rate_helper",
+            "transport_evaluation": "kks_raw_edges",
+            "ch_norm_initial": "l1",
+            "ch_rms_after": 0,
+            "lr_tail_start": 0,
+            "terminal_rel_l2_phi": 0.4220009424879589,
+            "terminal_rel_l2_c": 0.4461395319537303,
+            "stable_terminal_q_rel_l2_free": 0.1939243872531438,
+            "stable_terminal_Dq_rel_l2_free": 3.9428636388150653,
+            "stable_full_CH_rms_free": 1.967817417957727
+          },
+          "phase/kks_raw_edges/l1/seed42/rmsafter4000": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42-rmsafter4000",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42-rmsafter4000/ckpt_005000.eqx",
+            "source_schema": "continuation",
+            "transport_evaluation": "kks_raw_edges",
+            "ch_norm_initial": "l1",
+            "ch_rms_after": 4000,
+            "lr_tail_start": 0,
+            "terminal_rel_l2_phi": 0.10172030148405165,
+            "terminal_rel_l2_c": 0.1192479733474907,
+            "stable_terminal_q_rel_l2_free": 0.04490790901566505,
+            "stable_terminal_Dq_rel_l2_free": 0.9391095434129653,
+            "stable_full_CH_rms_free": 0.3872091592996663
+          },
+          "phase/kks_raw_edges/l1/seed7/rmsafter4000": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed7-rmsafter4000",
+            "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed7-rmsafter4000/ckpt_005000.eqx",
+            "source_schema": "continuation",
+            "transport_evaluation": "kks_raw_edges",
+            "ch_norm_initial": "l1",
+            "ch_rms_after": 4000,
+            "lr_tail_start": 0,
+            "terminal_rel_l2_phi": 0.04770038102196404,
+            "terminal_rel_l2_c": 0.05651439576824717,
+            "stable_terminal_q_rel_l2_free": 0.014974195863413252,
+            "stable_terminal_Dq_rel_l2_free": 1.2029579298592266,
+            "stable_full_CH_rms_free": 0.6626625850086674
+          }
+        }
+      },
+      "default_training": {
+        "entry": "examples/corrosion2d/train.py",
+        "config": "examples/corrosion2d/configs/train_base.py",
+        "selection_criterion": "Per-case precision/policy speed and complete5000-update field accuracy/reliability from predeclared42/2026 controls; final and late-window metrics, not seed or intermediate minimum. No global optimum or universal stability claim.",
+        "formulation": "phase",
+        "optimizer": "soap",
+        "updates": 5000,
+        "physical_terminal_s": 50.0,
+        "selected_checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-graph_ordinary-float64-seed42/ckpt_005000.eqx",
+        "saved_config": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-graph_ordinary-float64-seed42/config.json",
+        "evaluation_reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+        "physical_metrics": {
+          "terminal_rel_l2_phi": 0.0024985015542882713,
+          "terminal_rel_l2_c": 0.002944459452054073,
+          "pooled_rel_l2_phi": 0.0019703540129900415,
+          "pooled_rel_l2_c": 0.002342174094141503
+        },
+        "transport_metrics": {
+          "terminal_q_rel_l2_free": 0.007739006629049927,
+          "terminal_Dq_rel_l2_free": 1.3569927359903802
+        },
+        "report": "docs/tasks/archive/ordinary-policy-defaults.md",
+        "prior_audit": "docs/tasks/archive/corrosion-transport-audit.json",
+        "selected_checkpoint_seed": 42,
+        "seed_input": "--seed; common untuned run default42; omitted from strategy config",
+        "seed_scope": "Selected checkpoint seed is historical provenance, not a strategy parameter or promised default accuracy.",
+        "stability_assessment": "Both42/2026 retain one pit with improved final phi/c and worst late median. Late spikes and Dq~1.36-1.38 persist; not uniform stability.",
+        "audit": "docs/tasks/archive/ordinary-policy-defaults-kks-audit.json",
+        "gpu_policy": "ordinary",
+        "compute_dtype": "float64"
+      },
+      "sota_run": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed42",
+      "sota_metric": {
+        "criterion": "terminal_phi_plus_c_relative_l2",
+        "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+        "terminal_rel_l2_phi": 0.0014330496603163906,
+        "terminal_rel_l2_c": 0.001718589539743543,
+        "caveat": "Best observed final5000 terminal phi+c relative L2 among40 saved run summaries; selected seed42. Seed7 counterpart fails; Dq error~1.50 remains. Historical single-run result; current original-residual default prioritizes observed cross-seed reliability."
+      },
+      "independent_seed_validation_20261026": {
+        "seed": 2026,
+        "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-independent-seed2026-default-strategy",
+        "checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-independent-seed2026-default-strategy/ckpt_005000.eqx",
+        "updates": 5000,
+        "selection": "Predeclared seed; use final5000, no rerolls or intermediate selection",
+        "assessment": "Earlier bounded strategy is unstable: seed7 and2026 fail; superseded default selection is documented in objective_optimization_20261026.",
+        "endpoint": {
+          "pooled_rel_l2_phi": 0.2671337667988233,
+          "terminal_rel_l2_phi": 0.40701613387252306,
+          "rel_l2_by_time_phi": [
+            0.0007973697307439029,
+            0.05478732628101675,
+            0.0936097006507035,
+            0.1270735254739744,
+            0.15609844982639676,
+            0.18145132407794876,
+            0.20334166958515792,
+            0.22156465163541672,
+            0.23591464886615796,
+            0.2478583166404236,
+            0.25994723700193956,
+            0.27444116367022514,
+            0.28354238232865214,
+            0.3159427129677088,
+            0.33495215823790414,
+            0.3487848163182694,
+            0.363882333844135,
+            0.38048057049871636,
+            0.3962392926992871,
+            0.40710407276860294,
+            0.407016133872523
+          ],
+          "pooled_rel_l2_c": 0.2846336160287214,
+          "terminal_rel_l2_c": 0.4310253110489792,
+          "rel_l2_by_time_c": [
+            0.0007015665887258902,
+            0.06408442292348068,
+            0.10767152848402273,
+            0.14356220908380662,
+            0.17364661425921438,
+            0.1993428552028166,
+            0.2212794681301446,
+            0.23953020144518467,
+            0.25402906887592164,
+            0.26618382957917636,
+            0.2784867537727143,
+            0.29273226877486813,
+            0.2998126977296762,
+            0.33383400188416357,
+            0.35134341935990676,
+            0.3663367795701558,
+            0.38329401526086027,
+            0.40136112163465487,
+            0.41814325349615744,
+            0.43025654082564907,
+            0.43102531104897923
+          ],
+          "terminal_interface_present": true,
+          "terminal_interface_mean_distance": 0.09788630641857943,
+          "terminal_interface_max_distance": 0.2505890247482539,
+          "terminal_rel_l2_cL": 0.056839191102025996,
+          "pooled_rel_l2_cL": 0.05274783044858629,
+          "terminal_rel_l2_q": 0.3014197454576375,
+          "pooled_rel_l2_q": 0.320546349490529,
+          "terminal_rel_l2_Dq_free": 4.013883685167288,
+          "bc_pit_q_rmse_over_cle": 1.5218820549732297e-06,
+          "bc_pit_c_max_error": 5.736594630434411e-07,
+          "bc_solid_q_rmse_over_cle": 0.0002678621846946038,
+          "bc_solid_c_max_error": 3.0994415283203125e-05,
+          "initial_q_rmse_over_cle_free": 0.023630888792409727,
+          "initial_rel_l2_Dq_free": 0.6631681999530259,
+          "boundary_max_abs_error": 6.276369094848633e-05,
+          "concentration_min": 0.0,
+          "concentration_max": 1.0,
+          "concentration_fraction_outside_0_1": 0.0,
+          "step": 5000,
+          "elapsed_seconds": 2223.019212950021
+        },
+        "independent_cpu": {
+          "field_metrics_cpu": {
+            "terminal_rel_l2_phi": 0.40701614971615463,
+            "pooled_rel_l2_phi": 0.2671337819942165,
+            "terminal_rel_l2_c": 0.4310253178410081,
+            "pooled_rel_l2_c": 0.2846336331582517
+          },
+          "transport_cpu": {
+            "terminal_q_rel_l2_free": 0.3106973569939486,
+            "terminal_Dq_rel_l2_free": 4.013897941318463,
+            "terminal_ct_rel_l2_free": 2.806355326627562,
+            "stable_CH_rms_free": 1.5596338484100312
+          },
+          "topology": {
+            "liquid_components_by_time": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ],
+            "reference_liquid_components_by_time": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "terminal_liquid_area_fraction": 0.0992040380508639,
+            "reference_terminal_liquid_area_fraction": 0.2933410988157639
+          },
+          "cpu_vs_saved_gpu_fields_max_abs_difference": 2.86102294921875e-06
+        },
+        "late_metrics": {
+          "late_terminal_rel_l2_phi": {
+            "median": 0.40494646399325873,
+            "min": 0.39975977979573346,
+            "max": 0.40809303760812604,
+            "evaluations": 6
+          },
+          "late_terminal_rel_l2_c": {
+            "median": 0.42927369653610603,
+            "min": 0.4240875603352945,
+            "max": 0.43240735033639754,
+            "evaluations": 6
+          },
+          "late_terminal_rel_l2_q": {
+            "median": 0.2841100946515064,
+            "min": 0.2512846042795232,
+            "max": 0.31222450460793644,
+            "evaluations": 6
+          },
+          "late_terminal_rel_l2_Dq_free": {
+            "median": 3.7279509325458546,
+            "min": 3.29665988022525,
+            "max": 4.536869247390254,
+            "evaluations": 6
+          }
+        },
+        "report": "docs/tasks/archive/phasefield-seed-stability.md",
+        "results": "docs/tasks/archive/phasefield-seed-stability-results.json",
+        "convergence": "docs/tasks/archive/phasefield-seed-stability-results-convergence.png"
+      },
+      "objective_optimization_20261026": {
+        "status": "completed",
+        "report": "docs/tasks/archive/corrosion-robust-objective.md",
+        "new_runs": [
+          "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-phase-seed2026",
+          "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-bounded_frozen-seed7",
+          "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-bounded_frozen-seed2026",
+          "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-bounded_frozen-seed42"
+        ],
+        "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+        "updates": 5000,
+        "physical_terminal_s": 50.0,
+        "formulations": [
+          "phase",
+          "bounded",
+          "bounded_frozen"
+        ],
+        "seeds": [
+          42,
+          7,
+          2026
+        ],
+        "selection": "Final5000 and six late4000..5000 evaluations, no seed/checkpoint selection",
+        "default_changed_to": "phase",
+        "hard_initial_condition": false,
+        "physical_model_changed": false,
+        "audit": "docs/tasks/archive/corrosion-robust-objective-audit.json",
+        "runs": {
+          "bounded42": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed42",
+            "terminal_phi_l2": 0.0014330452547757842,
+            "terminal_c_l2": 0.0017185850609688913,
+            "terminal_q_l2_free": 0.0178326181120497,
+            "terminal_Dq_l2_free": 1.500409437820655,
+            "late_phi_median": 0.018132060940149367
+          },
+          "bounded7": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-bounded-seed7",
+            "terminal_phi_l2": 0.42200096047918084,
+            "terminal_c_l2": 0.446139544147691,
+            "terminal_q_l2_free": 0.1939243872531424,
+            "terminal_Dq_l2_free": 3.9428636388149165,
+            "late_phi_median": 0.4221578395762615
+          },
+          "bounded2026": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-independent-seed2026-default-strategy",
+            "terminal_phi_l2": 0.40701614971615463,
+            "terminal_c_l2": 0.43102531775061165,
+            "terminal_q_l2_free": 0.3106973569939486,
+            "terminal_Dq_l2_free": 4.013897941318463,
+            "late_phi_median": 0.40494646399325873
+          },
+          "original42": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
+            "terminal_phi_l2": 0.008835376880778161,
+            "terminal_c_l2": 0.010425604023629577,
+            "terminal_q_l2_free": 0.01372464609277622,
+            "terminal_Dq_l2_free": 1.7025566454529093,
+            "late_phi_median": 0.0071909587899031315
+          },
+          "original7": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed7",
+            "terminal_phi_l2": 0.004224766264671563,
+            "terminal_c_l2": 0.005005778971289945,
+            "terminal_q_l2_free": 0.009900142253401505,
+            "terminal_Dq_l2_free": 1.7298121380087907,
+            "late_phi_median": 0.005065321567958591
+          },
+          "original2026": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-phase-seed2026",
+            "terminal_phi_l2": 0.010744165666294192,
+            "terminal_c_l2": 0.01272650225413949,
+            "terminal_q_l2_free": 0.012221265380229688,
+            "terminal_Dq_l2_free": 1.7571468113229383,
+            "late_phi_median": 0.009514078842499111
+          },
+          "frozen42": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-bounded_frozen-seed42",
+            "terminal_phi_l2": 0.014569380045466141,
+            "terminal_c_l2": 0.017272164582676053,
+            "terminal_q_l2_free": 0.026735680727149942,
+            "terminal_Dq_l2_free": 3.007510274942095,
+            "late_phi_median": 0.011558863788552112
+          },
+          "frozen7": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-bounded_frozen-seed7",
+            "terminal_phi_l2": 0.010900231486211998,
+            "terminal_c_l2": 0.012933355315530227,
+            "terminal_q_l2_free": 0.009552580099967989,
+            "terminal_Dq_l2_free": 1.3571911087628172,
+            "late_phi_median": 0.014632382456824682
+          },
+          "frozen2026": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-bounded_frozen-seed2026",
+            "terminal_phi_l2": 0.01062354673196812,
+            "terminal_c_l2": 0.012616523645643573,
+            "terminal_q_l2_free": 0.01076940255867243,
+            "terminal_Dq_l2_free": 1.3971686595546886,
+            "late_phi_median": 0.01190649605837054
+          }
+        },
+        "assessment": "Original has best observed worst-seed final field/transport and late phi. Frozen rescues failing bounded7/2026 but regresses42 and some late-window metrics; research-only."
+      },
+      "arithmetic_precision_control": {
+        "status": "completed; no default promotion",
+        "task": "docs/tasks/archive/corrosion-fp64-accuracy.md",
+        "updates": 5000,
+        "seed_as_run_provenance": 42,
+        "physical_seconds": 50,
+        "policy": "Common FP32 initial parameters/data/time draws/stored graph coefficients exactly promoted; unchanged residuals/scales/SOAP. Original stored diagonal retained; LR scalar schedule FP32.",
+        "runs": {
+          "float32": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
+            "terminal_phi_l2": 0.008835376880778161,
+            "terminal_c_l2": 0.010425604023629577,
+            "terminal_q_l2_free": 0.01372464609277622,
+            "terminal_Dq_l2_free": 1.7025566454529093,
+            "late_phi": {
+              "median": 0.0071909587899031315,
+              "min": 0.002689092798879784,
+              "max": 0.00883527856062115
+            },
+            "late_Dq": {
+              "median": 1.7057344264053214,
+              "min": 0.8908836611618551,
+              "max": 1.915019712867594
+            }
+          },
+          "float64": {
+            "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-precision-float64-phase-seed42",
+            "terminal_phi_l2": 0.0026767162591898037,
+            "terminal_c_l2": 0.0032070124858549825,
+            "terminal_q_l2_free": 0.006861409635773713,
+            "terminal_Dq_l2_free": 1.2204688172110503,
+            "late_phi": {
+              "median": 0.006068562527360218,
+              "min": 0.002509923754637174,
+              "max": 0.014882101220471943
+            },
+            "late_Dq": {
+              "median": 1.8518726770324538,
+              "min": 1.2204688172110731,
+              "max": 3.512767661304366
+            }
+          }
+        },
+        "assessment": "FP64 improves this final model, not uniformly late stability: phi median modestly better, max/mean and Dq median worse. One paired seed only; no demonstrated lower accuracy floor or cross-seed guarantee.",
+        "default_compute_dtype_at_control": "float32",
+        "current_default_compute_dtype": "float64"
+      },
+      "local_ad_throughput": {
+        "status": "completed; throughput only; defaults unchanged",
+        "task": "docs/tasks/archive/local-ad-performance.md",
+        "raw_directory": "/root/nonlocal-pinn/reports/local-ad-performance-20261026",
+        "active_PDE_pairs_per_batch": [
+          3760,
+          4032
+        ],
+        "warmup_updates": 50,
+        "measured_updates": 75,
+        "primary_rows": [
+          {
+            "dtype": "float32",
+            "kind": "graph",
+            "mean_update_ms": 229.31119794646898,
+            "ordinary_update_ms": 204.0941574300329,
+            "gradnorm_soap_update_ms": 815.5495176712672,
+            "pde_only_ms": 77.36942867437999,
+            "speedup_over_graph": 1.0,
+            "compile_seconds": 185.98138900101185,
+            "peak_active_GiB": 1.536109447479248,
+            "support_points": 40944,
+            "block_means_ms": [
+              228.9683336019516,
+              230.86629569530487,
+              228.0989645421505
+            ]
+          },
+          {
+            "dtype": "float32",
+            "kind": "local_tensor",
+            "mean_update_ms": 11.976560552914936,
+            "ordinary_update_ms": 10.120678568879764,
+            "gradnorm_soap_update_ms": 34.140350917975105,
+            "pde_only_ms": 2.0346641540527344,
+            "speedup_over_graph": 19.146665433145383,
+            "compile_seconds": 141.8799662962556,
+            "peak_active_GiB": 1.047013759613037,
+            "support_points": 4096,
+            "block_means_ms": [
+              11.922820806503296,
+              11.997674405574799,
+              12.009186446666718
+            ]
+          },
+          {
+            "dtype": "float32",
+            "kind": "local_joint",
+            "mean_update_ms": 16.115091939767204,
+            "ordinary_update_ms": 13.838734167317549,
+            "gradnorm_soap_update_ms": 48.67264752586683,
+            "pde_only_ms": 3.784627839922905,
+            "speedup_over_graph": 14.229592906050872,
+            "compile_seconds": 207.24304818734527,
+            "peak_active_GiB": 1.416304111480713,
+            "support_points": 4096,
+            "block_means_ms": [
+              16.017512679100037,
+              16.230140924453735,
+              16.097622215747833
+            ]
+          },
+          {
+            "dtype": "float64",
+            "kind": "graph",
+            "mean_update_ms": 266.10770175854367,
+            "ordinary_update_ms": 234.31537219633657,
+            "gradnorm_soap_update_ms": 946.6476291418076,
+            "pde_only_ms": 86.28502115607262,
+            "speedup_over_graph": 1.0,
+            "compile_seconds": 166.63664096966386,
+            "peak_active_GiB": 3.0657176971435547,
+            "support_points": 40944,
+            "block_means_ms": [
+              267.53618240356445,
+              262.92047172784805,
+              267.86645114421844
+            ]
+          },
+          {
+            "dtype": "float64",
+            "kind": "local_tensor",
+            "mean_update_ms": 31.32396514217059,
+            "ordinary_update_ms": 24.589362367987633,
+            "gradnorm_soap_update_ms": 105.79866046706836,
+            "pde_only_ms": 7.433696960409482,
+            "speedup_over_graph": 8.495338969723543,
+            "compile_seconds": 141.34563059732318,
+            "peak_active_GiB": 2.160548686981201,
+            "support_points": 4096,
+            "block_means_ms": [
+              31.595148295164105,
+              31.375667452812195,
+              31.00107967853546
+            ]
+          },
+          {
+            "dtype": "float64",
+            "kind": "local_joint",
+            "mean_update_ms": 47.76695668697357,
+            "ordinary_update_ms": 39.41999562084675,
+            "gradnorm_soap_update_ms": 162.6297595600287,
+            "pde_only_ms": 10.155151908596357,
+            "speedup_over_graph": 5.570957838122296,
+            "compile_seconds": 179.8233310431242,
+            "peak_active_GiB": 3.0849621295928955,
+            "support_points": 4096,
+            "block_means_ms": [
+              47.11330845952034,
+              46.65112808346748,
+              49.53643351793289
+            ]
+          }
+        ],
+        "ordinary_graph_controls": [
+          {
+            "dtype": "float32",
+            "mean_update_ms": 12.48702640334765,
+            "pde_only_ms": 2.858437473575274,
+            "ordinary_update_ms": 10.675094711283842,
+            "gradnorm_soap_update_ms": 33.548325300216675,
+            "compile_seconds": 24.71742580831051,
+            "peak_active_GiB": 1.5354363918304443,
+            "speedup_over_deterministic_graph": 18.36395555990759
+          },
+          {
+            "dtype": "float64",
+            "mean_update_ms": 35.131849398215614,
+            "pde_only_ms": 8.339318012197813,
+            "ordinary_update_ms": 28.009674573938053,
+            "gradnorm_soap_update_ms": 116.30813280741374,
+            "compile_seconds": 28.627753220498562,
+            "peak_active_GiB": 3.065406322479248,
+            "speedup_over_deterministic_graph": 7.574542938011671
+          }
+        ],
+        "assessment": "Local tensor fastest in this benchmark; much of current graph gap is deterministic aggregation overhead. Ordinary graph close to local. No equal-accuracy/convergence/boundary or ordinary-policy reproducibility claim."
+      },
+      "local_ad_full_training": {
+        "status": "completed; no default promotion",
+        "task": "docs/tasks/archive/local-ad-full-training.md",
+        "audit": "docs/tasks/archive/local-ad-full-training-audit.json",
+        "manifest": "docs/tasks/archive/local-ad-full-training-manifest.json",
+        "updates": 5000,
+        "physical_seconds": 50,
+        "seed_as_run_provenance": 42,
+        "compute_dtype": "float32",
+        "reference_paths": {
+          "graph": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+          "local": "/root/autodl-tmp/data/corrosion2d/results_local_ad_20261026.npz"
+        },
+        "local_reference_refinement": "docs/tasks/archive/local-ad-full-training-reference.json",
+        "local_raw_reference_levels": "/root/nonlocal-pinn/reports/local-ad-reference-20261026",
+        "raw_fields": "/root/nonlocal-pinn/reports/local-ad-full-training-20261026/audited-fields.npz",
+        "runs": {
+          "graph_deterministic": {
+            "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-graph_deterministic-seed42",
+            "terminal_phi": 0.008835376880778161,
+            "terminal_c": 0.010425604023629577,
+            "terminal_q_free": 0.01372464609277622,
+            "terminal_Dq_free": 1.7025566454529093,
+            "late_4000_5000": {
+              "phi": {
+                "min": 0.002689092798879784,
+                "median": 0.0071909587899031315,
+                "max": 0.00883527856062115
+              },
+              "c": {
+                "min": 0.0031905280975841957,
+                "median": 0.008512023009636402,
+                "max": 0.010425488872358878
+              }
+            },
+            "end_to_end_seconds": 1179.8126433752477
+          },
+          "graph_ordinary": {
+            "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-graph_ordinary-seed42",
+            "terminal_phi": 0.020679804150815544,
+            "terminal_c": 0.024565321753804,
+            "terminal_q_free": 0.009340488234183755,
+            "terminal_Dq_free": 1.2382016482192162,
+            "late_4000_5000": {
+              "phi": {
+                "min": 0.00446800557409574,
+                "median": 0.012736816395012063,
+                "max": 0.02067977384553045
+              },
+              "c": {
+                "min": 0.005293341374319379,
+                "median": 0.015139972796369125,
+                "max": 0.024565293155655643
+              }
+            },
+            "end_to_end_seconds": 78.0257545299828
+          },
+          "local_tensor": {
+            "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-local_tensor-seed42",
+            "terminal_phi": 0.3461121119984518,
+            "terminal_c": 0.3732211271810834,
+            "terminal_q_free": 0.46993434039021514,
+            "terminal_Dq_free": 17.683064723393095,
+            "late_4000_5000": {
+              "phi": {
+                "min": 0.26989424469485845,
+                "median": 0.3605788566500658,
+                "max": 0.43425459080208045
+              },
+              "c": {
+                "min": 0.2993176748200651,
+                "median": 0.3868205320985332,
+                "max": 0.4554330542547536
+              }
+            },
+            "end_to_end_seconds": 224.87537982314825
+          },
+          "local_joint": {
+            "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-local_joint-seed42",
+            "terminal_phi": 0.4118131631270538,
+            "terminal_c": 0.4257385517222535,
+            "terminal_q_free": 0.2743681250442203,
+            "terminal_Dq_free": 3.1705244113415367,
+            "late_4000_5000": {
+              "phi": {
+                "min": 0.41181311723427283,
+                "median": 0.5466572400774996,
+                "max": 0.5721041924942223
+              },
+              "c": {
+                "min": 0.42573851343998287,
+                "median": 0.5449558178084792,
+                "max": 0.5673295494058799
+              }
+            },
+            "end_to_end_seconds": 223.26071992889047
+          }
+        },
+        "limitations": [
+          "Fresh weights; existing compilation cache reused. Wall times include actual cache-dependent JIT/evaluation/saves; independent reference generation excluded.",
+          "Local reference201->401 phi/c discrepancy1.42%/1.68%; not sub-percent continuum truth.",
+          "Local has sixth no-flux loss and inherits graph scales/optimizer; one seed, no separately tuned local SOTA or intrinsic-superiority claim."
+        ]
+      },
+      "ordinary_fp64_accuracy": {
+        "status": "completed; defaults unchanged",
+        "task": "docs/tasks/archive/ordinary-fp64-accuracy.md",
+        "manifest": "docs/tasks/archive/ordinary-fp64-accuracy-manifest.json",
+        "audit": "docs/tasks/archive/ordinary-fp64-accuracy-audit.json",
+        "new_run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-graph_ordinary-float64-seed42",
+        "updates": 5000,
+        "physical_seconds": 50,
+        "seed_as_run_provenance": 42,
+        "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+        "all_four_exact_initial_values": true,
+        "runs": {
+          "det_fp32": {
+            "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-graph_deterministic-seed42",
+            "terminal_phi": 0.008835376880778161,
+            "terminal_c": 0.010425604023629577,
+            "terminal_q_free": 0.01372464609277622,
+            "terminal_Dq_free": 1.7025566454529093,
+            "late_4000_5000": {
+              "phi": {
+                "min": 0.002689092798879784,
+                "median": 0.0071909587899031315,
+                "mean": 0.006348160864217623,
+                "max": 0.00883527856062115
+              },
+              "c": {
+                "min": 0.0031905280975841957,
+                "median": 0.008512023009636402,
+                "mean": 0.007529494637756081,
+                "max": 0.010425488872358878
+              },
+              "q_all": {
+                "min": 0.004200790663183449,
+                "median": 0.016682218805407316,
+                "mean": 0.015622832287531608,
+                "max": 0.022067140436335796
+              },
+              "Dq_free": {
+                "min": 0.8908836611618551,
+                "median": 1.7057344264053214,
+                "mean": 1.5362528739272021,
+                "max": 1.915019712867594
+              }
+            },
+            "end_to_end_seconds": 1179.8126433752477
+          },
+          "ordinary_fp32": {
+            "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-graph_ordinary-seed42",
+            "terminal_phi": 0.020679804150815544,
+            "terminal_c": 0.024565321753804,
+            "terminal_q_free": 0.009340488234183755,
+            "terminal_Dq_free": 1.2382016482192162,
+            "late_4000_5000": {
+              "phi": {
+                "min": 0.00446800557409574,
+                "median": 0.012736816395012063,
+                "mean": 0.012546651637839088,
+                "max": 0.02067977384553045
+              },
+              "c": {
+                "min": 0.005293341374319379,
+                "median": 0.015139972796369125,
+                "mean": 0.014905899388661789,
+                "max": 0.024565293155655643
+              },
+              "q_all": {
+                "min": 0.004156578695016952,
+                "median": 0.010383538094976252,
+                "mean": 0.012246125852387482,
+                "max": 0.02639526165816751
+              },
+              "Dq_free": {
+                "min": 1.238234333557748,
+                "median": 2.2612789880884674,
+                "mean": 2.386011468226242,
+                "max": 4.200167349033522
+              }
+            },
+            "end_to_end_seconds": 78.0257545299828
+          },
+          "det_fp64": {
+            "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-precision-float64-phase-seed42",
+            "terminal_phi": 0.0026767162591898037,
+            "terminal_c": 0.0032070124858549825,
+            "terminal_q_free": 0.006861409635773713,
+            "terminal_Dq_free": 1.2204688172110503,
+            "late_4000_5000": {
+              "phi": {
+                "min": 0.002509923754637174,
+                "median": 0.006068562527360218,
+                "mean": 0.006664278482574914,
+                "max": 0.014882101220471943
+              },
+              "c": {
+                "min": 0.0030336549689668627,
+                "median": 0.007155551484528242,
+                "mean": 0.007909896466514599,
+                "max": 0.017652500832280208
+              },
+              "q_all": {
+                "min": 0.003765455911637209,
+                "median": 0.008499103470686525,
+                "mean": 0.015019234917612938,
+                "max": 0.035706624779664776
+              },
+              "Dq_free": {
+                "min": 1.2204688172110731,
+                "median": 1.8518726770324538,
+                "mean": 2.0426216825520265,
+                "max": 3.512767661304366
+              }
+            },
+            "end_to_end_seconds": 1494.4504690803587
+          },
+          "ordinary_fp64": {
+            "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-graph_ordinary-float64-seed42",
+            "terminal_phi": 0.0024985015542882713,
+            "terminal_c": 0.002944459452054073,
+            "terminal_q_free": 0.007739006629049927,
+            "terminal_Dq_free": 1.3569927359903802,
+            "late_4000_5000": {
+              "phi": {
+                "min": 0.002498501554288306,
+                "median": 0.004684528411399264,
+                "mean": 0.006660708486627839,
+                "max": 0.014885066872408353
+              },
+              "c": {
+                "min": 0.0029444594520541064,
+                "median": 0.005565398777040209,
+                "mean": 0.007925786101781046,
+                "max": 0.017730911563056333
+              },
+              "q_all": {
+                "min": 0.0075127926418686,
+                "median": 0.0101879536301917,
+                "mean": 0.017896714130739146,
+                "max": 0.04845017243611765
+              },
+              "Dq_free": {
+                "min": 1.1172372168504356,
+                "median": 1.6382696654780964,
+                "mean": 4.410633825562807,
+                "max": 18.66457675036023
+              }
+            },
+            "end_to_end_seconds": 196.50496588274837
+          }
+        },
+        "assessment": "Ordinary FP64 faster and lower final/median phi/c than default in one pair; late phi mean/max and Dq spikes worsen, final q/Dq worse than deterministic FP64. Different cache histories; no uniform stability or cross-seed guarantee."
+      },
+      "gpu_compilation_policy_audit": {
+        "status": "completed historical speed/static audit; defaults subsequently promoted by ordinary_policy_defaults_20261026",
+        "task": "docs/tasks/archive/phasefield-gpu-policy-audit.md",
+        "summary": "docs/tasks/archive/phasefield-gpu-policy-summary.json",
+        "raw_directory": "/root/nonlocal-pinn/reports/phasefield-gpu-policy-20261026",
+        "new_measured": false,
+        "scope": {
+          "entry": "examples/corrosion2d/train.py",
+          "policy": "train_matched enforces deterministic default; explicit ordinary research option",
+          "operator": "SparseD/segment_sum",
+          "timing": "existing measured controls reused"
+        },
+        "policy_at_audit": "train_matched enforces deterministic default; explicit ordinary research option",
+        "current_policy": "ordinary; per-case precision selected by ordinary_policy_defaults_20261026"
+      },
+      "prior_default_training_20261026": {
+        "entry": "examples/corrosion2d/train.py",
+        "config": "examples/corrosion2d/configs/train_base.py",
+        "selection_criterion": "Observed cross-seed reliability: original phase42/7/2026 all low field error; worst late phi median0.009514 vs bounded0.422 and frozen7 alone0.014632. Representative untuned seed42, not the historical single-run minimum.",
+        "formulation": "phase",
+        "optimizer": "soap",
+        "updates": 5000,
+        "physical_terminal_s": 50.0,
+        "selected_checkpoint": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42/ckpt_005000.eqx",
+        "saved_config": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42/config.json",
+        "evaluation_reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+        "physical_metrics": {
+          "terminal_rel_l2_phi": 0.00883527856062115,
+          "pooled_rel_l2_phi": 0.005453323885807742,
+          "terminal_rel_l2_c": 0.010425488872358878,
+          "pooled_rel_l2_c": 0.006489470123055434
+        },
+        "transport_metrics": {
+          "terminal_q_rel_l2_all_nodes": 0.01331883736225122,
+          "terminal_Dq_rel_l2_free": 1.7025566454529093,
+          "terminal_q_rel_l2_free": 0.01372464609277622
+        },
+        "report": "docs/tasks/archive/corrosion-robust-objective.md",
+        "prior_audit": "docs/tasks/archive/corrosion-transport-audit.json",
+        "selected_checkpoint_seed": 42,
+        "seed_input": "--seed; common untuned run default42; omitted from strategy config",
+        "seed_scope": "Selected checkpoint seed is historical provenance, not a strategy parameter or promised default accuracy.",
+        "stability_assessment": "Observed three-seed phi range0.004225\u20130.010744, c0.005006\u20130.012727; no universal guarantee and Dq remains high.",
+        "audit": "docs/tasks/archive/corrosion-robust-objective-audit.json"
+      },
+      "ordinary_policy_defaults_20261026": {
+        "report": "docs/tasks/archive/ordinary-policy-defaults.md",
+        "manifest": "docs/tasks/archive/ordinary-policy-defaults-manifest.json",
+        "audit": "docs/tasks/archive/ordinary-policy-defaults-kks-audit.json",
+        "cohort": {
+          "corrosion2d-deterministic-float32-42": {
+            "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-kks_raw_edges-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
+            "case": "corrosion2d",
+            "policy": "deterministic",
+            "dtype": "float32",
+            "seed_as_run_provenance": 42,
+            "parameter_dtype": {
+              "dtype": "float32",
+              "leaves": 18,
+              "bytes": 172552
+            },
+            "cpu_saved_max_abs_difference": {
+              "phi": 2.0265579223632812e-06,
+              "c": 2.950429916381836e-06
+            },
+            "trainer_wall_seconds": 2361.7525535859168,
+            "terminal_phi": 0.008835376880778161,
+            "terminal_c": 0.010425604023629577,
+            "pooled_phi": 0.005453341033751845,
+            "pooled_c": 0.006489489732949005,
+            "terminal_q_free": 0.01372464609277622,
+            "terminal_Dq_free": 1.7025566454529093,
+            "terminal_CH_rms_free": 0.981598880052891,
+            "late_4000_5000": {
+              "terminal_rel_l2_phi": {
+                "min": 0.002689092798879784,
+                "median": 0.0071909587899031315,
+                "mean": 0.006348160864217623,
+                "max": 0.00883527856062115
+              },
+              "terminal_rel_l2_c": {
+                "min": 0.0031905280975841957,
+                "median": 0.008512023009636402,
+                "mean": 0.007529494637756081,
+                "max": 0.010425488872358878
+              },
+              "terminal_rel_l2_q": {
+                "min": 0.004200790663183449,
+                "median": 0.016682218805407316,
+                "mean": 0.015622832287531608,
+                "max": 0.022067140436335796
+              },
+              "terminal_rel_l2_Dq_free": {
+                "min": 0.8908836611618551,
+                "median": 1.7057344264053214,
+                "mean": 1.5362528739272021,
+                "max": 1.915019712867594
+              }
+            },
+            "topology": {
+              "liquid_components_by_time": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "corrosion2d-deterministic-float32-2026": {
+            "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-phase-seed2026",
+            "case": "corrosion2d",
+            "policy": "deterministic",
+            "dtype": "float32",
+            "seed_as_run_provenance": 2026,
+            "parameter_dtype": {
+              "dtype": "float32",
+              "leaves": 18,
+              "bytes": 172552
+            },
+            "cpu_saved_max_abs_difference": {
+              "phi": 1.9371509552001953e-06,
+              "c": 2.86102294921875e-06
+            },
+            "trainer_wall_seconds": 2409.4247630387545,
+            "terminal_phi": 0.010744165666294192,
+            "terminal_c": 0.01272650225413949,
+            "pooled_phi": 0.006728995314954721,
+            "pooled_c": 0.008028634801617559,
+            "terminal_q_free": 0.012221265380229688,
+            "terminal_Dq_free": 1.7571468113229383,
+            "terminal_CH_rms_free": 1.013728065433698,
+            "late_4000_5000": {
+              "terminal_rel_l2_phi": {
+                "min": 0.0034489806741238387,
+                "median": 0.009514078842499111,
+                "mean": 0.009218220062783904,
+                "max": 0.016322461260265996
+              },
+              "terminal_rel_l2_c": {
+                "min": 0.00411882993018249,
+                "median": 0.011298768785807208,
+                "mean": 0.01096653359766786,
+                "max": 0.01946486518283852
+              },
+              "terminal_rel_l2_q": {
+                "min": 0.0057674434461638165,
+                "median": 0.012006988905171274,
+                "mean": 0.01241964817867796,
+                "max": 0.018619577523543984
+              },
+              "terminal_rel_l2_Dq_free": {
+                "min": 1.2149992251716981,
+                "median": 1.7865662072420885,
+                "mean": 1.7847441236769193,
+                "max": 2.354781693791062
+              }
+            },
+            "topology": {
+              "liquid_components_by_time": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "corrosion2d-ordinary-float64-42": {
+            "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-graph_ordinary-float64-seed42",
+            "case": "corrosion2d",
+            "policy": "ordinary",
+            "dtype": "float64",
+            "seed_as_run_provenance": 42,
+            "parameter_dtype": {
+              "dtype": "float64",
+              "leaves": 18,
+              "bytes": 345104
+            },
+            "cpu_saved_max_abs_difference": {
+              "phi": 2.942091015256665e-15,
+              "c": 4.107825191113079e-15
+            },
+            "trainer_wall_seconds": 186.761784452945,
+            "terminal_phi": 0.0024985015542882713,
+            "terminal_c": 0.002944459452054073,
+            "pooled_phi": 0.0019703540129900415,
+            "pooled_c": 0.002342174094141503,
+            "terminal_q_free": 0.007739006629049927,
+            "terminal_Dq_free": 1.3569927359903802,
+            "terminal_CH_rms_free": 0.7835356496235978,
+            "late_4000_5000": {
+              "terminal_rel_l2_phi": {
+                "min": 0.002498501554288306,
+                "median": 0.004684528411399264,
+                "mean": 0.006660708486627839,
+                "max": 0.014885066872408353
+              },
+              "terminal_rel_l2_c": {
+                "min": 0.0029444594520541064,
+                "median": 0.005565398777040209,
+                "mean": 0.007925786101781046,
+                "max": 0.017730911563056333
+              },
+              "terminal_rel_l2_q": {
+                "min": 0.0075127926418686,
+                "median": 0.0101879536301917,
+                "mean": 0.017896714130739146,
+                "max": 0.04845017243611765
+              },
+              "terminal_rel_l2_Dq_free": {
+                "min": 1.1172372168504356,
+                "median": 1.6382696654780964,
+                "mean": 4.410633825562807,
+                "max": 18.66457675036023
+              }
+            },
+            "topology": {
+              "liquid_components_by_time": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "corrosion2d-ordinary-float64-2026": {
+            "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-defaultcheck-ordinary-float64-seed2026",
+            "case": "corrosion2d",
+            "policy": "ordinary",
+            "dtype": "float64",
+            "seed_as_run_provenance": 2026,
+            "parameter_dtype": {
+              "dtype": "float64",
+              "leaves": 18,
+              "bytes": 345104
+            },
+            "cpu_saved_max_abs_difference": {
+              "phi": 2.831068712794149e-15,
+              "c": 3.9968028886505635e-15
+            },
+            "trainer_wall_seconds": 191.4075403213501,
+            "terminal_phi": 0.0068325525528467,
+            "terminal_c": 0.00807736137290827,
+            "pooled_phi": 0.007175949679747246,
+            "pooled_c": 0.008542108958447274,
+            "terminal_q_free": 0.01007665096190314,
+            "terminal_Dq_free": 1.377872513303066,
+            "terminal_CH_rms_free": 0.7947966380649666,
+            "late_4000_5000": {
+              "terminal_rel_l2_phi": {
+                "min": 0.0021678203894932514,
+                "median": 0.0050037294631056755,
+                "mean": 0.006355963931172287,
+                "max": 0.01446479494099225
+              },
+              "terminal_rel_l2_c": {
+                "min": 0.002559105678395788,
+                "median": 0.005935848799473091,
+                "mean": 0.007540851314281169,
+                "max": 0.0171893758570439
+              },
+              "terminal_rel_l2_q": {
+                "min": 0.007158438482053136,
+                "median": 0.009736582975369546,
+                "mean": 0.010688519584330753,
+                "max": 0.016414615648200744
+              },
+              "terminal_rel_l2_Dq_free": {
+                "min": 0.9873315591780274,
+                "median": 1.370804223519657,
+                "mean": 1.3228918933362512,
+                "max": 1.5705038718369737
+              }
+            },
+            "topology": {
+              "liquid_components_by_time": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          }
+        }
+      }
     }
-  ]
+  ],
+  "run_seed_policy": {
+    "input": "train.py --seed=<integer>",
+    "common_default": 42,
+    "strategy_configs_contain_seed": false,
+    "saved_run_metadata": "train.seed retained for reproducibility and historical checkpoint compatibility",
+    "selection": "Random seed is not tuned or included in a strategy; record all predeclared controls, including failures."
+  }
 }

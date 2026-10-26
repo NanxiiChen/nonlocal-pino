@@ -1,0 +1,25 @@
+{
+  "status": "completed",
+  "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-full-graph_ordinary-float64-seed42",
+  "command": [
+    "/root/nonlocal-pinn/.venv/bin/python",
+    "-u",
+    "examples/corrosion2d/train.py",
+    "--config=examples/corrosion2d/configs/train_graph_ordinary.py",
+    "--seed=42",
+    "--config.train.compute_dtype=float64",
+    "--config.train.iterations=5000",
+    "--config.experiment.checkpoint_every=200",
+    "--config.log.run_name=20261026-full-graph_ordinary-float64-seed42"
+  ],
+  "updates": 5000,
+  "physical_seconds": 50,
+  "policy": "ordinary",
+  "compute_dtype": "float64",
+  "maximum_GPU_workers": 1,
+  "stdout": "/root/nonlocal-pinn/reports/ordinary-fp64-accuracy-20261026/train.log",
+  "initialization": "Common FP32 values exactly promoted; fresh weights",
+  "timing": "Actual compilation cache reused; wall includes launch/JIT/evaluation/save, excludes independent reference generation",
+  "returncode": 0,
+  "wall_seconds": 196.50496588274837
+}

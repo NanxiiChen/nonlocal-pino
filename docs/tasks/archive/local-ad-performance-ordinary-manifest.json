@@ -1,0 +1,41 @@
+{
+  "status": "completed",
+  "maximum_GPU_workers": 1,
+  "runs": [
+    {
+      "dtype": "float32",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/local-ad-performance.py",
+        "--worker",
+        "graph",
+        "--dtype",
+        "float32",
+        "--policy",
+        "ordinary"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/local-ad-performance-20261026/graph-ordinary-float32.log",
+      "returncode": 0,
+      "wall_seconds": 36.750449541956186
+    },
+    {
+      "dtype": "float64",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/local-ad-performance.py",
+        "--worker",
+        "graph",
+        "--dtype",
+        "float64",
+        "--policy",
+        "ordinary"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/local-ad-performance-20261026/graph-ordinary-float64.log",
+      "returncode": 0,
+      "wall_seconds": 44.84213404729962
+    }
+  ],
+  "scope": "Change compiler policy only, no default or reproducibility claim"
+}

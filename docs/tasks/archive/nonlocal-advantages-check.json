@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+  "nodes": 5151,
+  "directed_edges": 60296,
+  "weight_min": 0.0,
+  "weight_asymmetry_max": 0.0,
+  "constant_action_max": 0.0,
+  "quadratic_form": 160959326.4969018,
+  "pair_energy": 160959326.4969018,
+  "energy_identity_relative_error": 0.0,
+  "full_graph_internal_flux_relative_cancellation_error": 2.529222230552736e-18,
+  "positive_kernel_infinity_bound": 64057.49432063498,
+  "measured_perturbation_action_max": 54307.12659466938,
+  "discontinuous_step_action_finite": true,
+  "stored_FP32_diagonal_row_sum_defect_max": 0.00048828125,
+  "limits": "Exact-edge/reference graph checks; current AC stored-diagonal roundoff, Dirichlet reservoirs and soft PINN residuals prevent a claim of exact full-network conservation/dissipation."
+}

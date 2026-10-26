@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "label": "bounded_frozen-seed42",
+  "seed": 42,
+  "formulation": "bounded_frozen",
+  "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261026-objective-bounded_frozen-seed42",
+  "command": [
+    "/root/nonlocal-pinn/.venv/bin/python",
+    "-u",
+    "-m",
+    "examples.corrosion2d.train",
+    "--seed=42",
+    "--config.experiment.formulation=bounded_frozen",
+    "--config.log.run_name=20261026-objective-bounded_frozen-seed42"
+  ],
+  "stdout": "/root/nonlocal-pinn/reports/corrosion-robust-objective-20261026/bounded_frozen-seed42.log",
+  "updates": 5000,
+  "rationale": "Check the previously successful seed without seed selection",
+  "maximum_total_workers": 3,
+  "pid": 226400,
+  "returncode": 0,
+  "wall_seconds": 1134.6468656770885
+}

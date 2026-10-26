@@ -198,6 +198,10 @@ def make_loss_fn(x_grid, D, x_bc_pit, x_bc_solid, nondim_params,
                  x_ic=None,
                  alpha=1.0, ac_scale=None, ch_scale=None,
                  gradnorm_cap=1000, causal=None):
+    """Return losses/gradients and unmasked, unbiased adaptive-weight state.
+
+    aux['weight/*'] contains the effective weights for this update only.
+    """
     N_LOSS = 5  # ac, ch, bc_pit, bc_solid, ic
     _x_ic = x_ic if x_ic is not None else x_grid
 
@@ -227,18 +231,18 @@ def make_loss_fn(x_grid, D, x_bc_pit, x_bc_solid, nondim_params,
             vals = [ac_v, ch_v, bc_pit_v, bc_solid_v, ic_v]
 
             w_new = grad_norm_weights(grads, cap=gradnorm_cap)
-            w = [alpha * w_new[i] + (1.0 - alpha) * w_ema[i] for i in range(N_LOSS)]
+            adaptive_w = [alpha * w_new[i] + (1.0 - alpha) * w_ema[i] for i in range(N_LOSS)]
+            w = [adaptive_w[i] * bias[i] for i in range(N_LOSS)]
             w[0] = jnp.where(train_ac, w[0], 0.0)
             w[1] = jnp.where(train_ch, w[1], 0.0)
-            for i in range(N_LOSS):
-                w[i] = w[i] * bias[i]
 
             total = sum(w[i] * vals[i] for i in range(N_LOSS))
             total_grad = jax.tree.map(
                 lambda *gs: sum(w[i] * gs[i] for i in range(N_LOSS)), *grads)
             causal_aux = (w_ac_c, w_ch_c, chunks_ac, chunks_ch)
         else:
-            w = [w_ema[i] * bias[i] for i in range(N_LOSS)]
+            adaptive_w = w_ema
+            w = [adaptive_w[i] * bias[i] for i in range(N_LOSS)]
             w[0] = jnp.where(train_ac, w[0], 0.0)
             w[1] = jnp.where(train_ch, w[1], 0.0)
 
@@ -265,9 +269,10 @@ def make_loss_fn(x_grid, D, x_bc_pit, x_bc_solid, nondim_params,
             'loss/ic': ic_v,
             'weight/ac': w[0], 'weight/ch': w[1],
             'weight/bc_pit': w[2], 'weight/bc_solid': w[3], 'weight/ic': w[4],
+            'adaptive_weight/ac': adaptive_w[0], 'adaptive_weight/ch': adaptive_w[1],
             'causal/w_ac': w_ac_c, 'causal/w_ch': w_ch_c,
             'causal/chunks_ac': chunks_ac, 'causal/chunks_ch': chunks_ch,
         }
-        return total, aux, total_grad, jnp.array(w)
+        return total, aux, total_grad, jnp.array(adaptive_w)
 
     return loss_fn

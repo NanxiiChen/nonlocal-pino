@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "archive_files_by_type": {
+    ".py": 5,
+    ".json": 6,
+    ".png": 5,
+    ".md": 1
+  },
+  "checked_markdown_local_links": 147,
+  "strict_json": "passed",
+  "research_script_AST": "passed",
+  "selected_direct_paths": "passed",
+  "git_diff_check": "passed",
+  "source_default_dtype_and_reference_parity": "ordinary-policy-defaults-verification.json",
+  "focused_tests": {
+    "entry_precision_local_ad": 11,
+    "affected_entry_after_bare_flag": 7
+  },
+  "actual_full_GPU_runs": 6,
+  "actual_canonical_GPU_smokes": 2,
+  "registered_artifacts": {
+    "cases": 5,
+    "directories": 314
+  },
+  "no_git_history_operations": true,
+  "updated_memory_files": [
+    "docs/PROGRESS.md",
+    "docs/DECISIONS.md",
+    "docs/DEVELOPMENT.md",
+    "docs/tasks/archive/ordinary-policy-defaults.md"
+  ]
+}

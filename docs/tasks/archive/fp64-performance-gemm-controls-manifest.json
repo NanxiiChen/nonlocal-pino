@@ -1,0 +1,82 @@
+{
+  "status": "completed",
+  "maximum_GPU_workers": 1,
+  "runs": [
+    {
+      "name": "gemm-deterministic-float32",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/fp64-performance.py",
+        "--worker",
+        "float32",
+        "--suite",
+        "gemm"
+      ],
+      "xla_flags": "--xla_gpu_deterministic_ops=true",
+      "returncode": 0,
+      "wall_seconds": 5.140798918902874,
+      "stdout": "/root/nonlocal-pinn/reports/fp64-performance-20261026/gemm-deterministic-float32.log",
+      "output": "/root/nonlocal-pinn/reports/fp64-performance-20261026/gemm-deterministic-float32.json"
+    },
+    {
+      "name": "gemm-deterministic-float64",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/fp64-performance.py",
+        "--worker",
+        "float64",
+        "--suite",
+        "gemm"
+      ],
+      "xla_flags": "--xla_gpu_deterministic_ops=true",
+      "returncode": 0,
+      "wall_seconds": 10.965446058660746,
+      "stdout": "/root/nonlocal-pinn/reports/fp64-performance-20261026/gemm-deterministic-float64.log",
+      "output": "/root/nonlocal-pinn/reports/fp64-performance-20261026/gemm-deterministic-float64.json"
+    },
+    {
+      "name": "gemm-ordinary-float32",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/fp64-performance.py",
+        "--worker",
+        "float32",
+        "--suite",
+        "gemm"
+      ],
+      "xla_flags": "",
+      "returncode": 0,
+      "wall_seconds": 5.461648348718882,
+      "stdout": "/root/nonlocal-pinn/reports/fp64-performance-20261026/gemm-ordinary-float32.log",
+      "output": "/root/nonlocal-pinn/reports/fp64-performance-20261026/gemm-ordinary-float32.json"
+    },
+    {
+      "name": "gemm-ordinary-float64",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/fp64-performance.py",
+        "--worker",
+        "float64",
+        "--suite",
+        "gemm"
+      ],
+      "xla_flags": "",
+      "returncode": 0,
+      "wall_seconds": 11.663275349885225,
+      "stdout": "/root/nonlocal-pinn/reports/fp64-performance-20261026/gemm-ordinary-float64.log",
+      "output": "/root/nonlocal-pinn/reports/fp64-performance-20261026/gemm-ordinary-float64.json"
+    }
+  ],
+  "explicit_worker_environment_except_per_run_XLA_FLAGS": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "2",
+    "PYTHONPATH": "/root/nonlocal-pinn",
+    "JAX_PLATFORMS": "cuda",
+    "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+    "JAX_COMPILATION_CACHE_DIR": "/tmp/nonlocal-pinn-fp64-benchmark-cache"
+  }
+}

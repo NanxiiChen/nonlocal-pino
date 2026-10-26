@@ -1,0 +1,26 @@
+{
+  "prior": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-data-s_bc-icmatched_graph-bcmatched_graph-phase-stagger0-seed42",
+  "new_baseline": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-transport-physical_difference-chl1-s_bc-icmatched_graph-bcmatched_graph-phase-seed42",
+  "checkpoint_bytes_equal": {
+    "model_initial.eqx": true,
+    "ckpt_001000.eqx": true,
+    "ckpt_002000.eqx": true,
+    "ckpt_003000.eqx": true,
+    "ckpt_004000.eqx": true,
+    "ckpt_005000.eqx": true,
+    "model_final.eqx": true
+  },
+  "prediction_arrays_equal": {
+    "X": true,
+    "Y": true,
+    "time": true,
+    "phi": true,
+    "c": true
+  },
+  "logged_loss_weights_equal": true,
+  "all_evaluations_equal_excluding_elapsed_time": true,
+  "config_equal_after_explicit_new_fields_and_run_name": true,
+  "updates": 5000,
+  "scope": "Complete saved1000-update parameter checkpoints, loss/weight/evaluation trajectory; optimizer internal state not serialized",
+  "trajectory_replay_exact": true
+}

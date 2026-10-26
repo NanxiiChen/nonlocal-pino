@@ -1,0 +1,26 @@
+{
+  "production_actual_loss_probe": {
+    "ac_block_refresh_weights": [
+      2.1827902793884277,
+      0.0,
+      0.8368458151817322,
+      0.44556698203086853,
+      1.7847057580947876
+    ],
+    "switch_to_ch_without_refresh_weights": [
+      0.0,
+      0.0,
+      0.8368458151817322,
+      0.44556698203086853,
+      1.7847057580947876
+    ],
+    "switch_to_ch_with_refresh_weights": [
+      0.0,
+      1.844137191772461,
+      0.8368458151817322,
+      0.44556698203086853,
+      1.7847057580947876
+    ]
+  },
+  "meaning": "Persisted weights include temporary PDE masks; switching without GradNorm refresh can disable both PDE gradients. Boundary and IC weights remain active; optimizer momentum can persist."
+}

@@ -1,0 +1,261 @@
+{
+  "scope": "Separate diagnostic; legacy control is not an additional stagger arm or a deterministic replay guarantee",
+  "cpu_first_batch_probe": {
+    "scope": "Actual production-sized first graph batch, real initialization, CPU FP32, recorded parameter gradients; old saved make_step versus new joint mask",
+    "gradient_relative_l2_difference": 0.0,
+    "gradient_max_abs_difference": 0.0,
+    "losses_old": [
+      26.0159854888916,
+      0.03387460857629776,
+      0.5119724869728088,
+      0.4882846772670746,
+      0.40168794989585876
+    ],
+    "losses_new": [
+      26.0159854888916,
+      0.03387460857629776,
+      0.5119724869728088,
+      0.4882846772670746,
+      0.40168794989585876
+    ],
+    "weights_old": [
+      0.20993559062480927,
+      17.997814178466797,
+      15.623345375061035,
+      16.030590057373047,
+      18.28682518005371
+    ],
+    "weights_new": [
+      0.20993559062480927,
+      17.997814178466797,
+      15.623345375061035,
+      16.030590057373047,
+      18.28682518005371
+    ]
+  },
+  "gpu_first_batch_probe": [
+    {
+      "cpu_probe_threshold": 1e-05,
+      "gpu_threshold_exceeded": true,
+      "losses_within_cpu_tolerance": false,
+      "weights_within_cpu_tolerance": true,
+      "relative": 0.0004612269600340438
+    },
+    {
+      "scope": "Actual production-sized first graph batch, real initialization, GPU FP32, recorded parameter gradients; old saved make_step versus new joint mask",
+      "gradient_relative_l2_difference": 0.0004612269600340438,
+      "gradient_max_abs_difference": 0.00998687744140625,
+      "losses_old": [
+        26.015989303588867,
+        0.03389396518468857,
+        0.5119724869728088,
+        0.488284707069397,
+        0.40168794989585876
+      ],
+      "losses_new": [
+        26.0159912109375,
+        0.033895283937454224,
+        0.5119724869728088,
+        0.4882846772670746,
+        0.40168794989585876
+      ],
+      "weights_old": [
+        0.20993563532829285,
+        17.997467041015625,
+        15.623363494873047,
+        16.03061294555664,
+        18.286846160888672
+      ],
+      "weights_new": [
+        0.20993563532829285,
+        17.99746322631836,
+        15.623360633850098,
+        16.030609130859375,
+        18.28684425354004
+      ]
+    },
+    {
+      "backend": "gpu",
+      "step": "old",
+      "repeated_identical_inputs_losses": [
+        [
+          26.015989303588867,
+          0.03389434143900871,
+          0.5119724869728088,
+          0.488284707069397,
+          0.40168794989585876
+        ],
+        [
+          26.015989303588867,
+          0.03389604017138481,
+          0.5119724869728088,
+          0.488284707069397,
+          0.40168794989585876
+        ],
+        [
+          26.015989303588867,
+          0.03389471769332886,
+          0.5119724869728088,
+          0.488284707069397,
+          0.40168794989585876
+        ],
+        [
+          26.015989303588867,
+          0.0338934063911438,
+          0.5119724869728088,
+          0.488284707069397,
+          0.40168794989585876
+        ]
+      ],
+      "gradient_relative_difference_from_first": [
+        0.0,
+        1.1153649023015098e-05,
+        4.580571322749859e-06,
+        4.129470773062131e-06
+      ]
+    },
+    {
+      "backend": "gpu",
+      "step": "new",
+      "repeated_identical_inputs_losses": [
+        [
+          26.015989303588867,
+          0.033894751220941544,
+          0.5119724869728088,
+          0.4882846772670746,
+          0.40168794989585876
+        ],
+        [
+          26.0159912109375,
+          0.03389196842908859,
+          0.5119724869728088,
+          0.4882846772670746,
+          0.40168794989585876
+        ],
+        [
+          26.015989303588867,
+          0.03389567881822586,
+          0.5119724869728088,
+          0.4882846772670746,
+          0.40168794989585876
+        ],
+        [
+          26.0159912109375,
+          0.03389529138803482,
+          0.5119724869728088,
+          0.4882846772670746,
+          0.40168794989585876
+        ]
+      ],
+      "gradient_relative_difference_from_first": [
+        0.0,
+        0.0004405947245855119,
+        0.0004360986375395799,
+        4.801822025195032e-05
+      ]
+    }
+  ],
+  "earlier_gpu_probe_threshold_failures": [
+    "corrosion-stagger-gpu-probe-initial-failure.log",
+    "corrosion-stagger-gpu-probe-second-failure.log"
+  ],
+  "legacy_joint_step_replay": {
+    "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-stagger-diagnostic-legacy-joint-phase-seed42",
+    "configuration_equal_except_run_name": true,
+    "initial_bytes_equal": true,
+    "source_override": {
+      "archived_runner": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-phase-control-seed42/source/examples/corrosion2d/residual_experiment.py",
+      "override": "make_step extracted by AST; wrapper discards all-true active; current runner/evaluation otherwise",
+      "controller": "/root/nonlocal-pinn/docs/tasks/archive/corrosion-stagger-legacy-control.py",
+      "controller_at_execution": "/root/nonlocal-pinn/docs/tasks/corrosion-stagger-legacy-control.py"
+    },
+    "summary": {
+      "run": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-stagger-diagnostic-legacy-joint-phase-seed42",
+      "reference": "/root/autodl-tmp/data/corrosion2d/results_matched_graph_20261024.npz",
+      "model_path": "model_final.eqx",
+      "updates": 5000,
+      "formulation": "phase",
+      "hard_initial_condition": false,
+      "concentration_map": "kks",
+      "ac_scale": 1e-07,
+      "ch_scale": 1.0,
+      "bounded_eta": null,
+      "stagger_steps": 0,
+      "stagger_switch_every": 25,
+      "activation_counts": {
+        "ac_only": 0,
+        "ch_only": 0,
+        "joint": 5000
+      },
+      "adaptive_weight_state": "unmasked and unbiased; weights in loss_history are effective",
+      "final_metrics": {
+        "pooled_rel_l2_phi": 0.3692556472327625,
+        "terminal_rel_l2_phi": 0.5697643028197668,
+        "rel_l2_by_time_phi": [
+          0.004864528478525509,
+          0.0691193679963317,
+          0.12416480995478417,
+          0.16956633216654687,
+          0.20828937459505678,
+          0.2423264198186634,
+          0.2729717514194934,
+          0.30107765747227133,
+          0.32722245830955704,
+          0.35181178594264517,
+          0.3751392712426321,
+          0.39742342028703015,
+          0.41883076298353766,
+          0.43949086285244837,
+          0.4595063118467225,
+          0.4789594683413625,
+          0.49791726713415424,
+          0.5164346783286393,
+          0.5345573293204215,
+          0.5523232908960434,
+          0.5697643028197666
+        ],
+        "pooled_rel_l2_c": 0.3613861673997598,
+        "terminal_rel_l2_c": 0.5461692621129622,
+        "rel_l2_by_time_c": [
+          0.03548137198011092,
+          0.08206924925986132,
+          0.13740156026657369,
+          0.18105758393177623,
+          0.2170707049919379,
+          0.2482228614277845,
+          0.27608938592661103,
+          0.30159404992840433,
+          0.3253155728749693,
+          0.3476394577932416,
+          0.3688357967808316,
+          0.38910152463550296,
+          0.40858482140853736,
+          0.42740009269540497,
+          0.445637491107728,
+          0.4633692312900883,
+          0.4806539219317705,
+          0.49753964721738553,
+          0.5140662450696908,
+          0.530266892123124,
+          0.5461692621129622
+        ],
+        "terminal_interface_present": true,
+        "terminal_interface_mean_distance": 0.2071817718191099,
+        "terminal_interface_max_distance": 0.21109818639995204,
+        "terminal_rel_l2_cL": 0.9999994596417033,
+        "pooled_rel_l2_cL": 0.9999994650314966,
+        "terminal_rel_l2_q": 5.3030237893767875,
+        "pooled_rel_l2_q": 6.076954735053351,
+        "terminal_rel_l2_Dq_free": 1.0000007428615263,
+        "boundary_max_abs_error": 0.03566443920135498,
+        "concentration_min": 0.0,
+        "concentration_max": 0.9643358588218689,
+        "concentration_fraction_outside_0_1": 0.0,
+        "step": 5000,
+        "elapsed_seconds": 82.83999464288354
+      },
+      "wall_seconds": 82.90111957862973
+    }
+  },
+  "interpretation": "Identical-input GPU repeats have nonzero loss and gradient variation in both old and new steps. CPU first-batch equality and a failed legacy-step GPU replay do not isolate the cause of final-trajectory failure. Do not attribute historical/current differences uniquely to the mask, SOAP, graph scatter, or evaluator."
+}

@@ -53,6 +53,51 @@ def make_loss_fn(x_all, D, ...physical_params...,
 - Fail loudly with context. Never catch an arbitrary exception and silently
   switch to another numerical method.
 
+Canonical phase-field training starts in each example's `train.py` and
+`configs/train_base.py`. Corrosion/electropolish matched configs dispatch to
+the shared KKS engine through `training_entry.py`; legacy configs explicitly
+retain their original loop. Pure IC/BC samplers live in `training_data.py`,
+so the shared engine never imports CLI modules or registers duplicate flags.
+Canonical strategy configs omit `train.seed`; the runtime `--seed` is resolved
+by `training.runtime.with_run_seed` into a copied config for serialized run
+provenance. The common run default42 is not tuned per case; existing serialized
+seed values remain loadable. Keep default selection criteria, seed limitations and direct checkpoint paths
+in the example README and `artifacts/index.yaml`.
+
+Matched KKS configs declare `train.compute_dtype` explicitly: canonical corrosion
+uses `float64`, electropolish `float32`, selected from full ordinary-policy controls.
+The shared trainer generates common FP32 initialization,
+geometry/operator storage, IC/BC and temporal samples before promoting floating
+arrays through `corrosion2d/training_precision.py`. Preserve these common inputs
+when comparing arithmetic precision; rebuilding graph weights/diagonals or using
+native FP64 random draws is a separate control. Each run writes `precision.json`.
+Historical checkpoint templates must match their saved parameter dtype; load an
+FP64 checkpoint into a functionally promoted template, with JAX x64 enabled.
+Old FP32 checkpoints remain unchanged and load through their original templates.
+
+Corrosion research presets `train_local_tensor.py` and `train_local_joint.py`
+retain the canonical `train.py` entry, dispatching to `local_training.py` with
+AD spatial Hessians and a separate refined local reference. They add a sixth
+GradNorm loss for natural bottom no-flux conditions, while graph training keeps
+its five losses. `train_graph_ordinary.py` explicitly selects ordinary GPU
+FP32 compilation as a historical control; local presets explicitly retain FP32
+and deterministic policy. Canonical corrosion/electropolish/melting now explicitly
+select `train.gpu_policy=ordinary`. The shared `training.runtime.configure_gpu_policy`
+runs before backend initialization, preserves unrelated flags and rejects conflicting
+inherited settings. Deterministic policy remains an explicit override. The full
+selection evidence and limitations are in the example READMEs and archived
+ordinary-policy-defaults task. No physical operator was changed by this promotion.
+
+## Artifact Paths
+
+Load models, configs and reference arrays by explicit file path. Do not introduce
+file-hash computation, expected-checksum gates or hash-manifest dependencies.
+Record paths and source snapshots when useful; relative checkpoint paths are
+resolved from their run directory so directory retagging remains straightforward.
+Preserve physical-parameter, grid, shape and time compatibility validation.
+Older static checksum records are historical evidence and are not prerequisites
+for loading an artifact.
+
 ## Verification
 
 Choose the smallest verification set that gives credible evidence for the

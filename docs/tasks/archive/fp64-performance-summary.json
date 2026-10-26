@@ -1,0 +1,103 @@
+{
+  "scope": "Local JAX/highest arithmetic timings;75 real measured updates after50 warm-up; no L2 accuracy study",
+  "hardware": "NVIDIA GeForce RTX 3090, 49152 MiB, 580.82.09",
+  "versions": {
+    "jax": "0.10.1",
+    "jaxlib": "0.10.1",
+    "equinox": "0.13.8",
+    "optax": "0.2.8",
+    "soap-jax": "0.2.2"
+  },
+  "training": {
+    "fp32_mean_seconds": 0.20326221600174904,
+    "fp64_mean_seconds": 0.22673688421646754,
+    "slowdown": 1.1154895812732677,
+    "fp32_5000_update_minutes": 16.938518000145752,
+    "fp64_5000_update_minutes": 18.894740351372295,
+    "estimate_excludes": "JIT compilation, evaluation, logging/checkpoint saves; not a completed5000 run",
+    "fp32_compile_seconds": 157.01576769724488,
+    "fp64_compile_seconds": 155.7120257653296,
+    "fp32_peak_active_GiB": 1.535094976425171,
+    "fp64_peak_active_GiB": 3.063464879989624,
+    "fp32_peak_pool_GiB": 2.029296875,
+    "fp64_peak_pool_GiB": 4.029296875
+  },
+  "dtype_audit": {
+    "non_scalar_fp32_tensors": 0,
+    "fp32_scalar_role": "Optax exponential learning-rate schedule: int32 count division, then cast rate to float64 for updates",
+    "network_PDE_gradient_SOAP_dtype": "float64"
+  },
+  "kernel_comparisons": [
+    {
+      "suite": "gemm-deterministic",
+      "kernel": "gemm_1024_1024_1024",
+      "fp32_ms": 0.6440207362174988,
+      "fp64_ms": 4.517622292041779,
+      "slowdown": 7.014715579773019
+    },
+    {
+      "suite": "gemm-deterministic",
+      "kernel": "gemm_4096_4096_4096",
+      "fp32_ms": 57.38670192658901,
+      "fp64_ms": 216.03612788021564,
+      "slowdown": 3.7645677592097258
+    },
+    {
+      "suite": "gemm-deterministic",
+      "kernel": "gemm_16384_64_64",
+      "fp32_ms": 0.1590140163898468,
+      "fp64_ms": 0.3142189234495163,
+      "slowdown": 1.9760454492210378
+    },
+    {
+      "suite": "gemm-ordinary",
+      "kernel": "gemm_1024_1024_1024",
+      "fp32_ms": 0.9690951555967331,
+      "fp64_ms": 4.48991172015667,
+      "slowdown": 4.633096857647532
+    },
+    {
+      "suite": "gemm-ordinary",
+      "kernel": "gemm_4096_4096_4096",
+      "fp32_ms": 57.39876814186573,
+      "fp64_ms": 216.06853231787682,
+      "slowdown": 3.7643409312173013
+    },
+    {
+      "suite": "gemm-ordinary",
+      "kernel": "gemm_16384_64_64",
+      "fp32_ms": 0.15630945563316345,
+      "fp64_ms": 0.3618132323026657,
+      "slowdown": 2.3147238971376822
+    },
+    {
+      "suite": "micro",
+      "kernel": "graph_diagonal_plus_offdiagonal",
+      "fp32_ms": 678.7861734628677,
+      "fp64_ms": 836.7976881563663,
+      "slowdown": 1.2327854055827236
+    },
+    {
+      "suite": "micro",
+      "kernel": "graph_stable_edge_difference",
+      "fp32_ms": 696.4954026043415,
+      "fp64_ms": 768.1710813194513,
+      "slowdown": 1.1029090478517152
+    }
+  ],
+  "raw_record_paths": {
+    "train-float32": "/root/nonlocal-pinn/reports/fp64-performance-20261026/train-float32.json",
+    "gemm-deterministic-float32": "/root/nonlocal-pinn/reports/fp64-performance-20261026/gemm-deterministic-float32.json",
+    "micro-float64": "/root/nonlocal-pinn/reports/fp64-performance-20261026/micro-float64.json",
+    "gemm-ordinary-float32": "/root/nonlocal-pinn/reports/fp64-performance-20261026/gemm-ordinary-float32.json",
+    "manifest": "/root/nonlocal-pinn/reports/fp64-performance-20261026/manifest.json",
+    "audit-float64": "/root/nonlocal-pinn/reports/fp64-performance-20261026/audit-float64.json",
+    "train-float64": "/root/nonlocal-pinn/reports/fp64-performance-20261026/train-float64.json",
+    "gemm-deterministic-float64": "/root/nonlocal-pinn/reports/fp64-performance-20261026/gemm-deterministic-float64.json",
+    "micro-float32": "/root/nonlocal-pinn/reports/fp64-performance-20261026/micro-float32.json",
+    "gemm-ordinary-float64": "/root/nonlocal-pinn/reports/fp64-performance-20261026/gemm-ordinary-float64.json",
+    "gemm-controls-manifest": "/root/nonlocal-pinn/reports/fp64-performance-20261026/gemm-controls-manifest.json"
+  },
+  "precision_policy": "Production main model/data/PDE/SOAP promoted toFP64; existing scalar LR schedule retained for fair same-optimizer comparison",
+  "validation": "GPU-only workers, synchronized outputs, all finite, expected dtype leaves and exact2x floating storage, paired configs/shapes, corrected StableHLO checks, independent NumPy GEMM samples"
+}

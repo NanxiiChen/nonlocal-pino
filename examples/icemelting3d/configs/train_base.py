@@ -1,4 +1,8 @@
-"""3D Ice Melting PINN training config."""
+"""Validated 5 s SOAP default for the IC-only latent melting PINN.
+
+Matches the 5000-update SOAP preset in docs/tasks/archive/icemelting-soap-adam-5s.md.
+Selected checkpoint provenance is recorded in artifacts/index.yaml.
+"""
 
 from ml_collections import config_dict
 
@@ -14,7 +18,7 @@ def get_config():
     c.arch.film_num_layers = 1
     c.arch.num_layers = 4
     c.arch.spatial_emb_dim = 64
-    c.arch.spatial_scale = 2.0 
+    c.arch.spatial_scale = 2.0
     c.arch.temporal_emb_dim = 64
     c.arch.temporal_scale = 1.0
     c.arch.activation = "tanh"
@@ -22,17 +26,19 @@ def get_config():
     c.arch.use_temporal_emb = True
     c.arch.out_dim = 1                 # single field φ
     c.arch.spatial_dim = 3             # 3D
-    c.arch.use_hard_constraint = False  # tanh output
+    c.arch.use_hard_constraint = False  # legacy output-only tanh; IC constraint is configured below
     # Split the first trunk layer into x-only + t-only matmuls (mlp trunk
     # only).  Exact same math — under vmap(x)xvmap(t) the dominant first-layer
-    # matmul is hoisted out of the batch dimensions.  Big win at
-    # matmul_precision="highest" (exact FP32); roughly neutral under this
-    # script's default (TF32-capable) precision, hence off by default.
+    # matmul is hoisted out of the batch dimensions. Enabled with the validated
+    # matmul_precision="highest" setting below.
     c.arch.tensor_split = True
+
+    c.phase = config_dict.ConfigDict()
+    c.phase.formulation = "ic_latent"  # "ic_latent" | "ic_phase" | "raw_phase"
 
     # Non-local operator
     c.nl = config_dict.ConfigDict()
-    c.nl.delta = 0.01                  # δ/h≈3.8, k_avg≈242, rel-L2≈7%
+    c.nl.delta = 0.01                  # 128 nodes/axis: delta/h=1.27, six axial neighbours
     c.nl.kernel = "cubic"
     c.nl.method = "sparse"             # "sparse" | "fd" | "local"
     # "local": autograd Laplacian via jax.hessian, LHS random sampling.
@@ -54,8 +60,9 @@ def get_config():
 
     # Training
     c.train = config_dict.ConfigDict()
-    c.train.iterations = 20000
-    c.train.lr_init = 5e-3
+    c.train.gpu_policy = "ordinary"  # explicit fast default; deterministic remains selectable
+    c.train.iterations = 5000
+    c.train.lr_init = 1e-3
     c.train.lr_decay_every = 1000
     c.train.lr_decay_rate = 0.95
     c.train.lr_min = 1e-5
@@ -64,7 +71,6 @@ def get_config():
     # "" keeps JAX's default matmul precision (this script's historical
     # behavior).  Set "highest" for exact FP32 or "tensorfloat32" explicitly.
     c.train.matmul_precision = "highest"
-    c.train.soap_max_precond_dim = 100000
     c.train.alpha_gradnorm = 0.9
     c.train.gradnorm_update_every = 1
     c.train.soap_b1 = 0.90
@@ -100,6 +106,11 @@ def get_config():
     c.log.save_ckpt = True
     c.log.run_diag = False
 
+    c.eval = config_dict.ConfigDict()
+    c.eval.graph_reference_path = ""   # optional verified accuracy.py reference.npz, evaluation only
+    c.eval.full_grid_every = 1000      # terminal spatial L2; also at initialization/final step
+    c.eval.chunk_size = 32768          # fixed-shape full-grid inference
+
     # Physical (dimensional + non-dimensional)
     c.physical = config_dict.ConfigDict()
     c.physical.M = 0.1
@@ -110,7 +121,7 @@ def get_config():
     # Non-dimensionalization
     c.nondim = config_dict.ConfigDict()
     c.nondim.L_c = 100.0
-    c.nondim.T_c = 4.0
+    c.nondim.T_c = 5.0
     c.nondim.xc = (0.5, 0.5, 0.5)
 
     return c

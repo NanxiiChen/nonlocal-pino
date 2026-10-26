@@ -2,8 +2,8 @@
 
 Usage (from project root):
   python examples/corrosion2d/train.py
-  python examples/corrosion2d/train.py --config=examples/corrosion2d/configs/train_diffusion.py
-  python examples/corrosion2d/train.py --config.train.iterations=1000 --config.nl.delta=0.05
+  python examples/corrosion2d/train.py --config=examples/corrosion2d/configs/train_1pit.py
+  python examples/corrosion2d/train.py --config.train.iterations=1000 --config.log.run_name=short_run
 """
 
 import json, logging, os, time
@@ -19,6 +19,11 @@ log = logging.getLogger(__name__)
 from nonlocal_pinn.operators import build_D
 from nonlocal_pinn.nn.arch import make_pinn
 from nonlocal_pinn.io.utils import log_config_text, load_example_losses, setup_run_dir
+from nonlocal_pinn.training.runtime import with_run_seed
+from examples.corrosion2d.training_data import (
+    corrosion_boundary_points as _bc_info,
+    corrosion_initial_points as _sample_ic_points,
+)
 
 
 # ── Config ──────────────────────────────────────────────────────────────────
@@ -26,9 +31,10 @@ from nonlocal_pinn.io.utils import log_config_text, load_example_losses, setup_r
 from absl import app as _absl_app, flags as _absl_flags
 from ml_collections import config_flags as _config_flags
 
-_DEFAULT = os.path.join(os.path.dirname(__file__), 'configs', 'train_1pit.py')
+_DEFAULT = os.path.join(os.path.dirname(__file__), 'configs', 'train_base.py')
 _CONFIG = _config_flags.DEFINE_config_file('config', _DEFAULT, 'Config file')
 FLAGS = _absl_flags.FLAGS
+_SEED = _absl_flags.DEFINE_integer('seed', None, 'Run seed; defaults to 42, recorded for reproduction, not strategy tuning')
 
 
 def _get_t_weights(config, t_batch, step):
@@ -85,70 +91,6 @@ def _nondim_params(config):
             phys.L * phys.omega_phi * T_c,   # N_AC2
             phys.L * phys.alpha_phi * T_c / L_c**2,  # N_AC3
             dc0, phys.c_le)
-
-
-def _bc_info(pits, N_dir=1000, N_solid=500):
-    """Sample BC points for 2D corrosion geometry.
-
-    Dirichlet (pit mouth): y=0, |x-cx| < R*0.5 → φ=0, c=0.
-    Solid boundaries (left/right/top): x=0, x=1, y=0.5 → φ=1, c=1.
-    Pure random sampling — no grid points needed (boundaries are now separate).
-    """
-    rng = np.random.RandomState(42)
-    pit_mouth_x = [(float(cx) - float(R)*0.5, float(cx) + float(R)*0.5) for cx, cy, R in pits]
-
-    # Pit mouth: sample uniformly from each pit's mouth range on y=0
-    pit_points = []
-    n_each = N_dir // len(pits) + 1
-    for lo, hi in pit_mouth_x:
-        xs = rng.uniform(lo, hi, n_each)
-        pit_points.append(np.column_stack([xs, np.zeros_like(xs)]))
-    x_bc_pit = jnp.array(np.vstack(pit_points)[:N_dir])
-
-    # Solid edges: sample uniformly from left (x=0), right (x=1), top (y=0.5)
-    solid_points = []
-    n_each_edge = N_solid // 3 + 1
-    for edge in range(3):
-        if edge == 0:   # left: x=0, y in [0, 0.5]
-            xs = np.zeros(n_each_edge)
-            ys = rng.uniform(0.0, 0.5, n_each_edge)
-        elif edge == 1: # right: x=1, y in [0, 0.5]
-            xs = np.ones(n_each_edge)
-            ys = rng.uniform(0.0, 0.5, n_each_edge)
-        else:           # top: y=0.5, x in [0, 1]
-            xs = rng.uniform(0.0, 1.0, n_each_edge)
-            ys = np.full(n_each_edge, 0.5)
-        solid_points.append(np.column_stack([xs, ys]))
-    x_bc_solid = jnp.array(np.vstack(solid_points)[:N_solid])
-
-    return x_bc_pit, x_bc_solid
-
-
-def _sample_ic_points(pits, N_global=2000, N_local=2000):
-    """Sample IC points: global uniform + local oversampling near pit interface.
-
-    Global: N_global uniform random points in [0,1]×[0,0.5].
-    Local: N_local uniform random points in 2R×2R rectangle around each pit.
-    """
-    rng = np.random.RandomState(42)
-
-    # Global uniform samples
-    xs_g = rng.uniform(0.0, 1.0, N_global)
-    ys_g = rng.uniform(0.0, 0.5, N_global)
-    points = [np.column_stack([xs_g, ys_g])]
-
-    # Local oversampling near each pit
-    n_each = N_local // len(pits) + 1
-    for cx, cy, R in pits:
-        x_lo = max(float(cx) - 2.0 * float(R), 0.0)
-        x_hi = min(float(cx) + 2.0 * float(R), 1.0)
-        y_lo = max(float(cy) - 2.0 * float(R), 0.0)
-        y_hi = min(float(cy) + 2.0 * float(R), 0.5)
-        xs = rng.uniform(x_lo, x_hi, n_each)
-        ys = rng.uniform(y_lo, y_hi, n_each)
-        points.append(np.column_stack([xs, ys]))
-
-    return jnp.array(np.vstack(points)[:N_global + N_local])
 
 
 # ── Training step ───────────────────────────────────────────────────────────
@@ -263,12 +205,17 @@ def _diag_residual(net, x_all, D, t_eval, nd_params, writer, step):
              float(jnp.sqrt(jnp.mean(r_drv**2))))
 
 
-
 # ── Main ────────────────────────────────────────────────────────────────────
 
 def _main(_):
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
     config = FLAGS.config
+    if 'experiment' in config:
+        config = with_run_seed(config, _SEED.value)
+        from examples.corrosion2d.training_entry import train_matched
+        return train_matched(config, 'corrosion2d')
+    if _SEED.value is not None:
+        raise ValueError('--seed is supported by the matched train_base strategy; legacy presets retain their fixed RNGs')
     _prec = config.train.get('matmul_precision', '')
     if _prec:
         jax.config.update("jax_default_matmul_precision", _prec)

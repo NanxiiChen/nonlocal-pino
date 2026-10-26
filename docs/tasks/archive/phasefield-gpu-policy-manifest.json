@@ -1,0 +1,74 @@
+{
+  "status": "completed",
+  "maximum_GPU_workers": 1,
+  "runs": [
+    {
+      "case": "electropolish2d",
+      "policy": "ordinary",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/phasefield-gpu-policy-benchmark.py",
+        "--case",
+        "electropolish2d",
+        "--policy",
+        "ordinary"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/phasefield-gpu-policy-20261026/electropolish2d-ordinary.log",
+      "status": "completed",
+      "returncode": 0,
+      "wall_seconds": 143.40472473949194
+    },
+    {
+      "case": "electropolish2d",
+      "policy": "deterministic",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/phasefield-gpu-policy-benchmark.py",
+        "--case",
+        "electropolish2d",
+        "--policy",
+        "deterministic"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/phasefield-gpu-policy-20261026/electropolish2d-deterministic.log",
+      "status": "completed",
+      "returncode": 0,
+      "wall_seconds": 64.06647455319762
+    },
+    {
+      "case": "icemelting3d",
+      "policy": "ordinary",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/phasefield-gpu-policy-benchmark.py",
+        "--case",
+        "icemelting3d",
+        "--policy",
+        "ordinary"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/phasefield-gpu-policy-20261026/icemelting3d-ordinary.log",
+      "status": "completed",
+      "returncode": 0,
+      "wall_seconds": 74.34461605921388
+    },
+    {
+      "case": "icemelting3d",
+      "policy": "deterministic",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/phasefield-gpu-policy-benchmark.py",
+        "--case",
+        "icemelting3d",
+        "--policy",
+        "deterministic"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/phasefield-gpu-policy-20261026/icemelting3d-deterministic.log",
+      "status": "completed",
+      "returncode": 0,
+      "wall_seconds": 123.28603307157755
+    }
+  ]
+}

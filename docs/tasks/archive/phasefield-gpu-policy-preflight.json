@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "independent_latent_edge_forward_and_transpose_gradient_relative_errors": [
+    2.831792685180903e-17,
+    5.335476932347578e-16
+  ],
+  "dtype": "float64",
+  "production_ratio_function": "examples/icemelting3d/losses.py::_tanh_difference_ratio",
+  "no_production_change": true
+}

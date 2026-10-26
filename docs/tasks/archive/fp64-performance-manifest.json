@@ -1,0 +1,80 @@
+{
+  "status": "completed",
+  "maximum_GPU_workers": 1,
+  "runs": [
+    {
+      "suite": "micro",
+      "dtype": "float32",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/fp64-performance.py",
+        "--worker",
+        "float32",
+        "--suite",
+        "micro"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/fp64-performance-20261026/micro-float32.log",
+      "returncode": 0,
+      "wall_seconds": 166.5616258457303
+    },
+    {
+      "suite": "micro",
+      "dtype": "float64",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/fp64-performance.py",
+        "--worker",
+        "float64",
+        "--suite",
+        "micro"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/fp64-performance-20261026/micro-float64.log",
+      "returncode": 0,
+      "wall_seconds": 193.21107466891408
+    },
+    {
+      "suite": "train",
+      "dtype": "float32",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/fp64-performance.py",
+        "--worker",
+        "float32",
+        "--suite",
+        "train"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/fp64-performance-20261026/train-float32.log",
+      "returncode": 0,
+      "wall_seconds": 192.25155017897487
+    },
+    {
+      "suite": "train",
+      "dtype": "float64",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "/root/nonlocal-pinn/docs/tasks/fp64-performance.py",
+        "--worker",
+        "float64",
+        "--suite",
+        "train"
+      ],
+      "stdout": "/root/nonlocal-pinn/reports/fp64-performance-20261026/train-float64.log",
+      "returncode": 0,
+      "wall_seconds": 195.47100410237908
+    }
+  ],
+  "hardware": "NVIDIA GeForce RTX 3090, 49152 MiB, 580.82.09",
+  "explicit_worker_environment": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "2",
+    "PYTHONPATH": "/root/nonlocal-pinn",
+    "JAX_PLATFORMS": "cuda",
+    "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+    "XLA_FLAGS": "--xla_gpu_deterministic_ops=true",
+    "JAX_COMPILATION_CACHE_DIR": "/tmp/nonlocal-pinn-fp64-benchmark-cache"
+  }
+}

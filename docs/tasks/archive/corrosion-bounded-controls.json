@@ -1,0 +1,52 @@
+[
+  {
+    "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-phase-control-seed42",
+    "formulation": "phase",
+    "seed": 42,
+    "ac_scale": 1e-07,
+    "ch_scale": 1.0,
+    "bounded_eta": 0.1,
+    "returncode": 0,
+    "log": "/tmp/20261025-residual-phase-control-seed42.log"
+  },
+  {
+    "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-phase-control-seed7",
+    "formulation": "phase",
+    "seed": 7,
+    "ac_scale": 1e-07,
+    "ch_scale": 1.0,
+    "bounded_eta": 0.1,
+    "returncode": 0,
+    "log": "/tmp/20261025-residual-phase-control-seed7.log"
+  },
+  {
+    "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-bounded-eta0.1-mapkks-ac1e-07-ch1.0-seed7",
+    "formulation": "bounded",
+    "seed": 7,
+    "ac_scale": 1e-07,
+    "ch_scale": 1.0,
+    "bounded_eta": 0.1,
+    "returncode": 0,
+    "log": "/tmp/20261025-residual-bounded-eta0.1-mapkks-ac1e-07-ch1.0-seed7.log"
+  },
+  {
+    "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-phase-noscale-seed42",
+    "formulation": "phase",
+    "seed": 42,
+    "ac_scale": 1.0,
+    "ch_scale": 1.0,
+    "bounded_eta": 0.1,
+    "returncode": 0,
+    "log": "/tmp/20261025-residual-phase-noscale-seed42.log"
+  },
+  {
+    "path": "/root/autodl-tmp/tf-logs/corrosion2d/20261025-residual-bounded-eta0.1-mapkks-ac1.0-ch1.0-seed42",
+    "formulation": "bounded",
+    "seed": 42,
+    "ac_scale": 1.0,
+    "ch_scale": 1.0,
+    "bounded_eta": 0.1,
+    "returncode": 0,
+    "log": "/tmp/20261025-residual-bounded-eta0.1-mapkks-ac1.0-ch1.0-seed42.log"
+  }
+]

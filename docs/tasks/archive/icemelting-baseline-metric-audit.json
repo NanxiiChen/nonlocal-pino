@@ -1,0 +1,89 @@
+{
+  "physical_time_s": 4.0,
+  "grid": [
+    128,
+    128,
+    128
+  ],
+  "reference": "reports/icemelting-weak-prior-20261024/reference.npz",
+  "reference_sha256": "010d7b8b6e8cae852acf46a786b857845d33cb18d92d92c994a83f006fbe1164",
+  "reference_snapshot_index": 16,
+  "definition": "norm(phi_pred-phi_ref)/norm(phi_ref), all 128^3 nodes at physical 4 s",
+  "runs": {
+    "SOTA": {
+      "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/legacy-raw-phase-soft-ic/ckpt_017600.eqx",
+      "checkpoint_sha256": "ee3e112f0368b67eca0d62ae1d261ec0822ff1aca012d5d8b452bab85579dcf0",
+      "time_star": 1.0,
+      "T_c": 4.0,
+      "actual_activation": "tanh",
+      "hard_IC": false,
+      "residual": "phase",
+      "training_iterations_config": 20000,
+      "logged_pooled_analytic_rel_l2": 0.009576017037034035,
+      "replayed_pooled_analytic_rel_l2": 0.00957601796835661,
+      "sample8000_terminal_analytic_rel_l2": 0.013797201216220856,
+      "terminal_analytic_rel_l2": 0.014118739918862516,
+      "terminal_graph_rel_l2": 0.014658082961367258,
+      "terminal_graph_solid_fraction_rel_l2": 0.06970998233256508
+    },
+    "baseline2": {
+      "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/baseline2/ckpt_019800.eqx",
+      "checkpoint_sha256": "50a1c1db396c7b7cdf61228532ee6e2919493e081ae1bd78bcb162408c58451c",
+      "time_star": 1.0,
+      "T_c": 4.0,
+      "actual_activation": "tanh",
+      "hard_IC": false,
+      "residual": "phase",
+      "training_iterations_config": 20000,
+      "logged_pooled_analytic_rel_l2": 0.010161906480789185,
+      "replayed_pooled_analytic_rel_l2": 0.01016190554946661,
+      "sample8000_terminal_analytic_rel_l2": 0.010864532552659512,
+      "terminal_analytic_rel_l2": 0.011355363019280489,
+      "terminal_graph_rel_l2": 0.011547129061340715,
+      "terminal_graph_solid_fraction_rel_l2": 0.05491510485917096
+    },
+    "local_ad": {
+      "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/local_ad/ckpt_019800.eqx",
+      "checkpoint_sha256": "f6714ee90089858158967cfb8b9cc26fb28923c9a7592ed9f970e7d13d6bba24",
+      "time_star": 1.0,
+      "T_c": 4.0,
+      "actual_activation": "tanh",
+      "hard_IC": false,
+      "residual": "phase",
+      "training_iterations_config": 20000,
+      "logged_pooled_analytic_rel_l2": 0.009224546141922474,
+      "replayed_pooled_analytic_rel_l2": 0.009224547073245049,
+      "sample8000_terminal_analytic_rel_l2": 0.014066330157220364,
+      "terminal_analytic_rel_l2": 0.01431980503513288
+    },
+    "ic_phase": {
+      "checkpoint": "reports/icemelting-weak-prior-20261024/ic_phase/model_final.eqx",
+      "checkpoint_sha256": "43f61b26d71ea8ab2dba149a7fd4cedee3e6598919592b09f9faf2839cc50f08",
+      "time_star": 0.8,
+      "T_c": 5.0,
+      "actual_activation": "tanh",
+      "hard_IC": true,
+      "residual": "phase",
+      "training_iterations_config": 2000,
+      "terminal_analytic_rel_l2": 0.006160986112117204,
+      "terminal_graph_rel_l2": 0.0051603792448434715,
+      "terminal_graph_solid_fraction_rel_l2": 0.024541404693606644
+    },
+    "ic_balanced": {
+      "checkpoint": "reports/icemelting-weak-prior-20261024/ic_balanced/model_final.eqx",
+      "checkpoint_sha256": "2f44c2b706521eeded40cd609e8f7cd41fe342dc5c391f15acca075efadd21b7",
+      "time_star": 0.8,
+      "T_c": 5.0,
+      "actual_activation": "tanh",
+      "hard_IC": true,
+      "residual": "transformed",
+      "training_iterations_config": 2000,
+      "terminal_analytic_rel_l2": 0.0010779061860531841,
+      "terminal_graph_rel_l2": 7.258863846771842e-05,
+      "terminal_graph_solid_fraction_rel_l2": 0.00034521244820800295
+    }
+  },
+  "run_directory_renames": {
+    "/root/autodl-tmp/tf-logs/icemelting3d/SOTA": "/root/autodl-tmp/tf-logs/icemelting3d/legacy-raw-phase-soft-ic"
+  }
+}

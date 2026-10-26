@@ -1,14 +1,162 @@
 # 2D KKS Phase-Field Electropolishing — PINN + FEM Reference
 
+## SOTA default
+
+Seed is not a strategy parameter. The canonical `get_config()` has no
+`train.seed`; choose a run with `train.py --seed=2026`. With no override, the
+common untuned run seed is42. Saved resolved config metadata still includes
+`train.seed` for reproducibility and old checkpoint compatibility. The best
+observed run below is provenance, not a seed to optimize or an accuracy promise.
+
+The matched default requires the sparse graph/minibatches and does not accept
+legacy causal/interface weighting, bias schedules or optional diagnostic
+switches; unsupported overrides fail explicitly. Use a legacy config for those
+controls. Changing physical/operator/grid settings requires a matching reference.
+
+Use [train.py](train.py) with [configs/train_base.py](configs/train_base.py):
+
+```bash
+source .venv/bin/activate
+python -m examples.electropolish2d.train
+# Equivalent direct script:
+python examples/electropolish2d/train.py
+# Give a fresh cold start an explicit name:
+python -m examples.electropolish2d.train --config.log.run_name=my-electropolish-run
+```
+
+The default now explicitly uses **ordinary GPU compilation and FP32**, with the
+original residual and physical random IC/BC losses. Two full5000-update/5s
+cold starts at predeclared seeds42/2026 give terminal phi/c
+**0.004757/0.005738** and **0.003399/0.004118**. Both retain a single interface
+in every column at all21 reference times. Late4000–5000 phi medians are
+0.004421/0.004525. The historical deterministic FP32 seed42 failure (phi0.290928)
+is rescued in this ordinary run, while deterministic seed2026 was slightly
+more accurate at the final checkpoint (phi0.002832). This supports the new
+speed/reliability choice, not uniform superiority or statistical robustness.
+
+Ordinary FP64 fails seed42 (phi0.299757 with extra bands); seed2026 gives0.003551.
+Higher precision is therefore not the default here. See the
+[completed validation](../../docs/tasks/archive/ordinary-policy-defaults.md) and
+[unfiltered convergence curves](../../docs/tasks/archive/ordinary-policy-defaults-electropolish2d-convergence.png).
+The historical individual seed7 winner below is preserved separately.
+
+| Setting | Default SOTA |
+|---|---|
+| Physical horizon / updates | 5 s /5000 |
+| Network | MLP,6 layers x64,gelu; tensor_split=True |
+| Spatial / temporal embeddings | 64 /64 dimensions, scales2 /2 |
+| Operator / grid | Sparse cubic graph,delta0.02,101x51 |
+| Core / pool / times | 256 /100 /16; uniform t* in[0.001,1) |
+| IC samples | 1000 global +1000 near-interface random points |
+| BC samples | 128 random top +128 random bottom points |
+| Objective / concentration map | Original phase residual; physical phi,c data; KKS |
+| CH evaluation / norm | `physical_difference` /L1 |
+| AC / CH scale | 1 /1 |
+| Optimizer / initial rate | SOAP /1e-3 |
+| SOAP beta1 / beta2 / refresh | 0.9 /0.99 /5 updates |
+| Rate schedule / gradient clip | Continuous0.95 per1000 updates,floor1e-5 /50 |
+| GradNorm alpha / refresh / cap | 1 /25 updates /1000 |
+| Stagger / causal / interface weight / time window | Off /off /0 /off |
+| Late rate / CH-RMS continuation | Off /off |
+| Floating arithmetic | FP32 (`train.compute_dtype="float32"`) |
+| Matmul / GPU runtime | `highest`; ordinary (`train.gpu_policy="ordinary"`) |
+
+Network/time RNG uses the runtime `--seed`; the prescribed rough surface and fixed random
+IC/BC samplers retain their original seed42. Before backend initialization, the
+entry applies the explicit policy and rejects a deterministic flag inherited
+from `XLA_FLAGS` in ordinary mode. Unrelated flags are retained. Use
+`--config.train.gpu_policy=deterministic` for the historical policy. This is not a
+cross-hardware exact-replay guarantee.
+Both IC and BC are soft losses. Positive-time interior reference fields enter
+only evaluation; no hard IC or interface-motion prior is introduced.
+
+The [GPU policy performance audit](../../docs/tasks/archive/phasefield-gpu-policy-audit.md)
+measures this exact default configuration in FP32 using production loss/step
+functions:197.73ms/update under deterministic policy versus10.98ms ordinary,
+about18.0x. Each worker runs125 updates, with50 warm-up and75 synchronized
+measurements including sampling, SOAP refreshes and GradNorm; evaluation/logging/
+saving are excluded. Initial arrays, all100 pool batches and125 time samples
+match exactly across policies. Fixed operator forward/input-gradient errors
+against independent SciPy are below2e-7. Deterministic HLO expands3032-edge
+aggregation into loops, including the reverse path; ordinary keeps scatter.
+This establishes the previous default-policy speed bottleneck. The full-run
+accuracy evidence for the new default is reported above.
+
+For an ordinary default run in a shell that previously set the deterministic flag:
+
+```bash
+XLA_FLAGS='' python -m examples.electropolish2d.train --config.train.gpu_policy=ordinary
+```
+
+Switching policy changes floating-point update paths. The completed control
+above validates this default at two seeds. Compiled-step throughput and first
+compilation cost are reported separately in the audit.
+
+Representative current-default checkpoint (untuned seed42):
+`/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float32-seed42/ckpt_005000.eqx`.
+The independent2026 checkpoint is
+`/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float32-seed2026/ckpt_005000.eqx`.
+
+### Historical best individual checkpoint (deterministic FP32)
+
+| Verified final5 s metric | Selected checkpoint |
+|---|---:|
+| phi relative L2,all5151 nodes | 0.0011378188435460965 |
+| c relative L2,all5151 nodes | 0.0013578160145092115 |
+| q relative L2,free nodes | 0.0115080 |
+| Dq relative L2,free nodes | 0.0377613 |
+
+Checkpoint:
+`/root/autodl-tmp/tf-logs/electropolish2d/20261025-data-physical-icrandom_interior-bcrandom-phase-stagger0-seed7/ckpt_005000.eqx`.
+Reference:
+`/root/autodl-tmp/data/electropolish2d/results_matched_graph_20261024.npz`.
+The reference is independent SciPy integration of the same fixed graph, with
+time-refinement discrepancy1.52e-8; it is not the older local-FEM array or a
+continuum-convergence result. Pooled phi/c L2 is0.00213641/0.00260170, distinct
+from the terminal values above.
+
+**Historical deterministic-policy seed limitation:** the same random-data setting with seed42 ends at
+phi/c0.29093/0.29901. The all-node IC/BC + `s_bc` candidate instead gives
+0.002106/0.002518(seed42) and0.002389/0.002869(seed7), but does not beat the
+selected seed7 endpoint. To reproduce that candidate through the same entry,
+set `train.gpu_policy=deterministic`, `train.compute_dtype=float32`,
+`experiment.initial_sampling=matched_graph`,
+`experiment.boundary_sampling=matched_graph`, `experiment.data_loss_mode=s_bc`,
+and the runtime argument `--seed=42`. The best observed seed is not a general strategy guarantee.
+See the [optimization record](../../docs/tasks/archive/electropolish-field-optimization.md),
+[convergence curves](../../docs/tasks/archive/electropolish-convergence-curves.md)
+and [earlier promotion](../../docs/tasks/archive/phasefield-sota-defaults.md).
+
+Empty `log.run_name` generates a fresh timestamped directory. Existing explicit
+names fail; no saved checkpoint is overwritten or automatically resumed.
+Outputs include config/source snapshots, initial/1000-update/final weights,
+TensorBoard, loss/metric JSONL, `prediction.npz` and `summary.json`.
+Models/references load by direct paths with compatibility checks, no file hashes.
+The validated trainer is shared internally with corrosion; `train.py` is the
+canonical user entry. The old301x151/6000-update preset and FD/local controls
+remain under [configs/train_legacy.py](configs/train_legacy.py).
+
+
+### Historical deterministic-policy independent seed check —2026-10-26
+
+The same strategy with new predeclared `--seed=2026`,5000 updates and5 s gives
+terminal phi/c **0.00283171/0.00342674**, with pooled phi/c0.00225795/0.00275241.
+Independent CPU q/Dq free errors are0.0185384/0.0549065. Every column at all21
+times retains one interface. Late4000..5000 phi median is0.00463667,
+range0.00275226–0.00712757: physical fields are accurate, with visible late
+fluctuations. This additional run reproduces low error, but the existing
+seed42 result0.29093/0.29901 remains a counterexample to strategy-wide stability.
+Do not promote a successful seed to a strategy parameter. No fixed-control
+setting was retuned; see the [validation](../../docs/tasks/archive/phasefield-seed-stability.md)
+and [curves](../../docs/tasks/archive/phasefield-seed-stability-results-convergence.png).
+
 ## Motivation
 
-This example is designed as a **killer ablation** for the nonlocal operator
-$D_\delta$ vs finite-difference (FD) / local AD. The left/right boundaries
-have **Neumann (zero-flux) BCs** — no explicit Dirichlet constraints, no BC
-loss terms. The nonlocal operator handles Neumann BCs automatically (simply by
-not sampling *outside* the domain), while FD must truncate its stencil and a
-local PINN must explicitly penalise $\partial\phi/\partial n$ and
-$\partial c/\partial n$ in the loss function.
+This example compares nonlocal, finite-difference (FD) and local AD treatments
+of a rough dissolving interface. Left/right walls have no external transport.
+The graph implements this through in-domain pairs; the FD control truncates
+its stencil. Neither is pointwise identical to a classical Neumann condition
+at finite resolution. A local AD model needs explicit boundary treatment.
 
 The initial interface is a **rough, randomly-generated surface** described by
 a signed-distance function (SDF) to a piecewise-linear profile.
@@ -43,31 +191,19 @@ so there is no flux of either the phase-field or the concentration field across
 the fixture surface.  This is the standard inert-wall assumption used in
 phase-field corrosion and electropolishing models.
 
-### Why nonlocal wins here
+### Boundary interpretation
 
-For a local PINN (standard autograd) or an FD-based discretisation, the Neumann
-condition on the side walls must be enforced *explicitly* — by sampling points
-on $x=0$ and $x=1$ and adding a penalty term $\|\partial\phi/\partial n\|^2 +
-\|\partial c/\partial n\|^2$ to the loss.  This creates a structural conflict:
+In-domain pair interactions have no exchange with points outside the graph.
+This is a discrete no-external-flux model; it does not impose an exact zero
+normal derivative on the neural field at each boundary point. The truncated
+FD graph also supplies discrete boundary treatment without a separate loss.
 
-1. The **initial condition** (rough SDF profile) does **not** satisfy
-   $\partial\phi/\partial n = 0$ on the side walls — the rough interface meets
-   the walls at an angle.
-2. The **Neumann loss** demands $\partial\phi/\partial n \to 0$ immediately.
-
-The optimiser is caught between two competing objectives at early time: the IC
-loss pulls one way, the Neumann loss pulls another.  Mitigating this requires
-careful weight scheduling (bias IC early, ramp Neumann later), adding tuning
-overhead and sacrificing boundary accuracy near $t=0$.
-
-The **nonlocal operator $D_\delta$** avoids this entirely.  It is constructed
-from neighbour pairs *inside* the domain only — there is no stencil outside,
-no explicit boundary condition, and no BC loss term.  The condition
-$\partial/\partial n = 0$ emerges automatically from the fact that points on
-the boundary only interact with interior neighbours.  The IC is free to take
-any shape; $D_\delta$ itself guarantees the zero-flux condition without ever
-asking the optimiser to enforce it.  **The boundary condition and the initial
-condition never conflict.**
+The rough initial profile may not satisfy the classical local Neumann trace
+at time zero. A local PDE can develop an initial boundary layer. Graph and
+local FEM solutions can therefore differ near walls and interfaces, even when
+physical parameters agree. Compare the PINN to direct integration of its own
+graph to isolate training error, and assess convergence toward a local PDE
+separately. This example alone does not establish operator superiority.
 
 ## Governing Equations (Local / Classical)
 
@@ -143,7 +279,7 @@ $$\frac{\partial\phi}{\partial t^*} - N_{\text{AC,3}}\,\nabla^{*2}\phi + N_{\tex
 
 ### Non-dimensional Cahn-Hilliard
 
-$$\frac{\partial c}{\partial t^*} + N_{\text{CH}}\,\nabla^{*2}\!\bigl[c - h(\phi)(c_{Se}-c_{Le}) - c_{Le}\bigr] = 0$$
+$$\frac{\partial c}{\partial t^*} - N_{\text{CH}}\,\nabla^{*2}\!\bigl[c - h(\phi)(c_{Se}-c_{Le}) - c_{Le}\bigr] = 0$$
 
 with $\Delta c_0 = c_{Se} - c_{Le}$.
 
@@ -165,7 +301,7 @@ Edge weights pre-computed from the `SparseD` operator. Supported kernels: `cubic
 
 ### Finite Difference (Ablation)
 
-Setting `--config.nl.method=fd` switches to a 5-point FD Laplacian on the structured grid. The FD stencil is truncated at left/right Neumann boundaries, while the nonlocal operator requires no boundary handling.
+With `configs/train_legacy.py`, setting `--config.nl.method=fd` switches to a 5-point FD Laplacian on the structured grid. The FD stencil is truncated at left/right Neumann boundaries, while the nonlocal operator requires no boundary handling.
 
 ---
 
@@ -214,7 +350,8 @@ electropolish2d/
 ├── losses.py                # Loss functions (AC, CH, BC, IC)
 ├── configs/
 │   ├── solver_base.py       # FEM solver config
-│   └── train_base.py        # PINN training config
+│   ├── train_base.py        # Default observed-field SOTA
+│   └── train_legacy.py      # Historical large-grid/FD/local controls
 ├── README.md
 ```
 
@@ -243,14 +380,15 @@ Output: `.npz` file at `/root/autodl-tmp/data/electropolish2d/results_rough.npz`
 # From project root
 python examples/electropolish2d/train.py --config=examples/electropolish2d/configs/train_base.py
 
-# FD ablation
-python examples/electropolish2d/train.py --config.nl.method=fd --config.log.run_name=fd_run
+# FD ablation (legacy loop, separate reference validation required)
+python examples/electropolish2d/train.py --config=examples/electropolish2d/configs/train_legacy.py \
+    --config.nl.method=fd --config.log.run_name=fd_run
 
 # Spatial minibatch
 python examples/electropolish2d/train.py --config.sample.K_core=400 --config.sample.K_pool=400
 ```
 
-### Key Config Options
+### Legacy-loop Config Options
 
 ```bash
 # Architecture
@@ -285,11 +423,104 @@ python examples/electropolish2d/train.py --config.sample.K_core=400 --config.sam
 
 ### Key Design Decisions
 
-- **Left/Right Neumann BCs are NOT enforced via loss terms** — this is the central ablation that distinguishes nonlocal (handles Neumann naturally) from FD (requires truncated stencil)
+- **Side boundaries have no separate loss term.** The graph omits exterior
+  edges and FD truncates its stencil; these are discrete boundary treatments,
+  without an exact pointwise local Neumann guarantee.
 - **Rough initial interface** is defined by SDF to a piecewise-linear profile, not simple y-distance, for smooth $\phi$ at t=0
 - **IC oversampling** near the interface (`N_ic_local`) ensures the sharp tanh transition is adequately resolved
-- **Hard constraint** (`use_hard_constraint=True`) enforces $c \in [c_{Le}, c_{Se}]$ via sigmoid rescaling, improving physical consistency
+- **Output constraint** (`use_hard_constraint=True`) uses the KKS mixture
+  \(c=c_L+h(\phi)(c_{Se}-c_{Le})\), with bounded \(c_L\); it is independent
+  of the soft initial-condition loss.
 
+
+## Matched residual experiment
+
+The shared [experiment runner](../corrosion2d/residual_experiment.py) compares
+original and transformed phase residuals with the existing KKS output map and
+soft IC/BC losses. Its separate 101x51 sparse-graph preset retains this case's
+physical parameters, rough surface and 5 s horizon. The canonical default
+now uses this validated engine with the SOTA settings above; the research CLI
+retains its historical defaults for archived commands. See the [corrosion experiment instructions](../corrosion2d/README.md#matched-residual-experiment)
+for settings, reference checks and commands; use `--case electropolish2d`.
+The [paired pilot record](../../docs/tasks/archive/coupled-latent-residual-experiments.md)
+documents field errors and extra-interface diagnostics; algebraic equivalence
+does not establish a precision improvement.
+
+The FEM solver now evaluates the same SDF initial function directly, applies
+Dirichlet traces to its initial vector, and uses actual time increments when
+hitting save/final times. Existing reference files are historical: a source
+fix does not update their contents. New graph references have distinct names
+and explicit model/BC/physical-time metadata.
+
+### Research data and temporal-window controls
+
+The shared runner also supports all graph-node analytic ICs (with the same
+Dirichlet overrides as the graph reference), all nodal Dirichlet BCs, and
+`--data-loss-mode s_bc`. This last option fits the existing KKS concentration
+variable \(s=c_L/c_{Le}\) at the boundaries; it changes data-loss coordinates
+and concentration scale while preserving the prescribed physical BCs at zero
+loss. Away from zero loss this is not merely a constant multiplier on total-c
+error, since \(c=c_L+\Delta c\,h(\phi)\) couples the two outputs.
+`s_bc_ic` additionally normalizes IC
+concentration; neither option imposes hard initial conditions.
+
+`--time-ramp-steps R --time-ramp-early a` is a **research-runner sampling**
+curriculum. At zero-based update \(k\), sample the same fixed-size time batch
+uniformly from \([t_{min},T_k]\), with
+
+$$
+T_k=a+(1-a)\min(k/R,1),\qquad R>0.
+$$
+
+The final \(5000-R\) updates cover the full5 s horizon. Disabled by default
+(`loss.t_ramp_steps=0`), it reproduces the original random time samples exactly.
+The early sampling objective intentionally emphasizes the current time window;
+there is no importance correction making it a full-horizon loss before \(R\).
+It introduces no interface-motion/reference-trajectory targets, residual
+weight, network constraint or optimizer reset. Enabled settings require
+\(t_{min}<a<1\), integer \(0<R<\text{iterations}\), and full-horizon endpoint1.
+In this research runner, `loss.t_ramp_early`/`t_ramp_late=1` specify sampling
+endpoints. Canonical matched configs use this sampling mechanism; the helper
+in the explicitly selected legacy loop is a separate time-weight mechanism.
+
+For example, from the repository root with no FEniCS/MPI process running:
+
+```bash
+XLA_FLAGS=--xla_gpu_deterministic_ops=true XLA_PYTHON_CLIENT_PREALLOCATE=false \
+  .venv/bin/python -m examples.corrosion2d.residual_experiment train \
+  --case electropolish2d --formulation phase --seed 42 \
+  --data-loss-mode s_bc --initial-sampling matched_graph \
+  --boundary-sampling matched_graph
+```
+
+This candidate uses SOAP, lr1e-3,5000 updates, the original phase residual and
+full-horizon time sampling. Both initial and boundary values remain soft loss
+terms. Full-grid IC sampling uses5151 analytic initial-value points, rather than
+2000 random IC points; graph-node BCs use101 top and101 bottom points, rather
+than128 random points on each. Positive-time interior reference fields are
+used for evaluation, not supervised training. The update budget is equal;
+computational work is not, because IC sample counts differ.
+
+To test the separate curriculum, add `--time-ramp-steps 3000
+--time-ramp-early 0.05`: the upper time bound starts at0.25 s, reaches5 s at
+index3000, and the last2000 updates cover the full interval. The tested window
+does not beat its original-residual counterparts at the5000 endpoint; it
+reduces extra bands in the full-latent arm, whose physical errors remain higher.
+Compare `--formulation latent` with the same data/time settings when assessing
+the transformation, retaining phi/c L2, q/Dq and interface-count diagnostics.
+
+The [optimization record](../../docs/tasks/archive/electropolish-field-optimization.md)
+contains two-seed validation and direct checkpoint/config paths. The candidate
+avoids the large-field-error seed42 result and has a single interface in both
+tested seeds; seed7's already accurate random-data baseline has smaller terminal
+phi/c and Dq errors, while the candidate improves q. These two seeds do not
+establish universal superiority. The current default explicitly selects the
+best observed random-data seed7 terminal field instead of that candidate.
+
+Completed run directories are preserved; the CLI refuses existing names. For
+a fresh replay, use `train.py` with explicit `--config.experiment.*` overrides
+and a new `--config.log.run_name`. Load saved configs/checkpoints by their
+explicit paths.
 
 ## Project split (2026-10-24)
 
