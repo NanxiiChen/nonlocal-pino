@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "gpu_processes": 6,
+  "short_trajectories": 12,
+  "total_updates": 814,
+  "exact_gpu_initial_arrays": true,
+  "shared_time_arrays_exact": true,
+  "original_adjoint_noise_observed": true,
+  "frozen_gradient_optimizer_repeats_exact": true,
+  "controlled_second_update_amplification_measured": true,
+  "covariance_rank_checked_independently_numpy": true,
+  "original_symmetric_gradient_agreement": true,
+  "parameter_finite_difference_checks": true,
+  "symmetric_inprocess_repeats_exact": true,
+  "deterministic5step_repeats_exact": true,
+  "crossprocess_symmetric_not_exact": true,
+  "crossprocess_kernel_source_not_isolated": true,
+  "production_source_snapshot_bytes_unchanged": true,
+  "full_training_runs_added": 0,
+  "registered_twophase_runs": 29,
+  "archived_raw_files_match": true,
+  "local_links_checked": 61,
+  "task_archived": true,
+  "active_task": null,
+  "git_diff_check": "passed",
+  "git_history_operations": false,
+  "changed_memory_files": [
+    "docs/PROGRESS.md",
+    "docs/DECISIONS.md",
+    "docs/tasks/archive/twophase-repeatability.md"
+  ]
+}

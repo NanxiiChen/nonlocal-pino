@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "steps": 1005,
+  "all_raw_gradients_above_clip": true,
+  "max_parameter_difference_from_numpy": 1.7917844430392904e-09,
+  "absolute_tolerance": 2e-08,
+  "learning_rate_comparison": "ideal real-valued continuous exponential; production scalar schedule FP32",
+  "effective_first_update_call": 2,
+  "weight_decay_passed_by_factory": false
+}

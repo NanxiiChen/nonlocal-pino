@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "root_W_A_B_derivative_max_error": 1.1500578267487072e-10,
+  "away_root_full_weight_derivative_max_error": 2.916422658927331e-10,
+  "similarity_eigenvalues_unchanged": true,
+  "condition_numbers_original_improved_worsened": [
+    500002.4999980001,
+    2.6180339887498953,
+    500000000002.50006
+  ],
+  "diagonal_stiffness_unchanged": true,
+  "constant_left_scaling_exact_Newton_step_unchanged": true,
+  "restricted_least_squares_minimizers": {
+    "raw": -2.3551386880256624e-16,
+    "weighted": 0.9801980198019804
+  },
+  "ideal_linearized_error_metric_identity": true,
+  "scope": "Algebraic illustrations, not measured conditioning or new convergence claims for actual PINNs"
+}

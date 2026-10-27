@@ -1,0 +1,256 @@
+{
+  "status": "completed",
+  "policy": "deterministic",
+  "adjoint": "autodiff",
+  "steps": 5,
+  "exact_training_initial_arrays": true,
+  "operator_dot_product_absolute": 1.7462298274040222e-10,
+  "operator_transpose_repeat": [
+    {
+      "max_absolute": 0.0,
+      "relative_L2": 0.0,
+      "changed_entries": 0
+    },
+    {
+      "max_absolute": 0.0,
+      "relative_L2": 0.0,
+      "changed_entries": 0
+    },
+    {
+      "max_absolute": 0.0,
+      "relative_L2": 0.0,
+      "changed_entries": 0
+    },
+    {
+      "max_absolute": 0.0,
+      "relative_L2": 0.0,
+      "changed_entries": 0
+    }
+  ],
+  "operator_transpose_oracle": {
+    "max_absolute": 1.4551915228366852e-11,
+    "relative_L2": 2.3372684186537203e-16,
+    "changed_entries": 6297
+  },
+  "frozen_loss": [
+    10.29859750798121,
+    10.29859750798121,
+    10.29859750798121,
+    10.29859750798121,
+    10.29859750798121
+  ],
+  "frozen_gradient_repeat": [
+    {
+      "max_absolute": 0.0,
+      "relative_L2": 0.0,
+      "changed_entries": 0
+    },
+    {
+      "max_absolute": 0.0,
+      "relative_L2": 0.0,
+      "changed_entries": 0
+    },
+    {
+      "max_absolute": 0.0,
+      "relative_L2": 0.0,
+      "changed_entries": 0
+    },
+    {
+      "max_absolute": 0.0,
+      "relative_L2": 0.0,
+      "changed_entries": 0
+    }
+  ],
+  "frozen_gradient_seconds_including_compile": 16.084643311798573,
+  "optimizer_identical_gradient_repeat": [
+    {
+      "updates": {
+        "max_absolute": 0.0,
+        "relative_L2": null,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      }
+    },
+    {
+      "updates": {
+        "max_absolute": 0.0,
+        "relative_L2": null,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      }
+    }
+  ],
+  "gradient_to_soap_amplification": [
+    {
+      "gradient": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "second_update": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      }
+    },
+    {
+      "gradient": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "second_update": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      }
+    },
+    {
+      "gradient": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "second_update": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      }
+    },
+    {
+      "gradient": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "second_update": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      }
+    }
+  ],
+  "path_seconds": [
+    10.262770533561707,
+    4.000310443341732
+  ],
+  "path_repeat": [
+    {
+      "step": 1,
+      "parameters": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "loss_absolute": 0.0
+    },
+    {
+      "step": 2,
+      "parameters": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "loss_absolute": 0.0
+    },
+    {
+      "step": 5,
+      "parameters": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "loss_absolute": 0.0
+    }
+  ],
+  "reference_field_values_in_loss": false,
+  "source_run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-matched-nonlocal"
+}

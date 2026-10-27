@@ -1,0 +1,64 @@
+{
+  "status": "passed",
+  "identity": {
+    "case": "twophase2d-periodic-prescribed-flow",
+    "schema": 1,
+    "geometry": {
+      "length": 1.0
+    },
+    "physical": {
+      "epsilon": 0.05,
+      "mobility": 0.002,
+      "terminal_time": 1.0,
+      "velocity": [
+        0.2,
+        0.1
+      ]
+    },
+    "initial": {
+      "center": [
+        0.35,
+        0.5
+      ],
+      "level": 0.3,
+      "width": 0.12
+    },
+    "grid": [
+      32,
+      32
+    ],
+    "delta": 0.08,
+    "kernel": "cubic",
+    "normalization": "discrete_second_moment"
+  },
+  "checks": {
+    "graph_time": {
+      "pooled_phi": 7.736762884889275e-08,
+      "terminal_phi": 8.299760595835136e-08
+    },
+    "local_time": {
+      "pooled_phi": 6.732698237813386e-08,
+      "terminal_phi": 7.163920865056521e-08
+    },
+    "local_space": {
+      "pooled_phi": 1.4885444279274327e-10,
+      "terminal_phi": 2.065124817522564e-11
+    },
+    "graph_vs_local": {
+      "pooled_phi": 0.008993733961985715,
+      "terminal_phi": 0.008197705242918393
+    },
+    "local_mass_max_drift": 0.0,
+    "nonlocal_mass_max_drift": 1.1102230246251565e-16
+  },
+  "method": "Independent Fourier IMEX-BDF2; no PINN operator import",
+  "configuration": {
+    "dt": 0.0002,
+    "error_tolerance": 0.002,
+    "local_grid": 64,
+    "path": "/root/autodl-tmp/data/twophase2d/results_periodic_pilot.npz",
+    "refined_dt": 0.0001,
+    "refined_local_grid": 128,
+    "snapshots": 21
+  }
+}

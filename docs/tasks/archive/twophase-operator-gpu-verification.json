@@ -1,0 +1,270 @@
+{
+  "status": "passed",
+  "runs": [
+    {
+      "stage": "preconditioning",
+      "arm": "original",
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-operator-original",
+      "initial_arrays_exact": true,
+      "gpu_replay_max_absolute": 0.0,
+      "replay_absolute_tolerance": 5e-06,
+      "modes": [
+        0.8642838597297668,
+        1.6321595907211304,
+        2.890331268310547
+      ],
+      "periodic_frequencies_fixed": false,
+      "trained_boundary_value_gap": 0.1207883208990097,
+      "physical_identity_validated": true,
+      "compute_dtype": "float32"
+    },
+    {
+      "stage": "preconditioning",
+      "arm": "cubic",
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-operator-cubic",
+      "initial_arrays_exact": true,
+      "gpu_replay_max_absolute": 0.0,
+      "replay_absolute_tolerance": 5e-06,
+      "modes": [
+        0.7609899044036865,
+        1.7468743324279785,
+        2.9838151931762695
+      ],
+      "periodic_frequencies_fixed": false,
+      "trained_boundary_value_gap": 0.17240147292613983,
+      "physical_identity_validated": true,
+      "compute_dtype": "float32"
+    },
+    {
+      "stage": "preconditioning",
+      "arm": "schur",
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-operator-schur",
+      "initial_arrays_exact": true,
+      "gpu_replay_max_absolute": 0.0,
+      "replay_absolute_tolerance": 5e-06,
+      "modes": [
+        0.6922764182090759,
+        1.804545283317566,
+        2.8491315841674805
+      ],
+      "periodic_frequencies_fixed": false,
+      "trained_boundary_value_gap": 0.13296201825141907,
+      "physical_identity_validated": true,
+      "compute_dtype": "float32"
+    },
+    {
+      "stage": "preconditioning",
+      "arm": "cubic_schur",
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-operator-cubic_schur",
+      "initial_arrays_exact": true,
+      "gpu_replay_max_absolute": 0.0,
+      "replay_absolute_tolerance": 5e-06,
+      "modes": [
+        0.8824827671051025,
+        1.7245540618896484,
+        2.978557825088501
+      ],
+      "periodic_frequencies_fixed": false,
+      "trained_boundary_value_gap": 0.08613459765911102,
+      "physical_identity_validated": true,
+      "compute_dtype": "float32"
+    },
+    {
+      "stage": "refinement",
+      "arm": "original",
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-refined-original",
+      "initial_arrays_exact": true,
+      "gpu_replay_max_absolute": 0.0,
+      "replay_absolute_tolerance": 1e-10,
+      "modes": [
+        1.0,
+        2.0,
+        3.0
+      ],
+      "periodic_frequencies_fixed": true,
+      "trained_boundary_value_gap": 4.107825191113079e-15,
+      "physical_identity_validated": true,
+      "compute_dtype": "float64"
+    },
+    {
+      "stage": "refinement",
+      "arm": "cubic",
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-refined-cubic",
+      "initial_arrays_exact": true,
+      "gpu_replay_max_absolute": 0.0,
+      "replay_absolute_tolerance": 1e-10,
+      "modes": [
+        1.0,
+        2.0,
+        3.0
+      ],
+      "periodic_frequencies_fixed": true,
+      "trained_boundary_value_gap": 1.7763568394002505e-15,
+      "physical_identity_validated": true,
+      "compute_dtype": "float64"
+    },
+    {
+      "stage": "refinement",
+      "arm": "cubic_schur",
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-refined-cubic_schur",
+      "initial_arrays_exact": true,
+      "gpu_replay_max_absolute": 0.0,
+      "replay_absolute_tolerance": 1e-10,
+      "modes": [
+        1.0,
+        2.0,
+        3.0
+      ],
+      "periodic_frequencies_fixed": true,
+      "trained_boundary_value_gap": 1.078998002057574e-15,
+      "physical_identity_validated": true,
+      "compute_dtype": "float64"
+    },
+    {
+      "stage": "resolution",
+      "arm": "cubic_resolved",
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-resolved-cubic_resolved",
+      "initial_arrays_exact": true,
+      "gpu_replay_max_absolute": 0.0,
+      "replay_absolute_tolerance": 1e-10,
+      "modes": [
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0,
+        7.0,
+        8.0
+      ],
+      "periodic_frequencies_fixed": true,
+      "trained_boundary_value_gap": 1.1102230246251565e-15,
+      "physical_identity_validated": true,
+      "compute_dtype": "float64"
+    },
+    {
+      "stage": "resolution",
+      "arm": "causal",
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-resolved-causal",
+      "initial_arrays_exact": true,
+      "gpu_replay_max_absolute": 0.0,
+      "replay_absolute_tolerance": 1e-10,
+      "modes": [
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0,
+        7.0,
+        8.0
+      ],
+      "periodic_frequencies_fixed": true,
+      "trained_boundary_value_gap": 8.049116928532385e-16,
+      "physical_identity_validated": true,
+      "compute_dtype": "float64"
+    },
+    {
+      "stage": "conserved",
+      "arm": "consistent",
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-conserved-consistent",
+      "initial_arrays_exact": true,
+      "gpu_replay_max_absolute": 0.0,
+      "replay_absolute_tolerance": 1e-10,
+      "modes": [
+        1.0,
+        2.0,
+        3.0
+      ],
+      "periodic_frequencies_fixed": true,
+      "trained_boundary_value_gap": 2.4424906541753444e-15,
+      "physical_identity_validated": true,
+      "compute_dtype": "float64"
+    },
+    {
+      "stage": "conserved",
+      "arm": "conserved",
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-conserved-conserved",
+      "initial_arrays_exact": true,
+      "gpu_replay_max_absolute": 0.0,
+      "replay_absolute_tolerance": 1e-10,
+      "modes": [
+        1.0,
+        2.0,
+        3.0
+      ],
+      "periodic_frequencies_fixed": true,
+      "trained_boundary_value_gap": 1.8769708010069053e-15,
+      "physical_identity_validated": true,
+      "compute_dtype": "float64"
+    },
+    {
+      "stage": "conserved",
+      "arm": "causal_conserved",
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-conserved-causal_conserved",
+      "initial_arrays_exact": true,
+      "gpu_replay_max_absolute": 0.0,
+      "replay_absolute_tolerance": 1e-10,
+      "modes": [
+        1.0,
+        2.0,
+        3.0
+      ],
+      "periodic_frequencies_fixed": true,
+      "trained_boundary_value_gap": 1.7763568394002505e-15,
+      "physical_identity_validated": true,
+      "compute_dtype": "float64"
+    },
+    {
+      "stage": "initial-time",
+      "arm": "initial_time",
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-initial-initial_time",
+      "initial_arrays_exact": true,
+      "gpu_replay_max_absolute": 0.0,
+      "replay_absolute_tolerance": 1e-10,
+      "modes": [
+        1.0,
+        2.0,
+        3.0
+      ],
+      "periodic_frequencies_fixed": true,
+      "trained_boundary_value_gap": 2.220446049250313e-15,
+      "physical_identity_validated": true,
+      "compute_dtype": "float64"
+    },
+    {
+      "stage": "confirmation",
+      "arm": "seed42",
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-accuracy-seed42",
+      "initial_arrays_exact": true,
+      "gpu_replay_max_absolute": 0.0,
+      "replay_absolute_tolerance": 1e-10,
+      "modes": [
+        1.0,
+        2.0,
+        3.0
+      ],
+      "periodic_frequencies_fixed": true,
+      "trained_boundary_value_gap": 3.3237301799715624e-15,
+      "physical_identity_validated": true,
+      "compute_dtype": "float64"
+    },
+    {
+      "stage": "confirmation",
+      "arm": "seed2026",
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-accuracy-seed2026",
+      "initial_arrays_exact": true,
+      "gpu_replay_max_absolute": 0.0,
+      "replay_absolute_tolerance": 1e-10,
+      "modes": [
+        1.0,
+        2.0,
+        3.0
+      ],
+      "periodic_frequencies_fixed": true,
+      "trained_boundary_value_gap": 1.7763568394002505e-15,
+      "physical_identity_validated": true,
+      "compute_dtype": "float64"
+    }
+  ]
+}

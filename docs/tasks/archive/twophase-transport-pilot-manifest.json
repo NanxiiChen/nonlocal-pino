@@ -1,0 +1,36 @@
+{
+  "status": "completed",
+  "maximum_GPU_workers": 1,
+  "runs": [
+    {
+      "method": "nonlocal",
+      "seed_as_run_provenance": 42,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config.nl.method=nonlocal",
+        "--config.log.run_name=20261026-periodic-transport-nonlocal"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261026-periodic-transport-nonlocal",
+      "status": "completed",
+      "returncode": 0,
+      "wall_seconds": 72.44853496551514
+    },
+    {
+      "method": "local_ad",
+      "seed_as_run_provenance": 42,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config.nl.method=local_ad",
+        "--config.log.run_name=20261026-periodic-transport-local_ad"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261026-periodic-transport-local_ad",
+      "status": "completed",
+      "returncode": 0,
+      "wall_seconds": 96.82882522046566
+    }
+  ]
+}

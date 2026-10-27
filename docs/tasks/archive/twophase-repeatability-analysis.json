@@ -1,0 +1,58 @@
+{
+  "status": "passed",
+  "purpose": "Locate same-seed early differences; no full L2/production-fix claim",
+  "process_count": 6,
+  "short_trajectories": 12,
+  "total_updates": 814,
+  "fixed_seed": 42,
+  "exact_training_initial_arrays": true,
+  "identical_time_arrays": true,
+  "ordinary_frozen_loss_equal": true,
+  "ordinary_frozen_gradient_max_absolute": 1.3877787807814457e-17,
+  "ordinary_operator_transpose_max_relative_variation": 1.4349595955279143e-16,
+  "common_second_gradient_update_relative_range": [
+    0.2526647932083582,
+    0.2646704318050954
+  ],
+  "ordinary_100step_parameter_relative_difference": 0.32126122484088243,
+  "first_parameter_difference_step": 2,
+  "frozen_gradient_optimizer_repeats_exact": true,
+  "symmetric_inprocess_100step_repeats_exact": true,
+  "deterministic_inprocess_5step_repeats_exact": true,
+  "original_symmetric_gradient_agreement": {
+    "max_absolute": 1.3877787807814457e-17,
+    "relative_L2": 7.45610064584584e-17
+  },
+  "rank_deficient_example": {
+    "path": ".net.output.weight[<flat index 1>]",
+    "size": 64,
+    "numerical_rank": 2,
+    "threshold": 4.62093395548332e-18,
+    "min_eigenvalue": -8.467133538548435e-20,
+    "max_eigenvalue": 0.00032516931937528673
+  },
+  "independent_process_symmetric": {
+    "identical_time_arrays": true,
+    "identical_numerical_probe_source": "v2 for both; only output name differs",
+    "frozen_loss_equal": true,
+    "frozen_gradient_max_absolute": 6.938893903907228e-18,
+    "frozen_gradient_relative_L2": 2.609503630365254e-17,
+    "parameters100_max_absolute": 0.24350535083961744,
+    "parameters100_relative_L2": 0.2967936094935928,
+    "model_bytes_equal": false,
+    "covariance_max_absolute": 2.541098841762901e-21,
+    "limitation": "Equivalent pullback removes tested in-process noise; independent processes still differ. Exact compiler/kernel source not isolated."
+  },
+  "interpretation": [
+    "Standard operator reverse scatter accumulation produces measured within-process gradient noise.",
+    "Near-null initial SOAP covariance amplifies tiny gradient differences into materially different actual updates.",
+    "Equal frozen-gradient optimizer repetitions are exact for tested inputs; not evidence of random eigensolver noise.",
+    "Symmetric adjoint and deterministic execution isolate within-process trigger but do not establish full cross-process/full-training reproducibility.",
+    "Final L2 disparity is compatible with this measured pathway; its precise size and all later-stage sources are not uniquely attributed."
+  ],
+  "next_protocol": "Stabilize/validate SOAP weak-direction initialization or a numerically robust equivalent before long repeated runs. First use two identical-seed full runs; then a predeclared small paired-seed local/nonlocal cohort. Retain all outcomes; report mean/std/range and equal-wall accuracy.",
+  "defaults_changed": false,
+  "production_code_changed": false,
+  "reference_changed": false,
+  "git_history_changed": false
+}

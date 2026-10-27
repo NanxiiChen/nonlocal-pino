@@ -1,0 +1,66 @@
+{
+  "status": "completed",
+  "runs": [
+    {
+      "arm": "original",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex.py",
+        "--config.log.run_name=20261027-vortex-operator-original"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-operator-original",
+      "status": "completed",
+      "seed": 42,
+      "returncode": 0,
+      "wall_seconds": 83.86955908313394
+    },
+    {
+      "arm": "cubic",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_cubic.py",
+        "--config.log.run_name=20261027-vortex-operator-cubic"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-operator-cubic",
+      "status": "completed",
+      "seed": 42,
+      "returncode": 0,
+      "wall_seconds": 87.51658840477467
+    },
+    {
+      "arm": "schur",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_schur.py",
+        "--config.log.run_name=20261027-vortex-operator-schur"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-operator-schur",
+      "status": "completed",
+      "seed": 42,
+      "returncode": 0,
+      "wall_seconds": 83.53351369127631
+    },
+    {
+      "arm": "cubic_schur",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_cubic_schur.py",
+        "--config.log.run_name=20261027-vortex-operator-cubic_schur"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-operator-cubic_schur",
+      "status": "completed",
+      "seed": 42,
+      "returncode": 0,
+      "wall_seconds": 87.89456683769822
+    }
+  ],
+  "max_gpu_workers": 1
+}

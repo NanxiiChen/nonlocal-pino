@@ -1,0 +1,71 @@
+{
+  "historical_run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-conserved-conserved",
+  "fresh_run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-matched-nonlocal",
+  "config_equal_excluding_name": true,
+  "initial_checkpoint_bytes_equal": true,
+  "first_loss_equal": true,
+  "historical_first_three_losses": [
+    {
+      "step": 1,
+      "total": 10.29859750798121,
+      "parts": [
+        10.295171446219928,
+        0.0034260617612815484,
+        2.1570415377137042e-32
+      ]
+    },
+    {
+      "step": 100,
+      "total": 9.242174501078598,
+      "parts": [
+        9.237414915008422,
+        0.0047595860701746765,
+        6.162975822039155e-33
+      ]
+    },
+    {
+      "step": 200,
+      "total": 3.3297369990312626,
+      "parts": [
+        3.321144897703438,
+        0.00859210132782438,
+        1.6948183510607676e-32
+      ]
+    }
+  ],
+  "fresh_first_three_losses": [
+    {
+      "step": 1,
+      "total": 10.29859750798121,
+      "parts": [
+        10.295171446219928,
+        0.0034260617612815484,
+        2.1570415377137042e-32
+      ]
+    },
+    {
+      "step": 100,
+      "total": 9.259329122553266,
+      "parts": [
+        9.254126078930584,
+        0.0052030436226825644,
+        1.8488927466117464e-32
+      ]
+    },
+    {
+      "step": 200,
+      "total": 3.196673427195739,
+      "parts": [
+        3.188539318282214,
+        0.008134108913524807,
+        2.0029671421627253e-32
+      ]
+    }
+  ],
+  "changed_python_sources": {
+    "examples/twophase2d/problem.py": "--- \n+++ \n@@ -46,13 +46,16 @@\n         raise ValueError('Explicit sample.time_rule must be open_stratified')\n     if 'time_rule' in c.sample and 4*np.finfo(np.float32).eps*c.sample.Nt >= .5:\n         raise ValueError('Too many time bins to keep FP32 sample intervals distinct')\n+    if 'include_initial_time' in c.sample:\n+        if not isinstance(c.sample.include_initial_time, bool):\n+            raise ValueError('sample.include_initial_time must be an explicit boolean')\n+        if c.sample.include_initial_time:\n+            if 'preconditioner' in c and c.preconditioner.kind == 'ch_causal':\n+                raise ValueError('Causal residual metric requires positive times; t=0 is not an invertible interval')\n     if 'phase_mass' in c and c.phase_mass != 'exact_grid_mean':\n         raise ValueError('phase_mass must be exact_grid_mean')\n     if 'advection' in c and c.advection != 'spectral_flux':\n         raise ValueError('Explicit advection must be spectral_flux')\n-    if 'initial_pde_weight' in c.loss:\n-        if not np.isfinite(c.loss.initial_pde_weight) or c.loss.initial_pde_weight <= 0:\n-            raise ValueError('loss.initial_pde_weight must be positive finite')\n     for v in (c.geometry.length, c.physical.epsilon, c.physical.mobility,\n               c.physical.terminal_time, c.initial.width, c.train.lr_init):\n         if not np.isfinite(v) or v <= 0:\n@@ -110,6 +113,8 @@\n     if 'residual' in c and c.residual.mode.startswith('map_'):\n         if c.phase.map != 'leaky_tanh':\n             raise ValueError('map_ residual modes require the leaky_tanh phase map')\n+        if 'phase_mass' in c:\n+            raise ValueError('Pointwise inverse-map residuals are incompatible with the spatially coupled mass projection')\n     if 'preconditioner' in c:\n         if c.preconditioner.kind not in ('ch_schur', 'ch_causal'):\n             raise ValueError('preconditioner.kind must be ch_schur or ch_causal')\n",
+    "examples/twophase2d/losses.py": "--- \n+++ \n@@ -53,9 +53,6 @@\n     residuals = make_residual_fn(x_all, D, config)\n     weights = jnp.asarray([config.loss.phase_weight, config.loss.chemical_weight,\n                            config.loss.mass_weight], dtype=x_all.dtype)\n-    initial_anchor = 'initial_pde_weight' in config.loss\n-    if initial_anchor:\n-        weights = jnp.concatenate((weights, jnp.full(2, config.loss.initial_pde_weight, dtype=x_all.dtype)))\n     # Original and extended configuration schemas are deliberately distinct.\n     transformed = 'residual' in config and config.residual.mode != 'original'\n     schur = (make_schur_transform(D, config, dtype=x_all.dtype)\n@@ -64,6 +61,8 @@\n               if 'preconditioner' in config and config.preconditioner.kind == 'ch_causal' else None)\n \n     def loss_fn(net, times, initial_mean):\n+        if 'include_initial_time' in config.sample and config.sample.include_initial_time:\n+            times = jnp.concatenate((jnp.zeros(1, dtype=times.dtype), times))\n         residual, phi = jax.vmap(residuals, in_axes=(None, 0))(net, times)\n         if schur is not None:\n             residual = jax.vmap(schur)(residual)\n@@ -81,8 +80,5 @@\n             residual = residual*factors\n         parts = jnp.concatenate((jnp.mean(residual**2, axis=(0, 1)),\n                                  jnp.mean((jnp.mean(phi, axis=1)-initial_mean)**2)[None]))\n-        if initial_anchor:\n-            initial_residual, _ = residuals(net, jnp.asarray(0., dtype=x_all.dtype))\n-            parts = jnp.concatenate((parts, jnp.mean(initial_residual**2, axis=0)))\n         return jnp.dot(weights, parts), parts\n     return loss_fn\n",
+    "examples/twophase2d/refinement.py": "--- \n+++ \n@@ -57,6 +57,7 @@\n         total_function_evaluations=counts['function_evaluations'], final_loss=float(result.fun),\n         final_gradient_inf_norm=float(np.max(np.abs(result.jac))),\n         wall_seconds=time.perf_counter()-start, time_points=np.asarray(times).tolist(),\n+        includes_initial_pde_time=('include_initial_time' in config.sample and config.sample.include_initial_time),\n         training_targets='PDE/phase mass only; no reference field values')\n     (run/'refinement_summary.json').write_text(json.dumps(record, indent=2, allow_nan=False)+'\\n')\n     return final, record\n"
+  },
+  "interpretation": "Inactive optional config branches/validation/metadata differ; first objective identical but subsequent adaptive trajectories differ. No unique cause isolated; preserve fresh outcome."
+}

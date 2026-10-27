@@ -1,0 +1,2 @@
+# Verbatim upstream audit evidence retains original whitespace and license bytes.
+docs/tasks/archive/soap-implementation-audit-evidence/sources/* -whitespace

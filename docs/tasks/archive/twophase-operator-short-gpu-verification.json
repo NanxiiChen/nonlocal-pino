@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "runs": [
+    {
+      "stage": "short-confirmation",
+      "arm": "seed2026",
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-short-seed2026",
+      "initial_arrays_exact": true,
+      "gpu_replay_max_absolute": 0.0,
+      "replay_absolute_tolerance": 1e-10,
+      "modes": [
+        1.0,
+        2.0,
+        3.0
+      ],
+      "periodic_frequencies_fixed": true,
+      "trained_boundary_value_gap": 1.7763568394002505e-15,
+      "physical_identity_validated": true,
+      "compute_dtype": "float64"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "installed_version": "0.2.2",
+  "author_revision": "a1e553530fde97d0e6b307d7c82ac6d38b072340",
+  "jax_revision": "a7c92f174c49b13136294a94ae0d46266b4f671f",
+  "independent_revision": "8281be7c1dc39669328fe5b462eff10817b19175",
+  "author_latest_checked": true,
+  "jax_latest_checked": true,
+  "installed_source_equals_remote": true,
+  "installed_source_equals_prior_diagnosis": true,
+  "independent_class_loading": "Exact AST class bodies plus exact base/exception class sources; omit unrelated package imports; only dense real, merge_dims=False paths tested.",
+  "no_file_hash_computation": true
+}

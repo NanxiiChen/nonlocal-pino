@@ -1,0 +1,38 @@
+{
+  "status": "completed",
+  "runs": [
+    {
+      "arm": "seed42",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_accuracy.py",
+        "--seed=42",
+        "--config.log.run_name=20261027-vortex-accuracy-seed42"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-accuracy-seed42",
+      "status": "completed",
+      "seed": 42,
+      "returncode": 0,
+      "wall_seconds": 365.44258312508464
+    },
+    {
+      "arm": "seed2026",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_accuracy.py",
+        "--seed=2026",
+        "--config.log.run_name=20261027-vortex-accuracy-seed2026"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-accuracy-seed2026",
+      "status": "completed",
+      "seed": 2026,
+      "returncode": 0,
+      "wall_seconds": 363.70305627956986
+    }
+  ],
+  "max_gpu_workers": 1
+}

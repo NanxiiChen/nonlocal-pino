@@ -88,6 +88,38 @@ inherited settings. Deterministic policy remains an explicit override. The full
 selection evidence and limitations are in the example READMEs and archived
 ordinary-policy-defaults task. No physical operator was changed by this promotion.
 
+The `twophase2d` pilot has a separate mixed advective-CH loop and case-local
+periodic moment-calibrated operator. It prescribes velocity and solves no NS.
+Its constant-flow base and explicit train_vortex reversed-vortex preset share
+the canonical train.py entry. Velocity accepts a historical two-vector or an
+explicit reversed_vortex record; serialized physical identity is preserved.
+Its CPU Fourier reference imports no JAX/PINN operator; local and finite-horizon
+reference errors are kept separate. It does not alter established case defaults.
+Explicit train_vortex_residual/train_vortex_latent presets test bounded physical-
+field weights and exact inverse-map Jacobian norms separately. The optional
+phase/residual records form documented config extensions; missing records retain
+the historical additive/original schema. The leaky-tanh map is unbounded and
+preserves phase IC through differences, with independently checked fixed Newton
+inverse. New static network fields add no serialized parameter leaves; direct
+legacy checkpoint replay is checked. Do not identify a map-only gain as evidence
+for residual scaling or enforce strict tanh bounds on overshooting CH solutions.
+
+The two-phase accuracy controls additionally support an analytic inverse-cubic
+phase coordinate, frozen spatial/time-coupled CH residual metrics and explicit
+FP64 PDE-only L-BFGS refinement. Research presets use conservative spectral
+flux advection and optional exact full-grid mass projection through
+`twophase2d.fields.predict_fields`; all physical training/evaluation/replay paths
+must use this wrapper. Raw point network calls are provisional under projection.
+The explicit train_vortex_conserved_local control changes only diffusion to
+local AD Hessian traces; spectral flux and the projected-field time JVP remain
+identical. Its point-network Hessian is valid because the grid mass shift is
+constant in a spatial query. Compare fields against one common reference and
+keep native targets separate.
+Integer spatial feature frequencies have stopped parameter gradients; older
+checkpoints with drifted frequencies remain loadable but are not hard-periodic.
+Do not silently round historical modes or identify changes in spatial
+discretization/constraints/optimizer budget as scalar-preconditioner gains.
+
 ## Artifact Paths
 
 Load models, configs and reference arrays by explicit file path. Do not introduce
@@ -134,3 +166,17 @@ Operator implementation is preserved as one module inside `operators/` pending
 separately justified subdivision.
 
 See migration/source-map.json for old-to-new source ownership.
+
+## SOAP implementation provenance
+
+The shared factory currently imports pinned SOAP_JAX0.2.2 (pyproject.toml and
+uv source revision). A source/parity audit against author PyTorch and independent
+pytorch_optimizer is archived in tasks/archive/soap-implementation-audit.md.
+It verifies the tested initialization/count/projection/refresh/moment paths and
+the real factory clipping/LR recurrence; it does not establish immunity to
+rank-deficient initialization sensitivity. The older upstream stale-EMA defect
+is already fixed in the installed version. Reference implementations differ in
+precision and nonzero weight-decay order; current factory uses zero decay.
+Do not silently replace a dependency/default or compare native eigenbases
+bitwise across frameworks. Preserve old checkpoint/artifact paths and record
+any future algorithm/precision change separately from numerical bug repairs.

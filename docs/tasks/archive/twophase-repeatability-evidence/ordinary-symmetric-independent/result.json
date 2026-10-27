@@ -1,0 +1,434 @@
+{
+  "status": "completed",
+  "policy": "ordinary",
+  "adjoint": "symmetric",
+  "steps": 100,
+  "exact_training_initial_arrays": true,
+  "operator_dot_product_absolute": 1.7462298274040222e-10,
+  "operator_transpose_repeat": [
+    {
+      "max_absolute": 1.4551915228366852e-11,
+      "relative_L2": 1.3871668258359492e-16,
+      "changed_entries": 4564
+    },
+    {
+      "max_absolute": 1.4551915228366852e-11,
+      "relative_L2": 1.3886084336507803e-16,
+      "changed_entries": 4544
+    },
+    {
+      "max_absolute": 1.0913936421275139e-11,
+      "relative_L2": 1.4265459068878963e-16,
+      "changed_entries": 4567
+    },
+    {
+      "max_absolute": 1.4551915228366852e-11,
+      "relative_L2": 1.4154163377739175e-16,
+      "changed_entries": 4574
+    }
+  ],
+  "operator_transpose_oracle": {
+    "max_absolute": 2.1827872842550278e-11,
+    "relative_L2": 3.029335405214037e-16,
+    "changed_entries": 6560
+  },
+  "frozen_loss": [
+    10.29859750798121,
+    10.29859750798121,
+    10.29859750798121,
+    10.29859750798121,
+    10.29859750798121
+  ],
+  "frozen_gradient_repeat": [
+    {
+      "max_absolute": 0.0,
+      "relative_L2": 0.0,
+      "changed_entries": 0
+    },
+    {
+      "max_absolute": 0.0,
+      "relative_L2": 0.0,
+      "changed_entries": 0
+    },
+    {
+      "max_absolute": 0.0,
+      "relative_L2": 0.0,
+      "changed_entries": 0
+    },
+    {
+      "max_absolute": 0.0,
+      "relative_L2": 0.0,
+      "changed_entries": 0
+    }
+  ],
+  "frozen_gradient_seconds_including_compile": 11.584027137607336,
+  "optimizer_identical_gradient_repeat": [
+    {
+      "updates": {
+        "max_absolute": 0.0,
+        "relative_L2": null,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      }
+    },
+    {
+      "updates": {
+        "max_absolute": 0.0,
+        "relative_L2": null,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      }
+    }
+  ],
+  "gradient_to_soap_amplification": [
+    {
+      "gradient": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "second_update": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      }
+    },
+    {
+      "gradient": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "second_update": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      }
+    },
+    {
+      "gradient": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "second_update": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      }
+    },
+    {
+      "gradient": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "second_update": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      }
+    }
+  ],
+  "covariance_spectra": [
+    {
+      "path": ".net.temporal_emb.kernel[<flat index 0>]",
+      "size": 1,
+      "numerical_rank": 1,
+      "threshold": 2.531315704850464e-23,
+      "min_eigenvalue": 1.1400032465121635e-07,
+      "max_eigenvalue": 1.1400032465121635e-07
+    },
+    {
+      "path": ".net.temporal_emb.kernel[<flat index 1>]",
+      "size": 8,
+      "numerical_rank": 1,
+      "threshold": 2.0250525638803713e-22,
+      "min_eigenvalue": -4.663700027522722e-24,
+      "max_eigenvalue": 1.1400032465121635e-07
+    },
+    {
+      "path": ".net.layers[0].weight[<flat index 0>]",
+      "size": 64,
+      "numerical_rank": 20,
+      "threshold": 8.046494063499758e-20,
+      "min_eigenvalue": -9.975680827323308e-22,
+      "max_eigenvalue": 5.662216822815065e-06
+    },
+    {
+      "path": ".net.layers[0].weight[<flat index 1>]",
+      "size": 28,
+      "numerical_rank": 20,
+      "threshold": 3.520341152781143e-20,
+      "min_eigenvalue": -1.2580912047424362e-22,
+      "max_eigenvalue": 5.662216822815063e-06
+    },
+    {
+      "path": ".net.layers[1].weight[<flat index 0>]",
+      "size": 64,
+      "numerical_rank": 63,
+      "threshold": 1.2139036687209922e-19,
+      "min_eigenvalue": 1.0212610554880397e-20,
+      "max_eigenvalue": 8.542087672055529e-06
+    },
+    {
+      "path": ".net.layers[1].weight[<flat index 1>]",
+      "size": 64,
+      "numerical_rank": 63,
+      "threshold": 1.2139036687209922e-19,
+      "min_eigenvalue": 1.0293550011333703e-20,
+      "max_eigenvalue": 8.542087672055529e-06
+    },
+    {
+      "path": ".net.layers[2].weight[<flat index 0>]",
+      "size": 64,
+      "numerical_rank": 62,
+      "threshold": 1.6326502753004735e-19,
+      "min_eigenvalue": 9.908465475677471e-23,
+      "max_eigenvalue": 1.1488754955421172e-05
+    },
+    {
+      "path": ".net.layers[2].weight[<flat index 1>]",
+      "size": 64,
+      "numerical_rank": 62,
+      "threshold": 1.6326502753004735e-19,
+      "min_eigenvalue": -2.0493596931317989e-22,
+      "max_eigenvalue": 1.1488754955421172e-05
+    },
+    {
+      "path": ".net.layers[3].weight[<flat index 0>]",
+      "size": 64,
+      "numerical_rank": 50,
+      "threshold": 4.390517992450623e-19,
+      "min_eigenvalue": -1.0904907309013017e-22,
+      "max_eigenvalue": 3.0895523741818884e-05
+    },
+    {
+      "path": ".net.layers[3].weight[<flat index 1>]",
+      "size": 64,
+      "numerical_rank": 50,
+      "threshold": 4.390517992450624e-19,
+      "min_eigenvalue": -6.749753896741738e-22,
+      "max_eigenvalue": 3.089552374181889e-05
+    },
+    {
+      "path": ".net.output.weight[<flat index 0>]",
+      "size": 2,
+      "numerical_rank": 2,
+      "threshold": 1.4440418610885377e-19,
+      "min_eigenvalue": 1.5447706536952584e-07,
+      "max_eigenvalue": 0.0003251693193752868
+    },
+    {
+      "path": ".net.output.weight[<flat index 1>]",
+      "size": 64,
+      "numerical_rank": 2,
+      "threshold": 4.620933955483322e-18,
+      "min_eigenvalue": -7.21800845790312e-20,
+      "max_eigenvalue": 0.0003251693193752869
+    }
+  ],
+  "parameter_finite_difference": {
+    "analytic": -0.09491148672180363,
+    "finite": -0.09491148311724373
+  },
+  "path_seconds": [
+    7.866877216845751,
+    1.664636678993702
+  ],
+  "path_repeat": [
+    {
+      "step": 1,
+      "parameters": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "loss_absolute": 0.0
+    },
+    {
+      "step": 2,
+      "parameters": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "loss_absolute": 0.0
+    },
+    {
+      "step": 5,
+      "parameters": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "loss_absolute": 0.0
+    },
+    {
+      "step": 10,
+      "parameters": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "loss_absolute": 0.0
+    },
+    {
+      "step": 20,
+      "parameters": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "loss_absolute": 0.0
+    },
+    {
+      "step": 50,
+      "parameters": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "loss_absolute": 0.0
+    },
+    {
+      "step": 100,
+      "parameters": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "loss_absolute": 0.0
+    }
+  ],
+  "reference_field_values_in_loss": false,
+  "source_run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-matched-nonlocal"
+}

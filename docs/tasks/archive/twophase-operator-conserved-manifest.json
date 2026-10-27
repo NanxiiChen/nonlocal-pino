@@ -1,0 +1,52 @@
+{
+  "status": "completed",
+  "runs": [
+    {
+      "arm": "consistent",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_consistent.py",
+        "--config.log.run_name=20261027-vortex-conserved-consistent"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-conserved-consistent",
+      "status": "completed",
+      "seed": 42,
+      "returncode": 0,
+      "wall_seconds": 219.1453034579754
+    },
+    {
+      "arm": "conserved",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_conserved.py",
+        "--config.log.run_name=20261027-vortex-conserved-conserved"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-conserved-conserved",
+      "status": "completed",
+      "seed": 42,
+      "returncode": 0,
+      "wall_seconds": 221.06968696042895
+    },
+    {
+      "arm": "causal_conserved",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_causal_conserved.py",
+        "--config.log.run_name=20261027-vortex-conserved-causal_conserved"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-conserved-causal_conserved",
+      "status": "completed",
+      "seed": 42,
+      "returncode": 0,
+      "wall_seconds": 225.0002762824297
+    }
+  ],
+  "max_gpu_workers": 1,
+  "waiting_for": "reports/twophase-operator-resolution/manifest.json"
+}

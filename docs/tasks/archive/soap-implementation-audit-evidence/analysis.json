@@ -1,0 +1,459 @@
+{
+  "status": "passed",
+  "installed_version": "0.2.2",
+  "installed_source_matches_pinned_remote": true,
+  "sources": {
+    "author": "https://github.com/nikhilvyas/SOAP/blob/a1e553530fde97d0e6b307d7c82ac6d38b072340/soap.py",
+    "jax": "https://github.com/haydn-jones/SOAP_JAX/blob/a7c92f174c49b13136294a94ae0d46266b4f671f/src/soap_jax/soap.py",
+    "independent": "https://github.com/kozistr/pytorch_optimizer/blob/8281be7c1dc39669328fe5b462eff10817b19175/pytorch_optimizer/optimizer/soap.py"
+  },
+  "stream_cases_per_implementation": 16,
+  "implementation_count": 3,
+  "steps_per_case": 16,
+  "refresh_calls": [
+    6,
+    11,
+    16
+  ],
+  "shared_basis_parameter_max": 2.220446049250313e-16,
+  "shared_basis_physical_moment_max": 5.88418203051333e-15,
+  "native_zero_decay_parameter_max": 1.1920928955078125e-07,
+  "core_tested_formulas": "Initialization skip, bias correction, projection/backprojection, refresh timing, first-moment basis transport, second-moment permutation agree.",
+  "nonzero_decay_difference": {
+    "classification": "Real order difference versus author, inactive in current project factory",
+    "author": "(old_parameter + normalized_update)*(1-lr*weight_decay)",
+    "jax": "old_parameter*(1-lr*weight_decay)+normalized_update",
+    "max_gap_first_real_update": 9.999999395216008e-08,
+    "max_gap_after16calls": 5.492361213610408e-07
+  },
+  "wrapper": {
+    "status": "passed",
+    "steps": 1005,
+    "all_raw_gradients_above_clip": true,
+    "max_parameter_difference_from_numpy": 1.7917844430392904e-09,
+    "absolute_tolerance": 2e-08,
+    "learning_rate_comparison": "ideal real-valued continuous exponential; production scalar schedule FP32",
+    "effective_first_update_call": 2,
+    "weight_decay_passed_by_factory": false
+  },
+  "sensitivities": {
+    "jax": [
+      {
+        "label": "measured_fp64",
+        "changes": [
+          {
+            "max_absolute": 0.002112004118719646,
+            "relative_L2": 0.7044759141558135
+          },
+          {
+            "max_absolute": 0.0022808729614648983,
+            "relative_L2": 0.6866764843760076
+          },
+          {
+            "max_absolute": 0.0025000208935880147,
+            "relative_L2": 0.8447753784198432
+          },
+          {
+            "max_absolute": 0.0030110412128552108,
+            "relative_L2": 0.7903938540406866
+          }
+        ]
+      },
+      {
+        "label": "one_ulp_fp32",
+        "changes": [
+          {
+            "max_absolute": 0.0025057008024305105,
+            "relative_L2": 0.8382370471954346
+          },
+          {
+            "max_absolute": 0.0021006695460528135,
+            "relative_L2": 0.7863348722457886
+          },
+          {
+            "max_absolute": 0.002356618409976363,
+            "relative_L2": 0.8377061486244202
+          },
+          {
+            "max_absolute": 0.003083490999415517,
+            "relative_L2": 0.925027072429657
+          }
+        ]
+      }
+    ],
+    "author": [
+      {
+        "label": "measured_fp64",
+        "changes": [
+          {
+            "max_absolute": 0.0,
+            "relative_L2": 0.0
+          },
+          {
+            "max_absolute": 0.0,
+            "relative_L2": 0.0
+          },
+          {
+            "max_absolute": 0.0,
+            "relative_L2": 0.0
+          },
+          {
+            "max_absolute": 0.0,
+            "relative_L2": 0.0
+          }
+        ]
+      },
+      {
+        "label": "one_ulp_fp32",
+        "changes": [
+          {
+            "max_absolute": 0.0018823171267285943,
+            "relative_L2": 0.679334282875061
+          },
+          {
+            "max_absolute": 0.0020035847555845976,
+            "relative_L2": 0.7814690470695496
+          },
+          {
+            "max_absolute": 0.0023159589618444443,
+            "relative_L2": 0.6207329630851746
+          },
+          {
+            "max_absolute": 0.0020501939579844475,
+            "relative_L2": 0.7172406315803528
+          }
+        ]
+      }
+    ],
+    "independent": [
+      {
+        "label": "measured_fp64",
+        "changes": [
+          {
+            "max_absolute": 0.0019397751285449313,
+            "relative_L2": 0.7743529623151434
+          },
+          {
+            "max_absolute": 0.0023305531789467315,
+            "relative_L2": 0.7970865705405678
+          },
+          {
+            "max_absolute": 0.0020794437321410273,
+            "relative_L2": 0.8433554582522792
+          },
+          {
+            "max_absolute": 0.0018283792761755204,
+            "relative_L2": 0.7386110920009421
+          }
+        ]
+      },
+      {
+        "label": "one_ulp_fp32",
+        "changes": [
+          {
+            "max_absolute": 0.0018823198042809963,
+            "relative_L2": 0.679334282875061
+          },
+          {
+            "max_absolute": 0.002003580564633012,
+            "relative_L2": 0.7814684510231018
+          },
+          {
+            "max_absolute": 0.0023159575648605824,
+            "relative_L2": 0.6207327246665955
+          },
+          {
+            "max_absolute": 0.002050196286290884,
+            "relative_L2": 0.7172409892082214
+          }
+        ]
+      }
+    ]
+  },
+  "reference_precision_notes": [
+    "Torch reference stream runs explicitly set default dtype to case dtype; author otherwise fails for FP64 matrix parameters under FP32 default.",
+    "Author native eig/QR force FP32; JAX defaults follow parameter dtype; independent eig follows parameter dtype but QR forces FP32.",
+    "Shared-basis tape isolates state equations from backend eigenbasis/precision differences; it is a diagnostic, not an optimizer modification.",
+    "Sensitivity compares one output-weight2x64 block; measured FP64 first-gradient variants and a synthetic/common second gradient; FP32 tests perturb one entry by one ULP. Not physical-field L2."
+  ],
+  "confirmed_current_training_implementation_bug": false,
+  "conclusion": "No tested core translation/wrapper error explains current instability; rank-deficient basis sensitivity appears in author/independent implementations at their arithmetic precision. Not a proof of all-path correctness or a full-training fix.",
+  "production_files_changed": false,
+  "dependencies_changed": false,
+  "full_training_runs": 0,
+  "git_history_operations": false,
+  "records": [
+    {
+      "case": "native_vector_float32",
+      "mode": "native",
+      "dtype": "float32",
+      "parameter_difference": {
+        "author": 0.0,
+        "independent": 0.0
+      },
+      "physical_moment_difference": {
+        "author": 0.0,
+        "independent": 1.341104507446289e-07
+      },
+      "second_moment_difference": {
+        "author": 0.0,
+        "independent": 2.9802322387695312e-08
+      }
+    },
+    {
+      "case": "native_vector_float64",
+      "mode": "native",
+      "dtype": "float64",
+      "parameter_difference": {
+        "author": 0.0,
+        "independent": 0.0
+      },
+      "physical_moment_difference": {
+        "author": 0.0,
+        "independent": 1.6653345369377348e-16
+      },
+      "second_moment_difference": {
+        "author": 0.0,
+        "independent": 1.1102230246251565e-16
+      }
+    },
+    {
+      "case": "native_square_float32",
+      "mode": "native",
+      "dtype": "float32",
+      "parameter_difference": {
+        "author": 2.9802322387695312e-08,
+        "independent": 2.9802322387695312e-08
+      },
+      "physical_moment_difference": {
+        "author": 4.102475941181183e-07,
+        "independent": 3.8743019104003906e-07
+      },
+      "second_moment_difference": {
+        "author": 1.043081283569336e-07,
+        "independent": 5.960464477539063e-08
+      }
+    },
+    {
+      "case": "native_square_float64",
+      "mode": "native",
+      "dtype": "float64",
+      "parameter_difference": {
+        "author": 1.634415491835739e-09,
+        "independent": 4.830714717130036e-10
+      },
+      "physical_moment_difference": {
+        "author": 2.599632018263076e-07,
+        "independent": 6.661338147750939e-16
+      },
+      "second_moment_difference": {
+        "author": 2.5730522712485993e-08,
+        "independent": 4.188115404479831e-08
+      }
+    },
+    {
+      "case": "native_tensor_float32",
+      "mode": "native",
+      "dtype": "float32",
+      "parameter_difference": {
+        "author": 1.1920928955078125e-07,
+        "independent": 1.1920928955078125e-07
+      },
+      "physical_moment_difference": {
+        "author": 1.1324882507324219e-06,
+        "independent": 1.9371509552001953e-07
+      },
+      "second_moment_difference": {
+        "author": 1.043081283569336e-07,
+        "independent": 9.685754776000977e-08
+      }
+    },
+    {
+      "case": "native_tensor_float64",
+      "mode": "native",
+      "dtype": "float64",
+      "parameter_difference": {
+        "author": 6.784490746980509e-09,
+        "independent": 1.8325802589834461e-09
+      },
+      "physical_moment_difference": {
+        "author": 5.505326918231468e-07,
+        "independent": 4.440892098500626e-16
+      },
+      "second_moment_difference": {
+        "author": 7.025083267886423e-08,
+        "independent": 6.649810957437552e-08
+      }
+    },
+    {
+      "case": "native_partial_float32",
+      "mode": "native",
+      "dtype": "float32",
+      "parameter_difference": {
+        "author": 5.960464477539063e-08,
+        "independent": 5.960464477539063e-08
+      },
+      "physical_moment_difference": {
+        "author": 4.470348358154297e-07,
+        "independent": 2.384185791015625e-07
+      },
+      "second_moment_difference": {
+        "author": 2.9802322387695312e-08,
+        "independent": 5.960464477539063e-08
+      }
+    },
+    {
+      "case": "native_partial_float64",
+      "mode": "native",
+      "dtype": "float64",
+      "parameter_difference": {
+        "author": 3.6970352335075063e-09,
+        "independent": 5.609689379681981e-10
+      },
+      "physical_moment_difference": {
+        "author": 4.0143678703419283e-07,
+        "independent": 3.608224830031759e-16
+      },
+      "second_moment_difference": {
+        "author": 2.1693685486878778e-08,
+        "independent": 2.139442034643224e-08
+      }
+    },
+    {
+      "case": "shared_vector_float64",
+      "mode": "shared",
+      "dtype": "float64",
+      "parameter_difference": {
+        "author": 0.0,
+        "independent": 0.0
+      },
+      "physical_moment_difference": {
+        "author": 0.0,
+        "independent": 8.326672684688674e-17
+      },
+      "second_moment_difference": {
+        "author": 0.0,
+        "independent": 8.326672684688674e-17
+      }
+    },
+    {
+      "case": "shared_square_float64",
+      "mode": "shared",
+      "dtype": "float64",
+      "parameter_difference": {
+        "author": 2.220446049250313e-16,
+        "independent": 0.0
+      },
+      "physical_moment_difference": {
+        "author": 1.6792123247455493e-15,
+        "independent": 7.216449660063518e-16
+      },
+      "second_moment_difference": {
+        "author": 0.0,
+        "independent": 5.551115123125783e-17
+      }
+    },
+    {
+      "case": "shared_tensor_float64",
+      "mode": "shared",
+      "dtype": "float64",
+      "parameter_difference": {
+        "author": 2.7755575615628914e-17,
+        "independent": 5.551115123125783e-17
+      },
+      "physical_moment_difference": {
+        "author": 5.88418203051333e-15,
+        "independent": 2.220446049250313e-15
+      },
+      "second_moment_difference": {
+        "author": 8.326672684688674e-17,
+        "independent": 5.551115123125783e-17
+      }
+    },
+    {
+      "case": "shared_partial_float64",
+      "mode": "shared",
+      "dtype": "float64",
+      "parameter_difference": {
+        "author": 2.7755575615628914e-17,
+        "independent": 2.7755575615628914e-17
+      },
+      "physical_moment_difference": {
+        "author": 4.839878497975292e-16,
+        "independent": 3.3306690738754696e-16
+      },
+      "second_moment_difference": {
+        "author": 0.0,
+        "independent": 5.551115123125783e-17
+      }
+    },
+    {
+      "case": "shared_vector_pre_float64",
+      "mode": "shared",
+      "dtype": "float64",
+      "parameter_difference": {
+        "author": 5.551115123125783e-17,
+        "independent": 0.0
+      },
+      "physical_moment_difference": {
+        "author": 9.159339953157541e-16,
+        "independent": 6.106226635438361e-16
+      },
+      "second_moment_difference": {
+        "author": 4.163336342344337e-17,
+        "independent": 2.7755575615628914e-17
+      }
+    },
+    {
+      "case": "shared_rectangular_float64",
+      "mode": "shared",
+      "dtype": "float64",
+      "parameter_difference": {
+        "author": 6.938893903907228e-18,
+        "independent": 1.3877787807814457e-17
+      },
+      "physical_moment_difference": {
+        "author": 1.2490009027033011e-15,
+        "independent": 7.216449660063518e-16
+      },
+      "second_moment_difference": {
+        "author": 5.551115123125783e-17,
+        "independent": 8.326672684688674e-17
+      }
+    },
+    {
+      "case": "no_bias",
+      "mode": "native",
+      "dtype": "float64",
+      "parameter_difference": {
+        "author": 0.0,
+        "independent": 0.0
+      },
+      "physical_moment_difference": {
+        "author": 0.0,
+        "independent": 1.1102230246251565e-16
+      },
+      "second_moment_difference": {
+        "author": 0.0,
+        "independent": 4.163336342344337e-17
+      }
+    },
+    {
+      "case": "decay",
+      "mode": "native",
+      "dtype": "float64",
+      "parameter_difference": {
+        "author": 5.492361213610408e-07,
+        "independent": 5.492361213610408e-07
+      },
+      "physical_moment_difference": {
+        "author": 0.0,
+        "independent": 1.1102230246251565e-16
+      },
+      "second_moment_difference": {
+        "author": 0.0,
+        "independent": 4.163336342344337e-17
+      }
+    }
+  ]
+}

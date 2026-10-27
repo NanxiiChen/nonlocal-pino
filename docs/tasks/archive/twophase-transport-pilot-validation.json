@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "new_Python_AST": 13,
+  "strict_JSON_files": 5,
+  "local_Markdown_links": 79,
+  "new_text_whitespace": "passed",
+  "git_diff_check": "passed",
+  "branch": "dev",
+  "published_previous_main": "21fe6d9af9b60aa7cb463ec3c77c899b455400b3",
+  "new_case_committed": false,
+  "reference_time_refinement": "graph/local terminal<=8.3e-8",
+  "reference_local_space_refinement": "terminal2.07e-11",
+  "focused_distinct_tests": 5,
+  "actual_GPU_startup_updates": 2,
+  "actual_full_GPU_runs": 2,
+  "updates_each": 5000,
+  "independent_CPU_replays": 2,
+  "artifact_inventory": {
+    "cases": 6,
+    "directories": 319
+  },
+  "memory_files": [
+    "docs/PROGRESS.md",
+    "docs/DECISIONS.md",
+    "docs/DEVELOPMENT.md",
+    "docs/tasks/archive/twophase-transport-pilot.md"
+  ],
+  "navigation_only_update": "AGENTS.md example list",
+  "no_coupled_NS_claim": true
+}

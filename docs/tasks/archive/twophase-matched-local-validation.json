@@ -1,0 +1,43 @@
+{
+  "status": "passed",
+  "focused_test": {
+    "command": "JAX_PLATFORMS=cpu .venv/bin/python -m unittest tests.test_twophase_preconditioning.CHPreconditioningTests.test_local_hessian_with_mass_projection_and_conservative_flux",
+    "tests": 1,
+    "seconds": 16.607,
+    "status": "passed"
+  },
+  "training_runs": 2,
+  "full_soap_iterations_each": 5000,
+  "lbfgs_iterations_each": 1000,
+  "initial_checkpoint_bytes_equal": true,
+  "frozen_source_files_equal": 36,
+  "config_differences_only": [
+    "nl.method",
+    "log.run_name"
+  ],
+  "gpu_initial_arrays_exact": true,
+  "cpu_replay_max_absolute": 9.992007221626409e-15,
+  "gpu_replay_max_absolute": 4.440892098500626e-16,
+  "fp64_field_replay_absolute_tolerance": 1e-10,
+  "trained_modes_and_periodicity": "passed",
+  "configs_validated_no_strategy_seed": true,
+  "reference_identity_and_grid": "passed; no solver/data write",
+  "registered_twophase_runs": 29,
+  "local_links_checked": 59,
+  "plot_inspected": true,
+  "git_diff_check": "passed",
+  "defaults_changed": false,
+  "git_history_operations": false,
+  "task_archived": true,
+  "active_task": null,
+  "failed_audit_assumptions_preserved": [
+    "CPU/GPU initial random values wrongly required bitwise equal",
+    "ordinary GPU projected-mean reduction wrongly required bitwise equal"
+  ],
+  "changed_memory_files": [
+    "docs/PROGRESS.md",
+    "docs/DECISIONS.md",
+    "docs/DEVELOPMENT.md",
+    "docs/tasks/archive/twophase-matched-local-comparison.md"
+  ]
+}

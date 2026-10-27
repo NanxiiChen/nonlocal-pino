@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "archived_nonempty_files": 19,
+  "strict_json": true,
+  "numerical_python_and_archived_scripts_AST": true,
+  "local_markdown_links": true,
+  "focused_tests": 7,
+  "cpu_replay_and_paired_source_inputs": "passed",
+  "serial_GPU_workers_completed": 2,
+  "task_archived": true,
+  "active_task": "None",
+  "public_formulation": "periodic prescribed-vortex advective CH, mixed outputs; no coupled NS",
+  "defaults_unchanged": true,
+  "git_history_operations_this_turn": false
+}

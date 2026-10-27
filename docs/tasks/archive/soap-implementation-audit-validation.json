@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "implementations": 3,
+  "gradient_stream_cases_each": 16,
+  "steps_each": 16,
+  "sensitivity_controls_each": 2,
+  "factory_steps": 1005,
+  "common_basis_parameter_max": 2.220446049250313e-16,
+  "common_basis_physical_moment_max": 5.88418203051333e-15,
+  "core_parity_checks": "passed",
+  "nonzero_decay_order_difference": "confirmed, inactive in current factory",
+  "author_native_dtype_error": "reproduced and explicitly documented",
+  "native_precision_differences": "documented",
+  "installed_matches_pinned_and_prior": true,
+  "project_factory_unchanged": true,
+  "dependency_pin_unchanged": true,
+  "raw_archive_byte_matches": true,
+  "local_links_checked": 63,
+  "full_training_runs": 0,
+  "git_diff_check": "passed",
+  "git_history_operations": false,
+  "task_archived": true,
+  "active_task": null,
+  "changed_memory_files": [
+    "docs/PROGRESS.md",
+    "docs/DECISIONS.md",
+    "docs/DEVELOPMENT.md",
+    "docs/tasks/archive/soap-implementation-audit.md"
+  ]
+}

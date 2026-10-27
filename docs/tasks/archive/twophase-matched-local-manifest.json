@@ -1,0 +1,46 @@
+{
+  "status": "completed",
+  "seed": 42,
+  "gpu": "NVIDIA GeForce RTX 3090, 580.82.09, 49152 MiB",
+  "max_gpu_workers": 1,
+  "runs": [
+    {
+      "method": "nonlocal",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_conserved.py",
+        "--seed=42",
+        "--config.log.run_name=20261027-vortex-matched-nonlocal"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-matched-nonlocal",
+      "status": "completed",
+      "returncode": 0,
+      "external_wall_seconds": 217.42375892028213
+    },
+    {
+      "method": "local_ad",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_conserved_local.py",
+        "--seed=42",
+        "--config.log.run_name=20261027-vortex-matched-local_ad"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-matched-local_ad",
+      "status": "completed",
+      "returncode": 0,
+      "external_wall_seconds": 931.0179540626705
+    }
+  ],
+  "environment": {
+    "JAX_PLATFORMS": "cuda",
+    "XLA_FLAGS": "",
+    "JAX_ENABLE_COMPILATION_CACHE": "false",
+    "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "2"
+  }
+}
