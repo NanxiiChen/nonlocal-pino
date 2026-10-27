@@ -1,0 +1,32 @@
+{
+  "optimizer": "L-BFGS-B",
+  "success": false,
+  "status": 1,
+  "message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+  "iterations": 500,
+  "scipy_function_evaluations": 545,
+  "total_function_evaluations": 556,
+  "final_loss": 0.00022398027739218808,
+  "final_gradient_inf_norm": 0.0015287232225389973,
+  "wall_seconds": 138.30717376992106,
+  "time_points": [
+    0.125,
+    0.375,
+    0.625,
+    0.875,
+    1.125,
+    1.375,
+    1.625,
+    1.875,
+    2.125,
+    2.375,
+    2.625,
+    2.875,
+    3.125,
+    3.375,
+    3.625,
+    3.875
+  ],
+  "includes_initial_pde_time": false,
+  "training_targets": "PDE/phase mass only; no reference field values"
+}

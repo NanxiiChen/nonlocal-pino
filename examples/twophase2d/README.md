@@ -7,8 +7,9 @@ and variable density are not solved here. This is a small verified pilot, not a
 tuned SOTA preset or a reproduction of Qiu2022's wall-vortex/bubble cases.
 
 For the shape-changing vortex, the currently recommended tested preset is
-`configs/train_vortex_conserved.py`; see the recommendation and validation
-section below. The base remains the original constant-flow route check.
+`configs/train_vortex_conserved.py`, with direct phase output by default and
+optional `--config.phase.map=inverse_cubic`; see the recommendation and
+validation section below. The base remains the original constant-flow route check.
 
 ## Explicit problem
 
@@ -92,10 +93,28 @@ limitations; the original constant-flow default is retained.
 
 ## Spatial controls
 
-`nl.method=local_ad` uses AD gradients and Hessians in mixed form. The default
-`nl.method=nonlocal` replaces the two negative Laplacians by a periodic
-finite-horizon operator. First spatial derivatives in advection still use AD:
-this first implementation is explicitly a **hybrid** spatial method.
+`nl.method=local_ad` uses AD Hessians for the two negative Laplacians in
+mixed form. The default `nl.method=nonlocal` replaces those Laplacians by a
+periodic finite-horizon operator. Advection is a separate configuration choice:
+legacy base/vortex presets use AD for the point-network phase gradient;
+the recommended conserved/consistent presets set `advection=spectral_flux`
+and compute the Fourier divergence of nodal velocity-phase flux instead.
+Both diffusion controls retain the same selected advection scheme. Thus the
+current recommended spatial method combines Fourier first derivatives with
+nonlocal Laplacians, rather than nonlocal first derivatives. Fourier evaluation
+uses all periodic nodes but approximates a local derivative, not a finite-horizon
+interaction. Time derivatives use AD through a JVP of the physical field,
+including the time-dependent mass projection. No NS/pressure/continuity
+residual is trained: velocity is prescribed analytically, not a network output.
+
+Known limitation, deferred: the current Fourier first derivative assumes a
+uniform periodic grid and cannot be applied directly to general nonperiodic
+walls or arbitrary geometry. A hard boundary constraint on the network does
+not remove this operator assumption. The current nonlocal operators also wrap
+periodically; switching to their research option does not solve general boundary
+treatment. Retain FFT first derivatives and nonlocal Laplacians for this case;
+further boundary work is deferred until explicitly resumed. See the
+[deferred issue](../../docs/issues/twophase-fft-periodic-boundary.md).
 
 $$
 (L_\delta f)_i=\sum_jw_j(f_i-f_{i+j}),\qquad
@@ -120,8 +139,10 @@ $$
 
 The local control substitutes \(-\Delta\) for \(L_\delta\). It also avoids direct
 fourth-order AD, so the comparison separates mixed formulation from derivative
-method. A phase-mass mean-square loss is included explicitly, with weights1/1/1
-for phase/chemical/mass terms. No inverse-Jacobian residual transformation is used.
+method. Unprojected legacy presets include an explicit phase-mass mean-square
+loss with weights1/1/1 for phase/chemical/mass. Presets using exact grid-mass
+projection have only the two PDE losses with weights1/1; they do not calculate
+an additional mass penalty. No inverse-Jacobian residual transformation is used.
 
 ## Network and training
 
@@ -319,8 +340,9 @@ approximation limitations are the same frozen curvature/omitted advection.
 
 `*_refined.py` configs add an explicit optional `train.refinement` record for
 FP64 SciPy L-BFGS after the SOAP budget. All optimizer limits/tolerances are
-required; fixed midpoint time points and full spatial grids use PDE/mass losses
-only. They do not use reference fields. Save SOAP and final refined models/fields
+required; fixed midpoint time points and full spatial grids use the same training
+objective: two PDE terms under hard mass projection, or PDE/soft-mass terms for
+unprojected presets. They do not use reference fields. Save SOAP and final refined models/fields
 separately; `refinement_summary.json` records convergence status, evaluations
 and exact times. `summary.updates` sums SOAP updates and accepted L-BFGS
 iterations, which have different costs. `metrics.jsonl` includes both stages.
@@ -369,6 +391,14 @@ $$
 \phi_i(t)=\widehat\phi_i(t)-\frac1N\sum_j[\widehat\phi_j(t)-\phi_{0,j}].
 $$
 
+When this hard constraint is enabled, `losses.make_loss_fn` returns only
+`[phase, chemical]` loss components and does not evaluate a mass penalty.
+Canonical hard-mass configs omit `loss.mass_weight`. Older serialized hard-mass
+configs may retain that obsolete field; it is ignored. Unprojected presets
+still require the explicit mass weight and return three components. Historical
+training logs with three components are retained unchanged; new hard-mass logs
+contain two. Physical mass drift remains an evaluation diagnostic.
+
 Use `fields.predict_fields(model, points, t, config)` for physical full-grid
 inference. `model(x,t)` alone is the provisional point ansatz when mass
 projection is enabled. Training, JVP time derivatives, saved fields and
@@ -378,10 +408,11 @@ conserves grid mass to roundoff and preserves IC/overshoots; it supplies no
 future interface. For a general mesh the corresponding projection needs its
 quadrature weights; for a nonconserved equation it is inappropriate.
 
-`train_vortex_conserved.py` changes only the additive phase representation to
-the cubic coordinate. `train_vortex_causal_conserved.py` additionally changes
-the residual metric. All three use64units/3fixed spatial modes,8open-stratified
-times,FP64,SOAP5000 then at most1000L-BFGS iterations at32midpoint times.
+`train_vortex_conserved.py` keeps the same additive output as the consistent
+preset. Enable the cubic coordinate with `--config.phase.map=inverse_cubic`.
+`train_vortex_causal_conserved.py` explicitly retains the cubic coordinate and
+additionally changes the residual metric. These use64units/3fixed spatial modes,
+8open-stratified times,FP64,SOAP5000 then at most1000L-BFGS iterations at32midpoint times.
 They use the same reference and do not include extra initial-PDE weighting.
 
 The general principles are compatible field/derivative discretizations,
@@ -409,9 +440,10 @@ is not the pointwise map derivative.
 Use `configs/train_vortex_conserved.py` through `train.py`. It keeps the vortex
 physics/reference above, with64x64 grid, delta0.04,4x64 GELU layers,3fixed
 integer spatial modes,8open-stratified times,FP64 and ordinary GPU compilation.
-The phase uses the inverse-cubic coordinate plus exact grid-mass projection;
-q remains independent. Both physical mixed residuals have their original norm
-and equal weights, with conservative Fourier-flux advection. No inverse-map,
+The phase uses direct additive output (`phase.map=additive`) plus exact
+grid-mass projection; q remains independent. The cubic coordinate is off by
+default to favor a common scheme across examples. Both physical mixed residuals
+have their original norm and equal weights, with conservative Fourier-flux advection. No inverse-map,
 Schur/causal residual preconditioning or extra initial-time point is enabled.
 
 Train SOAP5000 at lr1e-3 (0.95 decay each1000, clip10, betas0.9/0.99,
@@ -425,12 +457,31 @@ No reference phase/q values enter the training loss.
 ```bash
 source .venv/bin/activate
 XLA_FLAGS='' python examples/twophase2d/train.py --config=examples/twophase2d/configs/train_vortex_conserved.py --config.log.run_name=my-vortex-conserved
+# Optional cubic coordinate; all other schemes stay the same:
+XLA_FLAGS='' python examples/twophase2d/train.py --config=examples/twophase2d/configs/train_vortex_conserved.py --config.phase.map=inverse_cubic --config.log.run_name=my-vortex-cubic
 # Optional independent run provenance; seed is not in the strategy config:
 XLA_FLAGS='' python examples/twophase2d/train.py --config=examples/twophase2d/configs/train_vortex_conserved.py --seed=2026 --config.log.run_name=my-vortex-conserved-2026
 ```
 
-Two complete independent cold starts, evaluated at all21times on0–2 against
-the SAME refined local reference (relative L2, no best-checkpoint/seed search):
+The default direct-phase preset matches the fresh additive arm below apart
+from declaring its previously implicit map explicitly: pooled phi3.20%,
+terminal3.62% in one seed42 full run. This choice favors simplicity, not a
+claim of uniformly better accuracy. The constant-flow train_base preset also
+declares additive output. To switch back explicitly, use
+`--config.phase.map=additive`. Historical configs without a phase record still
+load as additive; saved cubic configs retain their own explicit map. Load old
+checkpoints with their saved config.json, rather than today's default preset.
+
+The matched default checkpoint is
+`/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-map-ablation-additive/model_final.eqx`,
+with its sibling config.json. The saved config omits phase; its additive
+interpretation is equivalent to today's explicit setting.
+
+### Historical opt-in cubic results
+
+The following two complete independent cubic cold starts were evaluated at
+all21times on0–2 against the SAME refined local reference
+(relative L2, no best-checkpoint/seed search):
 
 | Run provenance | Pooled phi L2 | Terminal phi L2 | Pooled interface-band phi L2 |
 |---|---:|---:|---:|
@@ -445,8 +496,9 @@ roundoff. The1% field target is not reached, and interface errors remain larger
 than whole-field errors. This is evidence from two seeds of one prescribed-
 velocity CH case, not a general accuracy/stability theorem or solved CHNS.
 
-A same-budget additive-output control gives3.23% pooled/3.07% terminal; the
-cubic coordinate gives a modest improvement. The frozen causal metric fails
+A historical same-budget additive-output control gives3.23% pooled/3.07%
+terminal; its cubic control improves modestly. The fresh map-only pair below
+does not reproduce a pooled-error advantage. The frozen causal metric fails
 (25.17%/26.82%). An extra initial PDE point gives mixed results2.83%/2.53%
 and is not selected. `train_vortex_accuracy.py` is the explicit3000-L-BFGS
 budget experiment, not the recommended preset: training losses fall further
@@ -455,7 +507,7 @@ Keep the shorter tested refinement; lower collocation loss is not sufficient
 evidence for lower physical field error. Each recommended run takes about
 213–215s on this machine, including training JIT/evaluation/refinement.
 
-Direct selected final model/config paths:
+Historical cubic final model/config paths (use each saved config):
 
 - `/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-conserved-conserved/model_final.eqx`
 - `/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-conserved-conserved/config.json`
@@ -472,6 +524,48 @@ use raw saved histories/fields. Old checkpoint contents and external paths
 remain intact. The constant-flow base configuration and other example configurations are
 retained; the case-local periodic-frequency bug fix applies to new networks.
 
+### Fresh output-map ablation after mass-loss cleanup
+
+Two new serial seed42 cold starts use the current two-term PDE loss, exact
+phase IC/grid mass, conservative flux, nonlocal diffusion, FP64/ordinary and
+SOAP5000 + L-BFGS1000. Both finish the full budget. Initial raw network bytes
+and36frozen source files match; configs differ only in map and run name.
+The train_vortex_consistent.py preset supplied the additive/direct-phase
+control; at experiment time train_vortex_conserved.py enabled the inverse-cubic
+coordinate. Today that latter preset defaults to additive; reproduce the cubic
+arm with its saved config or the explicit inverse_cubic override. Physical
+future fields at initialization need not match under different output maps.
+
+Errors below use the SAME local reference and final-budget checkpoint:
+
+| Quantity | Direct phase | Inverse cubic |
+|---|---:|---:|
+| Pooled phi relative L2 | 3.2006% | 3.2522% |
+| Terminal t=2 phi relative L2 | 3.6215% | 2.9159% |
+| Pooled interface-band phi relative L2 | 13.7798% | 14.2428% |
+| Terminal interface-band phi relative L2 | 14.8632% | 11.6362% |
+| Trainer wall, including JIT/evaluation/refinement | 212.38 s | 217.83 s |
+
+The interface band is defined by \(|\phi_{\mathrm{ref,local}}|<0.9\).
+Removing the map does not materially worsen pooled phase error in this pair;
+terminal error rises by0.706percentage points (about24% relative). The cubic
+map improves late times but worsens early times here. Both SOAP-only pooled
+errors are about3.88% at5000 updates. Native nonlocal pooled/terminal errors
+are3.5854%/4.0897% for direct output and3.5642%/3.2342% for cubic output.
+Pooled local q errors remain60.0%/58.1%; these are phase-field results, not
+an all-field3% claim. Exact grid mass holds to roundoff in both.
+
+This single fresh pair, together with known same-seed trajectory variation,
+does not establish a stable accuracy ordering or necessity of the cubic map.
+Additive is the default for cross-example generality, with cubic available as
+an opt-in. Reference, optimizer and physics
+are unchanged. See the
+[complete record](../../docs/tasks/archive/twophase-map-ablation.md),
+[independent replay and metrics](../../docs/tasks/archive/twophase-map-ablation-analysis.json),
+and [convergence curves](../../docs/tasks/archive/twophase-map-ablation-convergence.png).
+Field figures in that record use the native nonlocal reference; the comparison
+table and convergence curves use the common local reference.
+
 
 ## Matched local AD diffusion control
 
@@ -480,7 +574,7 @@ vortex preset and changes only `nl.method` to `local_ad`. The negative
 Laplacians of phi and q are spatial AD Hessian traces of the point network.
 The exact grid-mass correction is a spatially constant shift; its temporal
 change is included in the shared time JVP. Both arms retain the SAME conservative
-nodal Fourier-flux advection, cubic coordinate, constraints, samples and optimizer
+nodal Fourier-flux advection, output map, constraints, samples and optimizer
 budget. Thus this isolates diffusion differentiation; it is not a comparison
 against all-AD advection or an independently retuned local architecture.
 
@@ -496,8 +590,11 @@ saves and both optimizer stages. The trainer timer starts after network/operator
 setup. Compiled SOAP means omit the first100 updates and exclude time draws,
 evaluation and saves; L-BFGS timing includes its separate JIT and callbacks.
 
-A fresh serial seed42 pair on the same RTX3090, with persistent compilation
-cache disabled for BOTH runs, completed SOAP5000 + L-BFGS1000:
+A historical serial seed42 pair on the same RTX3090 used the cubic coordinate
+in BOTH runs, with persistent compilation cache disabled, and completed
+SOAP5000 + L-BFGS1000. Today's preset follows the additive default; reproduce
+the cubic control by adding `--config.phase.map=inverse_cubic` to the command
+above, or use the saved run config. The table is not an additive-control result:
 
 | Quantity | Local AD diffusion | Nonlocal diffusion |
 |---|---:|---:|
@@ -602,3 +699,91 @@ changes no dependency/default or training behavior and establishes no new field
 L2 improvement. Exact sources, scopes, shared-basis controls, native precision,
 sensitivity experiments and raw arrays are in the
 [SOAP audit](../../docs/tasks/archive/soap-implementation-audit.md).
+
+## All-nonlocal spatial derivative control
+
+The explicit research preset `configs/train_vortex_nonlocal_flux.py` inherits
+the conserved direct-phase strategy and changes advection to `nonlocal_flux`,
+with a distinct matching native reference. All PDE spatial derivatives then
+use finite-horizon neighbor sums; time differentiation remains JVP and parameter
+training remains AD. The default conserved preset continues to use FFT flux.
+This remains prescribed-flow CH, without NS or a pressure unknown.
+
+On the full uniform periodic grid, the first derivative uses the same cubic
+radial profile and horizon as diffusion, corrected by its discrete moment:
+
+$$
+K=\sum_jw_{ij}\xi_{ij}\xi_{ij}^{T},\qquad
+(G_\delta f)_i=K^{-1}\sum_jw_{ij}(f_j-f_i)\xi_{ij},\qquad
+D_\delta=-G_\delta^T.
+$$
+
+The transpose refers to the full discrete gradient and uniform-grid inner
+product. Symmetric periodic weights make each component skew-adjoint. Apply
+the divergence to the nodal flux, giving
+
+$$
+r_\phi=\phi_t+D_\delta(\mathbf v\phi)+ML_\delta q.
+$$
+
+The chemical residual and independent pair Laplacian are unchanged. Do not
+replace that Laplacian by the gradient/divergence composition: the centered
+nodal first derivative has checkerboard null modes. This transport control
+does not establish pressure stability for a future NS solver.
+
+```bash
+source .venv/bin/activate
+XLA_FLAGS='' python examples/twophase2d/train.py --config=examples/twophase2d/configs/train_vortex_nonlocal_flux.py --config.log.run_name=my-vortex-nonlocal-flux
+```
+
+Native reference:
+`/root/autodl-tmp/data/twophase2d/results_periodic_vortex_nonlocal_flux.npz`.
+The solver evaluates independently derived nonlocal first-derivative sine
+symbols for its native model; the common local target still uses local Fourier
+derivatives. New-mode identity records the advection choice and rejects the
+old native reference. The unsupported combination with local AD diffusion is
+rejected because a matching mixed-method reference is not provided. The solver
+CLI can generate this explicit reference from scratch; the experiment record
+also preserves generation that explicitly reuses the unchanged, already-refined
+common local fields and recomputes native fields with time-step refinement.
+
+Compare both common-local and native-reference errors: first-derivative
+discretization changes the reference dynamics at finite horizon. Full-budget
+results, numerical checks and source/config/checkpoint replay provenance are in
+the [experiment record](../../docs/tasks/archive/twophase-nonlocal-flux.md).
+
+A fresh serial seed42 pair at64x64,delta0.04,FP64/ordinary completes the same
+SOAP5000 + L-BFGS1000 budget with identical raw initial parameters and37source
+snapshots. Both use additive output, hard IC/grid mass and the original two
+PDE losses. Final-budget checkpoint results:
+
+| Metric | FFT flux + nonlocal diffusion | Nonlocal flux + nonlocal diffusion |
+|---|---:|---:|
+| Pooled phi L2, common local target | 2.9236% | 8.5448% |
+| Terminal phi L2, common local target | 3.1270% | 4.5147% |
+| Pooled interface-band phi L2, common local target | 12.5945% | 38.7513% |
+| Terminal interface-band phi L2, common local target | 12.5530% | 19.5499% |
+| Pooled phi L2, each native target | 3.2435% | 2.7625% |
+| Terminal phi L2, each native target | 3.4617% | 3.0188% |
+| Trainer wall including JIT/evaluation/refinement | 213.41 s | 217.63 s |
+
+The interface band uses the common local reference with absolute phi below0.9.
+Native targets are different, so their L2 values are not a common-PDE accuracy
+ranking. New native-reference time refinement max discrepancies are1.34e-5 for
+phi and1.47e-4 for q; mass drift1.11e-16. Its common-local phi gap is9.219%
+pooled/3.858% terminal, versus1.28%/1.17% for the FFT-flux native reference.
+At t0.5 the two flux derivatives on the SAME common reference differ21.1%.
+This supports a substantial finite-horizon transport bias, not just poor neural
+fitting. It is not a strict error floor or an isolated unique causal mechanism.
+
+The new native reference overshoots to[-1.546,1.586]; its PINN spans
+[-1.415,1.378], versus the FFT-flux PINN[-1.054,1.035]. These values are
+reported without clipping. Common-local pooled q errors are55.3%/147.6%
+(native53.2%/43.5%); no all-field accuracy gain is claimed. Both CPU checkpoint
+replays pass at the unchanged FP64 tolerance1e-10, with field discrepancies
+at most1.22e-14. Both mass projections hold to roundoff. This single pair
+shows no speed benefit or reason to replace the default FFT flux at this
+grid/horizon/kernel; other nonlocal first-derivative designs remain untested.
+See [convergence](../../docs/tasks/archive/twophase-nonlocal-flux-convergence.png),
+[common-local field comparison](../../docs/tasks/archive/twophase-nonlocal-flux-fields.png)
+and [full metrics/replays](../../docs/tasks/archive/twophase-nonlocal-flux-analysis.json).

@@ -16,6 +16,43 @@ def grid(n, length):
     return np.stack((X.ravel(), Y.ravel()), axis=-1)
 
 
+def first_derivative_symbols(n, config, method):
+    """Independent Fourier multipliers for the selected reference advection.
+
+    The common local-PDE target always uses local spectral first derivatives.
+    Only the native nonlocal model switches to finite-horizon first derivatives.
+    """
+    if method not in ('nonlocal', 'local_ad'):
+        raise ValueError(f'Unknown first-derivative reference method: {method}')
+    freq = 2*np.pi*np.fft.fftfreq(n, d=config.geometry.length/n)
+    freq[n//2] = 0
+    ax, ay = np.meshgrid(freq, freq, indexing='xy')
+    if method != 'nonlocal' or 'advection' not in config or config.advection != 'nonlocal_flux':
+        return 1j*ax, 1j*ay
+    h, delta = config.geometry.length/n, config.nl.delta
+    if not h < delta < config.geometry.length/2:
+        raise ValueError('Nonlocal reference derivative requires h<delta<L/2')
+    limit = int(np.ceil(delta/h))
+    ys, xs = np.mgrid[-limit:limit+1, -limit:limit+1]
+    xx, yy = h*xs.ravel(), h*ys.ravel()
+    distance = np.hypot(xx, yy)
+    valid = (distance > 0) & (distance < delta)
+    xx, yy, distance = xx[valid], yy[valid], distance[valid]
+    weights = (1-distance/delta)**2*h*h
+    moment = np.sum(weights*xx*xx)
+    if not np.isfinite(moment) or moment <= 0:
+        raise ValueError('Nonlocal reference gradient moment must be positive finite')
+    # Use actual FFT wave numbers in the sine symbol; unlike local first
+    # derivatives, zeroing a single coordinate's Nyquist before this sum would
+    # alter oblique neighbor contributions at mixed Nyquist modes.
+    raw_freq = 2*np.pi*np.fft.fftfreq(n, d=config.geometry.length/n)
+    kx, ky = np.meshgrid(raw_freq, raw_freq, indexing='xy')
+    sine = np.sin(xx[:, None, None]*kx+yy[:, None, None]*ky)
+    gx = 1j*np.sum((weights*xx/moment)[:, None, None]*sine, axis=0)
+    gy = 1j*np.sum((weights*yy/moment)[:, None, None]*sine, axis=0)
+    return gx, gy
+
+
 def symbols(n, config, method):
     """Independent circulant-kernel symbol, using no training operator values."""
     length = config.geometry.length
@@ -41,11 +78,8 @@ def symbols(n, config, method):
         lam = np.sum(w[:, None, None]*(1-np.cos(xx[:, None, None]*kx+yy[:, None, None]*ky)), axis=0)
     else:
         raise ValueError(f'Unknown spatial reference method: {method}')
-    # The real Fourier collocation first derivative vanishes at even-grid Nyquist.
-    advection_freq = freq.copy()
-    advection_freq[n//2] = 0
-    ax, ay = np.meshgrid(advection_freq, advection_freq, indexing='xy')
-    adv = (1j*(config.physical.velocity[0]*ax+config.physical.velocity[1]*ay)
+    gx, gy = first_derivative_symbols(n, config, method)
+    adv = ((config.physical.velocity[0]*gx+config.physical.velocity[1]*gy)
            if is_constant_flow(config) else np.zeros_like(kx, dtype=complex))
     return lam, adv
 
@@ -54,7 +88,8 @@ def solve_reference(config, n, method, dt):
     """BDF2: implicit biharmonic, explicit CH reaction; Euler starter.
 
     Constant advection is implicit. Variable advection uses explicit conservative
-    Fourier flux divergence at each extrapolated time level.
+    flux divergence at each extrapolated time level, evaluated with independent
+    Fourier multipliers (local spectral or finite-horizon symbols).
 
     Stability/accuracy are checked by actual step/grid refinement; no unconditional
     energy stability is asserted for this un-stabilized pilot time integrator.
@@ -69,9 +104,7 @@ def solve_reference(config, n, method, dt):
     lam, adv = symbols(n, config, method)
     points = grid(n, config.geometry.length)
     initial = initial_field(points, config, xp=np).reshape(n, n)
-    freq = 2*np.pi*np.fft.fftfreq(n, d=config.geometry.length/n)
-    freq[n//2] = 0
-    ax, ay = np.meshgrid(freq, freq, indexing='xy')
+    gx, gy = first_derivative_symbols(n, config, method)
     steady_velocity = velocity_field(points, 0., config, xp=np).reshape(n, n, 2)
     current = fftn(initial)
     linear = -adv-config.physical.mobility*config.physical.epsilon**2*lam**2
@@ -81,7 +114,7 @@ def solve_reference(config, n, method, dt):
         result = -config.physical.mobility*lam*fftn(phi**3-phi)
         if not is_constant_flow(config):
             velocity = steady_velocity*np.cos(np.pi*t/config.physical.velocity.period)
-            result -= 1j*(ax*fftn(velocity[..., 0]*phi)+ay*fftn(velocity[..., 1]*phi))
+            result -= gx*fftn(velocity[..., 0]*phi)+gy*fftn(velocity[..., 1]*phi)
         return result
 
     def snapshot(hat):

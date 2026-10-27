@@ -1,4 +1,4 @@
-"""Mixed advective CH; nonlocal diffusion with AD first spatial derivatives."""
+"""Prescribed-flow mixed CH; nonlocal/AD diffusion and nonlocal/spectral/AD flux."""
 import jax
 import jax.numpy as jnp
 from examples.twophase2d.problem import velocity_field
@@ -51,8 +51,11 @@ def make_residual_fn(x_all, D, config):
 def make_loss_fn(x_all, D, config):
     """Full grid, shared-time JVP; optionally change only the residual norm."""
     residuals = make_residual_fn(x_all, D, config)
-    weights = jnp.asarray([config.loss.phase_weight, config.loss.chemical_weight,
-                           config.loss.mass_weight], dtype=x_all.dtype)
+    hard_mass = 'phase_mass' in config
+    weight_values = [config.loss.phase_weight, config.loss.chemical_weight]
+    if not hard_mass:
+        weight_values.append(config.loss.mass_weight)
+    weights = jnp.asarray(weight_values, dtype=x_all.dtype)
     # Original and extended configuration schemas are deliberately distinct.
     transformed = 'residual' in config and config.residual.mode != 'original'
     schur = (make_schur_transform(D, config, dtype=x_all.dtype)
@@ -78,7 +81,9 @@ def make_loss_fn(x_all, D, config):
             factors = (jnp.stack((w, jnp.ones_like(w)), axis=-1)
                        if config.residual.mode in ('transport', 'map_transport') else w[..., None])
             residual = residual*factors
-        parts = jnp.concatenate((jnp.mean(residual**2, axis=(0, 1)),
-                                 jnp.mean((jnp.mean(phi, axis=1)-initial_mean)**2)[None]))
+        parts = jnp.mean(residual**2, axis=(0, 1))
+        if not hard_mass:
+            mass_loss = jnp.mean((jnp.mean(phi, axis=1)-initial_mean)**2)
+            parts = jnp.concatenate((parts, mass_loss[None]))
         return jnp.dot(weights, parts), parts
     return loss_fn

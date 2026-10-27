@@ -17,8 +17,114 @@ The split preserved physical formulations and existing artifact paths.
 
 ## Active task
 
-[`elastic-precipitate-pilot`](tasks/elastic-precipitate-pilot.md): publish current
-snapshot as authorized, then develop a small coupled elastic/phase-field case.
+None.
+
+[Neumann phase-field case recommended](tasks/archive/phasefield-neumann-candidates.md).
+Propose confined constant-mobility CH coarsening in ellipse+two impermeable
+holes, with local AD control and independent mixed-FEM/native references.
+Primary papers support feasibility; pairwise natural no-flux at finite horizon
+is distinct from exact pointwise classical Neumann. Quadrature, wall-crossing
+bonds and boundary/local-limit refinement require checks before any advantage
+claim. Geometry schematic and formulation/validation proposal archived; no
+implementation, training/default/reference or Git change. Await case selection;
+existing precipitate results and deferred two-phase FFT issue retained.
+
+[More demanding precipitate case completed](tasks/archive/precipitate-multiparticle.md).
+Three unequal interacting particles, stronger elasticity and T4 produce clear
+elongation/disappearance, with independent refined reference and zero-elastic
+control. Requested matched nonlocal/local AD cold starts complete5000+500:
+common-local pooled phi8.0304%/12.8981%, terminal9.1820%/19.2435%, trainer
+183.34/674.27s. Both final CPU replays,7focused tests, legacy loading and
+mass/energy/mechanics audits pass. Initial q and late disappearance remain weak;
+keep opt-in harder baseline, original default unchanged, no accuracy stability
+claim or further tuning. README/config/index/fields/metrics archived; completed
+spectral exploration excluded from primary comparison. GPU idle, no Git work.
+
+[FFT periodic-boundary limitation](issues/twophase-fft-periodic-boundary.md)
+is recorded and deferred at the user's request. Retain FFT first derivatives,
+nonlocal pair Laplacians and time JVP in the recommended vortex preset. Both
+current spatial implementations assume periodic geometry; no further boundary
+or nonlocal optimization work until explicitly resumed. Documentation-only
+[completed record](tasks/archive/twophase-fft-boundary-issue.md); configs unchanged.
+
+[All-nonlocal flux control completed](tasks/archive/twophase-nonlocal-flux.md).
+Optional nonlocal_flux adds moment-corrected periodic first derivatives with
+independent native reference; default FFT flux retained. Matched fresh seed42
+SOAP5000+LBFGS1000: common-local pooled phi FFT2.9236%/full-NL8.5448%, terminal
+3.1270%/4.5147%; native pooled3.2435%/2.7625% uses different targets. Trainer
+213.41/217.63s gives no speed benefit. New native/local gap9.219% and overshoots
+already exist before PINN fitting; q/phase-band errors also worsen vs local.
+Ten numerical checks, extra schema check,19configs, native dt refinement,
+identical initialization/37sources and both CPU replays pass. Figures/results/
+README/index archived; no promotion, NS, tuning or SOAP work. All trainers exit0.
+
+[All-nonlocal spatial derivatives assessed](tasks/archive/fully-nonlocal-flow-assessment.md).
+Feasible through paired gradient/divergence plus existing nonlocal Laplacian;
+time JVP and parameter AD remain. Primary vector-calculus/Stokes sources and
+independent NumPy checks support adjointness/mass/capillary-work identities.
+Naive symmetric nodal G also has a checkerboard null mode; stability is not
+automatic and -DG differs from the existing pair Laplacian. No production,
+reference, default or training change, no full NS/accuracy/speed claim.
+
+[Two-phase scope clarified](tasks/archive/twophase-ns-derivative-scope.md).
+Current pilot solves prescribed-flow mixed CH for phi/q, with no NS/pressure
+or solved velocity. Recommended advection uses conservative Fourier first
+derivatives; legacy uses AD. Time uses JVP and diffusion uses nonlocal
+Laplacians (AD Hessians in local control). README/module wording corrected;
+no numerical/default/training change. Prior phase errors do not validate CHNS.
+
+[Two-phase map is optional](tasks/archive/twophase-optional-map.md).
+Base/conserved presets explicitly default to additive; enable cubic via
+--config.phase.map=inverse_cubic. Hard IC/mass, flux, PDE losses and budget
+remain the same; historical cubic research controls are explicit. All18configs,
+both CLI parses, two focused checks and saved-config checkpoint replays pass.
+README/development/current artifact metadata updated, old results preserved.
+No retraining, changes to other examples or SOAP work; no Git operation.
+
+[Fresh two-phase map ablation completed](tasks/archive/twophase-map-ablation.md).
+Two matched seed42 nonlocal cold starts, current two-PDE loss and SOAP5000+
+L-BFGS1000: direct/cubic common-local pooled phi3.2006%/3.2522%, terminal
+3.6215%/2.9159%, terminal interface14.8632%/11.6362%; trainer212.38/217.83s.
+Removing the map does not materially worsen pooled error; cubic improves late
+times here but not all times. One pair and known rerun variation do not prove
+stable ordering. Both CPU checkpoint replays, initial/36source/config parity,
+two-loss and roundoff-mass checks pass; q errors~60% remain. README/index/raw
+metrics/curves/fields archived; defaults unchanged, no SOAP investigation.
+
+[Redundant hard-mass loss removed](tasks/archive/twophase-remove-redundant-mass-loss.md).
+Two-phase exact-grid-mass presets now compute only two PDE losses and omit the
+mass weight; legacy unprojected presets retain three soft-loss components. Old
+saved hard weights are ignored, parameter loading unchanged, mass diagnostics
+retained. Three focused checks and18configs pass; README/development updated.
+No retraining or claimed L2 change; old artifacts preserved and SOAP deferred.
+
+[Two-phase map/conservation explained](tasks/archive/twophase-map-conservation-explanation.md).
+Inverse cubic is a convexified local-energy coordinate with finite pure-phase
+sensitivity/unbounded range, not inverse-J residual weighting or a convex PINN
+loss. Generality is conditional; map-only stable accuracy advantage unproven.
+Distinguish conservative spectral flux/pair diffusion from exact mean projection;
+finite residuals need not conserve mass without the constraint. Algebra/zero-mode
+checks and figure archived, no production/default/reference/training changes.
+
+[Precipitate local controls completed](tasks/archive/precipitate-local-comparison.md).
+Same initialization/config/budget, spectral mechanics and SOAP5000+LBFGS500:
+common-local pooled phi spectral0.0599%/AD0.0677% vs historical nonlocal0.5420%
+(native0.0387%); trainer183/680/183s, compiled steps19.95/91.53/19.70ms.
+Two full runs/replays exit0; manufactured derivatives/gradient, initial/source
+parity and independent saved-field/energy checks pass. q initial errors~30%
+remain; one-seed results are not a stability/statistical claim. Explicit presets,
+README/index/plots/metrics archived; defaults unchanged, GPU idle, SOAP deferred.
+
+[Elastic precipitate pilot completed](tasks/archive/elastic-precipitate-pilot.md).
+Prior snapshot devfbe98d0 -> main regular mergefcdfe91 pushed before development;
+returned to dev. New periodic equal-modulus coherent CH pilot uses phase PINN
+and exact differentiable spectral elastic equilibration, with nonlocal phase
+diffusion. Refined independent reference and SOAP5000+LBFGS500 run finish183s:
+native pooled phi0.0387%, solved-u0.0185%, stress0.0354%; q3.81% remains weaker
+at t0. Common-local phi0.542%; mild anisotropic shape change verified against
+uncoupled control. Four numerical tests, corrected CLI smoke, CPU checkpoint
+replay and energy/equilibrium/shape audits pass. Figures/config/index archived;
+new development uncommitted on dev, GPU idle. SOAP stability remains deferred.
 
 [Next phase-field candidates assessed](tasks/archive/phasefield-next-cases.md).
 Recommend elastic precipitate shape relaxation for new mechanical coupling;

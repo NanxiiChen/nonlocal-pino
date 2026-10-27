@@ -1,0 +1,15 @@
+{
+  "checkpoint": "/root/autodl-tmp/tf-logs/precipitate2d/20261027-multiple-elastic-nonlocal-01/model_final.eqx",
+  "reference": "/root/autodl-tmp/data/precipitate2d/results_periodic_multiple.npz",
+  "method": "nonlocal",
+  "pooled_rel_l2_phi": 0.0735586907900965,
+  "terminal_rel_l2_phi": 0.08935396453068287,
+  "pooled_rel_l2_q": 0.17183720612975087,
+  "terminal_rel_l2_q": 0.06126653667872324,
+  "pooled_rel_l2_u": 0.08542895648439665,
+  "terminal_rel_l2_u": 0.11395170892410518,
+  "pooled_rel_l2_stress": 0.07489535740280312,
+  "terminal_rel_l2_stress": 0.0944510167770357,
+  "pooled_rel_l2_phi_local": 0.08030379918207403,
+  "mass_max_drift": 1.1102230246251565e-15
+}

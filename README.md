@@ -14,6 +14,7 @@ FEM references remain part of the validation workflow.
 - [corrosion1d](examples/corrosion1d/README.md): Earlier implementation, retained for reference.
 - [corrosion2d](examples/corrosion2d/README.md): KKS pit corrosion with a validated matched-graph training preset.
 - [twophase2d](examples/twophase2d/README.md): Periodic prescribed-flow Cahn–Hilliard pilots: constant transport and reversed-vortex deformation, with mixed local-AD/nonlocal controls; no coupled Navier–Stokes yet.
+- [precipitate2d](examples/precipitate2d/README.md): Periodic coherent elastic-precipitate pilot with differentiable mechanical equilibration and nonlocal phase diffusion.
 
 The unimplemented [PINO elasticity design](docs/design/pino_elasticity2d.md) is
 retained as a design document. Electropolish2d is the primary corrosion case;

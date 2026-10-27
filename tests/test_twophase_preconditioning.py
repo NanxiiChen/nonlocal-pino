@@ -102,6 +102,7 @@ class CHPreconditioningTests(unittest.TestCase):
 
     def test_mass_projected_fields_time_derivative_and_full_loss_gradient(self):
         c = conserved_config(); c.sample.Nx = c.sample.Ny = 8; c.nl.delta = .3
+        self.assertNotIn('mass_weight', c.loss)
         validate_config(c)
         with jax.enable_x64(True):
             points = jnp.asarray(grid(8, 1.)); net = PhaseNetwork(c, jax.random.PRNGKey(42))
@@ -114,16 +115,28 @@ class CHPreconditioningTests(unittest.TestCase):
                 if t == 0.:np.testing.assert_allclose(fields[:, 0], initial, atol=3e-16)
             D = PeriodicLaplacian(8, 1., .3, dtype=np.float64)
             loss = make_loss_fn(points, D, c)
-            def f(bias):
-                candidate = eqx.tree_at(lambda m:m.net.output.bias, net, bias)
+            def f(weight):
+                candidate = eqx.tree_at(lambda m:m.net.output.weight, net, weight)
                 return loss(candidate, jnp.asarray([.2, .7]), jnp.mean(initial))[0]
-            bias = net.net.output.bias
-            step = jnp.asarray([1e-6, 0.])
-            finite = (f(bias+step)-f(bias-step))/2e-6
-            np.testing.assert_allclose(jax.grad(f)(bias)[0], finite, rtol=3e-6)
-            _, parts = loss(net, jnp.asarray([.2, .7]), jnp.mean(initial))
-            self.assertEqual(parts.shape, (3,))
-            self.assertLess(float(parts[2]), 1e-29)
+            # An additive phase-output bias is a constant spatial shift, so
+            # exact mass projection removes it. Probe a nonconstant direction.
+            weight = net.net.output.weight
+            step = jnp.zeros_like(weight).at[0, 0].set(1e-6)
+            finite = (f(weight+step)-f(weight-step))/2e-6
+            np.testing.assert_allclose(jax.grad(f)(weight)[0, 0], finite, rtol=3e-6)
+            value, parts = loss(net, jnp.asarray([.2, .7]), jnp.mean(initial))
+            self.assertEqual(parts.shape, (2,))
+            np.testing.assert_allclose(value,jnp.dot(parts,jnp.asarray([c.loss.phase_weight,c.loss.chemical_weight])))
+            shifted, _ = loss(net, jnp.asarray([.2, .7]), jnp.mean(initial)+1.)
+            np.testing.assert_array_equal(shifted,value)
+            # Old serialized hard-mass configs may still contain the obsolete
+            # weight; it is ignored rather than reintroducing a soft penalty.
+            old = c.copy_and_resolve_references()
+            old.loss.mass_weight = 999.
+            validate_config(old)
+            old_value, old_parts = make_loss_fn(points,D,old)(net,jnp.asarray([.2,.7]),jnp.mean(initial))
+            np.testing.assert_array_equal(old_parts,parts)
+            np.testing.assert_array_equal(old_value,value)
 
     def test_causal_transform_matches_dense_space_time_inverse_and_gradient(self):
         c = get_config(); c.sample.Nx = c.sample.Ny = 8; c.nl.delta = .3

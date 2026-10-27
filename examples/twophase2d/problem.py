@@ -29,12 +29,17 @@ def initial_field(x, config, *, xp):
 
 
 def identity(config):
-    return json.loads(json.dumps(dict(
+    specification = dict(
         case='twophase2d-periodic-prescribed-flow', schema=1,
         geometry=config.geometry.to_dict(), physical=config.physical.to_dict(),
         initial=config.initial.to_dict(), grid=[config.sample.Nx, config.sample.Ny],
         delta=config.nl.delta, kernel=config.nl.kernel,
-        normalization=config.nl.normalization)))
+        normalization=config.nl.normalization)
+    # Preserve historical Fourier-reference identities. The new native model
+    # changes first derivatives and must not silently load the old reference.
+    if 'advection' in config and config.advection == 'nonlocal_flux':
+        specification['advection'] = 'nonlocal_flux'
+    return json.loads(json.dumps(specification))
 
 
 def validate_config(c):
@@ -54,8 +59,10 @@ def validate_config(c):
                 raise ValueError('Causal residual metric requires positive times; t=0 is not an invertible interval')
     if 'phase_mass' in c and c.phase_mass != 'exact_grid_mean':
         raise ValueError('phase_mass must be exact_grid_mean')
-    if 'advection' in c and c.advection != 'spectral_flux':
-        raise ValueError('Explicit advection must be spectral_flux')
+    if 'advection' in c and c.advection not in ('spectral_flux', 'nonlocal_flux'):
+        raise ValueError('Explicit advection must be spectral_flux or nonlocal_flux')
+    if 'advection' in c and c.advection == 'nonlocal_flux' and c.nl.method != 'nonlocal':
+        raise ValueError('nonlocal_flux reference requires nonlocal diffusion; no mixed local-diffusion reference is provided')
     for v in (c.geometry.length, c.physical.epsilon, c.physical.mobility,
               c.physical.terminal_time, c.initial.width, c.train.lr_init):
         if not np.isfinite(v) or v <= 0:
@@ -108,8 +115,8 @@ def validate_config(c):
                 raise ValueError('Validated leaky-tanh inverse requires0.1<=phase.leak<=1')
             if not isinstance(c.phase.inverse_steps, int) or c.phase.inverse_steps < 8:
                 raise ValueError('Leaky-tanh IC inverse requires at least8 fixed Newton steps')
-        elif c.phase.map != 'inverse_cubic':
-            raise ValueError('Explicit phase.map must be leaky_tanh or inverse_cubic')
+        elif c.phase.map not in ('additive', 'inverse_cubic'):
+            raise ValueError('Explicit phase.map must be additive, leaky_tanh or inverse_cubic')
     if 'residual' in c and c.residual.mode.startswith('map_'):
         if c.phase.map != 'leaky_tanh':
             raise ValueError('map_ residual modes require the leaky_tanh phase map')
@@ -130,7 +137,8 @@ def validate_config(c):
         raise ValueError('A smooth gelu/tanh activation is required')
     if c.arch.spatial_modes < 1 or c.arch.hidden_dim < 1 or c.arch.num_layers < 1:
         raise ValueError('Network sizes must be positive')
-    for key in ('phase_weight', 'chemical_weight', 'mass_weight'):
+    loss_keys = ('phase_weight', 'chemical_weight') if 'phase_mass' in c else ('phase_weight', 'chemical_weight', 'mass_weight')
+    for key in loss_keys:
         if not np.isfinite(c.loss[key]) or c.loss[key] <= 0:
             raise ValueError(f'loss.{key} must be positive finite')
     for key in ('eval_every', 'checkpoint_every'):

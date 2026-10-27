@@ -1,0 +1,88 @@
+{
+  "status": "passed",
+  "checks": {
+    "nonlocal_time": {
+      "phi": 7.808080708941208e-07,
+      "q": 2.1054786914068086e-06,
+      "u": 8.891040343312098e-07,
+      "stress": 7.355287670282102e-07
+    },
+    "local_time": {
+      "phi": 1.075384329183627e-06,
+      "q": 3.815074081325887e-06,
+      "u": 1.2655395544659335e-06,
+      "stress": 9.938228183612995e-07
+    },
+    "local_space": {
+      "phi": 1.7469743590986922e-07,
+      "q": 6.570173107571146e-05,
+      "u": 5.059815334550217e-09,
+      "stress": 1.881632721893016e-07
+    },
+    "nonlocal_mass_drift": 1.1102230246251565e-16,
+    "nonlocal_max_energy_increase": 0.0,
+    "local_mass_drift": 0.0,
+    "local_max_energy_increase": 0.0,
+    "elastic_effect_terminal_phi": 0.3914410753756994,
+    "nonlocal_vs_local_pooled_phi": 0.012352587679947569
+  },
+  "identity": {
+    "model": "periodic_homogeneous_coherent_ch_v1",
+    "geometry": {
+      "length": 1.0
+    },
+    "physical": {
+      "beta": 1.0,
+      "eigenstrain": [
+        0.01,
+        0.0,
+        0.0
+      ],
+      "epsilon": 0.025,
+      "lame_lambda": 9800.0,
+      "mobility": 0.01,
+      "shear_modulus": 4900.0,
+      "terminal_time": 4.0
+    },
+    "initial": {
+      "background": -0.95,
+      "centers": [
+        [
+          0.35,
+          0.32
+        ],
+        [
+          0.67,
+          0.36
+        ],
+        [
+          0.4,
+          0.68
+        ]
+      ],
+      "kind": "multiple",
+      "levels": [
+        0.18,
+        0.11,
+        0.065
+      ],
+      "width": 0.035
+    },
+    "grid": [
+      63,
+      63
+    ],
+    "delta": 0.04,
+    "mechanical_boundary": "fixed_zero_macroscopic_strain_periodic_zero_mean_displacement"
+  },
+  "settings": {
+    "dt": 0.0005,
+    "error_tolerance": 0.002,
+    "local_grid": 191,
+    "path": "/root/autodl-tmp/data/precipitate2d/results_periodic_multiple.npz",
+    "refined_dt": 0.00025,
+    "refined_local_grid": 255,
+    "snapshots": 21
+  },
+  "method": "independent NumPy acoustic tensor solve + SciPy Fourier IMEX-BDF2"
+}

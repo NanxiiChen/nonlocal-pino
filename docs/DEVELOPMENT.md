@@ -98,7 +98,13 @@ reference errors are kept separate. It does not alter established case defaults.
 Explicit train_vortex_residual/train_vortex_latent presets test bounded physical-
 field weights and exact inverse-map Jacobian norms separately. The optional
 phase/residual records form documented config extensions; missing records retain
-the historical additive/original schema. The leaky-tanh map is unbounded and
+the historical additive/original schema. Current two-phase base/conserved
+presets explicitly set phase.map=additive. Opt in to the cubic coordinate
+through train.py with --config.phase.map=inverse_cubic; no separate enable
+boolean is needed. Historical cubic-only causal/initial-time/long-refinement
+controls set that map explicitly. Load old models with their saved config,
+since the recommended conserved preset now defaults to additive.
+The leaky-tanh map is unbounded and
 preserves phase IC through differences, with independently checked fixed Newton
 inverse. New static network fields add no serialized parameter leaves; direct
 legacy checkpoint replay is checked. Do not identify a map-only gain as evidence
@@ -110,17 +116,48 @@ FP64 PDE-only L-BFGS refinement. Research presets use conservative spectral
 flux advection and optional exact full-grid mass projection through
 `twophase2d.fields.predict_fields`; all physical training/evaluation/replay paths
 must use this wrapper. Raw point network calls are provisional under projection.
+Hard-mass presets omit `loss.mass_weight` and the loss factory computes/returns
+only the phase and chemical terms; unprojected presets retain the explicit
+three-term PDE/soft-mass schema. An obsolete weight in an old serialized hard
+config is ignored, preserving checkpoint loading. Historical logs keep their
+three components; new hard-mass logs contain two, fixed within each JIT path.
 The explicit train_vortex_conserved_local control changes only diffusion to
 local AD Hessian traces; spectral flux and the projected-field time JVP remain
 identical. Its point-network Hessian is valid because the grid mass shift is
 constant in a spatial query. Compare fields against one common reference and
 keep native targets separate.
+The explicit train_vortex_nonlocal_flux control changes conservative first
+derivatives to a moment-corrected finite-horizon nodal pair. It retains the
+independent pair Laplacian, direct output, IC/mass and training budget. Its
+native reference has independent sine symbols and a distinct advection identity;
+old identities remain unchanged. The common local target uses spectral
+derivatives. Reject the unsupported nonlocal-flux/local-diffusion combination
+because no matching native reference is supplied. Centered first derivatives
+have checkerboard null modes, so this is a prescribed-flow transport control,
+not a pressure-stable NS operator. Time JVP and parameter AD remain.
 Integer spatial feature frequencies have stopped parameter gradients; older
 checkpoints with drifted frequencies remain loadable but are not hard-periodic.
 Do not silently round historical modes or identify changes in spatial
 discretization/constraints/optimizer budget as scalar-preconditioner gains.
 
 ## Artifact Paths
+
+The `precipitate2d` periodic pilot learns phase/chemical fields and eliminates
+homogeneous-isotropic elastic equilibrium with a differentiable Fourier solve.
+Mechanical displacement is solved, not an independent network output. Its
+nonlocal phase Laplacian and L-BFGS helper explicitly reuse twophase2d modules;
+source snapshots include those files. `local_spectral` is a Fourier diffusion
+control, distinct from the explicit `local_ad` point-network Hessian control.
+The latter differentiates both mixed fields, retains full-grid projection/time
+JVP and has no exact finite-grid summation-by-parts guarantee. Both controls
+retain the identical spectral mechanical subproblem and refined local target.
+Odd square grids avoid Nyquist derivative null modes.
+Full-grid mean projection is mandatory through `network.predict_fields` for
+training/evaluation/checkpoint replay. Its independent SciPy solver assembles
+acoustic matrices without importing training mechanics/operators, validates
+all-field grid/time refinement and retains native/local targets separately.
+This fixed-zero-macrostrain, linear-eigenstrain, equal-modulus model is a
+two-way coupled simplified pilot rather than a PFHub4 reproduction.
 
 Load models, configs and reference arrays by explicit file path. Do not introduce
 file-hash computation, expected-checksum gates or hash-manifest dependencies.
@@ -129,6 +166,15 @@ resolved from their run directory so directory retagging remains straightforward
 Preserve physical-parameter, grid, shape and time compatibility validation.
 Older static checksum records are historical evidence and are not prerequisites
 for loading an artifact.
+
+The opt-in precipitate `train_multiple.py` config replaces the single-particle
+IC fields with explicit `kind=multiple`, periodic `centers`, corresponding
+`levels`, shared `width` and `background`. A smooth union prescribes only the
+initial field; future interfaces remain learned. Legacy configs keep their
+original single-particle arithmetic and serialized trainable leaves. Multi-case
+checkpoint loading uses its saved config for the static IC metadata. Use the
+same config with `--config.nl.method=local_ad` for the primary local control;
+mechanics remains spectral in both. The simple pilot default is unchanged.
 
 ## Verification
 

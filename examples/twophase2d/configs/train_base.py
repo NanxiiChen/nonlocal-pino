@@ -8,6 +8,7 @@ def get_config():
     c.physical = ConfigDict(dict(epsilon=0.05, mobility=0.002,
                                 velocity=(0.2, 0.1), terminal_time=1.0))
     c.initial = ConfigDict(dict(center=(0.35, 0.5), level=0.3, width=0.12))
+    c.phase = ConfigDict(dict(map='additive'))
     c.sample = ConfigDict(dict(Nx=32, Ny=32, Nt=4))
     c.nl = ConfigDict(dict(method='nonlocal', delta=0.08, kernel='cubic',
                           normalization='discrete_second_moment'))

@@ -2266,3 +2266,331 @@ Snapshot packaging note: staging exposes upstream whitespace in the verbatim
 SOAP source/license evidence. Preserve those exact source bytes and declare a
 narrow .gitattributes whitespace exemption for that archive's sources directory;
 project code and all other documentation keep normal whitespace validation.
+
+## 2026-10-27 — Start a reduced periodic coherent-precipitate pilot
+
+Decision: use a homogeneous-modulus, periodic 2D small-strain elastic/CH pilot,
+with fixed zero macroscopic strain and zero-mean periodic displacement. Define
+h=(1+phi)/2 and eigenstrain E*h; quartic chemical energy, isotropic phase-gradient
+energy and elastic energy 1/2(eps(u)-E*h):C:(eps(u)-E*h). Differentiate this
+single energy for chemical potential and equilibrium. Isotropic equal moduli
+allow exact differentiable Fourier elimination of mechanical equilibrium;
+PINN learns phase/mixed chemical potential rather than a separate displacement
+network. A uniaxial E generates directional shape preference. Nonlocal pair
+Laplacian enters phase gradient energy and CH diffusion, while mechanics remains
+spectral: explicitly a hybrid, two-way coupled reduced formulation. Independent
+NumPy/SciPy reference uses separately assembled Fourier Green coefficients and
+space/time refinement. Reject an immediate full PFHub4 implementation because
+variable anisotropic moduli/free boundaries would obscure first-route validation;
+this changes model/BC/potential relative to PFHub4 and will be labeled as a
+simplified pilot, not its reproduction. SOAP issue remains deferred.
+Relation: elastic-precipitate-pilot; sources PFHub4 and Hu/Chen2001.
+
+Pilot parameter preflight: the first independent reference used E_xx=0.35,
+lambda=2,mu=1 as an algebraic energy-scale check. Preserve it at the separate
+results_periodic_pilot path. Before training choose E_xx=0.01 and scale both
+moduli by1225, retaining identical C*E^2 and phase trajectories while using1%
+misfit. Regenerated results_periodic_smallstrain_pilot is the canonical
+reference; it passes all-field time/grid controls. The old large-eigenstrain
+reference is a preflight, not a trained result or material calibration.
+
+## 2026-10-27 — Close the first elastic-precipitate route pilot with explicit limits
+
+Decision: retain the validated periodic homogeneous-modulus default as a pilot,
+not as an exact PFHub4 or full mechanical-network result. SOAP5000+LBFGS500
+native pooled phi0.0387%, solved-u0.0185%, stress-component0.0354%, q3.807%;
+common refined local phase0.5420%. q at t0 remains16.42% inaccurate despite
+exact phase IC, so no all-field subpercent claim. Independent time/grid,
+energy derivative, acoustic equilibrium and CPU saved-checkpoint checks pass;
+reference/predicted terminal shape ratios0.95860/0.95876 versus uncoupled1.0.
+L-BFGS stops at its iteration budget. One seed and modest deformation do not
+establish robustness or a nonlocal advantage. Do not expand scope into harder
+coupling or SOAP fixes automatically. New development remains uncommitted on
+dev after the explicitly requested pre-development main publication. The initial
+full-run CLI return status was corrected and separately validated by an exit0
+entry smoke without rerunning unchanged numerical training.
+Relation: elastic-precipitate-pilot.
+
+## 2026-10-27 — Compare local spectral and local AD precipitate diffusion explicitly
+
+Decision: user asks for local results. Existing local_spectral is a local-PDE
+Fourier discretization, not a point-network AD baseline. Run it unchanged as
+one control and add an explicitly named local_ad mixed-Hessian control so the
+result distinguishes these algorithms. Keep prescribed phase IC/mass/network,
+exact spectral mechanical elimination, FP64/ordinary, initializer/time samples
+and SOAP5000+LBFGS500 fixed; only phase spatial differentiation and run name
+change. Both local paths use the already-refined local reference. The projected
+phase has a uniform spatial-query shift, so its point-network Hessian is valid;
+time derivative still differentiates the full-grid projection. No reference,
+default, SOAP issue or Git history changes. Relation: precipitate-local-comparison.
+
+## 2026-10-27 — Report precipitate local controls on a common reference
+
+Decision: complete local spectral and AD controls with identical initializer,
+config except method/name and SOAP5000+LBFGS500. Common-local pooled phi
+spectral0.0599%/AD0.0677%/nonlocal0.5420%; native nonlocal0.0387% remains valid
+against its different target. Reference native/local gap0.5378% explains the
+principal common-target error floor; do not compare unlike targets as though
+all were continuum errors. Trainer times183/680/183s show AD cost, not a
+nonlocal speed advantage over FFT. Source/initial byte parity, manufactured
+mixed residual/parameter gradient, CPU checkpoint and independent saved-field
+checks pass. Initial q~30% and one-seed/historical timing scope remain explicit.
+Retain existing default and defer horizon/optimizer/stability investigations;
+user requested results, not a promotion or broader optimization campaign.
+Relation: precipitate-local-comparison.
+
+## 2026-10-27 — Explain cubic coordinates separately from conservative constraints
+
+Decision: ground the requested explanation in current source. z=phi+phi^3 is
+Fc' for Fc=phi^4/4+phi^2/2, giving a monotone unbounded coordinate and finite
+sensitivity at pure phases; this is a chosen convexification, not a guarantee
+of easier neural optimization or a new inverse-J residual loss. State the
+conditional weakly-convex-potential extension and actual overshooting reference
+range. Explain spectral conservative flux, reciprocal pair diffusion and exact
+grid-mean projection as three distinct mechanisms. Finite PINN residuals can
+still cause mass drift without projection; enforced mass is not learned
+conservation, zero-contour area or energy conservation. Projection globally
+couples the scalar map, so its full Jacobian is P*diag(g'), not g' alone.
+Historical map ablation improvement is modest and same-seed variability prevents
+claiming stable general benefit. No new training or production strategy change.
+Relation: twophase-map-conservation-explanation.
+
+## 2026-10-27 — Remove the redundant soft mass term under hard conservation
+
+Decision: user points out that exact mass projection makes an additional mass
+loss unnecessary. Current two-phase factory still evaluates a third mean-square
+penalty, although projection reduces it to roundoff. With explicit phase_mass,
+construct only the two PDE losses/weights; do not read mass_weight or compute
+its penalty. Remove the unused weight from the canonical hard preset and make
+validation require it only for the unprojected legacy three-term path. Preserve
+old serialized hard configs with the now-ignored extra weight and unchanged
+network leaves/artifacts. Precipitate already uses two PDE terms. Prefer actual
+removal over retaining a computed third term with weight0; no full retraining
+or claims of improved L2/reproducibility. Relation: twophase-remove-redundant-mass-loss.
+
+## 2026-10-27 — Test cubic-map removal with a fresh matched pair
+
+Decision: user asks whether removing the cubic coordinate greatly worsens
+accuracy. Run the existing train_vortex_consistent additive preset and current
+train_vortex_conserved cubic preset serially with seed42 and the same nonlocal
+operator, exact IC/mass, conservative flux, FP64/ordinary and SOAP5000+LBFGS1000.
+Both use the newly cleaned two-term PDE loss; do not mix that change into a
+comparison against only an old run. Same underlying initial network parameters
+and IC do not imply identical provisional future fields under different maps;
+that is part of the parameterization change. Keep all results and final-budget
+metrics, no tuning or default promotion, no SOAP reproducibility investigation.
+One pair can quantify this run, not establish statistical superiority.
+Relation: twophase-map-ablation.
+
+## 2026-10-27 — Treat the cubic coordinate as optional after the fresh ablation
+
+Decision: report both full-budget seed42 cold starts and independent CPU replays.
+Direct/cubic common-local pooled phi3.2006%/3.2522% is effectively comparable;
+terminal3.6215%/2.9159% and terminal band14.8632%/11.6362% favor cubic, while
+pooled band13.7798%/14.2428% favors direct. Trainer212.38/217.83s. Removing
+the map does not cause a large pooled-error regression in this pair, but late
+accuracy changes measurably. Do not describe the map as necessary, uniformly
+better, or a proven optimization preconditioner. One matched seed with known
+trajectory variation is not a stability conclusion. Keep both explicit presets
+and existing recommendation unchanged; reject favorable old-checkpoint-only
+comparisons, further tuning or an unsolicited SOAP investigation. Pooled q
+errors60.0%/58.1% remain explicit. Both exact-mass runs use only two PDE losses.
+Relation: twophase-map-ablation.
+
+## 2026-10-27 — Default two-phase output to additive with explicit cubic opt-in
+
+Decision: user prioritizes cross-example generality and requests default-off.
+Declare phase.map=additive in train_base, let the recommended conserved vortex
+inherit it, and allow the existing --config.phase.map=inverse_cubic override.
+Extend validation to accept explicit additive; retain missing-phase legacy
+configs unchanged. Prefer one existing string switch over another boolean,
+new mapping implementation or duplicate preset. Hard IC/mass, conservative flux,
+original residual and optimizer budgets are independent and unchanged. Freeze
+historical causal/initial-time/long-refinement cubic controls explicitly so the
+default switch does not silently alter their experiment definitions. Preserve
+recorded run config/model paths and identify old cubic results as historical;
+use the fresh additive run as current default evidence. No retraining, SOAP
+work, changes to other examples, or Git history operation.
+Relation: twophase-optional-map; twophase-map-ablation.
+
+Validation detail: the prior hard-mass gradient test perturbed the phase output
+bias. With additive output this is a spatial constant removed exactly by the
+mass projection, leaving a zero derivative whose relative finite-difference
+check is dominated by cancellation (4.44e-10 finite difference versus2.78e-17
+AD). Probe an output weight with spatial variation instead; keep the existing
+3e-6 relative tolerance and physics unchanged. Normalize tuples/lists through
+JSON when comparing a live config with a saved config. These are verification
+corrections, not a numerical fallback or altered constraint.
+
+## 2026-10-27 — Clarify that the current two-phase pilot has no solved NS system
+
+Decision: answer the user's NS/first-derivative question from current source.
+The pilot solves only mixed advective CH for phi/q with a prescribed analytic
+divergence-free velocity. Recommended spectral_flux computes the divergence of
+nodal velocity-phase flux by FFT; legacy advection uses point-network AD.
+Time differentiation is a JVP of the full physical projected fields; only the
+negative Laplacians use the finite-horizon nonlocal operator in nonlocal mode.
+Local-AD controls retain the selected advection scheme. Correct the stale
+general statement that all first derivatives use AD; do not add NS, redesign
+operators or relabel phase error as full CHNS accuracy. Fourier differentiation
+is a global evaluation of a local derivative, distinct from finite-horizon
+nonlocal interaction physics. No numerical/default/training/Git change.
+Relation: twophase-ns-derivative-scope.
+
+## 2026-10-27 — Assess all-nonlocal spatial differentiation with paired operators
+
+Decision: all spatial derivatives are feasible through finite-horizon gradient,
+divergence and Laplacian operators; retain time JVP and parameter AD. Current
+prescribed-flow CH only needs a new flux divergence, while future NS needs
+pressure/velocity/viscous/capillary compatibility. Consult Du/Tian arXiv1805.08261
+Sections2–3 (periodic nonlocal Stokes and conditional kernel stability), plus
+Du et al.2013 vector calculus. Do not infer that all kernels or arbitrary
+discrete substitutions give a stable coupled CHNS solver.
+An independent NumPy nodal-periodic candidate uses moment-corrected G and
+D=-G^T. Constants, summed divergence, adjointness and phase-advection/capillary
+work cancellation pass at~1e-14, but an alternating checkerboard has G nearly0
+while the pair Laplacian acts strongly. Thus adjointness alone does not ensure
+pressure stability, and -DG is not the existing pair Laplacian. Reject blind
+Laplacian factorization or an accuracy/speed promise. This is a feasibility
+discussion with a diagnostic, not implemented first derivatives or NS, a
+default switch or training request. Production/reference/artifacts unchanged.
+Relation: fully-nonlocal-flow-assessment.
+
+## 2026-10-27 — Test nonlocal first derivatives on prescribed-flow CH first
+
+Decision: user requests an actual effect test. Add optional nonlocal_flux with
+periodic moment-corrected nodal gradient G and negative-adjoint divergence D,
+using the same cubic radial horizon as the pair Laplacian. Retain that positive
+pair Laplacian rather than substituting -DG: known gradient null modes remain
+explicit, and no pressure/NS stability claim is made. Start with direct output,
+same hard IC/mass and original two PDE losses, FP64/ordinary, SOAP5000+LBFGS1000.
+Run fresh spectral/nonlocal-flux controls with seed42 and same initial network.
+Create a separate native reference with independent Fourier symbols and dt
+refinement; use the SAME already-refined local PDE reference for cross-method
+errors. New-mode identity explicitly includes advection, while old identities
+remain unchanged. Old data/checkpoint paths and defaults stay intact. No
+unrequested horizon/kernel tuning, stabilization, full NS or SOAP work.
+Relation: twophase-nonlocal-flux; fully-nonlocal-flow-assessment.
+
+Pre-training validation: ten focused numerical/legacy transport checks pass.
+New native dt2e-4/1e-4 reference differences are1.3384e-5 max phase and1.4734e-4
+max chemical; unchanged common-local fields are reused explicitly from their
+validated direct path, rather than regenerated with a different target. Native
+phase differs9.219% pooled/3.858% terminal from common local, versus the old
+pair-only diffusion reference gap~1.28%/1.17%. Keep this measured model/
+discretization bias separate from PINN optimization; it is not a strict error
+floor. Both new cold-start raw initial checkpoints and37source snapshots
+match. After their snapshots were captured, add validation-only rejection of
+the unsupported nonlocal-flux/local-diffusion combination; no executed run
+branch or numerical formulation changes. Its focused schema/common-target
+check passes. Retain the same horizon/kernel; no post-result tuning.
+
+## 2026-10-27 — Retain spectral flux after the complete first-derivative control
+
+Decision: both fresh seed42 runs finish SOAP5000+LBFGS1000 and pass independent
+CPU field replays. Common-local pooled/terminal phi FFT2.9236%/3.1270% versus
+all-spatial-nonlocal8.5448%/4.5147%; native pooled3.2435%/2.7625% uses DIFFERENT
+targets and must not be labeled a shared accuracy gain. Trainer213.41/217.63s
+shows no speed benefit. Native nonlocal first derivatives already change the
+reference by9.219% pooled and cause large overshoots[-1.546,1.586], reproduced
+in kind by the trained phase[-1.415,1.378]. q common-local errors55.3%/147.6%
+remain explicit. This is evidence of substantial transport discretization/model
+bias at64x64/delta0.04 with this centered cubic-moment operator; it does not
+prove all-nonlocal methods are worse or uniquely attribute the result to a
+checkerboard mode. Keep optional research preset and the original FFT default.
+Reject hidden stabilization, more training or horizon/kernel tuning within this
+matched control. No NS/pressure or robustness claim, no SOAP/Git work.
+Relation: twophase-nonlocal-flux.
+
+## 2026-10-27 — Defer nonperiodic boundary work and retain FFT first derivatives
+
+Decision: user explicitly asks to record the FFT periodic-boundary limitation,
+defer deeper work and keep the current FFT first derivative. Record a standalone
+issue linked from README/PROGRESS. The recommended conserved vortex keeps
+spectral_flux, independent nonlocal pair Laplacians, time JVP and direct phase
+output. Current Fourier differentiation and nonlocal neighborhoods both assume
+periodic geometry; network BC constraints alone do not generalize those
+operators. Do not launch a boundary redesign, resume nonlocal first-derivative
+optimization or add NS without an explicit new request. Existing configs,
+references and artifacts stay intact. This is a documentation-only deferral,
+not a default/physics change or a blocked numerical task.
+Relation: twophase-fft-boundary-issue; twophase-nonlocal-flux.
+
+## 2026-10-27 — Extend coherent precipitation through unequal particle interactions
+
+Decision: user asks for a less trivial precipitate case. Retain the declared
+quartic CH energy, homogeneous isotropic elastic equilibration, periodic
+zero-macrostrain boundary and1% anisotropic eigenstrain. Add an explicit
+multiple-particle IC as a smooth union of periodic tanh particles; only the
+initial field is constrained. Preflight unequal particle sizes/non-symmetric
+positions over a longer horizon and stronger elastic/interface competition
+before choosing the final case. This supplies morphology/coarsening/elastic
+interaction without inventing a heterogeneous constitutive law or claiming
+PFHub4 reproduction. Keep old schema/arithmetic/checkpoint leaves and the
+simple default, use separate config/reference/log paths. Refined references
+and zero-eigenstrain control must show actual complexity before PINN accuracy
+claims. Exact mechanical elimination remains explicit, not a learned-u claim.
+Sources: existing energy derivation and PFHub4 overview (multiple-precipitate
+shape/coarsening motivation); its detailed BC/potential/material choices are
+different and are not silently adopted. No Git operation or deferred work.
+Relation: precipitate-multiparticle.
+
+Reference-only preflight selects three initial centers(.35,.32),(.67,.36),
+(.40,.68), levels0.18/0.11/0.065, shared width0.035/background-0.95, T4 and
+fourfold elastic moduli(lambda9800,mu4900), keeping eigenstrain1%. At native63
+the smallest component disappears and the largest elongates; uncoupled control
+instead merges the lower pair. No future shape is prescribed. Freeze this
+physical case before training. A t0 spatial precheck finds q difference0.2948%
+between127/255, above the existing0.2% criterion; increase the coarse local
+reference validation grid to191, keep fine255 and unchanged tolerance/IC.
+Retain paired nonlocal and local_spectral training controls with the same
+current strategy/budget; no local AD run is needed to establish this extension.
+
+User steering supersedes that comparison choice: use local AD as the PRIMARY
+control, with the same multi-particle model and SOAP5000+LBFGS500 budget.
+The local spectral run completed just before the instruction; retain its
+artifacts as exploratory history, exclude it from the main comparison and do
+not rerun it. Launch local AD through train_multiple.py with explicit
+--config.nl.method=local_ad, keeping the existing source snapshots unchanged.
+New analysis must measure mass relative to the directly sampled hard-IC mean;
+the common fine-grid local field transfer differs2.88078e-6 in mean and0.2091%
+initial phase L2. This is reported discretization mismatch, not conservation
+failure and not grounds to relax tolerances or rewrite the reference.
+
+## 2026-10-27 — Keep harder precipitate results as an opt-in baseline
+
+Decision: complete the user-requested nonlocal/local AD comparison with the
+frozen three-particle,T4,fourfold-modulus case. Same initialized bytes,21 source
+files and SOAP5000+LBFGS500 produce common-local final pooled phi8.0304%/
+12.8981%, terminal9.1820%/19.2435%, trainer183.34/674.27s. Both independent CPU
+replays and physical audits pass. Native nonlocal pooled phi7.3559%, so the
+1.2353% native/local target gap alone cannot explain remaining training error.
+Do not promote this untuned harder case as the default or claim stable operator
+accuracy ordering from one seed. Retain original simple pilot and expose the
+new config through train.py. Best validation checkpoints occur before LBFGS
+completion; record best and final-budget results separately, using the latter
+for primary matched fields. Reject extra optimization, seed tuning or SOAP
+investigation in this case-extension task. Late small-particle disappearance
+and high initial q remain limitations. Solved mechanics remains spectral for
+both phase differentiation schemes. Completed local spectral exploration is
+preserved but excluded from the requested primary comparison. No Git operation.
+Relation: precipitate-multiparticle.
+
+## 2026-10-27 — Recommend confined CH for the Neumann geometry study
+
+Decision: assess, rather than implement, a new phase-field case. Recommend
+constant-mobility quartic CH phase separation/coarsening in a smooth elliptical
+container with two unequal impermeable circular holes, neutral surface energy
+and no mass flux on every wall. Compare nonlocal pair diffusion with local AD,
+using independent mixed-FEM local reference plus a separately audited native
+nonlocal solve. Avoid mechanics/NS/anisotropic wetting coupling in the first
+boundary-focused example; retain existing examples and deferred FFT issue.
+Natural graph/regional closure eliminates external exchange and a separate
+boundary-normal loss for the declared nonlocal problem; it is NOT exact
+pointwise classical Neumann enforcement at finite horizon. Symmetric pair
+weights, physical quadrature volumes, geometric visibility and local-limit
+boundary convergence require validation before an advantage claim. FEM already
+incorporates homogeneous Neumann weakly, so do not claim uniqueness to nonlocal.
+Published complex-domain CH examples and nonlocal Neumann/local-limit theory
+support feasibility, not guaranteed PINN accuracy or arbitrary-kernel convergence.
+Relation: phasefield-neumann-candidates.

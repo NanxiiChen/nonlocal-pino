@@ -4,6 +4,7 @@ from examples.twophase2d.configs.train_vortex_conserved import get_config as con
 
 def get_config():
     c = conserved_config()
+    c.phase.map = 'inverse_cubic'
     c.train.refinement.iterations = 3000
     c.train.refinement.max_evaluations = 5000
     return c

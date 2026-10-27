@@ -1,0 +1,132 @@
+{
+  "status": "passed",
+  "identity": {
+    "case": "twophase2d-periodic-prescribed-flow",
+    "schema": 1,
+    "geometry": {
+      "length": 1.0
+    },
+    "physical": {
+      "epsilon": 0.02,
+      "mobility": 0.0001,
+      "terminal_time": 2.0,
+      "velocity": {
+        "amplitude": 2.0,
+        "kind": "reversed_vortex",
+        "period": 2.0
+      }
+    },
+    "initial": {
+      "center": [
+        0.5,
+        0.75
+      ],
+      "level": 0.2,
+      "width": 0.06
+    },
+    "grid": [
+      64,
+      64
+    ],
+    "delta": 0.04,
+    "kernel": "cubic",
+    "normalization": "discrete_second_moment",
+    "advection": "nonlocal_flux"
+  },
+  "checks": {
+    "phi_time": {
+      "pooled": 8.733395589926816e-06,
+      "terminal": 2.0670564652375335e-06,
+      "max_snapshot": 1.3384066293844366e-05
+    },
+    "q_time": {
+      "pooled": 0.0001293656602506297,
+      "terminal": 4.8204601502741e-05,
+      "max_snapshot": 0.00014734272837358948
+    },
+    "mass_max_drift": 1.1102230246251565e-16,
+    "native_vs_common_local_phi": {
+      "pooled": 0.0921897735458053,
+      "terminal": 0.03857728693137952
+    }
+  },
+  "method": "Independent NumPy/SciPy IMEX-BDF2 with nonlocal first-derivative symbols; no training operator import",
+  "common_local_reference": "/root/autodl-tmp/data/twophase2d/results_periodic_vortex.npz",
+  "common_local_checks": {
+    "status": "passed",
+    "identity": {
+      "case": "twophase2d-periodic-prescribed-flow",
+      "schema": 1,
+      "geometry": {
+        "length": 1.0
+      },
+      "physical": {
+        "epsilon": 0.02,
+        "mobility": 0.0001,
+        "terminal_time": 2.0,
+        "velocity": {
+          "amplitude": 2.0,
+          "kind": "reversed_vortex",
+          "period": 2.0
+        }
+      },
+      "initial": {
+        "center": [
+          0.5,
+          0.75
+        ],
+        "level": 0.2,
+        "width": 0.06
+      },
+      "grid": [
+        64,
+        64
+      ],
+      "delta": 0.04,
+      "kernel": "cubic",
+      "normalization": "discrete_second_moment"
+    },
+    "checks": {
+      "graph_time": {
+        "pooled_phi": 1.980499224766269e-05,
+        "terminal_phi": 1.534686105141433e-05,
+        "max_snapshot_phi": 3.6154046632467845e-05
+      },
+      "local_time": {
+        "pooled_phi": 1.3930205064223359e-05,
+        "terminal_phi": 1.0127905860368097e-05,
+        "max_snapshot_phi": 2.5428585684052205e-05
+      },
+      "local_space": {
+        "pooled_phi": 9.978743090809614e-08,
+        "terminal_phi": 1.0408680056906357e-09,
+        "max_snapshot_phi": 1.9916714870136412e-07
+      },
+      "graph_vs_local": {
+        "pooled_phi": 0.01280469875038337,
+        "terminal_phi": 0.0116848742430017
+      },
+      "local_mass_max_drift": 2.220446049250313e-16,
+      "nonlocal_mass_max_drift": 1.1102230246251565e-16
+    },
+    "method": "Independent Fourier IMEX-BDF2; no PINN operator import",
+    "configuration": {
+      "dt": 0.0002,
+      "error_tolerance": 0.002,
+      "local_grid": 128,
+      "path": "/root/autodl-tmp/data/twophase2d/results_periodic_vortex.npz",
+      "refined_dt": 0.0001,
+      "refined_local_grid": 256,
+      "snapshots": 21
+    }
+  },
+  "configuration": {
+    "dt": 0.0002,
+    "error_tolerance": 0.002,
+    "local_grid": 128,
+    "path": "/root/autodl-tmp/data/twophase2d/results_periodic_vortex_nonlocal_flux.npz",
+    "refined_dt": 0.0001,
+    "refined_local_grid": 256,
+    "snapshots": 21
+  }
+}

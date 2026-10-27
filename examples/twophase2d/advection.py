@@ -1,10 +1,21 @@
-"""Conservative Fourier divergence of periodic nodal velocity-phase flux."""
+"""Conservative Fourier or finite-horizon divergence of periodic nodal flux."""
 import jax.numpy as jnp
 import numpy as np
+from examples.twophase2d.operators import PeriodicGradient
 
 
 def make_flux_divergence(config, *, dtype):
     n = config.sample.Nx
+    if config.advection == 'nonlocal_flux':
+        derivative = PeriodicGradient(n, config.geometry.length, config.nl.delta, dtype=dtype)
+
+        def nonlocal_divergence(phi, velocity):
+            if phi.shape != (n*n,) or velocity.shape != (n*n, 2):
+                raise ValueError('Nonlocal flux requires full periodic grid phase and velocity')
+            return derivative.divergence(phi[:, None]*velocity)
+        return nonlocal_divergence
+    if config.advection != 'spectral_flux':
+        raise ValueError('Flux advection must be spectral_flux or nonlocal_flux')
     frequency = 2*np.pi*np.fft.fftfreq(n, d=config.geometry.length/n)
     frequency[n//2] = 0.  # Real even-grid first derivative at Nyquist.
     ky = jnp.asarray(frequency, dtype=dtype)

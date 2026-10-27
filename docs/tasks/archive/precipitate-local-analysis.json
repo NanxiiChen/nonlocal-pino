@@ -1,0 +1,271 @@
+{
+  "runs": {
+    "nonlocal_phase": {
+      "best_step": 5500,
+      "native_pooled_phi": 0.0003871705262018016,
+      "native_terminal_phi": 0.00030924307749992765,
+      "wall_seconds": 183.08664362877607,
+      "first_update_seconds": 31.35397432371974,
+      "mean_update_seconds_after_100": 0.019704153864663475,
+      "refinement_seconds": 37.86569242551923,
+      "refinement_iterations": 500,
+      "final_native_phi": 0.0003871705262018016,
+      "common_local": {
+        "phi": {
+          "pooled": 0.005419979173641234,
+          "terminal": 0.0055925455476939605
+        },
+        "q": {
+          "pooled": 0.07425660342648596,
+          "terminal": 0.004539726134948514
+        },
+        "u": {
+          "pooled": 0.0018923684386765829,
+          "terminal": 0.0020598941353555515
+        },
+        "stress": {
+          "pooled": 0.004762385179316733,
+          "terminal": 0.004965908040307155
+        }
+      },
+      "native": {
+        "phi": {
+          "pooled": 0.0003871705262018006,
+          "terminal": 0.00030924307749992283
+        },
+        "q": {
+          "pooled": 0.038070022209179454,
+          "terminal": 0.0031620751252817085
+        },
+        "u": {
+          "pooled": 0.00018487678366297362,
+          "terminal": 0.00015204128619343617
+        },
+        "stress": {
+          "pooled": 0.00035414714269394756,
+          "terminal": 0.00028720363738305766
+        }
+      },
+      "per_time_common_local_phi": [
+        2.7152347963620855e-05,
+        0.0057696198167118415,
+        0.005027180609920225,
+        0.005340301326369877,
+        0.005595455506552015,
+        0.005675239503570773,
+        0.005658136151809918,
+        0.005615978399445198,
+        0.005578437437220169,
+        0.005552028705397022,
+        0.005537093102844442,
+        0.005533083922070545,
+        0.005538739107913289,
+        0.005551570564748833,
+        0.005567464100965004,
+        0.0055811419977850885,
+        0.005588477743899654,
+        0.005589669270776311,
+        0.005589825078510867,
+        0.0055934370570166385,
+        0.0055925455476939605
+      ],
+      "common_local_interface_band_phi": 0.02002893076055553,
+      "mass_drift": 2.220446049250313e-16,
+      "sampled_max_energy_increase": 0.0,
+      "initial_q_relative_error": 0.16420356016269005
+    },
+    "local_spectral": {
+      "best_step": 5500,
+      "native_pooled_phi": 0.0005988807697758342,
+      "native_terminal_phi": 0.0005286682965014202,
+      "wall_seconds": 183.07805690914392,
+      "first_update_seconds": 30.06239677965641,
+      "mean_update_seconds_after_100": 0.01995038351310151,
+      "refinement_seconds": 37.905089765787125,
+      "refinement_iterations": 500,
+      "final_native_phi": 0.0005988807697758342,
+      "common_local": {
+        "phi": {
+          "pooled": 0.0005988807697758339,
+          "terminal": 0.0005286682965014198
+        },
+        "q": {
+          "pooled": 0.07273298632822264,
+          "terminal": 0.004467395934979266
+        },
+        "u": {
+          "pooled": 0.00027815896641227917,
+          "terminal": 0.00024943300643787787
+        },
+        "stress": {
+          "pooled": 0.0005156473812772106,
+          "terminal": 0.0005107730072999978
+        }
+      },
+      "native": {
+        "phi": {
+          "pooled": 0.0005988807697758339,
+          "terminal": 0.0005286682965014198
+        },
+        "q": {
+          "pooled": 0.07273298632822264,
+          "terminal": 0.004467395934979266
+        },
+        "u": {
+          "pooled": 0.00027815896641227917,
+          "terminal": 0.00024943300643787787
+        },
+        "stress": {
+          "pooled": 0.0005156473812772106,
+          "terminal": 0.0005107730072999978
+        }
+      },
+      "per_time_common_local_phi": [
+        2.7152347963620855e-05,
+        0.0016357644685565348,
+        0.000987898803899605,
+        0.0006706986992870023,
+        0.0005737020212374449,
+        0.0005460799497656416,
+        0.0005135210284205743,
+        0.000489498626339935,
+        0.00047070546137969544,
+        0.0004489437981832546,
+        0.0004270434063015923,
+        0.00041382552511158853,
+        0.0004117136925877726,
+        0.00041266010062066536,
+        0.00040584119150991556,
+        0.00038661957930508306,
+        0.0003624406433091381,
+        0.0003503756774240859,
+        0.000367785336611701,
+        0.00042625159650727456,
+        0.0005286682965014198
+      ],
+      "common_local_interface_band_phi": 0.0018101688520086507,
+      "mass_drift": 2.220446049250313e-16,
+      "sampled_max_energy_increase": 0.0,
+      "initial_q_relative_error": 0.29978774930897145
+    },
+    "local_ad": {
+      "best_step": 5500,
+      "native_pooled_phi": 0.0006765729200360847,
+      "native_terminal_phi": 0.0005895238398568732,
+      "wall_seconds": 680.058774728328,
+      "first_update_seconds": 63.50099824741483,
+      "mean_update_seconds_after_100": 0.09152535658025619,
+      "refinement_seconds": 141.4886338636279,
+      "refinement_iterations": 500,
+      "final_native_phi": 0.0006765729200360847,
+      "common_local": {
+        "phi": {
+          "pooled": 0.000676572920036084,
+          "terminal": 0.0005895238398568756
+        },
+        "q": {
+          "pooled": 0.07278502636909857,
+          "terminal": 0.00364186042419783
+        },
+        "u": {
+          "pooled": 0.00029919522440026496,
+          "terminal": 0.00030579642755133553
+        },
+        "stress": {
+          "pooled": 0.0006219640268540093,
+          "terminal": 0.0005303218891481614
+        }
+      },
+      "native": {
+        "phi": {
+          "pooled": 0.000676572920036084,
+          "terminal": 0.0005895238398568756
+        },
+        "q": {
+          "pooled": 0.07278502636909857,
+          "terminal": 0.00364186042419783
+        },
+        "u": {
+          "pooled": 0.00029919522440026496,
+          "terminal": 0.00030579642755133553
+        },
+        "stress": {
+          "pooled": 0.0006219640268540093,
+          "terminal": 0.0005303218891481614
+        }
+      },
+      "per_time_common_local_phi": [
+        2.7152347963620855e-05,
+        0.0016301185950686615,
+        0.0011211659271206655,
+        0.0007652399878602987,
+        0.0005414137130950896,
+        0.0005099323890414324,
+        0.0005145951477724599,
+        0.0005189715817384829,
+        0.0005203231073590286,
+        0.0005220076212283339,
+        0.000530628199339415,
+        0.0005484668611946054,
+        0.0005694221366930346,
+        0.0005848869976375134,
+        0.000588733270632764,
+        0.0005790397720036814,
+        0.0005595335509503707,
+        0.0005397656064746191,
+        0.0005326541369477002,
+        0.000547907210794489,
+        0.0005895238398568756
+      ],
+      "common_local_interface_band_phi": 0.0020511703517981992,
+      "mass_drift": 2.220446049250313e-16,
+      "sampled_max_energy_increase": 0.0,
+      "initial_q_relative_error": 0.2997900958391514
+    }
+  },
+  "parity": {
+    "nonlocal_phase": {
+      "config_differences": {},
+      "initial_parameter_bytes_equal": true,
+      "network_mechanics_source_equal": true,
+      "random_sampling_assignment_AST_equal": true,
+      "shared_arch_optimizer_runtime_refinement_source_equal": true,
+      "sampling_scope": "same seed/counts/code; full actual GPU time arrays were not logged"
+    },
+    "local_spectral": {
+      "config_differences": {
+        "nl.method": [
+          "nonlocal",
+          "local_spectral"
+        ],
+        "log.run_name": [
+          "20261027-periodic-elastic-pilot-01",
+          "20261027-periodic-elastic-local-spectral-01"
+        ]
+      },
+      "initial_parameter_bytes_equal": true,
+      "network_mechanics_source_equal": true,
+      "random_sampling_assignment_AST_equal": true,
+      "shared_arch_optimizer_runtime_refinement_source_equal": true,
+      "sampling_scope": "same seed/counts/code; full actual GPU time arrays were not logged"
+    },
+    "local_ad": {
+      "config_differences": {
+        "nl.method": [
+          "nonlocal",
+          "local_ad"
+        ],
+        "log.run_name": [
+          "20261027-periodic-elastic-pilot-01",
+          "20261027-periodic-elastic-local-ad-01"
+        ]
+      },
+      "initial_parameter_bytes_equal": true,
+      "network_mechanics_source_equal": true,
+      "random_sampling_assignment_AST_equal": true,
+      "shared_arch_optimizer_runtime_refinement_source_equal": true,
+      "sampling_scope": "same seed/counts/code; full actual GPU time arrays were not logged"
+    }
+  },
+  "scope": "Single seed, historical nonlocal vs two new controls. Mechanics spectral and solved in all. Timings include JIT/eval/refinement; no matched local-AD accuracy guarantee or statistical ranking."
+}

@@ -1,0 +1,25 @@
+{
+  "scope": "Independent nodal periodic candidate only, not a validated NS/CH discretization or production operator.",
+  "moment_identity_max_error": 6.9253413767511596e-18,
+  "gradient_constant_max": 5.55057302203954e-16,
+  "gradient_skew_max": 2.8796409701215e-16,
+  "divergence_global_sum": 0.0,
+  "adjoint_inner_product_gap": 1.4210854715202004e-14,
+  "phase_capillary_work_cancellation_gap": 2.1316282072803006e-14,
+  "checkerboard_gradient_max": 3.330126972789227e-16,
+  "checkerboard_pair_laplacian_rms": 497.0732800940963,
+  "composition_is_not_pair_laplacian_relative_frobenius": 0.9742794985686704,
+  "sin_mode_relative_errors": [
+    {
+      "n": 16,
+      "delta": 0.2,
+      "relative": 0.06634994650749503
+    },
+    {
+      "n": 32,
+      "delta": 0.1,
+      "relative": 0.016945642824955944
+    }
+  ],
+  "status": "passed"
+}

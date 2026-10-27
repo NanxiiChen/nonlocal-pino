@@ -19,7 +19,8 @@ Before implementation, read the relevant reference documents:
   sampling, and functional-style rules.
 
 The examples are `icemelting3d`, `electropolish2d`, `elasticity2d`, `corrosion1d`, `corrosion2d`,
-and the prescribed-flow phase-field pilot `twophase2d`.
+the prescribed-flow phase-field pilot `twophase2d`, and the coupled elastic
+precipitate pilot `precipitate2d`.
 
 ### Documentation Roles
 

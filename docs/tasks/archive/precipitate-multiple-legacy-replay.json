@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "run": "/root/autodl-tmp/tf-logs/precipitate2d/20261027-periodic-elastic-pilot-01",
+  "saved_schema": "legacy single particle",
+  "checkpoint": "/root/autodl-tmp/tf-logs/precipitate2d/20261027-periodic-elastic-pilot-01/model_best.eqx",
+  "maximum_absolute_differences": {
+    "phi": 1.3322676295501878e-15,
+    "q": 2.220446049250313e-16,
+    "u": 6.505213034913027e-19,
+    "stress": 3.907985046680551e-14
+  },
+  "run_files_written": false
+}

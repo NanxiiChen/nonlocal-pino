@@ -4230,7 +4230,11 @@
         "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-conserved-causal_conserved",
         "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-conserved-conserved",
         "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-conserved-consistent",
+        "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-flux-nonlocal",
+        "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-flux-spectral",
         "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-initial-initial_time",
+        "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-map-ablation-additive",
+        "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-map-ablation-cubic",
         "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-matched-local_ad",
         "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-matched-nonlocal",
         "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-operator-cubic",
@@ -5141,7 +5145,8 @@
         "report": "docs/tasks/archive/twophase-operator-preconditioning.md",
         "validation": "docs/tasks/archive/twophase-operator-validation.json",
         "conclusion": "Two recommended cold starts give local pooled phi2.84%/2.91%, terminal2.34%/2.56%;1% not reached. Frozen preconditioners and longer refinement are not recommended.",
-        "default_scope": "Explicit vortex recommendation; constant-flow base config and other example configs retained."
+        "default_scope": "Explicit vortex recommendation; constant-flow base config and other example configs retained.",
+        "scope": "Historical cubic study; config paths name the launch-time presets. Saved per-run config.json files are authoritative; see vortex_default for the current additive default."
       },
       "vortex_matched_local_comparison": {
         "report": "docs/tasks/archive/twophase-matched-local-comparison.md",
@@ -5173,7 +5178,8 @@
             "mean_soap_update_seconds_after_100": 0.08315609516309841
           }
         ],
-        "conclusion": "Local pooled3.36% vs nonlocal3.78%, terminal3.22% vs3.27%; nonlocal4.38x faster by trainer time. One pair, historical nonlocal2.84% shows accuracy variation; defaults retained."
+        "conclusion": "Local pooled3.36% vs nonlocal3.78%, terminal3.22% vs3.27%; nonlocal4.38x faster by trainer time. One pair, historical nonlocal2.84% shows accuracy variation; defaults retained.",
+        "phase_map_at_launch": "inverse_cubic; current named presets default to additive. Use the explicit phase.map override or saved run config for cubic replay."
       },
       "vortex_repeatability_diagnosis": {
         "report": "docs/tasks/archive/twophase-repeatability.md",
@@ -5208,6 +5214,154 @@
         "conclusion": "No tested core translation/wrapper defect explains current variability; degenerate-basis sensitivity also appears in reference implementations. Nonzero decay ordering differs, inactive at current zero decay.",
         "dependencies_changed": false,
         "production_training_changed": false
+      },
+      "vortex_map_ablation": {
+        "record": "docs/tasks/archive/twophase-map-ablation.md",
+        "analysis": "docs/tasks/archive/twophase-map-ablation-analysis.json",
+        "convergence": "docs/tasks/archive/twophase-map-ablation-convergence.png",
+        "scope": "Fresh single-seed pair, same raw parameters but map-dependent initial future fields; not statistical robustness, no coupled NS or SOAP diagnosis.",
+        "training": "seed42; original two PDE losses; hard IC/grid mass; conservative flux; FP64/ordinary; SOAP5000 + L-BFGS1000",
+        "reference": "/root/autodl-tmp/data/twophase2d/results_periodic_vortex.npz",
+        "common_target": "phi_local; final-budget checkpoints",
+        "configs": {
+          "additive": "examples/twophase2d/configs/train_vortex_consistent.py",
+          "cubic": "examples/twophase2d/configs/train_vortex_conserved.py"
+        },
+        "runs": {
+          "additive": {
+            "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-map-ablation-additive",
+            "pooled_phi_local": 0.03200642766350364,
+            "terminal_phi_local": 0.03621521861532902,
+            "pooled_phi_native": 0.03585413439787093,
+            "terminal_phi_native": 0.04089694374438059,
+            "pooled_interface_phi_local": 0.13779837793074473,
+            "terminal_interface_phi_local": 0.1486317929372778,
+            "trainer_seconds": 212.3815519362688
+          },
+          "cubic": {
+            "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-map-ablation-cubic",
+            "pooled_phi_local": 0.032522265520416094,
+            "terminal_phi_local": 0.02915862422777188,
+            "pooled_phi_native": 0.035642085364970065,
+            "terminal_phi_native": 0.03234164818769382,
+            "pooled_interface_phi_local": 0.14242792821039293,
+            "terminal_interface_phi_local": 0.11636167622312507,
+            "trainer_seconds": 217.82857042178512
+          }
+        },
+        "config_path_scope": "Launch-time preset paths; conserved now defaults to additive. Saved run configs preserve the actual maps."
+      },
+      "vortex_default": {
+        "entry": "examples/twophase2d/train.py",
+        "config": "examples/twophase2d/configs/train_vortex_conserved.py",
+        "phase_map": "additive",
+        "optional_map_override": "--config.phase.map=inverse_cubic",
+        "disable_map_override": "--config.phase.map=additive",
+        "reason": "User prioritizes common schemes across examples; one fresh pair shows comparable pooled phase error. Cubic is optional, not required.",
+        "record": "docs/tasks/archive/twophase-optional-map.md",
+        "matched_additive_run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-map-ablation-additive",
+        "matched_additive_config": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-map-ablation-additive/config.json",
+        "matched_additive_final_checkpoint": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-map-ablation-additive/model_final.eqx",
+        "pooled_phi_relative_L2_common_local": 0.03200642766350364,
+        "terminal_phi_relative_L2_common_local": 0.03621521861532902,
+        "scope": "Default selection only; no new training or altered artifacts. Old results remain labeled with their actual maps."
+      },
+      "vortex_nonlocal_flux_experiment": {
+        "entry": "examples/twophase2d/train.py",
+        "config": "examples/twophase2d/configs/train_vortex_nonlocal_flux.py",
+        "baseline_config": "examples/twophase2d/configs/train_vortex_conserved.py",
+        "reference": "/root/autodl-tmp/data/twophase2d/results_periodic_vortex_nonlocal_flux.npz",
+        "reference_checks": "/root/autodl-tmp/data/twophase2d/results_periodic_vortex_nonlocal_flux.json",
+        "common_local_source": "/root/autodl-tmp/data/twophase2d/results_periodic_vortex.npz",
+        "record": "docs/tasks/archive/twophase-nonlocal-flux.md",
+        "analysis": "docs/tasks/archive/twophase-nonlocal-flux-analysis.json",
+        "convergence": "docs/tasks/archive/twophase-nonlocal-flux-convergence.png",
+        "fields": "docs/tasks/archive/twophase-nonlocal-flux-fields.png",
+        "scope": "One fresh seed42 pair; prescribed-flow CH only. Native targets differ; no full NS, stable ranking or causal optimizer diagnosis.",
+        "defaults_changed": false,
+        "runs": {
+          "spectral": {
+            "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-flux-spectral",
+            "pooled_phi_local": 0.029236186561962814,
+            "terminal_phi_local": 0.03127021834305664,
+            "pooled_phi_native": 0.032435039435246026,
+            "terminal_phi_native": 0.034616664233115504,
+            "pooled_band_phi_local": 0.12594492012363973,
+            "terminal_band_phi_local": 0.12553031334778825,
+            "pooled_q_local": 0.5531842181666965,
+            "pooled_q_native": 0.532498216656211,
+            "trainer_seconds": 213.40681841224432,
+            "mean_compiled_soap_seconds": 0.01682609332155208
+          },
+          "nonlocal": {
+            "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-flux-nonlocal",
+            "pooled_phi_local": 0.08544796705855329,
+            "terminal_phi_local": 0.045147103588614096,
+            "pooled_phi_native": 0.0276249374653274,
+            "terminal_phi_native": 0.030188027904278738,
+            "pooled_band_phi_local": 0.38751335208653775,
+            "terminal_band_phi_local": 0.19549922766124414,
+            "pooled_q_local": 1.4758372936150776,
+            "pooled_q_native": 0.4351746913205745,
+            "trainer_seconds": 217.63315681368113,
+            "mean_compiled_soap_seconds": 0.017635337985595877
+          }
+        }
+      }
+    },
+    {
+      "case": "precipitate2d",
+      "owner": "nonlocal-pinn",
+      "role": "research_pilot",
+      "data_root": "/root/autodl-tmp/data/precipitate2d",
+      "run_root": "/root/autodl-tmp/tf-logs/precipitate2d",
+      "data_children": [],
+      "run_children": [
+        "/root/autodl-tmp/tf-logs/precipitate2d/20261027-periodic-elastic-pilot-01",
+        "/root/autodl-tmp/tf-logs/precipitate2d/20261027-entry-smoke-01",
+        "/root/autodl-tmp/tf-logs/precipitate2d/20261027-periodic-elastic-local-spectral-01",
+        "/root/autodl-tmp/tf-logs/precipitate2d/20261027-periodic-elastic-local-ad-01",
+        "/root/autodl-tmp/tf-logs/precipitate2d/20261027-multiple-elastic-nonlocal-01",
+        "/root/autodl-tmp/tf-logs/precipitate2d/20261027-multiple-elastic-local-spectral-01",
+        "/root/autodl-tmp/tf-logs/precipitate2d/20261027-multiple-elastic-local-ad-01"
+      ],
+      "default_training": {
+        "entry": "examples/precipitate2d/train.py",
+        "config": "examples/precipitate2d/configs/train_base.py",
+        "optimizer": "soap5000+LBFGS500",
+        "gpu_policy": "ordinary",
+        "compute_dtype": "float64",
+        "scope": "pilot; not a cross-seed SOTA claim; phase PINN plus exact differentiable elastic equilibrium",
+        "selected_checkpoint": "/root/autodl-tmp/tf-logs/precipitate2d/20261027-periodic-elastic-pilot-01/model_best.eqx",
+        "reference": "/root/autodl-tmp/data/precipitate2d/results_periodic_smallstrain_pilot.npz",
+        "metrics": "/root/autodl-tmp/tf-logs/precipitate2d/20261027-periodic-elastic-pilot-01/best_metrics.json",
+        "report": "docs/tasks/archive/elastic-precipitate-pilot.md"
+      },
+      "other_runs": {
+        "20261027-entry-smoke-01": "2-update CLI completion check only; not accuracy evidence",
+        "20261027-multiple-elastic-local-spectral-01": "Completed exploratory run before user changed primary control to local AD; excluded from main comparison, preserved without rerun"
+      },
+      "preflight_reference": {
+        "path": "/root/autodl-tmp/data/precipitate2d/results_periodic_pilot.npz",
+        "role": "pretraining energy-scale check with E=.35 and lower moduli; not used for training"
+      },
+      "local_comparison": {
+        "report": "docs/tasks/archive/precipitate-local-comparison.md",
+        "analysis": "docs/tasks/archive/precipitate-local-analysis.json",
+        "configs": [
+          "examples/precipitate2d/configs/train_local_spectral.py",
+          "examples/precipitate2d/configs/train_local_ad.py"
+        ],
+        "shared_reference": "/root/autodl-tmp/data/precipitate2d/results_periodic_smallstrain_pilot.npz",
+        "scope": "Single seed, same initializer/budget/mechanics; default unchanged; common and native targets reported separately"
+      },
+      "multiple_particles": {
+        "config": "examples/precipitate2d/configs/train_multiple.py",
+        "local_control": "same config with --config.nl.method=local_ad",
+        "reference": "/root/autodl-tmp/data/precipitate2d/results_periodic_multiple.npz",
+        "report": "docs/tasks/archive/precipitate-multiparticle.md",
+        "analysis": "docs/tasks/archive/precipitate-multiple-analysis.json",
+        "scope": "Explicit harder opt-in case; original simple default retained; nonlocal/local AD main comparison; single seed matched budget"
       }
     }
   ],
