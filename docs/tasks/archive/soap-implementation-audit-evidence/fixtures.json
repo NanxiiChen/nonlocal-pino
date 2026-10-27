@@ -1,0 +1,231 @@
+{
+  "cases": [
+    {
+      "key": "native_vector_float32",
+      "mode": "native",
+      "shape": [
+        7
+      ],
+      "dtype": "float32",
+      "precondition_1d": false,
+      "maxdim": 128,
+      "weight_decay": 0.0,
+      "correct_bias": true,
+      "frequency": 5
+    },
+    {
+      "key": "native_vector_float64",
+      "mode": "native",
+      "shape": [
+        7
+      ],
+      "dtype": "float64",
+      "precondition_1d": false,
+      "maxdim": 128,
+      "weight_decay": 0.0,
+      "correct_bias": true,
+      "frequency": 5
+    },
+    {
+      "key": "native_square_float32",
+      "mode": "native",
+      "shape": [
+        3,
+        3
+      ],
+      "dtype": "float32",
+      "precondition_1d": false,
+      "maxdim": 128,
+      "weight_decay": 0.0,
+      "correct_bias": true,
+      "frequency": 5
+    },
+    {
+      "key": "native_square_float64",
+      "mode": "native",
+      "shape": [
+        3,
+        3
+      ],
+      "dtype": "float64",
+      "precondition_1d": false,
+      "maxdim": 128,
+      "weight_decay": 0.0,
+      "correct_bias": true,
+      "frequency": 5
+    },
+    {
+      "key": "native_tensor_float32",
+      "mode": "native",
+      "shape": [
+        3,
+        4,
+        2
+      ],
+      "dtype": "float32",
+      "precondition_1d": false,
+      "maxdim": 128,
+      "weight_decay": 0.0,
+      "correct_bias": true,
+      "frequency": 5
+    },
+    {
+      "key": "native_tensor_float64",
+      "mode": "native",
+      "shape": [
+        3,
+        4,
+        2
+      ],
+      "dtype": "float64",
+      "precondition_1d": false,
+      "maxdim": 128,
+      "weight_decay": 0.0,
+      "correct_bias": true,
+      "frequency": 5
+    },
+    {
+      "key": "native_partial_float32",
+      "mode": "native",
+      "shape": [
+        6,
+        3
+      ],
+      "dtype": "float32",
+      "precondition_1d": false,
+      "maxdim": 4,
+      "weight_decay": 0.0,
+      "correct_bias": true,
+      "frequency": 5
+    },
+    {
+      "key": "native_partial_float64",
+      "mode": "native",
+      "shape": [
+        6,
+        3
+      ],
+      "dtype": "float64",
+      "precondition_1d": false,
+      "maxdim": 4,
+      "weight_decay": 0.0,
+      "correct_bias": true,
+      "frequency": 5
+    },
+    {
+      "key": "shared_vector_float64",
+      "mode": "shared",
+      "shape": [
+        7
+      ],
+      "dtype": "float64",
+      "precondition_1d": false,
+      "maxdim": 128,
+      "weight_decay": 0.0,
+      "correct_bias": true,
+      "frequency": 5
+    },
+    {
+      "key": "shared_square_float64",
+      "mode": "shared",
+      "shape": [
+        3,
+        3
+      ],
+      "dtype": "float64",
+      "precondition_1d": false,
+      "maxdim": 128,
+      "weight_decay": 0.0,
+      "correct_bias": true,
+      "frequency": 5
+    },
+    {
+      "key": "shared_tensor_float64",
+      "mode": "shared",
+      "shape": [
+        3,
+        4,
+        2
+      ],
+      "dtype": "float64",
+      "precondition_1d": false,
+      "maxdim": 128,
+      "weight_decay": 0.0,
+      "correct_bias": true,
+      "frequency": 5
+    },
+    {
+      "key": "shared_partial_float64",
+      "mode": "shared",
+      "shape": [
+        6,
+        3
+      ],
+      "dtype": "float64",
+      "precondition_1d": false,
+      "maxdim": 4,
+      "weight_decay": 0.0,
+      "correct_bias": true,
+      "frequency": 5
+    },
+    {
+      "key": "shared_vector_pre_float64",
+      "mode": "shared",
+      "shape": [
+        4
+      ],
+      "dtype": "float64",
+      "precondition_1d": true,
+      "maxdim": 128,
+      "weight_decay": 0.0,
+      "correct_bias": true,
+      "frequency": 5
+    },
+    {
+      "key": "shared_rectangular_float64",
+      "mode": "shared",
+      "shape": [
+        2,
+        5
+      ],
+      "dtype": "float64",
+      "precondition_1d": false,
+      "maxdim": 128,
+      "weight_decay": 0.0,
+      "correct_bias": true,
+      "frequency": 5
+    },
+    {
+      "key": "no_bias",
+      "mode": "native",
+      "shape": [
+        7
+      ],
+      "dtype": "float64",
+      "precondition_1d": false,
+      "maxdim": 128,
+      "weight_decay": 0.0,
+      "correct_bias": false,
+      "frequency": 5
+    },
+    {
+      "key": "decay",
+      "mode": "native",
+      "shape": [
+        7
+      ],
+      "dtype": "float64",
+      "precondition_1d": false,
+      "maxdim": 128,
+      "weight_decay": 0.1,
+      "correct_bias": true,
+      "frequency": 5
+    }
+  ],
+  "lr": 0.001,
+  "b1": 0.9,
+  "b2": 0.99,
+  "eps": 1e-08,
+  "synthetic_common_second_gradient": true,
+  "measured_first_gradients": "actual saved FP64 initial gradient repeats, output-weight2x64 block"
+}

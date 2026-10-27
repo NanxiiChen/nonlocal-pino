@@ -1,0 +1,12 @@
+test_independent_reference_preserves_constant_and_configuration_fails_early (test_twophase_transport.TwoPhaseTransportTests.test_independent_reference_preserves_constant_and_configuration_fails_early) ... ok
+test_local_mixed_residual_matches_analytic_derivatives (test_twophase_transport.TwoPhaseTransportTests.test_local_mixed_residual_matches_analytic_derivatives) ... ok
+test_periodic_network_exact_initial_values_and_differentiable_parameters (test_twophase_transport.TwoPhaseTransportTests.test_periodic_network_exact_initial_values_and_differentiable_parameters) ... ok
+test_periodic_operator_scipy_symbol_nullspace_energy_and_transpose (test_twophase_transport.TwoPhaseTransportTests.test_periodic_operator_scipy_symbol_nullspace_energy_and_transpose) ... ok
+test_reference_rejects_shuffled_nodes_before_training (test_twophase_transport.TwoPhaseTransportTests.test_reference_rejects_shuffled_nodes_before_training) ... ok
+test_vortex_divergence_periodicity_reversal_and_mixed_advection (test_twophase_transport.TwoPhaseTransportTests.test_vortex_divergence_periodicity_reversal_and_mixed_advection) ... ok
+test_vortex_reference_flux_preserves_constant_and_mass (test_twophase_transport.TwoPhaseTransportTests.test_vortex_reference_flux_preserves_constant_and_mass) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 19.355s
+
+OK

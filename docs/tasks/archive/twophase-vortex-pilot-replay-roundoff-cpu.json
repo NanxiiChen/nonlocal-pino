@@ -1,0 +1,55 @@
+{
+  "backend": "cpu",
+  "runs": [
+    {
+      "method": "nonlocal",
+      "saved_vs_replay": {
+        "float32": {
+          "phi": {
+            "max_absolute": 3.039836883544922e-06,
+            "relative_L2": 4.074014547644672e-07
+          },
+          "q": {
+            "max_absolute": 2.5033950805664062e-06,
+            "relative_L2": 3.1369374316853453e-06
+          }
+        },
+        "float64": {
+          "phi": {
+            "max_absolute": 5.0863062774908485e-06,
+            "relative_L2": 5.256476622160741e-07
+          },
+          "q": {
+            "max_absolute": 7.243831166015013e-06,
+            "relative_L2": 3.7217691341506932e-06
+          }
+        }
+      }
+    },
+    {
+      "method": "local_ad",
+      "saved_vs_replay": {
+        "float32": {
+          "phi": {
+            "max_absolute": 3.300607204437256e-06,
+            "relative_L2": 3.7491243041665793e-07
+          },
+          "q": {
+            "max_absolute": 2.8908252716064453e-06,
+            "relative_L2": 2.1492696382890645e-06
+          }
+        },
+        "float64": {
+          "phi": {
+            "max_absolute": 5.55748190556038e-06,
+            "relative_L2": 5.077117999030983e-07
+          },
+          "q": {
+            "max_absolute": 7.869361949297549e-06,
+            "relative_L2": 2.8334539803468888e-06
+          }
+        }
+      }
+    }
+  ]
+}

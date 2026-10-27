@@ -1,0 +1,1103 @@
+{
+  "status": "passed",
+  "geometry_self_checks": {
+    "status": "passed",
+    "shifted_circle_mean_distance": 0.012726732299103656,
+    "tanh_band_width_proxy": 0.05896550779104337,
+    "definition": "area(|phi|<0.9)/zero-contour perimeter; raster resolution proxy, not exact normal thickness"
+  },
+  "runs": [
+    {
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261026-vortex-latent-original",
+      "method": "nonlocal",
+      "compute_dtype": "float32",
+      "replay_absolute_tolerance": 5e-06,
+      "replay_differences": {
+        "phi": {
+          "max_absolute": 3.6507844924926758e-06,
+          "relative_L2": 2.7870686739716883e-07
+        },
+        "q": {
+          "max_absolute": 2.1010637283325195e-06,
+          "relative_L2": 2.875844923585865e-06
+        }
+      },
+      "terminal_phi_relative_L2": 0.04333656547606104,
+      "pooled_phi_relative_L2": 0.03547111041830543,
+      "terminal_phi_relative_L2_to_local": 0.04192343924782513,
+      "terminal_q_rms_error": 0.06931128990108347,
+      "max_gas_area_relative_drift": 0.04287158897676356,
+      "phase_min": -1.1452127695083618,
+      "phase_max": 1.1076078414916992,
+      "reference_phase_min": -1.0689867710589098,
+      "reference_phase_max": 1.0480407378121879,
+      "max_energy_increase_between_saved_times": 0.0030970259423114058,
+      "per_time_phi_relative_L2": [
+        4.6521168856551113e-08,
+        0.020780431976773824,
+        0.030355232451323495,
+        0.03347779906470805,
+        0.03543998972069857,
+        0.03615677353971257,
+        0.035841150853001734,
+        0.035581204722015515,
+        0.035304968801649975,
+        0.035051086581570294,
+        0.03471283738645154,
+        0.03488127128426038,
+        0.03556863863442648,
+        0.03621948932207484,
+        0.037220091481858404,
+        0.03868429672517039,
+        0.03995592729973129,
+        0.04020379969051546,
+        0.04050083024629077,
+        0.04228899810898074,
+        0.04333656547606104
+      ],
+      "per_time_phi_relative_L2_to_local": [
+        4.6521168839376673e-08,
+        0.020299554296891575,
+        0.029210194915902755,
+        0.03137612986381921,
+        0.03242614503195919,
+        0.032328957564132246,
+        0.03153859278471624,
+        0.03131115437332874,
+        0.031448643741209044,
+        0.03145835238304945,
+        0.031657875709468396,
+        0.03245890111728485,
+        0.033736006104757764,
+        0.03475386865016548,
+        0.03589484513351061,
+        0.037357933029866744,
+        0.038790724937429605,
+        0.03872872565228079,
+        0.03916841243004342,
+        0.04083920055267189,
+        0.04192343924782513
+      ],
+      "per_time_interface_phi_relative_L2": [
+        2.7283370483828493e-07,
+        0.0892646064808762,
+        0.13741734257857252,
+        0.15244756435922016,
+        0.16424992938565333,
+        0.16241003311445523,
+        0.158356341102202,
+        0.1468206777770432,
+        0.14849884830528767,
+        0.1410660755692078,
+        0.1342781782977707,
+        0.13287967601619985,
+        0.13446230878718787,
+        0.13715445732862266,
+        0.13852671268033973,
+        0.14740883538079505,
+        0.15264805909944,
+        0.1524199174831024,
+        0.15536038121529533,
+        0.16366382567979176,
+        0.16716954327980604
+      ],
+      "trainer_wall_seconds": 81.01623904332519,
+      "mean_compiled_step_seconds": 0.0034149901029102655,
+      "first_update_seconds": 55.187009911984205,
+      "late_terminal_phi_relative_L2": {
+        "median": 0.05164085245957893,
+        "maximum": 0.062131024566078406
+      },
+      "mode": "original",
+      "geometry_to_common_local": [
+        {
+          "interface_exists": true,
+          "perimeter": 0.9180105108165441,
+          "reference_perimeter": 0.9180105180340709,
+          "contour_pieces": 1,
+          "width_proxy": 0.07020957193907376,
+          "reference_width_proxy": 0.07020957138707631,
+          "symmetric_mean_contour_distance": 5.6005400735424575e-09,
+          "symmetric_95percent_contour_distance": 8.489324859827156e-09,
+          "width_proxy_relative_error": 7.862139606018559e-09
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 0.9301688090154677,
+          "reference_perimeter": 0.9340473596639668,
+          "contour_pieces": 1,
+          "width_proxy": 0.07821580937228587,
+          "reference_width_proxy": 0.06848137097995975,
+          "symmetric_mean_contour_distance": 0.0012089204169430244,
+          "symmetric_95percent_contour_distance": 0.00229154005644299,
+          "width_proxy_relative_error": 0.14214724753648378
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 0.9922678421077635,
+          "reference_perimeter": 0.9976599101046087,
+          "contour_pieces": 1,
+          "width_proxy": 0.07725752362100077,
+          "reference_width_proxy": 0.06460430488105093,
+          "symmetric_mean_contour_distance": 0.0012023657521729922,
+          "symmetric_95percent_contour_distance": 0.002181074361416559,
+          "width_proxy_relative_error": 0.19585720739890133
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.1043388200766278,
+          "reference_perimeter": 1.1090060754169235,
+          "contour_pieces": 1,
+          "width_proxy": 0.0714069092215089,
+          "reference_width_proxy": 0.05965892418589933,
+          "symmetric_mean_contour_distance": 0.0013133298278211432,
+          "symmetric_95percent_contour_distance": 0.0023913662991941797,
+          "width_proxy_relative_error": 0.19691915662110215
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.2391291875118233,
+          "reference_perimeter": 1.2448197337001163,
+          "contour_pieces": 1,
+          "width_proxy": 0.06659477646208913,
+          "reference_width_proxy": 0.05413057864989862,
+          "symmetric_mean_contour_distance": 0.0013819790223543577,
+          "symmetric_95percent_contour_distance": 0.003129850208992707,
+          "width_proxy_relative_error": 0.2302616769128858
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.3775994647384326,
+          "reference_perimeter": 1.3859674006953526,
+          "contour_pieces": 1,
+          "width_proxy": 0.06309095257706313,
+          "reference_width_proxy": 0.050907864492051605,
+          "symmetric_mean_contour_distance": 0.0011251623753411291,
+          "symmetric_95percent_contour_distance": 0.002809588259483291,
+          "width_proxy_relative_error": 0.23931642402548037
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.5074540905634484,
+          "reference_perimeter": 1.5169948818908383,
+          "contour_pieces": 1,
+          "width_proxy": 0.06024748154423307,
+          "reference_width_proxy": 0.04892485194642912,
+          "symmetric_mean_contour_distance": 0.0011203273155017794,
+          "symmetric_95percent_contour_distance": 0.002540397543274834,
+          "width_proxy_relative_error": 0.23142900075000328
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.6149459347957364,
+          "reference_perimeter": 1.6226636744842893,
+          "contour_pieces": 1,
+          "width_proxy": 0.057446776081537546,
+          "reference_width_proxy": 0.04919934157050297,
+          "symmetric_mean_contour_distance": 0.001043784731057772,
+          "symmetric_95percent_contour_distance": 0.002602816926737136,
+          "width_proxy_relative_error": 0.1676330261293426
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.6925036110847869,
+          "reference_perimeter": 1.6998447094075162,
+          "contour_pieces": 1,
+          "width_proxy": 0.055679811040166276,
+          "reference_width_proxy": 0.04782720896506884,
+          "symmetric_mean_contour_distance": 0.0011431654350234036,
+          "symmetric_95percent_contour_distance": 0.0024540761258627303,
+          "width_proxy_relative_error": 0.1641869188066707
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.739481910267118,
+          "reference_perimeter": 1.746003695169452,
+          "contour_pieces": 1,
+          "width_proxy": 0.05740417019321938,
+          "reference_width_proxy": 0.050617823143508704,
+          "symmetric_mean_contour_distance": 0.0010323632160871574,
+          "symmetric_95percent_contour_distance": 0.0024147838243088146,
+          "width_proxy_relative_error": 0.13407030623324956
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.7458305575198265,
+          "reference_perimeter": 1.7503193789354656,
+          "contour_pieces": 1,
+          "width_proxy": 0.058174316838790124,
+          "reference_width_proxy": 0.05188785177893442,
+          "symmetric_mean_contour_distance": 0.00104452275312735,
+          "symmetric_95percent_contour_distance": 0.0024353652152520663,
+          "width_proxy_relative_error": 0.1211548530981561
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.729298837612787,
+          "reference_perimeter": 1.7300210452462725,
+          "contour_pieces": 1,
+          "width_proxy": 0.059577524433095816,
+          "reference_width_proxy": 0.05362561210161087,
+          "symmetric_mean_contour_distance": 0.001173033930771926,
+          "symmetric_95percent_contour_distance": 0.003231498053083504,
+          "width_proxy_relative_error": 0.11099010525431674
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.674600729584332,
+          "reference_perimeter": 1.677250703903204,
+          "contour_pieces": 1,
+          "width_proxy": 0.06283564047002342,
+          "reference_width_proxy": 0.056622842908331764,
+          "symmetric_mean_contour_distance": 0.0011441378548354972,
+          "symmetric_95percent_contour_distance": 0.0037344845999073605,
+          "width_proxy_relative_error": 0.10972245903918543
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.5892098003277575,
+          "reference_perimeter": 1.5937519820270492,
+          "contour_pieces": 1,
+          "width_proxy": 0.06621190566110186,
+          "reference_width_proxy": 0.06081487534950404,
+          "symmetric_mean_contour_distance": 0.0012466608458157364,
+          "symmetric_95percent_contour_distance": 0.004250568703682924,
+          "width_proxy_relative_error": 0.08874523347422802
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.4763983097720759,
+          "reference_perimeter": 1.482640518047064,
+          "contour_pieces": 1,
+          "width_proxy": 0.07226332651482821,
+          "reference_width_proxy": 0.06570177206765626,
+          "symmetric_mean_contour_distance": 0.0013677842951950294,
+          "symmetric_95percent_contour_distance": 0.004756442409841653,
+          "width_proxy_relative_error": 0.0998687591015841
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.3471016462806487,
+          "reference_perimeter": 1.3543644472222898,
+          "contour_pieces": 1,
+          "width_proxy": 0.07938049370308763,
+          "reference_width_proxy": 0.07228511559483645,
+          "symmetric_mean_contour_distance": 0.0016319113270187834,
+          "symmetric_95percent_contour_distance": 0.006009106226758328,
+          "width_proxy_relative_error": 0.09815821763392218
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.211556851917388,
+          "reference_perimeter": 1.2187465247274547,
+          "contour_pieces": 1,
+          "width_proxy": 0.08765677954520082,
+          "reference_width_proxy": 0.080529075782963,
+          "symmetric_mean_contour_distance": 0.0022111095823939995,
+          "symmetric_95percent_contour_distance": 0.006638928198904694,
+          "width_proxy_relative_error": 0.08851093462748727
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.085340448304631,
+          "reference_perimeter": 1.0894114374517885,
+          "contour_pieces": 1,
+          "width_proxy": 0.09852539257800343,
+          "reference_width_proxy": 0.09165822222186738,
+          "symmetric_mean_contour_distance": 0.0022969772183161212,
+          "symmetric_95percent_contour_distance": 0.0073381020748722004,
+          "width_proxy_relative_error": 0.07492148756184047
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 0.9821171921387277,
+          "reference_perimeter": 0.9833618184230272,
+          "contour_pieces": 1,
+          "width_proxy": 0.10888068614004594,
+          "reference_width_proxy": 0.10030164955781279,
+          "symmetric_mean_contour_distance": 0.002549039104918677,
+          "symmetric_95percent_contour_distance": 0.00754400604156562,
+          "width_proxy_relative_error": 0.08553235784311086
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 0.9214595639473371,
+          "reference_perimeter": 0.9220898714113072,
+          "contour_pieces": 1,
+          "width_proxy": 0.11631300880515402,
+          "reference_width_proxy": 0.10643705596699009,
+          "symmetric_mean_contour_distance": 0.002728280480754366,
+          "symmetric_95percent_contour_distance": 0.008310458331561521,
+          "width_proxy_relative_error": 0.09278679073223173
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 0.9041604658898026,
+          "reference_perimeter": 0.9056401379898934,
+          "contour_pieces": 1,
+          "width_proxy": 0.11853839934211703,
+          "reference_width_proxy": 0.10917907563644604,
+          "symmetric_mean_contour_distance": 0.0027974976468565296,
+          "symmetric_95percent_contour_distance": 0.008286873872599963,
+          "width_proxy_relative_error": 0.08572451865077602
+        }
+      ],
+      "raw_physics_audit": {
+        "pooled_rms": [
+          0.13913643978323648,
+          0.04707814040398729
+        ],
+        "terminal_rms": [
+          0.1319749203374166,
+          0.06285708850277318
+        ],
+        "interface_rms": [
+          0.3502824738388258,
+          0.11815590102470182
+        ],
+        "bulk_rms": [
+          0.10060596772535836,
+          0.03415438175638777
+        ],
+        "weight_max": 5.89760976625749,
+        "weight_median": 3.160933842869765,
+        "raw_bulk_squared_share": [
+          0.47993520623041624,
+          0.4831379515806872
+        ],
+        "weighted_bulk_squared_share": [
+          0.47993520623041624,
+          0.4831379515806872
+        ]
+      }
+    },
+    {
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261026-vortex-latent-map_transport",
+      "method": "nonlocal",
+      "compute_dtype": "float32",
+      "replay_absolute_tolerance": 5e-06,
+      "replay_differences": {
+        "phi": {
+          "max_absolute": 3.159046173095703e-06,
+          "relative_L2": 2.3396333523388812e-07
+        },
+        "q": {
+          "max_absolute": 2.5033950805664062e-06,
+          "relative_L2": 2.4505370978584796e-06
+        }
+      },
+      "terminal_phi_relative_L2": 0.05180048733101179,
+      "pooled_phi_relative_L2": 0.040363625431552363,
+      "terminal_phi_relative_L2_to_local": 0.04872215724572375,
+      "terminal_q_rms_error": 0.0710230601664719,
+      "max_gas_area_relative_drift": 0.01822693110517729,
+      "phase_min": -1.0704400539398193,
+      "phase_max": 1.0471093654632568,
+      "reference_phase_min": -1.0689867710589098,
+      "reference_phase_max": 1.0480407378121879,
+      "max_energy_increase_between_saved_times": 0.002964090834611157,
+      "per_time_phi_relative_L2": [
+        4.6521168856551113e-08,
+        0.021699623817826957,
+        0.03143338055079406,
+        0.03476789549240484,
+        0.03686780936188569,
+        0.03868388365923102,
+        0.04050637443557292,
+        0.041582383938742654,
+        0.04133998365106214,
+        0.04040958783208867,
+        0.03959068548811612,
+        0.0392869577825078,
+        0.03939394170403844,
+        0.04010548201186421,
+        0.04183772486534934,
+        0.04442291628851261,
+        0.046958806634428196,
+        0.04859908733830049,
+        0.048506856289409615,
+        0.049463629422261415,
+        0.05180048733101179
+      ],
+      "per_time_phi_relative_L2_to_local": [
+        4.6521168839376673e-08,
+        0.02130384933071949,
+        0.030410638188966464,
+        0.033102459589090596,
+        0.03464949009866506,
+        0.03601400312237954,
+        0.03765900827584951,
+        0.03891590549280933,
+        0.03900597698182737,
+        0.038303823162046995,
+        0.03788938548921288,
+        0.03798174191316212,
+        0.03828469892644507,
+        0.03903071999730034,
+        0.04064642886878763,
+        0.042824251287010305,
+        0.04489519260509647,
+        0.046231004723593726,
+        0.04596860590638179,
+        0.04677663670430008,
+        0.04872215724572375
+      ],
+      "per_time_interface_phi_relative_L2": [
+        2.7283370483828493e-07,
+        0.11710674849970712,
+        0.16682738854132417,
+        0.19022389772641973,
+        0.1979221545638153,
+        0.20606340205589654,
+        0.21199744794937458,
+        0.20742280752744272,
+        0.2077283022745048,
+        0.19783477629500154,
+        0.18716911568188047,
+        0.18145446043114835,
+        0.1813263525643639,
+        0.18359120910947854,
+        0.18867046891653425,
+        0.20174046383534447,
+        0.21215367267556676,
+        0.21412279263181697,
+        0.21417161519130404,
+        0.2160543946977058,
+        0.22602063020749594
+      ],
+      "trainer_wall_seconds": 87.02675422653556,
+      "mean_compiled_step_seconds": 0.0036186773132304757,
+      "first_update_seconds": 60.44900332763791,
+      "late_terminal_phi_relative_L2": {
+        "median": 0.05610336424996583,
+        "maximum": 0.06497679965117674
+      },
+      "mode": "map_transport",
+      "geometry_to_common_local": [
+        {
+          "interface_exists": true,
+          "perimeter": 0.9180105108165441,
+          "reference_perimeter": 0.9180105180340709,
+          "contour_pieces": 1,
+          "width_proxy": 0.07020957193907376,
+          "reference_width_proxy": 0.07020957138707631,
+          "symmetric_mean_contour_distance": 5.6005400735424575e-09,
+          "symmetric_95percent_contour_distance": 8.489324859827156e-09,
+          "width_proxy_relative_error": 7.862139606018559e-09
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 0.934631000078136,
+          "reference_perimeter": 0.9340473596639668,
+          "contour_pieces": 1,
+          "width_proxy": 0.0765363048294137,
+          "reference_width_proxy": 0.06848137097995975,
+          "symmetric_mean_contour_distance": 0.0019337203054783194,
+          "symmetric_95percent_contour_distance": 0.004424901197833173,
+          "width_proxy_relative_error": 0.11762226331320291
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 0.9922711430582263,
+          "reference_perimeter": 0.9976599101046087,
+          "contour_pieces": 1,
+          "width_proxy": 0.07873352011347935,
+          "reference_width_proxy": 0.06460430488105093,
+          "symmetric_mean_contour_distance": 0.0017397765294439875,
+          "symmetric_95percent_contour_distance": 0.004041447490883332,
+          "width_proxy_relative_error": 0.21870392783333958
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.0981794263165252,
+          "reference_perimeter": 1.1090060754169235,
+          "contour_pieces": 1,
+          "width_proxy": 0.07136278348235225,
+          "reference_width_proxy": 0.05965892418589933,
+          "symmetric_mean_contour_distance": 0.001525890805505777,
+          "symmetric_95percent_contour_distance": 0.005055896414592487,
+          "width_proxy_relative_error": 0.1961795231168313
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.2309828873500115,
+          "reference_perimeter": 1.2448197337001163,
+          "contour_pieces": 1,
+          "width_proxy": 0.06782880136518026,
+          "reference_width_proxy": 0.05413057864989862,
+          "symmetric_mean_contour_distance": 0.001685616250909432,
+          "symmetric_95percent_contour_distance": 0.005129342699068253,
+          "width_proxy_relative_error": 0.25305886352846674
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.3672562756769038,
+          "reference_perimeter": 1.3859674006953526,
+          "contour_pieces": 1,
+          "width_proxy": 0.06517529281837277,
+          "reference_width_proxy": 0.050907864492051605,
+          "symmetric_mean_contour_distance": 0.0018852085489290975,
+          "symmetric_95percent_contour_distance": 0.005493956466020428,
+          "width_proxy_relative_error": 0.280259807962457
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.4923529863387224,
+          "reference_perimeter": 1.5169948818908383,
+          "contour_pieces": 1,
+          "width_proxy": 0.060039153065803826,
+          "reference_width_proxy": 0.04892485194642912,
+          "symmetric_mean_contour_distance": 0.0019605574536213245,
+          "symmetric_95percent_contour_distance": 0.006187696795020394,
+          "width_proxy_relative_error": 0.22717086873445114
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.5980446375939883,
+          "reference_perimeter": 1.6226636744842893,
+          "contour_pieces": 1,
+          "width_proxy": 0.05820712133864234,
+          "reference_width_proxy": 0.04919934157050297,
+          "symmetric_mean_contour_distance": 0.0019234580316816793,
+          "symmetric_95percent_contour_distance": 0.006560299297774016,
+          "width_proxy_relative_error": 0.1830874048432367
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.6739245938083482,
+          "reference_perimeter": 1.6998447094075162,
+          "contour_pieces": 1,
+          "width_proxy": 0.058339694847198656,
+          "reference_width_proxy": 0.04782720896506884,
+          "symmetric_mean_contour_distance": 0.0018850387406970722,
+          "symmetric_95percent_contour_distance": 0.006314523993613392,
+          "width_proxy_relative_error": 0.21980136641064996
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.7132360142941028,
+          "reference_perimeter": 1.746003695169452,
+          "contour_pieces": 1,
+          "width_proxy": 0.059566096205400834,
+          "reference_width_proxy": 0.050617823143508704,
+          "symmetric_mean_contour_distance": 0.0020061607962427236,
+          "symmetric_95percent_contour_distance": 0.006872907418751237,
+          "width_proxy_relative_error": 0.17678107247959884
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.7240907583566911,
+          "reference_perimeter": 1.7503193789354656,
+          "contour_pieces": 1,
+          "width_proxy": 0.06032391609658115,
+          "reference_width_proxy": 0.05188785177893442,
+          "symmetric_mean_contour_distance": 0.0019683402193467325,
+          "symmetric_95percent_contour_distance": 0.006299622662451168,
+          "width_proxy_relative_error": 0.16258264754509688
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.702327728166491,
+          "reference_perimeter": 1.7300210452462725,
+          "contour_pieces": 1,
+          "width_proxy": 0.062099024104400345,
+          "reference_width_proxy": 0.05362561210161087,
+          "symmetric_mean_contour_distance": 0.0020160266914472785,
+          "symmetric_95percent_contour_distance": 0.00696881246539286,
+          "width_proxy_relative_error": 0.158010541431842
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.6531164895728843,
+          "reference_perimeter": 1.677250703903204,
+          "contour_pieces": 1,
+          "width_proxy": 0.0649814309382121,
+          "reference_width_proxy": 0.056622842908331764,
+          "symmetric_mean_contour_distance": 0.0020206804173804613,
+          "symmetric_95percent_contour_distance": 0.007194111583209202,
+          "width_proxy_relative_error": 0.14761865707471244
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.5694959948787883,
+          "reference_perimeter": 1.5937519820270492,
+          "contour_pieces": 1,
+          "width_proxy": 0.07077685112766342,
+          "reference_width_proxy": 0.06081487534950404,
+          "symmetric_mean_contour_distance": 0.0020747184015241817,
+          "symmetric_95percent_contour_distance": 0.008077617885044385,
+          "width_proxy_relative_error": 0.1638082084507737
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.457757676406044,
+          "reference_perimeter": 1.482640518047064,
+          "contour_pieces": 1,
+          "width_proxy": 0.07553204737460814,
+          "reference_width_proxy": 0.06570177206765626,
+          "symmetric_mean_contour_distance": 0.0024394466811842935,
+          "symmetric_95percent_contour_distance": 0.009019979967898628,
+          "width_proxy_relative_error": 0.14961963730337713
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.3298965918083447,
+          "reference_perimeter": 1.3543644472222898,
+          "contour_pieces": 1,
+          "width_proxy": 0.0835282871309205,
+          "reference_width_proxy": 0.07228511559483645,
+          "symmetric_mean_contour_distance": 0.0028092194052441607,
+          "symmetric_95percent_contour_distance": 0.010556664380931386,
+          "width_proxy_relative_error": 0.155539234371608
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.194196302926706,
+          "reference_perimeter": 1.2187465247274547,
+          "contour_pieces": 1,
+          "width_proxy": 0.09465538379073149,
+          "reference_width_proxy": 0.080529075782963,
+          "symmetric_mean_contour_distance": 0.0032444318295766043,
+          "symmetric_95percent_contour_distance": 0.011874004945537513,
+          "width_proxy_relative_error": 0.17541872758903665
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.0642722548166128,
+          "reference_perimeter": 1.0894114374517885,
+          "contour_pieces": 1,
+          "width_proxy": 0.10712829481272718,
+          "reference_width_proxy": 0.09165822222186738,
+          "symmetric_mean_contour_distance": 0.003779139925363506,
+          "symmetric_95percent_contour_distance": 0.013234769126755749,
+          "width_proxy_relative_error": 0.1687799764805935
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 0.9595734496593913,
+          "reference_perimeter": 0.9833618184230272,
+          "contour_pieces": 1,
+          "width_proxy": 0.11805375611445913,
+          "reference_width_proxy": 0.10030164955781279,
+          "symmetric_mean_contour_distance": 0.004109778328284706,
+          "symmetric_95percent_contour_distance": 0.013727600008067772,
+          "width_proxy_relative_error": 0.17698718450701278
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 0.8990829316901903,
+          "reference_perimeter": 0.9220898714113072,
+          "contour_pieces": 1,
+          "width_proxy": 0.12762570582258556,
+          "reference_width_proxy": 0.10643705596699009,
+          "symmetric_mean_contour_distance": 0.004556523685254733,
+          "symmetric_95percent_contour_distance": 0.013496233746596854,
+          "width_proxy_relative_error": 0.19907211509276257
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 0.8827838074870534,
+          "reference_perimeter": 0.9056401379898934,
+          "contour_pieces": 1,
+          "width_proxy": 0.13136488899259827,
+          "reference_width_proxy": 0.10917907563644604,
+          "symmetric_mean_contour_distance": 0.004827486760903215,
+          "symmetric_95percent_contour_distance": 0.013397559841704055,
+          "width_proxy_relative_error": 0.20320572625132383
+        }
+      ],
+      "raw_physics_audit": {
+        "pooled_rms": [
+          0.15287286100488207,
+          0.065827476533493
+        ],
+        "terminal_rms": [
+          0.12920372448209524,
+          0.06843330344652825
+        ],
+        "interface_rms": [
+          0.4818216903914965,
+          0.161098406870102
+        ],
+        "bulk_rms": [
+          0.06860927829567766,
+          0.04899704227628295
+        ],
+        "weight_max": 4.180661740620041,
+        "weight_median": 3.1579120680646575,
+        "raw_bulk_squared_share": [
+          0.18489357147815097,
+          0.5085600153804013
+        ],
+        "weighted_bulk_squared_share": [
+          0.5033312592888645,
+          0.5085600153804013
+        ]
+      }
+    },
+    {
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261026-vortex-latent-map_both",
+      "method": "nonlocal",
+      "compute_dtype": "float32",
+      "replay_absolute_tolerance": 5e-06,
+      "replay_differences": {
+        "phi": {
+          "max_absolute": 2.950429916381836e-06,
+          "relative_L2": 2.2631465364148146e-07
+        },
+        "q": {
+          "max_absolute": 1.5348196029663086e-06,
+          "relative_L2": 1.8449444742395732e-06
+        }
+      },
+      "terminal_phi_relative_L2": 0.04373657715023702,
+      "pooled_phi_relative_L2": 0.03274305444243299,
+      "terminal_phi_relative_L2_to_local": 0.04019318129117297,
+      "terminal_q_rms_error": 0.05487837816712539,
+      "max_gas_area_relative_drift": 0.020714372118168102,
+      "phase_min": -1.054269790649414,
+      "phase_max": 1.0334973335266113,
+      "reference_phase_min": -1.0689867710589098,
+      "reference_phase_max": 1.0480407378121879,
+      "max_energy_increase_between_saved_times": 0.002886989185449291,
+      "per_time_phi_relative_L2": [
+        4.6521168856551113e-08,
+        0.01617694377900713,
+        0.021842148490047224,
+        0.025582201292408124,
+        0.028262211640254206,
+        0.030532667071381935,
+        0.0325884146692271,
+        0.034060809954784166,
+        0.03473922142702759,
+        0.034194909817882355,
+        0.033316093606178515,
+        0.03264857712757896,
+        0.03221668476168433,
+        0.03261896522858009,
+        0.033131931068162306,
+        0.034587118260789924,
+        0.036858419591591925,
+        0.038689254327495044,
+        0.04006306285280218,
+        0.04354564276393522,
+        0.04373657715023702
+      ],
+      "per_time_phi_relative_L2_to_local": [
+        4.6521168839376673e-08,
+        0.015842147443684573,
+        0.02107778597343767,
+        0.024062809196793725,
+        0.025782637233403176,
+        0.027143839979120576,
+        0.028859337574368243,
+        0.030080038229400217,
+        0.031053100241247578,
+        0.030854396204450275,
+        0.0305543421007335,
+        0.030339479442035702,
+        0.030096394375079032,
+        0.030530627714500144,
+        0.0310735307436678,
+        0.03238763300349729,
+        0.03436760810564868,
+        0.03579212021068721,
+        0.037012955173252836,
+        0.040149906946817665,
+        0.04019318129117297
+      ],
+      "per_time_interface_phi_relative_L2": [
+        2.7283370483828493e-07,
+        0.09045017141146543,
+        0.11645986558943258,
+        0.13618140247873559,
+        0.14696435770902994,
+        0.1599251090763238,
+        0.16703217932670497,
+        0.16873063669401955,
+        0.17379943447470075,
+        0.16819197040277947,
+        0.15786088901028242,
+        0.15219872670216442,
+        0.14960562732593974,
+        0.14996529634927883,
+        0.14984436669479367,
+        0.15755964660252322,
+        0.1662300299000913,
+        0.17131764947539607,
+        0.17914927013257634,
+        0.19543418508043287,
+        0.19515229583981777
+      ],
+      "trainer_wall_seconds": 87.75622166320682,
+      "mean_compiled_step_seconds": 0.0036692838644494814,
+      "first_update_seconds": 61.11241286620498,
+      "late_terminal_phi_relative_L2": {
+        "median": 0.048859131651854876,
+        "maximum": 0.06071365970632857
+      },
+      "mode": "map_both",
+      "geometry_to_common_local": [
+        {
+          "interface_exists": true,
+          "perimeter": 0.9180105108165441,
+          "reference_perimeter": 0.9180105180340709,
+          "contour_pieces": 1,
+          "width_proxy": 0.07020957193907376,
+          "reference_width_proxy": 0.07020957138707631,
+          "symmetric_mean_contour_distance": 5.6005400735424575e-09,
+          "symmetric_95percent_contour_distance": 8.489324859827156e-09,
+          "width_proxy_relative_error": 7.862139606018559e-09
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 0.9372163513595088,
+          "reference_perimeter": 0.9340473596639668,
+          "contour_pieces": 1,
+          "width_proxy": 0.07398071683173535,
+          "reference_width_proxy": 0.06848137097995975,
+          "symmetric_mean_contour_distance": 0.0015359289420232378,
+          "symmetric_95percent_contour_distance": 0.0036774125942150107,
+          "width_proxy_relative_error": 0.08030426045916794
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 0.9995507342282377,
+          "reference_perimeter": 0.9976599101046087,
+          "contour_pieces": 1,
+          "width_proxy": 0.07498486000600109,
+          "reference_width_proxy": 0.06460430488105093,
+          "symmetric_mean_contour_distance": 0.001237077819635122,
+          "symmetric_95percent_contour_distance": 0.002593936957185887,
+          "width_proxy_relative_error": 0.16067900032455706
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.107965106023123,
+          "reference_perimeter": 1.1090060754169235,
+          "contour_pieces": 1,
+          "width_proxy": 0.06985109702848785,
+          "reference_width_proxy": 0.05965892418589933,
+          "symmetric_mean_contour_distance": 0.0008795200137029745,
+          "symmetric_95percent_contour_distance": 0.001285917341038778,
+          "width_proxy_relative_error": 0.1708407079354859
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.2403723538390419,
+          "reference_perimeter": 1.2448197337001163,
+          "contour_pieces": 1,
+          "width_proxy": 0.06436291822202266,
+          "reference_width_proxy": 0.05413057864989862,
+          "symmetric_mean_contour_distance": 0.0007225163990998832,
+          "symmetric_95percent_contour_distance": 0.0015046804085989062,
+          "width_proxy_relative_error": 0.18903067041466404
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.3749946454795137,
+          "reference_perimeter": 1.3859674006953526,
+          "contour_pieces": 1,
+          "width_proxy": 0.06338803093637108,
+          "reference_width_proxy": 0.050907864492051605,
+          "symmetric_mean_contour_distance": 0.0010250300445079968,
+          "symmetric_95percent_contour_distance": 0.0023959884434969934,
+          "width_proxy_relative_error": 0.24515203237935923
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.4993976135695883,
+          "reference_perimeter": 1.5169948818908383,
+          "contour_pieces": 1,
+          "width_proxy": 0.05829163856138389,
+          "reference_width_proxy": 0.04892485194642912,
+          "symmetric_mean_contour_distance": 0.001315848916898983,
+          "symmetric_95percent_contour_distance": 0.002992923564170125,
+          "width_proxy_relative_error": 0.19145252856791584
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.6048484419005384,
+          "reference_perimeter": 1.6226636744842893,
+          "contour_pieces": 1,
+          "width_proxy": 0.057199715937842545,
+          "reference_width_proxy": 0.04919934157050297,
+          "symmetric_mean_contour_distance": 0.0014003699277063165,
+          "symmetric_95percent_contour_distance": 0.0033743480883182218,
+          "width_proxy_relative_error": 0.16261141129043333
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.6808243347602994,
+          "reference_perimeter": 1.6998447094075162,
+          "contour_pieces": 1,
+          "width_proxy": 0.056066704474170545,
+          "reference_width_proxy": 0.04782720896506884,
+          "symmetric_mean_contour_distance": 0.00154608753561874,
+          "symmetric_95percent_contour_distance": 0.003800507041270532,
+          "width_proxy_relative_error": 0.17227631901162188
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.717535628557825,
+          "reference_perimeter": 1.746003695169452,
+          "contour_pieces": 1,
+          "width_proxy": 0.0572847923729039,
+          "reference_width_proxy": 0.050617823143508704,
+          "symmetric_mean_contour_distance": 0.0017083588953020782,
+          "symmetric_95percent_contour_distance": 0.005198526771631993,
+          "width_proxy_relative_error": 0.1317118914911335
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.7306967912513418,
+          "reference_perimeter": 1.7503193789354656,
+          "contour_pieces": 1,
+          "width_proxy": 0.05840088180721739,
+          "reference_width_proxy": 0.05188785177893442,
+          "symmetric_mean_contour_distance": 0.0016920134261651306,
+          "symmetric_95percent_contour_distance": 0.004655881661042914,
+          "width_proxy_relative_error": 0.12552128879860747
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.7039183933588022,
+          "reference_perimeter": 1.7300210452462725,
+          "contour_pieces": 1,
+          "width_proxy": 0.061181361314789205,
+          "reference_width_proxy": 0.05362561210161087,
+          "symmetric_mean_contour_distance": 0.0018818245057737187,
+          "symmetric_95percent_contour_distance": 0.0056461708437455516,
+          "width_proxy_relative_error": 0.14089814394773814
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.6537878780265345,
+          "reference_perimeter": 1.677250703903204,
+          "contour_pieces": 1,
+          "width_proxy": 0.0633311741587935,
+          "reference_width_proxy": 0.056622842908331764,
+          "symmetric_mean_contour_distance": 0.0018067414495444214,
+          "symmetric_95percent_contour_distance": 0.004403795679345347,
+          "width_proxy_relative_error": 0.11847393924254268
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.565327739872129,
+          "reference_perimeter": 1.5937519820270492,
+          "contour_pieces": 1,
+          "width_proxy": 0.06831386873571624,
+          "reference_width_proxy": 0.06081487534950404,
+          "symmetric_mean_contour_distance": 0.0019527324816262038,
+          "symmetric_95percent_contour_distance": 0.0053827770088520814,
+          "width_proxy_relative_error": 0.1233085382994763
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.4560623153062344,
+          "reference_perimeter": 1.482640518047064,
+          "contour_pieces": 1,
+          "width_proxy": 0.07494930555362113,
+          "reference_width_proxy": 0.06570177206765626,
+          "symmetric_mean_contour_distance": 0.002096331163517282,
+          "symmetric_95percent_contour_distance": 0.006297677470373074,
+          "width_proxy_relative_error": 0.1407501380090972
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.329465215357801,
+          "reference_perimeter": 1.3543644472222898,
+          "contour_pieces": 1,
+          "width_proxy": 0.08171900766562054,
+          "reference_width_proxy": 0.07228511559483645,
+          "symmetric_mean_contour_distance": 0.0023635523259012596,
+          "symmetric_95percent_contour_distance": 0.006933394016974346,
+          "width_proxy_relative_error": 0.13050946924760787
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.1985700992768944,
+          "reference_perimeter": 1.2187465247274547,
+          "contour_pieces": 1,
+          "width_proxy": 0.09268042348296335,
+          "reference_width_proxy": 0.080529075782963,
+          "symmetric_mean_contour_distance": 0.002683798713112414,
+          "symmetric_95percent_contour_distance": 0.006491494528744407,
+          "width_proxy_relative_error": 0.15089391728212442
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 1.0717163565711394,
+          "reference_perimeter": 1.0894114374517885,
+          "contour_pieces": 1,
+          "width_proxy": 0.10547297209930818,
+          "reference_width_proxy": 0.09165822222186738,
+          "symmetric_mean_contour_distance": 0.0030674265597499,
+          "symmetric_95percent_contour_distance": 0.007090576694561248,
+          "width_proxy_relative_error": 0.150720246831767
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 0.9664215848758528,
+          "reference_perimeter": 0.9833618184230272,
+          "contour_pieces": 1,
+          "width_proxy": 0.11494360857975862,
+          "reference_width_proxy": 0.10030164955781279,
+          "symmetric_mean_contour_distance": 0.003687037757090083,
+          "symmetric_95percent_contour_distance": 0.008207294853059863,
+          "width_proxy_relative_error": 0.145979244474004
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 0.9008837689953192,
+          "reference_perimeter": 0.9220898714113072,
+          "contour_pieces": 1,
+          "width_proxy": 0.1252025762166729,
+          "reference_width_proxy": 0.10643705596699009,
+          "symmetric_mean_contour_distance": 0.004447387676156678,
+          "symmetric_95percent_contour_distance": 0.009303691865929584,
+          "width_proxy_relative_error": 0.17630626927056947
+        },
+        {
+          "interface_exists": true,
+          "perimeter": 0.8829340097685521,
+          "reference_perimeter": 0.9056401379898934,
+          "contour_pieces": 1,
+          "width_proxy": 0.12857743542437444,
+          "reference_width_proxy": 0.10917907563644604,
+          "symmetric_mean_contour_distance": 0.004478098171531655,
+          "symmetric_95percent_contour_distance": 0.010189972240123005,
+          "width_proxy_relative_error": 0.17767470254577677
+        }
+      ],
+      "raw_physics_audit": {
+        "pooled_rms": [
+          0.13033833414985235,
+          0.035961287985141845
+        ],
+        "terminal_rms": [
+          0.10145233836372719,
+          0.05442369095463929
+        ],
+        "interface_rms": [
+          0.41105687421256115,
+          0.10941628731253665
+        ],
+        "bulk_rms": [
+          0.058332885095099395,
+          0.01840249700998207
+        ],
+        "weight_max": 3.904431465359981,
+        "weight_median": 3.1574822659421744,
+        "raw_bulk_squared_share": [
+          0.18386517441880745,
+          0.24038088633473126
+        ],
+        "weighted_bulk_squared_share": [
+          0.49205013345423043,
+          0.5785966340352156
+        ]
+      }
+    }
+  ]
+}

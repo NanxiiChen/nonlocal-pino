@@ -1,0 +1,131 @@
+{
+  "backend": "jax",
+  "runtime_version": "0.10.1",
+  "cases": [
+    {
+      "case": "native_vector_float32",
+      "status": "completed",
+      "steps": 16
+    },
+    {
+      "case": "native_vector_float64",
+      "status": "completed",
+      "steps": 16
+    },
+    {
+      "case": "native_square_float32",
+      "status": "completed",
+      "steps": 16
+    },
+    {
+      "case": "native_square_float64",
+      "status": "completed",
+      "steps": 16
+    },
+    {
+      "case": "native_tensor_float32",
+      "status": "completed",
+      "steps": 16
+    },
+    {
+      "case": "native_tensor_float64",
+      "status": "completed",
+      "steps": 16
+    },
+    {
+      "case": "native_partial_float32",
+      "status": "completed",
+      "steps": 16
+    },
+    {
+      "case": "native_partial_float64",
+      "status": "completed",
+      "steps": 16
+    },
+    {
+      "case": "shared_vector_float64",
+      "status": "completed",
+      "steps": 16
+    },
+    {
+      "case": "shared_square_float64",
+      "status": "completed",
+      "steps": 16
+    },
+    {
+      "case": "shared_tensor_float64",
+      "status": "completed",
+      "steps": 16
+    },
+    {
+      "case": "shared_partial_float64",
+      "status": "completed",
+      "steps": 16
+    },
+    {
+      "case": "shared_vector_pre_float64",
+      "status": "completed",
+      "steps": 16
+    },
+    {
+      "case": "shared_rectangular_float64",
+      "status": "completed",
+      "steps": 16
+    },
+    {
+      "case": "no_bias",
+      "status": "completed",
+      "steps": 16
+    },
+    {
+      "case": "decay",
+      "status": "completed",
+      "steps": 16
+    }
+  ],
+  "sensitivities": [
+    {
+      "label": "measured_fp64",
+      "changes": [
+        {
+          "max_absolute": 0.002112004118719646,
+          "relative_L2": 0.7044759141558135
+        },
+        {
+          "max_absolute": 0.0022808729614648983,
+          "relative_L2": 0.6866764843760076
+        },
+        {
+          "max_absolute": 0.0025000208935880147,
+          "relative_L2": 0.8447753784198432
+        },
+        {
+          "max_absolute": 0.0030110412128552108,
+          "relative_L2": 0.7903938540406866
+        }
+      ]
+    },
+    {
+      "label": "one_ulp_fp32",
+      "changes": [
+        {
+          "max_absolute": 0.0025057008024305105,
+          "relative_L2": 0.8382370471954346
+        },
+        {
+          "max_absolute": 0.0021006695460528135,
+          "relative_L2": 0.7863348722457886
+        },
+        {
+          "max_absolute": 0.002356618409976363,
+          "relative_L2": 0.8377061486244202
+        },
+        {
+          "max_absolute": 0.003083490999415517,
+          "relative_L2": 0.925027072429657
+        }
+      ]
+    }
+  ],
+  "precision_note": "Torch default dtype matched to case; author eig/QR and independent QR retain source casts. Shared-basis cases override basis selection ONLY."
+}

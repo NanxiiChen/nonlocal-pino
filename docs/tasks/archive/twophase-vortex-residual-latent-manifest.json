@@ -1,0 +1,57 @@
+{
+  "status": "completed",
+  "maximum_GPU_workers": 1,
+  "runs": [
+    {
+      "mode": "original",
+      "eta": 0.1,
+      "seed_as_run_provenance": 42,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_latent.py",
+        "--config.residual.mode=original",
+        "--config.log.run_name=20261026-vortex-latent-original"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261026-vortex-latent-original",
+      "status": "completed",
+      "returncode": 0,
+      "wall_seconds": 86.84864526987076
+    },
+    {
+      "mode": "map_transport",
+      "eta": 0.1,
+      "seed_as_run_provenance": 42,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_latent.py",
+        "--config.residual.mode=map_transport",
+        "--config.log.run_name=20261026-vortex-latent-map_transport"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261026-vortex-latent-map_transport",
+      "status": "completed",
+      "returncode": 0,
+      "wall_seconds": 92.8374077603221
+    },
+    {
+      "mode": "map_both",
+      "eta": 0.1,
+      "seed_as_run_provenance": 42,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_latent.py",
+        "--config.residual.mode=map_both",
+        "--config.log.run_name=20261026-vortex-latent-map_both"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261026-vortex-latent-map_both",
+      "status": "completed",
+      "returncode": 0,
+      "wall_seconds": 93.3921877592802
+    }
+  ]
+}

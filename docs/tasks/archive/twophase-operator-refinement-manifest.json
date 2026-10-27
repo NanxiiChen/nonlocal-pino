@@ -1,0 +1,51 @@
+{
+  "status": "completed",
+  "runs": [
+    {
+      "arm": "original",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_refined.py",
+        "--config.log.run_name=20261027-vortex-refined-original"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-refined-original",
+      "status": "completed",
+      "seed": 42,
+      "returncode": 0,
+      "wall_seconds": 276.0666513927281
+    },
+    {
+      "arm": "cubic",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_cubic_refined.py",
+        "--config.log.run_name=20261027-vortex-refined-cubic"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-refined-cubic",
+      "status": "completed",
+      "seed": 42,
+      "returncode": 0,
+      "wall_seconds": 285.89819633960724
+    },
+    {
+      "arm": "cubic_schur",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_cubic_schur_refined.py",
+        "--config.log.run_name=20261027-vortex-refined-cubic_schur"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-refined-cubic_schur",
+      "status": "completed",
+      "seed": 42,
+      "returncode": 0,
+      "wall_seconds": 286.03445356339216
+    }
+  ],
+  "max_gpu_workers": 1
+}

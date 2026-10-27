@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "paired_initial_models_byte_equal": true,
+  "paired_config_differences": {
+    "nl.method": [
+      "nonlocal",
+      "local_ad"
+    ],
+    "log.run_name": [
+      "20261026-periodic-transport-nonlocal",
+      "20261026-periodic-transport-local_ad"
+    ]
+  },
+  "full_updates_each": 5000,
+  "matched_field_L2_below_2percent_both": true,
+  "area_drift_below_2percent_both": true,
+  "energy_decreases_at_all_21_saved_times_both": true,
+  "observed_not_an_exact_PINN_conservation_guarantee": true,
+  "numerical_train_network_loss_operator_source_unchanged_during_cohort": true,
+  "later_validation_only_change": "Reference point-order guard; evaluate.py added after training.",
+  "final_source": "/root/nonlocal-pinn/reports/twophase-transport-pilot/final-source",
+  "prior_snapshot_dev_commit": "05780d4",
+  "pushed_main_merge": "21fe6d9",
+  "new_case_branch": "dev; new development not committed or pushed",
+  "full_graph_local_reference_terminal_discrepancy": 0.008197705242918393
+}

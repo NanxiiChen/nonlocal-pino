@@ -1,0 +1,20 @@
+[
+  {
+    "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-refined-cubic",
+    "checkpoint": "model_final.eqx",
+    "AD_phase_residual_rms": 0.3442000883181347,
+    "spectral_phase_residual_rms": 0.4283223530746934,
+    "advection_discrepancy_rms": 0.2550688931504733,
+    "AD_advection_mean_max": 0.0020936942185885155,
+    "spectral_advection_mean_max": 5.551115123125783e-17
+  },
+  {
+    "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-resolved-cubic_resolved",
+    "checkpoint": "model_soap.eqx",
+    "AD_phase_residual_rms": 0.1506465938428256,
+    "spectral_phase_residual_rms": 0.9409824980265215,
+    "advection_discrepancy_rms": 0.9262681756407933,
+    "AD_advection_mean_max": 0.11435937015674272,
+    "spectral_advection_mean_max": 2.7755575615628914e-17
+  }
+]

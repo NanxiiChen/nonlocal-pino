@@ -1,0 +1,36 @@
+{
+  "status": "completed",
+  "runs": [
+    {
+      "arm": "cubic_resolved",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_cubic_resolved.py",
+        "--config.log.run_name=20261027-vortex-resolved-cubic_resolved"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-resolved-cubic_resolved",
+      "status": "completed",
+      "seed": 42,
+      "returncode": 0,
+      "wall_seconds": 719.3887135386467
+    },
+    {
+      "arm": "causal",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_causal.py",
+        "--config.log.run_name=20261027-vortex-resolved-causal"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-resolved-causal",
+      "status": "completed",
+      "seed": 42,
+      "returncode": 0,
+      "wall_seconds": 727.0136154070497
+    }
+  ],
+  "max_gpu_workers": 1
+}

@@ -1,0 +1,61 @@
+{
+  "status": "passed",
+  "paired_initial_models_byte_equal": true,
+  "config_differences": {
+    "nl.method": [
+      "nonlocal",
+      "local_ad"
+    ],
+    "log.run_name": [
+      "20261026-periodic-vortex-nonlocal",
+      "20261026-periodic-vortex-local_ad"
+    ]
+  },
+  "full_updates_each": 5000,
+  "legacy_config_and_reference_loads": true,
+  "source_unchanged_during_training": true,
+  "reference_checks": {
+    "graph_time": {
+      "pooled_phi": 1.980499224766269e-05,
+      "terminal_phi": 1.534686105141433e-05,
+      "max_snapshot_phi": 3.6154046632467845e-05
+    },
+    "local_time": {
+      "pooled_phi": 1.3930205064223359e-05,
+      "terminal_phi": 1.0127905860368097e-05,
+      "max_snapshot_phi": 2.5428585684052205e-05
+    },
+    "local_space": {
+      "pooled_phi": 9.978743090809614e-08,
+      "terminal_phi": 1.0408680056906357e-09,
+      "max_snapshot_phi": 1.9916714870136412e-07
+    },
+    "graph_vs_local": {
+      "pooled_phi": 0.01280469875038337,
+      "terminal_phi": 0.0116848742430017
+    },
+    "local_mass_max_drift": 2.220446049250313e-16,
+    "nonlocal_mass_max_drift": 1.1102230246251565e-16
+  },
+  "source": "/root/nonlocal-pinn/reports/twophase-vortex-pilot/final-source",
+  "representative_errors": [
+    {
+      "method": "nonlocal",
+      "midpoint_own": 0.05968316569635926,
+      "terminal_own": 0.08410242039525845,
+      "midpoint_common_local": 0.0547926912015264,
+      "terminal_common_local": 0.07888819072594225,
+      "max_gas_area_relative_drift": 0.033706321150622,
+      "wall_seconds": 76.84867697954178
+    },
+    {
+      "method": "local_ad",
+      "midpoint_own": 0.07463297862847447,
+      "terminal_own": 0.10186137556438866,
+      "midpoint_common_local": 0.07463297862847447,
+      "terminal_common_local": 0.10186137556438866,
+      "max_gas_area_relative_drift": 0.028991115850105838,
+      "wall_seconds": 136.53559270501137
+    }
+  ]
+}

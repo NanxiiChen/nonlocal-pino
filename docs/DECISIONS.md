@@ -1644,3 +1644,625 @@ Prefer reversed-vortex pilot before full CHNS; keep physical reference/model/
 windowing/optimizer/budget fixed between derivative methods. No training,
 default, PDE/code modification or Git history operation.
 Relation: two-phase-pinn-paper-review.
+
+
+## 2026-10-26 — Publish prior results before developing the simple CH transport pilot
+
+Decision: user explicitly authorized commit/push then dev development. Prior
+results committed05780d4; regular main merge21fe6d9 pushed origin/main; switched
+back to clean dev before new-case changes. Generated archives only had whitespace
+normalization needed for staged diff check;48Python AST/65JSON/314directory
+checks pass, existing numerical validations retained without unnecessary rerun.
+First example is periodic2D CH transport by constant prescribed velocity, with
+explicit pilot data and mixed(C,q) outputs, not a silent repair/reproduction of
+Qiu's unspecified wall/flux/initial formulas or full high-density CHNS. Simple
+periodic IC-only hard condition introduces no prescribed future motion. Compare
+same model/initial network/optimizer/points with spatial AD versus periodic
+finite-horizon negative Laplacian. Normalize discrete isotropic kernel moment
+(sum w*z_x^2=sum w*z_y^2=2), record this derivative approximation choice and
+validate positivity/nullspace/Fourier consistency. Independent Fourier IMEX
+reference and graph/local refinements distinguish errors. No new-case commit
+or publication planned automatically; develop on dev.
+Relation: twophase-transport-pilot.
+
+
+## 2026-10-26 — Accept the end-to-end prescribed-flow pilot without an accuracy-superiority claim
+
+Decision: close first periodic CH route after both predeclared5000update runs and
+CPU checkpoint reloads. Mixed nonlocal/AD own-target terminalphi0.002297/0.005121,
+trainer wall66.7/91.1s, observed full-step2.16/3.18ms excluding sampling/eval;
+initial models byte-equal and configs differ only method/name. Independent
+reference time refinement<8.3e-8, local spatial refinement<2.1e-11; graph/local
+terminal discrepancy0.008198. Against common local target nonlocal0.008542
+is worse thanAD0.005121, so reject claiming intrinsic accuracy superiority.
+Area drifts0.264%/0.897%, energy decreases at21saved times; not exact learned
+conservation or statistical robustness. Phase excursions also occur in refined
+reference and are shown without clipping. Keep this case explicitly prescribed
+flow/hybrid differentiation, not full two-phase NS or a Qiu reproduction.
+Four numerical checks, strengthened manufactured AD/nonlocal residual check,
+actual startup and source/config/initial/reference/reload checks pass.
+Prior snapshot main21fe6d9 remains published; new development remains on dev
+uncommitted for review. Relation: twophase-transport-pilot.
+
+
+## 2026-10-26 — Add an explicit periodic reversed-vortex deformation control
+
+Decision: preserve constant-flow train_base and old reference identity; introduce
+train_vortex with explicit structured velocity in place of the constant vector.
+This discriminated union keeps existing serialized configs exact, without hidden
+required defaults. Use Qiu Eq23/24 velocity U0=2,T0=2 on periodic unit square,
+but declare own periodic rounded-droplet IC, epsilon0.02,M0.0001 and T=2.
+Variable advection is conservative Fourier flux divergence, explicitly extrapolated
+with nonlinear CH in BDF2; only biharmonic diffusion stays implicit. Independently
+check reference time/grid refinement and mass. Strain supplies energy, so reject
+using monotone phase-field energy or exact return to IC as acceptance conditions.
+Compare mixed AD/nonlocal under same model/initial draws/5000updates before any
+accuracy claim. No coupled NS or exact paper reproduction claim; no Git operation.
+Relation: twophase-vortex-pilot.
+
+
+## 2026-10-26 — Record cross-backend replay roundoff explicitly for vortex audit
+
+Decision: CPU audit reports per-field replay max-absolute/relative-L2 differences
+and uses an explicit5e-6 FP32 tolerance (FP64 stays1e-10). Initial3e-6 check
+fails at one nonlocal phase value3.0398e-6; full two-model diagnostic finds max
+3.3007e-6. Frozen GPU replay matches both stored phi/q arrays exactly; CPU FP32
+relative phase differences<4.08e-7 and promoted FP64 inference also stays within
+8e-6 of saved fields. Evidence supports backend/precision rounding rather than
+wrong checkpoints; no model/data/training or source changes to the finished
+cohort. Reject silently ignoring replay errors or modifying saved predictions.
+Only evaluator validation/reporting changes after training, recorded in task.
+Relation: twophase-vortex-pilot.
+
+
+## 2026-10-26 — Accept the deformation route with explicit accuracy limits
+
+Decision: both prescribed-vortex5000-update controls learn crescent deformation
+and reverse-return. Common local-target phi L2 at t1/t2 is nonlocal0.05479/0.07889
+versus mixedAD0.07463/0.10186. Own-target nonlocal terminal0.08410 remains separate
+from graph/local reference gap0.01168. Nonlocal compiled update3.30ms versus10.31ms,
+trainer76.85/136.54s including JIT/eval, but soft-area drift3.37% is worse than
+AD2.90%. Reject all-metric/global/stability claims or declaring high accuracy:
+interface-band phi L2 remains34.3%/37.4%. Keep constant-flow base default; retain
+new vortex preset as an explicit harder experiment. Checkpoint CPU audit/frozen
+GPU parity, exact paired inputs, independent reference refinement and7focused
+tests support route correctness. Source/results/scripts/plots archived; no new
+training, full NS, Git history operation or default promotion.
+Relation: twophase-vortex-pilot.
+
+
+## 2026-10-26 — Test bounded inverse-Jacobian preconditioning on vortex CH
+
+Decision: user requests melting residual idea for sharper/more accurate vortex
+interfaces. Strict phi=tanh(u) excludes verified CH excursions (local min-1.09837,
+graph-1.06899), and Lq does not factor J=1-phi^2. Preserve physical network/IC/PDE/
+reference and use explicit positive bounded weight w=sqrt(1+eta²)/sqrt(eta²+
+min((1-phi²)²,1)), eta0.1, range[1,10.0499]. This empirical optimization norm
+recovers inverse-J inside(-1,1) away from endpoints as eta->0; its floor prevents
+downweighting large excursions, cap avoids unbounded bulk stiffness. Keep full
+AD of the weight; no exact latent-map/cancellation or interface-weight claim.
+Compare three same-initialization5000-update arms: original, phase transport only,
+both mixed residuals. Original configs without the optional explicit residual
+record retain their original schema/behavior; new preset requires mode/eta.
+Reject changing CH to enforce a maximum principle or conflating output mapping
+with residual preconditioning. No Git operation or default promotion planned.
+Relation: twophase-vortex-residual.
+
+
+## 2026-10-26 — Separate CH phase representation from exact inverse-map residual scaling
+
+Decision: first3 bounded-weight controls finish; both transformed arms worsen
+interface/phase/mass metrics. Before judging melting's actual latent method,
+add3 same-budget controls with an overshoot-compatible bijection f(u)=tanh(u)+
+alpha*u,alpha0.1. Unlike strict tanh, f covers all real phase values and f'>=alpha.
+Compute u0=f^-1(phi0) by8 fixed Newton steps (independently check value/implicit
+AD); use phi=phi0+tanh(u0+s)-tanh(u0)+alpha*s, s=(t/T)N. This guarantees the
+same numerical IC exactly and encodes no subsequent motion. The phase map is
+monotone unbounded; chemical potential stays an independent output. Test
+original/transport/both inverse-map residuals, w=(1+alpha)/f'(u); positive
+bounded w is the exact inverse-map Jacobian up to constant normalization. No
+claim Lq/reaction automatically cancels. Preserve physics/reference/architecture/
+random parameters/5000steps and compare map-only against transformed map arms.
+Stage1 source snapshot is frozen/verified before these changes. No default/Git
+operation. Relation: twophase-vortex-residual.
+
+
+## 2026-10-26 — Keep vortex map-only interface gain separate from residual-scaling tradeoff
+
+Decision: all6 predeclared5000update seed42 controls/replays complete. Physical-
+field bounded inverse weights worsen common-local phi from0.07997 to0.21941/
+0.27171. Unbounded leaky-tanh map with ORIGINAL residual improves phi to0.04192,
+common-local band0.30327->0.16045, width proxy error48.4%->8.57%, contour mean
+0.004804->0.002797, but area drift worsens2.74%->4.29%. Exact inverse-map BOTH
+residuals slightly improve globalphi0.04019, qRMS0.05488 and area2.07%, while
+worsening band0.17455, width17.77% and contour0.004478. Do not attribute map-only
+gain to residual transformation, claim all-metric dominance or robust superiority
+from one ordinary-FP32 pair. Keep both controls and negative results; sharper
+interface experimental setting is latent config with mode=original, final5000.
+Established/canonical defaults unchanged.12focused tests,6CPU replays, same
+initial parameter bytes/reference and stage-frozen sources pass; original model
+still reloads with new static-only fields. Sources/results/curves/fields archived,
+6new runs registered. No Git history operation or further workers.
+Relation: twophase-vortex-residual.
+
+
+## 2026-10-27 — Classify inverse-map residual scaling as restricted nonlinear preconditioning
+
+Decision: answer the user's generalization question with S(z)=W(z)R(G(z)),
+separating state-coordinate/right transformation, nonlinear left residual norm
+and parameter-space optimizer preconditioning. B=DG is distinct from full PDE
+Jacobian A and neural parameter Jacobian. Scalar inverse-g' normalizes time;
+for mixed CH G=(g(u),v), full map inverse is diag(1/g',1), while scaling chemical
+row too is an additional block-norm choice. Preserve both existing research modes;
+clarify terminology without changing code or formulas. At roots D S=W*A*B;
+when square W=B^-1 this is a similarity, not a general conditioning/stiffness
+improvement theorem. Invertible weights preserve roots but finite least-squares
+solutions and physical-field errors change. Propose coupling/operator/target-error
+metrics as broader directions, with constraints and no universal accuracy claims.
+Primary Glasner2001/PETSc sources checked; independent NumPy derivative/Newton/
+conditioning/least-squares identities pass. No new training/default/PDE/Git change.
+Relation: residual-preconditioning-theory.
+
+
+## 2026-10-27 — Treat residual-preconditioned PINN loss as established prior art
+
+Decision: the explicit literature search finds direct prior art, including
+Liu2024 Eq20 ||P^-1(Au_theta-b)||² and Song2025 PDE-Jacobian/ILU residual
+preconditioning. Earlier FEINN2023 applies inverse operators to weak residuals;
+Wen2026 neural-operator preprint includes Allen–Cahn, multigrid and block norms.
+Do not claim novelty for placing preconditioning in PINN loss, general nonlinear
+extension, generic block/spatial treatment or phase-field application alone.
+Distinguish inverse scalar output-map derivative from full PDE-state Jacobian
+and parameter preconditioning. Narrow nonlocal/conserved phase-field metrics,
+cost/error tradeoffs and map-based analysis need further targeted prior-art
+review and controlled evidence; search absence does not prove novelty. Reject
+renaming standard residual weights as a new general framework or presenting
+recent preprints as confirmed peer-reviewed publications. Primary formulas,
+dates and scopes are recorded in the archived report. No numerical, default,
+reference or Git-history changes.
+Relation: pinn-residual-preconditioning-literature.
+
+
+## 2026-10-27 — Separate convexified-chemical phase mapping from CH block preconditioning
+
+Decision: target the user's approximately1% overall phi L2 with explicit controls.
+Replace the heuristic leaky map experimentally by u=phi+phi³=F'(phi)+2phi,
+F=(phi²-1)²/4; derivative1+3phi²>=1 yields an unbounded analytic inverse
+g(u)=2/sqrt(3)*sinh(asinh(3sqrt(3)u/2)/3). Preserve exact IC via differences.
+This convexified chemical coordinate is an independently derived trial mapping,
+not claimed to be a published optimal representation. Separately freeze bulk
+F''(+-1)=2 and temporal scale tau to form A_tau=[[1/tau,ML],[-(2+eps²L),I]].
+Its Fourier block inverse gives zphi=(rphi-ML*rq)/(1/tau+ML(2+eps²L)),
+zq=rq+(2+eps²L)zphi. Optimize norm(zphi/tau,zq), with explicit positive tau;
+this normalizes temporal units while preserving roots/zero mode. It omits
+advection and variable curvature, so no exact nonlinear/time inverse claim.
+Use literature-inspired frozen Jacobian, not inverse output-map weights.
+Check dense inversion/spectral operator equivalence and parameter gradients
+before cold-start controls. Preserve old schemas/checkpoints/physics/reference,
+retain all negative results and use paired budgets/initial parameters. Common-
+local terminal reference bias~1.17% is reported separately; no data supervision,
+reference replacement, default promotion or Git operation.
+Relation: twophase-operator-preconditioning.
+
+
+## 2026-10-27 — Add explicit PDE-only deterministic L-BFGS refinement controls
+
+Decision: first5000-step original/cubic runs remain materially underconverged
+while the frozen Schur metric alone does not improve them. Do not claim a
+representation or preconditioning success. Freeze stage1 numerical sources
+before implementing an optional second optimizer stage through train.py. Use
+SOAP5000 followed by explicit full-grid midpoint-time L-BFGS (SciPy), no field
+reference targets, with convergence/line-search status and function-evaluation
+budget recorded. Use FP64 for this refinement cohort to avoid FP32 line-search
+resolution, and clearly separate its budget/precision from5000-step controls.
+Retain original/cubic/Schur comparisons so any refinement gain is not attributed
+to the map alone. Evaluate unchanged21 reference times, distinct from the fixed
+midpoint training times; choose final iterates, not best reference checkpoints.
+No default/Git change.
+Relation: twophase-operator-preconditioning.
+
+
+## 2026-10-27 — Repair trainable integer periodic frequencies before further accuracy claims
+
+Decision: actual checkpoint audit discovers PhaseNetwork.modes is an inexact
+Equinox parameter, so SOAP changes integer periodic modes. Historical mapped
+original stores[0.76716584,1.8836843,2.9716012]; edge field differences confirm
+periodicity is not exact. This is an implementation defect against the declared
+periodic formulation, not a new boundary model. Stop parameter gradients through
+these fixed feature modes in raw(), preserving array leaves/dtypes/values so old
+checkpoint inference and spatial/time derivatives retain their saved values.
+Do not silently round old modes, overwrite checkpoints or present historical
+runs as verified hard-periodic solutions. Cold starts retain exact integer modes.
+Test mode gradients, optimizer updates and opposing-edge values/derivatives.
+Finish/freeze the four pre-fix controls and disclose the limitation; new controls
+are a distinct fixed-frequency cohort. Shared learnable FourierEmbedding remains
+unchanged: only case-local integer modes must stay fixed. L-BFGS parameter
+partition must likewise exclude or have zero derivatives on this leaf.
+Relation: twophase-operator-preconditioning.
+
+
+## 2026-10-27 — Test causal space-time block inverse and higher spatial-feature resolution
+
+Decision: fixed-periodic FP64 refinement does not yet reach1%; distinguish
+representation limitations from the pointwise pseudo-time metric. Preserve
+completed/running refinement source snapshots. Add a causal lower-bidiagonal
+backward-Euler approximation of the frozen mixed CH Jacobian across sorted
+training times: zphi_i=(zphi_(i-1)+dt_i*(rphi_i-ML*rq_i))/(1+dt_i*ML*B),
+zq_i=rq_i+B*zphi_i, B=2+eps²L, zphi_0=0. This inverse is exact for that
+discrete frozen block system and approximates PDE error propagation, omitting
+advection/variable curvature; it changes only the residual norm. Normalize
+phase by explicit terminal time, retain constant spatial mode, test against
+an independent full space-time dense solve and full parameter finite differences.
+Positive distinct time samples use explicit open-stratified sampling; fixed
+midpoints are used in refinement, not reference fields. Separately increase
+fixed integer spatial modes3->8/width64->96 to resolve thin-interface corrections,
+with original residual control. Report architecture/dtype/budget changes rather
+than attributing them to scalar mapping or preconditioning. No physics/reference/
+canonical default/Git change.
+Relation: twophase-operator-preconditioning.
+
+
+## 2026-10-27 — Add exact grid-mass projection and initial-PDE collocation controls
+
+Decision: the resolved raw-loss run develops~24% soft-area drift and~41%
+terminal L2, supporting an optimization/initial-transient failure rather than
+a monotone capacity benefit. Preserve this negative control. Add explicit
+optional phase_mass=exact_grid_mean: subtract the mean of predicted phase minus
+known initial phase on the fixed training grid. This is the orthogonal projector
+onto the conserved-mass affine space, adds no trajectory/reference prior and
+permits CH overshoots. Differentiate its time-dependent mean in JVP; its spatial
+query derivative is zero since the quadrature grid is fixed. All training/eval/
+checkpoint audit paths must use the same physical field wrapper. Also optionally
+collocate the ORIGINAL PDE at t=0 via separately logged initial phase/chemical
+loss terms, avoiding a sampled initial transient bypass. Compare original and
+causal residual metrics on the previous64unit/3mode cubic representation, with
+identical mass/anchor constraints/budgets. These controls change training beyond
+a scalar mapping; do not attribute any accuracy gain solely to preconditioning.
+No default, physics/reference/history change.
+Relation: twophase-operator-preconditioning.
+
+
+## 2026-10-27 — Align periodic conservative advection with nodal nonlocal residuals
+
+Decision: checkpoint diagnostics show large AD versus nodal spectral-flux
+advection discrepancies: refined cubic RMS.2551; failed resolved SOAP model
+.9263, with AD mean advection up to.11436 despite exact periodic frequencies.
+The latter's full-time AD phase residual RMS.15065 versus spectral residual
+.94098 supports a collocation/derivative inconsistency, not proof of a unique
+cause. Add explicit advection=spectral_flux: FFT divergence of v*phi, using
+zero Nyquist first-derivative multipliers on the even periodic grid. This
+represents the conservative derivative of the interpolated nodal flux, removes
+independently adjustable AD point slopes and annihilates the constant mode
+exactly to roundoff. Continuous equivalence follows div(v)=0; finite-grid
+advection differs intentionally from the legacy hybrid. Existing independent
+NumPy/SciPy reference already uses this conservative spectral flux; no data or
+reference change is needed. New explicit presets compare original/causal metrics
+with identical cubic coordinate, exact grid mass, initial-PDE anchor and budget.
+Verify manufactured analytic flux, discrete mean, residual/parameter gradients
+before runs. Keep the legacy AD path/default and all failed controls. No claim
+that a changed spatial discretization is merely a scalar residual scaling.
+Relation: twophase-operator-preconditioning.
+
+
+## 2026-10-27 — Prioritize general consistency and low complexity after user steering
+
+Decision: user explicitly relaxes the1% target and requests general rather than
+overdesigned optimization. Finish existing controls, then compare additive,
+cubic and causal-cubic using the SAME conservative spectral flux, exact grid
+mass,64unit architecture,SOAP5000+LBFGS1000 and reference. Omit the proposed
+extra t=0 PDE weight from these presets, retaining it only as an explicitly
+tested optional research control. This makes the main comparison about
+discretization consistency/conservation, representation and residual metric
+without more hand-designed weights. Recommend the simplest measured winner;
+do not add new problem-specific maps or optimize seeds/checkpoints. Distinguish
+matched nonlocal and common-local errors and report negative experiments.
+Tool review quota interruption has recovered; no safety rejection or bypass.
+Relation: twophase-operator-preconditioning.
+
+
+## 2026-10-27 — Check initial-time PDE collocation as a sampling-only improvement
+
+Decision: consistent cubic final errors are highest just after initialization
+(matched3.64–4.12% at t.1–.3 versus2.54% terminal), while current uniform
+interior samples never include t=0. Add one optional explicit
+sample.include_initial_time=True that concatenates t=0 to the PDE collocation
+times in both SOAP and L-BFGS loss evaluation, with the SAME equal per-time
+mean and no new loss weight or reference data. This is ordinary PDE endpoint
+collocation, distinct from hard prescribing future dynamics. Reject combining
+this zero interval with the experimental causal inverse, which requires strictly
+positive times. Compare a final same-budget conserved-cubic cold start with
+and without this one initial PDE point, then confirm the selected simple preset
+on a predeclared independent seed2026. Retain earlier initial_pde_weight as a
+separate research option; do not combine both forms of initial collocation.
+Relation: twophase-operator-preconditioning.
+
+
+## 2026-10-27 — Retain simple original residual and test optimizer convergence budget
+
+Decision: equal-budget consistent additive/cubic/causal gives local pooled
+3.23485%/2.84283%/25.17413%, terminal3.06985%/2.34319%/26.81794%. Extra
+initial PDE sampling gives2.82532% pooled but worsens terminal2.53405% and q;
+do not adopt this small mixed result. The selected simple candidate uses cubic
+coordinate, ORIGINAL residual, conservative nodal flux and exact grid mass.
+Its L-BFGS is still improving at the1000 iteration limit, so the final accuracy
+check changes ONLY the explicit optimizer budget to3000 L-BFGS/5000 function
+evaluations after the unchanged5000 SOAP. Predeclare seed42 and independent2026
+cold starts, same strategy; no seed tuning, new mapping/weights or reference
+change. This tests ordinary optimizer convergence rather than overdesigning
+preconditioning. Report added compute separately and keep all shorter controls.
+Relation: twophase-operator-preconditioning.
+
+
+## 2026-10-27 — Reject longer refinement after residual/L2 divergence
+
+Decision:3000-LBFGS controls lower training losses to.000519/.000410 but
+common-local pooled L2 ends3.24048%/6.33613% for seeds42/2026. More optimizer
+iterations are not a reliable accuracy improvement under finite temporal
+collocation. Keep original1000-iteration refinement as the simpler recommendation;
+no further model/preconditioner design. Because the2026 short-budget intermediate
+was only logged, run one actual seed2026 cold start of train_vortex_conserved
+(5000SOAP+1000LBFGS) to save/audit the recommended final model independently.
+Final long-run history at step6000 is3.40366% pooled but is not a saved1000-
+refinement checkpoint. Do not present the long final as short-budget validation
+or select unsaved reference-minimum epochs. All negative long runs retained.
+Relation: twophase-operator-preconditioning.
+
+
+## 2026-10-27 — Remove unused initial-PDE weighting option before completion
+
+Decision: the main comparison intentionally never enabled initial_pde_weight;
+the tested endpoint-sampling flag provides the needed initial-time ablation
+without extra weights. Remove the unused weighted-loss option and its docs/
+validation to keep the solver interface simpler. All16 actual training configs
+omit that field, so their physical residuals, predictions and checkpoints are
+unchanged; frozen run sources remain preserved. Retain the numerical mass/time-
+derivative/full-gradient test with the actual3-part loss, and retain endpoint
+sampling's sharp-transient test. No additional training/model design.
+Relation: twophase-operator-preconditioning.
+
+
+## 2026-10-27 — Recommend simple conserved cubic original-residual vortex preset
+
+Decision: all16 controlled cold starts and independent short-budget2026 final
+checkpoint are complete. Recommend train_vortex_conserved.py via train.py:
+convexified-chemical inverse cubic, original PDE residual, conservative Fourier
+flux consistent with nodal L, exact grid mass and fixed integer periodic modes;
+FP64/ordinary,SOAP5000+LBFGS1000. Common-local pooled phi2.84283%/2.90598%,
+terminal2.34319%/2.55726%; band~12.8%, so1% is not achieved. Prefer the modest
+controlled representation gain plus physical consistency; reject Schur/causal
+metrics, larger AD-hybrid network, extra initial-time point and3000refinement
+as default recommendations because measured tradeoffs/failures do not justify
+added complexity. Long residual decreases accompany worse L2; no universal
+conditioning/generalization claim. All16 frozen GPU predictions match exactly,
+CPU replay passes explicit tolerances, initial arrays and12post-fix periodic
+models pass.21distinct focused checks/17config identities verified; reference
+unchanged, source caveats and all negatives archived. User-relaxed general/simple
+objective addressed; further work would be a separately scoped investigation.
+No Git operation, path migration, other-example default promotion or workers.
+Relation: twophase-operator-preconditioning.
+
+
+## 2026-10-27 — Match latest local AD and nonlocal vortex training
+
+Decision: the user requests local accuracy and both training times with other
+schemes held equal. Run a fresh seed42 serial pair of train_vortex_conserved
+and an inherited local control changing only nl.method. Keep conservative nodal
+spectral flux in BOTH arms, exact grid-mass/time differentiation, cubic map,
+initialization, samples, FP64 ordinary and SOAP5000+L-BFGS1000 unchanged. Local
+negative Laplacians are AD Hessian traces of the provisional point network:
+the full-grid mass shift is spatially constant, so its spatial Hessian is zero.
+Compare both against the same converged local reference, and native references
+separately. Reject comparing historical local controls with newer nonlocal
+schemes or calling spectral advection all-AD. Include JIT/evaluation in complete
+timings and distinguish first/steady SOAP and L-BFGS costs; one pair does not
+establish seed robustness. No default/reference/Git change.
+Relation: twophase-matched-local-comparison.
+
+
+## 2026-10-27 — Retain fresh nonlocal outcome in matched timing/accuracy pair
+
+Decision: fresh recommended nonlocal seed42 gives common-local pooled3.77757%
+/terminal3.26634%, trainer211.153s (external217.424s), versus historical2.84283%
+/2.34319%. Direct checks show identical config except run name, identical
+initial checkpoint bytes and identical first loss10.29859750798121; histories
+already differ at step100. Saved source changes are only inactive endpoint/
+removed-anchor branches and validation/metadata for this config. Ordinary GPU
+compilation and adaptive training do not promise identical trajectories; this
+comparison does not isolate a unique numerical cause. Report the fresh result
+alongside the fresh local arm, disclose historical variation, and do not replace
+it with the more favorable historical number or tune seeds/budget. Same-source
+pair remains controlled. No default/reference/history change.
+Relation: twophase-matched-local-comparison.
+
+
+## 2026-10-27 — Complete same-scheme local AD versus nonlocal accuracy/timing pair
+
+Decision: both fresh seed42 runs complete SOAP5000+L-BFGS1000 with identical
+initial bytes,36saved sources and all config except method/name. Common-local
+pooled/terminal phi: local3.36431%/3.22328%, nonlocal3.77757%/3.26634%.
+Trainer wall924.230/211.153s, external931.018/217.424s, compiled SOAP83.1561/
+16.7317ms; L-BFGS425.197/83.6103s. Local's pooled error is modestly lower and
+terminal nearly equal; nonlocal is4.38x faster by trainer time and4.97x by SOAP
+step. Historical same-config nonlocal2.84% means this one pair does not establish
+stable accuracy ordering; retain all results rather than choose a favorable run.
+Both stages stop at budget, not tolerance; no defaults/reference/budget tuning.
+One new manufactured local-Hessian+mass+spectral-flux/gradient test passes;
+CPU field replay<=9.99e-15 and GPU<=4.44e-16 under existing1e-10 tolerance,
+GPU initialization exact and trained periodic modes/edges pass. Initial audit
+mistakenly required exact CPU/GPU random initialization and bitwise ordinary
+GPU mass reduction; preserve failed audit logs and correct to same-backend exact
+initial reconstruction plus pre-existing FP64 prediction tolerance. No checkpoint
+or saved field edit and no numerical gate was loosened from the established
+replay contract. Comparison/config/curves/README/index/memory archived.
+No Git history operation; no workers/blockers.
+Relation: twophase-matched-local-comparison.
+
+
+## 2026-10-27 — Diagnose same-seed numerical repeatability before larger cohorts
+
+Decision: user explicitly prioritizes same-seed rerun diagnosis, then deciding
+full comparison size. Freeze actual recommended initializer/source/time draws;
+repeat objective/gradient/full SOAP updates and restart short trajectories.
+Compare ordinary and deterministic policy to isolate numerical execution versus
+random sampling, without changing physics/default or assuming determinism means
+better L2. Inspect nonlocal gather pullback and actual upstream SOAP operations;
+report measured differences and amplification without attributing all final L2
+variation to one mechanism unless isolated. No long cohort or Git operation.
+Relation: twophase-repeatability.
+
+
+## 2026-10-27 — Use symmetry only as an isolated adjoint diagnostic
+
+Decision: periodic L has L_ij=-w_ij for reciprocal pairs w_ij=w_ji and diagonal
+sum_j w_ij, so L^T=L and the exact real-valued reverse pullback is L times
+the cotangent. A probe-only custom VJP can replace the gather's scatter-add
+transpose by the SAME gather/reduce forward action. Check dot-product identity
+and gradient agreement before interpreting repetitions. This changes floating
+execution but not the algebraic operator; it is not valid blindly for truncated/
+row-normalized/nonsymmetric operators. Do not modify production implementation
+or select a new method on the basis of a short repeatability probe. Compare
+autodiff and symmetric pullbacks with frozen gradients/SOAP amplification.
+Relation: twophase-repeatability.
+
+
+## 2026-10-27 — Observe FP64 gradient noise amplified by SOAP initialization
+
+Decision: actual fixed-input ordinary GPU probe gives identical losses while
+gradients differ max6.94e-18..1.39e-17. SAME frozen gradient repeatedly fed to
+SOAP yields exactly equal GG/Q/updates, ruling out random eigensolver variation
+for these tested identical inputs. Repeated near-identical gradients instead
+change initial GG by~1e-21 and Q byO(1); after feeding an IDENTICAL second
+gradient to each state, actual second updates differ25.3–26.5% relative. Thus
+Q differences are not only harmless sign/gauge differences. Original JIT
+restarts share arrays/times, parameters first differ on update2 and reach32.1%
+relative difference by100. Test exact symmetric adjoint/deterministic controls
+and inspect covariance spectrum before assigning a general remedy. No long
+run or new defaults; causal chain isolated locally, final L2 attribution limited.
+Relation: twophase-repeatability.
+
+
+## 2026-10-27 — Equivalent symmetric pullback removes tested within-process divergence
+
+Decision: probe-only custom pullback L^T*bar=L*bar retains the EXACT forward
+operator and loss, replacing scatter accumulation only. Under ordinary policy,
+all5frozen gradient evaluations become bitwise equal; two restarted original
+JIT100-update trajectories have exactly identical parameters/GG/Q/loss at every
+checked milestone, whereas standard pullback diverges from update2. This is a
+controlled intervention supporting gather-transpose accumulation as a trigger
+for the observed short-path SOAP divergence. Preserve production untouched;
+independent-process reproducibility, covariance spectrum, full-run L2 and
+performance are separate claims not yet established. Check deterministic policy
+on a bounded5-step diagnostic without invoking a long cohort.
+Relation: twophase-repeatability.
+
+
+## 2026-10-27 — Retain cross-process failure and distinguish diagnosis from a fix
+
+Decision: identical-source v2 symmetric-adjoint probes in two independent GPU
+processes retain identical initializer/time arrays/frozen loss but first frozen
+gradients differ max6.94e-18, GG max2.54e-21, and100-step parameters differ29.7%
+relative. Each process's own two restarts remain exactly equal. Thus replacing
+nonlocal transpose scatter removes one within-process trigger, not full-process
+repeatability. Exact cross-process compiler/kernel source is not isolated;
+do not claim a finished reproducibility fix or convert to a production custom
+VJP on this evidence. Spectrum independently shows output-weight64x64 Gram
+rank2 (62near-null directions); frozen near-identical gradients change actual
+second updates25.3–26.5%, while optimizer repeats with an identical frozen
+gradient are exact. The measured key amplifier is SOAP's initial weak-direction
+basis/coordinate normalization, not new random sampling. Prioritize validating
+stable preconditioner initialization/weak-direction handling, then two same-seed
+full runs before a small predeclared paired-seed accuracy cohort. No evidence
+that this yields a lower final L2 yet; no full training/default/physics change.
+Relation: twophase-repeatability.
+
+
+## 2026-10-27 — Audit SOAP against primary implementations before blaming algorithm
+
+Decision: user asks whether the installed SOAP implementation is incorrect.
+Verify actual pinned dependency provenance and compare author PyTorch, JAX
+pinned/current and independent implementation under matched arguments/gradient
+streams, including initialization/step counting/QR refresh/moment coordinates.
+Distinguish formula defects, intentional choices and finite-precision rank
+deficiency. The prior sensitivity probe alone is insufficient evidence of
+a SOAP implementation bug. No package/default replacement or long training.
+Relation: soap-implementation-audit.
+
+
+## 2026-10-27 — SOAP core parity passes; distinguish precision and inactive decay differences
+
+Decision: actual author PyTorch, installed pinned SOAP_JAX0.2.2 and independent
+pytorch_optimizer source classes complete16matched gradient-stream cases each
+(1D/2D/3D, partial axes, bias toggle, three refresh boundaries). With shared
+orthogonal basis tape in FP64, max parameter gap2.22e-16, physical first-moment
+gap5.88e-15. This directly checks count/projection/refresh/moment transport; no
+core translation defect is found in tested paths. Native differences align
+with author FP32 eig/QR and independent FP32 QR versus JAX parameter precision.
+Author's nativeFP32 one-ULP initial-gradient perturbations yield62–78% second-
+update differences; independent nativeFP64 measured perturbations yield74–84%.
+Thus rank-deficient initialization sensitivity is not unique to JAX. The
+second gradient is synthetic/common in these single-block sensitivity controls,
+not a new PINN L2 result. Real nonzero-weight-decay ordering difference exists:
+author decays the updated parameter; JAX decays the old parameter. Current
+factory uses default0decay, so it cannot explain current training variation.
+Record differences rather than silently substitute libraries or claim a fix.
+Relation: soap-implementation-audit.
+
+
+## 2026-10-27 — Current SOAP already includes upstream stale-EMA fix; factory passes recurrence
+
+Decision: pinned upstream README explicitly documents an older non-refresh-step
+EMA staleness fix. Current source and48stream runs verify this is not present
+in installed0.2.2; installed file also exactly matches prior diagnosis's
+archived upstream source. Do not conflate known historical upstream defects
+with current behavior. A separate1005-step NumPy-coordinate recurrence checks
+the actual project factory's global clipping, continuous LR decay, first-step
+skip, effective bias count and epsilon placement; max parameter gap1.79e-9
+is within the declared FP32 LR-schedule rounding allowance2e-8. Author source
+also reproduces FP64 matrix/default-FP32 Gram dtype error; reference runs
+explicitly align Torch default dtype with parameter dtype, retaining author's
+FP32 eig/QR casts. No installed dependency or runtime default is modified.
+Relation: soap-implementation-audit.
+
+
+## 2026-10-27 — Defer SOAP stability work outside the research mainline
+
+Decision: user explicitly asks to record this issue in a standalone Markdown
+file and revisit only when time permits. Create docs/issues/soap-repeatability.md
+as low-priority/deferred, with symptoms, measured evidence, implementation-audit
+limits, direct artifact/script links and a future resume checklist. Existing
+diagnoses remain archived evidence; prior proposed follow-up protocols are not
+active instructions. Do not continue initialization changes, dependency swaps
+or larger training cohorts unless the user explicitly resumes this issue.
+Preserve current strategy/reference/checkpoints and stop the side investigation.
+Relation: soap-issue-record; supersedes priority of earlier SOAP follow-up plans.
+
+## 2026-10-27 — Recommend elastic precipitates as the next new coupling
+
+Decision: after the user closes the current two-phase pilot and requests further
+phase-field/nonlocal examples, recommend elastic precipitate shape relaxation
+(PFHub4) to join existing phase and elasticity capabilities. Thermal dendrites
+(PFHub3), AT2 fracture and periodic spinodal decomposition are alternatives
+with respectively anisotropic-operator, irreversibility and lower-implementation
+cost tradeoffs. This is a recommendation, not authorization to implement a new
+physical model. PFHub4 uses fictitious CH relaxation; its phase-dependent,
+anisotropic misfit elasticity is not a drop-in constant ElasticD call. Preserve
+the distinction between nonlocal differentiation and native integral physics;
+no automatic advantage or novelty claim. Current prescribed-flow pilot remains
+distinct from coupled CHNS, and SOAP investigation remains explicitly deferred.
+Relation: phasefield-next-cases; extends phasefield-case-recommendations.
+
+## 2026-10-27 — Publish the completed transport and optimizer-audit snapshot
+
+Decision: user explicitly authorizes commit and push of current contents before
+elastic-precipitate development. Save all current tracked/untracked project work
+(including existing research archives) on dev, regular-merge dev into main and
+push origin main only, then return to dev. Snapshot validation: 22 focused
+two-phase unittest checks pass, artifact inventory passes 6 cases/345 directories,
+and git diff --check passes. pytest is unavailable; use the existing unittest
+suite without changing dependencies. No new numerical case implementation is
+included in this pre-development snapshot. Relation: elastic-precipitate-pilot.
+
+Snapshot packaging note: staging exposes upstream whitespace in the verbatim
+SOAP source/license evidence. Preserve those exact source bytes and declare a
+narrow .gitattributes whitespace exemption for that archive's sources directory;
+project code and all other documentation keep normal whitespace validation.

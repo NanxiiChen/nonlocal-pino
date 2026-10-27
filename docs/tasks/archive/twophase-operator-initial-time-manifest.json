@@ -1,0 +1,22 @@
+{
+  "status": "completed",
+  "runs": [
+    {
+      "arm": "initial_time",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_initial_time.py",
+        "--config.log.run_name=20261027-vortex-initial-initial_time"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-initial-initial_time",
+      "status": "completed",
+      "seed": 42,
+      "returncode": 0,
+      "wall_seconds": 246.6821448802948
+    }
+  ],
+  "max_gpu_workers": 1,
+  "waiting_for": "reports/twophase-operator-conserved/manifest.json"
+}

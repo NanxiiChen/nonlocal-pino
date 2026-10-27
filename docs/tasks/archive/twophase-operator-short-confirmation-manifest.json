@@ -1,0 +1,22 @@
+{
+  "status": "completed",
+  "runs": [
+    {
+      "arm": "seed2026",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "examples/twophase2d/train.py",
+        "--config=examples/twophase2d/configs/train_vortex_conserved.py",
+        "--seed=2026",
+        "--config.log.run_name=20261027-vortex-short-seed2026"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-short-seed2026",
+      "status": "completed",
+      "seed": 2026,
+      "returncode": 0,
+      "wall_seconds": 219.49833979457617
+    }
+  ],
+  "max_gpu_workers": 1
+}

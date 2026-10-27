@@ -13,6 +13,7 @@ FEM references remain part of the validation workflow.
 - [elasticity2d](examples/elasticity2d/README.md): Nonlocal elasticity with an independent FEM reference.
 - [corrosion1d](examples/corrosion1d/README.md): Earlier implementation, retained for reference.
 - [corrosion2d](examples/corrosion2d/README.md): KKS pit corrosion with a validated matched-graph training preset.
+- [twophase2d](examples/twophase2d/README.md): Periodic prescribed-flow Cahn–Hilliard pilots: constant transport and reversed-vortex deformation, with mixed local-AD/nonlocal controls; no coupled Navier–Stokes yet.
 
 The unimplemented [PINO elasticity design](docs/design/pino_elasticity2d.md) is
 retained as a design document. Electropolish2d is the primary corrosion case;
@@ -20,7 +21,7 @@ corrosion2d supplies the pit-corrosion case; corrosion1d is retained for referen
 
 ## Current phase-field defaults
 
-All three canonical `train.py` entries load `configs/train_base.py` and now
+The three established phase-field `train.py` entries load `configs/train_base.py` and now
 explicitly use **ordinary GPU compilation** (`train.gpu_policy="ordinary"`).
 Precision is selected per case from complete5000-update controls, rather than
 assuming FP64 always improves a training trajectory. All use SOAP, initial
@@ -95,7 +96,7 @@ examples/                 # case geometry, BCs, configs, CLI and formulations
 tests/                    # existing focused numerical/restart regressions
 artifacts/index.yaml      # external artifact ownership, JSON-compatible YAML
 scripts/check_artifacts.py
-docs/                     # rules, progress, decisions, tasks and migration
+docs/                     # rules, progress, decisions, deferred issues, tasks and migration
 ```
 
 Shared code lives in the package; examples keep case definitions and stable

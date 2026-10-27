@@ -1,0 +1,332 @@
+{
+  "status": "completed",
+  "policy": "ordinary",
+  "adjoint": "autodiff",
+  "steps": 100,
+  "exact_training_initial_arrays": true,
+  "operator_dot_product_absolute": 1.7462298274040222e-10,
+  "operator_transpose_repeat": [
+    {
+      "max_absolute": 1.0913936421275139e-11,
+      "relative_L2": 1.3973513990189848e-16,
+      "changed_entries": 4622
+    },
+    {
+      "max_absolute": 1.0913936421275139e-11,
+      "relative_L2": 1.4205352102549928e-16,
+      "changed_entries": 4594
+    },
+    {
+      "max_absolute": 1.2732925824820995e-11,
+      "relative_L2": 1.4349595955279143e-16,
+      "changed_entries": 4543
+    },
+    {
+      "max_absolute": 1.0913936421275139e-11,
+      "relative_L2": 1.3874344629059247e-16,
+      "changed_entries": 4535
+    }
+  ],
+  "operator_transpose_oracle": {
+    "max_absolute": 2.1827872842550278e-11,
+    "relative_L2": 3.051149197137958e-16,
+    "changed_entries": 6577
+  },
+  "frozen_loss": [
+    10.29859750798121,
+    10.29859750798121,
+    10.29859750798121,
+    10.29859750798121,
+    10.29859750798121
+  ],
+  "frozen_gradient_repeat": [
+    {
+      "max_absolute": 1.3877787807814457e-17,
+      "relative_L2": 3.378908034327939e-17,
+      "changed_entries": 7432
+    },
+    {
+      "max_absolute": 6.938893903907228e-18,
+      "relative_L2": 3.183587444915133e-17,
+      "changed_entries": 7400
+    },
+    {
+      "max_absolute": 1.3877787807814457e-17,
+      "relative_L2": 3.440363976207019e-17,
+      "changed_entries": 7172
+    },
+    {
+      "max_absolute": 6.938893903907228e-18,
+      "relative_L2": 3.077615758073648e-17,
+      "changed_entries": 7509
+    }
+  ],
+  "frozen_gradient_seconds_including_compile": 11.575642969459295,
+  "optimizer_identical_gradient_repeat": [
+    {
+      "updates": {
+        "max_absolute": 0.0,
+        "relative_L2": null,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      }
+    },
+    {
+      "updates": {
+        "max_absolute": 0.0,
+        "relative_L2": null,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "Q": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      }
+    }
+  ],
+  "gradient_to_soap_amplification": [
+    {
+      "gradient": {
+        "max_absolute": 1.3877787807814457e-17,
+        "relative_L2": 3.378908034327939e-17,
+        "changed_entries": 7432
+      },
+      "GG": {
+        "max_absolute": 3.3881317890172014e-21,
+        "relative_L2": 2.947590412525834e-17,
+        "changed_entries": 14421
+      },
+      "Q": {
+        "max_absolute": 1.0601067968354139,
+        "relative_L2": 0.6437690391951123,
+        "changed_entries": 33272
+      },
+      "second_update": {
+        "max_absolute": 0.0020883508433671627,
+        "relative_L2": 0.2578266284608005,
+        "changed_entries": 14214
+      }
+    },
+    {
+      "gradient": {
+        "max_absolute": 6.938893903907228e-18,
+        "relative_L2": 3.183587444915133e-17,
+        "changed_entries": 7400
+      },
+      "GG": {
+        "max_absolute": 1.6940658945086007e-21,
+        "relative_L2": 2.0923029454052586e-17,
+        "changed_entries": 14168
+      },
+      "Q": {
+        "max_absolute": 1.4391939268412108,
+        "relative_L2": 0.663540984897601,
+        "changed_entries": 33294
+      },
+      "second_update": {
+        "max_absolute": 0.001967183991468607,
+        "relative_L2": 0.2610568779314702,
+        "changed_entries": 14213
+      }
+    },
+    {
+      "gradient": {
+        "max_absolute": 1.3877787807814457e-17,
+        "relative_L2": 3.440363976207019e-17,
+        "changed_entries": 7172
+      },
+      "GG": {
+        "max_absolute": 3.3881317890172014e-21,
+        "relative_L2": 2.3969548600680832e-17,
+        "changed_entries": 13494
+      },
+      "Q": {
+        "max_absolute": 1.4341293567132576,
+        "relative_L2": 0.6676234722507837,
+        "changed_entries": 33284
+      },
+      "second_update": {
+        "max_absolute": 0.0018630543131903108,
+        "relative_L2": 0.2526647932083582,
+        "changed_entries": 14216
+      }
+    },
+    {
+      "gradient": {
+        "max_absolute": 6.938893903907228e-18,
+        "relative_L2": 3.077615758073648e-17,
+        "changed_entries": 7509
+      },
+      "GG": {
+        "max_absolute": 3.3881317890172014e-21,
+        "relative_L2": 3.169379524442785e-17,
+        "changed_entries": 14534
+      },
+      "Q": {
+        "max_absolute": 1.48192389862538,
+        "relative_L2": 0.6690145044204207,
+        "changed_entries": 33297
+      },
+      "second_update": {
+        "max_absolute": 0.0023675954314582616,
+        "relative_L2": 0.2646704318050954,
+        "changed_entries": 14214
+      }
+    }
+  ],
+  "path_seconds": [
+    8.163376927375793,
+    1.6866424195468426
+  ],
+  "path_repeat": [
+    {
+      "step": 1,
+      "parameters": {
+        "max_absolute": 0.0,
+        "relative_L2": 0.0,
+        "changed_entries": 0
+      },
+      "GG": {
+        "max_absolute": 3.3881317890172014e-21,
+        "relative_L2": 4.15101357536656e-17,
+        "changed_entries": 14262
+      },
+      "Q": {
+        "max_absolute": 1.1947094659241502,
+        "relative_L2": 0.6448185011799726,
+        "changed_entries": 33292
+      },
+      "loss_absolute": 0.0
+    },
+    {
+      "step": 2,
+      "parameters": {
+        "max_absolute": 0.0025302194968040564,
+        "relative_L2": 0.0019086351157363052,
+        "changed_entries": 14211
+      },
+      "GG": {
+        "max_absolute": 6.776263578034403e-21,
+        "relative_L2": 3.423232766377275e-17,
+        "changed_entries": 13227
+      },
+      "Q": {
+        "max_absolute": 1.1947094659241502,
+        "relative_L2": 0.6448185011799726,
+        "changed_entries": 33292
+      },
+      "loss_absolute": 0.0
+    },
+    {
+      "step": 5,
+      "parameters": {
+        "max_absolute": 0.005749319967792703,
+        "relative_L2": 0.009765692599653627,
+        "changed_entries": 14474
+      },
+      "GG": {
+        "max_absolute": 1.136572517521561e-06,
+        "relative_L2": 0.0034460976460973206,
+        "changed_entries": 33621
+      },
+      "Q": {
+        "max_absolute": 1.1947094659241502,
+        "relative_L2": 0.6448185011799726,
+        "changed_entries": 33292
+      },
+      "loss_absolute": 2.3231721346661516e-06
+    },
+    {
+      "step": 10,
+      "parameters": {
+        "max_absolute": 0.010690246815820245,
+        "relative_L2": 0.0210736929188978,
+        "changed_entries": 14474
+      },
+      "GG": {
+        "max_absolute": 1.1130368448164594e-05,
+        "relative_L2": 0.013544389377217648,
+        "changed_entries": 33621
+      },
+      "Q": {
+        "max_absolute": 1.4482687156927245,
+        "relative_L2": 1.286654224870795,
+        "changed_entries": 33620
+      },
+      "loss_absolute": 2.0779900571810117e-05
+    },
+    {
+      "step": 20,
+      "parameters": {
+        "max_absolute": 0.022143142086255355,
+        "relative_L2": 0.05043336012323191,
+        "changed_entries": 14474
+      },
+      "GG": {
+        "max_absolute": 3.664463927399372e-05,
+        "relative_L2": 0.026382358903564444,
+        "changed_entries": 33621
+      },
+      "Q": {
+        "max_absolute": 1.900504935206564,
+        "relative_L2": 1.3008616486510831,
+        "changed_entries": 33620
+      },
+      "loss_absolute": 8.704724635322236e-05
+    },
+    {
+      "step": 50,
+      "parameters": {
+        "max_absolute": 0.0645003298880295,
+        "relative_L2": 0.14154894250049596,
+        "changed_entries": 14474
+      },
+      "GG": {
+        "max_absolute": 0.00012067500107201118,
+        "relative_L2": 0.049796790415210776,
+        "changed_entries": 33621
+      },
+      "Q": {
+        "max_absolute": 1.2912895081828357,
+        "relative_L2": 1.2658346690220883,
+        "changed_entries": 33620
+      },
+      "loss_absolute": 1.9097920263888568e-05
+    },
+    {
+      "step": 100,
+      "parameters": {
+        "max_absolute": 0.22469615054027292,
+        "relative_L2": 0.32126122484088243,
+        "changed_entries": 14474
+      },
+      "GG": {
+        "max_absolute": 0.019038785989613977,
+        "relative_L2": 0.31301774870789795,
+        "changed_entries": 33621
+      },
+      "Q": {
+        "max_absolute": 1.3771986588990304,
+        "relative_L2": 1.333941021598072,
+        "changed_entries": 33620
+      },
+      "loss_absolute": 0.0017859934184034643
+    }
+  ],
+  "reference_field_values_in_loss": false,
+  "source_run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-matched-nonlocal"
+}

@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "serial_cold_starts_completed": 6,
+  "full_updates_each": 5000,
+  "parameter_initial_leaves_byte_equal_all6_and_previous": true,
+  "physical_initial_fields_equal_within_each_stage": true,
+  "cross_representation_physical_initial_fields_expected_to_differ": true,
+  "physical_reference_identity_equal_all6": true,
+  "stages": [
+    {
+      "stage": "twophase-vortex-residual",
+      "config_differences": {
+        "log.run_name": [
+          "20261026-vortex-residual-original",
+          "20261026-vortex-residual-transport",
+          "20261026-vortex-residual-both"
+        ],
+        "residual.mode": [
+          "original",
+          "transport",
+          "both"
+        ]
+      },
+      "within_stage_initial_physical_metrics_equal": true
+    },
+    {
+      "stage": "twophase-vortex-latent",
+      "config_differences": {
+        "log.run_name": [
+          "20261026-vortex-latent-original",
+          "20261026-vortex-latent-map_transport",
+          "20261026-vortex-latent-map_both"
+        ],
+        "residual.mode": [
+          "original",
+          "map_transport",
+          "map_both"
+        ]
+      },
+      "within_stage_initial_physical_metrics_equal": true
+    }
+  ],
+  "bounded_stage_source_frozen_before_map_implementation": true,
+  "raw_and_mapped_results_kept_without_seed_or_checkpoint_selection": true
+}

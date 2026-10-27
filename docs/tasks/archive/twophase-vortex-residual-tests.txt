@@ -1,0 +1,17 @@
+test_exact_inverse_map_residual_and_full_weight_gradient (test_twophase_residual.TwoPhaseResidualTests.test_exact_inverse_map_residual_and_full_weight_gradient) ... ok
+test_physical_constant_zero_and_legacy_original_schema (test_twophase_residual.TwoPhaseResidualTests.test_physical_constant_zero_and_legacy_original_schema) ... ok
+test_unbounded_map_inverse_implicit_derivative_and_exact_network_ic (test_twophase_residual.TwoPhaseResidualTests.test_unbounded_map_inverse_implicit_derivative_and_exact_network_ic) ... ok
+test_weight_range_overshoots_and_inverse_chain_limit (test_twophase_residual.TwoPhaseResidualTests.test_weight_range_overshoots_and_inverse_chain_limit) ... ok
+test_weighted_mixed_norm_matches_numpy_and_full_parameter_gradient (test_twophase_residual.TwoPhaseResidualTests.test_weighted_mixed_norm_matches_numpy_and_full_parameter_gradient) ... ok
+test_independent_reference_preserves_constant_and_configuration_fails_early (test_twophase_transport.TwoPhaseTransportTests.test_independent_reference_preserves_constant_and_configuration_fails_early) ... ok
+test_local_mixed_residual_matches_analytic_derivatives (test_twophase_transport.TwoPhaseTransportTests.test_local_mixed_residual_matches_analytic_derivatives) ... ok
+test_periodic_network_exact_initial_values_and_differentiable_parameters (test_twophase_transport.TwoPhaseTransportTests.test_periodic_network_exact_initial_values_and_differentiable_parameters) ... ok
+test_periodic_operator_scipy_symbol_nullspace_energy_and_transpose (test_twophase_transport.TwoPhaseTransportTests.test_periodic_operator_scipy_symbol_nullspace_energy_and_transpose) ... ok
+test_reference_rejects_shuffled_nodes_before_training (test_twophase_transport.TwoPhaseTransportTests.test_reference_rejects_shuffled_nodes_before_training) ... ok
+test_vortex_divergence_periodicity_reversal_and_mixed_advection (test_twophase_transport.TwoPhaseTransportTests.test_vortex_divergence_periodicity_reversal_and_mixed_advection) ... ok
+test_vortex_reference_flux_preserves_constant_and_mass (test_twophase_transport.TwoPhaseTransportTests.test_vortex_reference_flux_preserves_constant_and_mass) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 41.840s
+
+OK

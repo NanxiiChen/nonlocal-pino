@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "archive_nonempty_files": 21,
+  "strict_JSON": true,
+  "changed_Python_and_archived_scripts_AST": true,
+  "local_markdown_links": true,
+  "focused_tests": 12,
+  "complete_serial_cold_starts": 6,
+  "updates_each": 5000,
+  "independent_CPU_final_replays": 6,
+  "initial_parameters_and_physical_reference_equal": true,
+  "stage_specific_sources_and_within_stage_physical_initialization_verified": true,
+  "current_code_legacy_model_replay": true,
+  "original_defaults_and_reference_unchanged": true,
+  "selected_interface_control": "leaky_tanh representation with original residual; single-seed result with area tradeoff",
+  "no_residual_scaling_dominance_claim": true,
+  "task_archived": true,
+  "active_task": "None",
+  "git_history_operations": false
+}

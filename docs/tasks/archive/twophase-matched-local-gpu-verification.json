@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "runs": [
+    {
+      "method": "nonlocal",
+      "initial_arrays_exact": true,
+      "final_gpu_prediction_max_absolute": 4.440892098500626e-16,
+      "prediction_absolute_tolerance": 1e-10
+    },
+    {
+      "method": "local_ad",
+      "initial_arrays_exact": true,
+      "final_gpu_prediction_max_absolute": 0.0,
+      "prediction_absolute_tolerance": 1e-10
+    }
+  ]
+}

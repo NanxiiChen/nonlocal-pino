@@ -1,0 +1,6 @@
+{
+  "status": "observed_dtype_incompatibility",
+  "parameter_dtype": "torch.float64",
+  "default_dtype": "torch.float32",
+  "error": "expected dtype float for `end` but got dtype double"
+}

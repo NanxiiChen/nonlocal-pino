@@ -1,0 +1,54 @@
+{
+  "preconditioning": [
+    {
+      "arm": "cubic",
+      "different_core_files": []
+    },
+    {
+      "arm": "schur",
+      "different_core_files": []
+    },
+    {
+      "arm": "cubic_schur",
+      "different_core_files": []
+    }
+  ],
+  "refinement": [
+    {
+      "arm": "cubic",
+      "different_core_files": []
+    },
+    {
+      "arm": "cubic_schur",
+      "different_core_files": []
+    }
+  ],
+  "resolution": [
+    {
+      "arm": "causal",
+      "different_core_files": [
+        "losses.py",
+        "problem.py",
+        "train.py",
+        "fields.py"
+      ]
+    }
+  ],
+  "conserved": [
+    {
+      "arm": "conserved",
+      "different_core_files": []
+    },
+    {
+      "arm": "causal_conserved",
+      "different_core_files": []
+    }
+  ],
+  "initial-time": [],
+  "confirmation": [
+    {
+      "arm": "seed2026",
+      "different_core_files": []
+    }
+  ]
+}

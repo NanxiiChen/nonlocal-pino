@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "primary_sources": [
+    "Glasner2001 author PDF",
+    "PETSc official SNES manual"
+  ],
+  "independent_algebra_checks": true,
+  "local_links_JSON_AST": true,
+  "task_archived": true,
+  "application_code_and_training_unchanged": true,
+  "git_diff_check": true,
+  "git_history_operations": false,
+  "memory_files": [
+    "docs/PROGRESS.md",
+    "docs/DECISIONS.md",
+    "docs/tasks/archive/residual-preconditioning-theory.md"
+  ]
+}

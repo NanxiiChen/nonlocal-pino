@@ -1,0 +1,35 @@
+{
+  "backend": "gpu",
+  "runs": [
+    {
+      "method": "nonlocal",
+      "saved_vs_replay": {
+        "float32": {
+          "phi": {
+            "max_absolute": 0.0,
+            "relative_L2": 0.0
+          },
+          "q": {
+            "max_absolute": 0.0,
+            "relative_L2": 0.0
+          }
+        }
+      }
+    },
+    {
+      "method": "local_ad",
+      "saved_vs_replay": {
+        "float32": {
+          "phi": {
+            "max_absolute": 0.0,
+            "relative_L2": 0.0
+          },
+          "q": {
+            "max_absolute": 0.0,
+            "relative_L2": 0.0
+          }
+        }
+      }
+    }
+  ]
+}
