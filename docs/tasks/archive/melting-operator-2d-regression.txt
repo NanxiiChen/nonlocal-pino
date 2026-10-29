@@ -1,0 +1,7 @@
+test_physical_residual_and_parameter_gradient (test_electropolish_operator.OperatorTests.test_physical_residual_and_parameter_gradient) ... ok
+test_split_pairs_time_jvp_and_condition_response (test_electropolish_operator.OperatorTests.test_split_pairs_time_jvp_and_condition_response) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 69.776s
+
+OK

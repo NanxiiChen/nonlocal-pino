@@ -8,7 +8,7 @@ FEM references remain part of the validation workflow.
 
 ## Examples
 
-- [icemelting3d](examples/icemelting3d/README.md): Allen–Cahn melting, nonlocal/local comparison.
+- [icemelting3d](examples/icemelting3d/README.md): Allen–Cahn melting, nonlocal/local comparison; an opt-in 3D conditional neural operator for continuously sampled random initial ellipsoids, with measured training memory and independent full-cube references.
 - [electropolish2d](examples/electropolish2d/README.md): Primary corrosion example: KKS electropolishing; opt-in random-initial-interface neural operators with shared-space/time conditioning, fixed-input controls and continuous online sampling.
 - [elasticity2d](examples/elasticity2d/README.md): Nonlocal elasticity with an independent FEM reference.
 - [corrosion1d](examples/corrosion1d/README.md): Earlier implementation, retained for reference.
@@ -83,6 +83,29 @@ sampling/SOAP/GradNorm but exclude first compilation, evaluation and saving;
 full-run times have different compiler-cache histories. Elasticity and1D corrosion
 were inspected statically, without full accuracy/default promotion.
 
+## Physics-only neural-operator defaults
+
+Both opt-in `configs/train_operator.py` presets use the currently recommended
+measured strategy, with initial images as conditions and no evolved-field labels:
+
+| Operator | Default configuration | Validation |
+|---|---|---|
+| 3D melting | Online B16, Adam5000, lr1e-3, ordinary FP32/highest, hard IC + latent PDE | Eight native tests; one local-FEM check, Adam pooled phi0.1479% |
+| 2D electropolish | Online B8, Adam5000, lr1e-3, ordinary FP32/highest, image-only condition, original AC/CH + IC/BC | Independent64-input local-FD mean phi pooled4.427% |
+
+```bash
+python -m examples.icemelting3d.train --config=examples/icemelting3d/configs/train_operator.py
+python -m examples.electropolish2d.train --config=examples/electropolish2d/configs/train_operator.py
+```
+
+Run individually. These are the recommended NO presets; no-argument `train.py`
+still selects each established single-IVP PINN default. Melting retains Adam
+for the current local-physics/cost compromise; SOAP's lower native pooled error
+does not guarantee lower local-FEM error. Electropolish disables query-local IC
+features while preserving actual IC losses. Historical finite/online/causal
+controls remain explicit, and saved configs govern old checkpoint replay.
+Selection is not a claim of a global optimum or statistical seed stability.
+
 ## Setup and use
 
 ```bash
@@ -124,6 +147,25 @@ state and experiment scripts. New experiments use separate named outputs;
 authorized historical run renames are recorded in the artifact index.
 The [artifact index](artifacts/index.yaml) records current ownership; check it
 with `python scripts/check_artifacts.py`.
+
+Generated research figures, videos, experiment arrays/checkpoints and compiler
+dumps under `docs/tasks` are **local artifacts, not Git content**. Git keeps
+source, Markdown, configs, metrics and regeneration scripts. Figure links in
+archived reports refer to optional local files; they can be restored on this
+host from the direct-path [local artifact manifest](artifacts/local_files.json):
+
+```bash
+python scripts/restore_local_artifacts.py --list --all
+python scripts/restore_local_artifacts.py --restore --all
+python scripts/check_repository_content.py
+```
+
+Existing local files remain at their original paths. Restoration checks sizes
+and exact bytes, uses no file hashes and refuses to overwrite different local
+files. On another host, regenerate from the recorded data/checkpoints or make
+the external archive available. Small migration fixtures remain in Git. Ignoring
+and untracking outputs limits future growth; old Git history is retained and
+therefore is not reduced by this cleanup.
 
 Old run identity includes source/input/config paths and replay-store paths.
 Changed package layout is a new run identity: historical in-place resume is

@@ -1,0 +1,8 @@
+{
+  "backend": "gpu",
+  "math_ast_identical_except_imports": true,
+  "maximum_legacy_current_gap": 0.0,
+  "maximum_gpu_numpy_gap": 3.3319059711267585e-07,
+  "source": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01/source/examples/icemelting3d/ellipsoids.py",
+  "scope": "No tolerance change: existing CPU geometry test run separately. GPU highest-matmul strict3e-7 test exceeds by3.32e-8 identically before/after import-only refactor; default GPU reduced matmul is unsuitable for that strict test."
+}

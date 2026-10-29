@@ -1,0 +1,6 @@
+test_float32_rotated_distance_near_principal_axes (test_melting_operator.MeltingOperatorTests.test_float32_rotated_distance_near_principal_axes) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.493s
+
+OK

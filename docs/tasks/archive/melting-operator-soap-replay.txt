@@ -1,0 +1,16 @@
+{
+  "all_checks_pass": true,
+  "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-soap-01/model_final.eqx",
+  "backend": "gpu",
+  "tolerance": 2e-05,
+  "records": [
+    {
+      "index": 0,
+      "maximum_absolute_replay_gap": 9.5367431640625e-07
+    },
+    {
+      "index": 2,
+      "maximum_absolute_replay_gap": 9.08970832824707e-07
+    }
+  ]
+}

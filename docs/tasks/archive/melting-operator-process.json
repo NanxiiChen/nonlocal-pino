@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/root/nonlocal-pinn/.venv/bin/python",
+    "examples/icemelting3d/train.py",
+    "--config=examples/icemelting3d/configs/train_operator.py",
+    "--config.log.run_name=20261029-melting-operator-online-b16-01"
+  ],
+  "environment": {
+    "JAX_PLATFORMS": "cuda",
+    "JAX_ENABLE_X64": "false",
+    "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1"
+  },
+  "wall_seconds": 300.5740709044039,
+  "returncode": 0
+}

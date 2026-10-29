@@ -1,0 +1,59 @@
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  WARNING: The number of integration points for each cell will be: 125
+           Consider using the option 'quadrature_degree' to reduce the number of points
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  WARNING: The number of integration points for each cell will be: 125
+           Consider using the option 'quadrature_degree' to reduce the number of points
+Process 0: Computed global bounding box tree with 3 boxes.
+..EEProcess 1: Computed global bounding box tree with 3 boxes.
+....
+======================================================================
+
+ERROR: test_imex_temporal_order_against_independent_homogeneous_ode (tests.test_melting_fem.MeltingFEMTests.test_imex_temporal_order_against_independent_homogeneous_ode)
+----------------------------------------------------------------------
+======================================================================
+ERROR: test_imex_temporal_order_against_independent_homogeneous_ode (tests.test_melting_fem.MeltingFEMTests.test_imex_temporal_order_against_independent_homogeneous_ode)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/tests/test_melting_fem.py", line 69, in test_imex_temporal_order_against_independent_homogeneous_ode
+    advance = make_imex_step(phi, V, dt, coefficients, measure, c.solver)
+  File "/root/nonlocal-pinn/examples/icemelting3d/solver.py", line 90, in make_imex_step
+    solver = df.PETScKrylovSolver(V.mesh().mpi_comm(), controls.linear_solver, controls.preconditioner)
+TypeError: __init__(): incompatible constructor arguments. The following argument types are supported:
+    1. dolfin.cpp.la.PETScKrylovSolver()
+    2. dolfin.cpp.la.PETScKrylovSolver(arg0: str)
+    3. dolfin.cpp.la.PETScKrylovSolver(arg0: str, arg1: str)
+    4. dolfin.cpp.la.PETScKrylovSolver(arg0: str, arg1: dolfin.cpp.la.PETScPreconditioner)
+    5. dolfin.cpp.la.PETScKrylovSolver(arg0: ksp)
+
+Invoked with: <mpi4py.MPI.Intracomm object at 0x7fef296c8270>, 'cg', 'jacobi'
+
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/tests/test_melting_fem.py", line 69, in test_imex_temporal_order_against_independent_homogeneous_ode
+    advance = make_imex_step(phi, V, dt, coefficients, measure, c.solver)
+  File "/root/nonlocal-pinn/examples/icemelting3d/solver.py", line 90, in make_imex_step
+    solver = df.PETScKrylovSolver(V.mesh().mpi_comm(), controls.linear_solver, controls.preconditioner)
+TypeError: __init__(): incompatible constructor arguments. The following argument types are supported:
+    1. dolfin.cpp.la.PETScKrylovSolver()
+    2. dolfin.cpp.la.PETScKrylovSolver(arg0: str)
+    3. dolfin.cpp.la.PETScKrylovSolver(arg0: str, arg1: str)
+    4. dolfin.cpp.la.PETScKrylovSolver(arg0: str, arg1: dolfin.cpp.la.PETScPreconditioner)
+    5. dolfin.cpp.la.PETScKrylovSolver(arg0: ksp)
+
+Invoked with: <mpi4py.MPI.Intracomm object at 0x7fa69412a8e0>, 'cg', 'jacobi'
+
+----------------------------------------------------------------------
+Ran 4 tests in 2.062s
+
+----------------------------------------------------------------------
+Ran 4 tests in 2.061s
+
+FAILED (errors=1)
+FAILED (errors=1)
+--------------------------------------------------------------------------
+prterun detected that one or more processes exited with non-zero status,
+thus causing the job to be terminated. The first process to do so was:
+
+   Process name: [prterun-autodl-pro-781551316a3d-48430@1,0]
+   Exit code:    1
+--------------------------------------------------------------------------

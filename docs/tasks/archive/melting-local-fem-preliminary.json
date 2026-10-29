@@ -1,0 +1,68 @@
+[
+  {
+    "N": 32,
+    "validated": false,
+    "reference": "UNVALIDATED IMEX dt.005, for mesh-sensitivity diagnosis only",
+    "errors": {
+      "native": {
+        "pooled_phi": 0.002186468332359294,
+        "terminal_phi": 0.00116780898408288,
+        "terminal_solid": 0.026298753374123417
+      },
+      "Adam": {
+        "pooled_phi": 0.0038854024054820802,
+        "terminal_phi": 0.0017108209682573437,
+        "terminal_solid": 0.03852724146219257
+      },
+      "SOAP": {
+        "pooled_phi": 0.002354026784963928,
+        "terminal_phi": 0.0017733800051349228,
+        "terminal_solid": 0.03993605463677027
+      }
+    }
+  },
+  {
+    "N": 48,
+    "validated": false,
+    "reference": "UNVALIDATED IMEX dt.005, for mesh-sensitivity diagnosis only",
+    "errors": {
+      "native": {
+        "pooled_phi": 0.000537099915094159,
+        "terminal_phi": 0.0005369268420365428,
+        "terminal_solid": 0.01220018220549575
+      },
+      "Adam": {
+        "pooled_phi": 0.0022109811362812613,
+        "terminal_phi": 0.0009083744144683088,
+        "terminal_solid": 0.020640304227088034
+      },
+      "SOAP": {
+        "pooled_phi": 0.0010046537198488033,
+        "terminal_phi": 0.0016826336116679491,
+        "terminal_solid": 0.03823320989052583
+      }
+    }
+  },
+  {
+    "N": 64,
+    "validated": false,
+    "reference": "UNVALIDATED IMEX dt.005, for mesh-sensitivity diagnosis only",
+    "errors": {
+      "native": {
+        "pooled_phi": 0.0004958859493608005,
+        "terminal_phi": 0.0007307995278446627,
+        "terminal_solid": 0.016689420424083334
+      },
+      "Adam": {
+        "pooled_phi": 0.00215119233499227,
+        "terminal_phi": 0.0010659135310741457,
+        "terminal_solid": 0.024342488436304693
+      },
+      "SOAP": {
+        "pooled_phi": 0.0010545102642069793,
+        "terminal_phi": 0.0019158776153467894,
+        "terminal_solid": 0.04375329455660144
+      }
+    }
+  }
+]

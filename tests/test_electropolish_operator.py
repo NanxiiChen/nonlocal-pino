@@ -8,7 +8,7 @@ import numpy as np
 from jax.flatten_util import ravel_pytree
 
 from nonlocal_pinn.nn.conditional import ConditionalFieldOperator
-from examples.electropolish2d.configs.train_operator import get_config
+from examples.electropolish2d.configs.train_operator_legacy import get_config
 from examples.electropolish2d.operator_training import make_loss_vector, predict_fields
 from examples.electropolish2d.operator_data import (
     condition_split, sample_condition_indices, training_condition_indices,

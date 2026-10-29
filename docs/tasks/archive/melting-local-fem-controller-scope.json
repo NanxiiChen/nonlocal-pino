@@ -1,0 +1,11 @@
+{
+  "suspended_controller_pid": 49363,
+  "reason": "User requests only input5; pause orchestration parent while current independent MPI refinement continues. Resume with indices5 only after active child exits.",
+  "active_child": {
+    "pid": 55507,
+    "state": "Sl",
+    "command": "prterun --allow-run-as-root -np 12 /root/miniconda3/envs/fenicsenv/bin/python examples/icemelting3d/solver.py --config examples.icemelting3d.configs.solver_base --index 5 --subdivisions 96 --dt 0.0025 --output /root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/case005-imex-n96-dt0p0025.npz"
+  },
+  "child_exit_status": 0,
+  "parent_terminated_after_child_finish": true
+}

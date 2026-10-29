@@ -1,0 +1,9 @@
+{
+  "reason": "User accepts N96/dt0.00125 accuracy; stop unnecessary conditional dt0.000625 refinement before any JAX stage.",
+  "stopped": [
+    69158,
+    69487,
+    69488
+  ],
+  "accepted_reference": "/root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/case005-imex-n96-dt0p00125.npz"
+}

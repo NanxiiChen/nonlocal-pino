@@ -1,0 +1,4 @@
+{"index": 5, "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/case005-phi.npz", "seconds": 42.004776783287525, "replay_gap": 9.387731552124023e-07, "hard_initial_field_gap": 4.1453677738223504e-06, "chunk_gap": 4.76837158203125e-07, "phi_min": -1.0, "phi_max": 1.0}
+{"index": 9, "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/case009-phi.npz", "seconds": 10.081624150276184, "replay_gap": 1.3113021850585938e-06, "hard_initial_field_gap": 2.114586183099565e-06, "chunk_gap": 4.470348358154297e-07, "phi_min": -1.0, "phi_max": 1.0}
+{"index": 2, "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/case002-phi.npz", "seconds": 9.122869899496436, "replay_gap": 8.940696716308594e-07, "hard_initial_field_gap": 1.8623008839202537e-06, "chunk_gap": 3.8743019104003906e-07, "phi_min": -1.0, "phi_max": 1.0}
+DENSE_PREDICTIONS_COMPLETE

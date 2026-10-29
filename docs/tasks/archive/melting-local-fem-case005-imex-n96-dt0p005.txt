@@ -1,0 +1,6 @@
+FEM_START {"index": 5, "N": 96, "dt": 0.005, "dofs": 7189057, "ranks": 12, "setup_seconds": 22.20799314044416, "initial_min": -0.9999999999999999, "initial_max": 0.9999999672390323}
+{"index": 5, "N": 96, "dt": 0.005, "step": 50, "steps": 200, "seconds": 223.62951789796352}
+{"index": 5, "N": 96, "dt": 0.005, "step": 100, "steps": 200, "seconds": 429.5138399153948}
+{"index": 5, "N": 96, "dt": 0.005, "step": 150, "steps": 200, "seconds": 631.2081232722849}
+{"index": 5, "N": 96, "dt": 0.005, "step": 200, "steps": 200, "seconds": 827.9322056621313}
+FEM_COMPLETE /root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/case005-imex-n96-dt0p005.npz 827.9336273372173

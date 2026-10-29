@@ -1,0 +1,24 @@
+{
+  "native_reference": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1/condition_005.npz",
+  "native_targets_equal_reloaded_models": true,
+  "pooled_phi_independent_rms_recalculation": 0.0014744803053419642,
+  "local_integrated_solid_fraction": [
+    0.1275610189656769,
+    0.06563513815857919,
+    0.028050258640838866,
+    0.008667834795579516,
+    0.0013594397325794043
+  ],
+  "local_integrated_solid_fraction_decreases": true,
+  "native_metadata": {
+    "maximum_time_refinement_error": 1.1755040781640725e-07,
+    "seconds": 50.625537583604455,
+    "phi_min": -0.9999999999999998,
+    "phi_max": 0.9999999791475884,
+    "dt": 0.005,
+    "refined_dt": 0.0025,
+    "scope": "Independent full128-cube native graph time convergence, not local continuum convergence"
+  },
+  "local_acceptance": "User accepts finite accuracy; original strict slice gate remains failed.",
+  "all_checks_pass": true
+}

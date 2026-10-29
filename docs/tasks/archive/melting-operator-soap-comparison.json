@@ -1,0 +1,355 @@
+{
+  "all_checks_pass": true,
+  "config_differences": [
+    "log.run_name",
+    "train.optimizer"
+  ],
+  "identical_initial_arrays": 79,
+  "identical_actual_online_conditions": 80000,
+  "identical_actual_time_draws": 40000,
+  "identical_source_files": 24,
+  "core_halo_parity": "Same deterministic sub_sample(i,K) pool construction, coordinates, graph weights, source and cyclic pool order; raw subgraphs were not saved.",
+  "run_paths": {
+    "Adam": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01",
+    "SOAP": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-soap-01"
+  },
+  "conditions": {
+    "Adam": {
+      "records": [
+        {
+          "index": 2,
+          "pooled_phi": 0.002003503720771858,
+          "terminal_phi": 0.0007570645655210291,
+          "pooled_solid": 0.0063619893877765715,
+          "terminal_solid": 0.0445581742120897,
+          "interface_phi_absolute_rmse": 0.010423210946414328,
+          "pooled_slice_phi": 0.0037229320776138507,
+          "terminal_slice_phi": 0.0024029917291262777,
+          "terminal_solid_fraction_relative_error": 0.0012471829954052583,
+          "terminal_solid_fraction_absolute_error": 4.5747222536063715e-07,
+          "hard_IC_maximum_gap": 3.3247440668626727e-06
+        },
+        {
+          "index": 3,
+          "pooled_phi": 0.002148715594838842,
+          "terminal_phi": 0.0009893091487787244,
+          "pooled_solid": 0.00628015369964976,
+          "terminal_solid": 0.045565387969633005,
+          "interface_phi_absolute_rmse": 0.010491595466461301,
+          "pooled_slice_phi": 0.004666367176316043,
+          "terminal_slice_phi": 0.005495148058383881,
+          "terminal_solid_fraction_relative_error": 0.0016647417944003183,
+          "terminal_solid_fraction_absolute_error": 8.911929172183311e-07,
+          "hard_IC_maximum_gap": 3.0545895384481714e-06
+        },
+        {
+          "index": 4,
+          "pooled_phi": 0.002546326805223363,
+          "terminal_phi": 0.0012527899655206244,
+          "pooled_solid": 0.006926106893073488,
+          "terminal_solid": 0.06478080157639392,
+          "interface_phi_absolute_rmse": 0.011794928309999848,
+          "pooled_slice_phi": 0.004584711940167232,
+          "terminal_slice_phi": 0.0037568493996261976,
+          "terminal_solid_fraction_relative_error": 0.008525442129359663,
+          "terminal_solid_fraction_absolute_error": 4.918755110289598e-06,
+          "hard_IC_maximum_gap": 3.2028131051464737e-06
+        },
+        {
+          "index": 5,
+          "pooled_phi": 0.002382636795404363,
+          "terminal_phi": 0.000834337461594975,
+          "pooled_solid": 0.006393036075166274,
+          "terminal_solid": 0.018762825413949427,
+          "interface_phi_absolute_rmse": 0.011043766898208785,
+          "pooled_slice_phi": 0.004361543561427077,
+          "terminal_slice_phi": 0.0022907778525292073,
+          "terminal_solid_fraction_relative_error": 0.012956425796747701,
+          "terminal_solid_fraction_absolute_error": 1.633008122003936e-05,
+          "hard_IC_maximum_gap": 5.214149242482868e-06
+        },
+        {
+          "index": 6,
+          "pooled_phi": 0.002117189742462748,
+          "terminal_phi": 0.0009214228037001376,
+          "pooled_solid": 0.006758289277882512,
+          "terminal_solid": 0.04937218725928516,
+          "interface_phi_absolute_rmse": 0.011099937154875911,
+          "pooled_slice_phi": 0.004173488911625738,
+          "terminal_slice_phi": 0.0031667382167756735,
+          "terminal_solid_fraction_relative_error": 0.01033418357392208,
+          "terminal_solid_fraction_absolute_error": 4.070678454821268e-06,
+          "hard_IC_maximum_gap": 3.0796200225502446e-06
+        },
+        {
+          "index": 7,
+          "pooled_phi": 0.0027072983995106922,
+          "terminal_phi": 0.0007659267854472553,
+          "pooled_solid": 0.006231126873834187,
+          "terminal_solid": 0.00936003311520642,
+          "interface_phi_absolute_rmse": 0.01128396131821251,
+          "pooled_slice_phi": 0.004381629285971093,
+          "terminal_slice_phi": 0.0018776973823653237,
+          "terminal_solid_fraction_relative_error": 0.011262452399708137,
+          "terminal_solid_fraction_absolute_error": 3.4811064314098375e-05,
+          "hard_IC_maximum_gap": 3.1420596218745267e-06
+        },
+        {
+          "index": 8,
+          "pooled_phi": 0.0014949890971572852,
+          "terminal_phi": 0.0006012599869709113,
+          "pooled_solid": 0.005672605617789107,
+          "terminal_solid": 0.10593553341127046,
+          "interface_phi_absolute_rmse": 0.00890536041880051,
+          "pooled_slice_phi": 0.003116714665120418,
+          "terminal_slice_phi": 0.0008257333186267334,
+          "terminal_solid_fraction_relative_error": 0.03345292350768726,
+          "terminal_solid_fraction_absolute_error": 3.314873595296268e-06,
+          "hard_IC_maximum_gap": 2.8360658995973953e-06
+        },
+        {
+          "index": 9,
+          "pooled_phi": 0.002731152544214896,
+          "terminal_phi": 0.0012549572999428407,
+          "pooled_solid": 0.006776234558676692,
+          "terminal_solid": 0.021797756377610333,
+          "interface_phi_absolute_rmse": 0.0119663403461746,
+          "pooled_slice_phi": 0.004601997859040064,
+          "terminal_slice_phi": 0.003070567693426346,
+          "terminal_solid_fraction_relative_error": 0.017623012939164854,
+          "terminal_solid_fraction_absolute_error": 3.336143986745417e-05,
+          "hard_IC_maximum_gap": 3.752048150992837e-06
+        }
+      ],
+      "mean": {
+        "pooled_phi": 0.002266476587448006,
+        "terminal_phi": 0.0009221335021845623,
+        "pooled_solid": 0.006424942797981074,
+        "terminal_solid": 0.04501658741692981,
+        "interface_phi_absolute_rmse": 0.010876137607393475,
+        "pooled_slice_phi": 0.004201173184660189,
+        "terminal_slice_phi": 0.002860812956357455,
+        "terminal_solid_fraction_relative_error": 0.012133295642049409,
+        "terminal_solid_fraction_absolute_error": 1.2269444713072249e-05,
+        "hard_IC_maximum_gap": 3.4507612059943987e-06
+      },
+      "maximum": {
+        "pooled_phi": 0.002731152544214896,
+        "terminal_phi": 0.0012549572999428407,
+        "pooled_solid": 0.006926106893073488,
+        "terminal_solid": 0.10593553341127046,
+        "interface_phi_absolute_rmse": 0.0119663403461746,
+        "pooled_slice_phi": 0.004666367176316043,
+        "terminal_slice_phi": 0.005495148058383881,
+        "terminal_solid_fraction_relative_error": 0.03345292350768726,
+        "terminal_solid_fraction_absolute_error": 3.4811064314098375e-05,
+        "hard_IC_maximum_gap": 5.214149242482868e-06
+      },
+      "mean_by_time": {
+        "phi": [
+          2.7634249222755666e-07,
+          0.002675079207821333,
+          0.003313512810981174,
+          0.0025478965431239803,
+          0.0009221335021845622
+        ],
+        "solid": [
+          4.4605177640173347e-07,
+          0.0064107447005037,
+          0.013138333936382935,
+          0.021341559637191934,
+          0.0450165874169298
+        ]
+      }
+    },
+    "SOAP": {
+      "records": [
+        {
+          "index": 2,
+          "pooled_phi": 0.0006263778332414685,
+          "terminal_phi": 0.0011799823770983816,
+          "pooled_solid": 0.001989020078428137,
+          "terminal_solid": 0.06944963840667952,
+          "interface_phi_absolute_rmse": 0.003259947673458536,
+          "pooled_slice_phi": 0.0018233917498492462,
+          "terminal_slice_phi": 0.0037020859721277025,
+          "terminal_solid_fraction_relative_error": 0.04661955056379862,
+          "terminal_solid_fraction_absolute_error": 1.7100256835047434e-05,
+          "hard_IC_maximum_gap": 3.3247440668626727e-06
+        },
+        {
+          "index": 3,
+          "pooled_phi": 0.0008742211845201229,
+          "terminal_phi": 0.001520554633378928,
+          "pooled_solid": 0.002555128012038291,
+          "terminal_solid": 0.0700333782260722,
+          "interface_phi_absolute_rmse": 0.004266007871202664,
+          "pooled_slice_phi": 0.003752401831532823,
+          "terminal_slice_phi": 0.007702174038137748,
+          "terminal_solid_fraction_relative_error": 0.04566371828070423,
+          "terminal_solid_fraction_absolute_error": 2.4445341879745536e-05,
+          "hard_IC_maximum_gap": 3.0545895384481714e-06
+        },
+        {
+          "index": 4,
+          "pooled_phi": 0.0010109485732020867,
+          "terminal_phi": 0.0017837879454890581,
+          "pooled_solid": 0.0027498190204943364,
+          "terminal_solid": 0.09223829702616475,
+          "interface_phi_absolute_rmse": 0.004675637129106649,
+          "pooled_slice_phi": 0.0026116491690450277,
+          "terminal_slice_phi": 0.005063253644219873,
+          "terminal_solid_fraction_relative_error": 0.04845214978934313,
+          "terminal_solid_fraction_absolute_error": 2.7954475060022357e-05,
+          "hard_IC_maximum_gap": 3.2028131051464737e-06
+        },
+        {
+          "index": 5,
+          "pooled_phi": 0.0007088076227522123,
+          "terminal_phi": 0.001210668103879923,
+          "pooled_solid": 0.0019018562591444825,
+          "terminal_solid": 0.027225859215180892,
+          "interface_phi_absolute_rmse": 0.0032896592735929464,
+          "pooled_slice_phi": 0.002094828973625548,
+          "terminal_slice_phi": 0.004109046155599887,
+          "terminal_solid_fraction_relative_error": 0.02312146525194802,
+          "terminal_solid_fraction_absolute_error": 2.9141941721721377e-05,
+          "hard_IC_maximum_gap": 5.214149242482868e-06
+        },
+        {
+          "index": 6,
+          "pooled_phi": 0.0007143284328854296,
+          "terminal_phi": 0.0013327048293473272,
+          "pooled_solid": 0.002280210456357413,
+          "terminal_solid": 0.07140972866274212,
+          "interface_phi_absolute_rmse": 0.0037480785058246428,
+          "pooled_slice_phi": 0.0025097890244837303,
+          "terminal_slice_phi": 0.0050510713064503806,
+          "terminal_solid_fraction_relative_error": 0.04156581835888628,
+          "terminal_solid_fraction_absolute_error": 1.6372950997068138e-05,
+          "hard_IC_maximum_gap": 3.0796200225502446e-06
+        },
+        {
+          "index": 7,
+          "pooled_phi": 0.0008964360798359296,
+          "terminal_phi": 0.0010346121682740597,
+          "pooled_solid": 0.0020632402208599497,
+          "terminal_solid": 0.012643511547628978,
+          "interface_phi_absolute_rmse": 0.003728323288029137,
+          "pooled_slice_phi": 0.0018723794617039188,
+          "terminal_slice_phi": 0.002920499029761792,
+          "terminal_solid_fraction_relative_error": 0.01287874533771224,
+          "terminal_solid_fraction_absolute_error": 3.980685700812494e-05,
+          "hard_IC_maximum_gap": 3.1420596218745267e-06
+        },
+        {
+          "index": 8,
+          "pooled_phi": 0.0005635773057686111,
+          "terminal_phi": 0.000868733169404605,
+          "pooled_solid": 0.002138444886882762,
+          "terminal_solid": 0.15306142714830742,
+          "interface_phi_absolute_rmse": 0.0033482830706583135,
+          "pooled_slice_phi": 0.0014716620737191997,
+          "terminal_slice_phi": 0.0014656297002082256,
+          "terminal_solid_fraction_relative_error": 0.08440446241315619,
+          "terminal_solid_fraction_absolute_error": 8.363697233046129e-06,
+          "hard_IC_maximum_gap": 2.8360658995973953e-06
+        },
+        {
+          "index": 9,
+          "pooled_phi": 0.0008866727448920832,
+          "terminal_phi": 0.0013948309028656485,
+          "pooled_solid": 0.002199914651014712,
+          "terminal_solid": 0.024227265907782264,
+          "interface_phi_absolute_rmse": 0.003891413300093775,
+          "pooled_slice_phi": 0.0017123400298583475,
+          "terminal_slice_phi": 0.0030001513489092894,
+          "terminal_solid_fraction_relative_error": 0.018545708492190713,
+          "terminal_solid_fraction_absolute_error": 3.51081589054814e-05,
+          "hard_IC_maximum_gap": 3.752048150992837e-06
+        }
+      ],
+      "mean": {
+        "pooled_phi": 0.0007851712221372429,
+        "terminal_phi": 0.0012907342662172414,
+        "pooled_solid": 0.0022347041981525106,
+        "terminal_solid": 0.06503613826756977,
+        "interface_phi_absolute_rmse": 0.0037759187639958332,
+        "pooled_slice_phi": 0.00223105528922723,
+        "terminal_slice_phi": 0.0041267388994268624,
+        "terminal_solid_fraction_relative_error": 0.04015645231096743,
+        "terminal_solid_fraction_absolute_error": 2.478670995503216e-05,
+        "hard_IC_maximum_gap": 3.4507612059943987e-06
+      },
+      "maximum": {
+        "pooled_phi": 0.0010109485732020867,
+        "terminal_phi": 0.0017837879454890581,
+        "pooled_solid": 0.0027498190204943364,
+        "terminal_solid": 0.15306142714830742,
+        "interface_phi_absolute_rmse": 0.004675637129106649,
+        "pooled_slice_phi": 0.003752401831532823,
+        "terminal_slice_phi": 0.007702174038137748,
+        "terminal_solid_fraction_relative_error": 0.08440446241315619,
+        "terminal_solid_fraction_absolute_error": 3.980685700812494e-05,
+        "hard_IC_maximum_gap": 5.214149242482868e-06
+      },
+      "mean_by_time": {
+        "phi": [
+          2.7634249222755666e-07,
+          0.000546883587364078,
+          0.0006387380914554742,
+          0.0007373844224784321,
+          0.0012907342662172414
+        ],
+        "solid": [
+          4.4605177640173347e-07,
+          0.0012744695616059662,
+          0.0023911878240558456,
+          0.00675377168635057,
+          0.06503613826756977
+        ]
+      }
+    }
+  },
+  "performance": {
+    "Adam": {
+      "cold_process_seconds": 300.5740709044039,
+      "trainer_seconds": 257.16745769418776,
+      "first_update_compile_and_call_seconds": 108.23833270929754,
+      "warm_update_mean_seconds": 0.02242826060195414,
+      "warm_sampling_mean_seconds": 0.003411397628171679,
+      "allocator": {
+        "num_allocs": 1251680,
+        "bytes_in_use": 5619456,
+        "peak_bytes_in_use": 1429767424,
+        "largest_alloc_size": 1421567744,
+        "bytes_limit": 38183976960,
+        "bytes_reserved": 0,
+        "peak_bytes_reserved": 0,
+        "largest_free_block_bytes": 0,
+        "pool_bytes": 4294967296,
+        "peak_pool_bytes": 4294967296
+      }
+    },
+    "SOAP": {
+      "cold_process_seconds": 492.0639511719346,
+      "trainer_seconds": 448.45611965470016,
+      "first_update_compile_and_call_seconds": 247.1166383996606,
+      "warm_update_mean_seconds": 0.03365543651986799,
+      "warm_sampling_mean_seconds": 0.0030645580947768762,
+      "allocator": {
+        "num_allocs": 2013092,
+        "bytes_in_use": 7980032,
+        "peak_bytes_in_use": 1706732800,
+        "largest_alloc_size": 1427136512,
+        "bytes_limit": 38183976960,
+        "bytes_reserved": 0,
+        "peak_bytes_reserved": 0,
+        "largest_free_block_bytes": 0,
+        "pool_bytes": 4294967296,
+        "peak_pool_bytes": 4294967296
+      }
+    }
+  },
+  "scope": "Eight fixed held-out inputs; final5000 checkpoint, 24^3 diagnostic volume/128^2 slice; native nonlocal, not local continuum or seed stability."
+}

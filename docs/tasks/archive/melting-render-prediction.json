@@ -1,0 +1,54 @@
+{
+  "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01/model_final.eqx",
+  "config": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01/config.json",
+  "dataset": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1",
+  "input_indices": [
+    5,
+    9,
+    2
+  ],
+  "shape": [
+    61,
+    96,
+    96,
+    96
+  ],
+  "axis_order": "time,x,y,z",
+  "time_scale_seconds": 5.0,
+  "backend": "gpu",
+  "matmul_precision": "highest",
+  "fields": [
+    {
+      "index": 5,
+      "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/case005-phi.npz",
+      "seconds": 42.004776783287525,
+      "replay_gap": 9.387731552124023e-07,
+      "hard_initial_field_gap": 4.1453677738223504e-06,
+      "chunk_gap": 4.76837158203125e-07,
+      "phi_min": -1.0,
+      "phi_max": 1.0
+    },
+    {
+      "index": 9,
+      "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/case009-phi.npz",
+      "seconds": 10.081624150276184,
+      "replay_gap": 1.3113021850585938e-06,
+      "hard_initial_field_gap": 2.114586183099565e-06,
+      "chunk_gap": 4.470348358154297e-07,
+      "phi_min": -1.0,
+      "phi_max": 1.0
+    },
+    {
+      "index": 2,
+      "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/case002-phi.npz",
+      "seconds": 9.122869899496436,
+      "replay_gap": 8.940696716308594e-07,
+      "hard_initial_field_gap": 1.8623008839202537e-06,
+      "chunk_gap": 3.8743019104003906e-07,
+      "phi_min": -1.0,
+      "phi_max": 1.0
+    }
+  ],
+  "checkpoint_unchanged": true,
+  "scope": "Actual dense neural-operator inference, no training or mesh/field smoothing. Render resolution is not a new accuracy/convergence study."
+}

@@ -1,36 +1,19 @@
-"""Ice melting 3D FEM solver config (non-dimensional)."""
-
-from ml_collections import config_dict
+"""Explicit local FEM controls; physical/IC data come from saved PINO config."""
+from ml_collections import ConfigDict
 
 
 def get_config():
-    c = config_dict.ConfigDict()
-
-    c.mesh = config_dict.ConfigDict()
-    c.mesh.N = 64            # elements per direction (N³ cells)
-
-    c.time = config_dict.ConfigDict()
-    c.time.dt = 0.001        # non-dimensional time step dt* (= 0.005 / T_c)
-    c.time.T = 1.0           # total non-dimensional time T* = 1
-    c.time.theta = 0.5       # Crank-Nicolson (0.5); Backward Euler (1.0)
-
-    c.physical = config_dict.ConfigDict()
-    c.physical.M = 0.1       # mobility
-    c.physical.lam = 5.0     # interface speed (lambda)
-    c.physical.R0 = 35.0     # initial sphere radius (dimensional)
-
-    c.nondim = config_dict.ConfigDict()
-    c.nondim.L_c = 100.0     # characteristic length (= domain width)
-    c.nondim.T_c = 5.0       # characteristic time (total dimensional time = 5 s)
-
-    c.solver = config_dict.ConfigDict()
-    c.solver.atol = 1e-8
-    c.solver.rtol = 1e-6
-    c.solver.max_iters = 20
-
-    c.output = config_dict.ConfigDict()
-    c.output.dir = "/root/autodl-tmp/data/icemelting3d/"
-    c.output.filename = "icemelting3d.npz"
-    c.output.save_every = 0.05
-
+    c = ConfigDict()
+    c.reference = ConfigDict(dict(
+        training_config='/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01/config.json',
+        manifest='/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1/manifest.json',
+        root='/root/autodl-tmp/data/icemelting3d/operator_local_fem_v1',
+        indices=(5,), snapshots=5, mesh_levels=(32, 48, 64, 96),
+        time_steps=(.005, .0025, .00125, .000625),
+        phase_tolerance=5e-4, solid_tolerance=.01))
+    c.mesh = ConfigDict(dict(degree=2, quadrature_degree=8))
+    c.time = ConfigDict(dict(scheme='imex_bdf2'))
+    c.solver = ConfigDict(dict(linear_solver='cg', preconditioner='jacobi',
+        atol=1e-11, rtol=1e-10, maximum_iterations=12,
+        krylov_atol=1e-13, krylov_rtol=1e-11, krylov_maximum_iterations=200))
     return c

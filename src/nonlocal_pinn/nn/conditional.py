@@ -70,10 +70,13 @@ class ConditionalFieldOperator(eqx.Module):
                  conditioning, norm_eps, key):
         if not all(math.isfinite(v) for v in (*extent, spatial_scale, time_scale, norm_eps)):
             raise ValueError('Conditional operator scales must be finite')
-        channels, height, image_width = image_shape
-        ph, pw = patch_shape
-        if (min(image_shape) <= 0 or min(patch_shape) <= 0 or height % ph
-                or image_width % pw or width < 4 or width % 4 or heads <= 0
+        dim = len(image_shape)-1
+        if dim not in (2, 3) or len(patch_shape) != dim or len(extent) != dim:
+            raise ValueError('Condition must be channels-first 2D/3D with matching patch/extent dimensions')
+        channels, *resolution = image_shape
+        if (min(image_shape) <= 0 or min(patch_shape) <= 0
+                or any(n % p for n, p in zip(resolution, patch_shape))
+                or width < 2*dim or width % (2*dim) or heads <= 0
                 or width % heads or encoder_depth < 1 or decoder_depth < 1
                 or spatial_features < 1 or time_features < 1 or mlp_ratio < 1
                 or local_dim < 0 or out_dim < 1 or min(extent) <= 0
@@ -82,12 +85,12 @@ class ConditionalFieldOperator(eqx.Module):
         if conditioning not in ('cross_attention', 'film'):
             raise ValueError(f'Unknown conditioning: {conditioning}')
         keys = iter(jr.split(key, encoder_depth + decoder_depth + 7))
-        self.patch_projection = eqx.nn.Linear(channels * ph * pw, width, key=next(keys))
+        self.patch_projection = eqx.nn.Linear(channels * math.prod(patch_shape), width, key=next(keys))
         self.encoder = tuple(AttentionBlock(width, heads, mlp_ratio, norm_eps,
                                             key=next(keys)) for _ in range(encoder_depth))
         self.encoder_norm = eqx.nn.LayerNorm(width, eps=norm_eps)
-        self.spatial_frequencies = jr.normal(next(keys), (2, spatial_features)) * spatial_scale
-        self.spatial_projection = eqx.nn.Linear(2 + 2 * spatial_features + local_dim,
+        self.spatial_frequencies = jr.normal(next(keys), (dim, spatial_features)) * spatial_scale
+        self.spatial_projection = eqx.nn.Linear(dim + 2 * spatial_features + local_dim,
                                                 width, key=next(keys))
         k_condition = next(keys)
         self.cross_attention = (AttentionBlock(width, heads, mlp_ratio, norm_eps,
@@ -112,23 +115,37 @@ class ConditionalFieldOperator(eqx.Module):
     def encode(self, condition):
         if condition.shape != self.image_shape:
             raise ValueError(f'Condition shape {condition.shape}, expected {self.image_shape}')
-        channels, height, width = self.image_shape
-        ph, pw = self.patch_shape
-        ny, nx = height // ph, width // pw
-        patches = condition.reshape(channels, ny, ph, nx, pw)
-        patches = patches.transpose(1, 3, 0, 2, 4).reshape(ny * nx, -1)
-        yy, xx = jnp.meshgrid(jnp.arange(ny), jnp.arange(nx), indexing='ij')
-        omega = 10000.0 ** (-jnp.arange(self.width // 4) / (self.width // 4))
-        px, py = xx.reshape(-1, 1) * omega, yy.reshape(-1, 1) * omega
-        pos = jnp.concatenate([jnp.sin(px), jnp.cos(px), jnp.sin(py), jnp.cos(py)], -1)
+        if len(self.extent) == 2:
+            # Preserve the historical 2D patch order and positional arithmetic.
+            channels, height, width = self.image_shape
+            ph, pw = self.patch_shape
+            ny, nx = height // ph, width // pw
+            patches = condition.reshape(channels, ny, ph, nx, pw)
+            patches = patches.transpose(1, 3, 0, 2, 4).reshape(ny * nx, -1)
+            yy, xx = jnp.meshgrid(jnp.arange(ny), jnp.arange(nx), indexing='ij')
+            omega = 10000.0 ** (-jnp.arange(self.width // 4) / (self.width // 4))
+            px, py = xx.reshape(-1, 1) * omega, yy.reshape(-1, 1) * omega
+            pos = jnp.concatenate([jnp.sin(px), jnp.cos(px), jnp.sin(py), jnp.cos(py)], -1)
+        else:
+            # Volume order C,Z,Y,X; query coordinates retain the order X,Y,Z.
+            channels, depth, height, width = self.image_shape
+            pd, ph, pw = self.patch_shape
+            nz, ny, nx = depth//pd, height//ph, width//pw
+            patches = condition.reshape(channels, nz, pd, ny, ph, nx, pw)
+            patches = patches.transpose(1, 3, 5, 0, 2, 4, 6).reshape(nz*ny*nx, -1)
+            zz, yy, xx = jnp.meshgrid(jnp.arange(nz), jnp.arange(ny), jnp.arange(nx), indexing='ij')
+            count = self.width//6
+            omega = 10000.0 ** (-jnp.arange(count)/count)
+            phases = [axis.reshape(-1, 1)*omega for axis in (xx, yy, zz)]
+            pos = jnp.concatenate([value for phase in phases for value in (jnp.sin(phase), jnp.cos(phase))], -1)
         hidden = jax.vmap(self.patch_projection)(patches) + pos.astype(condition.dtype)
         for block in self.encoder:
             hidden = block(hidden, hidden)
         return jax.vmap(self.encoder_norm)(hidden)
 
     def prepare_encoded(self, encoded, x, local):
-        if x.ndim != 2 or x.shape[1] != 2 or local.shape != (len(x), self.local_dim):
-            raise ValueError('Queries must be (Nx,2) with aligned (Nx,local_dim) input features')
+        if x.ndim != 2 or x.shape[1] != len(self.extent) or local.shape != (len(x), self.local_dim):
+            raise ValueError(f'Queries must be (Nx,{len(self.extent)}) with aligned (Nx,local_dim) input features')
         xn = x / jnp.asarray(self.extent, dtype=x.dtype)
         proj = jnp.pi * (xn @ jax.lax.stop_gradient(self.spatial_frequencies))
         features = jnp.concatenate([xn, jnp.sin(proj), jnp.cos(proj), local], -1)

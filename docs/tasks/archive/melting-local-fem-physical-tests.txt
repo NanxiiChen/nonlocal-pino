@@ -1,0 +1,22 @@
+..Calling FFC just-in-time (JIT) compiler, this may take some time.
+  WARNING: The number of integration points for each cell will be: 125
+           Consider using the option 'quadrature_degree' to reduce the number of points
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  WARNING: The number of integration points for each cell will be: 125
+           Consider using the option 'quadrature_degree' to reduce the number of points
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  WARNING: The number of integration points for each cell will be: 125
+           Consider using the option 'quadrature_degree' to reduce the number of points
+Process 0: Computed global bounding box tree with 3 boxes.
+....Process 1: Computed global bounding box tree with 3 boxes.
+....
+----------------------------------------------------------------------
+
+Ran 5 tests in 6.765s
+
+----------------------------------------------------------------------
+OK
+Ran 5 tests in 6.775s
+
+OK

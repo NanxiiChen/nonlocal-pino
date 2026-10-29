@@ -1,6 +1,6 @@
 """Continuous online initial interfaces; no finite train bank; B8 Adam pilot."""
 from ml_collections import ConfigDict
-from examples.electropolish2d.configs.train_operator import get_config as operator_config
+from examples.electropolish2d.configs.train_operator_legacy import get_config as operator_config
 
 
 def get_config():

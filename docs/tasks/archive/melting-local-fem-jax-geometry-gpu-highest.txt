@@ -1,0 +1,30 @@
+F
+======================================================================
+FAIL: test_float32_rotated_distance_near_principal_axes (tests.test_melting_operator.MeltingOperatorTests.test_float32_rotated_distance_near_principal_axes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/tests/test_melting_operator.py", line 28, in test_float32_rotated_distance_near_principal_axes
+    np.testing.assert_allclose(actual,expected,rtol=0,atol=3e-7)
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 1768, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 983, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError:
+Not equal to tolerance rtol=0, atol=3e-07
+
+Mismatched elements: 1 / 104 (0.962%)
+Mismatch at index:
+ [62]: -0.29474884271621704 (ACTUAL), -0.29474850952561993 (DESIRED)
+Max absolute difference among violations: 3.33190597e-07
+Max relative difference among violations: 1.13042335e-06
+ ACTUAL: array([-0.28121 , -0.076138, -0.090701, -0.131946,  0.022858, -0.222266,
+       -0.274408, -0.218394, -0.128269, -0.238555, -0.140656, -0.216014,
+       -0.052949, -0.110084, -0.080854, -0.302104, -0.060389, -0.160571,...
+ DESIRED: array([-0.28121 , -0.076137, -0.0907  , -0.131946,  0.022858, -0.222266,
+       -0.274408, -0.218394, -0.128269, -0.238555, -0.140655, -0.216014,
+       -0.052949, -0.110084, -0.080853, -0.302104, -0.060389, -0.16057 ,...
+
+----------------------------------------------------------------------
+Ran 1 test in 2.083s
+
+FAILED (failures=1)

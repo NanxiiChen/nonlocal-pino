@@ -1,0 +1,139 @@
+{
+  "arch": {
+    "type": "conditional_field",
+    "image_shape": [
+      1,
+      32,
+      32,
+      32
+    ],
+    "patch_shape": [
+      4,
+      4,
+      4
+    ],
+    "extent": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "width": 48,
+    "encoder_depth": 2,
+    "heads": 4,
+    "mlp_ratio": 2,
+    "decoder_depth": 3,
+    "spatial_features": 32,
+    "spatial_scale": 2.0,
+    "time_features": 8,
+    "time_scale": 1.0,
+    "conditioning": "cross_attention",
+    "norm_eps": 1e-05
+  },
+  "phase": {
+    "formulation": "ic_latent"
+  },
+  "nl": {
+    "delta": 0.01,
+    "kernel": "cubic",
+    "method": "sparse"
+  },
+  "sample": {
+    "Nx": 128,
+    "Ny": 128,
+    "Nz": 128,
+    "Nt": 8,
+    "t_min": 0.001,
+    "K_core": 256,
+    "K_pool": 32,
+    "N_lhs": 2000,
+    "N_ic": 20000
+  },
+  "train": {
+    "gpu_policy": "ordinary",
+    "iterations": 5000,
+    "lr_init": 0.001,
+    "lr_decay_every": 1000,
+    "lr_decay_rate": 0.95,
+    "lr_min": 1e-05,
+    "optimizer": "adam",
+    "grad_clip": 100.0,
+    "matmul_precision": "highest",
+    "alpha_gradnorm": 0.9,
+    "gradnorm_update_every": 1,
+    "soap_b1": 0.9,
+    "soap_b2": 0.99,
+    "soap_precond_freq": 5,
+    "soap_max_precond_dim": 100000,
+    "soap_precond_1d": false,
+    "seed": 42
+  },
+  "loss": {
+    "gradnorm_weight_cap": 1000.0,
+    "gradnorm_bias": [
+      1.0,
+      1.0
+    ],
+    "iface_gamma_init": 0.0,
+    "iface_gamma_decay_steps": 0,
+    "iface_gamma_decay_to": 0.0,
+    "use_causal": false
+  },
+  "causal": {
+    "eps_init": 1.0,
+    "max_eps": 100.0,
+    "step_size": 1.1,
+    "max_last_weight": 0.9,
+    "min_mean_weight": 0.01
+  },
+  "log": {
+    "log_dir": "/root/autodl-tmp/tf-logs/icemelting3d/",
+    "run_name": "20261029-melting-operator-memory-b16-01",
+    "log_every": 50,
+    "eval_every": 250,
+    "save_ckpt": true,
+    "run_diag": false
+  },
+  "eval": {
+    "graph_reference_path": "",
+    "full_grid_every": 1000,
+    "chunk_size": 32768
+  },
+  "physical": {
+    "M": 0.1,
+    "lam": 5.0,
+    "R0": 35.0,
+    "eps_star": 0.0225
+  },
+  "nondim": {
+    "L_c": 100.0,
+    "T_c": 5.0,
+    "xc": [
+      0.5,
+      0.5,
+      0.5
+    ]
+  },
+  "initial": {
+    "kind": "ellipsoid_sdf",
+    "center_min": 0.45,
+    "center_max": 0.55,
+    "axis_min": 0.24,
+    "axis_max": 0.36,
+    "sdf_iterations": 40,
+    "reference_sdf_iterations": 56
+  },
+  "operator": {
+    "condition_batch": 16,
+    "action": "memory",
+    "probe_steps": 8,
+    "dataset_path": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1",
+    "monitor_conditions": 2,
+    "test_conditions": 8,
+    "dataset_seed": 20261029,
+    "reference_dt": 0.005,
+    "reference_tolerance": 1e-05,
+    "snapshots": 5,
+    "evaluation_axis_points": 24,
+    "evaluation_chunk": 1024
+  }
+}

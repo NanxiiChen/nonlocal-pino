@@ -1,0 +1,22 @@
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  WARNING: The number of integration points for each cell will be: 125
+           Consider using the option 'quadrature_degree' to reduce the number of points
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  WARNING: The number of integration points for each cell will be: 125
+           Consider using the option 'quadrature_degree' to reduce the number of points
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  WARNING: The number of integration points for each cell will be: 125
+           Consider using the option 'quadrature_degree' to reduce the number of points
+{"index": 5, "N": 24, "dt": 0.005, "step": 50, "steps": 200, "seconds": 33.11604812555015}
+{"index": 5, "N": 24, "dt": 0.005, "step": 100, "steps": 200, "seconds": 62.21658261306584}
+{"index": 5, "N": 24, "dt": 0.005, "step": 150, "steps": 200, "seconds": 91.5638038534671}
+{"index": 5, "N": 24, "dt": 0.005, "step": 200, "steps": 200, "seconds": 142.7500136923045}
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/examples/icemelting3d/solver.py", line 187, in <module>
+    solve(importlib.import_module(args.config).get_config(), args.index,
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          args.subdivisions, args.dt, args.output)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nonlocal-pinn/examples/icemelting3d/solver.py", line 162, in solve
+    raise FloatingPointError('Nonfinite or substantially out-of-range FEM phase field')
+FloatingPointError: Nonfinite or substantially out-of-range FEM phase field

@@ -358,7 +358,8 @@ electropolish2d/
 ├── configs/
 │   ├── solver_base.py       # FEM solver config
 │   ├── train_base.py        # Default observed-field SOTA
-│   ├── train_operator.py    # Opt-in finite-input neural operator
+│   ├── train_operator.py    # Recommended online B8 image-only operator
+│   ├── train_operator_legacy.py # Historical finite-input pilot
 │   ├── train_operator_single.py # Fixed-input fitting control
 │   ├── train_operator_online.py # Continuous online B8 training
 │   ├── train_operator_causal.py # Online B8 per-time causal control
@@ -543,10 +544,43 @@ implementation paths changed during the split; see
 
 ## Random-initial-interface neural operator (opt-in)
 
-The canonical entry additionally accepts
-[configs/train_operator.py](configs/train_operator.py). This learns one map
-from a prescribed random initial field to both physical fields over0–5s.
-The established single-interface `train_base.py` remains the default.
+The canonical entry accepts [configs/train_operator.py](configs/train_operator.py)
+as the **current recommended NO preset**. It learns random initial fields over
+0–5s. No-argument `train.py` retains the single-interface PINN default.
+
+| Setting | Recommended NO |
+|---|---|
+| Input sampling | Fresh online six-mode rough interfaces; 8 conditions/update |
+| Optimizer | Adam, initial learning rate1e-3,5000updates |
+| Compilation | Ordinary FP32, highest matmul precision |
+| Conditioning | Initial image encoder; coordinate queries; `arch.local_input=zero` |
+| Physics | Original AC/CH, soft IC and top/bottom BC: five losses, gradient balancing |
+| Sampling | Shared times, core+halo spatial queries; no causal weighting |
+
+```bash
+XLA_PYTHON_CLIENT_PREALLOCATE=false python examples/electropolish2d/train.py \
+  --config=examples/electropolish2d/configs/train_operator.py
+```
+
+The evaluation bank must already be prepared; the historical preparation command
+below uses the same bank. Training draws new inputs online, not from that bank.
+The saved image-only run is
+`/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-online-global-adam-01`:
+64 unseen graph-reference inputs give mean pooled/terminal phi4.506/3.502%.
+A matched repeat of this strategy against64 independent local-FD references gives
+4.427/3.176%; these are different runs/reference targets, not interchangeable
+checkpoint scores. See the validation sections below. This is the best validated
+recipe currently recommended, without a seed-stability or global-optimum claim.
+
+Generated figures/arrays are optional local artifacts; see the root
+[artifact restoration policy](../../README.md#artifacts-and-recovery).
+
+### Historical finite-input pilot
+
+The following pilot description and commands use
+[configs/train_operator_legacy.py](configs/train_operator_legacy.py).
+The original online/single/causal/local control presets retain their previous
+semantics; canonical `train_operator.py` selects the image-only recipe above.
 
 The pilot uses the same six-mode random rough-profile/SDF generator, material
 parameters,101x51 grid, sparse graph, top/bottom Dirichlet data and side-wall
@@ -627,16 +661,16 @@ under `operator`, following the repository configuration convention.
 # One-time CPU condition/reference preparation; output directory must be new.
 JAX_PLATFORMS=cpu JAX_ENABLE_X64=true OPENBLAS_NUM_THREADS=1 \
   python examples/electropolish2d/train.py \
-  --config=examples/electropolish2d/configs/train_operator.py \
+  --config=examples/electropolish2d/configs/train_operator_legacy.py \
   --config.operator.reference_action=prepare
 
 # Physics-only operator training (after preparation).
 XLA_PYTHON_CLIENT_PREALLOCATE=false python examples/electropolish2d/train.py \
-  --config=examples/electropolish2d/configs/train_operator.py
+  --config=examples/electropolish2d/configs/train_operator_legacy.py
 
 # Lighter condition-injection control, same input set and budget.
 XLA_PYTHON_CLIENT_PREALLOCATE=false python examples/electropolish2d/train.py \
-  --config=examples/electropolish2d/configs/train_operator.py \
+  --config=examples/electropolish2d/configs/train_operator_legacy.py \
   --config.arch.conditioning=film
 ```
 
@@ -859,8 +893,9 @@ causal weighting's general ineffectiveness or an isolated sampling cause.
 [physical phase fields](../../docs/tasks/archive/electro-causal-fields.png),
 [input response](../../docs/tasks/archive/electro-causal-condition-response.png).
 
-For conditional-training diagnosis, `arch.local_input=initial` is the existing
-default: each query includes its known initial phi/c values. Explicit
+For conditional-training diagnosis, historical control presets use
+`arch.local_input=initial`: each query includes its known initial phi/c values.
+The recommended `train_operator.py` now selects `zero`. Explicit
 `--config.arch.local_input=zero` disables those feature channels while retaining
 the global initial image and **all true initial-condition loss targets**. It
 does not impose a hard IC or alter the prescribed initial field. Parameter

@@ -1,0 +1,5 @@
+{"index": 5, "N": 32, "dt": 0.005, "step": 50, "steps": 200, "seconds": 164.2721398472786}
+{"index": 5, "N": 32, "dt": 0.005, "step": 100, "steps": 200, "seconds": 244.95147973299026}
+{"index": 5, "N": 32, "dt": 0.005, "step": 150, "steps": 200, "seconds": 312.43384085968137}
+{"index": 5, "N": 32, "dt": 0.005, "step": 200, "steps": 200, "seconds": 378.96539218351245}
+FEM_COMPLETE /root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/case005-n32-dt005.npz 378.96641946956515

@@ -1,0 +1,12 @@
+......Process 0: Computed global bounding box tree with 3 boxes.
+Process 1: Computed global bounding box tree with 3 boxes.
+....
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.220s
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.228s
+
+OK
+OK

@@ -1,0 +1,12 @@
+[
+  {
+    "raw_log": "/root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/logs/melting-local-fem-jax-geometry-default-precision.txt",
+    "archive_copy": "docs/tasks/archive/melting-local-fem-jax-geometry-default-precision.txt",
+    "only_line_end_whitespace_removed": true
+  },
+  {
+    "raw_log": "/root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/logs/melting-local-fem-jax-geometry-gpu-highest.txt",
+    "archive_copy": "docs/tasks/archive/melting-local-fem-jax-geometry-gpu-highest.txt",
+    "only_line_end_whitespace_removed": true
+  }
+]

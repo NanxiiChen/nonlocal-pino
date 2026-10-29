@@ -1,0 +1,46 @@
+{
+  "native_vs_local": {
+    "pooled_phi": 0.0014744803053419642,
+    "terminal_phi": 0.0016697069206289895,
+    "pooled_solid": 0.00396107156844308,
+    "terminal_solid": 0.03893882819870411,
+    "interface_phi_absolute_rmse": 0.006844670307609044,
+    "terminal_diagnostic_solid_fraction_relative_error": 0.04297946915167106
+  },
+  "Adam": {
+    "vs_local": {
+      "pooled_phi": 0.0014786043200235544,
+      "terminal_phi": 0.001679681609645068,
+      "pooled_solid": 0.003972150398891953,
+      "terminal_solid": 0.039171445490477845,
+      "interface_phi_absolute_rmse": 0.006832065960076444,
+      "terminal_diagnostic_solid_fraction_relative_error": 0.029466124403864584
+    },
+    "vs_native": {
+      "pooled_phi": 0.0023826373071447983,
+      "terminal_phi": 0.0008343439509326881,
+      "pooled_solid": 0.006393037448256396,
+      "terminal_solid": 0.0187629713480782,
+      "interface_phi_absolute_rmse": 0.011043769394611507,
+      "terminal_diagnostic_solid_fraction_relative_error": 0.012956482028162868
+    }
+  },
+  "SOAP": {
+    "vs_local": {
+      "pooled_phi": 0.0018614128415418995,
+      "terminal_phi": 0.002800735680233299,
+      "pooled_solid": 0.005000534396460764,
+      "terminal_solid": 0.06531527427669911,
+      "interface_phi_absolute_rmse": 0.008636502684799116,
+      "terminal_diagnostic_solid_fraction_relative_error": 0.06709464613464826
+    },
+    "vs_native": {
+      "pooled_phi": 0.0007088077267967686,
+      "terminal_phi": 0.0012106687318632831,
+      "pooled_solid": 0.0019018565383144336,
+      "terminal_solid": 0.027225873337454774,
+      "interface_phi_absolute_rmse": 0.0032896598327839376,
+      "terminal_diagnostic_solid_fraction_relative_error": 0.023121430187491392
+    }
+  }
+}

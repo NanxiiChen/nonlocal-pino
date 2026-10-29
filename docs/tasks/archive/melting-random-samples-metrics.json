@@ -1,0 +1,86 @@
+{
+  "selection": {
+    "manifest": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1/manifest.json",
+    "run": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01",
+    "eligible_indices": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "selected_indices": [
+      5,
+      9,
+      2
+    ],
+    "method": "Uniform random choice without replacement, fresh system entropy; written before opening predictions or scores."
+  },
+  "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01/model_final.eqx",
+  "metric_scope": "Physical phi, 24^3 three-dimensional diagnostic points; pooled across five times or terminal only.",
+  "plot_scope": "128^2 central z slice; common phase [-1,1] and absolute-error [0,max] scales across all three inputs.",
+  "common_slice_error_max": 0.135097684237144,
+  "conditions": [
+    {
+      "index": 5,
+      "semiaxes": [
+        0.2932707410836721,
+        0.3102322489075705,
+        0.32619981181590135
+      ],
+      "pooled_phi": 0.0023826367954043665,
+      "terminal_phi": 0.0008343374615949756,
+      "terminal_solid": 0.01876282273101606,
+      "phi_by_time": [
+        5.067934815483439e-07,
+        0.002789198082481071,
+        0.0035060091382050243,
+        0.0027362554436960005,
+        0.0008343374615949756
+      ],
+      "slice_z": 0.5039370078740157
+    },
+    {
+      "index": 9,
+      "semiaxes": [
+        0.3232342014743364,
+        0.3485781625492527,
+        0.29797510069799166
+      ],
+      "pooled_phi": 0.0027311525442148994,
+      "terminal_phi": 0.0012549572999428413,
+      "terminal_solid": 0.021797754811116402,
+      "phi_by_time": [
+        3.1511877529525174e-07,
+        0.0030445942474407214,
+        0.003923848976241376,
+        0.0032907088473700034,
+        0.0012549572999428413
+      ],
+      "slice_z": 0.5039370078740157
+    },
+    {
+      "index": 2,
+      "semiaxes": [
+        0.2699938611786826,
+        0.2647235014511153,
+        0.3208023451130782
+      ],
+      "pooled_phi": 0.0020035037207718604,
+      "terminal_phi": 0.0007570645655210294,
+      "terminal_solid": 0.0445581762937817,
+      "phi_by_time": [
+        1.9441205804252066e-07,
+        0.002458181046787828,
+        0.0029797748908830034,
+        0.002122092934048735,
+        0.0007570645655210294
+      ],
+      "slice_z": 0.5039370078740157
+    }
+  ],
+  "checks": "Finite/shape/time/coordinate-order/manifest/reference equality and saved 3D metric replay passed."
+}

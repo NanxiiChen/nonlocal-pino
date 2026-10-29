@@ -1,0 +1,12 @@
+{
+  "grid_nodes": 2097152,
+  "directed_edges": 12484608,
+  "degree_max": 6,
+  "independent_weight": 11062.151677850028,
+  "actual_weight_min": 11062.15234375,
+  "actual_weight_max": 11062.15234375,
+  "padded_queries": 1788,
+  "padded_edges": 1532,
+  "core_points": 256,
+  "pool_entries": 32
+}

@@ -1,0 +1,49 @@
+{
+  "test_count": 8,
+  "statistics": {
+    "pooled_solid": {
+      "mean": 0.006424942797981074,
+      "maximum": 0.006926106893073487
+    },
+    "terminal_solid": {
+      "mean": 0.0450165874169298,
+      "maximum": 0.10593553341127047
+    },
+    "interface_phi_absolute_rmse": {
+      "mean": 0.010876137607393475,
+      "maximum": 0.0119663403461746
+    },
+    "pooled_phi": {
+      "mean": 0.0022664765874480085,
+      "maximum": 0.0027311525442148994
+    },
+    "terminal_phi": {
+      "mean": 0.0009221335021845627,
+      "maximum": 0.0012549572999428413
+    },
+    "pooled_slice_phi": {
+      "mean": 0.004201173184660194,
+      "maximum": 0.004666367176316047
+    },
+    "terminal_slice_phi": {
+      "mean": 0.002860812956357456,
+      "maximum": 0.005495148058383881
+    },
+    "terminal_solid_fraction_absolute_error": {
+      "mean": 1.2269444713072249e-05,
+      "maximum": 3.4811064314098375e-05
+    },
+    "terminal_solid_fraction_relative_error": {
+      "mean": 0.012133295642049409,
+      "maximum": 0.03345292350768726
+    },
+    "frozen_IC_pooled_phi": {
+      "mean": 0.4562205551928995,
+      "maximum": 0.5294120403603657
+    },
+    "hard_IC_maximum_gap": {
+      "mean": 3.4507612059943987e-06,
+      "maximum": 5.214149242482868e-06
+    }
+  }
+}

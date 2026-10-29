@@ -1,5 +1,5 @@
 """Fixed input0/B1 CViT fitting control; retain source dataset and2000Adam budget."""
-from examples.electropolish2d.configs.train_operator import get_config as operator_config
+from examples.electropolish2d.configs.train_operator_legacy import get_config as operator_config
 
 
 def get_config():
