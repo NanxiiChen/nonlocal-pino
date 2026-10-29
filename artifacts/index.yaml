@@ -521,7 +521,9 @@
       "run_root": "/root/autodl-tmp/tf-logs/electropolish2d",
       "role": "research_example",
       "data_children": [
-        "/root/autodl-tmp/data/electropolish2d/.ipynb_checkpoints"
+        "/root/autodl-tmp/data/electropolish2d/.ipynb_checkpoints",
+        "/root/autodl-tmp/data/electropolish2d/operator_random16_v1",
+        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029"
       ],
       "run_children": [
         "/root/autodl-tmp/tf-logs/electropolish2d/.ipynb_checkpoints",
@@ -580,7 +582,15 @@
         "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float32-seed42",
         "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float32-seed2026",
         "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float64-seed42",
-        "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float64-seed2026"
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261026-defaultcheck-ordinary-float64-seed2026",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-cross-01",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-film-01",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-entry-smoke-01",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-single-cross-01",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-single-soap-01",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-online-b8-adam-01",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-local-01"
       ],
       "residual_comparison_20261024": {
         "report": "docs/tasks/archive/coupled-latent-residual-experiments.md",
@@ -2292,6 +2302,312 @@
               ]
             }
           }
+        }
+      },
+      "neural_operator_pilot": {
+        "entry": "examples/electropolish2d/train.py",
+        "config": "examples/electropolish2d/configs/train_operator.py",
+        "report": "docs/tasks/archive/electropolish-neural-operator.md",
+        "status": "prototype complete; accuracy exploratory, no SOTA promotion",
+        "dataset": "/root/autodl-tmp/data/electropolish2d/operator_random16_v1",
+        "train_conditions": 16,
+        "test_conditions": 4,
+        "train_monitor_conditions": 2,
+        "physical_seconds": 5.0,
+        "iterations": 2000,
+        "optimizer": "adam",
+        "learning_rate": 0.001,
+        "compute_dtype": "float32",
+        "gpu_policy": "ordinary",
+        "matmul_precision": "highest",
+        "positive_time_labels_in_training": false,
+        "test_checkpoint_selection": false,
+        "reference": "same-graph independent physical phi/c SciPy BDF, analytic Jacobian, strict time refinement; no continuum claim",
+        "concentration_map": "linear_liquid: phi bounded, c_L=c_Le*s unrestricted; KKS mixture/PDE retained",
+        "architecture": "patch encoder; spatial cross attention or pooled FiLM; shared temporal FiLM; known local initial phi/c features",
+        "public_architecture_record": "arch",
+        "first_two_pilot_saved_architecture_record": "operator; pass explicitly to private template builder",
+        "comparison": {
+          "cross": {
+            "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-cross-01",
+            "seconds": 245.682192645967,
+            "mean_test_phi_pooled_terminal": [
+              0.17185026516250665,
+              0.13305107999369886
+            ],
+            "mean_test_c_pooled_terminal": [
+              0.18691013085700736,
+              0.14929268678169458
+            ]
+          },
+          "film": {
+            "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-film-01",
+            "seconds": 160.8965739645064,
+            "mean_test_phi_pooled_terminal": [
+              0.1746164401430219,
+              0.11936261077624338
+            ],
+            "mean_test_c_pooled_terminal": [
+              0.1904042043121528,
+              0.13519739249331233
+            ]
+          }
+        },
+        "frozen_initial_mean_test_phi_pooled_terminal": [
+          0.31877007330904816,
+          0.47721125044730456
+        ],
+        "convergence": "docs/tasks/archive/electro-operator-convergence.png",
+        "heldout_phase_fields": [
+          "docs/tasks/archive/electro-operator-cross-fields.png",
+          "docs/tasks/archive/electro-operator-film-fields.png"
+        ],
+        "initial_family": "docs/tasks/archive/electro-operator-initial-family.png",
+        "provenance": "docs/tasks/archive/electro-operator-provenance.json",
+        "benchmark": "docs/tasks/archive/electro-operator-benchmark.json",
+        "replay_limits": "GPU saved-policy cross exact/film6.26e-7; CPU cross max.00162/film1.43e-6; cross aggregate phase drift<.01 percentage point; strict cross CPU pointwise probe fails",
+        "cli_note": "First cross trainer complete but initial absl return-dict wrapper exits1; fixed. Film and final c.arch one-update smoke exit0.",
+        "limitations": [
+          "only four held-out inputs/one training seed",
+          "early roughness smoothed too quickly",
+          "terminal Dq free errors~.77-.81",
+          "not upstream time-dependent cross-attention equivalence",
+          "FP32 attention batching sensitivity recorded; promoted trained FP64 split/JVP equality passed"
+        ],
+        "conditional_training_diagnosis": {
+          "task": "docs/tasks/archive/electropolish-operator-training.md",
+          "distance": "docs/tasks/archive/electro-training-distance.json",
+          "conditioning": "docs/tasks/archive/electro-training-conditioning.json",
+          "pair_control": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-pair-adam-01",
+          "pair_image_only": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-pair-global-adam-01",
+          "best_measured_online_control": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-online-global-adam-01",
+          "config": "examples/electropolish2d/configs/train_operator_online.py",
+          "override": "arch.local_input=zero",
+          "audit": "docs/tasks/archive/electro-training-online-audit.json",
+          "convergence": "docs/tasks/archive/electro-training-online-convergence.png",
+          "fields": "docs/tasks/archive/electro-training-online-fields.png",
+          "mean_test_phi_pooled": 0.05573270880649732,
+          "mean_test_phi_terminal": 0.04371829043101448,
+          "mean_test_c_pooled": 0.06451892959873437,
+          "mean_test_c_terminal": 0.05124132723773194,
+          "scope": "Same-stream5000AdamB8, uniformtime/no causal, one matched pair; defaults retained, reference unchanged."
+        },
+        "online_causal_control": {
+          "task": "docs/tasks/archive/electropolish-operator-causal.md",
+          "config": "examples/electropolish2d/configs/train_operator_causal.py",
+          "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-online-b8-causal-01",
+          "audit": "docs/tasks/archive/electro-causal-audit.json",
+          "convergence": "docs/tasks/archive/electro-causal-convergence.png",
+          "fields": "docs/tasks/archive/electro-causal-fields.png",
+          "steps": 5000,
+          "batch": 8,
+          "optimizer": "adam",
+          "mean_test_phi_pooled": 0.17931640495443105,
+          "mean_test_phi_terminal": 0.131052582239342,
+          "mean_test_c_pooled": 0.19520598275792342,
+          "mean_test_c_terminal": 0.14801501801025652,
+          "seconds": 323.97647527977824,
+          "scope": "One matched pair; causal enabled but no L2 improvement; opt-in only, defaults unchanged."
+        },
+        "online_balance_diagnosis": {
+          "task": "docs/tasks/archive/electropolish-operator-balance.md",
+          "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-online-b8-adam-01",
+          "diagnosis": "docs/tasks/archive/electro-online-balance-diagnosis.json",
+          "early_time": "docs/tasks/archive/electro-online-balance-early.json",
+          "early_gradient": "docs/tasks/archive/electro-online-balance-early-gradient.json",
+          "summary_plot": "docs/tasks/archive/electro-online-balance-summary.png",
+          "condition_plot": "docs/tasks/archive/electro-online-balance-condition-collapse.png",
+          "scope": "Frozen-checkpoint diagnostics only; no retraining, default change or validated remedy."
+        },
+        "single_and_online_controls": {
+          "report": "docs/tasks/archive/electropolish-operator-single-online.md",
+          "single_config": "examples/electropolish2d/configs/train_operator_single.py",
+          "online_config": "examples/electropolish2d/configs/train_operator_online.py",
+          "established_pinn_optimizer": "soap",
+          "online_optimizer": "adam",
+          "single_comparison": {
+            "adam": {
+              "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-single-cross-01",
+              "steps": 2000,
+              "batch": 1,
+              "training_indices": [
+                0
+              ],
+              "phi_pooled_terminal": [
+                0.02482891686879874,
+                0.03386955326038451
+              ],
+              "c_pooled_terminal": [
+                0.029650846340488635,
+                0.04031195092179204
+              ],
+              "seconds": 237.25957952067256
+            },
+            "soap": {
+              "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-single-soap-01",
+              "steps": 2000,
+              "batch": 1,
+              "training_indices": [
+                0
+              ],
+              "phi_pooled_terminal": [
+                0.04186867726729926,
+                0.032135854908162016
+              ],
+              "c_pooled_terminal": [
+                0.049411625687061006,
+                0.037002806016649264
+              ],
+              "seconds": 387.32873536646366
+            }
+          },
+          "online": {
+            "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-online-b8-adam-01",
+            "steps": 5000,
+            "batch": 8,
+            "unique_actual_profiles": 40000,
+            "sampler": "continuous six-mode triples; first8 of32 candidates satisfying profile(.005,.495)",
+            "coefficient_path": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-online-b8-adam-01/online_coefficients.npy",
+            "phi_pooled_terminal": [
+              0.1774765632361948,
+              0.1235505691987735
+            ],
+            "c_pooled_terminal": [
+              0.19317299829710427,
+              0.14029465322470627
+            ],
+            "seconds": 326.70912412181497,
+            "peak_active_bytes": 2311164672,
+            "peak_pool_bytes": 5375000576,
+            "held_out_reference_count": 4,
+            "positive_time_labels_in_training": false,
+            "test_model_selection": false
+          },
+          "same_input_prior_multisample_phi_pooled_terminal": [
+            0.21538389193184024,
+            0.15887852795846746
+          ],
+          "provenance": "docs/tasks/archive/electro-single-provenance.json",
+          "audit": "docs/tasks/archive/electro-single-online-audit.json",
+          "figures": [
+            "docs/tasks/archive/electro-single-convergence.png",
+            "docs/tasks/archive/electro-online-convergence.png",
+            "docs/tasks/archive/electro-online-profile-stream.png"
+          ],
+          "interpretation": "fixed fit is not NO generalization; online changes budget/batch/input distribution relative to finite pilot; accuracy remains exploratory"
+        },
+        "independent_test64": {
+          "report": "docs/tasks/archive/electropolish-operator-test64.md",
+          "dataset": "/root/autodl-tmp/data/electropolish2d/operator_test64_20261028",
+          "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-online-global-adam-01/model_final.eqx",
+          "results": "docs/tasks/archive/electro-test64-results.json",
+          "count": 64,
+          "checkpoint_selection": false,
+          "training_profile_overlap": 0,
+          "mean_phi_pooled_terminal": [
+            0.04506158502142208,
+            0.03501552419423073
+          ],
+          "mean_c_pooled_terminal": [
+            0.05323214307001424,
+            0.04163150047072467
+          ],
+          "local_component_cost": "docs/tasks/archive/electro-local-cost.json",
+          "scope": "Frozen same-graph test; local PDE-gradient component probe only, no full local training or stable speed ranking."
+        },
+        "local_comparison": {
+          "report": "docs/tasks/archive/electropolish-operator-local-comparison.md",
+          "original_incompatible_IC_retained": true,
+          "steps": 5000,
+          "batch": 8,
+          "optimizer": "adam",
+          "arch_local_input": "zero",
+          "compute_dtype": "float32",
+          "gpu_policy": "ordinary",
+          "common_graph_target": "/root/autodl-tmp/data/electropolish2d/operator_test64_20261028",
+          "independent_local_targets": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029",
+          "test_count": 64,
+          "refinement_indices": [
+            0,
+            21,
+            42,
+            63
+          ],
+          "evaluation_status": "complete",
+          "training_positive_time_labels": false,
+          "test_checkpoint_selection": false,
+          "default_promotion": false,
+          "parity": "docs/tasks/archive/electro-operator-local-parity.json",
+          "runs": [
+            {
+              "method": "nonlocal",
+              "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01",
+              "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01/model_final.eqx",
+              "results": "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01/evaluation64.json",
+              "predictions": "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01/evaluation64.npz",
+              "mean_common_local101": {
+                "pooled_phi": 0.044273589411034736,
+                "terminal_phi": 0.0317553414222361,
+                "pooled_c": 0.052221933959891886,
+                "terminal_c": 0.03779148544940694,
+                "early_side_phi": 0.042187193726397176,
+                "early_side_interface_phi": 0.19469290860178723
+              },
+              "process_seconds": 368.34904992207885,
+              "trainer_seconds": 357.00076618790627,
+              "first_update_compile_and_call_seconds": 223.3525363355875,
+              "warm_update_mean_seconds": 0.01670809946380441,
+              "mean_common_local401_on_refined4": {
+                "pooled_phi": 0.05065222597636605,
+                "terminal_phi": 0.029449373586951797,
+                "pooled_c": 0.05911663320527838,
+                "terminal_c": 0.035028841339203746,
+                "early_side_phi": 0.038288421839911366
+              }
+            },
+            {
+              "method": "local",
+              "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-local-01",
+              "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-local-01/model_final.eqx",
+              "results": "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-local-01/evaluation64.json",
+              "predictions": "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-local-01/evaluation64.npz",
+              "mean_common_local101": {
+                "pooled_phi": 0.08594608988815519,
+                "terminal_phi": 0.054976162958483406,
+                "pooled_c": 0.09834575241882494,
+                "terminal_c": 0.06431075483136531,
+                "early_side_phi": 0.12222698165118671,
+                "early_side_interface_phi": 0.4743252514624558
+              },
+              "process_seconds": 693.0321304835379,
+              "trainer_seconds": 681.431575153023,
+              "first_update_compile_and_call_seconds": 533.8732522130013,
+              "warm_update_mean_seconds": 0.019351124387159184,
+              "mean_common_local401_on_refined4": {
+                "pooled_phi": 0.08773306705090016,
+                "terminal_phi": 0.048862663647500346,
+                "pooled_c": 0.10026445489402447,
+                "terminal_c": 0.05771259262931841,
+                "early_side_phi": 0.10336397914591794
+              }
+            }
+          ],
+          "figures": [
+            "docs/tasks/archive/electro-operator-local-convergence.png",
+            "docs/tasks/archive/electro-operator-local-test64.png",
+            "docs/tasks/archive/electro-operator-local-boundary.png",
+            "docs/tasks/archive/electro-operator-local-fields.png"
+          ],
+          "scope": "One matched initialization/online-stream pair; five native losses versus six local losses with explicit positive-time side Neumann. Finite-horizon pair closure is not exact pointwise Neumann. Cold timing is dominated by compilation; no seed-stability or unique-cause claim.",
+          "reference_solve_count": 76,
+          "maximum_time_refinement_error": 2.5829333229111734e-08,
+          "independent_verification": "docs/tasks/archive/electro-operator-local-verification-all.json",
+          "local201_to_401_pooled_phase_differences": [
+            0.0007598894794055039,
+            0.0007438786565455295,
+            0.0007369976786405638,
+            0.0006807290095169655
+          ]
         }
       }
     },
@@ -4230,7 +4546,11 @@
         "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-conserved-causal_conserved",
         "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-conserved-conserved",
         "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-conserved-consistent",
+        "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-flux-nonlocal",
+        "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-flux-spectral",
         "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-initial-initial_time",
+        "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-map-ablation-additive",
+        "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-map-ablation-cubic",
         "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-matched-local_ad",
         "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-matched-nonlocal",
         "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-operator-cubic",
@@ -5141,7 +5461,8 @@
         "report": "docs/tasks/archive/twophase-operator-preconditioning.md",
         "validation": "docs/tasks/archive/twophase-operator-validation.json",
         "conclusion": "Two recommended cold starts give local pooled phi2.84%/2.91%, terminal2.34%/2.56%;1% not reached. Frozen preconditioners and longer refinement are not recommended.",
-        "default_scope": "Explicit vortex recommendation; constant-flow base config and other example configs retained."
+        "default_scope": "Explicit vortex recommendation; constant-flow base config and other example configs retained.",
+        "scope": "Historical cubic study; config paths name the launch-time presets. Saved per-run config.json files are authoritative; see vortex_default for the current additive default."
       },
       "vortex_matched_local_comparison": {
         "report": "docs/tasks/archive/twophase-matched-local-comparison.md",
@@ -5173,7 +5494,8 @@
             "mean_soap_update_seconds_after_100": 0.08315609516309841
           }
         ],
-        "conclusion": "Local pooled3.36% vs nonlocal3.78%, terminal3.22% vs3.27%; nonlocal4.38x faster by trainer time. One pair, historical nonlocal2.84% shows accuracy variation; defaults retained."
+        "conclusion": "Local pooled3.36% vs nonlocal3.78%, terminal3.22% vs3.27%; nonlocal4.38x faster by trainer time. One pair, historical nonlocal2.84% shows accuracy variation; defaults retained.",
+        "phase_map_at_launch": "inverse_cubic; current named presets default to additive. Use the explicit phase.map override or saved run config for cubic replay."
       },
       "vortex_repeatability_diagnosis": {
         "report": "docs/tasks/archive/twophase-repeatability.md",
@@ -5208,6 +5530,546 @@
         "conclusion": "No tested core translation/wrapper defect explains current variability; degenerate-basis sensitivity also appears in reference implementations. Nonzero decay ordering differs, inactive at current zero decay.",
         "dependencies_changed": false,
         "production_training_changed": false
+      },
+      "vortex_map_ablation": {
+        "record": "docs/tasks/archive/twophase-map-ablation.md",
+        "analysis": "docs/tasks/archive/twophase-map-ablation-analysis.json",
+        "convergence": "docs/tasks/archive/twophase-map-ablation-convergence.png",
+        "scope": "Fresh single-seed pair, same raw parameters but map-dependent initial future fields; not statistical robustness, no coupled NS or SOAP diagnosis.",
+        "training": "seed42; original two PDE losses; hard IC/grid mass; conservative flux; FP64/ordinary; SOAP5000 + L-BFGS1000",
+        "reference": "/root/autodl-tmp/data/twophase2d/results_periodic_vortex.npz",
+        "common_target": "phi_local; final-budget checkpoints",
+        "configs": {
+          "additive": "examples/twophase2d/configs/train_vortex_consistent.py",
+          "cubic": "examples/twophase2d/configs/train_vortex_conserved.py"
+        },
+        "runs": {
+          "additive": {
+            "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-map-ablation-additive",
+            "pooled_phi_local": 0.03200642766350364,
+            "terminal_phi_local": 0.03621521861532902,
+            "pooled_phi_native": 0.03585413439787093,
+            "terminal_phi_native": 0.04089694374438059,
+            "pooled_interface_phi_local": 0.13779837793074473,
+            "terminal_interface_phi_local": 0.1486317929372778,
+            "trainer_seconds": 212.3815519362688
+          },
+          "cubic": {
+            "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-map-ablation-cubic",
+            "pooled_phi_local": 0.032522265520416094,
+            "terminal_phi_local": 0.02915862422777188,
+            "pooled_phi_native": 0.035642085364970065,
+            "terminal_phi_native": 0.03234164818769382,
+            "pooled_interface_phi_local": 0.14242792821039293,
+            "terminal_interface_phi_local": 0.11636167622312507,
+            "trainer_seconds": 217.82857042178512
+          }
+        },
+        "config_path_scope": "Launch-time preset paths; conserved now defaults to additive. Saved run configs preserve the actual maps."
+      },
+      "vortex_default": {
+        "entry": "examples/twophase2d/train.py",
+        "config": "examples/twophase2d/configs/train_vortex_conserved.py",
+        "phase_map": "additive",
+        "optional_map_override": "--config.phase.map=inverse_cubic",
+        "disable_map_override": "--config.phase.map=additive",
+        "reason": "User prioritizes common schemes across examples; one fresh pair shows comparable pooled phase error. Cubic is optional, not required.",
+        "record": "docs/tasks/archive/twophase-optional-map.md",
+        "matched_additive_run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-map-ablation-additive",
+        "matched_additive_config": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-map-ablation-additive/config.json",
+        "matched_additive_final_checkpoint": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-map-ablation-additive/model_final.eqx",
+        "pooled_phi_relative_L2_common_local": 0.03200642766350364,
+        "terminal_phi_relative_L2_common_local": 0.03621521861532902,
+        "scope": "Default selection only; no new training or altered artifacts. Old results remain labeled with their actual maps."
+      },
+      "vortex_nonlocal_flux_experiment": {
+        "entry": "examples/twophase2d/train.py",
+        "config": "examples/twophase2d/configs/train_vortex_nonlocal_flux.py",
+        "baseline_config": "examples/twophase2d/configs/train_vortex_conserved.py",
+        "reference": "/root/autodl-tmp/data/twophase2d/results_periodic_vortex_nonlocal_flux.npz",
+        "reference_checks": "/root/autodl-tmp/data/twophase2d/results_periodic_vortex_nonlocal_flux.json",
+        "common_local_source": "/root/autodl-tmp/data/twophase2d/results_periodic_vortex.npz",
+        "record": "docs/tasks/archive/twophase-nonlocal-flux.md",
+        "analysis": "docs/tasks/archive/twophase-nonlocal-flux-analysis.json",
+        "convergence": "docs/tasks/archive/twophase-nonlocal-flux-convergence.png",
+        "fields": "docs/tasks/archive/twophase-nonlocal-flux-fields.png",
+        "scope": "One fresh seed42 pair; prescribed-flow CH only. Native targets differ; no full NS, stable ranking or causal optimizer diagnosis.",
+        "defaults_changed": false,
+        "runs": {
+          "spectral": {
+            "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-flux-spectral",
+            "pooled_phi_local": 0.029236186561962814,
+            "terminal_phi_local": 0.03127021834305664,
+            "pooled_phi_native": 0.032435039435246026,
+            "terminal_phi_native": 0.034616664233115504,
+            "pooled_band_phi_local": 0.12594492012363973,
+            "terminal_band_phi_local": 0.12553031334778825,
+            "pooled_q_local": 0.5531842181666965,
+            "pooled_q_native": 0.532498216656211,
+            "trainer_seconds": 213.40681841224432,
+            "mean_compiled_soap_seconds": 0.01682609332155208
+          },
+          "nonlocal": {
+            "run": "/root/autodl-tmp/tf-logs/twophase2d/20261027-vortex-flux-nonlocal",
+            "pooled_phi_local": 0.08544796705855329,
+            "terminal_phi_local": 0.045147103588614096,
+            "pooled_phi_native": 0.0276249374653274,
+            "terminal_phi_native": 0.030188027904278738,
+            "pooled_band_phi_local": 0.38751335208653775,
+            "terminal_band_phi_local": 0.19549922766124414,
+            "pooled_q_local": 1.4758372936150776,
+            "pooled_q_native": 0.4351746913205745,
+            "trainer_seconds": 217.63315681368113,
+            "mean_compiled_soap_seconds": 0.017635337985595877
+          }
+        }
+      }
+    },
+    {
+      "case": "precipitate2d",
+      "owner": "nonlocal-pinn",
+      "role": "research_pilot",
+      "data_root": "/root/autodl-tmp/data/precipitate2d",
+      "run_root": "/root/autodl-tmp/tf-logs/precipitate2d",
+      "data_children": [],
+      "run_children": [
+        "/root/autodl-tmp/tf-logs/precipitate2d/20261027-periodic-elastic-pilot-01",
+        "/root/autodl-tmp/tf-logs/precipitate2d/20261027-entry-smoke-01",
+        "/root/autodl-tmp/tf-logs/precipitate2d/20261027-periodic-elastic-local-spectral-01",
+        "/root/autodl-tmp/tf-logs/precipitate2d/20261027-periodic-elastic-local-ad-01",
+        "/root/autodl-tmp/tf-logs/precipitate2d/20261027-multiple-elastic-nonlocal-01",
+        "/root/autodl-tmp/tf-logs/precipitate2d/20261027-multiple-elastic-local-spectral-01",
+        "/root/autodl-tmp/tf-logs/precipitate2d/20261027-multiple-elastic-local-ad-01"
+      ],
+      "default_training": {
+        "entry": "examples/precipitate2d/train.py",
+        "config": "examples/precipitate2d/configs/train_base.py",
+        "optimizer": "soap5000+LBFGS500",
+        "gpu_policy": "ordinary",
+        "compute_dtype": "float64",
+        "scope": "pilot; not a cross-seed SOTA claim; phase PINN plus exact differentiable elastic equilibrium",
+        "selected_checkpoint": "/root/autodl-tmp/tf-logs/precipitate2d/20261027-periodic-elastic-pilot-01/model_best.eqx",
+        "reference": "/root/autodl-tmp/data/precipitate2d/results_periodic_smallstrain_pilot.npz",
+        "metrics": "/root/autodl-tmp/tf-logs/precipitate2d/20261027-periodic-elastic-pilot-01/best_metrics.json",
+        "report": "docs/tasks/archive/elastic-precipitate-pilot.md"
+      },
+      "other_runs": {
+        "20261027-entry-smoke-01": "2-update CLI completion check only; not accuracy evidence",
+        "20261027-multiple-elastic-local-spectral-01": "Completed exploratory run before user changed primary control to local AD; excluded from main comparison, preserved without rerun"
+      },
+      "preflight_reference": {
+        "path": "/root/autodl-tmp/data/precipitate2d/results_periodic_pilot.npz",
+        "role": "pretraining energy-scale check with E=.35 and lower moduli; not used for training"
+      },
+      "local_comparison": {
+        "report": "docs/tasks/archive/precipitate-local-comparison.md",
+        "analysis": "docs/tasks/archive/precipitate-local-analysis.json",
+        "configs": [
+          "examples/precipitate2d/configs/train_local_spectral.py",
+          "examples/precipitate2d/configs/train_local_ad.py"
+        ],
+        "shared_reference": "/root/autodl-tmp/data/precipitate2d/results_periodic_smallstrain_pilot.npz",
+        "scope": "Single seed, same initializer/budget/mechanics; default unchanged; common and native targets reported separately"
+      },
+      "multiple_particles": {
+        "config": "examples/precipitate2d/configs/train_multiple.py",
+        "local_control": "same config with --config.nl.method=local_ad",
+        "reference": "/root/autodl-tmp/data/precipitate2d/results_periodic_multiple.npz",
+        "report": "docs/tasks/archive/precipitate-multiparticle.md",
+        "analysis": "docs/tasks/archive/precipitate-multiple-analysis.json",
+        "scope": "Explicit harder opt-in case; original simple default retained; nonlocal/local AD main comparison; single seed matched budget"
+      }
+    },
+    {
+      "case": "confined_ch2d",
+      "owner": "nonlocal-pinn",
+      "role": "research_pilot",
+      "data_root": "/root/autodl-tmp/data/confined_ch2d",
+      "run_root": "/root/autodl-tmp/tf-logs/confined_ch2d",
+      "data_children": [
+        "/root/autodl-tmp/data/confined_ch2d/coarsening",
+        "/root/autodl-tmp/data/confined_ch2d/coarsening_multimode10",
+        "/root/autodl-tmp/data/confined_ch2d/moderate_multimode3"
+      ],
+      "run_children": [
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-confined-nonlocal-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-confined-local-ad-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-coarsening10-nonlocal-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-coarsening10-local-ad-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-blend015-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-causal-additive-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-elim-blend8-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-eliminated-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-logtime-causal-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-metric-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-representation-additive-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-representation-blend-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-windows-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-windows-2026-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-windows15-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chglobal-resolvent-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chglobal-average-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chglobal-basis24-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chglobal-energy-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chglobal-integral32-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chglobal-inverse-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chglobal-newton-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chglobal-spacetime-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chglobal-causal-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chglobal-strong-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chglobal-wide-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chmixed-shared-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chmixed-separate-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chmixed-block-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chmixed-representation-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chtanh-control-m8-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chtanh-map-m8-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chtanh-jac-m8-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chtanh-jac-m5-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chtanh-average-m5-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chmoderate-m5-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-joint-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-gradnorm-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-stagger-01",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-gradnorm-raw-01"
+      ],
+      "default_training": {
+        "entry": "examples/confined_ch2d/train.py",
+        "config": "examples/confined_ch2d/configs/train_coarsening_windows.py",
+        "optimizer": "soap5000+LBFGS500 total over30windows",
+        "gpu_policy": "ordinary",
+        "compute_dtype": "float64",
+        "physical_time": 1.5,
+        "windows": 30,
+        "lr_init": 0.001,
+        "scope": "Default original ten-wave complex case, phase-only sequential windows with exact chemical elimination/hard mass. Chemical/time-derivative limitations retained; no all-field SOTA guarantee.",
+        "reference": "/root/autodl-tmp/data/confined_ch2d/coarsening_multimode10/reference.npz",
+        "report": "docs/tasks/archive/confined-ch-optimization.md",
+        "selected_checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-windows-01/trajectory.json",
+        "run_naming": "Canonical train.py assigns timestamp-nonlocal-windows when blank; explicit run_name honored.",
+        "switching": "30 predeclared log windows, tau .005; first650SOAP+max36LBFGS, others150+max16; optimizer status logged, no validated residual/endpoint acceptance gate.",
+        "loading": "Load complete trajectory.json and every relative window model/state path; no hashes."
+      },
+      "failed_reference": {
+        "path": "/root/autodl-tmp/data/confined_ch2d/reference_cn_failed.npz",
+        "role": "Failed CN chemical-potential refinement; never used for training"
+      },
+      "analysis": "docs/tasks/archive/confined-ch-analysis.json",
+      "coarsening_variant": {
+        "config": "examples/confined_ch2d/configs/train_coarsening.py",
+        "data_root": "/root/autodl-tmp/data/confined_ch2d/coarsening_multimode10",
+        "report": "docs/tasks/archive/confined-ch-coarsening.md",
+        "morphology": "docs/tasks/archive/confined-ch-coarsening10-morphology.json",
+        "scope": "Ten-wave epsilon.02/T1.5 physical case is now default through train_coarsening_windows; original joint mixed/global failures retained as historical controls.",
+        "training_report": "docs/tasks/archive/confined-ch-coarsening-training.md",
+        "training_analysis": "docs/tasks/archive/confined-ch-coarsening10-analysis.json",
+        "training_comparison": {
+          "budget": "SOAP5000+LBFGS500",
+          "seed": 42,
+          "common_local_final_phi_pooled": {
+            "nonlocal_value": 0.8295972248873804,
+            "local_ad": 0.8295018373816619
+          },
+          "common_local_final_phi_terminal": {
+            "nonlocal_value": 0.9454548596047672,
+            "local_ad": 0.994092184278374
+          },
+          "trainer_seconds": {
+            "nonlocal_value": 174.64875842258334,
+            "local_ad": 696.6259783320129
+          },
+          "best_checkpoint_steps": {
+            "nonlocal_value": 0,
+            "local_ad": 0
+          },
+          "outcome": "Both best checkpoints are untrained initialization; poor physical fields, not a successful SOTA result"
+        },
+        "reference": "/root/autodl-tmp/data/confined_ch2d/coarsening_multimode10/reference.npz",
+        "reference_checks": "docs/tasks/archive/confined-ch-coarsening10-reference.json",
+        "failed_first_reference": "/root/autodl-tmp/data/confined_ch2d/coarsening_multimode10/reference_mesh02_failed.npz",
+        "operator_audit": "docs/tasks/archive/confined-ch-coarsening10-audit.json",
+        "exploratory_sixwave": "/root/autodl-tmp/data/confined_ch2d/coarsening",
+        "optimization": {
+          "config": "examples/confined_ch2d/configs/train_coarsening_windows.py",
+          "entry": "examples/confined_ch2d/train.py",
+          "scope": "Recommended nonlocal richer-case phase strategy; original simple-case default preserved; no matched local AD window control.",
+          "training": "PDE-only, preceding PINN endpoint; exact chemical law, hard mass, 30 log windows, frozen biharmonic resolvent, modes8, FP64 ordinary, SOAP5000+LBFGS500 total; optimizer resets per window.",
+          "trajectory_checkpoints": [
+            "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-windows-01/trajectory.json",
+            "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-windows-2026-01/trajectory.json"
+          ],
+          "phase_common_fem_pooled": [
+            0.03907952957628427,
+            0.03866343182138598
+          ],
+          "phase_common_fem_terminal": [
+            0.057537839708897434,
+            0.05671852193235455
+          ],
+          "limitation": "Native mu pooled ~30%, positive-only ~52%, terminal ~100%; time derivatives jump across continuous states. 30 networks store more parameters than one global model. Fixed-grid states lack off-grid wall extensions.",
+          "audit": "docs/tasks/archive/chopt-analysis.json",
+          "record": "docs/tasks/archive/confined-ch-optimization.md",
+          "supervised_diagnostic_only": [
+            "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-representation-additive-01",
+            "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-representation-blend-01"
+          ],
+          "failed_global_controls": [
+            "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-blend015-01",
+            "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-causal-additive-01",
+            "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-elim-blend8-01",
+            "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-eliminated-01",
+            "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-logtime-causal-01",
+            "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-metric-01"
+          ],
+          "allocation_control": "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-windows15-01",
+          "loading": "Complete trajectory.json by direct path; no hashes or single-window surrogate.",
+          "recommendation_status": "CLI default selected by user2026-10-28; fixed-budget30window strategy, no adaptive accuracy gate. All-field limitations remain.",
+          "switching": "30 predeclared log windows, tau .005; first650SOAP+max36LBFGS, others150+max16; optimizer status logged, no validated residual/endpoint acceptance gate.",
+          "propagation": "Frozen previous final predicted phase on full quadrature; hard IC/mass, exact chemical elimination; errors can propagate; no reference reset or global correction."
+        },
+        "global_time": {
+          "status": "Retained global-time research controls; lower-band integral has lowest phase among these global controls. User selected windows again; no global accuracy/SOTA promotion.",
+          "experimental_config": "examples/confined_ch2d/configs/train_coarsening_average_lowfreq.py",
+          "entry": "examples/confined_ch2d/train.py",
+          "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chtanh-average-m5-01/model_final.eqx",
+          "single_network": true,
+          "frozen_intermediate_states": false,
+          "reference_training_labels": false,
+          "method": "One spatial MLP with24 global log-time Chebyshev coefficients, spatial modes1..5; exact IC/mass/chemical elimination; original80-node R/t integral residual/spatial resolvent.",
+          "budget": "5000SOAP+500LBFGS",
+          "seed": 42,
+          "common_fem_phase_pooled": 0.17985378655544276,
+          "common_fem_phase_terminal": 0.29368134037246363,
+          "native_mu_pooled": 1.2929227778729206,
+          "native_mu_positive_only": 2.2089497673317755,
+          "native_mu_terminal": 8.365967184689787,
+          "phase_range": [
+            -1.3428533500209532,
+            1.2482175474912527
+          ],
+          "energy_max_increase": 0.007078180892207436,
+          "scope": "One-seed global frequency-only working preset retained for research; native mu/overshoots/energy unresolved. Primary rich-case route is optimization (time windows). No reference labels.",
+          "record": "docs/tasks/confined-ch-global.md",
+          "audit": "docs/tasks/archive/chtanh-analysis.json",
+          "interrupted_control": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chglobal-newton-01/interruption.json",
+          "interrupted_scope": "SOAP5000 complete; requested200Newton interrupted after554.979s total in inner CG. Exact Newton iteration count unavailable; only1 logged. Excluded from completed ranking.",
+          "representation_diagnostic": "docs/tasks/archive/chglobal-representation-floor.json",
+          "capacity_control": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chglobal-wide-01",
+          "causal_control": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chglobal-causal-01",
+          "causal_soap_terminal_weight": 0.01963994476252631,
+          "global_time_representation_diagnostic": "Not a PINN: free nodal rank24 coefficients fit phase0.05746%; initial derivative defect remains62.99.",
+          "mixed_fields": {
+            "status": "Three full physics controls complete; high accuracy remains OPEN, no default/SOTA promotion.",
+            "entry": "examples/confined_ch2d/train.py",
+            "configs": [
+              "examples/confined_ch2d/configs/train_coarsening_global_mixed.py",
+              "examples/confined_ch2d/configs/train_coarsening_global_separate.py",
+              "examples/confined_ch2d/configs/train_coarsening_mixed_block.py"
+            ],
+            "runs": [
+              "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chmixed-shared-01",
+              "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chmixed-separate-01",
+              "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chmixed-block-01"
+            ],
+            "budget": "5000SOAP+500LBFGS, seed42; ordinaryFP64",
+            "chemical_output_scale": 0.5,
+            "chemical_residual_scale": 0.5,
+            "common_fem_phase_pooled": [
+              0.5849023334145451,
+              0.7124177236631343,
+              0.4610643736944765
+            ],
+            "common_fem_phase_terminal": [
+              0.635035541782175,
+              0.7130124224112063,
+              0.3860157081708658
+            ],
+            "native_mu_pooled": [
+              0.7027771374802947,
+              0.7405897666142096,
+              0.5050931951920917
+            ],
+            "block_native_mu_terminal": 1.3006475591000142,
+            "block_sampled_energy_max_rise": 0.0,
+            "scope": "Shared versus independent field MLPs change parameter count; block recipe also changes integral residual/norm. One global checkpoint/all times, no frozen states/reference labels. No stable accuracy claim.",
+            "audit": "docs/tasks/archive/chmixed-analysis.json",
+            "results": "docs/tasks/archive/chmixed-results.md",
+            "supervised_ONLY": {
+              "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chmixed-representation-01",
+              "scope": "Reference field fit diagnosis only; never a PINN accuracy result or initialization.",
+              "phase_native": 0.004384572524680417,
+              "mu_native": 0.027159999412431274,
+              "actual_block_pde_loss": 8.984959816203352e-05,
+              "physics_control_loss": 0.002762413870420931,
+              "audit": "docs/tasks/archive/chmixed-representation-audit.json"
+            }
+          },
+          "historical_m8_integral": {
+            "experimental_config": "examples/confined_ch2d/configs/train_coarsening_global_average.py",
+            "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chglobal-average-01/model_final.eqx",
+            "method": "One spatial MLP with24 global log-time Chebyshev coefficients; exact IC/mass/chemical law,80-node time-average integral residual R/t, stable spatial resolvent.",
+            "common_fem_phase_pooled": 0.21539639976662422,
+            "common_fem_phase_terminal": 0.4317787578392888,
+            "native_mu_pooled": 2.5807229759344077,
+            "native_mu_positive_only": 4.409147641916118,
+            "native_mu_terminal": 27.16043642636459,
+            "phase_range": [
+              -1.7593815490934548,
+              1.6675680338321028
+            ],
+            "energy_max_increase": 0.06705174580656068,
+            "audit": "docs/tasks/archive/chglobal-analysis.json"
+          },
+          "tanh_frequency_study": {
+            "runs": [
+              "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chtanh-control-m8-01",
+              "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chtanh-map-m8-01",
+              "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chtanh-jac-m8-01",
+              "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chtanh-jac-m5-01",
+              "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chtanh-average-m5-01"
+            ],
+            "budget": "5000SOAP+500LBFGS each, seed42, ordinaryFP64",
+            "amplitude": 1.1,
+            "transformed_residual": "r/J before invertible lifted spatial metric, no numerical floor",
+            "results": "docs/tasks/archive/chtanh-results.md",
+            "frequency_audit": "docs/tasks/archive/chtanh-frequency-audit.json",
+            "derivative_audit": "docs/tasks/archive/chtanh-derivative-audit.json",
+            "provenance": "docs/tasks/archive/chtanh-provenance.json",
+            "conclusion": "Tanh-only gives no clear phase gain; Jacobian worsens instantaneous recipe. Lower band improves retained R/t in this run; input resolution is not the sole bottleneck.",
+            "defaults": "Historical global map controls remain opt-in; current CLI default is verified richer time windows."
+          },
+          "shared_loss_balancing": {
+            "status": "Four full cold-start controls complete; none improves global phase or resolves chemical/energy accuracy. No promotion.",
+            "report": "docs/tasks/archive/chbalance-results.md",
+            "analysis": "docs/tasks/archive/chbalance-analysis.json",
+            "convergence": "docs/tasks/archive/chbalance-convergence.png",
+            "energy": "docs/tasks/archive/chbalance-energy.png",
+            "provenance": "docs/tasks/archive/chbalance-provenance.json",
+            "raw_control_provenance": "docs/tasks/archive/chbalance-raw-provenance.json",
+            "runs": [
+              {
+                "name": "20261028-chbalance-joint-01",
+                "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-joint-01",
+                "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-joint-01/model_final.eqx",
+                "best_checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-joint-01/model_best.eqx",
+                "config": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-joint-01/config.json",
+                "label": "Fixed joint / Neumann inverse",
+                "trainer_seconds": 265.6014052964747,
+                "final_metrics": {
+                  "pooled_rel_l2_phi_local": 0.5588067363213437,
+                  "terminal_rel_l2_phi_local": 0.6261955474985715,
+                  "pooled_rel_l2_phi_nonlocal": 0.5543514532054982,
+                  "terminal_rel_l2_phi_nonlocal": 0.6210283352456433,
+                  "pooled_rel_l2_mu_local": 0.74205117268669,
+                  "terminal_rel_l2_mu_local": 2.9313971696887866,
+                  "pooled_rel_l2_mu_nonlocal": 0.6773281412184468,
+                  "terminal_rel_l2_mu_nonlocal": 2.773272097650124
+                }
+              },
+              {
+                "name": "20261028-chbalance-gradnorm-01",
+                "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-gradnorm-01",
+                "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-gradnorm-01/model_final.eqx",
+                "best_checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-gradnorm-01/model_best.eqx",
+                "config": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-gradnorm-01/config.json",
+                "label": "Gradient norm / Neumann inverse",
+                "trainer_seconds": 293.12839099392295,
+                "final_metrics": {
+                  "pooled_rel_l2_phi_local": 0.6362941600459234,
+                  "terminal_rel_l2_phi_local": 0.7151076288485434,
+                  "pooled_rel_l2_phi_nonlocal": 0.6334530520840544,
+                  "terminal_rel_l2_phi_nonlocal": 0.7124092017863894,
+                  "pooled_rel_l2_mu_local": 1.1586624896324347,
+                  "terminal_rel_l2_mu_local": 5.037296869967654,
+                  "pooled_rel_l2_mu_nonlocal": 1.4711973725184597,
+                  "terminal_rel_l2_mu_nonlocal": 4.759529261146751
+                }
+              },
+              {
+                "name": "20261028-chbalance-stagger-01",
+                "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-stagger-01",
+                "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-stagger-01/model_final.eqx",
+                "best_checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-stagger-01/model_best.eqx",
+                "config": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-stagger-01/config.json",
+                "label": "Alternating losses / Neumann inverse",
+                "trainer_seconds": 282.416490316391,
+                "final_metrics": {
+                  "pooled_rel_l2_phi_local": 0.688258978569404,
+                  "terminal_rel_l2_phi_local": 0.6728243252344313,
+                  "pooled_rel_l2_phi_nonlocal": 0.6865843828077866,
+                  "terminal_rel_l2_phi_nonlocal": 0.6694508616615698,
+                  "pooled_rel_l2_mu_local": 0.7249317320355866,
+                  "terminal_rel_l2_mu_local": 3.6883502075105024,
+                  "pooled_rel_l2_mu_nonlocal": 0.6814325061676032,
+                  "terminal_rel_l2_mu_nonlocal": 3.4865273673749244
+                }
+              },
+              {
+                "name": "20261028-chbalance-gradnorm-raw-01",
+                "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-gradnorm-raw-01",
+                "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-gradnorm-raw-01/model_final.eqx",
+                "best_checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-gradnorm-raw-01/model_best.eqx",
+                "config": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-gradnorm-raw-01/config.json",
+                "label": "Raw normalized / gradient norm",
+                "trainer_seconds": 113.81176923960447,
+                "final_metrics": {
+                  "pooled_rel_l2_phi_local": 0.5572754794312175,
+                  "terminal_rel_l2_phi_local": 0.6422708611307154,
+                  "pooled_rel_l2_phi_nonlocal": 0.5531824421053336,
+                  "terminal_rel_l2_phi_nonlocal": 0.638672748173288,
+                  "pooled_rel_l2_mu_local": 0.8842070616337144,
+                  "terminal_rel_l2_mu_local": 3.858174408415914,
+                  "pooled_rel_l2_mu_nonlocal": 1.0408658891330302,
+                  "terminal_rel_l2_mu_nonlocal": 3.6433057182111654
+                }
+              }
+            ]
+          }
+        }
+      },
+      "comparison": {
+        "seed": 42,
+        "budget": "SOAP5000+LBFGS500",
+        "common_local_final_phi_pooled": {
+          "nonlocal_value": 0.04193533109004564,
+          "local_ad": 0.056639444668965214
+        },
+        "common_local_final_phi_terminal": {
+          "nonlocal_value": 0.049998130920554024,
+          "local_ad": 0.03835445035548251
+        },
+        "scope": "One seed; nonlocal faster and lower pooled error, local AD lower terminal error. Finite-horizon normal derivatives are not exact local Neumann."
+      },
+      "moderate_variant": {
+        "config": "examples/confined_ch2d/configs/train_moderate.py",
+        "reference": "/root/autodl-tmp/data/confined_ch2d/moderate_multimode3/reference.npz",
+        "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chmoderate-m5-01",
+        "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chmoderate-m5-01/model_best.eqx",
+        "status": "Completed single-seed difficulty control; accuracy open, not a default/SOTA promotion",
+        "report": "docs/tasks/archive/chmoderate-results.md",
+        "analysis": "docs/tasks/archive/chmoderate-analysis.json",
+        "fields": "docs/tasks/archive/chmoderate-final-fields.png",
+        "convergence_energy": "docs/tasks/archive/chmoderate-convergence-energy.png",
+        "physical_change": "Ten to three low-frequency saturated initial waves and T1.5 to .75; same geometry/epsilon/delta",
+        "phase_common_local": {
+          "pooled": 0.05155725725358132,
+          "terminal": 0.09766534015838883
+        },
+        "phase_native": {
+          "pooled": 0.042891137209463734,
+          "terminal": 0.08937454765187341
+        }
+      },
+      "legacy_simple_training": {
+        "entry": "examples/confined_ch2d/train.py",
+        "config": "examples/confined_ch2d/configs/train_base.py",
+        "optimizer": "soap5000+LBFGS500",
+        "gpu_policy": "ordinary",
+        "compute_dtype": "float64",
+        "scope": "Explicit legacy simple preset; retained foundation/reference/checkpoints, no longer the CLI default.",
+        "reference": "/root/autodl-tmp/data/confined_ch2d/reference.npz",
+        "report": "docs/tasks/archive/confined-ch-neumann.md",
+        "selected_checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-confined-nonlocal-01/model_best.eqx"
       }
     }
   ],

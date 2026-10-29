@@ -1,0 +1,7 @@
+test_hard_ic_mass_time_and_spatial_derivatives (tests.test_confined_ch_blend.BlendTests.test_hard_ic_mass_time_and_spatial_derivatives) ... ok
+test_validation_and_compiled_coupled_gradient (tests.test_confined_ch_blend.BlendTests.test_validation_and_compiled_coupled_gradient) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 21.649s
+
+OK

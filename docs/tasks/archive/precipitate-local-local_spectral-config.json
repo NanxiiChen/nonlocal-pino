@@ -1,0 +1,89 @@
+{
+  "geometry": {
+    "length": 1.0
+  },
+  "physical": {
+    "beta": 1.0,
+    "epsilon": 0.025,
+    "mobility": 0.01,
+    "lame_lambda": 2450.0,
+    "shear_modulus": 1225.0,
+    "eigenstrain": [
+      0.01,
+      0.0,
+      0.0
+    ],
+    "terminal_time": 1.0
+  },
+  "initial": {
+    "center": [
+      0.5,
+      0.5
+    ],
+    "level": 0.35,
+    "width": 0.09,
+    "background": -0.95
+  },
+  "sample": {
+    "Nx": 63,
+    "Ny": 63,
+    "Nt": 8
+  },
+  "nl": {
+    "method": "local_spectral",
+    "delta": 0.04
+  },
+  "arch": {
+    "hidden_dim": 64,
+    "num_layers": 4,
+    "spatial_modes": 3,
+    "activation": "gelu",
+    "temporal_emb_dim": 8,
+    "temporal_scale": 1.0
+  },
+  "train": {
+    "iterations": 5000,
+    "lr_init": 0.001,
+    "lr_decay_every": 1000,
+    "lr_decay_rate": 0.95,
+    "lr_min": 1e-05,
+    "optimizer": "soap",
+    "grad_clip": 10.0,
+    "soap_b1": 0.9,
+    "soap_b2": 0.99,
+    "soap_precond_freq": 5,
+    "soap_max_precond_dim": 128,
+    "soap_precond_1d": false,
+    "compute_dtype": "float64",
+    "gpu_policy": "ordinary",
+    "refinement": {
+      "iterations": 500,
+      "time_points": 16,
+      "max_evaluations": 1000,
+      "max_line_search": 30,
+      "history_size": 50,
+      "gradient_tolerance": 1e-09,
+      "function_tolerance": 1e-14
+    },
+    "seed": 42
+  },
+  "loss": {
+    "phase_weight": 1.0,
+    "chemical_weight": 1.0
+  },
+  "reference": {
+    "path": "/root/autodl-tmp/data/precipitate2d/results_periodic_smallstrain_pilot.npz",
+    "local_grid": 127,
+    "refined_local_grid": 255,
+    "dt": 0.0005,
+    "refined_dt": 0.00025,
+    "snapshots": 21,
+    "error_tolerance": 0.002
+  },
+  "log": {
+    "log_dir": "/root/autodl-tmp/tf-logs/precipitate2d",
+    "run_name": "20261027-periodic-elastic-local-spectral-01",
+    "eval_every": 250,
+    "checkpoint_every": 1000
+  }
+}

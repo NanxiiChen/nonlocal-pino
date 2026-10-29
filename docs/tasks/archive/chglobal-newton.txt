@@ -1,0 +1,61 @@
+I1028 01:41:28.719074 140073464735552 xla_bridge.py:836] Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+[0] phiL2local=0.7231, native=0.71969
+[250] phiL2local=0.66687, native=0.66366
+[500] phiL2local=0.54237, native=0.53808
+[750] phiL2local=0.44125, native=0.43599
+[1000] phiL2local=0.3977, native=0.39199
+[1250] phiL2local=0.29296, native=0.28593
+[1500] phiL2local=0.2626, native=0.25481
+[1750] phiL2local=0.24356, native=0.23516
+[2000] phiL2local=0.23006, native=0.22119
+[2250] phiL2local=0.22078, native=0.21156
+[2500] phiL2local=0.21594, native=0.20654
+[2750] phiL2local=0.21385, native=0.20438
+[3000] phiL2local=0.21243, native=0.2029
+[3250] phiL2local=0.2111, native=0.20154
+[3500] phiL2local=0.20989, native=0.20031
+[3750] phiL2local=0.20867, native=0.19907
+[4000] phiL2local=0.20756, native=0.19792
+[4250] phiL2local=0.20655, native=0.19689
+[4500] phiL2local=0.20557, native=0.19587
+[4750] phiL2local=0.20444, native=0.19473
+[5000] phiL2local=0.20374, native=0.19399
+[Newton-CG 1] loss=0.003696284 hvp=1
+[Newton-CG 25] loss=0.003172507 hvp=8240
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/examples/confined_ch2d/train.py", line 128, in <module>
+    if __name__=='__main__':app.run(_main)
+                            ^^^^^^^^^^^^^^
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/absl/app.py", line 367, in run
+    _run_main(main, args)
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/absl/app.py", line 312, in _run_main
+    sys.exit(main(argv))
+             ^^^^^^^^^^
+  File "/root/nonlocal-pinn/examples/confined_ch2d/train.py", line 125, in _main
+    def _main(_):train(with_run_seed(_CONFIG.value,_SEED.value))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nonlocal-pinn/examples/confined_ch2d/train.py", line 112, in train
+    net,refinement=refinement_function(net,loss,mean,c,run,callback)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nonlocal-pinn/examples/confined_ch2d/newton_refinement.py", line 36, in refine
+    result=minimize(evaluate,np.asarray(x0),method='Newton-CG',jac=True,hessp=hessian,callback=accepted,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/scipy/optimize/_minimize.py", line 781, in minimize
+    res = _minimize_newtoncg(fun, x0, args, jac, hess, hessp, callback,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/scipy/optimize/_optimize.py", line 2133, in _minimize_newtoncg
+    Ap = fhess_p(xk, psupi, *args)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nonlocal-pinn/examples/confined_ch2d/newton_refinement.py", line 23, in hessian
+    result=np.asarray(product(jnp.asarray(z),jnp.asarray(d)),dtype=np.float64)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/jax/_src/array.py", line 414, in __array__
+    return np.asarray(self._value, dtype=dtype, **kwds)  # pyrefly: ignore[no-matching-overload]
+                      ^^^^^^^^^^^
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/jax/_src/profiler.py", line 427, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/jax/_src/array.py", line 614, in _value
+    npy_value, did_copy = self._single_device_array_to_np_array_did_copy()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

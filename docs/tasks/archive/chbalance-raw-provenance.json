@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "old_run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-gradnorm-01",
+  "raw_run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-gradnorm-raw-01",
+  "initial_parameters": "Direct bytes identical",
+  "time_samples": "Exact arrays identical",
+  "config_difference": "Only phase metric removed / explicit evolution_scale100 and run label",
+  "changed_sources": [
+    "examples/confined_ch2d/README.md",
+    "examples/confined_ch2d/losses.py",
+    "examples/confined_ch2d/problem.py"
+  ],
+  "added_sources": [
+    "examples/confined_ch2d/configs/train_coarsening_mixed_gradnorm_raw.py"
+  ],
+  "preserved_sources": "All other files including network, train, balancing and operators identical",
+  "scope": "Later raw control; first-three identical57-source claim remains scoped to that cohort; no hashes"
+}

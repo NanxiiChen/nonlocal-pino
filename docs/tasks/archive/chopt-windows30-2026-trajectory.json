@@ -1,0 +1,325 @@
+{
+  "model": "sequential_nonlocal_ch_pinn_v1",
+  "status": "complete",
+  "identity": {
+    "model": "confined_quartic_ch_visible_regional_v1",
+    "geometry": {
+      "axes": [
+        0.5,
+        0.4
+      ],
+      "boundary_outer": 192,
+      "boundary_per_hole": 64,
+      "center": [
+        0.5,
+        0.5
+      ],
+      "holes": [
+        [
+          0.35,
+          0.54,
+          0.075
+        ],
+        [
+          0.68,
+          0.43,
+          0.055
+        ]
+      ],
+      "mesh_size": 0.02
+    },
+    "physical": {
+      "beta": 1.0,
+      "epsilon": 0.02,
+      "mobility": 0.02,
+      "terminal_time": 1.5
+    },
+    "initial": {
+      "amplitude": 0.98,
+      "kind": "multimode",
+      "scale": 0.55,
+      "wall_width": 0.03,
+      "waves": [
+        [
+          3,
+          1,
+          0.8,
+          0.0
+        ],
+        [
+          1,
+          3,
+          0.75,
+          0.8
+        ],
+        [
+          3,
+          -2,
+          0.7,
+          1.6
+        ],
+        [
+          2,
+          -4,
+          0.65,
+          2.4
+        ],
+        [
+          4,
+          3,
+          0.6,
+          0.4
+        ],
+        [
+          3,
+          -4,
+          0.55,
+          2.1
+        ],
+        [
+          5,
+          1,
+          0.5,
+          1.1
+        ],
+        [
+          1,
+          -5,
+          0.45,
+          2.9
+        ],
+        [
+          2,
+          2,
+          0.4,
+          1.9
+        ],
+        [
+          -2,
+          4,
+          0.35,
+          0.6
+        ]
+      ]
+    },
+    "delta": 0.03,
+    "kernel": "quadratic_visible",
+    "boundary": "neutral_wall_and_impermeable_all_components"
+  },
+  "bounds": [
+    0.0,
+    0.0010476811722493074,
+    0.0023148895122357517,
+    0.003847623916046416,
+    0.005701521715243319,
+    0.007943878278338827,
+    0.010656089791959304,
+    0.013936607893175372,
+    0.01790451340436486,
+    0.022703838895021852,
+    0.028508796976890346,
+    0.035530104116372856,
+    0.044022629514778464,
+    0.05429464670613578,
+    0.06671902369997437,
+    0.08174675786448735,
+    0.09992334685814593,
+    0.12190858986467856,
+    0.14850053790426512,
+    0.18066446260275304,
+    0.21956789496769108,
+    0.26662300605755307,
+    0.3235378679368047,
+    0.3923784556584684,
+    0.47564364090864564,
+    0.5763558995369149,
+    0.6981710256010915,
+    0.8455108344797917,
+    1.0237236720954968,
+    1.2392785566358204,
+    1.5
+  ],
+  "windows": [
+    {
+      "model": "window_000/model.eqx",
+      "initial": "window_000/initial.npz",
+      "start": 0.0,
+      "end": 0.0010476811722493074
+    },
+    {
+      "model": "window_001/model.eqx",
+      "initial": "window_001/initial.npz",
+      "start": 0.0010476811722493074,
+      "end": 0.0023148895122357517
+    },
+    {
+      "model": "window_002/model.eqx",
+      "initial": "window_002/initial.npz",
+      "start": 0.0023148895122357517,
+      "end": 0.003847623916046416
+    },
+    {
+      "model": "window_003/model.eqx",
+      "initial": "window_003/initial.npz",
+      "start": 0.003847623916046416,
+      "end": 0.005701521715243319
+    },
+    {
+      "model": "window_004/model.eqx",
+      "initial": "window_004/initial.npz",
+      "start": 0.005701521715243319,
+      "end": 0.007943878278338827
+    },
+    {
+      "model": "window_005/model.eqx",
+      "initial": "window_005/initial.npz",
+      "start": 0.007943878278338827,
+      "end": 0.010656089791959304
+    },
+    {
+      "model": "window_006/model.eqx",
+      "initial": "window_006/initial.npz",
+      "start": 0.010656089791959304,
+      "end": 0.013936607893175372
+    },
+    {
+      "model": "window_007/model.eqx",
+      "initial": "window_007/initial.npz",
+      "start": 0.013936607893175372,
+      "end": 0.01790451340436486
+    },
+    {
+      "model": "window_008/model.eqx",
+      "initial": "window_008/initial.npz",
+      "start": 0.01790451340436486,
+      "end": 0.022703838895021852
+    },
+    {
+      "model": "window_009/model.eqx",
+      "initial": "window_009/initial.npz",
+      "start": 0.022703838895021852,
+      "end": 0.028508796976890346
+    },
+    {
+      "model": "window_010/model.eqx",
+      "initial": "window_010/initial.npz",
+      "start": 0.028508796976890346,
+      "end": 0.035530104116372856
+    },
+    {
+      "model": "window_011/model.eqx",
+      "initial": "window_011/initial.npz",
+      "start": 0.035530104116372856,
+      "end": 0.044022629514778464
+    },
+    {
+      "model": "window_012/model.eqx",
+      "initial": "window_012/initial.npz",
+      "start": 0.044022629514778464,
+      "end": 0.05429464670613578
+    },
+    {
+      "model": "window_013/model.eqx",
+      "initial": "window_013/initial.npz",
+      "start": 0.05429464670613578,
+      "end": 0.06671902369997437
+    },
+    {
+      "model": "window_014/model.eqx",
+      "initial": "window_014/initial.npz",
+      "start": 0.06671902369997437,
+      "end": 0.08174675786448735
+    },
+    {
+      "model": "window_015/model.eqx",
+      "initial": "window_015/initial.npz",
+      "start": 0.08174675786448735,
+      "end": 0.09992334685814593
+    },
+    {
+      "model": "window_016/model.eqx",
+      "initial": "window_016/initial.npz",
+      "start": 0.09992334685814593,
+      "end": 0.12190858986467856
+    },
+    {
+      "model": "window_017/model.eqx",
+      "initial": "window_017/initial.npz",
+      "start": 0.12190858986467856,
+      "end": 0.14850053790426512
+    },
+    {
+      "model": "window_018/model.eqx",
+      "initial": "window_018/initial.npz",
+      "start": 0.14850053790426512,
+      "end": 0.18066446260275304
+    },
+    {
+      "model": "window_019/model.eqx",
+      "initial": "window_019/initial.npz",
+      "start": 0.18066446260275304,
+      "end": 0.21956789496769108
+    },
+    {
+      "model": "window_020/model.eqx",
+      "initial": "window_020/initial.npz",
+      "start": 0.21956789496769108,
+      "end": 0.26662300605755307
+    },
+    {
+      "model": "window_021/model.eqx",
+      "initial": "window_021/initial.npz",
+      "start": 0.26662300605755307,
+      "end": 0.3235378679368047
+    },
+    {
+      "model": "window_022/model.eqx",
+      "initial": "window_022/initial.npz",
+      "start": 0.3235378679368047,
+      "end": 0.3923784556584684
+    },
+    {
+      "model": "window_023/model.eqx",
+      "initial": "window_023/initial.npz",
+      "start": 0.3923784556584684,
+      "end": 0.47564364090864564
+    },
+    {
+      "model": "window_024/model.eqx",
+      "initial": "window_024/initial.npz",
+      "start": 0.47564364090864564,
+      "end": 0.5763558995369149
+    },
+    {
+      "model": "window_025/model.eqx",
+      "initial": "window_025/initial.npz",
+      "start": 0.5763558995369149,
+      "end": 0.6981710256010915
+    },
+    {
+      "model": "window_026/model.eqx",
+      "initial": "window_026/initial.npz",
+      "start": 0.6981710256010915,
+      "end": 0.8455108344797917
+    },
+    {
+      "model": "window_027/model.eqx",
+      "initial": "window_027/initial.npz",
+      "start": 0.8455108344797917,
+      "end": 1.0237236720954968
+    },
+    {
+      "model": "window_028/model.eqx",
+      "initial": "window_028/initial.npz",
+      "start": 1.0237236720954968,
+      "end": 1.2392785566358204
+    },
+    {
+      "model": "window_029/model.eqx",
+      "initial": "window_029/initial.npz",
+      "start": 1.2392785566358204,
+      "end": 1.5
+    }
+  ],
+  "training_targets": "PDE only; preceding PINN endpoint, never reference state"
+}

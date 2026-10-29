@@ -1,0 +1,92 @@
+{
+  "geometry": {
+    "length": 1.0
+  },
+  "physical": {
+    "epsilon": 0.02,
+    "mobility": 0.0001,
+    "terminal_time": 2.0,
+    "velocity": {
+      "kind": "reversed_vortex",
+      "amplitude": 2.0,
+      "period": 2.0
+    }
+  },
+  "initial": {
+    "center": [
+      0.5,
+      0.75
+    ],
+    "level": 0.2,
+    "width": 0.06
+  },
+  "sample": {
+    "Nx": 64,
+    "Ny": 64,
+    "Nt": 8,
+    "time_rule": "open_stratified"
+  },
+  "nl": {
+    "method": "nonlocal",
+    "delta": 0.04,
+    "kernel": "cubic",
+    "normalization": "discrete_second_moment"
+  },
+  "arch": {
+    "hidden_dim": 64,
+    "num_layers": 4,
+    "activation": "gelu",
+    "spatial_modes": 3,
+    "temporal_emb_dim": 8,
+    "temporal_scale": 1.0
+  },
+  "train": {
+    "iterations": 5000,
+    "lr_init": 0.001,
+    "lr_decay_every": 1000,
+    "lr_decay_rate": 0.95,
+    "lr_min": 1e-05,
+    "optimizer": "soap",
+    "grad_clip": 10.0,
+    "soap_b1": 0.9,
+    "soap_b2": 0.99,
+    "soap_precond_freq": 5,
+    "soap_max_precond_dim": 128,
+    "soap_precond_1d": false,
+    "compute_dtype": "float64",
+    "gpu_policy": "ordinary",
+    "matmul_precision": "highest",
+    "refinement": {
+      "optimizer": "lbfgs",
+      "iterations": 1000,
+      "max_evaluations": 2000,
+      "max_line_search": 40,
+      "history_size": 50,
+      "time_points": 32,
+      "gradient_tolerance": 1e-09,
+      "function_tolerance": 1e-14
+    },
+    "seed": 42
+  },
+  "loss": {
+    "phase_weight": 1.0,
+    "chemical_weight": 1.0
+  },
+  "reference": {
+    "path": "/root/autodl-tmp/data/twophase2d/results_periodic_vortex.npz",
+    "local_grid": 128,
+    "refined_local_grid": 256,
+    "dt": 0.0002,
+    "refined_dt": 0.0001,
+    "snapshots": 21,
+    "error_tolerance": 0.002
+  },
+  "log": {
+    "log_dir": "/root/autodl-tmp/tf-logs/twophase2d",
+    "run_name": "20261027-vortex-map-ablation-additive",
+    "eval_every": 200,
+    "checkpoint_every": 1000
+  },
+  "phase_mass": "exact_grid_mean",
+  "advection": "spectral_flux"
+}

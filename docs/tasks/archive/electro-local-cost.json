@@ -1,0 +1,32 @@
+{
+  "records": {
+    "nonlocal": {
+      "mean_ms": 7.6256584376096725,
+      "median_ms": 7.619643583893776,
+      "compile_and_first_seconds": 109.23301657289267,
+      "pde_loss": 0.1817323863506317,
+      "evaluated_spatial_queries": 2453,
+      "core_points": 245
+    },
+    "local_ad": {
+      "mean_ms": 7.037122994661331,
+      "median_ms": 6.99196569621563,
+      "compile_and_first_seconds": 283.26919139921665,
+      "pde_loss": 0.2832435965538025,
+      "evaluated_spatial_queries": 245,
+      "core_points": 245
+    }
+  },
+  "directional_hessian_max_gap": 3.2959746043559335e-16,
+  "batch": 8,
+  "times": [
+    0.05000000074505806,
+    0.25,
+    0.5,
+    1.0
+  ],
+  "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-online-global-adam-01/model_final.eqx",
+  "ratio_local_over_nonlocal": 0.9176237207466085,
+  "device": "cuda:0",
+  "scope": "PDE-only scalar value + parameter gradient, 10warm/50timed; same free core. Local omits halo, shares encoded images across coordinates and time. No IC/BC, optimizer, gradient balancing, sampling, full training or accuracy comparison."
+}

@@ -1,0 +1,77 @@
+I1028 16:05:57.061053 140244414539584 xla_bridge.py:836] Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+{"step": 0, "seconds": 23.95930938050151, "train_pooled_rel_l2_phi": 0.6465445556730405, "train_terminal_rel_l2_phi": 0.6898694304313556, "train_pooled_rel_l2_c": 0.649243008785795, "train_terminal_rel_l2_c": 0.6873313992181828, "unused_train_pooled_rel_l2_phi": 0.6481469092706007, "unused_train_terminal_rel_l2_phi": 0.6893683609574606, "unused_train_pooled_rel_l2_c": 0.650473649617115, "unused_train_terminal_rel_l2_c": 0.6868009456083713, "test_pooled_rel_l2_phi": 0.6417350072551955, "test_terminal_rel_l2_phi": 0.6844378279353888, "test_pooled_rel_l2_c": 0.6449161624942606, "test_terminal_rel_l2_c": 0.6827459388070469}
+E1028 16:08:41.320547  817715 slow_operation_alarm.cc:73]
+********************************
+[Compiling module gemm_fusion_dot.1051 for GPU] Very slow compile? If you want to file a bug, run with envvar XLA_FLAGS=--xla_dump_to=/tmp/foo and attach the results.
+********************************
+E1028 16:09:13.827824  817685 slow_operation_alarm.cc:140] The operation took 2m32.507408526s
+
+********************************
+[Compiling module gemm_fusion_dot.1051 for GPU] Very slow compile? If you want to file a bug, run with envvar XLA_FLAGS=--xla_dump_to=/tmp/foo and attach the results.
+********************************
+E1028 16:09:29.317630  817715 slow_operation_alarm.cc:73]
+********************************
+[Compiling module gemm_fusion_dot.1095 for GPU] Very slow compile? If you want to file a bug, run with envvar XLA_FLAGS=--xla_dump_to=/tmp/foo and attach the results.
+********************************
+E1028 16:09:41.029178  817715 slow_operation_alarm.cc:73]
+********************************
+[Compiling module gemm_fusion_dot.630 for GPU] Very slow compile? If you want to file a bug, run with envvar XLA_FLAGS=--xla_dump_to=/tmp/foo and attach the results.
+********************************
+E1028 16:09:42.925925  817666 slow_operation_alarm.cc:140] The operation took 2m1.896830591s
+
+********************************
+[Compiling module gemm_fusion_dot.630 for GPU] Very slow compile? If you want to file a bug, run with envvar XLA_FLAGS=--xla_dump_to=/tmp/foo and attach the results.
+********************************
+E1028 16:09:47.919463  817715 slow_operation_alarm.cc:73]
+********************************
+[Compiling module gemm_fusion_dot_general.1450 for GPU] Very slow compile? If you want to file a bug, run with envvar XLA_FLAGS=--xla_dump_to=/tmp/foo and attach the results.
+********************************
+E1028 16:09:49.022127  817676 slow_operation_alarm.cc:140] The operation took 2m19.799662998s
+
+********************************
+[Compiling module gemm_fusion_dot.1095 for GPU] Very slow compile? If you want to file a bug, run with envvar XLA_FLAGS=--xla_dump_to=/tmp/foo and attach the results.
+********************************
+E1028 16:10:06.130477  817641 slow_operation_alarm.cc:140] The operation took 2m18.211235065s
+
+********************************
+[Compiling module gemm_fusion_dot_general.1450 for GPU] Very slow compile? If you want to file a bug, run with envvar XLA_FLAGS=--xla_dump_to=/tmp/foo and attach the results.
+********************************
+E1028 16:10:06.723984  817715 slow_operation_alarm.cc:73]
+********************************
+[Compiling module gemm_fusion_dot.1113 for GPU] Very slow compile? If you want to file a bug, run with envvar XLA_FLAGS=--xla_dump_to=/tmp/foo and attach the results.
+********************************
+E1028 16:10:26.325034  817689 slow_operation_alarm.cc:140] The operation took 2m19.601119563s
+
+********************************
+[Compiling module gemm_fusion_dot.1113 for GPU] Very slow compile? If you want to file a bug, run with envvar XLA_FLAGS=--xla_dump_to=/tmp/foo and attach the results.
+********************************
+{"step": 1, "parts": [29.86890411376953, 0.5690836906433105, 0.4992481470108032, 0.503270149230957, 0.48227250576019287], "weights": [0.23394134640693665, 2.0105972290039062, 10.289566040039062, 10.988046646118164, 25.084339141845703], "seconds": 335.9079004265368}
+{"step": 100, "parts": [3.285346508026123, 0.11646880954504013, 8.290389087051153e-05, 0.0015608570538461208, 0.004339275415986776], "weights": [0.2191779911518097, 2.589595079421997, 268.4378662109375, 106.64728546142578, 26.153898239135742], "seconds": 338.31586531177163}
+{"step": 200, "parts": [1.1063259840011597, 0.07442887872457504, 1.000191787170479e-05, 5.072917019788292e-07, 0.000993639463558793], "weights": [0.23650377988815308, 1.3532971143722534, 1000.0, 1000.0, 31.087196350097656], "seconds": 340.94603139162064}
+{"step": 250, "seconds": 342.1619423292577, "train_pooled_rel_l2_phi": 0.25173931061094335, "train_terminal_rel_l2_phi": 0.3571190168704535, "train_pooled_rel_l2_c": 0.26191396280977997, "train_terminal_rel_l2_c": 0.3657989781810475, "unused_train_pooled_rel_l2_phi": 0.380802072985248, "unused_train_terminal_rel_l2_phi": 0.482232705466589, "unused_train_pooled_rel_l2_c": 0.3885724984374143, "unused_train_terminal_rel_l2_c": 0.48871139340096087, "test_pooled_rel_l2_phi": 0.3671221027022339, "test_terminal_rel_l2_phi": 0.41987131554590423, "test_pooled_rel_l2_c": 0.3760431744679537, "test_terminal_rel_l2_c": 0.4272634557288309}
+{"step": 300, "parts": [0.48649856448173523, 0.07835881412029266, 6.081726951379096e-06, 9.404277534486027e-07, 0.0016757319681346416], "weights": [0.24781914055347443, 1.2182292938232422, 1000.0, 1000.0, 6.988876819610596], "seconds": 343.48811946064234}
+{"step": 400, "parts": [0.4558877944946289, 0.06554471701383591, 4.683263341576094e-06, 4.881867994299682e-07, 0.0002541229478083551], "weights": [0.24750418961048126, 1.0631605386734009, 1000.0, 1000.0, 53.57781219482422], "seconds": 345.8539063297212}
+{"step": 500, "parts": [0.23426154255867004, 0.08557349443435669, 1.194585479424859e-06, 9.185571059333597e-08, 0.00024558830773457885], "weights": [0.2870294153690338, 0.6687065958976746, 1000.0, 1000.0, 50.024723052978516], "seconds": 348.404018945992}
+{"step": 500, "seconds": 348.44877538084984, "train_pooled_rel_l2_phi": 0.14440578553478547, "train_terminal_rel_l2_phi": 0.19609994324127872, "train_pooled_rel_l2_c": 0.1591074366179673, "train_terminal_rel_l2_c": 0.2098987448289104, "unused_train_pooled_rel_l2_phi": 0.28772755128673266, "unused_train_terminal_rel_l2_phi": 0.3303219809100469, "unused_train_pooled_rel_l2_c": 0.29902762217766937, "unused_train_terminal_rel_l2_c": 0.3414173020019356, "test_pooled_rel_l2_phi": 0.32457448270121825, "test_terminal_rel_l2_phi": 0.3001091714768285, "test_pooled_rel_l2_c": 0.33745861149410394, "test_terminal_rel_l2_c": 0.3119167274569543}
+{"step": 600, "parts": [0.31798112392425537, 0.09093216806650162, 2.3482373308070237e-06, 8.18868741703227e-08, 0.0003193193697370589], "weights": [0.2505354881286621, 1.048277497291565, 1000.0, 1000.0, 18.35670280456543], "seconds": 351.0411865487695}
+{"step": 700, "parts": [0.17121653258800507, 0.05548921972513199, 1.4138203141556005e-06, 1.5107087847354705e-07, 0.00020135098020546138], "weights": [0.29016295075416565, 0.6514979600906372, 1000.0, 1000.0, 54.05593490600586], "seconds": 353.62216122448444}
+{"step": 750, "seconds": 354.8447558991611, "train_pooled_rel_l2_phi": 0.10055921211700022, "train_terminal_rel_l2_phi": 0.12819080876928415, "train_pooled_rel_l2_c": 0.11453825200869193, "train_terminal_rel_l2_c": 0.1427278093490957, "unused_train_pooled_rel_l2_phi": 0.24472282408829846, "unused_train_terminal_rel_l2_phi": 0.24259742040478427, "unused_train_pooled_rel_l2_c": 0.25773325454416296, "unused_train_terminal_rel_l2_c": 0.2559420086687894, "test_pooled_rel_l2_phi": 0.30011264334380533, "test_terminal_rel_l2_phi": 0.23582576887369422, "test_pooled_rel_l2_c": 0.31399678154392435, "test_terminal_rel_l2_c": 0.25111296418612195}
+{"step": 800, "parts": [0.11374470591545105, 0.04896954074501991, 2.828858782777388e-07, 5.185538043406268e-07, 0.00020774840959347785], "weights": [0.23588570952415466, 1.3340166807174683, 1000.0, 1000.0, 92.34136962890625], "seconds": 356.2599892504513}
+{"step": 900, "parts": [0.07492774724960327, 0.03505473956465721, 4.176262962118926e-07, 2.9345289931370644e-07, 0.00018377453670836985], "weights": [0.29944074153900146, 0.6104370951652527, 1000.0, 1000.0, 45.51732635498047], "seconds": 358.7482744194567}
+{"step": 1000, "parts": [0.08862028270959854, 0.03490140661597252, 4.5303482920644456e-07, 4.5302705586891534e-08, 0.00014961529814172536], "weights": [0.33120599389076233, 0.5145904421806335, 1000.0, 1000.0, 26.817514419555664], "seconds": 361.32420180365443}
+{"step": 1000, "seconds": 361.37025456130505, "train_pooled_rel_l2_phi": 0.06942595776034458, "train_terminal_rel_l2_phi": 0.060576215111277566, "train_pooled_rel_l2_c": 0.08235740512139914, "train_terminal_rel_l2_c": 0.07123466044111715, "unused_train_pooled_rel_l2_phi": 0.19609706700583449, "unused_train_terminal_rel_l2_phi": 0.1475018013223312, "unused_train_pooled_rel_l2_c": 0.21193312166429898, "unused_train_terminal_rel_l2_c": 0.16414810382451744, "test_pooled_rel_l2_phi": 0.2836123018850003, "test_terminal_rel_l2_phi": 0.1946235748656074, "test_pooled_rel_l2_c": 0.29810638823982666, "test_terminal_rel_l2_c": 0.2120835490234285}
+{"step": 1100, "parts": [0.05348361283540726, 0.0266917422413826, 2.3199390852823853e-07, 2.3906551405161736e-07, 0.00016291737847495824], "weights": [0.2524862587451935, 0.9770116209983826, 1000.0, 1000.0, 63.69139862060547], "seconds": 363.9827183932066}
+{"step": 1200, "parts": [0.10375180840492249, 0.042813677340745926, 2.740721072314045e-07, 2.618039331991895e-07, 0.000129769992781803], "weights": [0.2586457431316376, 0.9051138162612915, 1000.0, 1000.0, 34.7456169128418], "seconds": 366.5841398090124}
+{"step": 1250, "seconds": 367.83158415183425, "train_pooled_rel_l2_phi": 0.0591604277758503, "train_terminal_rel_l2_phi": 0.05184810827379865, "train_pooled_rel_l2_c": 0.07003589815136234, "train_terminal_rel_l2_c": 0.06082286035310768, "unused_train_pooled_rel_l2_phi": 0.19688112983735395, "unused_train_terminal_rel_l2_phi": 0.1387320165083214, "unused_train_pooled_rel_l2_c": 0.21331225005967458, "unused_train_terminal_rel_l2_c": 0.1562664310680087, "test_pooled_rel_l2_phi": 0.28486110812711307, "test_terminal_rel_l2_phi": 0.19250152837102152, "test_pooled_rel_l2_c": 0.2991613673568252, "test_terminal_rel_l2_c": 0.21012827893252348}
+{"step": 1300, "parts": [0.03951633721590042, 0.026317887008190155, 3.90374026437712e-07, 1.2214314892844413e-07, 0.00013369537191465497], "weights": [0.24444624781608582, 1.1156202554702759, 1000.0, 1000.0, 79.7879867553711], "seconds": 369.20151275396347}
+{"step": 1400, "parts": [0.06311648339033127, 0.025993285700678825, 6.017294396087891e-08, 1.5898967475891368e-08, 0.00012355632497929037], "weights": [0.27974146604537964, 0.7104431986808777, 1000.0, 1000.0, 57.32017517089844], "seconds": 371.64793299138546}
+{"step": 1500, "parts": [0.061925679445266724, 0.026271462440490723, 7.194094564511033e-07, 7.996113282615624e-08, 0.00014382122026290745], "weights": [0.26888415217399597, 0.8017144799232483, 1000.0, 1000.0, 29.87939453125], "seconds": 374.2944831773639}
+{"step": 1500, "seconds": 374.3353209197521, "train_pooled_rel_l2_phi": 0.05142270535858679, "train_terminal_rel_l2_phi": 0.041144680198658024, "train_pooled_rel_l2_c": 0.061113056487739056, "train_terminal_rel_l2_c": 0.04840535450019435, "unused_train_pooled_rel_l2_phi": 0.19062430456752447, "unused_train_terminal_rel_l2_phi": 0.13019245376352262, "unused_train_pooled_rel_l2_c": 0.20723854986959864, "unused_train_terminal_rel_l2_c": 0.14747622370996236, "test_pooled_rel_l2_phi": 0.28244505080594917, "test_terminal_rel_l2_phi": 0.18691735302248963, "test_pooled_rel_l2_c": 0.29671920189312506, "test_terminal_rel_l2_c": 0.20474249990584448}
+{"step": 1600, "parts": [0.05042330175638199, 0.02662150375545025, 1.9554842367597303e-07, 7.413979119519354e-08, 0.00014287541853263974], "weights": [0.2648693025112152, 0.8321146368980408, 1000.0, 1000.0, 43.95184326171875], "seconds": 376.9242850355804}
+{"step": 1700, "parts": [0.06390838325023651, 0.03944302350282669, 5.117404384691326e-07, 1.5263813679666782e-07, 0.00011036024807253852], "weights": [0.2940807640552521, 0.6296316385269165, 1000.0, 1000.0, 89.24217987060547], "seconds": 379.5699731744826}
+{"step": 1750, "seconds": 380.8159044981003, "train_pooled_rel_l2_phi": 0.04884501442927021, "train_terminal_rel_l2_phi": 0.04160496907589726, "train_pooled_rel_l2_c": 0.05761238177376938, "train_terminal_rel_l2_c": 0.048556534713134966, "unused_train_pooled_rel_l2_phi": 0.19007460710549953, "unused_train_terminal_rel_l2_phi": 0.13016765624693663, "unused_train_pooled_rel_l2_c": 0.20660061138706093, "unused_train_terminal_rel_l2_c": 0.14720623860980817, "test_pooled_rel_l2_phi": 0.2804124339056796, "test_terminal_rel_l2_phi": 0.18450269342229522, "test_pooled_rel_l2_c": 0.2947606220362443, "test_terminal_rel_l2_c": 0.20223595547707204}
+{"step": 1800, "parts": [0.046327464282512665, 0.022691916674375534, 2.3002220927992312e-07, 1.8598958817506173e-08, 9.819650585995987e-05], "weights": [0.24869918823242188, 1.0350258350372314, 1000.0, 1000.0, 78.4208755493164], "seconds": 382.17579197511077}
+{"step": 1900, "parts": [0.04672085493803024, 0.018496692180633545, 2.861685857169505e-07, 4.232448702623515e-08, 9.775641956366599e-05], "weights": [0.2983219623565674, 0.615423858165741, 1000.0, 1000.0, 43.641441345214844], "seconds": 384.7700038217008}
+{"step": 2000, "parts": [0.06498266756534576, 0.030408617109060287, 2.5793997338041663e-07, 5.413299675183225e-08, 9.56767107709311e-05], "weights": [0.24779726564884186, 1.062259316444397, 1000.0, 1000.0, 43.5258674621582], "seconds": 387.2803929373622}
+{"step": 2000, "seconds": 387.32464703544974, "train_pooled_rel_l2_phi": 0.04186867726729926, "train_terminal_rel_l2_phi": 0.032135854908162016, "train_pooled_rel_l2_c": 0.049411625687061006, "train_terminal_rel_l2_c": 0.037002806016649264, "unused_train_pooled_rel_l2_phi": 0.18768769678238592, "unused_train_terminal_rel_l2_phi": 0.12451812478228007, "unused_train_pooled_rel_l2_c": 0.20457649146625484, "unused_train_terminal_rel_l2_c": 0.141545410648779, "test_pooled_rel_l2_phi": 0.28178298625033693, "test_terminal_rel_l2_phi": 0.184612486906182, "test_pooled_rel_l2_c": 0.2959644773833445, "test_terminal_rel_l2_c": 0.20207234398456037}
+COMPLETE /root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-single-soap-01

@@ -25,10 +25,11 @@ def _rough_surface(x, y0, modes):
 
 
 def _sdf_to_curve(xq, yq, x_curve, y_curve, y_surf_at_xq, window=16):
-    """Signed distance to piecewise-linear profile y=f(x).
+    """Local-window approximation to signed distance from profile y=f(x).
 
     Vectorised over query-point columns — each column checks only segments
-    within ±window of the nearest x-index.  Positive = below curve (solid).
+    within ±window of the nearest x-index, not an exhaustive global search.
+    Positive = below curve (solid); magnitude is Euclidean segment distance.
     """
     s0x = x_curve[:-1]; s0y = y_curve[:-1]
     dx = x_curve[1:] - s0x; dy = y_curve[1:] - s0y
@@ -56,7 +57,7 @@ def _sdf_to_curve(xq, yq, x_curve, y_curve, y_surf_at_xq, window=16):
 
 
 def ic_values(x_all, phys, L_c, surface_cfg):
-    """Rough interface IC: φ = tanh(k * sdf(x)), c = h(φ)·c_se."""
+    """IC: phi=(1+tanh(k*d_window))/2, c=h(phi)*c_se; windowed distance."""
     k = np.sqrt(phys.omega_phi / (2.0 * phys.alpha_phi)) * L_c
     x_np = np.array(x_all)
     rng = np.random.RandomState(surface_cfg.seed)

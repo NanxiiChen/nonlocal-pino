@@ -1,0 +1,392 @@
+reference Jacobian 25, t*=0.433188
+reference Jacobian 25, t*=0.504282
+reference Jacobian 25, t*=0.385176
+reference Jacobian 25, t*=0.457672
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1337, "njev": 43, "nlu": 119, "seconds": 15.377693381160498, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0018573346240725874, "max_network_q_bound_violation": 0.0018573346240725874}
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1245, "njev": 40, "nlu": 112, "seconds": 16.960418704897165, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0003152299002351644, "max_network_q_bound_violation": 0.0003152299002351644}
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1305, "njev": 43, "nlu": 117, "seconds": 17.89752048626542, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0010406460248228167, "max_network_q_bound_violation": 0.0010406460248228167}
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1392, "njev": 47, "nlu": 125, "seconds": 19.120990183204412, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0014309032715143222, "max_network_q_bound_violation": 0.0014309032715143222}
+reference Jacobian 25, t*=0.417919
+reference Jacobian 25, t*=0.477741
+reference Jacobian 25, t*=0.475127
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1967, "njev": 46, "nlu": 155, "seconds": 18.673059206455946, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.001857335824741152, "max_network_q_bound_violation": 0.001857335824741152}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_002/reference.npz, max refinement L2=1.544e-08
+REFERENCE COMPLETE 2
+reference Jacobian 25, t*=0.358468
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1793, "njev": 45, "nlu": 145, "seconds": 20.91142563894391, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0003152305019478441, "max_network_q_bound_violation": 0.0003152305019478441}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_001/reference.npz, max refinement L2=1.303e-08
+REFERENCE COMPLETE 1
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1924, "njev": 43, "nlu": 149, "seconds": 22.734333220869303, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.001040646756346214, "max_network_q_bound_violation": 0.001040646756346214}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_003/reference.npz, max refinement L2=1.585e-08
+REFERENCE COMPLETE 3
+reference Jacobian 50, t*=0.922088
+reference Jacobian 25, t*=0.58241
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1994, "njev": 52, "nlu": 162, "seconds": 24.87579021975398, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0014309042849569853, "max_network_q_bound_violation": 0.0014309042849569853}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_000/reference.npz, max refinement L2=1.262e-08
+REFERENCE COMPLETE 0
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1206, "njev": 38, "nlu": 109, "seconds": 12.84186552464962, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 2.7755575615628914e-17, "max_network_q_bound_violation": 2.7755575615628914e-17}
+reference Jacobian 25, t*=0.506051
+reference Jacobian 25, t*=0.623727
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1291, "njev": 41, "nlu": 115, "seconds": 16.703131776303053, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.00037114634813198433, "max_network_q_bound_violation": 0.00037114634813198433}
+reference Jacobian 25, t*=0.403819
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1155, "njev": 36, "nlu": 104, "seconds": 15.317426219582558, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 2.7755575615628914e-17, "max_network_q_bound_violation": 2.7755575615628914e-17}
+reference Jacobian 25, t*=0.542915
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1385, "njev": 46, "nlu": 124, "seconds": 17.573660127818584, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0010285225404466358, "max_network_q_bound_violation": 0.0010285225404466358}
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1770, "njev": 41, "nlu": 142, "seconds": 17.158864572644234, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 2.7755575615628914e-17, "max_network_q_bound_violation": 2.7755575615628914e-17}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_004/reference.npz, max refinement L2=1.433e-08
+REFERENCE COMPLETE 4
+reference Jacobian 25, t*=0.454244
+reference Jacobian 25, t*=0.570479
+reference Jacobian 25, t*=0.427556
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1877, "njev": 44, "nlu": 149, "seconds": 21.075292497873306, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.00037114694715026375, "max_network_q_bound_violation": 0.00037114694715026375}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_005/reference.npz, max refinement L2=1.524e-08
+REFERENCE COMPLETE 5
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1679, "njev": 39, "nlu": 135, "seconds": 20.037586200982332, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 2.7755575615628914e-17, "max_network_q_bound_violation": 2.7755575615628914e-17}
+reference Jacobian 25, t*=0.381104
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_006/reference.npz, max refinement L2=1.435e-08
+REFERENCE COMPLETE 6
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1391, "njev": 47, "nlu": 125, "seconds": 14.265219781547785, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.00047758521854948666, "max_network_q_bound_violation": 0.00047758521854948666}
+reference Jacobian 50, t*=0.993847
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 2009, "njev": 50, "nlu": 161, "seconds": 23.24863415583968, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0010285231985867338, "max_network_q_bound_violation": 0.0010285231985867338}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_007/reference.npz, max refinement L2=1.349e-08
+REFERENCE COMPLETE 7
+reference Jacobian 25, t*=0.376286
+reference Jacobian 25, t*=0.578376
+reference Jacobian 25, t*=0.43439
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1272, "njev": 39, "nlu": 111, "seconds": 15.60488599166274, "field_min": 0.0, "field_max": 1.0000000000000004, "q_min": -0.03566433566433566, "q_max": 2.7755575615628914e-17, "max_network_q_bound_violation": 2.7755575615628914e-17}
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1399, "njev": 46, "nlu": 124, "seconds": 17.822274170815945, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0017379513346756081, "max_network_q_bound_violation": 0.0017379513346756081}
+reference Jacobian 25, t*=0.465555
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 2047, "njev": 48, "nlu": 161, "seconds": 20.095485400408506, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0004775855264606277, "max_network_q_bound_violation": 0.0004775855264606277}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_008/reference.npz, max refinement L2=2.006e-08
+REFERENCE COMPLETE 8
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1276, "njev": 42, "nlu": 115, "seconds": 16.265582382678986, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0008353907360086066, "max_network_q_bound_violation": 0.0008353907360086066}
+reference Jacobian 25, t*=0.480283
+reference Jacobian 25, t*=0.468815
+reference Jacobian 25, t*=0.399753
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1341, "njev": 44, "nlu": 120, "seconds": 13.619777675718069, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 6.784292026276728e-05, "max_network_q_bound_violation": 6.784292026276728e-05}
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1794, "njev": 46, "nlu": 147, "seconds": 21.426763210445642, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 2.7755575615628914e-17, "max_network_q_bound_violation": 2.7755575615628914e-17}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_010/reference.npz, max refinement L2=1.501e-08
+REFERENCE COMPLETE 10
+reference Jacobian 25, t*=0.45144
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 2080, "njev": 46, "nlu": 159, "seconds": 23.436797980219126, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0017379514267355234, "max_network_q_bound_violation": 0.0017379514267355234}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_009/reference.npz, max refinement L2=1.390e-08
+REFERENCE COMPLETE 9
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1852, "njev": 43, "nlu": 147, "seconds": 21.63694228604436, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0008353915067248752, "max_network_q_bound_violation": 0.0008353915067248752}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_011/reference.npz, max refinement L2=1.945e-08
+REFERENCE COMPLETE 11
+reference Jacobian 25, t*=0.482457
+reference Jacobian 25, t*=0.459261
+reference Jacobian 25, t*=0.42101
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1312, "njev": 42, "nlu": 117, "seconds": 16.66899962350726, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0018275202976177074, "max_network_q_bound_violation": 0.0018275202976177074}
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1963, "njev": 45, "nlu": 154, "seconds": 18.515078734606504, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 6.784365846981832e-05, "max_network_q_bound_violation": 6.784365846981832e-05}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_012/reference.npz, max refinement L2=1.494e-08
+REFERENCE COMPLETE 12
+reference Jacobian 25, t*=0.405119
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1465, "njev": 46, "nlu": 126, "seconds": 18.201488595455885, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.002918355304909498, "max_network_q_bound_violation": 0.002918355304909498}
+reference Jacobian 25, t*=0.486675
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1377, "njev": 45, "nlu": 122, "seconds": 17.37641452252865, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.004710827962235348, "max_network_q_bound_violation": 0.004710827962235348}
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1274, "njev": 42, "nlu": 115, "seconds": 13.358213368803263, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 2.7755575615628914e-17, "max_network_q_bound_violation": 2.7755575615628914e-17}
+reference Jacobian 25, t*=0.42884
+reference Jacobian 25, t*=0.402649
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1924, "njev": 43, "nlu": 151, "seconds": 22.18104412779212, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0018275208933777043, "max_network_q_bound_violation": 0.0018275208933777043}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_013/reference.npz, max refinement L2=1.561e-08
+REFERENCE COMPLETE 13
+reference Jacobian 25, t*=0.41468
+reference Jacobian 25, t*=0.445628
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 2130, "njev": 49, "nlu": 164, "seconds": 24.205085042864084, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.00291835606329352, "max_network_q_bound_violation": 0.00291835606329352}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_014/reference.npz, max refinement L2=1.971e-08
+REFERENCE COMPLETE 14
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 2019, "njev": 46, "nlu": 155, "seconds": 22.19937264174223, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.004710828664331507, "max_network_q_bound_violation": 0.004710828664331507}
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1857, "njev": 45, "nlu": 149, "seconds": 18.493035536259413, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 2.7755575615628914e-17, "max_network_q_bound_violation": 2.7755575615628914e-17}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_015/reference.npz, max refinement L2=1.398e-08
+REFERENCE COMPLETE 15
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_016/reference.npz, max refinement L2=1.661e-08
+REFERENCE COMPLETE 16
+reference Jacobian 25, t*=0.643311
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1126, "njev": 34, "nlu": 101, "seconds": 13.730167508125305, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 2.7755575615628914e-17, "max_network_q_bound_violation": 2.7755575615628914e-17}
+reference Jacobian 25, t*=0.574224
+reference Jacobian 25, t*=0.548915
+reference Jacobian 25, t*=0.510344
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1156, "njev": 36, "nlu": 104, "seconds": 13.857558496296406, "field_min": 0.0, "field_max": 1.0000000000000004, "q_min": -0.03566433566433566, "q_max": 0.0004704309655602368, "max_network_q_bound_violation": 0.0004704309655602368}
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1269, "njev": 39, "nlu": 111, "seconds": 13.641803789883852, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 1.5707486278132565e-05, "max_network_q_bound_violation": 1.5707486278132565e-05}
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1201, "njev": 39, "nlu": 109, "seconds": 14.771842274814844, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.00031219581069599767, "max_network_q_bound_violation": 0.00031219581069599767}
+reference Jacobian 25, t*=0.593224
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1623, "njev": 37, "nlu": 131, "seconds": 18.11434829980135, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 2.7755575615628914e-17, "max_network_q_bound_violation": 2.7755575615628914e-17}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_017/reference.npz, max refinement L2=1.345e-08
+REFERENCE COMPLETE 17
+reference Jacobian 25, t*=0.570538
+reference Jacobian 25, t*=0.53615
+reference Jacobian 25, t*=0.501768
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1673, "njev": 38, "nlu": 134, "seconds": 18.90141164138913, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0004704317688385695, "max_network_q_bound_violation": 0.0004704317688385695}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_018/reference.npz, max refinement L2=1.617e-08
+REFERENCE COMPLETE 18
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1837, "njev": 41, "nlu": 144, "seconds": 18.02149448916316, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 1.5708399466324297e-05, "max_network_q_bound_violation": 1.5708399466324297e-05}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_020/reference.npz, max refinement L2=1.329e-08
+REFERENCE COMPLETE 20
+reference Jacobian 25, t*=0.424472
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1766, "njev": 41, "nlu": 142, "seconds": 20.981997534632683, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.00031219656179728994, "max_network_q_bound_violation": 0.00031219656179728994}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_019/reference.npz, max refinement L2=1.661e-08
+REFERENCE COMPLETE 19
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1388, "njev": 44, "nlu": 122, "seconds": 18.398475658148527, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.002377856453669197, "max_network_q_bound_violation": 0.002377856453669197}
+reference Jacobian 25, t*=0.519615
+reference Jacobian 25, t*=0.437852
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1306, "njev": 38, "nlu": 113, "seconds": 16.91833620145917, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.003969593299178259, "max_network_q_bound_violation": 0.003969593299178259}
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1254, "njev": 41, "nlu": 113, "seconds": 15.621936827898026, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0033469538760131645, "max_network_q_bound_violation": 0.0033469538760131645}
+reference Jacobian 25, t*=0.446101
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1326, "njev": 42, "nlu": 118, "seconds": 17.52017592638731, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.001597428731356848, "max_network_q_bound_violation": 0.001597428731356848}
+reference Jacobian 25, t*=0.390276
+reference Jacobian 25, t*=0.433436
+reference Jacobian 25, t*=0.393533
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 2015, "njev": 47, "nlu": 157, "seconds": 24.680697977542877, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.002377857498800401, "max_network_q_bound_violation": 0.002377857498800401}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_021/reference.npz, max refinement L2=1.581e-08
+REFERENCE COMPLETE 21
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1806, "njev": 43, "nlu": 145, "seconds": 20.03644024953246, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.003346955187576245, "max_network_q_bound_violation": 0.003346955187576245}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_023/reference.npz, max refinement L2=1.450e-08
+REFERENCE COMPLETE 23
+reference Jacobian 25, t*=0.415003
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1893, "njev": 44, "nlu": 149, "seconds": 22.773155104368925, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.003969594670312021, "max_network_q_bound_violation": 0.003969594670312021}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_022/reference.npz, max refinement L2=1.878e-08
+REFERENCE COMPLETE 22
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1942, "njev": 46, "nlu": 153, "seconds": 23.664772633463144, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0015974295376463277, "max_network_q_bound_violation": 0.0015974295376463277}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_024/reference.npz, max refinement L2=1.264e-08
+REFERENCE COMPLETE 24
+reference Jacobian 25, t*=0.494614
+reference Jacobian 25, t*=0.66298
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1126, "njev": 34, "nlu": 101, "seconds": 13.751084871590137, "field_min": 0.0, "field_max": 1.0000000000000004, "q_min": -0.03566433566433566, "q_max": 2.7755575615628914e-17, "max_network_q_bound_violation": 2.7755575615628914e-17}
+reference Jacobian 25, t*=0.348959
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1250, "njev": 39, "nlu": 112, "seconds": 17.84128814563155, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0009433523944262501, "max_network_q_bound_violation": 0.0009433523944262501}
+reference Jacobian 25, t*=0.624245
+reference Jacobian 50, t*=0.950187
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1501, "njev": 51, "nlu": 135, "seconds": 20.48283912986517, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0018790116333980145, "max_network_q_bound_violation": 0.0018790116333980145}
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1147, "njev": 36, "nlu": 103, "seconds": 15.728648740798235, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0003664126018078362, "max_network_q_bound_violation": 0.0003664126018078362}
+reference Jacobian 25, t*=0.645094
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1659, "njev": 36, "nlu": 130, "seconds": 16.477661792188883, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 2.7755575615628914e-17, "max_network_q_bound_violation": 2.7755575615628914e-17}
+reference Jacobian 25, t*=0.435875
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_026/reference.npz, max refinement L2=1.557e-08
+REFERENCE COMPLETE 26
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1830, "njev": 43, "nlu": 146, "seconds": 22.744812093675137, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0009433531949002705, "max_network_q_bound_violation": 0.0009433531949002705}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_025/reference.npz, max refinement L2=1.406e-08
+REFERENCE COMPLETE 25
+reference Jacobian 25, t*=0.334706
+reference Jacobian 25, t*=0.56814
+reference Jacobian 25, t*=0.546262
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1264, "njev": 37, "nlu": 110, "seconds": 15.397370796650648, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0008706497930081325, "max_network_q_bound_violation": 0.0008706497930081325}
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1645, "njev": 40, "nlu": 134, "seconds": 21.547634303569794, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0003664134763896876, "max_network_q_bound_violation": 0.0003664134763896876}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_028/reference.npz, max refinement L2=1.364e-08
+REFERENCE COMPLETE 28
+reference Jacobian 50, t*=0.918719
+reference Jacobian 25, t*=0.591642
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 2201, "njev": 52, "nlu": 173, "seconds": 27.600406602025032, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.001879012479844261, "max_network_q_bound_violation": 0.001879012479844261}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_027/reference.npz, max refinement L2=1.803e-08
+REFERENCE COMPLETE 27
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1138, "njev": 36, "nlu": 103, "seconds": 14.875695839524269, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 2.7755575615628914e-17, "max_network_q_bound_violation": 2.7755575615628914e-17}
+reference Jacobian 25, t*=0.504965
+reference Jacobian 25, t*=0.470154
+reference Jacobian 25, t*=0.389114
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1830, "njev": 40, "nlu": 143, "seconds": 16.874102365225554, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0008706501914292064, "max_network_q_bound_violation": 0.0008706501914292064}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_029/reference.npz, max refinement L2=1.484e-08
+REFERENCE COMPLETE 29
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1270, "njev": 41, "nlu": 113, "seconds": 16.662880297750235, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0008555427638858026, "max_network_q_bound_violation": 0.0008555427638858026}
+reference Jacobian 25, t*=0.563648
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1371, "njev": 44, "nlu": 121, "seconds": 16.4521676748991, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.002542954314803808, "max_network_q_bound_violation": 0.002542954314803808}
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1677, "njev": 39, "nlu": 134, "seconds": 18.91040964052081, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 2.7755575615628914e-17, "max_network_q_bound_violation": 2.7755575615628914e-17}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_030/reference.npz, max refinement L2=1.629e-08
+REFERENCE COMPLETE 30
+reference Jacobian 25, t*=0.480941
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1276, "njev": 41, "nlu": 113, "seconds": 12.917176347225904, "field_min": 0.0, "field_max": 1.0000000000000004, "q_min": -0.03566433566433566, "q_max": 0.002183923370994184, "max_network_q_bound_violation": 0.002183923370994184}
+reference Jacobian 25, t*=0.459106
+reference Jacobian 25, t*=0.335677
+reference Jacobian 25, t*=0.462264
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1849, "njev": 44, "nlu": 148, "seconds": 21.17847978696227, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0008555434794286498, "max_network_q_bound_violation": 0.0008555434794286498}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_031/reference.npz, max refinement L2=1.634e-08
+REFERENCE COMPLETE 31
+reference Jacobian 25, t*=0.429299
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1285, "njev": 42, "nlu": 115, "seconds": 15.977250058203936, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.001445307501354881, "max_network_q_bound_violation": 0.001445307501354881}
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 2007, "njev": 48, "nlu": 157, "seconds": 23.41001408174634, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0025429550092460895, "max_network_q_bound_violation": 0.0025429550092460895}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_032/reference.npz, max refinement L2=1.754e-08
+REFERENCE COMPLETE 32
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1833, "njev": 45, "nlu": 147, "seconds": 17.67429345846176, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0021839245643730243, "max_network_q_bound_violation": 0.0021839245643730243}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_033/reference.npz, max refinement L2=1.863e-08
+REFERENCE COMPLETE 33
+reference Jacobian 25, t*=0.449514
+reference Jacobian 25, t*=0.451901
+reference Jacobian 25, t*=0.439775
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1409, "njev": 43, "nlu": 121, "seconds": 16.88645466044545, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.004148002971855497, "max_network_q_bound_violation": 0.004148002971855497}
+reference Jacobian 25, t*=0.455225
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1333, "njev": 42, "nlu": 117, "seconds": 15.979940734803677, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.002300036516095033, "max_network_q_bound_violation": 0.002300036516095033}
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1343, "njev": 42, "nlu": 119, "seconds": 13.6077496483922, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 2.7755575615628914e-17, "max_network_q_bound_violation": 2.7755575615628914e-17}
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1878, "njev": 43, "nlu": 148, "seconds": 20.42878494411707, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.001445308934434092, "max_network_q_bound_violation": 0.001445308934434092}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_034/reference.npz, max refinement L2=1.826e-08
+REFERENCE COMPLETE 34
+reference Jacobian 25, t*=0.440684
+reference Jacobian 25, t*=0.4062
+reference Jacobian 25, t*=0.653342
+reference Jacobian 25, t*=0.452145
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1148, "njev": 34, "nlu": 101, "seconds": 13.78297097608447, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0005198068394402233, "max_network_q_bound_violation": 0.0005198068394402233}
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 2072, "njev": 45, "nlu": 157, "seconds": 22.055322747677565, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.004148004512358333, "max_network_q_bound_violation": 0.004148004512358333}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_035/reference.npz, max refinement L2=1.306e-08
+REFERENCE COMPLETE 35
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1933, "njev": 47, "nlu": 156, "seconds": 18.352734990417957, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 2.7755575615628914e-17, "max_network_q_bound_violation": 2.7755575615628914e-17}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_037/reference.npz, max refinement L2=2.100e-08
+REFERENCE COMPLETE 37
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1954, "njev": 43, "nlu": 151, "seconds": 20.896908905357122, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.002300037034411978, "max_network_q_bound_violation": 0.002300037034411978}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_036/reference.npz, max refinement L2=1.488e-08
+REFERENCE COMPLETE 36
+reference Jacobian 25, t*=0.602649
+reference Jacobian 25, t*=0.454746
+reference Jacobian 25, t*=0.567142
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1144, "njev": 36, "nlu": 103, "seconds": 13.963433269411325, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0003314818991131674, "max_network_q_bound_violation": 0.0003314818991131674}
+reference Jacobian 25, t*=0.500401
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1313, "njev": 42, "nlu": 117, "seconds": 13.955992072820663, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0018061102234137316, "max_network_q_bound_violation": 0.0018061102234137316}
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1658, "njev": 37, "nlu": 132, "seconds": 18.850027445703745, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0005198079762329944, "max_network_q_bound_violation": 0.0005198079762329944}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_038/reference.npz, max refinement L2=1.845e-08
+REFERENCE COMPLETE 38
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1326, "njev": 44, "nlu": 120, "seconds": 16.0170803591609, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0011138133705767272, "max_network_q_bound_violation": 0.0011138133705767272}
+reference Jacobian 25, t*=0.400107
+reference Jacobian 25, t*=0.553546
+reference Jacobian 25, t*=0.395985
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1653, "njev": 39, "nlu": 133, "seconds": 18.817475389689207, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0003314828515938173, "max_network_q_bound_violation": 0.0003314828515938173}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_039/reference.npz, max refinement L2=1.077e-08
+REFERENCE COMPLETE 39
+reference Jacobian 25, t*=0.463748
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1886, "njev": 46, "nlu": 152, "seconds": 18.590405628085136, "field_min": 0.0, "field_max": 1.0000000000000004, "q_min": -0.03566433566433566, "q_max": 0.001806111464129151, "max_network_q_bound_violation": 0.001806111464129151}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_040/reference.npz, max refinement L2=1.375e-08
+REFERENCE COMPLETE 40
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1412, "njev": 45, "nlu": 125, "seconds": 17.36490286886692, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0018852468408230572, "max_network_q_bound_violation": 0.0018852468408230572}
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1941, "njev": 45, "nlu": 153, "seconds": 21.492245104163885, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.001113813876881281, "max_network_q_bound_violation": 0.001113813876881281}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_041/reference.npz, max refinement L2=4.597e-08
+REFERENCE COMPLETE 41
+reference Jacobian 25, t*=0.424909
+reference Jacobian 25, t*=0.423439
+reference Jacobian 25, t*=0.352854
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1383, "njev": 49, "nlu": 128, "seconds": 14.673425782471895, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 7.563938650193003e-05, "max_network_q_bound_violation": 7.563938650193003e-05}
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1386, "njev": 45, "nlu": 122, "seconds": 16.937153983861208, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.003535324577579352, "max_network_q_bound_violation": 0.003535324577579352}
+reference Jacobian 25, t*=0.513897
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1209, "njev": 40, "nlu": 110, "seconds": 15.527775779366493, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0010889541840236883, "max_network_q_bound_violation": 0.0010889541840236883}
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 2039, "njev": 49, "nlu": 161, "seconds": 23.671485472470522, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0018852475927791101, "max_network_q_bound_violation": 0.0018852475927791101}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_042/reference.npz, max refinement L2=1.554e-08
+REFERENCE COMPLETE 42
+reference Jacobian 25, t*=0.418484
+reference Jacobian 25, t*=0.437435
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 2058, "njev": 47, "nlu": 162, "seconds": 21.166112642735243, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 7.564005704033261e-05, "max_network_q_bound_violation": 7.564005704033261e-05}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_044/reference.npz, max refinement L2=1.629e-08
+REFERENCE COMPLETE 44
+reference Jacobian 25, t*=0.476881
+reference Jacobian 25, t*=0.491634
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 2041, "njev": 47, "nlu": 157, "seconds": 24.397979099303484, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.003535326144236489, "max_network_q_bound_violation": 0.003535326144236489}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_043/reference.npz, max refinement L2=1.593e-08
+REFERENCE COMPLETE 43
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1360, "njev": 42, "nlu": 119, "seconds": 18.797605775296688, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.003212269482119251, "max_network_q_bound_violation": 0.003212269482119251}
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1743, "njev": 42, "nlu": 141, "seconds": 22.324907407164574, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0010889553535436136, "max_network_q_bound_violation": 0.0010889553535436136}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_045/reference.npz, max refinement L2=1.591e-08
+REFERENCE COMPLETE 45
+reference Jacobian 25, t*=0.423538
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1352, "njev": 43, "nlu": 119, "seconds": 16.45379339531064, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0038815310867888198, "max_network_q_bound_violation": 0.0038815310867888198}
+reference Jacobian 25, t*=0.468697
+reference Jacobian 25, t*=0.69083
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1336, "njev": 41, "nlu": 117, "seconds": 19.360839370638132, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0017329184358606808, "max_network_q_bound_violation": 0.0017329184358606808}
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1110, "njev": 33, "nlu": 99, "seconds": 15.74686986207962, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 2.7755575615628914e-17, "max_network_q_bound_violation": 2.7755575615628914e-17}
+reference Jacobian 25, t*=0.45104
+reference Jacobian 25, t*=0.423932
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1993, "njev": 44, "nlu": 154, "seconds": 26.847029585391283, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0032122728620019025, "max_network_q_bound_violation": 0.0032122728620019025}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_046/reference.npz, max refinement L2=1.374e-08
+REFERENCE COMPLETE 46
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 2004, "njev": 43, "nlu": 152, "seconds": 21.030733801424503, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.003881537152799902, "max_network_q_bound_violation": 0.003881537152799902}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_047/reference.npz, max refinement L2=1.320e-08
+REFERENCE COMPLETE 47
+reference Jacobian 25, t*=0.372942
+reference Jacobian 25, t*=0.616493
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1610, "njev": 36, "nlu": 128, "seconds": 66.93256649002433, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 2.7755575615628914e-17, "max_network_q_bound_violation": 2.7755575615628914e-17}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_049/reference.npz, max refinement L2=1.575e-08
+REFERENCE COMPLETE 49
+reference Jacobian 25, t*=0.44351
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1915, "njev": 47, "nlu": 153, "seconds": 93.96963791549206, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0017329203415929195, "max_network_q_bound_violation": 0.0017329203415929195}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_048/reference.npz, max refinement L2=1.127e-08
+REFERENCE COMPLETE 48
+reference Jacobian 25, t*=0.352259
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1396, "njev": 43, "nlu": 122, "seconds": 88.75663798302412, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0010869917275546925, "max_network_q_bound_violation": 0.0010869917275546925}
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1425, "njev": 46, "nlu": 125, "seconds": 86.84596029296517, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.005076838113899057, "max_network_q_bound_violation": 0.005076838113899057}
+reference Jacobian 25, t*=0.466152
+reference Jacobian 25, t*=0.550158
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1311, "njev": 41, "nlu": 115, "seconds": 38.45809322223067, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0016252632862470417, "max_network_q_bound_violation": 0.0016252632862470417}
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1192, "njev": 38, "nlu": 107, "seconds": 17.37005950510502, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0014940142256541222, "max_network_q_bound_violation": 0.0014940142256541222}
+reference Jacobian 25, t*=0.356218
+reference Jacobian 25, t*=0.347954
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 2038, "njev": 49, "nlu": 161, "seconds": 26.346729084849358, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.001086992832196626, "max_network_q_bound_violation": 0.001086992832196626}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_050/reference.npz, max refinement L2=1.260e-08
+REFERENCE COMPLETE 50
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 2099, "njev": 48, "nlu": 162, "seconds": 24.52576118335128, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.005076840211508754, "max_network_q_bound_violation": 0.005076840211508754}
+reference Jacobian 25, t*=0.445176
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_051/reference.npz, max refinement L2=1.731e-08
+REFERENCE COMPLETE 51
+reference Jacobian 25, t*=0.543817
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1914, "njev": 43, "nlu": 149, "seconds": 82.62495715543628, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0016252644303293151, "max_network_q_bound_violation": 0.0016252644303293151}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_052/reference.npz, max refinement L2=1.744e-08
+REFERENCE COMPLETE 52
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1730, "njev": 40, "nlu": 138, "seconds": 83.19564726948738, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0014940154731092614, "max_network_q_bound_violation": 0.0014940154731092614}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_053/reference.npz, max refinement L2=2.134e-08
+REFERENCE COMPLETE 53
+reference Jacobian 25, t*=0.47983
+reference Jacobian 25, t*=0.45124
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1292, "njev": 41, "nlu": 114, "seconds": 116.03492973744869, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0011716774832490062, "max_network_q_bound_violation": 0.0011716774832490062}
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1359, "njev": 43, "nlu": 119, "seconds": 118.99198798835278, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0018406528288527346, "max_network_q_bound_violation": 0.0018406528288527346}
+reference Jacobian 25, t*=0.365439
+reference Jacobian 25, t*=0.474582
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1356, "njev": 44, "nlu": 121, "seconds": 55.17368929460645, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0002831386678308345, "max_network_q_bound_violation": 0.0002831386678308345}
+reference Jacobian 50, t*=0.901603
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1576, "njev": 53, "nlu": 140, "seconds": 61.01882345229387, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0038287456270615083, "max_network_q_bound_violation": 0.0038287456270615083}
+reference Jacobian 25, t*=0.458144
+reference Jacobian 25, t*=0.444602
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1885, "njev": 42, "nlu": 146, "seconds": 23.244581282138824, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0011716778381632154, "max_network_q_bound_violation": 0.0011716778381632154}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_055/reference.npz, max refinement L2=1.661e-08
+REFERENCE COMPLETE 55
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1951, "njev": 45, "nlu": 152, "seconds": 25.492161750793457, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0018406535272561808, "max_network_q_bound_violation": 0.0018406535272561808}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_054/reference.npz, max refinement L2=9.291e-09
+REFERENCE COMPLETE 54
+reference Jacobian 25, t*=0.479322
+reference Jacobian 25, t*=0.34851
+reference Jacobian 25, t*=0.481508
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1993, "njev": 46, "nlu": 156, "seconds": 26.269598074257374, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.00028313916759517554, "max_network_q_bound_violation": 0.00028313916759517554}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_057/reference.npz, max refinement L2=1.494e-08
+REFERENCE COMPLETE 57
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1284, "njev": 39, "nlu": 112, "seconds": 17.034035310149193, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.003342378268571783, "max_network_q_bound_violation": 0.003342378268571783}
+reference Jacobian 50, t*=0.875616
+reference Jacobian 25, t*=0.481431
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 2333, "njev": 54, "nlu": 180, "seconds": 30.044990327209234, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0038287463767726904, "max_network_q_bound_violation": 0.0038287463767726904}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_056/reference.npz, max refinement L2=1.584e-08
+REFERENCE COMPLETE 56
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1317, "njev": 40, "nlu": 114, "seconds": 18.28510995581746, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.00200003067645807, "max_network_q_bound_violation": 0.00200003067645807}
+reference Jacobian 25, t*=0.640144
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1103, "njev": 35, "nlu": 100, "seconds": 14.181903026998043, "field_min": 0.0, "field_max": 1.0000000000000004, "q_min": -0.03566433566433566, "q_max": 0.0010583469356962028, "max_network_q_bound_violation": 0.0010583469356962028}
+reference Jacobian 25, t*=0.420861
+reference Jacobian 25, t*=0.531651
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1177, "njev": 38, "nlu": 106, "seconds": 14.603112831711769, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0005656571236986319, "max_network_q_bound_violation": 0.0005656571236986319}
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1865, "njev": 43, "nlu": 146, "seconds": 19.269356805831194, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.003342382472340616, "max_network_q_bound_violation": 0.003342382472340616}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_058/reference.npz, max refinement L2=1.386e-08
+REFERENCE COMPLETE 58
+reference Jacobian 25, t*=0.455422
+reference Jacobian 25, t*=0.634327
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1625, "njev": 38, "nlu": 130, "seconds": 16.142919458448887, "field_min": 0.0, "field_max": 1.0000000000000004, "q_min": -0.03566433566433566, "q_max": 0.0010583480148904922, "max_network_q_bound_violation": 0.0010583480148904922}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_060/reference.npz, max refinement L2=1.174e-08
+REFERENCE COMPLETE 60
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1925, "njev": 43, "nlu": 149, "seconds": 22.04264660552144, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0020000312603730974, "max_network_q_bound_violation": 0.0020000312603730974}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_059/reference.npz, max refinement L2=2.012e-08
+REFERENCE COMPLETE 59
+reference Jacobian 25, t*=0.388741
+reference Jacobian 25, t*=0.512099
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1426, "njev": 46, "nlu": 126, "seconds": 15.827472683042288, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0007176110541746994, "max_network_q_bound_violation": 0.0007176110541746994}
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1701, "njev": 40, "nlu": 137, "seconds": 18.321651488542557, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0005656578788487965, "max_network_q_bound_violation": 0.0005656578788487965}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_061/reference.npz, max refinement L2=1.482e-08
+REFERENCE COMPLETE 61
+reference Jacobian 25, t*=0.583144
+{"rtol": 1e-07, "atol": 1e-10, "max_step": 0.01, "nfev": 1204, "njev": 37, "nlu": 107, "seconds": 14.397360518574715, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0005687793375555306, "max_network_q_bound_violation": 0.0005687793375555306}
+reference Jacobian 25, t*=0.312522
+reference Jacobian 25, t*=0.558653
+reference Jacobian 50, t*=0.934714
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 2046, "njev": 51, "nlu": 164, "seconds": 23.4684684202075, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.0007176114077898366, "max_network_q_bound_violation": 0.0007176114077898366}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_062/reference.npz, max refinement L2=1.447e-08
+REFERENCE COMPLETE 62
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1769, "njev": 39, "nlu": 138, "seconds": 20.675156645476818, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.000568780150335263, "max_network_q_bound_violation": 0.000568780150335263}
+Validated reference: /root/autodl-tmp/data/electropolish2d/operator_test64_20261028/condition_063/reference.npz, max refinement L2=1.206e-08
+REFERENCE COMPLETE 63
+PREPARATION {"wall_seconds": 796.8916900083423, "workers": 4, "count": 64, "max_time_refinement_error": 4.5966103400635803e-08, "sum_solver_seconds": 3091.5431312918663}

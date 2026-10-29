@@ -1,0 +1,26 @@
+[
+  {
+    "name": "20261028-chtanh-control-m8-01",
+    "config": "train_coarsening_global_strong",
+    "exit_code": 0,
+    "process_seconds": 264.0907148979604
+  },
+  {
+    "name": "20261028-chtanh-map-m8-01",
+    "config": "train_coarsening_tanh",
+    "exit_code": 0,
+    "process_seconds": 287.2459169588983
+  },
+  {
+    "name": "20261028-chtanh-jac-m8-01",
+    "config": "train_coarsening_tanh_jacobian",
+    "exit_code": 0,
+    "process_seconds": 313.3037735559046
+  },
+  {
+    "name": "20261028-chtanh-jac-m5-01",
+    "config": "train_coarsening_tanh_lowfreq",
+    "exit_code": 0,
+    "process_seconds": 306.1832066141069
+  }
+]

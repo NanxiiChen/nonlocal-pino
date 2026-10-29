@@ -1,0 +1,15 @@
+{
+  "checkpoint": "/root/autodl-tmp/tf-logs/precipitate2d/20261027-multiple-elastic-local-ad-01/model_final.eqx",
+  "reference": "/root/autodl-tmp/data/precipitate2d/results_periodic_multiple.npz",
+  "method": "local_ad",
+  "pooled_rel_l2_phi": 0.12898079688266414,
+  "terminal_rel_l2_phi": 0.19243513514448232,
+  "pooled_rel_l2_q": 0.2580487172788711,
+  "terminal_rel_l2_q": 0.06695752431995435,
+  "pooled_rel_l2_u": 0.13142978023708893,
+  "terminal_rel_l2_u": 0.21030991292663598,
+  "pooled_rel_l2_stress": 0.13847077980923875,
+  "terminal_rel_l2_stress": 0.21578651372417626,
+  "pooled_rel_l2_phi_local": 0.12898079688266414,
+  "mass_max_drift": 3.3306690738754696e-16
+}

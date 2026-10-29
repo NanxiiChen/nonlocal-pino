@@ -1,0 +1,25 @@
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/docs/tasks/archive/electro-operator-benchmark.py", line 40, in <module>
+    np.testing.assert_allclose(a,b,rtol=3e-4,atol=3e-5)
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 1768, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 983, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError:
+Not equal to tolerance rtol=0.0003, atol=3e-05
+
+Mismatched elements: 1939 / 8192 (23.7%)
+First 5 mismatches are at indices:
+ [0, 1, 0]: -2.169642448425293 (ACTUAL), -2.167762517929077 (DESIRED)
+ [0, 3, 0]: 1.0903321504592896 (ACTUAL), 1.0920778512954712 (DESIRED)
+ [0, 4, 0]: 1.854411005973816 (ACTUAL), 1.8559457063674927 (DESIRED)
+ [0, 5, 0]: -1.6235253810882568 (ACTUAL), -1.6217846870422363 (DESIRED)
+ [0, 7, 0]: -1.7652151584625244 (ACTUAL), -1.7633171081542969 (DESIRED)
+Max absolute difference among violations: 0.00233221
+Max relative difference among violations: 0.38006568
+ ACTUAL: array([[[ 6.678647,  0.953587],
+        [-2.169642,  0.746597],
+        [ 7.426259,  0.963301],...
+ DESIRED: array([[[ 6.679359,  0.953593],
+        [-2.167763,  0.746743],
+        [ 7.426886,  0.963314],...

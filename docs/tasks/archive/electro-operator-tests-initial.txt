@@ -1,0 +1,28 @@
+test_invalid_condition_settings (tests.test_electropolish_operator.OperatorTests.test_invalid_condition_settings) ... ok
+test_physical_residual_and_parameter_gradient (tests.test_electropolish_operator.OperatorTests.test_physical_residual_and_parameter_gradient) ... FAIL
+test_split_pairs_time_jvp_and_condition_response (tests.test_electropolish_operator.OperatorTests.test_split_pairs_time_jvp_and_condition_response) ... ok
+
+======================================================================
+FAIL: test_physical_residual_and_parameter_gradient (tests.test_electropolish_operator.OperatorTests.test_physical_residual_and_parameter_gradient)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/tests/test_electropolish_operator.py", line 86, in test_physical_residual_and_parameter_gradient
+    direction=np.asarray(ravel_pytree(tangent)[0]);direction/=np.linalg.norm(direction)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 1768, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 983, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError:
+Not equal to tolerance rtol=2e-05, atol=2e-07
+
+Mismatched elements: 1 / 1 (100%)
+Max absolute difference among violations: 0.00366212
+Max relative difference among violations: 0.0031195
+ ACTUAL: array(-1.170283)
+ DESIRED: array(-1.173945)
+
+----------------------------------------------------------------------
+Ran 3 tests in 67.780s
+
+FAILED (failures=1)

@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "inverse_error": 4.440892098500626e-16,
+  "inverse_derivative_error": 9.999989725173464e-11,
+  "convex_split_error": 5.551115123125783e-16,
+  "flux_zero_mode_error": 6.661338147750939e-16,
+  "nonlocal_diffusion_zero_mode_error": 2.1316282072803006e-14,
+  "mass_projection_error": 3.469446951953614e-17,
+  "unresolved_wave_illustration": {
+    "max_nodal_value": 4.3117471020172244e-14,
+    "mean_correct_continuum_slope": 402.1238596594935,
+    "mean_nodal_spectral_slope": -2.524354896707238e-29
+  },
+  "reference_ranges": {
+    "phi_local": [
+      -1.0983728018862384,
+      1.0625406124756143
+    ],
+    "phi_nonlocal": [
+      -1.0689867710589098,
+      1.0480407378121879
+    ]
+  },
+  "scope": "Algebra and discrete zero modes only; no conditioning or training-benefit theorem."
+}

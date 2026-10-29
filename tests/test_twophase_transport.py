@@ -115,6 +115,12 @@ class TwoPhaseTransportTests(unittest.TestCase):
             np.testing.assert_allclose(parts[0],np.mean(expected**2),atol=1e-12,rtol=0)
             self.assertLess(float(parts[1]),1e-25)
             self.assertLess(float(parts[2]),1e-25)
+            self.assertEqual(parts.shape,(3,))
+            shifted_value,shifted_parts = loss(model,jnp.asarray([t]),jnp.asarray(.25))
+            np.testing.assert_allclose(shifted_parts[:2],parts[:2],atol=1e-13)
+            np.testing.assert_allclose(shifted_parts[2],.25**2,atol=1e-13)
+            np.testing.assert_allclose(shifted_value,jnp.dot(shifted_parts,jnp.asarray([
+                c.loss.phase_weight,c.loss.chemical_weight,c.loss.mass_weight])),atol=1e-13)
             D=PeriodicLaplacian(16,1.,c.nl.delta,dtype=np.float64)
             _, nlparts=make_loss_fn(points,D,c)(model,jnp.asarray([t]),jnp.asarray(0.))
             symbol,_=symbols(16,c,'nonlocal')

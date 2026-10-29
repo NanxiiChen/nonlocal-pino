@@ -1,0 +1,2 @@
+PASS initial arrays {'single-cross-01': 73, 'cross-01': 73} actual IDs0/1 every update, config and field replay
+same-input0 phi 0.12547409017544867 0.07240430437403883 pair swap t0/.25 {'time': 0.0, 'image': 0.001973553550192218, 'local': 0.9681608112590789, 'joint': 0.9691925099697379} {'time': 0.25, 'image': 0.0022435116434300476, 'local': 0.022800196142180238, 'joint': 0.022397033605313532}

@@ -11,8 +11,14 @@ from scipy.optimize import minimize
 
 def refine(net, loss_fn, initial_mean, config, run, callback):
     settings = config.train.refinement
-    times = ((jnp.arange(settings.time_points, dtype=jnp.float64)+.5)
-             *config.physical.terminal_time/settings.time_points)
+    if 'time_nodes' in settings:
+        nodes=np.asarray(settings.time_nodes,dtype=np.float64)
+        if nodes.shape!=(settings.time_points,) or not np.isfinite(nodes).all() or np.any(np.diff(nodes)<=0) or nodes[0]<=0 or nodes[-1]>config.physical.terminal_time:
+            raise ValueError('Explicit refinement time_nodes must be ordered in (0,T] with time_points entries')
+        times=jnp.asarray(nodes)
+    else:
+        times = ((jnp.arange(settings.time_points, dtype=jnp.float64)+.5)
+                 *config.physical.terminal_time/settings.time_points)
     parameters, static = eqx.partition(net, eqx.is_inexact_array)
     x0, unravel = ravel_pytree(parameters)
 

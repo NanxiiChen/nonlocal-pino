@@ -1,0 +1,15 @@
+{
+  "checkpoint": "/root/autodl-tmp/tf-logs/precipitate2d/20261027-periodic-elastic-local-ad-01/model_best.eqx",
+  "reference": "/root/autodl-tmp/data/precipitate2d/results_periodic_smallstrain_pilot.npz",
+  "method": "local_ad",
+  "pooled_rel_l2_phi": 0.000676572920036084,
+  "terminal_rel_l2_phi": 0.0005895238398568756,
+  "pooled_rel_l2_q": 0.07278502636909857,
+  "terminal_rel_l2_q": 0.00364186042419783,
+  "pooled_rel_l2_u": 0.00029919522440026496,
+  "terminal_rel_l2_u": 0.00030579642755133553,
+  "pooled_rel_l2_stress": 0.0006219640268540093,
+  "terminal_rel_l2_stress": 0.0005303218891481614,
+  "pooled_rel_l2_phi_local": 0.000676572920036084,
+  "mass_max_drift": 2.220446049250313e-16
+}

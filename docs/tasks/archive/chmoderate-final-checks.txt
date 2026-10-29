@@ -1,0 +1,1 @@
+PASS: new config/strict reference loader; saved strategy parity (runtime seed42/run label excluded); 80 positive global nodes ending .75; artifact index paths; both final/best independent CPU replays; independent native chemical/mass audits; new text whitespace; git diff --check; GPU process query empty. All solver/trainer/audit workers exit0. No Git action.

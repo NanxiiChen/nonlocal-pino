@@ -1,0 +1,7 @@
+test_invalid_wave_data_and_both_coupled_gradients (tests.test_confined_ch_multimode.MultimodeTests.test_invalid_wave_data_and_both_coupled_gradients) ... ok
+test_physical_ic_derivatives_mass_and_wall_compatibility (tests.test_confined_ch_multimode.MultimodeTests.test_physical_ic_derivatives_mass_and_wall_compatibility) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 63.038s
+
+OK

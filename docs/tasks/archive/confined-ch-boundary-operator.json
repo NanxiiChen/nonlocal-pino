@@ -1,0 +1,25 @@
+{
+  "scope": "Manufactured IC at shared query points; integral vs analytic negative Laplacian. Not a native evolution spatial-convergence proof. Boundary truncation/visibility, physical CAD polygon quadrature and horizon remain combined effects.",
+  "coarse_points": 2369,
+  "fine_points": 4696,
+  "horizons": {
+    "0.09": {
+      "coarse_fine_quadrature_relative": 0.005590481741278217,
+      "fine_integral_local_relative": 0.6805707494881564,
+      "boundary_relative": 0.6873749806081451,
+      "interior_relative": 0.09610268789067063
+    },
+    "0.07": {
+      "coarse_fine_quadrature_relative": 0.010597956660141131,
+      "fine_integral_local_relative": 0.582506088952464,
+      "boundary_relative": 0.5937243184597472,
+      "interior_relative": 0.16677712403204903
+    },
+    "0.05": {
+      "coarse_fine_quadrature_relative": 0.030388918791638693,
+      "fine_integral_local_relative": 0.44565985701267086,
+      "boundary_relative": 0.4795132569096044,
+      "interior_relative": 0.12484722393299305
+    }
+  }
+}

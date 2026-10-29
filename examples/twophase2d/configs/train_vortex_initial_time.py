@@ -4,5 +4,6 @@ from examples.twophase2d.configs.train_vortex_conserved import get_config as con
 
 def get_config():
     c = conserved_config()
+    c.phase.map = 'inverse_cubic'
     c.sample.include_initial_time = True
     return c

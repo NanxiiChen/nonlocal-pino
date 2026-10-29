@@ -1,0 +1,8 @@
+test_independent_reference_jacobian_and_existing_solver_agreement (test_electropolish_operator_local.LocalOperatorTests.test_independent_reference_jacobian_and_existing_solver_agreement) ... reference Jacobian 25, t*=0.635132
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1619, "njev": 36, "nlu": 129, "seconds": 8.966694757342339, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.00016212555401198814, "max_network_q_bound_violation": 0.00016212555401198814}
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 18.190s
+
+OK

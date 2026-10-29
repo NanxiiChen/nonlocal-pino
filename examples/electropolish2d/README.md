@@ -259,7 +259,11 @@ $$y_{\text{surf}}(x) = y_0 + \sum_{i=1}^{n_\text{modes}} a_i \bigl[\sin(2\pi f_i
 
 $$\phi_0(x,y) = \frac12\bigl[1 + \tanh(k \cdot \text{sdf}(x,y))\bigr],\quad c_0 = h(\phi_0) \cdot c_{Se}$$
 
-where $k = \sqrt{\omega_\phi / (2\alpha_\phi)}\cdot L_c$, and the SDF is the signed perpendicular distance to the piecewise-linear profile $y_{\text{surf}}(x)$ (positive below / solid side).
+Here \(k=\sqrt{\omega_\phi/(2\alpha_\phi)}L_c\). The implemented distance is
+a signed Euclidean segment-distance approximation:2000polyline vertices,
+33candidate segments around the query x-index, positive below the curve. It
+is not the vertical gap and need not equal the global closest distance to the
+entire curve. This definition is shared by prescribed ICs and aligned references.
 
 ---
 
@@ -348,9 +352,16 @@ electropolish2d/
 ├── solver.py               # FEM reference solver (FEniCS, MPI)
 ├── train.py                 # PINN training (MLP / FiLM)
 ├── losses.py                # Loss functions (AC, CH, BC, IC)
+├── operator_data.py         # Random input family and aligned graph references
+├── operator_training.py     # Physics-only conditioned-operator training
+├── online_conditions.py     # Continuous coefficients and fixed-shape SDF sampler
 ├── configs/
 │   ├── solver_base.py       # FEM solver config
 │   ├── train_base.py        # Default observed-field SOTA
+│   ├── train_operator.py    # Opt-in finite-input neural operator
+│   ├── train_operator_single.py # Fixed-input fitting control
+│   ├── train_operator_online.py # Continuous online B8 training
+│   ├── train_operator_causal.py # Online B8 per-time causal control
 │   └── train_legacy.py      # Historical large-grid/FD/local controls
 ├── README.md
 ```
@@ -529,3 +540,545 @@ repository root; existing external data/output paths are retained. Shared
 implementation paths changed during the split; see
 [the source map](../../docs/migration/source-map.json) and
 [migration notes](../../docs/migration/README.md).
+
+## Random-initial-interface neural operator (opt-in)
+
+The canonical entry additionally accepts
+[configs/train_operator.py](configs/train_operator.py). This learns one map
+from a prescribed random initial field to both physical fields over0–5s.
+The established single-interface `train_base.py` remains the default.
+
+The pilot uses the same six-mode random rough-profile/SDF generator, material
+parameters,101x51 grid, sparse graph, top/bottom Dirichlet data and side-wall
+pair closure. Sixteen input realizations are used for physics training; four
+independent identities are held out. Dataset generation records its random seed
+and all interface identities as provenance, without a best-seed strategy field.
+References are generated only for two training-monitor cases and four test cases.
+They solve physical phi/c with the existing independent SciPy BDF/Jacobian,
+with strict time refinement. This measures same-graph training/generalization
+error; it is not a local-PDE spatial-convergence validation.
+
+### Architecture and shared-space evaluation
+
+[ConditionalFieldOperator](../../src/nonlocal_pinn/nn/conditional.py) is an
+independent Equinox implementation inspired by the
+[PI-CViT source](https://github.com/NanxiiChen/PI-CViT/blob/main/models/cvit.py):
+
+1. Encode the1x32x64 initial phase image as64 patches using two self-attention
+   blocks, width64 and four heads.
+2. Prepare a spatial hidden field from coordinates and the known local
+   initial phi/c values. With `arch.conditioning=cross_attention`, spatial queries
+   attend to the encoded patches. With `arch.conditioning=film`, the pooled encoder
+   output produces feature-wise affine modulation instead. Both use known
+   local input-function features; no future interface is supplied.
+3. Decode all times using time FiLM and three pointwise hidden layers. The
+   expensive condition encoding/spatial preparation is shared across all times;
+   temporal modulation is computed once per time and broadcast over space.
+   Time JVP acts only through this temporal decoder and physical output map.
+
+The architecture is deliberately **separable**, not exactly equivalent to
+upstream PI-CViT: time is introduced after spatial cross-attention. Within this
+variant, shared evaluation equals paired coordinate/time evaluation; derivatives
+and parameter gradients are checked independently. Learned preparation is
+computed inside each forward/loss call so parameter AD reaches the encoder;
+never reuse a learned cache after an optimizer update. Coordinate frequencies
+are frozen. Query points may vary, but image sensors are fixed and local input
+values must be provided at queries; no resolution-invariance claim is made.
+The public API is `encode`, `prepare_encoded`, `prepare`, `decode`, `paired`
+and the combined call. Case physics stays outside this reusable raw network.
+
+Pooled [FiLM](https://arxiv.org/abs/1709.07871) is a cheaper condition-injection
+control with a global bottleneck. A branch/trunk
+[DeepONet](https://doi.org/10.1038/s42256-021-00302-5) is another natural simple
+baseline, but is not implemented in this pilot. Spatial attention preserves
+location-dependent access to the initial geometry; whether it improves this
+family must be measured rather than inferred from its architecture.
+
+### Output coordinates and loss
+
+Random-interface graph references have small regions with positive
+\(q=c_L-c_{Le}\). The old bounded KKS map enforces \(q\le0\) when
+\(c_{Se}=1\), so the new operator explicitly uses
+`operator.concentration_map=linear_liquid`:
+
+$$
+\phi=\tfrac12(1+\tanh z),\qquad
+c_L=c_{Le}s,\qquad c=c_L+(c_{Se}-c_{Le})h(\phi).
+$$
+
+Here \(s\) is an unrestricted network output. The KKS mixture and physical
+PDEs are unchanged; this removes an artificial output bound. Total c is not
+hard bounded, so field ranges are reported. Initial/Dirichlet values are soft
+losses; there is no imposed interface trajectory or hard initial constraint.
+The five losses remain original AC and CH mean absolute residuals and
+physical top/bottom/initial mean-square errors, averaged over the sampled
+conditions. The existing inverse-L1-gradient norm balancing rule is reused;
+it is not relative-training-rate GradNorm. Positive-time reference arrays
+never enter the step/payload. All tests are evaluated at fixed budget; there
+is no checkpoint selection on the test set.
+
+The initial architecture pilot uses Adam/LR1e-3/2000 updates, ordinaryFP32,
+two conditions/update, four shared times,256 free-node cores from32 fixed-shape
+halo pools, and1024 known IC nodes. It is an explicit smaller-budget experiment,
+not the established single-IVP SOAP SOTA recipe. Architecture options are under `arch`; condition-dataset/input settings are
+under `operator`, following the repository configuration convention.
+
+```bash
+# One-time CPU condition/reference preparation; output directory must be new.
+JAX_PLATFORMS=cpu JAX_ENABLE_X64=true OPENBLAS_NUM_THREADS=1 \
+  python examples/electropolish2d/train.py \
+  --config=examples/electropolish2d/configs/train_operator.py \
+  --config.operator.reference_action=prepare
+
+# Physics-only operator training (after preparation).
+XLA_PYTHON_CLIENT_PREALLOCATE=false python examples/electropolish2d/train.py \
+  --config=examples/electropolish2d/configs/train_operator.py
+
+# Lighter condition-injection control, same input set and budget.
+XLA_PYTHON_CLIENT_PREALLOCATE=false python examples/electropolish2d/train.py \
+  --config=examples/electropolish2d/configs/train_operator.py \
+  --config.arch.conditioning=film
+```
+
+Default condition/reference root:
+`/root/autodl-tmp/data/electropolish2d/operator_random16_v1`.
+Override `operator.dataset_path` for another prepared dataset. Training and
+loading validate the partition, physical specification, coordinates, fields,
+graph arrays, boundary traces and reference refinement through direct paths.
+Each run saves initial/final weights, config/source snapshot, condition IDs,
+losses, per-condition/per-time and mean L2 histories, final fields and summary.
+No existing artifacts are overwritten. Small held-out-family experiments do
+not establish generalization to arbitrary topologies/materials or seed stability.
+
+### First operator pilot —2026-10-28
+
+Same16 training/four held-out initial interfaces and2000Adam updates:
+
+| Conditioning | Mean test pooled phi L2 | Mean test terminal phi L2 | Mean test terminal c L2 | Trainer seconds including compilation/evaluation |
+|---|---:|---:|---:|---:|
+| Spatial cross-attention |17.185% |13.305% |14.929% |245.7 |
+| Pooled condition FiLM |17.462% |11.936% |13.520% |160.9 |
+| Frozen initial field |31.877% |47.721% |48.309% |— |
+
+All errors are across the four predeclared test inputs, with no test checkpoint
+selection. The route learns evolution, but remains substantially less accurate
+than the original single-IVP PINN. Two monitored training inputs have similar
+pooled errors; this supports underfitting/optimization as a concern, without
+isolating the mechanism or evaluating all16 training fields. Plots show excessive
+early smoothing of geometry. Terminal q errors are5.73%/5.30%, while free-node
+Dq errors81.46%/76.60% remain high. One small-family/single-training-seed pair
+does not prove a stable architecture ordering; no default/SOTA promotion.
+
+Run paths (load saved initial experimental architecture from its `operator`
+record explicitly; the final public config puts it in `arch`):
+
+- `/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-cross-01`
+- `/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-film-01`
+
+The private template builder accepts `(architecture, image_shape, key)`; for
+these two early saved configs use `(saved.operator, saved.operator.image_shape,
+key)`, and for the current schema `(saved.arch, saved.operator.image_shape, key)`.
+Neither original config/checkpoint is rewritten. Exact same-backend template
+initialization and all common initial parameter arrays were checked. Fourteen
+of15 source snapshots match; the sole difference is the CLI success return.
+The first cross trainer finished/saved correctly but its original new absl branch
+returned a dict, producing process exit1; the branch is fixed and separately
+checked. Film finishes with CLI exit0. This is not a numerical training failure.
+
+Explicit shared-space/time preparation reduces warmed forward+time-JVP median
+at1024 spatial points/four times from.723 to.622ms (cross) and.593 to.535ms
+(FiLM). These1.16x/1.11x ratios exclude PDE/parameter gradients/optimizer and are
+not training-speed factors. With promoted trained FP64 weights/inputs the split
+and repeated-query outputs/JVPs match exactly in this probe. Trained FP32 cross
+attention has a measured batching sensitivity: raw output/JVP relative differences
+2.28e-4/1.62e-4. Its CPU physical fields differ from GPU by up to.00162, while
+pooled/terminal test L2 changes only.0023/.0099 percentage points. Film CPU gap
+is1.43e-6. GPU replay at saved highest precision reproduces cross fields exactly
+and FiLM within6.26e-7. Do not describe FP32 as bitwise/batch invariant or count
+the strict cross CPU pointwise probe as passed. No production arithmetic was
+changed to conceal this; see the full reproducible
+[pilot record](../../docs/tasks/archive/electropolish-neural-operator.md),
+[convergence](../../docs/tasks/archive/electro-operator-convergence.png) and
+[unseen phase fields](../../docs/tasks/archive/electro-operator-film-fields.png).
+
+
+### Fixed-input and continuous-online controls
+
+The original operator pilot trains16 distinct inputs with two conditions per
+update. The loss uses `vmap` over conditions and averages the five loss parts
+across the condition batch. It is not a single-input fit.
+
+For a fixed initial-interface diagnostic, use:
+
+```bash
+python examples/electropolish2d/train.py \
+  --config=examples/electropolish2d/configs/train_operator_single.py
+
+# Same input/model/budget with SOAP.
+python examples/electropolish2d/train.py \
+  --config=examples/electropolish2d/configs/train_operator_single.py \
+  --config.train.optimizer=soap
+```
+
+This explicitly selects `operator.training_indices=(0,)`, batch1, from the
+unchanged source dataset. The chosen interface is fixed before running, not
+selected for low error. Excluded source-training monitors are `unused_train`,
+not training accuracy; held-out inputs remain `test`. Empty, duplicate, noninteger,
+negative and held-out subset IDs, or a batch larger than the subset, are rejected.
+Absent selection retains the original all16 input draw schedule exactly. Saved
+`training_selection.json` and actual `sampled_conditions.npy` record input use.
+Fixed-input fitting cannot establish neural-operator generalization.
+
+The established single-IVP PINN uses SOAP. Both initial NO architecture pilots
+use Adam. One matched fixed-input2000-update comparison gives Adam phi pooled/
+terminal2.483%/3.387%, SOAP4.187%/3.214%; c2.965%/4.031% vs4.941%/3.700%.
+Adam takes237.3s, SOAP387.3s including first compilation/evaluation. Both use
+identical73 initial parameter-array leaves and every actual update uses input0.
+SOAP slightly improves the terminal metric but loses on pooled error and cost;
+this small control does not establish a universal optimizer ordering. Retain
+Adam as the first continuous-online baseline and SOAP as an explicit override.
+
+```bash
+python examples/electropolish2d/train.py \
+  --config=examples/electropolish2d/configs/train_operator_online.py
+```
+
+The online preset uses batch8, Adam/LR1e-3/5000 updates. Each update draws new
+continuous triples for six rough-interface modes: amplitude in[0.3A,A), frequency
+in[f_lo,f_hi), phase in[0,2pi). It does not choose from a finite input bank.
+The function family still has the declared six-mode height-profile form; this
+is not a claim of coverage of arbitrary topologies or all function spaces.
+A fixed4B candidates are drawn; the firstB whose2000-point profile lies within
+(.005,.495) are retained. This **conditions the input distribution** on physical
+height validity. If fewer thanB pass, training raises before applying an update;
+no padding candidate or numerical fallback is silently used.
+
+[online_conditions.py](online_conditions.py) computes the original piecewise-
+linear signed distance using the same2000 curve vertices and±16-segment query
+window. Query/sensor grids and nearest-vertex indices are precomputed once for
+fixed-shape pools; JAX evaluates fresh initial images and all local IC data.
+The two data views use the same coefficient triples. Input construction is
+outside parameter AD; time derivatives remain decoder JVP. Boundary IC overrides
+match the graph reference. Independent NumPySDF/FP64 identity and batched fresh/
+replayable/range/BC checks pass. Neither physics nor evolved-field labels change.
+
+The existing `operator.dataset_path` is now an **evaluation/reference bank** in
+online mode. Its two historical source-training monitors are called `monitor`;
+the four held-out references remain `test`. None of these bank fields enters a
+training payload. There is no `train` reference L2 in online mode. Save actual
+`online_coefficients.npy` and candidate acceptance counts for replay, plus
+`memory.json` allocator measurements at first/25th/final updates. Batch size is
+explicit and is never silently reduced. Original PINN and finite-input presets
+remain available; no pretrained checkpoint is automatically resumed.
+
+First online5000-update run completes in326.7s:40000 distinct stored coefficient
+vectors, minimum31 of32 candidates valid per update. Batch8 fits comfortably:
+peak active JAX memory2.15GiB, allocator pool5.01GiB, observed device allocation
+about5.3GiB on48GiB. No batch16 run was needed or claimed. Mean over four held-out
+references: phi pooled/terminal17.748%/12.355%, c19.317%/14.029%. Sampling is
+continuous and fresh, but physical accuracy remains limited; the prior finite
+pilot differs in budget/batch/distribution, so this is not an isolated accuracy
+comparison. GPU checkpoint replays agree within1.43e-6 across the three new runs;
+independent same-input errors and40000-profile/height/BC audits pass.
+[Controls, exact paths and limitations](../../docs/tasks/archive/electropolish-operator-single-online.md),
+[fixed-input optimizer curves](../../docs/tasks/archive/electro-single-convergence.png),
+[online held-out curves](../../docs/tasks/archive/electro-online-convergence.png),
+[actual online profile stream](../../docs/tasks/archive/electro-online-profile-stream.png).
+
+For operator validation, inspect concentration transport \(D_\delta q\),
+retention of differences between input interfaces, and near-initial-time PDE
+residuals alongside global field L2. A small error in \(q\) alone does not
+guarantee accurate transport, and balanced gradient norms do not guarantee
+correct evolution. The [frozen-checkpoint balance diagnosis](../../docs/tasks/archive/electropolish-operator-balance.md)
+records measured losses, gradient directions and these field diagnostics;
+it does not change the training strategy or claim a validated remedy.
+
+Architecture remains unchanged across these controls: encoder2blocks/width64/
+4heads/FFN128; one spatial cross-attention block, three width64GELU time-FiLM
+layers, spatial32sine/cosine pairs plus rawxy/localphi0c0, temporal8pairs plus rawt.
+Initial image1x32x64/patch4x8 gives64tokens. Raw output2 maps to phase and physical
+concentration via the declared KKS mixture.146178trainable array values plus64
+frozen spatial frequency values (146242total); fixed positional/time frequencies
+are metadata. Inputs in each condition batch remain independent, with one shared
+model and mean batch loss; no model/time-window duplication is introduced.
+
+### Causal online control
+
+The existing shared `CausalWeightor` can also be enabled for the operator:
+
+```bash
+python examples/electropolish2d/train.py \
+  --config=examples/electropolish2d/configs/train_operator_causal.py
+```
+
+This preset retains online batch8,5000 Adam updates, the same uniform four-time
+draws, network, IC/BC losses and nonlocal PDEs. For each input and each equation,
+sort the sampled times and form the mean absolute residual over genuine free
+core nodes, excluding padded halo. Reuse the shared stopped causal weights:
+
+$$
+w_{b,e,k}=\exp\!\left[-\min(\epsilon_{AC},\epsilon_{CH})
+\sum_{j<k}\ell_{b,e,j}\right],\qquad
+L_e=\frac{1}{B N_t}\sum_{b,k}w_{b,e,k}\ell_{b,e,k}.
+$$
+
+Here \(e\) is AC or CH; \(w_{b,e,0}=1\), and weights are not differentiated.
+No normalization by their sum is introduced. Each condition computes its own
+weights before batch averaging. The existing helper adapts the two eps values
+from batch-mean AC/CH weights; the initial eps is1, maximum100, multiplier1.1,
+last-weight threshold.9 and mean-weight threshold.01. IC/BC stay active, and
+the original inverse-L1-gradient balancing remains. Only per-time mode
+(`causal.n_chunks=0`) is supported in this operator path.
+
+`loss.jsonl` records both causal `parts` and physical `unweighted_parts`, plus
+sorted times, per-condition weights/segments and eps used/next. Evaluation
+always uses physical fields against the same independent reference bank.
+This is one global-time model; uniform sampling still need not include the
+narrow initial transient in every batch. The opt-in control does not promote
+a new default or establish an accuracy improvement without its measured result.
+
+The first matched5000-update control (2026-10-28) takes324s and reproduces all
+73initial arrays,40000actual inputs and temporal draws of the noncausal run.
+Mean over the same four unseen references:
+
+|Physical relative L2|Original online|Causal online|
+|---|---:|---:|
+|phi pooled time|17.748%|17.932%|
+|phi terminal|12.355%|13.105%|
+|c pooled time|19.317%|19.521%|
+|c terminal|14.029%|14.802%|
+
+This run does not improve accuracy; retain causal as an opt-in control. Input
+differences still collapse rapidly, and unseen16 terminal Dq error rises from
+80.70% to88.27%. Per-time causal operates only on the current four times:
+84% of logged batches contain no t*<.05 (median earliest t*.193), so it often
+misses the narrow initial layer. This is an observed limitation, not proof of
+causal weighting's general ineffectiveness or an isolated sampling cause.
+[Reproducibility and limitations](../../docs/tasks/archive/electropolish-operator-causal.md),
+[convergence](../../docs/tasks/archive/electro-causal-convergence.png),
+[physical phase fields](../../docs/tasks/archive/electro-causal-fields.png),
+[input response](../../docs/tasks/archive/electro-causal-condition-response.png).
+
+For conditional-training diagnosis, `arch.local_input=initial` is the existing
+default: each query includes its known initial phi/c values. Explicit
+`--config.arch.local_input=zero` disables those feature channels while retaining
+the global initial image and **all true initial-condition loss targets**. It
+does not impose a hard IC or alter the prescribed initial field. Parameter
+shapes/initial arrays remain identical; old saved configs without the option
+retain `initial` behavior. Use `predict_fields` and the saved config for replay.
+The [training and distance audit](../../docs/tasks/archive/electropolish-operator-training.md)
+compares this shortcut with image conditioning and documents the current
+finite-window distance approximation; no global-distance reference change is
+implicitly made by selecting this option.
+
+The initial phase uses a windowed signed-distance approximation:
+
+$$
+\phi_0(x,y)=\frac{1+\tanh(k d_{\mathrm{win}}(x,y))}{2},\qquad
+k=\sqrt{\frac{\omega_\phi}{2\alpha_\phi}}L_c,\qquad
+c_0=c_{Se}h(\phi_0).
+$$
+
+For the randomly prescribed height curve \(y=f(x)\), the sign is positive
+below the curve and negative above. The magnitude is the shortest Euclidean
+distance to the33candidate segments around the query's x-index on a2000vertex
+polyline. The vertical gap determines only the sign; it is not the tanh distance
+magnitude. This local search is not guaranteed to equal the global shortest
+distance to the whole curve. PINN, operator inputs and aligned references share
+this definition and prescribed nodal top/bottom overrides. Exhaustive-search
+diagnostics must not silently replace initial data or reference identities.
+
+### Conditional-input shortcut diagnosis —2026-10-28
+
+Uniform-time single-input fitting already works, so the missed early transient
+does not establish that stratified sampling is necessary. Frozen input swaps
+show the original model fits t0 mainly from query-local IC features while
+largely ignoring the full input image. Mean gradients across conditions do not
+strongly cancel on the inspected batches; encoder gradients are nonzero.
+Disabling only query-local features tests this training shortcut while keeping
+the IC loss, random times, physical model and all initial parameters intact.
+
+Two fitted inputs/B2/2000Adam give mean phase pooled/terminal9.470%/5.920% with
+local features versus2.601%/2.704% without. Fitted-input0 image-swap response at
+t*.25 recovers from.224% to92.46% of the reference input difference. This is a
+fitting control; its unseen error after only two inputs is still high.
+
+A matched continuous-onlineB8/5000 control then uses the exact same40000actual
+profiles,73initial arrays, optimizer and uniform-time scheme as the original:
+
+|Four-unseen physical relative L2|Image + local IC|Image only|
+|---|---:|---:|
+|phi pooled|17.748%|5.573%|
+|phi terminal|12.355%|4.372%|
+|c pooled|19.317%|6.452%|
+|c terminal|14.029%|5.124%|
+
+This is the best measured online control, reproducible through the canonical
+entry (existing default/legacy options remain intact):
+
+```bash
+python examples/electropolish2d/train.py \
+  --config=examples/electropolish2d/configs/train_operator_online.py \
+  --config.arch.local_input=zero
+```
+
+Run: `/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-online-global-adam-01`.
+Checkpoint replay must use its saved config. Training takes315.8s. Unseen16
+phi pooled/terminal1.834%/1.690%, Dq17.79% versus original80.70%; across four
+inputs, phase variation at t*.25 recovers80.36% of reference versus original
+.943%. Harder unseen18 remains10.44%/8.88% in phase, so the operator problem
+is improved, not fully solved. This one matched pair supports the shortcut
+mechanism under current settings; seed stability and broader distributions
+are not established. No causal/stratification/hard-IC/PDE/SDF/reference change.
+[Convergence](../../docs/tasks/archive/electro-training-online-convergence.png),
+[phase fields](../../docs/tasks/archive/electro-training-online-fields.png),
+[input response](../../docs/tasks/archive/electro-training-online-response.png),
+[full diagnosis](../../docs/tasks/archive/electropolish-operator-training.md).
+
+The final image-only checkpoint also has a larger, post-training independent
+test:64new interfaces from the same six-mode distribution, conditioned on the
+online height bounds. Identities are declared before reference solves, with
+no actual training-profile overlap or test-based model selection. Each field
+uses101x51nodes and21times through5s; report per-interface relative L2 before
+averaging across interfaces, with pooled-time and terminal metrics separate.
+All64same-graph references pass the original time-refinement gate (maximum
+4.60e-8). Mean phi pooled/terminal is4.506%/3.502%;90th percentiles6.909%/5.850%,
+worst10.541%/8.210%. Mean c is5.323%/4.163%. These are new test estimates for
+the same frozen model, not a retraining gain over the old four-interface mean.
+Training remains5000Adam/B8/~315.8s; no larger bank is added to every periodic
+training evaluation. Keep a small monitor bank and use the larger independent
+bank for final evaluation. References take~797s on four CPU workers in this
+session; cold GPU evaluation~26s includes~24sJIT, warm full-field inference
+~2.23ms per interface. These costs are distinct from physics-only training.
+[64-interface results and local cost scope](../../docs/tasks/archive/electropolish-operator-test64.md).
+
+The original operator trainer used sparse nonlocal differentiation.
+A same-core B8/Nt4 PDE-loss plus parameter-gradient benchmark gives~7.62ms
+nonlocal versus~6.99ms local AD. Local AD shares the encoder and differentiates
+query cross-attention/decoder with directional Hessian traces; it needs245core
+queries versus2453core/halo queries for nonlocal. This is a component benchmark,
+not full local training, boundary enforcement, or an accuracy comparison.
+Nonlocal timings had concurrent CPU reference workers while local warm timings
+followed their completion; the small difference is not a stable speed ordering.
+Local compilation wall time also includes a deliberate process pause and must
+not be interpreted as a pure compilation measurement. Complex encoders alone
+do not establish a nonlocal speed advantage.
+
+An explicit full local AD control now enters through the same `train.py`:
+
+```bash
+python examples/electropolish2d/train.py \
+  --config=examples/electropolish2d/configs/train_operator_local.py
+```
+
+This preset retains the original random-interface IC, image-only conditioning,
+onlineB8/Adam5000 and physical output map. `nl.method=local_ad` uses coordinate
+Hessian traces of phi/q and the existing time JVP; the encoder stays outside
+coordinate AD and inside parameter AD. Core points match the graph pool exactly,
+with fixed-shape padding/masks, and local removes halo queries. IC/top/bottom
+losses remain physical MSE. A sixth loss explicitly enforces side-wall
+\(\partial_n\phi=0\) and \(\partial_nq/c_{Le}=0\), with
+`loss.neumann_scale=1` and the same inverse-L1 gradient balancing algorithm.
+It is evaluated only at sampled positive times; IC slopes are not flattened
+and no Neumann condition is imposed at t0. Corners belong to the prescribed
+top/bottom values. The local preset requires `arch.local_input=zero`, no causal
+weights, and reference-bank loading. Old sparse/legacy saved configs retain
+their previous semantics. The existing reference bank is a common graph
+diagnostic for local training, not a continuum/local reference or model selector.
+
+New runs save `sampling.npz` (actual times, matched core masks/IDs and IC/BC IDs)
+and `timing.json` (setup, synchronized optimizer updates, first-call compilation,
+sampling and evaluation). First-update compilation is separated from warm
+updates; full cold-start comparisons also include setup and timed evaluations.
+`operator_reference.py` independently integrates physical fields with a SciPy
+matrix and explicit early snapshots; local matrices use the existing centered
+FD/Neumann-mirror implementation. Finite-horizon graph closure and classical
+Neumann closure remain distinct. Full comparisons must report a common target
+and reference discretization uncertainty, as well as the extra local BC loss.
+The new reference helper checks finite fields and the invariant phase interval;
+it records total concentration extrema without imposing a unit-interval maximum
+principle. The term \(-N_{CH}(c_{Se}-c_{Le})\nabla^2h(\phi)\) is a source in the
+concentration equation, so \(c\leq1\) does not follow from \(\phi\in[0,1]\).
+This matches the unrestricted liquid output; no concentration clipping is used.
+
+### Matched full local AD/nonlocal comparison
+
+Two fresh canonical runs retain the original incompatible random ICs, identical
+73initial parameter arrays and all40000actual online profiles, time/core/IC/BC
+draws. Both use image-only conditioning, Adam1e-3, B8,5000updates and ordinary
+FP32 through5physical seconds. Positive-time fields are never training labels;
+the final checkpoint is fixed before test evaluation. Local adds the sixth
+side-wall loss described above; nonlocal retains its five losses:
+
+|Term|Physical quantity and norm|
+|---|---|
+|AC|Scaled mean absolute phase-equation residual on free core points|
+|CH|Scaled mean absolute concentration-equation residual on free core points|
+|Top|Mean of \(\phi^2+c^2\) at \(y=0.5\)|
+|Bottom|Mean of \((\phi-1)^2+(c-1)^2\) at \(y=0\)|
+|Initial|Mean of \((\phi-\phi_0)^2+(c-c_0)^2\) at \(t=0\)|
+
+These are balanced by the existing inverse-L1 parameter-gradient rule. Initial
+fields condition the encoder and supervise the initial output; there is no hard
+IC. Halo values support the nonlocal stencil and do not contribute extra core
+PDE terms. Neither method changes the initial endpoint slopes.
+Both use `ac_scale=ch_scale=1`, refresh balancing weights every25updates, and
+disable staggered/causal weighting. The bounded phase output is differentiated
+in the original physical residual; no inverse-map residual transformation is
+enabled in this comparison.
+
+The following are means of per-interface physical relative L2 on the same64
+unseen interfaces against a common, independent local FD101 reference. Pooled
+errors use21uniform times on \(t^*\in[0,1]\); terminal means \(t^*=1\).
+
+|Metric|Nonlocal|Local AD|
+|---|---:|---:|
+|phi pooled|4.427%|8.595%|
+|phi terminal|3.176%|5.498%|
+|c pooled|5.222%|9.835%|
+|c terminal|3.779%|6.431%|
+|Full cold-start process time|368.35s|693.03s|
+|First update, compilation plus call|223.35s|533.87s|
+|Warm synchronized update mean|16.71ms|19.35ms|
+
+Full time includes setup, compilation, sampling, balancing and periodic small-
+bank evaluation; it excludes reference preparation and the final64-input test.
+CPU reference workers were paused during both training timings. Most of the
+1.88x cold-start difference is compilation; warm update means differ by15.8%.
+Against the common graph target, phase pooled/terminal is4.392/3.041% versus
+8.635/5.508%, so the ordering is not caused by choosing the nonlocal target.
+Nonlocal has lower pooled phase error on64of64inputs, terminal on62of64.
+
+At \(t^*=0.001,0.003,0.01,0.025,0.05\), side-strip pooled phase errors against
+local FD101 average4.219% versus12.223%. The strip is width0.02 at both sides,
+excluding top/bottom corners; within its reference interface band
+\(0.1<\phi<0.9\), errors are19.469% versus47.433%. Local AD's early wall-normal
+RMS is nevertheless smaller: phi0.0246 versus2.0223, normalized q0.00834 versus
+0.41544. Explicit classical Neumann enforcement is working, while initial/early
+field fitting is worse at this budget. A finite-horizon closed pair graph does
+not imply an exactly zero pointwise network normal derivative.
+
+This is one matched initialization/stream pair, not a training-seed stability
+study or proof that boundary competition is the sole cause. Defaults are not
+promoted from this comparison. Direct run paths are
+`/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01`
+and
+`/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-local-01`.
+Use each run's saved config with `model_final.eqx` for replay.
+
+Spatial checks use the four predeclared interfaces0,21,42,63, with independent
+local FD201 and FD401 references and extra early native-graph snapshots. All76
+reference solves pass coarse/fine time checks (maximum2.583e-8). The local
+FD101-to-201 pooled phase differences are0.302..0.334%; FD201-to-401 differences
+are0.068..0.076%. Against FD401 on these four inputs, nonlocal/local mean phase
+pooled is5.065/8.773%, terminal2.945/4.886%; early side-strip3.829/10.336%.
+These are a four-interface refinement check, separate from the64-input means;
+they do not establish continuum convergence for all64interfaces. Native graph
+versus FD401 phase differences are0.56..1.01% pooled, so finite-horizon/model
+discretization differences remain measurable even with accurate time integration.
+
+[Full comparison and validation](../../docs/tasks/archive/electropolish-operator-local-comparison.md),
+[training convergence](../../docs/tasks/archive/electro-operator-local-convergence.png),
+[64-test distribution](../../docs/tasks/archive/electro-operator-local-test64.png),
+[early boundary errors](../../docs/tasks/archive/electro-operator-local-boundary.png),
+[representative phase fields](../../docs/tasks/archive/electro-operator-local-fields.png).

@@ -1,0 +1,15 @@
+{
+  "checkpoint": "/root/autodl-tmp/tf-logs/precipitate2d/20261027-periodic-elastic-local-spectral-01/model_best.eqx",
+  "reference": "/root/autodl-tmp/data/precipitate2d/results_periodic_smallstrain_pilot.npz",
+  "method": "local_spectral",
+  "pooled_rel_l2_phi": 0.0005988807697758339,
+  "terminal_rel_l2_phi": 0.0005286682965014198,
+  "pooled_rel_l2_q": 0.07273298632822264,
+  "terminal_rel_l2_q": 0.004467395934979266,
+  "pooled_rel_l2_u": 0.00027815896641227917,
+  "terminal_rel_l2_u": 0.00024943300643787787,
+  "pooled_rel_l2_stress": 0.0005156473812772106,
+  "terminal_rel_l2_stress": 0.0005107730072999978,
+  "pooled_rel_l2_phi_local": 0.0005988807697758339,
+  "mass_max_drift": 2.220446049250313e-16
+}

@@ -1,0 +1,13 @@
+{
+  "indices": [
+    0,
+    1
+  ],
+  "surface_ids": [
+    1662057944,
+    1540770716
+  ],
+  "condition_batch": 2,
+  "source_train_conditions": 16,
+  "mode": "finite_subset"
+}

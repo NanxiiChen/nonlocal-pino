@@ -1,0 +1,50 @@
+[
+  {
+    "step": 1,
+    "backend": "gpu",
+    "allocator_stats": {
+      "num_allocs": 8731,
+      "bytes_in_use": 7912448,
+      "peak_bytes_in_use": 2234815232,
+      "largest_alloc_size": 2225112064,
+      "bytes_limit": 38182404096,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 38182404096,
+      "peak_pool_bytes": 38182404096
+    }
+  },
+  {
+    "step": 25,
+    "backend": "gpu",
+    "allocator_stats": {
+      "num_allocs": 14971,
+      "bytes_in_use": 8020480,
+      "peak_bytes_in_use": 2234983168,
+      "largest_alloc_size": 2225112064,
+      "bytes_limit": 38182404096,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 38182404096,
+      "peak_pool_bytes": 38182404096
+    }
+  },
+  {
+    "step": 5000,
+    "backend": "gpu",
+    "allocator_stats": {
+      "num_allocs": 1310181,
+      "bytes_in_use": 8019712,
+      "peak_bytes_in_use": 2234985472,
+      "largest_alloc_size": 2225112064,
+      "bytes_limit": 38182404096,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 38182404096,
+      "peak_pool_bytes": 38182404096
+    }
+  }
+]

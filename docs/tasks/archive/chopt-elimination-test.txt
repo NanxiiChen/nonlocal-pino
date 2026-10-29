@@ -1,0 +1,6 @@
+test_constraint_independent_equation_and_parameter_gradient (tests.test_confined_ch_elimination.EliminationTests.test_constraint_independent_equation_and_parameter_gradient) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 12.976s
+
+OK

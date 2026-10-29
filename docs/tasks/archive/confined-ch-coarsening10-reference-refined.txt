@@ -1,0 +1,7 @@
+/root/miniconda3/envs/fenicsenv/lib/python3.14/site-packages/h5py/__init__.py:36: UserWarning: h5py is running against HDF5 2.1.0 when it was built against 2.0.0, this may cause problems
+  _warn(("h5py is running against HDF5 {0} when it was built against {1}, "
+
+fem_refined 150 / 600
+fem_refined 300 / 600
+fem_refined 450 / 600
+fem_refined 600 / 600

@@ -1,0 +1,8 @@
+test_mass_projected_fields_time_derivative_and_full_loss_gradient (tests.test_twophase_preconditioning.CHPreconditioningTests.test_mass_projected_fields_time_derivative_and_full_loss_gradient) ... ok
+test_local_hessian_with_mass_projection_and_conservative_flux (tests.test_twophase_preconditioning.CHPreconditioningTests.test_local_hessian_with_mass_projection_and_conservative_flux) ... ok
+test_local_mixed_residual_matches_analytic_derivatives (tests.test_twophase_transport.TwoPhaseTransportTests.test_local_mixed_residual_matches_analytic_derivatives) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 32.936s
+
+OK

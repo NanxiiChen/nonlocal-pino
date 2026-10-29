@@ -1,0 +1,8 @@
+test_explicit_refinement_measure_changes_actual_optimum (tests.test_confined_ch_temporal.TemporalTests.test_explicit_refinement_measure_changes_actual_optimum) ... [L-BFGS 1] loss=0.0301931
+ok
+test_legacy_rng_and_early_time_cdf_and_horizon (tests.test_confined_ch_temporal.TemporalTests.test_legacy_rng_and_early_time_cdf_and_horizon) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.926s
+
+OK

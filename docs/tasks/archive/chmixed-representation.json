@@ -1,0 +1,19 @@
+{
+  "scope": "Supervised field representation audit ONLY; no PDE training/accuracy claim or transfer of weights.",
+  "native_reference_replay": 1.8984015400172093e-14,
+  "budget": "5000SOAP, no L-BFGS",
+  "final": {
+    "step": 5000,
+    "loss": 7.622357733281528e-05,
+    "parts": [
+      1.1369422264851346e-05,
+      6.485415506796393e-05
+    ],
+    "elapsed_seconds": 93.0417579524219,
+    "phi_native": 0.004384572524680417,
+    "phi_terminal_native": 0.004299623441787341,
+    "mu_native": 0.027159999412431274,
+    "mu_terminal_native": 0.05169611168174266
+  },
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chmixed-representation-01"
+}

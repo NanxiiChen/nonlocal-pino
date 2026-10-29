@@ -1,0 +1,49 @@
+{
+  "scope": "Validation only. Free nodal time coefficients are not a PINN or a training target. They isolate temporal approximation, not spatial neural capacity.",
+  "native_reference_replay": 1.8984016050080063e-14,
+  "ranks": {
+    "8": {
+      "phase_pooled": 0.009468164773618917,
+      "phase_terminal": 0.011515660099323132,
+      "mu_pooled": 0.10588831324270595,
+      "mu_terminal": 0.4369875724774735,
+      "initial_derivative_residual_rms": 101.10723982893968,
+      "differential_residual_max_rms": 101.10723982893968
+    },
+    "16": {
+      "phase_pooled": 0.0019160961803529075,
+      "phase_terminal": 0.0025848376564089615,
+      "mu_pooled": 0.024040750731034895,
+      "mu_terminal": 0.11085045697563782,
+      "initial_derivative_residual_rms": 87.77179682455161,
+      "differential_residual_max_rms": 87.77179682455161
+    },
+    "24": {
+      "phase_pooled": 0.0005746048061748265,
+      "phase_terminal": 0.0008886776426711982,
+      "mu_pooled": 0.007932499569186433,
+      "mu_terminal": 0.04321662575352704,
+      "initial_derivative_residual_rms": 62.98863756211928,
+      "differential_residual_max_rms": 62.98863756211928
+    },
+    "48": {
+      "phase_pooled": 3.394887525346998e-05,
+      "phase_terminal": 5.109394324043206e-05,
+      "mu_pooled": 0.000521923788023702,
+      "mu_terminal": 0.002477009489063536,
+      "initial_derivative_residual_rms": 23.07056916880339,
+      "differential_residual_max_rms": 23.07056916880339
+    },
+    "64": {
+      "phase_pooled": 6.2725618977690645e-06,
+      "phase_terminal": 1.3482168798536449e-05,
+      "mu_pooled": 0.00011872060405574638,
+      "mu_terminal": 0.0008465425572105337,
+      "initial_derivative_residual_rms": 6.701831971591025,
+      "differential_residual_max_rms": 6.701831971591025
+    }
+  },
+  "fit_points": 129,
+  "not_a_pinn_result": true,
+  "initial_derivative_caveat": "Accurate field approximation alone does not imply accurate initial time derivative; rank24 initial evolution residual RMS62.99."
+}

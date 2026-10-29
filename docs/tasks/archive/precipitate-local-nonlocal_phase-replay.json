@@ -1,0 +1,15 @@
+{
+  "checkpoint": "/root/autodl-tmp/tf-logs/precipitate2d/20261027-periodic-elastic-pilot-01/model_best.eqx",
+  "reference": "/root/autodl-tmp/data/precipitate2d/results_periodic_smallstrain_pilot.npz",
+  "method": "nonlocal",
+  "pooled_rel_l2_phi": 0.0003871705262018006,
+  "terminal_rel_l2_phi": 0.00030924307749992283,
+  "pooled_rel_l2_q": 0.038070022209179454,
+  "terminal_rel_l2_q": 0.0031620751252817085,
+  "pooled_rel_l2_u": 0.00018487678366297362,
+  "terminal_rel_l2_u": 0.00015204128619343617,
+  "pooled_rel_l2_stress": 0.00035414714269394756,
+  "terminal_rel_l2_stress": 0.00028720363738305766,
+  "pooled_rel_l2_phi_local": 0.005419979173641234,
+  "mass_max_drift": 2.220446049250313e-16
+}

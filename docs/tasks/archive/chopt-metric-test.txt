@@ -1,0 +1,6 @@
+test_weighted_solve_root_and_gradient (tests.test_confined_ch_metric.MetricTests.test_weighted_solve_root_and_gradient) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.802s
+
+OK

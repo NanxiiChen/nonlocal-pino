@@ -1,0 +1,6 @@
+test_zero_query_features_preserve_true_initial_supervision (tests.test_electropolish_operator.OperatorTests.test_zero_query_features_preserve_true_initial_supervision) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 29.032s
+
+OK

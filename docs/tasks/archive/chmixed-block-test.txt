@@ -1,0 +1,6 @@
+test_full_block_inverse_and_actual_nonlinear_loss_gradient (tests.test_confined_ch_mixed_block.MixedBlockTests.test_full_block_inverse_and_actual_nonlinear_loss_gradient) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 9.929s
+
+OK

@@ -1,0 +1,60 @@
+{
+  "cross": {
+    "times": {
+      "shared": {
+        "median_ms": 0.6219111382961273,
+        "mean_ms": 0.628134235739708,
+        "first_compile_and_call_seconds": 23.392492715269327
+      },
+      "repeated": {
+        "median_ms": 0.7226374000310898,
+        "mean_ms": 0.7243285328149796,
+        "first_compile_and_call_seconds": 19.554546669125557
+      }
+    },
+    "raw_output_max_abs_difference": 0.002331972122192383,
+    "raw_time_jvp_max_abs_difference": 0.005381107330322266,
+    "fp32_relative_l2_differences": [
+      0.00022846150386612862,
+      0.0001623253192519769
+    ],
+    "fp64_max_abs_differences": [
+      0.0,
+      0.0
+    ],
+    "repeated_over_shared_speed_ratio": 1.161962466230989,
+    "points": 1024,
+    "time_points": 4,
+    "scope": "one condition; forward and time JVP only; excludes optimizer and PDE",
+    "parameters": 146242
+  },
+  "film": {
+    "times": {
+      "shared": {
+        "median_ms": 0.5352925509214401,
+        "mean_ms": 0.5518566071987152,
+        "first_compile_and_call_seconds": 3.1981753446161747
+      },
+      "repeated": {
+        "median_ms": 0.593157485127449,
+        "mean_ms": 0.6054887175559998,
+        "first_compile_and_call_seconds": 3.646718814969063
+      }
+    },
+    "raw_output_max_abs_difference": 1.9073486328125e-06,
+    "raw_time_jvp_max_abs_difference": 1.9073486328125e-05,
+    "fp32_relative_l2_differences": [
+      7.45565813531357e-08,
+      4.6740336756556644e-07
+    ],
+    "fp64_max_abs_differences": [
+      0.0,
+      0.0
+    ],
+    "repeated_over_shared_speed_ratio": 1.1080996440290483,
+    "points": 1024,
+    "time_points": 4,
+    "scope": "one condition; forward and time JVP only; excludes optimizer and PDE",
+    "parameters": 125122
+  }
+}

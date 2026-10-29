@@ -1,0 +1,2 @@
+FINALIZED /root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01
+FINALIZED /root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-local-01

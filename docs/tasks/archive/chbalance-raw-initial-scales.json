@@ -1,0 +1,9 @@
+{
+  "scope": "Only geometry/quadrature and prescribed IC/operator used; no future reference fields accessed",
+  "initial_phase_rms": 0.6744449845431142,
+  "initial_chemical_rms": 0.4885734223915281,
+  "initial_phase_rate_rms": 99.65523215283709,
+  "evolution_scale": 100.0,
+  "chemical_scale": 0.5,
+  "chemical_output_scale": 0.5
+}

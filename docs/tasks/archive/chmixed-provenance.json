@@ -1,0 +1,10 @@
+{
+  "source_files_compared": 40,
+  "source_difference": [],
+  "extra_files": [],
+  "separate_block_initial_files_identical": true,
+  "separate_supervised_initial_files_identical": true,
+  "physical_sampling_optimizer_configs_identical": true,
+  "seed": 42,
+  "scope": "Shared/separate layouts change parameter count and output initialization shape. Block changes integrated residual/norm; new runs are one-seed exploratory, not stable causal accuracy rankings. Byte comparisons only, no hashes."
+}

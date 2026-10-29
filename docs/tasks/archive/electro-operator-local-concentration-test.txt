@@ -1,0 +1,6 @@
+test_total_concentration_has_no_unit_interval_maximum_principle (test_electropolish_operator_local.LocalOperatorTests.test_total_concentration_has_no_unit_interval_maximum_principle) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.185s
+
+OK

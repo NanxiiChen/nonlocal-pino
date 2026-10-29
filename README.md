@@ -9,17 +9,28 @@ FEM references remain part of the validation workflow.
 ## Examples
 
 - [icemelting3d](examples/icemelting3d/README.md): Allen–Cahn melting, nonlocal/local comparison.
-- [electropolish2d](examples/electropolish2d/README.md): Primary corrosion example: KKS electropolishing.
+- [electropolish2d](examples/electropolish2d/README.md): Primary corrosion example: KKS electropolishing; opt-in random-initial-interface neural operators with shared-space/time conditioning, fixed-input controls and continuous online sampling.
 - [elasticity2d](examples/elasticity2d/README.md): Nonlocal elasticity with an independent FEM reference.
 - [corrosion1d](examples/corrosion1d/README.md): Earlier implementation, retained for reference.
 - [corrosion2d](examples/corrosion2d/README.md): KKS pit corrosion with a validated matched-graph training preset.
 - [twophase2d](examples/twophase2d/README.md): Periodic prescribed-flow Cahn–Hilliard pilots: constant transport and reversed-vortex deformation, with mixed local-AD/nonlocal controls; no coupled Navier–Stokes yet.
+- [precipitate2d](examples/precipitate2d/README.md): Periodic coherent elastic-precipitate pilot with differentiable mechanical equilibration and nonlocal phase diffusion.
+
+- [confined_ch2d](examples/confined_ch2d/README.md): Confined CH in an ellipse with impermeable holes; default ten-wave T1.5 case uses30 sequential PINN time windows and a validated independent reference. Legacy simple/local AD and global-time research controls remain explicit options.
 
 The unimplemented [PINO elasticity design](docs/design/pino_elasticity2d.md) is
 retained as a design document. Electropolish2d is the primary corrosion case;
 corrosion2d supplies the pit-corrosion case; corrosion1d is retained for reference.
 
 ## Current phase-field defaults
+
+`examples/confined_ch2d/train.py` defaults to
+`configs/train_coarsening_windows.py`:30 logarithmic time windows, phase-only
+prediction with exact chemical elimination and hard mass, SOAP5000+L-BFGS500
+total, initial learning rate1e-3, ordinary FP64. Run it without `--config`;
+run directories are named automatically. Its reference solver selects the same
+complex physical case by default. The legacy simple case remains explicitly
+available through `--config=examples/confined_ch2d/configs/train_base.py`.
 
 The three established phase-field `train.py` entries load `configs/train_base.py` and now
 explicitly use **ordinary GPU compilation** (`train.gpu_policy="ordinary"`).

@@ -1,0 +1,1 @@
+PASS canonical operator CLI/seed/success return, c.arch/explicit pilot template parity, single-IVP default unchanged

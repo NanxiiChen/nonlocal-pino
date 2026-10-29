@@ -1,0 +1,6 @@
+test_logarithmic_blend_chain_rule (tests.test_confined_ch_blend.BlendTests.test_logarithmic_blend_chain_rule) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 6.466s
+
+OK

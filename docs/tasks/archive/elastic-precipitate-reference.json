@@ -1,0 +1,73 @@
+{
+  "status": "passed",
+  "checks": {
+    "nonlocal_time": {
+      "phi": 3.070045127547039e-07,
+      "q": 6.070116259524881e-06,
+      "u": 1.3212055079251945e-07,
+      "stress": 2.746789135931284e-07
+    },
+    "local_time": {
+      "phi": 5.486729683851686e-07,
+      "q": 9.23940137578616e-06,
+      "u": 2.489849636411636e-07,
+      "stress": 4.98201116818276e-07
+    },
+    "local_space": {
+      "phi": 2.098615415367412e-09,
+      "q": 5.617846705053068e-07,
+      "u": 6.418118022197151e-11,
+      "stress": 2.2093506169249444e-09
+    },
+    "nonlocal_mass_drift": 1.1102230246251565e-16,
+    "nonlocal_max_energy_increase": 0.0,
+    "local_mass_drift": 4.440892098500626e-16,
+    "local_max_energy_increase": 0.0,
+    "elastic_effect_terminal_phi": 0.025268403820578385,
+    "nonlocal_vs_local_pooled_phi": 0.005377960600520899
+  },
+  "identity": {
+    "model": "periodic_homogeneous_coherent_ch_v1",
+    "geometry": {
+      "length": 1.0
+    },
+    "physical": {
+      "beta": 1.0,
+      "eigenstrain": [
+        0.01,
+        0.0,
+        0.0
+      ],
+      "epsilon": 0.025,
+      "lame_lambda": 2450.0,
+      "mobility": 0.01,
+      "shear_modulus": 1225.0,
+      "terminal_time": 1.0
+    },
+    "initial": {
+      "background": -0.95,
+      "center": [
+        0.5,
+        0.5
+      ],
+      "level": 0.35,
+      "width": 0.09
+    },
+    "grid": [
+      63,
+      63
+    ],
+    "delta": 0.04,
+    "mechanical_boundary": "fixed_zero_macroscopic_strain_periodic_zero_mean_displacement"
+  },
+  "settings": {
+    "dt": 0.0005,
+    "error_tolerance": 0.002,
+    "local_grid": 127,
+    "path": "/root/autodl-tmp/data/precipitate2d/results_periodic_smallstrain_pilot.npz",
+    "refined_dt": 0.00025,
+    "refined_local_grid": 255,
+    "snapshots": 21
+  },
+  "method": "independent NumPy acoustic tensor solve + SciPy Fourier IMEX-BDF2"
+}

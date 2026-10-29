@@ -1,0 +1,36 @@
+{
+  "status": "passed",
+  "preset_count": 18,
+  "maps": {
+    "train_base": "additive",
+    "train_vortex": "additive",
+    "train_vortex_accuracy": "inverse_cubic",
+    "train_vortex_causal": "inverse_cubic",
+    "train_vortex_causal_conserved": "inverse_cubic",
+    "train_vortex_conserved": "additive",
+    "train_vortex_conserved_local": "additive",
+    "train_vortex_consistent": "additive",
+    "train_vortex_cubic": "inverse_cubic",
+    "train_vortex_cubic_refined": "inverse_cubic",
+    "train_vortex_cubic_resolved": "inverse_cubic",
+    "train_vortex_cubic_schur": "inverse_cubic",
+    "train_vortex_cubic_schur_refined": "inverse_cubic",
+    "train_vortex_initial_time": "inverse_cubic",
+    "train_vortex_latent": "leaky_tanh",
+    "train_vortex_refined": "additive",
+    "train_vortex_residual": "additive",
+    "train_vortex_schur": "additive"
+  },
+  "default_matches_fresh_additive_strategy": true,
+  "invalid_map_rejected": true,
+  "saved_checkpoint_replays": {
+    "additive": {
+      "saved_map": "additive",
+      "max_absolute": 6.661338147750939e-15
+    },
+    "cubic": {
+      "saved_map": "inverse_cubic",
+      "max_absolute": 5.329070518200751e-15
+    }
+  }
+}
