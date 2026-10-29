@@ -1,0 +1,25 @@
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/docs/tasks/archive/electro-operator-audit.py", line 38, in <module>
+    np.testing.assert_allclose(pred,saved['prediction'][k],rtol=0,atol=2e-5)
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 1768, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 983, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError:
+Not equal to tolerance rtol=0, atol=2e-05
+
+Mismatched elements: 30642 / 216342 (14.2%)
+First 5 mismatches are at indices:
+ [0, 22, 0, 0]: 0.9924923181533813 (ACTUAL), 0.9925205707550049 (DESIRED)
+ [0, 22, 1, 0]: 0.9943088293075562 (ACTUAL), 0.9943298101425171 (DESIRED)
+ [0, 23, 0, 0]: 0.8507351875305176 (ACTUAL), 0.8508886098861694 (DESIRED)
+ [0, 23, 0, 1]: 0.9371178150177002 (ACTUAL), 0.9372319579124451 (DESIRED)
+ [0, 23, 1, 0]: 0.9169053435325623 (ACTUAL), 0.9170966744422913 (DESIRED)
+Max absolute difference among violations: 0.001486
+Max relative difference among violations: 0.00546661
+ ACTUAL: array([[[[ 1.000000e+00,  1.000172e+00],
+         [ 1.000000e+00,  1.000245e+00],
+         [ 1.000000e+00,  1.000314e+00],...
+ DESIRED: array([[[[ 1.000000e+00,  1.000173e+00],
+         [ 1.000000e+00,  1.000246e+00],
+         [ 1.000000e+00,  1.000315e+00],...

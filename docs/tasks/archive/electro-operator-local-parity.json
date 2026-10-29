@@ -1,0 +1,13 @@
+{
+  "initial_arrays_equal": 73,
+  "actual_profiles_equal": 40000,
+  "times_core_IC_BC_equal": true,
+  "config_differences": [
+    "log.run_name",
+    "loss.gradnorm_bias",
+    "loss.neumann_scale",
+    "nl.method"
+  ],
+  "common_source_snapshots_equal": true,
+  "scope": "One matched initialization/online-stream pair; six local losses versus five native losses, no seed-stability claim"
+}

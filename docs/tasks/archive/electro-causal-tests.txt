@@ -1,0 +1,20 @@
+test_aux_step_matches_existing_gradient_balance_and_optimizer (tests.test_electropolish_operator_causal.OperatorCausalTests.test_aux_step_matches_existing_gradient_balance_and_optimizer) ... ok
+test_invalid_causal_settings (tests.test_electropolish_operator_causal.OperatorCausalTests.test_invalid_causal_settings) ... ERROR
+test_numpy_formula_mask_sort_condition_independence_and_stopped_gradient (tests.test_electropolish_operator_causal.OperatorCausalTests.test_numpy_formula_mask_sort_condition_independence_and_stopped_gradient) ... ok
+test_physical_residual_and_parameter_gradient (tests.test_electropolish_operator.OperatorTests.test_physical_residual_and_parameter_gradient) ... ok
+
+======================================================================
+ERROR: test_invalid_causal_settings (tests.test_electropolish_operator_causal.OperatorCausalTests.test_invalid_causal_settings)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/tests/test_electropolish_operator_causal.py", line 110, in test_invalid_causal_settings
+    c=get_config();c.causal[key]=value
+                   ~~~~~~~~^^^^^
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/ml_collections/config_dict/config_dict.py", line 890, in __setitem__
+    raise TypeError(
+TypeError: Could not override field 'n_chunks' (reference). 0.0 is of original type <class 'float'> and cannot be casted to type <class 'int'>
+
+----------------------------------------------------------------------
+Ran 4 tests in 97.578s
+
+FAILED (errors=1)

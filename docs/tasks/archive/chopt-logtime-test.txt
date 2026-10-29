@@ -1,0 +1,6 @@
+test_log_time_coordinate_chain_rule_and_mass (tests.test_confined_ch_blend.BlendTests.test_log_time_coordinate_chain_rule_and_mass) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 11.228s
+
+OK

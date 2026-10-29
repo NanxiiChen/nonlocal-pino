@@ -1,0 +1,27 @@
+test_aux_step_matches_existing_gradient_balance_and_optimizer (tests.test_electropolish_operator_causal.OperatorCausalTests.test_aux_step_matches_existing_gradient_balance_and_optimizer) ... ERROR
+test_invalid_causal_settings (tests.test_electropolish_operator_causal.OperatorCausalTests.test_invalid_causal_settings) ... ok
+test_numpy_formula_mask_sort_condition_independence_and_stopped_gradient (tests.test_electropolish_operator_causal.OperatorCausalTests.test_numpy_formula_mask_sort_condition_independence_and_stopped_gradient) ... ok
+
+======================================================================
+ERROR: test_aux_step_matches_existing_gradient_balance_and_optimizer (tests.test_electropolish_operator_causal.OperatorCausalTests.test_aux_step_matches_existing_gradient_balance_and_optimizer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/tests/test_electropolish_operator_causal.py", line 91, in test_aux_step_matches_existing_gradient_balance_and_optimizer
+    np.testing.assert_allclose(left,right,rtol=1e-12,atol=1e-12)
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 1768, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 889, in assert_array_compare
+    val = comparison(x, y)
+          ^^^^^^^^^^^^^^^^
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 1763, in compare
+    return np._core.numeric.isclose(x, y, rtol=rtol, atol=atol,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/numpy/_core/numeric.py", line 2507, in isclose
+    result = (less_equal(abs(x - y), atol + rtol * abs(y))
+                             ~~^~~
+TypeError: unsupported operand type(s) for -: 'function' and 'function'
+
+----------------------------------------------------------------------
+Ran 3 tests in 70.796s
+
+FAILED (errors=1)

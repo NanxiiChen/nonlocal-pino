@@ -1,0 +1,14 @@
+{
+  "moderate": {
+    "initial_phi_rms": 0.6390208179927509,
+    "initial_mu_rms": 0.24014775429620386,
+    "initial_phi_rate_rms": 31.09434446960439,
+    "initial_pure_fraction": 0.18751356983485154
+  },
+  "hard": {
+    "initial_phi_rms": 0.6744449845431142,
+    "initial_mu_rms": 0.4885734223915281,
+    "initial_phi_rate_rms": 99.65523215283709,
+    "initial_pure_fraction": 0.27085945356052576
+  }
+}

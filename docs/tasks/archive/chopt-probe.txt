@@ -1,0 +1,62 @@
+initial_with_t0 {'phase_loss': 0.00027127044421112204, 'chemical_loss': 0.24177678343126116, 'phase_gradient_norm': 0.005588406732112761, 'chemical_gradient_norm': 0.12079748218949277, 'gradient_cosine': 0.011275564865900402}
+final_with_t0 {'phase_loss': 0.0017006218191469348, 'chemical_loss': 0.03191235233926753, 'phase_gradient_norm': 0.23189498558503097, 'chemical_gradient_norm': 0.12984558001095975, 'gradient_cosine': -0.8255908135748956}
+initial_positive {'phase_loss': 0.0002679149094602024, 'chemical_loss': 0.24180261353559868, 'phase_gradient_norm': 0.005593536293112486, 'chemical_gradient_norm': 0.12132226295551736, 'gradient_cosine': 0.010246062715725807}
+final_positive {'phase_loss': 0.0014173150320385911, 'chemical_loss': 0.008959467414587387, 'phase_gradient_norm': 0.14432767015696596, 'chemical_gradient_norm': 0.12391895333166747, 'gradient_cosine': -0.7365683564220041}
+{
+  "scope": "Reference data used only to diagnose required output coordinates, never PDE training labels.",
+  "initial_pde_time_scale": 0.006755366528608172,
+  "lifting_targets": {
+    "additive": {
+      "first_time": 0.075,
+      "first_rms": 6.216771469654131,
+      "terminal_rms": 0.6376509947304907,
+      "first_roughness": 78635.65300824148,
+      "terminal_roughness": 377.7965753858299
+    },
+    "blend015": {
+      "first_time": 0.075,
+      "first_rms": 0.7967490484345722,
+      "terminal_rms": 0.8049426715114972,
+      "first_roughness": 569.5451497193233,
+      "terminal_roughness": 172.3406596702327
+    },
+    "blend005": {
+      "first_time": 0.075,
+      "first_rms": 0.6245094081404964,
+      "terminal_rms": 0.8049257600961296,
+      "first_roughness": 157.93265170393914,
+      "terminal_roughness": 172.33287305393583
+    }
+  },
+  "gradient_probes": {
+    "initial_with_t0": {
+      "phase_loss": 0.00027127044421112204,
+      "chemical_loss": 0.24177678343126116,
+      "phase_gradient_norm": 0.005588406732112761,
+      "chemical_gradient_norm": 0.12079748218949277,
+      "gradient_cosine": 0.011275564865900402
+    },
+    "final_with_t0": {
+      "phase_loss": 0.0017006218191469348,
+      "chemical_loss": 0.03191235233926753,
+      "phase_gradient_norm": 0.23189498558503097,
+      "chemical_gradient_norm": 0.12984558001095975,
+      "gradient_cosine": -0.8255908135748956
+    },
+    "initial_positive": {
+      "phase_loss": 0.0002679149094602024,
+      "chemical_loss": 0.24180261353559868,
+      "phase_gradient_norm": 0.005593536293112486,
+      "chemical_gradient_norm": 0.12132226295551736,
+      "gradient_cosine": 0.010246062715725807
+    },
+    "final_positive": {
+      "phase_loss": 0.0014173150320385911,
+      "chemical_loss": 0.008959467414587387,
+      "phase_gradient_norm": 0.14432767015696596,
+      "chemical_gradient_norm": 0.12391895333166747,
+      "gradient_cosine": -0.7365683564220041
+    }
+  },
+  "legacy_final_replay_max_absolute": 1.532107773982716e-14
+}

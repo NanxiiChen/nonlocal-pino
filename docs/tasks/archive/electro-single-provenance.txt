@@ -1,0 +1,31 @@
+{
+  "initial_parameter_array_leaves_identical": 73,
+  "actual_sample_arrays": [
+    {
+      "run": "20261028-electro-operator-single-cross-01",
+      "shape": [
+        2000,
+        1
+      ],
+      "unique_indices": [
+        0
+      ]
+    },
+    {
+      "run": "20261028-electro-operator-single-soap-01",
+      "shape": [
+        2000,
+        1
+      ],
+      "unique_indices": [
+        0
+      ]
+    }
+  ],
+  "config_difference_only_optimizer_and_run_name": true,
+  "model_operator_and_physical_loss_sources_identical": true,
+  "same_interface_index": 0,
+  "surface_identity": 1662057944,
+  "budget": 2000,
+  "interpretation": "fixed-input optimizer comparison only; one seed, no general optimizer ranking"
+}

@@ -2594,3 +2594,1237 @@ incorporates homogeneous Neumann weakly, so do not claim uniqueness to nonlocal.
 Published complex-domain CH examples and nonlocal Neumann/local-limit theory
 support feasibility, not guaranteed PINN accuracy or arbitrary-kernel convergence.
 Relation: phasefield-neumann-candidates.
+
+## 2026-10-27 — Begin confined CH pilot after preserving prior results
+
+Decision: user authorizes trying the proposed ellipse+twohole case and first
+committing current work. Commit728e5b9 on dev preserves prior results; no
+merge/push. New independent example confined_ch2d uses physical triangle-centroid
+areas, kernel120/(pi delta^4)*(1-r/delta)^2 and symmetric line visibility to
+exclude paths crossing impermeable holes. Integral second moment is2I in2D
+(radial integral delta^4/60), fixing interior negative-Laplacian normalization;
+no boundary row normalization is introduced. Local-limit boundary consistency
+is measured, not assumed. Independent P2 mixed FEM uses standard theta=.5 CH
+weak forms per DOLFIN demo; native SciPy BDF graph reference uses its own
+assembly. Smooth deterministic IC vanishes to order4 at every analytic wall,
+so phi and chemical-potential normal derivatives are compatible initially.
+Both PINNs share hard initial phi and physical weighted mass, direct output,
+original mixed residuals, FP64 ordinary/SOAP; local AD alone has both boundary
+normal losses. Geometry/physical scales remain preflight choices until frozen.
+Reject bounding-box area/N quadrature, cross-hole bonds, periodic FFT reuse,
+new mechanics/NS coupling and predeclared accuracy superiority.
+Relation: confined-ch-neumann; phasefield-neumann-candidates.
+
+Preflight confirms the first confined morphology at T1 with epsilon.05,M.02,
+beta1,IC amplitude.3/flattening width.04. Freeze these physical choices before
+training. Initial phi and local mu normal compatibility follows fourth-order
+wall vanishing, not any future shape constraint. Gmsh is isolated into its
+own subprocess because its shared MPI/PETSc stack conflicts with DOLFIN when
+loaded together; do not mix environments or suppress actual solver errors.
+
+Reference gate fails for CN/P2: phase max space/time0.581%/1.214%, mu56.4%/
+69.8%; native BDF refinement passes1.64e-7 max mu. Do not train or loosen
+thresholds. Stiff startup and mass-inverted interpolant derivatives are plausible
+sources, not proven unique causes. Replace CN by BE-started BDF2 on the same
+mixed weak form, and compute continuum t0 mu from an independently derived
+analytic product-rule Laplacian (checked against JAX). Initial phase/model/
+geometry/horizon and acceptance thresholds remain fixed. Save failed reference
+as reference_cn_failed.npz/json and all subsequent FEM stage fields for diagnosis.
+
+BDF2 reference passes fixed gates: max phi space/time.00581/.0003769,mu.002051/
+.001449; native mu time1.64e-7, mass drift<=5.38e-16, saved energies decrease.
+Native/local phi gap4.20767% and mu32.3404% are measured pretraining baseline
+bias, not a guaranteed error floor or a PINN benefit. Proceed with the frozen
+physical case and declared horizon without fitting it to the FEM target.
+
+## 2026-10-27 — Retain confined pilot with a precise Neumann claim
+
+Decision: both seed42 cold starts complete SOAP5000+LBFGS500 and CPU replay.
+Common-local final pooled phi NL4.1935%/AD5.6639%, terminal4.9998%/3.8354%;
+trainer146.47/529.03s. Native NL pooled/terminal.8898%/.6469%, with pretraining
+native/local gap4.2077%. Keep the first pilot; do not claim a stable precision
+ordering or attribute faster convergence solely to Neumann treatment. Same
+initial bytes/18sources/config except method/name; original defaults untouched.
+
+Important limitation: local AD wall-normal phi RMS at t1 is.0158-.0255; native
+NL MLP RMS1.66-8.79 is appreciably nonzero. This validates a closed physical-
+volume pair graph with no extra normal losses, not automatic pointwise local
+Neumann. Native horizon effects vs unconstrained MLP boundary extension are
+not isolated; weak FEM already handles natural Neumann as well. Further joint
+horizon/mesh/boundary validation precedes stronger claims. Shared hard mass
+also prevents attributing neural conservation solely to graph closure.
+
+Initial mu common error83.0%/91.1% and initial chemical residual79.3%/84.6% of
+fixed final loss are the major current fitting weakness. Positive-time mu errors
+6.71%/10.11% remain. No unrequested new tuning, seed selection or SOAP work.
+All5 numerical checks, independent refined references, exact initialized/source
+pair audit, CPU final replay and physical diagnostics pass. No new-result Git
+commit: only the explicitly requested prior snapshot728e5b9 was committed.
+Relation: confined-ch-neumann.
+
+## 2026-10-27 — Enrich confined CH morphology before more optimization
+
+Decision: user finds the weak initial phase and late diffuse interfaces too
+simple. Add a separate explicit multimode coarsening preset, retain base pilot
+and artifacts. First use deterministic six-wave tanh-saturated physical initial
+phase, existing fourth-order wall compatibility, smaller epsilon and longer
+horizon; keep geometry/model/flux unchanged. Validate reference morphology,
+phase purity, topology and resolution before training. Initial tanh is an IC
+shape definition, not a learned-output map or future-motion prior. Analytic
+chain/product-rule Laplacian must agree with independent AD, and static IC
+metadata must preserve old checkpoint trainable leaves. No Git operation,
+SOAP work or pointwise automatic-Neumann claim is authorized by this critique.
+Relation: confined-ch-coarsening; confined-ch-neumann.
+
+The six-wave T3 preflight sharpens phases (64.6% pure) but retains about5 large
+bands, so do not promote it as sufficiently complex. Analytic initial-only
+screen yields12 significant components for both10/12 balanced waves; choose10
+with fewer explicit terms. User then limits the horizon to1.5s: honor T1.5,
+use dt.005/.0025 and21 snapshots, no T3 training. Preserve the6-wave candidate
+path/config and write the selected10-wave case under coarsening_multimode10.
+
+Selected10-wave T1.5 preflight shows27.1% ->46.3% pure-phase area, nontrivial
+early restructuring and10 ->8 significant coarse-FEM sign regions. Exact
+analytic initial data has12 such regions on the same query grid; the count is
+threshold/resolution sensitive. Freeze the physical IC/epsilon/horizon now,
+before inspecting PINN errors. Keep original preset as the baseline and new
+case opt-in. Coarse initial interpolation error1.131% motivates independent
+mesh/time validation; never infer reference accuracy from an appealing plot.
+All selected multimode derivative/compatibility/gradient tests pass and old
+checkpoint fields agree within2.45e-15. Reference refinement is in progress;
+no new trained accuracy or automatic classical-Neumann claim is made.
+
+The first .02/.014 reference phase mesh gate necessarily fails at t0: their
+same-IC P2 interpolants differ1.1257%, above1%. Refine to .014/.01 without
+changing physical choices or tolerances. Existing .014 stages are reused only
+by explicit archived reconstruction with physical identity/mesh/request checks;
+new .01 stages use the same independent FEM routine and both original dt values.
+Separate single-process FEM stages may run concurrently on CPUs; no JAX GPU or
+MPI run is active. Preserve the failed first reference before replacing it.
+
+Finer .014/.01 reference passes the original gates: max phase mesh/time.55193%/
+.04796%, mu3.01351%/.17959%; local/native mass drift<=1.05e-15 and saved energies
+decrease. Freeze and retain the richer case as an opt-in physical benchmark:
+terminal pure fraction46.14% and12 ->9 significant sign regions, with threshold/
+mesh caveats. Stop this case-extension task after validated reference delivery;
+no new PINN pair or accuracy improvement is claimed. Full-grid IC quadrature
+change5.66% atdelta.03 and native/local phase gap3.779% remain separate
+finite-horizon/discretization diagnostics. Original default/results retained;
+final reference, failed first pass, sources and plots are explicitly indexed.
+All workers idle, no Git operation. Relation: confined-ch-coarsening.
+
+## 2026-10-27 — Train the validated richer confined CH case
+
+Decision: user asks to continue PINN training. Run the frozen train_coarsening
+preset through canonical train.py: paired seed42 nonlocal/local AD cold starts,
+FP64 ordinary, SOAP5000+L-BFGS500, same initialization/temporal rule/budget and
+refined FEM common target. Keep native errors separate, report best/final and
+actual runtime with phase/mu/physical audits. Reject spectral comparison, new
+physical tuning, transformed loss or output map, seed shopping and SOAP side
+work in this task. Original pilot/default/artifacts remain; new unique run
+paths. No Git authorization or FEM/GPU concurrency. Relation:
+confined-ch-coarsening-training; confined-ch-coarsening.
+
+Both frozen cold starts finish5500 updates but fail phase learning: common
+pooled NL82.96%/AD82.95%, terminal94.55%/99.41%, trainer174.65/696.63s; both
+best-validation checkpoints are untrained step0. Retain and index this failure,
+do not promote defaults or tune the physical case after seeing errors. Own-
+native NL83.02% vs native/local target gap3.779% excludes bias alone as a
+sufficient explanation. Strict final/best CPU replays,19sources/initial/config
+parity pass. Corrected audit-only missing x64 initialization without changing
+models or loosening tolerances; failed audit log retained.
+
+Initial chemical loss contributes52.66%/39.46% of the fixed17-time objective,
+but positive mu errors119.1%/123.3% and wrong purity/energy evolution show a
+broader fit failure, not an isolated t0 defect. Fields change substantially
+from IC; do not call them uniformly collapsed/frozen. Capacity, hard lifting,
+sampling and optimization need separate future controls, not unsupported
+causal claims. End this requested training/diagnosis experiment with accurate
+failed results and unresolved accuracy explicit. No extra tuning, SOAP work,
+physics/reference change or Git action. Relation: confined-ch-coarsening-training.
+
+## 2026-10-27 — Diagnose and optimize failed richer CH training
+
+Decision: user explicitly requests diagnosis and improvement. Freeze the physical
+case/reference and retain failed controls; directly measure PDE gradient balance
+and representation fit before attributing failure to one cause. Test general
+IC lifting, declared row metrics and temporal strategies with separate ablations,
+then full-budget cold-start/field/replay validation. Supervised reference fitting,
+if used, is a representation diagnostic only and must never be reported as a
+PINN improvement. Exponential IC blending, if tried, fixes only t0 and leaves
+arbitrary positive-time fields; no future shape/trajectory is imposed. Reject
+changing IC/epsilon/T to ease fitting, seed shopping, reference training labels
+or reviving SOAP implementation work. No Git operation authorized. Relation:
+confined-ch-optimization; confined-ch-coarsening-training.
+
+Direct probe finds initial phase RMS/PDE-speed timescale.006755 vs first
+uniform stratum width.1875. At the failed final model PDE gradient cosine is
+-.826 (positive-only-.737); gradient norms are comparable, not an unmeasured
+orders-of-magnitude phase dominance. Additive lift requires raw-phase RMS6.22
+at first snapshot.075 vs.797 for exponential tau.15. However blend-only pilot
+2000+100 worsens common pooled phase91.53%: reducing lift amplification alone
+does not solve causal learning. Proceed to explicit early-time sampling and
+expanding-horizon curriculum, record its nonuniform residual measure. No physical
+timescale or future solution is imposed by these optimizer coordinates.
+
+Supervised diagnostic demonstrates same64x4 architecture can fit phi4.24%
+(additive) or2.62%(blend), not a PINN result/capacity impossibility proof.
+PDE log-time/horizon pilot improves common phase to52.98% vs82.96%; log-time
+coordinate and frozen biharmonic metric alone remain around50%. Add an exact
+native chemical elimination control: mu=beta(phi^3-phi)+epsilon^2 A phi,
+train only phi_t+M A mu. This is exactly the same graph CH ODE used by the
+independent native solver, not a future-reference prior. Delete chemical loss
+and unused mu head. Keep a frozen resolvent P=I+tau*M*epsilon^2 A^dagger A in
+physical-volume L2; P is SPD, so P^-1 r=0 iff r=0. Its weighted Cholesky solve
+is independently checked; it changes finite residual metric, not PDE roots.
+Native eliminated mu is only defined on quadrature nodes; do not fabricate
+pointwise boundary-normal diagnostics for it. Local AD elimination is not
+implemented; fail explicitly instead of silently changing its model.
+
+Elimination/log-blend/modes8 pilot reaches common phi44.79%/terminal55.51%,
+an improvement but inadequate. Test actual sequential time windows: each
+window fixes the previous PINN endpoint (never reference data), learns a small
+phase increment, derives chemical potential exactly and solves the same ODE.
+For local coordinate s in[0,1], phi=phi_start+s*N_theta and residual
+phi_s+Delta_t*M*A*mu. This is exactly Delta_t times the physical residual.
+Fixed weighted mass and state continuity are hard; derivative/energy accuracy
+is checked, not assumed. Use30 log-spaced windows to resolve early stiffness,
+5000 total SOAP (650 first,150 each remaining) and500 total L-BFGS
+(36 first,16 remaining), warm-start weights but reset optimizer explicitly.
+Precompute per-window SPD resolvents; keep dynamic state/factors fixed-shape
+JAX inputs to avoid window-by-window compilation. Save an explicit checkpoint
+trajectory manifest; no single final-window model is the whole trajectory.
+Nonlocal-only initial implementation; no local AD/pointwise boundary-extension
+claim. This is a general causal method-of-lines PINN, not supervised rollout.
+
+First full window run completes exactly5000 SOAP+500 L-BFGS: common pooled
+phase3.90795%, terminal5.75378%, vs prior82.96%/94.55%. Freeze this configuration
+and now independently validate fixed seed2026, with every outcome retained;
+no seed selection or hyperparameter change between runs. Replay the complete
+state/checkpoint chain and inspect native errors, energy and temporal joins
+before promotion. Reference/physical case unchanged. Relation:
+confined-ch-optimization.
+
+Independent2026 cold start confirms phase improvement (common pooled3.86634%,
+terminal5.67185%). First42 replay/links/mass/energy pass; native phi.724% but
+native mu31.0% (terminal102.1%) remains weak. Do not hide derivative-sensitive
+chemical error behind phase accuracy. Test one same-budget15-window control
+with more updates per window (first800+14x300=5000 SOAP,52+14x32=500 L-BFGS,
+maxfun104+14x64=1000), same physics/spatial modes/operator/seed42. This is a
+budget-allocation control, not more total training or reference-label fitting.
+Keep the validated30-window two-seed result regardless of the control outcome.
+
+### 2026-10-27 — Retain30 windows for richer confined CH; phase success, mu open
+
+Both frozen30-window cold starts pass complete CPU trajectory replay and
+source/config parity (31 files; only seed/name differ). Common-FEM phase pooled
+3.908%/3.866%, terminal5.754%/5.672%, trainer281.25/288.23s; native phase pooled
+0.724%/0.678%. Same5000+500-budget15-window control is slightly worse on phase
+(4.008%/5.936%) and native mu (31.35% pooled), so reject fewer windows as the
+recommended allocation. No further tuning or reference changes are warranted
+for this task. Recommend explicit train_coarsening_windows through train.py;
+preserve original simple-case default and every failed global control.
+
+Do not claim all-field convergence: native mu pooled31.01%/29.99%, positive-only
+52.98%/51.23%, terminal102.11%/97.87%. Terminal error RMS is comparable to mu
+reference RMS, not merely a tiny-denominator artifact. Chemical algebra/mass and
+sampled energy pass, but derivative jumps and fixed-grid wall limitations remain.
+The bundle includes larger spatial modes,30 stored networks, optimizer resets,
+exact elimination and residual metric; equal update counts do not isolate a
+single cause or match total parameter capacity. No matched local AD window
+advantage claim. Archive full results and plots, separate supervised probes,
+register paths and complete diagnosis task. No Git operation. Relation:
+confined-ch-optimization.
+
+
+## 2026-10-27 — User requires one global-time confined CH network
+
+Decision: replace the recommended direction with a single network covering
+all[0,1.5]; do not propagate/freeze intermediate states or create slab networks.
+Retain historical window artifacts only as comparison. Physics/reference fixed;
+chemical elimination and independently derived residual/time conditioning may
+be tested without labels. All times enter one objective; any time discretization
+or changed residual measure must be explicit and independently validated.
+No Git action or SOAP side investigation. Relation: confined-ch-global.
+
+## 2026-10-28 — Test one global space-time residual metric
+
+The resumed baseline full5000+500 run completed after the tool interruption.
+Next test an independently checked space-time left residual metric. Given
+continuous AD residual r_i at sorted positive times, define e_0=0 and
+(I+h_i K)e_i=e_{i-1}+h_i r_i, K=M epsilon^2 A^2. This invertible block lower
+triangular map leaves collocation residual zeros unchanged. It approximates a
+stable linear evolution inverse; it does not integrate predicted phase or
+propagate/freeze network states. All residuals come from one global network,
+all parameter gradients flow through the complete metric. Include terminal T
+as a residual query and use sum h_i||e_i||_V^2/T. No PDE time derivative is
+discretized: phi_t remains AD; backward Euler only defines the loss metric.
+Precompute the weighted-self-adjoint A eigenbasis, explicitly check symmetry,
+and independently verify weighted dense block solves and gradients first.
+This is an optimization hypothesis, not a proven improvement or novelty claim.
+
+Full space-time differential residual metric fails (common phase97.97%, native
+97.98%); late fields nearly vanish. Reject as a recommended strategy. Hypothesis:
+finite residual quadrature can miss the transient carrying initial-state
+information. Test the mathematically integrated CH equation instead:
+R(t)=phi(t)-phi0+M A integral_0^t mu(s)ds. Continuous R=0 for all t is equivalent
+to the original IVP, and explicitly retains phi0 at every query. Approximate
+only the mu integral with one global log-Chebyshev polynomial quadrature matrix,
+independently checked for moments and manufactured evolution convergence.
+Every temporal value is produced by the same network in one objective; no
+field stepping, solver-generated training target, or fixed intermediate state.
+Use (I+t M epsilon^2 A^2)^-1 as a declared residual metric. Unlike differential
+collocation, finite quadrature introduces a time approximation; check refinement
+and continuous differential residual separately before any accuracy claim.
+
+Global integration quadrature validates against an independent native IVP:
+32/64/128-node preconditioned defects max1.46e-4/2.65e-6/3.71e-9. Training
+still struggles early. Test an IC-preserving increment coordinate
+phi=phi0+(1-exp(-t/tau))*N(x,logtime), with known scalar IC as one optional
+network input. Zero increment retains IC; no future dynamics is encoded.
+Legacy configs retain old features/leaves. Also test Neumann inverse residual
+A^-1 r/M=A^-1 phi_t/M+(mu-mean(mu)) on the hard-mean subspace. Lift only the
+constant nullspace with its physical-volume projector; independently check
+dense solves/gradients. Include t0 evolution residual with exact chemical law.
+One global network, all positive-time strata over full interval, no curriculum.
+
+Test a general separable global-time network: one spatial MLP outputs a_k(x),
+phi=phi0+s sum_k a_k(x) T_k(2s-1), s=log1p(t/tau)/log1p(T/tau). Each time
+basis has global support; optimize all coefficients together, no frozen states.
+This amortizes the spatial trunk and supplies temporal resolution without30
+networks. Rank24 gives phase degree24 and exact eliminated mu degree72 in s;
+80 global quadrature intervals avoid chemical interpolation aliasing. Small
+output initialization retains IC as starting guess. This is a trial-space and
+conditioning bundle, not an isolated metric gain. One checkpoint covers all t.
+
+Global basis improves phase (~38% at4500) but native mu pooled exceeds700%.
+Test a thermodynamic balance term, not phase-only selection: with native
+E=sum V[beta/4(phi^2-1)^2+epsilon^2/2 phi Aphi], weighted symmetry gives
+dE/dt=<mu,phi_t>_V=-M<mu,A mu>_V for the same CH equation. Add the squared
+normalized integral defect (E(t)-E0+M integral<mu,A mu>)/E0, weight1, alongside
+the integrated PDE norm. E0 is known IC energy, no future/reference label.
+With phase degree24, dissipation degree144; use160 quadrature intervals so
+this nonlinear temporal integral is unaliased too. Verify energy variation,
+independent dense-matrix objective and gradients. No freezing or time windows.
+
+One further normalization control is warranted by the integral residual's
+R(t)=O(t): squaring R with physical dt underweights the initial evolution by
+t^2 even though initial state is explicit. Test the time-average residual R/t
+(strictly positive queries), with the same spatial resolvent/global basis and
+no energy term. This restores finite initial-rate information without initial
+trajectory labels, changes only the least-squares metric, and keeps continuous
+roots. Record separately from the energy control; do not combine untested
+heuristics. After this comparison select/validate a fixed global strategy or
+report its accuracy limitation; avoid endless controls.
+
+The R/t global control materially improves phase but still leaves large chemical
+errors. Before closing, test one optimizer-only continuation direction: exact
+Hessian-vector Newton-CG after the same5000 SOAP updates, using the unchanged
+global objective and no new physical constraint. Matrix-free products are AD
+of the scalar loss; no external state solve/targets. Limit200 Newton iterations,
+record actual value/gradient/Hessian calls rather than equating them to LBFGS
+updates. A manufactured time-PDE solve must pass first. This is generic
+optimization, not another ansatz/loss or a guarantee of accuracy. No more
+formulation variants in this task; validate fixed winner or report limits.
+
+
+## 2026-10-28 — Reject costly Newton control; check observed terminal oscillations
+
+Newton-CG interrupted at554.979s total inside its CG Hessian product. Only1
+iteration logged; no complete Newton result or accuracy claim. Retained SOAP
+stage independently replays. A new physical concern emerged in field review:
+R/t global model follows morphology early but develops spatial grid-scale
+oscillations at terminal time (native mu2716%). For high spatial eigenvalue k,
+the integral metric behaves like averaged-in-time perturbation plus a small
+instantaneous term ~delta_phi/(t*k); small integrated residual need not bound
+instantaneous oscillations. This motivates one targeted recombination, not a
+new formulation: same global basis24/N80, use the already independently tested
+differential residual and Neumann A^-1 norm, with exactt0 evolution included.
+No new shape/architecture/reference prior. All samples/states remain jointly
+trained. Compare final phase/mu and energy; do not select based on loss alone.
+
+
+The instantaneous global-basis control reduces overshoots/chemical defects but
+still fails morphology. Test a single literature-backed causal weighting control,
+only Eq3.2 of Wang/Sankaran/Perdikaris2022 https://arxiv.org/pdf/2203.07404.
+Weights w_i=exp(-strength sum_{j<i}loss_j) use stopped parameter gradients.
+One network/all nodes/all coefficients throughout, no time marching or frozen
+states. Explicit strength1/minimum1e-8; normalize by sum(weights), a declared
+variation from the paper's1/N. SOAP uses adaptive weights; L-BFGS uses uniform
+weights so its scalar objective and gradient are consistent (do not recompute
+stopped weights inside a line search). Validate this gradient rule independently.
+Source is a general training heuristic, not a new physical law or a promise of
+window-free accuracy. No reference labels or new architecture. This is the
+last causal optimization control on the existing strong model, not a new PDE.
+
+
+## 2026-10-28 — Isolate capacity after temporal approximation audit
+
+Causal control completes but fails phase56.77%/64.46%; SOAP terminal weight
+only.0196, so the fixed5000 budget has not activated full causal coverage.
+Do not label it converged. Validation-only free nodal coefficients show rank24
+log-time basis can approximate native phase0.05746% pooled/.08887% terminal,
+mu.793%/4.322%. This is not a PINN/learned result. Initial derivative defect
+still62.99 RMS, so temporal derivative sensitivity is not ruled out; spatial
+neural capacity/optimization are also unisolated. Do one capacity control only:
+same global basis24, instantaneous Neumann-inverse PDE and81 fixed time queries,
+change hidden width64->128. No new loss/constraint/geometry/trajectory prior.
+Keep5000+500 budget/ordinary FP64, record parameter/runtime cost. If useful,
+freeze and check2026; otherwise retain all failures without SOTA promotion.
+
+
+## 2026-10-28 — End current global sweep without claiming a solved case
+
+Width128 control completes5000+500,308.02s, phase65.635%/73.925%, native
+mu59.396%/188.274%; it does not resolve the one-network problem. Ten completed
+single-seed controls now exist plus one interrupted Newton cost control.
+Lowest completed phase remains R/t21.54%/43.18%, with native mu258.1%/2716.0%,
+energy increase.0671 and overshoots. Do not promote SOTA/default or run seed2026
+merely to validate a clearly inaccurate candidate. Preserve every result and
+original physical/reference/default paths. Single-network implementation and
+sweep are delivered; high-accuracy objective remains incomplete, not blocked
+by permissions/data. Next resume must isolate spatial neural fit versus temporal
+initial-derivative resolution with diagnostics before further loss variants.
+Unconstrained time-basis fitting is not a neural result. Simple terminal-error
+correlation with IC is nearzero (phi cosine-.0109; Aphi cosine-.113), insufficient
+to support a uniform leftover-IC explanation or invent a new skip constraint.
+No Git operation. Relation: confined-ch-global.
+
+## 2026-10-28 — Restore global mixed fields and distinguish scaling from elimination
+
+User asks to inspect phi/mu architecture, field scales and the two PDE losses.
+Original learned mode is one shared MLP/two channels; the recent lowest-phase
+trial eliminates mu and minimizes one fourth-order evolution residual. Known-IC
+native RMS values are phi0=.674445, mu0=.488573, phi_t0=99.6552; validation-only
+native terminal mu RMS=.043815. These differ in both amplitude and time scale.
+Test globally supported mixed time expansions with explicitly learned mu and
+two residuals. Use Neumann A^+r_phi/M, which has chemical-potential units, and
+r_mu=mu-beta(phi^3-phi)-epsilon^2 Aphi; dividing both by the same declared mu
+scale preserves their relative weighting. Explicit mu output scale=.5 is a
+rounded known-IC RMS estimate, independent of future reference labels. Compare
+shared versus separate field MLPs at identical ranks/physics/time nodes/budget;
+separate means field networks trained jointly on the entire interval, never
+sequential time windows. Do not infer a stable ranking from a single seed or
+hide mu errors. Existing eliminated checkpoints must keep their templates.
+Relation: confined-ch-global; extends the prior diagnostic plan at user request.
+
+## 2026-10-28 — Test an independently checked mixed block inverse
+
+Scaled shared mixed control completes5000+500: common phase58.490%/63.504%,
+native mu70.278%/301.481%,265.58s. Separate-field control is running with
+identical case sources. Scaling/two outputs alone do not resolve phase accuracy.
+One further controlled conditioning experiment will invert the known linear
+mixed Volterra block, not alter the PDE or freeze any temporal states. For
+R=phi-phi0+M A W mu and C=mu-f(phi)-epsilon^2 Aphi, the block
+L=[[I,M A W],[-epsilon^2 A,I]] has inverse applied as
+Ephi=(I+M epsilon^2 A^2 W)^-1(R-M A W C),
+Emu=C+epsilon^2 A Ephi. W is the existing global log-time integration matrix.
+Ephi/Emu have phase/chemical units; use scales1/.5. Check against an independently
+assembled dense2x2 block and parameter finite differences. This is ordinary
+linear residual preconditioning with globally coupled nodes, not a time-window
+solver or future reference prior. Roots preserved at fixed quadrature; finite
+polynomial quadrature error is reported separately. Reject promotion if mu or
+energy fail even when phase improves. Relation: confined-ch-global.
+
+## 2026-10-28 — Mixed fields improve terminal/chemical metrics but do not solve global training
+
+Three physics-only5000+500 cold starts complete with final/best CPU replays.
+Shared/separate/block common phase pooled58.490/71.242/46.106%, terminal
+63.504/71.301/38.602%; native mu70.278/74.059/50.509%, block terminal130.065%.
+Block has sampled energy max rise0 and improves terminal phase versus prior
+R/t43.178%, but pooled phase remains worse than21.540%. Do not promote SOTA/
+default or call output scaling alone effective. Separate fields have32,688
+parameters versus shared17,904; shared/separate40-source snapshots are identical,
+and separate/block initial checkpoint files match directly (no hashes). All
+three physical targets/operators/references/budgets unchanged; block also changes
+integral residual and norm, so this is not an inverse-only causal ablation.
+
+SAME-network supervised-only field capacity diagnostic (identical initial
+parameters,5000SOAP) reaches native phi.43846%/mu2.7160%; no diagnostic weights
+enter any PINN. Its independently evaluated block PDE loss8.985e-5 is30.745x
+below physics-trained.0027624. Thus this architecture contains a much better
+joint field/residual approximation; current block physics optimization path
+fails to reach it. This does not prove global optimality or sole optimizer cause.
+Its strong loss.45948 remains large, so accurate fields do not guarantee accurate
+time derivatives for another norm. Free nodal time projections with known initial
+rate/mu reduce strong loss18.57x while retaining sub.1% phase, but are neither
+neural nor residual-minimizing fits. No single-source explanation established.
+
+Block boundary band~21.10% area carries57.39% terminal native squared error;
+bulk native relative phase28.47% still remains. This is not reference-guided
+training reweighting. Next investigate a reference-free initial-linear/temporal
+conditioning or continuation path, using the established feasible block objective;
+do not widen networks or choose seeds blindly, transfer supervised weights, or
+return to frozen time windows. Record proposed formulas/validation before any
+next implementation. Accuracy remains OPEN; no Git action. Relation: confined-ch-global.
+
+## 2026-10-28 — User selects eliminated phi, tanh/Jacobian and Fourier controls
+
+User retains phase-only/chemical elimination and explicitly asks to test tanh
+with the corresponding residual transform and inspect Fourier frequencies.
+No tanh output/residual trial exists in confined_ch2d; previous tanh there was
+only the prescribed IC. Frozen references slightly overshoot unit wells (FEM
+[-1.02634,1.02517], native[-1.02776,1.02486]); strict tanh cannot represent all
+those values. Use declared amplitude1.1 (fixed10% margin about the well scale,
+not a fitted future trajectory); retain CLI entry1.0 with its range limitation.
+
+Use u=atanh(phi0/a)+s sum c_k T_k, phi=a*tanh(u+alpha(t)). Solve the scalar
+alpha so physical-volume mean is exactly prescribed. A post-tanh additive mean
+shift would change the map/range/Jacobian, so reject it. Implicit derivative is
+alpha_t=-sum(v J u_t)/sum(v J), J=a*sech²(u+alpha). Eliminated physical residual
+r=phi_t+M A[beta(phi³-phi)+eps²Aphi] is transformed to r/J, BEFORE the existing
+invertible spatial metric. A does not commute with this multiplication; no
+Allen-Cahn-style cancellation of the entire CH spatial term is claimed. For
+r/J the mean need not be zero, so use the actual invertible(A+Pi0)^-1, never
+silently project away its constant component. Test full chain and parameter
+finite differences independently; no numerical Jacobian floor/hidden clipping.
+
+Predeclare4 seed42 cold starts5000SOAP+500LBFGS: fresh eliminated strong modes8
+control; tanh/original residual modes8; tanh/Jacobian residual modes8; same
+Jacobian scheme modes5. Use instantaneous residuals: tanh composition invalidates
+the previous polynomial unaliasing argument for the integral recipe. Physical/
+reference/IC/time horizon unchanged, one global model, no frozen states or
+supervised weights. Fixed source before the four controls. Fourier features
+are sin/cos(pi*k*z) for k1..8, not2pi*k*x; wavelengths x.125/y.1. Initial
+fundamental coordinate wave numbers reach5, with higher harmonics from tanh.
+Current global basis has NO temporal Fourier embedding (static spatial MLP);
+time is log-Chebyshev rank24. Lower to5 experimentally, no assumption that8
+is intrinsically excessive; changed input dimension/initialization is recorded.
+Relation: confined-ch-global; supersedes the next mixed-block probe at user request.
+
+## 2026-10-28 — Add frequency-only control on the retained best integral recipe
+
+Primary instantaneous controls show map-only phi58.56% versus fresh59.01%;
+Jacobian-before-metric modes8 worsens to73.07% (best evaluated71.00%). An
+independent step1000 audit finds transformed constant mode only4.25% of its
+loss, so reject an unsupported explanation that mean-mode amplification alone
+caused failure. Midpoint dense-time loss matches training nodes, no large
+between-node defect at that checkpoint. Do not invent another operator ordering
+or declare tanh universally ineffective from this single strong-residual recipe.
+User also asks whether Fourier frequencies are too high. In addition to the
+modes8/5 Jacobian pair, run ONE frequency-only modes5 control on the retained
+best phase-only integral R/t recipe, through its existing CLI override. No new
+mapping/loss/formulation/default. This tests frequency reduction on the actual
+retained strategy; it is not a claim of an identical-parameter/seed-invariant
+ablation (input dimension/initialization change). Existing modes8 integral run
+remains historical, no fresh matching rerun or stability claim. Keep5000+500,
+FP64/ordinary, seed42 and frozen physics/reference. Name
+20261028-chtanh-average-m5-01; launch after4primary controls. Relation: confined-ch-global.
+
+## 2026-10-28 — Retain eliminated phi; tanh transform fails these controls, lower band helps R/t
+
+All5 new cold starts5000SOAP+500LBFGS complete. Strong original/tanh-only/
+tanh-Jac-m8/tanh-Jac-m5 phase FEM pooled59.012/58.563/73.073/69.271%, terminal
+65.162/64.977/78.424/75.100%. Tanh-only phase difference is small versus known
+process variability; direct r/J worsens this recipe. Not a universal statement
+about tanh/CH, and not a test of tanh with the best integral loss. No hidden
+Jacobian clipping, map derivatives/implicit mass or exact chemical law defect
+found:2focused tests pass, trained independent derivative max2.3e-12, allCPU
+final/best replays pass. Mean mode contributes only.052%/.020% final Jacobian
+loss; midpoint objectives agree within1%. Reject claims that either explains
+all failure. Constant25ish inverse-J weights can still alter the optimization
+path; exact CH diffusion terms cannot globally cancel J.
+
+Frequency-only current-best integral R/t modes5 reaches phi17.9854%/29.3681%,
+native mu129.292%/836.597%,190.78s, versus historical modes8phi21.540%/43.178%,
+mu258.072%/2716.044%. Phase[-1.34285,1.24822], energy max rise.007078 (old.067052)
+remain poor. No secondseed is warranted as a SOTA promotion while these defects
+remain. Add explicit train_coarsening_average_lowfreq working preset, identical
+to the completed CLI override; keep original simple default and opt-in tanh.
+Preserve the old integral/mixed results. User's phase-only preference supersedes
+mixed-block as the next primary route. No default/SOTA/Git or reference changes.
+
+Modes8 features have wavelengths.125/.1,9--11 median neighbor spacings: no clear
+input sampling violation. Native A² feature gains are2.46--3.30 times modes5;
+higher frequency can still stiffen learning. Lower input count/initialization
+and one-seed/historical-control limitations prevent a strict frequency-only
+causal or stable ordering claim. Keep source-parity records (mapped controls
+identical51 files; baseline active functions identical, unused tanh helpers were
+stabilized before mapped runs). Next preserve phase-only modes5R/t and address
+late chemical/high-frequency errors via a derived single-field full space-time
+linear inverse, rather than blindly adding maps/capacity/seeds/time windows.
+Relation: confined-ch-global; accuracy remains OPEN.
+
+Clarification for this session's finite-weight observation: inverse-J weights
+are state/time dependent, not constant or stopped. Their sampled maximum is
+about23.3; the earlier "Constant25ish" wording referred only to finite magnitude.
+No weighting floor, clipping or numerical derivative saturation is used.
+
+## 2026-10-28 — User requests an intermediate-difficulty global CH control
+
+Retain the ellipse/two holes, physical parameters (including epsilon .02),
+regional delta .03 and collocation mesh .02. Reduce ten initial waves to three
+integer waves (1,1), (2,-1), (1,-2), with amplitudes .8/.7/.6 and phases 0/.8/1.6;
+keep saturation .98, scale .55 and wall width .03. Shorten T1.5 to .75, eleven
+reference snapshots. This changes the physical initial-value problem; regenerate
+and independently refine FEM/native references in a new moderate_multimode3
+child. Preserve all rich-case artifacts and strict phi/mu refinement gates.
+Use the retained phi-only M5 global R/t strategy, rank24, rebuilt80 temporal
+nodes, 5000SOAP+500LBFGS, seed42 runtime provenance. No tanh, windows, new loss,
+reference supervision or default promotion. This first control tests the bundled
+effect of simpler IC/shorter horizon; it cannot isolate either cause alone.
+Rejected reverting to the original unsaturated weak-perturbation pilot, because
+the user still wants visible phase separation and nontrivial perforated walls.
+Relation: confined-ch-global; supersedes the next space-time-metric probe.
+
+## 2026-10-28 — Easier CH improves phase but does not solve global accuracy
+
+New three-wave/T.75 strict independent reference passes (phase mesh/time max
+.1627%/.0154%, mu .1857%/.0371%, mass/energy pass). Matched retained M5 R/t
+strategy cold-start5000+500 takes188.15s: common-FEM phase5.1557%/9.7665%, native
+phase4.2891%/8.9375%, versus rich-case common phase17.9854%/29.3681%. This changes
+IC AND horizon, so reject isolated causality/same-IVP method/stable-order claims.
+A frozen-IC baseline on new case remains40.84%/47.65%; reference pure area grows
+18.75% to42.92% with60.8% field change, preserving nontrivial dynamics.
+Native mu45.06%/156.50%, actual error RMS.1981 vs target.1266, phase overshoots
+[-1.116,1.174] and151-time energy max rise.0003325 persist. Do not conceal these
+or promote SOTA/default. Keep this explicit intermediate benchmark and all richer
+results. CPU final/best replays, independent chemical/mass audits pass; no core
+formula changes or Git action. Relation: confined-ch-global; difficulty sub-study
+complete, global accuracy OPEN. Next controlled option is band5 versus3 on same
+new IVP/reference, or separate ten-wave T.75 for IC/time attribution.
+
+## 2026-10-28 — User selects time windows again; document actual switching
+
+User explicitly says to adopt time windows, superseding the earlier no-window
+requirement. Select existing validated train_coarsening_windows for the original
+rich T1.5 case; preserve original simple default, global/moderate experiments,
+physics/reference/old paths. No new training or adaptive algorithm requested.
+Boundaries are fixed log1p spacing with tau.005 and30 windows, not loss-triggered.
+First650SOAP+max36LBFGS, later150+max16; both archived runs hit L-BFGS iteration
+caps in all30windows. Status is logged but success/residual/endpoint accuracy is
+not a prerequisite to propagate. Reject claiming each window is certified
+converged. Final predicted grid phase is frozen as next initial state, with hard
+continuity/mass and exact chemical law; weights warm start and optimizer resets.
+Errors can propagate/amplify despite conservation. Native terminal phase.809%/
+.748% includes cumulative fitting/propagation at the tested horizon, not a
+long-time guarantee; chemical defects persist. Independent residual/endpoint-
+stability acceptance is a future candidate only, not silently added now.
+Relation: confined-ch-global task retained as the same investigation; goal
+updated explicitly to selected window route with all-field accuracy still open.
+
+## 2026-10-28 — User requests global shared two-field loss balancing
+
+User requests one full-horizon network with phi/mu heads, scale normalization
+and stagger or GradNorm, on the original ten-wave T1.5 physical case. Existing
+shared GlobalMixedNetwork uses one trunk/24 coefficients per physical head,
+not sequential states; fixed-weight scaled mixed runs exist, adaptive/stagger
+controls do not. Predeclare three NEW matched seed42 cold starts: fixed joint,
+gradient-norm balance, loss alternation. Keep original validated reference,
+rank24/shared64x4/modes8, known-IC-scale mu output.5, chemical-unit two losses
+[(A+Pi0)^-1 r_phi/(M*.5), r_mu/.5], fixed full-horizon nodes, hard phase IC/mass,
+ordinary FP64, SOAP5000/LR.001+LBFGS500. No chemical elimination or time windows.
+
+Reuse project's corrosion gradient-norm balance (inverse whole-parameter L1
+gradient norms, NOT original relative-training-rate GradNorm): refresh25,
+alpha1, norm floor1e-6/ceiling1e6, weight floor1e-6/cap10000; stop weight AD.
+Stagger activates phase/chemical losses alternately in25-update blocks for4000
+updates, then1000 joint; all parameters remain shared/trainable with one optimizer
+state. It is loss alternation, not a frozen-field block solve. No compounded
+bias/active-mask state. Refinement is joint in every arm; adaptive arm freezes
+final positive weights for a consistent L-BFGS objective. Log parts/weights/
+active masks/norms and exact phase/chemical/joint update counts. Mathematical
+PDEs/normalization stay as independently checked mixed tests; check new gradient
+recurrence/masks/frozen weighted objective with focused independent tests before
+three serial full runs. Reference labels remain monitoring/checkpoint selection
+only. Preserve selected window fallback and all old checkpoints/defaults.
+Relation: confined-ch-global; new active sub-study, not a default promotion or
+SOAP investigation. No Git authorization.
+
+## 2026-10-28 — Add one raw-residual normalization guard control
+
+Three matched global shared-head controls complete; fixed/gradient_norm/stagger
+common phase55.88/63.63/68.83%, all poor. Independent actual loss reconstruction
+passes; gradient norm reduces normalized chemical loss .03038 ->.00002972 while
+evolution rises .02053 ->.20032. All three retained the older Neumann-inverse
+spatial metric. Do not attribute their failure to every two-head/GradNorm scheme.
+Add ONE raw-residual+gradient_norm control, same network/IC/reference/budget,
+with explicit evolution_scale100 (rounded known-IC native phi_t RMS99.655) and
+chemical_scale.5 (known-IC mu RMS.4886). Losses are mean[(phi_t+M A mu)/100]^2
+and mean[(mu-beta(phi^3-phi)-eps^2 Aphi)/.5]^2. No inverse spatial metric or
+future target scale. Extend optional validator/loss scale, independently check
+the raw residuals/parameter derivative and unchanged legacy mixed case, then
+fresh5000+500. It changes residual norm relative to first three, not physics.
+Preserve first-three identical57-source/initial/time records; fourth snapshot
+records later optional-loss source change separately, no four-way source parity
+claim. No defaults/Git/reference changes. Relation: confined-ch-global.
+
+## 2026-10-28 — Four global shared-head controls fail to improve complex CH
+
+Complete fixed/gradient_norm/loss-stagger controls on original ten-wave T1.5:
+common phase55.8807/63.6294/68.8259%, terminal62.6196/71.5108/67.2824%; native
+mu67.73/147.12/68.14%, terminal277.33/475.95/348.65%; trainers265.60/293.13/
+282.42s. Later raw-normalized gradient control gives55.7275%/64.2271%, native
+mu104.09%/364.33%,113.81s. All5000+500, identical initial parameter files.
+Best-phase checkpoints do not rescue accuracy. No promotion over prior global
+phase-only17.985%/29.368% or windows3.91%/5.75%.
+
+Actual SciPy reconstructed objectives equal logged scalars; final/best CPU
+replays max phase7.12e-15/mu1.89e-14. First-three57source files/full time arrays
+identical; later raw changes only optional loss/validator/README/new config,
+not network/train/balancing/operators. Adaptive refresh200times and stagger
+2000/2000/1000 counts verified. First-three norm bounds/weight caps not active;
+raw hits phase weight cap3times, recorded separately. Gradient balancing reduces
+chemical loss .03038 to.00002972 but evolution rises .02053 to.20032; learned
+mu consistent with wrong phi can still be physically inaccurate. Stagger's
+smaller scalar does not imply smaller field error. Dense energy rises persist.
+Do not infer a universal impossibility of global/shared-head/GradNorm methods.
+Loss alternation is not a frozen-field stagger solve; project gradient balancing
+is not original relative-rate GradNorm. Preserve these limits and all controls.
+Selected window fallback remains; no additional blind seed/step/weight sweeps,
+reference/default/history changes or SOAP investigation. Relation: confined-ch-
+global; requested experiment sub-study complete, all-field accuracy still OPEN.
+
+## 2026-10-28 — User makes verified complex CH time windows the CLI default
+
+Explicit user request: retain time-window route and make it default. Default
+train.py now selects existing train_coarsening_windows (original ten-wave T1.5,
+30log windows,5000SOAP+500LBFGS total, FP64 ordinary); solver.py defaults to the
+same physical/reference config. Keep train_base as the explicit legacy simple
+foundation: changing it would cascade into coarsening and every research preset
+or introduce an import cycle. No physical or numerical parameter retuning.
+Canonical train entry resolves a blank window run_name to a timestamp plus
+nonlocal-windows on a copied runtime config; direct window trainer retains its
+explicit-name requirement. Existing named runs/checkpoints and loading unchanged.
+README quick start/legacy commands, DEVELOPMENT exception, project overview and
+artifact default/legacy metadata updated. No new training, FEM, SOTA/all-field
+accuracy guarantee or Git action; all previous experiments retained. Verify real
+CLI default resolution, window dispatch/name handling with mocked trainer,
+existing31 config schemas/reference and archived selected trajectory. No expensive
+unchanged numerical suite required for this entry/default change.
+Relation: confined-ch-global; explicit new default supersedes historical notes.
+
+Delivered/verified: real no-config CLI/default historical-strategy parity and
+window dispatch (mocked to avoid training), automatic copied-config name and
+explicit-name preservation, explicit legacy CLI/reference, solver parser default,
+all31schemas, strict reference/selected30-window trajectory and docs/index/diff
+checks pass. Numerical strategy unchanged; no full training/FEM rerun needed.
+Default switch complete; remaining chemical/global accuracy limitations deferred,
+not claimed solved. No Git action. Records: archive/chwindow-default-selection.json.
+
+## 2026-10-28 — Explicit switch to random-interface electropolish operator
+
+User selects electropolish neural operator, referencing PI-CViT cvit.py, and
+requests repository style plus shared-space tensor split. Mark completed CH
+default work inactive; retain all its unresolved limits. Prototype the same KKS
+PDE/graph on a distribution of existing SDF rough profiles, with disjoint runtime
+IC IDs and no positive-time labels in the physics objective. Preserve single-IVP
+CLI default and checkpoints; opt in through train.py. Use PI-CViT-inspired patch
+encoder/cross-attention; arrange expensive spatial condition decoding before
+pointwise temporal FiLM so it can be reused exactly across all times. This is a
+separable variant, not an assertion of equivalence to upstream time-dependent
+cross-attention. Simpler pooled-condition FiLM is an explicit comparator, not a
+claimed universal improvement. Validate cached/uncached outputs and time/parameter
+AD before training and independently refine held-out same-graph ODE references.
+No future-interface geometry, reference labels, new PDE or Git history operation.
+Relation: electropolish-neural-operator.
+
+## 2026-10-28 — Random-interface references exceed old liquid-map bound
+
+First two independently refined random-interface graph references have positive
+q maxima .00298/.00148, i.e. c_L>c_Le. Old sigmoid KKS map artificially enforces
+q<=0 when c_Se=1 and cannot represent these targets. Do not alter reference or
+clip it. For the NEW operator use explicit concentration_map=linear_liquid:
+phi=(1+tanh(z))/2, c_L=c_Le*s with unbounded network s, c=c_L+dc*h(phi).
+This retains KKS mixture algebra and the same physical phi/c PDE; removes only
+an artificial output bound. Original single-IVP default/checkpoints unchanged.
+Known local input features remain prescribed phi0/c0, not evolved labels.
+Check physical residual/time/parameter AD independently and report c_L/q and
+physical ranges; no assumption that total-c constraints follow automatically.
+Relation: electropolish-neural-operator; no SOAP or physics/reference retuning.
+
+## 2026-10-28 — Public operator config follows arch/data ownership
+
+Move neural-operator model dimensions/conditioning under c.arch, leaving dataset
+family/image shape/action under c.operator. The first two pilot processes already
+captured the initial all-in-operator experimental schema. Preserve their exact
+saved configs/source/checkpoints unchanged. Private _build_network now accepts an
+explicit architecture record and image_shape; archival replay passes the saved
+operator record explicitly, new training passes c.arch. No implicit schema or
+numerical fallback, state conversion, field values or artifact relocation. Check
+new/public-template versus saved pilot-template equality and canonical dispatch.
+Relation: electropolish-neural-operator; configuration ownership cleanup only.
+
+## 2026-10-28 — Keep FP32 trained-attention replay limits explicit
+
+Both2000Adam operator pilots complete. GPU replay with saved highest-matmul
+policy recovers cross fields exactly and film within6.26e-7. A default-policy
+GPU probe was wrong arithmetic; retain its log, use saved policy. Even with
+highest, CPU FP32 cross fields differ by1.62e-3 and shared-vs-repeated-query GPU
+raw outputs by~.00233; film CPU gap1.43e-6. Aggregate cross phase pooled/terminal
+changes only~2.3e-5/9.9e-5 absolute. Do not silently label strict pointwise CPU
+probe passed or infer a code/PDE defect. Small random FP64 split/time checks pass.
+For trained-network reuse, record FP32 differences explicitly and verify the
+algebra again using promoted trained weights/inputs inFP64; timing remainsFP32.
+No production arithmetic/normalization retuning or SOAP investigation. Store
+per-backend outputs/metric differences and avoid bitwise/batch-invariance claims.
+Relation: electropolish-neural-operator.
+
+## 2026-10-28 — Electropolish operator prototype and two pilots delivered
+
+Two matched2000Adam original-physics pilots complete: mean held-out phase pooled
+cross17.185%/FiLM17.462%, terminal13.305%/11.936%, vs frozenIC47.721% terminal;
+trainer245.682/160.897s. Same16train/4test,5s,55common initial arrays,14of15exact
+sources; sole snapshot delta fixes initial new-CLI return-dict/absl exit1. Cross
+trainer finished/saved despite wrapper code; film and final c.arch width8/seed2026
+one-update smoke exit0. Existing single-IVP defaults unchanged. Six references
+max refinement1.93e-8; no positive-time labels or test checkpoint selection.
+Three distinct focused numerical checks and real canonical/template/provenance
+checks pass; retain failed harness/probe logs. No universal architecture ranking.
+
+Spatial cache forward+timeJVP gains1.162x/1.108x on1024x4, excluding PDE/optimizer.
+Trained promotedFP64 shared/paired values and JVP exactly equal in both cases.
+FP32 cross batching relative gaps2.28e-4/1.62e-4 remain; CPU physical gap.00162,
+aggregate phase drift<.01percentage point. GPU saved-highest cross exact/film
+6.26e-7; CPU film1.43e-6. Strict cross CPU field probe is NOT passed. Do not hide
+it, change production arithmetic or overstate the speedup. Early excessive
+roughness smoothing and freeDq~.77-.81 show remaining physics-fit limits.
+
+Archive requested prototype task with direct paths/raw evidence, scientific
+figures, README/DEVELOPMENT/index and idle-state resume. Future5000SOAP or joint
+geometry/time FiLM are proposals only, not queued; deferred SOAP issue untouched.
+No Git history action or old artifact migration. Relation: electropolish-neural-
+operator COMPLETE as prototype, accuracy research remains open on user request.
+
+## 2026-10-28 — User requests fixed single-interface CViT fitting control
+
+Clarify previous training used16interfaces with2conditions/update and vmap/mean,
+not one input. User authorizes initial single-sample test. Predeclare source
+training index0/B1, same cross-attention/Adam2000/LR.001/seed42/5s/FP32highest/
+PDE/IC/BC/graph and sampling sizes; new cold start, not resume. Reuse strict
+existing dataset/reference unchanged. Add explicit optional operator.training_
+indices: absence uses entire source train partition; present tuple is a unique
+nonempty subset of training IDs, never test IDs. Preserve absent-option random
+schedule. Report selected input as train, excluded source-train monitors as
+unused_train, independent tests as test. Compare sample0 to same sample0 of prior
+16-input run, not its test mean. One input changes condition batch/optimization
+objective/work, not a pure generalization ablation or proof of NO generality.
+No blind optimizer sweep, math/reference/default/Git changes. Relation:
+electropolish-operator-single.
+
+## 2026-10-28 — User requests optimizer alignment and online input sampling
+
+Established electropolish PINN usesSOAP5000/LR.001; earlier operator pilots used
+Adam2000. Fixed-inputAdam2000 now complete at phi2.483%pooled/3.387%terminal.
+User asks optimizer choice, retains single-input test first, then explicitly
+requests online sampling from continuous initial-interface space, B8/16 as memory
+allows. Run one matchedSOAP2000 fixed-input control before selecting optimizer.
+Online extension will draw continuous amplitude/frequency/phase coefficients each
+update, not replay a finite seed list. Keep PDE, known SDF definition, graph and
+held-out reference bank; declare any initial-profile validity rejection explicitly.
+B8 first; measure actual memory. Preserve prior experiments/defaults/precision
+limits and reject generalization claims from fixed-input fitting. Relation:
+electropolish-operator-single, continued scope with authorized online stage.
+
+## 2026-10-28 — Continuous online SDF distribution and validation declared
+
+Online input triples draw a in[.3A,A), f in[f_lo,f_hi), phase in[0,2pi), the
+existing six-mode family. Fixed4B candidates/update, accept firstB whose2000-
+vertex profile lies strictly within(.005,.495). This explicitly conditions the
+input distribution on staying inside the physical domain; no amplitude clipping,
+finite-seed-bank replay or future-solution prior. If valid_count<B fail before
+any optimizer update; no padded sample silently used. GPU JAX SDF preserves the
+existing2000vertex/±16segment query formula; nearest segment indices and grids
+precomputed per fixed-shape spatial pool. Independent NumPy SDF identity and
+fresh/replayableB8/range/BC tests pass (2tests5.56s). No parameter AD through
+random target construction; time JVP still only in field decoder. Reference
+bank used only for monitoring/test under online mode; no train-L2 label for it.
+Plan explicitonlineB8/5000 baseline after optimizer control, record coefficient
+triples per update and allocator peak at first/25th/final updates. Relation:
+electropolish-operator-single continued; user authorized online stage.
+
+## 2026-10-28 — Choose Adam for the first online operator baseline
+
+Matched single-input2000 controls complete: Adamphi2.4829%pooled/3.3870%terminal,
+SOAP4.1869%/3.2136%; c2.9651%/4.0312% vs4.9412%/3.7003%; trainer237.26/387.33s.
+Both sample0/B1, same initial arrays/model/PDE/time samples pending final parity
+check. SOAP slightly better terminal, worse pooled and higher compile/runtime;
+not a universal optimizer ranking or statement about establishedSOAP PINN.
+Select Adam/LR.001 for onlineB8/5000 as the clearer inexpensive baseline; retain
+SOAP as explicit override and both results. Profile actual peakmemory, never
+change batch silently. User authorized continuous-online second stage. No SOTA/
+physics/default/Git or SOAP implementation changes. Relation: ongoing task.
+
+## 2026-10-28 — Fixed-input and continuous-online controls completed
+
+All three new cold starts exit0. Fixed-inputAdam/SOAP2000 use sample0 at every
+actual update and73identical initial arrays; onlyoptimizer/name differ. Same-
+input old16-case phi21.538%pooled/15.888%terminal falls to2.483%/3.387%Adam or
+4.187%/3.214%SOAP. Not an isolated condition-count ablation (B changes), nor NO
+generalization or universal optimizer ranking. Preserve Adam online baseline.
+
+OnlineB8/5000 generates40000distinct actual coefficient vectors, not a finite
+training bank. Minimum31/32candidates pass declared profile bounds; no fallback
+or batch reduction. Fourheldout phi17.748%/12.355%, c19.317%/14.029%,326.71s;
+early shape/transport accuracy remains open. Prior finite pilot has different
+budget/batch/distribution, so no pure online-accuracy-gain claim. Peak active
+JAX2.15GiB, pool5.01GiB, observedNVML~5.3GiB on reported48GiB; B16 not measured.
+GPU final replays all within1.43e-6; independent fields/actual-input use and
+32NumPy height checks pass. New subset RNG/exclusion test and two independent
+continuousSDF/fresh-batch tests pass. Existing numerical core/source/read-only
+reference bank/defaultPINNSOAP retained. Save raw logs, source/config/checkpoints,
+actual coefficients/sampled IDs, scientific curves/fields and index/README.
+Archive current task; no further training/optimization or Git operation queued.
+Relation: electropolish-operator-single, extended online stage COMPLETE.
+
+## 2026-10-28 — Diagnose online electropolish equation balance before changing training
+
+User authorizes AC/CH dominance, gradient-conflict and concentration diagnosis
+after inspecting unseen-interface16 fields. Keep the completed onlineB8/5000
+Adam final checkpoint, PDE, sampler, references and all defaults unchanged.
+Analyze recorded five-part losses/weights; supplement absent gradient history
+with explicitly labeled frozen-checkpoint probes, not inferred historical
+gradients. Predeclare actual online batch iterations0,1249,2499,4999, retaining
+the original coordinates/time draws and comparing stale saved-final versus
+newly proposed inverse-L1 weights. Inspect initial checkpoint on batch0 as an
+initialization control. Compare heldout16 and all four heldout fields with
+independent SciPy graph concentration transport, phase-interface roughness,
+and physical RHS terms. Gradient directions/caps alone cannot establish unique
+causality; no optimizer sweep or training modification until evidence warrants
+it. Relation: electropolish-operator-balance diagnostic.
+
+## 2026-10-28 — Frozen online diagnostics do not support persistent AC/CH dominance
+
+Same-source initial/final replay on actual predeclared batches0/1249/2499/4999
+passes; initial losses/weights reproduce logs. Last1000 logged AC/CH weighted
+loss ratio median.467(range.119..2.376). Final AC/CH gradient cosines.010..119,
+fresh inverse-L1 weighted L2 norms AC.877..1.233/CH1.289..1.645; no strong
+negative conflict or orders-of-magnitude dominance on these probes. BC weights
+cap1000 yet their weighted gradients stay relatively small. Saved-final IC
+gradient norm share~7..8% versus freshly balanced~23..28% on these batches;
+this illustrates stale stochastic weights, not reconstructed historical failure.
+
+Four heldouts fit initial phi~1.17..1.63% but lose distinct roughness by t*.05.
+At t*.25 model std(height)~.002 across all four, reference.0173..0480. Heldout16
+terminal qL2.03414 yet DqL2.80704; independent SciPy action and GPU fields agree
+with existing reference/checkpoint. This is shape/transport and condition-
+retention failure; do not rank stagger as a remedy without a trained control,
+or treat q value accuracy as transport accuracy. Dense early residual probe
+and condition-spread quantification underway; no training/default/physics change.
+Relation: electropolish-operator-balance, measured diagnostic evidence.
+
+## 2026-10-28 — Supplement late-batch balance with near-initial-time diagnostics
+
+The four predeclared actual batches all have t*>.27; their gradient balance
+cannot rule out early conflicts. Independent dense time-JVP/SciPy graph checks
+show [0,.05] holds49.81%AC/73.98%CH integrated absolute residual, with mean
+residual18.85x/54.03x late time. Quadrature41->81 nodes per interval changes
+integrals<=.508%, below the predeclared3% gate. Ensemble phi spread prediction/
+reference changes102.93% at0 to6.03%at.05/.943%at.25/.447%at1 (only four heldouts).
+Add explicitly non-historical final-model gradient probe using actual batch0
+geometry/conditions and declared times(.001,.003,.005,.02), near the observed
+early residual peaks. Preserve original four probes and distinguish this
+supplement from recorded training times; no optimizer/model update or new
+reference. Relation: electropolish-operator-balance diagnostic scope refinement.
+
+## 2026-10-28 — Early frozen probe exposes PDE versus initial-data conflict
+
+Supplemental early batch0 probe exits0: AC/CH cosine+.92657, versus IC-.59619/
+-.52807. Early AC/CH L1 losses3.889/4.172; fresh balancing gives weighted L2
+12.126/13.169 and IC9.763 (IC hits1000cap). Even with fresh weights, IC cosine
+with the combined gradient is-.21081; with saved-final weights it is-.55551 and
+IC contributes only.70% of sum of gradient norms. Thus early conflict is between
+coupled PDE improvement and maintaining IC, not AC against CH, on this frozen
+probe. Negative total-gradient IC alignment means an infinitesimal negative-
+gradient step increases IC loss; Adam's actual state/direction is unavailable.
+Do not claim the causal optimizer trajectory or a proven remedy. Prefer a
+future explicitly controlled early-time sampling/condition-retention experiment
+over assuming AC/CH staggering solves this failure. Finish as diagnostic only,
+retain raw evidence and all defaults; no training or Git history change.
+Relation: electropolish-operator-balance, acceptance achieved pending record checks.
+
+## 2026-10-28 — Online balance diagnosis completed and archived
+
+All diagnostic processes exit0; six-source/actual-coefficient parity, initial
+loss/weight replay, weighted scalar-gradient linearity, four GPU field replays,
+dense temporal quadrature, gradient-matrix/finite-array checks and strict
+artifact JSON/syntax/links/figures/diff checks pass. Archive self-contained task
+with scripts/raw JSON/NPZ/stdout and five scientific figures; update README
+validation guidance, artifact index and dashboard(activeNone). Frozen probes
+support early PDE/IC competition, loss of condition dependence and transport
+error, not a unique causal optimizer trace or a validated correction. All
+workers/GPU idle; no training, model/default/reference/Git history change and
+no queued experiment. Relation: electropolish-operator-balance COMPLETE.
+
+## 2026-10-28 — User requests shared causal training for online electropolish
+
+Reuse existing per-time CausalWeightor compute_weights/update_eps, not a new
+weighting law or window scheme. First matched B8/5000 Adam control changes
+only causal weighting/state, retaining actual condition/time/spatial RNG,
+model/physical losses/reference/default. Compute correctly normalized per-time
+free-core MAE per condition before causal weighting; do not inherit legacy
+masked-to-padded mean dilution. Stop weights in parameter AD. Separate AC/CH
+weights use shared min(epsAC,epsCH) as legacy; update shared eps values with
+batch-mean causal weights, reducing to legacy at B1. Keep IC/BC active and
+record both physical raw and weighted losses/weights/eps. Per-time Nt4 uniform
+sampling may still miss the narrow initial layer; do not bundle a hidden
+sampling change or promise improvement. Independent checks precede canonical
+train.py cold start, then replay errors/transport/input dependence. No shared
+causal/PDE/default/reference/Git change. Relation: electropolish-operator-causal.
+
+## 2026-10-28 — Matched online causal control completed without L2 improvement
+
+Canonical causalB8/5000 Adam run exits0 in323.98s. Same73initial array leaves,
+exact40000actual profiles/accepted counts and recorded time draws; config
+diffs onlyloss.use_causal/run_name. Shared numerical/model/generator sources
+match; online preset source differs by one explanatory comment, AST equal.
+Four heldout mean phi pooled/terminal baseline17.748%/12.355% -> causal17.932%/
+13.105%; c19.317%/14.029% ->19.521%/14.802%. Unseen16 terminal q3.414->6.253%,
+Dq80.704->88.266%; roughness still collapses. Keep causal opt-in, no promotion.
+
+Independent51record stopped-prefix/weighted/raw-loss/eps/time-RNG audit passes,
+final GPU replay max6.26e-7;73array/stream/config/source/physical-map parity passes.
+Three numerical/step/noncausal-gradient checks and corrected config rejection
+check pass; harness-only static-function/ConfigDict fixture failures retained.
+Initial byte-parity audit failed on a comment; record explicit AST exception,
+never silently drop numerical source checks. No PDE/reference/architecture/
+shared-causal/default/Git change or seed/stability claim.
+
+Observed limit: per-time causal sorts only4sampled times;84.31%of51logged batches
+contain no t*<.05, median earliest.1932. No persistent per-time residual memory
+or IC prefix exists in this reused rule. Final epsAC1.61051/epsCH100, effective
+min1.61051; causal weights are active, late-time mean weights~.65AC/.72CH in
+last1000 logs. A future explicit early-covering temporal sampling control may
+address this limitation but is a separate change, not a measured benefit here.
+Finish and archive this requested causal comparison; no further sweep queued.
+Relation: electropolish-operator-causal complete pending final record checks.
+
+## 2026-10-28 — Causal operator integration and comparison archived
+
+Final changed-module syntax/whitespace, saved/current source parity, strict
+JSON, finite model fields, recurrence/time-stream/initial/GPU replay records,
+scientific PNGs, task links/index/archive and git diff checks pass. Four focused
+checks are covered by the numerical/step/regression and separate corrected
+config commands; raw harness/comment-parity failures remain documented.
+Archive task, mark dashboard activeNone, keep opt-in causal preset and measured
+negative comparison visible in README/index. No second sampling control, default
+promotion, additional training, shared-causal modification or Git history action;
+all workers/GPU idle. Relation: electropolish-operator-causal COMPLETE.
+
+## 2026-10-28 — User redirects diagnosis to conditional training and IC distance
+
+Accept that observed early residuals/causal batch coverage do not establish
+sampling as the root cause. Existing single-input CViT fits with uniform Nt4;
+freeze sampling/physics/defaults and inspect training/condition dependence.
+IC uses signed minimum Euclidean distance over33nearby segments of2000vertex
+profile, with y-f(x) used only for sign; it is not globally exact SDF. Quantify
+that approximation against exhaustive search without silently changing IC/ref.
+Predeclare source0/1, heldouts16..19 and first four actual online profiles for
+distance audit; condition image/local-feature swaps0/1 and16/17; per-condition
+AC/CH/IC gradients of frozen online final batch0 at recorded and explicit early
+times. Add one two-fixed-input(0,1)/B2/2000Adam/uniform-time cold start using
+canonical train.py and existing reference bank; compare existing same-input
+single/16-case controls with exposure/batch limitations. No stratified sampling,
+new equation/reference, optimizer sweep, default promotion or Git change.
+Relation: electropolish-operator-training.
+
+## 2026-10-28 — Distance approximation and two-input control narrow the diagnosis
+
+Exhaustive1999segment comparison on ten declared profiles passes current-window
+initial-field replay<=3e-7. Six bank phase differences from global SDF.14..1.28%,
+vertical-gap versions1.01..4.15%; do not call existing33segment search exact SDF
+or silently regenerate physics. Two-fixed-input uniformNt4/2000Adam exits0 in
+220.2s: same source0phi12.547%/7.240% vs fittedsingle2.483%/3.387% and prior16case
+21.538%/15.888%. This is a multi-condition fitting issue under current schemes,
+not evidence that layered sampling is necessary. No isolated count effect is
+claimed across B/exposure changes. Frozen final batch0 AC/CH individual gradient
+mean retains98.5/98.6% of mean norms (early85.8/89.3%); high positive inter-input
+cosines contradict strong cancellation on these probes. Finish condition-path
+sensitivity/head audits before attributing the collapse to architecture or optimizer.
+Relation: electropolish-operator-training, measured intermediate evidence.
+
+## 2026-10-28 — Local-IC query shortcut requires a trained ablation
+
+Frozen online16/17 image-only swaps change phase by~.005%of true input difference
+at0/.0276%at.25, versus local-IC-only104.38%/1.152%. Two-trained-input model
+also largely ignores images (.197%at0/.224%at.25), fits IC via local features.
+Encoder gradients are nonzero; no stopped-AD/frozen-parameter bug identified.
+This is a concrete representation/training shortcut hypothesis, not a proven
+cause from frozen probes alone. Add opt-in arch.local_input=zero to zero ONLY
+query-local feature channels, preserving all true IC targets, image data,
+model parameter leaves/init and physical losses. Explicit initial mode retains
+current strategy; old saved architecture without this optional field retains
+legacy initial mode. One matched two-input/B2/2000Adam/uniform-time cold start
+tests this single change; no SDF/reference/sampling/default strategy change.
+Focused supervision-preservation/inference test before training, and replay
+must use saved option. Relation: electropolish-operator-training diagnostic ablation.
+
+## 2026-10-28 — Removing local-query IC shortcut improves matched two-input fitting
+
+Zero-local two-input/B2/2000Adam/uniform-time run exits0 in254.04s. Mean fitted
+phi pooled/terminal9.470%/5.920% ->2.601%/2.704%, with true IC supervision and
+all physics/sampling/initial arrays retained. This supports the shortcut
+hypothesis, but four heldout phi24.375%/15.808% remain poor after only two
+training inputs; do not extrapolate fitting to operator generalization.
+Prescribed finite-window SDF is unchanged; documentation now says approximation
+explicitly. Launch one matched continuous-onlineB8/5000Adam zero-local control
+on the ORIGINAL40000profile stream to validate the same intervention at operator
+scale, using canonical train.py/online config and explicit arch.local_input=zero.
+No causal/stratification/initial hard constraint/optimizer/default promotion,
+reference regeneration or Git change. Relation: electropolish-operator-training,
+positive diagnostic ablation extended to matched online validation.
+
+## 2026-10-28 — Same-stream online image-only conditioning improves physical accuracy
+
+UniformNt4/onlineB8/5000Adam zero-local control exits0 in315.83s. Four unseen
+mean phi pooled/terminal17.748%/12.355% ->5.573%/4.372%; c19.317%/14.029% ->
+6.452%/5.124%. No causal, stratification, hard IC, modified SDF/PDE/reference,
+optimizer change or extra budget. Fitted pair0 image-only swap response is98.7%
+of true initial difference and92.5%at.25, versus original~.2% image response;
+two-input fit reproduces single-PINN-like accuracy after removing local shortcut.
+This controlled intervention supports a conditional-training shortcut as a
+major contributor, without proving universality or seed stability. Default
+initial mode stays unchanged as predeclared; zero is explicit reproducible
+best measured online control. Finish same73arrays/40000profiles/config/source/
+field/transport audit and archive. Relation: electropolish-operator-training.
+
+## 2026-10-28 — Conditional training/IC diagnosis completed with verified improvement
+
+All three new controls and frozen/audit workers exit0; exact73initial arrays/
+40000online profiles/config delta, source executable parity and six final GPU
+field replays<=2.33e-6 pass. Independent Dq at unseen16 improves80.70->17.79%;
+phase input variation at.25 recovers80.36%of reference. Two supervision/legacy
+tests pass, exhaustive IC check and within1%separate/B8 gradient check pass;
+final syntax/strictJSON/finite-field/PNG/links/index/current-source/diff checks
+pass. Preserve the successful zero-local option, original initial default and
+all old runs; archive task/results/configs/figures and mark activeNone. Explain
+windowed signed-distance approximation candidly; no initial/reference numerics
+changed. No causal/layered sampling/extra budget/Git history action or queued
+optimization; all workers/GPU idle. Best measured online meanphi5.573/4.372%
+remains a one-pair result with harder-case and seed-stability limits. Relation:
+electropolish-operator-training COMPLETE.
+
+## 2026-10-28 — Freeze operator before expanding to64 independent test interfaces
+
+User requests training cost, a larger64or100 test set, and local AD comparison
+context. Choose64 fresh profiles, predeclare identities before solving, retain
+the six-mode continuous marginal law conditioned on the same2000-vertex height
+acceptance as online training. Existing seed-defined IC is preserved; no new
+distance formula. Freeze final image-only checkpoint, no test-based selection.
+Validate all references with original coarse/fine tolerances, report per-input
+and aggregate errors/dispersion. Four CPU processes, one BLAS thread each,
+separate direct-path dataset. Current operator trainer has no local AD branch;
+explain encode-once feasibility and unmeasured derivative/parameter-gradient
+cost rather than asserting a speed ratio or ordinary PINN timing transfer.
+No local full training, defaults, old artifacts or Git history changes.
+Relation: electropolish-operator-test64.
+
+## 2026-10-28 — Bound the local operator cost comparison to an explicit benchmark
+
+While64references solve, measure nonlocal versus coordinate-AD physical PDE
+loss plus parameter gradient at the same B8/Nt4/free-core queries. Share the
+encoder inside parameter AD, compute coordinate Hessian traces with directional
+JVPs (not a dense cross-query Jacobian), and omit nonlocal halo for local AD.
+Check directional derivatives against single-query Hessians. Report compilation
+and synchronized warm timings separately; no IC/BC/optimizer/adaptive-balance or
+full local-training accuracy/speed claim. This sharpens the user's cost question
+without introducing a production local PDE/BC/reference branch.
+Relation: electropolish-operator-test64.
+
+## 2026-10-28 — Larger frozen test passes; local component cost is comparable
+
+All64fresh profiles/reference refinements pass (maximum4.60e-8). Meanphi
+pooled/terminal4.506/3.502%, p906.909/5.850%, worst10.541/8.210%; meanc5.323/4.163%.
+Keep this separate from old four-input mean5.573/4.372%; same frozen final
+checkpoint, no training gain/seed-stability/new distribution claim. References
+797s/fourworkers, cold evaluation26s(~24sJIT), warm complete trajectory2.23ms.
+Existing training5000Adam/B8/315.8s is unchanged; large bank is final-test only.
+Directional coordinate-Hessian versus full single-query check passes3.30e-16;
+PDE value+parameter-gradient warm medians NL7.62ms/AD6.99ms, same245freecores,
+2453halo versus245local queries. No clear AD slowdown; halo/AD costs can offset.
+Nonlocal warm timing overlaps CPU solvers; local follows their exit, and its
+compile wall includes an explicit temporary process pause. Retain raw evidence;
+do not rank an8%difference or compare pure compile costs/full training/accuracy.
+No production local branch, new BC/reference formulation, default promotion,
+checkpoint modification or Git action. Archive validated probes/results;
+dashboard activeNone and all workers idle. Relation: electropolish-operator-test64 COMPLETE.
+
+## 2026-10-28 — Preserve incompatible rough initial fields in full operator comparison
+
+User explicitly retains physically meaningful endpoint slopes and authorizes
+the original-case local/nonlocal cold starts. Do not redesign ICs for a cleaner
+comparison. Local parabolic evolution has positive-time Neumann closure and
+an initial boundary adjustment; impose no Neumann loss at t0. Add an opt-in
+local_ad operator path, same image-only model/initial arrays,40000profiles,
+times/core/IC draws,Adam5000/B8. Explicit sixth normalized phi_n/q_n loss closes
+side walls; nonlocal keeps five terms and pair closure. Report this necessary
+objective difference. Use final checkpoints only, common64graph targets and
+independent local FD101targets with original time tolerances; predeclare space
+refinement/extra-early indices0,21,42,63 at201/401 grids. Do not silently call
+finite-horizon pair boundaries classical Neumann or infer stable ordering from
+one pair. Serial GPU timing, CPU SciPy reference work only, no IC/reference
+replacement/default promotion/optimizer sweep/Git operation.
+Relation: electropolish-operator-local-comparison.
+
+## 2026-10-29 — Separate phase invariance from concentration reference diagnostics
+
+Original localFD101test42 reaches c1.000019071 and fails the inherited global
+0..1range heuristic;63other101and3of4FD201complete. Total c has no unit-interval
+maximum principle: at c=1 on an interior patch and a maximum of h(phi),
+c_t=-N_CH*dc*Laplacian h(phi)>0. Independently check this counterexample against
+the physical RHS. New operator_reference validates finite fields and AC phase
+range, records concentration extrema without clipping or an invented c cap.
+This matches the already documented unrestricted linear-liquid operator map;
+equations/IC/BC/time-refinement tolerances are unchanged. Original graph targets,
+legacy solver and loaders are untouched. Retain failed raw records and all
+validated partial references; an explicit --resume mode will check and reuse
+them, rather than silently rerunning or skipping failed inputs.
+Relation: electropolish-operator-local-comparison reference validation.
+
+## 2026-10-29 — Interpret matched operator timing and boundaries separately
+
+Both original-IC5000Adam/B8cold starts complete with exact73initial arrays,
+40000profiles and time/core/IC/BC samples. Nonlocal/local process368.35/693.03s;
+first update223.35/533.87s, warm mean16.71/19.35ms. Report compilation separately
+instead of transferring the1.88x cold-start ratio to steady updates. Reference
+workers were stopped throughout both training timings, then resumed. Common
+localFD10164meanphi pooled4.427/8.595%, terminal3.176/5.498%; common graph gives
+the same ranking. Local normal RMS is smaller despite worse early side fields,
+so do not call pair closure exact classical Neumann or infer a unique boundary
+mechanism/stable seed ordering. Keep final checkpoints/no test selection and
+existing defaults. Last FD401/interface42 reference was interrupted during the
+service interruption; explicit --resume validates75outputs and fills only the
+missing one. Earlier automatic approval review failed due to exhausted usage,
+not an unsafe-action finding; resumed user authorization permits retry after
+tools are available. Relation: electropolish-operator-local-comparison.
+
+## 2026-10-29 — Complete matched operator comparison with refined common targets
+
+Last FD401/interface42 solve completes on explicit resume; all76coarse/fine time
+checks pass, maximum2.583e-8. On declared4inputs, FD201->401pooledphi differences
+.068..076%; againstFD401 mean NL/localphi5.065/8.773%, terminal2.945/4.886%,
+early side3.829/10.336%. Thus commonlocal64ranking survives refinement on this
+subset; do not call all64continuum-converged or extrapolate training seeds.
+Nativegraph/FD401pooledphi.56..1.01% remains a finite-horizon discrepancy.
+All64/refined4field norms/reference gaps/aggregates/normals/input/source checks
+and76reference BC/range/time gates independently pass; total c max1.00031175
+is recorded unmodified, consistent with its no-maximum-principle derivation.
+Retain optional local_ad/six-loss control and existing default settings. Archive
+62new task artifacts without overwriting old records, update README/DEVELOPMENT/
+artifact index and mark activeNone. CPU/GPU workers complete; no queued work,
+new optimizer sweep, IC flattening, checkpoint selection or Git history action.
+Relation: electropolish-operator-local-comparison COMPLETE.
+
+## 2026-10-29 — User authorizes publication of accepted current results
+
+Commit/push is explicitly authorized in this turn. Preserve the coherent
+accumulated confined-CH/electropolish implementation and archived results since
+dev728e5b9, including documentation and agent navigation updates. Stage only
+repository files; external artifacts keep direct paths. Inspect syntax/strict
+records/whitespace and existing numerical-verification evidence; do not rerun
+unchanged expensive studies. Use dev commit, regular merge into main, push
+origin main only, then verify remote equality and clean worktree. Reject force
+push, history rewriting, dev publication or default retuning as unnecessary.
+Relation: phasefield-results-publication.
+
+## 2026-10-29 — Normalize publication whitespace without changing results
+
+Staged inspection covers823files and reveals trailing spaces in generatedSVG/
+stdout plus one extra PythonEOF line. Normalize20files only in whitespace;
+independent PythonAST/SVGtree/attribute and whitespace-free text equality pass.
+Numerical source/field values and previous verification evidence are retained.
+155Python syntax/260strictJSON/100JSONL format checks pass. Archive publication
+preparation record with branch history as the authoritative delivery receipt;
+verify main remote refs after the authorized regular merge and push. No extra
+training or unchanged expensive test suite is warranted by whitespace cleanup.
+Relation: phasefield-results-publication.

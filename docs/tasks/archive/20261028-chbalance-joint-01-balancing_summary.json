@@ -1,0 +1,18 @@
+{
+  "kind": "fixed",
+  "soap_update_counts": {
+    "phase_only": 0,
+    "chemical_only": 0,
+    "joint": 5000
+  },
+  "final_weights": [
+    1.0,
+    1.0
+  ],
+  "refinement": "joint",
+  "refinement_effective_weights": [
+    1.0,
+    1.0
+  ],
+  "shared_parameters": "All trainable parameters update; stagger alternates losses, not frozen fields"
+}

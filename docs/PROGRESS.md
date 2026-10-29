@@ -17,7 +17,169 @@ The split preserved physical formulations and existing artifact paths.
 
 ## Active task
 
-None.
+None. No queued training or optimization.
+
+## Recent completed tasks
+
+[Phase-field publication record](tasks/archive/phasefield-results-publication.md).
+User authorizes publication of accumulated confined-CH/electropolish work.
+155Python AST/260strictJSON/100JSONL checks pass;823staged files, with20files
+normalized only in whitespace and checked for identical Python/SVG/text meaning.
+Git workflow is dev commit -> regular main merge -> origin/main only; branch
+history and final remote-ref verification provide the publication receipt.
+No retraining or numerical/default change in the publication task.
+
+[Electropolish operator local AD/nonlocal comparison](tasks/archive/electropolish-operator-local-comparison.md).
+Original rough ICs, matched5000Adam/B8; exact73initial arrays/40000profiles/
+time/core/IC/BC parity. CommonlocalFD10164meanphi pooled NL4.427/AD8.595%,
+terminal3.176/5.498%; early side4.219/12.223%. Cold process368/693s mostly
+compilation; warm update16.71/19.35ms. All76reference time gates<=2.583e-8;
+declared4FD201->401phi differences.068..076%, refined-target ranking retained.
+Local explicit sixth Neumann loss gives tighter point normals despite worse
+field fit; no exact-Neumann/unique-cause/seed-stability claim for nonlocal.
+Focused tests, field/refinement/source verification and scientific figures
+complete; scripts/results/README/index/memory archived. No IC/default/Git change;
+all workers complete. Unrestricted concentration range check is derived/tested.
+
+[Electropolish operator64-interface evaluation](tasks/archive/electropolish-operator-test64.md).
+Same image-only final checkpoint,64fresh accepted six-mode profiles, original
+IC/graph/reference gates: meanphi pooled/terminal4.506/3.502%, p906.909/5.850%,
+worst10.541/8.210%; meanc5.323/4.163%. Allrefinements<=4.60e-8, no training-input
+overlap/model selection. New test estimates, not a retraining gain. References
+797s/fourworkers; cold eval26s with24sJIT, warm2.23ms/fulltrajectory. Existing
+5000Adam/B8training315.8s unchanged. PDE-only loss+parameter-gradient probe
+NL7.62/AD6.99ms on245freecores (2453/245queries), promoted Hessian check passes.
+Small timing difference has CPU-load caveat; local compile wall includes pause.
+No full local training/accuracy or stable speed-order claim; no production,
+default, checkpoint or Git change. Scripts/raw results/README/index archived,
+all workers idle.
+
+[Electropolish conditional-training shortcut diagnosed](tasks/archive/electropolish-operator-training.md).
+Uniform-time single fit succeeds; two-input local-feature fit degrades. Frozen
+image swaps nearly ignored while local IC copies t0; no strong inter-input
+gradient cancellation/frozen encoder found. Optional arch.local_input=zero
+removes only query features, retains true IC supervision/image/physics. Matched
+two-fit meanphi9.47/5.92% ->2.60/2.70%; same-stream onlineB8/5000phi17.748/12.355%
+->5.573/4.372%, c19.317/14.029% ->6.452/5.124%,315.8s. Unseen16phi1.83/1.69%,
+Dq80.70->17.79%; input variation at.25 recovers80.36%reference. Harder18still
+10.44/8.88%; no universal/seed-stability or default-promotion claim.73initial
+arrays/40000actual profiles exact; tests/gradient/field/source/transport checks
+pass. IC is33segment windowed signed Euclidean distance, not vertical gap or
+exact global SDF; exhaustive IC differences.14..1.28%, numerics/ref unchanged.
+Scripts/results/figures/README/index archived; defaults/old artifacts/Git history
+retained, workers idle. No causal/stratification/hard-IC intervention bundled.
+
+[Electropolish online causal control completed](tasks/archive/electropolish-operator-causal.md).
+Canonical opt-in train_operator_causal reuses shared stopped per-time weights/
+eps adaptation per condition, correct free-core means and existing gradient
+balance. MatchedB8/5000Adam takes324s; mean testphi17.748/12.355% ->17.932/13.105%,
+c19.317/14.029% ->19.521/14.802% pooled/terminal: no improvement/default promotion.
+73initial arrays/40000actual profiles/time draws exact;51NumPy causal-record
+checks and sixGPUfield replays<=6.26e-7 pass. Three numerical/step/noncausal
+gradient checks plus config rejection pass; test-harness/comment-parity failures
+retained explicitly. Input dependence/transport still weak;84%of logged Nt4
+batches miss first5%time, a sampling limitation not isolated causality. Raw and
+causal losses/weights/eps, configs/checkpoints/curves/fields/index/README archived.
+Physical/model/shared-causal/reference/default/Git history untouched; workers idle.
+
+[Electropolish online balance diagnosed](tasks/archive/electropolish-operator-balance.md).
+Last1000 logged AC/CH weighted ratio median.467; frozen four late batches show
+cosines.010..119 and similar balanced gradient norms. Supplemental early probe
+has AC/CH+.927 but AC/IC-.596 and CH/IC-.528: early PDE/IC competition, not
+measured persistent AC/CH suppression. Four unseen inputs fit initial phi~1..2%
+then collapse toward one flat trajectory; at t*.25 phase condition spread is
+.943% of reference. Unseen16 terminal qL2 3.41% yet Dq80.70%; first5%time holds
+49.81%AC/73.98%CH residual integral. Six-source/actual-input/initial-loss/weight/
+GPUfield/weighted-gradient/quadrature checks pass; diagnostics/figures/README/
+index archived. Frozen probes do not reconstruct Adam's historical directions
+or prove a unique cause/remedy. No training/model/default/reference/Git change;
+workers idle, no queued optimization.
+
+[Electropolish fixed-input/online controls completed](tasks/archive/electropolish-operator-single-online.md).
+Clarify prior16inputs/B2. New sample0/B1 Adam2000 phi2.483%pooled/3.387%terminal,
+SOAP4.187%/3.214%,237/387s;73identical initial arrays/all actual sampled IDs0.
+Adam chosen for online baseline, no universal optimizer ordering; established
+PINNSOAP default intact. New onlineB8/5000Adam draws fresh continuous six-mode
+coefficients,40000distinct actual inputs, never finite-bank training. Explicit
+profile-validity distribution/fixed-shape SDF/no silent padding or batch reduction.
+Fourheldout phi17.748%/12.355%, c19.317%/14.029%,326.7s; no test model selection
+or claimed accuracy solution. Peakactive2.15GiB/pool5.01GiB, observed~5.3GiB on48GiB.
+Three focused selector/generator checks, actual-stream/source/parameter parity,
+GPUfinal replays<=1.43e-6, independent fields/transport/32height audits pass.
+Configs/data/sampler/source/direct artifacts and scientific figures archived;
+README/DEVELOPMENT/index/memory updated. No core/physics/default/reference/Git
+change or extra optimization queued; GPU idle. No generalization claim from
+fixed-input fit or pure online-vs-finite gain claim across different budgets.
+
+[Electropolish neural-operator pilot completed](tasks/archive/electropolish-neural-operator.md).
+Canonical train.py opt-in supports PI-CViT-inspired separable patch encoder/
+spatial cross-attention or pooled FiLM, known local IC features and shared
+temporal FiLM/JVP; c.arch owns architecture, c.operator owns input data.16train/
+4held-out random SDF interfaces,5s, pure physical losses; six independent
+same-graph references pass time refinement<1.93e-8. Fresh2000Adam cross/FiLM:
+mean test phase pooled17.19/17.46%, terminal13.31/11.94%, trainer245.7/160.9s,
+vs frozen-IC terminal47.72%. Early over-smoothing/Dq~.77-.81 remain; no accuracy/
+stability/SOTA or arbitrary-topology claim. Unrestricted liquid output removes
+an old map bound excluded by random references; PDE/KKS mixture retained.
+Three focused tests/independent derivatives,55common initial arrays/14of15source
+parity, GPU final replays, public CLI/template and real one-update final API
+smoke pass. Cross CPU FP32 strict field probe fails at.00162gap but aggregate
+phase drift<.01percentage point; trained promotedFP64 split/JVP equality passes.
+Shared-space forward/JVP gains1.16x/1.11x exclude optimizer/PDE. Raw probes,
+fields/curves, scripts/configs/index and precision/initial-CLI-return caveats
+archived. Established single-IVP default/checkpoints unchanged; no Git action,
+FEM process or queued GPU work. Resume accuracy only on explicit user direction.
+
+[Confined CH default switch completed](tasks/confined-ch-global.md): verified
+30-window original-complex-case default retained; all-field accuracy limitations
+are deferred. No global optimization is queued.
+
+[Confined CH diagnosis/optimization completed](tasks/archive/confined-ch-optimization.md).
+Frozen richer T1.5 physical case/reference, PDE-only sequential30 windows:
+independent42/2026 common-FEM phase pooled3.908%/3.866%, terminal5.754%/5.672%
+vs original82.96%/94.55%. Native phase0.724%/0.678%; trainer281/288s with5000+
+500 total updates. Complete CPU chains,31-source/config parity, mass/chemical
+constraints and sampled decreasing energy pass. Same-budget15windows is slightly
+worse; keep explicit train_coarsening_windows as richer-case recommendation.
+Native mu pooled~30%, positive-only~52%, terminal~100% remains unresolved;
+time derivatives jump and fixed-grid states lack off-grid normal extensions.
+More stored networks/modes/metric/resets are a bundle, no isolated/local-AD
+advantage claim. All failed controls, supervised-only probes, plots/raw results
+registered and documented. Original simple default/reference/paths retained;
+workers idle, no Git operation.
+
+[Richer confined CH training experiment completed](tasks/archive/confined-ch-coarsening-training.md).
+Matched seed42 SOAP5000+LBFGS500 both exit0 but fail phase learning: common
+pooled NL82.96%/AD82.95%, terminal94.55%/99.41%, trainer174.65/696.63s. Best
+both untrained step0. Strict final/best CPU replays and19-source/initial parity
+pass; fixed17 initial chemical loss52.66%/39.46%, positive mu L2>119% remains.
+PINN purity/energy checks expose wrong late evolution; mass is hard constrained.
+Capacity/lifting/sampling/optimization not isolated. Curves/fields/raw results/
+README/index archived, accuracy remains unsolved; no default/config/reference
+change or extra tuning. CPU/GPU/FEM idle; no Git work.
+
+[Sharper confined CH coarsening completed](tasks/archive/confined-ch-coarsening.md).
+Opt-in ten-wave IC/epsilon.02/T1.5 gives clear restructuring and46.14% terminal
+pure area vs0% in the original pilot. Preserve failed first mesh check; refined
+.014/.01 reference passes fixed gates: max phi mesh/time.552%/.048%, mu3.014%/
+.180%; mass/energy pass. Two focused tests, old replay, actual-grid operator,
+reference loading, docs/index/diff checks pass. Final fields are FEM references,
+no new PINN training or accuracy claim. Original default retained; CPU/GPU idle,
+no Git operation. Config/README/scripts/figures/checks archived.
+
+[Confined CH Neumann pilot completed](tasks/archive/confined-ch-neumann.md).
+Prior results committed728e5b9 on dev; new ellipse+twohole example has canonical
+train.py, physical-volume visible pairs and independently refined mixed-P2 FEM.
+CN chemical-reference gate failed and was repaired with BDF2/analytic mu0,
+without changing physics or loosening thresholds. Matched5000+500 cold starts:
+common-local pooled phi NL4.1935%/AD5.6639%, terminal4.9998%/3.8354%, trainer
+146.47/529.03s; native NL pooled.8898% against its separate target. Natural closed
+pair flux does not make MLP local wall derivatives zero (NL RMS1.66-8.79 vs
+AD.0158-.0255); pointwise classical-Neumann advantage remains unvalidated.
+Initial mu remains weak; all5 focused checks, reference gates, initialized/
+source parity, final CPU replays and physical audits pass. Fields/metrics/
+README/index/normal diagnostics archived; no global accuracy or stability claim.
+Original defaults unchanged; new work uncommitted, GPU/FEM idle, no push/merge.
 
 [Neumann phase-field case recommended](tasks/archive/phasefield-neumann-candidates.md).
 Propose confined constant-mobility CH coarsening in ellipse+two impermeable

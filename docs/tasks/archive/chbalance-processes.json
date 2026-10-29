@@ -1,0 +1,44 @@
+[
+  {
+    "name": "20261028-chbalance-joint-01",
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "examples/confined_ch2d/train.py",
+      "--config=examples/confined_ch2d/configs/train_coarsening_mixed_joint.py",
+      "--config.log.run_name=20261028-chbalance-joint-01",
+      "--seed=42"
+    ],
+    "log": "/root/nonlocal-pinn/docs/tasks/archive/chbalance-joint-training.txt",
+    "status": "completed",
+    "returncode": 0,
+    "process_seconds": 275.9167353287339
+  },
+  {
+    "name": "20261028-chbalance-gradnorm-01",
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "examples/confined_ch2d/train.py",
+      "--config=examples/confined_ch2d/configs/train_coarsening_mixed_gradnorm.py",
+      "--config.log.run_name=20261028-chbalance-gradnorm-01",
+      "--seed=42"
+    ],
+    "log": "/root/nonlocal-pinn/docs/tasks/archive/chbalance-gradnorm-training.txt",
+    "status": "completed",
+    "returncode": 0,
+    "process_seconds": 303.76695013046265
+  },
+  {
+    "name": "20261028-chbalance-stagger-01",
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "examples/confined_ch2d/train.py",
+      "--config=examples/confined_ch2d/configs/train_coarsening_mixed_stagger.py",
+      "--config.log.run_name=20261028-chbalance-stagger-01",
+      "--seed=42"
+    ],
+    "log": "/root/nonlocal-pinn/docs/tasks/archive/chbalance-stagger-training.txt",
+    "status": "completed",
+    "returncode": 0,
+    "process_seconds": 293.293292414397
+  }
+]

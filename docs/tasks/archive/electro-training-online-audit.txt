@@ -1,0 +1,2 @@
+PASS config/init/40000inputs/source and sixGPUfield replays
+test phi 0.05573270880649732 0.04371829043101448

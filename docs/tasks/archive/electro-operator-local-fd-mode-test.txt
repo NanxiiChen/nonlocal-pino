@@ -1,0 +1,6 @@
+test_fd_mirror_cosine_eigenmode_and_constant (test_electropolish_operator_local.LocalOperatorTests.test_fd_mirror_cosine_eigenmode_and_constant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.190s
+
+OK

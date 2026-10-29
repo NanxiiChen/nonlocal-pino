@@ -1,0 +1,29 @@
+test_independent_reference_jacobian_and_existing_solver_agreement (test_electropolish_operator_local.LocalOperatorTests.test_independent_reference_jacobian_and_existing_solver_agreement) ... FAIL
+
+======================================================================
+FAIL: test_independent_reference_jacobian_and_existing_solver_agreement (test_electropolish_operator_local.LocalOperatorTests.test_independent_reference_jacobian_and_existing_solver_agreement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/tests/test_electropolish_operator_local.py", line 103, in test_independent_reference_jacobian_and_existing_solver_agreement
+    np.testing.assert_allclose(jac(0., state)@tangent, finite, rtol=2e-6, atol=1e-7)
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 1768, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 983, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError:
+Not equal to tolerance rtol=2e-06, atol=1e-07
+
+Mismatched elements: 1 / 9898 (0.0101%)
+Mismatch at index:
+ [5773]: 27.02609331515623 (ACTUAL), 27.026035437360818 (DESIRED)
+Max absolute difference among violations: 5.78777954e-05
+Max relative difference among violations: 2.141557e-06
+ ACTUAL: array([ 6.528968e+00,  1.687737e+02, -5.843591e+02, ..., -1.366956e+04,
+        1.957125e+04,  2.753747e+04], shape=(9898,))
+ DESIRED: array([ 6.528968e+00,  1.687737e+02, -5.843591e+02, ..., -1.366956e+04,
+        1.957125e+04,  2.753747e+04], shape=(9898,))
+
+----------------------------------------------------------------------
+Ran 1 test in 0.203s
+
+FAILED (failures=1)

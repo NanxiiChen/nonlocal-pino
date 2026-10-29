@@ -1,0 +1,21 @@
+{
+  "source_files_per_run": 51,
+  "mapped_sources_identical": true,
+  "modes8_initial_parameter_files_identical": true,
+  "physical_time_sampling_optimizer_configs_identical": true,
+  "baseline_active_definitions_identical": true,
+  "source_differences": {
+    "20261028-chtanh-control-m8-01": [
+      "examples/confined_ch2d/network.py",
+      "examples/confined_ch2d/tanh_mapping.py",
+      "examples/confined_ch2d/evaluate.py"
+    ],
+    "20261028-chtanh-map-m8-01": [],
+    "20261028-chtanh-jac-m8-01": [],
+    "20261028-chtanh-jac-m5-01": []
+  },
+  "explanation": "Stable tanh mathematical JVP was added before any mapped run while the unmapped control was running. Changes are restricted to inactive map/diagnostic paths in that control; its active network definitions and all training/operator/optimizer sources agree exactly.",
+  "frequency_limit": "Modes5 changes input dimension and initialization, not a parameter-matched frequency-scale ablation.",
+  "seed": 42,
+  "scope": "Direct byte/AST comparisons; known SOAP process variability prevents statistical ranking from this one-seed study."
+}

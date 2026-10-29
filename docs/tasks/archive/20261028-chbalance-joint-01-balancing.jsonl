@@ -1,0 +1,2 @@
+{"step": 1, "parts": [8.043250897375788e-05, 0.9548280580737444], "weights": [1.0, 1.0], "effective_weights": [1.0, 1.0], "active": [true, true], "stage": "joint", "refreshed": false, "gradient_norms": null}
+{"step": 5000, "parts": [0.07083793629673235, 0.03859745186200376], "weights": [1.0, 1.0], "effective_weights": [1.0, 1.0], "active": [true, true], "stage": "joint", "refreshed": false, "gradient_norms": null}

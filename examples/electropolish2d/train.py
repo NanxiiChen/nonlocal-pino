@@ -4,6 +4,7 @@ Usage (from project root):
   python examples/electropolish2d/train.py
   python examples/electropolish2d/train.py --config=examples/electropolish2d/configs/train_base.py
   python examples/electropolish2d/train.py --config=examples/electropolish2d/configs/train_legacy.py
+  python examples/electropolish2d/train.py --config=examples/electropolish2d/configs/train_operator.py
 """
 
 import json, logging, os, time
@@ -177,6 +178,10 @@ def _eval_fem(net, fem_data, writer, step):
 def _main(_):
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
     config = FLAGS.config
+    if 'operator' in config:
+        from examples.electropolish2d.operator_training import train_operator
+        train_operator(with_run_seed(config, _SEED.value))
+        return
     if 'experiment' in config:
         config = with_run_seed(config, _SEED.value)
         from examples.corrosion2d.training_entry import train_matched

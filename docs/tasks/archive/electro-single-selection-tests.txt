@@ -1,0 +1,6 @@
+test_training_subset_exclusion_and_legacy_random_schedule (tests.test_electropolish_operator.OperatorTests.test_training_subset_exclusion_and_legacy_random_schedule) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.309s
+
+OK

@@ -1,0 +1,6 @@
+Probe42 48254724
+Traceback (most recent call last):
+  File "<stdin>", line 15, in <module>
+  File "/root/nonlocal-pinn/examples/electropolish2d/operator_reference.py", line 67, in solve
+    raise ValueError(f'Reference field range violation: {fields.min()}..{fields.max()}')
+ValueError: Reference field range violation: 0.0..1.0000190713572341

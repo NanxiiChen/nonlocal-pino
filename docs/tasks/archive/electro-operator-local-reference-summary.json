@@ -1,0 +1,5662 @@
+{
+  "wall_seconds": 1122.5414311606437,
+  "records": [
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_000/local101.npz",
+      "reused": true,
+      "index": 0,
+      "surface_id": 354943939,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 354943939,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 10.710971612483263,
+        "nfev": 1392,
+        "njev": 46,
+        "nlu": 124,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 13.208831179887056,
+        "nfev": 2024,
+        "njev": 50,
+        "nlu": 162,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 2.0087184373059133e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_001/local101.npz",
+      "reused": true,
+      "index": 1,
+      "surface_id": 34428158,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 34428158,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.589466579258442,
+        "nfev": 1253,
+        "njev": 41,
+        "nlu": 113,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.972407650202513,
+        "nfev": 1809,
+        "njev": 43,
+        "nlu": 144,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.146825542751424e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_002/local101.npz",
+      "reused": true,
+      "index": 2,
+      "surface_id": 1162395345,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1162395345,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 10.151223555207253,
+        "nfev": 1341,
+        "njev": 41,
+        "nlu": 117,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 12.761705160140991,
+        "nfev": 1936,
+        "njev": 45,
+        "nlu": 152,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 2.4200006606271915e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_003/local101.npz",
+      "reused": true,
+      "index": 3,
+      "surface_id": 363191784,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 363191784,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 10.38563159108162,
+        "nfev": 1308,
+        "njev": 42,
+        "nlu": 116,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000004
+      },
+      "fine": {
+        "seconds": 12.485900562256575,
+        "nfev": 1916,
+        "njev": 43,
+        "nlu": 149,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000004
+      },
+      "maximum_time_refinement_error": 1.4787843589558365e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_005/local101.npz",
+      "reused": true,
+      "index": 5,
+      "surface_id": 1405580952,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1405580952,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.532332185655832,
+        "nfev": 1278,
+        "njev": 42,
+        "nlu": 116,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.90409841388464,
+        "nfev": 1860,
+        "njev": 44,
+        "nlu": 149,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.3702367325520706e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_004/local101.npz",
+      "reused": true,
+      "index": 4,
+      "surface_id": 234204828,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 234204828,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.079326163977385,
+        "nfev": 1227,
+        "njev": 35,
+        "nlu": 107,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.245298944413662,
+        "nfev": 1787,
+        "njev": 40,
+        "nlu": 142,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.548024920538506e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_006/local101.npz",
+      "reused": true,
+      "index": 6,
+      "surface_id": 1567284770,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1567284770,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 7.608277682214975,
+        "nfev": 1163,
+        "njev": 35,
+        "nlu": 103,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.436686713248491,
+        "nfev": 1692,
+        "njev": 37,
+        "nlu": 134,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.5906557767365276e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_007/local101.npz",
+      "reused": true,
+      "index": 7,
+      "surface_id": 46496646,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 46496646,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.066440053284168,
+        "nfev": 1384,
+        "njev": 45,
+        "nlu": 123,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 13.520240098237991,
+        "nfev": 2003,
+        "njev": 48,
+        "nlu": 158,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.5270720154213798e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_009/local101.npz",
+      "reused": true,
+      "index": 9,
+      "surface_id": 1203392173,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1203392173,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.09450776875019,
+        "nfev": 1410,
+        "njev": 44,
+        "nlu": 123,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 12.1786347925663,
+        "nfev": 2088,
+        "njev": 45,
+        "nlu": 159,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.3231967759132267e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_010/local101.npz",
+      "reused": true,
+      "index": 10,
+      "surface_id": 233171050,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 233171050,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.140868924558163,
+        "nfev": 1243,
+        "njev": 38,
+        "nlu": 110,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000004
+      },
+      "fine": {
+        "seconds": 10.915158998221159,
+        "nfev": 1805,
+        "njev": 41,
+        "nlu": 143,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 2.0952115165635885e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_008/local101.npz",
+      "reused": true,
+      "index": 8,
+      "surface_id": 141234660,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 141234660,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.939063269644976,
+        "nfev": 1351,
+        "njev": 45,
+        "nlu": 121,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 12.235215172171593,
+        "nfev": 1996,
+        "njev": 45,
+        "nlu": 155,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.3709990236851856e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_011/local101.npz",
+      "reused": true,
+      "index": 11,
+      "surface_id": 133445168,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 133445168,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.30943314731121,
+        "nfev": 1266,
+        "njev": 42,
+        "nlu": 115,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.394682619720697,
+        "nfev": 1836,
+        "njev": 44,
+        "nlu": 147,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 2.1297707498571443e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_012/local101.npz",
+      "reused": true,
+      "index": 12,
+      "surface_id": 1788624192,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1788624192,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.316197704523802,
+        "nfev": 1300,
+        "njev": 42,
+        "nlu": 117,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.219708561897278,
+        "nfev": 1895,
+        "njev": 44,
+        "nlu": 150,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 2.318915377033028e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_013/local101.npz",
+      "reused": true,
+      "index": 13,
+      "surface_id": 1457827779,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1457827779,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.257373109459877,
+        "nfev": 1305,
+        "njev": 42,
+        "nlu": 116,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.988007333129644,
+        "nfev": 1930,
+        "njev": 42,
+        "nlu": 149,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.6231168349766862e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_014/local101.npz",
+      "reused": true,
+      "index": 14,
+      "surface_id": 172814457,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 172814457,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.128044199198484,
+        "nfev": 1449,
+        "njev": 46,
+        "nlu": 126,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 13.383866623044014,
+        "nfev": 2139,
+        "njev": 46,
+        "nlu": 162,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 2.5829333229111734e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_015/local101.npz",
+      "reused": true,
+      "index": 15,
+      "surface_id": 1353660225,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1353660225,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.510329406708479,
+        "nfev": 1378,
+        "njev": 44,
+        "nlu": 121,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.783607244491577,
+        "nfev": 2024,
+        "njev": 46,
+        "nlu": 156,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.3837351025181844e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_017/local101.npz",
+      "reused": true,
+      "index": 17,
+      "surface_id": 392227175,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 392227175,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 7.296134553849697,
+        "nfev": 1114,
+        "njev": 34,
+        "nlu": 101,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 10.693194977939129,
+        "nfev": 1625,
+        "njev": 37,
+        "nlu": 131,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.7394254876443147e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_018/local101.npz",
+      "reused": true,
+      "index": 18,
+      "surface_id": 970789301,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 970789301,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 7.926792316138744,
+        "nfev": 1145,
+        "njev": 37,
+        "nlu": 104,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000004
+      },
+      "fine": {
+        "seconds": 11.739185400307178,
+        "nfev": 1688,
+        "njev": 38,
+        "nlu": 135,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.6836032157614617e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_016/local101.npz",
+      "reused": true,
+      "index": 16,
+      "surface_id": 1333871926,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1333871926,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.22873529419303,
+        "nfev": 1277,
+        "njev": 40,
+        "nlu": 114,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.91124015673995,
+        "nfev": 1839,
+        "njev": 45,
+        "nlu": 149,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.2400870865446571e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_019/local101.npz",
+      "reused": true,
+      "index": 19,
+      "surface_id": 425772411,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 425772411,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.108821522444487,
+        "nfev": 1227,
+        "njev": 37,
+        "nlu": 108,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.988573729991913,
+        "nfev": 1770,
+        "njev": 41,
+        "nlu": 142,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.4675228625799762e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_020/local101.npz",
+      "reused": true,
+      "index": 20,
+      "surface_id": 581929885,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 581929885,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.505704835057259,
+        "nfev": 1229,
+        "njev": 39,
+        "nlu": 110,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.770835261791945,
+        "nfev": 1783,
+        "njev": 44,
+        "nlu": 144,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000004
+      },
+      "maximum_time_refinement_error": 1.727346642192254e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_021/local101.npz",
+      "reused": true,
+      "index": 21,
+      "surface_id": 1202494618,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1202494618,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.209419019520283,
+        "nfev": 1363,
+        "njev": 42,
+        "nlu": 119,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 13.637464091181755,
+        "nfev": 2017,
+        "njev": 44,
+        "nlu": 154,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.4395027115996872e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_022/local101.npz",
+      "reused": true,
+      "index": 22,
+      "surface_id": 1496536347,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1496536347,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.145132090896368,
+        "nfev": 1296,
+        "njev": 39,
+        "nlu": 113,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 13.697914615273476,
+        "nfev": 1895,
+        "njev": 42,
+        "nlu": 148,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.4002480966685615e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_023/local101.npz",
+      "reused": true,
+      "index": 23,
+      "surface_id": 1749646961,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1749646961,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.580883122980595,
+        "nfev": 1226,
+        "njev": 38,
+        "nlu": 108,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000004
+      },
+      "fine": {
+        "seconds": 12.601407270878553,
+        "nfev": 1787,
+        "njev": 42,
+        "nlu": 141,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.1635133622265347e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_024/local101.npz",
+      "reused": true,
+      "index": 24,
+      "surface_id": 630448833,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 630448833,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 10.031368963420391,
+        "nfev": 1335,
+        "njev": 42,
+        "nlu": 118,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 12.259766858071089,
+        "nfev": 1944,
+        "njev": 45,
+        "nlu": 152,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.0007784154758946e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_026/local101.npz",
+      "reused": true,
+      "index": 26,
+      "surface_id": 1576820288,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1576820288,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.166845671832561,
+        "nfev": 1127,
+        "njev": 34,
+        "nlu": 101,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000004
+      },
+      "fine": {
+        "seconds": 10.165515348315239,
+        "nfev": 1638,
+        "njev": 36,
+        "nlu": 130,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.0974818345558252e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_025/local101.npz",
+      "reused": true,
+      "index": 25,
+      "surface_id": 1219485061,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1219485061,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.213257670402527,
+        "nfev": 1255,
+        "njev": 39,
+        "nlu": 112,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.309825599193573,
+        "nfev": 1814,
+        "njev": 44,
+        "nlu": 146,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 2.337532516237188e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_027/local101.npz",
+      "reused": true,
+      "index": 27,
+      "surface_id": 659538726,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 659538726,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 10.264050267636776,
+        "nfev": 1431,
+        "njev": 47,
+        "nlu": 127,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 14.029734749346972,
+        "nfev": 2102,
+        "njev": 50,
+        "nlu": 165,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.497721428283981e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_028/local101.npz",
+      "reused": true,
+      "index": 28,
+      "surface_id": 336616273,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 336616273,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.040498774498701,
+        "nfev": 1138,
+        "njev": 35,
+        "nlu": 103,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000004
+      },
+      "fine": {
+        "seconds": 11.102940015494823,
+        "nfev": 1655,
+        "njev": 37,
+        "nlu": 132,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.611135717339021e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_030/local101.npz",
+      "reused": true,
+      "index": 30,
+      "surface_id": 1992886059,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1992886059,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.046939238905907,
+        "nfev": 1140,
+        "njev": 36,
+        "nlu": 103,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000004
+      },
+      "fine": {
+        "seconds": 11.648819327354431,
+        "nfev": 1692,
+        "njev": 38,
+        "nlu": 134,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.530991137598132e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_029/local101.npz",
+      "reused": true,
+      "index": 29,
+      "surface_id": 1466517995,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1466517995,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.741768792271614,
+        "nfev": 1272,
+        "njev": 37,
+        "nlu": 110,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 12.01405744254589,
+        "nfev": 1861,
+        "njev": 40,
+        "nlu": 143,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.898888382983714e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_032/local101.npz",
+      "reused": true,
+      "index": 32,
+      "surface_id": 549888336,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 549888336,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.923074632883072,
+        "nfev": 1377,
+        "njev": 45,
+        "nlu": 122,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 13.807569421827793,
+        "nfev": 2048,
+        "njev": 46,
+        "nlu": 157,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.2385132964059918e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_031/local101.npz",
+      "reused": true,
+      "index": 31,
+      "surface_id": 402467422,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 402467422,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.477754011750221,
+        "nfev": 1279,
+        "njev": 40,
+        "nlu": 113,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 12.620153248310089,
+        "nfev": 1853,
+        "njev": 43,
+        "nlu": 146,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 2.1066561838213496e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_034/local101.npz",
+      "reused": true,
+      "index": 34,
+      "surface_id": 702906476,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 702906476,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.368513762950897,
+        "nfev": 1295,
+        "njev": 41,
+        "nlu": 115,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 12.190669648349285,
+        "nfev": 1864,
+        "njev": 43,
+        "nlu": 148,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.8224759535666275e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_033/local101.npz",
+      "reused": true,
+      "index": 33,
+      "surface_id": 1934529801,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1934529801,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.588559713214636,
+        "nfev": 1259,
+        "njev": 40,
+        "nlu": 113,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 12.188579428941011,
+        "nfev": 1832,
+        "njev": 44,
+        "nlu": 146,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.6102978421918243e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_035/local101.npz",
+      "reused": true,
+      "index": 35,
+      "surface_id": 2130685078,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 2130685078,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 10.03441171348095,
+        "nfev": 1393,
+        "njev": 42,
+        "nlu": 120,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 13.032893117517233,
+        "nfev": 2064,
+        "njev": 45,
+        "nlu": 157,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.8533417787134716e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_036/local101.npz",
+      "reused": true,
+      "index": 36,
+      "surface_id": 154823724,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 154823724,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.342120677232742,
+        "nfev": 1339,
+        "njev": 41,
+        "nlu": 117,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.945183213800192,
+        "nfev": 1956,
+        "njev": 42,
+        "nlu": 150,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.278531059706842e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_037/local101.npz",
+      "reused": true,
+      "index": 37,
+      "surface_id": 557152017,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 557152017,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.297073926776648,
+        "nfev": 1332,
+        "njev": 42,
+        "nlu": 119,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 12.363890491425991,
+        "nfev": 1917,
+        "njev": 48,
+        "nlu": 156,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 2.075815192568031e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_039/local101.npz",
+      "reused": true,
+      "index": 39,
+      "surface_id": 1901716417,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1901716417,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.0303961224854,
+        "nfev": 1134,
+        "njev": 35,
+        "nlu": 103,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 10.899291705340147,
+        "nfev": 1662,
+        "njev": 38,
+        "nlu": 133,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.3862986329889647e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_038/local101.npz",
+      "reused": true,
+      "index": 38,
+      "surface_id": 1382100880,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1382100880,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 7.876891478896141,
+        "nfev": 1116,
+        "njev": 34,
+        "nlu": 100,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 10.301036141812801,
+        "nfev": 1618,
+        "njev": 37,
+        "nlu": 130,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.5745605052050347e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_040/local101.npz",
+      "reused": true,
+      "index": 40,
+      "surface_id": 451491617,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 451491617,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.21483550965786,
+        "nfev": 1295,
+        "njev": 42,
+        "nlu": 116,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 12.791305419057608,
+        "nfev": 1909,
+        "njev": 43,
+        "nlu": 149,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.2826656653084287e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_041/local101.npz",
+      "reused": true,
+      "index": 41,
+      "surface_id": 1629065925,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1629065925,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.285724982619286,
+        "nfev": 1286,
+        "njev": 40,
+        "nlu": 114,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000004
+      },
+      "fine": {
+        "seconds": 12.31182288005948,
+        "nfev": 1899,
+        "njev": 42,
+        "nlu": 148,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.6246880724851076e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_042/local101.npz",
+      "reused": true,
+      "index": 42,
+      "surface_id": 48254724,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 48254724,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.069465920329094,
+        "nfev": 1411,
+        "njev": 43,
+        "nlu": 123,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000190713572341,
+        "phi_min": 0.0,
+        "phi_max": 1.0000000000000002,
+        "c_min": 0.0,
+        "c_max": 1.0000190713572341
+      },
+      "fine": {
+        "seconds": 11.732161410152912,
+        "nfev": 2036,
+        "njev": 48,
+        "nlu": 160,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000190723571585,
+        "phi_min": 0.0,
+        "phi_max": 1.0,
+        "c_min": 0.0,
+        "c_max": 1.0000190723571585
+      },
+      "maximum_time_refinement_error": 1.6449113470460426e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_043/local101.npz",
+      "reused": true,
+      "index": 43,
+      "surface_id": 834275293,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 834275293,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.911501221358776,
+        "nfev": 1362,
+        "njev": 44,
+        "nlu": 120,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 13.786424480378628,
+        "nfev": 2023,
+        "njev": 45,
+        "nlu": 154,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.7520737269288954e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_044/local101.npz",
+      "reused": true,
+      "index": 44,
+      "surface_id": 985025331,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 985025331,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.79360468685627,
+        "nfev": 1356,
+        "njev": 44,
+        "nlu": 121,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 13.566242553293705,
+        "nfev": 1942,
+        "njev": 48,
+        "nlu": 157,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.361603093897546e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_046/local101.npz",
+      "reused": true,
+      "index": 46,
+      "surface_id": 65236881,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 65236881,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.798930913209915,
+        "nfev": 1352,
+        "njev": 41,
+        "nlu": 117,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 12.668312337249517,
+        "nfev": 1982,
+        "njev": 43,
+        "nlu": 151,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.4956698952142893e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_047/local101.npz",
+      "reused": true,
+      "index": 47,
+      "surface_id": 1273459622,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1273459622,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.592557366937399,
+        "nfev": 1360,
+        "njev": 43,
+        "nlu": 119,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 12.26557905972004,
+        "nfev": 1992,
+        "njev": 45,
+        "nlu": 154,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.3931972613505862e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_045/local101.npz",
+      "reused": true,
+      "index": 45,
+      "surface_id": 637203252,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 637203252,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.05584704875946,
+        "nfev": 1213,
+        "njev": 38,
+        "nlu": 109,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.397146206349134,
+        "nfev": 1750,
+        "njev": 42,
+        "nlu": 140,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.4692734868304718e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_048/local101.npz",
+      "reused": true,
+      "index": 48,
+      "surface_id": 2145537014,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 2145537014,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.368654128164053,
+        "nfev": 1319,
+        "njev": 42,
+        "nlu": 118,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.871491082012653,
+        "nfev": 1933,
+        "njev": 44,
+        "nlu": 150,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 8.541176644875058e-09,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_049/local101.npz",
+      "reused": true,
+      "index": 49,
+      "surface_id": 1759844712,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1759844712,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 7.942336067557335,
+        "nfev": 1104,
+        "njev": 34,
+        "nlu": 100,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000007
+      },
+      "fine": {
+        "seconds": 9.858715560287237,
+        "nfev": 1608,
+        "njev": 38,
+        "nlu": 129,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000004
+      },
+      "maximum_time_refinement_error": 1.3209668612683851e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_051/local101.npz",
+      "reused": true,
+      "index": 51,
+      "surface_id": 137773082,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 137773082,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.286000091582537,
+        "nfev": 1421,
+        "njev": 44,
+        "nlu": 124,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 12.218814469873905,
+        "nfev": 2101,
+        "njev": 47,
+        "nlu": 161,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.5771524271853227e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_050/local101.npz",
+      "reused": true,
+      "index": 50,
+      "surface_id": 1799813550,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1799813550,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.584470067173243,
+        "nfev": 1401,
+        "njev": 44,
+        "nlu": 122,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 12.565565567463636,
+        "nfev": 2024,
+        "njev": 48,
+        "nlu": 159,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.6705451926110307e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_052/local101.npz",
+      "reused": true,
+      "index": 52,
+      "surface_id": 703908729,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 703908729,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.371383115649223,
+        "nfev": 1309,
+        "njev": 40,
+        "nlu": 115,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.18117793649435,
+        "nfev": 1945,
+        "njev": 42,
+        "nlu": 150,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.429309979141399e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_053/local101.npz",
+      "reused": true,
+      "index": 53,
+      "surface_id": 72243590,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 72243590,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 7.779646467417479,
+        "nfev": 1202,
+        "njev": 37,
+        "nlu": 106,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.037567500025034,
+        "nfev": 1736,
+        "njev": 40,
+        "nlu": 137,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.737003564999578e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_054/local101.npz",
+      "reused": true,
+      "index": 54,
+      "surface_id": 1393274251,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1393274251,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.705702379345894,
+        "nfev": 1336,
+        "njev": 43,
+        "nlu": 118,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.95584923774004,
+        "nfev": 1951,
+        "njev": 46,
+        "nlu": 154,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.5444593923783456e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_055/local101.npz",
+      "reused": true,
+      "index": 55,
+      "surface_id": 1319439197,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1319439197,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.370094627141953,
+        "nfev": 1286,
+        "njev": 41,
+        "nlu": 114,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 10.97547509148717,
+        "nfev": 1875,
+        "njev": 42,
+        "nlu": 146,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.5212522012922125e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_056/local101.npz",
+      "reused": true,
+      "index": 56,
+      "surface_id": 72463138,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 72463138,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.831774532794952,
+        "nfev": 1530,
+        "njev": 51,
+        "nlu": 135,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 13.219233449548483,
+        "nfev": 2247,
+        "njev": 53,
+        "nlu": 175,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.2983275053172145e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_057/local101.npz",
+      "reused": true,
+      "index": 57,
+      "surface_id": 154985020,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 154985020,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.577550157904625,
+        "nfev": 1328,
+        "njev": 44,
+        "nlu": 120,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.571607485413551,
+        "nfev": 1983,
+        "njev": 43,
+        "nlu": 152,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.072042397174193e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_058/local101.npz",
+      "reused": true,
+      "index": 58,
+      "surface_id": 588600382,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 588600382,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.315698236227036,
+        "nfev": 1266,
+        "njev": 41,
+        "nlu": 113,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.281415399163961,
+        "nfev": 1863,
+        "njev": 42,
+        "nlu": 144,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.3356810698433395e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_059/local101.npz",
+      "reused": true,
+      "index": 59,
+      "surface_id": 2128239350,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 2128239350,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.157929942011833,
+        "nfev": 1298,
+        "njev": 39,
+        "nlu": 113,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.431369323283434,
+        "nfev": 1915,
+        "njev": 41,
+        "nlu": 147,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.3187146114255006e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_061/local101.npz",
+      "reused": true,
+      "index": 61,
+      "surface_id": 660895150,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 660895150,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 7.696788929402828,
+        "nfev": 1157,
+        "njev": 38,
+        "nlu": 106,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.537298396229744,
+        "nfev": 1696,
+        "njev": 40,
+        "nlu": 137,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.4328953234704904e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_062/local101.npz",
+      "reused": true,
+      "index": 62,
+      "surface_id": 1114984001,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1114984001,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 9.670621067285538,
+        "nfev": 1421,
+        "njev": 45,
+        "nlu": 125,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 13.60568681359291,
+        "nfev": 2049,
+        "njev": 51,
+        "nlu": 164,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.2307046785829925e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_060/local101.npz",
+      "reused": true,
+      "index": 60,
+      "surface_id": 1382839036,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1382839036,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 7.230198163539171,
+        "nfev": 1112,
+        "njev": 34,
+        "nlu": 100,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000004
+      },
+      "fine": {
+        "seconds": 10.22874402999878,
+        "nfev": 1626,
+        "njev": 38,
+        "nlu": 130,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000004
+      },
+      "maximum_time_refinement_error": 1.1088600955010304e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_063/local101.npz",
+      "reused": true,
+      "index": 63,
+      "surface_id": 481296795,
+      "nx": 101,
+      "ny": 51,
+      "kind": "local101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 481296795,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 8.189532682299614,
+        "nfev": 1205,
+        "njev": 37,
+        "nlu": 106,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 11.824818648397923,
+        "nfev": 1737,
+        "njev": 37,
+        "nlu": 136,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.3414582085237096e-08,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_000/local201.npz",
+      "reused": true,
+      "index": 0,
+      "surface_id": 354943939,
+      "nx": 201,
+      "ny": 101,
+      "kind": "local201",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 354943939,
+          "y0": 0.33
+        },
+        "Nx": 201,
+        "Ny": 101,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 62.77324831858277,
+        "nfev": 1273,
+        "njev": 44,
+        "nlu": 120,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000004
+      },
+      "fine": {
+        "seconds": 82.04363228008151,
+        "nfev": 1846,
+        "njev": 55,
+        "nlu": 156,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000004
+      },
+      "maximum_time_refinement_error": 3.1050521307466905e-09,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_021/local201.npz",
+      "reused": true,
+      "index": 21,
+      "surface_id": 1202494618,
+      "nx": 201,
+      "ny": 101,
+      "kind": "local201",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1202494618,
+          "y0": 0.33
+        },
+        "Nx": 201,
+        "Ny": 101,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 60.23232624679804,
+        "nfev": 1223,
+        "njev": 41,
+        "nlu": 114,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000004
+      },
+      "fine": {
+        "seconds": 78.83965286239982,
+        "nfev": 1793,
+        "njev": 52,
+        "nlu": 148,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000004
+      },
+      "maximum_time_refinement_error": 3.030116815796968e-09,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_042/local201.npz",
+      "reused": true,
+      "index": 42,
+      "surface_id": 48254724,
+      "nx": 201,
+      "ny": 101,
+      "kind": "local201",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 48254724,
+          "y0": 0.33
+        },
+        "Nx": 201,
+        "Ny": 101,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 64.95365226268768,
+        "nfev": 1266,
+        "njev": 44,
+        "nlu": 119,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0002391260832235,
+        "phi_min": 0.0,
+        "phi_max": 1.0000000000000004,
+        "c_min": 0.0,
+        "c_max": 1.0002391260832235
+      },
+      "fine": {
+        "seconds": 81.37236695736647,
+        "nfev": 1832,
+        "njev": 56,
+        "nlu": 152,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.000239127551927,
+        "phi_min": 0.0,
+        "phi_max": 1.0000000000000004,
+        "c_min": 0.0,
+        "c_max": 1.000239127551927
+      },
+      "maximum_time_refinement_error": 3.101360762790859e-09,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_063/local201.npz",
+      "reused": true,
+      "index": 63,
+      "surface_id": 481296795,
+      "nx": 201,
+      "ny": 101,
+      "kind": "local201",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 481296795,
+          "y0": 0.33
+        },
+        "Nx": 201,
+        "Ny": 101,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 50.98383839055896,
+        "nfev": 1061,
+        "njev": 33,
+        "nlu": 98,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000007
+      },
+      "fine": {
+        "seconds": 67.1237687766552,
+        "nfev": 1538,
+        "njev": 42,
+        "nlu": 122,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000004
+      },
+      "maximum_time_refinement_error": 2.3720453930419855e-09,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_000/local401.npz",
+      "reused": true,
+      "index": 0,
+      "surface_id": 354943939,
+      "nx": 401,
+      "ny": 201,
+      "kind": "local401",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 354943939,
+          "y0": 0.33
+        },
+        "Nx": 401,
+        "Ny": 201,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 1688.2287064567208,
+        "nfev": 1277,
+        "njev": 43,
+        "nlu": 119,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000007
+      },
+      "fine": {
+        "seconds": 635.5214877910912,
+        "nfev": 1848,
+        "njev": 55,
+        "nlu": 156,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000007
+      },
+      "maximum_time_refinement_error": 3.182224469417896e-09,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_000/native101.npz",
+      "reused": true,
+      "index": 0,
+      "surface_id": 354943939,
+      "nx": 101,
+      "ny": 51,
+      "kind": "native101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 354943939,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "delta": 0.02,
+        "kernel": "cubic",
+        "operator": "in-domain symmetric pair graph, D=sum(w*(value_i-value_j))",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "no external graph edges",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 34.45090978220105,
+        "nfev": 1392,
+        "njev": 47,
+        "nlu": 125,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 32.0788238234818,
+        "nfev": 1994,
+        "njev": 52,
+        "nlu": 162,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.2615386241125868e-08,
+      "boundary": "Recorded in-domain native pair graph",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_021/local401.npz",
+      "reused": true,
+      "index": 21,
+      "surface_id": 1202494618,
+      "nx": 401,
+      "ny": 201,
+      "kind": "local401",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1202494618,
+          "y0": 0.33
+        },
+        "Nx": 401,
+        "Ny": 201,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 1687.793120548129,
+        "nfev": 1226,
+        "njev": 41,
+        "nlu": 115,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000007
+      },
+      "fine": {
+        "seconds": 632.5326287075877,
+        "nfev": 1788,
+        "njev": 52,
+        "nlu": 148,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000007
+      },
+      "maximum_time_refinement_error": 2.031430321259049e-09,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_021/native101.npz",
+      "reused": true,
+      "index": 21,
+      "surface_id": 1202494618,
+      "nx": 101,
+      "ny": 51,
+      "kind": "native101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 1202494618,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "delta": 0.02,
+        "kernel": "cubic",
+        "operator": "in-domain symmetric pair graph, D=sum(w*(value_i-value_j))",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "no external graph edges",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 16.81872770935297,
+        "nfev": 1388,
+        "njev": 44,
+        "nlu": 122,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 40.11989518254995,
+        "nfev": 2015,
+        "njev": 47,
+        "nlu": 157,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.5810149099189307e-08,
+      "boundary": "Recorded in-domain native pair graph",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_042/native101.npz",
+      "reused": true,
+      "index": 42,
+      "surface_id": 48254724,
+      "nx": 101,
+      "ny": 51,
+      "kind": "native101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 48254724,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "delta": 0.02,
+        "kernel": "cubic",
+        "operator": "in-domain symmetric pair graph, D=sum(w*(value_i-value_j))",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "no external graph edges",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 25.658726431429386,
+        "nfev": 1412,
+        "njev": 45,
+        "nlu": 125,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 20.012365896254778,
+        "nfev": 2039,
+        "njev": 49,
+        "nlu": 161,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.553673923004698e-08,
+      "boundary": "Recorded in-domain native pair graph",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_063/local401.npz",
+      "reused": true,
+      "index": 63,
+      "surface_id": 481296795,
+      "nx": 401,
+      "ny": 201,
+      "kind": "local401",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 481296795,
+          "y0": 0.33
+        },
+        "Nx": 401,
+        "Ny": 201,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 1619.0449729152024,
+        "nfev": 1062,
+        "njev": 33,
+        "nlu": 99,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000009
+      },
+      "fine": {
+        "seconds": 517.252223636955,
+        "nfev": 1541,
+        "njev": 42,
+        "nlu": 121,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000009
+      },
+      "maximum_time_refinement_error": 2.582335843550602e-09,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_063/native101.npz",
+      "reused": true,
+      "index": 63,
+      "surface_id": 481296795,
+      "nx": 101,
+      "ny": 51,
+      "kind": "native101",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 481296795,
+          "y0": 0.33
+        },
+        "Nx": 101,
+        "Ny": 51,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "delta": 0.02,
+        "kernel": "cubic",
+        "operator": "in-domain symmetric pair graph, D=sum(w*(value_i-value_j))",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "no external graph edges",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 12.860690996050835,
+        "nfev": 1204,
+        "njev": 37,
+        "nlu": 107,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "fine": {
+        "seconds": 19.04850932583213,
+        "nfev": 1769,
+        "njev": 39,
+        "nlu": 138,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0000000000000002
+      },
+      "maximum_time_refinement_error": 1.2057377921086706e-08,
+      "boundary": "Recorded in-domain native pair graph",
+      "original_initial_condition": true
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_042/local401.npz",
+      "index": 42,
+      "surface_id": 48254724,
+      "nx": 401,
+      "ny": 201,
+      "kind": "local401",
+      "spec": {
+        "case": "electropolish2d",
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1e-06,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        },
+        "nondim": {
+          "L_c": 0.0001,
+          "T_c": 5.0
+        },
+        "geometry": {
+          "amplitude": 0.03,
+          "freq_hi": 5.0,
+          "freq_lo": 1.0,
+          "n_modes": 6,
+          "seed": 48254724,
+          "y0": 0.33
+        },
+        "Nx": 401,
+        "Ny": 201,
+        "domain": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.5
+          ]
+        ],
+        "operator": "local negative Laplacian; centered FD with side Neumann mirror",
+        "dirichlet": "top zero; bottom one",
+        "other_boundary": "left/right: phi_n=q_n=0",
+        "initial_condition": "production analytic pit/SDF profile, c=h(phi)*c_se; boundary nodes prescribed"
+      },
+      "coarse": {
+        "seconds": 473.58426018990576,
+        "nfev": 1274,
+        "njev": 43,
+        "nlu": 119,
+        "rtol": 1e-07,
+        "atol": 1e-10,
+        "max_step": 0.01,
+        "minimum": 0.0,
+        "maximum": 1.0003117485719581,
+        "phi_min": 0.0,
+        "phi_max": 1.0000000000000007,
+        "c_min": 0.0,
+        "c_max": 1.0003117485719581
+      },
+      "fine": {
+        "seconds": 641.1708015259355,
+        "nfev": 1841,
+        "njev": 54,
+        "nlu": 152,
+        "rtol": 1e-08,
+        "atol": 1e-11,
+        "max_step": 0.005,
+        "minimum": 0.0,
+        "maximum": 1.0003117500576872,
+        "phi_min": 0.0,
+        "phi_max": 1.0000000000000007,
+        "c_min": 0.0,
+        "c_max": 1.0003117500576872
+      },
+      "maximum_time_refinement_error": 3.1223563356531193e-09,
+      "boundary": "Top0/bottom1 physical phi,c; side phi_n=q_n=0",
+      "original_initial_condition": true
+    }
+  ],
+  "failures": [],
+  "max_time_refinement_error": 2.5829333229111734e-08
+}

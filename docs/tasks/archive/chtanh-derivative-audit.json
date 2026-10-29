@@ -1,0 +1,94 @@
+{
+  "runs": {
+    "20261028-chtanh-control-m8-01": {
+      "phase_max_absolute_error": 8.1601392309949e-15,
+      "derivative_max_absolute_error": 2.877698079828406e-13,
+      "times": [
+        0.0,
+        0.0001,
+        0.001,
+        0.005,
+        0.01,
+        0.03,
+        0.075,
+        0.15,
+        0.45,
+        0.9,
+        1.5
+      ],
+      "scope": "Independent NumPy Chebyshev derivative and Brent mass shift, not AD finite differences only."
+    },
+    "20261028-chtanh-map-m8-01": {
+      "phase_max_absolute_error": 9.103828801926284e-15,
+      "derivative_max_absolute_error": 9.379164112033322e-13,
+      "times": [
+        0.0,
+        0.0001,
+        0.001,
+        0.005,
+        0.01,
+        0.03,
+        0.075,
+        0.15,
+        0.45,
+        0.9,
+        1.5
+      ],
+      "scope": "Independent NumPy Chebyshev derivative and Brent mass shift, not AD finite differences only."
+    },
+    "20261028-chtanh-jac-m8-01": {
+      "phase_max_absolute_error": 1.0380585280245214e-14,
+      "derivative_max_absolute_error": 2.3447910280083306e-13,
+      "times": [
+        0.0,
+        0.0001,
+        0.001,
+        0.005,
+        0.01,
+        0.03,
+        0.075,
+        0.15,
+        0.45,
+        0.9,
+        1.5
+      ],
+      "scope": "Independent NumPy Chebyshev derivative and Brent mass shift, not AD finite differences only."
+    },
+    "20261028-chtanh-jac-m5-01": {
+      "phase_max_absolute_error": 8.590350653037149e-15,
+      "derivative_max_absolute_error": 2.0250467969162855e-13,
+      "times": [
+        0.0,
+        0.0001,
+        0.001,
+        0.005,
+        0.01,
+        0.03,
+        0.075,
+        0.15,
+        0.45,
+        0.9,
+        1.5
+      ],
+      "scope": "Independent NumPy Chebyshev derivative and Brent mass shift, not AD finite differences only."
+    },
+    "20261028-chtanh-average-m5-01": {
+      "phase_max_absolute_error": 9.825473767932635e-15,
+      "derivative_max_absolute_error": 2.2524204723595176e-12,
+      "times": [
+        0.0,
+        0.0001,
+        0.001,
+        0.005,
+        0.01,
+        0.03,
+        0.075,
+        0.15,
+        0.45,
+        0.9,
+        1.5
+      ],
+      "scope": "Independent NumPy Chebyshev derivative and Brent mass shift, not AD finite differences only."
+    }
+  }
+}

@@ -1,0 +1,7 @@
+test_refinement_solves_manufactured_time_pde_without_field_targets (tests.test_twophase_preconditioning.CHPreconditioningTests.test_refinement_solves_manufactured_time_pde_without_field_targets) ... [L-BFGS 1] loss=0.019883
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.559s
+
+OK

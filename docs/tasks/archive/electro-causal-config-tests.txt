@@ -1,0 +1,6 @@
+test_invalid_causal_settings (tests.test_electropolish_operator_causal.OperatorCausalTests.test_invalid_causal_settings) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.022s
+
+OK

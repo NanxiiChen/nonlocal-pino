@@ -1,0 +1,24 @@
+{
+  "common_initial_array_leaves": 55,
+  "common_modules": [
+    "patch_projection",
+    "encoder",
+    "encoder_norm",
+    "spatial_projection",
+    "spatial_frequencies",
+    "time_film",
+    "layers",
+    "output"
+  ],
+  "configs_equal_except_conditioning_and_run_name": true,
+  "source_file_count": 15,
+  "source_differences": [
+    "examples/electropolish2d/train.py"
+  ],
+  "source_difference_scope": "absl success return only; no numerical change",
+  "both_dataset_paths": [
+    "/root/autodl-tmp/data/electropolish2d/operator_random16_v1",
+    "/root/autodl-tmp/data/electropolish2d/operator_random16_v1"
+  ],
+  "training_protocol": "same condition/time RNG and padded core-pool schedule; independent model optimization"
+}

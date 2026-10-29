@@ -1,0 +1,477 @@
+{
+  "stage": "base",
+  "runs": [
+    {
+      "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01",
+      "phase_min": 0.0,
+      "phase_max": 1.0,
+      "concentration_min": -0.0034700206015259027,
+      "concentration_max": 1.001234531402588,
+      "all64field_metrics_independently_replayed": true,
+      "monitor_replay_max_gap": 2.652406692504883e-06
+    },
+    {
+      "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-local-01",
+      "phase_min": 0.0,
+      "phase_max": 1.0,
+      "concentration_min": -0.0024885954335331917,
+      "concentration_max": 1.0010960102081299,
+      "all64field_metrics_independently_replayed": true,
+      "monitor_replay_max_gap": 1.8477439880371094e-06
+    }
+  ],
+  "actual_eval_input_images_initial_arrays_equal": true,
+  "references": [
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_000/local101.npz",
+      "maximum_time_error": 2.0087184373059133e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_000/local201.npz",
+      "maximum_time_error": 3.1050521307466905e-09,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000004
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_000/local401.npz",
+      "maximum_time_error": 3.182224469417896e-09,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000007
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_000/native101.npz",
+      "maximum_time_error": 1.2615386241125868e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_001/local101.npz",
+      "maximum_time_error": 1.146825542751424e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_002/local101.npz",
+      "maximum_time_error": 2.4200006606271915e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_003/local101.npz",
+      "maximum_time_error": 1.4787843589558365e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_004/local101.npz",
+      "maximum_time_error": 1.548024920538506e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_005/local101.npz",
+      "maximum_time_error": 1.3702367325520706e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_006/local101.npz",
+      "maximum_time_error": 1.5906557767365276e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_007/local101.npz",
+      "maximum_time_error": 1.5270720154213798e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_008/local101.npz",
+      "maximum_time_error": 1.3709990236851856e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_009/local101.npz",
+      "maximum_time_error": 1.3231967759132267e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_010/local101.npz",
+      "maximum_time_error": 2.0952115165635885e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_011/local101.npz",
+      "maximum_time_error": 2.1297707498571443e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_012/local101.npz",
+      "maximum_time_error": 2.318915377033028e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_013/local101.npz",
+      "maximum_time_error": 1.6231168349766862e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_014/local101.npz",
+      "maximum_time_error": 2.5829333229111734e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_015/local101.npz",
+      "maximum_time_error": 1.3837351025181844e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_016/local101.npz",
+      "maximum_time_error": 1.2400870865446571e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_017/local101.npz",
+      "maximum_time_error": 1.7394254876443147e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_018/local101.npz",
+      "maximum_time_error": 1.6836032157614617e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_019/local101.npz",
+      "maximum_time_error": 1.4675228625799762e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_020/local101.npz",
+      "maximum_time_error": 1.727346642192254e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_021/local101.npz",
+      "maximum_time_error": 1.4395027115996872e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_021/local201.npz",
+      "maximum_time_error": 3.030116815796968e-09,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000004
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_021/local401.npz",
+      "maximum_time_error": 2.031430321259049e-09,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000007
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_021/native101.npz",
+      "maximum_time_error": 1.5810149099189307e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_022/local101.npz",
+      "maximum_time_error": 1.4002480966685615e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_023/local101.npz",
+      "maximum_time_error": 1.1635133622265347e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_024/local101.npz",
+      "maximum_time_error": 1.0007784154758946e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_025/local101.npz",
+      "maximum_time_error": 2.337532516237188e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_026/local101.npz",
+      "maximum_time_error": 1.0974818345558252e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_027/local101.npz",
+      "maximum_time_error": 1.497721428283981e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_028/local101.npz",
+      "maximum_time_error": 1.611135717339021e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_029/local101.npz",
+      "maximum_time_error": 1.898888382983714e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_030/local101.npz",
+      "maximum_time_error": 1.530991137598132e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_031/local101.npz",
+      "maximum_time_error": 2.1066561838213496e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_032/local101.npz",
+      "maximum_time_error": 1.2385132964059918e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_033/local101.npz",
+      "maximum_time_error": 1.6102978421918243e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_034/local101.npz",
+      "maximum_time_error": 1.8224759535666275e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_035/local101.npz",
+      "maximum_time_error": 1.8533417787134716e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_036/local101.npz",
+      "maximum_time_error": 1.278531059706842e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_037/local101.npz",
+      "maximum_time_error": 2.075815192568031e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_038/local101.npz",
+      "maximum_time_error": 1.5745605052050347e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_039/local101.npz",
+      "maximum_time_error": 1.3862986329889647e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_040/local101.npz",
+      "maximum_time_error": 1.2826656653084287e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_041/local101.npz",
+      "maximum_time_error": 1.6246880724851076e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_042/local101.npz",
+      "maximum_time_error": 1.6449113470460426e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000190723571585
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_042/local201.npz",
+      "maximum_time_error": 3.101360762790859e-09,
+      "concentration_min": 0.0,
+      "concentration_max": 1.000239127551927
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_042/native101.npz",
+      "maximum_time_error": 1.553673923004698e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_043/local101.npz",
+      "maximum_time_error": 1.7520737269288954e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_044/local101.npz",
+      "maximum_time_error": 1.361603093897546e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_045/local101.npz",
+      "maximum_time_error": 1.4692734868304718e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_046/local101.npz",
+      "maximum_time_error": 1.4956698952142893e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_047/local101.npz",
+      "maximum_time_error": 1.3931972613505862e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_048/local101.npz",
+      "maximum_time_error": 8.541176644875058e-09,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_049/local101.npz",
+      "maximum_time_error": 1.3209668612683851e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_050/local101.npz",
+      "maximum_time_error": 1.6705451926110307e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_051/local101.npz",
+      "maximum_time_error": 1.5771524271853227e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_052/local101.npz",
+      "maximum_time_error": 1.429309979141399e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_053/local101.npz",
+      "maximum_time_error": 1.737003564999578e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_054/local101.npz",
+      "maximum_time_error": 1.5444593923783456e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_055/local101.npz",
+      "maximum_time_error": 1.5212522012922125e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_056/local101.npz",
+      "maximum_time_error": 1.2983275053172145e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_057/local101.npz",
+      "maximum_time_error": 1.072042397174193e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_058/local101.npz",
+      "maximum_time_error": 1.3356810698433395e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_059/local101.npz",
+      "maximum_time_error": 1.3187146114255006e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_060/local101.npz",
+      "maximum_time_error": 1.1088600955010304e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_061/local101.npz",
+      "maximum_time_error": 1.4328953234704904e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_062/local101.npz",
+      "maximum_time_error": 1.2307046785829925e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_063/local101.npz",
+      "maximum_time_error": 1.3414582085237096e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_063/local201.npz",
+      "maximum_time_error": 2.3720453930419855e-09,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000004
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_063/local401.npz",
+      "maximum_time_error": 2.582335843550602e-09,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000007
+    },
+    {
+      "path": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_063/native101.npz",
+      "maximum_time_error": 1.2057377921086706e-08,
+      "concentration_min": 0.0,
+      "concentration_max": 1.0000000000000002
+    }
+  ],
+  "all_checks_pass": true
+}

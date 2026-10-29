@@ -1,0 +1,172 @@
+{
+  "arch": {
+    "model": "conditional_field",
+    "conditioning": "cross_attention",
+    "patch_shape": [
+      4,
+      8
+    ],
+    "extent": [
+      1.0,
+      0.5
+    ],
+    "width": 64,
+    "encoder_depth": 2,
+    "heads": 4,
+    "mlp_ratio": 2,
+    "decoder_depth": 3,
+    "spatial_features": 32,
+    "spatial_scale": 2.0,
+    "time_features": 8,
+    "time_scale": 1.0,
+    "norm_eps": 1e-05
+  },
+  "nl": {
+    "delta": 0.02,
+    "kernel": "cubic",
+    "method": "sparse"
+  },
+  "sample": {
+    "Nx": 101,
+    "Ny": 51,
+    "Nt": 4,
+    "t_min": 0.001,
+    "N_bc_top": 128,
+    "N_bc_bottom": 128,
+    "N_ic_global": 1000,
+    "N_ic_local": 1000,
+    "K_core": 256,
+    "K_pool": 32,
+    "N_lhs": 2000
+  },
+  "surface": {
+    "y0": 0.33,
+    "n_modes": 6,
+    "amplitude": 0.03,
+    "freq_lo": 1.0,
+    "freq_hi": 5.0
+  },
+  "train": {
+    "matmul_precision": "highest",
+    "iterations": 5000,
+    "lr_init": 0.001,
+    "lr_decay_every": 1000,
+    "lr_decay_rate": 0.95,
+    "lr_min": 1e-05,
+    "optimizer": "adam",
+    "grad_clip": 10.0,
+    "alpha_gradnorm": 1.0,
+    "gradnorm_update_every": 25,
+    "soap_b1": 0.9,
+    "soap_b2": 0.99,
+    "soap_precond_freq": 5,
+    "soap_max_precond_dim": 100000,
+    "soap_precond_1d": false,
+    "compute_dtype": "float32",
+    "gpu_policy": "ordinary",
+    "seed": 42
+  },
+  "loss": {
+    "gradnorm_weight_cap": 1000.0,
+    "gradnorm_bias": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "bias_schedule": [],
+    "ac_scale": 1.0,
+    "ch_scale": 1.0,
+    "iface_gamma_init": 0.0,
+    "iface_gamma_decay_steps": 0,
+    "iface_gamma_decay_to": 0.0,
+    "use_causal": true,
+    "stagger_steps": 0,
+    "stagger_switch_every": 25,
+    "t_ramp_steps": 0,
+    "t_ramp_early": 0.0,
+    "t_ramp_late": 1.0
+  },
+  "causal": {
+    "n_chunks": 0,
+    "eps_init": 1.0,
+    "max_eps": 100.0,
+    "step_size": 1.1,
+    "max_last_weight": 0.9,
+    "min_mean_weight": 0.01
+  },
+  "log": {
+    "log_dir": "/root/autodl-tmp/tf-logs/electropolish2d/",
+    "run_name": "20261028-electro-operator-online-b8-causal-01",
+    "log_every": 100,
+    "eval_every": 250,
+    "save_ckpt": true,
+    "run_diag": false
+  },
+  "physical": {
+    "D": 8.5e-10,
+    "A": 53500000.0,
+    "L": 1e-06,
+    "alpha_phi": 2.575e-05,
+    "omega_phi": 17600000.0,
+    "c_se": 1.0,
+    "c_le": 0.03566433566433566
+  },
+  "nondim": {
+    "L_c": 0.0001,
+    "T_c": 5.0
+  },
+  "fem": {
+    "data_path": "/root/autodl-tmp/data/electropolish2d/results_rough.npz"
+  },
+  "experiment": {
+    "case": "electropolish2d",
+    "spatial_operator": "nonlocal_graph",
+    "local_reference_path": "/root/autodl-tmp/data/corrosion2d/results_local_ad_20261026.npz",
+    "formulation": "phase",
+    "reference_path": "/root/autodl-tmp/data/electropolish2d/results_matched_graph_20261024.npz",
+    "reference_rtol": 1e-07,
+    "reference_atol": 1e-10,
+    "reference_max_step": 0.01,
+    "refined_rtol": 1e-08,
+    "refined_atol": 1e-11,
+    "refined_max_step": 0.005,
+    "reference_snapshots": 21,
+    "reference_error_tolerance": 0.0001,
+    "latent_normalization": 0.5,
+    "bounded_eta": 0.1,
+    "data_loss_mode": "physical",
+    "initial_sampling": "random_interior",
+    "boundary_sampling": "random",
+    "transport_evaluation": "physical_difference",
+    "ch_norm": "l1",
+    "ch_rms_floor": 1e-12,
+    "lr_tail_start": 0,
+    "lr_tail_end": 1e-05,
+    "ch_rms_after": 0,
+    "checkpoint_every": 1000
+  },
+  "operator": {
+    "concentration_map": "linear_liquid",
+    "image_shape": [
+      1,
+      32,
+      64
+    ],
+    "train_conditions": 16,
+    "test_conditions": 4,
+    "eval_train_conditions": 2,
+    "condition_batch": 8,
+    "ic_points": 1024,
+    "dataset_path": "/root/autodl-tmp/data/electropolish2d/operator_random16_v1",
+    "reference_action": "load",
+    "online": {
+      "candidate_factor": 4,
+      "curve_points": 2000,
+      "sdf_window": 16,
+      "height_min": 0.005,
+      "height_max": 0.495
+    }
+  }
+}

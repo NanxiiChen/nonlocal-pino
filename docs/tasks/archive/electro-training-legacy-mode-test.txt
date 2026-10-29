@@ -1,0 +1,6 @@
+test_initial_query_features_match_legacy_saved_config (tests.test_electropolish_operator.OperatorTests.test_initial_query_features_match_legacy_saved_config) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 10.893s
+
+OK

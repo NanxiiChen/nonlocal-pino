@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/root/nonlocal-pinn/.venv/bin/python",
+    "examples/electropolish2d/train.py",
+    "--config=examples/electropolish2d/configs/train_operator_online.py",
+    "--config.log.run_name=20261029-electro-operator-match-nonlocal-01",
+    "--config.arch.local_input=zero"
+  ],
+  "environment": {
+    "JAX_PLATFORMS": "cuda",
+    "JAX_ENABLE_X64": "false",
+    "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "wall_seconds": 368.34904992207885,
+  "returncode": 0
+}

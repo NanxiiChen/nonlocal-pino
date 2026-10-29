@@ -1,0 +1,53 @@
+{
+  "local_space": {
+    "phi": {
+      "pooled": 0.005000806547710774,
+      "maximum_time": 0.011256900120816383
+    },
+    "mu": {
+      "pooled": 0.005327720893573657,
+      "maximum_time": 0.053779707728732376
+    }
+  },
+  "local_time": {
+    "phi": {
+      "pooled": 0.0003109956256483035,
+      "maximum_time": 0.0004708197617685953
+    },
+    "mu": {
+      "pooled": 0.0003567738519473003,
+      "maximum_time": 0.0017569868540199996
+    }
+  },
+  "native_time": {
+    "phi": {
+      "pooled": 8.095461433622788e-09,
+      "maximum_time": 2.194124108395215e-08
+    },
+    "mu": {
+      "pooled": 3.989978636842394e-08,
+      "maximum_time": 1.2125984270196418e-07
+    }
+  },
+  "reference_gap": {
+    "phi": 0.039311091799863036,
+    "mu": 0.4551022622318867
+  },
+  "local_mass_drift": 2.8102520310824275e-16,
+  "native_mass_drift": 1.0443035325380379e-15,
+  "local_energy_max_increase": 0.0,
+  "native_energy_max_increase": 0.0,
+  "resolution": {
+    "coarse": {
+      "vertices": 1932,
+      "dofs": 15094,
+      "seconds": 168.7290885746479
+    },
+    "fine": {
+      "vertices": 3793,
+      "dofs": 29826,
+      "seconds": 426.15001137182117
+    }
+  },
+  "status": "failed"
+}

@@ -53,8 +53,12 @@ def make_loss_fn(x_all, D, ...physical_params...,
 - Fail loudly with context. Never catch an arbitrary exception and silently
   switch to another numerical method.
 
-Canonical phase-field training starts in each example's `train.py` and
-`configs/train_base.py`. Corrosion/electropolish matched configs dispatch to
+Canonical phase-field training starts in each example's `train.py`, usually
+with `configs/train_base.py`. Confined CH explicitly defaults to
+`configs/train_coarsening_windows.py` (ten-wave/T1.5/30windows); its train_base
+remains the legacy simple foundation so dependent research presets do not
+change. Its reference solver defaults to the same complex physical config.
+Corrosion/electropolish matched configs dispatch to
 the shared KKS engine through `training_entry.py`; legacy configs explicitly
 retain their original loop. Pure IC/BC samplers live in `training_data.py`,
 so the shared engine never imports CLI modules or registers duplicate flags.
@@ -139,6 +143,91 @@ Integer spatial feature frequencies have stopped parameter gradients; older
 checkpoints with drifted frequencies remain loadable but are not hard-periodic.
 Do not silently round historical modes or identify changes in spatial
 discretization/constraints/optimizer budget as scalar-preconditioner gains.
+
+The `confined_ch2d` example is a separate Neumann geometry pilot. It uses
+physical triangle-centroid volumes on ellipse-minus-holes geometry, symmetric
+visible regional pairs, direct phase output and weighted hard mass. Local AD
+has explicit phi/mu normal BC losses; native nonlocal has two mixed PDE losses
+only. Geometry preprocessing runs Gmsh in a subprocess to isolate MPI/PETSc
+libraries from DOLFIN. Independent mixed-P2 FEM and independently assembled
+SciPy native references must pass refinement before training. Do not infer
+pointwise local Neumann enforcement from a finite-horizon pair closure, reuse
+periodic FFT neighborhoods or estimate perforated area from its bounding box.
+Its explicit `train_coarsening.py` preset adds `initial.kind=multimode`, with
+finite integer `(kx,ky,amplitude,phase)` waves and a positive saturation scale.
+This tanh defines prescribed physical initial data, not a learned phase map.
+The original schema omits `initial.kind`; its baseline arithmetic is retained.
+New static IC metadata adds no checkpoint parameter leaves; old runs must still
+be replayed with their saved configuration. Both NumPy analytic IC Laplacians
+are checked against AD. Sharper-case references use a separate data child path;
+preflight files alone never authorize training.
+
+Confined CH optional `phase` selects `lifting` and required positive
+`initial_time_scale`: `exponential_blend`, `logarithmic_additive` or
+`logarithmic_blend`; absence preserves legacy additive arithmetic. Optional
+`formulation.chemical=eliminated` uses one phase output and derives mu from the
+native operator; `predict_fields(..., D)` is then required. Learned two-head
+templates remain compatible with saved legacy configs. Eliminated mode omits
+`loss.chemical_weight` and rejects local AD. Optional `sample.temporal` explicitly
+declares log-uniform density and horizon curriculum; no inverse-density
+compensation is implied. Optional refinement `time_nodes` are physical positive
+nodes; omission preserves the shared helper's legacy uniform-midpoint rule.
+`loss.phase_metric` configures a frozen SPD biharmonic resolvent, not a PDE change.
+
+The default richer-case `train_coarsening_windows.py` adds explicit
+`train.windows` budgets, log boundaries, warm start, optimizer reset and native
+resolvent. Each window learns a phase increment from a frozen previous PINN
+endpoint; eliminated chemical law and physical-volume mass hold exactly.
+State, width and Cholesky factors are fixed-shape dynamic JIT inputs. Total
+SOAP/L-BFGS budgets must equal the configured sums. Only canonical train.py
+dispatches this option. With an empty window run name, the canonical entry copies
+the runtime config and assigns a unique timestamp/nonlocal-windows name before
+dispatch; explicit names are preserved. Each stored network plus grid initial state is one slab;
+load the complete direct-path `trajectory.json` through evaluate.py. Reject
+partial manifests and check every initial-state link. Fixed quadrature states
+have no off-grid extension, so local AD windows/classical wall diagnostics are
+not available. Report derivative jumps and mu accuracy alongside phase L2.
+The growing-prefix stage metric is not a full-domain convergence history.
+
+Retained global-time research uses one checkpoint, not that window engine.
+Optional `arch.model=global_basis` selects one spatial MLP whose `rank` outputs
+are coefficients of globally supported Chebyshev time functions. It requires
+`phase.lifting=logarithmic_additive`, positive `arch.output_scale` and exact
+chemical elimination. `arch.initial_feature` explicitly adds the known IC as
+a scalar spatial feature; missing field preserves legacy input dimensions.
+The joint MLP also supports `phase.lifting=logarithmic_increment`, which retains
+the IC plus a saturating free increment. No future trajectory is prescribed.
+
+Optional `sample.temporal.kind=fixed_nodes` requires explicit ordered positive
+`nodes` ending at T. For `phase_metric.kind=integral_resolvent`, SOAP/refinement
+nodes must agree exactly; the factory rejects mismatched runtime nodes.
+`time_integration.py` precomputes global log-time polynomial integration with
+checked moments/positive physical weights. Optional `normalization=time_average`
+means R/t; absence preserves the archived unnormalized law. Rank-r phase needs
+at least3r intervals for cubic chemical interpolation. Optional nonnegative
+`loss.energy_weight` adds normalized energy-dissipation balance and needs6r
+intervals for a global basis. Original differential metrics include
+`space_time_resolvent` (one differentiable residual recurrence, no state stepping)
+and `neumann_inverse` (constant-nullspace lift, no numerical jitter).
+
+Optional `train.refinement.optimizer=newton_cg` dispatches the case-local
+matrix-free exact-Hessian helper; explicit settings are iterations, time_nodes,
+time_points, step_tolerance, c1 and c2. Count actual Hessian products/function
+calls. Missing optimizer field retains the shared L-BFGS helper unchanged.
+All examples still enter through train.py and load saved configs/direct paths.
+These global schemes are experimental; lower phase L2 alone does not justify
+promotion when mu, overshoots or energy are poor.
+
+Optional `loss.causal` declares positive `strength`, `minimum` in(0,1), and
+`refinement=uniform`. Only the fixed-node eliminated Neumann-inverse control
+currently supports it. SOAP uses stopped exponential prefix residual weights,
+floored and normalized by their sum. This update intentionally does not
+differentiate through the weights. The L-BFGS factory receives a copied config
+with this record removed, so line searches use a consistent fixed scalar and
+gradient. Saved refinement metadata states that weights are uniform. It is
+one global network, with every time retaining positive weight; it neither
+freezes intermediate fields nor dispatches the window engine. Do not conflate
+this weighting variant with all details/benchmarks of the cited causal-PINN paper.
 
 ## Artifact Paths
 
@@ -226,3 +315,122 @@ precision and nonzero weight-decay order; current factory uses zero decay.
 Do not silently replace a dependency/default or compare native eigenbases
 bitwise across frameworks. Preserve old checkpoint/artifact paths and record
 any future algorithm/precision change separately from numerical bug repairs.
+
+Confined CH optional `arch.model=global_mixed` requires learned chemical mode,
+positive `rank/output_scale/chemical_scale`, logarithmic_additive phase lifting
+and explicit `field_layout=shared|separate`. It stores both field subnetworks in
+one global checkpoint; separate fields do not mean time-window decomposition.
+`arch.chemical_scale` maps raw mu outputs to physical mu; `loss.chemical_scale`
+normalizes chemical-unit residuals and is explicit in the new presets. Legacy
+configs without either field retain their previous arithmetic/template.
+Neumann-inverse evolution norms support learned as well as eliminated mu.
+Optional `phase_metric.kind=mixed_block` requires fixed identical SOAP/refinement
+nodes, explicit positive time_scale matching the phase log coordinate, and at
+least3*rank intervals for cubic consistency. `mixed_preconditioning.py` checks
+weighted spatial symmetry/PSD and the precomputed global2x2 inverse. Its losses
+are separate phase-unit and chemical-unit transformed residuals. Reference
+trajectory coefficients are never training inputs; time-projection probes are
+explicitly validation-only.
+
+Confined phase-only `phase.output_map={kind:tanh, amplitude:a}` selects
+TanhPhaseNetwork through train.py; it requires eliminated nonlocal global_basis
+and instantaneous loss metrics. `tanh_mapping.phase_state` returns projected
+physical phi, its pointwise tanh Jacobian, and the implicitly differentiated
+scalar mass shift. Use it through predict_fields for full-grid inference;
+point calls alone omit the global shift. Boundary diagnostics include that shift
+inside the physical point map. `loss.residual_transform.kind=none` retains r;
+`inverse_tanh_jacobian` uses r/J before the existing spatial metric. No floor or
+mean-removal is silently applied. The new static map metadata leaves legacy
+constructors/parameter leaves unchanged; saved config remains necessary to know
+which physical output those leaves represent. Optional amplitude1.0 is explicit,
+not a universal maximum-principle assumption for quartic CH.
+
+Confined shared mixed presets optionally select `train.loss_balance.kind` as
+`fixed`, `gradient_norm` or `stagger`. They require learned shared global fields,
+nonlocal instantaneous Neumann-inverse losses, and reject windows/causal weights.
+Alternatively, explicit positive `loss.evolution_scale` selects raw normalized
+mixed residuals and rejects a simultaneous spatial phase metric. It is separate
+from `loss.chemical_scale`; omitted field preserves prior evolution arithmetic.
+Case-local `loss_balancing.py` uses VJP cotangents for stopped adaptive weights
+and active-loss masks, with fixed-shape state. Gradient norm means the existing
+corrosion inverse-L1-gradient balancing rule, not relative-rate GradNorm.
+Explicit `update_every/alpha/norm_floor/norm_ceiling/weight_floor/weight_cap`
+configure adaptive state; `switch_every/stagger_steps` configure complete
+alternating cycles followed by joint training. No field parameters are frozen.
+`refinement=freeze` for adaptive and `joint` otherwise require one fixed joint
+scalar for all L-BFGS line searches. Existing configurations lacking the record
+keep the original step/refinement arithmetic. Saved physical network templates
+and parameter leaves do not depend on this training-only record.
+
+Electropolish opt-in `configs/train_operator.py` dispatches from its canonical
+train.py to operator_training.py before the single-IVP shared-engine branch.
+operator_data.py owns random-IC identities, analytic input fields, disjoint
+partitions and strict independently time-refined same-graph reference loading.
+Reusable `nn.conditional.ConditionalFieldOperator` is a raw pure Equinox module:
+patch/self-attention encoding, spatial cross-attention or pooled FiLM, then
+shared temporal FiLM. This is explicitly a separable PI-CViT-inspired variant,
+not an exact refactor of upstream time-dependent attention. `prepare` computes
+all learned spatial/condition work inside parameter AD; `decode` owns temporal
+broadcasting/JVP. Known local input-function values are explicit query features.
+Never cache learned encoder/prepared arrays across optimizer updates. Frequencies
+are stopped coordinate metadata. Physics maps/losses stay in the example. New
+operator uses unbounded normalized liquid concentration with the KKS mixture,
+because random-interface references exceed the legacy sigmoid c_L bound. The
+single-IVP default/serialized models stay unchanged; no future-field training
+labels or test-based checkpoint selection is introduced. Preparation is CPU-only;
+training is a separate ordinaryFP32 process. Strategy presets omit interface/run
+seeds; per-interface IDs and dataset seed live in dataset/run provenance.
+
+Operator optional `operator.training_indices` selects a nonempty unique subset
+of the source training partition. The single-input preset chooses0/B1. Excluded
+source monitors are `unused_train`; held-out IDs cannot be selected. Absence
+keeps original all-source condition draws bitwise, with actual draws recorded.
+Optional `operator.online` is mutually exclusive with that subset. Online mode
+uses continuous amplitude/frequency/phase triples every update, constructs input
+images and query-local IC through the independently checked original discrete
+SDF, and conditions the distribution on declared profile height validity. A
+fixed oversampling factor preserves shapes; too few accepted profiles raises
+before a step, never uses a padded replacement. Nearest curve indices and pools
+are precomputed. Sampler work stays outside parameter AD; the original five
+physical losses and temporal JVP stay unchanged. Source dataset fields are only
+an evaluation bank (`monitor`/`test`) in this mode. Record actual coefficients,
+accepted counts, selected-input provenance and device allocator peaks by direct
+paths. The initial online preset usesB8/5000Adam after a matched single-input
+SOAP/Adam control; no established single-IVP optimizer/default is changed.
+
+Operator `loss.use_causal=True` explicitly enables the existing shared
+`training.causal.CausalWeightor` per-time rule (`causal.n_chunks=0` only).
+`configs/train_operator_causal.py` is the matched continuous-online control.
+Compute per-condition/per-equation free-core MAE, sorted by time, then stopped
+exp(-min(epsAC,epsCH)*prefix_loss) weights and the unnormalized mean(w*MAE).
+Core normalization excludes padding/halo; IC/BC terms remain unchanged.
+Dynamic eps enters a case-local aux-aware step, with the same inverse-L1
+gradient balancing and optimizer as the original step. Batch-mean weights
+drive the shared helper's separate eps updates. Log pre-update weights/segments,
+eps used/next and physical unweighted parts. Disabled causal retains
+the original three-item payload and shared noncausal step. No parameter leaves,
+physics, temporal sampling, hard constraints or saved model templates change.
+
+Operator `arch.local_input=initial` feeds known query-local initial phi/c values
+to the decoder; explicit `zero` disables that shortcut by zeroing only those
+two feature channels. IC loss targets and global input images stay unchanged.
+Both modes have identical parameter shapes/initialization and retain physical
+IC supervision. Old saved configs lacking this optional field use the legacy
+initial mode. Replay through `predict_fields` with saved configuration; raw
+network calls alone do not apply this case-local feature option. The initial
+mode remains the existing default; zero is a diagnostic ablation.
+
+Electropolish `configs/train_operator_local.py` selects opt-in `nl.method=local_ad`
+through the same operator trainer. Its `operator_local.py` shares encoded images
+inside parameter AD and computes phi/q coordinate Hessian traces with directional
+JVPs; query rows must remain independent. Require explicit zero local-query
+features, noncausal weights and reference loading. Local uses the same padded
+core IDs/masks as the sparse pool and omits halo; all true IC targets remain.
+Original five physical losses gain a sixth side-wall phi_n/q_n-over-c_le MSE,
+with explicit positive `loss.neumann_scale` and six balancing biases. Positive
+times only, top/bottom corners excluded; retain rough incompatible ICs.
+The common source bank still contains graph targets, so local's periodic metrics
+are labeled graph diagnostics. `operator_reference.py` accepts an independent
+SciPy matrix and ordered snapshot times for local/graph reference validation.
+New runs record sampling.npz and synchronized update/setup/evaluation timings;
+snapshot local helper/preset sources. No shared network parameter shapes change.

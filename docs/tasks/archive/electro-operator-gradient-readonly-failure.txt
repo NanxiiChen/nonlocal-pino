@@ -1,0 +1,15 @@
+test_physical_residual_and_parameter_gradient (tests.test_electropolish_operator.OperatorTests.test_physical_residual_and_parameter_gradient) ... ERROR
+
+======================================================================
+ERROR: test_physical_residual_and_parameter_gradient (tests.test_electropolish_operator.OperatorTests.test_physical_residual_and_parameter_gradient)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/tests/test_electropolish_operator.py", line 86, in test_physical_residual_and_parameter_gradient
+    direction=np.asarray(ravel_pytree(tangent)[0]);direction/=np.linalg.norm(direction)
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: output array is read-only
+
+----------------------------------------------------------------------
+Ran 1 test in 28.193s
+
+FAILED (errors=1)

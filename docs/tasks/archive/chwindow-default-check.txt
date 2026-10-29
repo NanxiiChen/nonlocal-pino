@@ -1,0 +1,1 @@
+PASS: real no-config CLI selects verified30-window/T1.5 preset; exact historical strategy parity; generated runtime name/copy, explicit name preserved; solver physical default aligned

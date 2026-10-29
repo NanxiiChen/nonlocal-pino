@@ -1,0 +1,7 @@
+{
+  "indices": [],
+  "surface_ids": [],
+  "condition_batch": 8,
+  "source_train_conditions": 16,
+  "mode": "online_continuous"
+}

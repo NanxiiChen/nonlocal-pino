@@ -1,0 +1,135 @@
+{
+  "scope": "Independent physical residual/metric audit; no target fields train or reweight these models.",
+  "runs": {
+    "20261028-chtanh-jac-m8-01::ckpt_001000.eqx": {
+      "training_nodes": {
+        "count": 81,
+        "loss": 0.6166592477877277,
+        "constant_mode_loss": 0.026232774435051936,
+        "constant_mode_fraction": 0.042540146003100285,
+        "before_metric_jacobian_loss": 0.6166592477877277,
+        "after_metric_jacobian_loss": 14.935134328346852,
+        "minimum_jacobian": 0.1288815196232676,
+        "max_physical_residual_mean": 3.3302376174113645e-14,
+        "max_transformed_residual_mean": 0.007004464046987755,
+        "mass_max_drift": 2.498001805406602e-16
+      },
+      "with_midpoints": {
+        "count": 161,
+        "loss": 0.6158854058554158,
+        "constant_mode_loss": 0.026081083691430626,
+        "constant_mode_fraction": 0.042347299422050885,
+        "before_metric_jacobian_loss": 0.6158854058554158,
+        "after_metric_jacobian_loss": 14.852307451274143,
+        "minimum_jacobian": 0.1288815196232676,
+        "max_physical_residual_mean": 3.3302376174113645e-14,
+        "max_transformed_residual_mean": 0.007004464046987755,
+        "mass_max_drift": 2.498001805406602e-16
+      }
+    },
+    "20261028-chtanh-control-m8-01::model_final.eqx": {
+      "training_nodes": {
+        "count": 81,
+        "loss": 0.016690434772189837,
+        "constant_mode_loss": 3.913196739859914e-27,
+        "constant_mode_fraction": 2.344574478299519e-25,
+        "before_metric_jacobian_loss": 0.016690434772189837,
+        "after_metric_jacobian_loss": 0.016690434772189837,
+        "minimum_jacobian": 1.0,
+        "max_physical_residual_mean": 5.702119595105851e-15,
+        "max_transformed_residual_mean": 5.306899087842028e-15,
+        "mass_max_drift": 4.0939474033052647e-16
+      },
+      "with_midpoints": {
+        "count": 161,
+        "loss": 0.0165795466676581,
+        "constant_mode_loss": 4.442417696522357e-27,
+        "constant_mode_fraction": 2.679456673678677e-25,
+        "before_metric_jacobian_loss": 0.0165795466676581,
+        "after_metric_jacobian_loss": 0.0165795466676581,
+        "minimum_jacobian": 1.0,
+        "max_physical_residual_mean": 5.654024216313595e-15,
+        "max_transformed_residual_mean": 6.207909890727127e-15,
+        "mass_max_drift": 4.0939474033052647e-16
+      }
+    },
+    "20261028-chtanh-map-m8-01::model_final.eqx": {
+      "training_nodes": {
+        "count": 81,
+        "loss": 0.013832765615170795,
+        "constant_mode_loss": 3.9637157214552384e-24,
+        "constant_mode_fraction": 2.8654542639746e-22,
+        "before_metric_jacobian_loss": 47.80458477547344,
+        "after_metric_jacobian_loss": 0.04633329229440388,
+        "minimum_jacobian": 0.09035252730361794,
+        "max_physical_residual_mean": 1.861459741000396e-13,
+        "max_transformed_residual_mean": 0.48385779667670437,
+        "mass_max_drift": 1.8041124150158794e-16
+      },
+      "with_midpoints": {
+        "count": 161,
+        "loss": 0.013712299106734027,
+        "constant_mode_loss": 2.643968596147899e-24,
+        "constant_mode_fraction": 1.9281730770075326e-22,
+        "before_metric_jacobian_loss": 46.07690752543037,
+        "after_metric_jacobian_loss": 0.045684643822518585,
+        "minimum_jacobian": 0.09035252730361794,
+        "max_physical_residual_mean": 1.861459741000396e-13,
+        "max_transformed_residual_mean": 0.48385779667670437,
+        "mass_max_drift": 2.0816681711721685e-16
+      }
+    },
+    "20261028-chtanh-jac-m8-01::model_final.eqx": {
+      "training_nodes": {
+        "count": 81,
+        "loss": 0.2014406942905372,
+        "constant_mode_loss": 0.00010542516611201074,
+        "constant_mode_fraction": 0.0005233558516232891,
+        "before_metric_jacobian_loss": 0.2014406942905372,
+        "after_metric_jacobian_loss": 4.364675321684048,
+        "minimum_jacobian": 0.05306399358265177,
+        "max_physical_residual_mean": 1.3097088342903322e-14,
+        "max_transformed_residual_mean": 0.0005189170094035117,
+        "mass_max_drift": 1.6653345369377348e-16
+      },
+      "with_midpoints": {
+        "count": 161,
+        "loss": 0.20071441973117554,
+        "constant_mode_loss": 0.00010305067072593746,
+        "constant_mode_fraction": 0.0005134193689918101,
+        "before_metric_jacobian_loss": 0.20071441973117554,
+        "after_metric_jacobian_loss": 4.290311994042243,
+        "minimum_jacobian": 0.0530220478597267,
+        "max_physical_residual_mean": 2.065531994167132e-14,
+        "max_transformed_residual_mean": 0.0005248642556403953,
+        "mass_max_drift": 2.914335439641036e-16
+      }
+    },
+    "20261028-chtanh-jac-m5-01::model_final.eqx": {
+      "training_nodes": {
+        "count": 81,
+        "loss": 0.18595196381210774,
+        "constant_mode_loss": 3.743733759696759e-05,
+        "constant_mode_fraction": 0.0002013280033697066,
+        "before_metric_jacobian_loss": 0.18595196381210774,
+        "after_metric_jacobian_loss": 7.733803476872884,
+        "minimum_jacobian": 0.04293753247280551,
+        "max_physical_residual_mean": 3.7733461569421904e-14,
+        "max_transformed_residual_mean": 0.0003756138426178303,
+        "mass_max_drift": 2.1510571102112408e-16
+      },
+      "with_midpoints": {
+        "count": 161,
+        "loss": 0.18514261783404196,
+        "constant_mode_loss": 3.672391641430822e-05,
+        "constant_mode_fraction": 0.00019835474319168797,
+        "before_metric_jacobian_loss": 0.18514261783404196,
+        "after_metric_jacobian_loss": 7.633312920648121,
+        "minimum_jacobian": 0.04291698162385679,
+        "max_physical_residual_mean": 5.2001787328012176e-14,
+        "max_transformed_residual_mean": 0.0003756138426178303,
+        "mass_max_drift": 2.1510571102112408e-16
+      }
+    }
+  }
+}

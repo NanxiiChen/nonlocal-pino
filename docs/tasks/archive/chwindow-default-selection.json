@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "default_config": "examples/confined_ch2d/configs/train_coarsening_windows.py",
+  "reference": "/root/autodl-tmp/data/confined_ch2d/coarsening_multimode10/reference.npz",
+  "selected_trajectory": "/root/autodl-tmp/tf-logs/confined_ch2d/20261027-chopt-windows-01/trajectory.json",
+  "config_schemas": 31,
+  "windows": 30,
+  "physical_time": 1.5,
+  "total_soap": 5000,
+  "total_lbfgs": 500,
+  "checks": [
+    "Real CLI default + historical strategy parity",
+    "Window dispatch + auto run name on copied config",
+    "Explicit run name preserved",
+    "Legacy simple CLI/reference",
+    "Solver default AST aligned",
+    "Complete selected trajectory direct paths"
+  ],
+  "scope": "Default/entry metadata change only; no retraining/new FEM/numerical scheme change or Git history action"
+}

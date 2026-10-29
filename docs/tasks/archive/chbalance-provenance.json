@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "runs": [
+    {
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-joint-01",
+      "strategy": {
+        "kind": "fixed",
+        "refinement": "joint"
+      },
+      "full_horizon": true
+    },
+    {
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-gradnorm-01",
+      "strategy": {
+        "kind": "gradient_norm",
+        "update_every": 25,
+        "alpha": 1.0,
+        "norm_floor": 1e-06,
+        "norm_ceiling": 1000000.0,
+        "weight_floor": 1e-06,
+        "weight_cap": 10000.0,
+        "refinement": "freeze"
+      },
+      "full_horizon": true
+    },
+    {
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261028-chbalance-stagger-01",
+      "strategy": {
+        "kind": "stagger",
+        "switch_every": 25,
+        "stagger_steps": 4000,
+        "refinement": "joint"
+      },
+      "full_horizon": true
+    }
+  ],
+  "source_file_count": 57,
+  "initial_parameters": "Direct serialized bytes identical",
+  "scope": "Same architecture/initialization/physical reference/full-horizon times; only loss_balance config and run name vary; no hash loading"
+}

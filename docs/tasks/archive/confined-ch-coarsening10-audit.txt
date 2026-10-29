@@ -1,0 +1,33 @@
+{
+  "points": 3682,
+  "preflight_initial_interpolation_l2": 0.011310284540682542,
+  "preflight_mass_drift": 2.0469737016526324e-16,
+  "preflight_energy_initial": 0.14853728571272656,
+  "preflight_energy_terminal": 0.06997485049058577,
+  "preflight_energy_max_increase": 0.0,
+  "operator": {
+    "independent_matrix_max_absolute": 7.275957614183426e-12,
+    "weighted_asymmetry_max_absolute": 2.220446049250313e-16,
+    "constant_annihilation_max_absolute": 7.560174708487466e-12,
+    "connected_components": 1,
+    "neighbors_min": 7,
+    "neighbors_max": 23
+  },
+  "operator_consistency_scope": "Analytic initial field only; fixed query points, visible physical-volume integral. Not native evolution spatial convergence.",
+  "fine_quadrature_points": 14203,
+  "fine_quadrature_mesh_size": 0.01,
+  "horizons": {
+    "0.04": {
+      "coarse_fine_quadrature_relative": 0.02267790809853031,
+      "fine_integral_local_relative": 0.5251093962672061
+    },
+    "0.03": {
+      "coarse_fine_quadrature_relative": 0.05664433499231766,
+      "fine_integral_local_relative": 0.40691296683654116
+    },
+    "0.02": {
+      "coarse_fine_quadrature_relative": 0.30890878672296124,
+      "fine_integral_local_relative": 0.2551489244203894
+    }
+  }
+}

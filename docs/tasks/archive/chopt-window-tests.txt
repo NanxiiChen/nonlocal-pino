@@ -1,0 +1,8 @@
+test_chain_rule_independent_residual_and_gradients (tests.test_confined_ch_windows.WindowTests.test_chain_rule_independent_residual_and_gradients) ... ok
+test_two_saved_windows_replay_and_state_continuity (tests.test_confined_ch_windows.WindowTests.test_two_saved_windows_replay_and_state_continuity) ... ok
+test_weighted_solve_root_and_gradient (tests.test_confined_ch_metric.MetricTests.test_weighted_solve_root_and_gradient) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 13.402s
+
+OK

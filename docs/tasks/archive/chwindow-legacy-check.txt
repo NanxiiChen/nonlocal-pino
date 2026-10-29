@@ -1,0 +1,1 @@
+PASS: explicit legacy CLI config/reference, old simple physical problem preserved

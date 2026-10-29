@@ -1,0 +1,25 @@
+{
+  "scope": "Validation only; no data enters any PINN loss",
+  "existing_native_phi_relative": 1.8984016050080063e-14,
+  "grids": {
+    "32": {
+      "integrated_defect_max_rms": 0.0015522447442641646,
+      "preconditioned_defect_max_rms": 0.00014642949322650863,
+      "preconditioned_defect_terminal_rms": 2.0968210327537257e-05,
+      "quadrature_objective": 4.904211928474264e-09
+    },
+    "64": {
+      "integrated_defect_max_rms": 3.768602051728119e-05,
+      "preconditioned_defect_max_rms": 2.6499925066347874e-06,
+      "preconditioned_defect_terminal_rms": 1.4066716355152201e-08,
+      "quadrature_objective": 1.1163775493590551e-12
+    },
+    "128": {
+      "integrated_defect_max_rms": 5.547918996237999e-08,
+      "preconditioned_defect_max_rms": 3.7140304082468194e-09,
+      "preconditioned_defect_terminal_rms": 5.7632181444288915e-11,
+      "quadrature_objective": 1.2765171958759819e-18
+    }
+  },
+  "wall_seconds": 98.66236477345228
+}

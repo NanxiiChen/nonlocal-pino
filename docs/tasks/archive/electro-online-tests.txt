@@ -1,0 +1,7 @@
+test_initial_fields_match_existing_numpy_sdf (tests.test_electropolish_online.OnlineConditionTests.test_initial_fields_match_existing_numpy_sdf) ... ok
+test_online_samples_are_fresh_batched_and_replayable (tests.test_electropolish_online.OnlineConditionTests.test_online_samples_are_fresh_batched_and_replayable) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 5.562s
+
+OK

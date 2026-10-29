@@ -1,0 +1,69 @@
+REFERENCE local101 1 11.972407650202513 1.146825542751424e-08
+REFERENCE local101 2 12.761705160140991 2.4200006606271915e-08
+REFERENCE local101 3 12.485900562256575 1.4787843589558365e-08
+REFERENCE local101 0 13.208831179887056 2.0087184373059133e-08
+REFERENCE local101 4 11.245298944413662 1.548024920538506e-08
+REFERENCE local101 6 11.436686713248491 1.5906557767365276e-08
+REFERENCE local101 5 11.90409841388464 1.3702367325520706e-08
+REFERENCE local101 7 13.520240098237991 1.5270720154213798e-08
+REFERENCE local101 8 12.235215172171593 1.3709990236851856e-08
+REFERENCE local101 10 10.915158998221159 2.0952115165635885e-08
+REFERENCE local101 9 12.1786347925663 1.3231967759132267e-08
+REFERENCE local101 11 11.394682619720697 2.1297707498571443e-08
+REFERENCE local101 12 11.219708561897278 2.318915377033028e-08
+REFERENCE local101 13 11.988007333129644 1.6231168349766862e-08
+REFERENCE local101 14 13.383866623044014 2.5829333229111734e-08
+REFERENCE local101 15 11.783607244491577 1.3837351025181844e-08
+REFERENCE local101 17 10.693194977939129 1.7394254876443147e-08
+REFERENCE local101 16 11.91124015673995 1.2400870865446571e-08
+REFERENCE local101 18 11.739185400307178 1.6836032157614617e-08
+REFERENCE local101 19 11.988573729991913 1.4675228625799762e-08
+REFERENCE local101 20 11.770835261791945 1.727346642192254e-08
+REFERENCE local101 21 13.637464091181755 1.4395027115996872e-08
+REFERENCE local101 23 12.601407270878553 1.1635133622265347e-08
+REFERENCE local101 22 13.697914615273476 1.4002480966685615e-08
+REFERENCE local101 24 12.259766858071089 1.0007784154758946e-08
+REFERENCE local101 25 11.309825599193573 2.337532516237188e-08
+REFERENCE local101 26 10.165515348315239 1.0974818345558252e-08
+REFERENCE local101 27 14.029734749346972 1.497721428283981e-08
+REFERENCE local101 28 11.102940015494823 1.611135717339021e-08
+REFERENCE local101 30 11.648819327354431 1.530991137598132e-08
+REFERENCE local101 29 12.01405744254589 1.898888382983714e-08
+REFERENCE local101 31 12.620153248310089 2.1066561838213496e-08
+REFERENCE local101 32 13.807569421827793 1.2385132964059918e-08
+REFERENCE local101 34 12.190669648349285 1.8224759535666275e-08
+REFERENCE local101 33 12.188579428941011 1.6102978421918243e-08
+REFERENCE local101 35 13.032893117517233 1.8533417787134716e-08
+REFERENCE local101 38 10.301036141812801 1.5745605052050347e-08
+REFERENCE local101 36 11.945183213800192 1.278531059706842e-08
+REFERENCE local101 37 12.363890491425991 2.075815192568031e-08
+REFERENCE local101 39 10.899291705340147 1.3862986329889647e-08
+/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/scipy/integrate/_ivp/bdf.py:416: RuntimeWarning: invalid value encountered in subtract
+  D[order + 2] = d - D[order + 1]
+/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/scipy/integrate/_ivp/bdf.py:416: RuntimeWarning: invalid value encountered in subtract
+  D[order + 2] = d - D[order + 1]
+concurrent.futures.process._RemoteTraceback:
+"""
+Traceback (most recent call last):
+  File "/root/miniconda3/lib/python3.12/concurrent/futures/process.py", line 263, in _process_worker
+    r = call_item.fn(*call_item.args, **call_item.kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nonlocal-pinn/docs/tasks/electro-operator-local-references.py", line 39, in reference
+    coarse, coarse_info = solve(c, matrix.tocsr(), points, TIMES, e.reference_rtol, e.reference_atol, e.reference_max_step)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nonlocal-pinn/examples/electropolish2d/operator_reference.py", line 67, in solve
+    raise ValueError(f'Reference field range violation: {fields.min()}..{fields.max()}')
+ValueError: Reference field range violation: 0.0..1.0000190713572341
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/docs/tasks/electro-operator-local-references.py", line 81, in <module>
+
+  File "/root/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+ValueError: Reference field range violation: 0.0..1.0000190713572341

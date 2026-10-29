@@ -1,0 +1,6 @@
+test_physical_residual_and_parameter_gradient (test_electropolish_operator.OperatorTests.test_physical_residual_and_parameter_gradient) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 33.427s
+
+OK

@@ -1,0 +1,1299 @@
+{
+  "scope": "Different prescribed physical cases, not an accuracy ranking. New fields are refinement-validated local FEM reference, not PINN predictions.",
+  "significant_area_fraction": 0.005,
+  "cases": {
+    "old": [
+      {
+        "time": 0.0,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.4741570613548918,
+        "maximum": 0.47664538427833975,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.3105266234941607,
+              0.07385726138480626,
+              0.0729840018595989,
+              0.000507487477808978,
+              0.0004804125426979756,
+              0.0004689244881144149,
+              0.0004676858272689843,
+              0.0004454988237742262,
+              0.0004443883761507359,
+              0.00043884432295276124,
+              0.00043368093499862565,
+              0.0004313442077361385,
+              0.00042954542379346965,
+              0.0004294547214682952,
+              0.0004242692614609213,
+              0.00042339293944605966,
+              0.0004212940938569457,
+              0.00041336408993242424,
+              0.0004130401025359035,
+              0.0004116823298252122,
+              0.00041036941221373184,
+              0.00040479954488406453,
+              0.0004011634924513521,
+              0.0003975742304991054,
+              0.00039559380082694704,
+              0.0003760742251000443,
+              0.0003681295297742368,
+              0.00036503777708698343,
+              0.00035596938919098985,
+              0.0003548907988347063,
+              0.00035472852987525924,
+              0.0003479491966443681,
+              0.00034351399216188264,
+              0.0003365015559336446,
+              0.00033108956677508575,
+              0.00029007576289371,
+              0.0002761313912150008
+            ],
+            "count": 37,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.2621622777448558,
+              0.2601062464234064,
+              0.0006635734958305472,
+              0.0004971942810662788,
+              0.0004593145256693196,
+              0.0004485716421734079,
+              0.00041528880276703285,
+              0.0004082967366601045,
+              0.0003700045268129418,
+              0.0003545457889604846,
+              0.0003464869547213137,
+              0.0003452905996647314,
+              0.00033625023944585395,
+              0.00033494803652526714,
+              0.00033281932679142366,
+              0.00031442786679609875,
+              0.0003114970948812329,
+              0.00029068424155813047,
+              0.00027378110954353745,
+              0.00026671166312100693
+            ],
+            "count": 20,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.05,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.47568280087136033,
+        "maximum": 0.46702987272512897,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.32066489838154955,
+              0.07076062111652677,
+              0.06726170373038344
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.27286837915752515,
+              0.2684443976140152
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.1,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.4695127649494534,
+        "maximum": 0.4713310824261029,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.3228876322683338,
+              0.07020027303949469,
+              0.0644021392387841
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.2737290276019543,
+              0.26878092785143337
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.15000000000000002,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.4759263436098411,
+        "maximum": 0.4816362491936619,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.3226391556669192,
+              0.07058982256664482,
+              0.06436208846608694
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.27445967059508525,
+              0.267949262705264
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.2,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.4861179088304669,
+        "maximum": 0.4953436249326878,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.32451771837387117,
+              0.07047608073233613,
+              0.06384542040797447
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.2740660548381436,
+              0.26709472564767484
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.25,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.5004578200737636,
+        "maximum": 0.5137148035023844,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.3263363960532624,
+              0.07086922393273784,
+              0.06516264547275101
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.2736208126046463,
+              0.26401092193660264
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.30000000000000004,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.5169123491705196,
+        "maximum": 0.5333179431500005,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.32811130763316443,
+              0.0713138010677058,
+              0.06553212085346995
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.27185052884700056,
+              0.26319224159865945
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.35000000000000003,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.5363856561571021,
+        "maximum": 0.5538354235192255,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.3290757886207308,
+              0.07219336157932785,
+              0.06690794522526547
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.2695983196574272,
+              0.26222458491724876
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.4,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.5574598326838778,
+        "maximum": 0.5750330103893885,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.3292078133820046,
+              0.0726290300987152,
+              0.06690794522526547
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.26913869696541465,
+              0.26211651432860006
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.45,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.5783055213723743,
+        "maximum": 0.5966873856673686,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.3286483097061467,
+              0.0733255871745888,
+              0.06777279478059381
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.2690016435653991,
+              0.2612516647732717
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.5,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.5994898689297574,
+        "maximum": 0.6187447933737886,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.3279375788704054,
+              0.0733255871745888,
+              0.06850624361897656
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.26927062767631277,
+              0.26095996265971655
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.55,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.6207542226511291,
+        "maximum": 0.6412163898040624,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.32749448188074853,
+              0.0737682840018184,
+              0.06938387669441398
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.26927102783874,
+              0.26008232958427907
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.6000000000000001,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.641524852593879,
+        "maximum": 0.6635294966462065,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.3275847015670785,
+              0.07465354156771907,
+              0.06899215923425198
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.26877596312920743,
+              0.2599936345017431
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.65,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.661783162882676,
+        "maximum": 0.6853769120332633,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.3291310230116808,
+              0.07465354156771907,
+              0.06943080825360083
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.26842707857744214,
+              0.2583575485895572
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.7000000000000001,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.6814863019306853,
+        "maximum": 0.7065676368466353,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.32910591420614116,
+              0.07508523517424895,
+              0.07073392023152304
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.2679953849709123,
+              0.25707954541717465
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.75,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.7007162582910225,
+        "maximum": 0.7269544867812221,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.3295269063441503,
+              0.07508523517424895,
+              0.07027748348369967
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.2684355946131333,
+              0.25667478038476776
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.8,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.7195830491132891,
+        "maximum": 0.7463985451865309,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.3287369689625854,
+              0.07513093415262882,
+              0.07115428037540228
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.2687387801865187,
+              0.25623903632286477
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.8500000000000001,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.7374555323637195,
+        "maximum": 0.7647743462142326,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.32954315372330817,
+              0.07557370956349373,
+              0.07042083153701952
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.26782170683463574,
+              0.25664059834154296
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.9,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.7542797934358584,
+        "maximum": 0.7819752737269028,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.32992828711997996,
+              0.07645877732611599,
+              0.07128817365458175
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.2669366390720134,
+              0.2553881228273089
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 0.9500000000000001,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 1.0,
+        "minimum": -0.7700104838865629,
+        "maximum": 0.797918305065519,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.329490660893183,
+              0.07645877732611599,
+              0.0713361255725433
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.2669366390720134,
+              0.25577779713614424
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      },
+      {
+        "time": 1.0,
+        "pure_fraction": 0.0,
+        "mixed_fraction": 0.9938737483041253,
+        "minimum": -0.7846159016996015,
+        "maximum": 0.8125473489312466,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.32972647970197216,
+              0.07690138522989377,
+              0.07177419293329242
+            ],
+            "count": 3,
+            "significant_count": 3
+          },
+          "negative": {
+            "area_fractions": [
+              0.2660507813318777,
+              0.25554716080296386
+            ],
+            "count": 2,
+            "significant_count": 2
+          }
+        },
+        "significant_components": 5
+      }
+    ],
+    "richer": [
+      {
+        "time": 0.0,
+        "pure_fraction": 0.2717047610507141,
+        "mixed_fraction": 0.5954970313282033,
+        "minimum": -0.9786943797233985,
+        "maximum": 0.9778157309289549,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.23081962490635655,
+              0.08097740004489369,
+              0.06654859570819585,
+              0.058339829781635356,
+              0.05051691819014309,
+              0.006667046118126932,
+              0.006635347277242277,
+              0.005211817664398007,
+              0.00019705188871686614,
+              0.00018646145084295614
+            ],
+            "count": 10,
+            "significant_count": 8
+          },
+          "negative": {
+            "area_fractions": [
+              0.23031915033799058,
+              0.14755705601303998,
+              0.07345224459993627,
+              0.03269983949032553,
+              0.004803414588604376,
+              0.00457611577002016,
+              0.0002719736043118389,
+              0.00022011256521946914
+            ],
+            "count": 8,
+            "significant_count": 4
+          }
+        },
+        "significant_components": 12
+      },
+      {
+        "time": 0.075,
+        "pure_fraction": 0.057929508877875874,
+        "mixed_fraction": 0.7924865216354778,
+        "minimum": -0.9644359165568744,
+        "maximum": 0.9472038721243816,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.24451822870332798,
+              0.11688623830237202,
+              0.0865504416238667,
+              0.07820750156503042,
+              0.0037694521610383575,
+              0.0018395257020668353
+            ],
+            "count": 6,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.14924717587348696,
+              0.14514412485116304,
+              0.07478140789415973,
+              0.06160196002790579,
+              0.03257956782249664,
+              0.004575469224457586,
+              0.0002989062486278341
+            ],
+            "count": 7,
+            "significant_count": 5
+          }
+        },
+        "significant_components": 9
+      },
+      {
+        "time": 0.15,
+        "pure_fraction": 0.07666918792424457,
+        "mixed_fraction": 0.7051937479455429,
+        "minimum": -0.9522517281506421,
+        "maximum": 0.9627965910573789,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.24617588419325645,
+              0.1166600429000818,
+              0.0873996516322631,
+              0.07596690497637308,
+              0.001903149825446966
+            ],
+            "count": 5,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.15379201472143553,
+              0.14604122413539883,
+              0.07746411535657496,
+              0.06002411993954748,
+              0.03213427856017764,
+              0.0024386137594439618
+            ],
+            "count": 6,
+            "significant_count": 5
+          }
+        },
+        "significant_components": 9
+      },
+      {
+        "time": 0.22499999999999998,
+        "pure_fraction": 0.13612038295592757,
+        "mixed_fraction": 0.6147317866496338,
+        "minimum": -0.9844038012632741,
+        "maximum": 0.9743435526747719,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.24957226939960417,
+              0.11821263437080562,
+              0.08905793002922865,
+              0.07395948173362968
+            ],
+            "count": 4,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.15580780410972675,
+              0.14712625397423226,
+              0.07634711857189738,
+              0.057623576656811115,
+              0.03200575711608853,
+              0.0002871740379756328
+            ],
+            "count": 6,
+            "significant_count": 5
+          }
+        },
+        "significant_components": 9
+      },
+      {
+        "time": 0.3,
+        "pure_fraction": 0.20217575080712966,
+        "mixed_fraction": 0.5412363698794,
+        "minimum": -1.0070232051859986,
+        "maximum": 0.9803683876661646,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.24939844690220941,
+              0.11998060971617792,
+              0.0882576225150194,
+              0.07254745829795596
+            ],
+            "count": 4,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.15754618161963702,
+              0.1471743035676586,
+              0.07429563310217674,
+              0.057730136691459696,
+              0.03306960758770492
+            ],
+            "count": 5,
+            "significant_count": 5
+          }
+        },
+        "significant_components": 9
+      },
+      {
+        "time": 0.375,
+        "pure_fraction": 0.2768110966457183,
+        "mixed_fraction": 0.47710781653525364,
+        "minimum": -1.01762219761854,
+        "maximum": 0.9852376435540526,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.24970989121849563,
+              0.11896023085128986,
+              0.08625296548911573,
+              0.07169727796245684
+            ],
+            "count": 4,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.16096476670998883,
+              0.14745976235888308,
+              0.0733022591643954,
+              0.03335321526659586,
+              0.03242627090202582,
+              0.025873360076752523
+            ],
+            "count": 6,
+            "significant_count": 6
+          }
+        },
+        "significant_components": 10
+      },
+      {
+        "time": 0.44999999999999996,
+        "pure_fraction": 0.3556766734360225,
+        "mixed_fraction": 0.4558753078091645,
+        "minimum": -1.0230747161441764,
+        "maximum": 0.9872035437017657,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.25059709327932284,
+              0.11943718723788155,
+              0.08525335422905218,
+              0.07084221584080294
+            ],
+            "count": 4,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.16171555924663578,
+              0.14661898482095034,
+              0.07345067497952926,
+              0.03337617732631307,
+              0.03299646535427807,
+              0.02571228768523352
+            ],
+            "count": 6,
+            "significant_count": 6
+          }
+        },
+        "significant_components": 10
+      },
+      {
+        "time": 0.525,
+        "pure_fraction": 0.38704179278054496,
+        "mixed_fraction": 0.4388380484596369,
+        "minimum": -1.0254761872263691,
+        "maximum": 0.9949790550221915,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.2505960093259962,
+              0.12040987477938135,
+              0.08404166896569845,
+              0.06997390770790662
+            ],
+            "count": 4,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.1629152484638391,
+              0.14752717926392567,
+              0.07245923820820706,
+              0.05908040793076696,
+              0.03299646535427807
+            ],
+            "count": 5,
+            "significant_count": 5
+          }
+        },
+        "significant_components": 9
+      },
+      {
+        "time": 0.6,
+        "pure_fraction": 0.40814774234125734,
+        "mixed_fraction": 0.43065666130870295,
+        "minimum": -1.026233079144137,
+        "maximum": 1.0015274646341068,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.2513148176020969,
+              0.12021853916435894,
+              0.08360665653819632,
+              0.06938403128446197
+            ],
+            "count": 4,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.1634077925063587,
+              0.14872680118106268,
+              0.0720101657752941,
+              0.05834094510317316,
+              0.03299025084499689
+            ],
+            "count": 5,
+            "significant_count": 5
+          }
+        },
+        "significant_components": 9
+      },
+      {
+        "time": 0.6749999999999999,
+        "pure_fraction": 0.4169433853390733,
+        "mixed_fraction": 0.42365175338263317,
+        "minimum": -1.0263417862140338,
+        "maximum": 1.0093781132721698,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.25034662587904666,
+              0.11974673223304587,
+              0.08365425604841452,
+              0.06938604137428651
+            ],
+            "count": 4,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.16356857814288392,
+              0.1501065997356453,
+              0.07175323397935394,
+              0.05849959085114913,
+              0.03293834175617374
+            ],
+            "count": 5,
+            "significant_count": 5
+          }
+        },
+        "significant_components": 9
+      },
+      {
+        "time": 0.75,
+        "pure_fraction": 0.42457391209855433,
+        "mixed_fraction": 0.4176502486726096,
+        "minimum": -1.0262529088346055,
+        "maximum": 1.0142616213537206,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.24995426425217954,
+              0.11967195453012022,
+              0.08457827038884097,
+              0.0690894476223764
+            ],
+            "count": 4,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.16291465494535923,
+              0.1498814505278721,
+              0.07215688854015397,
+              0.05881190022635842,
+              0.032941168966738855
+            ],
+            "count": 5,
+            "significant_count": 5
+          }
+        },
+        "significant_components": 9
+      },
+      {
+        "time": 0.825,
+        "pure_fraction": 0.4319524165808866,
+        "mixed_fraction": 0.4116854959869154,
+        "minimum": -1.0260505091396899,
+        "maximum": 1.0175641860268176,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.24999472409150425,
+              0.11991194980259347,
+              0.08411273179425965,
+              0.06909123471511097
+            ],
+            "count": 4,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.16283024762817885,
+              0.1499002434335581,
+              0.07274043324117076,
+              0.05852864164397281,
+              0.03288979364965084
+            ],
+            "count": 5,
+            "significant_count": 5
+          }
+        },
+        "significant_components": 9
+      },
+      {
+        "time": 0.8999999999999999,
+        "pure_fraction": 0.4344781779946603,
+        "mixed_fraction": 0.40894771835126215,
+        "minimum": -1.0257167593877052,
+        "maximum": 1.0197180700246224,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.25103891529681704,
+              0.12065920314456138,
+              0.08434962798455532,
+              0.06850776614224667
+            ],
+            "count": 4,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.16232520580758286,
+              0.1497241257581877,
+              0.07297517648447302,
+              0.05725228616179208,
+              0.033167693219783585
+            ],
+            "count": 5,
+            "significant_count": 5
+          }
+        },
+        "significant_components": 9
+      },
+      {
+        "time": 0.975,
+        "pure_fraction": 0.43952415409831447,
+        "mixed_fraction": 0.4072541792427821,
+        "minimum": -1.0252352402319707,
+        "maximum": 1.0212787317076852,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.249554660772429,
+              0.12026855296979444,
+              0.0838623494771656,
+              0.06879174597743191
+            ],
+            "count": 4,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.16197777893609258,
+              0.15094099316587745,
+              0.0735489821403524,
+              0.05816845979602715,
+              0.032886476764829135
+            ],
+            "count": 5,
+            "significant_count": 5
+          }
+        },
+        "significant_components": 9
+      },
+      {
+        "time": 1.05,
+        "pure_fraction": 0.4422818710498171,
+        "mixed_fraction": 0.4030890959986885,
+        "minimum": -1.0250873872609443,
+        "maximum": 1.022402538436441,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.24952548723038365,
+              0.12109432979483896,
+              0.08413932712298593,
+              0.06879399437387995
+            ],
+            "count": 4,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.16109693960411348,
+              0.14989676411581246,
+              0.07436222628186637,
+              0.05768801509577899,
+              0.03340291638033982
+            ],
+            "count": 5,
+            "significant_count": 5
+          }
+        },
+        "significant_components": 9
+      },
+      {
+        "time": 1.125,
+        "pure_fraction": 0.44834860426212875,
+        "mixed_fraction": 0.39913721810630715,
+        "minimum": -1.0252602338930346,
+        "maximum": 1.0232119035376441,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.24922245352059286,
+              0.1213765768047527,
+              0.08395021875218911,
+              0.06879817099381344
+            ],
+            "count": 4,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.16156159743904153,
+              0.15019336110318804,
+              0.0743488921608884,
+              0.05740500009859554,
+              0.03314372912693807
+            ],
+            "count": 5,
+            "significant_count": 5
+          }
+        },
+        "significant_components": 9
+      },
+      {
+        "time": 1.2,
+        "pure_fraction": 0.4555335560487322,
+        "mixed_fraction": 0.399336566899591,
+        "minimum": -1.025390566491139,
+        "maximum": 1.0238194236811762,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.2486550292649105,
+              0.12150552786874802,
+              0.08419969682789315,
+              0.06879817099381344
+            ],
+            "count": 4,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.16156352352656156,
+              0.15038413317242635,
+              0.07404885010946224,
+              0.057421922346348256,
+              0.03342314588983618
+            ],
+            "count": 5,
+            "significant_count": 5
+          }
+        },
+        "significant_components": 9
+      },
+      {
+        "time": 1.275,
+        "pure_fraction": 0.4578266126419299,
+        "mixed_fraction": 0.3988105688141268,
+        "minimum": -1.0254981959743925,
+        "maximum": 1.0242854639451606,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.24902470324030415,
+              0.12120767146642757,
+              0.084193471650902,
+              0.06879446281905881
+            ],
+            "count": 4,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.16129836820375884,
+              0.1512698680518001,
+              0.0742889452560032,
+              0.05624054477036186,
+              0.03368196454138317
+            ],
+            "count": 5,
+            "significant_count": 5
+          }
+        },
+        "significant_components": 9
+      },
+      {
+        "time": 1.3499999999999999,
+        "pure_fraction": 0.45972658430639085,
+        "mixed_fraction": 0.4008768918166438,
+        "minimum": -1.0255937234419776,
+        "maximum": 1.0246477597510646,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.24936376542156335,
+              0.1210087148820464,
+              0.0841977383944697,
+              0.068512540696163
+            ],
+            "count": 4,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.1612958440494773,
+              0.15206936854013842,
+              0.0744846473224455,
+              0.05538541615231275,
+              0.03368196454138317
+            ],
+            "count": 5,
+            "significant_count": 5
+          }
+        },
+        "significant_components": 9
+      },
+      {
+        "time": 1.425,
+        "pure_fraction": 0.4619575520047454,
+        "mixed_fraction": 0.39744921814253337,
+        "minimum": -1.025681202991739,
+        "maximum": 1.0249370543452336,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.2493916420647969,
+              0.12124818403609416,
+              0.08420635295092828,
+              0.06822843050995603
+            ],
+            "count": 4,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.16133187052517795,
+              0.15208064492439147,
+              0.07530656573154633,
+              0.05480551060582349,
+              0.03340079865128498
+            ],
+            "count": 5,
+            "significant_count": 5
+          }
+        },
+        "significant_components": 9
+      },
+      {
+        "time": 1.5,
+        "pure_fraction": 0.461384677724031,
+        "mixed_fraction": 0.3964154768184906,
+        "minimum": -1.0257598550413944,
+        "maximum": 1.0251746262112649,
+        "phases": {
+          "positive": {
+            "area_fractions": [
+              0.2502890559460439,
+              0.12106149176351039,
+              0.08399564389054195,
+              0.06766299272128687
+            ],
+            "count": 4,
+            "significant_count": 4
+          },
+          "negative": {
+            "area_fractions": [
+              0.16183355371954763,
+              0.15255523815071248,
+              0.07530656573154633,
+              0.05421852115316452,
+              0.03307693692364553
+            ],
+            "count": 5,
+            "significant_count": 5
+          }
+        },
+        "significant_components": 9
+      }
+    ]
+  },
+  "candidate_path": "/root/autodl-tmp/data/confined_ch2d/coarsening_multimode10/reference.npz"
+}

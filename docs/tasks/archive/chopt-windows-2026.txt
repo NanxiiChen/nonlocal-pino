@@ -1,0 +1,759 @@
+I1027 22:40:31.004219 139884537014080 xla_bridge.py:836] Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+[window 1/30] t=0.00104768 loss=1.2468e-05 prefix_phiL2=0.0017858
+[window 2/30] t=0.00231489 loss=1.9208e-05 prefix_phiL2=0.0017858
+[window 3/30] t=0.00384762 loss=2.3916e-05 prefix_phiL2=0.0017858
+[window 4/30] t=0.00570152 loss=2.4996e-05 prefix_phiL2=0.0017858
+[window 5/30] t=0.00794388 loss=2.4546e-05 prefix_phiL2=0.0017858
+[window 6/30] t=0.0106561 loss=2.3809e-05 prefix_phiL2=0.0017858
+[window 7/30] t=0.0139366 loss=2.262e-05 prefix_phiL2=0.0017858
+[window 8/30] t=0.0179045 loss=2.1297e-05 prefix_phiL2=0.0017858
+[window 9/30] t=0.0227038 loss=2.0036e-05 prefix_phiL2=0.0017858
+[window 10/30] t=0.0285088 loss=1.9135e-05 prefix_phiL2=0.0017858
+[window 11/30] t=0.0355301 loss=1.8556e-05 prefix_phiL2=0.0017858
+[window 12/30] t=0.0440226 loss=1.7995e-05 prefix_phiL2=0.0017858
+[window 13/30] t=0.0542946 loss=1.7416e-05 prefix_phiL2=0.0017858
+[window 14/30] t=0.066719 loss=1.6786e-05 prefix_phiL2=0.0017858
+[window 15/30] t=0.0817468 loss=1.6174e-05 prefix_phiL2=0.017204
+[window 16/30] t=0.0999233 loss=1.5916e-05 prefix_phiL2=0.017204
+[window 17/30] t=0.121909 loss=1.6044e-05 prefix_phiL2=0.017204
+[window 18/30] t=0.148501 loss=1.6472e-05 prefix_phiL2=0.017204
+[window 19/30] t=0.180664 loss=1.7383e-05 prefix_phiL2=0.023873
+[window 20/30] t=0.219568 loss=1.875e-05 prefix_phiL2=0.023873
+[window 21/30] t=0.266623 loss=2.0561e-05 prefix_phiL2=0.029842
+[window 22/30] t=0.323538 loss=2.2953e-05 prefix_phiL2=0.032157
+[window 23/30] t=0.392378 loss=2.5597e-05 prefix_phiL2=0.031937
+[window 24/30] t=0.475644 loss=2.7788e-05 prefix_phiL2=0.031609
+[window 25/30] t=0.576356 loss=2.9105e-05 prefix_phiL2=0.031561
+[window 26/30] t=0.698171 loss=2.9929e-05 prefix_phiL2=0.031634
+[window 27/30] t=0.845511 loss=3.0972e-05 prefix_phiL2=0.031706
+[window 28/30] t=1.02372 loss=3.2194e-05 prefix_phiL2=0.032276
+[window 29/30] t=1.23928 loss=3.2975e-05 prefix_phiL2=0.034263
+[window 30/30] t=1.5 loss=3.276e-05 prefix_phiL2=0.038663
+{
+  "cold_start": true,
+  "method": "nonlocal_windows",
+  "wall_seconds": 288.2303547039628,
+  "completed_soap": 5000,
+  "completed_lbfgs": 500,
+  "requested_soap": 5000,
+  "requested_lbfgs": 500,
+  "mean_update_seconds_after_100": 0.033974057165335636,
+  "final_metrics": {
+    "pooled_rel_l2_phi_local": 0.03866343182138598,
+    "terminal_rel_l2_phi_local": 0.05671852193235455,
+    "per_time_rel_l2_phi_local": [
+      0.00178577616322847,
+      0.025527023277736684,
+      0.0330620178391549,
+      0.04153866334913935,
+      0.03886817095256644,
+      0.03102713968828978,
+      0.02995772304558822,
+      0.031282106656816314,
+      0.032081939924154444,
+      0.031667724045240195,
+      0.03157627212560782,
+      0.032429030786727035,
+      0.034017822251141965,
+      0.036074269705159395,
+      0.03859122053055418,
+      0.04118915900368185,
+      0.044132173144661495,
+      0.04718639977787669,
+      0.05018895064150293,
+      0.053366625953175005,
+      0.05671852193235455
+    ],
+    "pooled_rel_l2_phi_nonlocal": 0.0067752518357575685,
+    "terminal_rel_l2_phi_nonlocal": 0.007475630616135324,
+    "per_time_rel_l2_phi_nonlocal": [
+      1.707640530236941e-16,
+      0.006753190918655033,
+      0.006218945417855568,
+      0.0062718601943726445,
+      0.006469390621430899,
+      0.006563188803499922,
+      0.006673575969027729,
+      0.006729955326439246,
+      0.006740292204438139,
+      0.006707683649945563,
+      0.006759447340074135,
+      0.006832185696705799,
+      0.006927980933594181,
+      0.006990861515835737,
+      0.0071272451715325025,
+      0.007133365805018505,
+      0.007189854491618363,
+      0.0072698229271005495,
+      0.007240068518570593,
+      0.007257921744852661,
+      0.007475630616135324
+    ],
+    "pooled_rel_l2_mu_local": 0.5040755770512426,
+    "terminal_rel_l2_mu_local": 1.0514350901383718,
+    "per_time_rel_l2_mu_local": [
+      0.49856158304001325,
+      0.2103409987005453,
+      0.23434749674266622,
+      0.27059993203325267,
+      0.3454184437636613,
+      0.4729615294136376,
+      0.5980143470559243,
+      0.6943290720705024,
+      0.7627459513503632,
+      0.8125643794446957,
+      0.8513935170935671,
+      0.8909724384834141,
+      0.9190437157749215,
+      0.9485057366174817,
+      0.9763555130627883,
+      0.9919987686844508,
+      1.0128487409704108,
+      1.025868317269071,
+      1.0294756255771091,
+      1.0369555107208621,
+      1.0514350901383718
+    ],
+    "pooled_rel_l2_mu_nonlocal": 0.2998610722691644,
+    "terminal_rel_l2_mu_nonlocal": 0.9786514570479355,
+    "per_time_rel_l2_mu_nonlocal": [
+      1.967048899151971e-15,
+      0.2027165912743577,
+      0.22637623397072182,
+      0.26543321212851306,
+      0.3183321570960545,
+      0.4223891965658713,
+      0.5539229089791137,
+      0.66418657226504,
+      0.7414744560311142,
+      0.7916934014770264,
+      0.8279494088104775,
+      0.8635711366698182,
+      0.8862476104568177,
+      0.9090921916312255,
+      0.9299445523769836,
+      0.9389228801625519,
+      0.9534538111329488,
+      0.9614169844928768,
+      0.9614355528254117,
+      0.9661649390061267,
+      0.9786514570479355
+    ]
+  },
+  "final_checkpoint": "trajectory.json",
+  "best_selection": "No reference selection; propagate each final PDE-only endpoint",
+  "windows": [
+    {
+      "window": 0,
+      "start": 0.0,
+      "end": 0.0010476811722493074,
+      "soap_steps": 650,
+      "lbfgs_steps": 36,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 38,
+      "final_loss": 1.2468033122767795e-05,
+      "elapsed_seconds": 85.24201129749417,
+      "window_seconds": 85.23023861274123,
+      "available_reference_times": [
+        0.0
+      ],
+      "prefix_phi_local": 0.00178577616322847
+    },
+    {
+      "window": 1,
+      "start": 0.0010476811722493074,
+      "end": 0.0023148895122357517,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 18,
+      "final_loss": 1.92082970428276e-05,
+      "elapsed_seconds": 92.22963029891253,
+      "window_seconds": 6.906850997358561,
+      "available_reference_times": [
+        0.0
+      ],
+      "prefix_phi_local": 0.00178577616322847
+    },
+    {
+      "window": 2,
+      "start": 0.0023148895122357517,
+      "end": 0.003847623916046416,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 19,
+      "final_loss": 2.391554185771608e-05,
+      "elapsed_seconds": 99.09613305330276,
+      "window_seconds": 6.864231005311012,
+      "available_reference_times": [
+        0.0
+      ],
+      "prefix_phi_local": 0.00178577616322847
+    },
+    {
+      "window": 3,
+      "start": 0.003847623916046416,
+      "end": 0.005701521715243319,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 19,
+      "final_loss": 2.499569103623579e-05,
+      "elapsed_seconds": 105.95862893760204,
+      "window_seconds": 6.860687293112278,
+      "available_reference_times": [
+        0.0
+      ],
+      "prefix_phi_local": 0.00178577616322847
+    },
+    {
+      "window": 4,
+      "start": 0.005701521715243319,
+      "end": 0.007943878278338827,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 19,
+      "final_loss": 2.454632818893052e-05,
+      "elapsed_seconds": 112.75301007553935,
+      "window_seconds": 6.791481409221888,
+      "available_reference_times": [
+        0.0
+      ],
+      "prefix_phi_local": 0.00178577616322847
+    },
+    {
+      "window": 5,
+      "start": 0.007943878278338827,
+      "end": 0.010656089791959304,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 19,
+      "final_loss": 2.380930759134839e-05,
+      "elapsed_seconds": 119.5371565297246,
+      "window_seconds": 6.781351137906313,
+      "available_reference_times": [
+        0.0
+      ],
+      "prefix_phi_local": 0.00178577616322847
+    },
+    {
+      "window": 6,
+      "start": 0.010656089791959304,
+      "end": 0.013936607893175372,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 18,
+      "final_loss": 2.2620346132646335e-05,
+      "elapsed_seconds": 126.28213948383927,
+      "window_seconds": 6.742189701646566,
+      "available_reference_times": [
+        0.0
+      ],
+      "prefix_phi_local": 0.00178577616322847
+    },
+    {
+      "window": 7,
+      "start": 0.013936607893175372,
+      "end": 0.01790451340436486,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 18,
+      "final_loss": 2.1296942141765276e-05,
+      "elapsed_seconds": 133.12561389803886,
+      "window_seconds": 6.841546829789877,
+      "available_reference_times": [
+        0.0
+      ],
+      "prefix_phi_local": 0.00178577616322847
+    },
+    {
+      "window": 8,
+      "start": 0.01790451340436486,
+      "end": 0.022703838895021852,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 18,
+      "final_loss": 2.0035781648087917e-05,
+      "elapsed_seconds": 139.97786885127425,
+      "window_seconds": 6.849693726748228,
+      "available_reference_times": [
+        0.0
+      ],
+      "prefix_phi_local": 0.00178577616322847
+    },
+    {
+      "window": 9,
+      "start": 0.022703838895021852,
+      "end": 0.028508796976890346,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 18,
+      "final_loss": 1.9135327069914106e-05,
+      "elapsed_seconds": 146.83797027543187,
+      "window_seconds": 6.857036046683788,
+      "available_reference_times": [
+        0.0
+      ],
+      "prefix_phi_local": 0.00178577616322847
+    },
+    {
+      "window": 10,
+      "start": 0.028508796976890346,
+      "end": 0.035530104116372856,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 18,
+      "final_loss": 1.8555766003691637e-05,
+      "elapsed_seconds": 153.64881272241473,
+      "window_seconds": 6.807721812278032,
+      "available_reference_times": [
+        0.0
+      ],
+      "prefix_phi_local": 0.00178577616322847
+    },
+    {
+      "window": 11,
+      "start": 0.035530104116372856,
+      "end": 0.044022629514778464,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 19,
+      "final_loss": 1.799452133920801e-05,
+      "elapsed_seconds": 160.65624974668026,
+      "window_seconds": 7.004870381206274,
+      "available_reference_times": [
+        0.0
+      ],
+      "prefix_phi_local": 0.00178577616322847
+    },
+    {
+      "window": 12,
+      "start": 0.044022629514778464,
+      "end": 0.05429464670613578,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 19,
+      "final_loss": 1.741603039592824e-05,
+      "elapsed_seconds": 167.79607117921114,
+      "window_seconds": 7.137347258627415,
+      "available_reference_times": [
+        0.0
+      ],
+      "prefix_phi_local": 0.00178577616322847
+    },
+    {
+      "window": 13,
+      "start": 0.05429464670613578,
+      "end": 0.06671902369997437,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 19,
+      "final_loss": 1.678553578327506e-05,
+      "elapsed_seconds": 174.99081399291754,
+      "window_seconds": 7.191766079515219,
+      "available_reference_times": [
+        0.0
+      ],
+      "prefix_phi_local": 0.00178577616322847
+    },
+    {
+      "window": 14,
+      "start": 0.06671902369997437,
+      "end": 0.08174675786448735,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 19,
+      "final_loss": 1.6174145749385283e-05,
+      "elapsed_seconds": 182.2114023566246,
+      "window_seconds": 7.218081325292587,
+      "available_reference_times": [
+        0.0,
+        0.075
+      ],
+      "prefix_phi_local": 0.01720361656028764
+    },
+    {
+      "window": 15,
+      "start": 0.08174675786448735,
+      "end": 0.09992334685814593,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 18,
+      "final_loss": 1.5916260775774904e-05,
+      "elapsed_seconds": 189.295957993716,
+      "window_seconds": 7.080978058278561,
+      "available_reference_times": [
+        0.0,
+        0.075
+      ],
+      "prefix_phi_local": 0.01720361656028764
+    },
+    {
+      "window": 16,
+      "start": 0.09992334685814593,
+      "end": 0.12190858986467856,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 18,
+      "final_loss": 1.604439260449449e-05,
+      "elapsed_seconds": 196.19831098616123,
+      "window_seconds": 6.899406433105469,
+      "available_reference_times": [
+        0.0,
+        0.075
+      ],
+      "prefix_phi_local": 0.01720361656028764
+    },
+    {
+      "window": 17,
+      "start": 0.12190858986467856,
+      "end": 0.14850053790426512,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 19,
+      "final_loss": 1.6472173025746458e-05,
+      "elapsed_seconds": 203.41277066245675,
+      "window_seconds": 7.211206581443548,
+      "available_reference_times": [
+        0.0,
+        0.075
+      ],
+      "prefix_phi_local": 0.01720361656028764
+    },
+    {
+      "window": 18,
+      "start": 0.14850053790426512,
+      "end": 0.18066446260275304,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 19,
+      "final_loss": 1.7382876591820643e-05,
+      "elapsed_seconds": 210.5946335978806,
+      "window_seconds": 7.179444704204798,
+      "available_reference_times": [
+        0.0,
+        0.075,
+        0.15
+      ],
+      "prefix_phi_local": 0.023873272118825898
+    },
+    {
+      "window": 19,
+      "start": 0.18066446260275304,
+      "end": 0.21956789496769108,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 18,
+      "final_loss": 1.8750021801187952e-05,
+      "elapsed_seconds": 217.6418081074953,
+      "window_seconds": 7.044516339898109,
+      "available_reference_times": [
+        0.0,
+        0.075,
+        0.15
+      ],
+      "prefix_phi_local": 0.023873272118825898
+    },
+    {
+      "window": 20,
+      "start": 0.21956789496769108,
+      "end": 0.26662300605755307,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 19,
+      "final_loss": 2.056086660343193e-05,
+      "elapsed_seconds": 224.7885724529624,
+      "window_seconds": 7.144188921898603,
+      "available_reference_times": [
+        0.0,
+        0.075,
+        0.15,
+        0.22499999999999998
+      ],
+      "prefix_phi_local": 0.029841939944037447
+    },
+    {
+      "window": 21,
+      "start": 0.26662300605755307,
+      "end": 0.3235378679368047,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 18,
+      "final_loss": 2.29534542896387e-05,
+      "elapsed_seconds": 231.82137380167842,
+      "window_seconds": 7.0299562849104404,
+      "available_reference_times": [
+        0.0,
+        0.075,
+        0.15,
+        0.22499999999999998,
+        0.3
+      ],
+      "prefix_phi_local": 0.032156727991947236
+    },
+    {
+      "window": 22,
+      "start": 0.3235378679368047,
+      "end": 0.3923784556584684,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 19,
+      "final_loss": 2.559740516359848e-05,
+      "elapsed_seconds": 238.8547188565135,
+      "window_seconds": 7.030232895165682,
+      "available_reference_times": [
+        0.0,
+        0.075,
+        0.15,
+        0.22499999999999998,
+        0.3,
+        0.375
+      ],
+      "prefix_phi_local": 0.03193713917273478
+    },
+    {
+      "window": 23,
+      "start": 0.3923784556584684,
+      "end": 0.47564364090864564,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 19,
+      "final_loss": 2.7788486583768936e-05,
+      "elapsed_seconds": 245.9894582517445,
+      "window_seconds": 7.131094839423895,
+      "available_reference_times": [
+        0.0,
+        0.075,
+        0.15,
+        0.22499999999999998,
+        0.3,
+        0.375,
+        0.44999999999999996
+      ],
+      "prefix_phi_local": 0.031608926434195106
+    },
+    {
+      "window": 24,
+      "start": 0.47564364090864564,
+      "end": 0.5763558995369149,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 20,
+      "final_loss": 2.910462770024678e-05,
+      "elapsed_seconds": 253.1224296838045,
+      "window_seconds": 7.129738926887512,
+      "available_reference_times": [
+        0.0,
+        0.075,
+        0.15,
+        0.22499999999999998,
+        0.3,
+        0.375,
+        0.44999999999999996,
+        0.525
+      ],
+      "prefix_phi_local": 0.03156053976602621
+    },
+    {
+      "window": 25,
+      "start": 0.5763558995369149,
+      "end": 0.6981710256010915,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 19,
+      "final_loss": 2.9928920235778762e-05,
+      "elapsed_seconds": 260.19556863605976,
+      "window_seconds": 7.070466239005327,
+      "available_reference_times": [
+        0.0,
+        0.075,
+        0.15,
+        0.22499999999999998,
+        0.3,
+        0.375,
+        0.44999999999999996,
+        0.525,
+        0.6,
+        0.6749999999999999
+      ],
+      "prefix_phi_local": 0.03163404360165548
+    },
+    {
+      "window": 26,
+      "start": 0.6981710256010915,
+      "end": 0.8455108344797917,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 19,
+      "final_loss": 3.097177305623784e-05,
+      "elapsed_seconds": 267.2448033951223,
+      "window_seconds": 7.044367775321007,
+      "available_reference_times": [
+        0.0,
+        0.075,
+        0.15,
+        0.22499999999999998,
+        0.3,
+        0.375,
+        0.44999999999999996,
+        0.525,
+        0.6,
+        0.6749999999999999,
+        0.75,
+        0.825
+      ],
+      "prefix_phi_local": 0.03170600486321529
+    },
+    {
+      "window": 27,
+      "start": 0.8455108344797917,
+      "end": 1.0237236720954968,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 20,
+      "final_loss": 3.219396833635059e-05,
+      "elapsed_seconds": 274.20339480414987,
+      "window_seconds": 6.955646108835936,
+      "available_reference_times": [
+        0.0,
+        0.075,
+        0.15,
+        0.22499999999999998,
+        0.3,
+        0.375,
+        0.44999999999999996,
+        0.525,
+        0.6,
+        0.6749999999999999,
+        0.75,
+        0.825,
+        0.8999999999999999,
+        0.975
+      ],
+      "prefix_phi_local": 0.032275611234339356
+    },
+    {
+      "window": 28,
+      "start": 1.0237236720954968,
+      "end": 1.2392785566358204,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 19,
+      "final_loss": 3.2974883530157226e-05,
+      "elapsed_seconds": 281.07414381578565,
+      "window_seconds": 6.867647346109152,
+      "available_reference_times": [
+        0.0,
+        0.075,
+        0.15,
+        0.22499999999999998,
+        0.3,
+        0.375,
+        0.44999999999999996,
+        0.525,
+        0.6,
+        0.6749999999999999,
+        0.75,
+        0.825,
+        0.8999999999999999,
+        0.975,
+        1.05,
+        1.125,
+        1.2
+      ],
+      "prefix_phi_local": 0.03426319108253086
+    },
+    {
+      "window": 29,
+      "start": 1.2392785566358204,
+      "end": 1.5,
+      "soap_steps": 150,
+      "lbfgs_steps": 16,
+      "lbfgs_status": 1,
+      "lbfgs_message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+      "function_evaluations": 19,
+      "final_loss": 3.2760297192294155e-05,
+      "elapsed_seconds": 288.1382095888257,
+      "window_seconds": 7.060302443802357,
+      "available_reference_times": [
+        0.0,
+        0.075,
+        0.15,
+        0.22499999999999998,
+        0.3,
+        0.375,
+        0.44999999999999996,
+        0.525,
+        0.6,
+        0.6749999999999999,
+        0.75,
+        0.825,
+        0.8999999999999999,
+        0.975,
+        1.05,
+        1.125,
+        1.2,
+        1.275,
+        1.3499999999999999,
+        1.425,
+        1.5
+      ],
+      "prefix_phi_local": 0.03866343182138598
+    }
+  ]
+}

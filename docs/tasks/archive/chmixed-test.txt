@@ -1,0 +1,6 @@
+test_both_layouts_against_dense_residual_and_directional_derivative (tests.test_confined_ch_mixed.MixedTests.test_both_layouts_against_dense_residual_and_directional_derivative) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 12.437s
+
+OK

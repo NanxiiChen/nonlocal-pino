@@ -1,0 +1,81 @@
+/root/miniconda3/envs/fenicsenv/lib/python3.14/site-packages/h5py/__init__.py:36: UserWarning: h5py is running against HDF5 2.1.0 when it was built against 2.0.0, this may cause problems
+  _warn(("h5py is running against HDF5 {0} when it was built against {1}, "
+
+collocation 2369 area 0.6014558923876061
+Solving linear variational problem.
+
+fem_coarse 100 / 400
+fem_coarse 200 / 400
+fem_coarse 300 / 400
+fem_coarse 400 / 400
+
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+fem_fine_dt 50 / 200
+fem_fine_dt 100 / 200
+fem_fine_dt 150 / 200
+fem_fine_dt 200 / 200
+
+fem_fine 100 / 400
+fem_fine 200 / 400
+fem_fine 300 / 400
+fem_fine 400 / 400
+{
+  "local_space": {
+    "phi": {
+      "pooled": 0.001554510697591343,
+      "maximum_time": 0.005809982858840441
+    },
+    "mu": {
+      "pooled": 0.3583500394800026,
+      "maximum_time": 0.5637274307774784
+    }
+  },
+  "local_time": {
+    "phi": {
+      "pooled": 0.0024641687205664716,
+      "maximum_time": 0.012139794958084399
+    },
+    "mu": {
+      "pooled": 0.3508634395569356,
+      "maximum_time": 0.6981762577864945
+    }
+  },
+  "native_time": {
+    "phi": {
+      "pooled": 6.792837589142887e-09,
+      "maximum_time": 2.8201192652940007e-08
+    },
+    "mu": {
+      "pooled": 3.832079464347536e-08,
+      "maximum_time": 1.6429365355354954e-07
+    }
+  },
+  "reference_gap": {
+    "phi": 0.04209425951344726,
+    "mu": 0.4888959821446722
+  },
+  "local_mass_drift": 9.194034422677078e-17,
+  "native_mass_drift": 5.377642775528102e-16,
+  "local_energy_max_increase": 0.0,
+  "native_energy_max_increase": 0.0,
+  "resolution": {
+    "coarse": {
+      "vertices": 1257,
+      "dofs": 9768,
+      "seconds": 65.17760167270899
+    },
+    "fine": {
+      "vertices": 2452,
+      "dofs": 19202,
+      "seconds": 150.79599951580167
+    }
+  },
+  "status": "failed"
+}
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/root/nonlocal-pinn/examples/confined_ch2d/solver.py", line 163, in <module>
+  File "/root/nonlocal-pinn/examples/confined_ch2d/solver.py", line 156, in run
+RuntimeError: Reference checks failed; do not train

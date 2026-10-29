@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/examples/electropolish2d/train.py", line 387, in <module>
+    _absl_app.run(_main)
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/absl/app.py", line 367, in run
+    _run_main(main, args)
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/absl/app.py", line 312, in _run_main
+    sys.exit(main(argv))
+             ^^^^^^^^^^
+  File "/root/nonlocal-pinn/examples/electropolish2d/train.py", line 182, in _main
+    return train_operator(with_run_seed(config, _SEED.value))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nonlocal-pinn/examples/electropolish2d/operator_training.py", line 97, in train_operator
+    return prepare_dataset(c)
+           ^^^^^^^^^^^^^^^^^^
+  File "/root/nonlocal-pinn/examples/electropolish2d/operator_data.py", line 107, in prepare_dataset
+    raise ValueError(f'Invalid prescribed initial fields for sample {i}')
+ValueError: Invalid prescribed initial fields for sample 0

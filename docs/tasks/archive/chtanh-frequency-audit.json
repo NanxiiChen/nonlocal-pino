@@ -1,0 +1,114 @@
+{
+  "feature_formula": "sin/cos(pi*k*(x-center)/axes), k=1..m, deterministic and fixed",
+  "normalized_coordinate_range": "approximately[-1,1] across each ellipse diameter",
+  "spatial": {
+    "8": {
+      "max_angular_wave_number": [
+        50.26548245743669,
+        62.83185307179586
+      ],
+      "minimum_wavelength": [
+        0.125,
+        0.1
+      ],
+      "wavelength_over_median_nearest_spacing": [
+        11.138958270664071,
+        8.911166616531258
+      ],
+      "feature_count": 35
+    },
+    "5": {
+      "max_angular_wave_number": [
+        31.41592653589793,
+        39.26990816987241
+      ],
+      "minimum_wavelength": [
+        0.2,
+        0.16
+      ],
+      "wavelength_over_median_nearest_spacing": [
+        17.822333233062515,
+        14.257866586450012
+      ],
+      "feature_count": 23
+    }
+  },
+  "initial_basic_coordinate_maximum": 5.0,
+  "temporal": "NO temporal Fourier embedding in global_basis static spatial MLP; rank24 Chebyshev in log time",
+  "nearest_neighbor_quantiles": [
+    0.00938915625409734,
+    0.011221875238477563,
+    0.011441164623568797
+  ],
+  "reference_ranges": {
+    "local": {
+      "minimum": -1.0263417862140338,
+      "maximum": 1.0251746262112649,
+      "terminal_volume_outside_unit": 0.04521660951041313,
+      "strict_unit_range_pooled_error_lower_bound": 0.0033584875854251314,
+      "strict_unit_range_terminal_error_lower_bound": 0.004573262149201805
+    },
+    "nonlocal": {
+      "minimum": -1.0277614030399997,
+      "maximum": 1.024864340739225,
+      "terminal_volume_outside_unit": 0.046274097369764546,
+      "strict_unit_range_pooled_error_lower_bound": 0.003275781028069036,
+      "strict_unit_range_terminal_error_lower_bound": 0.004457623537951018
+    }
+  },
+  "native_feature_operator_gains": {
+    "5": [
+      {
+        "axis": 0,
+        "function": "sin",
+        "A_gain": 1027.523844828305,
+        "A_squared_gain": 3344611.1304793064
+      },
+      {
+        "axis": 0,
+        "function": "cos",
+        "A_gain": 1042.0168929307192,
+        "A_squared_gain": 2863309.434508011
+      },
+      {
+        "axis": 1,
+        "function": "sin",
+        "A_gain": 1555.7599675009265,
+        "A_squared_gain": 5091633.113607995
+      },
+      {
+        "axis": 1,
+        "function": "cos",
+        "A_gain": 1590.79859882921,
+        "A_squared_gain": 4877163.967388744
+      }
+    ],
+    "8": [
+      {
+        "axis": 0,
+        "function": "sin",
+        "A_gain": 2443.211778452846,
+        "A_squared_gain": 8224007.213964872
+      },
+      {
+        "axis": 0,
+        "function": "cos",
+        "A_gain": 2444.6454117618755,
+        "A_squared_gain": 8065009.188661387
+      },
+      {
+        "axis": 1,
+        "function": "sin",
+        "A_gain": 3652.3772740148006,
+        "A_squared_gain": 16071039.147993822
+      },
+      {
+        "axis": 1,
+        "function": "cos",
+        "A_gain": 3698.067175893739,
+        "A_squared_gain": 16079003.05599719
+      }
+    ]
+  },
+  "scope": "Nearest spacing ratios are descriptive, not a Nyquist theorem for an irregular graph. IC tanh creates higher harmonics. Lowering modes changes feature dimension/initialization; comparison is not parameter matched. Range lower bound ignores additional mass constraint."
+}

@@ -1,0 +1,30 @@
+/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/jax/_src/numpy/array_methods.py:125: UserWarning: Explicitly requested dtype float64 requested in astype is not available, and will be truncated to dtype float32. To enable more dtypes, set the jax_enable_x64 configuration option or the JAX_ENABLE_X64 shell environment variable. See https://github.com/jax-ml/jax#current-gotchas for more.
+  return lax_numpy.astype(self, dtype, copy=copy, device=device)
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/docs/tasks/archive/confined-ch-coarsening10-analyze.py", line 183, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/root/nonlocal-pinn/docs/tasks/archive/confined-ch-coarsening10-analyze.py", line 96, in main
+    np.testing.assert_allclose(best_prediction[...,i],saved[k],atol=1e-8,rtol=1e-8)
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 1768, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 983, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError:
+Not equal to tolerance rtol=1e-08, atol=1e-08
+
+Mismatched elements: 72384 / 77322 (93.6%)
+First 5 mismatches are at indices:
+ [0, 0]: 0.10506750643253326 (ACTUAL), 0.10506724709861476 (DESIRED)
+ [0, 1]: -0.6968662142753601 (ACTUAL), -0.6968665236350772 (DESIRED)
+ [0, 2]: -0.15573599934577942 (ACTUAL), -0.15573610464966484 (DESIRED)
+ [0, 3]: 0.8557007908821106 (ACTUAL), 0.8557008437210136 (DESIRED)
+ [0, 4]: -0.10955504328012466 (ACTUAL), -0.10955490419194733 (DESIRED)
+Max absolute difference among violations: 5.24260284e-06
+Max relative difference among violations: 0.63621286
+ ACTUAL: array([[ 0.105068, -0.696866, -0.155736, ..., -0.816789, -0.754711,
+        -0.912364],
+       [ 0.105127, -0.696897, -0.155765, ..., -0.816619, -0.754542,...
+ DESIRED: array([[ 0.105067, -0.696867, -0.155736, ..., -0.816789, -0.754711,
+        -0.912364],
+       [ 0.105127, -0.696897, -0.155766, ..., -0.81662 , -0.754542,...

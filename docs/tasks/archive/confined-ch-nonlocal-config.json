@@ -1,0 +1,105 @@
+{
+  "geometry": {
+    "center": [
+      0.5,
+      0.5
+    ],
+    "axes": [
+      0.5,
+      0.4
+    ],
+    "holes": [
+      [
+        0.35,
+        0.54,
+        0.075
+      ],
+      [
+        0.68,
+        0.43,
+        0.055
+      ]
+    ],
+    "mesh_size": 0.025,
+    "boundary_outer": 192,
+    "boundary_per_hole": 64
+  },
+  "physical": {
+    "beta": 1.0,
+    "epsilon": 0.05,
+    "mobility": 0.02,
+    "terminal_time": 1.0
+  },
+  "initial": {
+    "amplitude": 0.3,
+    "wall_width": 0.04
+  },
+  "nl": {
+    "method": "nonlocal",
+    "delta": 0.07,
+    "kernel": "quadratic_visible"
+  },
+  "sample": {
+    "Nt": 8,
+    "include_initial_time": true
+  },
+  "arch": {
+    "hidden_dim": 64,
+    "num_layers": 4,
+    "spatial_modes": 3,
+    "activation": "gelu",
+    "temporal_emb_dim": 8,
+    "temporal_scale": 1.0
+  },
+  "train": {
+    "iterations": 5000,
+    "lr_init": 0.001,
+    "lr_decay_every": 1000,
+    "lr_decay_rate": 0.95,
+    "lr_min": 1e-05,
+    "optimizer": "soap",
+    "grad_clip": 10.0,
+    "soap_b1": 0.9,
+    "soap_b2": 0.99,
+    "soap_precond_freq": 5,
+    "soap_max_precond_dim": 128,
+    "soap_precond_1d": false,
+    "compute_dtype": "float64",
+    "gpu_policy": "ordinary",
+    "refinement": {
+      "iterations": 500,
+      "time_points": 16,
+      "max_evaluations": 1000,
+      "max_line_search": 30,
+      "history_size": 50,
+      "gradient_tolerance": 1e-09,
+      "function_tolerance": 1e-14
+    },
+    "seed": 42
+  },
+  "loss": {
+    "phase_weight": 1.0,
+    "chemical_weight": 1.0,
+    "boundary_phi_weight": 1.0,
+    "boundary_mu_weight": 1.0
+  },
+  "reference": {
+    "root": "/root/autodl-tmp/data/confined_ch2d",
+    "path": "/root/autodl-tmp/data/confined_ch2d/reference.npz",
+    "mesh_sizes": [
+      0.025,
+      0.0175
+    ],
+    "dt": 0.005,
+    "refined_dt": 0.0025,
+    "snapshots": 21,
+    "phase_tolerance": 0.01,
+    "chemical_tolerance": 0.04
+  },
+  "log": {
+    "log_dir": "/root/autodl-tmp/tf-logs/confined_ch2d",
+    "run_name": "20261027-confined-nonlocal-01",
+    "eval_every": 250,
+    "checkpoint_every": 1000
+  }
+}

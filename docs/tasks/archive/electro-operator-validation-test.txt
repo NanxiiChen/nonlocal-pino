@@ -1,0 +1,6 @@
+test_invalid_condition_settings (tests.test_electropolish_operator.OperatorTests.test_invalid_condition_settings) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 6.808s
+
+OK
