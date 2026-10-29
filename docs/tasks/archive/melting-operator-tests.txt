@@ -1,0 +1,8 @@
+test_3d_split_time_jvp_hard_ic_and_parameter_gradient (test_melting_operator.MeltingOperatorTests.test_3d_split_time_jvp_hard_ic_and_parameter_gradient) ... ok
+test_euclidean_sphere_and_ellipsoid_interior_degeneracies (test_melting_operator.MeltingOperatorTests.test_euclidean_sphere_and_ellipsoid_interior_degeneracies) ... ok
+test_independent_reference_stencil_matches_actual_graph (test_melting_operator.MeltingOperatorTests.test_independent_reference_stencil_matches_actual_graph) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 36.797s
+
+OK

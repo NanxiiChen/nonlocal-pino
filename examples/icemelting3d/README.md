@@ -123,6 +123,171 @@ this configuration. The [artifact index](../../artifacts/index.yaml) records its
 selected checkpoint under `default_training`; the older `sota` directory tag
 belongs to the historical 4 s bounded run.
 
+## Random initial ellipsoid neural operator (experimental)
+
+The opt-in [configs/train_operator.py](configs/train_operator.py) is the current
+recommended NO preset: online B16, Adam1e-3/5000updates, ordinary FP32/highest,
+hard IC and latent PDE loss. It matches the saved Adam winning recipe except
+run-name/runtime-seed provenance. Selection uses the current local-FEM whole-field
+accuracy/cost compromise; SOAP remains available explicitly. See the comparisons
+below. Generated figures/arrays are local artifacts, with a
+[restoration manifest](../../README.md#artifacts-and-recovery).
+
+This preset uses the same
+physical Allen-Cahn melting equation,5s horizon,128-cube cubic graph, exact IC
+and transformed residual. It does not change the single-sphere PINN default.
+The encoder receives an initial3Dphase volume; queries contain XYZ and time,
+with `local_dim=0`. The known initial function enters the physical hard-IC
+wrapper, not the raw decoder query features:
+
+$$
+u_\theta(x,t^*;\phi_0)=\frac{d_E(x)}{\sqrt{2}\epsilon^*}
++t^*N_\theta(\operatorname{Encoder}(\phi_0),x,t^*),
+\qquad \phi_\theta=\tanh u_\theta.
+$$
+
+Here \(d_E\) is positive inside the prescribed ellipsoid. Subsequent geometry
+is unconstrained; no future ellipsoid, contraction speed or analytic trajectory
+is built into this expression. Online training draws fresh independent
+semiaxes uniformly in[0.24,0.36], center coordinates in[0.45,0.55], and a Haar
+rotation from a normalized Gaussian quaternion. These bounds guarantee strict
+containment in the unit cube. Dimensional semiaxes are24..36 and center
+coordinates are-5..5 in the original physical cube[-50,50]^3. This is an ellipsoid-family
+pilot, not arbitrary-topology training.
+
+[ellipsoids.py](ellipsoids.py) computes Euclidean signed distance through the
+nearest-surface Lagrange multiplier root, including center/axis/equal-semiaxis
+cases. It uses a surface-constraint identity near a singular smallest-axis
+projection rather than dividing tiny coordinates by an unresolved tiny root.
+It is not a scaled radial level-set value. Sphere identities, rotated/interior
+cases against constrained SciPy minimization, and FP32-versus-FP64 distances
+are independently checked. See [Eberly's nearest-point construction](https://www.geometrictools.com/Documentation/DistancePointEllipseEllipsoid.pdf).
+
+|Component|Operator pilot|
+|---|---|
+|Condition volume|One physical initial phase channel,32x32x32, CZYX order|
+|3Dpatch encoder|4x4x4patches,512tokens,width48,2blocks,4heads|
+|Spatial conditioning|Coordinate cross-attention to input tokens; XYZ queries|
+|Temporal work|Shared spatial preparation, then3-layer temporal FiLM decoder/time JVP|
+|Batch/sampling|16fresh ellipsoids/update,8shared uniform times,256cores,32fixed core/halo pools|
+|Training|Adam1e-3,5000updates, ordinaryFP32/highest matmul|
+|Physical output/loss|Exact prescribed IC, stable latent residual MAE only|
+|Held-out bank|2monitor and8final-test ellipsoids; no future-field training labels|
+|Reference|Independent full-cube RK4 with step halving; no sphere/octant symmetry|
+
+The actual graph has2097152nodes and12484608directed edges, degree6; padded
+training queries are1788core+halo nodes for this pool. Neither attention nor
+the training decoder materializes the full spatial grid across all times.
+Reference evaluation encodes once per condition and queries in1024-point
+chunks. The shared `ConditionalFieldOperator` also keeps historical2Dpatch
+ordering, initial parameters and checkpoint shapes unchanged;3Dwidth is
+divisible by6 for three-axis sine/cosine token positions.
+For scale, explicitly storing a B16/four-head attention matrix between all
+128-cube queries and512tokens would alone require256GiB in FP32, before
+backward or decoder activations. Core/halo sampling and chunked inference are
+therefore part of this implementation, not an assumption that full-grid
+batched attention fits on the48GiB card.
+
+Eight-update GPU probes on the48GiB RTX3090 measure the full residual,
+parameter gradient and Adam update:
+
+|Batch|JAX peak active allocation|JAX memory pool|Warm mean update|
+|---|---:|---:|---:|
+|8|0.63GiB|2GiB|14.8ms|
+|16|1.33GiB|4GiB|21.8ms|
+
+JAX active allocation excludes CUDA context/driver memory; pool size is reported
+separately. These are short memory probes with7warm updates, not long-run speed
+or accuracy benchmarks. First-update compile+call takes111/113s; setup~10..11s.
+
+```bash
+# Prepare the independent held-out references first, on CPU in FP64.
+JAX_PLATFORMS=cpu JAX_ENABLE_X64=true python examples/icemelting3d/train.py \
+  --config=examples/icemelting3d/configs/train_operator.py \
+  --config.operator.action=prepare
+# Train with continuously sampled ellipsoids; reference fields are evaluation-only.
+XLA_PYTHON_CLIENT_PREALLOCATE=false python examples/icemelting3d/train.py \
+  --config=examples/icemelting3d/configs/train_operator.py
+# Repeat a bounded training-memory probe explicitly.
+XLA_PYTHON_CLIENT_PREALLOCATE=false python examples/icemelting3d/train.py \
+  --config=examples/icemelting3d/configs/train_operator.py \
+  --config.operator.action=memory --config.operator.condition_batch=16
+```
+
+The explicit dataset path is
+`/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1`; new runs remain under
+the existing melting tf-logs root. Preparation refuses overwriting that folder;
+change the explicit path for a new reference identity. Saved configs identify
+the3Darchitecture/IC distribution; checkpoint loading uses
+`operator_data.build_network(saved_config,key)` and direct file paths.
+Training records actual ellipsoid parameters/time draws, source paths,
+checkpoints, loss, allocator statistics, timings and held-out predictions.
+
+Reference gates concern time integration at the declared native graph, not
+local-PDE spatial convergence. Report phiL2 together with solid-indicator L2,
+interface absolute error and solid fraction: mostly-water full-domain phiL2
+can conceal lost small particles. A relative solid metric is explicitly null
+if the reference norm is exactly zero; it uses no artificial denominator floor.
+
+First cold start:5000Adam updates/B16,80000distinct online ellipsoids, full
+process300.57s (5.01min), trainer257.17s. The first update includes108.24s of
+compilation/call; subsequent synchronized updates average22.43ms and online
+geometry sampling3.41ms. Full-run JAXpeak active1.332GiB/pool4GiB. All10native
+128-cube references pass time refinement (maximum1.422e-7); future fields never
+enter training. The two monitor shapes are separate from the eight final-test
+shapes. Final checkpoint only, no test-based selection.
+
+|Eight held-out shapes, mean physical errors|Pooled times|At5s|
+|---|---:|---:|
+|phi relative L2 on24-cube diagnostic nodes|0.2266%|0.0922%|
+|Solid-indicator relative L2 on same nodes|0.6425%|4.5017%|
+|phi relative L2 on128x128central z slice|0.4201%|0.2861%|
+
+Mean terminal solid-fraction relative error is1.2133% (maximum3.3453%); mean
+absolute error is1.227e-5 of cube volume on diagnostic nodes. Interface-band
+physical phiRMSE averages0.01088 for \(|\phi_{ref}|<0.9\). Small late particles
+remain less accurate: maximum terminal solid-field L2 is10.594%. The stationary
+IC baseline has45.62% pooled phiL2 on the same test bank. Reported3Dmodel errors
+use24^3diagnostic nodes, not full128^3inference;128^3is the direct-reference
+integration grid. High-resolution slices provide an additional field check.
+One run/eight tests do not establish seed stability or arbitrary-shape accuracy.
+
+Run/checkpoint:
+`/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01/model_final.eqx`.
+Source/input-stream/metric audits pass; checkpoint replay max gap9.56e-7, and
+the original2Dmodel/checkpoint behavior is retained. [Full task and verification](../../docs/tasks/archive/icemelting-random-operator.md),
+[convergence](../../docs/tasks/archive/melting-operator-convergence.png),
+[phase fields](../../docs/tasks/archive/melting-operator-fields.png),
+[held-out3Dinitial shapes](../../docs/tasks/archive/melting-operator-initial-shapes.png).
+
+The operator also accepts `--config.train.optimizer=soap` through the same
+`train.py` entry. A matched cold start keeps5000updates/B16/lr1e-3, all79initial
+arrays,80000actual online ellipsoids and40000time draws identical to Adam;
+only optimizer and output run name change. SOAP uses the shared upstream
+SOAP_JAX0.2.2 factory, beta1/beta2=.9/.99, refresh5, clip100 and no1D
+preconditioning. No reference labels or test checkpoint selection are used.
+
+|Eight held-out inputs, final5000 checkpoint|Adam|SOAP|
+|---|---:|---:|
+|Pooled phi relative L2|0.2266%|0.0785%|
+|Terminal phi relative L2|0.0922%|0.1291%|
+|Pooled solid-indicator relative L2|0.6425%|0.2235%|
+|Terminal solid-indicator relative L2|4.5017%|6.5036%|
+|Terminal solid-fraction relative error|1.2133%|4.0156%|
+|Full cold process|300.57s|492.06s|
+|Warm synchronized update, excludes sampling|22.43ms|33.66ms|
+
+SOAP improves early/intermediate fields and pooled errors in this pair, while
+late small-solid errors worsen. Time integration/reference and diagnostic-grid
+scope are unchanged. Peakactive allocation is1.332/1.590GiB for Adam/SOAP,
+both with4GiB JAXpools; first-update compile/call is108.24/247.12s. Keep the
+Adam operator default; one pair does not establish optimizer stability or
+universal superiority. Single-sphere SOAP defaults remain separate.
+SOAP checkpoint:
+`/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-soap-01/model_final.eqx`.
+[Matched control and validation](../../docs/tasks/archive/melting-operator-soap.md),
+[monitor convergence](../../docs/tasks/archive/melting-operator-soap-convergence.png).
+
 ## Dimensional Governing Equation
 
 $$
@@ -455,11 +620,23 @@ for matched-budget controls, reproducibility and limits of the accuracy claims.
 
 ## Independent FEM comparison
 
-The independent FEM solver runs in its separate environment:
+The rewritten independent FEM solver reads physical coefficients and IC
+metadata directly from the saved PINO config and held-out manifest declared
+in [configs/solver_base.py](configs/solver_base.py). It fixes
+\(\epsilon^*=0.0225\) independently of mesh size. It uses full-cube CG2
+tetrahedral finite elements, consistent mass, degree8reaction quadrature,
+IMEX BDF2 time integration and natural homogeneous Neumann conditions
+on every face. The exact rotated/shifted ellipsoid SDF is shared as prescribed
+initial data; no neural residual, nonlocal operator or future labels enter FEM.
+
+Run one explicit mesh/time resolution in the separate environment:
 
 ```bash
 conda activate fenicsenv
-mpirun --allow-run-as-root -np 12 python examples/icemelting3d/solver.py
+mpirun --allow-run-as-root -np 12 python examples/icemelting3d/solver.py \
+  --config examples.icemelting3d.configs.solver_base \
+  --index 5 --subdivisions 48 --dt 0.005 \
+  --output /root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/case005-n48-dt005.npz
 ```
 
 Production and FEM defaults use \(T_c=5\,\mathrm{s}\) and \(t^*\in[0,1]\), so
@@ -467,12 +644,97 @@ their endpoint is physical time5 s. Match interface thickness and the saved
 physical scales before comparing outputs. Changing \(T_c\) recomputes all
 time-scaled coefficients; the normalized endpoint remains \(t^*=1\).
 
-The FEM default uses 64 elements per axis, normalized time step 0.001,
-Crank–Nicolson (`theta=0.5`) and natural homogeneous Neumann boundary conditions.
-Its interface thickness is computed from the mesh in [solver.py](solver.py);
-production training fixes \(\epsilon^*=0.0225\). See
-[configs/solver_base.py](configs/solver_base.py). Run FEM MPI and JAX GPU work
-in their separate environments without concurrency.
+Every single-resolution output starts with `validated_reference=false`;
+the aggregate refinement/acceptance record must accompany any reference claim. Available
+adjacent mesh levels32/48/64/96 and dt.005/.0025/.00125/.000625 retain identical physics;
+per-time phase/solid relative-L2 gates are5e-4/1e-2. These are explicit
+validation choices, not a claim that an untested coarse output is converged.
+Evaluate at the same physical points/times as both saved neural checkpoints,
+and distinguish total local-FEM errors from fitting errors against the native
+graph target. Their scalar error norms do not add in general. Run FEM MPI and
+JAX GPU work in their separate environments without concurrency.
+
+IMEX BDF2 treats local diffusion implicitly, extrapolates the weak reaction
+load as \(2G(\phi^n)-G(\phi^{n-1})\), and uses BE/explicit-reaction startup.
+It reuses constant consistent mass/stiffness matrices, without mass lumping
+or nodal reaction collocation. Homogeneous-ODE step refinement verifies
+second-order convergence. The explicit `time.scheme="implicit_midpoint"`
+control retains a nonlinear fully implicit alternative. See
+[Ascher, Ruuth and Wetton (1995)](https://doi.org/10.1137/0732037).
+The N24 pilot was rejected for insufficient resolution (initial interpolation
+already undershoots -1.005); its result is not a validated reference.
+
+### Local versus nonlocal reference check (one held-out ellipsoid)
+
+For randomly selected held-out input5, the matching N96 CG2 FEM (7,189,057
+DOFs, dt*=0.00125) and existing full128-cube native nonlocal reference give:
+
+| Dimensionless time | 3D diagnostic phi relative L2 | Central-slice phi relative L2 |
+|---|---:|---:|
+| 0.00 | 0.0070% | 0.0103% |
+| 0.25 | 0.0930% | 0.1495% |
+| 0.50 | 0.1754% | 0.3210% |
+| 0.75 | 0.1993% | 0.4548% |
+| 1.00 | 0.1670% | 0.5351% |
+| Five-time pooled | **0.1474%** | **0.3575%** |
+
+Errors use the local FEM norm at identical24^3diagnostic nodes and128^2slice
+points, not continuous/full-grid L2. Spatial64->96 max phase difference is
+0.0378%; time.0025->.00125 is0.0295% on3Dnodes and0.0737% on the slice.
+The user accepts this accuracy and stops the conditional finer solve; the
+original strict0.05% slice gate remains recorded as failed, with explicit
+`status=accepted_by_user`, not relabeled as passed. Native time refinement
+is much smaller (max1.176e-7 relative).
+
+Continue using the native reference for routine monitoring of the current
+whole-field phase objective; no operator optimization is required for that
+purpose from this one-case check. Retain local checks when making finer
+accuracy comparisons. Reference choice can change model ordering at this
+small error scale: reloaded final Adam pooled phi is0.2383% against native,
+0.1479% against FEM; SOAP is0.0709% against native,0.1861% against FEM.
+These errors need not add: fitting and reference-gap fields can partly cancel.
+The late small-solid metric remains in the detailed report but is not the
+user's current optimization target. No training/default/checkpoint changes.
+
+[Reference fields](../../docs/tasks/archive/melting-local-fem-reference-fields.png),
+[all metrics](../../docs/tasks/archive/melting-local-fem-evaluation.json),
+[refinement and error curves](../../docs/tasks/archive/melting-local-fem-refinement-errors.png),
+[formulation, validation and accepted scope](../../docs/tasks/archive/melting-operator-local-fem.md).
+Local artifact: `/root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/case005-imex-n96-dt0p00125.npz`;
+its acceptance record is linked in the task. Native artifact:
+`/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1/condition_005.npz`.
+This is a single-input engineering validation, not uniform accuracy across
+all ellipsoids or evidence for a local-AD speed comparison.
+
+## Three-dimensional interface figures
+
+The existing Adam operator checkpoint also has true3Dvisualizations for the
+previously randomly selected held-out ellipsoids5/9/2. Query61times on a96^3XYZ
+grid, then extract the actual phi=0 interfaces using marching cubes. No future
+shape law or geometric smoothing is added. These are prediction visualizations,
+not new reference solves or full-grid accuracy measurements.
+
+For paper figures, use the matte orthographic
+[five-time strip](../../docs/tasks/archive/melting-paper-3d-single.png)
+([PDF](../../docs/tasks/archive/melting-paper-3d-single.pdf)) or the
+[three-input gallery](../../docs/tasks/archive/melting-paper-3d-snapshots.png)
+([PDF](../../docs/tasks/archive/melting-paper-3d-snapshots.pdf)). Sample2 is the
+most elongated of this existing random trio based only on initial semiaxes.
+All panels retain identical bounds, aspect and camera; time is0,1.25,2.5,3.75,5s.
+The [time-colored3Dcontour overlay](../../docs/tasks/archive/melting-paper-3d-overlay.png)
+([fully vector PDF](../../docs/tasks/archive/melting-paper-3d-overlay.pdf))
+combines silhouettes and three orthogonal interface-intersection curves.
+An optional [nested cutaway](../../docs/tasks/archive/melting-paper-3d-cutaway.png)
+removes a front quadrant only for display; it must not be presented as a physical
+hole. Different colors represent different times, not simultaneous phases.
+
+PDF/SVG keep labels/axes/curves vector; dense filled surface layers are
+rasterized at high resolution. PNG figures use450dpi. Reusable field/mesh data:
+`/root/autodl-tmp/data/icemelting3d/operator_render3d_v1`.
+[Task, scripts and verification](../../docs/tasks/archive/melting-operator-3d-render.md).
+Optional mesh/render packages were installed in an isolated temporary environment;
+training dependencies and the checkpoint remain unchanged. The earlier decorative
+animation is retained as a preview; paper-style figures are the recommended output.
 
 ## Project split (2026-10-24)
 

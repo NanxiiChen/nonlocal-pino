@@ -1,0 +1,23 @@
+{
+  "all_checks_pass": true,
+  "records": [
+    {
+      "optimizer": "Adam",
+      "index": 5,
+      "path": "/root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/checkpoint_replay/adam-005.npz",
+      "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01/model_final.eqx",
+      "maximum_replay_gap": 1.3709068298339844e-06,
+      "maximum_slice_replay_gap": 1.430511474609375e-06
+    },
+    {
+      "optimizer": "SOAP",
+      "index": 5,
+      "path": "/root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/checkpoint_replay/soap-005.npz",
+      "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-soap-01/model_final.eqx",
+      "maximum_replay_gap": 9.5367431640625e-07,
+      "maximum_slice_replay_gap": 1.2814998626708984e-06
+    }
+  ],
+  "backend": "gpu",
+  "scope": "Fresh final-checkpoint loading/inference, no gradient/update; common local FEM queries; direct paths, no file hashes."
+}

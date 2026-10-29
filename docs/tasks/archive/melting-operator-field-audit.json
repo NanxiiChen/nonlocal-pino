@@ -1,0 +1,167 @@
+{
+  "test_count": 8,
+  "records": [
+    {
+      "index": 2,
+      "pooled_solid": 0.0063619893877765715,
+      "terminal_solid": 0.04455817421208969,
+      "interface_phi_absolute_rmse": 0.010423210946414328,
+      "pooled_phi": 0.00200350372077186,
+      "terminal_phi": 0.0007570645655210294,
+      "pooled_slice_phi": 0.003722932077613856,
+      "terminal_slice_phi": 0.002402991729126279,
+      "terminal_solid_fraction_absolute_error": 4.5747222536063715e-07,
+      "terminal_solid_fraction_relative_error": 0.0012471829954052583,
+      "frozen_IC_pooled_phi": 0.4225029739884372,
+      "hard_IC_maximum_gap": 3.3247440668626727e-06
+    },
+    {
+      "index": 3,
+      "pooled_solid": 0.00628015369964976,
+      "terminal_solid": 0.045565387969633005,
+      "interface_phi_absolute_rmse": 0.010491595466461301,
+      "pooled_phi": 0.002148715594838845,
+      "terminal_phi": 0.000989309148778725,
+      "pooled_slice_phi": 0.004666367176316047,
+      "terminal_slice_phi": 0.005495148058383881,
+      "terminal_solid_fraction_absolute_error": 8.911929172183311e-07,
+      "terminal_solid_fraction_relative_error": 0.0016647417944003183,
+      "frozen_IC_pooled_phi": 0.45130510031203386,
+      "hard_IC_maximum_gap": 3.0545895384481714e-06
+    },
+    {
+      "index": 4,
+      "pooled_solid": 0.006926106893073487,
+      "terminal_solid": 0.0647808015763939,
+      "interface_phi_absolute_rmse": 0.011794928309999848,
+      "pooled_phi": 0.002546326805223366,
+      "terminal_phi": 0.0012527899655206249,
+      "pooled_slice_phi": 0.004584711940167238,
+      "terminal_slice_phi": 0.003756849399626199,
+      "terminal_solid_fraction_absolute_error": 4.918755110289598e-06,
+      "terminal_solid_fraction_relative_error": 0.008525442129359663,
+      "frozen_IC_pooled_phi": 0.4782172615299351,
+      "hard_IC_maximum_gap": 3.2028131051464737e-06
+    },
+    {
+      "index": 5,
+      "pooled_solid": 0.006393036075166275,
+      "terminal_solid": 0.018762825413949434,
+      "interface_phi_absolute_rmse": 0.011043766898208785,
+      "pooled_phi": 0.0023826367954043665,
+      "terminal_phi": 0.0008343374615949757,
+      "pooled_slice_phi": 0.004361543561427081,
+      "terminal_slice_phi": 0.0022907778525292086,
+      "terminal_solid_fraction_absolute_error": 1.633008122003936e-05,
+      "terminal_solid_fraction_relative_error": 0.012956425796747701,
+      "frozen_IC_pooled_phi": 0.475535790776328,
+      "hard_IC_maximum_gap": 5.214149242482868e-06
+    },
+    {
+      "index": 6,
+      "pooled_solid": 0.006758289277882512,
+      "terminal_solid": 0.049372187259285154,
+      "interface_phi_absolute_rmse": 0.011099937154875911,
+      "pooled_phi": 0.002117189742462751,
+      "terminal_phi": 0.0009214228037001381,
+      "pooled_slice_phi": 0.004173488911625742,
+      "terminal_slice_phi": 0.003166738216775675,
+      "terminal_solid_fraction_absolute_error": 4.070678454821268e-06,
+      "terminal_solid_fraction_relative_error": 0.01033418357392208,
+      "frozen_IC_pooled_phi": 0.41968327632709695,
+      "hard_IC_maximum_gap": 3.0796200225502446e-06
+    },
+    {
+      "index": 7,
+      "pooled_solid": 0.0062311268738341865,
+      "terminal_solid": 0.00936003311520642,
+      "interface_phi_absolute_rmse": 0.01128396131821251,
+      "pooled_phi": 0.0027072983995106944,
+      "terminal_phi": 0.0007659267854472556,
+      "pooled_slice_phi": 0.004381629285971096,
+      "terminal_slice_phi": 0.0018776973823653243,
+      "terminal_solid_fraction_absolute_error": 3.4811064314098375e-05,
+      "terminal_solid_fraction_relative_error": 0.011262452399708137,
+      "frozen_IC_pooled_phi": 0.5294120403603657,
+      "hard_IC_maximum_gap": 3.1420596218745267e-06
+    },
+    {
+      "index": 8,
+      "pooled_solid": 0.005672605617789108,
+      "terminal_solid": 0.10593553341127047,
+      "interface_phi_absolute_rmse": 0.00890536041880051,
+      "pooled_phi": 0.0014949890971572874,
+      "terminal_phi": 0.0006012599869709118,
+      "pooled_slice_phi": 0.0031167146651204214,
+      "terminal_slice_phi": 0.0008257333186267337,
+      "terminal_solid_fraction_absolute_error": 3.314873595296268e-06,
+      "terminal_solid_fraction_relative_error": 0.03345292350768726,
+      "frozen_IC_pooled_phi": 0.3696190394791931,
+      "hard_IC_maximum_gap": 2.8360658995973953e-06
+    },
+    {
+      "index": 9,
+      "pooled_solid": 0.006776234558676691,
+      "terminal_solid": 0.02179775637761033,
+      "interface_phi_absolute_rmse": 0.0119663403461746,
+      "pooled_phi": 0.0027311525442148994,
+      "terminal_phi": 0.0012549572999428413,
+      "pooled_slice_phi": 0.004601997859040067,
+      "terminal_slice_phi": 0.0030705676934263473,
+      "terminal_solid_fraction_absolute_error": 3.336143986745417e-05,
+      "terminal_solid_fraction_relative_error": 0.017623012939164854,
+      "frozen_IC_pooled_phi": 0.5034889587698063,
+      "hard_IC_maximum_gap": 3.752048150992837e-06
+    }
+  ],
+  "statistics": {
+    "pooled_solid": {
+      "mean": 0.006424942797981074,
+      "maximum": 0.006926106893073487
+    },
+    "terminal_solid": {
+      "mean": 0.0450165874169298,
+      "maximum": 0.10593553341127047
+    },
+    "interface_phi_absolute_rmse": {
+      "mean": 0.010876137607393475,
+      "maximum": 0.0119663403461746
+    },
+    "pooled_phi": {
+      "mean": 0.0022664765874480085,
+      "maximum": 0.0027311525442148994
+    },
+    "terminal_phi": {
+      "mean": 0.0009221335021845627,
+      "maximum": 0.0012549572999428413
+    },
+    "pooled_slice_phi": {
+      "mean": 0.004201173184660194,
+      "maximum": 0.004666367176316047
+    },
+    "terminal_slice_phi": {
+      "mean": 0.002860812956357456,
+      "maximum": 0.005495148058383881
+    },
+    "terminal_solid_fraction_absolute_error": {
+      "mean": 1.2269444713072249e-05,
+      "maximum": 3.4811064314098375e-05
+    },
+    "terminal_solid_fraction_relative_error": {
+      "mean": 0.012133295642049409,
+      "maximum": 0.03345292350768726
+    },
+    "frozen_IC_pooled_phi": {
+      "mean": 0.4562205551928995,
+      "maximum": 0.5294120403603657
+    },
+    "hard_IC_maximum_gap": {
+      "mean": 3.4507612059943987e-06,
+      "maximum": 5.214149242482868e-06
+    }
+  },
+  "sampled_spatial_nodes": 13824,
+  "slice_nodes": 16384,
+  "full_reference_grid_nodes": 2097152,
+  "scope": "Independent physical metrics; diagnostic volumes and one high-resolution z slice, no full-grid PINN L2 claim"
+}

@@ -17,9 +17,72 @@ The split preserved physical formulations and existing artifact paths.
 
 ## Active task
 
-None. No queued training or optimization.
+None. Operator publication is complete in code/docs and verification; the
+user-authorized dev -> regular main merge -> origin/main publication receipt
+is recorded by Git history and remote reference equality.
 
 ## Recent completed tasks
+
+[Verified NO defaults and lightweight publication](tasks/archive/operator-sota-publication.md).
+Electropolish canonical NO now onlineB8/5000Adam/image-only, melting retains
+onlineB16/5000Adam/hardIC/latent. Exact saved-config comparison passes; five old
+control presets preserved.27focused tests pass.248generated outputs untracked,
+27new outputs excluded; all275local files plus byte-verified external copies
+retained. Current tree~18.74MiB vs90MiB; new media ignored, restore manifest/tool
+and content guard added. Historical Git blobs remain; no rewrite/forcepush.
+Source/numerical/FEM/render records retained; no training or numerical tuning.
+
+
+[Publication-style melting3Dinterfaces](tasks/archive/melting-operator-3d-render.md).
+Prior random inputs5/9/2, unchanged Adam checkpoint: actual96^3/61time fields
+and183closed phi=0meshes. Saved-field/IC/chunk checks<=1.32/4.15/.48e-6,
+meshphi residual<=4.52e-6, volumes decrease. User rejects decorative preview;
+recommended matte orthographic five-time panels and time-colored3Dcontours,
+450dpiPNG/PDF/SVG with explicit vector/raster distinction. Optional display-only
+cutaway labeled; corrected GIF/MP4 retained as preview. Temporary isolated
+VTK/EGL setup, cache/depth-sort/layout issues and provenance recorded. README/
+index/scripts/fields/media/memory archived; no solver/default/Git change,
+workers idle, no further work queued.
+
+
+[Melting local/nonlocal reference check](tasks/archive/melting-operator-local-fem.md).
+One held-out input5, matched full-cube CG2 FEM/N96/dt.00125: native/local phi
+pooled.1474%, terminal.1670%; slice.3575/.5351%. User accepts current reference
+precision and deprioritizes final tiny-solid error; retain native monitoring,
+no operator optimization. Original strict slice gate.0737%>.05% remains recorded,
+status accepted_by_user. Fresh Adam/SOAP local pooledphi.1479/.1861%; native
+.2383/.0709% can reverse ranking through cancellation. Five FEM tests/CPUgeometry/
+GPUold-new parity/checkpoint replay/independent metrics pass; GPU strict geometry
+threshold caveat and all raw failures archived. README/index/scripts/fields/
+records updated; no default/Git change, workers idle, other samples deferred.
+
+
+[Matched SOAP melting operator](tasks/archive/melting-operator-soap.md).
+Same79initial arrays/80000actual online shapes/40000time draws,5000/B16/lr1e-3.
+Eight-test meanphi pooled improves.2266%->.0785%, terminal worsens.0922%->.1291%;
+solid terminal4.502%->6.504%, volume1.213%->4.016%. Cold300.57->492.06s,
+warm22.43->33.66ms. Source/input/reference/metric checks and fresh checkpoint
+replay<=9.54e-7 pass; curves/raw records/README/index archived. Keep Adam
+operator default/SOAP opt-in; no numerical source, seed-stability, FEM or Git
+history work. Workers idle.
+
+[Random held-out melting samples](tasks/archive/melting-operator-random-samples.md).
+Uniform pre-score draw IDs5/9/2; three five-time reference/prediction/error
+galleries with shared color scales. Saved-reference equality and independent
+3D diagnostic L2 replay pass; selection/script/metrics/figures archived.
+No model/training/default or Git history change.
+
+[Random-ellipsoid 3D melting operator](tasks/archive/icemelting-random-operator.md).
+Canonical opt-in train_operator: volumetric512tokens/shared time preparation,
+Euclidean rotated/shifted ellipsoid IC, hardIC/latent residual.80000distinct
+online shapes/5000AdamB16exit0, full300.57s; peakactive1.332GiB/pool4GiB.
+Eight held-out meanphi pooled/terminal.2266/.0922%, solid.6425/4.5017%; terminal
+solid-fraction error1.2133%, max late solidL210.59%. Diagnostic24^3nodes and
+128^2slices, full128^3native references10time checks<=1.422e-7; no full-grid/
+continuum/seed-stability claim. Four new numerical/two2Dregressions, legacy
+checkpoint/output, source/stream/field/replay audits pass. Scripts/results/
+figures/README/index archived; single-IVP defaults retained, workers idle,
+no Git history action.
 
 [Phase-field publication record](tasks/archive/phasefield-results-publication.md).
 User authorizes publication of accumulated confined-CH/electropolish work.

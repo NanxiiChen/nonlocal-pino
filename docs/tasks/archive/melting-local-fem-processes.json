@@ -1,0 +1,135 @@
+[
+  {
+    "command": [
+      "mpirun",
+      "--allow-run-as-root",
+      "-np",
+      "12",
+      "/root/miniconda3/envs/fenicsenv/bin/python",
+      "examples/icemelting3d/solver.py",
+      "--config",
+      "examples.icemelting3d.configs.solver_base",
+      "--index",
+      "5",
+      "--subdivisions",
+      "32",
+      "--dt",
+      "0.005",
+      "--output",
+      "/root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/case005-imex-n32-dt0p005.npz"
+    ],
+    "seconds": 37.8261889051646,
+    "returncode": 0
+  },
+  {
+    "command": [
+      "mpirun",
+      "--allow-run-as-root",
+      "-np",
+      "12",
+      "/root/miniconda3/envs/fenicsenv/bin/python",
+      "examples/icemelting3d/solver.py",
+      "--config",
+      "examples.icemelting3d.configs.solver_base",
+      "--index",
+      "5",
+      "--subdivisions",
+      "48",
+      "--dt",
+      "0.005",
+      "--output",
+      "/root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/case005-imex-n48-dt0p005.npz"
+    ],
+    "seconds": 107.17557473294437,
+    "returncode": 0
+  },
+  {
+    "command": [
+      "mpirun",
+      "--allow-run-as-root",
+      "-np",
+      "12",
+      "/root/miniconda3/envs/fenicsenv/bin/python",
+      "examples/icemelting3d/solver.py",
+      "--config",
+      "examples.icemelting3d.configs.solver_base",
+      "--index",
+      "5",
+      "--subdivisions",
+      "64",
+      "--dt",
+      "0.005",
+      "--output",
+      "/root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/case005-imex-n64-dt0p005.npz"
+    ],
+    "seconds": 246.0421366598457,
+    "returncode": 0
+  },
+  {
+    "command": [
+      "mpirun",
+      "--allow-run-as-root",
+      "-np",
+      "12",
+      "/root/miniconda3/envs/fenicsenv/bin/python",
+      "examples/icemelting3d/solver.py",
+      "--config",
+      "examples.icemelting3d.configs.solver_base",
+      "--index",
+      "5",
+      "--subdivisions",
+      "96",
+      "--dt",
+      "0.005",
+      "--output",
+      "/root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/case005-imex-n96-dt0p005.npz"
+    ],
+    "seconds": 831.3223648350686,
+    "returncode": 0
+  },
+  {
+    "command": [
+      "prterun",
+      "--allow-run-as-root",
+      "-np",
+      "12",
+      "/root/miniconda3/envs/fenicsenv/bin/python",
+      "examples/icemelting3d/solver.py",
+      "--config",
+      "examples.icemelting3d.configs.solver_base",
+      "--index",
+      "5",
+      "--subdivisions",
+      "96",
+      "--dt",
+      "0.0025",
+      "--output",
+      "/root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/case005-imex-n96-dt0p0025.npz"
+    ],
+    "seconds": 1601.7871854156256,
+    "returncode": 0,
+    "timing_scope": "FEM internal wall; parent intentionally suspended during this child, full process wall not recorded. Exit status read from actual zombie process before reaping."
+  },
+  {
+    "command": [
+      "mpirun",
+      "--allow-run-as-root",
+      "-np",
+      "12",
+      "/root/miniconda3/envs/fenicsenv/bin/python",
+      "examples/icemelting3d/solver.py",
+      "--config",
+      "examples.icemelting3d.configs.solver_base",
+      "--index",
+      "5",
+      "--subdivisions",
+      "96",
+      "--dt",
+      "0.00125",
+      "--output",
+      "/root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/case005-imex-n96-dt0p00125.npz"
+    ],
+    "seconds": 3169.855704428628,
+    "returncode": 0
+  }
+]

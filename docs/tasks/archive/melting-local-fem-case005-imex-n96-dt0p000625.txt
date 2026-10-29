@@ -1,0 +1,1 @@
+FEM_START {"index": 5, "N": 96, "dt": 0.000625, "dofs": 7189057, "ranks": 12, "setup_seconds": 21.68896703980863, "initial_min": -0.9999999999999999, "initial_max": 0.9999999672390323}

@@ -1,0 +1,39 @@
+{
+  "train_operator_online": "exact historical config preserved",
+  "train_operator_single": "exact historical config preserved",
+  "train_operator_causal": "exact historical config preserved",
+  "train_operator_local": "exact historical config preserved",
+  "train_operator_legacy": "exact original finite-input config preserved",
+  "electropolish2d": {
+    "saved_config": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-online-global-adam-01/config.json",
+    "differences": [
+      [
+        "log.run_name",
+        "",
+        "20261028-electro-operator-online-global-adam-01"
+      ],
+      [
+        "train.seed",
+        "<absent>",
+        42
+      ]
+    ],
+    "strategy_exact_match": true
+  },
+  "icemelting3d": {
+    "saved_config": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01/config.json",
+    "differences": [
+      [
+        "log.run_name",
+        "",
+        "20261029-melting-operator-online-b16-01"
+      ],
+      [
+        "train.seed",
+        "<absent>",
+        42
+      ]
+    ],
+    "strategy_exact_match": true
+  }
+}

@@ -1,0 +1,1405 @@
+{
+  "schema": 1,
+  "archive_root": "/root/autodl-tmp/data/nonlocal_pinn_artifacts/20261029-publication",
+  "policy": "Generated research media, experiment arrays/checkpoints and compiler dumps are local artifacts. Existing files stay at original workspace paths. No history rewrite.",
+  "comparison": "Byte-for-byte backup checks; no file hashes.",
+  "files": [
+    {
+      "path": "docs/tasks/archive/chbalance-convergence.png",
+      "bytes": 354315,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chbalance-energy.png",
+      "bytes": 88243,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chbalance-gradnorm-best-fields.png",
+      "bytes": 765620,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chbalance-gradnorm-final-fields.png",
+      "bytes": 732814,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chbalance-gradnorm-raw-best-fields.png",
+      "bytes": 781753,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chbalance-gradnorm-raw-final-fields.png",
+      "bytes": 781753,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chbalance-joint-best-fields.png",
+      "bytes": 834149,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chbalance-joint-final-fields.png",
+      "bytes": 832725,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chbalance-stagger-best-fields.png",
+      "bytes": 860870,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chbalance-stagger-final-fields.png",
+      "bytes": 860870,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chglobal-convergence.png",
+      "bytes": 245045,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chglobal-errors-energy.png",
+      "bytes": 165015,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chglobal-fields.png",
+      "bytes": 817726,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chmixed-block-fields.png",
+      "bytes": 788488,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chmixed-convergence.png",
+      "bytes": 253264,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chmoderate-best-fields.png",
+      "bytes": 698825,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chmoderate-convergence-energy.png",
+      "bytes": 103882,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chmoderate-final-fields.png",
+      "bytes": 698825,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chmoderate-reference-preview.png",
+      "bytes": 257762,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chmoderate-reference.png",
+      "bytes": 256682,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chopt-accuracy-energy.png",
+      "bytes": 118582,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chopt-before-after.png",
+      "bytes": 898449,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chopt-optimized-fields.png",
+      "bytes": 760180,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chopt-time-errors.png",
+      "bytes": 158748,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chtanh-convergence.png",
+      "bytes": 274581,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chtanh-energy.png",
+      "bytes": 102364,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/chtanh-integral-m5-fields.png",
+      "bytes": 797310,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/compiler-policy-explanation-deterministic-forward.hlo",
+      "bytes": 11115,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/compiler-policy-explanation-ordinary-forward.hlo",
+      "bytes": 5283,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-boundary-normals.png",
+      "bytes": 142198,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening-fields.png",
+      "bytes": 533228,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening-structure.png",
+      "bytes": 70903,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening10-boundary-normals.png",
+      "bytes": 141537,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening10-common-fields.png",
+      "bytes": 916785,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening10-comparison.png",
+      "bytes": 240385,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening10-fields.png",
+      "bytes": 574920,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening10-l2-convergence.png",
+      "bytes": 105323,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening10-local_ad-best-phi-fields.png",
+      "bytes": 689217,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening10-local_ad-convergence.png",
+      "bytes": 46355,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening10-local_ad-phi_fields.png",
+      "bytes": 856377,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening10-nonlocal-best-phi-fields.png",
+      "bytes": 689217,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening10-nonlocal-convergence.png",
+      "bytes": 48159,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening10-nonlocal-phi_fields.png",
+      "bytes": 853386,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening10-preflight-fields.png",
+      "bytes": 572724,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening10-preflight-selected-fields.png",
+      "bytes": 329103,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening10-preflight-structure.png",
+      "bytes": 69134,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening10-reference-gap.png",
+      "bytes": 731262,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening10-selected-fields.png",
+      "bytes": 330335,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-coarsening10-structure.png",
+      "bytes": 70182,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-common-fields.png",
+      "bytes": 707804,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-comparison.png",
+      "bytes": 196584,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-local_ad-convergence.png",
+      "bytes": 54600,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-local_ad-phi_fields.png",
+      "bytes": 692337,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-nonlocal-convergence.png",
+      "bytes": 46358,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-nonlocal-phi_fields.png",
+      "bytes": 677807,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-preflight.png",
+      "bytes": 241788,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/confined-ch-reference-gap.png",
+      "bytes": 691649,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-boundary-drive-audit.png",
+      "bytes": 181902,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-bounded-residual-fields.png",
+      "bytes": 77748,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-bounded-residual-validation.png",
+      "bytes": 167884,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-bounded-residual.png",
+      "bytes": 152251,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-fp64-accuracy-audit-convergence.png",
+      "bytes": 285903,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-fp64-accuracy-audit-convergence.svg",
+      "bytes": 128622,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-fp64-accuracy-audit-fields.png",
+      "bytes": 211103,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-kks-scale-ablation-fields.png",
+      "bytes": 280511,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-kks-scale-ablation.png",
+      "bytes": 231979,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-normalized-audit-fields.png",
+      "bytes": 162149,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-normalized-audit-validation-fields.png",
+      "bytes": 73716,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-normalized-audit.png",
+      "bytes": 309966,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-normalized-spatial-audit.png",
+      "bytes": 110359,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-physical-field-gallery-c.png",
+      "bytes": 241536,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-physical-field-gallery-errors.png",
+      "bytes": 312213,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-physical-field-gallery-phi.png",
+      "bytes": 256007,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-physical-field-gallery-q_scaled.png",
+      "bytes": 261014,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-robust-objective-audit.png",
+      "bytes": 230530,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-robust-objective-plot-convergence.png",
+      "bytes": 621253,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-robust-objective-plot-fields.png",
+      "bytes": 306496,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-stagger-audit-fields.png",
+      "bytes": 114392,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-stagger-audit.png",
+      "bytes": 215934,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-transport-audit-fields.png",
+      "bytes": 330484,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/corrosion-transport-audit.png",
+      "bytes": 592441,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/coupled-latent-residual-experiments-fields.png",
+      "bytes": 218140,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/coupled-latent-residual-experiments.png",
+      "bytes": 241187,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/elastic-precipitate-convergence_and_shape.png",
+      "bytes": 126940,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/elastic-precipitate-mechanical_fields.png",
+      "bytes": 182409,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/elastic-precipitate-phi_fields.png",
+      "bytes": 202360,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-causal-condition-response.png",
+      "bytes": 132618,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-causal-convergence.png",
+      "bytes": 248961,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-causal-fields.png",
+      "bytes": 85074,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-causal-weights.png",
+      "bytes": 249872,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-online-b8-adam-01-fields.png",
+      "bytes": 81486,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-online-balance-condition-collapse.png",
+      "bytes": 326168,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-online-balance-early-gradient.png",
+      "bytes": 110666,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-online-balance-early.png",
+      "bytes": 137903,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-online-balance-fields.npz",
+      "bytes": 10812497,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-online-balance-q-fields.png",
+      "bytes": 117494,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-online-balance-summary.png",
+      "bytes": 445817,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-online-convergence.png",
+      "bytes": 113970,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-online-profile-stream.png",
+      "bytes": 192763,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-operator-convergence.png",
+      "bytes": 164065,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-operator-cross-fields.png",
+      "bytes": 81526,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-operator-cross-terminal.png",
+      "bytes": 73625,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-operator-film-fields.png",
+      "bytes": 80061,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-operator-film-terminal.png",
+      "bytes": 72263,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-operator-initial-family.png",
+      "bytes": 117307,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-operator-local-boundary.png",
+      "bytes": 176729,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-operator-local-boundary.svg",
+      "bytes": 93506,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-operator-local-convergence.png",
+      "bytes": 154144,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-operator-local-convergence.svg",
+      "bytes": 64281,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-operator-local-fields.png",
+      "bytes": 210579,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-operator-local-fields.svg",
+      "bytes": 427055,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-operator-local-test64.png",
+      "bytes": 98436,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-operator-local-test64.svg",
+      "bytes": 70763,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-single-convergence.png",
+      "bytes": 177695,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-single-cross-01-fields.png",
+      "bytes": 100124,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-single-soap-01-fields.png",
+      "bytes": 95457,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-training-conditioning.png",
+      "bytes": 123371,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-training-distance.npz",
+      "bytes": 236741,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-training-distance.png",
+      "bytes": 186098,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-training-input-count.png",
+      "bytes": 214966,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-training-online-convergence.png",
+      "bytes": 153777,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-training-online-fields.png",
+      "bytes": 96711,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electro-training-online-response.png",
+      "bytes": 127810,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electropolish-best-phi-panel.npz",
+      "bytes": 354224,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electropolish-best-phi-panel.png",
+      "bytes": 244651,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electropolish-best-phi-panel.svg",
+      "bytes": 161822,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electropolish-convergence-curves-pooled.png",
+      "bytes": 275523,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electropolish-convergence-curves-pooled.svg",
+      "bytes": 127019,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electropolish-convergence-curves-terminal.png",
+      "bytes": 297902,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electropolish-convergence-curves-terminal.svg",
+      "bytes": 126286,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electropolish-optimization-audit-fields.png",
+      "bytes": 383405,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electropolish-optimization-audit-partial-fields.png",
+      "bytes": 290672,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electropolish-optimization-audit-partial.png",
+      "bytes": 255465,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electropolish-optimization-audit.png",
+      "bytes": 328227,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electropolish-optimization-gallery-c.png",
+      "bytes": 467035,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electropolish-optimization-gallery-phi.png",
+      "bytes": 479440,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electropolish-physical-field-gallery-c.png",
+      "bytes": 330917,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electropolish-physical-field-gallery-errors.png",
+      "bytes": 390778,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electropolish-physical-field-gallery-phi.png",
+      "bytes": 339732,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/electropolish-physical-field-gallery-profiles.png",
+      "bytes": 111257,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/icemelting-late-time-accuracy.png",
+      "bytes": 171360,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/icemelting-late-time-diagnosis.png",
+      "bytes": 150104,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/icemelting-production-latent.png",
+      "bytes": 168822,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/icemelting-soap-adam-5s.png",
+      "bytes": 208381,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/icemelting-weak-prior.png",
+      "bytes": 155909,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/local-ad-full-training-convergence.png",
+      "bytes": 381502,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/local-ad-full-training-convergence.svg",
+      "bytes": 199086,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/local-ad-full-training-terminal-phi.png",
+      "bytes": 157589,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/local-ad-performance-summary-policy.png",
+      "bytes": 107188,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/local-ad-performance-summary-policy.svg",
+      "bytes": 68106,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/local-ad-performance-summary.png",
+      "bytes": 192232,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/local-ad-performance-summary.svg",
+      "bytes": 102761,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/melting-local-fem-fields.png",
+      "bytes": 273052,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-local-fem-reference-fields.png",
+      "bytes": 242812,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-local-fem-refinement-errors.png",
+      "bytes": 258992,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-operator-convergence.png",
+      "bytes": 153660,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-operator-fields.png",
+      "bytes": 183693,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-operator-initial-shapes.png",
+      "bytes": 452009,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-operator-soap-convergence.png",
+      "bytes": 226175,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-paper-3d-cutaway.pdf",
+      "bytes": 201270,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-paper-3d-cutaway.png",
+      "bytes": 454836,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-paper-3d-cutaway.svg",
+      "bytes": 200418,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-paper-3d-overlay.pdf",
+      "bytes": 225335,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-paper-3d-overlay.png",
+      "bytes": 790548,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-paper-3d-overlay.svg",
+      "bytes": 2609551,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-paper-3d-single.pdf",
+      "bytes": 85968,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-paper-3d-single.png",
+      "bytes": 419641,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-paper-3d-single.svg",
+      "bytes": 243603,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-paper-3d-snapshots.pdf",
+      "bytes": 284678,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-paper-3d-snapshots.png",
+      "bytes": 1369482,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-paper-3d-snapshots.svg",
+      "bytes": 874096,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-random-sample-002.png",
+      "bytes": 187987,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-random-sample-005.png",
+      "bytes": 208194,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-random-sample-009.png",
+      "bytes": 212217,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-render-3d-gallery.png",
+      "bytes": 268797,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-render-3d-poster.png",
+      "bytes": 124745,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-render-3d.gif",
+      "bytes": 2261835,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-render-3d.mp4",
+      "bytes": 854079,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/melting-render-probe.png",
+      "bytes": 57673,
+      "previously_tracked": false
+    },
+    {
+      "path": "docs/tasks/archive/ordinary-fp64-accuracy-convergence.png",
+      "bytes": 434605,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/ordinary-fp64-accuracy-convergence.svg",
+      "bytes": 183592,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/ordinary-fp64-accuracy-terminal-fields.png",
+      "bytes": 286904,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/ordinary-fp64-accuracy-transport.png",
+      "bytes": 434944,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/ordinary-policy-defaults-corrosion2d-convergence.png",
+      "bytes": 367707,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/ordinary-policy-defaults-corrosion2d-phi-fields.png",
+      "bytes": 218761,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/ordinary-policy-defaults-electropolish2d-convergence.png",
+      "bytes": 412532,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/ordinary-policy-defaults-electropolish2d-phi-fields.png",
+      "bytes": 199068,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/ordinary-policy-defaults-icemelting3d-convergence.png",
+      "bytes": 99167,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/phasefield-gpu-policy-comparison.png",
+      "bytes": 117751,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/phasefield-gpu-policy-comparison.svg",
+      "bytes": 103719,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/phasefield-gpu-policy-electropolish2d-deterministic-forward.hlo",
+      "bytes": 11255,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/phasefield-gpu-policy-electropolish2d-deterministic-input_gradient.hlo",
+      "bytes": 22619,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/phasefield-gpu-policy-electropolish2d-ordinary-forward.hlo",
+      "bytes": 5423,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/phasefield-gpu-policy-electropolish2d-ordinary-input_gradient.hlo",
+      "bytes": 11180,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/phasefield-gpu-policy-icemelting3d-deterministic-forward.hlo",
+      "bytes": 15392,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/phasefield-gpu-policy-icemelting3d-deterministic-input_gradient.hlo",
+      "bytes": 43648,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/phasefield-gpu-policy-icemelting3d-ordinary-forward.hlo",
+      "bytes": 10305,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/phasefield-gpu-policy-icemelting3d-ordinary-input_gradient.hlo",
+      "bytes": 35603,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/phasefield-neumann-geometry.png",
+      "bytes": 98240,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/phasefield-seed-mechanism-probe.png",
+      "bytes": 162041,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/phasefield-seed-stability-results-convergence.png",
+      "bytes": 335149,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/phasefield-seed-stability-results-convergence.svg",
+      "bytes": 136756,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/phasefield-seed-stability-results-corrosion2d-phi.png",
+      "bytes": 187488,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/phasefield-seed-stability-results-electropolish2d-phi.png",
+      "bytes": 220878,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/phasefield-seed-stability-results-icemelting3d-phi.png",
+      "bytes": 351391,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/precipitate-local-ad-fields.png",
+      "bytes": 142084,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/precipitate-local-comparison.png",
+      "bytes": 151007,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/precipitate-multiple-common-fields.png",
+      "bytes": 138173,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/precipitate-multiple-comparison.png",
+      "bytes": 202898,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/precipitate-multiple-local_ad-convergence_and_shape.png",
+      "bytes": 131983,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/precipitate-multiple-local_ad-mechanical_fields.png",
+      "bytes": 223307,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/precipitate-multiple-local_ad-phi_fields.png",
+      "bytes": 227691,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/precipitate-multiple-nonlocal-convergence_and_shape.png",
+      "bytes": 125039,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/precipitate-multiple-nonlocal-mechanical_fields.png",
+      "bytes": 222088,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/precipitate-multiple-nonlocal-phi_fields.png",
+      "bytes": 222989,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/precipitate-multiple-preflight.npz",
+      "bytes": 2405378,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/precipitate-multiple-preflight.png",
+      "bytes": 148803,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/precipitate-multiple-reference-dynamics.png",
+      "bytes": 88748,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/soap-implementation-audit-evidence/author-streams.npz",
+      "bytes": 99971,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/soap-implementation-audit-evidence/fixtures.npz",
+      "bytes": 33699,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/soap-implementation-audit-evidence/independent-streams.npz",
+      "bytes": 103792,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/soap-implementation-audit-evidence/jax-streams.npz",
+      "bytes": 103804,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-map-ablation-additive-phi.png",
+      "bytes": 353033,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-map-ablation-convergence.png",
+      "bytes": 222938,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-map-ablation-cubic-phi.png",
+      "bytes": 350952,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-map-conservation.png",
+      "bytes": 143917,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-matched-local-convergence.png",
+      "bytes": 228698,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-nonlocal-flux-convergence.png",
+      "bytes": 204720,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-nonlocal-flux-fields.png",
+      "bytes": 146983,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-nonlocal-flux-nonlocal-native-phi.png",
+      "bytes": 352246,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-nonlocal-flux-spectral-native-phi.png",
+      "bytes": 352355,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-operator-convergence.png",
+      "bytes": 222428,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-operator-recommended-phi.png",
+      "bytes": 386957,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-operator-residual-vs-error.png",
+      "bytes": 168209,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/deterministic-autodiff/loss_paths.npz",
+      "bytes": 247,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/deterministic-autodiff/model_0.eqx",
+      "bytes": 117352,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/deterministic-autodiff/model_1.eqx",
+      "bytes": 117352,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/deterministic-autodiff/times.npy",
+      "bytes": 448,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-autodiff/loss_paths.npz",
+      "bytes": 1694,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-autodiff/model_0.eqx",
+      "bytes": 117352,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-autodiff/model_1.eqx",
+      "bytes": 117352,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-autodiff/times.npy",
+      "bytes": 6528,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-autodiff-spectrum/frozen_arrays.npz",
+      "bytes": 731059,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-autodiff-spectrum/loss_paths.npz",
+      "bytes": 223,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-autodiff-spectrum/model_0.eqx",
+      "bytes": 117352,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-autodiff-spectrum/model_1.eqx",
+      "bytes": 117352,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-autodiff-spectrum/times.npy",
+      "bytes": 256,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-symmetric/loss_paths.npz",
+      "bytes": 1022,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-symmetric/model_0.eqx",
+      "bytes": 117352,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-symmetric/model_1.eqx",
+      "bytes": 117352,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-symmetric/times.npy",
+      "bytes": 6528,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-symmetric-independent/frozen_arrays.npz",
+      "bytes": 731021,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-symmetric-independent/loss_paths.npz",
+      "bytes": 1027,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-symmetric-independent/model_0.eqx",
+      "bytes": 117352,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-symmetric-independent/model_1.eqx",
+      "bytes": 117352,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-symmetric-independent/times.npy",
+      "bytes": 6528,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-symmetric-independent-repeat/frozen_arrays.npz",
+      "bytes": 731027,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-symmetric-independent-repeat/loss_paths.npz",
+      "bytes": 1019,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-symmetric-independent-repeat/model_0.eqx",
+      "bytes": 117352,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-symmetric-independent-repeat/model_1.eqx",
+      "bytes": 117352,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-repeatability-evidence/ordinary-symmetric-independent-repeat/times.npy",
+      "bytes": 6528,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-transport-pilot-convergence.png",
+      "bytes": 125973,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-transport-pilot-local_ad-phi.png",
+      "bytes": 309234,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-transport-pilot-nonlocal-phi.png",
+      "bytes": 315920,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-vortex-pilot-common-reference-fields.png",
+      "bytes": 427780,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-vortex-pilot-convergence.png",
+      "bytes": 146211,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-vortex-pilot-local_ad-phi.png",
+      "bytes": 353103,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-vortex-pilot-nonlocal-phi.png",
+      "bytes": 353174,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-vortex-pilot-reference-evolution.png",
+      "bytes": 157221,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-vortex-residual-bounded-convergence.png",
+      "bytes": 190645,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-vortex-residual-bounded-fields.png",
+      "bytes": 499212,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-vortex-residual-combined-curves-profiles.png",
+      "bytes": 281790,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-vortex-residual-latent-convergence.png",
+      "bytes": 222142,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-vortex-residual-latent-fields.png",
+      "bytes": 474832,
+      "previously_tracked": true
+    },
+    {
+      "path": "docs/tasks/archive/twophase-vortex-residual-representation-fields.png",
+      "bytes": 393980,
+      "previously_tracked": true
+    }
+  ],
+  "generated_suffixes": [
+    ".eqx",
+    ".gif",
+    ".hlo",
+    ".html",
+    ".jpeg",
+    ".jpg",
+    ".mov",
+    ".mp4",
+    ".npy",
+    ".npz",
+    ".pdf",
+    ".pickle",
+    ".pkl",
+    ".png",
+    ".pt",
+    ".pth",
+    ".safetensors",
+    ".svg",
+    ".webm",
+    ".webp"
+  ]
+}

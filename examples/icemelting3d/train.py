@@ -222,6 +222,10 @@ def _diag_residual(net, x_points, sub_data, core_mask, t_eval, N1, N2, N3, write
 def _main(_):
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
     config = with_run_seed(FLAGS.config, _SEED.value)
+    if 'operator' in config:
+        from examples.icemelting3d.operator_training import train_operator
+        train_operator(config)
+        return
     _validate_config(config)
     configure_gpu_policy(config.train.gpu_policy)
     _prec = config.train.matmul_precision

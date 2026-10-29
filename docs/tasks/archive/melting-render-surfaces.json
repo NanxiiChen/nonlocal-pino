@@ -1,0 +1,2347 @@
+{
+  "input_indices": [
+    5,
+    9,
+    2
+  ],
+  "camera": [
+    [
+      1.8,
+      -1.5,
+      1.35
+    ],
+    [
+      0.5,
+      0.5,
+      0.5
+    ],
+    [
+      0,
+      0,
+      1
+    ]
+  ],
+  "parallel_scale": 0.47,
+  "iso_value": 0,
+  "axis_order": "time,x,y,z",
+  "grid": [
+    96,
+    96,
+    96
+  ],
+  "times": [
+    0.0,
+    0.01666666753590107,
+    0.03333333507180214,
+    0.05000000074505806,
+    0.06666667014360428,
+    0.0833333358168602,
+    0.10000000149011612,
+    0.11666666716337204,
+    0.13333334028720856,
+    0.15000000596046448,
+    0.1666666716337204,
+    0.18333333730697632,
+    0.20000000298023224,
+    0.21666666865348816,
+    0.23333333432674408,
+    0.25,
+    0.2666666805744171,
+    0.28333333134651184,
+    0.30000001192092896,
+    0.3166666626930237,
+    0.3333333432674408,
+    0.3499999940395355,
+    0.36666667461395264,
+    0.38333332538604736,
+    0.4000000059604645,
+    0.4166666567325592,
+    0.4333333373069763,
+    0.44999998807907104,
+    0.46666666865348816,
+    0.4833333194255829,
+    0.5,
+    0.5166666507720947,
+    0.5333333611488342,
+    0.550000011920929,
+    0.5666666626930237,
+    0.5833333134651184,
+    0.6000000238418579,
+    0.6166666746139526,
+    0.6333333253860474,
+    0.6499999761581421,
+    0.6666666865348816,
+    0.6833333373069763,
+    0.699999988079071,
+    0.7166666388511658,
+    0.7333333492279053,
+    0.75,
+    0.7666666507720947,
+    0.7833333611488342,
+    0.800000011920929,
+    0.8166666626930237,
+    0.8333333134651184,
+    0.8500000238418579,
+    0.8666666746139526,
+    0.8833333253860474,
+    0.8999999761581421,
+    0.9166666865348816,
+    0.9333333373069763,
+    0.949999988079071,
+    0.9666666388511658,
+    0.9833333492279053,
+    1.0
+  ],
+  "physical_times": [
+    0.0,
+    0.0833333358168602,
+    0.1666666716337204,
+    0.25,
+    0.3333333432674408,
+    0.4166666865348816,
+    0.5,
+    0.5833333134651184,
+    0.6666666865348816,
+    0.75,
+    0.8333333730697632,
+    0.9166666865348816,
+    1.0,
+    1.0833333730697632,
+    1.1666666269302368,
+    1.25,
+    1.3333333730697632,
+    1.4166666269302368,
+    1.5,
+    1.5833332538604736,
+    1.6666667461395264,
+    1.75,
+    1.8333333730697632,
+    1.9166666269302368,
+    2.0,
+    2.0833332538604736,
+    2.1666667461395264,
+    2.25,
+    2.3333332538604736,
+    2.4166665077209473,
+    2.5,
+    2.5833332538604736,
+    2.6666667461395264,
+    2.75,
+    2.8333332538604736,
+    2.9166665077209473,
+    3.0,
+    3.0833334922790527,
+    3.1666665077209473,
+    3.25,
+    3.3333334922790527,
+    3.4166667461395264,
+    3.5,
+    3.5833332538604736,
+    3.6666667461395264,
+    3.75,
+    3.8333332538604736,
+    3.9166667461395264,
+    4.0,
+    4.083333492279053,
+    4.166666507720947,
+    4.25,
+    4.333333492279053,
+    4.416666507720947,
+    4.5,
+    4.583333492279053,
+    4.666666507720947,
+    4.75,
+    4.8333330154418945,
+    4.9166669845581055,
+    5.0
+  ],
+  "renderer": "vtkEGLRenderWindow",
+  "capabilities": "EGL version string:  1.5\nEGL vendor string:  NVIDIA\nEGL client APIs:  OpenGL_ES OpenGL\nEGL extensions:  EGL_ANDROID_native_fence_sync EGL_EXT_buffer_age EGL_EXT_client_sync EGL_EXT_create_context_robustness EGL_EXT_image_dma_buf_import EGL_EXT_image_dma_buf_import_modifiers EGL_MESA_image_dma_buf_export EGL_EXT_output_base EGL_EXT_output_drm EGL_EXT_protected_content EGL_EXT_stream_consumer_egloutput EGL_EXT_stream_acquire_mode EGL_EXT_sync_reuse EGL_IMG_context_priority EGL_KHR_config_attribs EGL_KHR_create_context_no_error EGL_KHR_context_flush_control EGL_KHR_create_context EGL_KHR_fence_sync EGL_KHR_get_all_proc_addresses EGL_KHR_partial_update EGL_KHR_swap_buffers_with_damage EGL_KHR_no_config_context EGL_KHR_gl_colorspace EGL_KHR_gl_renderbuffer_image EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_3D_image EGL_KHR_gl_texture_cubemap_image EGL_KHR_image EGL_KHR_image_base EGL_KHR_reusable_sync EGL_KHR_stream EGL_KHR_stream_attrib EGL_KHR_stream_consumer_gltexture EGL_KHR_stream_cross_process_fd EGL_KHR_stream_fifo EGL_KHR_stream_producer_eglsurface EGL_KHR_surfaceless_context EGL_KHR_wait_sync EGL_NV_nvrm_fence_sync EGL_NV_quadruple_buffer EGL_NV_stream_consumer_eglimage EGL_NV_stream_cross_display EGL_NV_stream_cross_object EGL_NV_stream_cross_process EGL_NV_stream_cross_system EGL_NV_stream_dma EGL_NV_stream_flush EGL_NV_stream_metadata EGL_NV_stream_remote EGL_NV_stream_reset EGL_NV_stream_socket EGL_NV_stream_socket_inet EGL_NV_stream_socket_unix EGL_NV_stream_sync EGL_NV_stream_fifo_next EGL_NV_stream_fifo_synchronous EGL_NV_stream_consumer_gltexture_yuv EGL_NV_stream_attrib EGL_NV_stream_origin EGL_NV_system_time EGL_NV_output_drm_flip_event EGL_NV_triple_buffer EGL_NV_robustness_video_memory_purge\nOpenGL vendor string:  NVIDIA Corporation\nOpenGL renderer string:  NVIDIA GeForce RTX 3090/PCIe/SSE2\nOpenGL version string:  3.2.0 NVIDIA 595.71.05\nOpenGL extensions:  \n  GL_AMD_multi_draw_indirect\n  GL_AMD_seamless_cubemap_per_texture\n  GL_AMD_vertex_shader_viewport_index\n  GL_AMD_vertex_shader_layer\n  GL_ARB_arrays_of_arrays\n  GL_ARB_base_instance\n  GL_ARB_bindless_texture\n  GL_ARB_blend_func_extended\n  GL_ARB_buffer_storage\n  GL_ARB_clear_buffer_object\n  GL_ARB_clear_texture\n  GL_ARB_clip_control\n  GL_ARB_color_buffer_float\n  GL_ARB_compressed_texture_pixel_storage\n  GL_ARB_conservative_depth\n  GL_ARB_compute_shader\n  GL_ARB_compute_variable_group_size\n  GL_ARB_conditional_render_inverted\n  GL_ARB_copy_buffer\n  GL_ARB_copy_image\n  GL_ARB_cull_distance\n  GL_ARB_debug_output\n  GL_ARB_depth_buffer_float\n  GL_ARB_depth_clamp\n  GL_ARB_depth_texture\n  GL_ARB_derivative_control\n  GL_ARB_direct_state_access\n  GL_ARB_draw_buffers\n  GL_ARB_draw_buffers_blend\n  GL_ARB_draw_indirect\n  GL_ARB_draw_elements_base_vertex\n  GL_ARB_draw_instanced\n  GL_ARB_enhanced_layouts\n  GL_ARB_ES2_compatibility\n  GL_ARB_ES3_compatibility\n  GL_ARB_ES3_1_compatibility\n  GL_ARB_ES3_2_compatibility\n  GL_ARB_explicit_attrib_location\n  GL_ARB_explicit_uniform_location\n  GL_ARB_fragment_coord_conventions\n  GL_ARB_fragment_layer_viewport\n  GL_ARB_fragment_program\n  GL_ARB_fragment_program_shadow\n  GL_ARB_fragment_shader\n  GL_ARB_fragment_shader_interlock\n  GL_ARB_framebuffer_no_attachments\n  GL_ARB_framebuffer_object\n  GL_ARB_framebuffer_sRGB\n  GL_ARB_geometry_shader4\n  GL_ARB_get_program_binary\n  GL_ARB_get_texture_sub_image\n  GL_ARB_gl_spirv\n  GL_ARB_gpu_shader5\n  GL_ARB_gpu_shader_fp64\n  GL_ARB_gpu_shader_int64\n  GL_ARB_half_float_pixel\n  GL_ARB_half_float_vertex\n  GL_ARB_imaging\n  GL_ARB_indirect_parameters\n  GL_ARB_instanced_arrays\n  GL_ARB_internalformat_query\n  GL_ARB_internalformat_query2\n  GL_ARB_invalidate_subdata\n  GL_ARB_map_buffer_alignment\n  GL_ARB_map_buffer_range\n  GL_ARB_multi_bind\n  GL_ARB_multi_draw_indirect\n  GL_ARB_multisample\n  GL_ARB_multitexture\n  GL_ARB_occlusion_query\n  GL_ARB_occlusion_query2\n  GL_ARB_parallel_shader_compile\n  GL_ARB_pipeline_statistics_query\n  GL_ARB_pixel_buffer_object\n  GL_ARB_point_parameters\n  GL_ARB_point_sprite\n  GL_ARB_polygon_offset_clamp\n  GL_ARB_post_depth_coverage\n  GL_ARB_program_interface_query\n  GL_ARB_provoking_vertex\n  GL_ARB_query_buffer_object\n  GL_ARB_robust_buffer_access_behavior\n  GL_ARB_robustness\n  GL_ARB_sample_locations\n  GL_ARB_sample_shading\n  GL_ARB_sampler_objects\n  GL_ARB_seamless_cube_map\n  GL_ARB_seamless_cubemap_per_texture\n  GL_ARB_separate_shader_objects\n  GL_ARB_shader_atomic_counter_ops\n  GL_ARB_shader_atomic_counters\n  GL_ARB_shader_ballot\n  GL_ARB_shader_bit_encoding\n  GL_ARB_shader_clock\n  GL_ARB_shader_draw_parameters\n  GL_ARB_shader_group_vote\n  GL_ARB_shader_image_load_store\n  GL_ARB_shader_image_size\n  GL_ARB_shader_objects\n  GL_ARB_shader_precision\n  GL_ARB_shader_storage_buffer_object\n  GL_ARB_shader_subroutine\n  GL_ARB_shader_texture_image_samples\n  GL_ARB_shader_texture_lod\n  GL_ARB_shading_language_100\n  GL_ARB_shader_viewport_layer_array\n  GL_ARB_shading_language_420pack\n  GL_ARB_shading_language_include\n  GL_ARB_shading_language_packing\n  GL_ARB_shadow\n  GL_ARB_sparse_buffer\n  GL_ARB_sparse_texture\n  GL_ARB_sparse_texture2\n  GL_ARB_sparse_texture_clamp\n  GL_ARB_spirv_extensions\n  GL_ARB_stencil_texturing\n  GL_ARB_sync\n  GL_ARB_tessellation_shader\n  GL_ARB_texture_barrier\n  GL_ARB_texture_border_clamp\n  GL_ARB_texture_buffer_object\n  GL_ARB_texture_buffer_object_rgb32\n  GL_ARB_texture_buffer_range\n  GL_ARB_texture_compression\n  GL_ARB_texture_compression_bptc\n  GL_ARB_texture_compression_rgtc\n  GL_ARB_texture_cube_map\n  GL_ARB_texture_cube_map_array\n  GL_ARB_texture_env_add\n  GL_ARB_texture_env_combine\n  GL_ARB_texture_env_crossbar\n  GL_ARB_texture_env_dot3\n  GL_ARB_texture_filter_anisotropic\n  GL_ARB_texture_filter_minmax\n  GL_ARB_texture_float\n  GL_ARB_texture_gather\n  GL_ARB_texture_mirror_clamp_to_edge\n  GL_ARB_texture_mirrored_repeat\n  GL_ARB_texture_multisample\n  GL_ARB_texture_non_power_of_two\n  GL_ARB_texture_query_levels\n  GL_ARB_texture_query_lod\n  GL_ARB_texture_rectangle\n  GL_ARB_texture_rg\n  GL_ARB_texture_rgb10_a2ui\n  GL_ARB_texture_stencil8\n  GL_ARB_texture_storage\n  GL_ARB_texture_storage_multisample\n  GL_ARB_texture_swizzle\n  GL_ARB_texture_view\n  GL_ARB_timer_query\n  GL_ARB_transform_feedback2\n  GL_ARB_transform_feedback3\n  GL_ARB_transform_feedback_instanced\n  GL_ARB_transform_feedback_overflow_query\n  GL_ARB_transpose_matrix\n  GL_ARB_uniform_buffer_object\n  GL_ARB_vertex_array_bgra\n  GL_ARB_vertex_array_object\n  GL_ARB_vertex_attrib_64bit\n  GL_ARB_vertex_attrib_binding\n  GL_ARB_vertex_buffer_object\n  GL_ARB_vertex_program\n  GL_ARB_vertex_shader\n  GL_ARB_vertex_type_10f_11f_11f_rev\n  GL_ARB_vertex_type_2_10_10_10_rev\n  GL_ARB_viewport_array\n  GL_ARB_window_pos\n  GL_ATI_draw_buffers\n  GL_ATI_texture_float\n  GL_ATI_texture_mirror_once\n  GL_S3_s3tc\n  GL_EXT_texture_env_add\n  GL_EXT_abgr\n  GL_EXT_bgra\n  GL_EXT_bindable_uniform\n  GL_EXT_blend_color\n  GL_EXT_blend_equation_separate\n  GL_EXT_blend_func_separate\n  GL_EXT_blend_minmax\n  GL_EXT_blend_subtract\n  GL_EXT_compiled_vertex_array\n  GL_EXT_Cg_shader\n  GL_EXT_depth_bounds_test\n  GL_EXT_direct_state_access\n  GL_EXT_draw_buffers2\n  GL_EXT_draw_instanced\n  GL_EXT_draw_range_elements\n  GL_EXT_EGL_image_storage\n  GL_EXT_fog_coord\n  GL_EXT_framebuffer_blit\n  GL_EXT_framebuffer_multisample\n  GL_EXTX_framebuffer_mixed_formats\n  GL_EXT_framebuffer_multisample_blit_scaled\n  GL_EXT_framebuffer_object\n  GL_EXT_framebuffer_sRGB\n  GL_EXT_geometry_shader4\n  GL_EXT_gpu_program_parameters\n  GL_EXT_gpu_shader4\n  GL_EXT_multi_draw_arrays\n  GL_EXT_multiview_texture_multisample\n  GL_EXT_multiview_timer_query\n  GL_EXT_packed_depth_stencil\n  GL_EXT_packed_float\n  GL_EXT_packed_pixels\n  GL_EXT_pixel_buffer_object\n  GL_EXT_point_parameters\n  GL_EXT_polygon_offset_clamp\n  GL_EXT_post_depth_coverage\n  GL_EXT_provoking_vertex\n  GL_EXT_raster_multisample\n  GL_EXT_rescale_normal\n  GL_EXT_secondary_color\n  GL_EXT_separate_shader_objects\n  GL_EXT_separate_specular_color\n  GL_EXT_shader_image_load_formatted\n  GL_EXT_shader_image_load_store\n  GL_EXT_shader_integer_mix\n  GL_EXT_shadow_funcs\n  GL_EXT_sparse_texture2\n  GL_EXT_stencil_two_side\n  GL_EXT_stencil_wrap\n  GL_EXT_texture3D\n  GL_EXT_texture_array\n  GL_EXT_texture_buffer_object\n  GL_EXT_texture_compression_dxt1\n  GL_EXT_texture_compression_latc\n  GL_EXT_texture_compression_rgtc\n  GL_EXT_texture_compression_s3tc\n  GL_EXT_texture_cube_map\n  GL_EXT_texture_edge_clamp\n  GL_EXT_texture_env_combine\n  GL_EXT_texture_env_dot3\n  GL_EXT_texture_filter_anisotropic\n  GL_EXT_texture_filter_minmax\n  GL_EXT_texture_integer\n  GL_EXT_texture_lod\n  GL_EXT_texture_lod_bias\n  GL_EXT_texture_mirror_clamp\n  GL_EXT_texture_object\n  GL_EXT_texture_shadow_lod\n  GL_EXT_texture_shared_exponent\n  GL_EXT_texture_sRGB\n  GL_EXT_texture_sRGB_R8\n  GL_EXT_texture_sRGB_decode\n  GL_EXT_texture_storage\n  GL_EXT_texture_swizzle\n  GL_EXT_timer_query\n  GL_EXT_transform_feedback2\n  GL_EXT_vertex_array\n  GL_EXT_vertex_array_bgra\n  GL_EXT_vertex_attrib_64bit\n  GL_EXT_window_rectangles\n  GL_EXT_import_sync_object\n  GL_NV_robustness_video_memory_purge\n  GL_IBM_rasterpos_clip\n  GL_IBM_texture_mirrored_repeat\n  GL_KHR_context_flush_control\n  GL_KHR_debug\n  GL_EXT_memory_object\n  GL_EXT_memory_object_fd\n  GL_NV_memory_object_sparse\n  GL_KHR_parallel_shader_compile\n  GL_KHR_no_error\n  GL_KHR_robust_buffer_access_behavior\n  GL_KHR_robustness\n  GL_EXT_semaphore\n  GL_EXT_semaphore_fd\n  GL_NV_timeline_semaphore\n  GL_KHR_shader_subgroup\n  GL_KTX_buffer_region\n  GL_NV_alpha_to_coverage_dither_control\n  GL_NV_bindless_multi_draw_indirect\n  GL_NV_bindless_multi_draw_indirect_count\n  GL_NV_bindless_texture\n  GL_NV_blend_equation_advanced\n  GL_NV_blend_equation_advanced_coherent\n  GL_NVX_blend_equation_advanced_multi_draw_buffers\n  GL_NV_blend_minmax_factor\n  GL_NV_blend_square\n  GL_NV_clip_space_w_scaling\n  GL_NV_command_list\n  GL_NV_compute_program5\n  GL_NV_compute_shader_derivatives\n  GL_NV_conditional_render\n  GL_NV_conservative_raster\n  GL_NV_conservative_raster_dilate\n  GL_NV_conservative_raster_pre_snap\n  GL_NV_conservative_raster_pre_snap_triangles\n  GL_NV_conservative_raster_underestimation\n  GL_NV_copy_depth_to_color\n  GL_NV_copy_image\n  GL_NV_depth_buffer_float\n  GL_NV_depth_clamp\n  GL_NV_draw_texture\n  GL_NV_draw_vulkan_image\n  GL_NV_ES1_1_compatibility\n  GL_NV_ES3_1_compatibility\n  GL_NV_explicit_multisample\n  GL_NV_feature_query\n  GL_NV_fence\n  GL_NV_fill_rectangle\n  GL_NV_float_buffer\n  GL_NV_fog_distance\n  GL_NV_fragment_coverage_to_color\n  GL_NV_fragment_program\n  GL_NV_fragment_program_option\n  GL_NV_fragment_program2\n  GL_NV_fragment_shader_barycentric\n  GL_NV_fragment_shader_interlock\n  GL_NV_framebuffer_mixed_samples\n  GL_NV_framebuffer_multisample_coverage\n  GL_NV_geometry_shader4\n  GL_NV_geometry_shader_passthrough\n  GL_NV_gpu_program4\n  GL_NV_internalformat_sample_query\n  GL_NV_gpu_program4_1\n  GL_NV_gpu_program5\n  GL_NV_gpu_program5_mem_extended\n  GL_NV_gpu_program_fp64\n  GL_NV_gpu_program_multiview\n  GL_NV_gpu_shader5\n  GL_NV_half_float\n  GL_NV_light_max_exponent\n  GL_NV_memory_attachment\n  GL_NV_mesh_shader\n  GL_NV_multisample_coverage\n  GL_NV_multisample_filter_hint\n  GL_NV_occlusion_query\n  GL_NV_packed_depth_stencil\n  GL_NV_parameter_buffer_object\n  GL_NV_parameter_buffer_object2\n  GL_NV_path_rendering\n  GL_NV_path_rendering_shared_edge\n  GL_NV_point_sprite\n  GL_NV_primitive_restart\n  GL_NV_primitive_shading_rate\n  GL_NV_query_resource\n  GL_NV_query_resource_tag\n  GL_NV_register_combiners\n  GL_NV_register_combiners2\n  GL_NV_representative_fragment_test\n  GL_NV_sample_locations\n  GL_NV_sample_mask_override_coverage\n  GL_NV_scissor_exclusive\n  GL_NV_shader_atomic_counters\n  GL_NV_shader_atomic_float\n  GL_NV_shader_atomic_float64\n  GL_NV_shader_atomic_fp16_vector\n  GL_NV_shader_atomic_int64\n  GL_NV_shader_buffer_load\n  GL_NV_shader_storage_buffer_object\n  GL_NV_shader_subgroup_partitioned\n  GL_NV_shader_texture_footprint\n  GL_NV_shading_rate_image\n  GL_NV_stereo_view_rendering\n  GL_NV_texgen_reflection\n  GL_NV_texture_barrier\n  GL_NV_texture_compression_vtc\n  GL_NV_texture_dirty_tile_map\n  GL_NV_texture_env_combine4\n  GL_NV_texture_multisample\n  GL_NV_texture_rectangle\n  GL_NV_texture_rectangle_compressed\n  GL_NV_texture_shader\n  GL_NV_texture_shader2\n  GL_NV_texture_shader3\n  GL_NV_transform_feedback\n  GL_NV_transform_feedback2\n  GL_NV_uniform_buffer_unified_memory\n  GL_NV_uniform_buffer_std430_layout\n  GL_NV_vertex_attrib_integer_64bit\n  GL_NV_vertex_buffer_unified_memory\n  GL_NV_vertex_program\n  GL_NV_vertex_program1_1\n  GL_NV_vertex_program2\n  GL_NV_vertex_program2_option\n  GL_NV_vertex_program3\n  GL_NV_viewport_array2\n  GL_NV_viewport_swizzle\n  GL_NVX_conditional_render\n  GL_NV_gpu_multicast\n  GL_NVX_progress_fence\n  GL_NVX_gpu_memory_info\n  GL_NVX_nvenc_interop\n  GL_NV_shader_thread_group\n  GL_NV_shader_thread_shuffle\n  GL_KHR_blend_equation_advanced\n  GL_KHR_blend_equation_advanced_coherent\n  GL_OES_EGL_image\n  GL_OVR_multiview\n  GL_OVR_multiview2\n  GL_SGIS_generate_mipmap\n  GL_SGIS_texture_lod\n  GL_SGIX_depth_texture\n  GL_SGIX_shadow\n  GL_SUN_slice_accum\n",
+  "mesh_records": [
+    {
+      "index": 5,
+      "frames": [
+        {
+          "frame": 0,
+          "time": 0.0,
+          "physical_time": 0.0,
+          "vertices": 16326,
+          "triangles": 32648,
+          "surface_volume": 0.12422972917556763,
+          "iso_interpolation_gap": 4.355056262284052e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame000.npz"
+        },
+        {
+          "frame": 1,
+          "time": 0.01666666753590107,
+          "physical_time": 0.0833333358168602,
+          "vertices": 15877,
+          "triangles": 31750,
+          "surface_volume": 0.11921846866607666,
+          "iso_interpolation_gap": 4.516090029937914e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame001.npz"
+        },
+        {
+          "frame": 2,
+          "time": 0.03333333507180214,
+          "physical_time": 0.1666666716337204,
+          "vertices": 15468,
+          "triangles": 30932,
+          "surface_volume": 0.11435335874557495,
+          "iso_interpolation_gap": 4.4048906602256466e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame002.npz"
+        },
+        {
+          "frame": 3,
+          "time": 0.05000000074505806,
+          "physical_time": 0.25,
+          "vertices": 14994,
+          "triangles": 29984,
+          "surface_volume": 0.10963710397481918,
+          "iso_interpolation_gap": 4.473387434700271e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame003.npz"
+        },
+        {
+          "frame": 4,
+          "time": 0.06666667014360428,
+          "physical_time": 0.3333333432674408,
+          "vertices": 14622,
+          "triangles": 29240,
+          "surface_volume": 0.10506805032491684,
+          "iso_interpolation_gap": 4.458936928131152e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame004.npz"
+        },
+        {
+          "frame": 5,
+          "time": 0.0833333358168602,
+          "physical_time": 0.4166666865348816,
+          "vertices": 14194,
+          "triangles": 28384,
+          "surface_volume": 0.10063495486974716,
+          "iso_interpolation_gap": 4.3854811337951105e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame005.npz"
+        },
+        {
+          "frame": 6,
+          "time": 0.10000000149011612,
+          "physical_time": 0.5,
+          "vertices": 13788,
+          "triangles": 27572,
+          "surface_volume": 0.09632834792137146,
+          "iso_interpolation_gap": 4.161805463809287e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame006.npz"
+        },
+        {
+          "frame": 7,
+          "time": 0.11666666716337204,
+          "physical_time": 0.5833333134651184,
+          "vertices": 13390,
+          "triangles": 26776,
+          "surface_volume": 0.09213940054178238,
+          "iso_interpolation_gap": 4.341041403677082e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame007.npz"
+        },
+        {
+          "frame": 8,
+          "time": 0.13333334028720856,
+          "physical_time": 0.6666666865348816,
+          "vertices": 12956,
+          "triangles": 25908,
+          "surface_volume": 0.08806312829256058,
+          "iso_interpolation_gap": 4.091119990334846e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame008.npz"
+        },
+        {
+          "frame": 9,
+          "time": 0.15000000596046448,
+          "physical_time": 0.75,
+          "vertices": 12612,
+          "triangles": 25220,
+          "surface_volume": 0.08409854769706726,
+          "iso_interpolation_gap": 4.0380959944741335e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame009.npz"
+        },
+        {
+          "frame": 10,
+          "time": 0.1666666716337204,
+          "physical_time": 0.8333333730697632,
+          "vertices": 12196,
+          "triangles": 24388,
+          "surface_volume": 0.08024349063634872,
+          "iso_interpolation_gap": 3.978982022090349e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame010.npz"
+        },
+        {
+          "frame": 11,
+          "time": 0.18333333730697632,
+          "physical_time": 0.9166666865348816,
+          "vertices": 11840,
+          "triangles": 23676,
+          "surface_volume": 0.07650024443864822,
+          "iso_interpolation_gap": 4.3829459173139185e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame011.npz"
+        },
+        {
+          "frame": 12,
+          "time": 0.20000000298023224,
+          "physical_time": 1.0,
+          "vertices": 11466,
+          "triangles": 22928,
+          "surface_volume": 0.07287316769361496,
+          "iso_interpolation_gap": 3.998396095994394e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame012.npz"
+        },
+        {
+          "frame": 13,
+          "time": 0.21666666865348816,
+          "physical_time": 1.0833333730697632,
+          "vertices": 11074,
+          "triangles": 22144,
+          "surface_volume": 0.06936606764793396,
+          "iso_interpolation_gap": 3.995974566350924e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame013.npz"
+        },
+        {
+          "frame": 14,
+          "time": 0.23333333432674408,
+          "physical_time": 1.1666666269302368,
+          "vertices": 10734,
+          "triangles": 21464,
+          "surface_volume": 0.06598181277513504,
+          "iso_interpolation_gap": 4.057045771332923e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame014.npz"
+        },
+        {
+          "frame": 15,
+          "time": 0.25,
+          "physical_time": 1.25,
+          "vertices": 10362,
+          "triangles": 20720,
+          "surface_volume": 0.06271540373563766,
+          "iso_interpolation_gap": 3.977364031015895e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame015.npz"
+        },
+        {
+          "frame": 16,
+          "time": 0.2666666805744171,
+          "physical_time": 1.3333333730697632,
+          "vertices": 10030,
+          "triangles": 20056,
+          "surface_volume": 0.059566449373960495,
+          "iso_interpolation_gap": 3.901780019077705e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame016.npz"
+        },
+        {
+          "frame": 17,
+          "time": 0.28333333134651184,
+          "physical_time": 1.4166666269302368,
+          "vertices": 9670,
+          "triangles": 19336,
+          "surface_volume": 0.05652924254536629,
+          "iso_interpolation_gap": 3.98231168219354e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame017.npz"
+        },
+        {
+          "frame": 18,
+          "time": 0.30000001192092896,
+          "physical_time": 1.5,
+          "vertices": 9322,
+          "triangles": 18640,
+          "surface_volume": 0.05359925329685211,
+          "iso_interpolation_gap": 3.9813126022636425e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame018.npz"
+        },
+        {
+          "frame": 19,
+          "time": 0.3166666626930237,
+          "physical_time": 1.5833332538604736,
+          "vertices": 9022,
+          "triangles": 18040,
+          "surface_volume": 0.050772059708833694,
+          "iso_interpolation_gap": 3.9240762816916686e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame019.npz"
+        },
+        {
+          "frame": 20,
+          "time": 0.3333333432674408,
+          "physical_time": 1.6666667461395264,
+          "vertices": 8694,
+          "triangles": 17384,
+          "surface_volume": 0.048042360693216324,
+          "iso_interpolation_gap": 3.967831617046613e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame020.npz"
+        },
+        {
+          "frame": 21,
+          "time": 0.3499999940395355,
+          "physical_time": 1.75,
+          "vertices": 8362,
+          "triangles": 16720,
+          "surface_volume": 0.04540926590561867,
+          "iso_interpolation_gap": 3.922749783669133e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame021.npz"
+        },
+        {
+          "frame": 22,
+          "time": 0.36666667461395264,
+          "physical_time": 1.8333333730697632,
+          "vertices": 8044,
+          "triangles": 16084,
+          "surface_volume": 0.04287237301468849,
+          "iso_interpolation_gap": 3.978667336923536e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame022.npz"
+        },
+        {
+          "frame": 23,
+          "time": 0.38333332538604736,
+          "physical_time": 1.9166666269302368,
+          "vertices": 7732,
+          "triangles": 15460,
+          "surface_volume": 0.04043281450867653,
+          "iso_interpolation_gap": 4.036086465930566e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame023.npz"
+        },
+        {
+          "frame": 24,
+          "time": 0.4000000059604645,
+          "physical_time": 2.0,
+          "vertices": 7450,
+          "triangles": 14896,
+          "surface_volume": 0.03809070959687233,
+          "iso_interpolation_gap": 3.831689355138224e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame024.npz"
+        },
+        {
+          "frame": 25,
+          "time": 0.4166666567325592,
+          "physical_time": 2.0833332538604736,
+          "vertices": 7160,
+          "triangles": 14316,
+          "surface_volume": 0.035841766744852066,
+          "iso_interpolation_gap": 3.7716160932177445e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame025.npz"
+        },
+        {
+          "frame": 26,
+          "time": 0.4333333373069763,
+          "physical_time": 2.1666667461395264,
+          "vertices": 6854,
+          "triangles": 13704,
+          "surface_volume": 0.03368230536580086,
+          "iso_interpolation_gap": 3.932124400307657e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame026.npz"
+        },
+        {
+          "frame": 27,
+          "time": 0.44999998807907104,
+          "physical_time": 2.25,
+          "vertices": 6588,
+          "triangles": 13172,
+          "surface_volume": 0.03160742297768593,
+          "iso_interpolation_gap": 3.874023150274297e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame027.npz"
+        },
+        {
+          "frame": 28,
+          "time": 0.46666666865348816,
+          "physical_time": 2.3333332538604736,
+          "vertices": 6280,
+          "triangles": 12556,
+          "surface_volume": 0.029616549611091614,
+          "iso_interpolation_gap": 3.849532276944956e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame028.npz"
+        },
+        {
+          "frame": 29,
+          "time": 0.4833333194255829,
+          "physical_time": 2.4166665077209473,
+          "vertices": 6038,
+          "triangles": 12072,
+          "surface_volume": 0.027709057554602623,
+          "iso_interpolation_gap": 3.74081378140545e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame029.npz"
+        },
+        {
+          "frame": 30,
+          "time": 0.5,
+          "physical_time": 2.5,
+          "vertices": 5764,
+          "triangles": 11524,
+          "surface_volume": 0.02588498406112194,
+          "iso_interpolation_gap": 3.8097373362688813e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame030.npz"
+        },
+        {
+          "frame": 31,
+          "time": 0.5166666507720947,
+          "physical_time": 2.5833332538604736,
+          "vertices": 5492,
+          "triangles": 10980,
+          "surface_volume": 0.024143436923623085,
+          "iso_interpolation_gap": 3.643071750047966e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame031.npz"
+        },
+        {
+          "frame": 32,
+          "time": 0.5333333611488342,
+          "physical_time": 2.6666667461395264,
+          "vertices": 5258,
+          "triangles": 10512,
+          "surface_volume": 0.022483333945274353,
+          "iso_interpolation_gap": 3.979871507908683e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame032.npz"
+        },
+        {
+          "frame": 33,
+          "time": 0.550000011920929,
+          "physical_time": 2.75,
+          "vertices": 4976,
+          "triangles": 9948,
+          "surface_volume": 0.020903082564473152,
+          "iso_interpolation_gap": 3.6472965803113766e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame033.npz"
+        },
+        {
+          "frame": 34,
+          "time": 0.5666666626930237,
+          "physical_time": 2.8333332538604736,
+          "vertices": 4774,
+          "triangles": 9544,
+          "surface_volume": 0.019401632249355316,
+          "iso_interpolation_gap": 3.96291034121532e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame034.npz"
+        },
+        {
+          "frame": 35,
+          "time": 0.5833333134651184,
+          "physical_time": 2.9166665077209473,
+          "vertices": 4530,
+          "triangles": 9056,
+          "surface_volume": 0.0179747287184,
+          "iso_interpolation_gap": 3.741831051229383e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame035.npz"
+        },
+        {
+          "frame": 36,
+          "time": 0.6000000238418579,
+          "physical_time": 3.0,
+          "vertices": 4286,
+          "triangles": 8568,
+          "surface_volume": 0.0166202150285244,
+          "iso_interpolation_gap": 3.683943305077264e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame036.npz"
+        },
+        {
+          "frame": 37,
+          "time": 0.6166666746139526,
+          "physical_time": 3.0833334922790527,
+          "vertices": 4064,
+          "triangles": 8124,
+          "surface_volume": 0.015333610586822033,
+          "iso_interpolation_gap": 3.584553951441194e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame037.npz"
+        },
+        {
+          "frame": 38,
+          "time": 0.6333333253860474,
+          "physical_time": 3.1666665077209473,
+          "vertices": 3836,
+          "triangles": 7668,
+          "surface_volume": 0.01411300990730524,
+          "iso_interpolation_gap": 3.350657152623171e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame038.npz"
+        },
+        {
+          "frame": 39,
+          "time": 0.6499999761581421,
+          "physical_time": 3.25,
+          "vertices": 3662,
+          "triangles": 7320,
+          "surface_volume": 0.012956701219081879,
+          "iso_interpolation_gap": 2.619438873807667e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame039.npz"
+        },
+        {
+          "frame": 40,
+          "time": 0.6666666865348816,
+          "physical_time": 3.3333334922790527,
+          "vertices": 3434,
+          "triangles": 6864,
+          "surface_volume": 0.011862632818520069,
+          "iso_interpolation_gap": 2.5297561023762682e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame040.npz"
+        },
+        {
+          "frame": 41,
+          "time": 0.6833333373069763,
+          "physical_time": 3.4166667461395264,
+          "vertices": 3232,
+          "triangles": 6460,
+          "surface_volume": 0.010830875486135483,
+          "iso_interpolation_gap": 2.439726813463494e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame041.npz"
+        },
+        {
+          "frame": 42,
+          "time": 0.699999988079071,
+          "physical_time": 3.5,
+          "vertices": 3040,
+          "triangles": 6076,
+          "surface_volume": 0.009860468097031116,
+          "iso_interpolation_gap": 2.6137995519093238e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame042.npz"
+        },
+        {
+          "frame": 43,
+          "time": 0.7166666388511658,
+          "physical_time": 3.5833332538604736,
+          "vertices": 2850,
+          "triangles": 5696,
+          "surface_volume": 0.00895021390169859,
+          "iso_interpolation_gap": 2.5596841624064837e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame043.npz"
+        },
+        {
+          "frame": 44,
+          "time": 0.7333333492279053,
+          "physical_time": 3.6666667461395264,
+          "vertices": 2674,
+          "triangles": 5344,
+          "surface_volume": 0.008099429309368134,
+          "iso_interpolation_gap": 2.649698672030354e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame044.npz"
+        },
+        {
+          "frame": 45,
+          "time": 0.75,
+          "physical_time": 3.75,
+          "vertices": 2502,
+          "triangles": 5000,
+          "surface_volume": 0.0073055303655564785,
+          "iso_interpolation_gap": 2.451495674904436e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame045.npz"
+        },
+        {
+          "frame": 46,
+          "time": 0.7666666507720947,
+          "physical_time": 3.8333332538604736,
+          "vertices": 2322,
+          "triangles": 4640,
+          "surface_volume": 0.006566984578967094,
+          "iso_interpolation_gap": 2.4236437639046926e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame046.npz"
+        },
+        {
+          "frame": 47,
+          "time": 0.7833333611488342,
+          "physical_time": 3.9166667461395264,
+          "vertices": 2162,
+          "triangles": 4320,
+          "surface_volume": 0.005880099255591631,
+          "iso_interpolation_gap": 2.584514049885911e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame047.npz"
+        },
+        {
+          "frame": 48,
+          "time": 0.800000011920929,
+          "physical_time": 4.0,
+          "vertices": 2010,
+          "triangles": 4016,
+          "surface_volume": 0.005242755636572838,
+          "iso_interpolation_gap": 2.554117827457958e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame048.npz"
+        },
+        {
+          "frame": 49,
+          "time": 0.8166666626930237,
+          "physical_time": 4.083333492279053,
+          "vertices": 1854,
+          "triangles": 3704,
+          "surface_volume": 0.00465257978066802,
+          "iso_interpolation_gap": 2.6517370770307025e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame049.npz"
+        },
+        {
+          "frame": 50,
+          "time": 0.8333333134651184,
+          "physical_time": 4.166666507720947,
+          "vertices": 1718,
+          "triangles": 3432,
+          "surface_volume": 0.004107045475393534,
+          "iso_interpolation_gap": 2.540544755902374e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame050.npz"
+        },
+        {
+          "frame": 51,
+          "time": 0.8500000238418579,
+          "physical_time": 4.25,
+          "vertices": 1560,
+          "triangles": 3116,
+          "surface_volume": 0.00360503070987761,
+          "iso_interpolation_gap": 2.431629127386259e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame051.npz"
+        },
+        {
+          "frame": 52,
+          "time": 0.8666666746139526,
+          "physical_time": 4.333333492279053,
+          "vertices": 1442,
+          "triangles": 2880,
+          "surface_volume": 0.0031442802865058184,
+          "iso_interpolation_gap": 2.6210018404526636e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame052.npz"
+        },
+        {
+          "frame": 53,
+          "time": 0.8833333253860474,
+          "physical_time": 4.416666507720947,
+          "vertices": 1302,
+          "triangles": 2600,
+          "surface_volume": 0.0027239713817834854,
+          "iso_interpolation_gap": 2.46675926973694e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame053.npz"
+        },
+        {
+          "frame": 54,
+          "time": 0.8999999761581421,
+          "physical_time": 4.5,
+          "vertices": 1192,
+          "triangles": 2380,
+          "surface_volume": 0.0023420003708451986,
+          "iso_interpolation_gap": 2.5045026177394902e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame054.npz"
+        },
+        {
+          "frame": 55,
+          "time": 0.9166666865348816,
+          "physical_time": 4.583333492279053,
+          "vertices": 1080,
+          "triangles": 2156,
+          "surface_volume": 0.0019968540873378515,
+          "iso_interpolation_gap": 2.432971086818725e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame055.npz"
+        },
+        {
+          "frame": 56,
+          "time": 0.9333333373069763,
+          "physical_time": 4.666666507720947,
+          "vertices": 946,
+          "triangles": 1888,
+          "surface_volume": 0.0016871107509359717,
+          "iso_interpolation_gap": 2.580184400358121e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame056.npz"
+        },
+        {
+          "frame": 57,
+          "time": 0.949999988079071,
+          "physical_time": 4.75,
+          "vertices": 866,
+          "triangles": 1728,
+          "surface_volume": 0.0014105396112427115,
+          "iso_interpolation_gap": 2.6906816401606193e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame057.npz"
+        },
+        {
+          "frame": 58,
+          "time": 0.9666666388511658,
+          "physical_time": 4.8333330154418945,
+          "vertices": 750,
+          "triangles": 1496,
+          "surface_volume": 0.0011651843087747693,
+          "iso_interpolation_gap": 2.6696752684074454e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame058.npz"
+        },
+        {
+          "frame": 59,
+          "time": 0.9833333492279053,
+          "physical_time": 4.9166669845581055,
+          "vertices": 672,
+          "triangles": 1340,
+          "surface_volume": 0.0009493858669884503,
+          "iso_interpolation_gap": 2.3249870082509005e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame059.npz"
+        },
+        {
+          "frame": 60,
+          "time": 1.0,
+          "physical_time": 5.0,
+          "vertices": 578,
+          "triangles": 1152,
+          "surface_volume": 0.0007602022378705442,
+          "iso_interpolation_gap": 2.7051971756009152e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame060.npz"
+        }
+      ],
+      "all_surfaces_closed": true,
+      "max_iso_interpolation_gap": 4.516090029937914e-06,
+      "surface_volume_monotone": true
+    },
+    {
+      "index": 9,
+      "frames": [
+        {
+          "frame": 0,
+          "time": 0.0,
+          "physical_time": 0.0,
+          "vertices": 17742,
+          "triangles": 35480,
+          "surface_volume": 0.14054293930530548,
+          "iso_interpolation_gap": 4.472099590202561e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame000.npz"
+        },
+        {
+          "frame": 1,
+          "time": 0.01666666753590107,
+          "physical_time": 0.0833333358168602,
+          "vertices": 17326,
+          "triangles": 34648,
+          "surface_volume": 0.13508903980255127,
+          "iso_interpolation_gap": 4.4142834667582065e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame001.npz"
+        },
+        {
+          "frame": 2,
+          "time": 0.03333333507180214,
+          "physical_time": 0.1666666716337204,
+          "vertices": 16836,
+          "triangles": 33668,
+          "surface_volume": 0.12978684902191162,
+          "iso_interpolation_gap": 4.434013135323767e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame002.npz"
+        },
+        {
+          "frame": 3,
+          "time": 0.05000000074505806,
+          "physical_time": 0.25,
+          "vertices": 16400,
+          "triangles": 32796,
+          "surface_volume": 0.12464296072721481,
+          "iso_interpolation_gap": 4.493714186537545e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame003.npz"
+        },
+        {
+          "frame": 4,
+          "time": 0.06666667014360428,
+          "physical_time": 0.3333333432674408,
+          "vertices": 15976,
+          "triangles": 31948,
+          "surface_volume": 0.11965256929397583,
+          "iso_interpolation_gap": 4.3942527554463595e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame004.npz"
+        },
+        {
+          "frame": 5,
+          "time": 0.0833333358168602,
+          "physical_time": 0.4166666865348816,
+          "vertices": 15526,
+          "triangles": 31048,
+          "surface_volume": 0.11480463296175003,
+          "iso_interpolation_gap": 4.463427103473805e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame005.npz"
+        },
+        {
+          "frame": 6,
+          "time": 0.10000000149011612,
+          "physical_time": 0.5,
+          "vertices": 15118,
+          "triangles": 30232,
+          "surface_volume": 0.11009050160646439,
+          "iso_interpolation_gap": 4.4277212509769015e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame006.npz"
+        },
+        {
+          "frame": 7,
+          "time": 0.11666666716337204,
+          "physical_time": 0.5833333134651184,
+          "vertices": 14646,
+          "triangles": 29288,
+          "surface_volume": 0.10549689084291458,
+          "iso_interpolation_gap": 4.296984116081148e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame007.npz"
+        },
+        {
+          "frame": 8,
+          "time": 0.13333334028720856,
+          "physical_time": 0.6666666865348816,
+          "vertices": 14248,
+          "triangles": 28492,
+          "surface_volume": 0.10102372616529465,
+          "iso_interpolation_gap": 4.373554929770762e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame008.npz"
+        },
+        {
+          "frame": 9,
+          "time": 0.15000000596046448,
+          "physical_time": 0.75,
+          "vertices": 13858,
+          "triangles": 27712,
+          "surface_volume": 0.0966656506061554,
+          "iso_interpolation_gap": 4.0852146412362345e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame009.npz"
+        },
+        {
+          "frame": 10,
+          "time": 0.1666666716337204,
+          "physical_time": 0.8333333730697632,
+          "vertices": 13454,
+          "triangles": 26904,
+          "surface_volume": 0.09242213517427444,
+          "iso_interpolation_gap": 4.443937996256864e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame010.npz"
+        },
+        {
+          "frame": 11,
+          "time": 0.18333333730697632,
+          "physical_time": 0.9166666865348816,
+          "vertices": 13046,
+          "triangles": 26088,
+          "surface_volume": 0.08829713612794876,
+          "iso_interpolation_gap": 4.123460257687839e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame011.npz"
+        },
+        {
+          "frame": 12,
+          "time": 0.20000000298023224,
+          "physical_time": 1.0,
+          "vertices": 12655,
+          "triangles": 25306,
+          "surface_volume": 0.08429185301065445,
+          "iso_interpolation_gap": 4.4793537199439015e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame012.npz"
+        },
+        {
+          "frame": 13,
+          "time": 0.21666666865348816,
+          "physical_time": 1.0833333730697632,
+          "vertices": 12254,
+          "triangles": 24504,
+          "surface_volume": 0.08041611313819885,
+          "iso_interpolation_gap": 4.046312824357301e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame013.npz"
+        },
+        {
+          "frame": 14,
+          "time": 0.23333333432674408,
+          "physical_time": 1.1666666269302368,
+          "vertices": 11906,
+          "triangles": 23808,
+          "surface_volume": 0.0766669511795044,
+          "iso_interpolation_gap": 4.21501954406267e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame014.npz"
+        },
+        {
+          "frame": 15,
+          "time": 0.25,
+          "physical_time": 1.25,
+          "vertices": 11488,
+          "triangles": 22972,
+          "surface_volume": 0.07304476201534271,
+          "iso_interpolation_gap": 4.432534751686035e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame015.npz"
+        },
+        {
+          "frame": 16,
+          "time": 0.2666666805744171,
+          "physical_time": 1.3333333730697632,
+          "vertices": 11132,
+          "triangles": 22260,
+          "surface_volume": 0.06954631954431534,
+          "iso_interpolation_gap": 3.886621925630607e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame016.npz"
+        },
+        {
+          "frame": 17,
+          "time": 0.28333333134651184,
+          "physical_time": 1.4166666269302368,
+          "vertices": 10778,
+          "triangles": 21552,
+          "surface_volume": 0.06616541743278503,
+          "iso_interpolation_gap": 4.327308943175012e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame017.npz"
+        },
+        {
+          "frame": 18,
+          "time": 0.30000001192092896,
+          "physical_time": 1.5,
+          "vertices": 10384,
+          "triangles": 20764,
+          "surface_volume": 0.06289900094270706,
+          "iso_interpolation_gap": 3.943772753700614e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame018.npz"
+        },
+        {
+          "frame": 19,
+          "time": 0.3166666626930237,
+          "physical_time": 1.5833332538604736,
+          "vertices": 10090,
+          "triangles": 20176,
+          "surface_volume": 0.05974055826663971,
+          "iso_interpolation_gap": 3.9496394492744e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame019.npz"
+        },
+        {
+          "frame": 20,
+          "time": 0.3333333432674408,
+          "physical_time": 1.6666667461395264,
+          "vertices": 9708,
+          "triangles": 19412,
+          "surface_volume": 0.056685399264097214,
+          "iso_interpolation_gap": 4.075664492120268e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame020.npz"
+        },
+        {
+          "frame": 21,
+          "time": 0.3499999940395355,
+          "physical_time": 1.75,
+          "vertices": 9400,
+          "triangles": 18796,
+          "surface_volume": 0.05373251065611839,
+          "iso_interpolation_gap": 3.8461448639282025e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame021.npz"
+        },
+        {
+          "frame": 22,
+          "time": 0.36666667461395264,
+          "physical_time": 1.8333333730697632,
+          "vertices": 9066,
+          "triangles": 18128,
+          "surface_volume": 0.05088149383664131,
+          "iso_interpolation_gap": 3.864512564177858e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame022.npz"
+        },
+        {
+          "frame": 23,
+          "time": 0.38333332538604736,
+          "physical_time": 1.9166666269302368,
+          "vertices": 8700,
+          "triangles": 17396,
+          "surface_volume": 0.04813455417752266,
+          "iso_interpolation_gap": 3.871467470162315e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame023.npz"
+        },
+        {
+          "frame": 24,
+          "time": 0.4000000059604645,
+          "physical_time": 2.0,
+          "vertices": 8424,
+          "triangles": 16844,
+          "surface_volume": 0.04549120366573334,
+          "iso_interpolation_gap": 3.960107733291807e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame024.npz"
+        },
+        {
+          "frame": 25,
+          "time": 0.4166666567325592,
+          "physical_time": 2.0833332538604736,
+          "vertices": 8066,
+          "triangles": 16128,
+          "surface_volume": 0.04294660687446594,
+          "iso_interpolation_gap": 3.955358806706499e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame025.npz"
+        },
+        {
+          "frame": 26,
+          "time": 0.4333333373069763,
+          "physical_time": 2.1666667461395264,
+          "vertices": 7788,
+          "triangles": 15572,
+          "surface_volume": 0.04049826040863991,
+          "iso_interpolation_gap": 3.678672328533139e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame026.npz"
+        },
+        {
+          "frame": 27,
+          "time": 0.44999998807907104,
+          "physical_time": 2.25,
+          "vertices": 7468,
+          "triangles": 14932,
+          "surface_volume": 0.038139596581459045,
+          "iso_interpolation_gap": 3.824981376965297e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame027.npz"
+        },
+        {
+          "frame": 28,
+          "time": 0.46666666865348816,
+          "physical_time": 2.3333332538604736,
+          "vertices": 7166,
+          "triangles": 14328,
+          "surface_volume": 0.035870980471372604,
+          "iso_interpolation_gap": 3.7856207200093195e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame028.npz"
+        },
+        {
+          "frame": 29,
+          "time": 0.4833333194255829,
+          "physical_time": 2.4166665077209473,
+          "vertices": 6914,
+          "triangles": 13824,
+          "surface_volume": 0.033692289143800735,
+          "iso_interpolation_gap": 3.9571123124915175e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame029.npz"
+        },
+        {
+          "frame": 30,
+          "time": 0.5,
+          "physical_time": 2.5,
+          "vertices": 6598,
+          "triangles": 13192,
+          "surface_volume": 0.03160126879811287,
+          "iso_interpolation_gap": 3.845256742351921e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame030.npz"
+        },
+        {
+          "frame": 31,
+          "time": 0.5166666507720947,
+          "physical_time": 2.5833332538604736,
+          "vertices": 6340,
+          "triangles": 12676,
+          "surface_volume": 0.029599929228425026,
+          "iso_interpolation_gap": 3.7966935906297294e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame031.npz"
+        },
+        {
+          "frame": 32,
+          "time": 0.5333333611488342,
+          "physical_time": 2.6666667461395264,
+          "vertices": 6054,
+          "triangles": 12104,
+          "surface_volume": 0.02768554538488388,
+          "iso_interpolation_gap": 3.915720753866481e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame032.npz"
+        },
+        {
+          "frame": 33,
+          "time": 0.550000011920929,
+          "physical_time": 2.75,
+          "vertices": 5774,
+          "triangles": 11544,
+          "surface_volume": 0.025858445093035698,
+          "iso_interpolation_gap": 3.846083927783184e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame033.npz"
+        },
+        {
+          "frame": 34,
+          "time": 0.5666666626930237,
+          "physical_time": 2.8333332538604736,
+          "vertices": 5530,
+          "triangles": 11056,
+          "surface_volume": 0.024115711450576782,
+          "iso_interpolation_gap": 3.906742222170578e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame034.npz"
+        },
+        {
+          "frame": 35,
+          "time": 0.5833333134651184,
+          "physical_time": 2.9166665077209473,
+          "vertices": 5256,
+          "triangles": 10508,
+          "surface_volume": 0.022454118356108665,
+          "iso_interpolation_gap": 3.7266329400154063e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame035.npz"
+        },
+        {
+          "frame": 36,
+          "time": 0.6000000238418579,
+          "physical_time": 3.0,
+          "vertices": 5024,
+          "triangles": 10044,
+          "surface_volume": 0.02087119221687317,
+          "iso_interpolation_gap": 3.80914661946008e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame036.npz"
+        },
+        {
+          "frame": 37,
+          "time": 0.6166666746139526,
+          "physical_time": 3.0833334922790527,
+          "vertices": 4794,
+          "triangles": 9584,
+          "surface_volume": 0.019361166283488274,
+          "iso_interpolation_gap": 3.6345388707559323e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame037.npz"
+        },
+        {
+          "frame": 38,
+          "time": 0.6333333253860474,
+          "physical_time": 3.1666665077209473,
+          "vertices": 4540,
+          "triangles": 9076,
+          "surface_volume": 0.01792350597679615,
+          "iso_interpolation_gap": 3.66695871889533e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame038.npz"
+        },
+        {
+          "frame": 39,
+          "time": 0.6499999761581421,
+          "physical_time": 3.25,
+          "vertices": 4332,
+          "triangles": 8660,
+          "surface_volume": 0.016554785892367363,
+          "iso_interpolation_gap": 3.707578343892237e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame039.npz"
+        },
+        {
+          "frame": 40,
+          "time": 0.6666666865348816,
+          "physical_time": 3.3333334922790527,
+          "vertices": 4084,
+          "triangles": 8164,
+          "surface_volume": 0.015254487283527851,
+          "iso_interpolation_gap": 3.7630143197020516e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame040.npz"
+        },
+        {
+          "frame": 41,
+          "time": 0.6833333373069763,
+          "physical_time": 3.4166667461395264,
+          "vertices": 3866,
+          "triangles": 7728,
+          "surface_volume": 0.014022529125213623,
+          "iso_interpolation_gap": 3.5703803860087646e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame041.npz"
+        },
+        {
+          "frame": 42,
+          "time": 0.699999988079071,
+          "physical_time": 3.5,
+          "vertices": 3660,
+          "triangles": 7316,
+          "surface_volume": 0.0128576485440135,
+          "iso_interpolation_gap": 3.612848558987025e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame042.npz"
+        },
+        {
+          "frame": 43,
+          "time": 0.7166666388511658,
+          "physical_time": 3.5833332538604736,
+          "vertices": 3428,
+          "triangles": 6852,
+          "surface_volume": 0.01175957266241312,
+          "iso_interpolation_gap": 3.562381607480347e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame043.npz"
+        },
+        {
+          "frame": 44,
+          "time": 0.7333333492279053,
+          "physical_time": 3.6666667461395264,
+          "vertices": 3266,
+          "triangles": 6528,
+          "surface_volume": 0.010727097280323505,
+          "iso_interpolation_gap": 3.5340801787242526e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame044.npz"
+        },
+        {
+          "frame": 45,
+          "time": 0.75,
+          "physical_time": 3.75,
+          "vertices": 3048,
+          "triangles": 6092,
+          "surface_volume": 0.00975825171917677,
+          "iso_interpolation_gap": 2.4292471607623156e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame045.npz"
+        },
+        {
+          "frame": 46,
+          "time": 0.7666666507720947,
+          "physical_time": 3.8333332538604736,
+          "vertices": 2860,
+          "triangles": 5716,
+          "surface_volume": 0.008850482292473316,
+          "iso_interpolation_gap": 2.577382474555634e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame046.npz"
+        },
+        {
+          "frame": 47,
+          "time": 0.7833333611488342,
+          "physical_time": 3.9166667461395264,
+          "vertices": 2692,
+          "triangles": 5380,
+          "surface_volume": 0.00800126139074564,
+          "iso_interpolation_gap": 2.542171841923846e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame047.npz"
+        },
+        {
+          "frame": 48,
+          "time": 0.800000011920929,
+          "physical_time": 4.0,
+          "vertices": 2498,
+          "triangles": 4992,
+          "surface_volume": 0.007207060232758522,
+          "iso_interpolation_gap": 2.5093668227782473e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame048.npz"
+        },
+        {
+          "frame": 49,
+          "time": 0.8166666626930237,
+          "physical_time": 4.083333492279053,
+          "vertices": 2358,
+          "triangles": 4712,
+          "surface_volume": 0.0064660958014428616,
+          "iso_interpolation_gap": 2.4329319785465486e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame049.npz"
+        },
+        {
+          "frame": 50,
+          "time": 0.8333333134651184,
+          "physical_time": 4.166666507720947,
+          "vertices": 2164,
+          "triangles": 4324,
+          "surface_volume": 0.0057755219750106335,
+          "iso_interpolation_gap": 2.58122781815473e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame050.npz"
+        },
+        {
+          "frame": 51,
+          "time": 0.8500000238418579,
+          "physical_time": 4.25,
+          "vertices": 2004,
+          "triangles": 4004,
+          "surface_volume": 0.005134235136210918,
+          "iso_interpolation_gap": 2.3756715563649777e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame051.npz"
+        },
+        {
+          "frame": 52,
+          "time": 0.8666666746139526,
+          "physical_time": 4.333333492279053,
+          "vertices": 1864,
+          "triangles": 3724,
+          "surface_volume": 0.004540298134088516,
+          "iso_interpolation_gap": 2.424414560664445e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame052.npz"
+        },
+        {
+          "frame": 53,
+          "time": 0.8833333253860474,
+          "physical_time": 4.416666507720947,
+          "vertices": 1712,
+          "triangles": 3420,
+          "surface_volume": 0.003992022946476936,
+          "iso_interpolation_gap": 2.503204086679034e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame053.npz"
+        },
+        {
+          "frame": 54,
+          "time": 0.8999999761581421,
+          "physical_time": 4.5,
+          "vertices": 1578,
+          "triangles": 3152,
+          "surface_volume": 0.0034888589289039373,
+          "iso_interpolation_gap": 2.538424041631515e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame054.npz"
+        },
+        {
+          "frame": 55,
+          "time": 0.9166666865348816,
+          "physical_time": 4.583333492279053,
+          "vertices": 1440,
+          "triangles": 2876,
+          "surface_volume": 0.0030276968609541655,
+          "iso_interpolation_gap": 2.51794017458451e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame055.npz"
+        },
+        {
+          "frame": 56,
+          "time": 0.9333333373069763,
+          "physical_time": 4.666666507720947,
+          "vertices": 1304,
+          "triangles": 2604,
+          "surface_volume": 0.0026084191631525755,
+          "iso_interpolation_gap": 2.4915759695431916e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame056.npz"
+        },
+        {
+          "frame": 57,
+          "time": 0.949999988079071,
+          "physical_time": 4.75,
+          "vertices": 1192,
+          "triangles": 2380,
+          "surface_volume": 0.0022284684237092733,
+          "iso_interpolation_gap": 2.550430053815944e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame057.npz"
+        },
+        {
+          "frame": 58,
+          "time": 0.9666666388511658,
+          "physical_time": 4.8333330154418945,
+          "vertices": 1064,
+          "triangles": 2124,
+          "surface_volume": 0.0018854174995794892,
+          "iso_interpolation_gap": 2.5993222152465023e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame058.npz"
+        },
+        {
+          "frame": 59,
+          "time": 0.9833333492279053,
+          "physical_time": 4.9166669845581055,
+          "vertices": 954,
+          "triangles": 1904,
+          "surface_volume": 0.001577779301442206,
+          "iso_interpolation_gap": 2.5164492853946285e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame059.npz"
+        },
+        {
+          "frame": 60,
+          "time": 1.0,
+          "physical_time": 5.0,
+          "vertices": 848,
+          "triangles": 1692,
+          "surface_volume": 0.0013027997920289636,
+          "iso_interpolation_gap": 2.3934089767863043e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame060.npz"
+        }
+      ],
+      "all_surfaces_closed": true,
+      "max_iso_interpolation_gap": 4.493714186537545e-06,
+      "surface_volume_monotone": true
+    },
+    {
+      "index": 2,
+      "frames": [
+        {
+          "frame": 0,
+          "time": 0.0,
+          "physical_time": 0.0,
+          "vertices": 13796,
+          "triangles": 27588,
+          "surface_volume": 0.09596491605043411,
+          "iso_interpolation_gap": 3.985251623817021e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame000.npz"
+        },
+        {
+          "frame": 1,
+          "time": 0.01666666753590107,
+          "physical_time": 0.0833333358168602,
+          "vertices": 13402,
+          "triangles": 26800,
+          "surface_volume": 0.09173323959112167,
+          "iso_interpolation_gap": 4.07070001529064e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame001.npz"
+        },
+        {
+          "frame": 2,
+          "time": 0.03333333507180214,
+          "physical_time": 0.1666666716337204,
+          "vertices": 13002,
+          "triangles": 26000,
+          "surface_volume": 0.08763539791107178,
+          "iso_interpolation_gap": 3.970495527028106e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame002.npz"
+        },
+        {
+          "frame": 3,
+          "time": 0.05000000074505806,
+          "physical_time": 0.25,
+          "vertices": 12632,
+          "triangles": 25260,
+          "surface_volume": 0.08367422968149185,
+          "iso_interpolation_gap": 3.99187911170884e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame003.npz"
+        },
+        {
+          "frame": 4,
+          "time": 0.06666667014360428,
+          "physical_time": 0.3333333432674408,
+          "vertices": 12238,
+          "triangles": 24472,
+          "surface_volume": 0.07984565943479538,
+          "iso_interpolation_gap": 4.029928277304862e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame004.npz"
+        },
+        {
+          "frame": 5,
+          "time": 0.0833333358168602,
+          "physical_time": 0.4166666865348816,
+          "vertices": 11838,
+          "triangles": 23672,
+          "surface_volume": 0.07614170014858246,
+          "iso_interpolation_gap": 4.063402684550965e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame005.npz"
+        },
+        {
+          "frame": 6,
+          "time": 0.10000000149011612,
+          "physical_time": 0.5,
+          "vertices": 11468,
+          "triangles": 22932,
+          "surface_volume": 0.07255285233259201,
+          "iso_interpolation_gap": 4.000937678938499e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame006.npz"
+        },
+        {
+          "frame": 7,
+          "time": 0.11666666716337204,
+          "physical_time": 0.5833333134651184,
+          "vertices": 11104,
+          "triangles": 22204,
+          "surface_volume": 0.06907247751951218,
+          "iso_interpolation_gap": 4.00258522859076e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame007.npz"
+        },
+        {
+          "frame": 8,
+          "time": 0.13333334028720856,
+          "physical_time": 0.6666666865348816,
+          "vertices": 10752,
+          "triangles": 21500,
+          "surface_volume": 0.06569644063711166,
+          "iso_interpolation_gap": 4.0662694118509535e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame008.npz"
+        },
+        {
+          "frame": 9,
+          "time": 0.15000000596046448,
+          "physical_time": 0.75,
+          "vertices": 10380,
+          "triangles": 20756,
+          "surface_volume": 0.06242233142256737,
+          "iso_interpolation_gap": 3.978200766141526e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame009.npz"
+        },
+        {
+          "frame": 10,
+          "time": 0.1666666716337204,
+          "physical_time": 0.8333333730697632,
+          "vertices": 10014,
+          "triangles": 20024,
+          "surface_volume": 0.05924924090504646,
+          "iso_interpolation_gap": 3.906960500899004e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame010.npz"
+        },
+        {
+          "frame": 11,
+          "time": 0.18333333730697632,
+          "physical_time": 0.9166666865348816,
+          "vertices": 9688,
+          "triangles": 19372,
+          "surface_volume": 0.056178390979766846,
+          "iso_interpolation_gap": 3.866378392558545e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame011.npz"
+        },
+        {
+          "frame": 12,
+          "time": 0.20000000298023224,
+          "physical_time": 1.0,
+          "vertices": 9358,
+          "triangles": 18712,
+          "surface_volume": 0.053212616592645645,
+          "iso_interpolation_gap": 4.005347364000045e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame012.npz"
+        },
+        {
+          "frame": 13,
+          "time": 0.21666666865348816,
+          "physical_time": 1.0833333730697632,
+          "vertices": 9008,
+          "triangles": 18012,
+          "surface_volume": 0.05035647377371788,
+          "iso_interpolation_gap": 3.880124495481141e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame013.npz"
+        },
+        {
+          "frame": 14,
+          "time": 0.23333333432674408,
+          "physical_time": 1.1666666269302368,
+          "vertices": 8700,
+          "triangles": 17396,
+          "surface_volume": 0.04760889708995819,
+          "iso_interpolation_gap": 3.784407226703479e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame014.npz"
+        },
+        {
+          "frame": 15,
+          "time": 0.25,
+          "physical_time": 1.25,
+          "vertices": 8346,
+          "triangles": 16688,
+          "surface_volume": 0.044968653470277786,
+          "iso_interpolation_gap": 4.018692379759159e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame015.npz"
+        },
+        {
+          "frame": 16,
+          "time": 0.2666666805744171,
+          "physical_time": 1.3333333730697632,
+          "vertices": 8038,
+          "triangles": 16072,
+          "surface_volume": 0.04243253543972969,
+          "iso_interpolation_gap": 3.86192823498277e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame016.npz"
+        },
+        {
+          "frame": 17,
+          "time": 0.28333333134651184,
+          "physical_time": 1.4166666269302368,
+          "vertices": 7730,
+          "triangles": 15456,
+          "surface_volume": 0.039997369050979614,
+          "iso_interpolation_gap": 3.890631433023373e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame017.npz"
+        },
+        {
+          "frame": 18,
+          "time": 0.30000001192092896,
+          "physical_time": 1.5,
+          "vertices": 7434,
+          "triangles": 14864,
+          "surface_volume": 0.03765813633799553,
+          "iso_interpolation_gap": 4.003363301308127e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame018.npz"
+        },
+        {
+          "frame": 19,
+          "time": 0.3166666626930237,
+          "physical_time": 1.5833332538604736,
+          "vertices": 7160,
+          "triangles": 14316,
+          "surface_volume": 0.03541038557887077,
+          "iso_interpolation_gap": 4.008560154034058e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame019.npz"
+        },
+        {
+          "frame": 20,
+          "time": 0.3333333432674408,
+          "physical_time": 1.6666667461395264,
+          "vertices": 6830,
+          "triangles": 13656,
+          "surface_volume": 0.0332510732114315,
+          "iso_interpolation_gap": 3.922999439964769e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame020.npz"
+        },
+        {
+          "frame": 21,
+          "time": 0.3499999940395355,
+          "physical_time": 1.75,
+          "vertices": 6576,
+          "triangles": 13148,
+          "surface_volume": 0.031177489086985588,
+          "iso_interpolation_gap": 3.863814526994247e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame021.npz"
+        },
+        {
+          "frame": 22,
+          "time": 0.36666667461395264,
+          "physical_time": 1.8333333730697632,
+          "vertices": 6286,
+          "triangles": 12568,
+          "surface_volume": 0.02919011563062668,
+          "iso_interpolation_gap": 3.996931354777189e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame022.npz"
+        },
+        {
+          "frame": 23,
+          "time": 0.38333332538604736,
+          "physical_time": 1.9166666269302368,
+          "vertices": 6024,
+          "triangles": 12044,
+          "surface_volume": 0.02728916145861149,
+          "iso_interpolation_gap": 3.835818006336922e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame023.npz"
+        },
+        {
+          "frame": 24,
+          "time": 0.4000000059604645,
+          "physical_time": 2.0,
+          "vertices": 5760,
+          "triangles": 11516,
+          "surface_volume": 0.025473983958363533,
+          "iso_interpolation_gap": 3.7914451240794733e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame024.npz"
+        },
+        {
+          "frame": 25,
+          "time": 0.4166666567325592,
+          "physical_time": 2.0833332538604736,
+          "vertices": 5458,
+          "triangles": 10912,
+          "surface_volume": 0.023741111159324646,
+          "iso_interpolation_gap": 3.930185357603477e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame025.npz"
+        },
+        {
+          "frame": 26,
+          "time": 0.4333333373069763,
+          "physical_time": 2.1666667461395264,
+          "vertices": 5240,
+          "triangles": 10476,
+          "surface_volume": 0.02208694815635681,
+          "iso_interpolation_gap": 3.81466384169471e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame026.npz"
+        },
+        {
+          "frame": 27,
+          "time": 0.44999998807907104,
+          "physical_time": 2.25,
+          "vertices": 4978,
+          "triangles": 9952,
+          "surface_volume": 0.020507799461483955,
+          "iso_interpolation_gap": 3.7382005757535808e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame027.npz"
+        },
+        {
+          "frame": 28,
+          "time": 0.46666666865348816,
+          "physical_time": 2.3333332538604736,
+          "vertices": 4746,
+          "triangles": 9488,
+          "surface_volume": 0.01900274120271206,
+          "iso_interpolation_gap": 3.596412170736585e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame028.npz"
+        },
+        {
+          "frame": 29,
+          "time": 0.4833333194255829,
+          "physical_time": 2.4166665077209473,
+          "vertices": 4516,
+          "triangles": 9028,
+          "surface_volume": 0.017571130767464638,
+          "iso_interpolation_gap": 3.047119889743044e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame029.npz"
+        },
+        {
+          "frame": 30,
+          "time": 0.5,
+          "physical_time": 2.5,
+          "vertices": 4272,
+          "triangles": 8540,
+          "surface_volume": 0.016211599111557007,
+          "iso_interpolation_gap": 3.579939175324398e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame030.npz"
+        },
+        {
+          "frame": 31,
+          "time": 0.5166666507720947,
+          "physical_time": 2.5833332538604736,
+          "vertices": 4056,
+          "triangles": 8108,
+          "surface_volume": 0.01492441724985838,
+          "iso_interpolation_gap": 2.4552268769184593e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame031.npz"
+        },
+        {
+          "frame": 32,
+          "time": 0.5333333611488342,
+          "physical_time": 2.6666667461395264,
+          "vertices": 3804,
+          "triangles": 7604,
+          "surface_volume": 0.013706550002098083,
+          "iso_interpolation_gap": 2.5209178602381144e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame032.npz"
+        },
+        {
+          "frame": 33,
+          "time": 0.550000011920929,
+          "physical_time": 2.75,
+          "vertices": 3610,
+          "triangles": 7216,
+          "surface_volume": 0.012558509595692158,
+          "iso_interpolation_gap": 2.450056854286231e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame033.npz"
+        },
+        {
+          "frame": 34,
+          "time": 0.5666666626930237,
+          "physical_time": 2.8333332538604736,
+          "vertices": 3410,
+          "triangles": 6816,
+          "surface_volume": 0.011476580984890461,
+          "iso_interpolation_gap": 2.546551741033909e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame034.npz"
+        },
+        {
+          "frame": 35,
+          "time": 0.5833333134651184,
+          "physical_time": 2.9166665077209473,
+          "vertices": 3208,
+          "triangles": 6412,
+          "surface_volume": 0.010459157638251781,
+          "iso_interpolation_gap": 2.45983892455115e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame035.npz"
+        },
+        {
+          "frame": 36,
+          "time": 0.6000000238418579,
+          "physical_time": 3.0,
+          "vertices": 3008,
+          "triangles": 6012,
+          "surface_volume": 0.009502863511443138,
+          "iso_interpolation_gap": 2.4266257696581306e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame036.npz"
+        },
+        {
+          "frame": 37,
+          "time": 0.6166666746139526,
+          "physical_time": 3.0833334922790527,
+          "vertices": 2820,
+          "triangles": 5636,
+          "surface_volume": 0.008604481816291809,
+          "iso_interpolation_gap": 2.6180603072134545e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame037.npz"
+        },
+        {
+          "frame": 38,
+          "time": 0.6333333253860474,
+          "physical_time": 3.1666665077209473,
+          "vertices": 2646,
+          "triangles": 5288,
+          "surface_volume": 0.007762392517179251,
+          "iso_interpolation_gap": 2.5458834898017813e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame038.npz"
+        },
+        {
+          "frame": 39,
+          "time": 0.6499999761581421,
+          "physical_time": 3.25,
+          "vertices": 2476,
+          "triangles": 4948,
+          "surface_volume": 0.0069740223698318005,
+          "iso_interpolation_gap": 2.515745109121781e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame039.npz"
+        },
+        {
+          "frame": 40,
+          "time": 0.6666666865348816,
+          "physical_time": 3.3333334922790527,
+          "vertices": 2282,
+          "triangles": 4560,
+          "surface_volume": 0.006238316651433706,
+          "iso_interpolation_gap": 2.4570927052991465e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame040.npz"
+        },
+        {
+          "frame": 41,
+          "time": 0.6833333373069763,
+          "physical_time": 3.4166667461395264,
+          "vertices": 2126,
+          "triangles": 4248,
+          "surface_volume": 0.0055546388030052185,
+          "iso_interpolation_gap": 2.6056675324070966e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame041.npz"
+        },
+        {
+          "frame": 42,
+          "time": 0.699999988079071,
+          "physical_time": 3.5,
+          "vertices": 1960,
+          "triangles": 3916,
+          "surface_volume": 0.004921166691929102,
+          "iso_interpolation_gap": 2.4909822968766093e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame042.npz"
+        },
+        {
+          "frame": 43,
+          "time": 0.7166666388511658,
+          "physical_time": 3.5833332538604736,
+          "vertices": 1814,
+          "triangles": 3624,
+          "surface_volume": 0.004337651655077934,
+          "iso_interpolation_gap": 2.404332008154597e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame043.npz"
+        },
+        {
+          "frame": 44,
+          "time": 0.7333333492279053,
+          "physical_time": 3.6666667461395264,
+          "vertices": 1676,
+          "triangles": 3348,
+          "surface_volume": 0.0038014810997992754,
+          "iso_interpolation_gap": 2.5462493340455694e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame044.npz"
+        },
+        {
+          "frame": 45,
+          "time": 0.75,
+          "physical_time": 3.75,
+          "vertices": 1520,
+          "triangles": 3036,
+          "surface_volume": 0.003311239881440997,
+          "iso_interpolation_gap": 2.5675035431049764e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame045.npz"
+        },
+        {
+          "frame": 46,
+          "time": 0.7666666507720947,
+          "physical_time": 3.8333332538604736,
+          "vertices": 1392,
+          "triangles": 2780,
+          "surface_volume": 0.002864783862605691,
+          "iso_interpolation_gap": 2.492035264367587e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame046.npz"
+        },
+        {
+          "frame": 47,
+          "time": 0.7833333611488342,
+          "physical_time": 3.9166667461395264,
+          "vertices": 1258,
+          "triangles": 2512,
+          "surface_volume": 0.0024593437556177378,
+          "iso_interpolation_gap": 2.5594436010578647e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame047.npz"
+        },
+        {
+          "frame": 48,
+          "time": 0.800000011920929,
+          "physical_time": 4.0,
+          "vertices": 1128,
+          "triangles": 2252,
+          "surface_volume": 0.00209293351508677,
+          "iso_interpolation_gap": 2.4169189600797836e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame048.npz"
+        },
+        {
+          "frame": 49,
+          "time": 0.8166666626930237,
+          "physical_time": 4.083333492279053,
+          "vertices": 1028,
+          "triangles": 2052,
+          "surface_volume": 0.0017631271621212363,
+          "iso_interpolation_gap": 2.672325081221061e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame049.npz"
+        },
+        {
+          "frame": 50,
+          "time": 0.8333333134651184,
+          "physical_time": 4.166666507720947,
+          "vertices": 904,
+          "triangles": 1804,
+          "surface_volume": 0.0014677472645416856,
+          "iso_interpolation_gap": 2.402831341896672e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame050.npz"
+        },
+        {
+          "frame": 51,
+          "time": 0.8500000238418579,
+          "physical_time": 4.25,
+          "vertices": 804,
+          "triangles": 1604,
+          "surface_volume": 0.001205537817440927,
+          "iso_interpolation_gap": 2.484482138243038e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame051.npz"
+        },
+        {
+          "frame": 52,
+          "time": 0.8666666746139526,
+          "physical_time": 4.333333492279053,
+          "vertices": 698,
+          "triangles": 1392,
+          "surface_volume": 0.0009746882133185863,
+          "iso_interpolation_gap": 2.5922240638465155e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame052.npz"
+        },
+        {
+          "frame": 53,
+          "time": 0.8833333253860474,
+          "physical_time": 4.416666507720947,
+          "vertices": 606,
+          "triangles": 1208,
+          "surface_volume": 0.0007737174746580422,
+          "iso_interpolation_gap": 2.489066218913649e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame053.npz"
+        },
+        {
+          "frame": 54,
+          "time": 0.8999999761581421,
+          "physical_time": 4.5,
+          "vertices": 530,
+          "triangles": 1056,
+          "surface_volume": 0.0006004868191666901,
+          "iso_interpolation_gap": 2.595445948827546e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame054.npz"
+        },
+        {
+          "frame": 55,
+          "time": 0.9166666865348816,
+          "physical_time": 4.583333492279053,
+          "vertices": 434,
+          "triangles": 864,
+          "surface_volume": 0.00045381858944892883,
+          "iso_interpolation_gap": 2.4839466732373694e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame055.npz"
+        },
+        {
+          "frame": 56,
+          "time": 0.9333333373069763,
+          "physical_time": 4.666666507720947,
+          "vertices": 362,
+          "triangles": 720,
+          "surface_volume": 0.00033098264248110354,
+          "iso_interpolation_gap": 2.3358797989203595e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame056.npz"
+        },
+        {
+          "frame": 57,
+          "time": 0.949999988079071,
+          "physical_time": 4.75,
+          "vertices": 292,
+          "triangles": 580,
+          "surface_volume": 0.0002307407557964325,
+          "iso_interpolation_gap": 2.5934687073458917e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame057.npz"
+        },
+        {
+          "frame": 58,
+          "time": 0.9666666388511658,
+          "physical_time": 4.8333330154418945,
+          "vertices": 222,
+          "triangles": 440,
+          "surface_volume": 0.00015217578038573265,
+          "iso_interpolation_gap": 2.4676571683812654e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame058.npz"
+        },
+        {
+          "frame": 59,
+          "time": 0.9833333492279053,
+          "physical_time": 4.9166669845581055,
+          "vertices": 172,
+          "triangles": 340,
+          "surface_volume": 9.199755731970072e-05,
+          "iso_interpolation_gap": 2.214268079114845e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame059.npz"
+        },
+        {
+          "frame": 60,
+          "time": 1.0,
+          "physical_time": 5.0,
+          "vertices": 114,
+          "triangles": 224,
+          "surface_volume": 4.733730384032242e-05,
+          "iso_interpolation_gap": 2.319333134437329e-06,
+          "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame060.npz"
+        }
+      ],
+      "all_surfaces_closed": true,
+      "max_iso_interpolation_gap": 4.07070001529064e-06,
+      "surface_volume_monotone": true
+    }
+  ],
+  "foreground_pixel_counts": [
+    [
+      37376,
+      41347,
+      34921
+    ],
+    [
+      36379,
+      40237,
+      34003
+    ],
+    [
+      35414,
+      39225,
+      33044
+    ],
+    [
+      34447,
+      38196,
+      32061
+    ],
+    [
+      33545,
+      37219,
+      31192
+    ],
+    [
+      32588,
+      36241,
+      30291
+    ],
+    [
+      31677,
+      35250,
+      29401
+    ],
+    [
+      30766,
+      34331,
+      28474
+    ],
+    [
+      29895,
+      33380,
+      27636
+    ],
+    [
+      29015,
+      32412,
+      26780
+    ],
+    [
+      28106,
+      31520,
+      25927
+    ],
+    [
+      27283,
+      30603,
+      25084
+    ],
+    [
+      26414,
+      29665,
+      24293
+    ],
+    [
+      25608,
+      28796,
+      23471
+    ],
+    [
+      24793,
+      27953,
+      22680
+    ],
+    [
+      23982,
+      27072,
+      21922
+    ],
+    [
+      23191,
+      26218,
+      21128
+    ],
+    [
+      22440,
+      25426,
+      20372
+    ],
+    [
+      21669,
+      24597,
+      19645
+    ],
+    [
+      20943,
+      23804,
+      18952
+    ],
+    [
+      20182,
+      22988,
+      18221
+    ],
+    [
+      19474,
+      22253,
+      17537
+    ],
+    [
+      18773,
+      21480,
+      16832
+    ],
+    [
+      18085,
+      20729,
+      16172
+    ],
+    [
+      17368,
+      19959,
+      15513
+    ],
+    [
+      16772,
+      19295,
+      14875
+    ],
+    [
+      16057,
+      18541,
+      14266
+    ],
+    [
+      15447,
+      17895,
+      13642
+    ],
+    [
+      14804,
+      17180,
+      13015
+    ],
+    [
+      14193,
+      16536,
+      12457
+    ],
+    [
+      13584,
+      15831,
+      11842
+    ],
+    [
+      13022,
+      15214,
+      11287
+    ],
+    [
+      12435,
+      14588,
+      10733
+    ],
+    [
+      11867,
+      13961,
+      10202
+    ],
+    [
+      11314,
+      13376,
+      9684
+    ],
+    [
+      10766,
+      12811,
+      9162
+    ],
+    [
+      10273,
+      12189,
+      8672
+    ],
+    [
+      9745,
+      11655,
+      8185
+    ],
+    [
+      9276,
+      11088,
+      7682
+    ],
+    [
+      8789,
+      10549,
+      7224
+    ],
+    [
+      8322,
+      10022,
+      6793
+    ],
+    [
+      7852,
+      9524,
+      6353
+    ],
+    [
+      7419,
+      8998,
+      5930
+    ],
+    [
+      6975,
+      8554,
+      5517
+    ],
+    [
+      6564,
+      8060,
+      5159
+    ],
+    [
+      6133,
+      7596,
+      4740
+    ],
+    [
+      5770,
+      7170,
+      4364
+    ],
+    [
+      5419,
+      6718,
+      4030
+    ],
+    [
+      5052,
+      6303,
+      3686
+    ],
+    [
+      4693,
+      5927,
+      3351
+    ],
+    [
+      4378,
+      5518,
+      3025
+    ],
+    [
+      3995,
+      5131,
+      2750
+    ],
+    [
+      3715,
+      4778,
+      2455
+    ],
+    [
+      3402,
+      4414,
+      2176
+    ],
+    [
+      3137,
+      4070,
+      1891
+    ],
+    [
+      2847,
+      3731,
+      1651
+    ],
+    [
+      2602,
+      3432,
+      1412
+    ],
+    [
+      2336,
+      3146,
+      1172
+    ],
+    [
+      2119,
+      2836,
+      970
+    ],
+    [
+      1877,
+      2548,
+      788
+    ],
+    [
+      1673,
+      2294,
+      580
+    ]
+  ],
+  "first_last_raw_render_equal": false,
+  "geometric_smoothing": false,
+  "material": {
+    "color": "#8ed2ef",
+    "ambient": 0.28,
+    "diffuse": 0.65,
+    "specular": 0.85,
+    "specular_power": 65
+  },
+  "gif_frames": 61,
+  "gif_duration_ms": 8100,
+  "video_frames": 81,
+  "video_fps": 10,
+  "seconds": 13.030056845396757,
+  "versions": {
+    "pyvista": "0.49.2",
+    "vtk": "9.7.1",
+    "scikit-image": "0.26.0",
+    "imageio": "2.38.1",
+    "imageio-ffmpeg": "0.7.0",
+    "numpy": "2.5.4",
+    "pillow": "13.0.0"
+  },
+  "scope": "Actual phi=0 interface geometry from the unchanged checkpoint, no new training/reference or error metric. Render grid is visualization only; coordinates fixed across time. Display normals/light do not change mesh vertices."
+}

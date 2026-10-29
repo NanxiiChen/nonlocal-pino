@@ -1,0 +1,7 @@
+{
+  "equal_initial_arrays": 53,
+  "maximum_raw_output_gap": 0.0,
+  "existing2Dcheckpoint_load": true,
+  "legacy_source": "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01/source/src/nonlocal_pinn/nn/conditional.py",
+  "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01/model_final.eqx"
+}

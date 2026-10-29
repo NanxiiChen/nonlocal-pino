@@ -1,0 +1,9 @@
+.............reference Jacobian 25, t*=0.635132
+{"rtol": 1e-08, "atol": 1e-11, "max_step": 0.005, "nfev": 1619, "njev": 36, "nlu": 129, "seconds": 10.294488539919257, "field_min": 0.0, "field_max": 1.0000000000000002, "q_min": -0.03566433566433566, "q_max": 0.00016212555401198814, "max_network_q_bound_violation": 0.00016212555401198814}
+Reference start N=5151 rtol=1e-08 atol=1e-11
+Reference N=5151 Jacobian25 t*=0.635132
+..............
+----------------------------------------------------------------------
+Ran 27 tests in 234.643s
+
+OK

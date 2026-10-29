@@ -237,3 +237,26 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Generated research outputs: metadata and regeneration scripts stay in Git.
+# Local copies remain usable; restore through artifacts/local_files.json.
+/docs/tasks/**/*.eqx
+/docs/tasks/**/*.gif
+/docs/tasks/**/*.hlo
+/docs/tasks/**/*.html
+/docs/tasks/**/*.jpeg
+/docs/tasks/**/*.jpg
+/docs/tasks/**/*.mov
+/docs/tasks/**/*.mp4
+/docs/tasks/**/*.npy
+/docs/tasks/**/*.npz
+/docs/tasks/**/*.pdf
+/docs/tasks/**/*.pickle
+/docs/tasks/**/*.pkl
+/docs/tasks/**/*.png
+/docs/tasks/**/*.pt
+/docs/tasks/**/*.pth
+/docs/tasks/**/*.safetensors
+/docs/tasks/**/*.svg
+/docs/tasks/**/*.webm
+/docs/tasks/**/*.webp

@@ -11,7 +11,11 @@
       "data_root": "/root/autodl-tmp/data/icemelting3d",
       "run_root": "/root/autodl-tmp/tf-logs/icemelting3d",
       "role": "research_example",
-      "data_children": [],
+      "data_children": [
+        "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1",
+        "/root/autodl-tmp/data/icemelting3d/operator_local_fem_v1",
+        "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1"
+      ],
       "run_children": [
         "/root/autodl-tmp/tf-logs/icemelting3d/.ipynb_checkpoints",
         "/root/autodl-tmp/tf-logs/icemelting3d/20260715-142154",
@@ -54,7 +58,10 @@
         "/root/autodl-tmp/tf-logs/icemelting3d/tensor_split_off",
         "/root/autodl-tmp/tf-logs/icemelting3d/tensor_split_on",
         "/root/autodl-tmp/tf-logs/icemelting3d/20261025-independent-seed2026-default-strategy",
-        "/root/autodl-tmp/tf-logs/icemelting3d/20261026-defaultcheck-ordinary-float32-seed42"
+        "/root/autodl-tmp/tf-logs/icemelting3d/20261026-defaultcheck-ordinary-float32-seed42",
+        "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-memory-b8-01",
+        "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-memory-b16-01",
+        "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01"
       ],
       "sota_run": "/root/autodl-tmp/tf-logs/icemelting3d/20261026-defaultcheck-ordinary-float32-seed42",
       "sota_metric": {
@@ -511,6 +518,174 @@
             ]
           },
           "prior_seed2026_run": "/root/autodl-tmp/tf-logs/icemelting3d/20261025-independent-seed2026-default-strategy"
+        }
+      },
+      "neural_operator_pilot": {
+        "config": "examples/icemelting3d/configs/train_operator.py",
+        "report": "docs/tasks/archive/icemelting-random-operator.md",
+        "run": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01",
+        "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01/model_final.eqx",
+        "dataset": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1",
+        "dimensions": 3,
+        "input_volume": [
+          1,
+          32,
+          32,
+          32
+        ],
+        "patch": [
+          4,
+          4,
+          4
+        ],
+        "tokens": 512,
+        "width": 48,
+        "batch": 16,
+        "steps": 5000,
+        "actual_unique_online_shapes": 80000,
+        "monitor_count": 2,
+        "test_count": 8,
+        "semiaxes": [
+          0.24,
+          0.36
+        ],
+        "center_coordinates": [
+          0.45,
+          0.55
+        ],
+        "orientation": "Haar SO(3)",
+        "training_positive_time_labels": false,
+        "test_checkpoint_selection": false,
+        "default_promotion": false,
+        "process_seconds": 300.5740709044039,
+        "trainer_seconds": 257.16745769418776,
+        "peak_active_bytes": 1429767424,
+        "peak_pool_bytes": 4294967296,
+        "mean_errors": {
+          "pooled_phi": 0.0022664765874480085,
+          "terminal_phi": 0.0009221335021845627,
+          "pooled_solid": 0.006424942797981074,
+          "terminal_solid": 0.0450165874169298,
+          "pooled_slice_phi": 0.004201173184660194,
+          "terminal_slice_phi": 0.002860812956357456,
+          "terminal_solid_fraction_relative_error": 0.012133295642049409
+        },
+        "verification": "docs/tasks/archive/melting-operator-verify.json",
+        "field_audit": "docs/tasks/archive/melting-operator-field-audit.json",
+        "soap_control": {
+          "report": "docs/tasks/archive/melting-operator-soap.md",
+          "run": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-soap-01",
+          "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-soap-01/model_final.eqx",
+          "comparison": "docs/tasks/archive/melting-operator-soap-comparison.json",
+          "replay": "docs/tasks/archive/melting-operator-soap-replay.json",
+          "convergence": "docs/tasks/archive/melting-operator-soap-convergence.png",
+          "optimizer": "soap",
+          "iterations": 5000,
+          "batch": 16,
+          "learning_rate": 0.001,
+          "process_seconds": 492.0639511719346,
+          "trainer_seconds": 448.45611965470016,
+          "mean_pooled_phi": 0.0007851712221372429,
+          "mean_terminal_phi": 0.0012907342662172414,
+          "mean_pooled_solid": 0.0022347041981525106,
+          "mean_terminal_solid": 0.06503613826756977,
+          "mean_terminal_solid_fraction_relative_error": 0.04015645231096743,
+          "peak_active_bytes": 1706732800,
+          "peak_pool_bytes": 4294967296,
+          "default_promotion": false,
+          "scope": "Same79initial arrays/80000actual shapes/40000time draws and deterministic core+halo construction; independent same-graph references. Pooled improves, terminal worsens; one optimizer pair, no seed/continuum stability claim."
+        },
+        "figures": [
+          "docs/tasks/archive/melting-operator-convergence.png",
+          "docs/tasks/archive/melting-operator-fields.png",
+          "docs/tasks/archive/melting-operator-initial-shapes.png"
+        ],
+        "scope": "One cold start; eight independent ellipsoids within declared ranges; model errors on24^3diagnostic nodes and128^2slice, native references integrate128^3. No continuum/full-grid-model/seed-stability claim; late small-solid errors remain larger. Memory probes include backward/Adam; B8originalCLIreturn fixed before B16/fullrun.",
+        "local_fem_validation": {
+          "report": "docs/tasks/archive/melting-operator-local-fem.md",
+          "metrics": "docs/tasks/archive/melting-local-fem-evaluation.json",
+          "acceptance": "docs/tasks/archive/melting-local-fem-validation.json",
+          "reference_fields": "docs/tasks/archive/melting-local-fem-reference-fields.png",
+          "checkpoint_fields": "docs/tasks/archive/melting-local-fem-fields.png",
+          "refinement_errors": "docs/tasks/archive/melting-local-fem-refinement-errors.png",
+          "replay": "docs/tasks/archive/melting-local-fem-checkpoint-replay.json",
+          "independent_audit": "docs/tasks/archive/melting-local-fem-metric-audit.json",
+          "solver": "examples/icemelting3d/solver.py",
+          "config": "examples/icemelting3d/configs/solver_base.py",
+          "local_reference": "/root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/case005-imex-n96-dt0p00125.npz",
+          "native_reference": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1/condition_005.npz",
+          "status": "accepted_by_user",
+          "strict_refinement_passed": false,
+          "input_indices": [
+            5
+          ],
+          "spatial_subdivisions": 96,
+          "global_dofs": 7189057,
+          "dt": 0.00125,
+          "physical_terminal_s": 5,
+          "diagnostic_grid": [
+            24,
+            24,
+            24
+          ],
+          "slice_grid": [
+            128,
+            128
+          ],
+          "native_local_phi_pooled": 0.0014744803053419642,
+          "native_local_phi_terminal": 0.0016697069206289895,
+          "native_local_phi_by_time": [
+            6.979598791850712e-05,
+            0.0009300967520681468,
+            0.0017543324412484674,
+            0.0019929054739218238,
+            0.0016697069206289895
+          ],
+          "native_local_slice_phi_pooled": 0.0035747862072428127,
+          "native_local_slice_phi_terminal": 0.005350595165535917,
+          "model_pooled_phi": {
+            "Adam": {
+              "vs_native": 0.0023826373071447983,
+              "vs_local": 0.0014786043200235544
+            },
+            "SOAP": {
+              "vs_native": 0.0007088077267967686,
+              "vs_local": 0.0018614128415418995
+            }
+          },
+          "scope": "One preselected held-out input; user accepts phase accuracy and deprioritizes final tiny solid. Original strict slice gate remains failed. Keep native monitoring for whole-field objective, local checks for fine model ranking; no operator/training/default change or localAD speed claim.",
+          "next_action": "None; additional samples/refinement/operator optimization deferred."
+        },
+        "three_dimensional_figures": {
+          "report": "docs/tasks/archive/melting-operator-3d-render.md",
+          "artifact_root": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1",
+          "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01/model_final.eqx",
+          "input_indices": [
+            5,
+            9,
+            2
+          ],
+          "field_grid": [
+            96,
+            96,
+            96
+          ],
+          "times": 61,
+          "physical_terminal_s": 5,
+          "iso_value": 0,
+          "recommended": "Paper-style matte surfaces and time-colored3Dcontours",
+          "single": "docs/tasks/archive/melting-paper-3d-single.png",
+          "single_pdf": "docs/tasks/archive/melting-paper-3d-single.pdf",
+          "three_inputs": "docs/tasks/archive/melting-paper-3d-snapshots.png",
+          "overlay": "docs/tasks/archive/melting-paper-3d-overlay.png",
+          "overlay_vector_pdf": "docs/tasks/archive/melting-paper-3d-overlay.pdf",
+          "display_cutaway": "docs/tasks/archive/melting-paper-3d-cutaway.png",
+          "paper_provenance": "docs/tasks/archive/melting-paper-3d-provenance.json",
+          "prediction_audit": "docs/tasks/archive/melting-render-prediction.json",
+          "mesh_audit": "docs/tasks/archive/melting-render-surfaces.json",
+          "decorative_preview_gif": "docs/tasks/archive/melting-render-3d.gif",
+          "decorative_preview_mp4": "docs/tasks/archive/melting-render-3d.mp4",
+          "scope": "Real fixed-checkpoint fields and closed phi=0 meshes; no motion prescription or geometric smoothing. Fixed cameras/scale. Render resolution is not new numerical accuracy. Cutaway is display-only; filled PDF layers rasterized, labels/curves vector. User favors paper style over decorative preview."
         }
       }
     },
@@ -2306,9 +2481,9 @@
       },
       "neural_operator_pilot": {
         "entry": "examples/electropolish2d/train.py",
-        "config": "examples/electropolish2d/configs/train_operator.py",
+        "config": "examples/electropolish2d/configs/train_operator_legacy.py",
         "report": "docs/tasks/archive/electropolish-neural-operator.md",
-        "status": "prototype complete; accuracy exploratory, no SOTA promotion",
+        "status": "Historical finite-input prototype; current recommended training is recorded separately below.",
         "dataset": "/root/autodl-tmp/data/electropolish2d/operator_random16_v1",
         "train_conditions": 16,
         "test_conditions": 4,
@@ -2608,6 +2783,23 @@
             0.0007369976786405638,
             0.0006807290095169655
           ]
+        },
+        "recommended_training": {
+          "config": "examples/electropolish2d/configs/train_operator.py",
+          "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-online-global-adam-01",
+          "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-online-global-adam-01/model_final.eqx",
+          "strategy": "online fresh rough interfaces, B8, Adam5000, lr1e-3, ordinary FP32/highest, image-only local_input=zero; five original AC/CH+IC/BC losses and gradient balancing, no causal weighting",
+          "saved_run_graph64_mean_phi_pooled_terminal_percent": [
+            4.506,
+            3.502
+          ],
+          "matched_repeat_run": "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01",
+          "matched_repeat_local_fd64_mean_phi_pooled_terminal_percent": [
+            4.427,
+            3.176
+          ],
+          "scope": "Different runs/targets; do not substitute scores. No training labels/test checkpoint selection or seed-stability claim.",
+          "publication_audit": "docs/tasks/archive/operator-defaults-audit.json"
         }
       }
     },
@@ -4211,7 +4403,7 @@
         "selected_checkpoint_seed": 42,
         "seed_input": "--seed; common untuned run default42; omitted from strategy config",
         "seed_scope": "Selected checkpoint seed is historical provenance, not a strategy parameter or promised default accuracy.",
-        "stability_assessment": "Observed three-seed phi range0.004225–0.010744, c0.005006–0.012727; no universal guarantee and Dq remains high.",
+        "stability_assessment": "Observed three-seed phi range0.004225\u20130.010744, c0.005006\u20130.012727; no universal guarantee and Dq remains high.",
         "audit": "docs/tasks/archive/corrosion-robust-objective-audit.json"
       },
       "ordinary_policy_defaults_20261026": {
@@ -6079,5 +6271,14 @@
     "strategy_configs_contain_seed": false,
     "saved_run_metadata": "train.seed retained for reproducibility and historical checkpoint compatibility",
     "selection": "Random seed is not tuned or included in a strategy; record all predeclared controls, including failures."
+  },
+  "generated_report_artifacts": {
+    "manifest": "artifacts/local_files.json",
+    "restore_tool": "scripts/restore_local_artifacts.py",
+    "content_guard": "scripts/check_repository_content.py",
+    "archive_root": "/root/autodl-tmp/data/nonlocal_pinn_artifacts/20261029-publication",
+    "files": 275,
+    "bytes": 89953048,
+    "policy": "Original files remain local, byte-verified external backup; generated outputs excluded from current Git tree. No history rewrite; old blobs remain in history."
   }
 }

@@ -3817,6 +3817,8 @@ origin main only, then verify remote equality and clean worktree. Reject force
 push, history rewriting, dev publication or default retuning as unnecessary.
 Relation: phasefield-results-publication.
 
+
+
 ## 2026-10-29 — Normalize publication whitespace without changing results
 
 Staged inspection covers823files and reveals trailing spaces in generatedSVG/
@@ -3828,3 +3830,272 @@ preparation record with branch history as the authoritative delivery receipt;
 verify main remote refs after the authorized regular merge and push. No extra
 training or unchanged expensive test suite is warranted by whitespace cleanup.
 Relation: phasefield-results-publication.
+
+## 2026-10-29 — Start 3D random-ellipsoid melting operator
+
+User requests online random initial melting shapes and3Dconditional encoder
+with memory validation. Retain single-IVP defaults/physical PDE and validated
+IC-only latent residual; input volumes condition the encoder, spatial work is
+shared across all times. Begin semiaxes.24..36, centers.45..55, Haar rotation,
+1x32^3input/4^3patches/512tokens/width48, core256/Nt8. Measure B8/B16training
+peaks explicitly before selecting batch. Use Euclidean signed distance, checked
+Lagrange-root/axis degeneracies against Eberly/SciPy; reject implicit radial
+distance mislabeled as SDF. Rotated/shifted ellipsoids require full-cube direct
+references, not sphere analytic motion or octant symmetry. Preserve old2D
+parameter leaves/outputs and external artifact paths. Local dev only; no new
+commit/push authorization. Relation: icemelting-random-operator.
+
+## 2026-10-29 — Stabilize exact ellipsoid distance at near-axis queries
+
+Independent geometry checks expose a fixed-bisection conditioning issue when
+rotation leaves a smallest-axis coordinate~machine epsilon. A tiny Lagrange
+root cannot be resolved relatively by56iterations; direct q_min/root then gives
+large projection error. Reconstruct the minimal-axis projection norm from the
+ellipsoid surface constraint for the small-root branch, an equivalent identity,
+without a geometric distance floor or radial surrogate. Unchanged sphere/
+multi-start SciPy closest-point/rotation tolerances now pass.3Dtime/parameter
+AD and independently derived graph stencil tests also pass. Retain failed raw
+records and original single-IVP arithmetic. Relation: icemelting-random-operator.
+
+## 2026-10-29 — Choose B16 after measured volumetric training memory
+
+Both8-update probes use actual128^3graph,512input tokens,1788core/halo queries,
+Nt8, full parameter backward and Adam. Peakactive/pool B8 .625/2GiB, B16
+1.331/4GiB;7warm update means14.811/21.759ms, sampling2.567/3.294ms. Select
+B16for this new opt-in operator, keep single-IVP default. Do not equate active
+allocation to driver usage or short timings to long-run benchmarks. B8CLI
+initially exited1because a returned dict reached absl; corrected call/None
+return and B16canonical command exits0. Legacy2Darray/output/checkpoint and
+FP32SDFchecks pass. Prepare10full-cube held-out references on CPU before fresh
+GPU training, no sphere/octant target or future-field labels. Relation:
+icemelting-random-operator.
+
+## 2026-10-29 — Complete 3D random-ellipsoid operator pilot
+
+Canonical fresh5000Adam/B16/Nt8run exits0 in300.57s full process;80000distinct
+online ellipsoids, no future-field labels/test checkpoint selection. Peakactive
+1.332GiB/pool4GiB, warm update22.43ms+sampling3.41ms. All10full128^3native
+reference time gates<=1.422e-7;8testmeanphi pooled/terminal.2266/.0922%, solid
+.6425/4.5017%, terminal solid-fraction error1.2133%. Report24^3diagnostic node
+errors and128^2slice checks separately from reference integration grid; do not
+claim full-grid/continuum/seed stability. Maximum late solidL210.59% remains a
+concrete limit. Preserve original single-sphere defaults/checkpoints; selected
+B16is only the new opt-in NO preset. Four new numerical tests, two2Dregressions,
+legacy array/output/checkpoint, source/stream/reference/field/aggregate and
+fresh GPUreplays pass. Archive scripts/raw outcomes/figures/direct artifacts;
+README/DEVELOPMENT/index/memory updated, workers idle, no Git history action.
+Relation: icemelting-random-operator COMPLETE.
+
+## 2026-10-29 — Archive verified 3D melting operator delivery
+
+All final AST/strict-record/whitespace/figure/link/direct-path/current-source
+checks pass;38task artifacts archived without overwriting old outputs. Single
+failed-test stdout trailing spaces normalized only, preserving every nonspace
+character. Project dashboard activeNone; GPUidle1MiB/0%, no worker or queued
+training. Preserve the successful first prototype and explicit late-solid/
+diagnostic-grid limits rather than adding an unrequested optimizer sweep.
+Relation: icemelting-random-operator COMPLETE, no Git history action.
+
+## 2026-10-29 — Show randomly selected held-out melting trajectories
+
+User requests several random results. Draw three uniformly without replacement
+from the eight declared test inputs before opening scores; retain IDs5/9/2
+and reuse saved final-checkpoint predictions. Prefer common phase/error color
+scales and distinguish central128^2slice pictures from24^3diagnostic L2.
+Replay original reference equality and independently calculate phase/solid
+metrics; near-disappearance background-dominated phase L2 requires the solid
+metric as context. Reject error-based selection, retraining and new checkpoint
+selection for this visualization request. All three plots inspected; archive
+selection/script/raw metrics and completed task. No Git history action.
+Relation: melting-operator-random-samples COMPLETE.
+
+## 2026-10-29 — Run a matched SOAP melting neural-operator control
+
+User requests SOAP after clarifying the successful3Doperator used Adam.
+Change only optimizer and output run name via canonical train.py flags; retain
+5000updates/B16/lr1e-3schedule/seed42/ordinaryFP32/core+halo/hardIC/latent PDE
+and the eight predeclared native-graph tests. Reuse the existing upstream
+SOAP_JAX factory, default b1.9/b2.99/refresh5/clip100. Verify actual initial
+arrays, shape/time streams and graph/source parity; compare physical phase and
+late solid errors plus cold timing/memory. Reject test checkpoint selection,
+optimizer retuning, reference regeneration and default promotion before
+evidence. No commit/push authorized. Relation: melting-operator-soap.
+
+## 2026-10-29 — Retain Adam after mixed SOAP melting control
+
+SOAP5000/B16cold start completes normally in492.06s versus Adam300.57s.
+All79initial arrays,24source files,80000actual shapes/40000time draws match;
+config differs only optimizer/run name. Eight native-reference testmeanphi
+pooled.2266%->.0785%, terminal.0922%->.1291%; terminalsolid4.502%->6.504%,
+solid-fraction1.213%->4.016%. Early/intermediate accuracy improves, terminal
+small-solid accuracy and speed worsen. Keep Adam opt-in operator preset
+default and SOAP selectable through train.py; reject promotion based solely
+on pooled phi or retrospective test checkpoint selection. Independent metrics/
+reference identity, initial/source/stream audits and fresh GPUreplay<=9.54e-7
+pass. One pair does not establish seed stability; deferred optimizer issue
+remains deferred. Archive results/curve/scripts/task, update README/index,
+clear dashboard; no numerical source or Git history action.
+Relation: melting-operator-soap COMPLETE.
+
+## 2026-10-29 — Treat local PDE as the melting operator accuracy target
+
+User requests local FEM evaluation of existing checkpoints. Compare total
+local-reference errors, retaining native-reference fitting errors and the
+native/local gap as distinct diagnostics; their scalar norms need not add.
+Start with previously randomly chosen held-out IDs5/9/2, not error-selected
+inputs. Old sphere FEM derives epsilon from mesh.N, so do not silently reuse
+it for fixed-physics ellipsoid refinement. Add an explicit independent
+full-cube local weak-form solver with epsilon=.0225, same exact Euclidean IC,
+natural zero-normal flux, grid/time checks. No retraining, changed operator,
+checkpoint selection or speed-advantage claim from this evaluation. Preserve
+old reference paths, mutually exclusive FEniCS/JAXGPU environments and Git
+history. Relation: melting-operator-local-fem.
+
+## 2026-10-29 — Rewrite canonical melting FEM from fixed PINO metadata
+
+User explicitly rejects the old FEM implementation and requests a rewrite
+with physical/interface parameters aligned to PINN/PINO. Replace solver.py
+and solver_base.py with explicit saved-config/manifest loading, fixed epsilon,
+full-cube consistent CG2 tetrahedral FEM and implicit-midpoint polynomial
+reaction, natural homogeneous Neumann on all faces. Weak diffusion sign is
+independently checked by a zero-normal polynomial; reaction by constants,
+MPI query collection by a quadratic field, IC by existing saved arrays.
+Use CG/Jacobi Newton solves with explicit tight tolerances, degree8quadrature,
+no mass lumping or operator import. Move only JAX imports into JAX-specific
+ellipsoid helpers so FEniCS can use the identical NumPy SDF without importing
+JAX; preserve all numerical arithmetic. Predeclare spatial/time gates5e-4phi
+and1e-2solid, and mesh levels24/32/48/64 before examining checkpoint scores.
+Legacy solver source remains in historical run snapshots/Git; no old data is
+overwritten. Relation: melting-operator-local-fem.
+
+## 2026-10-29 — Use constant-matrix IMEX BDF2 for economical local references
+
+The midpointN32pilot needs379s/200steps; cubic-mass/Jacobian reassembly is
+unnecessary for this mild reaction time scale. Retain it as an independent
+time-integrator control, and add standard SBDF2: implicit local diffusion,
+explicit2G(phi_n)-G(phi_nm1), consistent CG2 mass and exact polynomial reaction
+quadrature. BE/explicit-reaction startup supplies O(dt^2)initial error; verify
+second-order temporal convergence independently on the homogeneous ODE. Reuse
+constant mass/stiffness matrices, never lump the mass or change epsilon/PDE.
+Primary source: Ascher/Ruuth/Wetton1995, doi10.1137/0732037, which analyzes
+IMEX multistep reaction-diffusion methods and favors BDF damping over CNAB
+in its reported regimes. Add explicit time.scheme=imex_bdf2; preserve midpoint
+as a named option. All fixed spatial/time gates remain unchanged. Hardware
+CPUquota12requires sequential12-rank solves despite96advertised cores.
+Relation: melting-operator-local-fem.
+
+## 2026-10-29 — User narrows local FEM evaluation to one input
+
+After measured96-mesh719万DOF cost, user explicitly selects completing sample5
+before expanding to3. Defer9/2; preserve all physical/refinement gates. Pause
+only the orchestration parent viaSIGSTOP while its independent active MPI
+dt.0025child continues, avoiding cancellation/recomputation and automatic
+launch of deferred cases. Once child ends, terminate stopped parent and rerun
+controller with explicit indices=(5,), reusing validated cached outputs. No
+checkpoint/model/default or Git action. Relation: melting-operator-local-fem.
+
+
+## 2026-10-29 — Extend explicit local FEM time refinement if needed
+
+N96 dt.005->.0025 fails the unchanged phase/solid gates (max.2523%/1.7617%).
+The independent homogeneous-ODE test establishes second-order SBDF2; another
+single halving need not meet the.05% phase threshold. Before seeing dt.00125
+results, extend the explicit list to.000625 as a conditional next level. Run
+it only if the existing adjacent-step gate still fails. Retain all earlier
+outputs/failures, one sample5 and one12-rank job at a time. Reject loosening
+thresholds or treating a Richardson estimate as the declared adjacent-step
+check. No checkpoint/training/default change. Relation: melting-operator-local-fem.
+
+
+## 2026-10-29 — Accept current FEM accuracy for the reference-gap question
+
+User explicitly accepts N96/dt.00125 results and says not to over-refine. They
+clarify the primary question is native nonlocal versus local FEM reference
+agreement, to decide whether operator optimization is necessary. Stop only the
+unneeded dt.000625job and its pipeline before JAX stages; preserve cancellation
+receipt and partial log. Use status=accepted_by_user, strict_refinement_passed
+=false: original.05% slice gate fails at.0737336%, while volumephi.0294622%
+and solid.547736% pass. Spatial maxphase.0377924%/solid.2136203%. Keep these
+uncertainties explicit, do not relabel strict checks as passed. Primary report
+is reference-gap by time/phase/solid/interface, model fits auxiliary; no operator
+change or further FEM refinement. Relation: melting-operator-local-fem.
+
+
+## 2026-10-29 — Retain native melting reference for current whole-field goal
+
+User clarifies that late tiny-solid accuracy is not the current objective.
+One-input native/local FEM pooled/terminalphi differences.1474/.1670% (slice
+.3575/.5351%) support native reference for routine monitoring. Keep independent
+local validation for finer model comparisons: fresh Adam pooledphi native/local
+.2383/.1479%, SOAP.0709/.1861%, with error-field cancellation changing ranking.
+Do not equate graph fitting error to local accuracy or scalar-add norms. No
+operator optimization, training/default change or extra sample/refinement queued.
+Archive accepted precision/raw failures/source/replay/fields; close task and
+clear dashboard. Relation: melting-operator-local-fem COMPLETE; no Git action.
+
+
+## 2026-10-29 — Render actual melting checkpoint isosurfaces
+
+User requests three-dimensional rendered shrinking ice instead of slices. Reuse
+previous pre-score random IDs5/9/2 and unchanged Adam checkpoint, evaluating
+actual physical phi on a dense regular XYZgrid at intermediate times. Extract
+phi=0 interfaces; do not animate a prescribed ellipsoid scale or add geometry
+not predicted by the model. Keep fixed cameras/coordinate scales across time,
+record mesh/time/source identity and render-only resolution. Use an isolated
+optional rendering environment because training.venv lacks VTK/marching-cubes/
+video tools; do not change project dependencies, physics or checkpoints. No new
+FEM/training/Git history action. Relation: melting-operator-3d-render.
+
+
+## 2026-10-29 — Switch melting display to publication-style scientific figures
+
+User rejects the decorative ice-material rendering and requests paper-suitable
+3Dplots. Keep actual predicted isosurfaces, replace specular material with matte
+scientific shading, fixed orthographic axes and thin silhouettes; also provide
+time-colored contour overlays. A display-only cutaway can reveal nested times
+and must be labeled as a visualization crop, not changed physical geometry.
+Export high-resolution PNG and PDF/SVG with vector labels/curves; dense filled
+surfaces may be rasterized and must not be called fully vector. Reuse verified
+meshes, no neural/physics/model changes. Relation: melting-operator-3d-render.
+
+
+## 2026-10-29 — Close melting publication visualization without numerical changes
+
+Actual96^3/61time checkpoint fields produce183closed interfaces; all three
+geometric volumes decrease. Replay/IC/chunk and meshphi checks pass. User's
+paper preference selects matte fixed-scale snapshots and vector3Dcontours;
+retain explicitly labeled display-cutaway and decorative animation as alternatives.
+Correct framebuffer refresh and per-triangle depth sorting, with draft issues
+recorded; geometry/fields unchanged. Archive scripts/provenance/formats/media,
+register direct data paths and clear active task. No new solver/reference,
+training/default/seed or Git history action. Relation: melting-operator-3d-render
+COMPLETE.
+
+
+## 2026-10-29 — Publish validated NO presets and stop versioning generated outputs
+
+User authorizes commit/push and requests SOTA defaults plus necessary-only Git
+content. Electropolish generic operator preset still points to early finite-input
+pilot; promote canonical operator preset to saved validated online image-only
+AdamB8/5000, preserve historical preset semantics through explicit legacy base.
+Melting retains AdamB16/5000 based on accuracy/cost/local-FEM compromise rather
+than native pooled error alone. Keep canonical train.py single-IVP mode defaults.
+Untrack generated docs/tasks media/arrays/checkpoints/HLO with local files and
+external copies preserved; retain code/configs/metrics/provenance and restore
+manifest. No history rewrite or forcepush: existing historical blobs remain.
+Follow devcommit -> regular mainmerge -> push origin/main only. Relation:
+operator-sota-publication.
+
+
+## 2026-10-29 — Complete verified-default and artifact publication preparation
+
+Exact saved-run comparison confirms both canonical NO strategies, allowing only
+run-name and runtime seed provenance. Preserve five historical presets rather
+than changing their meaning.27focused tests pass; no new training/FEM needed.
+Current Git tree drops from90.00 to18.74MiB by removing only generated outputs
+from tracking. All275original local files and byte-verified external backups
+remain; fresh-copy restoration passes. Retain scripts/configs/compact metrics,
+no new binary files or history rewrite. Archive publication task and audits,
+clear dashboard, then perform the authorized devcommit/regularmainmerge/mainpush;
+Git branch and remote equality provide the final receipt. Relation:
+operator-sota-publication COMPLETE for implementation and verification.

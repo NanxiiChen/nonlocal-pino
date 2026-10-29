@@ -1,0 +1,1 @@
+PASS {"all_checks_pass": true, "actual_unique_online_conditions": 80000, "held_out_count": 8, "source_bytes_match": true, "hard_IC_maximum_gate": 1e-05, "replay_maximum_gap": 9.55536961555481e-07, "scope": "8held-out shapes on24^3diagnostic nodes; native128^3references, not full-grid inference error/continuum or seed stability"}

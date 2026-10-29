@@ -1,0 +1,66 @@
+..Calling FFC just-in-time (JIT) compiler, this may take some time.
+Process 0: Computed global bounding box tree with 3 boxes.
+Process 1: Computed global bounding box tree with 3 boxes.
+..Cannot determine geometric dimension from expression.
+Cannot determine geometric dimension from expression.
+E
+======================================================================
+ERROR: test_weak_diffusion_sign_and_physical_reaction (tests.test_melting_fem.MeltingFEMTests.test_weak_diffusion_sign_and_physical_reaction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/tests/test_melting_fem.py", line 34, in test_weak_diffusion_sign_and_physical_reaction
+    result = df.assemble(weak_residual(phi, phi, v, .01, [1, 0, 0], measure))
+                         ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nonlocal-pinn/examples/icemelting3d/solver.py", line 66, in weak_residual
+    + n1 * df.dot(df.grad(midpoint), df.grad(test))
+                  ~~~~~~~^^^^^^^^^^
+  File "/root/miniconda3/envs/fenicsenv/lib/python3.14/site-packages/ufl/operators.py", line 381, in grad
+    return Grad(f)
+  File "/root/miniconda3/envs/fenicsenv/lib/python3.14/site-packages/ufl/differentiation.py", line 159, in __init__
+    self._dim = find_geometric_dimension(f)
+                ~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/root/miniconda3/envs/fenicsenv/lib/python3.14/site-packages/ufl/domain.py", line 384, in find_geometric_dimension
+    error("Cannot determine geometric dimension from expression.")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/miniconda3/envs/fenicsenv/lib/python3.14/site-packages/ufl/log.py", line 172, in error
+    raise self._exception_type(self._format_raw(*message))
+ufl.log.UFLException: Cannot determine geometric dimension from expression.
+
+----------------------------------------------------------------------
+Ran 3 tests in 8.123s
+
+EFAILED (errors=1)
+
+======================================================================
+ERROR: test_weak_diffusion_sign_and_physical_reaction (tests.test_melting_fem.MeltingFEMTests.test_weak_diffusion_sign_and_physical_reaction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/tests/test_melting_fem.py", line 34, in test_weak_diffusion_sign_and_physical_reaction
+    result = df.assemble(weak_residual(phi, phi, v, .01, [1, 0, 0], measure))
+                         ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nonlocal-pinn/examples/icemelting3d/solver.py", line 66, in weak_residual
+    + n1 * df.dot(df.grad(midpoint), df.grad(test))
+                  ~~~~~~~^^^^^^^^^^
+  File "/root/miniconda3/envs/fenicsenv/lib/python3.14/site-packages/ufl/operators.py", line 381, in grad
+    return Grad(f)
+  File "/root/miniconda3/envs/fenicsenv/lib/python3.14/site-packages/ufl/differentiation.py", line 159, in __init__
+    self._dim = find_geometric_dimension(f)
+                ~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/root/miniconda3/envs/fenicsenv/lib/python3.14/site-packages/ufl/domain.py", line 384, in find_geometric_dimension
+    error("Cannot determine geometric dimension from expression.")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/miniconda3/envs/fenicsenv/lib/python3.14/site-packages/ufl/log.py", line 172, in error
+    raise self._exception_type(self._format_raw(*message))
+ufl.log.UFLException: Cannot determine geometric dimension from expression.
+
+----------------------------------------------------------------------
+Ran 3 tests in 8.121s
+
+FAILED (errors=1)
+--------------------------------------------------------------------------
+prterun detected that one or more processes exited with non-zero status,
+thus causing the job to be terminated. The first process to do so was:
+
+   Process name: [prterun-autodl-pro-781551316a3d-38733@1,1]
+   Exit code:    1
+--------------------------------------------------------------------------

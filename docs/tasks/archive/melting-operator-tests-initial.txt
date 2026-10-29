@@ -1,0 +1,42 @@
+test_3d_split_time_jvp_hard_ic_and_parameter_gradient (test_melting_operator.MeltingOperatorTests.test_3d_split_time_jvp_hard_ic_and_parameter_gradient) ... ok
+test_euclidean_sphere_and_ellipsoid_interior_degeneracies (test_melting_operator.MeltingOperatorTests.test_euclidean_sphere_and_ellipsoid_interior_degeneracies) ... FAIL
+test_independent_reference_stencil_matches_actual_graph (test_melting_operator.MeltingOperatorTests.test_independent_reference_stencil_matches_actual_graph) ... ERROR
+
+======================================================================
+ERROR: test_independent_reference_stencil_matches_actual_graph (test_melting_operator.MeltingOperatorTests.test_independent_reference_stencil_matches_actual_graph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/tests/test_melting_operator.py", line 92, in test_independent_reference_stencil_matches_actual_graph
+    expected=-n1*np.asarray(graph(jnp.asarray(field.ravel()))).reshape(field.shape)-n2*(field**3-field)-n3*(1-field**2)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'SparseD' object is not callable
+
+======================================================================
+FAIL: test_euclidean_sphere_and_ellipsoid_interior_degeneracies (test_melting_operator.MeltingOperatorTests.test_euclidean_sphere_and_ellipsoid_interior_degeneracies)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/tests/test_melting_operator.py", line 43, in test_euclidean_sphere_and_ellipsoid_interior_degeneracies
+    np.testing.assert_allclose(signed_distance_numpy(transformed,rotated,56),actual,atol=2e-14)
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 1768, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 983, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError:
+Not equal to tolerance rtol=1e-07, atol=2e-14
+
+Mismatched elements: 2 / 12 (16.7%)
+Mismatch at indices:
+ [9]: 0.42114609795615193 (ACTUAL), 0.22271057451320087 (DESIRED)
+ [10]: 0.23144499156631385 (ACTUAL), 0.23055488621054107 (DESIRED)
+Max absolute difference among violations: 0.19843552
+Max relative difference among violations: 0.8910018
+ ACTUAL: array([-1.411136e-01, -7.093660e-02, -8.788380e-02, -1.684289e-02,
+       -1.389110e-01,  7.502602e-02, -1.093067e-01, -3.259104e-02,
+        2.400000e-01,  4.211461e-01,  2.314450e-01, -1.665335e-16])
+ DESIRED: array([-0.141114, -0.070937, -0.087884, -0.016843, -0.138911,  0.075026,
+       -0.109307, -0.032591,  0.24    ,  0.222711,  0.230555,  0.      ])
+
+----------------------------------------------------------------------
+Ran 3 tests in 34.206s
+
+FAILED (failures=1, errors=1)

@@ -1,0 +1,94 @@
+{
+  "records": [
+    {
+      "maximum_time_refinement_error": 8.804898621090781e-08,
+      "seconds": 54.47921732440591,
+      "phi_min": -1.0,
+      "phi_max": 0.999999841707987,
+      "dt": 0.005,
+      "refined_dt": 0.0025,
+      "scope": "Independent full128-cube native graph time convergence, not local continuum convergence"
+    },
+    {
+      "maximum_time_refinement_error": 8.92155567245853e-08,
+      "seconds": 52.59325711987913,
+      "phi_min": -1.0,
+      "phi_max": 0.999999454225632,
+      "dt": 0.005,
+      "refined_dt": 0.0025,
+      "scope": "Independent full128-cube native graph time convergence, not local continuum convergence"
+    },
+    {
+      "maximum_time_refinement_error": 9.21794571953666e-08,
+      "seconds": 53.495161855593324,
+      "phi_min": -1.0,
+      "phi_max": 0.9999998693826684,
+      "dt": 0.005,
+      "refined_dt": 0.0025,
+      "scope": "Independent full128-cube native graph time convergence, not local continuum convergence"
+    },
+    {
+      "maximum_time_refinement_error": 1.0388497141335215e-07,
+      "seconds": 51.585151985287666,
+      "phi_min": -1.0,
+      "phi_max": 0.9999998703253953,
+      "dt": 0.005,
+      "refined_dt": 0.0025,
+      "scope": "Independent full128-cube native graph time convergence, not local continuum convergence"
+    },
+    {
+      "maximum_time_refinement_error": 1.164632739770621e-07,
+      "seconds": 51.065691996365786,
+      "phi_min": -1.0,
+      "phi_max": 0.9999997392138908,
+      "dt": 0.005,
+      "refined_dt": 0.0025,
+      "scope": "Independent full128-cube native graph time convergence, not local continuum convergence"
+    },
+    {
+      "maximum_time_refinement_error": 1.1755040781640725e-07,
+      "seconds": 50.625537583604455,
+      "phi_min": -0.9999999999999998,
+      "phi_max": 0.9999999791475884,
+      "dt": 0.005,
+      "refined_dt": 0.0025,
+      "scope": "Independent full128-cube native graph time convergence, not local continuum convergence"
+    },
+    {
+      "maximum_time_refinement_error": 9.175320034745078e-08,
+      "seconds": 49.71232948452234,
+      "phi_min": -1.0,
+      "phi_max": 0.9999998943013706,
+      "dt": 0.005,
+      "refined_dt": 0.0025,
+      "scope": "Independent full128-cube native graph time convergence, not local continuum convergence"
+    },
+    {
+      "maximum_time_refinement_error": 1.4216992112844083e-07,
+      "seconds": 50.129034793004394,
+      "phi_min": -0.9999999999999999,
+      "phi_max": 0.9999999979366051,
+      "dt": 0.005,
+      "refined_dt": 0.0025,
+      "scope": "Independent full128-cube native graph time convergence, not local continuum convergence"
+    },
+    {
+      "maximum_time_refinement_error": 7.57494781495953e-08,
+      "seconds": 50.18572294153273,
+      "phi_min": -1.0,
+      "phi_max": 0.99999938010329,
+      "dt": 0.005,
+      "refined_dt": 0.0025,
+      "scope": "Independent full128-cube native graph time convergence, not local continuum convergence"
+    },
+    {
+      "maximum_time_refinement_error": 1.3007075430576927e-07,
+      "seconds": 50.018332812935114,
+      "phi_min": -0.9999999999999998,
+      "phi_max": 0.9999999844447144,
+      "dt": 0.005,
+      "refined_dt": 0.0025,
+      "scope": "Independent full128-cube native graph time convergence, not local continuum convergence"
+    }
+  ]
+}

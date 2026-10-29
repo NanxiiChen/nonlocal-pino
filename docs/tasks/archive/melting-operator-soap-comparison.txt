@@ -1,0 +1,92 @@
+{
+  "Adam": {
+    "mean": {
+      "pooled_phi": 0.002266476587448006,
+      "terminal_phi": 0.0009221335021845623,
+      "pooled_solid": 0.006424942797981074,
+      "terminal_solid": 0.04501658741692981,
+      "interface_phi_absolute_rmse": 0.010876137607393475,
+      "pooled_slice_phi": 0.004201173184660189,
+      "terminal_slice_phi": 0.002860812956357455,
+      "terminal_solid_fraction_relative_error": 0.012133295642049409,
+      "terminal_solid_fraction_absolute_error": 1.2269444713072249e-05,
+      "hard_IC_maximum_gap": 3.4507612059943987e-06
+    },
+    "maximum": {
+      "pooled_phi": 0.002731152544214896,
+      "terminal_phi": 0.0012549572999428407,
+      "pooled_solid": 0.006926106893073488,
+      "terminal_solid": 0.10593553341127046,
+      "interface_phi_absolute_rmse": 0.0119663403461746,
+      "pooled_slice_phi": 0.004666367176316043,
+      "terminal_slice_phi": 0.005495148058383881,
+      "terminal_solid_fraction_relative_error": 0.03345292350768726,
+      "terminal_solid_fraction_absolute_error": 3.4811064314098375e-05,
+      "hard_IC_maximum_gap": 5.214149242482868e-06
+    },
+    "performance": {
+      "cold_process_seconds": 300.5740709044039,
+      "trainer_seconds": 257.16745769418776,
+      "first_update_compile_and_call_seconds": 108.23833270929754,
+      "warm_update_mean_seconds": 0.02242826060195414,
+      "warm_sampling_mean_seconds": 0.003411397628171679,
+      "allocator": {
+        "num_allocs": 1251680,
+        "bytes_in_use": 5619456,
+        "peak_bytes_in_use": 1429767424,
+        "largest_alloc_size": 1421567744,
+        "bytes_limit": 38183976960,
+        "bytes_reserved": 0,
+        "peak_bytes_reserved": 0,
+        "largest_free_block_bytes": 0,
+        "pool_bytes": 4294967296,
+        "peak_pool_bytes": 4294967296
+      }
+    }
+  },
+  "SOAP": {
+    "mean": {
+      "pooled_phi": 0.0007851712221372429,
+      "terminal_phi": 0.0012907342662172414,
+      "pooled_solid": 0.0022347041981525106,
+      "terminal_solid": 0.06503613826756977,
+      "interface_phi_absolute_rmse": 0.0037759187639958332,
+      "pooled_slice_phi": 0.00223105528922723,
+      "terminal_slice_phi": 0.0041267388994268624,
+      "terminal_solid_fraction_relative_error": 0.04015645231096743,
+      "terminal_solid_fraction_absolute_error": 2.478670995503216e-05,
+      "hard_IC_maximum_gap": 3.4507612059943987e-06
+    },
+    "maximum": {
+      "pooled_phi": 0.0010109485732020867,
+      "terminal_phi": 0.0017837879454890581,
+      "pooled_solid": 0.0027498190204943364,
+      "terminal_solid": 0.15306142714830742,
+      "interface_phi_absolute_rmse": 0.004675637129106649,
+      "pooled_slice_phi": 0.003752401831532823,
+      "terminal_slice_phi": 0.007702174038137748,
+      "terminal_solid_fraction_relative_error": 0.08440446241315619,
+      "terminal_solid_fraction_absolute_error": 3.980685700812494e-05,
+      "hard_IC_maximum_gap": 5.214149242482868e-06
+    },
+    "performance": {
+      "cold_process_seconds": 492.0639511719346,
+      "trainer_seconds": 448.45611965470016,
+      "first_update_compile_and_call_seconds": 247.1166383996606,
+      "warm_update_mean_seconds": 0.03365543651986799,
+      "warm_sampling_mean_seconds": 0.0030645580947768762,
+      "allocator": {
+        "num_allocs": 2013092,
+        "bytes_in_use": 7980032,
+        "peak_bytes_in_use": 1706732800,
+        "largest_alloc_size": 1427136512,
+        "bytes_limit": 38183976960,
+        "bytes_reserved": 0,
+        "peak_bytes_reserved": 0,
+        "largest_free_block_bytes": 0,
+        "pool_bytes": 4294967296,
+        "peak_pool_bytes": 4294967296
+      }
+    }
+  }
+}

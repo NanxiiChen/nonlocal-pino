@@ -1,0 +1,20 @@
+{
+  "manifest": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1/manifest.json",
+  "run": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01",
+  "eligible_indices": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "selected_indices": [
+    5,
+    9,
+    2
+  ],
+  "method": "Uniform random choice without replacement, fresh system entropy; written before opening predictions or scores."
+}

@@ -1,0 +1,38 @@
+{
+  "run": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-memory-b16-01",
+  "action": "memory",
+  "iterations": 8,
+  "condition_batch": 16,
+  "setup_seconds": 10.215368032455444,
+  "trainer_seconds": 116.76574227586389,
+  "first_update_compile_and_call_seconds": 113.2173781003803,
+  "warm_update_mean_seconds": 0.0217594001442194,
+  "warm_sampling_mean_seconds": 0.0032940741096224102,
+  "allocator": {
+    "num_allocs": 6519,
+    "bytes_in_use": 5225472,
+    "peak_bytes_in_use": 1428841728,
+    "largest_alloc_size": 1421567744,
+    "bytes_limit": 38183976960,
+    "bytes_reserved": 0,
+    "peak_bytes_reserved": 0,
+    "largest_free_block_bytes": 0,
+    "pool_bytes": 4294967296,
+    "peak_pool_bytes": 4294967296
+  },
+  "graph": {
+    "grid_nodes": 2097152,
+    "directed_edges": 12484608,
+    "degree_max": 6,
+    "independent_weight": 11062.151677850028,
+    "actual_weight_min": 11062.15234375,
+    "actual_weight_max": 11062.15234375,
+    "padded_queries": 1788,
+    "padded_edges": 1532,
+    "core_points": 256,
+    "pool_entries": 32
+  },
+  "test": null,
+  "positive_time_training_labels": false,
+  "scope": "Online random ellipsoids; input volume encoder, coordinate-only queries; hard IC/no motion prior; native graph reference, not continuum validation"
+}

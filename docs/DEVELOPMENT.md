@@ -130,6 +130,19 @@ local AD Hessian traces; spectral flux and the projected-field time JVP remain
 identical. Its point-network Hessian is valid because the grid mass shift is
 constant in a spatial query. Compare fields against one common reference and
 keep native targets separate.
+
+The melting local FEM solver is rewritten for the random-ellipsoid operator:
+`examples/icemelting3d/solver.py` requires an explicit dotted config module,
+held-out input index, mesh subdivisions, dt and output path. Its config reads
+the saved training JSON and native manifest for physical/IC identity, not
+future labels. Epsilon stays fixed under mesh refinement. Consistent CG2
+tetrahedral mass, degree8 reaction quadrature and natural Neumann boundaries
+are independent of the neural/nonlocal residual. Explicit time.scheme selects
+constant-matrix IMEX BDF2 or the nonlinear implicit-midpoint control. Single
+resolution files are unvalidated until independent spatial/time gates pass.
+Do not reuse the removed mesh-dependent-epsilon/sphere-only FEM assumptions
+or interpret a native graph target as local-PDE validation. NumPy ellipsoid
+geometry imports no JAX; JAX imports are local to JAX-only geometry helpers.
 The explicit train_vortex_nonlocal_flux control changes conservative first
 derivatives to a moment-corrected finite-horizon nodal pair. It retains the
 independent pair Laplacian, direct output, IC/mass and training budget. Its
@@ -417,8 +430,9 @@ two feature channels. IC loss targets and global input images stay unchanged.
 Both modes have identical parameter shapes/initialization and retain physical
 IC supervision. Old saved configs lacking this optional field use the legacy
 initial mode. Replay through `predict_fields` with saved configuration; raw
-network calls alone do not apply this case-local feature option. The initial
-mode remains the existing default; zero is a diagnostic ablation.
+network calls alone do not apply this case-local feature option. The canonical train_operator.py preset selects online B8/5000 Adam and zero
+query-local features, matching the validated image-only run. Historical initial
+mode is explicit in train_operator_legacy.py and the old online controls.
 
 Electropolish `configs/train_operator_local.py` selects opt-in `nl.method=local_ad`
 through the same operator trainer. Its `operator_local.py` shares encoded images
@@ -434,3 +448,38 @@ are labeled graph diagnostics. `operator_reference.py` accepts an independent
 SciPy matrix and ordered snapshot times for local/graph reference validation.
 New runs record sampling.npz and synchronized update/setup/evaluation timings;
 snapshot local helper/preset sources. No shared network parameter shapes change.
+
+Melting opt-in `configs/train_operator.py` dispatches from canonical train.py
+before the single-IVP validator. `operator.action=prepare|train|memory` is explicit.
+The reusable conditional model accepts2D(CYX) or3D(CZYX)volumes, with coordinate
+queries in XY/XYZ. Preserve historical2Dpatch/key/parameter/position arithmetic;
+3Dpatch projection and positions require matching rank and width divisible by6.
+Do not tokenize every128^3physical grid node. The initial32^3volume is512tokens;
+training uses fixed core/halo queries, evaluation encodes once and chunks queries.
+Raw decoder local_dim is0; analytic prescribed IC enters only the case-level
+hard latent wrapper. Only initial ellipsoids are parameterized; later geometry
+is learned. Online parameters/SDF preparation are outside parameter AD.
+Ellipsoid Euclidean distances include singular interior axes and independent
+SciPy/FP32checks. Rotated/shifted shapes require a full-cube independent native
+reference; never reuse sphere analytic evolution or octant symmetry. Phase and
+solid/interface/volume errors remain separate. Memory probes must include PDE,
+parameter backward and optimizer, and distinguish active bytes from allocator
+pool/CUDAcontext. Old single-IVP defaults/checkpoints remain unchanged.
+
+
+## Versioned research information
+
+Keep source, stable Markdown, explicit configurations, compact numerical metrics
+and regeneration scripts in Git. Generated media, arrays, checkpoints and HLO
+under docs/tasks are ignored; no forced addition of those payloads. Existing
+local files stay at their original paths. artifacts/local_files.json records
+an external byte-verified backup for formerly tracked/local report outputs;
+scripts/restore_local_artifacts.py restores selected/all files and refuses to
+overwrite different local content. Old report image links are local artifact
+links and require restoration/regeneration after a fresh clone.
+
+Run `python scripts/check_repository_content.py` after staging. It rejects
+indexed generated payloads and files larger than1MiB; small immutable migration
+fixtures outside docs/tasks remain allowed. Do not rewrite published history
+to reduce size without separate explicit user authorization. Ordinary new
+commits removing outputs limit future growth but leave historical blobs intact.

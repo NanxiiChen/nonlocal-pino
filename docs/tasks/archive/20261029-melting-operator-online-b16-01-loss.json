@@ -1,0 +1,1719 @@
+[
+  {
+    "step": 1,
+    "loss": 7.876705169677734,
+    "seconds": 111.92631478607655,
+    "allocator": {
+      "num_allocs": 6305,
+      "bytes_in_use": 5611264,
+      "peak_bytes_in_use": 1428243200,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 50,
+    "loss": 2.709129810333252,
+    "seconds": 113.34942551329732,
+    "allocator": {
+      "num_allocs": 18408,
+      "bytes_in_use": 5618176,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 100,
+    "loss": 0.8228312730789185,
+    "seconds": 114.80135086551309,
+    "allocator": {
+      "num_allocs": 30758,
+      "bytes_in_use": 5668352,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 150,
+    "loss": 0.7512521743774414,
+    "seconds": 116.21534396521747,
+    "allocator": {
+      "num_allocs": 43108,
+      "bytes_in_use": 5668608,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 200,
+    "loss": 0.5972357988357544,
+    "seconds": 117.62613124959171,
+    "allocator": {
+      "num_allocs": 55458,
+      "bytes_in_use": 5618944,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 250,
+    "loss": 1.3397252559661865,
+    "seconds": 118.99722153320909,
+    "allocator": {
+      "num_allocs": 67808,
+      "bytes_in_use": 5668352,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 300,
+    "loss": 0.2435525506734848,
+    "seconds": 120.45439811050892,
+    "allocator": {
+      "num_allocs": 80516,
+      "bytes_in_use": 5668352,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 350,
+    "loss": 0.3034166097640991,
+    "seconds": 121.8582186345011,
+    "allocator": {
+      "num_allocs": 92866,
+      "bytes_in_use": 5618688,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 400,
+    "loss": 0.3564152121543884,
+    "seconds": 123.20532607845962,
+    "allocator": {
+      "num_allocs": 105216,
+      "bytes_in_use": 5667840,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 450,
+    "loss": 0.3229547142982483,
+    "seconds": 124.5621810220182,
+    "allocator": {
+      "num_allocs": 117566,
+      "bytes_in_use": 5667840,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 500,
+    "loss": 0.3538501262664795,
+    "seconds": 126.09733785688877,
+    "allocator": {
+      "num_allocs": 129916,
+      "bytes_in_use": 5619456,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 550,
+    "loss": 0.31602561473846436,
+    "seconds": 127.62249132245779,
+    "allocator": {
+      "num_allocs": 142624,
+      "bytes_in_use": 5669888,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 600,
+    "loss": 0.4152437746524811,
+    "seconds": 129.05859191343188,
+    "allocator": {
+      "num_allocs": 154974,
+      "bytes_in_use": 5669120,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 650,
+    "loss": 0.2768658697605133,
+    "seconds": 130.41505006328225,
+    "allocator": {
+      "num_allocs": 167324,
+      "bytes_in_use": 5618944,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 700,
+    "loss": 0.44431886076927185,
+    "seconds": 131.74802919104695,
+    "allocator": {
+      "num_allocs": 179674,
+      "bytes_in_use": 5668864,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 750,
+    "loss": 0.21709121763706207,
+    "seconds": 133.10726710222661,
+    "allocator": {
+      "num_allocs": 192024,
+      "bytes_in_use": 5668096,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 800,
+    "loss": 0.16768386960029602,
+    "seconds": 134.55267378501594,
+    "allocator": {
+      "num_allocs": 204732,
+      "bytes_in_use": 5618944,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 850,
+    "loss": 0.0776698887348175,
+    "seconds": 135.91448597051203,
+    "allocator": {
+      "num_allocs": 217082,
+      "bytes_in_use": 5668096,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 900,
+    "loss": 0.3319563865661621,
+    "seconds": 137.23341744951904,
+    "allocator": {
+      "num_allocs": 229432,
+      "bytes_in_use": 5668864,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 950,
+    "loss": 0.3372623324394226,
+    "seconds": 138.72532456554472,
+    "allocator": {
+      "num_allocs": 241782,
+      "bytes_in_use": 5617920,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1000,
+    "loss": 0.42272400856018066,
+    "seconds": 140.28878691233695,
+    "allocator": {
+      "num_allocs": 254132,
+      "bytes_in_use": 5668352,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1050,
+    "loss": 0.3730018138885498,
+    "seconds": 141.9071241300553,
+    "allocator": {
+      "num_allocs": 266840,
+      "bytes_in_use": 5668352,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1100,
+    "loss": 0.1557389497756958,
+    "seconds": 143.34610385075212,
+    "allocator": {
+      "num_allocs": 279190,
+      "bytes_in_use": 5618688,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1150,
+    "loss": 0.3286239206790924,
+    "seconds": 144.74708106927574,
+    "allocator": {
+      "num_allocs": 291540,
+      "bytes_in_use": 5668352,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1200,
+    "loss": 0.14321370422840118,
+    "seconds": 146.08319542370737,
+    "allocator": {
+      "num_allocs": 303890,
+      "bytes_in_use": 5668096,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1250,
+    "loss": 0.1445389688014984,
+    "seconds": 147.73995552212,
+    "allocator": {
+      "num_allocs": 316240,
+      "bytes_in_use": 5618432,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1300,
+    "loss": 0.23150712251663208,
+    "seconds": 149.2199838589877,
+    "allocator": {
+      "num_allocs": 328948,
+      "bytes_in_use": 5668608,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1350,
+    "loss": 0.09237855672836304,
+    "seconds": 150.58008636161685,
+    "allocator": {
+      "num_allocs": 341298,
+      "bytes_in_use": 5669120,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1400,
+    "loss": 0.05763015151023865,
+    "seconds": 151.92910456098616,
+    "allocator": {
+      "num_allocs": 353648,
+      "bytes_in_use": 5618944,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1450,
+    "loss": 0.1835830807685852,
+    "seconds": 153.31726806424558,
+    "allocator": {
+      "num_allocs": 365998,
+      "bytes_in_use": 5668352,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1500,
+    "loss": 0.17016784846782684,
+    "seconds": 154.6672409363091,
+    "allocator": {
+      "num_allocs": 378348,
+      "bytes_in_use": 5670400,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1550,
+    "loss": 0.15294624865055084,
+    "seconds": 156.09041278250515,
+    "allocator": {
+      "num_allocs": 391056,
+      "bytes_in_use": 5620480,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1600,
+    "loss": 0.20816519856452942,
+    "seconds": 157.45095151476562,
+    "allocator": {
+      "num_allocs": 403406,
+      "bytes_in_use": 5668352,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1650,
+    "loss": 0.21766117215156555,
+    "seconds": 158.7854663748294,
+    "allocator": {
+      "num_allocs": 415756,
+      "bytes_in_use": 5669888,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1700,
+    "loss": 0.12863676249980927,
+    "seconds": 160.13869610987604,
+    "allocator": {
+      "num_allocs": 428106,
+      "bytes_in_use": 5619200,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1750,
+    "loss": 0.09438209980726242,
+    "seconds": 161.4861879106611,
+    "allocator": {
+      "num_allocs": 440456,
+      "bytes_in_use": 5669120,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1800,
+    "loss": 0.07807178795337677,
+    "seconds": 162.96110603772104,
+    "allocator": {
+      "num_allocs": 453164,
+      "bytes_in_use": 5669376,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1850,
+    "loss": 0.132292240858078,
+    "seconds": 164.31959208659828,
+    "allocator": {
+      "num_allocs": 465514,
+      "bytes_in_use": 5618944,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1900,
+    "loss": 0.3689614236354828,
+    "seconds": 165.73642135970294,
+    "allocator": {
+      "num_allocs": 477864,
+      "bytes_in_use": 5670144,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 1950,
+    "loss": 0.27895238995552063,
+    "seconds": 167.44194370694458,
+    "allocator": {
+      "num_allocs": 490214,
+      "bytes_in_use": 5668608,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2000,
+    "loss": 0.21210220456123352,
+    "seconds": 168.82404001057148,
+    "allocator": {
+      "num_allocs": 502564,
+      "bytes_in_use": 5618688,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2050,
+    "loss": 0.12575402855873108,
+    "seconds": 170.26178956404328,
+    "allocator": {
+      "num_allocs": 515272,
+      "bytes_in_use": 5667584,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2100,
+    "loss": 0.14509442448616028,
+    "seconds": 171.63393229804933,
+    "allocator": {
+      "num_allocs": 527622,
+      "bytes_in_use": 5668608,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2150,
+    "loss": 0.17824015021324158,
+    "seconds": 173.004121998325,
+    "allocator": {
+      "num_allocs": 539972,
+      "bytes_in_use": 5618432,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2200,
+    "loss": 0.15216267108917236,
+    "seconds": 174.38704114966094,
+    "allocator": {
+      "num_allocs": 552322,
+      "bytes_in_use": 5668352,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2250,
+    "loss": 0.06684140861034393,
+    "seconds": 175.78291797824204,
+    "allocator": {
+      "num_allocs": 564672,
+      "bytes_in_use": 5667840,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2300,
+    "loss": 0.11954642832279205,
+    "seconds": 177.29754685610533,
+    "allocator": {
+      "num_allocs": 577380,
+      "bytes_in_use": 5618176,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2350,
+    "loss": 0.14200635254383087,
+    "seconds": 178.79131554625928,
+    "allocator": {
+      "num_allocs": 589730,
+      "bytes_in_use": 5669120,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2400,
+    "loss": 0.13142681121826172,
+    "seconds": 180.31572493165731,
+    "allocator": {
+      "num_allocs": 602080,
+      "bytes_in_use": 5668096,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2450,
+    "loss": 0.1018163412809372,
+    "seconds": 181.8324460554868,
+    "allocator": {
+      "num_allocs": 614430,
+      "bytes_in_use": 5618176,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2500,
+    "loss": 0.08072634786367416,
+    "seconds": 183.30930723436177,
+    "allocator": {
+      "num_allocs": 626780,
+      "bytes_in_use": 5668352,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2550,
+    "loss": 0.17565438151359558,
+    "seconds": 184.8530909847468,
+    "allocator": {
+      "num_allocs": 639488,
+      "bytes_in_use": 5670144,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2600,
+    "loss": 0.16557134687900543,
+    "seconds": 186.31241708435118,
+    "allocator": {
+      "num_allocs": 651838,
+      "bytes_in_use": 5618432,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2650,
+    "loss": 0.1994818150997162,
+    "seconds": 187.74433555081487,
+    "allocator": {
+      "num_allocs": 664188,
+      "bytes_in_use": 5668608,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2700,
+    "loss": 0.1432221233844757,
+    "seconds": 189.5903454683721,
+    "allocator": {
+      "num_allocs": 676538,
+      "bytes_in_use": 5669376,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2750,
+    "loss": 0.21224260330200195,
+    "seconds": 191.10746086202562,
+    "allocator": {
+      "num_allocs": 688888,
+      "bytes_in_use": 5620736,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2800,
+    "loss": 0.10130058228969574,
+    "seconds": 192.5994339864701,
+    "allocator": {
+      "num_allocs": 701596,
+      "bytes_in_use": 5670656,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2850,
+    "loss": 0.10758031159639359,
+    "seconds": 194.0233468823135,
+    "allocator": {
+      "num_allocs": 713946,
+      "bytes_in_use": 5668864,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2900,
+    "loss": 0.08892019093036652,
+    "seconds": 195.49574170075357,
+    "allocator": {
+      "num_allocs": 726296,
+      "bytes_in_use": 5619712,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 2950,
+    "loss": 0.09018503129482269,
+    "seconds": 196.89901627413929,
+    "allocator": {
+      "num_allocs": 738646,
+      "bytes_in_use": 5668864,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3000,
+    "loss": 0.10912985354661942,
+    "seconds": 198.35047389380634,
+    "allocator": {
+      "num_allocs": 750996,
+      "bytes_in_use": 5669632,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3050,
+    "loss": 0.05154963210225105,
+    "seconds": 199.87063006684184,
+    "allocator": {
+      "num_allocs": 763704,
+      "bytes_in_use": 5619968,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3100,
+    "loss": 0.05374523997306824,
+    "seconds": 201.28189230524004,
+    "allocator": {
+      "num_allocs": 776054,
+      "bytes_in_use": 5670144,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3150,
+    "loss": 0.14476098120212555,
+    "seconds": 202.72063646651804,
+    "allocator": {
+      "num_allocs": 788404,
+      "bytes_in_use": 5669120,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3200,
+    "loss": 0.05128564313054085,
+    "seconds": 204.13602058589458,
+    "allocator": {
+      "num_allocs": 800754,
+      "bytes_in_use": 5618176,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3250,
+    "loss": 0.09007684886455536,
+    "seconds": 205.60407102666795,
+    "allocator": {
+      "num_allocs": 813104,
+      "bytes_in_use": 5667840,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3300,
+    "loss": 0.07922308146953583,
+    "seconds": 207.21744904480875,
+    "allocator": {
+      "num_allocs": 825812,
+      "bytes_in_use": 5668352,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3350,
+    "loss": 0.04615873843431473,
+    "seconds": 208.72397404164076,
+    "allocator": {
+      "num_allocs": 838162,
+      "bytes_in_use": 5618176,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3400,
+    "loss": 0.1179506704211235,
+    "seconds": 210.16354089044034,
+    "allocator": {
+      "num_allocs": 850512,
+      "bytes_in_use": 5668096,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3450,
+    "loss": 0.048842646181583405,
+    "seconds": 211.8399423006922,
+    "allocator": {
+      "num_allocs": 862862,
+      "bytes_in_use": 5668608,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3500,
+    "loss": 0.06428541243076324,
+    "seconds": 213.326982550323,
+    "allocator": {
+      "num_allocs": 875212,
+      "bytes_in_use": 5618944,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3550,
+    "loss": 0.12116430699825287,
+    "seconds": 214.8348504062742,
+    "allocator": {
+      "num_allocs": 887920,
+      "bytes_in_use": 5668096,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3600,
+    "loss": 0.03193969279527664,
+    "seconds": 216.22672234661877,
+    "allocator": {
+      "num_allocs": 900270,
+      "bytes_in_use": 5668096,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3650,
+    "loss": 0.06180952861905098,
+    "seconds": 217.63083136081696,
+    "allocator": {
+      "num_allocs": 912620,
+      "bytes_in_use": 5618176,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3700,
+    "loss": 0.1522330641746521,
+    "seconds": 219.05391767062247,
+    "allocator": {
+      "num_allocs": 924970,
+      "bytes_in_use": 5668352,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3750,
+    "loss": 0.09034351259469986,
+    "seconds": 220.50000661425292,
+    "allocator": {
+      "num_allocs": 937320,
+      "bytes_in_use": 5669120,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3800,
+    "loss": 0.04564307630062103,
+    "seconds": 221.9830355066806,
+    "allocator": {
+      "num_allocs": 950028,
+      "bytes_in_use": 5619968,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3850,
+    "loss": 0.11239524185657501,
+    "seconds": 223.36676781624556,
+    "allocator": {
+      "num_allocs": 962378,
+      "bytes_in_use": 5667840,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3900,
+    "loss": 0.027902182191610336,
+    "seconds": 224.7572979927063,
+    "allocator": {
+      "num_allocs": 974728,
+      "bytes_in_use": 5668352,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 3950,
+    "loss": 0.06919082254171371,
+    "seconds": 226.19494239799678,
+    "allocator": {
+      "num_allocs": 987078,
+      "bytes_in_use": 5618176,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4000,
+    "loss": 0.16331836581230164,
+    "seconds": 227.5777336228639,
+    "allocator": {
+      "num_allocs": 999428,
+      "bytes_in_use": 5669376,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4050,
+    "loss": 0.08977208286523819,
+    "seconds": 229.06867863424122,
+    "allocator": {
+      "num_allocs": 1012136,
+      "bytes_in_use": 5667840,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4100,
+    "loss": 0.22530508041381836,
+    "seconds": 230.48979870602489,
+    "allocator": {
+      "num_allocs": 1024486,
+      "bytes_in_use": 5618432,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4150,
+    "loss": 0.15018898248672485,
+    "seconds": 232.1859249342233,
+    "allocator": {
+      "num_allocs": 1036836,
+      "bytes_in_use": 5667584,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4200,
+    "loss": 0.08219905197620392,
+    "seconds": 233.58491986058652,
+    "allocator": {
+      "num_allocs": 1049186,
+      "bytes_in_use": 5668608,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4250,
+    "loss": 0.048999395221471786,
+    "seconds": 234.982854206115,
+    "allocator": {
+      "num_allocs": 1061536,
+      "bytes_in_use": 5617408,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4300,
+    "loss": 0.033721648156642914,
+    "seconds": 236.45472993142903,
+    "allocator": {
+      "num_allocs": 1074244,
+      "bytes_in_use": 5669120,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4350,
+    "loss": 0.060581423342227936,
+    "seconds": 237.8832792341709,
+    "allocator": {
+      "num_allocs": 1086594,
+      "bytes_in_use": 5668864,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4400,
+    "loss": 0.03885131701827049,
+    "seconds": 239.30532921478152,
+    "allocator": {
+      "num_allocs": 1098944,
+      "bytes_in_use": 5619200,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4450,
+    "loss": 0.10072047263383865,
+    "seconds": 240.67671143449843,
+    "allocator": {
+      "num_allocs": 1111294,
+      "bytes_in_use": 5667840,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4500,
+    "loss": 0.04128819704055786,
+    "seconds": 242.10592092201114,
+    "allocator": {
+      "num_allocs": 1123644,
+      "bytes_in_use": 5668864,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4550,
+    "loss": 0.03780693560838699,
+    "seconds": 243.5893393624574,
+    "allocator": {
+      "num_allocs": 1136352,
+      "bytes_in_use": 5618944,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4600,
+    "loss": 0.05512792244553566,
+    "seconds": 245.01656766980886,
+    "allocator": {
+      "num_allocs": 1148702,
+      "bytes_in_use": 5668864,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4650,
+    "loss": 0.09537296742200851,
+    "seconds": 246.45275503769517,
+    "allocator": {
+      "num_allocs": 1161052,
+      "bytes_in_use": 5668096,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4700,
+    "loss": 0.06311012804508209,
+    "seconds": 247.88683893345296,
+    "allocator": {
+      "num_allocs": 1173402,
+      "bytes_in_use": 5617920,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4750,
+    "loss": 0.062308069318532944,
+    "seconds": 249.29052803479135,
+    "allocator": {
+      "num_allocs": 1185752,
+      "bytes_in_use": 5668608,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4800,
+    "loss": 0.06677654385566711,
+    "seconds": 250.8356881570071,
+    "allocator": {
+      "num_allocs": 1198460,
+      "bytes_in_use": 5667840,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4850,
+    "loss": 0.060200035572052,
+    "seconds": 252.24400695040822,
+    "allocator": {
+      "num_allocs": 1210810,
+      "bytes_in_use": 5619456,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4900,
+    "loss": 0.02808881178498268,
+    "seconds": 253.95611979067326,
+    "allocator": {
+      "num_allocs": 1223160,
+      "bytes_in_use": 5668096,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 4950,
+    "loss": 0.14875400066375732,
+    "seconds": 255.29689260013402,
+    "allocator": {
+      "num_allocs": 1235510,
+      "bytes_in_use": 5668096,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  },
+  {
+    "step": 5000,
+    "loss": 0.12955696880817413,
+    "seconds": 256.6869426686317,
+    "allocator": {
+      "num_allocs": 1247860,
+      "bytes_in_use": 5619456,
+      "peak_bytes_in_use": 1429767424,
+      "largest_alloc_size": 1421567744,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 4294967296,
+      "peak_pool_bytes": 4294967296
+    }
+  }
+]

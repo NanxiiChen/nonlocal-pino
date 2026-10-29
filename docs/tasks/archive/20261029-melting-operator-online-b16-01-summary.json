@@ -1,0 +1,358 @@
+{
+  "run": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01",
+  "action": "train",
+  "iterations": 5000,
+  "condition_batch": 16,
+  "setup_seconds": 11.033243561163545,
+  "trainer_seconds": 257.16745769418776,
+  "first_update_compile_and_call_seconds": 108.23833270929754,
+  "warm_update_mean_seconds": 0.02242826060195414,
+  "warm_sampling_mean_seconds": 0.003411397628171679,
+  "allocator": {
+    "num_allocs": 1251680,
+    "bytes_in_use": 5619456,
+    "peak_bytes_in_use": 1429767424,
+    "largest_alloc_size": 1421567744,
+    "bytes_limit": 38183976960,
+    "bytes_reserved": 0,
+    "peak_bytes_reserved": 0,
+    "largest_free_block_bytes": 0,
+    "pool_bytes": 4294967296,
+    "peak_pool_bytes": 4294967296
+  },
+  "graph": {
+    "grid_nodes": 2097152,
+    "directed_edges": 12484608,
+    "degree_max": 6,
+    "independent_weight": 11062.151677850028,
+    "actual_weight_min": 11062.15234375,
+    "actual_weight_max": 11062.15234375,
+    "padded_queries": 1788,
+    "padded_edges": 1532,
+    "core_points": 256,
+    "pool_entries": 32
+  },
+  "test": {
+    "step": 5000,
+    "split": "test",
+    "conditions": [
+      {
+        "index": 2,
+        "pooled_phi": 0.002003503720771858,
+        "terminal_phi": 0.0007570645655210291,
+        "pooled_solid": 0.0063619893877765715,
+        "terminal_solid": 0.0445581742120897,
+        "interface_phi_absolute_rmse": 0.010423210946414328,
+        "phi_by_time": [
+          1.9441205804252064e-07,
+          0.002458181046787828,
+          0.0029797748908830034,
+          0.002122092934048734,
+          0.0007570645655210291
+        ],
+        "solid_by_time": [
+          3.476481627462409e-07,
+          0.0065922086936772,
+          0.013733374164018233,
+          0.022521014901834915,
+          0.0445581742120897
+        ],
+        "solid_fraction_predicted": [
+          0.08820807188749313,
+          0.04217462241649628,
+          0.01596403680741787,
+          0.003875842783600092,
+          0.00036634691059589386
+        ],
+        "solid_fraction_target": [
+          0.0882080818230221,
+          0.04243444373064397,
+          0.016200757878461296,
+          0.003982663136634545,
+          0.0003668044120598552
+        ],
+        "phi_min": -1.0,
+        "phi_max": 0.9999996423721313,
+        "zero_target_norm_policy": "Relative metric is null if reference norm is exactly zero; no denominator floor"
+      },
+      {
+        "index": 3,
+        "pooled_phi": 0.002148715594838842,
+        "terminal_phi": 0.0009893091487787244,
+        "pooled_solid": 0.00628015369964976,
+        "terminal_solid": 0.045565387969633005,
+        "interface_phi_absolute_rmse": 0.010491595466461301,
+        "phi_by_time": [
+          2.441694208979701e-07,
+          0.002612015136642276,
+          0.0031121409124615887,
+          0.002345339191824748,
+          0.0009893091487787244
+        ],
+        "solid_by_time": [
+          4.0542028660160035e-07,
+          0.006403429081470023,
+          0.012794551209731024,
+          0.021377090993981936,
+          0.045565387969633005
+        ],
+        "solid_fraction_predicted": [
+          0.10096966475248337,
+          0.049708351492881775,
+          0.019627025350928307,
+          0.005076806992292404,
+          0.0005362252704799175
+        ],
+        "solid_fraction_target": [
+          0.10096968924313304,
+          0.050002355687141384,
+          0.019894374018009118,
+          0.005202663593537963,
+          0.0005353340200961332
+        ],
+        "phi_min": -1.0,
+        "phi_max": 0.9999997019767761,
+        "zero_target_norm_policy": "Relative metric is null if reference norm is exactly zero; no denominator floor"
+      },
+      {
+        "index": 4,
+        "pooled_phi": 0.002546326805223363,
+        "terminal_phi": 0.0012527899655206244,
+        "pooled_solid": 0.006926106893073488,
+        "terminal_solid": 0.06478080157639392,
+        "interface_phi_absolute_rmse": 0.011794928309999848,
+        "phi_by_time": [
+          2.6947575996662735e-07,
+          0.0028737242492479437,
+          0.00365570169908453,
+          0.0030072630446121443,
+          0.0012527899655206244
+        ],
+        "solid_by_time": [
+          4.1938126777998624e-07,
+          0.006515603693126896,
+          0.013632544938040907,
+          0.02451500256813617,
+          0.06478080157639392
+        ],
+        "solid_fraction_predicted": [
+          0.11349181830883026,
+          0.057305820286273956,
+          0.02346108667552471,
+          0.006273644044995308,
+          0.0005720314220525324
+        ],
+        "solid_fraction_target": [
+          0.11349180153111608,
+          0.05764572020630508,
+          0.02379541899659313,
+          0.006452722413131062,
+          0.0005769501494064255
+        ],
+        "phi_min": -1.0,
+        "phi_max": 0.9999996423721313,
+        "zero_target_norm_policy": "Relative metric is null if reference norm is exactly zero; no denominator floor"
+      },
+      {
+        "index": 5,
+        "pooled_phi": 0.002382636795404363,
+        "terminal_phi": 0.000834337461594975,
+        "pooled_solid": 0.006393036075166274,
+        "terminal_solid": 0.018762825413949427,
+        "interface_phi_absolute_rmse": 0.011043766898208785,
+        "phi_by_time": [
+          5.06793481548344e-07,
+          0.0027891980824810707,
+          0.0035060091382050234,
+          0.0027362554436959996,
+          0.000834337461594975
+        ],
+        "solid_by_time": [
+          7.8772523784621e-07,
+          0.0062543679590093765,
+          0.01257903048300748,
+          0.0191610568830514,
+          0.018762825413949427
+        ],
+        "solid_fraction_predicted": [
+          0.11358674615621567,
+          0.05821460857987404,
+          0.024825870990753174,
+          0.007657300680875778,
+          0.0012440546415746212
+        ],
+        "solid_fraction_target": [
+          0.11358680955032883,
+          0.05854386402569185,
+          0.025145444934636267,
+          0.00783084928355053,
+          0.0012603847292620898
+        ],
+        "phi_min": -1.0,
+        "phi_max": 1.0,
+        "zero_target_norm_policy": "Relative metric is null if reference norm is exactly zero; no denominator floor"
+      },
+      {
+        "index": 6,
+        "pooled_phi": 0.002117189742462748,
+        "terminal_phi": 0.0009214228037001376,
+        "pooled_solid": 0.006758289277882512,
+        "terminal_solid": 0.04937218725928516,
+        "interface_phi_absolute_rmse": 0.011099937154875911,
+        "phi_by_time": [
+          1.983544062711985e-07,
+          0.002484885144900643,
+          0.0031440416194625895,
+          0.0023250970612366238,
+          0.0009214228037001376
+        ],
+        "solid_by_time": [
+          3.569759802100964e-07,
+          0.006701814526841897,
+          0.014535222446253744,
+          0.024273070422026036,
+          0.04937218725928516
+        ],
+        "solid_fraction_predicted": [
+          0.08715405315160751,
+          0.041679248213768005,
+          0.015834862366318703,
+          0.003920393530279398,
+          0.00038983358535915613
+        ],
+        "solid_fraction_target": [
+          0.08715406187964016,
+          0.04194010324469821,
+          0.016079542494042483,
+          0.004037253740934995,
+          0.00039390421369075556
+        ],
+        "phi_min": -1.0,
+        "phi_max": 1.0,
+        "zero_target_norm_policy": "Relative metric is null if reference norm is exactly zero; no denominator floor"
+      },
+      {
+        "index": 7,
+        "pooled_phi": 0.0027072983995106922,
+        "terminal_phi": 0.0007659267854472553,
+        "pooled_solid": 0.006231126873834187,
+        "terminal_solid": 0.00936003311520642,
+        "interface_phi_absolute_rmse": 0.01128396131821251,
+        "phi_by_time": [
+          2.9563964978134487e-07,
+          0.00313497366566621,
+          0.003934334376062741,
+          0.003250751143602293,
+          0.0007659267854472553
+        ],
+        "solid_by_time": [
+          4.041101056749536e-07,
+          0.005997156793098008,
+          0.011470905398593793,
+          0.016730857945326826,
+          0.00936003311520642
+        ],
+        "solid_fraction_predicted": [
+          0.14318683743476868,
+          0.07752222567796707,
+          0.036019809544086456,
+          0.013096828944981098,
+          0.00305608450435102
+        ],
+        "solid_fraction_target": [
+          0.14318682266621968,
+          0.07793072313583016,
+          0.03642883709579595,
+          0.013343682586417986,
+          0.003090895577503161
+        ],
+        "phi_min": -1.0,
+        "phi_max": 1.0,
+        "zero_target_norm_policy": "Relative metric is null if reference norm is exactly zero; no denominator floor"
+      },
+      {
+        "index": 8,
+        "pooled_phi": 0.0014949890971572852,
+        "terminal_phi": 0.0006012599869709113,
+        "pooled_solid": 0.005672605617789107,
+        "terminal_solid": 0.10593553341127046,
+        "interface_phi_absolute_rmse": 0.00890536041880051,
+        "phi_by_time": [
+          1.8677638601719633e-07,
+          0.002003062089403971,
+          0.0022522508754485382,
+          0.0013056646786012945,
+          0.0006012599869709113
+        ],
+        "solid_by_time": [
+          3.891282493157206e-07,
+          0.00653083385119339,
+          0.013710979293501574,
+          0.022343068888198814,
+          0.10593553341127046
+        ],
+        "solid_fraction_predicted": [
+          0.06690365821123123,
+          0.029638493433594704,
+          0.009823961183428764,
+          0.0018380549736320972,
+          0.00010240556730423123
+        ],
+        "solid_fraction_target": [
+          0.0669036644163466,
+          0.029827482266108298,
+          0.00997596662559395,
+          0.0018875620627616704,
+          9.909069963749243e-05
+        ],
+        "phi_min": -1.0,
+        "phi_max": 0.9999992847442627,
+        "zero_target_norm_policy": "Relative metric is null if reference norm is exactly zero; no denominator floor"
+      },
+      {
+        "index": 9,
+        "pooled_phi": 0.002731152544214896,
+        "terminal_phi": 0.0012549572999428407,
+        "pooled_solid": 0.006776234558676692,
+        "terminal_solid": 0.021797756377610333,
+        "interface_phi_absolute_rmse": 0.0119663403461746,
+        "phi_by_time": [
+          3.151187752952517e-07,
+          0.0030445942474407206,
+          0.003923848976241375,
+          0.0032907088473700026,
+          0.0012549572999428407
+        ],
+        "solid_by_time": [
+          4.5802492103905963e-07,
+          0.006290543005612815,
+          0.012650063557916735,
+          0.01981131449497939,
+          0.021797756377610333
+        ],
+        "solid_fraction_predicted": [
+          0.12821157276630402,
+          0.06756280362606049,
+          0.030062446370720863,
+          0.009954545646905899,
+          0.0018596997251734138
+        ],
+        "solid_fraction_target": [
+          0.12821160762167358,
+          0.06793934958048709,
+          0.03044143878937586,
+          0.010180000750994971,
+          0.0018930610777292928
+        ],
+        "phi_min": -1.0,
+        "phi_max": 1.0,
+        "zero_target_norm_policy": "Relative metric is null if reference norm is exactly zero; no denominator floor"
+      }
+    ],
+    "seconds": 1.83448083139956,
+    "pooled_phi": 0.002266476587448006,
+    "terminal_phi": 0.0009221335021845623
+  },
+  "positive_time_training_labels": false,
+  "scope": "Online random ellipsoids; input volume encoder, coordinate-only queries; hard IC/no motion prior; native graph reference, not continuum validation"
+}

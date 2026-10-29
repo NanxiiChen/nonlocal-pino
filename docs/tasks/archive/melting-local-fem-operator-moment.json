@@ -1,0 +1,11 @@
+{
+  "h": 0.007874015748031496,
+  "delta": 0.01,
+  "horizon_to_spacing": 1.27,
+  "neighbors": 6,
+  "weight": 11062.151677850028,
+  "quadratic_moment_ratio": 0.6858547757362532,
+  "discrete_D_of_radius_squared": -4.11512865441752,
+  "negative_local_laplacian_of_radius_squared": -6,
+  "scope": "Interior six-axis stencil: D f = w sum_j(f_i-f_j); exact quadratic test, not a continuum-field error estimate."
+}

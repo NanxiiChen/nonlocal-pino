@@ -1,0 +1,9 @@
+Calling FFC just-in-time (JIT) compiler, this may take some time.
+  WARNING: The number of integration points for each cell will be: 125
+           Consider using the option 'quadrature_degree' to reduce the number of points
+FEM_START {"index": 5, "N": 32, "dt": 0.005, "dofs": 274625, "ranks": 12, "setup_seconds": 2.615553990006447, "initial_min": -0.9999999999999999, "initial_max": 0.9999999673149325}
+{"index": 5, "N": 32, "dt": 0.005, "step": 50, "steps": 200, "seconds": 10.58171821758151}
+{"index": 5, "N": 32, "dt": 0.005, "step": 100, "steps": 200, "seconds": 18.488307889550924}
+{"index": 5, "N": 32, "dt": 0.005, "step": 150, "steps": 200, "seconds": 26.36835254728794}
+{"index": 5, "N": 32, "dt": 0.005, "step": 200, "steps": 200, "seconds": 34.60994444042444}
+FEM_COMPLETE /root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/case005-imex-n32-dt0p005.npz 34.61109886132181

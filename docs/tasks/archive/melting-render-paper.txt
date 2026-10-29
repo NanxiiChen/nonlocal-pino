@@ -1,0 +1,51 @@
+{
+  "samples": [
+    5,
+    9,
+    2
+  ],
+  "frames": [
+    0,
+    15,
+    30,
+    45,
+    60
+  ],
+  "physical_times": [
+    0,
+    1.25,
+    2.5,
+    3.75,
+    5.0
+  ],
+  "camera": {
+    "elevation": 23,
+    "azimuth": -57,
+    "projection": "orthographic"
+  },
+  "bounds": [
+    0.08,
+    0.92
+  ],
+  "axes": "Dimensionless x*,y*,z*, equal aspect, same scale at every time",
+  "sources": "Saved actual phi=0 meshes in /root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes",
+  "outputs": [
+    "melting-paper-3d-snapshots.png",
+    "melting-paper-3d-snapshots.pdf",
+    "melting-paper-3d-snapshots.svg",
+    "melting-paper-3d-single.png",
+    "melting-paper-3d-single.pdf",
+    "melting-paper-3d-single.svg",
+    "melting-paper-3d-overlay.png",
+    "melting-paper-3d-overlay.pdf",
+    "melting-paper-3d-overlay.svg",
+    "melting-paper-3d-cutaway.png",
+    "melting-paper-3d-cutaway.pdf",
+    "melting-paper-3d-cutaway.svg"
+  ],
+  "surface": "Matte diffuse shading only; no specular highlights or geometric smoothing.",
+  "overlay": "True mesh silhouettes and three orthogonal intersection curves, time colors.",
+  "cutaway": "Display-only front quadrant removal on outer four times exposes nesting; not a physical hole or changed field.",
+  "pdf_svg": "Vector labels/axes/curves; dense filled surface layers rasterized at high dpi. Overlay curves fully vector.",
+  "scope": "Publication visualization only, original dense prediction/mesh values unchanged; no new accuracy claim."
+}
