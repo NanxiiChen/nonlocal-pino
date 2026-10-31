@@ -1,0 +1,59 @@
+{
+  "scope": "Read-only assessment, not a GPU or refinement experiment; all new-mesh point and memory counts are asymptotic estimates.",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01",
+  "gpu_report": {
+    "name": "NVIDIA GeForce RTX 3090",
+    "total_MiB": 49152
+  },
+  "measured_current_memory": {
+    "peak_active_GiB": 15.717642068862915,
+    "allocator_limit_GiB": 35.56159973144531
+  },
+  "scaling": {
+    "dimension": 2,
+    "mean_point_count": "N proportional to h^-2 for similar meshes",
+    "metric_bank": "G*Nmax^2*8 bytes for FP64; no activation/workspace estimate",
+    "fixed_nonlocal_horizon": 0.11,
+    "fixed_interface_epsilon": 0.06
+  },
+  "mesh_estimates": [
+    {
+      "mesh_size": 0.035,
+      "point_factor_estimate": 1.0,
+      "mean_points_estimate": 1229.626953125,
+      "padded_points_estimate": 1351.0,
+      "dense_metric_factor_estimate": 1.0,
+      "dense_metric_bank_GiB_estimate": 7.071379721164703
+    },
+    {
+      "mesh_size": 0.03,
+      "point_factor_estimate": 1.3611111111111114,
+      "mean_points_estimate": 1673.6589084201391,
+      "padded_points_estimate": 1838.8611111111115,
+      "dense_metric_factor_estimate": 1.8526234567901243,
+      "dense_metric_bank_GiB_estimate": 13.100603943299738
+    },
+    {
+      "mesh_size": 0.028,
+      "point_factor_estimate": 1.5625,
+      "mean_points_estimate": 1921.2921142578125,
+      "padded_points_estimate": 2110.9375,
+      "dense_metric_factor_estimate": 2.44140625,
+      "dense_metric_bank_GiB_estimate": 17.264110647374764
+    },
+    {
+      "mesh_size": 0.025,
+      "point_factor_estimate": 1.9600000000000004,
+      "mean_points_estimate": 2410.0688281250004,
+      "padded_points_estimate": 2647.9600000000005,
+      "dense_metric_factor_estimate": 3.8416000000000015,
+      "dense_metric_bank_GiB_estimate": 27.165412336826336
+    }
+  ],
+  "network_parameters": {
+    "width96": 522145,
+    "width128": 905089
+  },
+  "disk_free_report": "df -h: approximately4.6GiB; existing bank approximately6.08GiB",
+  "recommendation": "First test width128 at unchanged h=.035 and all other schemes; independently check1-2same geometries at h=.030/fixed delta before full-bank refinement. Actual short-run GPU peak required before promising full refined training. No new run launched."
+}

@@ -1,0 +1,59 @@
+{
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-01",
+  "status": "incomplete_process_exited",
+  "cause": "unknown",
+  "observed_utc": "2026-10-30T06:48:57.870588+00:00",
+  "requested_final_step": 30000,
+  "last_logged_update": 26600,
+  "last_evaluation_step": 26500,
+  "latest_saved_model_step": 26000,
+  "last_metrics": {
+    "step": 26500,
+    "elapsed_seconds": 3417.4340153504163,
+    "train_monitor_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "test_indices": [
+      512,
+      513,
+      514,
+      515,
+      516,
+      517,
+      518,
+      519
+    ],
+    "train_phi_pooled": 0.06719028932492123,
+    "train_phi_terminal": 0.07165817144788461,
+    "train_mu_pooled": 0.15473127212934698,
+    "train_mu_terminal": 0.1995761028255175,
+    "test_phi_pooled": 0.10240597580318311,
+    "test_phi_terminal": 0.11115003225832576,
+    "test_mu_pooled": 0.21637583080572276,
+    "test_mu_terminal": 0.2876373120695951
+  },
+  "missing_final_files": [
+    "summary.json",
+    "model_final.eqx",
+    "optimizer_final.eqx"
+  ],
+  "intermediate_optimizer_available": false,
+  "cgroup_oom_count": 0,
+  "cgroup_oom_kill_count": 0,
+  "scope": "No confirmed exit cause/exit code. Not a complete final or an exact restart source."
+}

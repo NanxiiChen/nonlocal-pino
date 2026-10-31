@@ -1,0 +1,142 @@
+{
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-fourier-curriculum-soap-01",
+  "prior_run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-smallscale10-soap-01",
+  "config_matches_explicit_preset": true,
+  "unchanged_physics_geometry_input_operators": true,
+  "residual_metric_changes": {},
+  "sampling_changes": {
+    "temporal": {
+      "before": null,
+      "after": {
+        "kind": "log_uniform",
+        "time_scale": 0.05,
+        "curriculum": true,
+        "initial_horizon": 0.15,
+        "warmup_iterations": 8000
+      }
+    }
+  },
+  "architecture_changes": {
+    "spatial_features": {
+      "before": 24,
+      "after": 64
+    },
+    "spatial_scale": {
+      "before": 1.0,
+      "after": 2.0
+    },
+    "time_features": {
+      "before": 4,
+      "after": 32
+    }
+  },
+  "training_changes": {
+    "soap_max_precond_dim": {
+      "before": 128,
+      "after": 256
+    }
+  },
+  "expected_preset": "examples.confined_ch2d.configs.train_operator_smallscale10_512_curriculum",
+  "trainable_parameters": 243649,
+  "comparison_scope": "Same physical benchmark; bundled architecture/settings optimization, not an isolated feature-count ablation",
+  "fresh_initialization_matches_seed_within": 2.886579864025407e-15,
+  "optimizer_state_finite": true,
+  "actual_common_condition_draws_identical": true,
+  "common_draw_prefix_steps": 20000,
+  "no_heldout_geometry_draws": true,
+  "visits_min": 123,
+  "visits_max": 201,
+  "initial_modes": 10,
+  "initial_analytic_bound": 0.36,
+  "shortest_mode_wavelength": 0.23529411764705885,
+  "mesh_size": 0.035,
+  "local_linearized_modal_growth": [
+    -1.9833219337804966,
+    -11.08770359995814,
+    -4.179639001679136,
+    -13.566405070243842,
+    -4.179639001679136,
+    -13.566405070243842,
+    -14.056147027772646,
+    -22.349092755554988,
+    -14.056147027772646,
+    -22.349092755554988
+  ],
+  "optimizer_payload_has_no_future_fields": true,
+  "cpu_gpu_maximum_phi_mu_difference": 6.3976601794024646e-15,
+  "native_time_phi_max": 1.0811181263771686e-09,
+  "native_time_mu_max": 9.387794836854917e-10,
+  "local_reference_checks": [],
+  "reference_terminal_phase_statistics": [
+    {
+      "index": 512,
+      "pure_fraction": 0.0069242732213478705,
+      "mixed_fraction": 0.3465741375191495
+    },
+    {
+      "index": 513,
+      "pure_fraction": 0.015565342688127915,
+      "mixed_fraction": 0.3766594739941971
+    },
+    {
+      "index": 514,
+      "pure_fraction": 0.0023247214193255388,
+      "mixed_fraction": 0.5340896518698507
+    },
+    {
+      "index": 515,
+      "pure_fraction": 0.007966980924252036,
+      "mixed_fraction": 0.36319876292471315
+    },
+    {
+      "index": 516,
+      "pure_fraction": 0.003806056143929674,
+      "mixed_fraction": 0.32223172422776913
+    },
+    {
+      "index": 517,
+      "pure_fraction": 0.0052049917606796945,
+      "mixed_fraction": 0.4515792489891424
+    },
+    {
+      "index": 518,
+      "pure_fraction": 0.0,
+      "mixed_fraction": 0.43623469350538413
+    },
+    {
+      "index": 519,
+      "pure_fraction": 0.0,
+      "mixed_fraction": 0.533802146691689
+    }
+  ],
+  "native_test": {
+    "phi_pooled": 0.35418037585177486,
+    "phi_terminal": 0.35730854652428246,
+    "mu_pooled": 0.387292149767608,
+    "mu_terminal": 0.5132082686176526,
+    "frozen_phi_pooled": 0.9425240052540753,
+    "worst_phi_pooled": 0.49694552838929723,
+    "mass_max_drift": 4.366624249685369e-17,
+    "energy_max_increase": 0.0
+  },
+  "local_FEM": {
+    "status": "not_evaluated",
+    "conditions": 0,
+    "reason": "No local FEM reference files in this bank"
+  },
+  "wall_seconds": 2169.54947867617,
+  "warm_update_seconds": 0.07288850035312487,
+  "memory": {
+    "num_allocs": 14459950,
+    "bytes_in_use": 8882130688,
+    "peak_bytes_in_use": 16300441344,
+    "largest_alloc_size": 7592836352,
+    "bytes_limit": 38183976960,
+    "bytes_reserved": 0,
+    "peak_bytes_reserved": 0,
+    "largest_free_block_bytes": 0,
+    "pool_bytes": 38183976960,
+    "peak_pool_bytes": 38183976960
+  },
+  "scope": "One cold seed, finite512/8development cohort; native-only, local FEM deferred"
+}

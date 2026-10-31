@@ -1,0 +1,500 @@
+{
+  "snapshot": {
+    "created_utc": "2026-10-31T05:41:24.427435+00:00",
+    "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01",
+    "output": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/convergence_live_03",
+    "snapshot_step": 16000,
+    "requested_steps": 50000,
+    "budget_complete": false,
+    "latest_logged_loss_step": 16100,
+    "train_monitor_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "validation_indices": [
+      1024,
+      1025,
+      1026,
+      1027,
+      1028,
+      1029,
+      1030,
+      1031
+    ],
+    "train_conditions": 1024,
+    "evaluation_records": 33,
+    "loss_records_plotted": 161,
+    "tail_start_step": 10000,
+    "loss_median_window_records": 11,
+    "milestones": [
+      {
+        "step": 0,
+        "elapsed_seconds": 312.92073149979115,
+        "train_phi_pooled": 0.9466644581451218,
+        "train_phi_terminal": 0.9643192749483614,
+        "train_mu_pooled": 1.095980089386236,
+        "train_mu_terminal": 1.088820829670184,
+        "test_phi_pooled": 0.9389346254429293,
+        "test_phi_terminal": 0.9594363727703374,
+        "test_mu_pooled": 1.0850704477902622,
+        "test_mu_terminal": 1.0846468462324141
+      },
+      {
+        "step": 10000,
+        "elapsed_seconds": 2341.4055656008422,
+        "train_phi_pooled": 0.11532032854752343,
+        "train_phi_terminal": 0.12360610929144904,
+        "train_mu_pooled": 0.17577246955187312,
+        "train_mu_terminal": 0.2252787389576436,
+        "test_phi_pooled": 0.1269275385332788,
+        "test_phi_terminal": 0.13658757747803058,
+        "test_mu_pooled": 0.20384231776634973,
+        "test_mu_terminal": 0.27085871568151254
+      },
+      {
+        "step": 16000,
+        "elapsed_seconds": 3238.4142955411226,
+        "train_phi_pooled": 0.084046816962926,
+        "train_phi_terminal": 0.09029680043172264,
+        "train_mu_pooled": 0.1482723318135405,
+        "train_mu_terminal": 0.1930217734073546,
+        "test_phi_pooled": 0.09946037979287578,
+        "test_phi_terminal": 0.1072306880008255,
+        "test_mu_pooled": 0.18270673522799508,
+        "test_mu_terminal": 0.24379270056902336
+      }
+    ],
+    "last5000_trends": {
+      "train_phi_pooled": {
+        "start_step": 11000,
+        "end_step": 16000,
+        "slope_percentage_points_per1000updates": -0.5396785824533533,
+        "start_percent": 11.2155277862406,
+        "end_percent": 8.4046816962926
+      },
+      "test_phi_pooled": {
+        "start_step": 11000,
+        "end_step": 16000,
+        "slope_percentage_points_per1000updates": -0.47188516124012103,
+        "start_percent": 12.431898411285095,
+        "end_percent": 9.946037979287578
+      },
+      "train_phi_terminal": {
+        "start_step": 11000,
+        "end_step": 16000,
+        "slope_percentage_points_per1000updates": -0.5742901881239827,
+        "start_percent": 11.960184098608927,
+        "end_percent": 9.029680043172265
+      },
+      "test_phi_terminal": {
+        "start_step": 11000,
+        "end_step": 16000,
+        "slope_percentage_points_per1000updates": -0.5020432689977109,
+        "start_percent": 13.375114865778848,
+        "end_percent": 10.72306880008255
+      }
+    },
+    "latest_phase_gap_percentage_points": 1.541356282994978,
+    "aggregate_reconstruction": "passed for every split/field/evaluation",
+    "l2_smoothing": "none; lines connect original evaluation points",
+    "scope": "Mean per-geometry relative L2 against unchanged native nonlocal reference. Pooled fields use five stored times, terminal uses physical T. Only the fixed training-monitor subset, not the whole training bank. Eight reused development geometries; one seed, recorded checkpoint history, not a fresh test. Reference fields never enter the PDE-only optimizer loss."
+  },
+  "comparison": {
+    "snapshots": [
+      "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/convergence_detail_20261031",
+      "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/convergence_live_03"
+    ],
+    "end_step": 16000,
+    "tail_start_step": 10000,
+    "matched_evaluation_records": 33,
+    "bank_growth": true,
+    "physical_geometry_mapping": [
+      {
+        "split": "train",
+        "draw_index": 0,
+        "first_index": 0,
+        "second_index": 0
+      },
+      {
+        "split": "train",
+        "draw_index": 1,
+        "first_index": 1,
+        "second_index": 1
+      },
+      {
+        "split": "train",
+        "draw_index": 2,
+        "first_index": 2,
+        "second_index": 2
+      },
+      {
+        "split": "train",
+        "draw_index": 3,
+        "first_index": 3,
+        "second_index": 3
+      },
+      {
+        "split": "train",
+        "draw_index": 4,
+        "first_index": 4,
+        "second_index": 4
+      },
+      {
+        "split": "train",
+        "draw_index": 5,
+        "first_index": 5,
+        "second_index": 5
+      },
+      {
+        "split": "train",
+        "draw_index": 6,
+        "first_index": 6,
+        "second_index": 6
+      },
+      {
+        "split": "train",
+        "draw_index": 7,
+        "first_index": 7,
+        "second_index": 7
+      },
+      {
+        "split": "train",
+        "draw_index": 8,
+        "first_index": 8,
+        "second_index": 8
+      },
+      {
+        "split": "train",
+        "draw_index": 9,
+        "first_index": 9,
+        "second_index": 9
+      },
+      {
+        "split": "train",
+        "draw_index": 10,
+        "first_index": 10,
+        "second_index": 10
+      },
+      {
+        "split": "train",
+        "draw_index": 11,
+        "first_index": 11,
+        "second_index": 11
+      },
+      {
+        "split": "train",
+        "draw_index": 12,
+        "first_index": 12,
+        "second_index": 12
+      },
+      {
+        "split": "train",
+        "draw_index": 13,
+        "first_index": 13,
+        "second_index": 13
+      },
+      {
+        "split": "train",
+        "draw_index": 14,
+        "first_index": 14,
+        "second_index": 14
+      },
+      {
+        "split": "train",
+        "draw_index": 15,
+        "first_index": 15,
+        "second_index": 15
+      },
+      {
+        "split": "validation",
+        "draw_index": 16,
+        "first_index": 512,
+        "second_index": 1024
+      },
+      {
+        "split": "validation",
+        "draw_index": 17,
+        "first_index": 513,
+        "second_index": 1025
+      },
+      {
+        "split": "validation",
+        "draw_index": 18,
+        "first_index": 514,
+        "second_index": 1026
+      },
+      {
+        "split": "validation",
+        "draw_index": 19,
+        "first_index": 515,
+        "second_index": 1027
+      },
+      {
+        "split": "validation",
+        "draw_index": 20,
+        "first_index": 516,
+        "second_index": 1028
+      },
+      {
+        "split": "validation",
+        "draw_index": 21,
+        "first_index": 517,
+        "second_index": 1029
+      },
+      {
+        "split": "validation",
+        "draw_index": 22,
+        "first_index": 518,
+        "second_index": 1030
+      },
+      {
+        "split": "validation",
+        "draw_index": 23,
+        "first_index": 519,
+        "second_index": 1031
+      }
+    ],
+    "endpoints": [
+      {
+        "width": 192,
+        "training_geometries": 512,
+        "step": 16000,
+        "train_phi_pooled": 0.07278799294953645,
+        "test_phi_pooled": 0.10679328817800748,
+        "train_phi_terminal": 0.07822415983867728,
+        "test_phi_terminal": 0.11599759528232666
+      },
+      {
+        "width": 192,
+        "training_geometries": 1024,
+        "step": 16000,
+        "train_phi_pooled": 0.084046816962926,
+        "test_phi_pooled": 0.09946037979287578,
+        "train_phi_terminal": 0.09029680043172264,
+        "test_phi_terminal": 0.1072306880008255
+      }
+    ],
+    "scope": "Recorded common-budget bank-size comparison; identical architecture/settings and physical monitor/reference arrays. Training-ID samples differ with expanded support. One seed/eight reused validation domains; only16training monitors, no final50kclaim."
+  },
+  "threeway": {
+    "snapshots": [
+      "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/convergence_detail_20261031",
+      "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/convergence_live_03",
+      "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/convergence_live_20261031_0420"
+    ],
+    "end_step": 16000,
+    "tail_start_step": 10000,
+    "matched_evaluation_records": 33,
+    "bank_growth": true,
+    "physical_geometry_mapping": [
+      {
+        "split": "train",
+        "draw_index": 0,
+        "first_index": 0,
+        "second_index": 0
+      },
+      {
+        "split": "train",
+        "draw_index": 1,
+        "first_index": 1,
+        "second_index": 1
+      },
+      {
+        "split": "train",
+        "draw_index": 2,
+        "first_index": 2,
+        "second_index": 2
+      },
+      {
+        "split": "train",
+        "draw_index": 3,
+        "first_index": 3,
+        "second_index": 3
+      },
+      {
+        "split": "train",
+        "draw_index": 4,
+        "first_index": 4,
+        "second_index": 4
+      },
+      {
+        "split": "train",
+        "draw_index": 5,
+        "first_index": 5,
+        "second_index": 5
+      },
+      {
+        "split": "train",
+        "draw_index": 6,
+        "first_index": 6,
+        "second_index": 6
+      },
+      {
+        "split": "train",
+        "draw_index": 7,
+        "first_index": 7,
+        "second_index": 7
+      },
+      {
+        "split": "train",
+        "draw_index": 8,
+        "first_index": 8,
+        "second_index": 8
+      },
+      {
+        "split": "train",
+        "draw_index": 9,
+        "first_index": 9,
+        "second_index": 9
+      },
+      {
+        "split": "train",
+        "draw_index": 10,
+        "first_index": 10,
+        "second_index": 10
+      },
+      {
+        "split": "train",
+        "draw_index": 11,
+        "first_index": 11,
+        "second_index": 11
+      },
+      {
+        "split": "train",
+        "draw_index": 12,
+        "first_index": 12,
+        "second_index": 12
+      },
+      {
+        "split": "train",
+        "draw_index": 13,
+        "first_index": 13,
+        "second_index": 13
+      },
+      {
+        "split": "train",
+        "draw_index": 14,
+        "first_index": 14,
+        "second_index": 14
+      },
+      {
+        "split": "train",
+        "draw_index": 15,
+        "first_index": 15,
+        "second_index": 15
+      },
+      {
+        "split": "validation",
+        "draw_index": 16,
+        "first_index": 512,
+        "second_index": 1024
+      },
+      {
+        "split": "validation",
+        "draw_index": 17,
+        "first_index": 513,
+        "second_index": 1025
+      },
+      {
+        "split": "validation",
+        "draw_index": 18,
+        "first_index": 514,
+        "second_index": 1026
+      },
+      {
+        "split": "validation",
+        "draw_index": 19,
+        "first_index": 515,
+        "second_index": 1027
+      },
+      {
+        "split": "validation",
+        "draw_index": 20,
+        "first_index": 516,
+        "second_index": 1028
+      },
+      {
+        "split": "validation",
+        "draw_index": 21,
+        "first_index": 517,
+        "second_index": 1029
+      },
+      {
+        "split": "validation",
+        "draw_index": 22,
+        "first_index": 518,
+        "second_index": 1030
+      },
+      {
+        "split": "validation",
+        "draw_index": 23,
+        "first_index": 519,
+        "second_index": 1031
+      }
+    ],
+    "third_capacity_curve": true,
+    "endpoints": [
+      {
+        "width": 192,
+        "training_geometries": 512,
+        "step": 16000,
+        "train_phi_pooled": 0.07278799294953645,
+        "test_phi_pooled": 0.10679328817800748,
+        "train_phi_terminal": 0.07822415983867728,
+        "test_phi_terminal": 0.11599759528232666
+      },
+      {
+        "width": 192,
+        "training_geometries": 1024,
+        "step": 16000,
+        "train_phi_pooled": 0.084046816962926,
+        "test_phi_pooled": 0.09946037979287578,
+        "train_phi_terminal": 0.09029680043172264,
+        "test_phi_terminal": 0.1072306880008255
+      },
+      {
+        "width": 256,
+        "training_geometries": 512,
+        "step": 16000,
+        "train_phi_pooled": 0.06939463181488982,
+        "test_phi_pooled": 0.1062065005009335,
+        "train_phi_terminal": 0.07445674065795983,
+        "test_phi_terminal": 0.11542536609711174
+      }
+    ],
+    "scope": "Three recorded histories at a common update budget on the same16training monitors/8reserved physical geometries. First-to-second changes bank size with the same architecture; first-to-third changes backbone/Fourier width on the original512bank. Third curve has different-shaped fresh weights and uses only the historical prefix of a user-stopped run. One seed/reused development cohort, raw native L2, not final50k or a seed-stability claim."
+  },
+  "plots": {
+    "detail_png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/convergence_live_03/convergence.png",
+    "detail_pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/convergence_live_03/convergence.pdf",
+    "comparison_png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/convergence_comparison_03/comparison.png",
+    "comparison_pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/convergence_comparison_03/comparison.pdf",
+    "threeway_png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/convergence_threeway_03/comparison.png",
+    "threeway_pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/convergence_threeway_03/comparison.pdf"
+  },
+  "verification": {
+    "independent_split_field_aggregate_replays": 99,
+    "physical_cohorts": "same16training monitors and8reserved accepted draws; six reference arrays exact across512/1024banks;256uses original512bank",
+    "third_config": "only backbone/Fourier width and total budget/runtime name differ from192/512; optimizer, physics, sampler and originalbank unchanged",
+    "matched_steps_per_curve": 33,
+    "L2_smoothing": "none",
+    "plots": "validPNG/PDF; pair and threeway overlays visually inspected",
+    "script_AST": "passed",
+    "training_changed": false
+  },
+  "selection": "Last complete16000step at detail capture, then all three histories clipped to that common budget. Not minimum-validation checkpoint selection."
+}

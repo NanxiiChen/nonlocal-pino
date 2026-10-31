@@ -1,0 +1,75 @@
+{
+  "status": "stopped_by_user",
+  "stopped_utc": "2026-10-31T04:25:01.203720+00:00",
+  "reason": "User explicitly cancels current width256 run and switches to width192 with a larger input geometry bank.",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01",
+  "runner_pid": 297584,
+  "trainer_pid": 304259,
+  "verified_process_identities": {
+    "297584": {
+      "command": "/root/nonlocal-pinn/.venv/bin/python -m docs.tasks.confined_ch_capacity_runner --case width256_50k --prefix 20261031-confined-width256-fp32-50k-01 --prior /root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01 ",
+      "start_ticks": "1070961975"
+    },
+    "304259": {
+      "command": "/root/nonlocal-pinn/.venv/bin/python examples/confined_ch2d/train.py --config=examples/confined_ch2d/configs/train_operator_smallscale10_512_width256_fp32_50k.py --config.log.run_name=20261031-confined-geometry-b16-t16-width256-fp32-50k-01 ",
+      "start_ticks": "1071054301"
+    }
+  },
+  "trainer_forced_kill": false,
+  "processes_alive": false,
+  "latest_closed_checkpoint": {
+    "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_040000.json",
+    "step": 40000,
+    "kind": "intermediate_full_state",
+    "model": "ckpt_040000.eqx",
+    "optimizer": "optimizer_040000.eqx",
+    "config": "config.json",
+    "policy": "Paired numerical state; not a completed fixed-budget result"
+  },
+  "latest_logged_loss": {
+    "step": 40900,
+    "loss": 1.537324169476051e-05,
+    "training_horizon": 3.0
+  },
+  "latest_evaluation": {
+    "step": 40500,
+    "elapsed_seconds": 8538.664446251467,
+    "train_monitor_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "test_indices": [
+      512,
+      513,
+      514,
+      515,
+      516,
+      517,
+      518,
+      519
+    ],
+    "train_phi_pooled": 0.023727846620460513,
+    "train_phi_terminal": 0.02517483213575892,
+    "train_mu_pooled": 0.07067502967047133,
+    "train_mu_terminal": 0.09184694546425659,
+    "test_phi_pooled": 0.08527623952797178,
+    "test_phi_terminal": 0.0933277912126909,
+    "test_mu_pooled": 0.15236213174099736,
+    "test_mu_terminal": 0.20334984539775902
+  },
+  "scope": "Partial run intentionally stopped. All existing model/optimizer/marker/data/log files retained; fixed50k final and automatic downstream audits cancelled. No final50k result claimed."
+}

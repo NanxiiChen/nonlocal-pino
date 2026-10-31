@@ -1,0 +1,445 @@
+{
+  "status": "passed",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-width128-beta09-30k-01",
+  "batch": 16,
+  "times": 17,
+  "padded_nodes": 1351,
+  "widths": [
+    {
+      "width": 128,
+      "heads": 4,
+      "head_features": 32,
+      "parameter_groups": {
+        "lifts": 67072,
+        "spatial": 16768,
+        "cross": 664064,
+        "time": 107520,
+        "layers": 49536,
+        "output": 129
+      },
+      "trainable_parameters": 905089,
+      "optimizer_state_bytes": 42707672,
+      "soap_axis_cap": 256,
+      "skipped_matrix_axes": [
+        {
+          "path": ".time.layers[1].weight",
+          "shape": [
+            768,
+            128
+          ],
+          "axis": 0
+        }
+      ],
+      "cap512_optimizer_state_bytes": 42707672,
+      "cap512_skipped_matrix_axes": [
+        {
+          "path": ".time.layers[1].weight",
+          "shape": [
+            768,
+            128
+          ],
+          "axis": 0
+        }
+      ],
+      "traced_dot_work": {
+        "input_lifting": {
+          "broadcast_in_dim": 23,
+          "concatenate": 5,
+          "is_finite": 2,
+          "not": 2,
+          "reduce_or": 4,
+          "lt": 2,
+          "or": 4,
+          "reduce_sum": 2,
+          "le": 2,
+          "jit": 4,
+          "unvmap_any": 2,
+          "custom_jvp_call": 2,
+          "convert_element_type": 4,
+          "cond": 2,
+          "pure_callback": 4,
+          "gt": 2,
+          "select_n": 2,
+          "slice": 4,
+          "div": 2,
+          "mul": 10,
+          "stop_gradient": 2,
+          "dot_general": 6,
+          "dot_flops": 1644806144,
+          "sin": 2,
+          "cos": 2,
+          "transpose": 4,
+          "add": 8,
+          "integer_pow": 2,
+          "tanh": 2
+        },
+        "spatial_condition_reads": {
+          "broadcast_in_dim": 276,
+          "div": 85,
+          "mul": 49,
+          "stop_gradient": 17,
+          "dot_general": 74,
+          "dot_flops": 26516672512,
+          "sin": 1,
+          "cos": 1,
+          "concatenate": 1,
+          "transpose": 49,
+          "add": 81,
+          "reduce_sum": 76,
+          "jit": 32,
+          "sub": 64,
+          "square": 16,
+          "convert_element_type": 32,
+          "gt": 16,
+          "select_n": 16,
+          "max": 32,
+          "rsqrt": 16,
+          "reshape": 28,
+          "reduce_max": 16,
+          "exp": 16,
+          "stack": 4,
+          "integer_pow": 4,
+          "tanh": 4
+        },
+        "decoder_and_time_jvp": {
+          "div": 6,
+          "reshape": 6,
+          "jit": 2,
+          "convert_element_type": 3,
+          "sub": 8,
+          "iota": 1,
+          "mul": 73,
+          "add": 33,
+          "broadcast_in_dim": 75,
+          "concatenate": 3,
+          "sin": 2,
+          "cos": 2,
+          "neg": 1,
+          "dot_general": 13,
+          "dot_flops": 49070469056,
+          "transpose": 11,
+          "integer_pow": 8,
+          "tanh": 4,
+          "add_any": 7,
+          "slice": 12,
+          "squeeze": 16,
+          "reduce_sum": 1,
+          "gt": 1,
+          "select_n": 2
+        },
+        "pde_and_metric": {
+          "integer_pow": 2,
+          "sub": 3,
+          "mul": 6,
+          "broadcast_in_dim": 7,
+          "lt": 2,
+          "add": 4,
+          "select_n": 2,
+          "convert_element_type": 2,
+          "gather": 2,
+          "reduce_sum": 3,
+          "dot_general": 2,
+          "dot_flops": 993644288,
+          "div": 1
+        },
+        "full_loss_forward": {
+          "broadcast_in_dim": 381,
+          "concatenate": 9,
+          "is_finite": 2,
+          "not": 2,
+          "reduce_or": 4,
+          "lt": 4,
+          "or": 4,
+          "reduce_sum": 84,
+          "le": 2,
+          "jit": 39,
+          "unvmap_any": 3,
+          "custom_jvp_call": 3,
+          "convert_element_type": 42,
+          "cond": 3,
+          "pure_callback": 6,
+          "gt": 19,
+          "select_n": 22,
+          "slice": 19,
+          "div": 96,
+          "mul": 140,
+          "stop_gradient": 19,
+          "dot_general": 95,
+          "dot_flops": 78225592000,
+          "sin": 5,
+          "cos": 5,
+          "transpose": 64,
+          "add": 127,
+          "integer_pow": 16,
+          "tanh": 10,
+          "sub": 75,
+          "square": 16,
+          "max": 32,
+          "rsqrt": 16,
+          "reshape": 34,
+          "reduce_max": 16,
+          "exp": 16,
+          "stack": 4,
+          "squeeze": 18,
+          "ne": 1,
+          "iota": 1,
+          "neg": 1,
+          "add_any": 7,
+          "gather": 2
+        },
+        "full_loss_value_and_gradient": {
+          "broadcast_in_dim": 748,
+          "concatenate": 9,
+          "is_finite": 2,
+          "not": 2,
+          "reduce_or": 4,
+          "lt": 4,
+          "or": 4,
+          "reduce_sum": 529,
+          "le": 2,
+          "jit": 72,
+          "unvmap_any": 3,
+          "custom_jvp_call": 3,
+          "convert_element_type": 58,
+          "cond": 3,
+          "pure_callback": 6,
+          "gt": 19,
+          "select_n": 104,
+          "slice": 19,
+          "div": 225,
+          "mul": 535,
+          "stop_gradient": 19,
+          "dot_general": 254,
+          "dot_flops": 232057937280,
+          "sin": 5,
+          "cos": 5,
+          "transpose": 177,
+          "add": 129,
+          "integer_pow": 51,
+          "tanh": 10,
+          "sub": 85,
+          "square": 16,
+          "max": 32,
+          "eq": 80,
+          "rsqrt": 16,
+          "reshape": 247,
+          "reduce_max": 16,
+          "exp": 16,
+          "stack": 4,
+          "squeeze": 18,
+          "ne": 1,
+          "iota": 1,
+          "neg": 66,
+          "add_any": 203,
+          "gather": 2,
+          "pad": 14,
+          "scatter-add": 2,
+          "unstack": 4
+        }
+      }
+    },
+    {
+      "width": 192,
+      "heads": 4,
+      "head_features": 48,
+      "parameter_groups": {
+        "lifts": 125184,
+        "spatial": 25152,
+        "cross": 1487616,
+        "time": 235008,
+        "layers": 111168,
+        "output": 193
+      },
+      "trainable_parameters": 1984321,
+      "optimizer_state_bytes": 75179736,
+      "soap_axis_cap": 256,
+      "skipped_matrix_axes": [
+        {
+          "path": ".cross[0].mlp.layers[0].weight",
+          "shape": [
+            384,
+            192
+          ],
+          "axis": 0
+        },
+        {
+          "path": ".cross[0].mlp.layers[1].weight",
+          "shape": [
+            192,
+            384
+          ],
+          "axis": 1
+        },
+        {
+          "path": ".cross[1].mlp.layers[0].weight",
+          "shape": [
+            384,
+            192
+          ],
+          "axis": 0
+        },
+        {
+          "path": ".cross[1].mlp.layers[1].weight",
+          "shape": [
+            192,
+            384
+          ],
+          "axis": 1
+        },
+        {
+          "path": ".cross[2].mlp.layers[0].weight",
+          "shape": [
+            384,
+            192
+          ],
+          "axis": 0
+        },
+        {
+          "path": ".cross[2].mlp.layers[1].weight",
+          "shape": [
+            192,
+            384
+          ],
+          "axis": 1
+        },
+        {
+          "path": ".cross[3].mlp.layers[0].weight",
+          "shape": [
+            384,
+            192
+          ],
+          "axis": 0
+        },
+        {
+          "path": ".cross[3].mlp.layers[1].weight",
+          "shape": [
+            192,
+            384
+          ],
+          "axis": 1
+        },
+        {
+          "path": ".time.layers[1].weight",
+          "shape": [
+            1152,
+            192
+          ],
+          "axis": 0
+        }
+      ],
+      "cap512_optimizer_state_bytes": 94054104,
+      "cap512_skipped_matrix_axes": [
+        {
+          "path": ".time.layers[1].weight",
+          "shape": [
+            1152,
+            192
+          ],
+          "axis": 0
+        }
+      ]
+    },
+    {
+      "width": 256,
+      "heads": 4,
+      "head_features": 64,
+      "parameter_groups": {
+        "lifts": 199680,
+        "spatial": 33536,
+        "cross": 2638848,
+        "time": 411648,
+        "layers": 197376,
+        "output": 257
+      },
+      "trainable_parameters": 3481345,
+      "optimizer_state_bytes": 132162264,
+      "soap_axis_cap": 256,
+      "skipped_matrix_axes": [
+        {
+          "path": ".cross[0].mlp.layers[0].weight",
+          "shape": [
+            512,
+            256
+          ],
+          "axis": 0
+        },
+        {
+          "path": ".cross[0].mlp.layers[1].weight",
+          "shape": [
+            256,
+            512
+          ],
+          "axis": 1
+        },
+        {
+          "path": ".cross[1].mlp.layers[0].weight",
+          "shape": [
+            512,
+            256
+          ],
+          "axis": 0
+        },
+        {
+          "path": ".cross[1].mlp.layers[1].weight",
+          "shape": [
+            256,
+            512
+          ],
+          "axis": 1
+        },
+        {
+          "path": ".cross[2].mlp.layers[0].weight",
+          "shape": [
+            512,
+            256
+          ],
+          "axis": 0
+        },
+        {
+          "path": ".cross[2].mlp.layers[1].weight",
+          "shape": [
+            256,
+            512
+          ],
+          "axis": 1
+        },
+        {
+          "path": ".cross[3].mlp.layers[0].weight",
+          "shape": [
+            512,
+            256
+          ],
+          "axis": 0
+        },
+        {
+          "path": ".cross[3].mlp.layers[1].weight",
+          "shape": [
+            256,
+            512
+          ],
+          "axis": 1
+        },
+        {
+          "path": ".time.layers[1].weight",
+          "shape": [
+            1536,
+            256
+          ],
+          "axis": 0
+        }
+      ],
+      "cap512_optimizer_state_bytes": 165716696,
+      "cap512_skipped_matrix_axes": [
+        {
+          "path": ".time.layers[1].weight",
+          "shape": [
+            1536,
+            256
+          ],
+          "axis": 0
+        }
+      ]
+    }
+  ],
+  "scope": "CPU abstract-shape traces and parameter/state sizes. Dot FLOPs omit elementwise/gather/scatter, fusion, bandwidth, optimizer update and QR execution. No GPU stage timings, accuracy, peak-memory or larger-network training measurements."
+}

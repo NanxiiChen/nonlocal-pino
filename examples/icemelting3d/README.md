@@ -618,6 +618,73 @@ default `ic_*` controls remove it.
 See the [IC-only validation record](../../docs/tasks/archive/icemelting-weak-prior.md)
 for matched-budget controls, reproducibility and limits of the accuracy claims.
 
+## Spatial sampling controls
+
+The canonical NO retains its fixed32core+halo pool. Optional matched controls
+start through the same `train.py`:
+
+```bash
+python -m examples.icemelting3d.train --config=examples/icemelting3d/configs/train_operator_fixed_pool.py
+python -m examples.icemelting3d.train --config=examples/icemelting3d/configs/train_operator_rolling_pool.py
+python -m examples.icemelting3d.train --config=examples/icemelting3d/configs/train_operator_full.py
+```
+
+All preserve128^3nodes, the original physics/initial distribution, B16/Nt8,
+hardIC/latent PDE, Adam and5000updates. Fixed and rolling use identical first32
+uniform256core sets and strict1792node/1536edge padding. NumPy
+`Generator(draw_id).choice(N,K,replace=False)` avoids the legacy full-grid
+permutation; this is a new matched sampling stream, not a bitwise rerun of the
+historical `RandomState` pool. A bounded background FIFO supplies one new set
+per subsequent rolling update. Coordinates, complete six-neighbor halo and
+edge/core masks change together; all times share the prepared spatial features.
+
+Full mode evaluates the residual on all2097152nodes, using disjoint32768core
+chunks with complete halos. It accumulates gradients weighted by core count
+over the full grid before **one** optimizer update. This preserves the exact
+discrete mean objective mathematically; FP32 summation/Adam trajectories can
+differ from an unchunked implementation. Chunks bound activation memory but
+do not remove the full-grid computation cost. Measure full memory/wall cost
+before scheduling a long comparison. Existing native reference banks are
+evaluation-only; no evolved training labels or extra Neumann loss are added.
+Per-run sampling/initial+final optimizer states and synchronized spatial/
+condition/update timers are recorded directly. No new default is promoted.
+
+The2026-10-31 matched cold5000comparison uses the same80000actual ellipsoids,
+40000time draws, initial model/Adam state and first32core sets. Final mean
+errors on the original eight held-out native inputs are:
+
+| Spatial sampling | Pooled phi L2 | Terminal phi L2 | Warm effective step | Cold process |
+|---|---:|---:|---:|---:|
+| Fixed pool |0.1631%|0.2218%|12.74ms|190.06s|
+| Rolling pool |0.4217%|0.2514%|13.25ms|190.65s|
+
+Warm effective time excludes the first100updates and includes synchronized
+spatial retrieval/transfer, online initial-field construction and GPU update.
+Cold wall includes imports/setup/JIT,5000updates, monitoring, final evaluation
+and saves. Active GPU peaks are1.4952/1.4955GiB. Same safe padding is used in
+both controls; historical tighter pool timing is a different implementation.
+Rolling producer wait totals0.0236s, with2.0604s replacement transfer. Actual
+unique PDE cores increase8174->958123 (0.3898%->45.6869%of the grid), but this
+one pair does not show a whole-field accuracy benefit. Final rolling pooled
+phi is2.59times fixed, though both are below0.5%; histories fluctuate in the
+low-error range and do not establish a stable optimizer floor or ranking.
+Solid-indicator pooled/final errors are0.4634%/9.9928%fixed and1.1899%/8.1180%
+rolling, so whole-field phase and tiny late-solid rankings differ.
+
+Physical L2 uses24^3diagnostic nodes at five times, averaged per input. References
+integrate the full128^3native graph; these are not full-grid/continuum L2 or a
+fresh blind/seed-stability claim. Convergence curves use two fixed monitoring
+inputs, distinct from the eight final evaluation inputs. Defaults stay fixed.
+Full-grid training was canceled by the user after a3update performance probe
+(15.44s warm step,38.31GiB activepeak); no full5000accuracy result is claimed.
+Fresh standard1024query GPU checkpoint replay passes. A supplemental65536query
+field-consistency check fails at0.00577absolute phi; its full-spatial residual
+ranking is not used. The [open query-chunk issue](../../docs/issues/melting-query-chunk-consistency.md)
+limits conclusions to the verified identical GPU/evaluation path. It is not
+resolved by explicit/captured inputs, removing JVP or changing SDF batching.
+Checkpoint/actual-stream/saved-field audit and plots are in the
+[comparison record](../../docs/tasks/archive/melting-spatial-pool-comparison.md).
+
 ## Independent FEM comparison
 
 The rewritten independent FEM solver reads physical coefficients and IC

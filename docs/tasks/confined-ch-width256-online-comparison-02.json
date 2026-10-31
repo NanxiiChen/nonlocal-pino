@@ -1,0 +1,98 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-10-31T07:49:02.415482+00:00",
+  "comparison": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_02/comparison.json",
+  "common_step": 8500,
+  "common_step_scores": [
+    {
+      "label": "192 / fixed512",
+      "step": 8500,
+      "train_phi_pooled": 0.11268648225919203,
+      "train_phi_terminal": 0.1208297631912928,
+      "test_phi_pooled": 0.13813935570088715,
+      "test_phi_terminal": 0.14861160438692322
+    },
+    {
+      "label": "192 / fixed1024",
+      "step": 8500,
+      "train_phi_pooled": 0.1277024715644868,
+      "train_phi_terminal": 0.1367474380838653,
+      "test_phi_pooled": 0.13729695836591285,
+      "test_phi_terminal": 0.14760244657861138
+    },
+    {
+      "label": "256 / fixed512",
+      "step": 8500,
+      "train_phi_pooled": 0.1078901321615588,
+      "train_phi_terminal": 0.11507671600748295,
+      "test_phi_pooled": 0.13987689170076262,
+      "test_phi_terminal": 0.15011031401719327
+    },
+    {
+      "label": "256 / rolling from0 (current)",
+      "step": 8500,
+      "train_phi_pooled": 0.13932596577631673,
+      "train_phi_terminal": 0.14864088730533112,
+      "test_phi_pooled": 0.14269188315331538,
+      "test_phi_terminal": 0.15157919284914273
+    }
+  ],
+  "last_observed_scores": [
+    {
+      "label": "192 / fixed512",
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01",
+      "step": 30000,
+      "train_phi_pooled": 0.03970018164419576,
+      "train_phi_terminal": 0.0425438896142413,
+      "test_phi_pooled": 0.0891477025652804,
+      "test_phi_terminal": 0.09801667010463708
+    },
+    {
+      "label": "192 / fixed1024",
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01",
+      "step": 26500,
+      "train_phi_pooled": 0.05913708626679177,
+      "train_phi_terminal": 0.06347591490606405,
+      "test_phi_pooled": 0.0791146153934744,
+      "test_phi_terminal": 0.08621342266974552
+    },
+    {
+      "label": "256 / fixed512",
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01",
+      "step": 40500,
+      "train_phi_pooled": 0.023727846620460513,
+      "train_phi_terminal": 0.02517483213575892,
+      "test_phi_pooled": 0.08527623952797178,
+      "test_phi_terminal": 0.0933277912126909
+    },
+    {
+      "label": "192 / rolling from25k",
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width192-online25000-rolling-01-train",
+      "step": 32500,
+      "train_phi_pooled": 0.06984210152524806,
+      "train_phi_terminal": 0.07454532081036704,
+      "test_phi_pooled": 0.07250688738893918,
+      "test_phi_terminal": 0.07739896475328539
+    },
+    {
+      "label": "256 / rolling from0 (current)",
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train",
+      "step": 8500,
+      "train_phi_pooled": 0.13932596577631673,
+      "train_phi_terminal": 0.14864088730533112,
+      "test_phi_pooled": 0.14269188315331538,
+      "test_phi_terminal": 0.15157919284914273
+    }
+  ],
+  "matched_png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_02/matched_budget.png",
+  "matched_pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_02/matched_budget.pdf",
+  "history_png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_02/comparison.png",
+  "history_pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_02/comparison.pdf",
+  "same8reference_arrays_exact": true,
+  "all_historical_aggregate_means_reconstructed": true,
+  "matched_record_steps_exact": true,
+  "figures_visually_inspected": true,
+  "gap_current_vs_old256_percentage_points": 0.2814991452552762,
+  "gap_at5000_percentage_points": 1.2317287943004267,
+  "scope": "Same8reused native development geometries and runtime seed42; not localFEM/fresh test. DifferentGPU/padding/architecture/library/rolling origins. No causal isolated sampler/capacity claim. 192online stage starts25k; its parent is the192fixed1024curve before25k. Last observed endpoints have unequal budgets. No smoothing/extrapolation or new training."
+}

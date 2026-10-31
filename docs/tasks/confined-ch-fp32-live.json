@@ -1,0 +1,100 @@
+{
+  "checked_utc": "2026-10-30T17:27:12.996941+00:00",
+  "status": "training",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width128-fp32-30k-03",
+  "journal": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width128-fp32-03-process.json",
+  "runner_pid": 234487,
+  "trainer_pid": 241188,
+  "requested_steps": 30000,
+  "latest_loss": {
+    "step": 25100,
+    "loss": 5.9110476286150515e-05,
+    "training_horizon": 3.0
+  },
+  "latest_evaluation": {
+    "step": 25000,
+    "elapsed_seconds": 3323.9358529318124,
+    "train_phi_pooled": 0.06199680009723668,
+    "train_phi_terminal": 0.06611080308388331,
+    "test_phi_pooled": 0.10422195995570918,
+    "test_phi_terminal": 0.11223041153346407,
+    "test_mu_pooled": 0.19861772845685077,
+    "test_mu_terminal": 0.25920634370110707
+  },
+  "recent_evaluations": [
+    {
+      "step": 23000,
+      "elapsed_seconds": 3107.4469294436276,
+      "train_phi_pooled": 0.06479906642319666,
+      "train_phi_terminal": 0.0686837231721101,
+      "test_phi_pooled": 0.10691702368837877,
+      "test_phi_terminal": 0.11457129247175271,
+      "test_mu_pooled": 0.20320614081155786,
+      "test_mu_terminal": 0.266073032814172
+    },
+    {
+      "step": 23500,
+      "elapsed_seconds": 3161.1736221164465,
+      "train_phi_pooled": 0.06485295179972145,
+      "train_phi_terminal": 0.06923867024445653,
+      "test_phi_pooled": 0.10681064998719358,
+      "test_phi_terminal": 0.11533744836465926,
+      "test_mu_pooled": 0.20276222680323827,
+      "test_mu_terminal": 0.2655904480677542
+    },
+    {
+      "step": 24000,
+      "elapsed_seconds": 3215.111153960228,
+      "train_phi_pooled": 0.06556617223714796,
+      "train_phi_terminal": 0.06987262254252932,
+      "test_phi_pooled": 0.10545416775884159,
+      "test_phi_terminal": 0.11369937081840216,
+      "test_mu_pooled": 0.20093420846990828,
+      "test_mu_terminal": 0.26335590356647876
+    },
+    {
+      "step": 24500,
+      "elapsed_seconds": 3269.7717823591083,
+      "train_phi_pooled": 0.06179816608964285,
+      "train_phi_terminal": 0.06585859158305706,
+      "test_phi_pooled": 0.10598480057755677,
+      "test_phi_terminal": 0.11410399222150873,
+      "test_mu_pooled": 0.20210834085748003,
+      "test_mu_terminal": 0.26482758050931393
+    },
+    {
+      "step": 25000,
+      "elapsed_seconds": 3323.9358529318124,
+      "train_phi_pooled": 0.06199680009723668,
+      "train_phi_terminal": 0.06611080308388331,
+      "test_phi_pooled": 0.10422195995570918,
+      "test_phi_terminal": 0.11223041153346407,
+      "test_mu_pooled": 0.19861772845685077,
+      "test_mu_terminal": 0.25920634370110707
+    }
+  ],
+  "latest_common_step_fp32": {
+    "step": 21000,
+    "elapsed_seconds": 2891.0927574243397,
+    "train_phi_pooled": 0.07086024099097749,
+    "train_phi_terminal": 0.07547050462746126,
+    "test_phi_pooled": 0.11056540981851198,
+    "test_phi_terminal": 0.1187178817894438,
+    "test_mu_pooled": 0.2048360836497482,
+    "test_mu_terminal": 0.26861311809700605
+  },
+  "latest_common_step_fp64": {
+    "step": 21000,
+    "elapsed_seconds": 13187.700836177915,
+    "train_phi_pooled": 0.06719433896588342,
+    "train_phi_terminal": 0.07163381557324368,
+    "test_phi_pooled": 0.11264319475202099,
+    "test_phi_terminal": 0.12273195857276567,
+    "test_mu_pooled": 0.20941899080474285,
+    "test_mu_terminal": 0.27992982848998244
+  },
+  "same_step_fp64_run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-width128-beta09-30k-01",
+  "recent_evaluation_inclusive_seconds_per_update": 0.1082444617440924,
+  "remaining_update_minutes_estimate": 8.839964375767547,
+  "scope": "Online mean per-geometry relative L2 over eight reused reserved development geometries, original FP64 nonlocal reference. Final dense61/CPU/geometry audits pending; original FP64 stopped at verified21k. No matched FP64 result after21k or default promotion."
+}

@@ -1,0 +1,102 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-10-31T07:42:13.879066+00:00",
+  "comparison": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_01/comparison.json",
+  "common_step": 5000,
+  "common_step_scores": [
+    {
+      "label": "192 / fixed512",
+      "step": 5000,
+      "train_phi_pooled": 0.1483092108369899,
+      "train_phi_terminal": 0.15505333172189306,
+      "test_phi_pooled": 0.17759922128279507,
+      "test_phi_terminal": 0.1868560223424168
+    },
+    {
+      "label": "192 / fixed1024",
+      "step": 5000,
+      "train_phi_pooled": 0.16559518571335913,
+      "train_phi_terminal": 0.17566776619340363,
+      "test_phi_pooled": 0.17226181162446214,
+      "test_phi_terminal": 0.18384739526279162
+    },
+    {
+      "label": "256 / fixed512",
+      "step": 5000,
+      "train_phi_pooled": 0.14188123786287996,
+      "train_phi_terminal": 0.15010145157505855,
+      "test_phi_pooled": 0.16973382013663374,
+      "test_phi_terminal": 0.1820184406688256
+    },
+    {
+      "label": "256 / rolling from0 (current)",
+      "step": 5000,
+      "train_phi_pooled": 0.17220645991936,
+      "train_phi_terminal": 0.18268577950284853,
+      "test_phi_pooled": 0.182051108079638,
+      "test_phi_terminal": 0.194672435746023
+    }
+  ],
+  "last_observed_scores": [
+    {
+      "label": "192 / fixed512",
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01",
+      "step": 30000,
+      "train_phi_pooled": 0.03970018164419576,
+      "train_phi_terminal": 0.0425438896142413,
+      "test_phi_pooled": 0.0891477025652804,
+      "test_phi_terminal": 0.09801667010463708
+    },
+    {
+      "label": "192 / fixed1024",
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01",
+      "step": 26500,
+      "train_phi_pooled": 0.05913708626679177,
+      "train_phi_terminal": 0.06347591490606405,
+      "test_phi_pooled": 0.0791146153934744,
+      "test_phi_terminal": 0.08621342266974552
+    },
+    {
+      "label": "256 / fixed512",
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01",
+      "step": 40500,
+      "train_phi_pooled": 0.023727846620460513,
+      "train_phi_terminal": 0.02517483213575892,
+      "test_phi_pooled": 0.08527623952797178,
+      "test_phi_terminal": 0.0933277912126909
+    },
+    {
+      "label": "192 / rolling from25k",
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width192-online25000-rolling-01-train",
+      "step": 32500,
+      "train_phi_pooled": 0.06984210152524806,
+      "train_phi_terminal": 0.07454532081036704,
+      "test_phi_pooled": 0.07250688738893918,
+      "test_phi_terminal": 0.07739896475328539
+    },
+    {
+      "label": "256 / rolling from0 (current)",
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train",
+      "step": 5000,
+      "train_phi_pooled": 0.17220645991936,
+      "train_phi_terminal": 0.18268577950284853,
+      "test_phi_pooled": 0.182051108079638,
+      "test_phi_terminal": 0.194672435746023
+    }
+  ],
+  "plot_png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_01/comparison.png",
+  "plot_pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_01/comparison.pdf",
+  "same8reference_arrays_exact": true,
+  "all_historical_aggregate_means_reconstructed": true,
+  "figure_visually_inspected": true,
+  "first_checkpoint": {
+    "marker": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/checkpoint_005000.json",
+    "step": 5000,
+    "all3payloads_present": true,
+    "refresh_count": 50,
+    "generated_inputs": 1600,
+    "pool_identities_exact": true
+  },
+  "scope": "Same8reused native development geometries and runtime seed42; not localFEM/fresh test. DifferentGPU/padding/architecture/library/rolling origins. No causal isolated sampler/capacity claim. 192online stage starts25k; its parent is the192fixed1024curve before25k. Last observed endpoints have unequal budgets. No smoothing/extrapolation or new training.",
+  "conclusion": "At5k current256rolling18.205% trails three fixed-bank cold controls16.973..17.760%; no early accuracy advantage. Lowest recorded previous endpoint192rolling7.251% at32.5k, an unequal-budget continuation. Preserve current50k budget."
+}

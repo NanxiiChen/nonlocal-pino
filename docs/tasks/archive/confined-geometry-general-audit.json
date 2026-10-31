@@ -1,0 +1,171 @@
+{
+  "configuration_parity_except_architecture_and_run_name": true,
+  "architecture_scope": "Bundle: input streams/positional lifting, depth, attention and width; no isolated causal attribution",
+  "actual_geometry_draws_match": 20000,
+  "all16training_geometries_visited": true,
+  "no_heldout_geometries_in_updates": true,
+  "actual_time_draws_saved": false,
+  "time_parity_scope": "Same runtime seed and unchanged time-sampling implementation; actual arrays not recorded",
+  "evolved_fields_absent_from_step_payload": true,
+  "heldout_scope": "Eight reused development geometries; not fresh final generalization or seed-stability evidence",
+  "runs": [
+    {
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261029-confined-geometry-longer-direct-01",
+      "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261029-confined-geometry-longer-direct-01/model_final.eqx",
+      "cpu_gpu_maximum_phi_mu_difference": 1.3600232051658168e-15,
+      "native_test": {
+        "phi_pooled": 0.05293321576177166,
+        "phi_terminal": 0.062201255430857486,
+        "mu_pooled": 0.10763019965263754,
+        "mu_terminal": 0.13076662449831056,
+        "frozen_phi_pooled": 0.35668741402240917,
+        "worst_phi_pooled": 0.058885642598666896,
+        "mass_max_drift": 3.469446951953614e-17,
+        "energy_max_increase": 0.0
+      },
+      "local_FEM": {
+        "local_phi_pooled": 0.06885817531462364,
+        "local_phi_terminal": 0.07906864934306952,
+        "local_positive_mu_pooled": 0.1428175724239492
+      },
+      "geometry_response": {
+        "dataset": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_longer_v1",
+        "indices": [
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "common_points": 7556,
+        "scope": "Common fluid intersection; piecewise linear native evolution increments on centroid triangles with hole-crossing stencils removed; not an exact common-grid FEM solution",
+        "reference": {
+          "relative_spread_by_time": [
+            1.5537515500862046e-16,
+            0.025213086709251438,
+            0.033914833166234656,
+            0.0395933181423428,
+            0.043689014921700534
+          ],
+          "terminal_pointwise_std_max": 0.07767481209348052,
+          "terminal_pointwise_std_rms": 0.014692142763905814
+        },
+        "removed_initial_interpolation_std_rms": 0.0012927320141712252,
+        "maximum_reference_absolute_phi": 0.6389449072991527,
+        "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261029-confined-geometry-longer-direct-01",
+        "prediction": {
+          "relative_spread_by_time": [
+            1.1510096449822114e-16,
+            0.008156440773216995,
+            0.013488362342279746,
+            0.017242286918352098,
+            0.01996934763453079
+          ],
+          "terminal_pointwise_std_max": 0.02451941305637537,
+          "terminal_pointwise_std_rms": 0.006756224409415697
+        },
+        "geometry_response_relative_error": 0.8441873434134949,
+        "geometry_response_amplitude_ratio": 0.4353752590545993,
+        "geometry_response_correlation": 0.5476876964172175,
+        "whole_field_relative_error": 0.040068497401238884,
+        "mean_field_relative_error": 0.026187160761804076
+      },
+      "wall_seconds": 314.3134141732007,
+      "warm_update_seconds": 0.02145760201906063,
+      "memory": {
+        "num_allocs": 1689579,
+        "bytes_in_use": 221349376,
+        "peak_bytes_in_use": 438346496,
+        "largest_alloc_size": 214977792,
+        "bytes_limit": 38183976960,
+        "bytes_reserved": 0,
+        "peak_bytes_reserved": 0,
+        "largest_free_block_bytes": 0,
+        "pool_bytes": 38183976960,
+        "peak_pool_bytes": 38183976960
+      }
+    },
+    {
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261029-confined-geometry-longer-heterogeneous-01",
+      "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261029-confined-geometry-longer-heterogeneous-01/model_final.eqx",
+      "cpu_gpu_maximum_phi_mu_difference": 1.887379141862766e-15,
+      "native_test": {
+        "phi_pooled": 0.023804983026507735,
+        "phi_terminal": 0.02770982619703457,
+        "mu_pooled": 0.052038838843358255,
+        "mu_terminal": 0.06458046143914897,
+        "frozen_phi_pooled": 0.35668741402240917,
+        "worst_phi_pooled": 0.03231808952312017,
+        "mass_max_drift": 4.163336342344337e-17,
+        "energy_max_increase": 0.0
+      },
+      "local_FEM": {
+        "local_phi_pooled": 0.05720242243795272,
+        "local_phi_terminal": 0.06703712180121771,
+        "local_positive_mu_pooled": 0.09807344416820915
+      },
+      "geometry_response": {
+        "dataset": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_longer_v1",
+        "indices": [
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "common_points": 7556,
+        "scope": "Common fluid intersection; piecewise linear native evolution increments on centroid triangles with hole-crossing stencils removed; not an exact common-grid FEM solution",
+        "reference": {
+          "relative_spread_by_time": [
+            1.5537515500862046e-16,
+            0.025213086709251438,
+            0.033914833166234656,
+            0.0395933181423428,
+            0.043689014921700534
+          ],
+          "terminal_pointwise_std_max": 0.07767481209348052,
+          "terminal_pointwise_std_rms": 0.014692142763905814
+        },
+        "removed_initial_interpolation_std_rms": 0.0012927320141712252,
+        "maximum_reference_absolute_phi": 0.6389449072991527,
+        "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261029-confined-geometry-longer-heterogeneous-01",
+        "prediction": {
+          "relative_spread_by_time": [
+            1.1510096449822114e-16,
+            0.022829475357012526,
+            0.03151394928452689,
+            0.03725201872784506,
+            0.04170763937764318
+          ],
+          "terminal_pointwise_std_max": 0.07812873149501708,
+          "terminal_pointwise_std_rms": 0.014115774289459137
+        },
+        "geometry_response_relative_error": 0.4264782959758628,
+        "geometry_response_amplitude_ratio": 0.9474140887400995,
+        "geometry_response_correlation": 0.9054698146226438,
+        "whole_field_relative_error": 0.021232470691792293,
+        "mean_field_relative_error": 0.014701698020598081
+      },
+      "wall_seconds": 406.6466370038688,
+      "warm_update_seconds": 0.03629059184000504,
+      "memory": {
+        "num_allocs": 2380002,
+        "bytes_in_use": 230054656,
+        "peak_bytes_in_use": 555710720,
+        "largest_alloc_size": 316092928,
+        "bytes_limit": 38183976960,
+        "bytes_reserved": 0,
+        "peak_bytes_reserved": 0,
+        "largest_free_block_bytes": 0,
+        "pool_bytes": 38183976960,
+        "peak_pool_bytes": 38183976960
+      }
+    }
+  ]
+}

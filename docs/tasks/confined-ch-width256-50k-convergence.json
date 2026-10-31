@@ -1,0 +1,145 @@
+{
+  "created_utc": "2026-10-31T04:18:21.136019+00:00",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01",
+  "output": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/convergence_live_20261031_0420",
+  "snapshot_step": 38500,
+  "requested_steps": 50000,
+  "latest_logged_loss_step": 38800,
+  "train_monitor_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "validation_indices": [
+    512,
+    513,
+    514,
+    515,
+    516,
+    517,
+    518,
+    519
+  ],
+  "train_conditions": 512,
+  "evaluation_records": 78,
+  "loss_records_plotted": 386,
+  "tail_start_step": 20000,
+  "loss_median_window_records": 11,
+  "milestones": [
+    {
+      "step": 0,
+      "elapsed_seconds": 208.48355149291456,
+      "train_phi_pooled": 0.9500028337721501,
+      "train_phi_terminal": 0.9680092312436992,
+      "train_mu_pooled": 1.10315387668923,
+      "train_mu_terminal": 1.1015743791546493,
+      "test_phi_pooled": 0.9422192643670532,
+      "test_phi_terminal": 0.9631247682734929,
+      "test_mu_pooled": 1.0932091142572853,
+      "test_mu_terminal": 1.0985813387586896
+    },
+    {
+      "step": 10000,
+      "elapsed_seconds": 2812.114256788045,
+      "train_phi_pooled": 0.0986653370658413,
+      "train_phi_terminal": 0.10561888600348936,
+      "train_mu_pooled": 0.15602088528930252,
+      "train_mu_terminal": 0.20167917201757452,
+      "test_phi_pooled": 0.1267411020465058,
+      "test_phi_terminal": 0.13674382877235947,
+      "test_mu_pooled": 0.20470061780634313,
+      "test_mu_terminal": 0.27500058226616386
+    },
+    {
+      "step": 20000,
+      "elapsed_seconds": 4693.586871000007,
+      "train_phi_pooled": 0.056377093769811024,
+      "train_phi_terminal": 0.06020085531350248,
+      "train_mu_pooled": 0.11022061271976641,
+      "train_mu_terminal": 0.1434299964606132,
+      "test_phi_pooled": 0.09716148150468527,
+      "test_phi_terminal": 0.1059971927629329,
+      "test_mu_pooled": 0.1710224412197319,
+      "test_mu_terminal": 0.23021682916595604
+    },
+    {
+      "step": 30000,
+      "elapsed_seconds": 6557.871440816671,
+      "train_phi_pooled": 0.035476138016099557,
+      "train_phi_terminal": 0.037915467486024354,
+      "train_mu_pooled": 0.0846534420109636,
+      "train_mu_terminal": 0.110113102477299,
+      "test_phi_pooled": 0.0883829095878567,
+      "test_phi_terminal": 0.09668241219514805,
+      "test_mu_pooled": 0.15812177139083278,
+      "test_mu_terminal": 0.2113739202716986
+    },
+    {
+      "step": 38500,
+      "elapsed_seconds": 8160.418899295852,
+      "train_phi_pooled": 0.024917117176402086,
+      "train_phi_terminal": 0.02646662068390131,
+      "train_mu_pooled": 0.07259794843780722,
+      "train_mu_terminal": 0.09441576731515615,
+      "test_phi_pooled": 0.08500044151114622,
+      "test_phi_terminal": 0.09304690156175364,
+      "test_mu_pooled": 0.1531562979127693,
+      "test_mu_terminal": 0.2042372497914736
+    }
+  ],
+  "last5000_trends": {
+    "train_phi_pooled": {
+      "start_step": 33500,
+      "end_step": 38500,
+      "slope_percentage_points_per1000updates": -0.09882970269857724,
+      "start_percent": 2.966423984006524,
+      "end_percent": 2.4917117176402086
+    },
+    "test_phi_pooled": {
+      "start_step": 33500,
+      "end_step": 38500,
+      "slope_percentage_points_per1000updates": -0.044959794887999664,
+      "start_percent": 8.66444770997537,
+      "end_percent": 8.500044151114622
+    },
+    "train_phi_terminal": {
+      "start_step": 33500,
+      "end_step": 38500,
+      "slope_percentage_points_per1000updates": -0.106447926988429,
+      "start_percent": 3.1625793718060744,
+      "end_percent": 2.646662068390131
+    },
+    "test_phi_terminal": {
+      "start_step": 33500,
+      "end_step": 38500,
+      "slope_percentage_points_per1000updates": -0.047371651398376506,
+      "start_percent": 9.468835386496366,
+      "end_percent": 9.304690156175365
+    }
+  },
+  "latest_phase_gap_percentage_points": 6.008332433474413,
+  "aggregate_reconstruction": "passed for every split/field/evaluation",
+  "l2_smoothing": "none; lines connect original evaluation points",
+  "scope": "Mean per-geometry relative L2 against unchanged native nonlocal reference. Pooled fields use five stored times, terminal uses physical T. Only the fixed training-monitor subset, not the whole training bank. Eight reused development geometries; one seed, live snapshot, not final evaluation. Reference fields never enter the PDE-only optimizer loss.",
+  "plot_script": "docs/tasks/confined_ch_live_convergence.py",
+  "verification": {
+    "frozen_snapshot_counts_and_steps": "passed",
+    "independent_train_validation_aggregate_replay": "passed for all78evaluations",
+    "script_ast": "passed",
+    "png_pdf": "written and visually inspected",
+    "training_changes": "none"
+  }
+}

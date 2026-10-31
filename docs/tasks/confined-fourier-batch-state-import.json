@@ -1,0 +1,11 @@
+{
+  "parent_run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-soap-01",
+  "child_run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-soap-continue-01",
+  "serialized_state_bytes_identical": {
+    "model": true,
+    "optimizer": true
+  },
+  "comparison": "Read complete file contents directly; no hashing",
+  "global_start_step": 10000,
+  "total_budget": 20000
+}

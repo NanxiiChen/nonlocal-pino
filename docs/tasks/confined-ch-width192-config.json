@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-10-30T17:42:39.478494+00:00",
+  "prior": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width128-fp32-30k-03",
+  "controls": [
+    {
+      "width": 128,
+      "head_dimension": 32,
+      "spatial_sin_cos_features": 128,
+      "trainable_parameters": 905089,
+      "soap_axis_cap": 256,
+      "skipped_matrix_axes": [
+        {
+          "path": ".time.layers[1].weight",
+          "shape": [
+            768,
+            128
+          ],
+          "axis": 0
+        }
+      ]
+    },
+    {
+      "width": 192,
+      "head_dimension": 48,
+      "spatial_sin_cos_features": 192,
+      "trainable_parameters": 2021185,
+      "soap_axis_cap": 512,
+      "skipped_matrix_axes": [
+        {
+          "path": ".time.layers[1].weight",
+          "shape": [
+            1152,
+            192
+          ],
+          "axis": 0
+        }
+      ]
+    }
+  ],
+  "baseline_cap256_and512_coverage_identical": true,
+  "expected_geometry_prefix_matches_completed_baseline": true,
+  "time_samples_identical": true,
+  "scope": "CPU configuration/abstract shape audit; no larger-network timing, memory or accuracy measured"
+}

@@ -1,0 +1,50 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-10-31T07:22:00.525296+00:00",
+  "tests": {
+    "command": "JAX_PLATFORMS=cpu PYTHONPATH=tests .venv/bin/python -m unittest test_confined_ch_operator_online -v",
+    "passed": 5,
+    "seconds": 71.222,
+    "includes": "Cold online origin0 + paired recovery and frozen-monitor equivalence; original continuation remains covered"
+  },
+  "test_launcher": "pytest unavailable; used standard unittest without installing packages",
+  "cpu_gate": "docs/tasks/confined-ch-width256-online-cpu.json",
+  "production_function_AST_exact_vs_prior_online": [
+    "build_network",
+    "load_bank",
+    "apply_operator",
+    "encode",
+    "prepare",
+    "time_coordinate",
+    "phase",
+    "fields",
+    "query_phase",
+    "make_loss",
+    "operator_temporal_samples"
+  ],
+  "numerical_network_optimizer_files_byte_exact": [
+    "examples/confined_ch2d/operator_metrics.py",
+    "examples/confined_ch2d/operator_precision.py",
+    "src/nonlocal_pinn/nn/point_conditional.py",
+    "src/nonlocal_pinn/training/optimizers.py"
+  ],
+  "initialization": "Fresh model/SOAP/schedule, no continuation field",
+  "config_parity": "Architecture/train/physics/IC/geometry/nl/time-sampling match existing256fixed preset; online1024inputs and checkpoint5000 explicit",
+  "gpu_runtime": {
+    "jax": "0.10.1",
+    "backend": "gpu",
+    "fp32_matrix_smoke": "passed on RTX6000D"
+  },
+  "gpu25update_gate": "passed in production process: online_preflight.json, allfloatingfiniteFP32",
+  "cleanup": "249 approved files only; all13protected groups retained;6166249472bytes measured recovered",
+  "git_diff_check": "passed",
+  "initial_production_SOAP_independent_CPU_exact": "passed; see confined-ch-width256-online-initial-audit.json",
+  "GPU_peak_active_GiB": 20.43369174003601,
+  "final_status": "complete_and_independently_audited",
+  "final_audit": "/root/nonlocal-pinn/docs/tasks/confined-ch-width256-online-audit.json",
+  "final_results": "docs/tasks/confined-ch-width256-online-results.json",
+  "final50k_pairs_bytes_exact": true,
+  "checkpoint_groups_verified": 10,
+  "final_gallery": "final_fields_02/gallery.json",
+  "plot_scalar_export_fix": "ExplicitPythonfloat; successful rerun"
+}

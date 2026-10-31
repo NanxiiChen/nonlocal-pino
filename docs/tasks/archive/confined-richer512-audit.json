@@ -1,0 +1,92 @@
+{
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261029-confined-geometry-richer512-01",
+  "dataset": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_richer512_v1",
+  "same_physics_architecture_optimizer_budget_and_initial_parameters": true,
+  "cpu_gpu_maximum_phi_mu_difference": 1.6375789613221059e-15,
+  "evaluation_conditions": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    512,
+    513,
+    514,
+    515,
+    516,
+    517,
+    518,
+    519
+  ],
+  "analytic_initial_and_only_operator_arrays_in_optimizer_payload": true,
+  "new_training_operators_without_future_fields": 496,
+  "actual_geometry_draws": 20000,
+  "distinct_training_geometries": 512,
+  "visits_per_geometry_min": 20,
+  "visits_per_geometry_max": 68,
+  "old_validation_draws_excluded": true,
+  "reference_arrays_unchanged": true,
+  "precompute_seconds": 124.70305439643562,
+  "workers": 6,
+  "bank_bytes": 6559697287,
+  "nodes": [
+    1129,
+    1351
+  ],
+  "old16_native_test": {
+    "phi_pooled": 0.09183714089505708,
+    "phi_terminal": 0.11200105860919177,
+    "mu_pooled": 0.2081147192966293,
+    "mu_terminal": 0.2627797348128535,
+    "frozen_phi_pooled": 0.3587461981808219,
+    "worst_phi_pooled": 0.13714883957084226,
+    "mass_max_drift": 2.1250362580715887e-17,
+    "energy_max_increase": 0.0
+  },
+  "new512_native_test": {
+    "phi_pooled": 0.04689862067252724,
+    "phi_terminal": 0.05453522621300511,
+    "mu_pooled": 0.11661427767416693,
+    "mu_terminal": 0.14620866044034161,
+    "frozen_phi_pooled": 0.3587461981808219,
+    "worst_phi_pooled": 0.06725098715401291,
+    "mass_max_drift": 3.122502256758253e-17,
+    "energy_max_increase": 0.0
+  },
+  "old16_local_FEM": {
+    "local_phi_pooled": 0.12845592929106825,
+    "local_phi_terminal": 0.1540154614638237,
+    "local_positive_mu_pooled": 0.28167717888339106
+  },
+  "new512_local_FEM": {
+    "local_phi_pooled": 0.08976334349964647,
+    "local_phi_terminal": 0.10430770763402428,
+    "local_positive_mu_pooled": 0.17946742075657016
+  },
+  "wall_seconds": 524.4155744612217,
+  "warm_update_seconds": 0.04321740472879337,
+  "memory": {
+    "num_allocs": 2381539,
+    "bytes_in_use": 8813386752,
+    "peak_bytes_in_use": 16300441344,
+    "largest_alloc_size": 7592836352,
+    "bytes_limit": 38183976960,
+    "bytes_reserved": 0,
+    "peak_bytes_reserved": 0,
+    "largest_free_block_bytes": 0,
+    "pool_bytes": 38183976960,
+    "peak_pool_bytes": 38183976960
+  },
+  "scope": "Same8development validation geometries, single cold run, fixed5000/B4budget; no seed-stability/arbitrary-topology/continuum claim"
+}

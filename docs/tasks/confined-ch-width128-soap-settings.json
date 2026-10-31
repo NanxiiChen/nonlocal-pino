@@ -1,0 +1,45 @@
+{
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-width128-30k-02",
+  "source": "Installed pinnedSOAP_JAX0.2.2 plus project optimizer factory",
+  "configured": {
+    "lr_init": 0.001,
+    "lr_decay_every": 1000,
+    "lr_decay_rate": 0.95,
+    "lr_min": 1e-05,
+    "soap_b1": 0.9,
+    "soap_b2": 0.99,
+    "soap_precond_freq": 5,
+    "soap_max_precond_dim": 256,
+    "soap_precond_1d": false,
+    "grad_clip": 10.0,
+    "compute_dtype": "float64",
+    "gpu_policy": "ordinary"
+  },
+  "inherited_library_defaults": {
+    "shampoo_beta": -1,
+    "eps": 1e-08,
+    "weight_decay": 0.0,
+    "correct_bias": true,
+    "mu_dtype": null,
+    "qr_dtype": null
+  },
+  "effective_shampoo_beta": 0.99,
+  "continuous_schedule": true,
+  "schedule_staircase_default": false,
+  "latest_logged_step": 14600,
+  "nominal_lr_at_step": 0.0004728949074969269,
+  "skipped_matrix_axes": [
+    {
+      "path": ".time.layers[1].weight",
+      "shape": [
+        768,
+        128
+      ],
+      "skipped_axes": [
+        0
+      ]
+    }
+  ],
+  "interpretation": "Only oversized axes skip preconditioning; other axes remain active. Gram EMA every gradient call, basis refresh every5. No evidence yet that these settings cause slow convergence; no change to running matched-width control.",
+  "known_issue": "docs/issues/soap-repeatability.md remains deferred; no optimizer implementation investigation resumed"
+}

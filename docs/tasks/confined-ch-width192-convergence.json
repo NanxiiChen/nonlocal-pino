@@ -1,0 +1,170 @@
+{
+  "width192": {
+    "created_utc": "2026-10-31T04:21:03.718964+00:00",
+    "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01",
+    "output": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/convergence_detail_20261031",
+    "snapshot_step": 30000,
+    "requested_steps": 30000,
+    "budget_complete": true,
+    "latest_logged_loss_step": 30000,
+    "train_monitor_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "validation_indices": [
+      512,
+      513,
+      514,
+      515,
+      516,
+      517,
+      518,
+      519
+    ],
+    "train_conditions": 512,
+    "evaluation_records": 61,
+    "loss_records_plotted": 301,
+    "tail_start_step": 20000,
+    "loss_median_window_records": 11,
+    "milestones": [
+      {
+        "step": 0,
+        "elapsed_seconds": 193.30521438643336,
+        "train_phi_pooled": 0.9466644581148715,
+        "train_phi_terminal": 0.9643192750428935,
+        "train_mu_pooled": 1.0959800902411216,
+        "train_mu_terminal": 1.088820830768697,
+        "test_phi_pooled": 0.9389346253455313,
+        "test_phi_terminal": 0.9594363728245991,
+        "test_mu_pooled": 1.0850704471083412,
+        "test_mu_terminal": 1.0846468449142783
+      },
+      {
+        "step": 10000,
+        "elapsed_seconds": 2048.675671953708,
+        "train_phi_pooled": 0.10386517558259263,
+        "train_phi_terminal": 0.11155199860400336,
+        "train_mu_pooled": 0.1689441253821304,
+        "train_mu_terminal": 0.21920236671348128,
+        "test_phi_pooled": 0.1322764636654275,
+        "test_phi_terminal": 0.14264387390455174,
+        "test_mu_pooled": 0.22052746110179094,
+        "test_mu_terminal": 0.29235006340848113
+      },
+      {
+        "step": 20000,
+        "elapsed_seconds": 3399.8271764907986,
+        "train_phi_pooled": 0.06077639964619372,
+        "train_phi_terminal": 0.06524193246588594,
+        "train_mu_pooled": 0.12112095465436734,
+        "train_mu_terminal": 0.15768783260992414,
+        "test_phi_pooled": 0.09975976205609044,
+        "test_phi_terminal": 0.10899778730018429,
+        "test_mu_pooled": 0.18396353634812376,
+        "test_mu_terminal": 0.24456225807557103
+      },
+      {
+        "step": 30000,
+        "elapsed_seconds": 4744.081756455824,
+        "train_phi_pooled": 0.03970018164419576,
+        "train_phi_terminal": 0.0425438896142413,
+        "train_mu_pooled": 0.09735450369771445,
+        "train_mu_terminal": 0.1269779953217764,
+        "test_phi_pooled": 0.0891477025652804,
+        "test_phi_terminal": 0.09801667010463708,
+        "test_mu_pooled": 0.17189125948980022,
+        "test_mu_terminal": 0.22821768028761422
+      }
+    ],
+    "last5000_trends": {
+      "train_phi_pooled": {
+        "start_step": 25000,
+        "end_step": 30000,
+        "slope_percentage_points_per1000updates": -0.16736696003121956,
+        "start_percent": 4.869109825692765,
+        "end_percent": 3.9700181644195762
+      },
+      "test_phi_pooled": {
+        "start_step": 25000,
+        "end_step": 30000,
+        "slope_percentage_points_per1000updates": -0.09120387337076587,
+        "start_percent": 9.292175064316863,
+        "end_percent": 8.91477025652804
+      },
+      "train_phi_terminal": {
+        "start_step": 25000,
+        "end_step": 30000,
+        "slope_percentage_points_per1000updates": -0.1805785743584979,
+        "start_percent": 5.224254340278664,
+        "end_percent": 4.25438896142413
+      },
+      "test_phi_terminal": {
+        "start_step": 25000,
+        "end_step": 30000,
+        "slope_percentage_points_per1000updates": -0.09646015940275313,
+        "start_percent": 10.20747885080626,
+        "end_percent": 9.801667010463708
+      }
+    },
+    "latest_phase_gap_percentage_points": 4.944752092108464,
+    "aggregate_reconstruction": "passed for every split/field/evaluation",
+    "l2_smoothing": "none; lines connect original evaluation points",
+    "scope": "Mean per-geometry relative L2 against unchanged native nonlocal reference. Pooled fields use five stored times, terminal uses physical T. Only the fixed training-monitor subset, not the whole training bank. Eight reused development geometries; one seed, recorded checkpoint history, not a fresh test. Reference fields never enter the PDE-only optimizer loss."
+  },
+  "common_budget_comparison": {
+    "snapshots": [
+      "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/convergence_detail_20261031",
+      "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/convergence_live_20261031_0420"
+    ],
+    "end_step": 30000,
+    "tail_start_step": 20000,
+    "matched_evaluation_records": 61,
+    "endpoints": [
+      {
+        "width": 192,
+        "step": 30000,
+        "train_phi_pooled": 0.03970018164419576,
+        "test_phi_pooled": 0.0891477025652804,
+        "train_phi_terminal": 0.0425438896142413,
+        "test_phi_terminal": 0.09801667010463708
+      },
+      {
+        "width": 256,
+        "step": 30000,
+        "train_phi_pooled": 0.035476138016099557,
+        "test_phi_pooled": 0.0883829095878567,
+        "train_phi_terminal": 0.037915467486024354,
+        "test_phi_terminal": 0.09668241219514805
+      }
+    ],
+    "scope": "Recorded common-budget curves; one runtime seed, eight reused development geometries. Different-width fresh initialization, joint Fourier/backbone change. Training means only16monitors out of512inputs; not a fresh test or final50kcomparison."
+  },
+  "plots": {
+    "width192_png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/convergence_detail_20261031/convergence.png",
+    "width192_pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/convergence_detail_20261031/convergence.pdf",
+    "comparison_png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/convergence_common30k_20261031/comparison.png",
+    "comparison_pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/convergence_common30k_20261031/comparison.pdf"
+  },
+  "verification": {
+    "all61split_field_aggregates": "independently replayed",
+    "same30kcurves": "61steps, cohorts, numerical/reference/optimizer/runtime settings agree",
+    "plots": "PNG/PDF generated and visually inspected",
+    "script_AST": "passed",
+    "training_changes": "none",
+    "initial_plot_guard_correction": "Comparison first checked nonexistent phase config key; corrected to actual CH schema before writing any plot; no numerical change"
+  }
+}

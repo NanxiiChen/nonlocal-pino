@@ -1,0 +1,12 @@
+{
+  "status": "stopped_cpu_throughput_probe",
+  "requested_steps": 1000,
+  "last_logged_step": 100,
+  "last_logged_phi_pooled": 0.6605049405231864,
+  "last_logged_phi_terminal": 0.658044105780469,
+  "observed_seconds_per_update_approx": 5.3,
+  "reason": "CPU probe too slow for rapid screening while GPU control runs; no numerical failure or accuracy conclusion",
+  "complete_checkpoint": false,
+  "no_SOTA_promotion": true,
+  "followup": "Separate matched-GPU known-input control after width-only run if target remains unmet"
+}

@@ -1,0 +1,23 @@
+{
+  "parent_run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-soap-continue-01",
+  "child_run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-soap-finetune-01",
+  "serialized_state_bytes_identical": {
+    "model": true,
+    "optimizer": true
+  },
+  "comparison": "Read complete contents directly; no hashing",
+  "global_start_step": 20000,
+  "total_budget": 25000,
+  "learning_rate_scaling": {
+    "factor": 0.3,
+    "previous": {
+      "lr_init": 0.001,
+      "lr_min": 1e-05
+    },
+    "current": {
+      "lr_init": 0.0003,
+      "lr_min": 3e-06
+    },
+    "schedule_counter": "Restored from parent; no schedule restart"
+  }
+}

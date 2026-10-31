@@ -1,0 +1,408 @@
+{
+  "status": "complete",
+  "filesystem_before": {
+    "total": 146711531520,
+    "used": 141832269824,
+    "free": 4862484480
+  },
+  "protected_files": [
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01/model_final.eqx",
+      "device": 90,
+      "inode": 1493799,
+      "size": 4193416,
+      "mtime_ns": 1793347680943219633
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01/optimizer_final.eqx",
+      "device": 90,
+      "inode": 1493800,
+      "size": 24706008,
+      "mtime_ns": 1793347680991219371
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01/config.json",
+      "device": 90,
+      "inode": 1493635,
+      "size": 4591,
+      "mtime_ns": 1793342864680035924
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01/summary.json",
+      "device": 90,
+      "inode": 1493802,
+      "size": 15720,
+      "mtime_ns": 1793347690075169144
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01/prediction_514.npz",
+      "device": 90,
+      "inode": 1493790,
+      "size": 233009,
+      "mtime_ns": 1793347680603221486
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01/prediction_518.npz",
+      "device": 90,
+      "inode": 1493794,
+      "size": 247297,
+      "mtime_ns": 1793347680687221029
+    },
+    {
+      "path": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_512_v1/config.json",
+      "device": 90,
+      "inode": 1483657,
+      "size": 4295,
+      "mtime_ns": 1793292962915888165
+    },
+    {
+      "path": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_512_v1/manifest.json",
+      "device": 90,
+      "inode": 1483658,
+      "size": 417442,
+      "mtime_ns": 1793293088685184038
+    },
+    {
+      "path": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_512_v1/case_514/reference.npz",
+      "device": 90,
+      "inode": 1483677,
+      "size": 12361385,
+      "mtime_ns": 1793292964027980600
+    },
+    {
+      "path": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_512_v1/case_518/reference.npz",
+      "device": 90,
+      "inode": 1483681,
+      "size": 13860739,
+      "mtime_ns": 1793292964079984914
+    },
+    {
+      "path": "/root/nonlocal-KKS-split-backup-20261024/status.txt",
+      "device": 90,
+      "inode": 1312512,
+      "size": 122,
+      "mtime_ns": 1792830312157233634
+    },
+    {
+      "path": "/root/nonlocal-KKS-split-backup-20261024/remotes.txt",
+      "device": 90,
+      "inode": 1312580,
+      "size": 125,
+      "mtime_ns": 1792830312193232379
+    },
+    {
+      "path": "/root/nonlocal-KKS-split-backup-20261024/retained-local-files.json",
+      "device": 90,
+      "inode": 1312588,
+      "size": 264217,
+      "mtime_ns": 1792830315609113393
+    },
+    {
+      "path": "/root/nonlocal-KKS-split-backup-20261024/source-files.sha256.json",
+      "device": 90,
+      "inode": 1311692,
+      "size": 20754,
+      "mtime_ns": 1792830312149233913
+    },
+    {
+      "path": "/root/nonlocal-KKS-split-backup-20261024/working-tree.tar.gz",
+      "device": 90,
+      "inode": 1311628,
+      "size": 1522844,
+      "mtime_ns": 1792830312133234471
+    },
+    {
+      "path": "/root/nonlocal-KKS-split-backup-20261024/fracture-fixed-input.configs.json",
+      "device": 90,
+      "inode": 1342130,
+      "size": 97244,
+      "mtime_ns": 1792831313931516682
+    },
+    {
+      "path": "/root/nonlocal-KKS-split-backup-20261024/history.bundle",
+      "device": 90,
+      "inode": 1312586,
+      "size": 15482922,
+      "mtime_ns": 1792830315537115899
+    },
+    {
+      "path": "/root/nonlocal-KKS-split-backup-20261024/nonlocal-fixed-input.configs.json",
+      "device": 90,
+      "inode": 1342125,
+      "size": 21161,
+      "mtime_ns": 1792831194415395841
+    },
+    {
+      "path": "/root/nonlocal-KKS-split-backup-20261024/README.md",
+      "device": 90,
+      "inode": 1318710,
+      "size": 1047,
+      "mtime_ns": 1792830315609113393
+    },
+    {
+      "path": "/root/nonlocal-KKS-split-backup-20261024/refs.txt",
+      "device": 90,
+      "inode": 1312578,
+      "size": 973,
+      "mtime_ns": 1792830312189232519
+    },
+    {
+      "path": "/root/nonlocal-KKS-split-backup-20261024/working-tree.diff",
+      "device": 90,
+      "inode": 1312515,
+      "size": 5382,
+      "mtime_ns": 1792830312185232658
+    },
+    {
+      "path": "/root/nonlocal-KKS-split-backup-20261024/recovery-verification.json",
+      "device": 90,
+      "inode": 1319866,
+      "size": 253,
+      "mtime_ns": 1792831636628435004
+    },
+    {
+      "path": "/root/nonlocal-KKS-split-backup-20261024/nonlocal-fixed-input.npz",
+      "device": 90,
+      "inode": 1342124,
+      "size": 3697,
+      "mtime_ns": 1792831194415395841
+    },
+    {
+      "path": "/root/nonlocal-KKS-split-backup-20261024/fracture-fixed-input.npz",
+      "device": 90,
+      "inode": 1342129,
+      "size": 46205,
+      "mtime_ns": 1792831313927516202
+    },
+    {
+      "path": "/root/nonlocal-pinn/.venv/pyvenv.cfg",
+      "device": 90,
+      "inode": 2752982,
+      "size": 148,
+      "mtime_ns": 1792830583248345157
+    },
+    {
+      "path": "/root/fracture-pinn/.venv/pyvenv.cfg",
+      "device": 90,
+      "inode": 2753008,
+      "size": 148,
+      "mtime_ns": 1792830583900324917
+    }
+  ],
+  "cache_allocated_bytes_before": {
+    "/root/.cache/uv": 10814672896,
+    "/root/.cache/pip": 529965056,
+    "/root/.npm/_cacache": 2431434752
+  },
+  "candidates": [
+    {
+      "path": "/root/.cache/uv",
+      "command": [
+        "uv",
+        "cache",
+        "clean",
+        "--cache-dir",
+        "/root/.cache/uv"
+      ],
+      "reason": "Re-downloadable package cache; supported in-use locking; no installed environment cache symlinks found"
+    },
+    {
+      "path": "/root/.cache/pip",
+      "command": [
+        "/root/miniconda3/bin/python",
+        "-m",
+        "pip",
+        "cache",
+        "purge"
+      ],
+      "reason": "HTTP package downloads, zero locally built wheels"
+    },
+    {
+      "path": "/root/.npm/_cacache",
+      "command": [
+        "npm",
+        "cache",
+        "clean",
+        "--force",
+        "--cache=/root/.npm"
+      ],
+      "reason": "npm content-addressed package download cache; installed tools and npx environments retained"
+    }
+  ],
+  "preserved": [
+    "all data/tf-logs and numerical receipts",
+    "all installed environments",
+    "all source/Git metadata",
+    "migration backups",
+    "Trash with historical results",
+    "OpenCode history and IDE runtimes",
+    "FEniCS/dijitso/JAX compilation caches"
+  ],
+  "symlink_audit": {
+    "project_venvs": 3,
+    "miniconda_and_managed_uv": true,
+    "cache_targets": 0
+  },
+  "conda_dry_run": "Tarballs, index cache and logs: zero available; no action",
+  "filesystem_after_package_caches": {
+    "total": 146711531520,
+    "used": 132511567872,
+    "free": 14183186432
+  },
+  "package_cache_free_space_increase_bytes": 9320701952,
+  "package_cache_commands": [
+    {
+      "command": [
+        "uv",
+        "cache",
+        "clean",
+        "--cache-dir",
+        "/root/.cache/uv"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/root/miniconda3/bin/python",
+        "-m",
+        "pip",
+        "cache",
+        "purge"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "npm",
+        "cache",
+        "clean",
+        "--force",
+        "--cache=/root/.npm"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "package_cache_log": [
+    "uv: Removed53510files (9.9GiB logical estimate)",
+    "pip: Files removed288",
+    "npm: successful; _npx retained"
+  ],
+  "mpi_orphan_audit": {
+    "candidates": [
+      {
+        "path": "/tmp/ompi.autodl-pro-7775bcfa7d82.0/jf.0/4101963776/shared_mem_cuda_pool.autodl-pro-7775bcfa7d82",
+        "device": 90,
+        "inode": 151,
+        "size": 134217728,
+        "mtime_ns": 1780385965916290215,
+        "allocated_bytes": 134217728,
+        "age_hours": 3601.3723867328963
+      },
+      {
+        "path": "/tmp/ompi.autodl-pro-7775bcfa7d82.0/jf.0/1121583104/shared_mem_cuda_pool.autodl-pro-7775bcfa7d82",
+        "device": 90,
+        "inode": 123,
+        "size": 134217728,
+        "mtime_ns": 1779810665183907179,
+        "allocated_bytes": 134217728,
+        "age_hours": 3761.1781457421516
+      },
+      {
+        "path": "/tmp/ompi.autodl-pro-7775bcfa7d82.0/jf.0/1966931968/shared_mem_cuda_pool.autodl-pro-7775bcfa7d82",
+        "device": 90,
+        "inode": 127,
+        "size": 134217728,
+        "mtime_ns": 1780387700913295828,
+        "allocated_bytes": 134217728,
+        "age_hours": 3600.8904431475535
+      },
+      {
+        "path": "/tmp/ompi.autodl-pro-7775bcfa7d82.0/jf.0/3172990976/shared_mem_cuda_pool.autodl-pro-7775bcfa7d82",
+        "device": 90,
+        "inode": 139,
+        "size": 134217728,
+        "mtime_ns": 1779890864417334620,
+        "allocated_bytes": 134217728,
+        "age_hours": 3738.9005809451473
+      },
+      {
+        "path": "/tmp/ompi.autodl-pro-7775bcfa7d82.0/jf.0/3532980224/shared_mem_cuda_pool.autodl-pro-7775bcfa7d82",
+        "device": 90,
+        "inode": 143,
+        "size": 134217728,
+        "mtime_ns": 1780387204055406137,
+        "allocated_bytes": 134217728,
+        "age_hours": 3601.028459341261
+      },
+      {
+        "path": "/tmp/ompi.autodl-pro-7775bcfa7d82.0/jf.0/2959867904/shared_mem_cuda_pool.autodl-pro-7775bcfa7d82",
+        "device": 90,
+        "inode": 135,
+        "size": 134217728,
+        "mtime_ns": 1780388242740605175,
+        "allocated_bytes": 134217728,
+        "age_hours": 3600.739935686588
+      },
+      {
+        "path": "/tmp/ompi.autodl-pro-7775bcfa7d82.0/jf.0/2561933312/shared_mem_cuda_pool.autodl-pro-7775bcfa7d82",
+        "device": 90,
+        "inode": 131,
+        "size": 134217728,
+        "mtime_ns": 1780387994424836016,
+        "allocated_bytes": 134217728,
+        "age_hours": 3600.808912306693
+      },
+      {
+        "path": "/tmp/ompi.autodl-pro-7775bcfa7d82.0/jf.0/3750625280/shared_mem_cuda_pool.autodl-pro-7775bcfa7d82",
+        "device": 90,
+        "inode": 147,
+        "size": 134217728,
+        "mtime_ns": 1780386232076364531,
+        "allocated_bytes": 134217728,
+        "age_hours": 3601.298453566432
+      },
+      {
+        "path": "/tmp/ompi.autodl-pro-7775bcfa7d82.0/jf.0/629538816/shared_mem_cuda_pool.autodl-pro-7775bcfa7d82",
+        "device": 90,
+        "inode": 155,
+        "size": 134217728,
+        "mtime_ns": 1780387382205898692,
+        "allocated_bytes": 134221824,
+        "age_hours": 3600.97897321807
+      }
+    ],
+    "process_references": [],
+    "permission_denied": [],
+    "process_exit_races": 1,
+    "live_mpi_library_processes": [],
+    "minimum_age_hours": 3600.739935686588,
+    "removed_files": 9,
+    "status": "exact_nine_orphan_pool_files_removed"
+  },
+  "filesystem_after_cleanup": {
+    "total": 146711531520,
+    "used": 131304050688,
+    "free": 15390703616
+  },
+  "net_recovered_bytes": 10528219136,
+  "verification": {
+    "protected_metadata_unchanged": 26,
+    "reference_npz_read_samples": [
+      514,
+      518
+    ],
+    "project_cpu_jax_autodiff_and_imports": "passed",
+    "project_versions": {
+      "jax": "0.10.1",
+      "jaxlib": "0.10.1",
+      "equinox": "0.13.8",
+      "optax": "0.2.8",
+      "numpy": "2.4.6"
+    },
+    "npm_npx_preserved": true,
+    "trash_preserved": true,
+    "fenics_import": "passed: dolfin2019.1.0"
+  },
+  "recommendation": "Current-mesh width128 trial and small refinement checks fit available storage. A full additional refined512bank estimated10-12GiB would leave little room for new checkpoints; consider30-50GiB more capacity for that stage rather than deleting unique numerical artifacts.",
+  "notes": "Cache logical allocation differs from net filesystem recovery because installed hardlinks retain blocks. No exact per-command physical attribution is claimed; filesystem net changes are measured. Only cache-manager commands and exact nine verified orphan MPI pool unlinks were used."
+}

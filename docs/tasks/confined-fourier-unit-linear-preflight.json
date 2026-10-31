@@ -1,0 +1,20 @@
+{
+  "config": "examples.confined_ch2d.configs.train_operator_smallscale10_512_unit_linear",
+  "status": "passed",
+  "index": 512,
+  "output_scale": 1.0,
+  "phase_range": [
+    -0.24666862703985726,
+    0.25499687817008976
+  ],
+  "mass_drift": 8.131516293641283e-18,
+  "phase_rms": [
+    0.08310749005794013,
+    0.08303237703571319,
+    0.08316068488134191,
+    0.08307442247382471,
+    0.08347733160381916
+  ],
+  "optimizer_updates": 0,
+  "evolved_reference_fields_used": false
+}

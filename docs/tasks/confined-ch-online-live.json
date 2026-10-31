@@ -1,0 +1,255 @@
+{
+  "checked_utc": "2026-10-31T07:01:58.911405+00:00",
+  "status": "training",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width192-online25000-rolling-01-train",
+  "journal": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width192-online25000-rolling-01-process.json",
+  "runner_pid": 376702,
+  "trainer_pid": 376704,
+  "start_step": 25000,
+  "total_steps": 50000,
+  "latest_loss": {
+    "step": 31000,
+    "loss": 0.00010591700265649706,
+    "training_horizon": 3.0,
+    "online": {
+      "kind": "asynchronous_rolling_geometry_pool",
+      "capacity": 1024,
+      "refresh_count": 60,
+      "distinct_generated_inputs": 1920,
+      "refresh_wait_seconds": 20.13207507878542,
+      "pool_replace_seconds": 5.338837103918195,
+      "pde_solves": 0,
+      "fem_solves": 0,
+      "reference_labels_in_step": false,
+      "geometry_order": "Stateless per-draw rejection sampling, fixed global refresh schedule, FIFO consumption",
+      "bounded_prefetch_inputs": 64
+    }
+  },
+  "latest_evaluation": {
+    "step": 31000,
+    "elapsed_seconds": 1734.159806061536,
+    "train_phi_pooled": 0.07210206955563839,
+    "train_phi_terminal": 0.07721725256711805,
+    "train_mu_pooled": 0.14246490179300958,
+    "train_mu_terminal": 0.18355337536672758,
+    "test_phi_pooled": 0.07490739543180627,
+    "test_phi_terminal": 0.08046546621335376,
+    "test_mu_pooled": 0.15581303343077735,
+    "test_mu_terminal": 0.20878060241572888
+  },
+  "recent_evaluations": [
+    {
+      "step": 27000,
+      "elapsed_seconds": 1162.0721419397742,
+      "train_phi_pooled": 0.07053905776704758,
+      "train_phi_terminal": 0.0752656958031685,
+      "train_mu_pooled": 0.13522308347589818,
+      "train_mu_terminal": 0.17389167386344231,
+      "test_phi_pooled": 0.08563264680931351,
+      "test_phi_terminal": 0.09220760494399649,
+      "test_mu_pooled": 0.1654582210676384,
+      "test_mu_terminal": 0.22072702188609483
+    },
+    {
+      "step": 27500,
+      "elapsed_seconds": 1233.312314460054,
+      "train_phi_pooled": 0.07053022933675301,
+      "train_phi_terminal": 0.07524910886825534,
+      "train_mu_pooled": 0.13499612065438654,
+      "train_mu_terminal": 0.1737940783270273,
+      "test_phi_pooled": 0.08460985200493115,
+      "test_phi_terminal": 0.09080464212810763,
+      "test_mu_pooled": 0.16526212119233674,
+      "test_mu_terminal": 0.2198187747553339
+    },
+    {
+      "step": 28000,
+      "elapsed_seconds": 1304.758994743228,
+      "train_phi_pooled": 0.07148174737950436,
+      "train_phi_terminal": 0.07631198690110236,
+      "train_mu_pooled": 0.13850525444541073,
+      "train_mu_terminal": 0.17902717094806447,
+      "test_phi_pooled": 0.08252423428460018,
+      "test_phi_terminal": 0.08802921884323481,
+      "test_mu_pooled": 0.16810734105507386,
+      "test_mu_terminal": 0.22468865468488003
+    },
+    {
+      "step": 28500,
+      "elapsed_seconds": 1375.3206947352737,
+      "train_phi_pooled": 0.07089560186188769,
+      "train_phi_terminal": 0.07568426233028924,
+      "train_mu_pooled": 0.13837461245725324,
+      "train_mu_terminal": 0.17802797678250792,
+      "test_phi_pooled": 0.07953304638997541,
+      "test_phi_terminal": 0.0850982599430814,
+      "test_mu_pooled": 0.16410497636369795,
+      "test_mu_terminal": 0.21928915918961855
+    },
+    {
+      "step": 29000,
+      "elapsed_seconds": 1446.397183297202,
+      "train_phi_pooled": 0.07383787305884472,
+      "train_phi_terminal": 0.07927290524212702,
+      "train_mu_pooled": 0.1396995886436093,
+      "train_mu_terminal": 0.17944928274066949,
+      "test_phi_pooled": 0.08349677032683052,
+      "test_phi_terminal": 0.0899849620594858,
+      "test_mu_pooled": 0.16725897780744575,
+      "test_mu_terminal": 0.22198433583649596
+    },
+    {
+      "step": 29500,
+      "elapsed_seconds": 1517.7217297889292,
+      "train_phi_pooled": 0.07530523714113035,
+      "train_phi_terminal": 0.0807684526291727,
+      "train_mu_pooled": 0.14047548894435724,
+      "train_mu_terminal": 0.18092942167848208,
+      "test_phi_pooled": 0.08099095221611251,
+      "test_phi_terminal": 0.08674852908164928,
+      "test_mu_pooled": 0.16395950780023597,
+      "test_mu_terminal": 0.21825756515942568
+    },
+    {
+      "step": 30000,
+      "elapsed_seconds": 1588.9186000190675,
+      "train_phi_pooled": 0.0745446096223529,
+      "train_phi_terminal": 0.07972157838653543,
+      "train_mu_pooled": 0.1414714312810713,
+      "train_mu_terminal": 0.1813657283074548,
+      "test_phi_pooled": 0.07898425402677738,
+      "test_phi_terminal": 0.08487397880549274,
+      "test_mu_pooled": 0.16089761001672298,
+      "test_mu_terminal": 0.21421531891962914
+    },
+    {
+      "step": 30500,
+      "elapsed_seconds": 1662.452941622585,
+      "train_phi_pooled": 0.07197285868444415,
+      "train_phi_terminal": 0.07699178823771301,
+      "train_mu_pooled": 0.14255087368554287,
+      "train_mu_terminal": 0.1841865287009587,
+      "test_phi_pooled": 0.07578900252559549,
+      "test_phi_terminal": 0.08136804113133471,
+      "test_mu_pooled": 0.15784317224391328,
+      "test_mu_terminal": 0.21095518518313514
+    },
+    {
+      "step": 31000,
+      "elapsed_seconds": 1734.159806061536,
+      "train_phi_pooled": 0.07210206955563839,
+      "train_phi_terminal": 0.07721725256711805,
+      "train_mu_pooled": 0.14246490179300958,
+      "train_mu_terminal": 0.18355337536672758,
+      "test_phi_pooled": 0.07490739543180627,
+      "test_phi_terminal": 0.08046546621335376,
+      "test_mu_pooled": 0.15581303343077735,
+      "test_mu_terminal": 0.20878060241572888
+    }
+  ],
+  "initial_restore_audit": {
+    "status": "passed",
+    "step": 25000,
+    "model_bytes_exact": true,
+    "optimizer_bytes_exact": true,
+    "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_025000.json",
+    "schedule": "Restored complete SOAP/Optax state; no reset"
+  },
+  "initial_field_audit": {
+    "status": "passed",
+    "checkpoint_step": 25000,
+    "compared_scores": 96,
+    "maximum_absolute_score_gap": 2.2422761578044792e-07,
+    "tolerance": 2e-05,
+    "reason": "Fixed zero padding can change FP32 reduction order; physical inputs/model/state identical"
+  },
+  "production_preflight": {
+    "status": "passed",
+    "step": 25025,
+    "warmup_updates": 25,
+    "mean_last20_update_seconds": 0.11616622032597661,
+    "all_floating_model_state_finite_and_compute_dtype": true,
+    "payload_keys": [
+      "coefficients",
+      "condition",
+      "condition_weights",
+      "initial",
+      "metric",
+      "neighbors",
+      "points",
+      "volumes"
+    ],
+    "memory": {
+      "num_allocs": 33212,
+      "bytes_in_use": 13000970752,
+      "peak_bytes_in_use": 21940509440,
+      "largest_alloc_size": 9739173888,
+      "bytes_limit": 38183976960,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 38183976960,
+      "peak_pool_bytes": 38183976960
+    },
+    "pool": {
+      "kind": "asynchronous_rolling_geometry_pool",
+      "capacity": 1024,
+      "refresh_count": 1,
+      "distinct_generated_inputs": 32,
+      "refresh_wait_seconds": 6.3992634024471045,
+      "pool_replace_seconds": 0.22278527729213238,
+      "pde_solves": 0,
+      "fem_solves": 0,
+      "reference_labels_in_step": false,
+      "geometry_order": "Stateless per-draw rejection sampling, fixed global refresh schedule, FIFO consumption",
+      "bounded_prefetch_inputs": 64
+    }
+  },
+  "peak_active_GiB": 20.43369174003601,
+  "allocator_limit_GiB": 35.56159973144531,
+  "refreshes": 61,
+  "new_geometry_inputs_installed": 1952,
+  "refresh_seconds": [
+    {
+      "step": 27201,
+      "wait_seconds": 0.20906853675842285,
+      "replace_seconds": 0.08784813992679119
+    },
+    {
+      "step": 27301,
+      "wait_seconds": 0.2021043598651886,
+      "replace_seconds": 0.0856088437139988
+    },
+    {
+      "step": 27401,
+      "wait_seconds": 0.20019032433629036,
+      "replace_seconds": 0.0865107998251915
+    },
+    {
+      "step": 27501,
+      "wait_seconds": 0.2910054735839367,
+      "replace_seconds": 0.08659122698009014
+    },
+    {
+      "step": 27601,
+      "wait_seconds": 0.29360031709074974,
+      "replace_seconds": 0.08623573556542397
+    }
+  ],
+  "recent_evaluation_inclusive_seconds_per_update": 0.14313360377276937,
+  "remaining_updates_minutes_estimate": 45.3256411947103,
+  "first_live_paired_pool_checkpoint": {
+    "marker": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width192-online25000-rolling-01-train/checkpoint_026000.json",
+    "step": 26000,
+    "model_bytes": 8100740,
+    "optimizer_bytes": 47918192,
+    "pool_identities_exact": true,
+    "refresh_count": 10
+  },
+  "scope": "Current raw complete evaluation on same16frozen historical training-domain monitors/8reused development geometries against native graph references. Compared with imported25k, more updates and online sampling jointly change; no isolated causal attribution or fresh-test/multiseed claim.",
+  "latest_validation_phi_pooled_range": [
+    0.022754344498085253,
+    0.13697452280944417
+  ],
+  "latest_evaluation_aggregate_reconstruction": "passed for both splits and four fields"
+}

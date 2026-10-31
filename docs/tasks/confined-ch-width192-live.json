@@ -1,0 +1,95 @@
+{
+  "checked_utc": "2026-10-30T18:14:03.236330+00:00",
+  "status": "complete",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01",
+  "prior": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width128-fp32-30k-03",
+  "journal": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width192-fp32-01-process.json",
+  "runner_pid": 260556,
+  "trainer_pid": null,
+  "requested_steps": 30000,
+  "latest_loss": {
+    "step": 2900,
+    "loss": 0.0005924283759668469,
+    "training_horizon": 3.0
+  },
+  "latest_evaluation": {
+    "step": 2500,
+    "elapsed_seconds": 1034.562878197059,
+    "train_phi_pooled": 0.18754273566969926,
+    "train_phi_terminal": 0.19726223434730666,
+    "test_phi_pooled": 0.2120435049001357,
+    "test_phi_terminal": 0.22553879098322788,
+    "test_mu_pooled": 0.30841915221278343,
+    "test_mu_terminal": 0.4098585011178191
+  },
+  "recent_evaluations": [
+    {
+      "step": 500,
+      "elapsed_seconds": 765.8105396796018,
+      "train_phi_pooled": 0.31475407163962377,
+      "train_phi_terminal": 0.31152192657257016,
+      "test_phi_pooled": 0.3369369740814414,
+      "test_phi_terminal": 0.3403573891835665,
+      "test_mu_pooled": 0.4457905621924817,
+      "test_mu_terminal": 0.5839609565522725
+    },
+    {
+      "step": 1000,
+      "elapsed_seconds": 832.3280021995306,
+      "train_phi_pooled": 0.2605559580542229,
+      "train_phi_terminal": 0.26611131787146985,
+      "test_phi_pooled": 0.28070076347543693,
+      "test_phi_terminal": 0.29097726511265487,
+      "test_mu_pooled": 0.39182262983605765,
+      "test_mu_terminal": 0.5135150125192334
+    },
+    {
+      "step": 1500,
+      "elapsed_seconds": 899.7959033958614,
+      "train_phi_pooled": 0.23357426094830053,
+      "train_phi_terminal": 0.2421298968232125,
+      "test_phi_pooled": 0.25312602075816837,
+      "test_phi_terminal": 0.265085107836234,
+      "test_mu_pooled": 0.35457683566083276,
+      "test_mu_terminal": 0.46926859424953604
+    },
+    {
+      "step": 2000,
+      "elapsed_seconds": 966.8664812110364,
+      "train_phi_pooled": 0.20857227000949785,
+      "train_phi_terminal": 0.2183263386536743,
+      "test_phi_pooled": 0.23208506083869623,
+      "test_phi_terminal": 0.2443791680860259,
+      "test_mu_pooled": 0.3278560441389682,
+      "test_mu_terminal": 0.4334120632616769
+    },
+    {
+      "step": 2500,
+      "elapsed_seconds": 1034.562878197059,
+      "train_phi_pooled": 0.18754273566969926,
+      "train_phi_terminal": 0.19726223434730666,
+      "test_phi_pooled": 0.2120435049001357,
+      "test_phi_terminal": 0.22553879098322788,
+      "test_mu_pooled": 0.30841915221278343,
+      "test_mu_terminal": 0.4098585011178191
+    }
+  ],
+  "same_step_width128": {
+    "step": 2500,
+    "elapsed_seconds": 898.2994469441473,
+    "train_phi_pooled": 0.20782200091227376,
+    "train_phi_terminal": 0.21575248793019092,
+    "test_phi_pooled": 0.23972363689328335,
+    "test_phi_terminal": 0.2530030323523953,
+    "test_mu_pooled": 0.3500572643469847,
+    "test_mu_terminal": 0.46445105690104366
+  },
+  "recent_evaluation_inclusive_seconds_per_update": 0.13482325066501896,
+  "remaining_update_minutes_estimate": 0,
+  "initial_audit": "docs/tasks/confined-ch-width192-initial-audit.json",
+  "scope": "Run and final audits complete; old latest_evaluation/loss entries are historical snapshots. Final results/comparison receipts are authoritative.",
+  "final_evaluation_status": "complete",
+  "final_results": "docs/tasks/confined-ch-width192-results.json",
+  "final_comparison": "docs/tasks/confined-ch-capacity-final.json",
+  "completed_task": "docs/tasks/archive/confined-ch-width128-refinement.md"
+}

@@ -1,0 +1,81 @@
+{
+  "status": "complete",
+  "checked_utc": "2026-10-31T01:34:50.194915+00:00",
+  "controls": [
+    {
+      "width": 128,
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width128-fp32-30k-03",
+      "native_test": {
+        "phi_pooled": 0.09784127431001485,
+        "phi_terminal": 0.10579941329993264,
+        "mu_pooled": 0.19309099938632657,
+        "mu_terminal": 0.2530233808199455,
+        "frozen_phi_pooled": 0.9425240052540753,
+        "worst_phi_pooled": 0.18547536473220994,
+        "mass_max_drift": 1.4829028343807393e-08,
+        "energy_max_increase": 0.0
+      },
+      "native_train": {
+        "phi_pooled": 0.05089073263594834,
+        "phi_terminal": 0.05419520885690469,
+        "mu_pooled": 0.12382376330623028,
+        "mu_terminal": 0.15894581187785162,
+        "frozen_phi_pooled": 0.9499447423975587,
+        "worst_phi_pooled": 0.11098583606113861,
+        "mass_max_drift": 2.715059298826622e-08,
+        "energy_max_increase": 0.0
+      },
+      "dense61": {
+        "phi_pooled": 0.09319193111207925,
+        "phi_terminal": 0.10579942507695247,
+        "mu_pooled": 0.1907842398927161
+      },
+      "cold_training_wall_seconds": 3878.9680796395987,
+      "warm_update_seconds": 0.09233256370863288,
+      "active_peak_GiB": 8.430993556976318
+    },
+    {
+      "width": 192,
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01",
+      "native_test": {
+        "phi_pooled": 0.0891477025652804,
+        "phi_terminal": 0.09801667010463708,
+        "mu_pooled": 0.17189125948980022,
+        "mu_terminal": 0.2282176802876142,
+        "frozen_phi_pooled": 0.9425240052540753,
+        "worst_phi_pooled": 0.15532920930048758,
+        "mass_max_drift": 1.6298684230758084e-08,
+        "energy_max_increase": 0.0
+      },
+      "native_train": {
+        "phi_pooled": 0.03970018164419577,
+        "phi_terminal": 0.0425438896142413,
+        "mu_pooled": 0.09735450369771445,
+        "mu_terminal": 0.1269779953217764,
+        "frozen_phi_pooled": 0.9499447423975587,
+        "worst_phi_pooled": 0.07971814473232179,
+        "mass_max_drift": 1.5360977632678657e-08,
+        "energy_max_increase": 0.0
+      },
+      "dense61": {
+        "phi_pooled": 0.08345801486060234,
+        "phi_terminal": 0.09801668291476737,
+        "mu_pooled": 0.16744897772028877
+      },
+      "cold_training_wall_seconds": 4752.379614498466,
+      "warm_update_seconds": 0.11942868207030023,
+      "active_peak_GiB": 9.38218379020691
+    }
+  ],
+  "relative_improvement_percent": {
+    "phase_pooled": 8.885382785580287,
+    "phase_terminal": 7.3561307691112905
+  },
+  "cold_training_time_increase_percent": 22.516595056384638,
+  "actual_common_geometry_draw_steps": 30000,
+  "cpu_gpu_field_gaps": [
+    6.258487701416016e-07,
+    2.8172507882118225e-06
+  ],
+  "scope": "Fixed30k cold FP32 comparison, one seed/eight reused native development geometries. Joint backbone/Fourier capacity increase and preserved SOAP axis coverage; no FEM/isolated-head/multiple-seed conclusion or default promotion. All experiment processes exited."
+}

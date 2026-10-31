@@ -1,0 +1,105 @@
+{
+  "checked_utc": "2026-10-31T05:54:21.279903+00:00",
+  "status": "diagnosis_complete_training_unchanged",
+  "bank": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01",
+  "historical_cache_preparation": {
+    "new_inputs": 512,
+    "workers": 6,
+    "wall_seconds": 129.56462072394788,
+    "inputs_per_wall_second": 3.951696050504976,
+    "mean_worker_stage_seconds": {
+      "mesh": 0.5488033000001451,
+      "assembly": 0.06051411052249023,
+      "metric": 0.24661479031055933,
+      "write": 0.6257702927978244
+    },
+    "pde_solves": 0,
+    "fem_solves": 0,
+    "metric": "Cached biharmonic Cholesky resolvent; replaced by production stable metric at training load"
+  },
+  "current_metric_probe": {
+    "checked_utc": "2026-10-31T05:52:06.398628+00:00",
+    "status": "passed",
+    "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01",
+    "bank": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1",
+    "metric": "linear_stable_resolvent",
+    "thread_limits_environment": {
+      "OPENBLAS_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    },
+    "samples": [
+      {
+        "index": 512,
+        "nodes": 1333,
+        "degree": 89,
+        "seconds": [
+          0.613167317584157,
+          0.5573042444884777,
+          0.5520561318844557
+        ],
+        "mean_seconds": 0.5741758979856968,
+        "constant_mode_error": 1.687538997430238e-14,
+        "all_finite": true
+      },
+      {
+        "index": 513,
+        "nodes": 1285,
+        "degree": 91,
+        "seconds": [
+          0.4961116146296263,
+          0.5171218942850828,
+          0.504469733685255
+        ],
+        "mean_seconds": 0.5059010808666548,
+        "constant_mode_error": 2.0761170560490427e-14,
+        "all_finite": true
+      },
+      {
+        "index": 514,
+        "nodes": 1256,
+        "degree": 90,
+        "seconds": [
+          0.4651441518217325,
+          0.46031562983989716,
+          0.4801796805113554
+        ],
+        "mean_seconds": 0.468546487390995,
+        "constant_mode_error": 1.865174681370263e-14,
+        "all_finite": true
+      }
+    ],
+    "mean_seconds": 0.5162078220811155,
+    "pde_or_fem_solves": 0,
+    "jax_backend_initialized": false,
+    "scope": "Three existing unlabeled inputs, three production stable-metric builds each; one CPU process with thread limits while GPU training continues. No mesh generation, serialization, transfer or full producer pipeline benchmark."
+  },
+  "cpu_allocation": {
+    "visible_logical_cpus": 96,
+    "affinity_cpus": 96,
+    "cgroup_cpu_max": "1200000 100000",
+    "cpu_budget": 12
+  },
+  "gpu_consumer": {
+    "batch": 16,
+    "warm_update_seconds": 0.159039671625942,
+    "geometry_uses_per_second": 100.60382944974678
+  },
+  "estimated_input_only_online_producer": {
+    "mean_serial_seconds_without_compression": 1.1255252326037508,
+    "workers": 6,
+    "idealized_inputs_per_second": 5.330844503698784,
+    "idealized_seconds_per_fresh_batch": 3.001400620276669,
+    "production_to_gpu_step_ratio": 18.87202475704239,
+    "assumptions": "Mesh/assembly means from historical512input six-worker run plus new three-geometry stable-metric mean; replace old metric rather than adding it; no compressed disk writes; idealized worker scaling; excludes interprocess copies, padding, host/device transfer, startup and contention. NOT an end-to-end online benchmark."
+  },
+  "proposal": "After current fixed50k completes, assess asynchronous input-only generation into a bounded refreshed pool with sample reuse and fixed padded shapes/dtypes. No sampler, architecture, prior, physics, optimizer, run or default changed.",
+  "limitations": [
+    "Nine timed metric builds cover three existing geometries only.",
+    "Unbounded sampling support needs an explicit checked padding envelope; observed1024bank maxima are not a proof of a global bound.",
+    "Same reserved development references can monitor L2; newly generated training geometries need no future labels.",
+    "Larger network plus larger/online bank may improve generalization but is not yet an observed combination."
+  ]
+}

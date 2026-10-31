@@ -1,0 +1,21 @@
+{
+  "status": "launched",
+  "launched_utc": "2026-10-31T07:21:25.890863+00:00",
+  "prefix": "20261031-confined-width256-online-cold50k-01",
+  "runner_pid": 9834,
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train",
+  "journal": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-process.json",
+  "runner_log": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-runner.log",
+  "training_log": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-training.log",
+  "config": "examples/confined_ch2d/configs/train_operator_online_width256_cold50k.py",
+  "start_step": 0,
+  "requested_new_updates": 50000,
+  "initialization": "fresh network/SOAP/schedule; no parent checkpoint",
+  "checkpoint_every": 5000,
+  "free_disk_bytes": 11129430016,
+  "device": "NVIDIA RTX6000D/85651MiB",
+  "cpu_gate": "docs/tasks/confined-ch-width256-online-cpu.json",
+  "focused_tests": "5 unittest tests PASS71.222s; cold and paired-online recovery included",
+  "gate_policy": "First25 actual updates in this production process; single fullstep compilation",
+  "defaults_promoted": false
+}

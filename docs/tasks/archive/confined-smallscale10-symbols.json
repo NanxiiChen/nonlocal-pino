@@ -1,0 +1,128 @@
+{
+  "config": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_v1/config.json",
+  "scope": "Infinite homogeneous medium only; no holes, wall truncation, mesh, nonlinear mode coupling or neural optimization.",
+  "formula": "lambda=240/delta^2 int_0^1 s(1-s)^2 (1-J0(k*delta*s)) ds",
+  "independent_angular_check_maximum_error": 1.7053025658242404e-13,
+  "modes": [
+    {
+      "mode": [
+        3.0,
+        0.0
+      ],
+      "k_delta": 2.0734511513692633,
+      "local_symbol": 355.3057584392169,
+      "nonlocal_symbol": 323.0414658914212,
+      "symbol_relative_deficit": 0.09080711973125888,
+      "local_linear_growth": -1.9833219337804966,
+      "nonlocal_linear_growth": -1.0527874675116085
+    },
+    {
+      "mode": [
+        0.0,
+        3.0
+      ],
+      "k_delta": 2.5918139392115793,
+      "local_symbol": 555.1652475612763,
+      "nonlocal_symbol": 478.7715568007196,
+      "symbol_relative_deficit": 0.13760531858962355,
+      "local_linear_growth": -11.08770359995814,
+      "nonlocal_linear_growth": -6.928567523285305
+    },
+    {
+      "mode": [
+        3.0,
+        1.0
+      ],
+      "k_delta": 2.246238747316702,
+      "local_symbol": 416.9907859460253,
+      "nonlocal_symbol": 372.97083745489863,
+      "symbol_relative_deficit": 0.10556575822475023,
+      "local_linear_growth": -4.179639001679134,
+      "nonlocal_linear_growth": -2.5563049335122336
+    },
+    {
+      "mode": [
+        1.0,
+        3.0
+      ],
+      "k_delta": 2.6823848248348274,
+      "local_symbol": 594.6436651656337,
+      "nonlocal_symbol": 507.524293452493,
+      "symbol_relative_deficit": 0.1465068524506592,
+      "local_linear_growth": -13.566405070243842,
+      "nonlocal_linear_growth": -8.395339538950699
+    },
+    {
+      "mode": [
+        3.0,
+        -1.0
+      ],
+      "k_delta": 2.246238747316702,
+      "local_symbol": 416.9907859460253,
+      "nonlocal_symbol": 372.97083745489863,
+      "symbol_relative_deficit": 0.10556575822475023,
+      "local_linear_growth": -4.179639001679134,
+      "nonlocal_linear_growth": -2.5563049335122336
+    },
+    {
+      "mode": [
+        1.0,
+        -3.0
+      ],
+      "k_delta": 2.6823848248348274,
+      "local_symbol": 594.6436651656337,
+      "nonlocal_symbol": 507.524293452493,
+      "symbol_relative_deficit": 0.1465068524506592,
+      "local_linear_growth": -13.566405070243842,
+      "nonlocal_linear_growth": -8.395339538950699
+    },
+    {
+      "mode": [
+        3.0,
+        2.0
+      ],
+      "k_delta": 2.699028530498345,
+      "local_symbol": 602.0458684664509,
+      "nonlocal_symbol": 512.8445674526246,
+      "symbol_relative_deficit": 0.14816362952716955,
+      "local_linear_growth": -14.056147027772646,
+      "nonlocal_linear_growth": -8.679796277275718
+    },
+    {
+      "mode": [
+        2.0,
+        3.0
+      ],
+      "k_delta": 2.9373891311064564,
+      "local_symbol": 713.078917978706,
+      "nonlocal_symbol": 590.0312719758392,
+      "symbol_relative_deficit": 0.1725582441164546,
+      "local_linear_growth": -22.349092755554995,
+      "nonlocal_linear_growth": -13.265231497961942
+    },
+    {
+      "mode": [
+        3.0,
+        -2.0
+      ],
+      "k_delta": 2.699028530498345,
+      "local_symbol": 602.0458684664509,
+      "nonlocal_symbol": 512.8445674526246,
+      "symbol_relative_deficit": 0.14816362952716955,
+      "local_linear_growth": -14.056147027772646,
+      "nonlocal_linear_growth": -8.679796277275718
+    },
+    {
+      "mode": [
+        2.0,
+        -3.0
+      ],
+      "k_delta": 2.9373891311064564,
+      "local_symbol": 713.078917978706,
+      "nonlocal_symbol": 590.0312719758392,
+      "symbol_relative_deficit": 0.1725582441164546,
+      "local_linear_growth": -22.349092755554995,
+      "nonlocal_linear_growth": -13.265231497961942
+    }
+  ]
+}

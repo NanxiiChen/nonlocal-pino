@@ -1,0 +1,38 @@
+{
+  "scope": "Zero updates, no evolved fields, JAX CPU. Model/state bytes exclude bank, activations and GPU allocator/workspace; not a GPU memory or accuracy benchmark.",
+  "controls": [
+    {
+      "width": 64,
+      "trainable_parameters": 243649,
+      "model_array_bytes": 1950216,
+      "soap_state_bytes": 11677400,
+      "spatial_fourier_channels": 128,
+      "time_fourier_channels": 64,
+      "heads": 4,
+      "condition_depth": 4,
+      "decoder_depth": 3
+    },
+    {
+      "width": 96,
+      "trainable_parameters": 522145,
+      "model_array_bytes": 4178184,
+      "soap_state_bytes": 24653016,
+      "spatial_fourier_channels": 128,
+      "time_fourier_channels": 64,
+      "heads": 4,
+      "condition_depth": 4,
+      "decoder_depth": 3
+    },
+    {
+      "width": 128,
+      "trainable_parameters": 905089,
+      "model_array_bytes": 7241736,
+      "soap_state_bytes": 42707672,
+      "spatial_fourier_channels": 128,
+      "time_fourier_channels": 64,
+      "heads": 4,
+      "condition_depth": 4,
+      "decoder_depth": 3
+    }
+  ]
+}

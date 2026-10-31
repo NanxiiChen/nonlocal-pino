@@ -1,0 +1,12 @@
+{
+  "runner_pid": 234487,
+  "prefix": "20261031-confined-width128-fp32-03",
+  "journal": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width128-fp32-03-process.json",
+  "probe": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width128-fp32-03-probe",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width128-fp32-30k-03",
+  "previous_attempts": [
+    "docs/tasks/confined-ch-fp32-launch.json",
+    "docs/tasks/confined-ch-fp32-launch-02.json"
+  ],
+  "correction": "Typed only local FP32 SOAP beta scalars to eliminate transient FP64 update arrays with globalx64 enabled. Full pipeline CPU test+IR and refresh checksPASS. Scalar configuration literals permitted; all non-scalar FP64 IR tensors rejected. Earlier probes stopped before optimizer updates, all logs retained."
+}

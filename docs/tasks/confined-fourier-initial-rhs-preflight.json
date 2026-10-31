@@ -1,0 +1,26 @@
+{
+  "config": "examples.confined_ch2d.configs.train_operator_smallscale10_512_initial_rhs",
+  "status": "passed",
+  "index": 512,
+  "output_scale": 1.0,
+  "trainable_parameters": 243713,
+  "initial_rhs_condition": true,
+  "phase_range": [
+    -0.24596351771038197,
+    0.25499687817008976
+  ],
+  "mass_drift": 6.965998958219366e-18,
+  "phase_rms": [
+    0.08310749005794013,
+    0.08301292367711928,
+    0.08313345029875943,
+    0.08302476822495065,
+    0.08347525371288404
+  ],
+  "optimizer_updates": 0,
+  "evolved_reference_fields_used": false,
+  "known_initial_tangent": {
+    "rms": 2.872691874170465,
+    "maximum_absolute": 10.361104591321412
+  }
+}

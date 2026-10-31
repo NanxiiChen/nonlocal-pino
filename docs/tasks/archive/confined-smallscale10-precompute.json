@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "format": "operator_only_v1",
+  "seconds": 125.7643123101443,
+  "new_operators": 496,
+  "reused_references": 24,
+  "bytes": 6524920765,
+  "workers": 6,
+  "threads_per_worker": 1,
+  "pde_trajectory_solves": 0,
+  "fem_solves": 0,
+  "local_reference_status": "not_requested",
+  "dataset": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_512_v1",
+  "source": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_v1",
+  "train_count": 512,
+  "test_count": 8,
+  "monitor_count": 16
+}

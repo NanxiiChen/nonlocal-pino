@@ -1,0 +1,33 @@
+{
+  "status": "complete_GPU_validated_CPU_replay_issue_recorded",
+  "checked_utc": "2026-10-31T10:50:00.820964+00:00",
+  "focused_CPU_tests": {
+    "count": 4,
+    "seconds": 0.708,
+    "status": "passed"
+  },
+  "canonical_config_unchanged": true,
+  "network_PDE_loss_step_AST_unchanged": true,
+  "full_fixed_rolling_all5000_complete": true,
+  "actual_initial_model_and_Adam_bytes_equal": true,
+  "actual40000conditions_and5000times_and_ICBC_equal": true,
+  "actual_core_draws_independently_replayed": true,
+  "common64native_local_targets": true,
+  "common64input_images_independently_rebuilt": true,
+  "GPU_monitor_checkpoint_max_gaps": {
+    "full": 3.516674041748047e-06,
+    "fixed_pool": 0.0,
+    "rolling_pool": 4.082918167114258e-06
+  },
+  "independent64saved_field_metrics": "passed",
+  "independent_CPU_field_replay": "failed: max0.316677, declared2e-5retained; issue recorded",
+  "CPU_issue": "docs/issues/electropolish-attention-replay.md",
+  "original_failed_finish_receipt": "docs/tasks/electro-spatial-finish.json",
+  "baseline_source": "/root/autodl-tmp/tf-logs/electropolish2d/20261031-electro-spatial-01-comparison/baseline_source",
+  "results": "docs/tasks/electro-spatial-results.json",
+  "training_labels": false,
+  "new_reference_solves": 0,
+  "defaults_promoted": false,
+  "cleanup": false,
+  "git_history_operation": false
+}

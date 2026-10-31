@@ -1,0 +1,41 @@
+{
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-fourier-unit-output-soap-01",
+  "step": 20000,
+  "backend": "gpu",
+  "conditions": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "time_sets": 8,
+  "initial_pde_weight": 0.2,
+  "diagnostics": [
+    {
+      "positive_times": 16,
+      "geometry_single_variance": 0.0003605366454738614,
+      "shared_time_variance": 1.972586408816768e-06,
+      "mean_gradient_norm": 0.02434836372269117,
+      "mean_loss": 0.0005296395238175277,
+      "estimated_batch4_shared_variance": 9.210674777728211e-05,
+      "estimated_batch16_shared_variance": 2.4506126750933106e-05,
+      "estimated_batch4_independent_variance": 9.062730797066954e-05
+    }
+  ],
+  "wall_seconds": 49.59162341244519,
+  "optimizer_updates": 0,
+  "future_fields_used": false,
+  "scope": "Only frozen final-layer weight gradients on16traininginputs; finite-cohort variance estimates, not a full-network proof"
+}

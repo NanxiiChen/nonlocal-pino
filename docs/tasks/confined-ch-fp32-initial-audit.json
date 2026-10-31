@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width128-fp32-30k-03",
+  "prior": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-width128-beta09-30k-01",
+  "initial_array_leaves": 119,
+  "all_initial_arrays_equal_exact_rounded_fp64": true,
+  "only_config_change": "train.compute_dtype float64->float32 and runtime log name",
+  "network_optimizer_runtime_sources_unchanged": true,
+  "scope": "Same fresh initialization rounded toFP32, not continuation. Old interrupted actual draw trace unavailable; new completed trace independently checked against globalkeys and completed width96prefix."
+}

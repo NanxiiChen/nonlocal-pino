@@ -1,0 +1,90 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-10-31T09:26:09.997609+00:00",
+  "task": "docs/tasks/archive/confined-ch-operator-sota.md",
+  "canonical_config": "examples/confined_ch2d/configs/train_operator.py",
+  "explicit_recipe": "examples/confined_ch2d/configs/train_operator_online_width256_cold50k.py",
+  "saved_config": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/config.json",
+  "selected_model": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/model_final.eqx",
+  "config_comparison": {
+    "all_fields_equal": true,
+    "excluded_runtime_fields": [
+      "train.seed",
+      "log.run_name"
+    ],
+    "cold_start": true,
+    "continuation_present": false,
+    "strategy_seed_present": false
+  },
+  "historical_config_preservation": {
+    "count": 37,
+    "names": [
+      "train_operator_heterogeneous",
+      "train_operator_longer",
+      "train_operator_multiscale",
+      "train_operator_multiscale512",
+      "train_operator_online_rolling",
+      "train_operator_online_width256_cold50k",
+      "train_operator_richer",
+      "train_operator_richer512",
+      "train_operator_richer512_long",
+      "train_operator_richer_augmented",
+      "train_operator_smallscale10",
+      "train_operator_smallscale10_1024_batch",
+      "train_operator_smallscale10_1024_width192_fp32_50k",
+      "train_operator_smallscale10_512",
+      "train_operator_smallscale10_512_batch",
+      "train_operator_smallscale10_512_batch_continue",
+      "train_operator_smallscale10_512_batch_finetune",
+      "train_operator_smallscale10_512_batch_wide",
+      "train_operator_smallscale10_512_bounded",
+      "train_operator_smallscale10_512_curriculum",
+      "train_operator_smallscale10_512_fourier",
+      "train_operator_smallscale10_512_initial_rhs",
+      "train_operator_smallscale10_512_initial_rhs_cpu_pilot",
+      "train_operator_smallscale10_512_logtime",
+      "train_operator_smallscale10_512_soap",
+      "train_operator_smallscale10_512_soap_wide",
+      "train_operator_smallscale10_512_stable",
+      "train_operator_smallscale10_512_unit_linear",
+      "train_operator_smallscale10_512_unit_output",
+      "train_operator_smallscale10_512_wide_30k",
+      "train_operator_smallscale10_512_wide_continue",
+      "train_operator_smallscale10_512_width128",
+      "train_operator_smallscale10_512_width128_beta09",
+      "train_operator_smallscale10_512_width128_fp32",
+      "train_operator_smallscale10_512_width192_fp32",
+      "train_operator_smallscale10_512_width256_fp32_50k",
+      "train_operator_smallscale10_best"
+    ],
+    "all_values_equal": true,
+    "mild_config": "examples/confined_ch2d/configs/train_operator_mild.py",
+    "mild_matches_original_canonical_values": true
+  },
+  "entry_checks": {
+    "actual_canonical_flag_parse_and_operator_dispatch": "passed",
+    "no_argument_single_IVP_window_config": "unchanged",
+    "mild_reference_CLI_default_values": "unchanged",
+    "runtime_default_seed": 42
+  },
+  "focused_tests": {
+    "runner": "unittest",
+    "backend": "cpu",
+    "count": 3,
+    "seconds": 26.288,
+    "status": "passed",
+    "names": [
+      "tests.test_confined_ch_operator.GeometryOperatorTests.test_pde_backprop_reaches_geometry_encoder_and_cli_dispatch",
+      "tests.test_confined_ch_operator.GeometryOperatorTests.test_prior_and_geometry_independent_initial_derivatives",
+      "tests.test_confined_ch_operator_reuse.IncrementalBankTests.test_mixed_source_hardlinks_and_new_draws"
+    ]
+  },
+  "syntax_schema_and_SOTA_direct_paths": "passed",
+  "documentation": "Root/example README, DEVELOPMENT and artifact index updated; old result receipts remain historical",
+  "native_phi_pooled": 0.048329145319487045,
+  "native_phi_terminal": 0.051934891974683844,
+  "validation_scope": "Same8reused native development geometries, one initialization; local FEM deferred",
+  "external_artifacts_moved_or_deleted": false,
+  "new_training": false,
+  "git_history_operation": false
+}

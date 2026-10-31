@@ -1,0 +1,2375 @@
+{
+  "status": "PROPOSED_NOT_DELETED",
+  "created_utc": "2026-10-31T07:15:28.557981+00:00",
+  "scope": "Only paired intermediate snapshots in three inactive runs; preserve all remaining files including initial/final states, source, configurations, evaluation/log histories, references and geometry banks.",
+  "runs": [
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01",
+      "retained_checkpoint_steps": [
+        10000,
+        20000,
+        30000,
+        38000,
+        40000
+      ],
+      "delete_steps": [
+        1000,
+        2000,
+        3000,
+        4000,
+        5000,
+        6000,
+        7000,
+        8000,
+        9000,
+        11000,
+        12000,
+        13000,
+        14000,
+        15000,
+        16000,
+        17000,
+        18000,
+        19000,
+        21000,
+        22000,
+        23000,
+        24000,
+        25000,
+        26000,
+        27000,
+        28000,
+        29000,
+        31000,
+        32000,
+        33000,
+        34000,
+        35000,
+        36000,
+        37000,
+        39000
+      ],
+      "file_count": 105,
+      "reclaim_bytes": 3476975616
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01",
+      "retained_checkpoint_steps": [
+        10000,
+        20000,
+        29000,
+        30000
+      ],
+      "delete_steps": [
+        1000,
+        2000,
+        3000,
+        4000,
+        5000,
+        6000,
+        7000,
+        8000,
+        9000,
+        11000,
+        12000,
+        13000,
+        14000,
+        15000,
+        16000,
+        17000,
+        18000,
+        19000,
+        21000,
+        22000,
+        23000,
+        24000,
+        25000,
+        26000,
+        27000,
+        28000
+      ],
+      "file_count": 78,
+      "reclaim_bytes": 1456652288
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01",
+      "retained_checkpoint_steps": [
+        10000,
+        20000,
+        25000,
+        26000
+      ],
+      "delete_steps": [
+        1000,
+        2000,
+        3000,
+        4000,
+        5000,
+        6000,
+        7000,
+        8000,
+        9000,
+        11000,
+        12000,
+        13000,
+        14000,
+        15000,
+        16000,
+        17000,
+        18000,
+        19000,
+        21000,
+        22000,
+        23000,
+        24000
+      ],
+      "file_count": 66,
+      "reclaim_bytes": 1232621568
+    }
+  ],
+  "files": [
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_001000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793413175844530152,
+      "inode": 1494813,
+      "device": 75,
+      "checkpoint_step": 1000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_001000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85004288,
+      "mtime_ns": 1793413176132523419,
+      "inode": 1494814,
+      "device": 75,
+      "checkpoint_step": 1000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_001000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793413176136523326,
+      "inode": 1494815,
+      "device": 75,
+      "checkpoint_step": 1000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_002000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793413367000329790,
+      "inode": 1494812,
+      "device": 75,
+      "checkpoint_step": 2000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_002000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85004288,
+      "mtime_ns": 1793413367244324733,
+      "inode": 1494817,
+      "device": 75,
+      "checkpoint_step": 2000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_002000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793413367244324733,
+      "inode": 1494818,
+      "device": 75,
+      "checkpoint_step": 2000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_003000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793413557940555904,
+      "inode": 1494816,
+      "device": 75,
+      "checkpoint_step": 3000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_003000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793413558248550080,
+      "inode": 1494820,
+      "device": 75,
+      "checkpoint_step": 3000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_003000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793413558248550080,
+      "inode": 1494821,
+      "device": 75,
+      "checkpoint_step": 3000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_004000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793413750245048075,
+      "inode": 1494822,
+      "device": 75,
+      "checkpoint_step": 4000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_004000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793413750533042992,
+      "inode": 1494823,
+      "device": 75,
+      "checkpoint_step": 4000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_004000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793413750533042992,
+      "inode": 1494824,
+      "device": 75,
+      "checkpoint_step": 4000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_005000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793413940673773845,
+      "inode": 1494819,
+      "device": 75,
+      "checkpoint_step": 5000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_005000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85004288,
+      "mtime_ns": 1793413940933769479,
+      "inode": 1494826,
+      "device": 75,
+      "checkpoint_step": 5000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_005000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793413940933769479,
+      "inode": 1494827,
+      "device": 75,
+      "checkpoint_step": 5000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_006000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793414129590660655,
+      "inode": 1494825,
+      "device": 75,
+      "checkpoint_step": 6000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_006000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793414129878655989,
+      "inode": 1494829,
+      "device": 75,
+      "checkpoint_step": 6000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_006000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793414129878655989,
+      "inode": 1494830,
+      "device": 75,
+      "checkpoint_step": 6000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_007000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793414319035631997,
+      "inode": 1494831,
+      "device": 75,
+      "checkpoint_step": 7000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_007000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793414319303627764,
+      "inode": 1494832,
+      "device": 75,
+      "checkpoint_step": 7000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_007000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793414319303627764,
+      "inode": 1494833,
+      "device": 75,
+      "checkpoint_step": 7000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_008000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793414509452652748,
+      "inode": 1494828,
+      "device": 75,
+      "checkpoint_step": 8000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_008000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793414509736648342,
+      "inode": 1494835,
+      "device": 75,
+      "checkpoint_step": 8000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_008000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793414509736648342,
+      "inode": 1494836,
+      "device": 75,
+      "checkpoint_step": 8000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_009000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793414700241028407,
+      "inode": 1494837,
+      "device": 75,
+      "checkpoint_step": 9000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_009000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85004288,
+      "mtime_ns": 1793414700517020731,
+      "inode": 1494838,
+      "device": 75,
+      "checkpoint_step": 9000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_009000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793414700517020731,
+      "inode": 1494839,
+      "device": 75,
+      "checkpoint_step": 9000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_011000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793415083739651027,
+      "inode": 1494834,
+      "device": 75,
+      "checkpoint_step": 11000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_011000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793415084015645003,
+      "inode": 1494844,
+      "device": 75,
+      "checkpoint_step": 11000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_011000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793415084019644916,
+      "inode": 1494845,
+      "device": 75,
+      "checkpoint_step": 11000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_012000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793415274007666582,
+      "inode": 1494843,
+      "device": 75,
+      "checkpoint_step": 12000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_012000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85004288,
+      "mtime_ns": 1793415274263661422,
+      "inode": 1494847,
+      "device": 75,
+      "checkpoint_step": 12000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_012000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793415274263661422,
+      "inode": 1494848,
+      "device": 75,
+      "checkpoint_step": 12000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_013000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793415462791975291,
+      "inode": 1494846,
+      "device": 75,
+      "checkpoint_step": 13000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_013000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793415463079969814,
+      "inode": 1494850,
+      "device": 75,
+      "checkpoint_step": 13000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_013000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793415463079969814,
+      "inode": 1494851,
+      "device": 75,
+      "checkpoint_step": 13000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_014000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793415649060530507,
+      "inode": 1494852,
+      "device": 75,
+      "checkpoint_step": 14000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_014000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793415649312651912,
+      "inode": 1494853,
+      "device": 75,
+      "checkpoint_step": 14000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_014000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793415649316653839,
+      "inode": 1494854,
+      "device": 75,
+      "checkpoint_step": 14000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_015000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793415835415509131,
+      "inode": 1494855,
+      "device": 75,
+      "checkpoint_step": 15000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_015000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793415835731503539,
+      "inode": 1494856,
+      "device": 75,
+      "checkpoint_step": 15000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_015000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793415835731503539,
+      "inode": 1494857,
+      "device": 75,
+      "checkpoint_step": 15000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_016000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793416020760266646,
+      "inode": 1494849,
+      "device": 75,
+      "checkpoint_step": 16000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_016000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85004288,
+      "mtime_ns": 1793416021044261728,
+      "inode": 1494859,
+      "device": 75,
+      "checkpoint_step": 16000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_016000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793416021044261728,
+      "inode": 1494860,
+      "device": 75,
+      "checkpoint_step": 16000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_017000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793416209545023849,
+      "inode": 1494861,
+      "device": 75,
+      "checkpoint_step": 17000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_017000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85004288,
+      "mtime_ns": 1793416209813019279,
+      "inode": 1494862,
+      "device": 75,
+      "checkpoint_step": 17000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_017000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793416209813019279,
+      "inode": 1494863,
+      "device": 75,
+      "checkpoint_step": 17000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_018000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793416396389855652,
+      "inode": 1494858,
+      "device": 75,
+      "checkpoint_step": 18000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_018000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793416396641851401,
+      "inode": 1494865,
+      "device": 75,
+      "checkpoint_step": 18000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_018000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793416396641851401,
+      "inode": 1494866,
+      "device": 75,
+      "checkpoint_step": 18000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_019000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793416584914687785,
+      "inode": 1494867,
+      "device": 75,
+      "checkpoint_step": 19000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_019000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85004288,
+      "mtime_ns": 1793416585250682159,
+      "inode": 1494868,
+      "device": 75,
+      "checkpoint_step": 19000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_019000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793416585254682092,
+      "inode": 1494869,
+      "device": 75,
+      "checkpoint_step": 19000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_021000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793416958354118839,
+      "inode": 1494873,
+      "device": 75,
+      "checkpoint_step": 21000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_021000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793416958630112289,
+      "inode": 1494874,
+      "device": 75,
+      "checkpoint_step": 21000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_021000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793416958630112289,
+      "inode": 1494875,
+      "device": 75,
+      "checkpoint_step": 21000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_022000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793417143601901411,
+      "inode": 1494876,
+      "device": 75,
+      "checkpoint_step": 22000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_022000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793417143865895628,
+      "inode": 1494877,
+      "device": 75,
+      "checkpoint_step": 22000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_022000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793417143865895628,
+      "inode": 1494870,
+      "device": 75,
+      "checkpoint_step": 22000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_023000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793417331105921791,
+      "inode": 1494879,
+      "device": 75,
+      "checkpoint_step": 23000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_023000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793417331337917008,
+      "inode": 1494880,
+      "device": 75,
+      "checkpoint_step": 23000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_023000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793417331337917008,
+      "inode": 1494881,
+      "device": 75,
+      "checkpoint_step": 23000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_024000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793417517482166390,
+      "inode": 1494882,
+      "device": 75,
+      "checkpoint_step": 24000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_024000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793417517738161340,
+      "inode": 1494883,
+      "device": 75,
+      "checkpoint_step": 24000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_024000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793417517742161260,
+      "inode": 1494884,
+      "device": 75,
+      "checkpoint_step": 24000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_025000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793417703258561045,
+      "inode": 1494878,
+      "device": 75,
+      "checkpoint_step": 25000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_025000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793417703510556229,
+      "inode": 1494886,
+      "device": 75,
+      "checkpoint_step": 25000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_025000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793417703510556229,
+      "inode": 1494887,
+      "device": 75,
+      "checkpoint_step": 25000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_026000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793417889299046521,
+      "inode": 1494888,
+      "device": 75,
+      "checkpoint_step": 26000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_026000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793417889567041513,
+      "inode": 1494889,
+      "device": 75,
+      "checkpoint_step": 26000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_026000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793417889571041437,
+      "inode": 1494890,
+      "device": 75,
+      "checkpoint_step": 26000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_027000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793418075815589991,
+      "inode": 1494885,
+      "device": 75,
+      "checkpoint_step": 27000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_027000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793418076103584694,
+      "inode": 1494892,
+      "device": 75,
+      "checkpoint_step": 27000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_027000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793418076103584694,
+      "inode": 1494893,
+      "device": 75,
+      "checkpoint_step": 27000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_028000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793418262412178600,
+      "inode": 1494894,
+      "device": 75,
+      "checkpoint_step": 28000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_028000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793418262688173581,
+      "inode": 1494895,
+      "device": 75,
+      "checkpoint_step": 28000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_028000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793418262688173581,
+      "inode": 1494896,
+      "device": 75,
+      "checkpoint_step": 28000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_029000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793418450080780249,
+      "inode": 1494897,
+      "device": 75,
+      "checkpoint_step": 29000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_029000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793418450392774621,
+      "inode": 1494898,
+      "device": 75,
+      "checkpoint_step": 29000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_029000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793418450396774549,
+      "inode": 1494899,
+      "device": 75,
+      "checkpoint_step": 29000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_031000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793418824904530597,
+      "inode": 1494903,
+      "device": 75,
+      "checkpoint_step": 31000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_031000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793418825200547727,
+      "inode": 1494904,
+      "device": 75,
+      "checkpoint_step": 31000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_031000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793418825200547727,
+      "inode": 1494905,
+      "device": 75,
+      "checkpoint_step": 31000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_032000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793419014581578141,
+      "inode": 1494900,
+      "device": 75,
+      "checkpoint_step": 32000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_032000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85004288,
+      "mtime_ns": 1793419014829587736,
+      "inode": 1494907,
+      "device": 75,
+      "checkpoint_step": 32000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_032000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793419014829587736,
+      "inode": 1494908,
+      "device": 75,
+      "checkpoint_step": 32000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_033000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14340096,
+      "mtime_ns": 1793419201459508400,
+      "inode": 1494909,
+      "device": 75,
+      "checkpoint_step": 33000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_033000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85004288,
+      "mtime_ns": 1793419201719515050,
+      "inode": 1494910,
+      "device": 75,
+      "checkpoint_step": 33000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_033000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793419201723515152,
+      "inode": 1494906,
+      "device": 75,
+      "checkpoint_step": 33000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_034000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14340096,
+      "mtime_ns": 1793419388905005165,
+      "inode": 1494912,
+      "device": 75,
+      "checkpoint_step": 34000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_034000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85004288,
+      "mtime_ns": 1793419389165009443,
+      "inode": 1494913,
+      "device": 75,
+      "checkpoint_step": 34000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_034000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793419389165009443,
+      "inode": 1494914,
+      "device": 75,
+      "checkpoint_step": 34000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_035000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793419575675456134,
+      "inode": 1494915,
+      "device": 75,
+      "checkpoint_step": 35000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_035000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85000192,
+      "mtime_ns": 1793419575951458941,
+      "inode": 1494916,
+      "device": 75,
+      "checkpoint_step": 35000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_035000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793419575951458941,
+      "inode": 1494917,
+      "device": 75,
+      "checkpoint_step": 35000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_036000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793419765256937521,
+      "inode": 1494911,
+      "device": 75,
+      "checkpoint_step": 36000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_036000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85004288,
+      "mtime_ns": 1793419765528939080,
+      "inode": 1494919,
+      "device": 75,
+      "checkpoint_step": 36000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_036000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793419765532939103,
+      "inode": 1494920,
+      "device": 75,
+      "checkpoint_step": 36000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_037000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793419953905715050,
+      "inode": 1494918,
+      "device": 75,
+      "checkpoint_step": 37000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_037000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85004288,
+      "mtime_ns": 1793419954189715814,
+      "inode": 1494922,
+      "device": 75,
+      "checkpoint_step": 37000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_037000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793419954193715825,
+      "inode": 1494923,
+      "device": 75,
+      "checkpoint_step": 37000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/ckpt_039000.eqx",
+      "size_bytes": 14334852,
+      "allocated_bytes": 14336000,
+      "mtime_ns": 1793420333465975618,
+      "inode": 1494932,
+      "device": 75,
+      "checkpoint_step": 39000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/optimizer_039000.eqx",
+      "size_bytes": 84997232,
+      "allocated_bytes": 85004288,
+      "mtime_ns": 1793420333733975382,
+      "inode": 1494933,
+      "device": 75,
+      "checkpoint_step": 39000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width256-fp32-50k-01/checkpoint_039000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793420333733975382,
+      "inode": 1494934,
+      "device": 75,
+      "checkpoint_step": 39000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_001000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793383782764840426,
+      "inode": 1494549,
+      "device": 75,
+      "checkpoint_step": 1000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_001000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793383782972839347,
+      "inode": 1494551,
+      "device": 75,
+      "checkpoint_step": 1000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_001000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793383782972839347,
+      "inode": 1494552,
+      "device": 75,
+      "checkpoint_step": 1000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_002000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793383917292078214,
+      "inode": 1494550,
+      "device": 75,
+      "checkpoint_step": 2000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_002000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793383917468077141,
+      "inode": 1494554,
+      "device": 75,
+      "checkpoint_step": 2000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_002000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793383917468077141,
+      "inode": 1494555,
+      "device": 75,
+      "checkpoint_step": 2000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_003000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793384051703209125,
+      "inode": 1494556,
+      "device": 75,
+      "checkpoint_step": 3000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_003000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793384051871207982,
+      "inode": 1494557,
+      "device": 75,
+      "checkpoint_step": 3000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_003000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793384051875207955,
+      "inode": 1494553,
+      "device": 75,
+      "checkpoint_step": 3000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_004000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793384185646260823,
+      "inode": 1494559,
+      "device": 75,
+      "checkpoint_step": 4000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_004000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793384185846259355,
+      "inode": 1494560,
+      "device": 75,
+      "checkpoint_step": 4000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_004000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793384185846259355,
+      "inode": 1494561,
+      "device": 75,
+      "checkpoint_step": 4000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_005000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793384319949246572,
+      "inode": 1494558,
+      "device": 75,
+      "checkpoint_step": 5000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_005000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793384320141245084,
+      "inode": 1494563,
+      "device": 75,
+      "checkpoint_step": 5000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_005000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793384320141245084,
+      "inode": 1494564,
+      "device": 75,
+      "checkpoint_step": 5000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_006000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793384455712171698,
+      "inode": 1494562,
+      "device": 75,
+      "checkpoint_step": 6000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_006000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793384455908170116,
+      "inode": 1494566,
+      "device": 75,
+      "checkpoint_step": 6000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_006000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793384455908170116,
+      "inode": 1494567,
+      "device": 75,
+      "checkpoint_step": 6000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_007000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793384594591032627,
+      "inode": 1494568,
+      "device": 75,
+      "checkpoint_step": 7000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_007000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793384594763031195,
+      "inode": 1494569,
+      "device": 75,
+      "checkpoint_step": 7000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_007000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793384594763031195,
+      "inode": 1494570,
+      "device": 75,
+      "checkpoint_step": 7000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_008000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793384730809885657,
+      "inode": 1494565,
+      "device": 75,
+      "checkpoint_step": 8000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_008000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793384731013883921,
+      "inode": 1494572,
+      "device": 75,
+      "checkpoint_step": 8000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_008000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793384731013883921,
+      "inode": 1494573,
+      "device": 75,
+      "checkpoint_step": 8000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_009000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793384865196732035,
+      "inode": 1494571,
+      "device": 75,
+      "checkpoint_step": 9000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_009000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793384865376730477,
+      "inode": 1494575,
+      "device": 75,
+      "checkpoint_step": 9000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_009000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793384865380730443,
+      "inode": 1494576,
+      "device": 75,
+      "checkpoint_step": 9000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_011000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793385132950969567,
+      "inode": 1494577,
+      "device": 75,
+      "checkpoint_step": 11000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_011000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793385133134968431,
+      "inode": 1494581,
+      "device": 75,
+      "checkpoint_step": 11000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_011000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793385133134968431,
+      "inode": 1494582,
+      "device": 75,
+      "checkpoint_step": 11000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_012000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793385266234107015,
+      "inode": 1494583,
+      "device": 75,
+      "checkpoint_step": 12000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_012000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793385266414105801,
+      "inode": 1494584,
+      "device": 75,
+      "checkpoint_step": 12000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_012000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793385266414105801,
+      "inode": 1494585,
+      "device": 75,
+      "checkpoint_step": 12000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_013000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793385400017173450,
+      "inode": 1494580,
+      "device": 75,
+      "checkpoint_step": 13000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_013000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793385400185172242,
+      "inode": 1494587,
+      "device": 75,
+      "checkpoint_step": 13000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_013000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793385400189172213,
+      "inode": 1494588,
+      "device": 75,
+      "checkpoint_step": 13000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_014000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793385535116177670,
+      "inode": 1494586,
+      "device": 75,
+      "checkpoint_step": 14000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_014000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793385535324176102,
+      "inode": 1494590,
+      "device": 75,
+      "checkpoint_step": 14000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_014000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793385535324176102,
+      "inode": 1494591,
+      "device": 75,
+      "checkpoint_step": 14000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_015000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793385673187117745,
+      "inode": 1494592,
+      "device": 75,
+      "checkpoint_step": 15000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_015000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793385673379116246,
+      "inode": 1494593,
+      "device": 75,
+      "checkpoint_step": 15000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_015000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793385673379116246,
+      "inode": 1494594,
+      "device": 75,
+      "checkpoint_step": 15000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_016000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793385812286016917,
+      "inode": 1494589,
+      "device": 75,
+      "checkpoint_step": 16000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_016000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793385812494015251,
+      "inode": 1494596,
+      "device": 75,
+      "checkpoint_step": 16000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_016000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793385812494015251,
+      "inode": 1494597,
+      "device": 75,
+      "checkpoint_step": 16000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_017000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793385949296907887,
+      "inode": 1494595,
+      "device": 75,
+      "checkpoint_step": 17000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_017000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793385949464906514,
+      "inode": 1494599,
+      "device": 75,
+      "checkpoint_step": 17000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_017000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793385949464906514,
+      "inode": 1494600,
+      "device": 75,
+      "checkpoint_step": 17000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_018000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793386082391812559,
+      "inode": 1494598,
+      "device": 75,
+      "checkpoint_step": 18000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_018000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793386082607810769,
+      "inode": 1494602,
+      "device": 75,
+      "checkpoint_step": 18000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_018000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793386082607810769,
+      "inode": 1494603,
+      "device": 75,
+      "checkpoint_step": 18000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_019000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793386216290696864,
+      "inode": 1494601,
+      "device": 75,
+      "checkpoint_step": 19000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_019000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793386216498695122,
+      "inode": 1494605,
+      "device": 75,
+      "checkpoint_step": 19000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_019000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793386216498695122,
+      "inode": 1494606,
+      "device": 75,
+      "checkpoint_step": 19000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_021000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793386484032436536,
+      "inode": 1494607,
+      "device": 75,
+      "checkpoint_step": 21000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_021000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793386484264434564,
+      "inode": 1494611,
+      "device": 75,
+      "checkpoint_step": 21000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_021000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793386484264434564,
+      "inode": 1494612,
+      "device": 75,
+      "checkpoint_step": 21000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_022000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793386618167293741,
+      "inode": 1494613,
+      "device": 75,
+      "checkpoint_step": 22000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_022000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793386618339292272,
+      "inode": 1494614,
+      "device": 75,
+      "checkpoint_step": 22000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_022000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793386618339292272,
+      "inode": 1494615,
+      "device": 75,
+      "checkpoint_step": 22000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_023000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793386752402145231,
+      "inode": 1494610,
+      "device": 75,
+      "checkpoint_step": 23000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_023000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793386752578143722,
+      "inode": 1494617,
+      "device": 75,
+      "checkpoint_step": 23000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_023000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793386752578143722,
+      "inode": 1494618,
+      "device": 75,
+      "checkpoint_step": 23000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_024000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793386885787872801,
+      "inode": 1494616,
+      "device": 75,
+      "checkpoint_step": 24000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_024000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793386885955955357,
+      "inode": 1494620,
+      "device": 75,
+      "checkpoint_step": 24000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_024000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793386885955955357,
+      "inode": 1494621,
+      "device": 75,
+      "checkpoint_step": 24000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_025000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793387019624413258,
+      "inode": 1494619,
+      "device": 75,
+      "checkpoint_step": 25000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_025000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793387019800404009,
+      "inode": 1494623,
+      "device": 75,
+      "checkpoint_step": 25000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_025000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793387019800404009,
+      "inode": 1494624,
+      "device": 75,
+      "checkpoint_step": 25000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_026000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793387153713959016,
+      "inode": 1494622,
+      "device": 75,
+      "checkpoint_step": 26000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_026000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793387153905950549,
+      "inode": 1494626,
+      "device": 75,
+      "checkpoint_step": 26000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_026000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793387153909950372,
+      "inode": 1494627,
+      "device": 75,
+      "checkpoint_step": 26000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_027000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793387288716468150,
+      "inode": 1494625,
+      "device": 75,
+      "checkpoint_step": 27000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_027000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793387288896461390,
+      "inode": 1494629,
+      "device": 75,
+      "checkpoint_step": 27000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_027000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793387288896461390,
+      "inode": 1494630,
+      "device": 75,
+      "checkpoint_step": 27000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/ckpt_028000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793387423883748676,
+      "inode": 1494628,
+      "device": 75,
+      "checkpoint_step": 28000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/optimizer_028000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793387424031743864,
+      "inode": 1494632,
+      "device": 75,
+      "checkpoint_step": 28000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01/checkpoint_028000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793387424031743864,
+      "inode": 1494633,
+      "device": 75,
+      "checkpoint_step": 28000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_001000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793423036029325160,
+      "inode": 1495074,
+      "device": 75,
+      "checkpoint_step": 1000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_001000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47923200,
+      "mtime_ns": 1793423036225339102,
+      "inode": 1495075,
+      "device": 75,
+      "checkpoint_step": 1000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_001000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793423036225339102,
+      "inode": 1495076,
+      "device": 75,
+      "checkpoint_step": 1000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_002000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793423183166374638,
+      "inode": 1495077,
+      "device": 75,
+      "checkpoint_step": 2000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_002000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47923200,
+      "mtime_ns": 1793423183338383695,
+      "inode": 1495078,
+      "device": 75,
+      "checkpoint_step": 2000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_002000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793423183338383695,
+      "inode": 1495079,
+      "device": 75,
+      "checkpoint_step": 2000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_003000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793423332525143415,
+      "inode": 1495080,
+      "device": 75,
+      "checkpoint_step": 3000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_003000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47923200,
+      "mtime_ns": 1793423332721150987,
+      "inode": 1495081,
+      "device": 75,
+      "checkpoint_step": 3000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_003000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793423332721150987,
+      "inode": 1495082,
+      "device": 75,
+      "checkpoint_step": 3000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_004000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793423481378076364,
+      "inode": 1495083,
+      "device": 75,
+      "checkpoint_step": 4000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_004000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47923200,
+      "mtime_ns": 1793423481570081769,
+      "inode": 1495084,
+      "device": 75,
+      "checkpoint_step": 4000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_004000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793423481574081881,
+      "inode": 1495085,
+      "device": 75,
+      "checkpoint_step": 4000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_005000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793423628845628690,
+      "inode": 1495086,
+      "device": 75,
+      "checkpoint_step": 5000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_005000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47923200,
+      "mtime_ns": 1793423629025632362,
+      "inode": 1495087,
+      "device": 75,
+      "checkpoint_step": 5000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_005000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793423629029632445,
+      "inode": 1495088,
+      "device": 75,
+      "checkpoint_step": 5000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_006000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793423774712162859,
+      "inode": 1494960,
+      "device": 75,
+      "checkpoint_step": 6000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_006000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47923200,
+      "mtime_ns": 1793423774892165494,
+      "inode": 1495090,
+      "device": 75,
+      "checkpoint_step": 6000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_006000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793423774896165552,
+      "inode": 1495091,
+      "device": 75,
+      "checkpoint_step": 6000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_007000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793423922565985713,
+      "inode": 1495092,
+      "device": 75,
+      "checkpoint_step": 7000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_007000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47923200,
+      "mtime_ns": 1793423922757987679,
+      "inode": 1495093,
+      "device": 75,
+      "checkpoint_step": 7000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_007000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793423922757987679,
+      "inode": 1495094,
+      "device": 75,
+      "checkpoint_step": 7000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_008000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793424070987249352,
+      "inode": 1495095,
+      "device": 75,
+      "checkpoint_step": 8000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_008000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47923200,
+      "mtime_ns": 1793424071191250767,
+      "inode": 1495096,
+      "device": 75,
+      "checkpoint_step": 8000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_008000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793424071195250795,
+      "inode": 1495097,
+      "device": 75,
+      "checkpoint_step": 8000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_009000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793424222104100415,
+      "inode": 1495098,
+      "device": 75,
+      "checkpoint_step": 9000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_009000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47923200,
+      "mtime_ns": 1793424222316101356,
+      "inode": 1495099,
+      "device": 75,
+      "checkpoint_step": 9000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_009000.json",
+      "size_bytes": 227,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793424222316101356,
+      "inode": 1495100,
+      "device": 75,
+      "checkpoint_step": 9000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_011000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793424518996896909,
+      "inode": 1495104,
+      "device": 75,
+      "checkpoint_step": 11000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_011000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793424519184897140,
+      "inode": 1495105,
+      "device": 75,
+      "checkpoint_step": 11000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_011000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793424519184897140,
+      "inode": 1495106,
+      "device": 75,
+      "checkpoint_step": 11000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_012000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793424666712999865,
+      "inode": 1495123,
+      "device": 75,
+      "checkpoint_step": 12000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_012000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47923200,
+      "mtime_ns": 1793424666884999901,
+      "inode": 1495124,
+      "device": 75,
+      "checkpoint_step": 12000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_012000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793424666884999901,
+      "inode": 1495125,
+      "device": 75,
+      "checkpoint_step": 12000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_013000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793424815760970855,
+      "inode": 1495126,
+      "device": 75,
+      "checkpoint_step": 13000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_013000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47923200,
+      "mtime_ns": 1793424815944970751,
+      "inode": 1495127,
+      "device": 75,
+      "checkpoint_step": 13000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_013000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793424815948970750,
+      "inode": 1495128,
+      "device": 75,
+      "checkpoint_step": 13000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_014000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793424965324841416,
+      "inode": 1495129,
+      "device": 75,
+      "checkpoint_step": 14000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_014000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47923200,
+      "mtime_ns": 1793424965504841211,
+      "inode": 1495130,
+      "device": 75,
+      "checkpoint_step": 14000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_014000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793424965504841211,
+      "inode": 1495131,
+      "device": 75,
+      "checkpoint_step": 14000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_015000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793425117312633110,
+      "inode": 1495132,
+      "device": 75,
+      "checkpoint_step": 15000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_015000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47923200,
+      "mtime_ns": 1793425117488632832,
+      "inode": 1495133,
+      "device": 75,
+      "checkpoint_step": 15000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_015000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793425117488632832,
+      "inode": 1495134,
+      "device": 75,
+      "checkpoint_step": 15000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_016000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793425266912371755,
+      "inode": 1495135,
+      "device": 75,
+      "checkpoint_step": 16000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_016000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47923200,
+      "mtime_ns": 1793425267128371345,
+      "inode": 1495136,
+      "device": 75,
+      "checkpoint_step": 16000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_016000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793425267128371345,
+      "inode": 1495137,
+      "device": 75,
+      "checkpoint_step": 16000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_017000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793425418336064857,
+      "inode": 1495138,
+      "device": 75,
+      "checkpoint_step": 17000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_017000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47923200,
+      "mtime_ns": 1793425418512064480,
+      "inode": 1495148,
+      "device": 75,
+      "checkpoint_step": 17000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_017000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793425418512064480,
+      "inode": 1495149,
+      "device": 75,
+      "checkpoint_step": 17000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_018000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8105984,
+      "mtime_ns": 1793425568411729356,
+      "inode": 1495150,
+      "device": 75,
+      "checkpoint_step": 18000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_018000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47923200,
+      "mtime_ns": 1793425568611728891,
+      "inode": 1495154,
+      "device": 75,
+      "checkpoint_step": 18000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_018000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793425568611728891,
+      "inode": 1495155,
+      "device": 75,
+      "checkpoint_step": 18000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_019000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793425718331370995,
+      "inode": 1495156,
+      "device": 75,
+      "checkpoint_step": 19000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_019000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793425718519370534,
+      "inode": 1495157,
+      "device": 75,
+      "checkpoint_step": 19000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_019000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793425718519370534,
+      "inode": 1495158,
+      "device": 75,
+      "checkpoint_step": 19000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_021000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793426022588530158,
+      "inode": 1495162,
+      "device": 75,
+      "checkpoint_step": 21000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_021000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793426022792488613,
+      "inode": 1495163,
+      "device": 75,
+      "checkpoint_step": 21000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_021000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793426022792488613,
+      "inode": 1495164,
+      "device": 75,
+      "checkpoint_step": 21000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_022000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793426174339823643,
+      "inode": 1495165,
+      "device": 75,
+      "checkpoint_step": 22000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_022000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793426174519800383,
+      "inode": 1495166,
+      "device": 75,
+      "checkpoint_step": 22000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_022000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793426174519800383,
+      "inode": 1495167,
+      "device": 75,
+      "checkpoint_step": 22000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_023000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793426325467678411,
+      "inode": 1495168,
+      "device": 75,
+      "checkpoint_step": 23000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_023000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793426325683659325,
+      "inode": 1495169,
+      "device": 75,
+      "checkpoint_step": 23000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_023000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793426325683659325,
+      "inode": 1495170,
+      "device": 75,
+      "checkpoint_step": 23000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/ckpt_024000.eqx",
+      "size_bytes": 8100740,
+      "allocated_bytes": 8101888,
+      "mtime_ns": 1793426474672588770,
+      "inode": 1495171,
+      "device": 75,
+      "checkpoint_step": 24000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/optimizer_024000.eqx",
+      "size_bytes": 47918192,
+      "allocated_bytes": 47919104,
+      "mtime_ns": 1793426474844577425,
+      "inode": 1495172,
+      "device": 75,
+      "checkpoint_step": 24000
+    },
+    {
+      "path": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_024000.json",
+      "size_bytes": 228,
+      "allocated_bytes": 4096,
+      "mtime_ns": 1793426474844577425,
+      "inode": 1495173,
+      "device": 75,
+      "checkpoint_step": 24000
+    }
+  ],
+  "file_count": 249,
+  "reclaim_bytes": 6166249472
+}

@@ -1,0 +1,13 @@
+{
+  "status": "completed",
+  "completed_utc": "2026-10-31T07:16:25.305528+00:00",
+  "authorization": "User explicitly approved the249-file proposal in this turn",
+  "proposal": "/root/nonlocal-pinn/docs/tasks/confined-ch-width256-online-cleanup-proposal.json",
+  "deleted_file_count": 249,
+  "deleted_allocated_bytes": 6166249472,
+  "free_before_bytes": 4964708352,
+  "free_after_bytes": 11130957824,
+  "measured_free_increase_bytes": 6166249472,
+  "retained_checkpoint_groups": 13,
+  "scope": "Only the approved exact paths; all other files retained"
+}

@@ -1,0 +1,8 @@
+{
+  "config": "examples/confined_ch2d/configs/train_operator_smallscale10_best.py",
+  "numerical_settings_match_validated_staged_run": true,
+  "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01/model_final.eqx",
+  "cold_start_30000_run_measured": false,
+  "measured_training": "Exact-state10k+10k+10k continuation",
+  "scope": "Fresh entry uses the same numerical recipe; not a new seed-stability or bitwise replay claim"
+}

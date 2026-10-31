@@ -1,0 +1,86 @@
+{
+  "status": "passed",
+  "preset": "examples.confined_ch2d.configs.train_operator_smallscale10_512_width128",
+  "configuration_change": {
+    "arch.width": [
+      96,
+      128
+    ]
+  },
+  "updates": 12,
+  "parameters": 905089,
+  "bank_shapes": {
+    "points": [
+      520,
+      1351,
+      2
+    ],
+    "volumes": [
+      520,
+      1351
+    ],
+    "initial": [
+      520,
+      1351
+    ],
+    "neighbors": [
+      520,
+      1351,
+      96
+    ],
+    "coefficients": [
+      520,
+      1351,
+      96
+    ],
+    "metric": [
+      520,
+      1351,
+      1351
+    ],
+    "condition": [
+      520,
+      192,
+      5
+    ],
+    "condition_weights": [
+      520,
+      192
+    ]
+  },
+  "fixed_fourier_identity": true,
+  "geometry_and_time_sampling_match_prior": true,
+  "no_future_labels_in_step": true,
+  "all_losses_and_gradients_finite": true,
+  "first_update_seconds": 359.23244748450816,
+  "warm_mean_seconds": 0.5752722561359406,
+  "loss": [
+    0.011588298502552179,
+    0.011650073268223168,
+    0.011832093494033677,
+    0.01124957855141594,
+    0.011563286068721467,
+    0.010414679669390284,
+    0.009778557547905643,
+    0.009813576099268306,
+    0.009704745114824907,
+    0.009041884928879593,
+    0.009611938309890367,
+    0.008777163235364028
+  ],
+  "memory": {
+    "num_allocs": 16318,
+    "bytes_in_use": 9399835648,
+    "peak_bytes_in_use": 18633626624,
+    "largest_alloc_size": 8829134592,
+    "bytes_limit": 38183976960,
+    "bytes_reserved": 0,
+    "peak_bytes_reserved": 0,
+    "largest_free_block_bytes": 0,
+    "pool_bytes": 38183976960,
+    "peak_pool_bytes": 38183976960
+  },
+  "active_peak_fraction": 0.48799596342517804,
+  "wall_seconds": 503.96644916012883,
+  "scope": "Independent feasibility updates, discarded. Subsequent full training restarts from the common fresh runtime seed; not an accuracy or convergence result."
+}

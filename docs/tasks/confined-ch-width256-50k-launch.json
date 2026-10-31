@@ -1,0 +1,18 @@
+{
+  "launched_utc": "2026-10-31T01:45:54.217025+00:00",
+  "runner_pid": 297584,
+  "runner_log": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-fp32-50k-01-runner.log",
+  "command": [
+    "/root/nonlocal-pinn/.venv/bin/python",
+    "-m",
+    "docs.tasks.confined_ch_capacity_runner",
+    "--case",
+    "width256_50k",
+    "--prefix",
+    "20261031-confined-width256-fp32-50k-01",
+    "--prior",
+    "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01"
+  ],
+  "journal": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-fp32-50k-01-process.json",
+  "scope": "User-authorized256/50k, sameGPU memory/dtype/finite and CPUreplay gates before fresh training, fixed30k/50k comparisons, no history/default changes."
+}

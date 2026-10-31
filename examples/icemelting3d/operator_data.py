@@ -47,6 +47,9 @@ def validate_config(c):
         raise ValueError('Pilot explicitly uses one unweighted noncausal physical PDE objective')
     if c.train.optimizer not in ('adam','soap') or c.train.iterations < 1:
         raise ValueError('Operator optimizer must be adam/soap with positive update budget')
+    if 'spatial' in s:
+        from examples.icemelting3d.spatial_sampling import validate_spatial
+        validate_spatial(c)
 
 
 def physics(c):

@@ -1,0 +1,15 @@
+{
+  "selected_config": "examples.confined_ch2d.configs.train_operator_smallscale10_512_unit_linear",
+  "configuration_baseline": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-fourier-stable-soap-01",
+  "policy": "Use log only if both full20kprimarymetrics improve by at least.01absolute; otherwise keep linear",
+  "log_metrics": {
+    "test_phi_pooled": 0.22607401757979578,
+    "test_phi_terminal": 0.24068864450369726
+  },
+  "linear_metrics": {
+    "test_phi_pooled": 0.22729163786101253,
+    "test_phi_terminal": 0.24302326762324494
+  },
+  "change": "output_scale .1->1 only; fresh initialization/optimizer, no state import",
+  "scope": "Reused development cohort for configuration choice; no evolved fields in training"
+}

@@ -1,0 +1,63 @@
+{
+  "scope": "CPU abstract shape parameter counts only; current width128 saved config; alternatives also align sinusoidal feature width with backbone. No new training, timings, memory peaks or accuracy claims. Frozen frequency matrix excluded from trainable count.",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width128-fp32-30k-03",
+  "options": [
+    {
+      "width": 128,
+      "spatial_fourier_frequencies": 64,
+      "spatial_sin_cos_features": 128,
+      "heads": 4,
+      "head_features": 32,
+      "condition_depth": 4,
+      "decoder_depth": 3,
+      "parameter_groups": {
+        "lifts": 67072,
+        "spatial": 16768,
+        "cross": 664064,
+        "time": 107520,
+        "layers": 49536,
+        "output": 129
+      },
+      "trainable_parameters": 905089,
+      "frozen_frequency_coefficients": 128
+    },
+    {
+      "width": 192,
+      "spatial_fourier_frequencies": 96,
+      "spatial_sin_cos_features": 192,
+      "heads": 4,
+      "head_features": 48,
+      "condition_depth": 4,
+      "decoder_depth": 3,
+      "parameter_groups": {
+        "lifts": 149760,
+        "spatial": 37440,
+        "cross": 1487616,
+        "time": 235008,
+        "layers": 111168,
+        "output": 193
+      },
+      "trainable_parameters": 2021185,
+      "frozen_frequency_coefficients": 192
+    },
+    {
+      "width": 256,
+      "spatial_fourier_frequencies": 128,
+      "spatial_sin_cos_features": 256,
+      "heads": 4,
+      "head_features": 64,
+      "condition_depth": 4,
+      "decoder_depth": 3,
+      "parameter_groups": {
+        "lifts": 265216,
+        "spatial": 66304,
+        "cross": 2638848,
+        "time": 411648,
+        "layers": 197376,
+        "output": 257
+      },
+      "trainable_parameters": 3579649,
+      "frozen_frequency_coefficients": 256
+    }
+  ]
+}

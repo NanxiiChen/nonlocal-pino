@@ -53,6 +53,32 @@ def make_loss_fn(x_all, D, ...physical_params...,
 - Fail loudly with context. Never catch an arbitrary exception and silently
   switch to another numerical method.
 
+Confined CH optionally enables `operator.online` for a bounded continuously
+refreshed geometry pool. Its explicit fields are workers, refresh_size,
+refresh_every, prefetch_batches, max_points, max_neighbors and origin_step.
+All quadrature/graph/stable-metric construction stays outside parameter AD;
+FIFO batches at fixed global counters determine replacement, not completion
+timing. Separate immutable evaluation payloads from training slots, preserve
+fixed shape/dtype signatures, donate replaced pool buffers and fail on overflow.
+New inputs carry exactly eight known-input arrays and no evolved labels.
+For fresh online training explicitly set origin_step=0 and omit
+train.continuation. Positive origins require continuation; imported online
+states retain their original origin and global refresh counters. Save both fresh
+initial model and SOAP state, assert zero optimizer counters, and check the first
+25 actual production updates in the same process. The width256 cold50k preset
+uses checkpoint_every=5000 to bound snapshot storage without deleting snapshots.
+
+`train.continuation.checkpoint` extends the strict complete-parent import with
+an explicit absolute paired intermediate marker inside parent_run. Validate the
+marker/model/optimizer/config/global step and one complete parent evaluation;
+allow only the explicitly declared online-input addition, not changed physics,
+architecture or optimizer settings. Preserve full SOAP/Optax schedule state and
+check serialized initial bytes plus physical-field metrics. Online checkpoint
+markers additionally name a bounded pool-state file; reconstruct input identity
+before consuming new global RNG draws. Existing complete-parent imports and
+old marker formats remain valid. Never edit parent artifacts or synthesize a
+completed summary for an interrupted run.
+
 Canonical phase-field training starts in each example's `train.py`, usually
 with `configs/train_base.py`. Confined CH explicitly defaults to
 `configs/train_coarsening_windows.py` (ten-wave/T1.5/30windows); its train_base
@@ -449,6 +475,24 @@ SciPy matrix and ordered snapshot times for local/graph reference validation.
 New runs record sampling.npz and synchronized update/setup/evaluation timings;
 snapshot local helper/preset sources. No shared network parameter shapes change.
 
+Electropolish optional `sample.spatial` enables full/fixed_pool/rolling_pool
+controls through the same train.py. Require explicit mode, max_nodes, max_edges,
+workers and prefetch, sparse/noncausal online-condition mode. The case-local
+spatial_sampling.py constructs complete one-hop scalar graphs with strict
+padding from a proven degree bound; it does not call the old truncating helper.
+Workers only construct NumPy data. Main-thread JAX transfers preserve fixed
+shapes/dtypes and replace coordinates/edges/masks/SDF metadata together. FIFO
+draw identities match the first fixed pool then advance by global update, while
+condition/time keys remain independent. Record actual draws/cores and producer
+wait/transfer/synchronized condition/update times. The absence of the record
+retains the historical path; current canonical NO and single-IVP defaults stay
+unchanged. Use shared padding for fixed/rolling ablations, and distinguish full
+node coverage from interpolation/nonlocal discretization accuracy.
+The recorded [composed-attention replay issue](issues/electropolish-attention-replay.md)
+requires distinguishing same-GPU checkpoint replay from independent CPU
+portability: never mark a failed cross-backend gate passed or silently loosen
+its tolerance. Saved-field/reference metric replay is a separate validation.
+
 Melting opt-in `configs/train_operator.py` dispatches from canonical train.py
 before the single-IVP validator. `operator.action=prepare|train|memory` is explicit.
 The reusable conditional model accepts2D(CYX) or3D(CZYX)volumes, with coordinate
@@ -466,8 +510,66 @@ solid/interface/volume errors remain separate. Memory probes must include PDE,
 parameter backward and optimizer, and distinguish active bytes from allocator
 pool/CUDAcontext. Old single-IVP defaults/checkpoints remain unchanged.
 
+Melting optional `sample.spatial` selects full/fixed_pool/rolling_pool through
+the canonical entry, with explicit mode/max_nodes/max_edges/workers/prefetch/
+full_chunk_core fields. Case-local spatial_sampling.py uses uniform NumPy
+Generator.choice cores, complete CSR neighbors and sorted-index remapping,
+avoiding full-grid permutations/remap buffers per rolling draw. Both sampled
+controls share safe1792/1536padding and deterministic first32sets. The old
+configuration without this record retains its RandomState pool and trainer.
+Full chunks cover the original graph once per update; accumulate core-count
+weighted losses/parameter gradients before one optimizer update. Do not treat
+chunks as separate stochastic updates or change IC/time keys between chunks.
+Workers construct NumPy-only metadata, main thread transfers bounded arrays.
+Save actual IC/time/core streams, initial/final optimizer states, synchronous
+spatial/condition/GPU timers and allocator peaks. Full-grid L1training does not
+make diagnostic24^3evaluation a full-grid L2 or validate continuum accuracy.
+
 
 ## Versioned research information
+
+Confined CH opt-in `configs/train_operator.py` selects the accepted width256,
+FP32/ordinary, SOAP50000, online rolling-pool geometry operator. It aliases the
+explicit `train_operator_online_width256_cold50k.py` recipe and dispatches before
+the single-IVP validator. Preserve the old mild16/8pilot in
+`train_operator_mild.py`; historical presets, test fixtures and the mild reference
+CLI default import that preserved baseline, not the current SOTA alias. This
+avoids circular inheritance and silently changed historical controls. Canonical
+operator settings match the measured saved config except runtime provenance;
+load historical checkpoints with their saved config. The no-argument train.py
+default remains the separate single-IVP30-window case. Each domain has its own
+Gmsh triangle-centroid quadrature and visible regional graph. Padded nodes have
+zero physical measure/edges and zero physical output. The ambient IC is the same
+function across geometries, without a moving-hole envelope. The reference bank
+contains evaluation fields; steps receive only coordinates/measures, analytic
+IC, independent checked graph and resolvent, plus boundary point data.
+
+`nn.point_conditional.PointFieldOperator` is the retained boundary-only model;
+zero `latent_tokens` retains all boundary tokens. The explicit
+`train_operator_heterogeneous.py` control selects `arch.model=heterogeneous` and
+`HeterogeneousPointOperator`: separately lifted boundary and domain-IC point
+streams, GNOT-inspired normalized linear integral attention with separate stream
+measures, repeated spatial conditional reads and shared temporal FiLM. Required
+`input_dims` start with the coordinates specified by `extent`; CH uses(5,3).
+This is not full GNOT: no query-set self-attention or geometric MoE. It preserves
+independent raw point queries/chunking. No fixed distance bias is introduced.
+Do not cache learned preparation across updates. Physical output goes through
+the example hard IC/mass wrapper; off-grid queries preserve the original domain
+quadrature for the mass shift, not their own query average. Geometry-contrast
+metrics supplement whole-field L2 because a good average field can conceal weak
+conditioning. The16/8bank is finite and reused for architecture development;
+do not call it an online-infinite input stream or a fresh final test.
+
+The opt-in confined `train_operator_richer.py` changes actual mesh/ambient IC/
+geometry distribution, not network priors. Its native/local reference bank is
+separate. `operator_evaluate.evaluate` requires explicit `plot_style`; the CLI
+defaults to `smooth`, with `flat` retained. `operator_plotting.SmoothMeshDisplay`
+projects area-weighted incident cell values onto original mesh vertices and
+uses original-triangle linear interpolation. It never re-triangulates across
+holes; analytic circles are masked too. Reference and prediction use identical
+display maps, and displayed absolute error is computed afterward. Raw physical
+centroid fields/areas remain the only source of reported metrics. Do not claim
+interpolated display values supply extra numerical accuracy or physical mass.
 
 Keep source, stable Markdown, explicit configurations, compact numerical metrics
 and regeneration scripts in Git. Generated media, arrays, checkpoints and HLO
@@ -483,3 +585,189 @@ indexed generated payloads and files larger than1MiB; small immutable migration
 fixtures outside docs/tasks remain allowed. Do not rewrite published history
 to reduce size without separate explicit user authorization. Ordinary new
 commits removing outputs limit future growth but leave historical blobs intact.
+
+Confined CH `train_operator_richer512.py` adds explicit `operator.precompute`
+fields `workers/source_path/reserved_test_draws/monitor_train_indices`. Canonical
+`train.py` dispatches prepare to spawned CPU production-operator workers, with
+isolated explicit fenicsenv meshing and one BLAS/OMP thread each. Preparation
+never solves a new training trajectory. Format `operator_only_v1` declares
+per-record `has_reference`, source accepted-draw IDs and labeled training monitors;
+train/test partitions stay disjoint and contiguous. Loaders reject evolved fields
+in operator-only files and regenerate/verify analytic initial data. Optimizer
+payloads omit all future fields for both labeled and unlabeled inputs. Aggregate
+train L2 means the explicit monitor subset; held-out L2 uses the original eight
+reserved geometries. Legacy all-labeled manifests retain their original semantics.
+
+Confined geometry-reference preparation accepts optional explicit positive
+`operator.reference_workers` and `local_reference_workers`. These change only
+orchestration: spawned CPUprocesses each own one independent domain/mesh/solver,
+while the parent orders records and writes manifests. Native `prepare_case`
+retains independent ordered graph assembly and time-refined BDF; `local_case`
+imports FEniCS in its own process and retains identical spatial/time gates.
+Absent worker records preserve legacy serial paths. No JAXGPUwork overlaps FEM.
+The selected opt-in `train_operator_smallscale10[_512].py` pair uses T3/10fixed
+small-scale IC modes, fresh physical references and the same finite512/8operator
+schema. Only geometry varies, with no IC parameterization. Earlier20/24mode
+mixed-band previews are retained as untrained candidates. The generic model and
+old defaults are unchanged.
+
+An empty explicit `operator.local_validation_indices=()` defers local FEM for
+a native-only operator study. Precompute then records local_reference_status=
+not_requested and copies no local files; nonempty requests still require passed
+matching FEM. Native reference refinement remains mandatory. `--local` rejects
+an empty request, and evaluation reports local_FEM.status=not_evaluated when no
+local files exist, rather than NaN or a local-accuracy claim.
+
+The confined10mode512SOAP preset changes only the optimizer; its width96 control
+changes only width. Architecture counts exclude the stopped spatial Fourier
+entries. Temporal features use j*pi*t/T: horizon changes alter their explicit
+physical input frequencies. Treat time-feature/width alternatives as untested
+until measured, and keep slow convergence distinct from a proven capacity floor.
+
+Confined geometry operators optionally accept `arch.time_max_frequency` as
+static metadata. Omission preserves the historical integer frequency vector
+`arange(1,K+1)` exactly. When present, `K>=2` Fourier frequencies are spaced from
+1 to that explicit finite maximum (`>=1`), in units of `pi*t/T`; this separates
+embedding width from bandwidth. It consumes no RNG and adds no parameter leaves.
+Both point operator families share the same decode convention. Old configs and
+checkpoints retain their arithmetic and parameter layout. The operator optional
+`sample.temporal` uses the existing global log-time sampling/curriculum helper,
+with a prepended exact initial node; absent record retains the old operator RNG
+path. The physical horizon and hard lifting do not change during a curriculum.
+
+Confined geometry training optionally selects `operator.metric=linear_stable_resolvent`
+with required positive integer `metric_workers`. Input-only NumPy/SciPy workers
+build the spectral positive-part resolvent of the CH Jacobian frozen at the
+known initial mean. The physical bank/specification and old cached metric stay
+unchanged; only in-memory training metric arrays are replaced before padding.
+`residual_metric.json` records construction per domain. This mode is train-only;
+prepare the physical bank with the original preset. The existing biharmonic
+branch retains its arithmetic and performs no extra worker construction.
+
+Confined geometry `train.continuation.parent_run` explicitly imports a complete
+parent into a new run. Validate metadata/model/state files before bank setup;
+by default require identical numerical settings and a larger total `train.iterations`.
+Restore both states, keep global RNG/curriculum counters, and replay all saved
+physical fields before new updates. `continuation.json` contains direct paths;
+summary `start_step/new_updates/cumulative_wall_seconds` distinguishes stage
+and lifetime cost. Fresh paths retain old arithmetic; missing optimizer state
+is an error, never a reset. The shared exponential optimizer schedule depends
+on its restored count and fixed decay interval, not the new total budget.
+
+The only optional numerical exception is explicit
+`train.continuation.learning_rate_factor` in(0,1). Require both lr_init and
+lr_min to equal their parent values multiplied by this factor. Reject all
+other optimizer/model/sampler changes and unknown continuation options. Record
+before/after values in provenance; keep the imported adaptive state and count.
+This is an intentionally changed ongoing schedule, distinct from strict
+unchanged-schedule continuation. Without the factor, historical strict behavior
+is retained. Test nonzero same-gradient update ratios and complete state equality,
+in addition to the uninterrupted-versus-serialized strict path.
+
+Geometry-operator optional `phase.lifting=logarithmic_additive` and positive
+`initial_time_scale` reuse the existing normalized log coordinate for both
+hard increment and decoder. `time_coordinate` is shared by grid/off-grid
+wrappers; physical-time JVP retains the chain rule. Missing record retains
+`t/T` arithmetic. No network leaves are added, but the wrapper semantics change:
+replay checkpoints only with their saved config. Strict continuation rejects a
+coordinate change. `arch.time_max_frequency` is in the chosen decoder coordinate,
+which is `t/T` only for the linear-time path.
+
+Geometry-operator optional `loss.initial_residual_fraction` sets the initial
+PDE-node fraction explicitly, with the remaining weight on the positive-time
+sample mean. Require a finite fraction in[0,1), at least one positive time and
+the leading node0. Omission preserves the original full-node mean exactly.
+Keep this fraction fixed when changing positive-time sample count if an equal
+expected objective is intended. It is not an additional initial-condition loss.
+First-update allocator statistics are saved for full-physics memory checks.
+
+`operator_history.training_records` follows explicit continuation parent paths
+and merges ordered global metric/loss records, removing the imported-boundary
+duplicate and adding parent cumulative time to child metric times. Cycles and
+unordered histories are errors. Evaluators and convergence reports use this
+helper so continuation plots include the full trajectory rather than only the
+latest stage. Physical prediction arrays remain stage-local.
+
+Confined geometry optional `operator.initial_rhs_condition=True` adds a known
+function channel to the heterogeneous encoder. Require domain inputdim4:
+`(x,y,phi0,T*F(phi0))`, where F is the prescribed CH vector field, evaluated once
+using the checked initial field and graph. `operator_conditioning.py` derives
+this input without trajectory data. Loader-only `domain_fields(N,2)` contains
+phi0 and the horizon-scaled RHS; `initial` remains separate for hard IC/mass.
+Default absence/False retains the original8-key payload and exact encoder path.
+The enabled path has9explicit label-free keys. Require an explicit boolean,
+heterogeneous model and matching dimensions; currently reject augmentation
+instead of reusing an initial tangent from a different transformed input.
+Neither the physical PDE/loss nor the output ansatz changes. Validation/dense
+query helpers must derive the same known channel from their saved config.
+
+Incremental confined-CH operator preparation can explicitly set
+`operator.precompute.reuse_mode=hardlink` (absence preserves historical copy).
+Source banks may be validated full native or mixed `operator_only_v1` banks.
+Reuse is keyed by the accepted continuous-prior draw identity; training prefixes,
+reserved held-out draws and monitor reference roles must remain consistent.
+Only missing operator inputs are built, never new evolved trajectories. Hardlink
+mode fails on unsupported filesystems and makes both paths share immutable
+payloads: never rewrite either source or destination files. This avoids doubling
+existing dense cached metrics on disk. Array/label/partition identity is checked
+in the active task's bank-growth audit before any cross-bank accuracy ranking.
+
+Confined geometry operators explicitly accept `train.compute_dtype` as float32
+or float64. Host geometry/operator/reference/residual-metric construction stays
+FP64; `operator_precision.py` casts finalized floating training arrays and model
+parameters, preserving integer graph indices. The initialization and temporal
+RNG remain on the original FP64 path before rounding; JAX x64 being enabled
+does not imply FP64 network/PDE/SOAP computation.
+The local `make_compute_optimizer` adapter types FP32 SOAP beta scalars to avoid
+temporary FP64 update arrays from bias correction with global x64 enabled;
+shared optimizer/upstream implementation and the FP64 path stay unchanged.
+Scalar configuration literals may be FP64 before conversion; reject nonscalar
+FP64 tensors when auditing an FP32 training graph. Public field/query evaluation
+also casts input coordinates/times to the requested compute dtype. The opt-in
+width128/beta09 FP32 preset preserves all other numerical settings. Independent
+saved-field checks account for rounding explicitly; original references and
+FP64 checkpoint compatibility remain intact. Never continue optimizer state
+across a precision change under the exact-state continuation API.
+
+The opt-in confined-CH width192 FP32 capacity preset also sets spatial Fourier
+directions96 and SOAP max_precond_dim512, preserving both feedforward axes when
+their hidden width grows256->384. Four heads then have48features each. The
+four condition-reading blocks are cross-attention from spatial queries into
+separate boundary/function streams; time decoding shares their prepared output.
+Configuration/capacity checks must record the joint backbone/Fourier change and
+SOAP coverage rather than label it a width-only or head-only control. The
+existing128baseline has no learned axis in257..512, so raising its cap alone
+does not change coverage. A different architecture starts cold with fresh
+parameters/state and is not compatible with exact-state continuation.
+The explicit width256 FP32/50k preset continues this family with128spatial
+directions, four64feature heads, unchanged four cross/three FiLM blocks and
+axis cap512 (the FFN reaches512). Research capacity helpers select the new
+case explicitly with `--case=width256_50k`; omitted case preserves the original
+192/30k CLI. Memory feasibility uses production25updates including SOAPrefreshes;
+disk estimates count all paired snapshots plus declared reserves. Preserve30k
+checkpoint/metrics and61time evaluation when comparing to the192/30k baseline;
+do not conflate larger capacity and a longer optimizer budget.
+
+The explicit `train_operator_smallscale10_1024_width192_fp32_50k.py` preset and
+researchcase `width192_bank1024_50k` change only input-bank size/provenance and
+budget relative to the completed192/51230kcontrol. Reuse the immutable1024bank,
+not a new set of evolved training trajectories. Source training prefix,16monitor
+arrays and8reserved accepted draws must compare exactly. Fresh192weights and
+temporal draws match; condition-ID draws intentionally differ with1024support
+and must instead be checked against their own globalkeys. Validation indices
+1024..1031 map to original512..519 by accepted geometry draw and physical arrays.
+The research dense-reference view hardlinks original61time NPZs only after these
+checks, preserves refinement receipts and records direct source paths; no hash
+loading or new reference solve. Retain30kand50k assessments separately.
+
+Confined-CH geometry-operator intermediate checkpoints now publish a paired
+`ckpt_<step>.eqx`, `optimizer_<step>.eqx`, and `checkpoint_<step>.json` at the
+existing configured checkpoint interval. Payloads are written through exclusive
+temporary files and atomically renamed; the global-step completion marker is
+published last. A leftover model or `.partial` file without its marker is not a
+complete pair. These intermediate backups are distinct from the completed
+fixed-budget `summary.json`/`model_final.eqx`/`optimizer_final.eqx`. An explicit
+`train.continuation.checkpoint` imports a published intermediate pair; without
+that option a completed parent is required. Full SOAP recovery through an
+intermediate pair is independently tested. No checkpoint
+I/O changes the numerical updates, learning-rate schedule or PRNG counters.

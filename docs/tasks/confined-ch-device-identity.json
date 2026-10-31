@@ -1,0 +1,37 @@
+{
+  "observed_utc": "2026-10-30T15:43:38.611434+00:00",
+  "device_name": "NVIDIA GeForce RTX 3090",
+  "attributes": {
+    "multiprocessor_count": 82,
+    "nominal_clock_kHz": 1695000,
+    "compute_capability_major": 8,
+    "compute_capability_minor": 6,
+    "single_to_double_precision_perf_ratio": 64
+  },
+  "memory_bytes": 50911969280,
+  "memory_GiB": 47.41546630859375,
+  "current_cuda_context": null,
+  "method": "Metadata-only CUDA Driver API, cuDeviceGetAttribute enums from installed CUDA13 cuda.h; no context, allocation or kernels.",
+  "interpretation": "Driver reports3090-compatible CC8.6/core layout and FP32:FP64 ratio64;48GiB capacity is nonstandard. This cannot identify physical board modifications or exclude software reporting changes. No evidence of enhanced FP64 units.",
+  "nvml_report": {
+    "memory_MiB": 49152,
+    "compute_capability": "8.6",
+    "pci_device_id": "0x220410DE",
+    "pci_subdevice_id": "0x145410DE",
+    "driver": "595.71.05",
+    "current_sm_clock_MHz": 1950,
+    "maximum_sm_clock_MHz": 2100,
+    "power_limit_W": 350
+  },
+  "clock_scope": "NVML clock snapshot is from current training, not simultaneous with the archived GEMM. At1950MHz, nominal3090 layout predicts .6396TFLOP/s FP64, compatible in scale with the archived .6362TFLOP/s.",
+  "archived_fp64_benchmark": {
+    "record": "docs/tasks/archive/fp64-performance.md",
+    "train_FP32_seconds": 0.203262,
+    "train_FP64_seconds": 0.226737,
+    "train_policy": "xla_gpu_deterministic_ops=true; legacy corrosion workload",
+    "gemm4096_FP32_ms": 57.38670192658901,
+    "gemm4096_FP64_ms": 216.03612788021564,
+    "gemm4096_FP64_TFLOPs": 0.636185043772887,
+    "scope": "End-to-end11.5%slowdown is valid for that workload/policy, not hardware peak ratio or current NO timing. Later audit found serial graph lowering in deterministic mode."
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01",
+  "prior": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01",
+  "initial_array_leaves": 119,
+  "production_initial_exactly_matches_fresh_seed_and_probe_initial": true,
+  "shared_network_training_optimizer_precision_sources_unchanged": true,
+  "scope": "Same192architecture and exact baseline fresh arrays; expanded bank trained cold, no learned baseline/probe import."
+}

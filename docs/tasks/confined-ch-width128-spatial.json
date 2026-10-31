@@ -1,0 +1,104 @@
+{
+  "status": "passed",
+  "dataset": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_512_v1",
+  "indices": [
+    514,
+    518
+  ],
+  "conditions": [
+    {
+      "index": 514,
+      "old_mesh_size": 0.035,
+      "new_mesh_size": 0.03,
+      "old_points": 1221,
+      "new_points": 1596,
+      "time_refinement": {
+        "phi": 7.852016417567154e-10,
+        "mu": 6.053488417871021e-10
+      },
+      "native_mass_drift": 1.0018028073766061e-16,
+      "native_energy_increase": 0.0,
+      "common_p1_queries": 21966,
+      "common_p0_queries": 23294,
+      "physical_queries": 23318,
+      "p1_phase_difference": {
+        "pooled": 0.01728108368106606,
+        "terminal": 0.017173128312011385,
+        "by_time": [
+          0.029552926469752633,
+          0.016691827505809564,
+          0.01570457465471232,
+          0.016195410378696894,
+          0.017173128312011385
+        ]
+      },
+      "p0_phase_difference": {
+        "pooled": 0.1156917465037911,
+        "terminal": 0.10857634400640893,
+        "by_time": [
+          0.21000975938552077,
+          0.1342286684032306,
+          0.1220711037519606,
+          0.11460244952248956,
+          0.10857634400640893
+        ]
+      },
+      "p1_initial_reconstruction_relative_error": [
+        0.0384645397456439,
+        0.028783849121054736
+      ],
+      "reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_h030_check_02/case_514/reference.npz",
+      "seconds": 144.46249506622553,
+      "scope": "Uniform common-query L2; coarse versus fine, normalized by fine. P0/P1 reconstruction included; no IC error subtraction. Not local FEM/continuum error or a pure operator-error estimate."
+    },
+    {
+      "index": 518,
+      "old_mesh_size": 0.035,
+      "new_mesh_size": 0.03,
+      "old_points": 1295,
+      "new_points": 1685,
+      "time_refinement": {
+        "phi": 1.0600201875385934e-09,
+        "mu": 8.145039533794215e-10
+      },
+      "native_mass_drift": 2.3841605772956243e-16,
+      "native_energy_increase": 0.0,
+      "common_p1_queries": 23104,
+      "common_p0_queries": 24366,
+      "physical_queries": 24390,
+      "p1_phase_difference": {
+        "pooled": 0.013375135508732471,
+        "terminal": 0.012004641319336037,
+        "by_time": [
+          0.028371996655339217,
+          0.018980850560191418,
+          0.014963908034008643,
+          0.013352886635642363,
+          0.012004641319336037
+        ]
+      },
+      "p0_phase_difference": {
+        "pooled": 0.11273194829631679,
+        "terminal": 0.10646329778098082,
+        "by_time": [
+          0.20465038434520016,
+          0.13867250360747868,
+          0.1191573425413438,
+          0.11060008244961175,
+          0.10646329778098082
+        ]
+      },
+      "p1_initial_reconstruction_relative_error": [
+        0.03740868996490021,
+        0.028468575474639626
+      ],
+      "reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_h030_check_02/case_518/reference.npz",
+      "seconds": 204.91474128887057,
+      "scope": "Uniform common-query L2; coarse versus fine, normalized by fine. P0/P1 reconstruction included; no IC error subtraction. Not local FEM/continuum error or a pure operator-error estimate."
+    }
+  ],
+  "wall_seconds": 205.8242994416505,
+  "fixed_delta": 0.11,
+  "fixed_epsilon": 0.06,
+  "scope": "Two existing development geometries selected diagnostically; independent native graph/BDF spatial check, no FEM/JAX or new training labels."
+}

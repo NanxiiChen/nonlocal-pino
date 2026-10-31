@@ -1,0 +1,50 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-10-31T07:19:34.914830+00:00",
+  "parent": null,
+  "checkpoint": null,
+  "start_step": 0,
+  "optimizer_integer_counters": [
+    0
+  ],
+  "initialization": "fresh",
+  "exact_model_and_optimizer_bytes": null,
+  "producer_inputs": 64,
+  "workers": 6,
+  "producer_wall_seconds": 9.018817297182977,
+  "producer_inputs_per_second": 7.096274144503445,
+  "mean_stage_seconds": {
+    "mesh": 0.23038067737070378,
+    "assembly": 0.04540873116638977,
+    "metric": 0.3943398474511923,
+    "padding": 0.006417261203750968
+  },
+  "max_nodes": 1360,
+  "max_degree": 93,
+  "constant_mode_error_max": 3.2862601528904634e-14,
+  "mesh_comparison": [
+    {
+      "draw": 0,
+      "nodes": 1245,
+      "point_max_gap": 2.979166457972582e-08,
+      "volume_max_gap": 2.897761913235597e-11,
+      "topology_and_order": "same triangle-centroid order"
+    },
+    {
+      "draw": 1,
+      "nodes": 1181,
+      "point_max_gap": 2.973722412757951e-08,
+      "volume_max_gap": 2.8996173951495452e-11,
+      "topology_and_order": "same triangle-centroid order"
+    }
+  ],
+  "repeated_draw0_all_eight_arrays_exact": true,
+  "future_labels_in_payload": false,
+  "pde_solves": 0,
+  "fem_solves": 0,
+  "padding": {
+    "points": 1536,
+    "neighbors": 128
+  },
+  "scope": "Production CPU producer incl spawn/Gmsh/graph/stable metric/padding/IPC; three payloads retained for checks, no GPU transfer/refresh or trainer measured. Same continuous valid geometry prior; no evolved labels."
+}

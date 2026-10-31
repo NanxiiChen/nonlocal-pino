@@ -1,0 +1,285 @@
+{
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-soap-01",
+  "positive_midpoint_nodes": 128,
+  "optimizer_updates": 0,
+  "scope": "Frozen checkpoint,16training monitors/8reused development domains. No future fields in PDE inputs or gradients. Correlation is diagnostic, not a causal or generalization claim.",
+  "production_loss_parity": true,
+  "correlations": {
+    "train_monitors": {
+      "conditions": 16,
+      "spearman": 0.7764705882352941,
+      "log_Pearson": 0.7697206004282474
+    },
+    "development": {
+      "conditions": 8,
+      "spearman": 0.6190476190476191,
+      "log_Pearson": 0.8142901354730845
+    }
+  },
+  "conditions": [
+    {
+      "index": 0,
+      "split": "train_monitors",
+      "phase_relative_L2": 0.17628404622778845,
+      "expected_objective_midpoint": 0.0003461245373179219,
+      "initial_preconditioned_squared_RMS": 0.0006376740563318378,
+      "positive_preconditioned_squared_RMS": 0.0002732371575644429,
+      "early_preconditioned_squared_RMS": 0.00043372156127901077,
+      "late_preconditioned_squared_RMS": 0.00033767146875641444,
+      "positive_raw_squared_RMS": 1.6126907690024876
+    },
+    {
+      "index": 1,
+      "split": "train_monitors",
+      "phase_relative_L2": 0.08997127194895908,
+      "expected_objective_midpoint": 0.00024666017190698653,
+      "initial_preconditioned_squared_RMS": 0.0004076152666892978,
+      "positive_preconditioned_squared_RMS": 0.0002064213982114087,
+      "early_preconditioned_squared_RMS": 0.0002145445605454427,
+      "late_preconditioned_squared_RMS": 0.0002771069378794456,
+      "positive_raw_squared_RMS": 1.0394328407506968
+    },
+    {
+      "index": 2,
+      "split": "train_monitors",
+      "phase_relative_L2": 0.1973059506201468,
+      "expected_objective_midpoint": 0.0003709223844584581,
+      "initial_preconditioned_squared_RMS": 0.000628222753068902,
+      "positive_preconditioned_squared_RMS": 0.0003065972923058471,
+      "early_preconditioned_squared_RMS": 0.000711640142585908,
+      "late_preconditioned_squared_RMS": 0.00027133811460433,
+      "positive_raw_squared_RMS": 1.5141413055536956
+    },
+    {
+      "index": 3,
+      "split": "train_monitors",
+      "phase_relative_L2": 0.18397670558423976,
+      "expected_objective_midpoint": 0.00033201659732232086,
+      "initial_preconditioned_squared_RMS": 0.0003861532930879264,
+      "positive_preconditioned_squared_RMS": 0.00031848242338091944,
+      "early_preconditioned_squared_RMS": 0.00047313194002638346,
+      "late_preconditioned_squared_RMS": 0.000379447687888903,
+      "positive_raw_squared_RMS": 1.38849239236233
+    },
+    {
+      "index": 4,
+      "split": "train_monitors",
+      "phase_relative_L2": 0.12878191575862463,
+      "expected_objective_midpoint": 0.0002085397395048928,
+      "initial_preconditioned_squared_RMS": 0.00015986788629082486,
+      "positive_preconditioned_squared_RMS": 0.0002207077028084098,
+      "early_preconditioned_squared_RMS": 0.00024774569451904146,
+      "late_preconditioned_squared_RMS": 0.00030211365290464497,
+      "positive_raw_squared_RMS": 1.0245501413104132
+    },
+    {
+      "index": 5,
+      "split": "train_monitors",
+      "phase_relative_L2": 0.3144415054601785,
+      "expected_objective_midpoint": 0.0003929273069782908,
+      "initial_preconditioned_squared_RMS": 0.0005486752443507623,
+      "positive_preconditioned_squared_RMS": 0.0003539903226351729,
+      "early_preconditioned_squared_RMS": 0.0008572407433926855,
+      "late_preconditioned_squared_RMS": 0.00030713599083027833,
+      "positive_raw_squared_RMS": 1.5701140890770269
+    },
+    {
+      "index": 6,
+      "split": "train_monitors",
+      "phase_relative_L2": 0.11944825137686287,
+      "expected_objective_midpoint": 0.00028901622083830225,
+      "initial_preconditioned_squared_RMS": 0.0004541797363121675,
+      "positive_preconditioned_squared_RMS": 0.00024772534196983593,
+      "early_preconditioned_squared_RMS": 0.0002870935630116058,
+      "late_preconditioned_squared_RMS": 0.0003348834567404838,
+      "positive_raw_squared_RMS": 1.3128560746694928
+    },
+    {
+      "index": 7,
+      "split": "train_monitors",
+      "phase_relative_L2": 0.11360607555613046,
+      "expected_objective_midpoint": 0.00022505899811577212,
+      "initial_preconditioned_squared_RMS": 0.0003894451463816506,
+      "positive_preconditioned_squared_RMS": 0.0001839624610493025,
+      "early_preconditioned_squared_RMS": 0.0001976293729308445,
+      "late_preconditioned_squared_RMS": 0.0002617344652710684,
+      "positive_raw_squared_RMS": 1.1392531530098262
+    },
+    {
+      "index": 8,
+      "split": "train_monitors",
+      "phase_relative_L2": 0.3174734764958682,
+      "expected_objective_midpoint": 0.0003450518573385068,
+      "initial_preconditioned_squared_RMS": 0.0004991865472167797,
+      "positive_preconditioned_squared_RMS": 0.00030651818486893855,
+      "early_preconditioned_squared_RMS": 0.000640452120530006,
+      "late_preconditioned_squared_RMS": 0.00032530179687250446,
+      "positive_raw_squared_RMS": 1.2758559912985934
+    },
+    {
+      "index": 9,
+      "split": "train_monitors",
+      "phase_relative_L2": 0.0670199342487278,
+      "expected_objective_midpoint": 0.00024010382362226514,
+      "initial_preconditioned_squared_RMS": 0.00043082452248154827,
+      "positive_preconditioned_squared_RMS": 0.00019242364890744432,
+      "early_preconditioned_squared_RMS": 0.0002429953747748107,
+      "late_preconditioned_squared_RMS": 0.0002543346683294284,
+      "positive_raw_squared_RMS": 1.2307930861629583
+    },
+    {
+      "index": 10,
+      "split": "train_monitors",
+      "phase_relative_L2": 0.05632132089649758,
+      "expected_objective_midpoint": 0.00020303720606072332,
+      "initial_preconditioned_squared_RMS": 0.00034303798678523634,
+      "positive_preconditioned_squared_RMS": 0.00016803701087959508,
+      "early_preconditioned_squared_RMS": 0.0001429751303472608,
+      "late_preconditioned_squared_RMS": 0.00025145245085086244,
+      "positive_raw_squared_RMS": 1.1195039919178962
+    },
+    {
+      "index": 11,
+      "split": "train_monitors",
+      "phase_relative_L2": 0.14050128174385196,
+      "expected_objective_midpoint": 0.00025766651181415224,
+      "initial_preconditioned_squared_RMS": 0.0003875500274225417,
+      "positive_preconditioned_squared_RMS": 0.00022519563291205488,
+      "early_preconditioned_squared_RMS": 0.0003561316453881243,
+      "late_preconditioned_squared_RMS": 0.0002518921608160679,
+      "positive_raw_squared_RMS": 1.3744230243716173
+    },
+    {
+      "index": 12,
+      "split": "train_monitors",
+      "phase_relative_L2": 0.07893823634422764,
+      "expected_objective_midpoint": 0.0002465983518086174,
+      "initial_preconditioned_squared_RMS": 0.000363143022731677,
+      "positive_preconditioned_squared_RMS": 0.0002174621840778525,
+      "early_preconditioned_squared_RMS": 0.00033147864679252315,
+      "late_preconditioned_squared_RMS": 0.00023243295106982224,
+      "positive_raw_squared_RMS": 1.3022220513219154
+    },
+    {
+      "index": 13,
+      "split": "train_monitors",
+      "phase_relative_L2": 0.11392576890610989,
+      "expected_objective_midpoint": 0.0003085030190982275,
+      "initial_preconditioned_squared_RMS": 0.00044372567323311835,
+      "positive_preconditioned_squared_RMS": 0.0002746973555645048,
+      "early_preconditioned_squared_RMS": 0.00031154707678835526,
+      "late_preconditioned_squared_RMS": 0.0003474659584943369,
+      "positive_raw_squared_RMS": 1.3740688711262252
+    },
+    {
+      "index": 14,
+      "split": "train_monitors",
+      "phase_relative_L2": 0.17129314552570657,
+      "expected_objective_midpoint": 0.00024250616926589728,
+      "initial_preconditioned_squared_RMS": 0.00041037580499581115,
+      "positive_preconditioned_squared_RMS": 0.00020053876033341878,
+      "early_preconditioned_squared_RMS": 0.0003879986325129226,
+      "late_preconditioned_squared_RMS": 0.00020167215558561472,
+      "positive_raw_squared_RMS": 1.3464754746423195
+    },
+    {
+      "index": 15,
+      "split": "train_monitors",
+      "phase_relative_L2": 0.18002660754885197,
+      "expected_objective_midpoint": 0.00027833487842466296,
+      "initial_preconditioned_squared_RMS": 0.0004731587964049121,
+      "positive_preconditioned_squared_RMS": 0.00022962889892960063,
+      "early_preconditioned_squared_RMS": 0.00045480404233911524,
+      "late_preconditioned_squared_RMS": 0.0002361132897311398,
+      "positive_raw_squared_RMS": 1.1970918057756257
+    },
+    {
+      "index": 512,
+      "split": "development",
+      "phase_relative_L2": 0.1290974039936008,
+      "expected_objective_midpoint": 0.0005518369789819712,
+      "initial_preconditioned_squared_RMS": 0.0008017007679461816,
+      "positive_preconditioned_squared_RMS": 0.0004893710317409187,
+      "early_preconditioned_squared_RMS": 0.0004228628907426324,
+      "late_preconditioned_squared_RMS": 0.0007200914902711595,
+      "positive_raw_squared_RMS": 1.2947543714924072
+    },
+    {
+      "index": 513,
+      "split": "development",
+      "phase_relative_L2": 0.24630761960654735,
+      "expected_objective_midpoint": 0.0009634933119119329,
+      "initial_preconditioned_squared_RMS": 0.0005935702894068012,
+      "positive_preconditioned_squared_RMS": 0.0010559740675382158,
+      "early_preconditioned_squared_RMS": 0.000660547529288536,
+      "late_preconditioned_squared_RMS": 0.0017228228817537175,
+      "positive_raw_squared_RMS": 1.7375907936709654
+    },
+    {
+      "index": 514,
+      "split": "development",
+      "phase_relative_L2": 0.23867160085355174,
+      "expected_objective_midpoint": 0.0020792527538397447,
+      "initial_preconditioned_squared_RMS": 0.0034658655061884157,
+      "positive_preconditioned_squared_RMS": 0.0017325995657525768,
+      "early_preconditioned_squared_RMS": 0.0010618683623880231,
+      "late_preconditioned_squared_RMS": 0.002963497857285704,
+      "positive_raw_squared_RMS": 1.8800751386977201
+    },
+    {
+      "index": 515,
+      "split": "development",
+      "phase_relative_L2": 0.0724911283895882,
+      "expected_objective_midpoint": 0.00032965136112345723,
+      "initial_preconditioned_squared_RMS": 0.0004604381544077063,
+      "positive_preconditioned_squared_RMS": 0.00029695466280239494,
+      "early_preconditioned_squared_RMS": 0.0002711410208510123,
+      "late_preconditioned_squared_RMS": 0.0004552060640131793,
+      "positive_raw_squared_RMS": 1.2765677601137555
+    },
+    {
+      "index": 516,
+      "split": "development",
+      "phase_relative_L2": 0.1428895788165369,
+      "expected_objective_midpoint": 0.0014136488928495506,
+      "initial_preconditioned_squared_RMS": 0.0013294208439716389,
+      "positive_preconditioned_squared_RMS": 0.0014347059050690285,
+      "early_preconditioned_squared_RMS": 0.0008765595707637604,
+      "late_preconditioned_squared_RMS": 0.0022014624244969597,
+      "positive_raw_squared_RMS": 2.002781888895396
+    },
+    {
+      "index": 517,
+      "split": "development",
+      "phase_relative_L2": 0.3614612715961871,
+      "expected_objective_midpoint": 0.0012848700339292132,
+      "initial_preconditioned_squared_RMS": 0.001084408178698771,
+      "positive_preconditioned_squared_RMS": 0.0013349854977368237,
+      "early_preconditioned_squared_RMS": 0.000999064507842959,
+      "late_preconditioned_squared_RMS": 0.0020679777324464636,
+      "positive_raw_squared_RMS": 1.7497258770906226
+    },
+    {
+      "index": 518,
+      "split": "development",
+      "phase_relative_L2": 0.0852385143312671,
+      "expected_objective_midpoint": 0.0004906376100179551,
+      "initial_preconditioned_squared_RMS": 0.0008132529238137413,
+      "positive_preconditioned_squared_RMS": 0.00040998378156900856,
+      "early_preconditioned_squared_RMS": 0.0002627022819175983,
+      "late_preconditioned_squared_RMS": 0.0006820126654541067,
+      "positive_raw_squared_RMS": 0.987479994204285
+    },
+    {
+      "index": 519,
+      "split": "development",
+      "phase_relative_L2": 0.2394607150967119,
+      "expected_objective_midpoint": 0.0017698987939961616,
+      "initial_preconditioned_squared_RMS": 0.002258609861436667,
+      "positive_preconditioned_squared_RMS": 0.001647721027136035,
+      "early_preconditioned_squared_RMS": 0.0011445689984190778,
+      "late_preconditioned_squared_RMS": 0.002653551001828359,
+      "positive_raw_squared_RMS": 1.8903802037786446
+    }
+  ]
+}

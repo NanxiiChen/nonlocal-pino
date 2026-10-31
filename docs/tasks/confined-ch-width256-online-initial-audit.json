@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-10-31T07:28:24.087377+00:00",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train",
+  "initial_optimizer_bytes_equal_independent_CPU_fresh_init": true,
+  "initial_model_and_state_floating_leaves_finite_fp32": true,
+  "parameters": 3579905,
+  "start_step": 0,
+  "checkpoint_import": false,
+  "model_initial_bytes": 14334852,
+  "optimizer_initial_bytes": 84997232
+}

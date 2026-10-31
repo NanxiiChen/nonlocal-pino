@@ -1,0 +1,79 @@
+{
+  "scope": "Unrefined preview using already validated geometry/operator; new trajectories require subsequent independent refinement checks",
+  "config": "examples/confined_ch2d/configs/train_operator_multiscale.py",
+  "records": [
+    {
+      "index": 16,
+      "old_terminal": {
+        "pure_area_fraction": 0.0,
+        "mixed_area_fraction": 0.646745002966638,
+        "minimum": -0.6939575644010354,
+        "maximum": 0.7497842581728741
+      },
+      "new_terminal": {
+        "pure_area_fraction": 0.04013680490497302,
+        "mixed_area_fraction": 0.2823982911568143,
+        "minimum": -0.8847558938563336,
+        "maximum": 0.8281517864124912
+      },
+      "initial": {
+        "pure_area_fraction": 0.0,
+        "mixed_area_fraction": 0.9608173425650373,
+        "minimum": -0.3460786463717968,
+        "maximum": 0.38510354230702504
+      },
+      "seconds": 15.412434980273247,
+      "nodes": 1179
+    },
+    {
+      "index": 20,
+      "old_terminal": {
+        "pure_area_fraction": 0.0,
+        "mixed_area_fraction": 0.5599804297788497,
+        "minimum": -0.720743970295006,
+        "maximum": 0.7219840711471965
+      },
+      "new_terminal": {
+        "pure_area_fraction": 0.06971499443209836,
+        "mixed_area_fraction": 0.29653545760448774,
+        "minimum": -0.8805887498063684,
+        "maximum": 0.8557143639961012
+      },
+      "initial": {
+        "pure_area_fraction": 0.0,
+        "mixed_area_fraction": 0.9444851223377123,
+        "minimum": -0.34562796903994597,
+        "maximum": 0.38916009087171305
+      },
+      "seconds": 14.45352772064507,
+      "nodes": 1152
+    },
+    {
+      "index": 23,
+      "old_terminal": {
+        "pure_area_fraction": 0.0,
+        "mixed_area_fraction": 0.6110231882313966,
+        "minimum": -0.6094777087286273,
+        "maximum": 0.679800608819087
+      },
+      "new_terminal": {
+        "pure_area_fraction": 0.07981051989789117,
+        "mixed_area_fraction": 0.28553360601295336,
+        "minimum": -0.9041092737686848,
+        "maximum": 0.8482565942972582
+      },
+      "initial": {
+        "pure_area_fraction": 0.0,
+        "mixed_area_fraction": 0.9570633296365125,
+        "minimum": -0.34562796903994597,
+        "maximum": 0.3921127337420039
+      },
+      "seconds": 16.73441593721509,
+      "nodes": 1180
+    }
+  ],
+  "seconds": 49.40661388076842,
+  "output": "/root/autodl-tmp/data/confined_ch2d/operator_multiscale_preview_v1",
+  "saved_config": "/root/autodl-tmp/data/confined_ch2d/operator_multiscale_preview_v1/config.json",
+  "config_scope": "Historical20-mode/T2candidate; saved config is authoritative, current named module now holds selected24/T3"
+}

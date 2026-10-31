@@ -1,0 +1,77 @@
+{
+  "scope": "Unrefined preview using already validated geometry/operator; new trajectories require subsequent independent refinement checks",
+  "config": "examples/confined_ch2d/configs/train_operator_multiscale.py",
+  "records": [
+    {
+      "index": 16,
+      "old_terminal": {
+        "pure_area_fraction": 0.0,
+        "mixed_area_fraction": 0.646745002966638,
+        "minimum": -0.6939575644010354,
+        "maximum": 0.7497842581728741
+      },
+      "new_terminal": {
+        "pure_area_fraction": 0.10938063961901881,
+        "mixed_area_fraction": 0.25969315883681504,
+        "minimum": -0.9331887975081263,
+        "maximum": 0.8852115958367647
+      },
+      "initial": {
+        "pure_area_fraction": 0.0,
+        "mixed_area_fraction": 0.9910510553209475,
+        "minimum": -0.31680057627282904,
+        "maximum": 0.3187286174790074
+      },
+      "seconds": 24.4720919765532,
+      "nodes": 1179
+    },
+    {
+      "index": 20,
+      "old_terminal": {
+        "pure_area_fraction": 0.0,
+        "mixed_area_fraction": 0.5599804297788497,
+        "minimum": -0.720743970295006,
+        "maximum": 0.7219840711471965
+      },
+      "new_terminal": {
+        "pure_area_fraction": 0.13113068272776637,
+        "mixed_area_fraction": 0.22702056710988944,
+        "minimum": -0.9354980349846971,
+        "maximum": 0.8824941293718388
+      },
+      "initial": {
+        "pure_area_fraction": 0.0,
+        "mixed_area_fraction": 0.9914440968435385,
+        "minimum": -0.31704691185856987,
+        "maximum": 0.31865996270049446
+      },
+      "seconds": 22.101376049220562,
+      "nodes": 1152
+    },
+    {
+      "index": 23,
+      "old_terminal": {
+        "pure_area_fraction": 0.0,
+        "mixed_area_fraction": 0.6110231882313966,
+        "minimum": -0.6094777087286273,
+        "maximum": 0.679800608819087
+      },
+      "new_terminal": {
+        "pure_area_fraction": 0.13225281445269765,
+        "mixed_area_fraction": 0.22387284700061824,
+        "minimum": -0.9676571493216096,
+        "maximum": 0.8761250956974885
+      },
+      "initial": {
+        "pure_area_fraction": 0.0,
+        "mixed_area_fraction": 0.9906083418704202,
+        "minimum": -0.32298165112543753,
+        "maximum": 0.31908114608065175
+      },
+      "seconds": 25.683046903461218,
+      "nodes": 1180
+    }
+  ],
+  "seconds": 75.05831532739103,
+  "output": "/root/autodl-tmp/data/confined_ch2d/operator_multiscale_preview_v2"
+}

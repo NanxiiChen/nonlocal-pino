@@ -1,0 +1,28 @@
+{
+  "selected": "/root/autodl-tmp/tf-logs/confined_ch2d/20261029-confined-geometry-operator-direct-01",
+  "default_exact_saved_strategy": true,
+  "replay_maximum_phi_mu_difference": 0.0,
+  "reference_operator_assembly_parity": "all24 geometries, three independent probe fields",
+  "matched_condition_draws": 20000,
+  "all_train_geometries_visited": true,
+  "no_heldout_draws": true,
+  "independent_metrics_match": true,
+  "geometry_swap_mean_error": 0.03425405558778609,
+  "geometry_swap_worse_cases": 7,
+  "heldout_scope": "Eight training-unseen development geometries reused for encoder comparison; not a fresh final generalization test",
+  "native_test": {
+    "phi_pooled": 0.028554090510711908,
+    "phi_terminal": 0.037093808685823355,
+    "mu_pooled": 0.075990558918419,
+    "mu_terminal": 0.09343229808133037,
+    "frozen_phi_pooled": 0.1241562946181837,
+    "worst_phi_pooled": 0.03275414435387863,
+    "mass_max_drift": 2.7755575615628914e-17,
+    "energy_max_increase": 0.0
+  },
+  "local_FEM": {
+    "local_phi_pooled": 0.04526264410726252,
+    "local_phi_terminal": 0.05732988379831806,
+    "local_positive_mu_pooled": 0.11733263887764714
+  }
+}

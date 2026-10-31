@@ -23,7 +23,7 @@ def write_json(path,data):
     path.write_text(json.dumps(data,indent=2,allow_nan=False)+'\n')
 
 
-def build_pool(c):
+def build_graph(c):
     n=c.sample.Nx
     axis=np.linspace(0,1,n,dtype=np.float32)
     points=np.stack(np.meshgrid(axis,axis,axis,indexing='xy'),-1).reshape(-1,3)
@@ -36,11 +36,17 @@ def build_pool(c):
     weight=coefficients(c)[3]
     if not np.allclose(op._vals_np,-weight,rtol=2e-6,atol=0):
         raise ValueError('Actual cubic weights disagree with independent six-neighbor formula')
-    pool=[(x[ids],sub,mask) for ids,sub,mask,_ in op.build_subgraph_pool(c.sample.K_core,c.sample.K_pool)]
     info=dict(grid_nodes=len(x),directed_edges=len(op._vals),degree_max=op._k_max,
         independent_weight=weight,actual_weight_min=float(-op._vals_np.max()),
-        actual_weight_max=float(-op._vals_np.min()),padded_queries=len(pool[0][0]),
-        padded_edges=len(pool[0][1][0]),core_points=c.sample.K_core,pool_entries=len(pool))
+        actual_weight_max=float(-op._vals_np.min()))
+    return op,x,info
+
+
+def build_pool(c):
+    op,x,info=build_graph(c)
+    pool=[(x[ids],sub,mask) for ids,sub,mask,_ in op.build_subgraph_pool(c.sample.K_core,c.sample.K_pool)]
+    info.update(padded_queries=len(pool[0][0]),padded_edges=len(pool[0][1][0]),
+        core_points=c.sample.K_core,pool_entries=len(pool))
     return pool,info
 
 
@@ -103,6 +109,9 @@ def field_metrics(predicted,target):
 
 def train_operator(c):
     validate_config(c)
+    if 'spatial' in c.sample:
+        from examples.icemelting3d.spatial_training import train_spatial
+        return train_spatial(c)
     configure_gpu_policy(c.train.gpu_policy)
     jax.config.update('jax_default_matmul_precision',c.train.matmul_precision)
     if c.operator.action=='prepare':
