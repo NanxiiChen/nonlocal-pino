@@ -1,0 +1,31 @@
+{
+  "status": "read_only_assessment",
+  "checked_utc": "2026-10-31T08:16:05.558798+00:00",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train",
+  "trainer_pid": 9835,
+  "device": "NVIDIA RTX 6000D",
+  "GPU_total_GiB": 83.6435546875,
+  "GPU_used_GiB": 63.6806640625,
+  "GPU_free_GiB": 19.369140625,
+  "GPU_utilization_percent": 97,
+  "saved_JAX_peak_active_GiB": 20.43369174003601,
+  "saved_JAX_current_active_GiB": 12.193791389465332,
+  "JAX_allocator_pool_GiB": 62.286712646484375,
+  "JAX_allocator_limit_GiB": 62.286712646484375,
+  "peak_scope": "Internal stats saved atstep25, not a live all-training high-water reading; final summary will record lifetime peak. Current nvidia-smi occupancy includes the preallocated pool/context; unused pool bytes are held by this process.",
+  "cgroup_host_memory_current_GiB": 47.099464416503906,
+  "cgroup_host_memory_limit_GiB": 92.0,
+  "cgroup_host_memory_headroom_GiB": 44.900535583496094,
+  "cgroup_CPU_quota": "2500000 100000",
+  "trainer_host_VmRSS": "30279304 kB",
+  "trainer_host_VmHWM": "73617752 kB",
+  "disk_free_GiB": 9.881629943847656,
+  "existing_training_allocator_environment": "No explicit allocator/preallocation/fraction override; existing process unchanged",
+  "proposed_new_JAX_environment": {
+    "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+    "XLA_CLIENT_MEM_FRACTION": "0.15"
+  },
+  "proposed_new_pool_budget_GiB": 12.546533203125,
+  "option_validation": "Installedjaxlib.generate_pjrt_gpu_plugin_options parsespreallocateFalse/fraction0.15; CPU-only options query, no GPU initialized or experiment launched",
+  "parallel_scope": "CPU analysis/plots and small GPU pilots within available budget; contention changes timing, so not an exclusive-device performance comparison. Avoid a second large training/geometry-bank load. FEniCS MPI concurrent with JAX GPU is prohibited by AGENTS.md. Current job remains detached, same configuration, no restart or pool resizing."
+}

@@ -1,0 +1,51 @@
+{
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-fourier-unit-output-soap-01",
+  "step": 20000,
+  "backend": "gpu",
+  "conditions": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "time_sets": 8,
+  "initial_pde_weight": 0.2,
+  "diagnostics": [
+    {
+      "positive_times": 4,
+      "geometry_single_variance": 0.0004976140708212386,
+      "shared_time_variance": 8.02075283199053e-05,
+      "mean_gradient_norm": 0.0255152358952275,
+      "mean_loss": 0.0005463157026942519,
+      "estimated_batch4_shared_variance": 0.00020461104602521494,
+      "estimated_batch16_shared_variance": 0.0001113084077462327,
+      "estimated_batch4_independent_variance": 0.00014445539978528597
+    },
+    {
+      "positive_times": 32,
+      "geometry_single_variance": 0.0003465904002075857,
+      "shared_time_variance": 3.1867619083765866e-07,
+      "mean_gradient_norm": 0.02312850514305332,
+      "mean_loss": 0.0005339082868548378,
+      "estimated_batch4_shared_variance": 8.696627624273408e-05,
+      "estimated_batch16_shared_variance": 2.1980576203811765e-05,
+      "estimated_batch4_independent_variance": 8.672726909960584e-05
+    }
+  ],
+  "wall_seconds": 101.06221696548164,
+  "optimizer_updates": 0,
+  "future_fields_used": false,
+  "scope": "Only frozen final-layer weight gradients on16traininginputs; finite-cohort variance estimates, not a full-network proof"
+}

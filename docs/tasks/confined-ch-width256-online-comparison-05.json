@@ -1,0 +1,60 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-10-31T08:23:46.875499+00:00",
+  "common_step": 27000,
+  "scores": [
+    {
+      "label": "192 / fixed512",
+      "step": 27000,
+      "train_phi_pooled": 0.04505030652352826,
+      "train_phi_terminal": 0.04849869076362964,
+      "test_phi_pooled": 0.0897591501512786,
+      "test_phi_terminal": 0.0984880693175125
+    },
+    {
+      "label": "256 / fixed512",
+      "step": 27000,
+      "train_phi_pooled": 0.04049049304111625,
+      "train_phi_terminal": 0.04337368549797942,
+      "test_phi_pooled": 0.08978714954093572,
+      "test_phi_terminal": 0.09819438739622113
+    },
+    {
+      "label": "192 / rolling from25k",
+      "step": 27000,
+      "train_phi_pooled": 0.07053905776704758,
+      "train_phi_terminal": 0.0752656958031685,
+      "test_phi_pooled": 0.08563264680931351,
+      "test_phi_terminal": 0.09220760494399649
+    },
+    {
+      "label": "256 / rolling from0 (current)",
+      "step": 27000,
+      "train_phi_pooled": 0.06815367190871077,
+      "train_phi_terminal": 0.0730171643892306,
+      "test_phi_pooled": 0.0676023143776418,
+      "test_phi_terminal": 0.07222970950061086
+    }
+  ],
+  "unavailable": [
+    {
+      "label": "192 / fixed1024",
+      "first_step": 0,
+      "last_step": 26500,
+      "reason": "recorded_run_ended"
+    }
+  ],
+  "matched_png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_05/matched_budget.png",
+  "matched_pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_05/matched_budget.pdf",
+  "recent_png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_05/matched_tail.png",
+  "recent_pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_05/matched_tail.pdf",
+  "history_png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_05/comparison.png",
+  "same8reference_arrays_exact": true,
+  "aggregate_means_all_histories_checked": true,
+  "figures_visually_inspected": [
+    "matched_budget.png",
+    "matched_tail.png"
+  ],
+  "coverage_checks": "Real histories at24k/25k/27k/41k and missinginterior25001PASS; fifthcontinuation/ended26.5kexplicit, no extrapolation",
+  "scope": "Same8reused native development geometries and runtime seed42; not localFEM/fresh test. DifferentGPU/padding/architecture/library/rolling origins. No causal isolated sampler/capacity claim. 192online stage starts25k; its parent is the192fixed1024curve before25k. Last observed endpoints have unequal budgets. No smoothing/extrapolation or new training."
+}

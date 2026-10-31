@@ -1,0 +1,7 @@
+{
+  "status": "passed",
+  "scope": "Independent CPU reconstruction of new architecture initial arrays saved by GPU preflight, before any optimizer movement; not trained accuracy.",
+  "initial_array_leaves": 119,
+  "exactly_matches_fresh_seed": true,
+  "probe": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width192-fp32-01-probe"
+}

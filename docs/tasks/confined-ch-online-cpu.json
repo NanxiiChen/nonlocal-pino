@@ -1,0 +1,49 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-10-31T06:27:26.905747+00:00",
+  "parent": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01",
+  "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_025000.json",
+  "start_step": 25000,
+  "optimizer_integer_counters": [
+    25000
+  ],
+  "exact_model_and_optimizer_bytes": true,
+  "producer_inputs": 64,
+  "workers": 6,
+  "producer_wall_seconds": 11.306247698143125,
+  "producer_inputs_per_second": 5.660587111541083,
+  "mean_stage_seconds": {
+    "mesh": 0.2492740724410396,
+    "assembly": 0.07938988695968874,
+    "metric": 0.5030433069914579,
+    "padding": 0.01255920366384089
+  },
+  "max_nodes": 1360,
+  "max_degree": 93,
+  "constant_mode_error_max": 3.2862601528904634e-14,
+  "mesh_comparison": [
+    {
+      "draw": 0,
+      "nodes": 1245,
+      "point_max_gap": 2.979166457972582e-08,
+      "volume_max_gap": 2.897761913235597e-11,
+      "topology_and_order": "same triangle-centroid order"
+    },
+    {
+      "draw": 1,
+      "nodes": 1181,
+      "point_max_gap": 2.973722412757951e-08,
+      "volume_max_gap": 2.8996173951495452e-11,
+      "topology_and_order": "same triangle-centroid order"
+    }
+  ],
+  "repeated_draw0_all_eight_arrays_exact": true,
+  "future_labels_in_payload": false,
+  "pde_solves": 0,
+  "fem_solves": 0,
+  "padding": {
+    "points": 1536,
+    "neighbors": 128
+  },
+  "scope": "Production CPU producer incl spawn/Gmsh/graph/stable metric/padding/IPC; three payloads retained for checks, no GPU transfer/refresh or trainer measured. Same continuous valid geometry prior; no evolved labels."
+}

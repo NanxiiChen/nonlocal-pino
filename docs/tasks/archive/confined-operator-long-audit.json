@@ -1,0 +1,52 @@
+{
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261029-confined-geometry-richer512-long-01",
+  "short_run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261029-confined-geometry-richer512-01",
+  "config_only_budget_and_run_name_differ": true,
+  "initial_parameter_difference": {
+    "maximum_absolute": 0.0,
+    "relative_l2": 0.0
+  },
+  "prefix5000_parameter_difference": {
+    "maximum_absolute": 4.3728909382423353e-14,
+    "relative_l2": 7.283621909367666e-15
+  },
+  "actual_condition_prefix5000_identical": true,
+  "actual_draws": 80000,
+  "distinct_training_inputs": 512,
+  "visits_min": 123,
+  "visits_max": 201,
+  "no_validation_overlap": true,
+  "optimizer_payload_has_no_future_fields": true,
+  "cpu_gpu_maximum_phi_mu_difference": 1.4432899320127035e-15,
+  "evaluation_reference": "Unchanged native targets; same refined local FEM on2domains",
+  "native_test": {
+    "phi_pooled": 0.024626939186027704,
+    "phi_terminal": 0.028370293518300956,
+    "mu_pooled": 0.06971053826672483,
+    "mu_terminal": 0.09209354971568182,
+    "frozen_phi_pooled": 0.3587461981808219,
+    "worst_phi_pooled": 0.03874046196532446,
+    "mass_max_drift": 3.8163916471489756e-17,
+    "energy_max_increase": 0.0
+  },
+  "local_FEM": {
+    "local_phi_pooled": 0.08110971928513208,
+    "local_phi_terminal": 0.09473310006852333,
+    "local_positive_mu_pooled": 0.13938639137531178
+  },
+  "wall_seconds": 1401.5394972786307,
+  "warm_update_seconds": 0.041888787171723854,
+  "memory": {
+    "num_allocs": 9506059,
+    "bytes_in_use": 8870940672,
+    "peak_bytes_in_use": 16300441344,
+    "largest_alloc_size": 7592836352,
+    "bytes_limit": 38183976960,
+    "bytes_reserved": 0,
+    "peak_bytes_reserved": 0,
+    "largest_free_block_bytes": 0,
+    "pool_bytes": 38183976960,
+    "peak_pool_bytes": 38183976960
+  },
+  "scope": "Same8development geometries and one cold seed; fixed20000step final, no validation-based checkpoint selection"
+}

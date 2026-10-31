@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "backend": "cpu",
+  "conditions": 520,
+  "setup_seconds": 127.64465956389904,
+  "wall_seconds": 155.37333007529378,
+  "metric": "linear_stable_resolvent",
+  "workers": 6,
+  "minimum_spectral_weight": 0.002039818291870091,
+  "maximum_constant_mode_error": 6.750155989720952e-14,
+  "input_payload_keys": [
+    "coefficients",
+    "condition",
+    "condition_weights",
+    "initial",
+    "metric",
+    "neighbors",
+    "points",
+    "volumes"
+  ],
+  "loss": 0.012460060327139236,
+  "finite_pde_gradients": true,
+  "encoder_gradients_nonzero": true,
+  "exact_initial_max_difference": 0.0,
+  "physical_mass_max_difference": 4.119968255444917e-18,
+  "optimizer_updates": 0,
+  "future_fields_in_loss": false
+}

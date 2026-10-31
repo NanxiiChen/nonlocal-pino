@@ -1,0 +1,255 @@
+{
+  "status": "GPU_validated_with_recorded_query_chunk_issue",
+  "controls": [
+    {
+      "mode": "fixed_pool",
+      "run": "/root/autodl-tmp/tf-logs/icemelting3d/20261031-melting-spatial-01-fixed_pool",
+      "errors": {
+        "pooled_phi": 0.0016306047459680015,
+        "terminal_phi": 0.002218417775506157,
+        "pooled_solid": 0.004634452028177582,
+        "terminal_solid": 0.099928082065094
+      },
+      "per_input": [
+        {
+          "index": 2,
+          "pooled_phi": 0.0014862324787709622,
+          "terminal_phi": 0.0019466821880096798,
+          "pooled_solid": 0.004719429846662327,
+          "terminal_solid": 0.11457490948504558
+        },
+        {
+          "index": 3,
+          "pooled_phi": 0.0017201046274963295,
+          "terminal_phi": 0.0023827022662282534,
+          "pooled_solid": 0.005027431953350698,
+          "terminal_solid": 0.10974198844803908
+        },
+        {
+          "index": 4,
+          "pooled_phi": 0.0017937396307330306,
+          "terminal_phi": 0.002520556514200212,
+          "pooled_solid": 0.004879040818843101,
+          "terminal_solid": 0.1303360307013913
+        },
+        {
+          "index": 5,
+          "pooled_phi": 0.001682475467989433,
+          "terminal_phi": 0.0023805084591174757,
+          "pooled_solid": 0.004514379356175961,
+          "terminal_solid": 0.05353357205064993
+        },
+        {
+          "index": 6,
+          "pooled_phi": 0.0014350487610396733,
+          "terminal_phi": 0.0019959360174176387,
+          "pooled_solid": 0.004580824505455799,
+          "terminal_solid": 0.10694734970067553
+        },
+        {
+          "index": 7,
+          "pooled_phi": 0.0019319450676757565,
+          "terminal_phi": 0.0026180757396579804,
+          "pooled_solid": 0.004446571102816577,
+          "terminal_solid": 0.03199427946237397
+        },
+        {
+          "index": 8,
+          "pooled_phi": 0.0011241336658214095,
+          "terminal_phi": 0.0011617317725289094,
+          "pooled_solid": 0.004265427058973061,
+          "terminal_solid": 0.20468462507155782
+        },
+        {
+          "index": 9,
+          "pooled_phi": 0.001871158268217416,
+          "terminal_phi": 0.002741149246889106,
+          "pooled_solid": 0.0046425115831431295,
+          "terminal_solid": 0.0476119016010188
+        }
+      ],
+      "process_wall_seconds": 190.0552350450307,
+      "setup_seconds": 7.671201730147004,
+      "trainer_seconds": 156.44153586681932,
+      "first_GPU_update_seconds": 78.93587375618517,
+      "warm_GPU_ms": 11.355093754447845,
+      "warm_condition_ms": 1.329811282874066,
+      "warm_spatial_ms": 0.052372150275172016,
+      "warm_effective_ms": 12.737277187597082,
+      "peak_active_GiB": 1.4952068328857422,
+      "spatial": {
+        "mode": "fixed_pool",
+        "chunks_per_update": 1,
+        "entries_used": 32,
+        "unique_cores": 8174,
+        "grid_nodes": 2097152,
+        "coverage": 0.0038976669311523438,
+        "padded_nodes": 1792,
+        "padded_edges": 1536,
+        "initial_build_seconds": 0.020662900060415268,
+        "initial_transfer_seconds": 0.013441720046103,
+        "producer_wait_seconds": 0.0,
+        "replacement_transfer_seconds": 0.0,
+        "core_rng": "NumPy Generator(draw_id).choice(N,K,replace=False); independent of IC/time keys"
+      }
+    },
+    {
+      "mode": "rolling_pool",
+      "run": "/root/autodl-tmp/tf-logs/icemelting3d/20261031-melting-spatial-01-rolling_pool",
+      "errors": {
+        "pooled_phi": 0.004217140055495306,
+        "terminal_phi": 0.0025136611738139705,
+        "pooled_solid": 0.011898760338004192,
+        "terminal_solid": 0.08117966891777245
+      },
+      "per_input": [
+        {
+          "index": 2,
+          "pooled_phi": 0.003599769706262493,
+          "terminal_phi": 0.0015036438700212077,
+          "pooled_solid": 0.011430823128623188,
+          "terminal_solid": 0.08849922260888682
+        },
+        {
+          "index": 3,
+          "pooled_phi": 0.003945519871340457,
+          "terminal_phi": 0.0019217834041225412,
+          "pooled_solid": 0.011531759380607487,
+          "terminal_solid": 0.08851308664288052
+        },
+        {
+          "index": 4,
+          "pooled_phi": 0.0045097764502638115,
+          "terminal_phi": 0.0020770977349157216,
+          "pooled_solid": 0.012266765481288145,
+          "terminal_solid": 0.10740511971169475
+        },
+        {
+          "index": 5,
+          "pooled_phi": 0.004600763630992738,
+          "terminal_phi": 0.0033636252961340746,
+          "pooled_solid": 0.012344662821870767,
+          "terminal_solid": 0.07564219167225235
+        },
+        {
+          "index": 6,
+          "pooled_phi": 0.0036531829862322795,
+          "terminal_phi": 0.0016794012562369887,
+          "pooled_solid": 0.011661339043366746,
+          "terminal_solid": 0.08998660872451661
+        },
+        {
+          "index": 7,
+          "pooled_phi": 0.00553207476183037,
+          "terminal_phi": 0.004958703464219575,
+          "pooled_solid": 0.012732641412092315,
+          "terminal_solid": 0.060597996460564095
+        },
+        {
+          "index": 8,
+          "pooled_phi": 0.0027649900171981827,
+          "terminal_phi": 0.00037027351031890726,
+          "pooled_solid": 0.010491513238801268,
+          "terminal_solid": 0.06523820422727497
+        },
+        {
+          "index": 9,
+          "pooled_phi": 0.005131043019842114,
+          "terminal_phi": 0.004234760854542749,
+          "pooled_solid": 0.012730578197383614,
+          "terminal_solid": 0.07355492129410947
+        }
+      ],
+      "process_wall_seconds": 190.64985509682447,
+      "setup_seconds": 7.565069414675236,
+      "trainer_seconds": 157.22895286791027,
+      "first_GPU_update_seconds": 77.74544352199882,
+      "warm_GPU_ms": 11.254083946233198,
+      "warm_condition_ms": 1.2822557942067483,
+      "warm_spatial_ms": 0.7108486306910613,
+      "warm_effective_ms": 13.247188371131006,
+      "peak_active_GiB": 1.4954614639282227,
+      "spatial": {
+        "mode": "rolling_pool",
+        "chunks_per_update": 1,
+        "entries_used": 5000,
+        "unique_cores": 958123,
+        "grid_nodes": 2097152,
+        "coverage": 0.45686864852905273,
+        "padded_nodes": 1792,
+        "padded_edges": 1536,
+        "initial_build_seconds": 0.023288734257221222,
+        "initial_transfer_seconds": 0.013342943973839283,
+        "producer_wait_seconds": 0.023583021946251392,
+        "replacement_transfer_seconds": 2.0603865534067154,
+        "core_rng": "NumPy Generator(draw_id).choice(N,K,replace=False); independent of IC/time keys"
+      }
+    }
+  ],
+  "equality_checks": [
+    "initial model bytes",
+    "initial Adam bytes",
+    "80000actual ICs",
+    "40000time draws",
+    "first32complete core sets",
+    "allactual draw IDs"
+  ],
+  "reference": "Original8held-out native128^3solutions; L2on24^3diagnostic nodes at5times",
+  "scope": "One common initialization, reused development inputs; no stable superiority or continuum claim",
+  "full_training": "Canceled by user after3update performance-only probe",
+  "defaults_promoted": false,
+  "standard_GPU_checkpoint_replay": {
+    "status": "passed",
+    "backend": "gpu",
+    "threshold": 2e-05,
+    "records": [
+      {
+        "mode": "fixed_pool",
+        "index": 2,
+        "max_absolute_phi_gap": 1.3113021850585938e-06
+      },
+      {
+        "mode": "fixed_pool",
+        "index": 5,
+        "max_absolute_phi_gap": 9.5367431640625e-07
+      },
+      {
+        "mode": "rolling_pool",
+        "index": 2,
+        "max_absolute_phi_gap": 9.611248970031738e-07
+      },
+      {
+        "mode": "rolling_pool",
+        "index": 5,
+        "max_absolute_phi_gap": 9.539071470499039e-07
+      }
+    ],
+    "scope": "Fresh same-GPU replay; independent CPU portability not evaluated"
+  },
+  "supplemental_full_spatial_PDE_gate": {
+    "status": "failed",
+    "stage": "supplemental full-grid PDE evaluation field-invariance check",
+    "script": "docs/tasks/melting_spatial_full_residual.py",
+    "mode": "fixed_pool",
+    "input_index": 2,
+    "large_query_count": 65536,
+    "standard_query_count": 1024,
+    "compared_points": 512,
+    "positive_times": [
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "max_absolute_phi_gap": 0.0057708583772182465,
+    "threshold": 2e-05,
+    "scalar_residual_ranking_used": false,
+    "threshold_relaxed": false,
+    "training_or_checkpoints_changed": false,
+    "followup": "docs/issues/melting-query-chunk-consistency.md"
+  },
+  "limitation": "Same GPU/1024query evaluation only; query-partition and CPU portability not established",
+  "open_issue": "docs/issues/melting-query-chunk-consistency.md",
+  "convergence": "/root/autodl-tmp/tf-logs/icemelting3d/20261031-melting-spatial-01-comparison/convergence.png",
+  "final_error_figure": "/root/autodl-tmp/tf-logs/icemelting3d/20261031-melting-spatial-01-comparison/final_errors.png"
+}

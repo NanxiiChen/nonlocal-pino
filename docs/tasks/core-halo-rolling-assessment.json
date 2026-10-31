@@ -1,0 +1,56 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-10-31T09:34:07.318322+00:00",
+  "source": "SparseD.sub_sample RandomState(seed).choice(N,K,replace=False), seed0..K_pool-1",
+  "results": [
+    {
+      "case": "electropolish2d",
+      "grid_nodes": 5151,
+      "core_per_entry": 256,
+      "pool_entries": 32,
+      "unique_core_nodes": 4112,
+      "core_coverage": 0.7982915938652689,
+      "expected_fixed_coverage": 0.8043153858479697,
+      "core_draw_only_total_seconds": 0.013335440307855606,
+      "core_draw_only_mean_ms": 0.4167325096204877,
+      "coverage_kind": "Exact static SparseD core selection, not halo or network influence",
+      "free_nodes": 4949,
+      "unique_free_core_nodes": 3938,
+      "free_core_coverage": 0.79571630632451,
+      "illustrative_fresh_core_simulation": {
+        "draws": 5000,
+        "unique_core_nodes": 5151,
+        "coverage": 1.0,
+        "expected": 1.0,
+        "seconds": 0.05103685148060322,
+        "scope": "CPU-only point-selection illustration; no halo build/GPU transfer or trained error"
+      }
+    },
+    {
+      "case": "icemelting3d",
+      "grid_nodes": 2097152,
+      "core_per_entry": 256,
+      "pool_entries": 32,
+      "unique_core_nodes": 8172,
+      "core_coverage": 0.0038967132568359375,
+      "expected_fixed_coverage": 0.003898868038256025,
+      "core_draw_only_total_seconds": 1.3155375365167856,
+      "core_draw_only_mean_ms": 41.11054801614955,
+      "coverage_kind": "Exact static SparseD core selection, not halo or network influence",
+      "safe_six_neighbor_entry_bounds": {
+        "nodes": 1792,
+        "edges": 1536
+      },
+      "illustrative_fresh_core_simulation": {
+        "draws": 5000,
+        "unique_core_nodes": 958107,
+        "coverage": 0.4568610191345215,
+        "expected": 0.4568603546935129,
+        "seconds": 0.05720067210495472,
+        "scope": "CPU-only point-selection illustration; no halo build/GPU transfer or trained error"
+      }
+    }
+  ],
+  "training_or_reference_solve": false,
+  "production_or_defaults_changed": false
+}

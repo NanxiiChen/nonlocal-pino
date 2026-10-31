@@ -1,0 +1,124 @@
+{
+  "baseline": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-smallscale10-01",
+  "candidate": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-smallscale10-soap-01",
+  "optimizers": [
+    "ADAM",
+    "SOAP"
+  ],
+  "only_optimizer_changed": true,
+  "numerical_training_sources_identical": true,
+  "initial_parameters_identical": true,
+  "actual_condition_draws_identical": true,
+  "optimizer_calls": 20000,
+  "native_validation": [
+    {
+      "phi_pooled": 0.5125985678080847,
+      "phi_terminal": 0.5078352629119574,
+      "mu_pooled": 0.4752804444575227,
+      "mu_terminal": 0.5929494106181689,
+      "frozen_phi_pooled": 0.9425240052540753,
+      "worst_phi_pooled": 0.6150026708411565,
+      "mass_max_drift": 1.030534164947472e-16,
+      "energy_max_increase": 0.0
+    },
+    {
+      "phi_pooled": 0.39561364746759664,
+      "phi_terminal": 0.39169509400373814,
+      "mu_pooled": 0.3770763367422411,
+      "mu_terminal": 0.47879063255971255,
+      "frozen_phi_pooled": 0.9425240052540753,
+      "worst_phi_pooled": 0.5071807110309029,
+      "mass_max_drift": 2.47198095326695e-17,
+      "energy_max_increase": 0.0
+    }
+  ],
+  "candidate_relative_phase_error_reduction": 0.2282193663566513,
+  "first_candidate_matching_both_baseline_final_phase_metrics": {
+    "step": 8500,
+    "elapsed_seconds": 1045.747403807938,
+    "test_phi_pooled": 0.5093551733664787,
+    "test_phi_terminal": 0.5067550586364692
+  },
+  "geometry_response_relative_error": [
+    0.9171121183729166,
+    0.8007063352706516
+  ],
+  "geometry_response_amplitude_ratio": [
+    0.28423099404160057,
+    0.4195275893276226
+  ],
+  "geometry_response_correlation": [
+    0.4216510959961237,
+    0.637470307640232
+  ],
+  "cold_seconds": [
+    1435.61402425915,
+    2030.368735762313
+  ],
+  "warm_update_seconds": [
+    0.042785464881652566,
+    0.06981727868365357
+  ],
+  "milestones": [
+    {
+      "optimizer": "ADAM",
+      "values": [
+        {
+          "step": 5000,
+          "test_phi_pooled": 0.6478096259603804,
+          "test_phi_terminal": 0.636812836104789,
+          "test_mu_pooled": 0.5878584977267935
+        },
+        {
+          "step": 10000,
+          "test_phi_pooled": 0.6151757719750687,
+          "test_phi_terminal": 0.6026463137150615,
+          "test_mu_pooled": 0.5449924269186257
+        },
+        {
+          "step": 15000,
+          "test_phi_pooled": 0.5507229528631488,
+          "test_phi_terminal": 0.5451457058086189,
+          "test_mu_pooled": 0.511569142408507
+        },
+        {
+          "step": 20000,
+          "test_phi_pooled": 0.5125985678080847,
+          "test_phi_terminal": 0.5078352629119575,
+          "test_mu_pooled": 0.4752804444575227
+        }
+      ]
+    },
+    {
+      "optimizer": "SOAP",
+      "values": [
+        {
+          "step": 5000,
+          "test_phi_pooled": 0.5639366460731112,
+          "test_phi_terminal": 0.5586747756803159,
+          "test_mu_pooled": 0.5222356882062861
+        },
+        {
+          "step": 10000,
+          "test_phi_pooled": 0.49207855008814216,
+          "test_phi_terminal": 0.48292964588372844,
+          "test_mu_pooled": 0.44766483042895544
+        },
+        {
+          "step": 15000,
+          "test_phi_pooled": 0.43999478243005213,
+          "test_phi_terminal": 0.435255414541888,
+          "test_mu_pooled": 0.4119464222196444
+        },
+        {
+          "step": 20000,
+          "test_phi_pooled": 0.3956136474675967,
+          "test_phi_terminal": 0.39169509400373814,
+          "test_mu_pooled": 0.3770763367422411
+        }
+      ]
+    }
+  ],
+  "selection": "Fixed 20000-call final in both runs; no held-out checkpoint selection",
+  "scope": "One cold run per optimizer on eight reused development geometries; no stable optimizer ordering or local-PDE claim"
+}

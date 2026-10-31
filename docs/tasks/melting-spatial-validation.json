@@ -1,0 +1,110 @@
+{
+  "status": "complete_GPU_path_validated_query_consistency_issue_recorded",
+  "task": "melting-spatial-pool-comparison",
+  "focused_tests": {
+    "command": "env JAX_PLATFORMS=cpu OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 .venv/bin/python -m unittest discover -s tests -p test_melting_spatial_sampling.py -v",
+    "result": "PASS",
+    "tests": 2,
+    "seconds": 49.084,
+    "coverage": [
+      "complete core graph rows",
+      "strict overflow",
+      "worker-independent FIFO",
+      "fixed/rolling initial pool identity",
+      "full-grid unique chunk coverage",
+      "FP64 full loss/gradient/one-Adam-update equivalence"
+    ]
+  },
+  "initial_failed_probe_retained": {
+    "precision": "float32",
+    "result": "loss and gradient checks passed; strict Adam parameter check failed",
+    "absolute_parameter_gap": 1.8402934e-05,
+    "original_atol": 3e-06,
+    "interpretation": "Summation cancellation in near-zero gradients can be amplified by Adam. No production precision change or relaxed FP32 passing claim. Independent FP64 algebraic test passes."
+  },
+  "static_checks": {
+    "python_AST": "PASS",
+    "canonical_base_and_operator_defaults_bytes_unchanged": true,
+    "physical_loss_and_shared_network_bytes_unchanged": true,
+    "original_step_predictor_metric_AST_unchanged": true,
+    "git_diff_check": "PASS"
+  },
+  "full_performance_only_probe": {
+    "run": "/root/autodl-tmp/tf-logs/icemelting3d/20261031-melting-spatial-full-probe-01",
+    "updates": 3,
+    "chunks_per_update": 64,
+    "core_nodes_per_chunk": 32768,
+    "peak_active_GiB": 38.31383228302002,
+    "warm_effective_seconds_per_update_approximate": 15.44,
+    "estimated_5000_hours": 21.4,
+    "accuracy_comparison": false,
+    "full_5000_status": "canceled_by_user"
+  },
+  "GPU_checkpoint_replay": {
+    "status": "passed",
+    "backend": "gpu",
+    "threshold": 2e-05,
+    "records": [
+      {
+        "mode": "fixed_pool",
+        "index": 2,
+        "max_absolute_phi_gap": 1.3113021850585938e-06
+      },
+      {
+        "mode": "fixed_pool",
+        "index": 5,
+        "max_absolute_phi_gap": 9.5367431640625e-07
+      },
+      {
+        "mode": "rolling_pool",
+        "index": 2,
+        "max_absolute_phi_gap": 9.611248970031738e-07
+      },
+      {
+        "mode": "rolling_pool",
+        "index": 5,
+        "max_absolute_phi_gap": 9.539071470499039e-07
+      }
+    ],
+    "scope": "Fresh same-GPU replay; independent CPU portability not evaluated"
+  },
+  "saved_field_metrics_and_actual_input_audit": "PASS; identical initial model/Adam,80000ICs/40000times/first32cores, allactualcores and8rawfield metrics",
+  "default_promotion": false,
+  "reference_solves": 0,
+  "deletions": 0,
+  "git_history_operations": 0,
+  "supplemental_full_spatial_PDE_gate": {
+    "status": "failed",
+    "stage": "supplemental full-grid PDE evaluation field-invariance check",
+    "script": "docs/tasks/melting_spatial_full_residual.py",
+    "mode": "fixed_pool",
+    "input_index": 2,
+    "large_query_count": 65536,
+    "standard_query_count": 1024,
+    "compared_points": 512,
+    "positive_times": [
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "max_absolute_phi_gap": 0.0057708583772182465,
+    "threshold": 2e-05,
+    "scalar_residual_ranking_used": false,
+    "threshold_relaxed": false,
+    "training_or_checkpoints_changed": false,
+    "followup": "docs/issues/melting-query-chunk-consistency.md"
+  },
+  "query_chunk_probe": {
+    "image_gap": 0.0,
+    "initial_latent_gap": 0.0,
+    "explicit_gap": 0.005769908428192139,
+    "explicit_jvp_gap": 0.005769908428192139,
+    "dynamic_gap": 0.0057694315910339355,
+    "captured_gap": 0.0057694315910339355
+  },
+  "open_issue": "docs/issues/melting-query-chunk-consistency.md",
+  "figures": "Both PNG/PDF inspected; legend/title corrected",
+  "remaining_work": "None for requested empirical comparison; query consistency is a separately recorded issue",
+  "GPU_jobs_queued": false
+}

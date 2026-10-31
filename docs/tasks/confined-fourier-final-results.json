@@ -1,0 +1,32 @@
+{
+  "status": "complete_requested_approximately10percent_phase_target",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01",
+  "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01/model_final.eqx",
+  "validated_config": "examples/confined_ch2d/configs/train_operator_smallscale10_512_wide_30k.py",
+  "cold_numerical_recipe": "examples/confined_ch2d/configs/train_operator_smallscale10_best.py",
+  "cold30000_run_measured": false,
+  "step": 30000,
+  "native_phi_pooled": 0.09660899412829907,
+  "native_phi_terminal": 0.10513060316866264,
+  "dense61_phi_pooled": 0.09188718004278495,
+  "train_monitor_phi_pooled": 0.05924277207770633,
+  "train_monitor_phi_terminal": 0.06302447254971312,
+  "native_mu_pooled": 0.21055882034721735,
+  "worst_geometry_phi_pooled": 0.17255027160264189,
+  "pooled_below10percent": true,
+  "terminal_below10percent": false,
+  "cpu_gpu_field_max_difference": 4.333339242990064e-15,
+  "dense_mass_drift_max": 1.4381941818020216e-16,
+  "dense_energy_increase_max": 0.0,
+  "geometry_response": {
+    "geometry_response_relative_error": 0.21709592833023336,
+    "geometry_response_amplitude_ratio": 0.9327463853080937,
+    "geometry_response_correlation": 0.9771601401626634
+  },
+  "final_stage_seconds": 4954.843043476343,
+  "selected_lineage_seconds": 14927.126763252541,
+  "warm_update_seconds": 0.4283023533055728,
+  "audit": "docs/tasks/confined-fourier-wide96-30k-retry-audit.json",
+  "comparison": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-final-capacity-coverage",
+  "scope": "512training inputs/16training monitors/8reused development geometries, one initialization; independent native graph/BDF, no localFEM. Metrics describe the fixed30k staged final, not minimumcheckpoint or freshcold/seed-stability validation."
+}

@@ -1,0 +1,39 @@
+{
+  "status": "illustration_only_not_training_or_reference",
+  "domain": "unit periodic square",
+  "periodized_gaussian": "Fourier coefficient exp(-a^2 |k|^2/4), unit integral",
+  "construction": "equal opposite circulation; -Delta psi=omega; v=(psi_y,-psi_x)",
+  "initial_droplet": "circle shown for schematic only, not a modified training IC",
+  "cases": [
+    {
+      "name": "Weaker, centered pair",
+      "circulation": 0.06,
+      "core": 0.07,
+      "separation": 0.4,
+      "offset": 0.0,
+      "divergence_max": 2.9407541179402174e-17,
+      "mean_vorticity": -9.4311506895943e-20,
+      "rms_speed": 0.04024121456539542
+    },
+    {
+      "name": "Stronger, centered pair",
+      "circulation": 0.12,
+      "core": 0.07,
+      "separation": 0.4,
+      "offset": 0.0,
+      "divergence_max": 5.881508235880435e-17,
+      "mean_vorticity": -1.88623013791886e-19,
+      "rms_speed": 0.08048242913079084
+    },
+    {
+      "name": "Stronger, offset pair",
+      "circulation": 0.12,
+      "core": 0.07,
+      "separation": 0.4,
+      "offset": 0.13,
+      "divergence_max": 5.303353529764306e-17,
+      "mean_vorticity": 5.7110599863305935e-18,
+      "rms_speed": 0.08048242913079084
+    }
+  ]
+}

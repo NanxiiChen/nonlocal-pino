@@ -1,0 +1,26 @@
+{
+  "status": "measured_no_training_change",
+  "checked_utc": "2026-10-31T06:58:20.476989+00:00",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width192-online25000-rolling-01-train",
+  "steady_refreshes": 45,
+  "refresh_interval_updates": 100,
+  "refresh_size": 32,
+  "mean_collect_and_stack_seconds_per_refresh": 0.23423797078430653,
+  "mean_gpu_replace_seconds_per_refresh": 0.08664514554871453,
+  "total_direct_refresh_seconds_per100updates": 0.320883116333021,
+  "amortized_seconds_per_update": 0.00320883116333021,
+  "direct_refresh_share_of_full_training_percent": 2.2608712594965814,
+  "initial_one_off_collect_and_replace_seconds": 6.622048679739237,
+  "current_full_seconds_per_update": 0.14192896432522684,
+  "current_window": [
+    25500,
+    29500
+  ],
+  "old_full_seconds_per_update": 0.1494109403587018,
+  "old_window": [
+    500,
+    26500
+  ],
+  "scope": "Existing wall records only, no pause, new benchmark or changed refresh policy. CPU collect includes host assembly and any pending-job waits. Full timings include normal assessments/checkpoints; startup excluded. Different padded shapes/compiler kernels preclude an isolated speedup claim.",
+  "next_action": "Keep current32per100rolling continuation through50000and automatic final CPU audit"
+}

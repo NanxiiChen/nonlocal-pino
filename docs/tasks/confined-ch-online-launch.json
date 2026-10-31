@@ -1,0 +1,20 @@
+{
+  "status": "launched",
+  "started_utc": "2026-10-31T06:32:53.846153+00:00",
+  "runner_pid": 376702,
+  "command": [
+    "/root/nonlocal-pinn/.venv/bin/python",
+    "-m",
+    "docs.tasks.confined_ch_online_runner",
+    "--prefix=20261031-confined-width192-online25000-rolling-01"
+  ],
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width192-online25000-rolling-01-train",
+  "journal": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width192-online25000-rolling-01-process.json",
+  "log": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width192-online25000-rolling-01-runner.log",
+  "cpu_gate": "docs/tasks/confined-ch-online-cpu.json",
+  "tests": "10focused CPUtests plus one canonical online train/checkpoint/restore integration passed",
+  "parent_checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01/checkpoint_025000.json",
+  "start_step": 25000,
+  "total_steps": 50000,
+  "default_changed": false
+}

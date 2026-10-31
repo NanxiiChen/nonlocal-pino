@@ -70,6 +70,9 @@ def condition_split(index, source_train_count, selected):
 
 
 def validate_config(c):
+    if 'spatial' in c.sample:
+        from examples.electropolish2d.spatial_sampling import validate_spatial
+        validate_spatial(c)
     o = c.operator
     for name in ('train_conditions', 'test_conditions', 'condition_batch', 'ic_points'):
         value = o[name]

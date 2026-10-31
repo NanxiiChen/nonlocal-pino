@@ -1,0 +1,23 @@
+{
+  "status": "launched_preflight_pipeline",
+  "launched_utc": "2026-10-31T04:32:15.299958+00:00",
+  "runner_pid": 339235,
+  "command": [
+    "/root/nonlocal-pinn/.venv/bin/python",
+    "-m",
+    "docs.tasks.confined_ch_capacity_runner",
+    "--case",
+    "width192_bank1024_50k",
+    "--prefix",
+    "20261031-confined-width192-bank1024-fp32-50k-01",
+    "--prior",
+    "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01"
+  ],
+  "runner_log": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width192-bank1024-fp32-50k-01-runner.log",
+  "journal": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width192-bank1024-fp32-50k-01-process.json",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01",
+  "bank": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1",
+  "prior": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01",
+  "budget": 50000,
+  "scope": "Actual cold50ktraining starts automatically only after full1032bankGPU25step and independentCPUreplay pass; probe states discarded."
+}

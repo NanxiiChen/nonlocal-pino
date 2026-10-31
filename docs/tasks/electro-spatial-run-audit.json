@@ -1,0 +1,38 @@
+{
+  "status": "passed",
+  "records": [
+    {
+      "mode": "full",
+      "actual_draws": 5000,
+      "distinct_core_sets": 1,
+      "exact_core_draw_replay": true,
+      "unique_free_cores": 4949,
+      "coverage": 1.0,
+      "initial_model_and_optimizer_bytes_equal": true
+    },
+    {
+      "mode": "fixed_pool",
+      "actual_draws": 5000,
+      "distinct_core_sets": 32,
+      "exact_core_draw_replay": true,
+      "unique_free_cores": 3938,
+      "coverage": 0.79571630632451,
+      "initial_model_and_optimizer_bytes_equal": true
+    },
+    {
+      "mode": "rolling_pool",
+      "actual_draws": 5000,
+      "distinct_core_sets": 5000,
+      "exact_core_draw_replay": true,
+      "unique_free_cores": 4949,
+      "coverage": 1.0,
+      "initial_model_and_optimizer_bytes_equal": true
+    }
+  ],
+  "initial_weights_and_adam_state_equal": true,
+  "all40000actual_conditions_equal": true,
+  "all5000time_batches_equal": true,
+  "IC_BC_coordinates_equal": true,
+  "fixed_rolling_first32entries_equal": true,
+  "seconds": 1.0821750303730369
+}

@@ -1,0 +1,138 @@
+{
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-soap-finetune-01",
+  "checkpoint": "model_final.eqx",
+  "step": 25000,
+  "field_reference": "Independent native graph/BDF; reused development cohort",
+  "train_monitored_geometries": 16,
+  "training_input_geometries": 512,
+  "unseen_development_geometries": 8,
+  "train_phase_pooled": 0.09317848938281899,
+  "development_phase_pooled": 0.14378156289332414,
+  "train_phase_terminal": 0.09898334627784733,
+  "development_phase_terminal": 0.1545134550953382,
+  "pooled_error_ratio": 1.5430767749690064,
+  "terminal_error_ratio": 1.56100456193527,
+  "scope": "Mean of per-geometry area-weighted relative L2; training field errors cover16monitors, not all512. Shared8development geometries, no fresh final test.",
+  "conditions": [
+    {
+      "index": 0,
+      "phi_pooled": 0.09138393334771217,
+      "phi_terminal": 0.1021267299936564
+    },
+    {
+      "index": 1,
+      "phi_pooled": 0.06737366461065633,
+      "phi_terminal": 0.06587200625697673
+    },
+    {
+      "index": 2,
+      "phi_pooled": 0.10410753691071879,
+      "phi_terminal": 0.10930297526114509
+    },
+    {
+      "index": 3,
+      "phi_pooled": 0.08305844008859742,
+      "phi_terminal": 0.09429216764719316
+    },
+    {
+      "index": 4,
+      "phi_pooled": 0.09854143431751736,
+      "phi_terminal": 0.10791467802470578
+    },
+    {
+      "index": 5,
+      "phi_pooled": 0.17757909760424098,
+      "phi_terminal": 0.19312401609035534
+    },
+    {
+      "index": 6,
+      "phi_pooled": 0.09672509539060817,
+      "phi_terminal": 0.09803936200459311
+    },
+    {
+      "index": 7,
+      "phi_pooled": 0.061284598712108236,
+      "phi_terminal": 0.0630555275532867
+    },
+    {
+      "index": 8,
+      "phi_pooled": 0.19327171997606116,
+      "phi_terminal": 0.21270858060322448
+    },
+    {
+      "index": 9,
+      "phi_pooled": 0.04122489959032256,
+      "phi_terminal": 0.04036754800613007
+    },
+    {
+      "index": 10,
+      "phi_pooled": 0.03447010299841543,
+      "phi_terminal": 0.033284399922856596
+    },
+    {
+      "index": 11,
+      "phi_pooled": 0.07512103692016765,
+      "phi_terminal": 0.07711170462216192
+    },
+    {
+      "index": 12,
+      "phi_pooled": 0.04521189707777956,
+      "phi_terminal": 0.04348253228830145
+    },
+    {
+      "index": 13,
+      "phi_pooled": 0.08841203302746907,
+      "phi_terminal": 0.09826358355225226
+    },
+    {
+      "index": 14,
+      "phi_pooled": 0.11941678070125736,
+      "phi_terminal": 0.12646027094801246
+    },
+    {
+      "index": 15,
+      "phi_pooled": 0.11367355885147157,
+      "phi_terminal": 0.11832745767070567
+    },
+    {
+      "index": 512,
+      "phi_pooled": 0.07533657108378393,
+      "phi_terminal": 0.07372349950877606
+    },
+    {
+      "index": 513,
+      "phi_pooled": 0.1624000034529557,
+      "phi_terminal": 0.1781797823146959
+    },
+    {
+      "index": 514,
+      "phi_pooled": 0.2237461357966331,
+      "phi_terminal": 0.24848807254052668
+    },
+    {
+      "index": 515,
+      "phi_pooled": 0.05148346953930545,
+      "phi_terminal": 0.05021051136553041
+    },
+    {
+      "index": 516,
+      "phi_pooled": 0.11599024472287216,
+      "phi_terminal": 0.118996993683647
+    },
+    {
+      "index": 517,
+      "phi_pooled": 0.2512963634192198,
+      "phi_terminal": 0.2736274001277614
+    },
+    {
+      "index": 518,
+      "phi_pooled": 0.06742255466945409,
+      "phi_terminal": 0.06302764651732182
+    },
+    {
+      "index": 519,
+      "phi_pooled": 0.20257716046236895,
+      "phi_terminal": 0.22985373470444653
+    }
+  ]
+}

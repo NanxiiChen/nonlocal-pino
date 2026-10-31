@@ -1,0 +1,29 @@
+{
+  "status": "stopped_by_user",
+  "stopped_utc": "2026-10-31T06:08:33.505821+00:00",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01",
+  "runner_pid": 339235,
+  "trainer_pid": 346501,
+  "signal": "SIGTERM",
+  "alive_after": [],
+  "last_loss": {
+    "step": 26900,
+    "loss": 5.488876922754571e-05,
+    "training_horizon": 3.0
+  },
+  "last_evaluation": {
+    "step": 26500,
+    "elapsed_seconds": 4819.345297791064,
+    "train_phi_pooled": 0.05913708626679177,
+    "train_phi_terminal": 0.06347591490606405,
+    "train_mu_pooled": 0.11775952912649476,
+    "train_mu_terminal": 0.15286707177581638,
+    "test_phi_pooled": 0.0791146153934744,
+    "test_phi_terminal": 0.08621342266974552,
+    "test_mu_pooled": 0.15727613144656838,
+    "test_mu_terminal": 0.21007782734371455
+  },
+  "resume_step": 25000,
+  "artifacts_preserved": true,
+  "scope": "Only explicitly owned192/1024runner and trainer stopped; no deletion or Git history operation"
+}

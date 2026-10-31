@@ -1,0 +1,88 @@
+{
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-continue-01",
+  "scope": "Split saved physical errors into frozen growing/stable CH spectral subspaces.\n\nDiagnostic only: the homogeneous initial-mean Jacobian is not the nonlinear\nevolution operator. No model fitting, reference labels in training or PDE change.\n",
+  "conditions": [
+    {
+      "index": 512,
+      "growing_modes": 19,
+      "pooled_error_energy_growing_fraction": 0.8047261626096042,
+      "terminal_error_energy_growing_fraction": 0.8278416088202318,
+      "pooled_growing_component_relative_L2": 0.05929618044451812,
+      "pooled_other_component_relative_L2": 0.029209538084374383,
+      "terminal_growing_component_relative_L2": 0.06177850071274743,
+      "terminal_other_component_relative_L2": 0.02817265886515226
+    },
+    {
+      "index": 513,
+      "growing_modes": 20,
+      "pooled_error_energy_growing_fraction": 0.8938168377126019,
+      "terminal_error_energy_growing_fraction": 0.9003606452263656,
+      "pooled_growing_component_relative_L2": 0.13369542968812725,
+      "pooled_other_component_relative_L2": 0.04608081198222971,
+      "terminal_growing_component_relative_L2": 0.1490644039360873,
+      "terminal_other_component_relative_L2": 0.04958852028856593
+    },
+    {
+      "index": 514,
+      "growing_modes": 19,
+      "pooled_error_energy_growing_fraction": 0.8740780727538645,
+      "terminal_error_energy_growing_fraction": 0.882285614634513,
+      "pooled_growing_component_relative_L2": 0.18020382371425664,
+      "pooled_other_component_relative_L2": 0.06839739638014145,
+      "terminal_growing_component_relative_L2": 0.19955611393650938,
+      "terminal_other_component_relative_L2": 0.07289121822818585
+    },
+    {
+      "index": 515,
+      "growing_modes": 21,
+      "pooled_error_energy_growing_fraction": 0.5873604111655258,
+      "terminal_error_energy_growing_fraction": 0.5367842409272674,
+      "pooled_growing_component_relative_L2": 0.024048188666223554,
+      "pooled_other_component_relative_L2": 0.020156516615595046,
+      "terminal_growing_component_relative_L2": 0.022758607256881405,
+      "terminal_other_component_relative_L2": 0.021141581212715116
+    },
+    {
+      "index": 516,
+      "growing_modes": 21,
+      "pooled_error_energy_growing_fraction": 0.8023995201291355,
+      "terminal_error_energy_growing_fraction": 0.823206929350062,
+      "pooled_growing_component_relative_L2": 0.07741136878281867,
+      "pooled_other_component_relative_L2": 0.038415227901148014,
+      "terminal_growing_component_relative_L2": 0.08077418624319456,
+      "terminal_other_component_relative_L2": 0.037432661086386654
+    },
+    {
+      "index": 517,
+      "growing_modes": 20,
+      "pooled_error_energy_growing_fraction": 0.929892705669341,
+      "terminal_error_energy_growing_fraction": 0.9287726276026217,
+      "pooled_growing_component_relative_L2": 0.17446203659186701,
+      "pooled_other_component_relative_L2": 0.047903375916358806,
+      "terminal_growing_component_relative_L2": 0.18682819194415187,
+      "terminal_other_component_relative_L2": 0.05173818254353742
+    },
+    {
+      "index": 518,
+      "growing_modes": 19,
+      "pooled_error_energy_growing_fraction": 0.5794109121004093,
+      "terminal_error_energy_growing_fraction": 0.5972669960444541,
+      "pooled_growing_component_relative_L2": 0.0362357923270935,
+      "pooled_other_component_relative_L2": 0.030872615733746098,
+      "terminal_growing_component_relative_L2": 0.03670416780838694,
+      "terminal_other_component_relative_L2": 0.030139756131628948
+    },
+    {
+      "index": 519,
+      "growing_modes": 21,
+      "pooled_error_energy_growing_fraction": 0.8928406171393153,
+      "terminal_error_energy_growing_fraction": 0.8956628140814775,
+      "pooled_growing_component_relative_L2": 0.15506759660905148,
+      "pooled_other_component_relative_L2": 0.05372163084628178,
+      "terminal_growing_component_relative_L2": 0.17371418583636467,
+      "terminal_other_component_relative_L2": 0.05929015326312023
+    }
+  ],
+  "mean_pooled_error_energy_growing_fraction": 0.7955656549099747,
+  "mean_terminal_error_energy_growing_fraction": 0.7990226845858741
+}

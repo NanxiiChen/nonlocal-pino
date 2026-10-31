@@ -1,0 +1,26 @@
+{
+  "status": "validation_ready",
+  "python_AST_modules": 148,
+  "strict_JSON_records": 156,
+  "configuration_factories": 45,
+  "numerical_tests": "Reuse previously completed unchanged focused tests and full-training/replay audits; no retraining or repeated expensive suite",
+  "formatting_only": [
+    {
+      "file": "docs/tasks/archive/confined-ch-width256-online-cold50k.md",
+      "before_bytes": 28693,
+      "after_bytes": 28692,
+      "content_equivalent": true
+    },
+    {
+      "file": "src/nonlocal_pinn/nn/point_conditional.py",
+      "before_bytes": 14807,
+      "after_bytes": 14806,
+      "content_equivalent": true
+    }
+  ],
+  "staged_content_guard": "PASS:1850indexedfiles/20.83MiB before publication receipt; no generated report payload or file>1MiB",
+  "scope": "All current code/docs/compact records; known failed numerical gates remain explicitly recorded",
+  "branch_workflow": "devcommit -> regularmainmerge -> pushorigin/mainonly",
+  "history_rewrite": false,
+  "external_artifacts_deleted": false
+}

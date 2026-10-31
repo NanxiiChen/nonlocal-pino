@@ -1,0 +1,9 @@
+{
+  "runner_pid": 231230,
+  "prefix": "20261031-confined-width128-fp32-02",
+  "journal": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width128-fp32-02-process.json",
+  "probe": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width128-fp32-02-probe",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width128-fp32-30k-02",
+  "previous_attempt": "docs/tasks/confined-ch-fp32-launch.json",
+  "correction": "First attempt stopped before bank/compilation/updates: compare normalized serialized config to avoid tuple/list representation differences. Same numerical preset and initialization, no seed retry."
+}

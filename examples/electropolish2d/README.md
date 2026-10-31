@@ -575,6 +575,89 @@ recipe currently recommended, without a seed-stability or global-optimum claim.
 Generated figures/arrays are optional local artifacts; see the root
 [artifact restoration policy](../../README.md#artifacts-and-recovery).
 
+### Full, fixed-pool and rolling-pool spatial controls
+
+Three optional presets use the same canonical `train.py`, current online B8/
+Adam5000/Nt4/image-only network, five physical losses and initial/time streams:
+
+| Preset | Spatial PDE sampling |
+|---|---|
+| `configs/train_operator_full.py` | All5151graph nodes, residual on all4949free nodes |
+| `configs/train_operator_fixed_pool.py` | Cycle32precomputed K256core+halo sets |
+| `configs/train_operator_rolling_pool.py` | Same first32sets, then one fresh uniform core set per update |
+
+For example:
+
+```bash
+python -m examples.electropolish2d.train \
+  --config=examples/electropolish2d/configs/train_operator_rolling_pool.py
+```
+
+Fixed/rolling controls share safe capacities3328nodes and3072edges, derived from
+the actual graph's maximum degree12; the older observed32pool maxima are smaller.
+Padding never truncates a core or its neighbors. The full-coordinate arm uses
+the original complete graph, with the same free-node residual normalization and
+separate unchanged IC/BC query blocks. Halo values support the graph action but
+are excluded from the sampled residual mean.
+
+The optional `sample.spatial` record explicitly declares
+`mode/max_nodes/max_edges/workers/prefetch`. Rolling uses one NumPy CPU worker
+and32bounded prefetched entries. Draw IDs0..31match the fixed pool; subsequent
+IDs equal the global zero-based update counter. FIFO consumption is independent
+of worker completion order. Coordinates, edges, masks and SDF nearest indices
+are replaced together; no learned encoder cache is reused. Every time within
+an update still shares spatial preparation and time JVP. Initial interfaces
+continue to be drawn online; no reference trajectory is generated for training.
+
+Runs save actual core/draw identities, coverage, producer wait/transfer times,
+initial/final model and Adam state. Experimental timings synchronize condition
+construction separately from the GPU update. Shared safe padding can cost more
+than the historical tight pool, so comparisons should use the matched controls
+and distinguish cold compilation from steady updates. Saved old configs without
+`sample.spatial` retain the original training path and defaults.
+
+The matched5000-update comparison on RTX6000D gives the following **mean over
+the same64development interfaces**, using the common local FD101reference:
+
+| Spatial mode | Pooled phi L2 | Final phi L2 | Pooled c L2 | Final c L2 |
+|---|---:|---:|---:|---:|
+| Full coordinates |4.4813% |3.7741% |5.2960% |4.4908% |
+| Fixed pool |4.9640% |3.8333% |5.8494% |4.5412% |
+| Rolling pool |4.8578% |3.6507% |5.7312% |4.3586% |
+
+| Spatial mode | Cold process wall | Warm effective step | Peak active GPU memory |
+|---|---:|---:|---:|
+| Full coordinates |4.109min |15.834ms |3.744GiB |
+| Fixed pool |3.915min |13.215ms |2.719GiB |
+| Rolling pool |4.090min |15.078ms |2.720GiB |
+
+Cold wall includes setup, initial compilation,5000updates, periodic small-bank
+evaluation and saving; final64input evaluation is separate (~31–33s per model).
+Warm effective time averages updates100..4999and includes synchronized GPU
+update, condition construction and spatial retrieval/transfer. Rolling total
+producer wait is0.0276s; full/rolling cover all4949free nodes, fixed3938(79.57%).
+Native64phase pooled/final errors are4.4640/3.7163%,4.9391/3.7375%,4.8597/3.6111%
+in the same order. Existing FD201/401references on four declared inputs are
+reported separately; this is not a continuum-converged64input claim.
+
+Rolling modestly improves final64error versus fixed, with~14.1%higher warm cost;
+full has the lowest pooled error at this5151node scale. One matched initialization
+and reused development inputs do not establish stable superiority. Actual initial
+models/Adam states, all40000conditions, time and IC/BC arrays match; fixed/rolling
+share their first32sets. Same-GPU checkpoint replay and independent64saved-field
+metric calculations pass. The current recommended default remains the earlier
+validated recipe; these are explicit comparison controls.
+
+An additional **CPU/GPU composed-attention replay discrepancy remains open**:
+the same parameters/inputs can give substantially different CPU fields. This
+comparison measures the verified GPU execution path, without assuming CPU
+portability or unique sampling-related causes for its accuracy differences.
+See the [recorded issue](../../docs/issues/electropolish-attention-replay.md)
+and [complete comparison record](../../docs/tasks/archive/electropolish-spatial-pool-comparison.md).
+Direct run/model/figure paths are in `artifacts/index.yaml`; generated payloads
+remain external. Convergence plots use the four small-bank native diagnostics;
+the table above uses all64fixed-budget final evaluations.
+
 ### Historical finite-input pilot
 
 The following pilot description and commands use

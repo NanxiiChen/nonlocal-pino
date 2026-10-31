@@ -1,5 +1,6 @@
 """Physics-only neural-operator training through the canonical train.py entry."""
 from datetime import datetime, timezone
+from contextlib import nullcontext
 import json
 from pathlib import Path
 import shutil
@@ -207,12 +208,16 @@ def train_operator(c):
     repo = Path(__file__).resolve().parents[2]
     sources = ['examples/electropolish2d/train.py',
         'examples/electropolish2d/operator_training.py', 'examples/electropolish2d/operator_data.py',
+        'examples/electropolish2d/spatial_sampling.py',
         'examples/electropolish2d/operator_local.py',
         'examples/electropolish2d/configs/train_operator.py',
         'examples/electropolish2d/configs/train_operator_single.py',
         'examples/electropolish2d/configs/train_operator_online.py',
         'examples/electropolish2d/configs/train_operator_local.py',
         'examples/electropolish2d/configs/train_operator_causal.py',
+        'examples/electropolish2d/configs/train_operator_full.py',
+        'examples/electropolish2d/configs/train_operator_fixed_pool.py',
+        'examples/electropolish2d/configs/train_operator_rolling_pool.py',
         'examples/electropolish2d/online_conditions.py',
         'examples/electropolish2d/configs/train_base.py', 'examples/electropolish2d/configs/train_legacy.py',
         'examples/electropolish2d/losses.py', 'examples/corrosion2d/residual_experiment.py',
@@ -247,27 +252,32 @@ def train_operator(c):
     if local_ad and n_neumann != 2*(c.sample.Ny-2):
         raise ValueError('Local side-wall nodes must exclude top/bottom Dirichlet corners')
     batches, recorded_cores, recorded_masks, graph_sizes = [], [], [], []
-    for ids, sub, core, _ in op.build_subgraph_pool(c.sample.K_core, c.sample.K_pool):
-        mask = core & free[ids]
-        if not np.any(mask):
-            raise ValueError('Empty free-node core mask')
-        selected = np.asarray(ids)[np.asarray(mask)]
-        padded = np.pad(selected, (0, c.sample.K_core-len(selected)), mode='edge')
-        selected_mask = np.arange(c.sample.K_core) < len(selected)
-        recorded_cores.append(padded)
-        recorded_masks.append(selected_mask)
-        graph_sizes.append(len(ids))
-        if local_ad:
-            ids, sub, mask = jnp.asarray(padded), None, jnp.asarray(selected_mask)
-            boundary_ids = np.r_[bc_ids, side_ids]
-        else:
-            boundary_ids = bc_ids
-        node_ids = jnp.concatenate([ids, jnp.asarray(ic_ids), jnp.asarray(boundary_ids)])
-        batches.append((node_ids, x[node_ids], sub, mask))
+    spatial = None
+    if 'spatial' in c.sample:
+        from examples.electropolish2d.spatial_sampling import SpatialSampler
+        spatial = SpatialSampler(op, points, ~(zero | one), ic_ids, bc_ids, c)
+    else:
+        for ids, sub, core, _ in op.build_subgraph_pool(c.sample.K_core, c.sample.K_pool):
+            mask = core & free[ids]
+            if not np.any(mask):
+                raise ValueError('Empty free-node core mask')
+            selected = np.asarray(ids)[np.asarray(mask)]
+            padded = np.pad(selected, (0, c.sample.K_core-len(selected)), mode='edge')
+            selected_mask = np.arange(c.sample.K_core) < len(selected)
+            recorded_cores.append(padded)
+            recorded_masks.append(selected_mask)
+            graph_sizes.append(len(ids))
+            if local_ad:
+                ids, sub, mask = jnp.asarray(padded), None, jnp.asarray(selected_mask)
+                boundary_ids = np.r_[bc_ids, side_ids]
+            else:
+                boundary_ids = bc_ids
+            node_ids = jnp.concatenate([ids, jnp.asarray(ic_ids), jnp.asarray(boundary_ids)])
+            batches.append((node_ids, x[node_ids], sub, mask))
     if online:
         from examples.electropolish2d.online_conditions import make_sampler
         online_sample, online_geometry = make_sampler(c)
-        online_nearest = [online_geometry(batch[1]) for batch in batches]
+        online_nearest = [online_geometry(batch[1]) for batch in batches] if spatial is None else None
     images = jnp.asarray(data['images'])
     initial = jnp.asarray(data['initial'])
     keys = jr.split(jr.PRNGKey(c.train.seed), 3)
@@ -275,6 +285,8 @@ def train_operator(c):
     eqx.tree_serialise_leaves(run / 'model_initial.eqx', net)
     optimizer = make_optimizer(c)
     state = optimizer.init(eqx.filter(net, eqx.is_array))
+    if spatial is not None:
+        eqx.tree_serialise_leaves(run / 'optimizer_initial.eqx', state)
     if c.loss.use_causal:
         step = _make_causal_step(make_loss_components(c, nondim(c), len(ic_ids), n_bc), optimizer, c)
         eps = jnp.full(2, c.causal.eps_init, dtype=jnp.float32)
@@ -298,6 +310,7 @@ def train_operator(c):
     evaluation_seconds = []
     update_seconds, sample_seconds = [], []
     sampled_times = np.empty((c.train.iterations, c.sample.Nt), dtype=np.float32)
+    spatial_seconds = []
 
     def evaluate(iteration):
         evaluation_start = time.perf_counter()
@@ -345,18 +358,27 @@ def train_operator(c):
     else:
         sampled_conditions = np.empty((c.train.iterations, c.operator.condition_batch), dtype=np.int32)
     # Reference arrays never enter step/payload. Only prescribed IC values do.
-    with (run / 'loss.jsonl').open('w') as loss_stream:
+    loop_start = time.perf_counter()
+    with (run / 'loss.jsonl').open('w') as loss_stream, (spatial if spatial is not None else nullcontext()):
         for iteration in range(c.train.iterations):
             k_data = jr.fold_in(keys[1], iteration)
             k_cond, k_time = jr.split(k_data)
             times = jr.uniform(k_time, (c.sample.Nt,), minval=c.sample.t_min, maxval=1.)
             sampled_times[iteration] = np.asarray(times)
-            pool_index = iteration % len(batches)
-            node_ids, queries, sub, mask = batches[pool_index]
+            spatial_start = time.perf_counter()
+            if spatial is None:
+                pool_index = iteration % len(batches)
+                node_ids, queries, sub, mask = batches[pool_index]
+                nearest = online_nearest[pool_index] if online else None
+            else:
+                node_ids, queries, sub, mask, nearest = spatial.take(iteration)
+            spatial_seconds.append(time.perf_counter()-spatial_start)
             sample_start = time.perf_counter()
             if online:
                 fresh_images, local, coefficients, accepted = online_sample(
-                    jr.fold_in(keys[2], iteration), queries, online_nearest[pool_index])
+                    jr.fold_in(keys[2], iteration), queries, nearest)
+                if spatial is not None:
+                    jax.block_until_ready((fresh_images, local, coefficients, accepted))
                 if int(accepted) < c.operator.condition_batch:
                     raise ValueError(f'Online accepted only {int(accepted)} valid candidates; '
                                      'increase the explicit candidate_factor; no update was applied')
@@ -402,14 +424,19 @@ def train_operator(c):
             if (iteration+1) % c.log.eval_every == 0 or iteration+1 == c.train.iterations:
                 prediction, last = evaluate(iteration+1)
     elapsed = time.perf_counter()-start
+    loop_seconds = time.perf_counter()-loop_start
     eqx.tree_serialise_leaves(run / 'model_final.eqx', net)
-    np.savez_compressed(run / 'sampling.npz', times=sampled_times,
-                        core_ids=np.stack(recorded_cores), core_mask=np.stack(recorded_masks),
-                        ic_ids=ic_ids, dirichlet_ids=bc_ids, side_ids=side_ids,
-                        nonlocal_halo_counts=np.asarray(graph_sizes))
+    if spatial is not None:
+        eqx.tree_serialise_leaves(run / 'optimizer_final.eqx', state)
+    spatial_trace = (dict(core_ids=np.stack(recorded_cores), core_mask=np.stack(recorded_masks),
+                         nonlocal_halo_counts=np.asarray(graph_sizes))
+                     if spatial is None else spatial.trace())
+    np.savez_compressed(run / 'sampling.npz', times=sampled_times, **spatial_trace,
+                        ic_ids=ic_ids, dirichlet_ids=bc_ids, side_ids=side_ids)
     warm = np.asarray(update_seconds)[1:]
     refresh_indices = np.arange(1, c.train.iterations) % c.train.gradnorm_update_every == 0
     timing = dict(setup_seconds=setup_seconds, trainer_seconds=elapsed,
+        training_loop_seconds=loop_seconds, spatial_seconds=spatial_seconds,
         first_update_compile_and_call_seconds=update_seconds[0],
         update_seconds=update_seconds, sample_seconds=sample_seconds,
         evaluation_seconds=evaluation_seconds,
@@ -418,6 +445,10 @@ def train_operator(c):
         warm_refresh_median_seconds=None if not np.any(refresh_indices) else float(np.median(warm[refresh_indices])),
         scope='Updates synchronized through parameters/optimizer state; first update includes compilation; setup/evaluation separate')
     _write_json(run / 'timing.json', timing)
+    if spatial is not None:
+        _write_json(run / 'spatial_sampling.json', dict(**spatial.summary(),
+            build_seconds=spatial.build_seconds, wait_seconds=spatial.wait_seconds,
+            transfer_seconds=spatial.transfer_seconds))
     if online:
         np.save(run / 'online_coefficients.npy', online_coefficients)
         np.save(run / 'online_accepted.npy', online_accepted)
@@ -441,6 +472,9 @@ def train_operator(c):
                if online else 'single fixed-interface fitting; held-out diagnostics are not operator-generalization evidence'
                if len(selected_inputs) == 1 else
                'small held-out initial-interface family; same-graph error, not continuum convergence'))
+    if spatial is not None:
+        summary['spatial_sampling'] = spatial.summary()
+        summary['entry_wall_seconds'] = time.perf_counter()-entry_start
     if c.loss.use_causal:
         summary['causal'] = dict(mode='per_condition_per_time', eps_final=np.asarray(eps).tolist(),
             policy='shared min eps, separate AC/CH weights, batch-mean weight adaptation; stopped weights')

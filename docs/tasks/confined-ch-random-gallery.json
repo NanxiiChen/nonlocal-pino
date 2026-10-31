@@ -1,0 +1,118 @@
+{
+  "selected_utc": "2026-10-30T08:27:18.890586+00:00",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01",
+  "dataset": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_512_v1",
+  "candidates": [
+    512,
+    513,
+    514,
+    515,
+    516,
+    517,
+    518,
+    519
+  ],
+  "chosen": [
+    514,
+    519,
+    516,
+    517,
+    518
+  ],
+  "sampling": "Uniform without replacement, fresh entropy; IDs written before field/error reads",
+  "cohort": "Eight reserved development geometries, reused during model development; absent from training draws",
+  "figures": [
+    {
+      "index": 514,
+      "phi_pooled": 0.17255027160264189,
+      "phi_terminal": 0.19195594717889972,
+      "phase_l2_by_time": [
+        0.0,
+        0.08972378231957284,
+        0.10858653208545004,
+        0.1512288925020488,
+        0.19195594717889972
+      ],
+      "cells": 1221,
+      "reference_path": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_512_v1/case_514/reference.npz",
+      "png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01/random_gallery_01/fields_514.png",
+      "pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01/random_gallery_01/fields_514.pdf"
+    },
+    {
+      "index": 519,
+      "phi_pooled": 0.1464977563396727,
+      "phi_terminal": 0.16443780764481072,
+      "phase_l2_by_time": [
+        0.0,
+        0.09660855781104952,
+        0.1054651029393938,
+        0.12271369816221947,
+        0.16443780764481072
+      ],
+      "cells": 1180,
+      "reference_path": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_512_v1/case_519/reference.npz",
+      "png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01/random_gallery_01/fields_519.png",
+      "pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01/random_gallery_01/fields_519.pdf"
+    },
+    {
+      "index": 516,
+      "phi_pooled": 0.0771253858260796,
+      "phi_terminal": 0.08086398804483544,
+      "phase_l2_by_time": [
+        0.0,
+        0.06864867289151738,
+        0.07132694746708586,
+        0.07412509083789678,
+        0.08086398804483544
+      ],
+      "cells": 1152,
+      "reference_path": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_512_v1/case_516/reference.npz",
+      "png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01/random_gallery_01/fields_516.png",
+      "pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01/random_gallery_01/fields_516.pdf"
+    },
+    {
+      "index": 517,
+      "phi_pooled": 0.13672068551023625,
+      "phi_terminal": 0.14735652610537728,
+      "phase_l2_by_time": [
+        0.0,
+        0.08802278918540182,
+        0.1067384283797246,
+        0.1264228910450955,
+        0.14735652610537728
+      ],
+      "cells": 1276,
+      "reference_path": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_512_v1/case_517/reference.npz",
+      "png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01/random_gallery_01/fields_517.png",
+      "pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01/random_gallery_01/fields_517.pdf"
+    },
+    {
+      "index": 518,
+      "phi_pooled": 0.047790837407211045,
+      "phi_terminal": 0.04922362860060825,
+      "phase_l2_by_time": [
+        0.0,
+        0.05586874719647018,
+        0.04419555276462283,
+        0.04683134432128723,
+        0.04922362860060825
+      ],
+      "cells": 1295,
+      "reference_path": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_512_v1/case_518/reference.npz",
+      "png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01/random_gallery_01/fields_518.png",
+      "pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01/random_gallery_01/fields_518.pdf"
+    }
+  ],
+  "phase_bound": 0.8459164816085255,
+  "absolute_error_bound": 0.38419043789135476,
+  "times": [
+    0.0,
+    0.75,
+    1.5,
+    2.25,
+    3.0
+  ],
+  "reference": "Independent native graph/BDF; local FEM deferred",
+  "display": "Area-weighted incident-cell projection, linear interpolation within original triangles; analytic hole masks. Raw absolute errors interpolated directly; metrics use unchanged cell fields and areas.",
+  "verification": "All eight field/geometry/time/reference identities and independently recomputed scores match saved evaluation; selected five finite positive display bounds pass."
+}

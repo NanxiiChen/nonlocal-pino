@@ -189,11 +189,16 @@ def validate_config(c):
 
 
 def initial_field(points,c,*,xp):
-    """Smooth perturbation, vanishing to order4 at each analytic wall.
+    """Legacy perturbations vanish to order4 at each analytic wall.
 
     Hence both normal phi and normal local chemical potential vanish at t0.
-    No future boundary or trajectory is encoded in the network ansatz.
+    The geometry operator's explicit fixed_ambient variant instead restricts
+    the identical spatial function to each domain, without a wall envelope.
+    No future boundary or trajectory is encoded in either initial function.
     """
+    if 'kind' in c.initial and c.initial.kind=='fixed_ambient':
+        from examples.confined_ch2d.operator_problem import fixed_initial
+        return fixed_initial(points,c,xp=xp)
     z=(points-xp.asarray(c.geometry.center))/xp.asarray(c.geometry.axes)
     wall=.5*min(c.geometry.axes)*(1-xp.sum(z*z,axis=-1))
     width=c.initial.wall_width
@@ -265,6 +270,9 @@ def relative(a,b,volumes):
 
 def initial_laplacian(points,c):
     """Independent NumPy product/chain-rule Laplacian of the analytic IC."""
+    if 'kind' in c.initial and c.initial.kind=='fixed_ambient':
+        from examples.confined_ch2d.operator_problem import fixed_initial_laplacian
+        return fixed_initial_laplacian(points,c)
     x=np.asarray(points);axes=np.asarray(c.geometry.axes);z=(x-np.asarray(c.geometry.center))/axes
     scale=min(axes);w4=c.initial.wall_width**4
     factors=[(.5*scale*(1-np.sum(z*z,axis=-1)),-scale*z/axes,np.full(x.shape[:-1],-scale*np.sum(1/axes**2)))]

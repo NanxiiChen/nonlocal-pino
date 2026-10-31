@@ -1,0 +1,55 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-10-31T04:30:03.402642+00:00",
+  "prior": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01",
+  "case": "width192_bank1024_50k",
+  "controls": [
+    {
+      "width": 192,
+      "head_dimension": 48,
+      "spatial_sin_cos_features": 192,
+      "trainable_parameters": 2021185,
+      "soap_axis_cap": 512,
+      "skipped_matrix_axes": [
+        {
+          "path": ".time.layers[1].weight",
+          "shape": [
+            1152,
+            192
+          ],
+          "axis": 0
+        }
+      ],
+      "model_bytes": 8085508,
+      "optimizer_state_bytes": 47865200
+    },
+    {
+      "width": 192,
+      "head_dimension": 48,
+      "spatial_sin_cos_features": 192,
+      "trainable_parameters": 2021185,
+      "soap_axis_cap": 512,
+      "skipped_matrix_axes": [
+        {
+          "path": ".time.layers[1].weight",
+          "shape": [
+            1152,
+            192
+          ],
+          "axis": 0
+        }
+      ],
+      "model_bytes": 8085508,
+      "optimizer_state_bytes": 47865200
+    }
+  ],
+  "baseline_cap256_and512_coverage_identical": false,
+  "paired_checkpoint_count_with_spares": 53,
+  "required_free_disk_bytes": 4483725572,
+  "budget": 50000,
+  "expected_geometry_prefix_matches_completed_baseline": false,
+  "exact_initial_arrays_match_completed_baseline": true,
+  "geometry_sampling_scope": "Same global keys; expanded support intentionally changes condition IDs",
+  "time_samples_identical": true,
+  "scope": "CPU configuration/abstract shape audit; no larger-network timing, memory or accuracy measured"
+}

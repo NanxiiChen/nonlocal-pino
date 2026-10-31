@@ -4,7 +4,7 @@ import json,sys,subprocess,argparse
 import numpy as np
 
 
-def _generate(c,h,path):
+def _generate(c,h,path,*,arrays=False):
     """Keep Gmsh MPI/PETSc shared libraries out of the FEniCS process."""
     import gmsh
     gmsh.initialize()
@@ -21,6 +21,16 @@ def _generate(c,h,path):
         gmsh.option.setNumber('Mesh.MeshSizeMax',h)
         gmsh.model.mesh.generate(2)
         msh=Path(path).with_suffix('.msh');gmsh.write(str(msh))
+        if arrays:
+            tags,coordinates,_=gmsh.model.mesh.getNodes()
+            types,_,nodes=gmsh.model.mesh.getElements(2)
+            if list(types)!=[2]:raise ValueError('Expected linear triangular Gmsh cells')
+            tags=np.asarray(tags);order=np.argsort(tags)
+            connectivity=np.asarray(nodes[0]).reshape(-1,3)
+            positions=np.searchsorted(tags[order],connectivity)
+            if np.any(positions>=len(tags)) or not np.array_equal(tags[order][positions],connectivity):
+                raise ValueError('Gmsh element references an unknown node')
+            return np.asarray(coordinates).reshape(-1,3)[:,:2],order[positions]
     finally:gmsh.finalize()
 
 
@@ -62,4 +72,8 @@ if __name__=='__main__':
     from ml_collections import ConfigDict
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--input',type=Path,required=True)
     args=parser.parse_args();r=json.loads(args.input.read_text())
-    _generate(ConfigDict(r['config']),r['h'],r['path'])
+    if 'output_arrays' in r:
+        points,cells=_generate(ConfigDict(r['config']),r['h'],r['path'],arrays=True)
+        np.savez(r['output_arrays'],vertices=points,cells=cells)
+    else:
+        _generate(ConfigDict(r['config']),r['h'],r['path'])

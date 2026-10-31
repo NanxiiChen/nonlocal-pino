@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "count": 64,
+  "cached_images_independently_reconstructed": true,
+  "max_image_gap": 0.0,
+  "max_initial_reference_gap": 2.980228797078155e-08,
+  "max_native_refinement_error": 4.5966103400635803e-08,
+  "new_reference_solves": 0
+}

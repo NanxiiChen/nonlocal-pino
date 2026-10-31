@@ -1,0 +1,168 @@
+{
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-soap-continue-01",
+  "prior_run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-smallscale10-soap-01",
+  "config_matches_explicit_preset": true,
+  "unchanged_physics_geometry_input_operators": true,
+  "residual_metric_changes": {
+    "metric": {
+      "before": "biharmonic_resolvent",
+      "after": "linear_stable_resolvent"
+    },
+    "metric_workers": {
+      "before": null,
+      "after": 6
+    }
+  },
+  "sampling_changes": {
+    "Nt": {
+      "before": 4,
+      "after": 16
+    }
+  },
+  "architecture_changes": {
+    "output_scale": {
+      "before": 0.1,
+      "after": 1.0
+    },
+    "spatial_features": {
+      "before": 24,
+      "after": 64
+    },
+    "spatial_scale": {
+      "before": 1.0,
+      "after": 2.0
+    },
+    "time_features": {
+      "before": 4,
+      "after": 32
+    },
+    "time_max_frequency": {
+      "before": null,
+      "after": 4.0
+    }
+  },
+  "training_changes": {
+    "continuation": {
+      "before": null,
+      "after": {
+        "parent_run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-soap-01"
+      }
+    },
+    "soap_max_precond_dim": {
+      "before": 128,
+      "after": 256
+    }
+  },
+  "phase_parameterization": null,
+  "expected_preset": "examples.confined_ch2d.configs.train_operator_smallscale10_512_batch_continue",
+  "trainable_parameters": 243649,
+  "comparison_scope": "Same physical benchmark; bundled architecture/settings optimization, not an isolated feature-count ablation",
+  "initial_parameter_policy": "parent checkpoint",
+  "initial_parameter_gap": 0.0,
+  "start_step": 10000,
+  "optimizer_state_finite": true,
+  "imported_optimizer_state_gap": 0.0,
+  "condition_batch": 16,
+  "prior_condition_batch": 4,
+  "expected_initial_pde_fraction_preserved": true,
+  "initial_pde_fraction": 0.2,
+  "condition_draws_match_global_seed": true,
+  "actual_common_condition_draws_identical": false,
+  "common_draw_prefix_steps": 0,
+  "no_heldout_geometry_draws": true,
+  "visits_min": 255,
+  "visits_max": 361,
+  "initial_modes": 10,
+  "initial_analytic_bound": 0.36,
+  "shortest_mode_wavelength": 0.23529411764705885,
+  "mesh_size": 0.035,
+  "local_linearized_modal_growth": [
+    -1.9833219337804966,
+    -11.08770359995814,
+    -4.179639001679136,
+    -13.566405070243842,
+    -4.179639001679136,
+    -13.566405070243842,
+    -14.056147027772646,
+    -22.349092755554988,
+    -14.056147027772646,
+    -22.349092755554988
+  ],
+  "optimizer_payload_has_no_future_fields": true,
+  "cpu_gpu_maximum_phi_mu_difference": 5.342948306008566e-15,
+  "native_time_phi_max": 1.0811181263771686e-09,
+  "native_time_mu_max": 9.387794836854917e-10,
+  "local_reference_checks": [],
+  "reference_terminal_phase_statistics": [
+    {
+      "index": 512,
+      "pure_fraction": 0.0069242732213478705,
+      "mixed_fraction": 0.3465741375191495
+    },
+    {
+      "index": 513,
+      "pure_fraction": 0.015565342688127915,
+      "mixed_fraction": 0.3766594739941971
+    },
+    {
+      "index": 514,
+      "pure_fraction": 0.0023247214193255388,
+      "mixed_fraction": 0.5340896518698507
+    },
+    {
+      "index": 515,
+      "pure_fraction": 0.007966980924252036,
+      "mixed_fraction": 0.36319876292471315
+    },
+    {
+      "index": 516,
+      "pure_fraction": 0.003806056143929674,
+      "mixed_fraction": 0.32223172422776913
+    },
+    {
+      "index": 517,
+      "pure_fraction": 0.0052049917606796945,
+      "mixed_fraction": 0.4515792489891424
+    },
+    {
+      "index": 518,
+      "pure_fraction": 0.0,
+      "mixed_fraction": 0.43623469350538413
+    },
+    {
+      "index": 519,
+      "pure_fraction": 0.0,
+      "mixed_fraction": 0.533802146691689
+    }
+  ],
+  "native_test": {
+    "phi_pooled": 0.15330145467208806,
+    "phi_terminal": 0.1646905215621446,
+    "mu_pooled": 0.28499548501517036,
+    "mu_terminal": 0.37502312110471336,
+    "frozen_phi_pooled": 0.9425240052540753,
+    "worst_phi_pooled": 0.26951983443076166,
+    "mass_max_drift": 6.063400649625184e-17,
+    "energy_max_increase": 0.0
+  },
+  "local_FEM": {
+    "status": "not_evaluated",
+    "conditions": 0,
+    "reason": "No local FEM reference files in this bank"
+  },
+  "wall_seconds": 2822.948473824188,
+  "warm_update_seconds": 0.22112575548823282,
+  "memory": {
+    "num_allocs": 7195436,
+    "bytes_in_use": 9311372032,
+    "peak_bytes_in_use": 16289230080,
+    "largest_alloc_size": 7592836352,
+    "bytes_limit": 38183976960,
+    "bytes_reserved": 0,
+    "peak_bytes_reserved": 0,
+    "largest_free_block_bytes": 0,
+    "pool_bytes": 38183976960,
+    "peak_pool_bytes": 38183976960
+  },
+  "scope": "One cold seed, finite512/8development cohort; native-only, local FEM deferred"
+}

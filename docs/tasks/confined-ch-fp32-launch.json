@@ -1,0 +1,9 @@
+{
+  "runner_pid": 229923,
+  "prefix": "20261031-confined-width128-fp32-01",
+  "journal": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width128-fp32-01-process.json",
+  "runner_log": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width128-fp32-01-runner.log",
+  "probe": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width128-fp32-01-probe",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width128-fp32-30k-01",
+  "scope": "ExistingGPU, sequential probe/CPUreplay/cold30k/finalnative+dense+CPUaudits. No automatic default promotion."
+}

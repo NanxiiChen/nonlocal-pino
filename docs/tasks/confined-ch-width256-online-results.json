@@ -1,0 +1,265 @@
+{
+  "status": "complete",
+  "checked_utc": "2026-10-31T09:15:34.634121+00:00",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train",
+  "report": "docs/tasks/archive/confined-ch-width256-online-cold50k.md",
+  "training_entry": "examples/confined_ch2d/train.py",
+  "config": "examples/confined_ch2d/configs/train_operator_online_width256_cold50k.py",
+  "start_step": 0,
+  "completed_updates": 50000,
+  "model": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/model_final.eqx",
+  "optimizer": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/optimizer_final.eqx",
+  "final_metrics": {
+    "step": 50000,
+    "elapsed_seconds": 6127.7868075706065,
+    "train_monitor_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "test_indices": [
+      1024,
+      1025,
+      1026,
+      1027,
+      1028,
+      1029,
+      1030,
+      1031
+    ],
+    "train_phi_pooled": 0.0505294647386368,
+    "train_phi_terminal": 0.05418558932856048,
+    "train_mu_pooled": 0.10647142258555047,
+    "train_mu_terminal": 0.14016744333036804,
+    "test_phi_pooled": 0.048329145319487045,
+    "test_phi_terminal": 0.051934891974683844,
+    "test_mu_pooled": 0.10732855659894609,
+    "test_mu_terminal": 0.14275653469993288
+  },
+  "validation_cases": [
+    {
+      "index": 1024,
+      "phi_pooled": 0.034183310819046,
+      "phi_terminal": 0.03696324256123148,
+      "phi_by_time": [
+        2.5186324724677323e-08,
+        0.0272296774912173,
+        0.02745615174898389,
+        0.03064945413645132,
+        0.03696324256123148
+      ],
+      "mu_pooled": 0.08378618407144989,
+      "mu_terminal": 0.10979929671528112,
+      "mass_max_drift": 2.0121938980278628e-08,
+      "phi_min": -0.7844907641410828,
+      "phi_max": 0.8314946889877319
+    },
+    {
+      "index": 1025,
+      "phi_pooled": 0.039981352683690095,
+      "phi_terminal": 0.0428369594050173,
+      "phi_by_time": [
+        2.532602769010232e-08,
+        0.033561206210523366,
+        0.03378074065882271,
+        0.0369198989738506,
+        0.0428369594050173
+      ],
+      "mu_pooled": 0.1110701892559449,
+      "mu_terminal": 0.15395581944291042,
+      "mass_max_drift": 5.705012938624077e-09,
+      "phi_min": -0.8446515202522278,
+      "phi_max": 0.8313825130462646
+    },
+    {
+      "index": 1026,
+      "phi_pooled": 0.0956862517444074,
+      "phi_terminal": 0.10586209297579907,
+      "phi_by_time": [
+        2.4717759475619518e-08,
+        0.05742479380330704,
+        0.06693470332390378,
+        0.08372893786398393,
+        0.10586209297579907
+      ],
+      "mu_pooled": 0.13381168414479783,
+      "mu_terminal": 0.16134156953441212,
+      "mass_max_drift": 3.1219861870138057e-09,
+      "phi_min": -0.7970970869064331,
+      "phi_max": 0.7634325623512268
+    },
+    {
+      "index": 1027,
+      "phi_pooled": 0.017241370634659012,
+      "phi_terminal": 0.016130270135781215,
+      "phi_by_time": [
+        2.5404784549397807e-08,
+        0.02483394033857779,
+        0.020795065386309642,
+        0.01893135621718788,
+        0.016130270135781215
+      ],
+      "mu_pooled": 0.07813745351243487,
+      "mu_terminal": 0.12756823773728324,
+      "mass_max_drift": 2.5729351807587345e-08,
+      "phi_min": -0.8091452121734619,
+      "phi_max": 0.8466949462890625
+    },
+    {
+      "index": 1028,
+      "phi_pooled": 0.04646277806645905,
+      "phi_terminal": 0.046793651649070386,
+      "phi_by_time": [
+        2.5410680295305962e-08,
+        0.045501076603043096,
+        0.04676953453629375,
+        0.047478793236239575,
+        0.046793651649070386
+      ],
+      "mu_pooled": 0.12465337187484567,
+      "mu_terminal": 0.16557105406492317,
+      "mass_max_drift": 1.5383193548417634e-08,
+      "phi_min": -0.7571080327033997,
+      "phi_max": 0.8222715258598328
+    },
+    {
+      "index": 1029,
+      "phi_pooled": 0.05370843535163896,
+      "phi_terminal": 0.05768239514045758,
+      "phi_by_time": [
+        2.5976695230069167e-08,
+        0.03845874395231373,
+        0.04125021254446334,
+        0.05019411891550848,
+        0.05768239514045758
+      ],
+      "mu_pooled": 0.10751340217533571,
+      "mu_terminal": 0.14172933118839878,
+      "mass_max_drift": 2.3854624921649387e-08,
+      "phi_min": -0.8264442086219788,
+      "phi_max": 0.8109009861946106
+    },
+    {
+      "index": 1030,
+      "phi_pooled": 0.019798066665949243,
+      "phi_terminal": 0.020650463960305294,
+      "phi_by_time": [
+        2.476010176304783e-08,
+        0.027920715603712103,
+        0.019184031903760366,
+        0.017938682618862188,
+        0.020650463960305294
+      ],
+      "mu_pooled": 0.07846980567506845,
+      "mu_terminal": 0.09969737365837612,
+      "mass_max_drift": 9.845785193976324e-09,
+      "phi_min": -0.7414249777793884,
+      "phi_max": 0.7920960187911987
+    },
+    {
+      "index": 1031,
+      "phi_pooled": 0.07957159659004663,
+      "phi_terminal": 0.08856005996980845,
+      "phi_by_time": [
+        2.458025992704288e-08,
+        0.04184089183846297,
+        0.05487135543658054,
+        0.07035078421376102,
+        0.08856005996980845
+      ],
+      "mu_pooled": 0.14118636208169144,
+      "mu_terminal": 0.1823895952578782,
+      "mass_max_drift": 2.7932189612276878e-08,
+      "phi_min": -0.7352150082588196,
+      "phi_max": 0.7525561451911926
+    }
+  ],
+  "validation_count": 8,
+  "historical_training_monitor_count": 16,
+  "phase_validation_range": [
+    0.017241370634659012,
+    0.0956862517444074
+  ],
+  "phase_terminal_range": [
+    0.016130270135781215,
+    0.10586209297579907
+  ],
+  "wall_minutes": 102.2605010422878,
+  "first_update_seconds": 283.28021077625453,
+  "setup_seconds": 328.2273417552933,
+  "mean_GPU_update_seconds_after100": 0.09687746694936736,
+  "GPU_lifetime_peak_active_GiB": 20.43369174003601,
+  "online": {
+    "kind": "asynchronous_rolling_geometry_pool",
+    "capacity": 1024,
+    "refresh_count": 500,
+    "distinct_generated_inputs": 16000,
+    "refresh_wait_seconds": 112.72210846003145,
+    "pool_replace_seconds": 27.31802544090897,
+    "pde_solves": 0,
+    "fem_solves": 0,
+    "reference_labels_in_step": false,
+    "geometry_order": "Stateless per-draw rejection sampling, fixed global refresh schedule, FIFO consumption",
+    "bounded_prefetch_inputs": 64
+  },
+  "installed_geometry_count": 16000,
+  "distinct_fresh_geometries_actually_sampled": 15994,
+  "CPU_audit": "/root/nonlocal-pinn/docs/tasks/confined-ch-width256-online-audit.json",
+  "CPU_replayed_cases": 24,
+  "CPU_max_field_gaps": [
+    7.152557373046875e-07,
+    3.6582350730895996e-06
+  ],
+  "independent_saved_field_mass_max_drift": 5.8500483919761426e-08,
+  "checkpoint_count": 10,
+  "all_paired_payloads_present": true,
+  "final50k_pair_bytes_equal_final_model_and_optimizer": true,
+  "field_gallery": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/final_fields_02/gallery.json",
+  "selected_field_figures": [
+    {
+      "index": 1027,
+      "label": "Low-error case",
+      "phi_pooled": 0.017241370634659012,
+      "phi_terminal": 0.016130270135781215,
+      "png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/final_fields_02/fields_1027.png",
+      "pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/final_fields_02/fields_1027.pdf"
+    },
+    {
+      "index": 1028,
+      "label": "Upper-median error case",
+      "phi_pooled": 0.04646277806645905,
+      "phi_terminal": 0.046793651649070386,
+      "png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/final_fields_02/fields_1028.png",
+      "pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/final_fields_02/fields_1028.pdf"
+    },
+    {
+      "index": 1026,
+      "label": "Maximum-error case",
+      "phi_pooled": 0.0956862517444074,
+      "phi_terminal": 0.10586209297579907,
+      "png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/final_fields_02/fields_1026.png",
+      "pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/final_fields_02/fields_1026.pdf"
+    }
+  ],
+  "figures_visually_inspected": true,
+  "final_convergence": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_final/comparison.json",
+  "fixed_budget_model_selection": true,
+  "defaults_promoted": false,
+  "scope": "One runtime seed42, same8reused native nonlocal development references; no new blind test/localFEM or isolated sampler/hardware/capacity claim. Some individual terminal errors remain above10%.",
+  "cleanup_receipt": "docs/tasks/confined-ch-width256-online-cleanup-receipt.json",
+  "memory_summary": "PROGRESS/DECISIONS/task archive/index/live/results updated; no Git history action",
+  "plotting_recovery": "First final_fields_01 rendered images then NumPyfloat32 JSON scalar failed; cast report tolerance toPythonfloat, reran into final_fields_02 successfully. Partial01 retained; no unauthorized deletion."
+}

@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-width128-beta09-30k-01",
+  "prior": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-width128-30k-02",
+  "configuration_change": {
+    "train.soap_b2": [
+      0.99,
+      0.9
+    ]
+  },
+  "effective_shampoo_beta": [
+    0.99,
+    0.9
+  ],
+  "initial_array_leaves": 119,
+  "initial_parameters_bytewise_equal": true,
+  "initial_parameter_maximum_difference": 0.0,
+  "initial_cohort_metrics_match": true,
+  "unchanged_training_and_sampling_sources": [
+    "examples/confined_ch2d/operator_training.py",
+    "src/nonlocal_pinn/nn/point_conditional.py",
+    "src/nonlocal_pinn/training/optimizers.py",
+    "src/nonlocal_pinn/training/runtime.py"
+  ],
+  "sampling": "Same runtime seed/global keys and stateless sampler on identical bank. Old interrupted run lacks an exported actual-draw trace; new full trace audited at completion against global keys and saved width96 prefix.",
+  "scope": "Actual saved initialization and source/config identity; no continuation or prior optimizer import"
+}

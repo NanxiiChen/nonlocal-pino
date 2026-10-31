@@ -1,0 +1,19 @@
+{
+  "nodes": 1179,
+  "initial_mean": -0.00023952039847715406,
+  "homogeneous_curvature": -0.9999998278899361,
+  "laplacian_min": -1.7658012874093827e-13,
+  "laplacian_max": 1646.6280692992493,
+  "minimum_weight": 0.0020497630127209636,
+  "maximum_weight": 1.0,
+  "growing_modes": 19,
+  "constant_mode_error": 1.5765166949677223e-14,
+  "seconds": 0.44739693216979504,
+  "index": 512,
+  "kind": "linear_stable_resolvent",
+  "metric_shape": [
+    1179,
+    1179
+  ],
+  "finite": true
+}

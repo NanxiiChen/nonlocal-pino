@@ -1,0 +1,106 @@
+{
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-smallscale10-01",
+  "prior_run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261029-confined-geometry-richer512-long-01",
+  "config_matches_explicit_preset": true,
+  "unchanged_geometry_architecture_operator_optimizer": true,
+  "changed_physical_IC_and_horizon": true,
+  "comparison_scope": "New physical benchmark; no isolated numerical-method accuracy gain claim",
+  "initial_parameters_identical": true,
+  "actual80000condition_draws_identical": true,
+  "no_heldout_geometry_draws": true,
+  "visits_min": 123,
+  "visits_max": 201,
+  "initial_modes": 10,
+  "initial_analytic_bound": 0.36,
+  "shortest_mode_wavelength": 0.23529411764705885,
+  "mesh_size": 0.035,
+  "local_linearized_modal_growth": [
+    -1.9833219337804966,
+    -11.08770359995814,
+    -4.179639001679136,
+    -13.566405070243842,
+    -4.179639001679136,
+    -13.566405070243842,
+    -14.056147027772646,
+    -22.349092755554988,
+    -14.056147027772646,
+    -22.349092755554988
+  ],
+  "optimizer_payload_has_no_future_fields": true,
+  "cpu_gpu_maximum_phi_mu_difference": 4.829470157119431e-15,
+  "native_time_phi_max": 1.0811181263771686e-09,
+  "native_time_mu_max": 9.387794836854917e-10,
+  "local_reference_checks": [],
+  "reference_terminal_phase_statistics": [
+    {
+      "index": 512,
+      "pure_fraction": 0.0069242732213478705,
+      "mixed_fraction": 0.3465741375191495
+    },
+    {
+      "index": 513,
+      "pure_fraction": 0.015565342688127915,
+      "mixed_fraction": 0.3766594739941971
+    },
+    {
+      "index": 514,
+      "pure_fraction": 0.0023247214193255388,
+      "mixed_fraction": 0.5340896518698507
+    },
+    {
+      "index": 515,
+      "pure_fraction": 0.007966980924252036,
+      "mixed_fraction": 0.36319876292471315
+    },
+    {
+      "index": 516,
+      "pure_fraction": 0.003806056143929674,
+      "mixed_fraction": 0.32223172422776913
+    },
+    {
+      "index": 517,
+      "pure_fraction": 0.0052049917606796945,
+      "mixed_fraction": 0.4515792489891424
+    },
+    {
+      "index": 518,
+      "pure_fraction": 0.0,
+      "mixed_fraction": 0.43623469350538413
+    },
+    {
+      "index": 519,
+      "pure_fraction": 0.0,
+      "mixed_fraction": 0.533802146691689
+    }
+  ],
+  "native_test": {
+    "phi_pooled": 0.5125985678080847,
+    "phi_terminal": 0.5078352629119574,
+    "mu_pooled": 0.4752804444575227,
+    "mu_terminal": 0.5929494106181689,
+    "frozen_phi_pooled": 0.9425240052540753,
+    "worst_phi_pooled": 0.6150026708411565,
+    "mass_max_drift": 1.030534164947472e-16,
+    "energy_max_increase": 0.0
+  },
+  "local_FEM": {
+    "status": "not_evaluated",
+    "conditions": 0,
+    "reason": "No local FEM reference files in this bank"
+  },
+  "wall_seconds": 1435.61402425915,
+  "warm_update_seconds": 0.042785464881652566,
+  "memory": {
+    "num_allocs": 9506059,
+    "bytes_in_use": 8813506816,
+    "peak_bytes_in_use": 16300441344,
+    "largest_alloc_size": 7592836352,
+    "bytes_limit": 38183976960,
+    "bytes_reserved": 0,
+    "peak_bytes_reserved": 0,
+    "largest_free_block_bytes": 0,
+    "pool_bytes": 38183976960,
+    "peak_pool_bytes": 38183976960
+  },
+  "scope": "One cold seed, finite512/8development cohort; native/local bias separate"
+}

@@ -1,0 +1,115 @@
+{
+  "status": "owned_old_processes_stopped",
+  "reason": "User explicitly requests a new cold beta2=.9 run",
+  "old_run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-width128-30k-02",
+  "old_journal": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-width128-02-process.json",
+  "paired_marker": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-width128-30k-02/checkpoint_015000.json",
+  "checkpoint": {
+    "step": 15000,
+    "kind": "intermediate_full_state",
+    "model": "ckpt_015000.eqx",
+    "optimizer": "optimizer_015000.eqx",
+    "config": "config.json",
+    "policy": "Paired numerical state; not a completed fixed-budget result"
+  },
+  "checkpoint_model_and_optimizer_finite": true,
+  "optimizer_counters": [
+    {
+      "path": "[1][0].count",
+      "value": 15000
+    },
+    {
+      "path": "[1][1].count",
+      "value": 15000
+    }
+  ],
+  "owned_processes": {
+    "177950": "/root/nonlocal-pinn/.venv/bin/python -m docs.tasks.confined_ch_width128_runner --attempt 2 ",
+    "184137": "/root/nonlocal-pinn/.venv/bin/python examples/confined_ch2d/train.py --config=examples/confined_ch2d/configs/train_operator_smallscale10_512_width128.py --config.log.run_name=20261030-confined-geometry-b16-t16-width128-30k-02 "
+  },
+  "requested_new_beta2": 0.9,
+  "old_beta2": 0.99,
+  "utc": "2026-10-30T12:21:50.566707+00:00",
+  "original_journal": {
+    "status": "intentionally_stopped_for_beta09",
+    "runner_pid": 177950,
+    "runner_session": 177950,
+    "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-width128-30k-02",
+    "journal": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-width128-02-process.json",
+    "spatial_reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_h030_check_02",
+    "preflight": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-width128-02-preflight.json",
+    "prior_cold_run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-soap-01",
+    "best_width96_run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01",
+    "requested_steps": 30000,
+    "started_utc": "2026-10-30T09:26:25.646634+00:00",
+    "stages": [
+      {
+        "stage": "spatial_refinement",
+        "command": [
+          "/root/nonlocal-pinn/.venv/bin/python",
+          "-m",
+          "docs.tasks.confined_ch_mesh_refinement",
+          "--dataset",
+          "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_512_v1",
+          "--output",
+          "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_h030_check_02",
+          "--indices",
+          "514",
+          "518",
+          "--mesh-size",
+          ".030"
+        ],
+        "started_utc": "2026-10-30T09:26:25.646921+00:00",
+        "pid": 177951,
+        "session": 177951,
+        "log": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-width128-02-spatial_refinement.log",
+        "exit_code": 0,
+        "completed_utc": "2026-10-30T09:29:52.285675+00:00"
+      },
+      {
+        "stage": "gpu_preflight",
+        "command": [
+          "/root/nonlocal-pinn/.venv/bin/python",
+          "-m",
+          "docs.tasks.confined_ch_width128_probe",
+          "--config",
+          "examples.confined_ch2d.configs.train_operator_smallscale10_512_width128",
+          "--prior",
+          "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-soap-01",
+          "--output",
+          "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-width128-02-preflight.json",
+          "--updates",
+          "12"
+        ],
+        "started_utc": "2026-10-30T09:29:52.287607+00:00",
+        "pid": 179313,
+        "session": 179313,
+        "log": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-width128-02-gpu_preflight.log",
+        "exit_code": 0,
+        "completed_utc": "2026-10-30T09:38:22.071713+00:00"
+      },
+      {
+        "stage": "training",
+        "command": [
+          "/root/nonlocal-pinn/.venv/bin/python",
+          "examples/confined_ch2d/train.py",
+          "--config=examples/confined_ch2d/configs/train_operator_smallscale10_512_width128.py",
+          "--config.log.run_name=20261030-confined-geometry-b16-t16-width128-30k-02"
+        ],
+        "started_utc": "2026-10-30T09:38:22.073039+00:00",
+        "pid": 184137,
+        "session": 184137,
+        "log": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-width128-02-training.log"
+      }
+    ],
+    "active_child_pid": null,
+    "heartbeat_utc": "2026-10-30T12:21:22.599935+00:00",
+    "stopped_utc": "2026-10-30T12:21:50.772900+00:00",
+    "preserved_checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-width128-30k-02/checkpoint_015000.json",
+    "stop_reason": "User requests immediate new cold beta2=.9 control; partial .99 run is not a completed30k result",
+    "stop_receipt": "docs/tasks/confined-ch-width128-beta09-switch.json",
+    "previous_journal": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-width128-02-before-beta09-stop.json"
+  },
+  "both_processes_terminated": true,
+  "stopped_utc": "2026-10-30T12:21:50.772900+00:00"
+}

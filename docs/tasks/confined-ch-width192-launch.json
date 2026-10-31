@@ -1,0 +1,16 @@
+{
+  "launched_utc": "2026-10-30T17:43:59.962319+00:00",
+  "runner_pid": 260556,
+  "runner_log": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width192-fp32-01-runner.log",
+  "command": [
+    "/root/nonlocal-pinn/.venv/bin/python",
+    "-m",
+    "docs.tasks.confined_ch_capacity_runner",
+    "--prefix",
+    "20261031-confined-width192-fp32-01",
+    "--prior",
+    "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width128-fp32-30k-03"
+  ],
+  "journal": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width192-fp32-01-process.json",
+  "scope": "User-authorized sameGPU moderate192width cold30k, gated probe and final audit pipeline; no defaults or Git history changes."
+}

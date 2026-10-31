@@ -1,0 +1,116 @@
+{
+  "status": "passed",
+  "dataset": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_512_v1",
+  "indices": [
+    512,
+    513,
+    514,
+    515,
+    516,
+    517,
+    518,
+    519
+  ],
+  "snapshots": 61,
+  "conditions": [
+    {
+      "index": 512,
+      "time_refinement": {
+        "phi": 5.466583946833473e-08,
+        "mu": 4.16516760415417e-07
+      },
+      "existing_anchor_difference": {
+        "phi": 2.858824288409778e-15,
+        "mu": 2.7755575615628914e-15
+      },
+      "seconds": 60.03581249713898
+    },
+    {
+      "index": 513,
+      "time_refinement": {
+        "phi": 6.577775460437858e-08,
+        "mu": 4.805118777783777e-07
+      },
+      "existing_anchor_difference": {
+        "phi": 2.4424906541753444e-15,
+        "mu": 2.6922908347160046e-15
+      },
+      "seconds": 57.0964044239372
+    },
+    {
+      "index": 514,
+      "time_refinement": {
+        "phi": 5.930006310977807e-08,
+        "mu": 4.058886930847252e-07
+      },
+      "existing_anchor_difference": {
+        "phi": 2.0261570199409107e-15,
+        "mu": 2.1649348980190553e-15
+      },
+      "seconds": 72.4345546849072
+    },
+    {
+      "index": 515,
+      "time_refinement": {
+        "phi": 5.895073697230253e-08,
+        "mu": 3.98995689103306e-07
+      },
+      "existing_anchor_difference": {
+        "phi": 1.7763568394002505e-15,
+        "mu": 2.4980018054066022e-15
+      },
+      "seconds": 102.98276738077402
+    },
+    {
+      "index": 516,
+      "time_refinement": {
+        "phi": 5.762009233131786e-08,
+        "mu": 3.892834935476295e-07
+      },
+      "existing_anchor_difference": {
+        "phi": 2.886579864025407e-15,
+        "mu": 2.831068712794149e-15
+      },
+      "seconds": 56.80339161865413
+    },
+    {
+      "index": 517,
+      "time_refinement": {
+        "phi": 6.050188589931043e-08,
+        "mu": 4.251046068583204e-07
+      },
+      "existing_anchor_difference": {
+        "phi": 2.0816681711721685e-15,
+        "mu": 3.635980405647388e-15
+      },
+      "seconds": 86.29338145256042
+    },
+    {
+      "index": 518,
+      "time_refinement": {
+        "phi": 5.6537953344131085e-08,
+        "mu": 4.097261061882023e-07
+      },
+      "existing_anchor_difference": {
+        "phi": 3.4833247397614286e-15,
+        "mu": 2.609024107869118e-15
+      },
+      "seconds": 93.98262322694063
+    },
+    {
+      "index": 519,
+      "time_refinement": {
+        "phi": 5.752067524824606e-08,
+        "mu": 4.476107077130159e-07
+      },
+      "existing_anchor_difference": {
+        "phi": 2.248201624865942e-15,
+        "mu": 3.1086244689504383e-15
+      },
+      "seconds": 62.57125411182642
+    }
+  ],
+  "wall_seconds": 156.78442156873643,
+  "purpose": "Dense validation only; no training payload or future-field supervision",
+  "reference": "Independent ordered graph and SciPy BDF on the existing physical meshes; no FEM/JAX"
+}

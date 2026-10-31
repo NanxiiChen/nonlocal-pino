@@ -1,0 +1,17 @@
+{
+  "status": "failed",
+  "stage": "supplemental full-grid PDE evaluation field-invariance check",
+  "script": "docs/tasks/melting_spatial_full_residual.py",
+  "mode": "fixed_pool",
+  "input_index": 2,
+  "large_query_count": 65536,
+  "standard_query_count": 1024,
+  "compared_points": 512,
+  "positive_times": [0.25, 0.5, 0.75, 1.0],
+  "max_absolute_phi_gap": 0.0057708583772182465,
+  "threshold": 0.00002,
+  "scalar_residual_ranking_used": false,
+  "threshold_relaxed": false,
+  "training_or_checkpoints_changed": false,
+  "followup": "docs/issues/melting-query-chunk-consistency.md"
+}

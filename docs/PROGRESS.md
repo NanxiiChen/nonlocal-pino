@@ -17,11 +17,215 @@ The split preserved physical formulations and existing artifact paths.
 
 ## Active task
 
-None. Operator publication is complete in code/docs and verification; the
-user-authorized dev -> regular main merge -> origin/main publication receipt
-is recorded by Git history and remote reference equality.
+[Current code publication](tasks/current-code-publication.md).
+User authorizes commit/push of accumulated code and records. Inspect335textual
+source/config/docs/metric candidates (~3MiB), preserve external payloads and
+failed numerical gates, validate/stage, devcommit -> regularmainmerge -> push
+origin/mainonly, then verify remote and publish accurate task-end receipt.
+No numerical/default/training changes or deletion/history rewrite planned.
 
 ## Recent completed tasks
+
+[Melting spatial-pool comparison](tasks/archive/melting-spatial-pool-comparison.md).
+Matched5000Adam/B16/Nt8/128^3/ordinaryFP32 fixed/rolling: native8meanphi pooled
+0.1631/0.4217%, terminal0.2218/0.2514%; warm12.737/13.247ms(+4.00%), cold190.06/
+190.65s, activepeak1.4952/1.4955GiB. Coverage0.3898->45.6869%, producerwait0.0236s.
+Initialmodel+Adam/80000actualICs/40000times/first32cores/allcorestreams/rawmetrics
+and sameGPU1024queryreplays<=9.62e-7pass. Two focusedtests/FP64full-gradient
+identity pass. Full3update probe15.44s/38.31GiB; user cancels full5000. Extra
+65536queryfield gate fails0.00577versus1024; input/JVP/explicit/captured probes
+retain it, cause unresolved, issue recorded and failed gate retained. No scalar
+fullresidual ranking, partition-independent/stable accuracy claim or promotion.
+README/DEVELOPMENT/index/scripts/receipts/figures archived, no cleanup/Git action.
+Allworkers exited; no follow-up queued.
+
+[Electropolish spatial sampling comparison](tasks/archive/electropolish-spatial-pool-comparison.md).
+Full/fixed/rolling matched5000Adam/B8/Nt4/FP32ordinary, all40000actualICs/time/
+ICBC/model+Adam state parity. Same64localFD101meanphi4.481/4.964/4.858%pooled,
+3.774/3.833/3.651%terminal; warm effective15.83/13.22/15.08ms, cold4.109/3.915/
+4.090min. Strict safe halo/SDF/FIFO/overflow tests4PASS; fixed3938/4949free
+coverage versus full/rolling100%. GPUreplay<=4.09e-6and independent64field
+metrics pass. ExtraCPUreplay fails0.3167; composedattention issue recorded with
+NumPy/isolated CPU-GPU probes, cause unresolved. Interpret measured GPU paths
+only, no robust/unique sampling advantage or default promotion. README/index/
+scripts/receipts/figures archived; failedCPUgate retained, no reference solve,
+cleanup orGit action. Allprocesses exited/GPUreleased; no follow-up queued.
+
+[Rolling core+halo assessment](tasks/archive/core-halo-rolling-assessment.md).
+Both NOs draw fresh ICs/times but cycle32static spatial sets. Exact CPU core
+coverage: electropolish3938/4949free(79.57%), melting8172/2097152(0.3897%);
+halo still participates in AD. Recommend reusable bounded subgraph producer
+on immutable graph, deterministic uniform cores, complete halo, fixed safe
+padding and coordinated query/SDF metadata refresh. Current observed pool caps
+cannot safely bound arbitrary fresh sets. Pure CPU draw simulation illustrates
+coverage only, not trained L2 or full producer throughput. No runtime/default/
+reference/Git change; source/JSON/docs/diff checks pass. Discussion complete.
+
+[Geometry-operator SOTA promotion](tasks/archive/confined-ch-operator-sota.md).
+User-accepted width256/online/SOAP50k/FP32ordinary now selected by the opt-in
+configs/train_operator.py; fixed50k model at4.8329% pooled/5.1935% terminal phi
+on the same8native development geometries. Root/example README, DEVELOPMENT
+and artifact index agree on the recipe/direct checkpoint/validation scope.
+Original mild config retained explicitly; all37derived presets unchanged,
+single-IVP window default and mild reference CLI semantics preserved. Exact
+saved-config equivalence, actual entry/schema/path checks and3focused CPUtests
+PASS26.288s; whitespace check passes. No training, external file cleanup/move,
+new media or Git history operation. Promotion complete; no required resume.
+
+[Width256 cold50k with online rolling inputs and finalphysicalfields](tasks/archive/confined-ch-width256-online-cold50k.md).
+Fresh50000SOAP/FP32ordinary/B16Nt16updates complete; nativephasevalidation
+4.8329%/terminal5.1935%, historical16monitor5.0529%. Same8reused development
+geometries/oneinitialization, nativeonly/FEMdeferred; worstterminal10.5862%.
+102.26mintrainingwall, fullrunGPUactivepeak20.4337GiB; GPUreleased.16000new
+operator-onlyinputs installed/15994sampled, no trainingPDE/FEMsolves. Fullstate/
+actualslot/time/geometry/pool and24CPUfieldreplaysPASS(phi7.15e-7/mu3.66e-6).
+All10pairedcheckpoints present/final50kbytesexact. Finalmeanis prescribedbudget,
+not lower49.5kmetricselection. Three low/median/worst3x5phi galleries validated/
+inspected, originalmesh/holemasks/sharedscales, PNG/PDFexternal. Finalcurvehelper
+reports truehistorycoverage after25k and stoppedcontrols without extrapolation.
+User-approved249redundantintermediatefiles freed5.7428GiB; protectedstates/logs/
+data retained. Results/audit/live/index and archive provide exactpaths; no
+defaultpromotion, newenvironment orGit history change. Taskclosed, no resume.
+
+[Geometry-operator capacity, precision and spatial controls](tasks/archive/confined-ch-width128-refinement.md).
+Fixed30kcold FP32 width128->192/fourheads/Fourier128->192channels improves native
+meanphase9.784/10.580->8.915/9.802%, dense61time9.319->8.346%; train16phase
+5.089->3.970%, worstnative18.55->15.53%. Coldtraining64.65->79.21min(+22.5%),
+warm92.33->119.43ms, activepeak8.43->9.38GiB. ExplicitSOAPcap512preserves wider
+FFNcoverage; not an isolated head-dimension gain. All30000actualdraw batches
+match, no labels/reserved draws, CPU24field gaps6.26e-7/2.82e-6 PASS; mass1.63e-8/
+energy nonincrease. Six of eight densegeometries improve; two worsen, single
+seed/reusednative8cohort/FEMdeferred. Finalpoint rebound, not fully converged;
+fixed30k result retained, no best-heldout selection/longer run/default promotion.
+Earlier FP64partials/hardware/two-native-spatial checks preserved. Final receipts
+confined-ch-width192-results/audit.json and confined-ch-capacity-final.json,
+curves/fields/checkpoints external. All jobs exited/GPUidle; no code/Git change
+in completion session, no follow-up queued.
+
+
+[Conservative disk cleanup](tasks/archive/disk-cleanup.md).
+User-authorized package-cache cleanup plus nine verified orphan128MiB MPI pools
+recovers measured9.805GiB; available4.529->14.334GiB. All numerical data/logs,
+checkpoints, environments, Trash/history/backup retained.26protected metadata
+checks, two reference NPZ reads, CPU JAX/autodiff and dolfin import PASS. No
+source/config/Git change. Immediate small pilots fit; full refined512bank
+estimated10-12GiB would leave tight room, optional30-50GiB expansion advised.
+Exact paths/commands/scope and byte counts recorded in task/receipt.
+
+[Density/capacity/GPU assessment](tasks/archive/confined-ch-density-capacity.md).
+Recommend width128control at current h=.035, separately1-2same-geometry native
+h=.030refinement checks; no run/config change. Matchedwidth64->96benefits already
+measured; width128benefit/peak unmeasured. Current48GiB GPU/15.72GiB activepeak/
+35.56GiB allocator leaves room for modest pilots; densemetric N^2storage7.07->
+estimated13.10GiB when meanpoints1230->1674. Fullrefinedbank needs disk (4.6GiB
+free). Native9.66%doesnot itselfprove underresolution or localoperator accuracy.
+Evidence/estimates/limits in task/receipt; no largerGPU request or queuedjob.
+
+[Random geometry-operator physical fields](tasks/archive/confined-ch-random-gallery.md).
+Blind draw514/519/516/517/518 from eight reserved development geometries;
+five shared-scale phase reference/prediction/absolute-error panels at0/.75/1.5/
+2.25/3. Pooled phase17.26/14.65/7.71/13.67/4.78%; worst case retained. All eight
+raw reference/geometry/score checks and five positive display reconstructions
+pass; all panels inspected. Native graph/BDF only, no fresh test or training.
+Script/receipt/index archived; PNG/PDF6.85MiB external, no Git action.
+
+[Fixed10mode geometry CH operator optimized to approximately10%](tasks/archive/confined-ch-fourier-optimization.md).
+Selected96width/512inputs/30k: nativephase9.66/10.51%,61time9.19%; training16
+monitors5.92/6.30%, worst8geometry17.26%,mu21.06%. All24CPUfieldreplays<=4.34e-15,
+fullstateimport gaps0, no heldoutdraws/futuretraininglabels; mass1.44e-16/energy
+nonincrease. Geometryresponsecorr.977/amplitude.933. Same8reuseddevelopment
+geometries/oneinitialization, nativeonly/FEMdeferred; terminal/allcases not all<10%.
+Matchedcapacityhelps;1024/64/10k20.21/21.79% doesnotbeat512/64/10k18.95/20.26%.
+Explicitcoldbest numericalpreset matchesmeasuredstagedrecipe, separatecold30k
+notmeasured. Interruptedfirstattempt retained; detachedretry andpairedSOAP
+snapshots fixrecovery, realrecovery/interruptedwrite/CPU21kbackup checksPASS.
+README/DEVELOPMENT/index/receipts archived; largeartifacts external, noGitaction.
+Alljobs exited; no requiredresume.
+
+[Fixed small-scale10mode geometry operator](tasks/archive/confined-ch-smallscale10-operator.md).
+Fresh24native refs PASS340.25s;512bank126s/6.08GiB/no newtraining trajectories.
+UserdefersFEM. Matched20kcoldAdam/SOAP nativephi51.26/50.78->39.56/39.17%,
+wall1435.61/2030.37s, warm42.79/69.82ms. SOAPmatchesAdamfinalat8500/1045.75s.
+Bothstillfall; no stationarytrap/capacityfloor or low-errorclaim. Initialparams/
+training-source/80kactualdrawsidentical; CPU24fieldreplays<=4.83/3.56e-15.
+Geometryresponse91.71->80.07%error,28.42->41.95%amplitude; incompleteconditioning.
+Width64/4heads/4conditionblocks/3decoder,224705params; width96preset and
+1536-weight time4->16control untrained. Docs/index/scripts/compactreceipts
+archived; generatedpayloadsexternal, defaultsunchanged, alljobs exited.
+
+
+[Longer cold training of the512-domain CH operator](tasks/archive/confined-ch-operator-long-training.md).
+Only5000->20000Adam budget changes; same512/8data/model/physics/LR, exact initial
+parameters and actual shared5000drawprefix. Nativephi4.690/5.454->2.463/2.837%,
+local2FEM8.976/10.431->8.111/9.473%; geometry response35.51->19.28%,correlation
+.936->.982 on identical4627queries.80000draws visit all512inputs123..201times;
+CPU24fieldreplays<=1.45e-15, no leakage and physical checks pass. Cold1401.54s,
+warm41.89ms. Last5000phase2.333..2.791%,slowly falling; no complete-convergence,
+validation-selected-best, multi-seed or continuum claim. Explicit long preset,
+README/index/analysis/compact receipts archived; generated outputs external.
+Old5000/windowdefaults/artifactpaths retained, no runtime/core/Git change.
+All jobs exited; no follow-up queued.
+
+
+[Expanded richer geometry-conditioned CH operator](tasks/archive/confined-ch-geometry-richer.md).
+Six-worker512training/8validation bank ready124.70s (~6.11GiB), no newPDE/FEM
+trajectories.496newoperator-only inputs plus16labeled train monitors; original8
+validation domains retained. Same5000Adam/B4initial/model gives nativephi
+9.184/11.200%->4.690/5.454%, local2FEM12.846/15.402%->8.976/10.431%; geometry
+response error77.03->35.51%, correlation.645->.936 on identical4627queries.
+Cold431->524s, warm43.02->43.22ms. All512visited20..68times/noheldout overlap;
+CPU24fieldreplays<=1.64e-15, initial/reference arrays exact, focused2tests and
+legacyload/operator/physical checks pass. Single-run reused development cohort;
+native/local bias7-9% and seed/topology/continuum limitations remain. Explicit
+preset/loader/evaluator/docs/index/scripts/compact receipts archived, media/data
+external. Old defaults/artifactpaths retained; no reflection run or Git action.
+All processes exited, no follow-up required.
+
+
+[General geometry-conditioned CH operator](tasks/archive/confined-ch-geometry-operator.md).
+Finite16/8random-hole bank, fixed ambient IC, physical quadrature, hard IC/mass,
+PDE-only canonical train.py. User rejects distance bias; generic GNOT-inspired
+boundary/domain-function streams improve longerT.75nativephi5.293/6.220% to
+2.380/2.771%, geometry-response error84.42%->42.65%, amplitude43.54%->94.74%.
+Local2meanphi6.886/7.907%->5.720/6.704%; operator bias remains. Cold314/407s;
+all24CPUfield replays<=1.9e-15,20kactual geometry draws/config parity and focused
+kernel/gradient/mask/query/physical checks pass. References/FEM pass; reused
+development cohort, no arbitrary geometry/seed convergence claim. Scripts/
+figures/metrics/source/index/docs archived; existing defaults retained, no Git
+history action. All jobs exited; further geometry/operator work is optional.
+
+[Irregular-domain initial-field encoding](tasks/archive/confined-ch-operator-encoding.md).
+Fixed ellipse/twoholes has3682triangle-centroid inputs with physical areas.
+Recommend point lifting/area-aware latent cross-attention, reusing shared
+spatial/time decoder; mask-aware image patches remain a simpler control.
+No automatic BC enforcement, geometry-transfer or long-time convergence claim;
+window route retained. Literature/code/array checks complete; no implementation.
+
+
+[Attached-paper CH versus NSCH clarification](tasks/archive/twophase-nsch-scope.md).
+Direct PDF recheck confirms Qiu2022 vortex explicitly omits momentum/continuity,
+while rising bubble solves coupled CHNS with capillary feedback and(u,v,p,C).
+Current pilot corresponds only to the first scope, not exact paper reproduction.
+Recommend true coupled model for full two-phase NO; random vortices then specify
+initial velocity/forcing, not future prescribed velocities. No implementation.
+
+
+[Physical random-flow family](tasks/archive/twophase-physical-flow-design.md).
+Recommend controlled counter-rotating Gaussian vortex pair: random circulation,
+core size, separation and offset; periodic zero-net-vorticity construction.
+Physical prior replaces random Fourier coefficients; FFT remains a numerical
+representation. Explicit one-way prescribed stirring, not free NSCH dynamics.
+Four-roll mill is an alternative requiring device/BC distinctions. Three flow
+schematics/independent divergence checks archived; no CH/NO training or defaults.
+
+
+[Two-phase NO conditioning recommendation](tasks/archive/twophase-operator-design.md).
+Current case is prescribed-flow CH, not NSCH. Prefer fixed droplet/random
+low-frequency divergence-free streamfunction velocities first, then joint
+random IC; reuse image encoder/shared queries/time JVP and grid-mass constraint.
+Keep full-grid FFT assumptions, native/local validation and peak-deformation
+metrics explicit. Discussion only, no implementation/default/training/Git action.
+
 
 [Verified NO defaults and lightweight publication](tasks/archive/operator-sota-publication.md).
 Electropolish canonical NO now onlineB8/5000Adam/image-only, melting retains

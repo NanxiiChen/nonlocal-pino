@@ -1,0 +1,25 @@
+{
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-smallscale10-soap-01",
+  "step": 20000,
+  "index": 512,
+  "scalar_checks": {
+    "quadrature_max_abs_difference": 1.6306400674181987e-16,
+    "minimum_singular_values": [
+      0.0006467088817370572,
+      0.0013136106435658213,
+      0.0028227269945549907
+    ],
+    "scalar_constant_and_linear_forcing": true,
+    "scope": "Exact piecewise-linear residual response; no nonlinear-error equality claim"
+  },
+  "physical_error_rms": 0.1087992035369674,
+  "spatial_residual_rms": 0.04100228104724815,
+  "source_training_metric": "biharmonic_resolvent",
+  "source_spatial_residual_rms": 0.007603317336823848,
+  "diagnostic_spatial_metric": "linear_stable_resolvent",
+  "causal_defect_rms": 0.21804849326784623,
+  "physical_terminal_error_rms": 0.19569214272753654,
+  "causal_terminal_defect_rms": 0.6205610408840339,
+  "maximum_linear_growth_amplification": 64.32102714626107,
+  "scope": "Frozen checkpoint diagnosis only; piecewise-linear residual quadrature, no training or future-label loss"
+}

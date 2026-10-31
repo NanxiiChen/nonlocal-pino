@@ -1,0 +1,48 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-10-31T08:07:10.959321+00:00",
+  "common_step": 18500,
+  "scores": [
+    {
+      "label": "192 / fixed512",
+      "step": 18500,
+      "train_phi_pooled": 0.06566592620457237,
+      "train_phi_terminal": 0.07047756617036025,
+      "test_phi_pooled": 0.10342788095193214,
+      "test_phi_terminal": 0.11275678430390132
+    },
+    {
+      "label": "192 / fixed1024",
+      "step": 18500,
+      "train_phi_pooled": 0.07458297382407988,
+      "train_phi_terminal": 0.0797295385274949,
+      "test_phi_pooled": 0.09309200912599865,
+      "test_phi_terminal": 0.10049435007976029
+    },
+    {
+      "label": "256 / fixed512",
+      "step": 18500,
+      "train_phi_pooled": 0.06313984074979755,
+      "train_phi_terminal": 0.0674394591586954,
+      "test_phi_pooled": 0.10156626089500372,
+      "test_phi_terminal": 0.11046132160788369
+    },
+    {
+      "label": "256 / rolling from0 (current)",
+      "step": 18500,
+      "train_phi_pooled": 0.09382684983856743,
+      "train_phi_terminal": 0.10073789803586011,
+      "test_phi_pooled": 0.09369833502897791,
+      "test_phi_terminal": 0.09983762574529725
+    }
+  ],
+  "matched_png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_04/matched_budget.png",
+  "matched_pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_04/matched_budget.pdf",
+  "history_png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_04/comparison.png",
+  "reference_arrays_exact": true,
+  "aggregate_means_reconstructed": true,
+  "matched_step_order_exact": true,
+  "matched_figure_visually_inspected": true,
+  "scope": "Same8reused native development geometries and runtime seed42; not localFEM/fresh test. DifferentGPU/padding/architecture/library/rolling origins. No causal isolated sampler/capacity claim. 192online stage starts25k; its parent is the192fixed1024curve before25k. Last observed endpoints have unequal budgets. No smoothing/extrapolation or new training.",
+  "interpretation": "18.5k current9.3698/9.9838%,192fixed10249.3092/10.0494%; very close. Current lower than512fixed controls. Both current pooled andterminal below10% atthissnapshot; training50kcontinues."
+}

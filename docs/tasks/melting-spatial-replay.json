@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "backend": "gpu",
+  "threshold": 2e-05,
+  "records": [
+    {
+      "mode": "fixed_pool",
+      "index": 2,
+      "max_absolute_phi_gap": 1.3113021850585938e-06
+    },
+    {
+      "mode": "fixed_pool",
+      "index": 5,
+      "max_absolute_phi_gap": 9.5367431640625e-07
+    },
+    {
+      "mode": "rolling_pool",
+      "index": 2,
+      "max_absolute_phi_gap": 9.611248970031738e-07
+    },
+    {
+      "mode": "rolling_pool",
+      "index": 5,
+      "max_absolute_phi_gap": 9.539071470499039e-07
+    }
+  ],
+  "scope": "Fresh same-GPU replay; independent CPU portability not evaluated"
+}

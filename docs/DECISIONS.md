@@ -4099,3 +4099,1438 @@ no new binary files or history rewrite. Archive publication task and audits,
 clear dashboard, then perform the authorized devcommit/regularmainmerge/mainpush;
 Git branch and remote equality provide the final receipt. Relation:
 operator-sota-publication COMPLETE for implementation and verification.
+
+
+## 2026-10-29 — Recommend velocity-conditioned phase transport operator
+
+For the next NO discussion, prefer fixed IC with random low-frequency spatial
+streamfunction velocity structure, complementing two existing IC-conditioned
+operators; random IC/joint conditioning remains a later extension. This is a
+recommendation, not user approval of a numerical distribution. Retain a known
+time envelope, exact divergence-free construction, current periodic FFT flux,
+full-grid mass/IC constraints and mixed PDE losses. Reject amplitude-only sweeps
+as the main intended demonstration and do not call prescribed CH transport a
+coupled NSCH solution. Check peak deformation as well as final fields; retain
+independent local/native reference separation. No implementation, training,
+default change or Git authorization in this turn. Relation:
+twophase-operator-design COMPLETE; archived recommendation and next steps.
+
+
+## 2026-10-29 — Give random flow inputs a controlled vortex encounter meaning
+
+User wants physical interpretation for the velocity distribution. Recommend a
+counter-rotating finite-core vortex pair with circulation/core/separation/offset
+randomness, motivated by vortex-drop encounter studies. Use periodic unit-mass
+Gaussian cores and equal opposite circulation for Poisson compatibility; FFT
+is a representation, not the physical prior. Distinguish externally maintained
+prescribed stirring from freely evolving NS vortices and two-way drop dynamics.
+Four-roll mill remains a physical alternative with explicit wall/device mismatch
+to current periodic geometry. No numerical bounds frozen or model implemented.
+Archive only lightweight schematic script/receipts plus ignored local PNG;
+NumPy divergence/zero-mean checks pass. Relation:
+twophase-physical-flow-design COMPLETE; no training/default/Git action.
+
+
+## 2026-10-29 — Anchor two-phase scope to the supplied PINN manuscript
+
+Direct re-read of Qiu2022attachmentp12confirms reversed vortex solves onlyCH;
+p8/p9andp15-20confirm rising bubble solves NS+continuity+CH with capillary and
+material coupling, four network outputs and sequential windows. Current code
+implements only prescribed-flow scope. Recommend full NSCH for the user's
+coupled two-phase NO objective, with random vortex conditions interpreted as
+initial velocity or forcing. Equal-property2Dperiodic model is a proposed first
+step, not a silent default change; future variable-density formulation and
+reference choices must be explicit. Correct overly broad use of two-phase-flow
+for the transport pilot. Archive page/visual verification; no implementation,
+training or Git action. Relation: twophase-nsch-scope COMPLETE.
+
+
+## 2026-10-29 — Design irregular-domain conditioning; defer NSCH
+
+User defers coupled two-phase work and returns to confined CH initial-field
+encoding. Fixed geometry already supplies3682triangle-centroid samples/areas.
+Recommend shared point lifting into a small area-aware latent cross-attention
+encoder, preserving spatial/time splitting; regular image patches plus occupancy
+mask are a valid simpler control. No need to force a rectangular physical domain
+or treat hole filling as phase. Volume measure belongs in aggregation/mass;
+geometry/general-time convergence and local Neumann behavior require separate
+validation. Existing30-window difficulty is not resolved merely by an encoder.
+Archive recommendation/primary references; no implementation, default, training
+or Git action. Relation: confined-ch-operator-encoding COMPLETE.
+
+
+## 2026-10-29 — Start simplified geometry-conditioned CH operator
+
+User authorizes randomizing two hole positions/radii while keeping the outer
+ellipse and initial function fixed, reducing coarsening difficulty. Start an
+opt-in finite random geometry-bank pilot with Gmsh physical triangle-centroid
+quadrature, own visible regional operator and fixed-shape padding per domain.
+Boundary point encoder supplies geometry, with shared spatial/time decoding.
+Keep the same ambient IC restricted to each domain: do not multiply by moving
+hole envelopes and call it fixed. A local initial Neumann mismatch is explicit.
+Native reference refinement and representative local FEM checks precede claims.
+No evolved labels in training, no old default/history change. Relation:
+confined-ch-geometry-operator ACTIVE; NSCH deferred.
+
+
+## 2026-10-29 — Test direct boundary tokens after latent geometry collapse
+
+First5000Adam geometry pilot reaches heldoutphi3.272%/4.326% pooled/terminal,
+mu8.228%/10.287%,259.34s; however swapping encoded geometry changes phierror
+by almost nothing. Do not call this successful geometry dependence. Test a
+simpler direct boundary-token encoder (no32-token compression), preserving
+arc-measure attention, physicalbank/IC/PDE/metric/budget/sampling/optimizer.
+Keep the first run and source snapshot. This is an architecture control, not
+an isolated optimizer or general convergence claim. Relation:
+confined-ch-geometry-operator ACTIVE.
+
+
+## 2026-10-29 — Check geometry sensitivity before accepting scalar operator error
+
+User observes nearly identical final fields and authorizes a somewhat harder
+coarsening control. Direct boundary tokens improve native heldoutphi2.855/3.709%
+and wrong-geometry2.855->3.425% (7/8worse), but this alone does not establish
+strong conditional fidelity. Diagnose reference/model variation at identical
+physical queries, with common-domain support and no cross-hole interpolation.
+Keep the mild run; extend only T.2->.75 with same initial function,24geometries,
+mesh/kernel/epsilon/optimizer/budget first. Off-grid neural queries must retain
+the original volume-weighted mass correction, not recompute it on probe points.
+Quantify mean-field versus geometry-response errors separately. Relation:
+confined-ch-geometry-operator ACTIVE; harder extension authorized.
+
+## 2026-10-29 — Prefer general heterogeneous point conditioning over distance bias
+
+User rejects an explicit query-to-wall distance attention bias. No such patch
+landed. Test a GNOT-inspired heterogeneous normalized integral-attention model:
+separate boundary and domain-initial-field streams, repeated conditional reads,
+shared coordinate Fourier features, and the existing separable time decoder.
+Use GNOT equations3-8 with physical quadrature in the normalized sums, checked
+against an explicit pairwise implementation. This is not a full GNOT reproduction:
+omit query-set self-attention/MoE so arbitrary query chunks remain independent.
+Do not infer that boundary-only encoding lacks sufficient information, or that
+the earlier small latent control rules out Perceiver IO. Keep PDE, IC/mass,
+bank, optimizer, samples and budget fixed within the longerT.75 comparison.
+Report this as an architecture bundle, not an isolated cause or guaranteed gain.
+Longer local FEM checks16/17 passed; native/local phase discrepancy~4.8% pooled,
+~5.7% terminal remains separate. Relation: confined-ch-geometry-operator ACTIVE.
+
+## 2026-10-29 — Retain the general point-stream control after matched cold starts
+
+Two5000Adam/B4 longerT.75runs match all nonarchitecture configuration and20,000
+actual geometry draws. GNOT-inspired heterogeneous streams reduce native heldout
+phase5.293/6.220%->2.380/2.771% pooled/terminal; common-probe response error
+84.42%->42.65%, amplitude43.54%->94.74% and correlation.548->.905. This supports
+improved conditioning for this development cohort without explicit distance bias;
+it does not isolate the cause among stream/position/depth/width changes. CPU
+replays of all24fields agree with GPU saves within1.9e-15. Local FEM meanphi
+improves6.886/7.907%->5.720/6.704%, so native-reference gains are not continuum
+accuracy claims. Cold314/407s and warm21.46/36.29ms trade speed for accuracy.
+Keep the stronger generic model as an explicit research preset, preserve the
+mild pilot and windowed single-IVP defaults; no user-requested default/history
+change here. Further geometry/mesh/seed generalization and kernel refinement
+are separate experiments. Relation: confined-ch-geometry-operator COMPLETE.
+
+## 2026-10-29 — Increase physical geometry response without tailored attention
+
+User authorizes modest mesh refinement, richer fixed IC and broader random hole
+distribution plus smooth plots. Add a separate h.035/eight-mode preset, same
+beta1/M.02/epsilon.06/T.75 and generic model/Adam5000/B4. Both hole centers share
+a broad box with independent radii. Keep clearance and rejection validation;
+no hole-dependent IC or forced future shape. Frequencies are checked against
+linearized local CH growth M*k^2*(beta-epsilon^2*k^2), not increased blindly.
+Independent new native/local references and common-probe variation precede
+training. For display, area-weight neighboring physical cells to mesh vertices
+then interpolate linearly inside original triangles; mask holes. Metrics use
+unmodified centroid fields. No cubic overshoot or smoothing-as-accuracy claim,
+no comparison of different physical cases as an isolated method gain. Relation:
+confined-ch-geometry-richer ACTIVE; old artifacts/defaults retained.
+
+## 2026-10-29 — Test PDE-consistent geometry augmentation for the broader prior
+
+Richer-case5000run fits16training geometries at2.016% but validates at9.184%,
+so broader-prior generalization remains weak. Test axis-reflection augmentation
+without changing architecture/physics/budget/base draws. Axis-aligned ellipse,
+isotropic pair distances, segment visibility and physical volumes are reflection
+invariant; the new broad prior boxes are invariant too. Reuse A/resolvent under
+the same point indexing, reflect coordinates/boundary normals, and RECOMPUTE the
+same fixed ambient IC at reflected coordinates. Do not reflect old phi0/future
+solutions: IC is not assumed symmetric. Check independent matrix covariance and
+initial identity before training. Draw two reflection bits per update/condition,
+record actual bits, keep original8validation domains untouched and check their
+exclusion from all augmented inputs. This is symmetry-based data augmentation,
+not geometry-specific attention or proof that finite16coverage is the sole cause.
+Relation: confined-ch-geometry-richer ACTIVE; preserve first run and references.
+
+## 2026-10-29 — Separate training-operator precomputation from reference solves
+
+User clarifies512precomputed random training geometries are acceptable and asks
+only about constructing their operators. The earlier3.4hour extrapolation mixed
+full native trajectory/refinement work into training preprocessing; it is not
+an estimate of512operator-only inputs. Reflection control is not launched.
+Benchmark mesh/quadrature, production visible-pair assembly, existing dense
+residual metric and storage separately, with no time integration/FEM solve.
+Only fixed monitoring/validation inputs need future-field references. Preserve
+the existing8validation geometries when expanding training; no labels or input
+overlap. Online construction is a performance choice, not mathematically
+impossible. Relation: confined-ch-geometry-richer ACTIVE,512bank work authorized.
+
+## 2026-10-29 — Measure operator-only cost before expanding the geometry bank
+
+Three current~1160-1180node inputs, CPU/OpenBLAS1/OMP1: mesh/quadrature.518s,
+production pair assembly.0588s, dense residual metric.209s, compressed storage
+.537s; total1.323s/input.512serial extrapolation677s (~11.3min), not an actual
+512measurement. Three independent ordered-assembly probes agree; no PDE/FEM
+solve performed. Independent reference assembler costs2.35s/input separately
+and is not necessary for every production-only training input. Meshing runs in
+separate fenicsenv interpreter because .venv lacks meshio; initial failed
+environment probe is retained in /tmp. Online construction is feasible but slow
+relative to~43ms GPU updates, hence caching is pragmatic. No512future reference
+generation is needed. Relation: confined-ch-geometry-richer ACTIVE.
+
+## 2026-10-29 — Parallel operator-only bank with unchanged held-out domains
+
+Use six spawned CPU workers (one BLAS/OMP thread each) for512training domains;
+construct only mesh/quadrature, the unchanged production visible-pair operator
+and existing dense biharmonic residual metric. No evolution integration or FEM
+solve for new training inputs. Reuse the16existing labeled training monitors;
+reserve original accepted draws16..23 as the same eight validation geometries,
+reindex them512..519, and use draws0..15,24..519 for training. Reuse their exact
+validated fields/local FEM files after physical/config/geometry checks. New
+explicit operator-only bank format records label availability and monitor IDs;
+legacy all-labeled banks/checkpoints remain loadable. Reference arrays never
+enter the optimizer payload. Keep the same5000Adam/B4model/budget and compare
+on the identical development validation domains; larger coverage is a hypothesis,
+not a guaranteed generalization gain. Time complete preparation and training
+separately; five minutes is a target, not an assumed result. Relation:
+confined-ch-geometry-richer ACTIVE, user authorizes parallel generation/training.
+
+## 2026-10-29 — Parallel preparation meets the wall-time target
+
+Six spawned CPU workers complete the expanded512training/8validation bank in
+124.703s (496newoperators,24reused labeled monitors/validation files), well below
+the requested~5min target. Three new-domain actions agree with the independent
+ordered assembler within1.82e-12. Reuse the exact old references/local FEM;
+no training trajectories are integrated. Keep compressed cache storage (~6.11GiB)
+and full padded device bank for this run; first training setup takes120.69s,
+so preprocessing and cache-loading/compilation times must be reported separately.
+No change to physics/architecture/optimizer or optional reflection augmentation.
+Relation: confined-ch-geometry-richer ACTIVE;5000step cold comparison in progress.
+
+## 2026-10-29 — Expanded geometry coverage improves the matched cold comparison
+
+Same5000Adam/B4budget/model/initial parameters and identical8development validation
+domains:512training inputs reduce native phase9.184/11.200% to4.690/5.454%
+(pooled/terminal), while original16training-monitor phase rises2.016->4.314%.
+Common4627physical probes retain exactly the same reference variation; response
+error77.027->35.514%, amplitude74.423->88.478%, correlation.6453->.9362. Local2
+FEM phase12.846/15.402->8.976/10.431%, so improvement is not solely native-target
+cancellation. Native/local operator bias7-9% remains distinct. Actual20kdraws
+visit all512inputs20..68times, never oldheldout draws16..23. CPU final24field
+replay agrees<=1.64e-15 and initial parameters/reference arrays are identical.
+Cold trainer431.30->524.42s reflects larger cache setup; warm43.02->43.22ms.
+This supports broader coverage/reduced overfitting for one matched run, not
+monotone sample-count gains, seed stability or an independent final-test claim.
+Retain the512preset as opt-in research route; leave windowed single-IVP default
+and prior controls/artifact paths intact. Relation: confined-ch-geometry-richer
+COMPLETE; no further optimization or Git action authorized/queued.
+
+## 2026-10-29 — Extend the512-domain operator from a matched cold initialization
+
+User requests a longer cold run because5000step validation curves still fall.
+Predeclare20000Adamsteps, changing only iteration count from the512preset; reuse
+same cached512/8partition, physical/operator/model/payload and runtime seed42.
+Keep the exponential LR rule .001*.95**(step/1000), floor1e-5, unchanged rather
+than stretching it: the common5000step prefix remains directly comparable.
+Fresh network/Adam state, canonical train.py, independent run directory. Keep
+500step evaluation/1000step saves and fixed-budget final checkpoint, no held-out
+selection. Compare full/terminal and localFEMphi plus geometry response and tail
+trends; more steps are not assumed to guarantee convergence. Relation:
+confined-ch-operator-long-training ACTIVE; no Git operation authorized.
+
+## 2026-10-29 — Longer cold budget improves fitting but does not prove a plateau
+
+Fixed20000step final reaches native validationphi2.463/2.837% versus5000final
+4.690/5.454%, and chemical6.971% versus11.661%. Local2FEMphi8.976/10.431%->
+8.111/9.473%, with unchanged independently checked native/local bias7-9%.
+Initial parameters are exact and common5000metrics differ<=4.31e-16; checkpoint
+parameter relative difference7.28e-15. Keep final-budget selection and expose
+the complete fluctuating curve: last5000phase2.333..2.791%, fitted slope
+-.0585percentagepoints/1000steps, so no claim of complete convergence or a
+validation-selected best model. Cold1401.54s includes setup/compile, warm41.89ms.
+Retain5000control and add opt-in20000preset, without changing the physical
+horizon/model/operators or windowed single-IVP default. Relation:
+confined-ch-operator-long-training ACTIVE pending replay/geometry diagnostics.
+
+## 2026-10-29 — Complete the longer-budget control with unchanged inputs
+
+Independent24field replay agrees<=1.45e-15; all80kactualdraws cover512domains
+123..201times and the first5000updates' condition IDs match the prior run exactly.
+No future arrays enter optimizer payloads; raw field/chemical/mass/sample-energy
+checks pass. Same4627common queries retain exactly the same reference variation;
+geometry-response error35.514->19.284%, amplitude88.478->93.316%, correlation
+.9362->.9825. Archive full curves, final native/local metrics, source/config/
+initial/prefix identities and compact receipts. Keep final20000model as the
+explicit longer-budget result; retain the old5000control and all artifact paths,
+with no numerical-core/default/Git change. Relation:
+confined-ch-operator-long-training COMPLETE; no work queued.
+
+## 2026-10-29 — Increase physical complexity with longer multiscale coarsening
+
+User requests longer evolution and richer large/small initial ripples. Test a
+separate T2.0/20explicit-wave fixed ambient IC preset, keeping epsilon.06,geometry
+prior/h.035/delta.11 and generic point architecture unchanged. Keep phase bound
+strictly below1; distribute energy across low/mid/high modes with weaker high
+frequencies. Local linearized M*k²*(beta-epsilon²*k²) identifies likely growing
+and damped bands as a guide only; higher modes may physically decay early.
+Preview existing validation domains first, then recompute ALL monitoring/
+validation trajectories/local checks for changed physical inputs. No reuse of
+old future fields, no hole-dependent envelope, no shrinking epsilon blindly or
+new tailored attention. Parallel CPU solves/precomputation precede cold20kAdam;
+changed-case error comparisons are not isolated algorithmic improvements.
+Relation: confined-ch-multiscale-operator ACTIVE; no Git authorization.
+
+## 2026-10-29 — Balance modal amplitudes after the first physical preview
+
+T2/20modepreview increases late purity to4-8% (|phi|>=.8), but initial plots
+remain dominated by the previous large lobes. Compare fixed candidate ICs on
+one unchanged geometry using a shared color scale; choose24more evenly weighted
+modes (first8weights.20,last16weights.18, amplitude.20, strictbound.896).
+Add four missing directions up to(3,+/-3), shortest wavelength.208vsmesh.035;
+keep epsilon.06/delta.11 and all geometric/model assumptions unchanged. Preview
+T3to permit clearer late phase separation after high-band early relaxation.
+This is selection of a physical benchmark from reference fields, not network
+seed/error tuning. Preserve T2/20preview/config/results as untrained candidates;
+new preview uses an independent path and must precede full production bank.
+Relation: confined-ch-multiscale-operator ACTIVE.
+
+## 2026-10-29 — Parallelize independent reference domains without changing solvers
+
+The old local checks cost~206s/domain atT.75; T3would multiply serial wall.
+Add explicit optional reference_workers=6 and local_reference_workers=2 for
+this new case. Each spawned CPUprocess owns one domain; native ordered-row/BDF
+and local mixedP2/BE-startedBDF2/refinement thresholds are unchanged. Parent
+orders records/handles manifests and rejects failures. Local worker imports
+DOLFIN itself (parent stays uninitialized), meshing remains separately isolated;
+all FEM workers finish before GPU. Legacy configs retain serial orchestration.
+No coarsened FEM time step or relaxed tolerance is introduced. Relation:
+confined-ch-multiscale-operator ACTIVE.
+
+## 2026-10-29 — User corrects IC scope: fixed small-scale10modes only
+
+User clarifies that the initial state is fixed and selects the previously shown
+small-scale component, reduced from12to10modes. Stop the superseded24modeFEM
+work and retain completed/partial outputs as historical candidates, no training.
+Keep T3/epsilon.06 and other physical parameters initially; select the first10
+of the old highband, omitting the two highest-|k| diagonal modes(3,+/-3), preserving
+all retained amplitudes/phases (.036physical modal amplitude). No mixed bands,
+new scale-control knob or parameterized IC. Preview actual evolution because
+these high modes are locally damped aroundphi0, while walls/nonlinearity can seed
+other scales. Do not assume late separation or change physics without evidence.
+New source/training presets/paths identify10mode small-scale case explicitly.
+Relation: confined-ch-multiscale-operator ACTIVE (corrected scope).
+
+## 2026-10-30 — Retain tested FEM scheduling for the corrected10mode case
+
+Approval quota interrupted an earlier proposed six-resolution scheduling edit;
+no such change executed. On resumption, retain the working two-domain spawned
+FEM checks rather than extending reference infrastructure for this experiment.
+The24new10mode native references all pass in340.25s; local refinement remains
+the same two geometries/three resolutions/original gates. Proceed to512operator-
+only preparation and cold20kAdam only after local checks. No mixed24futurefields
+are reused. Relation: confined-ch-multiscale-operator ACTIVE; no Git action.
+
+## 2026-10-30 — User prioritizes native-only operator training over FEM
+
+User explicitly requests training/evaluation against nonlocal references first,
+deferring FEM. Stop owned FEMparent/workers, preserve partial outputs without a
+passed-local claim. Permit an explicit empty operator.local_validation_indices
+to mean no requested local checks for this bank; set this in the selected512
+preset only. Precompute must not read/copy FEM files in that case, and evaluation
+must report not_evaluated rather than NaN or a fabricated local metric. Existing
+nonempty presets retain their required passed local checks. Native24refinement
+gates remain mandatory. Sourcepreset retains two FEMindices for optional later
+resumption. No physical/model/optimizer change; no Git operation. Relation:
+confined-ch-multiscale-operator ACTIVE, native512cold20k now takes priority.
+
+## 2026-10-30 — Matched SOAP control before changing model width
+
+User requests SOAP and asks whether a larger architecture would help. Adam20k
+still decreases nativephi55.07->51.26%inlast5k, so label slow incomplete fitting
+rather than a proven stationary trap/capacity limit. First coldstart SOAP20k
+with exactly the same architecture/LR/bank/physics/sampling/runtime seed, changing
+only optimizer. Use existing explicit b1.9,b2.99,frequency5,maxdim128,no1D,clip10.
+Preserve fixed-budget selection and compare wall/step time as well as L2. Next
+capacity control may widen64->96 with heads4/depth/Fourierbandwidth unchanged;
+measure memory before a full widened run. Do not tune seed or resume Adam state
+for the primary cold comparison. Local FEM remains deferred and old defaults
+remain until evidence. Relation: confined-ch-multiscale-operator ACTIVEextended.
+
+## 2026-10-30 — Adam native-only result is slowly improving but inaccurate
+
+Complete20kAdam1435.614s: native8meanphi51.260/50.784%pooled/terminal,16train
+monitors50.959%, mu47.528%. Last5kphi55.072->51.260%, slope-.729pp/1000: slow
+incomplete fitting, not demonstrated trapping. CPU24fieldreplay4.83e-15, nofuture
+payload, sameinitialparams/80kactualdraws/all512inputs123..201visits verified.
+PhysicalIC/massandsampled5timeenergychecksdo not implyfieldaccuracy. Geometry
+responseerror91.711%,amplituderecovery28.423%,correlation.42165 onsame4627queries
+shows weakconditionalfidelityaswell. Keepprioraccuratedefaults, archive thisas
+a harder-case baseline after requestedSOAPcomparison, not a newSOTA. No local
+PDEaccuracy claim orFEMfollowupqueued. Relation: confined-ch-multiscale-operator ACTIVE.
+
+## 2026-10-30 — Temporal Fourier inputs change physical scale with the horizon
+
+Direct code inspection confirms angles=j*pi*s with s=t/T, not2*pi*s. Four
+input frequencies therefore have maximum angular frequency4*pi/T:16.755rad/s
+atoldT.75 versus4.189rad/s atT3. Increasing time_features4->16 would restore the
+old physical input band and add only1536trainable weights atwidth64. Nonlinear
+FiLM/MLPs can produce higher frequencies, so this is an inductive-bias/optimization
+hypothesis, not a strict output bandlimit or proven cause. Record as a separate
+generic architecture control from width64->96. Do not change the in-flight SOAP
+control, which must retain its matched4frequency input. No extra architecture
+run has started. Relation: confined-ch-multiscale-operator ACTIVE.
+
+## 2026-10-30 — Complete matched SOAP control without claiming convergence
+
+Same architecture, initial parameters, numerical source and 80000 condition draws:
+SOAP20k reduces native phase pooled/terminal51.260/50.784% to39.561/39.170%.
+Cold wall1435.614->2030.369s and warm42.785->69.817ms; first matching both Adam
+final metrics is SOAP8500calls/1045.747s. Last5kstillfall44.00->39.56%, supporting
+slow incomplete convergence rather than a demonstrated trap/capacity limit.
+All24SOAPfields replay on CPU within3.56e-15, no future-label payload or held-out
+input draw. Geometry response improves but remains weak (80.07%error/41.95%
+amplitude). Retain explicit SOAP research preset; do not promote this still-poor
+harder case over older defaults. Width96 and time16 controls are concrete options,
+not measured remedies or queued jobs. FEM remains deferred per user direction.
+Archive records/source/compact receipts; generated outputs stay external. Relation:
+confined-ch-smallscale10-operator COMPLETE, no active task or Git operation.
+
+## 2026-10-30 — Optimize generic Fourier features toward the requested10% target
+
+User authorizes wider Fourier embeddings and continued optimization to about10%
+relative phase L2. First test spatial64frequency vectors(128sin/cos channels),
+time32frequencies(64channels), spatial Gaussian scale2, keeping64wide backbone,
+heads/depths/outputscale.1 and physical/data/loss/sampling settings. This bundles
+feature count and bandwidth and cannot identify either alone. Increase SOAP
+max_precond_dim128->256 so133wide lifting inputs remain preconditioned; otherwise
+embedding expansion would also disable that input covariance axis. Common seed42
+remains provenance, not tuned. Preserve prior20kcontrols/defaults and pure physics.
+Save final optimizer state for possible explicit future continuation, changing
+no numerical update. Native-only/FEMdeferral continues. Relation:
+confined-ch-fourier-optimization ACTIVE; no Git authorization.
+
+## 2026-10-30 — Diagnose growing-mode errors before global time curriculum
+
+The Fourier64/time32/scale2 control is still learning (5.5kphase64.29%), but
+slower early than priorSOAP. Frozen2kCPUdiagnostic on geometry512 finds phase
+RMS decaying .0831->.0481 while native reference grows to .4476; growing-subspace
+error at T is94.49%. Exact weighted graph linearization about phi=0 gives
+mode growth gamma=M*lambda*(beta-epsilon^2*lambda), fastest gamma1.388 and
+exp(T*gamma)64.32. This is an infinitesimal diagnostic, not a nonlinear solution
+or a proof of the only bottleneck. Existing biharmonic metric weights that mode
+.1857; average transformed RMS residual is .0213 early-half vs .00842 late-half.
+Test the repository's existing log-time/global-horizon curriculum next, keeping
+one network and the same physical T3/IC/geometry/metric. Set explicit .05time
+scale, .15initial horizon and8kwarmup; same4positive times plus t0, no extra labels
+or time windows. Preserve the historical operator sampler bit-for-bit when this
+optional record is absent. Report this as an optimization-measure experiment,
+not a physics correction or a guaranteed route to10%. Relation: active Fourier task.
+
+## 2026-10-30 — Separate temporal Fourier width from bandwidth
+
+Add optional static arch.time_max_frequency to the generic point operators.
+Without it retain the exact arange(1,K+1) expression, RNG keys and parameter
+leaves. With it use K frequencies linearly spaced from1 to the explicit maximum
+in units of pi*t/T; require K>=2 and finite maximum>=1. A wide embedding need
+not increase its highest frequency. This is a reusable representation control,
+not an asserted cure. Keep the in-flight and queued controls at their original
+implicit integer band. New bounded-band configurations will be separate cold
+runs only after measuring the current curriculum. Verify old checkpoints by
+independent CPU replay; no old files or defaults are rewritten. Migration README
+read; no in-place checkpoint resume. Relation: active Fourier optimization.
+
+## 2026-10-30 — Test a stable-part resolvent without weakening growing modes
+
+Curriculum at11.5kstill74.73%, not evidence of an improvement. Prepare a separate
+reference-free CH residual norm from the frozen homogeneous state m0=mean(phi0):
+S=V^(1/2) A V^(-1/2), q(lambda)=M*lambda*(epsilon^2*lambda+beta*(3*m0^2-1)).
+The linearized evolution is y_t+q(S)y=0. Use P=(I+T*q(S)_+)^(-1), pulled back to
+physical coordinates, where the positive part is defined spectrally. All weights
+are in(0,1]; growing modes(q<0)retain1, while stable stiff modes are damped.
+This is an SPD residual norm with the same zero set, not a change to PDE/BC/IC
+or a nonlinear reference solution. It is a frozen linearization, not claimed
+optimal or guaranteed accurate. Independently verify closed-form3node spectra,
+finite-difference CH Jacobian and volume symmetry/constants before any new run.
+Build matrices once with explicit6CPUworkers from input-only graph/IC data; reuse
+the physical bank without duplicate dense caches or labels. Keep old metric
+paths/default arithmetic unchanged. Bound-band control remains separately queued;
+new metric is only a candidate until validated/measured. Relation: active task.
+
+## 2026-10-30 — Prioritize validated stable-part norm after the curriculum control
+
+Full520domain CPUpreflight passes input-only construction, PDEbackprop/nonzero
+encoder gradients and hardIC/mass, with all metric weightspositive. Curriculum
+17.5k40.91% is finally competitive but far from10%. Prioritize a cold bounded
+32/max4 temporal band + stable-part metric + historical uniform-sampling bundle
+next if curriculumfinal stillmisses either10%target. Cancel only the owned
+waiting bounded-only launcher (no trainingstarted) and retain its explicit
+unrun preset. This avoids spending another fullcontrol solely on bandwidth
+before testing the diagnosed growing-mode weighting. No isolated causal claim:
+new run changes band/norm/sampling relative to curriculum and band/norm relative
+to uniformFourier. Same243649weights/physicalbank/SOAP/budget/seed. It is not
+reference supervision, geometry-specific input design or a PDE change. Relation:
+active Fourier task, no Git history action.
+
+## 2026-10-30 — Preserve state and global draws for explicit operator continuation
+
+All completed controls still have meaningful training error, and optimizer state
+is now saved. Add an explicit train.continuation.parent_run extension to the
+canonical geometry trainer, for a NEW run with a higher total global iteration
+budget. Require complete parent model/state/config/summary, identical numerical
+configuration including architecture/sampler/optimizer/seed, and a strictly
+larger total budget. Restore model AND SOAP state; global fold-in counters and
+curriculum remain continuous. Replay all imported parent saved physical fields
+before any new update; reject mismatch. No in-place resume, hidden state reset,
+new seed or schedule retuning. Save direct-path parent provenance and separate
+stage/cumulative wall times. Fresh configs retain the historical initialization,
+iteration/RNG sequence and loss. Independently test real SOAP/PDE steps through
+serialization against uninterrupted CPU steps, including a refresh boundary.
+This adds training-budget continuity, not a claimed accuracy improvement or time
+window method. Use only if the measured cold candidate remains above target and
+continued convergence justifies it. Relation: active Fourier task.
+
+## 2026-10-30 — Reuse generic logarithmic time lifting for the initial transient
+
+Input-only initial RHS across8domains has RMS .907..987. With phi=phi0+s*raw_c,
+s=t/T, the required centered raw(0)=T*F(phi0) has RMS2.72..2.96, despite phase
+initialRMS~.08. Reuse the existing single-IVP logarithmic_additive convention:
+s=log1p(t/tau)/log1p(T/tau) for BOTH decoder time and the IC increment, tau=.05.
+Then raw_c(0)=tau*log1p(T/tau)*F(phi0), RMS.186..203 (factor14.595 smaller).
+This follows exactly by differentiating the hard ansatz at0; uses no evolved
+reference. A positive monotone time coordinate preserves the free solution class,
+hardIC/mass and physical-time JVP/PDE. It is input/lifting conditioning, not a new
+PDE residual Jacobian division. Optional phase record only; absent preserves the
+historical arithmetic and old checkpoints use saved configs. Independently check
+closed-form physical initial derivative, mass and off-grid query agreement.
+Prepare a separate cold stable/log-time control if current20kstillmisses10%;
+no outcome or isolated optimum is assumed. No model growth or geometry-specific
+prior. Relation: active Fourier task.
+
+## 2026-10-30 — Prepare a unit-output-gain control before further model growth
+
+The existing point decoder uses output_scale=.1. Initial derivative scaling shows
+centered correction magnitudes can be much larger than the initialized decoder.
+Prepare an explicit unit_output variant of the log-time preset changing ONLY
+that existing static gain to1.0, the phase field's natural unit scale. No bound,
+new parameters, different loss/labels or geometry feature is introduced. This
+is not yet a measured/queued run, and the current log-time20k must finish first.
+Check initial physical ranges and finiteness from input-only data before any
+trial. Prefer this inexpensive parameterization check to speculative geometry-
+specific conditioning or an immediate large-model change; if used, report the
+controlled gain change and actual metrics, not an assumed improvement. Relation:
+active Fourier task.
+
+## 2026-10-30 — Prefer the simpler time coordinate for the gain-only control
+
+Log-time17.5k23.43% is comparable to linear-time23.2%; no clear global benefit.
+User values general/simple schemes. After the complete20k comparison, select
+log only if BOTH primary phase metrics improve over linear by at least one
+absolute percentage point; otherwise use the historical linear coordinate.
+This is a practical development-selection threshold, not statistical significance.
+The fifth cold control will change ONLY output_scale .1->1 relative to that
+explicit selected baseline. Preserve both explicit variants; cancel/recreate only
+the idle unit-log waiting launcher, not the active20kcontrol. Reference fields
+still never enter optimizer loss/payload. Same512/8development cohort, no fresh
+test claim. Relation: active Fourier task.
+
+## 2026-10-30 — Independently check a linear causal defect preconditioner
+
+The unit-gain control at12k26.29% remains comparable to priorparameterizations.
+Investigate loss conditioning in time before claiming a representationfloor.
+For frozen modal q, solve z_t+q*z=r with z(0)=0 on piecewise-linear nodal r.
+Exact interval coefficients are a=h[1-(1+d)exp(-d)]/d^2,
+b=h[d-1+exp(-d)]/d^2,d=q*h; use checked Taylor limits around0. Retain an
+additional first output(h1/2)*r0 so the discrete map is injective, while the
+propagated initial response remains0. This is one global linear residual map,
+not time-window training or a nonlinear reference solver/output prior.
+Independent SciPy quadrature differs<=1.64e-16; scalar constant/linearforcing
+checks and positive singularvalues pass. Frozengeometry512 stable20k has
+physical errorRMS.03946, spatialdefectRMS.03192, causaldefectRMS.08357;
+terminalerror.07589 vs causaldefect.24019. These are diagnostic scales, not an
+assertion that linearized defect equals nonlinear error. Prototype only, no
+productionintegration/queuedtraining yet. Compare another frozenmodel and
+validate fixed-time quadrature/AD/physicalgradients before deciding. Relation:
+active Fourier task.
+
+## 2026-10-30 — Measure minibatch noise before adding model/loss complexity
+
+Frozen final-output-weight gradients on16traininginputs/8time draws show, at
+Nt4, geometryvariance .0004976 and shared-timevariance .00008021. Estimated
+B4totalvariance .0002046. Nt32 reduces shared-timevariance to3.187e-7 and B4total
+to.00008697; B16/Nt32 estimate.00002198 (9.3x lower). This partial-gradient
+finite-cohort probe is not a full-network proof, but motivates a simpler batch/
+time-count control before integrating the causal prototype or growing the model.
+Keep the SAME expected objective by explicitly preserving the legacy Nt4+0
+initial-PDE fraction1/5: L=.2*l(0)+.8*mean_positive(l(t)). For stratified uniform
+positive times, its expectation is independent of Nt. This is not an IC loss.
+Add optional initial_residual_fraction; absent retains exact old mean arithmetic.
+Measure Nt16 separately, then consider B16/Nt16 with a fixed10k cold budget.
+No training has used these new counts yet; no change to PDE, input priors, seed
+strategy or geometry/query architecture. Relation: active Fourier task.
+
+## 2026-10-30 — Cold-test B16/Nt16 with preserved PDE expectation
+
+The separate Nt16 frozen-output-gradient measurement gives geometryvariance
+.00036054,timevariance1.973e-6. Estimated B16/Nt16 variance2.451e-5 versus
+B4/Nt4 .0002046 (8.35x reduction). This is a measured partial-gradient estimate,
+not a promised full-network L2 gain. Cold-test B16/Nt16 for10000updates, keeping
+same64wide243649parameter model, linear-time/unitgain/stablemetric/seed/LR.
+Explicit initial_residual_fraction=.2 preserves the legacyexpected objective.
+New weighting value/fullparametergradient agrees with old Nt4mean, and toy
+B16/Nt16backprop plus invalidfractions pass (2tests32.76s). Record first-update
+allocator stats to assess actual full physics/backward/SOAP memory. No fixed
+nodes, new PDE, future-field labels or geometry-specific features. Causal defect
+prototype remains unintegrated; its scalar tests/diagnosis do not assert a
+nonlinear error equality. Consider strictcontinuation only after this fixed
+pilot finishes and actual errors are known. Relation: active Fourier task.
+
+## 2026-10-30 — Prefer state-preserving budget extension while larger batches improve
+
+At6.5k, B16/Nt16 phase21.59/23.15% improves on prior20k22.73/24.30%; both
+training and development errors are still falling. Frozen stable20k modal
+diagnosis places mean90.94% pooled/90.63% terminal error energy in the growing
+subspace of the homogeneous-initial-mean CH Jacobian. This is a linearized
+diagnostic, not a nonlinear-mode classification theorem or an error estimator.
+It does not support simply raising the highest Fourier frequencies. Finish
+fixed10k; if either primary target still exceeds.1 and BOTH primary errors
+drop by at least.01 over its last5k, continue the complete state to20k TOTAL.
+This is a practical development-budget rule, not a significance test or
+minimum-error checkpoint selection. Use explicit batch_continue config/new run;
+retain model/SOAP state, scheduler/global draw counters and physical objective.
+No wider model, new seed, LR reset or changed residual is bundled with this
+extension. If the rule fails, stop that extension and diagnose before another
+architecture/loss experiment. Relation: active Fourier optimization task.
+
+## 2026-10-30 — Prepare a width-only control without raising Fourier frequencies
+
+B16/Nt16 at14.5k continues to improve (16.86/18.14% phase, train12.61%).
+Frozen10k PDEloss/field-error association remains positive; no proof of a
+capacityfloor or ineffective objective. Input-only width64/96/128 CPUpreflight
+has243649/522145/905089trainableweights and finite SOAP states. Prepare an
+explicit batch_wide preset changing ONLY backbonewidth64->96 from the10kB16
+cold preset. Keep128spatial/64temporal Fourier channels, frequencyband/scales,
+fourheads/depths, SOAP/B16/Nt16/LR/physical inputs and expectedobjective.
+The preparation is not a trained accuracy/memory claim and is not queued;
+finish current20k first. This reserves a conventional capacity test instead of
+geometry-specific input features, another residual design or speculative
+highest-frequency growth. Relation: active Fourier optimization task.
+
+## 2026-10-30 — Permit an explicit state-preserving learning-rate reduction control
+
+At16.5k the unchanged B16 trajectory is16.29/17.53%, still improving more slowly.
+Prepare a conventional short learning-rate fine-tuning alternative before paying
+for a wider cold restart. Default continuation stays strict. An explicit positive
+factor<1 may allow ONLY lr_init and lr_min to scale by that declared factor;
+require both values to match, reject unknown options and every other numerical
+change. Import complete model/SOAP state and original schedule count, so this
+scales the ongoing schedule rather than restarting it. Installed SOAP0.2.2
+source applies learning rate after its adaptive transformation; independently
+test equal-gradient update ratios and equal adaptive states through serialization.
+Candidate factor.3/5000newupdates is a prepared control, not a measured benefit
+or queued job. Physics, loss, model, RNG and input sampling stay fixed. The active
+20k control finishes first; no runtime mutation. Relation: active Fourier task.
+
+## 2026-10-30 — Select the short learning-rate control after the complete20k run
+
+Unchanged-schedule B16/Nt16 finishes20k with phase15.330/16.469%, train10.636%,
+mu28.500%; cumulative5609.284s. Target remains unmet. First try the prepared
+.3 schedule scaling for5000newupdates (25kTOTAL), preserving all states/global
+draw counters and input/objective/model. Actual initial fine-stage LR is about
+1.075e-4 because the inherited counter remains20000. This lower-cost ordinary
+optimization test precedes a96wide cold restart, not a promised improvement.
+Use a new run/fixedfinal25k and report it even if worse; no min-validation or
+seed selection. Three focused continuation checks pass across the combined run
+and corrected scalar-ratio test; the existing Optax scalar-schedulefloat32
+roundoff is accounted for without changing factory arithmetic. Relation: active
+Fourier task; wider candidate remains prepared, unrun and unqueued.
+
+## 2026-10-30 — Conditional width96 cold control if fine-tuning still misses the target
+
+Fine-control first1000updates are15.105/16.244%, only a small improvement over
+20k15.330/16.469%; complete its fixed5000newupdates. If either primary phase
+metric still exceeds.1 at25kFINAL, cold-test prepared width96 for10000updates.
+Only backbonewidth changes from the B16/Nt16 cold preset: same fixed Fourier
+directions/bandwidth, sampling counts/expectedobjective, SOAP/LR, physical bank,
+global interval and common runtime seed. No hand-coded geometry feature or new
+residual accompanies the capacity test. Input-only initializer/finite SOAP state
+preflights passed; actual fullGPUmemory/time and accuracy remain to be measured.
+Run sequentially after the owned fine process exits, record conditional selection
+and every outcome. Do not select a minimum-error checkpoint or silently fall back
+on different batch/dtype after a failure. Relation: active Fourier task.
+
+## 2026-10-30 — Diagnose a real geometry-generalization gap and prepare known-RHS conditioning
+
+Frozen25k model: production PDEobjective on all512training inputs averages
+9.43384e-5, versus.00118502 on8unseen inputs (12.56x). Seven unseen cases exceed
+the training maximum; the eighth is at99.80percentile. 32/64time-quadrature
+checks differ<=.6142%; original16and new496training cohorts have similarmean
+9.030/9.447e-5. Input physical specifications/operators remain checked; no
+unique cause is proved, but remaining error is not solely a step-budget issue.
+Keep the independent width96 run unchanged. Prepare an OPTIONAL known-input
+encoder control: [x,y,phi0,T*F_g(phi0)], where
+F_g(phi0)=-M*A_g[beta*(phi0^3-phi0)+epsilon^2*A_g*phi0]. This is one evaluation
+of the prescribed PDE on prescribed initial data, not a trajectory label,
+future-field prior or hard initial-derivative constraint. It supplies discrete
+operator response beyond coordinates/initialvalues; the principle applies to
+first-order autonomous evolution systems. No loss/PDE/horizon change. Default
+off; require explicit heterogeneous domainchannel count4 and independent formula,
+mass, loader/no-label and legacy replay checks before any experiment. Reject
+unsupported augmentation combinations rather than using stale known features.
+Relation: active Fourier/geometry-operator optimization task.
+
+## 2026-10-30 — Use idle CPU for a separately labeled known-RHS pilot
+
+Known-input feature checks pass: independent CH/BDF derivative, volume-mean-zero,
+hardIC/mass, offgrid/mask and gradient checks, plus original16operatorregressions.
+Real geometry512 initialization is finite, exactIC/mass6.97e-18; knownT*F0RMS
+2.8727/max10.3611,243713weights (only64more thanbase). Keep the GPU width96
+cold control unchanged. Run an explicit1000step CPU-only pilot with samephysical
+scheme/B16/Nt16/SOAP/commonseed,100stepmonitoring/500stepcheckpoints,8CPUaffinity
+and1BLASthread. No FEniCS/MPI work. Cgroup memorylimit96.6GB/current32.2GB leaves
+headroom. This is a preliminary backend-distinct diagnostic, not a matched GPU
+accuracy ranking or SOTA promotion. No optimizer/numerical fallback if slow or
+failed; preserve/log its actual outcome. Canonical train.py remains the entry.
+
+## 2026-10-30 — Stop the CPU screening pilot after measuring inadequate throughput
+
+CPU first100updates take~5.3s each, projecting over1h for the intended1000step
+screening (memory remains within96.6GBlimit). Lastreported100step phase66.05/
+65.80% is unconverged and not an accuracy ranking. Stop only the owned CPU
+PID100148 and its waiting postprocessPID100505, retain rawlogs/config/initial
+checkpoint/termination record. No complete1000step checkpoint or summary is
+fabricated, no numerical failure or feature-effect conclusion is inferred.
+GPU width96PID91175 continues. Evaluate the optional known-initial-RHS input
+with a separate matched GPUcold control if target remains unmet; do not reuse
+this incomplete CPU probe as SOTA or a backend performance comparison. Relation:
+active Fourier task, prior CPU-screening decision.
+
+## 2026-10-30 — Conditional matched-GPU initial-RHS encoder control
+
+If either primaryphase L2 still exceeds.1 after fixed width96cold10k, run the
+prepared initial_rhs10000step GPUcold preset. Relative to the B16/Nt16 cold
+baseline, only the known initial tangent input and required domaininputdim3->4
+change;64body/243713weights, sameFourier/bandwidth/SOAP/LR/physics/loss/sampling/
+seedpolicy. Keep querycoordinates and free output/hardIC/mass unchanged. Do not
+transfer partialCPUweights or rank the abortedCPUprobe. Use new run and final
+10kcheckpoint; retain all outcomes. Input derivation, masking, physicalderivative,
+labelseparation and original16regressions pass; realinputinitfinite. The optional
+feature remains defaultoff until actual GPU/native/61time/replay evidence supports
+selection. This is a test of a general known-PDE response representation, not a
+new physical hypothesis or reference-shape prior. Relation: active Fourier task.
+
+## 2026-10-30 — Prepare an incremental1024input-bank control for geometry coverage
+
+The all512/unseen residual gap12.56x motivates a conventional data-coverage
+control, not another physical formulation. Extend purephysics inputs512->1024,
+preserving the exact original16monitors/8validation references and physical
+prior/IC/PDE. Reuse all520existing records by accepted draw identity, including
+operator-only inputs; build only512new operator/quadrature records, zero new
+trajectory/FEM solves. An explicit hardlink reuse mode avoids duplicating the
+~6GiB old payload on the~12GBfree filesystem. Existing defaultcopy behavior and
+native-source preparation remain valid. Require identical physical specs,
+unmodified original held-out draws, safe source paths and correct label roles;
+no silent I/O fallback if hardlinks fail. Source inspection confirms isolated
+Gmsh/meshio-only meshing and CPUJAX operators, no DOLFIN/FEniCSMPI solve; keep
+GPU training independent. Verify logical remapping/reference availability and
+inode identity in focused tests before generation. New training/bank-growth
+accuracy is not claimed or queued yet. Relation: active Fourier task.
+
+## 2026-10-30 — Continue the verified wider model with full state to20k
+
+Width96 cold10k passes native/61time/CPUreplay/no-label gates:15.3286/16.4277%
+vs width64 matched10k18.9452/20.2599%, at428.82 vs219.25ms warmupdates.
+Keep all otherphysical/model/sampling/optimizeroptions unchanged and continue
+its exact finalmodel+SOAPstate/globaldrawcounter for10000newupdates (20kTOTAL).
+Use the established strict continuation path and new run; no state reset/LR
+change/window/newconditionfeature. Serialize after owned initial-RHS GPU10k
+completes. This tests further optimization of the promising general capacity
+control, not a guaranteed10%result. No checkpoint/min-validationselection.
+Incremental1024inputbank preparation remains separate and changes no current
+trainingdata. Relation: active Fourier optimization task.
+
+## 2026-10-30 — Queue a matched1024coverage control after the wide continuation
+
+User asks whether training/unseen field errors justify enlarging the bank.
+Best25k has nativephase9.3178/9.8983% on16training monitors vs14.3782/15.4513%
+on8unseen geometries (pooled/terminal), ratios1.543/1.561. This supports a
+coverage control but does not prove the sole cause; most training inputs have
+no fieldreferences. Frozen512physics gap12.56x is a squared-lossratio, notL2.
+Incremental1024bank nowPASS:129.565s,520unchanged hardlinked oldrecords/5816
+exactarrays,512newknowninputs, original8devdraws16..23 preserved, zeroPDE/FEM
+solves. Nmax1353/Kmax97, estimatedpaddedpayload16.804GB (~doubleduplication
+33.6GB under38.184GBGPUlimit; actualfirstupdate muststillbechecked).
+Queue canonical1024cold10k after owned width96continuation20k exits. It changes
+only inputbank size/sourceprovenance relative64B16/Nt16cold10k; sameIC/PDE/T3/
+architecture/loss/optimizer/seedpolicy. NoRHSfeature, warmstart ornewlabels.
+Retain fixedfinal result even if worse. Alloldreferences/dense61arrays are
+identical and only indices512..519->1024..1031 remap; explicit bank-growth audit
+is required, never compare arbitrarydifferent references. NoGPUconcurrency,
+noautomaticbatch/dtypefallback. Relation: active optimization and latestquestion.
+
+## 2026-10-30 — Capacity improves near10%; larger bank alone does not at fixed10k
+
+Both queued runs completed and fullnative/61time/CPU24field/no-label/physical
+gates PASS. Width96/512inputs/20k:phase11.3836/12.2805%,61time10.92995%,
+training16monitor8.0986/8.6376%; cumulative9972.284s,CPUgap4.219e-15. It beats
+matched64/512/20k15.3301/16.4691% and prior64/25k14.3782/15.4513%.
+1024inputs/64width/10k:20.2116/21.7872%,61time19.3169%,49.14min;
+matched512/64/10k18.9452/20.2599%. Trainingmonitor15.3082->18.2987% also worsens.
+The smaller train/unseen gap alone does not establish bettergeneralization;
+optimization/capacity and finite per-input exposure remain confounded with
+coverage (same160kdraws overtwiceas many inputs). No larger-bank SOTApromotion.
+Actual1024GPUpeak32.441GB<38.184limit,live18.051GB; nofallback/failedrun.
+
+Width96 last17500->20000 nativephase12.124->11.384% fallssteadily. Continue its
+exact complete model/SOAPstate/counters and unchanged scheduledLR to30kTOTAL
+(10000newupdates), rather than adding features or changing physics/loss. This is
+the existing general budget-extension mechanism, fixedfinal/no seed/checkpoint
+selection. No1024followupqueued now. Preserve both negativecoverage and positive
+capacity controls in docs/index; current10%target remainsunmet andone-seed/
+8reuseddevelopment limitations remain. Relation: active optimization/lateststatus.
+
+## 2026-10-30 — Recover an incomplete30k run without discarding SOAP history
+
+On explicit userresume, PID132521/watch132891 are gone, GPUidle, no30ksummary/
+finalmodel/finaloptimizer; rawlogends26500 withphase10.2406/11.1150%. NoPython
+traceback or cgroupOOM/oom_kill. Exitcause isunconfirmed; previousapprovalreview
+quotaerrordoesnotprove it killedtraining. Latestmodelcheckpoint26000 lacksits
+SOAPstate, so it cannot be advertised as an exact-state continuation. Keepthat
+run/log/checkpoints incomplete. Restart samefixed30k recipe from independently
+validated20kfullstate in aNEWrun, no optimizerreset or physicalchange. Ordinary
+GPUpolicy may produce rerunvariation; don'tclaim byteidenticalfutureupdates.
+
+Add intermediate optimizer snapshots and a step/model/state marker alongside
+existing every1000step modelcheckpoints. Publish markeronlyafterbothpayloads
+areclosed/atomicallyrenamed; no new loss/update/configchange. Verify realSOAP
+recovery acrosscheckpoint with focusedtinytrainer beforelaunch. Explicitly
+launch ownedtraining/postprocess in detachedOSsessions withdirectlogpaths/PIDs
+so normaltoolsessioncompletion doesnotterminateauthorizedlongrunningwork.
+No broadprocesskill/FEM/Gitaction. Recordlastincomplete outcome, notminselected
+checkpointpromotion; fullfixedfinal/native61/CPUreplay gatesstillrequired.
+Relation: activeoptimization, usercontinue, interrupted30kstage.
+
+## 2026-10-30 — Finish fixed30k and prepare a portable selected-recipe entry
+
+Detachedretry successfully completes30k: phase9.66090/10.51306% (pooled/terminal),
+trainingmonitors5.92428/6.30245%, native saved-field checksPASS; dense61/CPUaudit
+stillrunning at thisdecision. This meets the requested roughly10% pooledphase
+aim, not a claim that terminal/allgeometries/allphysicalfields are below10%.
+Prepare train_operator_smallscale10_best.py as a cold entry with SAME numerical
+settings, removing only parent-run dependency. Exact configdictionary comparison
+against actualsaved30krecipe passes after removing runtime seed/runname and
+continuationprovenance. Do not change canonical time-window defaults or old
+controlpresets. Report measured error/time as the staged10k+10k+10k result;
+a separate cold30000run/seedstability has NOT been measured. Finalbestpromotion/
+taskclosure waits fullnative61/CPUreplay/physicalgates. Relation: active task,
+usercontinuecompletion, no architecture/PDE/optimizerupdate change.
+
+## 2026-10-30 — Close the approximately10% pooledphase optimization after full validation
+
+Fixed30kfinal is9.66090% pooledphase/10.51306%terminal, dense61time9.18872%;
+requestedapproximately10% overallphase aim is reached. Terminal/allgeometries/
+mu are not allbelow10% (worstgeometry17.255%,meanmu21.056%). Independentnative
+metrics/61time massenergy/CPU24fieldreplay4.334e-15 andfullstate/draw/no-label
+checksPASS; no FEM/freshfinaltest/multi-seed claim. Promote this fixedfinal as
+currentbest, retain1024negativecontrol andoriginalincompleteattempt. Selected
+coldconfig matchesnumericalsettings; measurednumberscome fromstaged10k+10k+10k,
+not aseparatecold30k. Canonicalwindowdefaults/oldpresets unaffected.
+
+Archive task underdocs/tasks/archive/confined-ch-fourier-optimization.md; update
+README/index/PROGRESS toactualcomplete/noactivejobs. Allrunner/training/CPUmonitor
+processes exited. Furthergeometrycoverage/seed/FEM studies are optionalfuture
+work, not a reason to keep this boundedpilot active. NoGitcommit/push/tag/history
+change authorized orperformed. Relation: completedFourieroptimization task.
+
+## 2026-10-30 — Blind random gallery of the completed CH geometry operator
+
+For the requested additional physical fields, draw five of eight reserved
+development geometries uniformly without replacement and persist IDs before
+reading errors. Use the selected fixed30k final checkpoint's saved, already
+CPU-replayed fields; do not select favorable examples or retrain. References
+remain native graph/BDF, not FEM. Use common phase/error scales and original
+mesh interpolation only for display. Interpolate raw absolute errors through
+the positive reconstruction, rather than taking absolute value after signed
+interpolation (which can cancel errors). Relative L2 stays on original physical
+cell values with area weights. Relation: confined-ch-random-gallery task.
+
+## 2026-10-30 — Recommend separated capacity/refinement pilots before new hardware
+
+User asks whether more points/network capacity and another GPU are needed.
+Measured matched20k width64->96 phase15.33->11.38% supports recommending a
+width128control at unchanged physical scheme and h=.035. It does not prove a
+capacity floor or future gain; width128GPU training remains unmeasured. Recommend
+a separate h=.030 native spatial-refinement check on1-2same geometries before
+building a full refined bank; keep epsilon/delta fixed and use common queries.
+Current9.66% is error against the same native discretization, so it alone does
+not implicate point density. Refining h at fixed delta does not remove local
+finite-horizon bias. Avoid simultaneous capacity/mesh changes as a first control.
+
+Verified system48GiB; selectedrun peak active15.72GiB versus allocator35.56GiB.
+No current need to request another GPU for modest pilots; full-run feasibility
+requires an actual short GPU probe. Dense residual metrics for all520padded
+geometries use7.07GiB now; h^-2 point scaling estimates13.10GiB at h=.030,
+before activations/workspace. Network parameters grow522145->905089. Disk only
+4.6GiB free, so a separate full refined bank needs storage preparation. This is
+an assessment, not a launch/default/solver/migration/Git change. Relation:
+confined-ch-density-capacity assessment.
+
+## 2026-10-30 — Reclaim package caches without deleting numerical evidence
+
+User explicitly authorizes conservative removal of genuinely unused/redundant
+files. Inventory finds about11GiB uvcache,2.3GiB npm content cache,0.5GiB pip HTTP
+cache, while the protected experiment data/logs occupy about73GiB. Reclaim
+package downloads through supported cache commands, preserving installed
+environments and all numerical artifacts. Scan of three project .venvs,
+miniconda3 and managed uv installs finds no symbolic-link targets in candidate
+cache roots. Honor uv's in-use checks; do not force cache-lock removal or edit
+uv internal files manually. Record actual filesystem recovery rather than
+equating logical cache sizes with reclaimed physical blocks.
+
+Do not delete Trash (contains historical experiment outputs), OpenCode history,
+IDE runtimes, migration backup, checkpoints, references or tf-logs. Conda
+tarball/index/log dry-run reports zero recoverable bytes; do not clean extracted
+package stores or installed environments. No new training, relocation or Git
+operation. Relation: active disk-cleanup task. Official cache semantics checked
+at https://docs.astral.sh/uv/concepts/cache/.
+
+## 2026-10-30 — Remove nine verified orphan MPI shared-memory pools
+
+After package-cache cleanup, inspect exact nine128MiB shared_mem_cuda_pool files
+under /tmp/ompi.autodl-pro-7775bcfa7d82.0/jf.0. Each is a regular file older than
+3600hours. Complete readable /proc maps/fd/cwd/root audit finds no references
+and no process with libmpi loaded; no denied process inspection. Record exact
+paths/inodes/sizes/times before deletion, recheck identity and process usage at
+deletion. Remove only those nine stale pool files (about1.125GiB), retaining
+session directories and all other files. Do not run ompi-clean or terminate
+processes. Relation: disk-cleanup; user-authorized unused temporary-file cleanup.
+
+## 2026-10-30 — Complete conservative cleanup and retain unique numerical outputs
+
+Normal uv/pip/npm cache commands and nine individually verified orphan MPI
+pool deletions recover measured9.805GiB: free4.529->14.334GiB. Package-manager
+logical size reports exceed physical recovery because installed hardlinks keep
+shared blocks.26protected artifact metadata checks, reference514/518readability,
+project CPU JAX/autodiff and separate dolfin2019.1.0 import PASS. Retain numerical
+data/tf-logs, checkpoints, environments, migration backups, Trash with old
+experiments, app histories and IDE runtimes; no more deletions are necessary
+for immediate modest pilots. Full new refined512bank estimated10-12GiB would
+leave tight headroom, so optional30-50GiB extra capacity is preferable to losing
+unique experiment evidence. No data migration/training/Git action. Archive task
+and return dashboard to idle; exact receipt docs/tasks/disk-cleanup-receipt.json.
+
+## 2026-10-30 — Execute separated width128 and small spatial-refinement controls
+
+User explicitly approves proceeding. Add an opt-in width128cold30k preset which
+differs from selected cold recipe only in backbone width; preserve512inputs,
+B16/Nt16, Fourier arrays/depth, physical scheme, FP64ordinarySOAP and schedule.
+Run a full-bank production-loss/optimizer GPU probe before launching canonical
+train.py for fixed30k. Retain fixedfinal/paired checkpoints and durable detached
+runner; no default promotion or old artifact deletion. Same runtime seed is
+provenance rather than a tuned strategy option.
+
+Before GPU work, independently assemble/refine native h=.030 references for
+existing development geometries514/518 (previously observed worst/low-error
+diagnostic cases, not a new random/generalization test). Preserve holes, IC,
+epsilon=.06, delta=.11 and time refinement. Compare on common uniform physical
+queries with both visible-centroid P1 and original-triangle P0 reconstruction;
+report IC reconstruction errors/support explicitly. Do not subtract IC errors,
+hide boundary support exclusions or identify reconstruction differences as pure
+operator error. No full512refinedbank or localFEM yet; tasks are separated to
+attribute capacity and mesh effects. Relation: confined-ch-width128-refinement.
+
+## 2026-10-30 — Width128 GPU probe passes; start fixed30k with existing hardware
+
+Two native h=.030 geometry514/518 references pass time/mass/energy gates before
+GPU work. P1commonquery differences1.728/1.338%, P0differences11.569/11.273%;
+initial reconstruction/supported-area differences show these are not pure
+operator-error bounds. Preserve both metrics; no fullrefinedbank now.
+
+Fullbank width128/12production SOAP updates pass exact Fourier/geometry/time
+stream identity and finite-gradient/no-label checks. Activepeak17.354GiB versus
+35.56GiB allocator; warm10updates .575272s, firstcompile359.232s. Current48GiB
+card is sufficient for this unchanged-mesh control. Discard probe updates and
+start fresh canonical fixed30k under detached runner; no batch/precision/seed/
+policy change or default promotion. Estimated5-6hours includes validation, not
+measured completion. Setup attempt01's missingmeshio error is preserved; use
+existing explicitFEniCS mesher in attempt02 before GPU, no environment install
+or training-seed retry. Task remainsactive until full outcome and audits.
+
+## 2026-10-30 — User requests a cold beta2=.9 SOAP control
+
+User explicitly proposes beta2=.9 and asks to rerun directly. Extend the current
+width128 task with a new opt-in preset differing only in train.soap_b2 .99->.9.
+Inherited shampoo_beta=-1 follows b2, so both rotated Adam variance and Gram
+EMA change; describe this as coupled beta2/Gram-memory control, not an isolated
+Gram-only test. Keep architecture, LR, batch/time streams, FP64/ordinary policy,
+data, seed provenance and fixed30k budget. Do not resume the deferred optimizer
+implementation/repeatability branch or change unrelated SOAP settings.
+
+At a confirmed closed paired checkpoint, intentionally stop the owned .99
+runner/trainer and preserve its incomplete run, model/state pairs and online
+metrics. This follows the user's request to restart; no concurrent GPU jobs or
+unrequested wait for the original30k. Record exact stop point, verified process
+identities, previous journal and deliberate reason; don't label the partial
+run a completed30k or change its saved config. Start .9 from the same fresh
+initialization and RNG counters in a new directory. Audit initial parameters,
+actual draw prefixes and same-step L2, then compare fixed30k to old96widthbest.
+Currentbest/defaults unchanged pending completed validation. Relation: active
+confined-ch-width128-refinement task, current user steering.
+
+## 2026-10-30 — Audit encoder capacity and hardware before another scale increase
+
+User asks whether more network capacity or a more efficient encoder is needed
+and offers RTX5090. Extend the active width128/beta2 task with a CPU-only
+architecture/shape and traced dot-work audit while its authorized GPU run
+continues. Do not interrupt it, launch competing GPU work or change its saved
+architecture/optimizer. Separate computational reuse from representation:
+geometry/spatial conditioning is shared over time and normalized attention uses
+associative feature moments, but per-head feature size is finite. Existing
+geometry-swap/response checks establish input dependence, not sufficient
+capacity. Parameter growth alone cannot establish a convergence benefit.
+
+Inspect widths128/192/256, component parameter counts and shape-dependent SOAP
+preconditioner coverage. Keep FLOP estimates explicitly distinct from measured
+GPU timings; no component bottleneck ranking from analytical counts alone.
+Check official RTX5090 memory/FP64 specifications before a migration
+recommendation. No new mesh library, reference labels, precision change,
+full-training/default promotion or GPU transfer is authorized by this audit.
+Relation: confined-ch-width128-refinement, encoder/capacity/hardware follow-up.
+
+## 2026-10-30 — Preserve FP64 feasibility result within its measured scope
+
+User recalls the earlier good FP64 benchmark and asks whether48GiB indicates a
+modified3090. Re-read the archived actual timings and dtype/IR checks rather
+than discard them based on vendor peaks: corrosion203.262/226.737ms FP32/FP64
+is valid for that legacy deterministic workload. Later serial graph-lowering
+evidence prevents generalizing its11.5%slowdown to current NO or a hardware
+FP32:FP64 ratio. Pure FP64 GEMM .636TFLOP/s is compatible with a normally boosted
+3090; FP32 kernel throughput there was well below its nominal peak.
+
+Use metadata-only CUDA Driver API during training, with no context/allocation/
+kernels. It reports82SM,CC8.6, single:double precision performance ratio64.
+NVML48GiB is nonstandard versus official3090 24GB, so expansion/platform
+customization is a plausible inference, not a confirmed physical inspection.
+Do not claim enhanced FP64 units, identify board modifications or infer a
+measured5090 ranking. Preserve old benchmarks; record direct device receipt,
+source definitions and uncertainty. Relation: active width128/capacity task.
+
+## 2026-10-30 — User requests FP32 on the existing GPU
+
+User explicitly asks to try FP32 because current NO training is slow, and
+clarifies to keep the current GPU. Extend the active task with an explicit
+width128/beta09 FP32 preset and complete compute-dtype plumbing. Preserve
+FP64 reference/operator/metric construction and validation on the host; round
+the finalized model and floating training inputs once to FP32. Keep JAX x64
+enabled for unchanged initialization/time-RNG/reference construction, not for
+network/PDE/SOAP arithmetic. Generate the same FP64 time draws and cast them;
+do not silently change random streams, architecture, batch, physics or SOAP.
+
+First run focused CPU precision/backward-compatibility checks. At a verified
+closed model/optimizer pair, intentionally stop the owned FP64 runner/trainer
+and preserve their partial status/checkpoints and journal. Run a production-size
+FP32 finite/dtype/time/memory probe, then a fresh canonical30k run only if it
+passes. No GPU replacement, mixed-precision fallback, continuation across
+dtypes or default promotion. Save matched-step/elapsed comparisons and validate
+against the original unrounded native reference. Precision-aware independent
+IC/chemical checks must use declared rounding bounds, never obsolete FP64-only
+thresholds or blanket relaxation. Relation: confined-ch-width128-refinement.
+
+## 2026-10-31 — Keep FP32 SOAP updates from transient promotion
+
+Production-size preflight catches a pinned SOAP detail with globalx64 enabled:
+Python beta powers produce a FP64 bias-correction scalar, multiply every FP32
+update in FP64, then cast back. Model/state dtype checks alone miss this.
+Keep the shared optimizer and upstream SOAP implementation unchanged. The local
+operator precision adapter supplies FP32 beta1/beta2 scalars only for FP32SOAP;
+FP64/Adam paths delegate unchanged. Nominal hyperparameters remain the same.
+CPU7update/refresh and lowered-IR checks now pass with no nonscalarFP64 tensors.
+Scalar configuration literals that are cast toFP32 are permitted and counted;
+they are not a mixed-precision network/matrix/QR fallback. Retain failed probes:
+01config tuple/list mismatch,02IR promotion, both before optimizer updates.
+Attempt03 uses the same numerical config and seed, with this precision fix;
+no training-seed selection, changed algorithm or new hardware.
+
+## 2026-10-31 — User authorizes moderate FP32 operator capacity increase
+
+Continue the active capacity task with a fresh width192/four-head control:
+head dimension32->48, spatial Fourier directions64->96 (128->192sin/cos
+channels), unchanged four cross-attention blocks and three FiLM decoder layers.
+Keep the fixed512/8geometry bank, PDE/constraints/metric, FP32/ordinary policy,
+SOAP beta2=.9, LR, B16/Nt16, sampler keys and fixed30k final budget. No learned
+weights or optimizer state imported. Reject changing geometry density, deeper
+networks or jumping directly to256 while testing this moderate enlargement.
+This jointly enlarges backbone and Fourier feature count, not a width-only
+ablation. Independent initialization follows the same global seed policy;
+different-shaped weights/features cannot be called identical initial arrays.
+
+Set explicit SOAP max_precond_dim512 to retain both FFN axes at width384;
+leaving256 would silently remove eight preconditioned axes. For the128baseline,
+256 and512 have identical coverage because no learned axis lies between them;
+the temporal output axis768 remains excluded under both. Record this coupled
+setting and verify shape/state coverage, instead of attributing any measured
+gain solely to head dimension or promising a precision improvement.
+
+First finish/check the prior30k FP32 audit, then use exclusive production-size
+25update GPU/IR/finite/memory and independent CPU replay gates. Discard the probe
+and cold-start canonical train.py only on success; automatically assess native,
+dense61, geometry response and CPU/input-draw audits. Preserve all old results,
+do not promote defaults or select a best seed/checkpoint. Relation: current
+confined-ch-width128-refinement task, explicit user approval of proposed192width.
+
+## 2026-10-31 — Close the moderate capacity control at its prescribed final budget
+
+Completed width192/fourheads/Fourier192feature cold30k improves native mean phase
+9.7841->8.9148% and terminal10.5799->9.8017% against completed width128FP32;
+61time phase9.3192->8.3458%, coldtraining wall+22.52%. Actual30000geometry batches
+are identical, full CPU/state/input/physical audits pass. This supports moderate
+joint capacity growth within this benchmark; it cannot isolate head dimension
+or establish a multi-seed/continuum result. Two of eight dense geometries worsen.
+Retain fixed30k final despite a lower29500validation point, reject automatic
+best-heldout checkpoint selection, immediate256/longer training or default
+promotion. No further run is queued. Preserve previous selected defaults and all
+partial/control artifacts; archive the completed task with direct result paths.
+Relation: completed confined-ch-width128-refinement capacity/precision study.
+
+## 2026-10-31 — User authorizes width256 with a memory gate and 50k budget
+
+Create a new active task for a fresh width256/fourheads(D64), spatial256feature
+operator and fixed50k SOAP budget after the192/30k study. Keep four cross blocks,
+three FiLM layers, FP32/ordinary, beta2=.9, axis cap512, LR schedule, B16/Nt16,
+bank/physics/constraints/metric and runtime-seed policy. Cap512 already covers
+the new512wide FFN axes; the1536wide time-output axis remains excluded. Do not
+change the GPU, reduce the batch, silently mix precision, tune seeds or import
+previous learned states. User explicitly requires GPU-fit confirmation first.
+
+Reuse/generalize the research-only gates/runner with explicit experiment case
+metadata, retaining the prior192CLI behavior. Audit actual production25updates
+and preconditioner refreshes plus independent CPU replay before starting50k.
+Compute a conservative disk budget for50paired intermediate states; keep all
+old runs. Retain30k native and dense61metrics to compare capacity at a common
+budget, then report256/30k->50k as extra-training benefit. Reject attributing
+192/30k versus256/50k differences solely to architecture. No automatic default
+promotion or best-heldout checkpoint selection. Relation: new
+confined-ch-width256-50k task, explicit current user instruction.
+
+## 2026-10-31 — User switches to width192 and expanded bank, cold50k
+
+Stop the owned256runner/trainer as explicitly requested, preserve40000complete
+model/SOAP pair and40900partial logs, and cancel its50kdownstream pipeline. Close
+the previous task by user switch, not original-objective completion. Test doubled
+512->1024geometry inputs using existing immutable checked bank; no reason to
+recompute operators or solve training trajectories. Retain accepted draws16..23
+as the exact same reserved physical domains and16originaltraining monitors.
+
+User supersedes the proposed30kbudget with explicitcold50k. Preserve width192/
+Fourier96directions/fourD48heads, FP32ordinary, SOAPb2.9cap512, B16/Nt16 and all
+physics/loss/LR/seedpolicy. Initialize exactly as prior192coldrun, not continuation.
+Retain30kcheckpoint/dense61comparison versus192/51230k; report added50ktraining
+separately. Expanding randint support changes condition-ID draws, so reject a
+false identical-draw-prefix requirement; audit actual newdraws/globalkeys and
+no heldout overlap. Preserve time stream and exactsame initial arrays. Native
+validation IDs are relabeled1024..1031, so use checked draw mapping and immutable
+hardlinked dense61view, not unchecked numeric-index aliases or newreferences.
+
+Require CPUconfiguration/bank/label/reference/storage and full1032bankGPU25step
+FP32finite/IR/memory plus independentCPUreplay gates before coldlaunch. Reject
+changing architecture, priors, point density, optimizer, seed or default while
+isolating bank coverage. More inputs need not improve reused8development-error;
+no fresh-test or multi-seed claim. Relation: confined-ch-width192-bank-growth.
+
+## 2026-10-31 — Explain duplicate cold compilation without perturbing bank control
+
+Preflight compiles541.6s, then the separate productionprocess firstupdate spends
+~549.7s including compile; original192/512firstupdate504.2s. Actual JAX0.10.1
+persistent cache directory isNone, so cache-enableTrue alone does not build a
+cross-process cache. Fullstep network/PDEJVP/parametergrad/SOAP compilation and
+GEMMfusion alarms are verified; exact codegen/autotuning/SOAP cost not isolated.
+PaddedNx/degree also changes with bank growth, preventing unchanged-shape reuse.
+Record the overhead and continue the current experiment after compile finishes;
+reject restarting the nowrunning control or changing compiler/SOAP/numerics just
+to improve startup. A future shared compiled entry/persistent-cache improvement
+must verify identicalHLO/cache hits and fresh model/optimizer state; cache setup
+alone does not guarantee reuse across different programs. Reference: official
+JAX persistent-compilation-cache documentation and local installed source.
+Relation: confined-ch-width192-bank-growth, status/compile explanation.
+
+## 2026-10-31 — Assess online geometry inputs without changing the active control
+
+User defers a joint larger-network/larger-bank experiment until the current
+192/1024cold50k finishes and asks about continuously sampled geometry inputs.
+Keep that run unchanged. Distinguish geometry/operator/known-input generation
+from reference trajectories: online physical training needs no evolved labels.
+Historical six-worker512input preparation takes129.56s, but its cached metric
+is not the current linear-stable metric rebuilt during loading. A lightweight
+CPU-only three-input/nine-build production metric probe measures0.516s/build;
+combine stage costs only as an estimate, not a measured online pipeline speed.
+
+For later evaluation, prefer asynchronous generation into a bounded refreshed
+pool with reuse over a synchronous all-fresh B16 each update; the estimated
+producer throughput is far below GPU input-use throughput at current resources.
+Visible96logical CPUs have a12CPU cgroup budget, so do not promise unlimited
+worker scaling. New values need fixed padded shapes/dtypes and explicit overflow
+handling, not per-geometry JIT recompilation or silent clipping of the prior.
+This is a deferred design proposal, not an implemented/default sampler or proof
+of lower validation error. Relation: confined-ch-width192-bank-growth.
+
+## 2026-10-31 — User requests25k continuation with asynchronous rolling geometry inputs
+
+User explicitly supersedes waiting for the192/1024cold50k endpoint: stop that
+run and import checkpoint25000 into an online-geometry continuation. Owned
+runner339235/trainer346501 stop by SIGTERM06:08:33Z, last26900logged/26500evaluated;
+preserve all artifacts and close that control by user switch, not50kcompletion.
+Restore the paired25kmodel and SOAP state including schedule counters; retain
+the existing total50kbudget, all physics, architecture, loss metric and reference
+cohorts. No learning-rate restart, weight-only warm start or default promotion.
+
+Implement optional input-only asynchronous CPU generation and bounded rolling
+pool; initially1024old inputs, replace32slots every100updates with6workers and
+bounded prefetch. Consume a deterministic generated order at fixed refresh
+steps, waiting explicitly if necessary rather than letting completion timing
+choose training inputs. Separate frozen16monitor/8validation payloads from
+replaceable training slots. Use fixed declared padding with hard overflow errors,
+no biased retry/clipping for an oversized valid geometry. Never solve training
+PDE/FEM trajectories or store an unbounded new bank. Extend strict continuation
+only for an explicit paired-checkpoint path and declared online sampling option;
+preserve legacy complete-parent behavior and direct-path provenance. Verify full
+state import, PDE/operator/metric parity, label isolation, deterministic refresh,
+actualGPUfinite/headroom and measured producer throughput before full launch.
+Relation: new confined-ch-online-rolling-pool task, explicit user scope switch.
+
+## 2026-10-31 — Gate rolling inputs in the production process and retain compiler limits
+
+CPU production producer64input/6worker gate passes at5.66inputs/s, exact paired
+25kstate/counter25000 and two legacy-mesh comparisons pass. Gmsh's copied .venv
+Python binding lacks its native symbol, so use the existing explicit meshing
+interpreter for Gmsh/NumPy only; no DOLFIN/FEniCSMPI integration or package change.
+Workers explicitly set JAX platform configuration toCPU, in addition to process
+environment, because JAX may be imported before a spawn initializer runs.
+
+Use the first25actual updates of the same canonical production process for
+GPUfinite/precision/headroom/timing gates, retaining those valid updates. Reject
+another separately compiled throwaway probe, which duplicated~9min startup in
+the previous control. Shapes1536/128 support online variation with strict overflow
+failure; they are larger than the old1353/97empirical bank maxima. Zero-padding
+preserves the physical graph/objective, but changed shapes can change FP32
+reduction kernels and SOAP trajectories. Initial96score parity is checked;
+that alone does not make historical fixed-bank versus online results a fully
+isolated sampling ablation. Such attribution would require matching padded
+shapes and continuation budget; no extra control is authorized or queued here.
+Relation: confined-ch-online-rolling-pool implementation and experiment limits.
+
+## 2026-10-31 — Fresh width256 rolling-pool run and approved snapshot cleanup
+
+User explicitly requests cold50000updates with width256 and online rolling
+inputs after replacing GPU with RTX6000D/85651MiB. Previous192online process
+exited after32900logged/32500evaluated; close by scope switch, retain paired32000
+and all online artifacts rather than claiming completion or restoring its state.
+Reuse only known geometry/operator inputs in the initial1024pool; allow explicit
+origin_step0 without continuation and retain deterministic fresh-geometry stream,
+fixed evaluation payloads, physics, FP32ordinary, SOAPbeta2.9 and batching. Reject
+weight-only warm starts and unmeasured default promotion.
+
+Before deleting, present exact249-file plan in three inactive fixed-bank runs;
+user approves it explicitly. Delete only paired nonessential snapshots and their
+markers after checking unchanged inode/size/mtime and all13protected groups.
+Measured6166249472bytes recovered. Keep all logs/config/source/initial/final
+weights and every data/reference file; no broad directory/cache deletion. New
+run checkpoint_every5000 limits future growth to10paired groups, plus final and
+initial states, without deleting new checkpoints. Relation: confined-ch-width256-
+online-cold50k, cleanup proposal/receipt and archived previous online task.
+
+## 2026-10-31 — Plot explicit history coverage beyond25k
+
+The current256online cold run passes25k, where the192online continuation adds
+a fifth exact same-budget record; the earlier four-row plotting assertion is
+therefore invalid. Determine per-run availability from recorded first/last
+global steps, require exactlyone record for any target inside that interval,
+and report stages notyetstarted or alreadyended explicitly. Keep eachcurve at
+its observed start/end and clip to requestedbudget, with no interpolation or
+last-value extension. Require the currentrun's endpoint record. Preserve full
+raw histories and add a recent8kzoom from the same points. Reject silently
+dropping stopped controls or fabricating an onlinecoldprefix before25k.
+This changes research reporting only; training/config/physics/default unchanged.
+Relation: confined-ch-width256-online-cold50k, convergence refresh past25k.
+
+## 2026-10-31 — Close cold50k at the fixed budget and show field-error strata
+
+The fresh256online run completes50000updates and independentCPU actualinput/
+RNG/state/24field replay passes. Report model_final.eqx at the prescribedbudget,
+not the lower49.5kdevelopment-score record; no heldoutcheckpoint selection or
+defaultpromotion. User requests physicalfields. Select low-error, uppermedian
+and maximum-error geometries from the same8reserved development cases, label
+this error-stratified selection explicitly, and show all five savedtimes with
+reference/prediction/absolute-error rows. Include the worstcase rather than
+claiming allterminalerrors below10%.
+
+Reuse original-mesh area-weighted display interpolation and analytic hole masks,
+with shared phase/error scales across all8cases. Recompute scores on unchanged
+cellvalues/areas, not displaypixels. SavedFP32 hardIC differs from FP64reference
+by rounding; bound the initial absolutegap by4compute-dtypeeps and record the
+measured gap. Keep previousFP64 gallery semantics separate, no changed training
+math or regenerated reference. GeneratedPNG/PDF remain external toGit.
+Relation: confined-ch-width256-online-cold50k completion and field gallery.
+
+## 2026-10-31 — Promote the accepted online geometry-operator result
+
+The user accepts the completed width256 online cold50k physical fields and asks
+to retain this result as the case's SOTA. Promote the opt-in canonical operator
+preset to that exact cold numerical recipe, with the fixed50000-update final
+model as its recorded checkpoint. Preserve the separate single-IVP30window
+default and the original mild operator as an explicit historical preset. Move
+historical inheritance to the preserved baseline before redirecting the public
+operator config, avoiding a circular dependency or silently altered controls.
+
+Reject selecting the lower49500 development metric, changing the physical
+problem/optimizer, running new training, renaming external artifacts, or treating
+this single-initialization reused8geometry native comparison as a fresh local-FEM
+or statistical stability result. Generated media/weights stay outside Git and
+all artifact loading remains by direct path. Relation: confined-ch-operator-sota;
+supersedes the prior no-promotion status for this operator only.
+
+## 2026-10-31 — Separate rolling residual-point pools from condition sampling
+
+The user asks to extend bounded background production to the fixed-domain
+electropolish/melting core+halo sets. Source inspection confirms both canonical
+NOs already draw fresh initial conditions but cycle32static spatial subgraphs.
+Exact existing-RNG coverage is3938/4949free electropolish nodes and8172/2097152
+melting nodes as PDE cores. Halo nodes participate in network/gradient evaluation
+but do not contribute their own residual rows. This motivates a spatial-sampling
+experiment, not a diagnosis that the existing low-error models are invalid.
+
+Recommend a shared bounded input-producer/scheduler with a fixed-graph subgraph
+producer: reuse immutable full graph/weights/BCs, draw uniform cores, gather the
+complete residual dependency neighborhood, and refresh query/edge/mask metadata
+together. Preserve all-times shared spatial preparation and online condition/time
+streams. Electropolish query-to-curve nearest-index data must follow changed node
+IDs; precompute that mapping on the full fixed grid. Learned encoder/prepared
+features must still be recomputed inside parameter AD.
+
+Reject blindly reusing the observed32entry padding maxima: new subgraphs can
+exceed them and the old generic padding helper has truncation branches. For the
+current six-neighbor melting graph, K256 gives proven caps1792nodes/1536edges;
+use explicit fixed dtype/shapes, complete edges and hard overflow validation.
+Generic residuals may require more than one halo layer. Consume predetermined
+draw IDs independently of producer completion order, with separate PRNG streams
+and bounded queues. Measure full producer/transfer/wait/compile costs before
+claiming negligible slowdown or improved L2. Current RandomState core-only draw
+is~41ms on the2Mnode grid, so wrapping the existing builder without examining
+sampling/remapping is not automatically cheap; the alternative CPU selection
+simulation is not a full pipeline benchmark. No runtime/default change or new
+training in this assessment. Relation: core-halo-rolling-assessment.
+
+## 2026-10-31 — Compare electropolish full/fixed/rolling residual sampling
+
+User chooses electropolish and requests time/accuracy for allcoordinates, a
+precomputed pool, and a rolling pool. Use three cold5000-update current NO
+controls (Adam/B8/Nt4/width64/ordinaryFP32), one untuned common runtime seed,
+identical model initialization, IC/BC/query condition and time streams, five
+physical losses and LR. Preserve the original model, residual and defaults.
+Uniform cores remain sampled on the original graph then Dirichlet cores masked.
+
+Match fixed/rolling padding to a proven one-hop degree bound rather than old
+observed maxima. Keep the old first32core draws, then deterministic fresh draw
+IDs independent of worker completion. Background workers produce NumPy-only
+geometry metadata, never initialize a GPU or cache learned network features.
+Full mode uses complete free residual rows and the original graph weights.
+Check subgraph core values against the full graph before training. All times
+retain shared spatial queries and JVP. Separate producer/packing/transfer wait,
+compilation, setup, warm updates and end-to-end cost; common padding may cost
+more than the historical tight pool, so do not treat the old timing as matched.
+
+Reuse existing64native/localFD reference inputs and fixed final checkpoints;
+no heldout selection or new PDE/FEMtraining trajectories. Report phi and c,
+pooled and terminal, with native and common local errors separated. Reject
+claiming single-run statistical superiority or automatically promoting a new
+default. Relation: electropolish-spatial-pool-comparison.
+
+## 2026-10-31 — Retain GPU sampling measurements with a separate replay issue
+
+All3matched cold5000runs, actual draw/state/time/condition parity,64native/local
+evaluations and independent saved-field metric calculations pass. Full has the
+lowest pooled mean error; rolling is slightly better terminally and~14%slower
+than fixed in warm effective steps. Differences are small and one initialization;
+leave SOTA defaults unchanged. Fixed/rolling share proven safe padding.
+
+The additional CPU checkpoint audit fails at0.3167absolute despite exact inputs/
+parameters. Source/NumPy probes localize the first large mismatch to composed
+cross-attention; isolated identical-q/kv attention agrees CPU/GPU. Exact cause
+unresolved; explicit/captured model, FP32/FP64, cuDNNFMHA/Triton flags and q/kv
+barrier probes do not resolve it. Record an open reproducible portability issue,
+retain all failures, and restrict this comparison to the verified GPU execution.
+Reject silently relaxing the2e-5CPUgate, calling it passed, altering the neural
+architecture/compiler/physics just to complete this sampling ablation, or
+claiming backend-independent/seed-stable accuracy. GPU checkpoint replay passes;
+the requested empirical time/accuracy comparison is complete, with this material
+limitation explicitly linked. Relation: electropolish-spatial-pool-comparison and
+issues/electropolish-attention-replay.md.
+
+## 2026-10-31 — Compare melting spatial pools without changing the3Dproblem
+
+User requests full/fixed/rolling controls analogous to electropolish. Preserve
+canonical128^3graph, ellipsoid distribution, hardIC/latentL1PDE, Adam/B16/Nt8 and
+shared time/spatial preparation. Fixed/rolling share proven1792node/1536edge
+capacity; background workers prepare NumPy-only metadata in deterministic order.
+Use an efficient uniform without-replacement core generator rather than a full
+2Mnode permutation per fresh draw, and document its RNG change explicitly.
+Both controls must share that generator and initial32sets. Rejected silently
+truncating halos, changing the grid/horizon/physics or treating random full-grid
+subsets as a full objective. Full training may accumulate exact mean-loss
+gradients over complete disjoint spatial chunks before a single Adam update;
+measure memory/cost and check small-grid equivalence first. Long-run scope must
+be communicated from actual measurements, not inferred from2Dcost. Original
+defaults remain unchanged. Relation: melting-spatial-pool-comparison.
+
+## 2026-10-31 — User limits melting comparison to the two core+halo pools
+
+Exact full128^3/B16/Nt8 probe finishes3updates,64complete32768core chunks per
+update:15.44s warm effective/38.314GiB activepeak;5000estimated21.4hours. User
+explicitly declines full training and requests fixed versus rolling only.
+Retain the full probe/optional implementation as performance evidence, not a
+full-budget accuracy control. Run both sampled modes cold5000with identical
+model/Adam and actual condition/time streams, no other numerical changes.
+Focused FP64 full loss/gradient/one-Adam identity passes. Initial FP32 loss/
+gradient agreement but strict near-zero-gradient Adam step failure is retained;
+do not claim bitwise trajectories from different accumulation orders.
+Relation: melting-spatial-pool-comparison; supersedes3full-budget acceptance.
+
+## 2026-10-31 — Retain measured melting pool results and record query sensitivity
+
+Both matched5000cold controls and initial-state/actual IC/time/core/saved-field/
+same-GPU1024query checkpoint checks pass. Fixed/rolling native8meanphase pooled
+0.1631/0.4217%, terminal0.2218/0.2514%; warm12.737/13.247ms, about4%rollingcost.
+Coverage0.3898->45.6869%doesnot yield lower final whole-field error in this pair.
+Histories fluctuate and a single terminal selection doesnot establish stable
+ordering or a unique cause; retain the canonical default.
+
+An extra full-spatial PDE validation fails field invariance:65536versus1024
+queries differ0.00577absolutephi at identical selected points. Input images/
+initial latents match exactly; explicitencoded, inlineencoded, captured/dynamic
+images and JVP/noJVP probes retain the gap. Cause unresolved. Preserve the failed
+2e-5gate, record a separate reproducible issue and do not use those full-spatial
+residual scalars to rank models or claim partition-independent precision. Do not
+change production model/compiler/physics to finish this sampling comparison.
+Measured same-path GPU results remain reviewable; no further work is queued.
+Relation: melting-spatial-pool-comparison and issues/melting-query-chunk-consistency.md.
+
+## 2026-10-31 — Publish accumulated operator work and diagnostic records
+
+User explicitly requests committing and pushing current code and records.
+Include accumulated confined-CH geometry conditioning/online rolling/SOTA,
+electropolish/melting spatial controls, compact validation evidence and open
+replay/query-consistency issues.335current text files total~3MiB; preserve
+generated-media/array/weight exclusions and existing external artifacts. Use
+existingdev (same tree as startingmain), commit -> regularmainmerge -> push
+origin/main only. Reuse completed unchanged numerical checks; add syntax/schema,
+staged-content and whitespace checks. Record accurate published refs in a final
+memory update and publish it through the same workflow; do not self-reference
+the containing commit. No new training/default tuning, deletion, history rewrite
+or pushdev. Relation: current-code-publication.

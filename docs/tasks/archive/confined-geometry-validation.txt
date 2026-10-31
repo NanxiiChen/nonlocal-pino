@@ -1,0 +1,56 @@
+Focused validation logs. The validation-test failure is a ConfigDict test-fixture type check; fixed fixture and successful rerun follow.
+
+## /tmp/confined-geometry-tests.txt
+..<frozen importlib._bootstrap>:530: DeprecationWarning: the load_module() method is deprecated and slated for removal in Python 3.12; use exec_module() instead
+.........
+----------------------------------------------------------------------
+Ran 11 tests in 123.241s
+
+OK
+
+## /tmp/confined-geometry-direct-test.txt
+.
+----------------------------------------------------------------------
+Ran 1 test in 20.439s
+
+OK
+
+## /tmp/confined-geometry-validation-test.txt
+E
+======================================================================
+ERROR: test_invalid_physical_prior_and_counts_fail_early (tests.test_confined_ch_operator.GeometryOperatorTests.test_invalid_physical_prior_and_counts_fail_early)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nonlocal-pinn/tests/test_confined_ch_operator.py", line 40, in test_invalid_physical_prior_and_counts_fail_early
+    c=get_config();c[section][name]=value
+                   ~~~~~~~~~~^^^^^^
+  File "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/ml_collections/config_dict/config_dict.py", line 890, in __setitem__
+    raise TypeError(
+TypeError: Could not override field 'condition_batch' (reference). 1.5 is of original type <class 'float'> and cannot be casted to type <class 'int'>
+
+----------------------------------------------------------------------
+Ran 1 test in 0.005s
+
+FAILED (errors=1)
+
+## /tmp/confined-geometry-validation-test-fixed.txt
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.010s
+
+OK
+
+## /tmp/confined-geometry-query-test.txt
+.
+----------------------------------------------------------------------
+Ran 1 test in 23.038s
+
+OK
+
+## /tmp/confined-geometry-heterogeneous-tests.txt
+..<frozen importlib._bootstrap>:530: DeprecationWarning: the load_module() method is deprecated and slated for removal in Python 3.12; use exec_module() instead
+.
+----------------------------------------------------------------------
+Ran 3 tests in 144.997s
+
+OK

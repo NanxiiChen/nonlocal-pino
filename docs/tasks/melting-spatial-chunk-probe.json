@@ -1,0 +1,8 @@
+{
+  "image_gap": 0.0,
+  "initial_latent_gap": 0.0,
+  "explicit_gap": 0.005769908428192139,
+  "explicit_jvp_gap": 0.005769908428192139,
+  "dynamic_gap": 0.0057694315910339355,
+  "captured_gap": 0.0057694315910339355
+}

@@ -1,0 +1,84 @@
+{
+  "status": "passed",
+  "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-width128-beta09-30k-01/ckpt_021000.eqx",
+  "step": 21000,
+  "conditions": [
+    {
+      "index": 512,
+      "phi_relative_precision_difference": 4.3631234673833057e-07,
+      "mu_relative_precision_difference": 4.50009959330764e-06,
+      "fp64_phi_L2": 0.06938140915889761,
+      "rounded_frozen_phi_L2": 0.06938133659557012,
+      "phi_maximum_difference": 8.092742322524105e-07,
+      "mu_maximum_difference": 3.07724804780949e-06
+    },
+    {
+      "index": 513,
+      "phi_relative_precision_difference": 4.359824021400981e-07,
+      "mu_relative_precision_difference": 4.583984726296142e-06,
+      "fp64_phi_L2": 0.11849849190906676,
+      "rounded_frozen_phi_L2": 0.11849843530655353,
+      "phi_maximum_difference": 7.868355934165239e-07,
+      "mu_maximum_difference": 2.937274270836676e-06
+    },
+    {
+      "index": 514,
+      "phi_relative_precision_difference": 4.996007979121132e-07,
+      "mu_relative_precision_difference": 3.482495510818175e-06,
+      "fp64_phi_L2": 0.17121231316759994,
+      "rounded_frozen_phi_L2": 0.17121232736376518,
+      "phi_maximum_difference": 7.021679083729637e-07,
+      "mu_maximum_difference": 1.986292368305609e-06
+    },
+    {
+      "index": 515,
+      "phi_relative_precision_difference": 3.8616179275184037e-07,
+      "mu_relative_precision_difference": 4.982687347629869e-06,
+      "fp64_phi_L2": 0.04142155322437709,
+      "rounded_frozen_phi_L2": 0.04142163533463315,
+      "phi_maximum_difference": 6.693176767269549e-07,
+      "mu_maximum_difference": 2.8430703966630944e-06
+    },
+    {
+      "index": 516,
+      "phi_relative_precision_difference": 4.877693529514732e-07,
+      "mu_relative_precision_difference": 4.863957180395017e-06,
+      "fp64_phi_L2": 0.07999600924159865,
+      "rounded_frozen_phi_L2": 0.07999601732131596,
+      "phi_maximum_difference": 8.911917278586756e-07,
+      "mu_maximum_difference": 2.7250145357392286e-06
+    },
+    {
+      "index": 517,
+      "phi_relative_precision_difference": 4.3633678136560247e-07,
+      "mu_relative_precision_difference": 3.862056671314229e-06,
+      "fp64_phi_L2": 0.21143795674839055,
+      "rounded_frozen_phi_L2": 0.21143788154349777,
+      "phi_maximum_difference": 7.610665661017535e-07,
+      "mu_maximum_difference": 2.1406444774274558e-06
+    },
+    {
+      "index": 518,
+      "phi_relative_precision_difference": 4.478391846915604e-07,
+      "mu_relative_precision_difference": 4.16174884035119e-06,
+      "fp64_phi_L2": 0.041030314216431316,
+      "rounded_frozen_phi_L2": 0.04103038753089021,
+      "phi_maximum_difference": 7.037892831851522e-07,
+      "mu_maximum_difference": 2.4957170278450125e-06
+    },
+    {
+      "index": 519,
+      "phi_relative_precision_difference": 4.945767986482172e-07,
+      "mu_relative_precision_difference": 4.063135730774514e-06,
+      "fp64_phi_L2": 0.16816751034980595,
+      "rounded_frozen_phi_L2": 0.1681675620368142,
+      "phi_maximum_difference": 8.167439561196366e-07,
+      "mu_maximum_difference": 2.0116990704990845e-06
+    }
+  ],
+  "mean_fp64_phi_L2": 0.11264319475202099,
+  "mean_rounded_frozen_phi_L2": 0.11264319787913002,
+  "maximum_phi_precision_difference": 8.911917278586756e-07,
+  "maximum_mu_precision_difference": 3.07724804780949e-06,
+  "scope": "CPU-only frozen FP64 checkpoint rounded/evaluated inFP32, eight reused development geometries. No optimizer updates; not FP32-trained accuracy or training stability evidence."
+}

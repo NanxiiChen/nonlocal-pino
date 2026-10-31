@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "pid": 136596,
+  "stages": [
+    {
+      "name": "GPU_checkpoint_replay",
+      "exit_code": 0,
+      "log": "/root/autodl-tmp/tf-logs/icemelting3d/20261031-melting-spatial-01-GPU_checkpoint_replay.log"
+    },
+    {
+      "name": "independent_inputs_fields_report",
+      "exit_code": 0,
+      "log": "/root/autodl-tmp/tf-logs/icemelting3d/20261031-melting-spatial-01-independent_inputs_fields_report.log"
+    }
+  ],
+  "finished_utc": "2026-10-31T11:16:35.928565+00:00"
+}

@@ -1,0 +1,21 @@
+{
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261029-confined-geometry-richer512-long-01",
+  "checkpoint5000_parameter_difference": {
+    "maximum_absolute": 4.3728909382423353e-14,
+    "relative_l2": 7.283621909367666e-15
+  },
+  "common_evaluation_maximum_difference": 4.3021142204224816e-16,
+  "common_steps": [
+    0,
+    500,
+    1000,
+    1500,
+    2000,
+    2500,
+    3000,
+    3500,
+    4000,
+    4500,
+    5000
+  ]
+}

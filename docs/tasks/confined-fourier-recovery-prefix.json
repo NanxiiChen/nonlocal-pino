@@ -1,0 +1,23 @@
+{
+  "original": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-01",
+  "retry": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01",
+  "common_evaluation_steps": [
+    20000,
+    20500,
+    21000,
+    21500,
+    22000,
+    22500,
+    23000
+  ],
+  "maximum_absolute_metric_differences": {
+    "train_phi_pooled": 9.284240043427872e-14,
+    "train_phi_terminal": 1.5376588891058418e-13,
+    "test_phi_pooled": 1.3898604489526178e-13,
+    "test_phi_terminal": 1.021405182655144e-13,
+    "train_mu_pooled": 2.3445134722521743e-13,
+    "test_mu_pooled": 1.739441923831464e-13
+  },
+  "policy": "Full20kstate/config/globalcounters restored; no minimum-over-retries selection",
+  "scope": "Measured overlap only; not a general deterministic-backend guarantee or complete30kresult"
+}

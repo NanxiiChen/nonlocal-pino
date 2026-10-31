@@ -16,7 +16,7 @@ FEM references remain part of the validation workflow.
 - [twophase2d](examples/twophase2d/README.md): Periodic prescribed-flow Cahn–Hilliard pilots: constant transport and reversed-vortex deformation, with mixed local-AD/nonlocal controls; no coupled Navier–Stokes yet.
 - [precipitate2d](examples/precipitate2d/README.md): Periodic coherent elastic-precipitate pilot with differentiable mechanical equilibration and nonlocal phase diffusion.
 
-- [confined_ch2d](examples/confined_ch2d/README.md): Confined CH in an ellipse with impermeable holes; default ten-wave T1.5 case uses30 sequential PINN time windows and a validated independent reference. Legacy simple/local AD and global-time research controls remain explicit options.
+- [confined_ch2d](examples/confined_ch2d/README.md): Confined CH in an ellipse with impermeable holes; default ten-wave T1.5 case uses30 sequential PINN time windows and a validated independent reference. Opt-in random-geometry operators use boundary/function point sets, physical quadrature and shared spatial/time decoding. Legacy simple/local AD and global-time controls remain explicit options.
 
 The unimplemented [PINO elasticity design](docs/design/pino_elasticity2d.md) is
 retained as a design document. Electropolish2d is the primary corrosion case;
@@ -85,17 +85,19 @@ were inspected statically, without full accuracy/default promotion.
 
 ## Physics-only neural-operator defaults
 
-Both opt-in `configs/train_operator.py` presets use the currently recommended
-measured strategy, with initial images as conditions and no evolved-field labels:
+The opt-in `configs/train_operator.py` presets use the currently recommended
+measured strategies, with known initial/geometry inputs and no evolved-field labels:
 
 | Operator | Default configuration | Validation |
 |---|---|---|
 | 3D melting | Online B16, Adam5000, lr1e-3, ordinary FP32/highest, hard IC + latent PDE | Eight native tests; one local-FEM check, Adam pooled phi0.1479% |
 | 2D electropolish | Online B8, Adam5000, lr1e-3, ordinary FP32/highest, image-only condition, original AC/CH + IC/BC | Independent64-input local-FD mean phi pooled4.427% |
+| Confined CH geometry | Width256, rolling1024-input pool, B16/Nt16, SOAP50000, lr1e-3, ordinary FP32/highest, hard IC/mass, eliminated mu | Eight reused native development geometries; mean phi pooled4.83%, terminal5.19% |
 
 ```bash
 python -m examples.icemelting3d.train --config=examples/icemelting3d/configs/train_operator.py
 python -m examples.electropolish2d.train --config=examples/electropolish2d/configs/train_operator.py
+python -m examples.confined_ch2d.train --config=examples/confined_ch2d/configs/train_operator.py
 ```
 
 Run individually. These are the recommended NO presets; no-argument `train.py`
@@ -105,6 +107,18 @@ does not guarantee lower local-FEM error. Electropolish disables query-local IC
 features while preserving actual IC losses. Historical finite/online/causal
 controls remain explicit, and saved configs govern old checkpoint replay.
 Selection is not a claim of a global optimum or statistical seed stability.
+
+The confined CH geometry operator now selects the accepted **width256 online
+cold50k SOTA**: fixed small-scale10mode initial field, T3, random positions/radii
+of two impermeable holes, and GNOT-inspired boundary/function point streams.
+Six CPU workers refresh32of1024input slots every100updates; no training PDE/FEM
+trajectories are generated. See its [SOTA configuration and direct checkpoint](examples/confined_ch2d/README.md#geometry-operator-sota)
+for the complete recipe and measured102.26min runtime. These errors use native
+nonlocal references on the same8development geometries; local FEM for this harder
+case remains deferred. The earlier mild16/8pilot is explicitly available as
+`configs/train_operator_mild.py`; all historical controls and the separate
+no-argument single-IVP30-window default are retained.
+
 
 ## Setup and use
 

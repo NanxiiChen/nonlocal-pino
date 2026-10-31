@@ -1,0 +1,72 @@
+{
+  "status": "intentionally_stopped_for_fp32",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-width128-beta09-30k-01",
+  "preserved_marker": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-width128-beta09-30k-01/checkpoint_021000.json",
+  "preserved_step": 21000,
+  "optimizer_counters": [
+    {
+      "path": "[1][0].count",
+      "value": 21000
+    },
+    {
+      "path": "[1][1].count",
+      "value": 21000
+    }
+  ],
+  "all_payloads_finite": true,
+  "fp64_old_new_field_maximum_difference": 0.0,
+  "owned_processes": [
+    {
+      "pid": 198579,
+      "session": 198579,
+      "command": "/root/nonlocal-pinn/.venv/bin/python -m docs.tasks.confined_ch_beta09_runner "
+    },
+    {
+      "pid": 198583,
+      "session": 198583,
+      "command": "/root/nonlocal-pinn/.venv/bin/python examples/confined_ch2d/train.py --config=examples/confined_ch2d/configs/train_operator_smallscale10_512_width128_beta09.py --config.log.run_name=20261030-confined-geometry-b16-t16-width128-beta09-30k-01 "
+    }
+  ],
+  "journal_snapshot": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-width128-beta09-01-process-before-fp32-stop.json",
+  "latest_evaluation": {
+    "step": 21000,
+    "elapsed_seconds": 13187.700836177915,
+    "train_monitor_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "test_indices": [
+      512,
+      513,
+      514,
+      515,
+      516,
+      517,
+      518,
+      519
+    ],
+    "train_phi_pooled": 0.06719433896588342,
+    "train_phi_terminal": 0.07163381557324368,
+    "train_mu_pooled": 0.14188476384876542,
+    "train_mu_terminal": 0.18096322717778318,
+    "test_phi_pooled": 0.11264319475202099,
+    "test_phi_terminal": 0.12273195857276567,
+    "test_mu_pooled": 0.20941899080474285,
+    "test_mu_terminal": 0.27992982848998244
+  },
+  "scope": "User-directed precision trial on same GPU. Closed partial state preserved, not a completed30k result. No old config/checkpoint overwritten."
+}

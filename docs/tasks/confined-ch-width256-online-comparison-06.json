@@ -1,0 +1,61 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-10-31T08:41:28.182643+00:00",
+  "common_step": 37000,
+  "scores": [
+    {
+      "label": "256 / fixed512",
+      "step": 37000,
+      "train_phi_pooled": 0.027003419741628655,
+      "train_phi_terminal": 0.02877716034963442,
+      "test_phi_pooled": 0.08581329997337354,
+      "test_phi_terminal": 0.09380827178773221
+    },
+    {
+      "label": "256 / rolling from0 (current)",
+      "step": 37000,
+      "train_phi_pooled": 0.05754605790844772,
+      "train_phi_terminal": 0.06173855382299577,
+      "test_phi_pooled": 0.05543617042858898,
+      "test_phi_terminal": 0.05930132769997457
+    }
+  ],
+  "unavailable": [
+    {
+      "label": "192 / fixed512",
+      "first_step": 0,
+      "last_step": 30000,
+      "reason": "recorded_run_ended"
+    },
+    {
+      "label": "192 / fixed1024",
+      "first_step": 0,
+      "last_step": 26500,
+      "reason": "recorded_run_ended"
+    },
+    {
+      "label": "192 / rolling from25k",
+      "first_step": 25000,
+      "last_step": 32500,
+      "reason": "recorded_run_ended"
+    }
+  ],
+  "recent_png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_06/matched_tail.png",
+  "recent_pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_06/matched_tail.pdf",
+  "matched_png": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_06/matched_budget.png",
+  "matched_pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/version_comparison_06/matched_budget.pdf",
+  "same8reference_arrays_exact": true,
+  "all_historical_aggregate_means_checked": true,
+  "recent_figure_visually_inspected": true,
+  "relative_reduction_vs_old256": {
+    "pooled": 0.3539909262807758,
+    "terminal": 0.36784543015395677
+  },
+  "paired35000": {
+    "all_payloads_present": true,
+    "refresh_count": 350,
+    "new_inputs": 11200,
+    "active1024identities_exact": true
+  },
+  "scope": "Same8reused native development geometries and runtime seed42; not localFEM/fresh test. DifferentGPU/padding/architecture/library/rolling origins. No causal isolated sampler/capacity claim. 192online stage starts25k; its parent is the192fixed1024curve before25k. Last observed endpoints have unequal budgets. No smoothing/extrapolation or new training."
+}

@@ -1,0 +1,20 @@
+{
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261030-confined-geometry-b16-t16-wide96-30k-retry-01",
+  "step": 21000,
+  "marker": {
+    "step": 21000,
+    "kind": "intermediate_full_state",
+    "model": "ckpt_021000.eqx",
+    "optimizer": "optimizer_021000.eqx",
+    "config": "config.json",
+    "policy": "Paired numerical state; not a completed fixed-budget result"
+  },
+  "finite_model_and_optimizer": true,
+  "optimizer_global_counts": [
+    21000,
+    21000
+  ],
+  "files_closed_and_published": true,
+  "source": "RealGPUcheckpoint independently loaded onCPU",
+  "scope": "Backup integrity, not a newfield-error result or completed30kbudget"
+}

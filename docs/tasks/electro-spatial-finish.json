@@ -1,0 +1,51 @@
+{
+  "status": "failed",
+  "pid": 93795,
+  "stages": [
+    {
+      "stage": "draw_audit",
+      "backend": "cpu",
+      "pid": null,
+      "status": "passed",
+      "log": "/root/autodl-tmp/tf-logs/electropolish2d/20261031-electro-spatial-01-draw_audit.log",
+      "seconds": 1.1822414100170135,
+      "exit_code": 0
+    },
+    {
+      "stage": "full_evaluate64",
+      "backend": "cuda",
+      "pid": null,
+      "status": "passed",
+      "log": "/root/autodl-tmp/tf-logs/electropolish2d/20261031-electro-spatial-01-full_evaluate64.log",
+      "seconds": 32.78081167675555,
+      "exit_code": 0
+    },
+    {
+      "stage": "fixed_pool_evaluate64",
+      "backend": "cuda",
+      "pid": null,
+      "status": "passed",
+      "log": "/root/autodl-tmp/tf-logs/electropolish2d/20261031-electro-spatial-01-fixed_pool_evaluate64.log",
+      "seconds": 32.77564893849194,
+      "exit_code": 0
+    },
+    {
+      "stage": "rolling_pool_evaluate64",
+      "backend": "cuda",
+      "pid": null,
+      "status": "passed",
+      "log": "/root/autodl-tmp/tf-logs/electropolish2d/20261031-electro-spatial-01-rolling_pool_evaluate64.log",
+      "seconds": 30.552988034673035,
+      "exit_code": 0
+    },
+    {
+      "stage": "CPU_replay",
+      "backend": "cpu",
+      "pid": null,
+      "status": "failed",
+      "log": "/root/autodl-tmp/tf-logs/electropolish2d/20261031-electro-spatial-01-CPU_replay.log",
+      "seconds": 7.962561126798391,
+      "exit_code": 1
+    }
+  ]
+}

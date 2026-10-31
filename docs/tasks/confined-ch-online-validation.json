@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "focused_cpu_tests": 10,
+  "extra_canonical_online_recovery_integration_tests": 1,
+  "initial_state_exact": true,
+  "initial_field_score_parity": true,
+  "production25update_finite_fp32_memory": true,
+  "original_function_AST_exact": [
+    "build_network",
+    "apply_operator",
+    "encode",
+    "prepare",
+    "time_coordinate",
+    "phase",
+    "fields",
+    "query_phase",
+    "make_loss",
+    "operator_temporal_samples"
+  ],
+  "unchanged_numerical_source_bytes": [
+    "examples/confined_ch2d/operators.py",
+    "examples/confined_ch2d/operator_metrics.py",
+    "src/nonlocal_pinn/nn/point_conditional.py",
+    "src/nonlocal_pinn/training/optimizers.py",
+    "examples/confined_ch2d/operator_precision.py"
+  ],
+  "real_cpu_producer64inputs_pass": true,
+  "first_live_checkpoint_pool_identity_pass": true,
+  "new_python_AST_and_whitespace": true,
+  "json_and_single_active_task": true,
+  "scope": "Focused verification of implemented online input option; no repeat of unchanged expensive suites, no result/default promotion or Git history operation."
+}

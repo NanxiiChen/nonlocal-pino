@@ -42,6 +42,9 @@ def _make_step(loss,optimizer):
 
 
 def train(c):
+    if 'operator' in c:
+        from examples.confined_ch2d.operator_training import train_operator
+        return train_operator(c)
     validate_config(c);configure_gpu_policy(c.train.gpu_policy)
     jax.config.update('jax_enable_x64',True);jax.config.update('jax_default_matmul_precision','highest')
     if 'windows' in c.train:

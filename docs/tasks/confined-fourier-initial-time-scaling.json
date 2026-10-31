@@ -1,0 +1,55 @@
+{
+  "source": "Analytic initial condition and input graph RHS only, no evolved fields",
+  "tau": 0.05,
+  "conditions": [
+    {
+      "index": 512,
+      "initial_rhs_rms": 0.9575639580568219,
+      "linear_raw_initial_rms": 2.872691874170466,
+      "logarithmic_raw_initial_rms": 0.19682123242250693
+    },
+    {
+      "index": 513,
+      "initial_rhs_rms": 0.9291116008192307,
+      "linear_raw_initial_rms": 2.7873348024576923,
+      "logarithmic_raw_initial_rms": 0.19097302983540013
+    },
+    {
+      "index": 514,
+      "initial_rhs_rms": 0.9824230716231817,
+      "linear_raw_initial_rms": 2.9472692148695447,
+      "logarithmic_raw_initial_rms": 0.20193086643483016
+    },
+    {
+      "index": 515,
+      "initial_rhs_rms": 0.9069616620099878,
+      "linear_raw_initial_rms": 2.7208849860299633,
+      "logarithmic_raw_initial_rms": 0.1864202496082024
+    },
+    {
+      "index": 516,
+      "initial_rhs_rms": 0.9336180903552115,
+      "linear_raw_initial_rms": 2.8008542710656346,
+      "logarithmic_raw_initial_rms": 0.19189931033803181
+    },
+    {
+      "index": 517,
+      "initial_rhs_rms": 0.9865812975684229,
+      "linear_raw_initial_rms": 2.959743892705269,
+      "logarithmic_raw_initial_rms": 0.20278556355281113
+    },
+    {
+      "index": 518,
+      "initial_rhs_rms": 0.9234124403756206,
+      "linear_raw_initial_rms": 2.770237321126862,
+      "logarithmic_raw_initial_rms": 0.18980160334963178
+    },
+    {
+      "index": 519,
+      "initial_rhs_rms": 0.9608237866590688,
+      "linear_raw_initial_rms": 2.882471359977206,
+      "logarithmic_raw_initial_rms": 0.19749126963264
+    }
+  ],
+  "raw_scale_ratio": 14.595436878495876
+}

@@ -1,0 +1,35 @@
+{
+  "bank": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_richer512_v1",
+  "workers": 6,
+  "wall_seconds": 124.70305439643562,
+  "training_count": 512,
+  "validation_count": 8,
+  "new_operators": 496,
+  "reused_references": 24,
+  "bytes": 6559697287,
+  "trajectory_solves": 0,
+  "fem_solves": 0,
+  "operator_probe_checks": [
+    {
+      "index": 16,
+      "nodes": 1243,
+      "maximum_action_difference": 1.3642420526593924e-12
+    },
+    {
+      "index": 255,
+      "nodes": 1289,
+      "maximum_action_difference": 1.8189894035458565e-12
+    },
+    {
+      "index": 511,
+      "nodes": 1162,
+      "maximum_action_difference": 1.5916157281026244e-12
+    }
+  ],
+  "mean_worker_stage_seconds": {
+    "mesh": 0.5575394990080367,
+    "assembly": 0.0611839925855278,
+    "metric": 0.24728223949956196,
+    "write": 0.6028423815357289
+  }
+}

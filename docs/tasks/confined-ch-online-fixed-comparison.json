@@ -1,0 +1,53 @@
+{
+  "status": "observed_validation_improvement_scope_limited",
+  "checked_utc": "2026-10-31T07:04:58.065329+00:00",
+  "runs": {
+    "online": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width192-online25000-rolling-01-train",
+    "fixed512": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-fp32-30k-01",
+    "fixed1024": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01"
+  },
+  "same_width192_and_numerical_settings": true,
+  "common30000": {
+    "online": {
+      "step": 30000,
+      "train_phi_pooled": 0.0745446096223529,
+      "test_phi_pooled": 0.07898425402677738,
+      "test_phi_terminal": 0.08487397880549274
+    },
+    "fixed512": {
+      "step": 30000,
+      "train_phi_pooled": 0.03970018164419576,
+      "test_phi_pooled": 0.0891477025652804,
+      "test_phi_terminal": 0.09801667010463708
+    }
+  },
+  "latest_online": {
+    "step": 32000,
+    "train_phi_pooled": 0.071945138152188,
+    "test_phi_pooled": 0.07254275083945971,
+    "test_phi_terminal": 0.07770378234351133
+  },
+  "fixed1024_common26500": {
+    "online": {
+      "step": 26500,
+      "train_phi_pooled": 0.07241431090640199,
+      "test_phi_pooled": 0.08527449328394354,
+      "test_phi_terminal": 0.09236581118484206
+    },
+    "fixed1024": {
+      "step": 26500,
+      "train_phi_pooled": 0.05913708626679177,
+      "test_phi_pooled": 0.0791146153934744,
+      "test_phi_terminal": 0.08621342266974552
+    }
+  },
+  "validation_pooled_relative_reduction_vs512_at30000": 0.11400684758040303,
+  "validation_terminal_relative_reduction_vs512_at30000": 0.13408628639509923,
+  "cohort_provenance": "Existing passed bank-growth audit preserves16monitors and8reserved physical domains and reference arrays",
+  "limitations": [
+    "Online path pretrained25000updates on1024inputs, then rolling; fixed512path used512throughout.",
+    "Fixed1024run stopped at26500; same-budget30000/31500continuation control unavailable. Online was worse than fixed1024at26500.",
+    "Padding/compiler shapes differ; current8development geometries reused and one runtime seed. No isolated online-sampling causal claim."
+  ],
+  "next_action": "Continue only existing online run to50000and automaticfinalaudit; no new comparison run authorized or queued"
+}

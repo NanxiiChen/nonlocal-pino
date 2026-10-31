@@ -1,0 +1,43 @@
+{
+  "observed_utc": "2026-10-30T15:35:53.517478+00:00",
+  "user_available_gpu": "RTX5090",
+  "standard_memory_GB": 32,
+  "fp32_to_fp64_throughput_ratio": "64:1 for compute capability12.x",
+  "current_reported_memory_MiB": 49152,
+  "prior_width128_peak_active_GiB": 17.353917121887207,
+  "measured_RTX5090_training_speed": null,
+  "software": {
+    "jax": "0.10.1",
+    "jaxlib": "0.10.1",
+    "jax-cuda13-plugin": "0.10.1",
+    "nvidia-cuda-runtime": "13.3.29"
+  },
+  "sources": [
+    "https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5090/",
+    "https://developer.nvidia.com/cuda/gpus",
+    "https://docs.nvidia.com/cuda/cuda-programming-guide/05-appendices/compute-capabilities.html",
+    "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3090-3090ti/"
+  ],
+  "scope": "Official standard-device capacity and architectural throughput, not a measured speedup or fit guarantee. Current GPU reports48GiB; standard5090 has32GB. Future192width activations/workspace/driver compatibility need exclusive production probes. No card transfer or precision change performed.",
+  "theoretical_peak_comparison": {
+    "method": "Nominal reference boost, FP32=2*CUDAcores*boost_GHz/1000 TFLOP/s; non-Tensor FP64=FP32/64. These are derived theoretical peaks, not observed training speed.",
+    "rtx3090": {
+      "cuda_cores": 10496,
+      "boost_GHz": 1.7,
+      "FP32_TFLOPs": 35.6864,
+      "FP64_TFLOPs": 0.5576
+    },
+    "rtx5090": {
+      "cuda_cores": 21760,
+      "boost_GHz": 2.41,
+      "FP32_TFLOPs": 104.88320000000002,
+      "FP64_TFLOPs": 1.6388000000000003
+    },
+    "FP64_5090_over_3090_ratio": 2.939024390243903,
+    "clarification": "Both CC8.6 and CC12.0 have FP32:FP64=64:1. No evidence this3090 has better FP64 than5090; theoretical5090 peak is approximately2.94x. Current reported48GiB is capacity, not additional arithmetic throughput. No5090training measured."
+  },
+  "device_identity_receipt": "docs/tasks/confined-ch-device-identity.json",
+  "observed_device_FP32_to_FP64_ratio": 64,
+  "archived_measured_FP64_GEMM_TFLOPs": 0.636185043772887,
+  "nonstandard_memory_assessment": "NVML reports48GiB versus standard3090 24GB; expansion/platform customization is plausible, but software queries cannot establish physical modifications. Driver reports82SM/CC8.6/ratio64; no evidence of added FP64 throughput."
+}

@@ -1,0 +1,42 @@
+{
+  "checked_utc": "2026-10-31T05:05:22.772051+00:00",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-geometry-b16-t16-width192-bank1024-fp32-50k-01",
+  "probe_compile_seconds": 541.6421317346394,
+  "probe_total_seconds": 876.4485130850226,
+  "production_setup_seconds": 312.92073149979115,
+  "production_first_update_including_compile_seconds_approx": 549.7399442642927,
+  "production_first_update_completed_utc": "2026-10-31T05:01:30.083676+00:00",
+  "prior192_512_first_update_seconds": 504.2229428179562,
+  "warm_probe_seconds_per_update": 0.159039671625942,
+  "JAX_version": "0.10.1",
+  "persistent_cache_enabled_setting": true,
+  "persistent_cache_directory": null,
+  "source_cache_directory_checked": ".venv/lib/python3.12/site-packages/jax/_src/compilation_cache.py:221",
+  "slow_alarm_count": 106,
+  "distinct_slow_alarm_modules": 52,
+  "module_examples": [
+    "gemm_fusion_dot.290 for GPU",
+    "gemm_fusion_dot.102 for GPU",
+    "gemm_fusion_dot.1196 for GPU",
+    "gemm_fusion_dot.1223 for GPU",
+    "gemm_fusion_dot_general.1461 for GPU",
+    "gemm_fusion_dot.667 for GPU",
+    "gemm_fusion_dot_general.1175 for GPU",
+    "gemm_fusion_dot.14 for GPU",
+    "gemm_fusion_dot.1194 for GPU",
+    "gemm_fusion_dot_general.1208 for GPU"
+  ],
+  "probe_stablehlo_bytes": 1583311,
+  "prior_padded_nodes_degree": [
+    1351,
+    96
+  ],
+  "new_padded_nodes_degree": [
+    1353,
+    97
+  ],
+  "status": "compilation_finished_and_updates_running",
+  "scope": "Measured duplicated preflight/production first compilations. Fullnetwork/PDEJVP/parametergrad/SOAP step compiled. Log hotspots are GEMM fusion compilation; no profile separating codegen/autotuning or isolated SOAP contribution. No repeated per-batch recompilation shown. Cache directory unset; cache enable boolean alone does not initialize disk cache. Future identical-HLO reuse must be verified, not promised.",
+  "official_cache_documentation": "https://docs.jax.dev/en/latest/persistent_compilation_cache.html",
+  "running_job_modified": false
+}

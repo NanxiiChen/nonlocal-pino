@@ -1,0 +1,204 @@
+{
+  "status": "complete",
+  "checked_utc": "2026-10-31T09:15:34.634121+00:00",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train",
+  "journal": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-process.json",
+  "runner_pid": null,
+  "trainer_pid": null,
+  "latest_logged_step": 50000,
+  "latest_evaluation": {
+    "step": 50000,
+    "elapsed_seconds": 6127.7868075706065,
+    "train_monitor_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "test_indices": [
+      1024,
+      1025,
+      1026,
+      1027,
+      1028,
+      1029,
+      1030,
+      1031
+    ],
+    "train_phi_pooled": 0.0505294647386368,
+    "train_phi_terminal": 0.05418558932856048,
+    "train_mu_pooled": 0.10647142258555047,
+    "train_mu_terminal": 0.14016744333036804,
+    "test_phi_pooled": 0.048329145319487045,
+    "test_phi_terminal": 0.051934891974683844,
+    "test_mu_pooled": 0.10732855659894609,
+    "test_mu_terminal": 0.14275653469993288
+  },
+  "online_preflight": {
+    "status": "passed",
+    "step": 25,
+    "warmup_updates": 25,
+    "mean_last20_update_seconds": 0.09942636736668646,
+    "all_floating_model_state_finite_and_compute_dtype": true,
+    "payload_keys": [
+      "coefficients",
+      "condition",
+      "condition_weights",
+      "initial",
+      "metric",
+      "neighbors",
+      "points",
+      "volumes"
+    ],
+    "memory": {
+      "num_allocs": 52427,
+      "bytes_in_use": 13092983808,
+      "peak_bytes_in_use": 21940509440,
+      "largest_alloc_size": 9739173888,
+      "bytes_limit": 66879848448,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 66879848448,
+      "peak_pool_bytes": 66879848448
+    },
+    "pool": {
+      "kind": "asynchronous_rolling_geometry_pool",
+      "capacity": 1024,
+      "refresh_count": 1,
+      "distinct_generated_inputs": 32,
+      "refresh_wait_seconds": 5.061634412035346,
+      "pool_replace_seconds": 0.1606222279369831,
+      "pde_solves": 0,
+      "fem_solves": 0,
+      "reference_labels_in_step": false,
+      "geometry_order": "Stateless per-draw rejection sampling, fixed global refresh schedule, FIFO consumption",
+      "bounded_prefetch_inputs": 64
+    }
+  },
+  "initialization_audit": "docs/tasks/confined-ch-width256-online-initial-audit.json",
+  "speed_receipt": "/root/nonlocal-pinn/docs/tasks/confined-ch-width256-online-speed.json",
+  "scope": "Fresh width256online50k; reused8native development references. Training continues, no default promotion.",
+  "latest_loss": {
+    "step": 44600,
+    "loss": 3.630577339208685e-05,
+    "training_horizon": 3.0,
+    "online": {
+      "kind": "asynchronous_rolling_geometry_pool",
+      "capacity": 1024,
+      "refresh_count": 446,
+      "distinct_generated_inputs": 14272,
+      "refresh_wait_seconds": 102.14605789911002,
+      "pool_replace_seconds": 24.356497395783663,
+      "pde_solves": 0,
+      "fem_solves": 0,
+      "reference_labels_in_step": false,
+      "geometry_order": "Stateless per-draw rejection sampling, fixed global refresh schedule, FIFO consumption",
+      "bounded_prefetch_inputs": 64
+    }
+  },
+  "validation_phi_range": [
+    0.017241370634659012,
+    0.0956862517444074
+  ],
+  "aggregate_checks": "All8validation/16historical monitor means verified from per-geometry phi/mu scores; finite",
+  "checkpoint_markers": [
+    "checkpoint_005000.json",
+    "checkpoint_010000.json",
+    "checkpoint_015000.json",
+    "checkpoint_020000.json",
+    "checkpoint_025000.json",
+    "checkpoint_030000.json",
+    "checkpoint_035000.json",
+    "checkpoint_040000.json",
+    "checkpoint_045000.json",
+    "checkpoint_050000.json"
+  ],
+  "first5kcheckpoint": {
+    "marker": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/checkpoint_005000.json",
+    "step": 5000,
+    "all3payloads_present": true,
+    "refresh_count": 50,
+    "generated_inputs": 1600,
+    "pool_identities_exact": true
+  },
+  "comparison_receipt": "docs/tasks/confined-ch-width256-online-comparison-06.json",
+  "same_budget_comparison": [
+    {
+      "label": "256 / rolling from0 (current)",
+      "step": 44500,
+      "train_phi_pooled": 0.05216250930307779,
+      "train_phi_terminal": 0.055990224279371864,
+      "test_phi_pooled": 0.05457321219141588,
+      "test_phi_terminal": 0.05851936725696559
+    }
+  ],
+  "last_paired_checkpoint": {
+    "step": 40000,
+    "all_payloads_present": true,
+    "refresh_count": 400,
+    "generated_inputs": 12800,
+    "active1024poolids_exact": true
+  },
+  "resource_receipt": "docs/tasks/confined-ch-width256-online-resources.json",
+  "unavailable_same_budget": [
+    {
+      "label": "192 / fixed512",
+      "first_step": 0,
+      "last_step": 30000,
+      "reason": "recorded_run_ended"
+    },
+    {
+      "label": "192 / fixed1024",
+      "first_step": 0,
+      "last_step": 26500,
+      "reason": "recorded_run_ended"
+    },
+    {
+      "label": "256 / fixed512",
+      "first_step": 0,
+      "last_step": 40500,
+      "reason": "recorded_run_ended"
+    },
+    {
+      "label": "192 / rolling from25k",
+      "first_step": 25000,
+      "last_step": 32500,
+      "reason": "recorded_run_ended"
+    }
+  ],
+  "recent_seconds_per_update": 0.10943803720623255,
+  "remaining_update_minutes_estimate": 0,
+  "last_shared_budget_with_old256": {
+    "step": 40500,
+    "current_phi_pooled": 0.0522629947567266,
+    "current_phi_terminal": 0.05629655165097072,
+    "old256_phi_pooled": 0.08527623952797178,
+    "old256_phi_terminal": 0.0933277912126909
+  },
+  "recent5000_phi_range": [
+    0.05106896540521391,
+    0.05457321219141588
+  ],
+  "lowest_recorded_phi": {
+    "step": 38500,
+    "phi_pooled": 0.051025616954812746,
+    "selection": "Metric history only; not a new checkpoint selection"
+  },
+  "final_audit": "/root/nonlocal-pinn/docs/tasks/confined-ch-width256-online-audit.json",
+  "final_results": "docs/tasks/confined-ch-width256-online-results.json",
+  "report": "docs/tasks/archive/confined-ch-width256-online-cold50k.md",
+  "GPU_lifetime_peak_active_GiB": 20.43369174003601
+}
