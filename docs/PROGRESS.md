@@ -17,14 +17,22 @@ The split preserved physical formulations and existing artifact paths.
 
 ## Active task
 
-[Current code publication](tasks/current-code-publication.md).
-User authorizes commit/push of accumulated code and records. Inspect335textual
-source/config/docs/metric candidates (~3MiB), preserve external payloads and
-failed numerical gates, validate/stage, devcommit -> regularmainmerge -> push
-origin/mainonly, then verify remote and publish accurate task-end receipt.
-No numerical/default/training changes or deletion/history rewrite planned.
+None. Latest completed: [current code publication](tasks/archive/current-code-publication.md).
+Code/records devcommit ae46746 -> regularmainmerge c359d7f pushed and exact
+origin/main equality verified; final task-end receipt follows the same workflow.
+No numerical/default changes, artifact deletion or training queued.
 
 ## Recent completed tasks
+
+[Current operator code/records published](tasks/archive/current-code-publication.md).
+337textual files include confined-CH geometry/online/SOTA and electro/melting
+spatial controls plus explicit unresolved replay/query issues.148Python AST/
+156strictJSON/45configuration factories pass;1851indexedfiles20.83MiB and no
+new binary/generated payload or oversized file. Two whitespace-only edits have
+identical texttokens/PythonAST. Prior numerical evidence reused, no retraining.
+dev ae46746 -> ordinarymainmerge c359d7f -> origin/main verified; no pushdev,
+history rewrite or cleanup. Publication validation/archived memory receipt
+retains exact code refs; final documentation tip is authoritative in Git.
 
 [Melting spatial-pool comparison](tasks/archive/melting-spatial-pool-comparison.md).
 Matched5000Adam/B16/Nt8/128^3/ordinaryFP32 fixed/rolling: native8meanphi pooled
