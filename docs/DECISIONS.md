@@ -5534,3 +5534,16 @@ staged-content and whitespace checks. Record accurate published refs in a final
 memory update and publish it through the same workflow; do not self-reference
 the containing commit. No new training/default tuning, deletion, history rewrite
 or pushdev. Relation: current-code-publication.
+
+## 2026-10-31 — Verify publication and close the memory record
+
+Published code/record commit ae467463399994edd36d9b0f163a6c2c7f5f3a88onlocaldev
+via regularmainmerge c359d7f80f39194e1eb66b6719f4b16a8d81ba07; origin/main exact
+equality verified, main/dev trees identical and worktree clean.337changed text
+files, no binaries;1851indexedfiles20.83MiB.148AST/156strictJSON/45config factory
+checks and staged content/whitespace pass. Only2formatting-only source/Markdown
+fixes, checked identical AST/texttokens. Reuse prior numerical gates including
+their explicitly recorded unresolved failures; no retraining/default changes.
+Archive the completed task and publish this accurate receipt through the same
+devcommit -> regularmainmerge -> pushmain workflow. Do not embed the containing
+commit's own ID or rewrite history to add it later. Relation: current-code-publication.

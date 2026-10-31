@@ -1,5 +1,5 @@
 {
-  "status": "validation_ready",
+  "status": "code_published_and_remote_verified",
   "python_AST_modules": 148,
   "strict_JSON_records": 156,
   "configuration_factories": 45,
@@ -22,5 +22,21 @@
   "scope": "All current code/docs/compact records; known failed numerical gates remain explicitly recorded",
   "branch_workflow": "devcommit -> regularmainmerge -> pushorigin/mainonly",
   "history_rewrite": false,
-  "external_artifacts_deleted": false
+  "external_artifacts_deleted": false,
+  "code_commit": "ae467463399994edd36d9b0f163a6c2c7f5f3a88",
+  "code_regular_merge": "c359d7f80f39194e1eb66b6719f4b16a8d81ba07",
+  "verified_origin_main": "c359d7f80f39194e1eb66b6719f4b16a8d81ba07",
+  "code_commit_changed_text_files": 337,
+  "code_commit_binary_changes": 0,
+  "indexed_content_gate": {
+    "files": 1851,
+    "approximate_MiB": 20.83,
+    "generated_payloads": 0,
+    "files_over_1MiB": 0
+  },
+  "published_worktree_clean": true,
+  "main_dev_code_trees_identical": true,
+  "remote_dev_pushed": false,
+  "final_memory_record": "docs/tasks/archive/current-code-publication.md",
+  "final_documentation_publication": "Same devcommit/regularmainmerge/pushmain workflow; final containing refs in Git history and user report"
 }
