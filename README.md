@@ -98,6 +98,7 @@ src/nonlocal_pinn/
   operators/ geometry/ nn/ training/ baselines/ io/
 examples/                 # case geometry, BCs, configs, CLI and formulations
 assets/pino/              # four compact README evolution figures
+assets/pino-setups/       # four lightweight problem/condition SVG schematics
 tests/                    # existing focused numerical/restart regressions
 artifacts/index.yaml      # external artifact ownership, JSON-compatible YAML
 scripts/check_artifacts.py
@@ -122,9 +123,11 @@ with `python scripts/check_artifacts.py`.
 Generated research galleries, videos, experiment arrays/checkpoints and compiler
 dumps under `docs/tasks` are **local artifacts, not Git content**. Git keeps
 source, Markdown, configs, metrics and regeneration scripts. The four compact
-`assets/pino/*.png` figures are the deliberate documentation
-exception: one representative multi-sample image per main operator, collected
-in [assets](assets/README.md). Their direct
+`assets/pino/*.png` evolution figures and four lightweight
+`assets/pino-setups/*.svg` problem/condition schematics are the deliberate
+documentation exception, collected in [assets](assets/README.md).
+[Setup parameters](artifacts/pino_setup_schematics.json) and a CPU-only renderer
+reproduce the prescribed inputs without any learned/evolved fields. The evolution figures' direct
 inputs, sample identities and regeneration command are recorded in
 [figure provenance](artifacts/pino_readme_figures.json); raw arrays/weights stay
 external. Figure links in

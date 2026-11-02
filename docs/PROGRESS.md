@@ -2,20 +2,25 @@
 
 ## Active task
 
-None. [PINO README assets/publication](tasks/archive/pino-readme-assets-publication.md)
-is complete. Four byte-preserved figures are centralized in assets/pino,total
-1.79MiB. Root/four example overviews,relative links,generator and provenance are
-published. dev78517a5 -> mainmerge25aa17a -> origin/main verified by ls-remote;
-small closeout record follows the same publication workflow. Only main pushed.
-42links/anchors,PNG/JSON/size/indexed-content checks pass; no numerical changes.
-[Publication receipt](tasks/pino-readme-assets-publication-validation.json).
+[Channel cold20k and four PINO setup schematics](tasks/channel-cold20k-and-four-pino-setups.md).
+Actual cold20k trainer135888under detached owner135660/screen
+channel-cold20k-20261103-01is running. Preserved192/B8/integral/JVP/SOAP/rolling
+recipe; LR1e-3 ->~1e-5. Full802draw prior/coldstate/input/resource checks pass.
+Journal: /root/autodl-tmp/data/channel_nsch2d/cold20k-lr1e5-20261103-01/process.json.
+Four known-input setup SVGs(195KiBtotal) inserted into each example README;
+4focused tests,XML/raster/link/old-PNG parity/artifact checks pass. Current10k
+SOTA/default unchanged. Next: same20k owner and its finite final audits; no
+restart/FEM/cleanup. User now authorizes publishing the prepared setup figures,
+READMEs and reproducible experiment/source records through dev -> main -> origin/main;
+verify the remote and preserve frozen live trainer bytes. [Receipt](tasks/channel-cold20k-and-four-pino-setups-validation.json).
 
 ## Deferred work
 
-Channel NS--CH: consider20000updates and a lower final learning rate, per the
-user's explicitly deferred proposal. Exact LR and continuation-versus-cold-start
-choice remain undecided. No run/automation is launched or queued. See
-[the recorded idea](../examples/channel_nsch2d/README.md#deferred-experiment).
+Phase-field/displacement boundary-conditioned precipitate example is recorded
+but explicitly deferred by the user; no implementation, training or reference
+solve. [Feasibility](tasks/archive/traction-conditioned-elastic-pino-analysis.md),
+[concept sketch](tasks/archive/elastic-boundary-response-sketch.md).
+The prior channel20000/lower-LR proposal is now the authorized active task above.
 
 ## Latest completed validation
 
@@ -48,6 +53,10 @@ Preserve existing external data/run paths. Git history changes require explicit
 current-turn authorization; the documented workflow pushes main only.
 
 ## Recent completed tasks
+
+- [Displacement-boundary morphology-response concept sketch](tasks/archive/elastic-boundary-response-sketch.md).
+
+- [Boundary-function coupled phase/displacement PINO recommendations](tasks/archive/traction-conditioned-elastic-pino-analysis.md).
 
 - [Centralized README figures and verified publication](tasks/archive/pino-readme-assets-publication.md).
 

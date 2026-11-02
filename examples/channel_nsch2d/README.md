@@ -38,6 +38,12 @@ parabolic velocity; the outlet has zero hydrodynamic traction and zero phase/
 chemical normal gradients. Traction fixes the pressure reference without a
 separate pressure-point anchor.
 
+![Full NS-CH setup: three random-wall channels with the same initial droplet](../../assets/pino-setups/channel_nsch2d.svg)
+
+The initial droplet and inlet drive stay fixed; only the two wall profiles vary.
+These are setup inputs, not predicted flow fields.
+[Setup figure inputs and regeneration](../../artifacts/pino_setup_schematics.json).
+
 ### Important strategies
 
 | Component | Selected operator recipe |
@@ -103,11 +109,28 @@ The reference root is
 [Complete run/audit record](../../docs/tasks/archive/channel-random-wall-pilot.md),
 [figure sources and regeneration](../../artifacts/pino_readme_figures.json).
 
-### Deferred experiment
+### Longer cold-start experiment
 
-A future20000-update study with a lower final learning rate is recorded for
-later. The final LR and continuation-versus-cold-start choice remain undecided;
-no run is scheduled or launched, and the current10000 default is unchanged.
+The opt-in `train_operator_random_walls_width192_batch8_time20_cold20k.py`
+preserves the selected physics/network/sampling and starts a fresh model and
+complete SOAP state for20000 updates. The existing exponential LR schedule uses
+initial1e-3, decay interval2000, rate `10**(-0.2)` and floor1e-5: about1e-4 at10k
+and1e-5 at20k, versus1.6807e-4 at the old10k endpoint. The last applied update
+uses the19999 schedule index, approximately1.00023e-5. This is an experimental
+budget/LR comparison; the validated10000 default remains unchanged.
+
+```bash
+XLA_PYTHON_CLIENT_MEM_FRACTION=0.97 python -m examples.channel_nsch2d.train \
+  --config=examples/channel_nsch2d/configs/train_operator_random_walls_width192_batch8_time20_cold20k.py
+```
+
+The finite owner `docs/tasks/channel_cold20k_runner.py` checks the matching
+completed10k control, same-GPU/same-shape memory evidence and full802-draw input
+construction prefix before launching canonical train.py. It checks actual cold
+model/fullSOAP/input equality and, after training, audits/replays the complete
+rolling stream, same3reserved FEM cases, fresh-time residuals and field figures.
+No FEM generation, fitted-checkpoint import, automatic retry or default promotion
+is included. Runtime seed is comparison provenance, not a strategy field.
 
 <details>
 <summary>Detailed formulation, single-problem PINN defaults and historical controls</summary>

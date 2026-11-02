@@ -26,6 +26,11 @@ the separate local-FEM check uses homogeneous natural Neumann boundaries.
 The linear shrinking-sphere formula is only an approximate comparison profile,
 not the reference for these random ellipsoids.
 
+![Melting setup: three random initial ellipsoids in the same cube](../../assets/pino-setups/icemelting3d.svg)
+
+Only initial center, semiaxes and orientation vary. These are prescribed inputs,
+not predicted fields. [Setup figure inputs and regeneration](../../artifacts/pino_setup_schematics.json).
+
 ### Important strategies
 
 | Component | Selected operator recipe |

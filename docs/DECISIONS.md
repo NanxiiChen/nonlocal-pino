@@ -8815,3 +8815,89 @@ all existing external artifacts and the deferred20000/lower-LR proposal.
 Archive the completed task and publish this compact receipt using the same
 regular dev -> main -> origin/main workflow. No devpush,history rewrite,new
 training/FEM or numerical retuning. Relation: pino-readme-assets-publication.
+
+
+## 2026-11-03 — Recommend boundary-function coupled phase/displacement operators
+
+Decision: complete the traction feasibility discussion as a comparison of
+displacement-driven coherent precipitation, chemical-potential/flux-driven
+chemoelastic phase separation, and multivariant ferroelastic transformation.
+Recommend smooth displacement curves first for code reuse and exact boundary
+lifting; retain boundary supply as a distinct practical alternative and
+multivariant transformation as a higher-risk extension. These are proposals,
+not selected numerical models or validated new PINOs. Reason: user wants a
+boundary-conditioned example to complement initial-condition/geometry inputs.
+Rejected: inferring implementation authorization, copying periodic spectral
+mechanics to a bounded problem, promising morphology from arbitrary loading,
+or projecting constant mass in an open supply-driven system.
+
+Check nonuniform-load sensitivity: constant stiffness/linear eigenstrain with
+uniform added stress can add only constant chemical potential to conserved CH.
+Keep bidirectional elastic-energy coupling, compatible loading/initial data,
+explicit mixed-field scales and independent local/nonlocal boundary validation.
+No source/default changes, training, reference solves or Git mutations.
+Relation: archived traction-conditioned-elastic-pino-analysis.
+
+
+## 2026-11-03 — Illustrate boundary response without inventing solved morphology
+
+Decision: show the same initial precipitates under three prescribed displacement
+patterns, with weak-response and hypothetical stronger-response outcomes shown
+separately. Label all terminal shapes as conceptual, not PDE predictions; keep
+reference coordinates and distinguish displacement arrows from external forces.
+Reason: user correctly questions whether boundary-conditioned precipitation
+would yield enough sample diversity. Rejected: promising shape separation,
+exaggerating a solved result, or starting simulations from a sketch request.
+Uniform added stress can produce only constant chemical-potential change under
+constant stiffness/linear eigenstrain and closed CH, so response screening is
+needed before promoting this candidate. Relation: elastic-boundary-response-sketch.
+
+
+## 2026-11-03 — Authorize one cold20k channel run and four setup schematics
+
+User explicitly activates the deferred20k/lower-final-LR experiment, asks to
+start from scratch and detach training before drawing four PINO setup diagrams.
+Select an opt-in preset that preserves the validated192/B8/timeblock20/ordinary
+FP32/SOAP/integral/timeJVP/online geometry recipe. Reuse existing exponential
+schedule with initial1e-3, decay interval2000, rate10**(-.2), floor1e-5 and
+20000updates: endpoint~1e-5 versus old10k~1.6807e-4. This is an empirical
+optimization choice, not a new numerical method or promised accuracy gain.
+
+Use the same42runtime provenance/input stream for interpretable comparison,
+with freshly initialized model and complete SOAP state, not a checkpoint load.
+Reuse qualified same-shape/same-GPU memory evidence only with explicit narrow
+config checks and extend the finite online-input prefix to the20k requirement.
+A finite detached owner must run canonical train.py then existing final audits
+and the same3reserved references; no FEM, automatic retries or further runs.
+Do not promote the default before results. Defer the elasticity-boundary case
+explicitly. Diagrams distinguish actual setup/input functions from illustrative
+evolution and remain response content rather than copying new binary galleries
+into Git. Relation: channel-cold20k-and-four-pino-setups.
+
+
+## 2026-11-03 — Make four accepted setup schematics portable in the READMEs
+
+User requests inserting each setup diagram into its example README. Export
+lightweight static SVGs from the same prescribed input geometry under the root
+assets directory, with compact fixed sample parameters and a CPU-only renderer.
+These are setup/conditioning illustrations, not solved trajectories. Keep the
+existing four evolution PNGs and10000channel default/metrics; the20k background
+experiment continues unchanged. Reason: README portability cannot rely on
+conversation-only HTML or local response paths. Rejected: remote embeds,
+copying raw solution arrays, or changing numerical settings to redraw a figure.
+Relation: channel-cold20k-and-four-pino-setups.
+
+
+## 2026-11-03 — Publish setup schematics and preserve the running experiment
+
+User explicitly requests commit/push of the four accepted setup figures and
+READMEs, then a live training update. Include their compact parameter manifest,
+CPU renderer, existing opt-in cold20k configuration/guard/finite owner/tests and
+self-contained memory records so the published work is reproducible. Only the
+four curated SVGs are new generated media (199768bytes); no temporary previews,
+raw arrays, logs or weights. Use dev commit -> main regular merge -> origin/main
+push, keep dev local and verify the remote reference. No history rewrite or
+cleanup. Preserve the running trainer and its frozen Python bytes, and keep
+the validated10k default until20k final audits complete. Rejected: silently
+promoting an unfinished run, restarting training for publication, or adding
+whole experimental galleries. Relation: channel-cold20k-and-four-pino-setups.

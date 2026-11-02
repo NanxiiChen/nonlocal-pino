@@ -20658,11 +20658,25 @@
         "readonly_documentation_update": true
       },
       "run_children": [
-        "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01"
+        "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01",
+        "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time20-cold20k-lr1e5-01"
       ],
       "data_children": [
-        "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02"
-      ]
+        "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02",
+        "/root/autodl-tmp/data/channel_nsch2d/cold20k-lr1e5-20261103-01"
+      ],
+      "cold20k_LR_experiment_20261103": {
+        "status": "training_running",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time20-cold20k-lr1e5-01",
+        "owner_journal": "/root/autodl-tmp/data/channel_nsch2d/cold20k-lr1e5-20261103-01/process.json",
+        "control": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01",
+        "config": "examples/channel_nsch2d/configs/train_operator_random_walls_width192_batch8_time20_cold20k.py",
+        "updates": 20000,
+        "lr_initial": 0.001,
+        "lr_at_20000": 1e-05,
+        "default_changed": false,
+        "task": "docs/tasks/channel-cold20k-and-four-pino-setups.md"
+      }
     }
   ],
   "run_seed_policy": {
@@ -20707,5 +20721,19 @@
         "figure": "assets/pino/channel_nsch2d.png"
       }
     ]
+  },
+  "pino_setup_schematics": {
+    "manifest": "artifacts/pino_setup_schematics.json",
+    "renderer": "scripts/render_pino_setup_schematics.py",
+    "directory": "assets/pino-setups",
+    "cases": [
+      "icemelting3d",
+      "electropolish2d",
+      "confined_ch2d",
+      "channel_nsch2d"
+    ],
+    "prescribed_inputs_only": true,
+    "pde_solves": 0,
+    "inference_runs": 0
   }
 }
