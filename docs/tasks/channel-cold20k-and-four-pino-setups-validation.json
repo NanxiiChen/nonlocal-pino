@@ -1,13 +1,13 @@
 {
-  "status": "training_running_setup_publication_prepared",
-  "observed_utc": "2026-11-02T17:08:02.472919+00:00",
+  "status": "setup_figures_published_training_running",
+  "observed_utc": "2026-11-02T17:09:59.295576+00:00",
   "owner_journal": "/root/autodl-tmp/data/channel_nsch2d/cold20k-lr1e5-20261103-01/process.json",
   "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time20-cold20k-lr1e5-01",
   "owner_pid": 135660,
   "trainer_pid": 135888,
   "requested_steps": 20000,
-  "last_logged_loss_step": 800,
-  "last_completed_update_lower_bound": 800,
+  "last_logged_loss_step": 900,
+  "last_completed_update_lower_bound": 900,
   "learning_rate": {
     "initial": 0.001,
     "decay_every": 2000,
@@ -105,25 +105,67 @@
     "scope": "One local-FEM geometry; not a generalization estimate"
   },
   "latest_loss": {
-    "step": 800,
-    "total": 0.08055920898914337,
+    "step": 900,
+    "total": 0.07301872223615646,
     "parts": {
-      "phase": 0.023725861683487892,
-      "chemical": 0.01964426413178444,
-      "momentum_x": 0.013881942257285118,
-      "momentum_y": 0.022217197343707085,
-      "wall_phase": 0.0003897807328030467,
-      "wall_mu": 0.00029286998324096203,
-      "outlet_traction": 0.00028809704235754907,
-      "outlet_phase": 3.144409856759012e-05,
-      "outlet_mu": 8.775063906796277e-05
+      "phase": 0.0186283141374588,
+      "chemical": 0.015538599342107773,
+      "momentum_x": 0.014478139579296112,
+      "momentum_y": 0.023580167442560196,
+      "wall_phase": 0.00023523051640950143,
+      "wall_mu": 0.00021585139620583504,
+      "outlet_traction": 0.00014751387061551213,
+      "outlet_phase": 4.39542272943072e-05,
+      "outlet_mu": 0.00015095077105797827
     }
   },
   "publication": {
-    "status": "prepared",
-    "authorization": "Explicit current-turn user request",
-    "workflow": "dev commit -> main regular merge -> origin/main push only",
-    "generated_media": "four compact setup SVGs only",
-    "live_frozen_python_files_unchanged": 103
+    "dev_commit": "baf211b",
+    "main_merge": "4ab2d981091eb28f23523e1259062555187b43f6",
+    "remote_main_verified": "4ab2d981091eb28f23523e1259062555187b43f6",
+    "status": "payload_published_and_remote_verified",
+    "pushed_branch": "main",
+    "dev_pushed": false,
+    "indexed_files_checked": 2159,
+    "indexed_MiB": 26.26,
+    "overview_links_checked": 54,
+    "live_frozen_python_files_unchanged": 103,
+    "cleanup": false
+  },
+  "same_step_comparison": {
+    "step": 500,
+    "new_cold20k": {
+      "step": 500,
+      "elapsed": 1387.4213997870684,
+      "phi": 0.16045069044767718,
+      "terminal_phi": 0.18404425036284416,
+      "dispersed_phase": 0.42397919731182654,
+      "velocity": 0.0684368066250908,
+      "pressure": 0.12946496772193702,
+      "chemical": 1.0542165944452593,
+      "phi_range": [
+        -1.0591129064559937,
+        1.0482302904129028
+      ],
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+      "scope": "One local-FEM geometry; not a generalization estimate"
+    },
+    "old_cold10k": {
+      "step": 500,
+      "elapsed": 1427.5452512800694,
+      "phi": 0.15273849239386744,
+      "terminal_phi": 0.17746880017642236,
+      "dispersed_phase": 0.40360027883387595,
+      "velocity": 0.06965373949233242,
+      "pressure": 0.12733948345418566,
+      "chemical": 0.998577161162229,
+      "phi_range": [
+        -1.0675320625305176,
+        1.0403268337249756
+      ],
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+      "scope": "One local-FEM geometry; not a generalization estimate"
+    },
+    "scope": "Same single development FEM geometry and training step; early optimization only, not final/cohort performance"
   }
 }

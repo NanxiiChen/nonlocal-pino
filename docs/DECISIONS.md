@@ -8901,3 +8901,17 @@ cleanup. Preserve the running trainer and its frozen Python bytes, and keep
 the validated10k default until20k final audits complete. Rejected: silently
 promoting an unfinished run, restarting training for publication, or adding
 whole experimental galleries. Relation: channel-cold20k-and-four-pino-setups.
+
+
+## 2026-11-03 — Verify published setups and retain the unfinished20k run
+
+Actual payload commit devbaf211b and regular mainmerge4ab2d98 were pushed to
+origin/main; independent remote reference equals4ab2d981091eb28f23523e1259062555187b43f6.
+Only4new generated SVGs,total195KiB,are tracked; existing4evolution PNGs are
+byte-identical. Staged content/artifact/link/syntax checks pass and all103live
+frozen trainer sources remain unchanged. Publish this compact receipt with the
+same currently authorized workflow; keep the active task for the20k endpoint
+and prescribed audits. Same500-step development-geometry errors are similar
+to the old run, with no established accuracy advantage yet. Rejected: treating
+latest500-step L2 as a later optimizer step, cohort validation or final outcome.
+Relation: channel-cold20k-and-four-pino-setups.
