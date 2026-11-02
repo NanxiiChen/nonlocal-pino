@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "html": "/root/nonlocal-pinn/docs/tasks/geometry-operator-concept.html",
+  "source_data": "Verified actual geometry inputs0/256/768 from detailed explainer",
+  "three_geometry_switches": true,
+  "desktop_mobile_no_overflow": true,
+  "javascript_errors": [],
+  "training_or_model_changes": false
+}

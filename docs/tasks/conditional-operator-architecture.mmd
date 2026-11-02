@@ -1,0 +1,23 @@
+flowchart TB
+    subgraph REG["规则网格：patch 编码"]
+        direction LR
+        R["网格初始场"] --> P["Patch tokens"] --> E["Self-attention"]
+    end
+    subgraph GEO["参数化不规则几何：两路点编码"]
+        direction LR
+        B["边界点"] --> BT["逐点 MLP → 边界 tokens"]
+        D["域内点 + 初始场"] --> DT["逐点 MLP → 域内 tokens"]
+    end
+    E -->|"K、V"| A["Cross-attention"]
+    BT -->|"K、V"| AB["Cross-attention"]
+    DT -->|"K、V"| AD["Cross-attention"]
+    Q["空间查询坐标 x"] -->|Q| A
+    Q -->|Q| AB
+    Q -->|Q| AD
+    AB --> M["等权融合"]
+    AD --> M
+    A --> H["空间条件特征"]
+    M --> H
+    H --> F["时间条件解码器"]
+    T["时间 t"] --> F
+    F --> O["物理场预测"]

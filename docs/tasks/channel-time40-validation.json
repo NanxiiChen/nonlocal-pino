@@ -1,0 +1,418 @@
+{
+  "status": "completed_cold5k_and_all_finite_audits_with_same_step_accuracy_gain",
+  "config": "examples/channel_nsch2d/configs/train_operator_width128_gmls_time40_online.py",
+  "requested_time_samples": 40,
+  "time_microbatch": 8,
+  "condition_batch": 2,
+  "optimizer_updates_per_time_batch": 1,
+  "training_budget": 5000,
+  "causal_enabled": false,
+  "default_promotion": false,
+  "baseline": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-first-online-width128-01",
+  "baseline_5000_metrics": {
+    "step": 5000,
+    "elapsed": 906.0482287262566,
+    "phi": 0.06702224017575939,
+    "terminal_phi": 0.09443557421413491,
+    "dispersed_phase": 0.18767683250807105,
+    "velocity": 0.0504632524740368,
+    "pressure": 0.14695355380926664,
+    "chemical": 0.3846838615481041,
+    "phi_range": [
+      -1.1401643753051758,
+      1.0174065828323364
+    ],
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+    "scope": "One local-FEM geometry; not a generalization estimate"
+  },
+  "tests": {
+    "passed": 3,
+    "full40_time_loss_and_parameter_gradient_identity": true,
+    "single_SOAP_update_counts_passed": true,
+    "limitations": "Not bitwise SOAP-state equivalence; degenerate eigenbases can rotate under reduction roundoff.",
+    "initial_test_attempt": "Rejected overstrong internal SOAP-basis equality; corrected comparison checks updates/counts. Also replaced typed invalid-config mutation by explicit invalid record."
+  },
+  "probe4": "/root/autodl-tmp/data/channel_nsch2d/time4-resource-probe-20261101-01/result.json",
+  "probe40": "/root/autodl-tmp/data/channel_nsch2d/time40-resource-probe-20261101-01/result.json",
+  "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-time40-online-width128-01",
+  "worker": {
+    "pid": 989465,
+    "screen": "channel-time40-20261101",
+    "stage": "completed",
+    "stage_pid": 4868,
+    "training_runner_pid": 4868,
+    "training_pid": 4874
+  },
+  "reference_solves": 0,
+  "queued_causal_runs": 0,
+  "scope": "All finite40-time uniform5k controls/audits complete; matched causal follow-up separately owned; no default promotion",
+  "owner_journal": "/root/autodl-tmp/data/channel_nsch2d/time40-control-20261101-01/status.json",
+  "production_training_started": true,
+  "conditional_training_updates": 5000,
+  "resource4": {
+    "status": "finite_production_probe_passed",
+    "updates": 20,
+    "warm_update_seconds": 0.07002715626731515,
+    "cold_first_update_seconds": 388.8068523509428,
+    "active_peak_bytes": 6607359232
+  },
+  "source_checks": {
+    "Python_AST_files": 8,
+    "cli_help_passed": true,
+    "diff_check_passed": true
+  },
+  "final_audits": [
+    "canonical_saved_field_and_hardflow",
+    "all_actual_online_inputs",
+    "droplet_shape_and_phi_gallery",
+    "all240_BDF_nodes_nominal_and_training_pool0"
+  ],
+  "no_new_default_or_SOTA": true,
+  "updated_utc": "2026-11-01T15:12:09.184755+00:00",
+  "next_action": "Preserve completed uniform control. New cold5k causal run uses this exact config/state/input/time stream except stopped temporal loss weights. Do not restart this run.",
+  "training_update_completed": 5000,
+  "latest_monitor": {
+    "step": 5000,
+    "elapsed": 3021.1836101659574,
+    "phi": 0.05367709146686518,
+    "terminal_phi": 0.07178663893097234,
+    "dispersed_phase": 0.15030751700225636,
+    "velocity": 0.04483357762323301,
+    "pressure": 0.0921029942923126,
+    "chemical": 0.28024091698905185,
+    "phi_range": [
+      -1.1314427852630615,
+      1.0275566577911377
+    ],
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+    "scope": "One local-FEM geometry; not a generalization estimate"
+  },
+  "latest_loss": {
+    "step": 3500,
+    "total": 0.0038754187989979982,
+    "parts": {
+      "phase": 0.0014157707337290049,
+      "chemical": 0.001308153965510428,
+      "momentum_x": 0.0006226996192708611,
+      "momentum_y": 0.00046234039473347366,
+      "wall_phase": 6.237052730284631e-06,
+      "wall_mu": 5.427280029834947e-06,
+      "outlet_traction": 2.355533797526732e-05,
+      "outlet_phase": 9.634629350330215e-06,
+      "outlet_mu": 2.159941868740134e-05
+    }
+  },
+  "training_journal": "/root/autodl-tmp/data/channel_nsch2d/20261101-5090-gmls-time40-online-width128-01-process.json",
+  "initial_model_optimizer_bytes_exact": {
+    "model_initial.eqx": true,
+    "optimizer_initial.eqx": true
+  },
+  "resource40": {
+    "status": "finite_production_probe_passed",
+    "updates": 20,
+    "warm_update_seconds": 0.4480915527153564,
+    "cold_first_update_seconds": 387.22483825776726,
+    "active_peak_bytes": 10361645056,
+    "active_peak_GiB": 9.650033950805664,
+    "pool_reserved_bytes": 25253068800
+  },
+  "resource_warm_ratio_40_over_4": 6.39882549285385,
+  "latest_logged_optimizer_step": 5000,
+  "training_update_count_scope": "Lower bound from latest loss/rolling refresh; not an exact live counter",
+  "same_step_baseline_monitor": {
+    "step": 5000,
+    "elapsed": 906.0482287262566,
+    "phi": 0.06702224017575939,
+    "terminal_phi": 0.09443557421413491,
+    "dispersed_phase": 0.18767683250807105,
+    "velocity": 0.0504632524740368,
+    "pressure": 0.14695355380926664,
+    "chemical": 0.3846838615481041,
+    "phi_range": [
+      -1.1401643753051758,
+      1.0174065828323364
+    ],
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+    "scope": "One local-FEM geometry; not a generalization estimate"
+  },
+  "unchunked_memory_check": {
+    "status": "compile_only_8_and_40_complete_full40_plan_exceeds_physical_card",
+    "external_report": "/root/autodl-tmp/data/channel_nsch2d/unchunked-time-memory-20261101-01/result.json",
+    "helper": "docs/tasks/channel_unchunked_memory.py",
+    "config_source": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-time40-online-width128-01/config.json",
+    "scope": "Compiler estimates only; GPU autotuning disabled; not a runtime peak/speed measurement",
+    "jax_version": "0.10.1",
+    "device": "NVIDIA GeForce RTX 5090",
+    "physical_card_MiB": 32607,
+    "physical_card_GiB": 31.8427734375,
+    "plans": [
+      {
+        "time_samples": 8,
+        "condition_batch": 2,
+        "nodes": 15633,
+        "compile_seconds": 376.9529917030595,
+        "temp_size_in_bytes": 10479359312,
+        "argument_size_in_bytes": 34307600,
+        "output_size_in_bytes": 15125420,
+        "alias_size_in_bytes": 0,
+        "estimated_total_bytes": 10528792332,
+        "estimated_total_GiB": 9.805701982229948,
+        "exceeds_physical_card": false
+      },
+      {
+        "time_samples": 40,
+        "condition_batch": 2,
+        "nodes": 15633,
+        "compile_seconds": 187.59959783079103,
+        "temp_size_in_bytes": 37902792016,
+        "argument_size_in_bytes": 34307728,
+        "output_size_in_bytes": 15125420,
+        "alias_size_in_bytes": 0,
+        "estimated_total_bytes": 37952225164,
+        "estimated_total_GiB": 35.34576405212283,
+        "exceeds_physical_card": true
+      }
+    ],
+    "compiled_update_executions": 0,
+    "optimizer_updates": 0,
+    "diagnostic_XLA_FLAGS": "--xla_gpu_autotune_level=0",
+    "diagnostic_preallocate": "false",
+    "warm_speed_of_full40_measured": false,
+    "runtime_peak_of_full40_measured": false,
+    "existing_8_time_accumulation_peak_GiB": 9.650033950805664,
+    "result_limits": "Diagnostic disables GPU autotuning. Plans are compiler estimates, not runtime peaks or a universal impossibility result. Existing training unchanged; no OOM experiment performed.",
+    "compiler_rematerialization_stderr": {
+      "target_bytes": 23958579289,
+      "before_bytes": 45176216137,
+      "after_bytes": 27056791051,
+      "source": "Actual compiler stderr from this invocation; an intermediate pass, not final compiled heap statistics"
+    },
+    "source_byte_comparisons": 4,
+    "helper_AST_passed": true,
+    "source_and_config_changed": false,
+    "current_training_restart_or_cancelled": false,
+    "reference_solves": 0,
+    "new_causal_runs": 0,
+    "next_action": "Keep the existing Nt40/micro8 cold5k and owned finite audits. A different full40 execution plan would require memory optimization and a new isolated resource measurement.",
+    "updated_utc": "2026-11-01T13:34:38.472402+00:00",
+    "primary_method_reference": "https://docs.jax.dev/en/latest/201/memory-spaces.html#measuring"
+  },
+  "latest_refresh": {
+    "completed_updates": 3500,
+    "batch": 69,
+    "slots": [
+      10,
+      11
+    ],
+    "draw_ids": [
+      138,
+      139
+    ],
+    "wait_seconds": 0.008306244853883982
+  },
+  "observed_refreshes": 70,
+  "observed_installed_inputs": 140,
+  "same_step_comparison": {
+    "step": 5000,
+    "original4": {
+      "step": 5000,
+      "elapsed": 906.0482287262566,
+      "phi": 0.06702224017575939,
+      "terminal_phi": 0.09443557421413491,
+      "dispersed_phase": 0.18767683250807105,
+      "velocity": 0.0504632524740368,
+      "pressure": 0.14695355380926664,
+      "chemical": 0.3846838615481041,
+      "phi_range": [
+        -1.1401643753051758,
+        1.0174065828323364
+      ],
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+      "scope": "One local-FEM geometry; not a generalization estimate"
+    },
+    "current40": {
+      "step": 5000,
+      "elapsed": 3021.1836101659574,
+      "phi": 0.05367709146686518,
+      "terminal_phi": 0.07178663893097234,
+      "dispersed_phase": 0.15030751700225636,
+      "velocity": 0.04483357762323301,
+      "pressure": 0.0921029942923126,
+      "chemical": 0.28024091698905185,
+      "phi_range": [
+        -1.1314427852630615,
+        1.0275566577911377
+      ],
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+      "scope": "One local-FEM geometry; not a generalization estimate"
+    },
+    "scope": "Same update count, one reused nominalFEM geometry and initialization; not equal compute or population accuracy"
+  },
+  "recent_elapsed_seconds_per_step": 0.47525616589188574,
+  "estimated_remaining_training_seconds": 712.8842488378286,
+  "timing_scope": "Recent500-update monitor interval includes host/assessment overhead; estimates exclude final owned audits",
+  "interim_reference_and_model_config_parity_passed": true,
+  "final_summary": {
+    "status": "completed",
+    "wall_seconds": 3028.2865790338255,
+    "warm_update_seconds": 0.4791802703506334,
+    "metrics": {
+      "step": 5000,
+      "elapsed": 3021.1836101659574,
+      "phi": 0.05367709146686518,
+      "terminal_phi": 0.07178663893097234,
+      "dispersed_phase": 0.15030751700225636,
+      "velocity": 0.04483357762323301,
+      "pressure": 0.0921029942923126,
+      "chemical": 0.28024091698905185,
+      "phi_range": [
+        -1.1314427852630615,
+        1.0275566577911377
+      ],
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+      "scope": "One local-FEM geometry; not a generalization estimate"
+    },
+    "iterations": 5000,
+    "train_conditions": 16,
+    "supervised_evolved_field_samples": 0,
+    "method": "GMLS PDE/BC first derivatives and physical Laplacians; GMLS div(phi*v) without an exact discrete mass identity; BE-started BDF2 time; unchanged AD streamfunction physical velocity/constraints; SBP loss quadrature only",
+    "note": "Experimental differentiation stencil; not regional pair-kernel NS or validated mesh independence",
+    "device_memory_bytes": {
+      "num_allocs": 2998405,
+      "bytes_in_use": 240448000,
+      "peak_bytes_in_use": 10560178688,
+      "largest_alloc_size": 10094662656,
+      "bytes_limit": 25253068800,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 25253068800,
+      "peak_pool_bytes": 25253068800
+    },
+    "device": {
+      "kind": "NVIDIA GeForce RTX 5090",
+      "platform": "gpu",
+      "jax_version": "0.10.1"
+    },
+    "microbatch": {
+      "kind": "time",
+      "size": 8,
+      "time_samples_per_update": 40,
+      "optimizer_updates_per_batch": 1,
+      "clipping": "Once, after the complete averaged gradient"
+    },
+    "online": {
+      "kind": "asynchronous_rolling_geometry_pool",
+      "capacity": 16,
+      "refresh_count": 99,
+      "installed_inputs": 198,
+      "submitted_inputs": 202,
+      "bounded_prefetch_inputs": 4,
+      "producer_wait_seconds": 0.7734643439762294,
+      "pde_solves": 0,
+      "fem_solves": 0,
+      "draw_namespace": 314159,
+      "reference_labels_in_step": false,
+      "pool_state": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-time40-online-width128-01/online_pool_005000.json"
+    },
+    "time_discretization": {
+      "dt": 0.025,
+      "kind": "bdf2"
+    },
+    "phase_transport": {
+      "kind": "gmls_conservative",
+      "quadrature": "sbp4_mapped"
+    },
+    "derivatives": {
+      "boundary": "gmls",
+      "kind": "gmls_first",
+      "velocity": "unchanged_streamfunction_ad"
+    }
+  },
+  "canonical_validation": {
+    "status": "replay_and_hard_constraints_passed",
+    "saved_field_max_gap": 2.5033950805664062e-06,
+    "primal_jvp_max_gap": 9.5367431640625e-07,
+    "maximum_flux_error": 1.4932016151325556e-07,
+    "maximum_wall_speed": 9.445490434245585e-08,
+    "maximum_divergence": 1.4901161193847656e-08,
+    "actual_draws_reproduced_from_global_keys": true,
+    "actual_time_strata_passed": true
+  },
+  "actual_online_audit": {
+    "status": "actual_rolling_inputs_reconstructed",
+    "refresh_count": 99,
+    "installed_inputs": 198,
+    "distinct_sampled_online_draws": 198,
+    "final_pool_inputs_rebuilt": 16,
+    "evaluation_inputs_independent": true,
+    "evolved_training_labels": 0,
+    "scope": "Actual input identities and fixed-shape operators; not an accuracy or generalization claim"
+  },
+  "raw_metrics_recomputed_maximum_gap": 6.938893903907228e-18,
+  "original4_condition_draw_prefix_exact": true,
+  "full_time_unweighted_audits": {
+    "nominal": {
+      "path": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-time40-online-width128-01/full-time-residual/nominal-dense.json",
+      "full_BDF_time_nodes": 240,
+      "full_domain_nodes": 15633,
+      "mean_PDE_scaled_mse": [
+        0.0004662034937847981,
+        0.000503296197230407,
+        0.0004188923562032211,
+        0.00033740238285652973
+      ],
+      "first_positive_time": 0.025,
+      "first_PDE_scaled_mse": [
+        0.003965066897337728,
+        0.024302622655654693,
+        0.017491371689068363,
+        0.015251600113511074
+      ],
+      "independent_vs_canonical_loss_maximum_gap": 1.8250810236469968e-09
+    },
+    "final_training_pool_slot0": {
+      "path": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-time40-online-width128-01/full-time-residual/final_training_pool_slot0-dense.json",
+      "full_BDF_time_nodes": 240,
+      "full_domain_nodes": 15633,
+      "mean_PDE_scaled_mse": [
+        0.0005188747966363669,
+        0.0004940396105590063,
+        0.00044071953609239076,
+        0.0003635484898660992
+      ],
+      "first_positive_time": 0.025,
+      "first_PDE_scaled_mse": [
+        0.004072152041776675,
+        0.024311289465073292,
+        0.018540070629568042,
+        0.01612217387412497
+      ],
+      "independent_vs_canonical_loss_maximum_gap": 4.65631312281372e-08
+    }
+  },
+  "terminal_shape": {
+    "time": 6.0,
+    "phase_global_relative_L2": 0.07178663893097234,
+    "minority_fraction_relative_L2": 0.20819638090560819,
+    "interface_phi_relative_L2": 0.3984404270577852,
+    "droplet_band_phi_relative_L2": 0.3436535000091023,
+    "reference_negative_area_fraction": 0.03505584470788838,
+    "negative_phase_IoU": 0.7966617748607846,
+    "zero_contour": {
+      "predicted_components": 1,
+      "reference_components": 1,
+      "mean_distance": 0.023713076769422754,
+      "sampled_hausdorff": 0.03922073210358116,
+      "contour_missing": false
+    },
+    "contour_mean_distance_over_initial_radius": 0.10778671258828525,
+    "velocity_global_relative_L2": 0.04760363899350772,
+    "velocity_interface_relative_L2": 0.047379589557060495,
+    "velocity_droplet_band_relative_L2": 0.044833421768720204,
+    "pressure_global_relative_L2": 0.07813580192830295,
+    "pressure_interface_relative_L2": 0.14977547563115695,
+    "pressure_droplet_band_relative_L2": 0.1455694162165507
+  },
+  "workers_exited": true
+}

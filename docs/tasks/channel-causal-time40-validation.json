@@ -1,0 +1,575 @@
+{
+  "status": "fixed_stage_causal5k_regressed_fulltime_crosscheck_failed_paired_proof_passed",
+  "config": "examples/channel_nsch2d/configs/train_operator_width128_gmls_time40_causal_online.py",
+  "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-time40-causal-online-width128-01",
+  "control": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-time40-online-width128-01",
+  "budget": 5000,
+  "time_samples": 40,
+  "time_microbatch": 8,
+  "condition_batch": 2,
+  "initialization": "Cold model/fullSOAP bytes and initial geometry bank exactly match the audited uniform control",
+  "initial_state_and_bank_parity": {
+    "status": "passed",
+    "initial_model_complete_optimizer_and_geometry_bank_exact": true,
+    "first_monitor_step": 0
+  },
+  "runner_pid": 61358,
+  "training_pid": 61385,
+  "screen": "channel-causal40-20261101",
+  "journal": "/root/autodl-tmp/data/channel_nsch2d/20261101-5090-gmls-time40-causal-online-width128-01-process.json",
+  "owner_source": "/root/autodl-tmp/data/channel_nsch2d/20261101-5090-gmls-time40-causal-online-width128-01-owner.py",
+  "latest_monitor": {
+    "step": 5000,
+    "elapsed": 3202.4634712436236,
+    "phi": 0.22306359121200306,
+    "terminal_phi": 0.3062187443102494,
+    "dispersed_phase": 0.624626514075924,
+    "velocity": 0.048489949798812576,
+    "pressure": 0.21286884941649645,
+    "chemical": 0.7767996393280783,
+    "phi_range": [
+      -1.1153531074523926,
+      1.1377277374267578
+    ],
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+    "scope": "One local-FEM geometry; not a generalization estimate"
+  },
+  "latest_loss": {
+    "step": 5000,
+    "total": 0.0003520367026794702,
+    "parts": {
+      "phase": 0.00011880482634296641,
+      "chemical": 2.8471151381381787e-05,
+      "momentum_x": 0.00010322154412278906,
+      "momentum_y": 9.176363528240472e-05,
+      "wall_phase": 7.881052965785784e-08,
+      "wall_mu": 4.603389243129641e-07,
+      "outlet_traction": 8.039133717829827e-06,
+      "outlet_phase": 1.1473188266108991e-07,
+      "outlet_mu": 1.082525614037877e-06
+    },
+    "unweighted_parts": {
+      "phase": 0.7259706854820251,
+      "chemical": 0.009808355942368507,
+      "momentum_x": 0.10192842781543732,
+      "momentum_y": 0.0703897699713707,
+      "wall_phase": 0.0009314054041169584,
+      "wall_mu": 0.0004970306763425469,
+      "outlet_traction": 0.008780970238149166,
+      "outlet_phase": 0.0005934964283369482,
+      "outlet_mu": 0.0021181411575526
+    },
+    "causal": {
+      "epsilon": 100.0,
+      "mean_weight": 0.057580552995204926,
+      "minimum_weight": 0.0,
+      "last_time_weights": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "production_gradient_updates_observed": true,
+  "causal": {
+    "kind": "coupled_prefix_mse",
+    "epsilon_values": [
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "steps_per_epsilon": 1000,
+    "weight_gradient": "stop",
+    "boundary": "same_time_weights",
+    "prefix_scope": "All40times, independently per geometry",
+    "loss_scope": "Sum of existing nine normalized PDE/softBC MSE terms"
+  },
+  "shared_implementation": "src/nonlocal_pinn/training/causal.py:CausalWeightor.compute_weights",
+  "primary_reference": "https://arxiv.org/html/2203.07404v1",
+  "difference_from_paper": "Fixed1000updates/epsilon stage, not weight-triggered early exit; sampled prefix, not full240time convergence",
+  "tests": {
+    "focused_passed": 6,
+    "actual_canonical_online_updates": 3,
+    "global_cross_block_prefix_numpy_check": true,
+    "stopped_weight_AD_and_frozen_full_parameter_gradient_check": true,
+    "epsilon_zero_full_loss_and_gradient_identity": true,
+    "legacy_mean_loss_and_all_gradients": {
+      "status": "saved_source_noncausal_loss_parts_all_parameter_gradients_passed",
+      "control": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-time40-online-width128-01",
+      "saved_loss_source": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-time40-online-width128-01/source/examples/channel_nsch2d/losses.py",
+      "maximum_absolute_gap": 0.0,
+      "compared_arrays": 45,
+      "production_config_only_adds_causal": true,
+      "scope": "Independent saved-source parity on a small actual coupled network, not a production GPU bitwise/trajectory guarantee",
+      "reference_solves": 0,
+      "training_updates": 0
+    },
+    "initial_test_fixture_correction": "High-strength test weights nearly underflowed for both geometries; use moderate test strength to exercise geometry dependence, then pass all stopped/frozen/zero-epsilon checks. Production epsilon schedule unchanged."
+  },
+  "final_owned_audits": [
+    "saved_fields_and_hardflow",
+    "full_actual_input_and_sampling_reconstruction",
+    "causal_schedule_global_prefix_and_objective",
+    "droplet_shape_and_phi_gallery",
+    "unweighted_all240_time_nodes_nominal_and_training0",
+    "matched_control_all5000_draw_arrays_and_cold_state_parity"
+  ],
+  "no_reference_solves": true,
+  "no_default_or_SOTA_promotion": true,
+  "no_Git_or_cleanup": true,
+  "further_training_queued": 0,
+  "automatic_goal": null,
+  "scope": "Training5000 and canonical replay/hardflow/input/causal-trace audits complete; this fixed-stage causal pilot regresses on one nominal FEM geometry. Final shape/full240node/paired-draw audits remain owned and running.",
+  "updated_utc": "2026-11-01T16:23:49.281990+00:00",
+  "next_action": "Preserve failed fixed-stage experiment. Training/canonical/shape/gallery and independent complete matched-state/input/time/rawmetric checks are complete. Fulltime numerical crosscheck FAILED and is retained; do not restart this owner or claim all audits passed. New user-directed adaptive experiment is separately owned.",
+  "latest_logged_optimizer_step": 5000,
+  "live_trace_prefix_audit": {
+    "records": 4,
+    "maximum_weight_gap": 7.380112321264676e-08,
+    "maximum_weighted_objective_gap": 1.061404653057707e-07,
+    "scope": "Actual completed logged prefix only; final complete5000sample/state/field audit remains pending"
+  },
+  "source_checks": {
+    "Python_AST_files": 10,
+    "actual_source_and_owner_byte_copies": 9,
+    "cli_help_passed": true,
+    "diff_check_passed": true
+  },
+  "training_completed": true,
+  "training_exit_code": 0,
+  "owner_stage": "failed_or_interrupted",
+  "active_child_pid": null,
+  "owner_heartbeat_utc": "2026-11-01T16:06:11.087242+00:00",
+  "completed_canonical_audit": {
+    "status": "replay_and_hard_constraints_passed",
+    "saved_field_max_gap": 2.384185791015625e-06,
+    "primal_jvp_max_gap": 7.301568984985352e-07,
+    "maximum_flux_error": 1.7335679530772197e-07,
+    "maximum_wall_speed": 9.701886938273674e-08,
+    "maximum_divergence": 1.862645149230957e-09,
+    "actual_draws_reproduced_from_global_keys": true,
+    "actual_time_strata_passed": true,
+    "online_inputs": {
+      "status": "actual_rolling_inputs_reconstructed",
+      "refresh_count": 99,
+      "installed_inputs": 198,
+      "distinct_sampled_online_draws": 198,
+      "final_pool_inputs_rebuilt": 16,
+      "evaluation_inputs_independent": true,
+      "evolved_training_labels": 0,
+      "scope": "Actual input identities and fixed-shape operators; not an accuracy or generalization claim"
+    }
+  },
+  "completed_causal_trace_audit": {
+    "status": "actual_causal_schedule_global_prefix_and_objective_passed",
+    "records": 55,
+    "maximum_weight_gap": 1.0146174400649244e-07,
+    "first_weight_one": true,
+    "geometry_prefixes_separate": true,
+    "prefix_scope": "All sampled times before microbatch slicing",
+    "scope": "Logged pre-update objectives; stopped AD verified by focused gradient tests, not inferred from logs"
+  },
+  "resource_summary": {
+    "wall_seconds": 3209.564432076644,
+    "warm_update_seconds": 0.5315500005816429,
+    "device_memory_bytes": {
+      "num_allocs": 2999014,
+      "bytes_in_use": 246099712,
+      "peak_bytes_in_use": 10560493056,
+      "largest_alloc_size": 10093127424,
+      "bytes_limit": 25253068800,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 25253068800,
+      "peak_pool_bytes": 25253068800
+    }
+  },
+  "same_step_5000_comparison": {
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+    "scope": "One reused nominal development FEM geometry; not population, repeatability, or equal-time evidence",
+    "uniform": {
+      "step": 5000,
+      "elapsed": 3021.1836101659574,
+      "phi": 0.05367709146686518,
+      "terminal_phi": 0.07178663893097234,
+      "dispersed_phase": 0.15030751700225636,
+      "velocity": 0.04483357762323301,
+      "pressure": 0.0921029942923126,
+      "chemical": 0.28024091698905185,
+      "phi_range": [
+        -1.1314427852630615,
+        1.0275566577911377
+      ],
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+      "scope": "One local-FEM geometry; not a generalization estimate"
+    },
+    "causal": {
+      "step": 5000,
+      "elapsed": 3202.4634712436236,
+      "phi": 0.22306359121200306,
+      "terminal_phi": 0.3062187443102494,
+      "dispersed_phase": 0.624626514075924,
+      "velocity": 0.048489949798812576,
+      "pressure": 0.21286884941649645,
+      "chemical": 0.7767996393280783,
+      "phi_range": [
+        -1.1153531074523926,
+        1.1377277374267578
+      ],
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+      "scope": "One local-FEM geometry; not a generalization estimate"
+    }
+  },
+  "schedule_regression_evidence": {
+    "physical_monitors": [
+      {
+        "step": 3000,
+        "elapsed": 2103.3626502449624,
+        "phi": 0.06629847735604574,
+        "terminal_phi": 0.08776640591728241,
+        "dispersed_phase": 0.18565013938150954,
+        "velocity": 0.051015738161304516,
+        "pressure": 0.12390874447247423,
+        "chemical": 0.33462495162747374,
+        "phi_range": [
+          -1.1347349882125854,
+          1.0289181470870972
+        ],
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+        "scope": "One local-FEM geometry; not a generalization estimate"
+      },
+      {
+        "step": 4000,
+        "elapsed": 2655.9524441650137,
+        "phi": 0.06145110216745815,
+        "terminal_phi": 0.08378082619956166,
+        "dispersed_phase": 0.17207643580212112,
+        "velocity": 0.04810238118434759,
+        "pressure": 0.1077460025148845,
+        "chemical": 0.30920956165198676,
+        "phi_range": [
+          -1.1289451122283936,
+          1.0290347337722778
+        ],
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+        "scope": "One local-FEM geometry; not a generalization estimate"
+      },
+      {
+        "step": 4500,
+        "elapsed": 2928.9535632389598,
+        "phi": 0.1864683493332487,
+        "terminal_phi": 0.24525430675450482,
+        "dispersed_phase": 0.5221518868080133,
+        "velocity": 0.04673632488218723,
+        "pressure": 0.21324728102204707,
+        "chemical": 0.7962074650922872,
+        "phi_range": [
+          -1.1727567911148071,
+          1.0289933681488037
+        ],
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+        "scope": "One local-FEM geometry; not a generalization estimate"
+      },
+      {
+        "step": 5000,
+        "elapsed": 3202.4634712436236,
+        "phi": 0.22306359121200306,
+        "terminal_phi": 0.3062187443102494,
+        "dispersed_phase": 0.624626514075924,
+        "velocity": 0.048489949798812576,
+        "pressure": 0.21286884941649645,
+        "chemical": 0.7767996393280783,
+        "phi_range": [
+          -1.1153531074523926,
+          1.1377277374267578
+        ],
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+        "scope": "One local-FEM geometry; not a generalization estimate"
+      }
+    ],
+    "logged_preupdate_residuals": [
+      {
+        "step": 3000,
+        "total": 0.002563921734690666,
+        "parts": {
+          "phase": 0.0009852946968749166,
+          "chemical": 0.0005257834563963115,
+          "momentum_x": 0.0005318933981470764,
+          "momentum_y": 0.0004802245239261538,
+          "wall_phase": 5.06692686030874e-06,
+          "wall_mu": 4.589062882587314e-06,
+          "outlet_traction": 1.5498475477215834e-05,
+          "outlet_phase": 6.188148290675599e-06,
+          "outlet_mu": 9.382860298501328e-06
+        },
+        "unweighted_parts": {
+          "phase": 0.001044965349137783,
+          "chemical": 0.0005605651531368494,
+          "momentum_x": 0.0005539004341699183,
+          "momentum_y": 0.0004983425606042147,
+          "wall_phase": 5.390822479967028e-06,
+          "wall_mu": 4.820652065973263e-06,
+          "outlet_traction": 1.6242564015556127e-05,
+          "outlet_phase": 6.617808139708359e-06,
+          "outlet_mu": 9.880910511128604e-06
+        },
+        "causal": {
+          "epsilon": 1.0,
+          "mean_weight": 0.9443517923355103,
+          "minimum_weight": 0.9005269408226013,
+          "last_time_weights": [
+            0.9005269408226013,
+            0.9005269408226013
+          ]
+        }
+      },
+      {
+        "step": 3001,
+        "total": 0.0017179850256070495,
+        "parts": {
+          "phase": 0.0005480070831254125,
+          "chemical": 0.0002689847897272557,
+          "momentum_x": 0.00039574201218783855,
+          "momentum_y": 0.00037118347245268524,
+          "wall_phase": 2.571495997472084e-06,
+          "wall_mu": 4.2346769077994395e-06,
+          "outlet_traction": 4.649350012186915e-05,
+          "outlet_phase": 7.21978722140193e-06,
+          "outlet_mu": 7.354834087891504e-05
+        },
+        "unweighted_parts": {
+          "phase": 0.000977260759100318,
+          "chemical": 0.0004911124706268311,
+          "momentum_x": 0.0005776975303888321,
+          "momentum_y": 0.0005470262840390205,
+          "wall_phase": 4.557924057735363e-06,
+          "wall_mu": 7.04293915987364e-06,
+          "outlet_traction": 8.255789725808427e-05,
+          "outlet_phase": 1.3113394743413664e-05,
+          "outlet_mu": 0.00013019803736824542
+        },
+        "causal": {
+          "epsilon": 10.0,
+          "mean_weight": 0.5785269737243652,
+          "minimum_weight": 0.30083370208740234,
+          "last_time_weights": [
+            0.30083370208740234,
+            0.3633750081062317
+          ]
+        }
+      },
+      {
+        "step": 4000,
+        "total": 0.001202346757054329,
+        "parts": {
+          "phase": 0.00047550798626616597,
+          "chemical": 0.00025757410912774503,
+          "momentum_x": 0.00024991173995658755,
+          "momentum_y": 0.00019114839960820973,
+          "wall_phase": 2.6524869554123143e-06,
+          "wall_mu": 6.805200428061653e-06,
+          "outlet_traction": 1.1206942872377113e-05,
+          "outlet_phase": 1.8300854662811616e-06,
+          "outlet_mu": 5.709801826014882e-06
+        },
+        "unweighted_parts": {
+          "phase": 0.0006533882697112858,
+          "chemical": 0.0003769651520997286,
+          "momentum_x": 0.0003092544211540371,
+          "momentum_y": 0.00023921903630252928,
+          "wall_phase": 3.837857548205648e-06,
+          "wall_mu": 9.357756425742991e-06,
+          "outlet_traction": 1.4768251276109368e-05,
+          "outlet_phase": 2.61555464931007e-06,
+          "outlet_mu": 8.272392733488232e-06
+        },
+        "causal": {
+          "epsilon": 10.0,
+          "mean_weight": 0.7220705151557922,
+          "minimum_weight": 0.5303217172622681,
+          "last_time_weights": [
+            0.5303217172622681,
+            0.5400374531745911
+          ]
+        }
+      },
+      {
+        "step": 4001,
+        "total": 0.0005164650501683354,
+        "parts": {
+          "phase": 6.283597031142563e-05,
+          "chemical": 0.00031332537764683366,
+          "momentum_x": 9.030373621499166e-05,
+          "momentum_y": 4.847833406529389e-05,
+          "wall_phase": 9.401304623679607e-08,
+          "wall_mu": 2.7507041977514746e-07,
+          "outlet_traction": 3.932729271127755e-07,
+          "outlet_phase": 1.4258397129651712e-07,
+          "outlet_mu": 6.166221169223718e-07
+        },
+        "unweighted_parts": {
+          "phase": 0.0008462233818136156,
+          "chemical": 0.0007597381481900811,
+          "momentum_x": 0.0004218884860165417,
+          "momentum_y": 0.0003806317690759897,
+          "wall_phase": 4.008414180134423e-06,
+          "wall_mu": 3.257053322158754e-06,
+          "outlet_traction": 1.0036877029051539e-05,
+          "outlet_phase": 7.256458957272116e-06,
+          "outlet_mu": 2.580211548774969e-05
+        },
+        "causal": {
+          "epsilon": 100.0,
+          "mean_weight": 0.04254094883799553,
+          "minimum_weight": 4.549220102489926e-05,
+          "last_time_weights": [
+            0.00010559736983850598,
+            4.549220102489926e-05
+          ]
+        }
+      },
+      {
+        "step": 4500,
+        "total": 0.0011298595927655697,
+        "parts": {
+          "phase": 0.00011968221951974556,
+          "chemical": 0.0006060469313524663,
+          "momentum_x": 0.00023062278341967613,
+          "momentum_y": 0.0001729827927192673,
+          "wall_phase": 4.396294439601434e-09,
+          "wall_mu": 2.023375884618872e-07,
+          "outlet_traction": 1.7006185260015627e-07,
+          "outlet_phase": 1.0179511455987722e-08,
+          "outlet_mu": 1.3780250185391196e-07
+        },
+        "unweighted_parts": {
+          "phase": 0.3775756359100342,
+          "chemical": 0.013713228516280651,
+          "momentum_x": 0.0685931071639061,
+          "momentum_y": 0.03317771106958389,
+          "wall_phase": 0.0004993611946702003,
+          "wall_mu": 0.00020280525495763868,
+          "outlet_traction": 0.0024506838526576757,
+          "outlet_phase": 0.00025169659056700766,
+          "outlet_mu": 0.002025783760473132
+        },
+        "causal": {
+          "epsilon": 100.0,
+          "mean_weight": 0.025290917605161667,
+          "minimum_weight": 0.0,
+          "last_time_weights": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      {
+        "step": 5000,
+        "total": 0.0003520367026794702,
+        "parts": {
+          "phase": 0.00011880482634296641,
+          "chemical": 2.8471151381381787e-05,
+          "momentum_x": 0.00010322154412278906,
+          "momentum_y": 9.176363528240472e-05,
+          "wall_phase": 7.881052965785784e-08,
+          "wall_mu": 4.603389243129641e-07,
+          "outlet_traction": 8.039133717829827e-06,
+          "outlet_phase": 1.1473188266108991e-07,
+          "outlet_mu": 1.082525614037877e-06
+        },
+        "unweighted_parts": {
+          "phase": 0.7259706854820251,
+          "chemical": 0.009808355942368507,
+          "momentum_x": 0.10192842781543732,
+          "momentum_y": 0.0703897699713707,
+          "wall_phase": 0.0009314054041169584,
+          "wall_mu": 0.0004970306763425469,
+          "outlet_traction": 0.008780970238149166,
+          "outlet_phase": 0.0005934964283369482,
+          "outlet_mu": 0.0021181411575526
+        },
+        "causal": {
+          "epsilon": 100.0,
+          "mean_weight": 0.057580552995204926,
+          "minimum_weight": 0.0,
+          "last_time_weights": [
+            0.0,
+            0.0
+          ]
+        }
+      }
+    ],
+    "interpretation": "Sharp deterioration follows the forced epsilon10-to100 switch at4001. Late sampled-time weights collapse to zero while unweighted residuals grow. This does not establish a unique optimizer cause or invalidate causal weighting generally. Random geometries/times also vary across steps; do not interpret adjacent records as a fixed-input ablation."
+  },
+  "final_audits_completed": false,
+  "matched_control": {
+    "status": "full_actual_cold_state_condition_time_and_input_parity_passed",
+    "control": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-time40-online-width128-01",
+    "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-time40-causal-online-width128-01",
+    "updates": 5000,
+    "condition_draws": 10000,
+    "time_draws": 200000,
+    "initial_model_and_complete_optimizer_exact": true,
+    "initial_and_final_input_banks_exact": true,
+    "all_actual_sampling_arrays_exact": true,
+    "metrics_recomputed_maximum_gap": 3.469446951953614e-17,
+    "results": [
+      {
+        "label": "uniform",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-time40-online-width128-01",
+        "metrics": {
+          "phi": 0.05367709146686519,
+          "terminal_phi": 0.07178663893097234,
+          "velocity": 0.044833577623233,
+          "pressure": 0.09210299429231261
+        },
+        "wall_seconds": 3028.2865790338255,
+        "warm_update_seconds": 0.4791802703506334
+      },
+      {
+        "label": "causal",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-time40-causal-online-width128-01",
+        "metrics": {
+          "phi": 0.22306359121200306,
+          "terminal_phi": 0.3062187443102494,
+          "velocity": 0.04848994979881254,
+          "pressure": 0.21286884941649648
+        },
+        "wall_seconds": 3209.564432076644,
+        "warm_update_seconds": 0.5315500005816429
+      }
+    ],
+    "scope": "One initialization/reused nominalFEM geometry; no multi-seed or population conclusion"
+  },
+  "terminal_shape": {
+    "time": 6.0,
+    "phase_global_relative_L2": 0.3062187443102494,
+    "minority_fraction_relative_L2": 0.9013691951851807,
+    "interface_phi_relative_L2": 1.2711708786646638,
+    "droplet_band_phi_relative_L2": 1.3674794816740377,
+    "reference_negative_area_fraction": 0.03505584470788838,
+    "negative_phase_IoU": 0.0,
+    "zero_contour": {
+      "predicted_components": 0,
+      "reference_components": 1,
+      "mean_distance": null,
+      "sampled_hausdorff": null,
+      "contour_missing": true
+    },
+    "velocity_global_relative_L2": 0.05079740372682984,
+    "velocity_interface_relative_L2": 0.058370930114663336,
+    "velocity_droplet_band_relative_L2": 0.05730577231054517,
+    "pressure_global_relative_L2": 0.1963035485456918,
+    "pressure_interface_relative_L2": 0.37579564474539245,
+    "pressure_droplet_band_relative_L2": 0.3607707409572447
+  },
+  "full_time_audit_failure": {
+    "status": "failed_canonical_crosscheck",
+    "maximum_loss_gap": 9.590037912676763e-06,
+    "absolute_gate": 3e-06,
+    "log": "/root/autodl-tmp/data/channel_nsch2d/20261101-5090-gmls-time40-causal-online-width128-01-full_time_residual.log",
+    "scope": "Frozen prediction parity passed; first nominal fulltime loss crosscheck failed. No accepted full240node report or finaltrainingpool audit. Gate not weakened."
+  }
+}

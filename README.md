@@ -14,6 +14,7 @@ FEM references remain part of the validation workflow.
 - [corrosion1d](examples/corrosion1d/README.md): Earlier implementation, retained for reference.
 - [corrosion2d](examples/corrosion2d/README.md): KKS pit corrosion with a validated matched-graph training preset.
 - [twophase2d](examples/twophase2d/README.md): Periodic prescribed-flow Cahn–Hilliard pilots: constant transport and reversed-vortex deformation, with mixed local-AD/nonlocal controls; no coupled Navier–Stokes yet.
+- [channel_nsch2d](examples/channel_nsch2d/README.md): Experimental full NS–CH flow through a smooth channel with independently indented upper/lower walls; fixed initial droplet and inlet driving. Refined local FEM references validate opt-in GMLS/JVP physics-only operators on nominal geometries; online rolling geometry training is supported, while population accuracy remains unverified.
 - [precipitate2d](examples/precipitate2d/README.md): Periodic coherent elastic-precipitate pilot with differentiable mechanical equilibration and nonlocal phase diffusion.
 
 - [confined_ch2d](examples/confined_ch2d/README.md): Confined CH in an ellipse with impermeable holes; default ten-wave T1.5 case uses30 sequential PINN time windows and a validated independent reference. Opt-in random-geometry operators use boundary/function point sets, physical quadrature and shared spatial/time decoding. Legacy simple/local AD and global-time controls remain explicit options.

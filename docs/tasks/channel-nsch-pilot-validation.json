@@ -1,0 +1,546 @@
+{
+  "status": "initial_trial_completed_accuracy_not_achieved",
+  "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261031-channel-operator-stream-01",
+  "canonical_numerical_recipe_matches_saved": true,
+  "reference": {
+    "status": "passed",
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/bdf-fine.npz",
+    "checks": {
+      "space": {
+        "phi": {
+          "pooled": 0.006159410763522242,
+          "maximum_time": 0.01559552617026997
+        },
+        "velocity": {
+          "pooled": 0.003688252465776792,
+          "maximum_time": 0.015429798726165903
+        },
+        "pressure": {
+          "pooled": 0.017340077933881134,
+          "maximum_time": 0.03186391777143985
+        },
+        "chemical": {
+          "pooled": 0.08584332677923877,
+          "maximum_time": 0.11852904557668892
+        }
+      },
+      "time": {
+        "phi": {
+          "pooled": 0.004572531709226377,
+          "maximum_time": 0.007671239325325504
+        },
+        "velocity": {
+          "pooled": 0.0013921361897330598,
+          "maximum_time": 0.002246891088461396
+        },
+        "pressure": {
+          "pooled": 0.014583575694499905,
+          "maximum_time": 0.020138882313707123
+        },
+        "chemical": {
+          "pooled": 0.09507066196063348,
+          "maximum_time": 0.15563148740457675
+        }
+      }
+    },
+    "limits": {
+      "phi": 0.025,
+      "velocity": 0.025,
+      "pressure": 0.08
+    },
+    "maximum_flux_imbalance": 6.250555628639631e-14,
+    "maximum_wall_speed_l2": 0.0,
+    "chemical_scope": "Reported separately; not covered by the phi/velocity/pressure acceptance gate"
+  },
+  "controls": {
+    "20261031-channel-single-gmls-01": {
+      "wall_seconds": 261.8158431025222,
+      "warm_update_seconds": 0.008755529509340497,
+      "metrics": {
+        "step": 5000,
+        "elapsed": 261.7435583025217,
+        "phi": 0.41988982090861915,
+        "terminal_phi": 0.4671580269343618,
+        "solid": 1.1757299088294633,
+        "velocity": 0.38629341250865185,
+        "pressure": 0.6307722108405304,
+        "chemical": 1.6880368873997882,
+        "phi_range": [
+          -1.0158777236938477,
+          1.0464303493499756
+        ],
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/bdf-fine.npz",
+        "scope": "One local-FEM geometry; not a generalization estimate"
+      }
+    },
+    "20261031-channel-single-normalized-01": {
+      "wall_seconds": 261.51995813660324,
+      "warm_update_seconds": 0.008422060311846636,
+      "metrics": {
+        "step": 5000,
+        "elapsed": 261.4504788350314,
+        "phi": 0.43351100953027744,
+        "terminal_phi": 0.48544048450484,
+        "solid": 1.2138704829963625,
+        "velocity": 0.9885958918499551,
+        "pressure": 1.0150451778639396,
+        "chemical": 1.0176682462741387,
+        "phi_range": [
+          -1.0387617349624634,
+          1.0170409679412842
+        ],
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/bdf-fine.npz",
+        "scope": "One local-FEM geometry; not a generalization estimate"
+      }
+    }
+  },
+  "operator_summary": {
+    "status": "completed",
+    "wall_seconds": 1000.9878777824342,
+    "warm_update_seconds": 0.052887738165714834,
+    "metrics": {
+      "step": 5000,
+      "elapsed": 1000.8901831675321,
+      "phi": 0.30594091270739543,
+      "terminal_phi": 0.33734594741313434,
+      "solid": 0.8566625421551988,
+      "velocity": 0.04819285915443258,
+      "pressure": 0.22963113107574978,
+      "chemical": 1.5069221773867782,
+      "phi_range": [
+        -1.0934505462646484,
+        1.0175365209579468
+      ],
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/bdf-fine.npz",
+      "scope": "One local-FEM geometry; not a generalization estimate"
+    },
+    "iterations": 5000,
+    "train_conditions": 16,
+    "supervised_evolved_field_samples": 0,
+    "method": "Streamfunction AD (including its spatial Hessian), time JVP, GMLS physical Laplacians",
+    "note": "Experimental differentiation stencil; not regional pair-kernel NS or validated mesh independence",
+    "device_memory_bytes": {
+      "num_allocs": 2463471,
+      "bytes_in_use": 42103296,
+      "peak_bytes_in_use": 3005893120,
+      "largest_alloc_size": 2751514112,
+      "bytes_limit": 66879848448,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 66879848448,
+      "peak_pool_bytes": 66879848448
+    }
+  },
+  "replay_and_flow": {
+    "status": "replay_and_hard_constraints_passed",
+    "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261031-channel-operator-stream-01",
+    "saved_field_max_gap": 7.152557373046875e-07,
+    "primal_jvp_max_gap": 2.980232238769531e-07,
+    "maximum_flux_error": 2.5023108918276193e-06,
+    "maximum_wall_speed": 8.85220430291156e-08,
+    "maximum_divergence": 3.5390257835388184e-08,
+    "section_x": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      1.25,
+      1.5,
+      1.75,
+      2.0,
+      2.25,
+      2.5,
+      2.75,
+      3.0,
+      3.25,
+      3.5,
+      3.75,
+      4.0
+    ],
+    "flux_times": [
+      0.5,
+      3.0,
+      6.0
+    ],
+    "flux": [
+      [
+        0.09999999995724736,
+        0.10000000073505651,
+        0.10000000038238609,
+        0.10000250380100795,
+        0.100000304331782,
+        0.10000000241977805,
+        0.10000000032362877,
+        0.10000000514007512,
+        0.09999999581532276,
+        0.10000000601451504,
+        0.10000000036341045,
+        0.10000000242223252,
+        0.10000000087548591,
+        0.09999999959024958,
+        0.10000000010569518,
+        0.10000000023158064,
+        0.09999999999000658
+      ],
+      [
+        0.1999999999144947,
+        0.20000000094812617,
+        0.2000000002318411,
+        0.19999988548154357,
+        0.2000000575787132,
+        0.20000000214406433,
+        0.20000000039824925,
+        0.2000000094741871,
+        0.19999999187576517,
+        0.20000000757267855,
+        0.19999999995343626,
+        0.20000000552052138,
+        0.19999999961217835,
+        0.20000000202665214,
+        0.19999999558294657,
+        0.1999999945625135,
+        0.19999999865840826
+      ],
+      [
+        0.1999999999144947,
+        0.19999999957124354,
+        0.20000000056493883,
+        0.200000260971353,
+        0.20000008722121965,
+        0.20000000203031748,
+        0.20000000048592004,
+        0.2000000111737087,
+        0.19999999177677907,
+        0.2000000066234359,
+        0.19999999897944082,
+        0.20000000232982545,
+        0.19999999884147346,
+        0.2000000023152329,
+        0.19999999868810758,
+        0.19999999604670066,
+        0.19999999993684728
+      ]
+    ],
+    "phase_area_times": [
+      0.0,
+      0.5,
+      1.0,
+      1.5,
+      2.0,
+      2.5,
+      3.0,
+      3.5,
+      4.0,
+      4.5,
+      5.0,
+      5.5,
+      6.0
+    ],
+    "phase_area": [
+      0.15203268826007843,
+      0.15076443552970886,
+      0.13165026903152466,
+      0.09033036977052689,
+      0.05340496450662613,
+      0.03836853429675102,
+      0.035967547446489334,
+      0.03753913938999176,
+      0.04042497277259827,
+      0.04366051033139229,
+      0.04705571383237839,
+      0.05118850991129875,
+      0.05587370693683624
+    ],
+    "phase_area_scope": "Diagnostic only: open-domain mass balance includes boundary flux, not imposed constant mass",
+    "condition_visit_counts": [
+      603,
+      613,
+      592,
+      612,
+      650,
+      605,
+      650,
+      632,
+      654,
+      598,
+      617,
+      603,
+      659,
+      605,
+      639,
+      668
+    ],
+    "actual_time_strata_passed": true,
+    "supervised_evolved_field_samples": 0,
+    "metrics": {
+      "phi": {
+        "unweighted": 0.3059409115608048,
+        "physical_area_weighted": 0.29693412545708986
+      },
+      "velocity": {
+        "unweighted": 0.0481928620218826,
+        "physical_area_weighted": 0.04849406413343544
+      },
+      "pressure": {
+        "unweighted": 0.22963112840890157,
+        "physical_area_weighted": 0.23050286724705268
+      }
+    },
+    "diagnostic_queries": 384,
+    "scope": "One development FEM geometry; no population estimate"
+  },
+  "phase_balance": {
+    "status": "diagnostic_completed_not_an_accuracy_pass",
+    "times": [
+      0.5,
+      1.5,
+      3.0,
+      4.5,
+      6.0
+    ],
+    "physical_potential_primal_gap": 5.960464477539062e-07,
+    "phase_storage_rate": [
+      0.021810233439305923,
+      0.1766918209048049,
+      -0.0015117613897111435,
+      -0.012887362332860034,
+      -0.018563882286856393
+    ],
+    "boundary_advective_phase_flux": [
+      -0.0003920085185094087,
+      -0.0007775268014187018,
+      -0.000360718011815767,
+      -1.3247480804879855e-05,
+      -0.00019849440460208178
+    ],
+    "boundary_mu_normal_integral": [
+      -0.13712613962513337,
+      0.8094372729060256,
+      0.7618710091153791,
+      0.5889632427610798,
+      0.6293211718369796
+    ],
+    "weak_phase_balance_residual": [
+      0.02148678799060908,
+      0.1755095754669332,
+      -0.0022534149060846,
+      -0.013195091435045454,
+      -0.019077037277376963
+    ],
+    "integrated_gmls_strong_residual": [
+      -0.0031149263639406372,
+      3.855206107748082e-05,
+      0.0014436502425026016,
+      -0.0006280144008483804,
+      -0.008366818001841234
+    ],
+    "advection_quadrature_gap": [
+      -0.024565866780042495,
+      -0.17544596083537667,
+      0.0036800428352758764,
+      0.012559091754836757,
+      0.010704459885934207
+    ],
+    "gmls_laplacian_gauss_gap": [
+      0.07169514901444905,
+      0.050125140958050096,
+      -0.03404462662265051,
+      -0.015970558720632133,
+      -0.01151877920304778
+    ],
+    "mobility_scaled_laplacian_gauss_gap": [
+      3.5847574507224526e-05,
+      2.5062570479025047e-05,
+      -1.7022313311325256e-05,
+      -7.985279360316066e-06,
+      -5.75938960152389e-06
+    ],
+    "scope": "Same trained quadrature; includes every open boundary. No extra mass loss or reference label used in training."
+  },
+  "refined_phase_balance": {
+    "status": "diagnostic_completed_not_an_accuracy_pass",
+    "times": [
+      0.5,
+      1.5,
+      3.0,
+      4.5,
+      6.0
+    ],
+    "physical_potential_primal_gap": 8.344650268554688e-07,
+    "phase_storage_rate": [
+      0.021810232107602013,
+      0.17669182359506858,
+      -0.0015117620707870891,
+      -0.01288736225282091,
+      -0.018563882417937105
+    ],
+    "boundary_advective_phase_flux": [
+      -0.0003920097504694493,
+      -0.0007775256447331505,
+      -0.0003607189407714554,
+      -1.3250762472720781e-05,
+      -0.0001984944368585293
+    ],
+    "boundary_mu_normal_integral": [
+      -0.13712613865496623,
+      0.8094375850754431,
+      0.7618708517625581,
+      0.5889630413881045,
+      0.6293213323604518
+    ],
+    "weak_phase_balance_residual": [
+      0.021486785426460046,
+      0.1755095791577977,
+      -0.0022534164374398234,
+      -0.013195094535987684,
+      -0.01907703752097586
+    ],
+    "integrated_gmls_strong_residual": [
+      -0.0031149176224625507,
+      3.85597960336862e-05,
+      0.0014436741435425696,
+      -0.0006279870006504732,
+      -0.008366816428927379
+    ],
+    "advection_quadrature_gap": [
+      -0.024565855863330002,
+      -0.17544595492973455,
+      0.003680064711290734,
+      0.012559121150813573,
+      0.010704463504262235
+    ],
+    "gmls_laplacian_gauss_gap": [
+      0.07169437118519034,
+      0.05012886405891315,
+      -0.03405173938331818,
+      -0.015972769047274293,
+      -0.011515175572490932
+    ],
+    "mobility_scaled_laplacian_gauss_gap": [
+      3.584718559259517e-05,
+      2.5064432029456575e-05,
+      -1.702586969165909e-05,
+      -7.986384523637147e-06,
+      -5.757587786245466e-06
+    ],
+    "scope": "Same trained quadrature; includes every open boundary. No extra mass loss or reference label used in training.",
+    "refined_advection_quadrature": {
+      "grid": [
+        192,
+        80
+      ],
+      "points": 15633,
+      "original_context_points": 3977,
+      "phase_storage_rate": [
+        0.02190772047176317,
+        0.17662481866334379,
+        -0.0016136613666463539,
+        -0.012905803943273234,
+        -0.01856482171285789
+      ],
+      "advection_quadrature_gap": [
+        0.014924290851188243,
+        0.025803732028936092,
+        0.0024757477973300574,
+        0.0013226693384552851,
+        0.001591626263840653
+      ],
+      "weak_phase_balance_residual": [
+        0.0215842737906212,
+        0.1754425742260729,
+        -0.0023553157332990883,
+        -0.013213536226440009,
+        -0.019077976815896645
+      ]
+    },
+    "finite_difference_gradient_check": {
+      "points": [
+        [
+          0.875,
+          0.4
+        ],
+        [
+          0.8333333333333333,
+          0.42500000000000004
+        ],
+        [
+          0.8333333333333333,
+          0.5750000000000001
+        ]
+      ],
+      "time": 1.5,
+      "analytical_gradient": [
+        [
+          -6.198040962219238,
+          -7.755337238311768
+        ],
+        [
+          -6.309566020965576,
+          -5.689507484436035
+        ],
+        [
+          -6.295695781707764,
+          5.715667724609375
+        ]
+      ],
+      "central_differences": [
+        {
+          "step": 0.001,
+          "gradient": [
+            [
+              -6.19778037071228,
+              -7.755309343338013
+            ],
+            [
+              -6.309419870376587,
+              -5.6892335414886475
+            ],
+            [
+              -6.2958598136901855,
+              5.71519136428833
+            ]
+          ],
+          "relative_gap": 4.1516316406268936e-05
+        },
+        {
+          "step": 0.0005,
+          "gradient": [
+            [
+              -6.198525428771973,
+              -7.754802703857422
+            ],
+            [
+              -6.309330463409424,
+              -5.689740180969238
+            ],
+            [
+              -6.295263767242432,
+              5.715310573577881
+            ]
+          ],
+          "relative_gap": 6.233065195517853e-05
+        }
+      ]
+    }
+  },
+  "staged_verification": {
+    "unique_focused_tests": 7,
+    "full_unrelated_suite_run": false,
+    "logs": [
+      "/tmp/channel-nsch-tests.log",
+      "/tmp/channel-nsch-stencil-test.log",
+      "/tmp/channel-nsch-stream-tests.log",
+      "/tmp/channel-nsch-stream-gradient.log",
+      "/tmp/channel-nsch-final-physical.log"
+    ],
+    "direct_control_model_inputs_actual_draws_identical": true
+  },
+  "limits": [
+    "One development FEM geometry, 384 diagnostic queries, not a population estimate",
+    "GMLS finite-neighborhood differentiation, not the established regional pair kernel",
+    "Native coupled baseline and fully converged diagnostic quadrature remain unvalidated",
+    "No supervised evolved field samples, Git history change or cleanup"
+  ]
+}

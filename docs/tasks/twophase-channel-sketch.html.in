@@ -1,0 +1,91 @@
+<div id="microchannel-sketch">
+  <div class="sketch-heading">
+    <h2>收缩—扩张微通道</h2>
+    <span class="text-small text-muted">概念示意 · 非仿真结果</span>
+  </div>
+  <div class="text-small text-muted">同一液滴的依次位置：实心为初值，虚线为后续形变示意。</div>
+  <svg class="main-channel" role="img" aria-label="液滴经过平滑收缩扩张通道的概念图，标出喉道宽度与收缩扩张段长度。"></svg>
+  <div class="sketch-heading">
+    <h3>只改变外边界</h3>
+    <span class="text-small text-muted">初始液滴、入口流量和材料参数固定</span>
+  </div>
+  <div class="channel-examples">
+    <div class="channel-example"><div>较宽喉道</div><svg data-variant="wide" role="img" aria-label="较宽喉道，使用相同的初始圆形液滴。"></svg></div>
+    <div class="channel-example"><div>较窄喉道</div><svg data-variant="narrow" role="img" aria-label="较窄喉道，初始液滴和入口出口保持相同。"></svg></div>
+    <div class="channel-example"><div>偏心喉道</div><svg data-variant="offset" role="img" aria-label="喉道向上偏移，初始液滴和入口出口仍保持相同。"></svg></div>
+  </div>
+</div>
+<style>
+  #microchannel-sketch { display:grid; gap:calc(var(--font-size-base)*.75); color:var(--foreground); }
+  #microchannel-sketch .sketch-heading { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:calc(var(--font-size-base)*.5); }
+  #microchannel-sketch .channel-examples { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:calc(var(--font-size-base)*1.25); }
+  #microchannel-sketch .channel-example { display:grid; gap:calc(var(--font-size-base)*.25); min-width:0; }
+  #microchannel-sketch svg { display:block; width:100%; overflow:visible; }
+  #microchannel-sketch svg text { fill:var(--foreground); font-family:inherit; }
+  #microchannel-sketch .water { fill:var(--viz-series-1); fill-opacity:.07; }
+  #microchannel-sketch .wall { fill:none; stroke:var(--foreground); stroke-width:2; }
+  #microchannel-sketch .initial { fill:var(--viz-series-2); fill-opacity:.75; stroke:var(--viz-series-2); stroke-width:1.5; }
+  #microchannel-sketch .later { fill:var(--viz-series-2); fill-opacity:.12; stroke:var(--viz-series-2); stroke-width:1.5; stroke-dasharray:5 4; }
+  #microchannel-sketch .line { fill:none; stroke:var(--foreground); stroke-width:1.2; }
+  #microchannel-sketch .guide { fill:none; stroke:var(--muted-foreground); stroke-width:1; stroke-dasharray:3 4; }
+  #microchannel-sketch .dimension { fill:none; stroke:var(--foreground); stroke-width:1; }
+  @media (max-width:540px) {
+    #microchannel-sketch .channel-examples { grid-template-columns:1fr; gap:calc(var(--font-size-base)*.75); }
+  }
+</style>
+<script>
+(() => {
+  const root = document.getElementById('microchannel-sketch');
+  const main = root.querySelector('.main-channel');
+  const small = Array.from(root.querySelectorAll('[data-variant]'));
+  const bump = (u) => Math.abs(u) < 1 ? (1-u*u)**3 : 0;
+  const path = (points) => points.map((p,i)=>(i?'L':'M')+p.map(v=>v.toFixed(2)).join(',')).join(' ');
+  const defs = (id) => `<defs><marker id="${id}" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1 L7 4 L1 7" fill="none" stroke="var(--foreground)" stroke-width="1.2"/></marker></defs>`;
+  const text = (x,y,s,anchor='middle') => `<text class="text-small" x="${x}" y="${y}" text-anchor="${anchor}">${s}</text>`;
+  function geometry(width,cy,half,neck,offset,span=.27) {
+    const left=22, right=width-22, length=right-left;
+    const center=(s)=>cy-offset*bump((s-.55)/span);
+    const radius=(s)=>half-(half-neck)*bump((s-.55)/span);
+    const upper=[], lower=[];
+    for(let i=0;i<=200;i++) {
+      const s=i/200, x=left+s*length;
+      upper.push([x,center(s)-radius(s)]); lower.push([x,center(s)+radius(s)]);
+    }
+    const walls=`<path class="water" d="${path([...upper,...lower.slice().reverse()])} Z"/><path class="wall" d="${path(upper)}"/><path class="wall" d="${path(lower)}"/>`;
+    return {left,right,length,center,radius,walls,x:(s)=>left+s*length};
+  }
+  function drawMain() {
+    const w=Math.max(260,main.clientWidth), h=300, compact=w<500, cy=142;
+    main.setAttribute('viewBox',`0 0 ${w} ${h}`); main.style.height=h+'px';
+    const g=geometry(w,cy,61,23,0), r=Math.min(22,.058*w);
+    const rx=Math.min(42,.10*w), ry=r*r/rx, xc=g.x(.55), dimX=xc+rx+12;
+    const start=g.x(.28), end=g.x(.82), dimensionY=265;
+    const arrow='microchannel-main-arrow';
+    main.innerHTML=`<title>液滴通过收缩扩张通道</title><desc>实心圆为固定初始液滴。喉道处虚线椭圆与下游虚线圆仅示意同一液滴在后续时刻的可能形变，不是仿真数据。喉道宽度和过渡段长度可变。</desc>${defs(arrow)}${g.walls}
+      <circle class="initial" cx="${g.x(.14)}" cy="${cy}" r="${r}"/>
+      <ellipse class="later" cx="${xc}" cy="${cy}" rx="${rx}" ry="${ry}"/>
+      <circle class="later" cx="${g.x(.89)}" cy="${cy}" r="${r}"/>
+      <path class="line" marker-end="url(#${arrow})" d="M ${g.x(.24)} ${cy} H ${g.x(.36)}"/>
+      <path class="line" marker-end="url(#${arrow})" d="M ${g.x(.70)} ${cy} H ${g.x(.79)}"/>
+      ${text(g.left,42,'固定入口流量 Q','start')}${text(g.right,42,'出口','end')}
+      ${text(g.x(.14),225,'初始液滴')}${text(xc,225,compact?'拉伸示意':'受限拉伸（示意）')}${text(g.x(.89),225,compact?'恢复示意':'下游恢复（示意）')}
+      <path class="guide" d="M ${xc} ${cy-23} H ${dimX+5} M ${xc} ${cy+23} H ${dimX+5}"/>
+      <path class="dimension" marker-start="url(#${arrow})" marker-end="url(#${arrow})" d="M ${dimX} ${cy-22} V ${cy+22}"/>
+      ${text(dimX,compact?93:94,'喉道宽度')}
+      <path class="guide" d="M ${start} 242 V ${dimensionY+5} M ${end} 242 V ${dimensionY+5}"/>
+      <path class="dimension" marker-start="url(#${arrow})" marker-end="url(#${arrow})" d="M ${start+1} ${dimensionY} H ${end-1}"/>
+      ${text((start+end)/2,291,'收缩—扩张段长度')}`;
+  }
+  function drawSmall(svg) {
+    const w=Math.max(200,svg.clientWidth), h=113, kind=svg.dataset.variant;
+    const neck=kind==='wide'?21:11, offset=kind==='offset'?10:0;
+    const g=geometry(w,53,32,neck,offset);
+    svg.setAttribute('viewBox',`0 0 ${w} ${h}`); svg.style.height=h+'px';
+    const guide=kind==='offset'?`<path class="guide" d="M ${g.left} 53 H ${g.right}"/>${text(g.x(.69),h-2,'中心向上偏移')}`:'';
+    svg.innerHTML=`<title>${kind==='wide'?'较宽喉道':kind==='narrow'?'较窄喉道':'偏心喉道'}</title><desc>固定入口出口和初始圆形液滴，仅改变平滑外边界。</desc>${g.walls}${guide}<circle class="initial" cx="${g.x(.14)}" cy="53" r="10"/>`;
+  }
+  const draw=()=>{drawMain();small.forEach(drawSmall);root.dataset.ready='true';};
+  new ResizeObserver(draw).observe(root);
+  draw();
+})();
+</script>

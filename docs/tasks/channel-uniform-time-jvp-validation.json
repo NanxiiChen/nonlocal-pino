@@ -1,0 +1,460 @@
+{
+  "status": "uniform_timeJVP40_cold5k_all_finite_audits_complete_modest_shape_gain",
+  "updated_utc": "2026-11-01T22:07:15.409596+00:00",
+  "config": "examples/channel_nsch2d/configs/train_operator_width128_gmls_time40_jvp_uniform_online.py",
+  "planned_run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01",
+  "control": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-time40-online-width128-01",
+  "completed_adaptive_JVP_context": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-adaptive-jvp-online-width128-01",
+  "change_scope": "From uniformBDF control only timeoperator/sampling/runname change; versus adaptiveJVP only causal weights/runname differ. Same physicalPDE/IC/BC/reference/model/SOAP/GMLS/actualgeometry/globalkeys/budget.",
+  "budget": 5000,
+  "time_samples": 40,
+  "time_microbatch": 8,
+  "condition_batch": 2,
+  "training_started": true,
+  "causal_weights": false,
+  "chemical_projection": false,
+  "phase_coordinate": false,
+  "evolved_training_labels": 0,
+  "new_FEM_solves": 0,
+  "tests": {
+    "passed": 3,
+    "seconds": 54.133,
+    "log": "/tmp/channel-uniform-time-jvp-tests.log",
+    "AST_modules": 5,
+    "coverage": [
+      "StrictuniformBDFmatching and causalcontrol rejection",
+      "Complete40time loss/allparametergradients equal8block accumulation",
+      "Actualmatched3stepBDF/JVPcoldtraining+replay+input/freshsampler/keyproof+independentcontinuousresidual"
+    ],
+    "actual_uniformBDF_config_match": true,
+    "actual_adaptiveJVP_diff_only_causal_weights": true,
+    "previous_adaptiveJVP_BDF_config_rule_still_passes": true,
+    "diff_check_passed": true
+  },
+  "resource_probe": {
+    "status": "finite_production_probe_passed",
+    "pid": null,
+    "exec_session": null,
+    "updates": 20,
+    "output": "/root/autodl-tmp/data/channel_nsch2d/uniform-time-jvp-production-probe-20261102-01",
+    "log": "/root/autodl-tmp/data/channel_nsch2d/uniform-time-jvp-production-probe-20261102-01.log",
+    "first_update_seconds": 342.31341595901176,
+    "warm_update_seconds": 0.28415455965717373,
+    "peak_active_bytes": 8534905856,
+    "peak_active_GiB": 7.9487504959106445,
+    "all_actual_gradients_finite": true,
+    "source_byte_copies_passed": 11,
+    "time_sampler": {
+      "planned_updates": 5000,
+      "all_planned_GPU_strata_and_order_passed": true,
+      "actual_probe_times_exact_global_key_replay": true,
+      "repeated_time_batch": false
+    },
+    "uniform_time_objective": {
+      "causal_weights": false,
+      "all_gradient_updates_finite": true,
+      "exact_time_jvp": true,
+      "space": "unchanged_GMLS",
+      "extra_spatial_residual_AD": false
+    }
+  },
+  "goal_status": "active_shape_mismatch_remains",
+  "default_or_SOTA_changed": false,
+  "Git_or_cleanup": false,
+  "next_action": "Implement positiveexplicit optional loss.chemical_residual_scale=1.0 for chemical-row normalization ONLY, keep muoutput chemical_scale4.0 and legacy absentfield behavior exact. Strictsinglefield/coldphysical/allotherloss/gradient/smallcanonicalinput-replay checks, then boundedproductionprobe BEFORE onecold5000 against this completeduniformJVP source. No newtraining yet/newFEM/default/SOTA/Git/cleanup/laterqueue.",
+  "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01",
+  "journal": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01-process.json",
+  "runner_pid": 314769,
+  "training_pid": null,
+  "screen": "channel-uniform-jvp40-20261102",
+  "owner_source": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01-owner.py",
+  "owner_stage": "completed_with_saved_run_audits",
+  "production_gradient_updates_observed": true,
+  "preflight": {
+    "existing_construction_screen_passed": true,
+    "source_owner_completed": true,
+    "free_disk_GiB_before_launch": 35,
+    "GPU_free_before_launch": true,
+    "fitted_probe_weights_imported": false
+  },
+  "initial_state_and_bank_parity": {
+    "status": "passed",
+    "initial_model_complete_optimizer_and_geometry_bank_exact": true,
+    "first_monitor_step": 0
+  },
+  "actual_source_and_owner_byte_copies_passed": 88,
+  "step0_physical_metrics_match_uniformBDF": true,
+  "latest_monitor": {
+    "step": 5000,
+    "elapsed": 1904.942681842018,
+    "phi": 0.049726153973127546,
+    "terminal_phi": 0.06886024717929727,
+    "dispersed_phase": 0.13924403371197028,
+    "velocity": 0.04218975259525456,
+    "pressure": 0.08806873956327854,
+    "chemical": 0.273379249445901,
+    "phi_range": [
+      -1.1311426162719727,
+      1.029420018196106
+    ],
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+    "scope": "One local-FEM geometry; not a generalization estimate"
+  },
+  "active_child_pid": null,
+  "latest_loss": {
+    "step": 5000,
+    "total": 0.0014706364599987864,
+    "parts": {
+      "phase": 0.00035622165887616575,
+      "chemical": 0.0005112678627483547,
+      "momentum_x": 0.0003341281262692064,
+      "momentum_y": 0.00023063927073962986,
+      "wall_phase": 6.309719083219534e-06,
+      "wall_mu": 1.1404707038309425e-05,
+      "outlet_traction": 8.833811989461537e-06,
+      "outlet_phase": 6.045232112228405e-06,
+      "outlet_mu": 5.786067504232051e-06
+    }
+  },
+  "latest_refresh": {
+    "completed_updates": 4950,
+    "batch": 98,
+    "slots": [
+      4,
+      5
+    ],
+    "draw_ids": [
+      196,
+      197
+    ],
+    "wait_seconds": 0.004689639899879694
+  },
+  "latest_logged_optimizer_step": 5000,
+  "final_audits_completed": true,
+  "same500_monitor_comparison": {
+    "results": [
+      {
+        "label": "uniformBDF",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-time40-online-width128-01",
+        "step": 500,
+        "metrics": {
+          "phi": 0.0883988508263764,
+          "terminal_phi": 0.12721202814833743,
+          "dispersed_phase": 0.24753598621802295,
+          "velocity": 0.06779826245452987,
+          "pressure": 0.39931056255716135,
+          "chemical": 0.6592944244882173
+        }
+      },
+      {
+        "label": "adaptiveBDF",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-adaptive-causal-online-width128-01",
+        "step": 500,
+        "metrics": {
+          "phi": 0.09467708595074205,
+          "terminal_phi": 0.12166460854040309,
+          "dispersed_phase": 0.2651164084598331,
+          "velocity": 0.07004394004624553,
+          "pressure": 0.4073814224112396,
+          "chemical": 0.7043202219703131
+        }
+      },
+      {
+        "label": "adaptiveJVP",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-adaptive-jvp-online-width128-01",
+        "step": 500,
+        "metrics": {
+          "phi": 0.10327835861080903,
+          "terminal_phi": 0.13139784246342903,
+          "dispersed_phase": 0.28920184046190284,
+          "velocity": 0.0685417100327627,
+          "pressure": 0.3442297881059539,
+          "chemical": 0.7122507858886332
+        }
+      },
+      {
+        "label": "uniformJVP",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01",
+        "step": 500,
+        "metrics": {
+          "phi": 0.09318579590671254,
+          "terminal_phi": 0.12772973673406895,
+          "dispersed_phase": 0.26094047236637635,
+          "velocity": 0.06517143603345692,
+          "pressure": 0.411141958014616,
+          "chemical": 0.7315725250669457
+        }
+      }
+    ],
+    "scope": "Same nominal FEM development queries/time horizon; dispersed_phase is pooled over snapshots and unweighted, not weighted terminal shape. Early progress only, finallocalizedshape and fullsampling proofs pending."
+  },
+  "session_changes": [
+    "New explicit uniform timeJVP research preset; same physical output/IC/BC/operator/optimizer",
+    "Strict uniformBDF matching and causal-control mismatch rejection, retaining original adaptive match",
+    "Finiteowner admits audited uniformtimeJVP and runs complete matched/time audits",
+    "Resourceprobe unweighted40/eightblock gradient and global-key sampler path",
+    "3focused contracts pass54.133s; actualsavedconfigs/5AST/diff checks pass",
+    "Production20qualified; actual canonicalcold5000 started with exactinitialmodel/fullSOAP/bank/source proofs and first500monitor",
+    "README/DEVELOPMENT/task/dashboard/decisions/index/receipt updated; no default/Git/FEM/cleanup"
+  ],
+  "same1000_monitor_comparison": {
+    "results": [
+      {
+        "label": "uniformBDF",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-time40-online-width128-01",
+        "step": 1000,
+        "metrics": {
+          "phi": 0.07439598382452936,
+          "terminal_phi": 0.11483615256115698,
+          "dispersed_phase": 0.20832491660819302,
+          "velocity": 0.06075445812752987,
+          "pressure": 0.26877206180894414
+        }
+      },
+      {
+        "label": "adaptiveBDF",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-adaptive-causal-online-width128-01",
+        "step": 1000,
+        "metrics": {
+          "phi": 0.07699727050241423,
+          "terminal_phi": 0.10203163072166692,
+          "dispersed_phase": 0.215609084413844,
+          "velocity": 0.06153219390794029,
+          "pressure": 0.2490967971091576
+        }
+      },
+      {
+        "label": "adaptiveJVP",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-adaptive-jvp-online-width128-01",
+        "step": 1000,
+        "metrics": {
+          "phi": 0.08112099493091744,
+          "terminal_phi": 0.10938634118378208,
+          "dispersed_phase": 0.22715640865797682,
+          "velocity": 0.062376807768510456,
+          "pressure": 0.2235249428118341
+        }
+      },
+      {
+        "label": "uniformJVP",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01",
+        "step": 1000,
+        "metrics": {
+          "phi": 0.0746983107378761,
+          "terminal_phi": 0.11474365154518586,
+          "dispersed_phase": 0.20917149764353388,
+          "velocity": 0.05878074637879917,
+          "pressure": 0.2739508384321664
+        }
+      }
+    ],
+    "scope": "Same nominal FEM development queries/time horizon; dispersed_phase is pooled over snapshots and unweighted, not weighted terminal shape. Early progress only, finallocalizedshape and fullsampling proofs pending."
+  },
+  "owner_exited": true,
+  "final_metrics": {
+    "step": 5000,
+    "elapsed": 1904.942681842018,
+    "phi": 0.049726153973127546,
+    "terminal_phi": 0.06886024717929727,
+    "dispersed_phase": 0.13924403371197028,
+    "velocity": 0.04218975259525456,
+    "pressure": 0.08806873956327854,
+    "chemical": 0.273379249445901,
+    "phi_range": [
+      -1.1311426162719727,
+      1.029420018196106
+    ],
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+    "scope": "One local-FEM geometry; not a generalization estimate"
+  },
+  "wall_seconds": 1912.1812234870158,
+  "warm_update_seconds": 0.2873277921427267,
+  "peak_active_GiB": 8.10277271270752,
+  "terminal_shape": {
+    "time": 6.0,
+    "phase_global_relative_L2": 0.06886024717929726,
+    "minority_fraction_relative_L2": 0.19995162908422012,
+    "interface_phi_relative_L2": 0.3832199668166865,
+    "droplet_band_phi_relative_L2": 0.33031590246810627,
+    "reference_negative_area_fraction": 0.03505584470788838,
+    "negative_phase_IoU": 0.806075531957732,
+    "zero_contour": {
+      "predicted_components": 1,
+      "reference_components": 1,
+      "mean_distance": 0.022709015158776432,
+      "sampled_hausdorff": 0.04001043290116194,
+      "contour_missing": false
+    },
+    "contour_mean_distance_over_initial_radius": 0.10322279617625651,
+    "velocity_global_relative_L2": 0.04411591438379009,
+    "velocity_interface_relative_L2": 0.04370776647677981,
+    "velocity_droplet_band_relative_L2": 0.041163987030275094,
+    "pressure_global_relative_L2": 0.07880337688695194,
+    "pressure_interface_relative_L2": 0.1533139338458729,
+    "pressure_droplet_band_relative_L2": 0.15084794858394746
+  },
+  "owned_stages": [
+    {
+      "stage": "training",
+      "exit_code": 0,
+      "log": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01-training.log"
+    },
+    {
+      "stage": "validate_run",
+      "exit_code": 0,
+      "log": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01-validate_run.log"
+    },
+    {
+      "stage": "diagnose_phase",
+      "exit_code": 0,
+      "log": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01-diagnose_phase.log"
+    },
+    {
+      "stage": "droplet_shape",
+      "exit_code": 0,
+      "log": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01-droplet_shape.log"
+    },
+    {
+      "stage": "phi_gallery",
+      "exit_code": 0,
+      "log": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01-phi_gallery.log"
+    },
+    {
+      "stage": "continuous_time_residual",
+      "exit_code": 0,
+      "log": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01-continuous_time_residual.log"
+    }
+  ],
+  "canonical_replay": {
+    "status": "replay_and_hard_constraints_passed",
+    "field_max_gap": 2.384185791015625e-06,
+    "JVP_primal_max_gap": 9.5367431640625e-07,
+    "flux_max_gap": 6.72012262503685e-08,
+    "wall_speed_maximum": 9.387117927417421e-08,
+    "divergence_maximum": 1.4901161193847656e-08,
+    "actual_time_global_keys": true,
+    "actual_strata": true
+  },
+  "matched_uniformBDF": {
+    "status": "matched_cold_state_geometry_stream_and_independent_continuous_time_replay_passed",
+    "report": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01/matched-control-validation.json"
+  },
+  "matched_adaptiveJVP": {
+    "status": "actual_cold_state_all_continuous_times_condition_and_geometry_inputs_exact",
+    "actual_array_fields_checked": 46,
+    "report": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01/weighting-pair-validation.json"
+  },
+  "continuous_unweighted_fullspace_audit": {
+    "status": "canonical_unweighted_continuous_time_probes_completed",
+    "time_samples": 240,
+    "probe_seed": 20261102,
+    "part_names": [
+      "phase",
+      "chemical",
+      "momentum_x",
+      "momentum_y",
+      "wall_phase",
+      "wall_mu",
+      "outlet_traction",
+      "outlet_phase",
+      "outlet_mu"
+    ],
+    "cases": [
+      {
+        "label": "nominal",
+        "amplitudes": [
+          0.11999999731779099,
+          0.07999999821186066
+        ],
+        "domain_nodes": 15633,
+        "time_samples": 240,
+        "mean_parts": [
+          0.0003292722685728222,
+          0.0005493907956406474,
+          0.0002611549280118197,
+          0.0001808636443456635,
+          3.6638543861045036e-06,
+          4.279161203157855e-06,
+          5.5730861276970245e-06,
+          1.7775543028619722e-06,
+          2.2871709006722085e-05
+        ],
+        "maximum_parts": [
+          0.003376807551831007,
+          0.03381536155939102,
+          0.005377699621021748,
+          0.0036135483533143997,
+          8.905233698897064e-06,
+          1.865651211119257e-05,
+          4.947749403072521e-05,
+          4.88692376166e-06,
+          5.637322465190664e-05
+        ],
+        "mean_unweighted_total": 0.0013588470173999667,
+        "source": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01/continuous-time-residual/nominal-losses.npz"
+      },
+      {
+        "label": "final_pool_slot0",
+        "amplitudes": [
+          0.07738466560840607,
+          0.1170973926782608
+        ],
+        "domain_nodes": 15633,
+        "time_samples": 240,
+        "mean_parts": [
+          0.00037073204293847084,
+          0.0005395043990574777,
+          0.0002787178964354098,
+          0.00018088064098265022,
+          3.5013415526918834e-06,
+          3.6708083825942595e-06,
+          5.435610546555836e-06,
+          2.645268068590667e-06,
+          2.0368790501379408e-05
+        ],
+        "maximum_parts": [
+          0.003327055834233761,
+          0.03376476466655731,
+          0.0054189893417060375,
+          0.003423080313950777,
+          9.511305506748613e-06,
+          2.0094468709430657e-05,
+          4.256651664036326e-05,
+          6.388687779690372e-06,
+          4.98665904160589e-05
+        ],
+        "mean_unweighted_total": 0.001405456685461104,
+        "source": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01/continuous-time-residual/final_pool_slot0-losses.npz"
+      }
+    ],
+    "report": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01/continuous-time-residual/validation.json"
+  },
+  "figures": {
+    "convergence": "/root/autodl-tmp/data/channel_nsch2d/uniform-time-jvp-curve-20261102-02/convergence.png",
+    "convergence_report": "/root/autodl-tmp/data/channel_nsch2d/uniform-time-jvp-curve-20261102-02/validation.json",
+    "contours": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01/droplet-shape/contours.png",
+    "physical_fields": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01/phi-fields/phi-fields.png",
+    "inspected": true
+  },
+  "error_region_diagnosis": {
+    "report": "/root/autodl-tmp/data/channel_nsch2d/frozen-phase-error-regions-20261102-03/validation.json",
+    "current_interface_error_fraction": 0.9652271263022176,
+    "terminal_u_x_relative_L2": 0.036186891708623756,
+    "terminal_u_y_relative_L2": 0.7073841378047737,
+    "terminal_u_y_reference_RMS": 0.008140660903676811,
+    "terminal_u_y_error_RMS": 0.005758574394508452,
+    "scope": "Actual saved fields; diagnostic reference/knownIC masks only, never trainingweights"
+  },
+  "chemical_consistency_diagnosis": {
+    "previous_adaptive_report": "/root/autodl-tmp/data/channel_nsch2d/frozen-mu-projection-scale-20261102-01/validation.json",
+    "current_uniform_report": "/root/autodl-tmp/data/channel_nsch2d/uniform-jvp-mu-scale-20261102-01/validation.json",
+    "terminal_residual_RMS": 0.09934356036627634,
+    "terminal_native_mu_RMS": 0.18608501292087015,
+    "terminal_residual_relative_to_mu": 0.5338611573653204,
+    "terminal_interface_residual_relative_to_mu": 0.5625068274583458,
+    "legacy_chemical_scale": 4.0,
+    "legacy_scale_controls_output_and_residual": true,
+    "training_updates": 0,
+    "reference_solves": 0
+  }
+}

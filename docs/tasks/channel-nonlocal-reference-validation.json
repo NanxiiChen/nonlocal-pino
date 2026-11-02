@@ -1,0 +1,1478 @@
+{
+  "status": "finite_direct_reference_space_time_flux_gates_passed",
+  "updated_utc": "2026-11-01T10:09:03.550281+00:00",
+  "source": "docs/tasks/channel_nonlocal_reference.py",
+  "tests": {
+    "count": 3,
+    "seconds": 0.397,
+    "status": "passed_final_current_source",
+    "scope": "Independent finite-difference Jacobian, analytic Poiseuille/traction/pressure-gauge fixture, direct-LU/GMRES nonlinear-step parity",
+    "checks": [
+      "finite-difference nonlinear Jacobian",
+      "analytic polynomial Poiseuille stress/sign/pressure-anchor",
+      "direct-LU and GMRES same nonlinear step"
+    ]
+  },
+  "coarse": "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-full-20261101-02",
+  "coarse_comparison": {
+    "status": "preliminary_completed_trajectory_comparison_NOT_validated_reference",
+    "numerical": "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-full-20261101-02",
+    "FEM": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+    "PINO": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-geometry-online-width128-01/prediction.npz",
+    "PINO_label": "PINO 20k",
+    "grid": [
+      96,
+      40
+    ],
+    "dt": 0.025,
+    "pairs": [
+      {
+        "comparison": "GMLS_vs_FEM",
+        "phase_pooled": 0.011625587943048389,
+        "phase_terminal": 0.011371460223831028,
+        "minority_terminal": 0.03300465940288226,
+        "velocity_positive": 0.008050822690718435,
+        "pressure_positive": 0.06448130358131504,
+        "terminal_contour_mean_over_radius": 0.01857236796980171,
+        "terminal_zero_contour": {
+          "predicted_components": 1,
+          "reference_components": 1,
+          "mean_distance": 0.004085920953356376,
+          "sampled_hausdorff": 0.006909752287266313,
+          "contour_missing": false
+        }
+      },
+      {
+        "comparison": "PINO_vs_FEM",
+        "phase_pooled": 0.0532347499101486,
+        "phase_terminal": 0.07881282162552077,
+        "minority_terminal": 0.22416448650184678,
+        "velocity_positive": 0.02382571103368344,
+        "pressure_positive": 0.09902210870493167,
+        "terminal_contour_mean_over_radius": 0.11399615520484477,
+        "terminal_zero_contour": {
+          "predicted_components": 1,
+          "reference_components": 1,
+          "mean_distance": 0.025079154145065848,
+          "sampled_hausdorff": 0.05642516912844418,
+          "contour_missing": false
+        }
+      },
+      {
+        "comparison": "PINO_vs_GMLS",
+        "phase_pooled": 0.04928662041002123,
+        "phase_terminal": 0.07124818352297736,
+        "minority_terminal": 0.20351594016344748,
+        "velocity_positive": 0.025639093857302196,
+        "pressure_positive": 0.11262867284439439,
+        "terminal_contour_mean_over_radius": 0.10119640630148531,
+        "terminal_zero_contour": {
+          "predicted_components": 1,
+          "reference_components": 1,
+          "mean_distance": 0.02226320938632677,
+          "sampled_hausdorff": 0.050591252321970204,
+          "contour_missing": false
+        }
+      }
+    ],
+    "query_count": 3840,
+    "times": [
+      0.0,
+      0.5,
+      1.0,
+      1.5,
+      2.0,
+      2.5,
+      3.0,
+      3.5,
+      4.0,
+      4.5,
+      5.0,
+      5.5,
+      6.0
+    ],
+    "physical_identity_and_all_query_frames_checked": true,
+    "direct_solver_residual_max": 4.226103911264545e-10,
+    "direct_solver_diagnostics": [
+      {
+        "time": 0.0,
+        "phase_range": [
+          -1.0,
+          1.0
+        ],
+        "minority_area": 0.1520326705922904,
+        "inlet_flux": 0.0,
+        "outlet_flux": 0.0,
+        "maximum_section_flux_error": 0.0,
+        "divergence_pressure_max": 0.0,
+        "divergence_fine_rms": 0.0,
+        "divergence_fine_interior_rms": 0.0,
+        "integrated_phase_rhs": -3.387089575210382e-10,
+        "velocity_max": 0.0,
+        "pressure_range": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "iterations": 3,
+        "residual_max": 3.4994229736184934e-13,
+        "linear_residual_max": 2.6024293831028444e-11,
+        "krylov_iterations": 41,
+        "seconds": 1.7451345878653228,
+        "step": 20,
+        "time": 0.5,
+        "phase_range": [
+          -1.1057792621435323,
+          1.0282643246191865
+        ],
+        "minority_area": 0.15202742200549307,
+        "inlet_flux": 0.09993750000000001,
+        "outlet_flux": 0.09753040740377858,
+        "maximum_section_flux_error": 0.002469592596221426,
+        "divergence_pressure_max": 2.7755575615628914e-15,
+        "divergence_fine_rms": 0.025882215956280156,
+        "divergence_fine_interior_rms": 6.241079856114177e-16,
+        "integrated_phase_rhs": -0.00363294131937425,
+        "velocity_max": 0.1708800475936396,
+        "pressure_range": [
+          -0.004530773671949977,
+          2.897142647224448
+        ]
+      },
+      {
+        "iterations": 3,
+        "residual_max": 1.1654455178700118e-11,
+        "linear_residual_max": 3.851558405543187e-09,
+        "krylov_iterations": 67,
+        "seconds": 2.3692047400400043,
+        "step": 40,
+        "time": 1.0,
+        "phase_range": [
+          -1.1284362384740945,
+          1.0206823802075908
+        ],
+        "minority_area": 0.15202972009373888,
+        "inlet_flux": 0.19987500000000002,
+        "outlet_flux": 0.19310119828522354,
+        "maximum_section_flux_error": 0.00689880171477647,
+        "divergence_pressure_max": 4.9231452248221785e-15,
+        "divergence_fine_rms": 0.04718721034169296,
+        "divergence_fine_interior_rms": 1.2899478930407071e-15,
+        "integrated_phase_rhs": -0.00974929576782647,
+        "velocity_max": 0.3582378319806084,
+        "pressure_range": [
+          -0.07493294355210946,
+          2.3610124297100143
+        ]
+      },
+      {
+        "iterations": 3,
+        "residual_max": 7.791323142214424e-12,
+        "linear_residual_max": 3.3479068406450097e-09,
+        "krylov_iterations": 67,
+        "seconds": 2.3252612249925733,
+        "step": 60,
+        "time": 1.5,
+        "phase_range": [
+          -1.1181679850568245,
+          1.0179966716535487
+        ],
+        "minority_area": 0.15203279681841209,
+        "inlet_flux": 0.19987500000000002,
+        "outlet_flux": 0.19886293375706376,
+        "maximum_section_flux_error": 0.0011370662429362466,
+        "divergence_pressure_max": 4.961309141293668e-15,
+        "divergence_fine_rms": 0.04322188576681819,
+        "divergence_fine_interior_rms": 1.3023939870859136e-15,
+        "integrated_phase_rhs": -0.0022936220751377414,
+        "velocity_max": 0.36459670388556514,
+        "pressure_range": [
+          -0.06175513833666828,
+          1.8716223580741964
+        ]
+      },
+      {
+        "iterations": 3,
+        "residual_max": 4.447109347438527e-12,
+        "linear_residual_max": 3.5009151133635896e-10,
+        "krylov_iterations": 68,
+        "seconds": 2.388154943007976,
+        "step": 80,
+        "time": 2.0,
+        "phase_range": [
+          -1.1043387431612104,
+          1.016973120675963
+        ],
+        "minority_area": 0.1520338290065295,
+        "inlet_flux": 0.19987500000000002,
+        "outlet_flux": 0.20434162167162415,
+        "maximum_section_flux_error": 0.004341621671624135,
+        "divergence_pressure_max": 5.93275428784068e-15,
+        "divergence_fine_rms": 0.050733758908092494,
+        "divergence_fine_interior_rms": 1.3488591742838963e-15,
+        "integrated_phase_rhs": 0.004782779203145991,
+        "velocity_max": 0.36753820860648284,
+        "pressure_range": [
+          -0.041997575136342696,
+          2.397316922857926
+        ]
+      },
+      {
+        "iterations": 3,
+        "residual_max": 5.88640247656258e-12,
+        "linear_residual_max": 4.828477583040947e-10,
+        "krylov_iterations": 68,
+        "seconds": 2.413150553125888,
+        "step": 100,
+        "time": 2.5,
+        "phase_range": [
+          -1.092709690328033,
+          1.0147567995046365
+        ],
+        "minority_area": 0.1520332841598771,
+        "inlet_flux": 0.19987500000000002,
+        "outlet_flux": 0.1970007015487077,
+        "maximum_section_flux_error": 0.0029992984512923204,
+        "divergence_pressure_max": 5.1486592766991635e-15,
+        "divergence_fine_rms": 0.04338986406511816,
+        "divergence_fine_interior_rms": 1.308001985475224e-15,
+        "integrated_phase_rhs": -0.004705452451213809,
+        "velocity_max": 0.3599252636701435,
+        "pressure_range": [
+          -0.06411634437492827,
+          2.4165908739222277
+        ]
+      },
+      {
+        "iterations": 3,
+        "residual_max": 4.25304236273405e-12,
+        "linear_residual_max": 6.09794562067556e-10,
+        "krylov_iterations": 67,
+        "seconds": 2.4048879770562053,
+        "step": 120,
+        "time": 3.0,
+        "phase_range": [
+          -1.0828312087728411,
+          1.0141404669115346
+        ],
+        "minority_area": 0.15203426346348492,
+        "inlet_flux": 0.19987500000000002,
+        "outlet_flux": 0.19715384924487972,
+        "maximum_section_flux_error": 0.0028461507551202914,
+        "divergence_pressure_max": 5.079270337660091e-15,
+        "divergence_fine_rms": 0.043235901984273545,
+        "divergence_fine_interior_rms": 1.316321430829533e-15,
+        "integrated_phase_rhs": -0.004496658772760497,
+        "velocity_max": 0.3565061117950879,
+        "pressure_range": [
+          -0.0652183939469119,
+          2.110609239799658
+        ]
+      },
+      {
+        "iterations": 3,
+        "residual_max": 5.47595302435866e-12,
+        "linear_residual_max": 3.90087240287329e-10,
+        "krylov_iterations": 66,
+        "seconds": 2.3559630387462676,
+        "step": 140,
+        "time": 3.5,
+        "phase_range": [
+          -1.074776618507597,
+          1.0171621033649745
+        ],
+        "minority_area": 0.15203645177558728,
+        "inlet_flux": 0.19987500000000002,
+        "outlet_flux": 0.2008503909218104,
+        "maximum_section_flux_error": 0.0008503909218103844,
+        "divergence_pressure_max": 4.911002160490341e-15,
+        "divergence_fine_rms": 0.04491906222977729,
+        "divergence_fine_interior_rms": 1.3638741960802711e-15,
+        "integrated_phase_rhs": 0.0002816711088489047,
+        "velocity_max": 0.3502425585980265,
+        "pressure_range": [
+          -0.05406550636197,
+          2.1386552053594854
+        ]
+      },
+      {
+        "iterations": 3,
+        "residual_max": 7.1667116685603105e-12,
+        "linear_residual_max": 4.385332097456285e-10,
+        "krylov_iterations": 67,
+        "seconds": 2.323096415027976,
+        "step": 160,
+        "time": 4.0,
+        "phase_range": [
+          -1.0704150343420424,
+          1.0227569725630963
+        ],
+        "minority_area": 0.15203889839685503,
+        "inlet_flux": 0.19987500000000002,
+        "outlet_flux": 0.20093742322081504,
+        "maximum_section_flux_error": 0.0009374232208150257,
+        "divergence_pressure_max": 5.8772431366094224e-15,
+        "divergence_fine_rms": 0.04499914236146911,
+        "divergence_fine_interior_rms": 1.3665877484609665e-15,
+        "integrated_phase_rhs": 0.00039786807903275534,
+        "velocity_max": 0.33725658585410606,
+        "pressure_range": [
+          -0.053931737124854905,
+          2.25677797585279
+        ]
+      },
+      {
+        "iterations": 3,
+        "residual_max": 6.547651310029323e-12,
+        "linear_residual_max": 5.086422394384726e-10,
+        "krylov_iterations": 67,
+        "seconds": 2.4375825920142233,
+        "step": 180,
+        "time": 4.5,
+        "phase_range": [
+          -1.0662060080804172,
+          1.0242002501159893
+        ],
+        "minority_area": 0.15204071651861553,
+        "inlet_flux": 0.19987500000000002,
+        "outlet_flux": 0.199874371484066,
+        "maximum_section_flux_error": 0.00037285644977289034,
+        "divergence_pressure_max": 4.621303340002214e-15,
+        "divergence_fine_rms": 0.043925191405459196,
+        "divergence_fine_interior_rms": 1.3467501361138992e-15,
+        "integrated_phase_rhs": -0.0009815518666323009,
+        "velocity_max": 0.34687343430176076,
+        "pressure_range": [
+          -0.05774661084893978,
+          2.2589877331163364
+        ]
+      },
+      {
+        "iterations": 3,
+        "residual_max": 4.405698028620009e-12,
+        "linear_residual_max": 4.5194818026894623e-10,
+        "krylov_iterations": 67,
+        "seconds": 2.329505152069032,
+        "step": 200,
+        "time": 5.0,
+        "phase_range": [
+          -1.0627523853643457,
+          1.0217159022453433
+        ],
+        "minority_area": 0.15203914719009923,
+        "inlet_flux": 0.19987500000000002,
+        "outlet_flux": 0.1987901291108252,
+        "maximum_section_flux_error": 0.0012098708891748189,
+        "divergence_pressure_max": 4.496403249731884e-15,
+        "divergence_fine_rms": 0.04322435244158965,
+        "divergence_fine_interior_rms": 1.3141893453374718e-15,
+        "integrated_phase_rhs": -0.0023857345104788597,
+        "velocity_max": 0.346977297326573,
+        "pressure_range": [
+          -0.06170766430592543,
+          2.202994415052283
+        ]
+      },
+      {
+        "iterations": 3,
+        "residual_max": 4.052203017579359e-12,
+        "linear_residual_max": 8.289759989565937e-10,
+        "krylov_iterations": 65,
+        "seconds": 15.441659376956522,
+        "step": 220,
+        "time": 5.5,
+        "phase_range": [
+          -1.0598010785286862,
+          1.0175674553118195
+        ],
+        "minority_area": 0.152035722044887,
+        "inlet_flux": 0.19987500000000002,
+        "outlet_flux": 0.1990195363681419,
+        "maximum_section_flux_error": 0.0009804636318581084,
+        "divergence_pressure_max": 4.761707521339087e-15,
+        "divergence_fine_rms": 0.04334020901181923,
+        "divergence_fine_interior_rms": 1.3150092939215307e-15,
+        "integrated_phase_rhs": -0.002081734957830598,
+        "velocity_max": 0.34890913124488376,
+        "pressure_range": [
+          -0.060782656953233954,
+          2.162227029251558
+        ]
+      },
+      {
+        "iterations": 3,
+        "residual_max": 3.710143303692348e-12,
+        "linear_residual_max": 3.3587367609388963e-10,
+        "krylov_iterations": 66,
+        "seconds": 2.3822564156726003,
+        "step": 240,
+        "time": 6.0,
+        "phase_range": [
+          -1.0528290871623942,
+          1.0140020410890478
+        ],
+        "minority_area": 0.15203446640293955,
+        "inlet_flux": 0.19987500000000002,
+        "outlet_flux": 0.2003878673606076,
+        "maximum_section_flux_error": 0.0005403712397490101,
+        "divergence_pressure_max": 5.342948306008566e-15,
+        "divergence_fine_rms": 0.0444467215157188,
+        "divergence_fine_interior_rms": 1.3564681865573738e-15,
+        "integrated_phase_rhs": -0.0003102669107921953,
+        "velocity_max": 0.3564878296988178,
+        "pressure_range": [
+          -0.05529843952986951,
+          2.2430896241461986
+        ]
+      }
+    ],
+    "scope": "Original unweighted phi L2; positive-time flow L2; minority/contour diagnostics. GMLS uses first derivatives and fluxes different from PINO AD/SBP. Spatial/time/pressure-boundary compatibility validation still required."
+  },
+  "fine": {
+    "status": "production_resolution_GMLS_solver_live",
+    "observed_utc": "2026-11-01T06:05:09.382790+00:00",
+    "screen": "840158.channel_nonlocal_ref_20261101",
+    "screen_pid": 840158,
+    "solver_pid": 840159,
+    "output": "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-fine-20261101-01",
+    "log": "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-fine-20261101-01-screen.log",
+    "arguments": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-u",
+      "/root/nonlocal-pinn/docs/tasks/channel_nonlocal_reference.py",
+      "--saved-config",
+      "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-geometry-online-width128-01/config.json",
+      "--grid",
+      "192",
+      "80",
+      "--pressure-stride",
+      "1",
+      "--pressure-layout",
+      "interior",
+      "--dt",
+      "0.025",
+      "--terminal",
+      "6",
+      "--query-grid",
+      "96",
+      "40",
+      "--tolerance",
+      "1e-8",
+      "--max-newton",
+      "16",
+      "--linear-solver",
+      "gmres_lu",
+      "--lu-refresh-steps",
+      "20",
+      "--output",
+      "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-fine-20261101-01"
+    ],
+    "scope": "One finite nominal coupled FP64 CPU trajectory at PINO 192x80 resolution. No neural inference/AD/FEM/training/retries/further queue. Space/time/boundary-flow gates pending.",
+    "ownership": "Screen and solver have independent sessions. End only waiting launcher parent; retain solver unchanged."
+  },
+  "finite_validation": {
+    "status": "completed_gates_explicit_passed",
+    "started_utc": "2026-11-01T06:10:15.919962+00:00",
+    "arguments": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-u",
+      "/root/nonlocal-pinn/docs/tasks/channel_nonlocal_reference_finalize.py",
+      "--fine",
+      "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-fine-20261101-01",
+      "--coarse",
+      "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-full-20261101-02",
+      "--fem",
+      "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+      "--pino",
+      "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-geometry-online-width128-01/prediction.npz",
+      "--pino-label",
+      "PINO 20k",
+      "--time-output",
+      "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-halfdt-20261101-01",
+      "--output",
+      "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-validation-20261101-01",
+      "--solver-pid",
+      "840159",
+      "--max-wait-seconds",
+      "10800"
+    ],
+    "log": "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-validation-20261101-01-screen.log",
+    "output": "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-validation-20261101-01",
+    "scope": "Existing fine solve -> one explicit half-dt CPU solve -> three-way saved-field comparisons and explicit space/time/flow flags. No retries or further experiments."
+  },
+  "failed_controls": {
+    "coarse_gmls_pressure_full": "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-full-20261101-01/report.json",
+    "stokes_layouts": "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-stokes-layouts-20261101.json",
+    "scope": "Full-nodal pressure instability already occurs in a single-phase Stokes fixture; coarse pressure constraints can miss fine-node divergence. No unique mathematical cause or stable-scheme proof inferred."
+  },
+  "reference_gate_passed": true,
+  "scope": "All-spatial-GMLS coupled numerical baseline; current PINO first AD and CH SBP flux differ. Physics/config/query frames aligned; no production/default/Git changes.",
+  "fine_current_snapshot": {
+    "status": "solving_not_validated",
+    "completed_steps": 35,
+    "seconds": 657.3177172034048,
+    "construction": {
+      "grid": [
+        192,
+        80
+      ],
+      "pressure_stride": 1,
+      "pressure_layout": "interior",
+      "nodes": 15633,
+      "pressure_nodes": 15089,
+      "unknowns": 77621,
+      "current_PINO_laplacian_max_gap": 1.8189894035458565e-11,
+      "velocity_operator": {
+        "maximum_condition": 2856627.505401913,
+        "polynomial_error": 2.772517839497255e-11
+      },
+      "pressure_operator": {
+        "maximum_condition": 7145489.253570266,
+        "polynomial_error": 4.577608951616963e-11
+      },
+      "divergence_operator": {
+        "maximum_condition": 342906.93772610737,
+        "polynomial_error": 1.3475519006591382e-11
+      },
+      "original_laplacian_report": {
+        "polynomial_error": 2.330334384660626e-11,
+        "maximum_condition": 2856627.505401913,
+        "maximum_radius": 0.1220351511860415,
+        "basis_degree": 3,
+        "neighbors": 36
+      }
+    }
+  },
+  "finite_validation_screen": "848608.channel_nonlocal_validation_20261101",
+  "finite_validation_pid": 848609,
+  "verification": {
+    "current_source_AST": true,
+    "source_whitespace": true,
+    "strict_JSON": true,
+    "receipt_index_aliases": true,
+    "git_diff_check": true,
+    "finalizer_CLI_help": true,
+    "fine_source_snapshot_exact": true
+  },
+  "finite_validator_status": {
+    "status": "finite_reference_comparisons_completed_gates_explicit",
+    "fine": "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-fine-20261101-01",
+    "coarse": "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-full-20261101-02",
+    "solver_pid": 840159,
+    "time_refinement": "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-halfdt-20261101-01",
+    "scope": "One existing fine solve, one half-dt solve and saved-field comparisons; no FEM/training/retries/default changes",
+    "fine_comparison": {
+      "status": "preliminary_completed_trajectory_comparison_NOT_validated_reference",
+      "numerical": "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-fine-20261101-01",
+      "FEM": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+      "PINO": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-geometry-online-width128-01/prediction.npz",
+      "PINO_label": "PINO 20k",
+      "grid": [
+        192,
+        80
+      ],
+      "dt": 0.025,
+      "pairs": [
+        {
+          "comparison": "GMLS_vs_FEM",
+          "phase_pooled": 0.0029102864258052337,
+          "phase_terminal": 0.0026680202432034614,
+          "minority_terminal": 0.007694169133297524,
+          "velocity_positive": 0.0010385752164100675,
+          "pressure_positive": 0.005625217271653039,
+          "terminal_contour_mean_over_radius": 0.004220110144154474,
+          "terminal_zero_contour": {
+            "predicted_components": 1,
+            "reference_components": 1,
+            "mean_distance": 0.0009284242317139842,
+            "sampled_hausdorff": 0.0018590875120294346,
+            "contour_missing": false
+          }
+        },
+        {
+          "comparison": "PINO_vs_FEM",
+          "phase_pooled": 0.0532347499101486,
+          "phase_terminal": 0.07881282162552077,
+          "minority_terminal": 0.22416448650184678,
+          "velocity_positive": 0.023825711033683437,
+          "pressure_positive": 0.0990221087049317,
+          "terminal_contour_mean_over_radius": 0.11399615520484477,
+          "terminal_zero_contour": {
+            "predicted_components": 1,
+            "reference_components": 1,
+            "mean_distance": 0.025079154145065848,
+            "sampled_hausdorff": 0.05642516912844418,
+            "contour_missing": false
+          }
+        },
+        {
+          "comparison": "PINO_vs_GMLS",
+          "phase_pooled": 0.05447327970862726,
+          "phase_terminal": 0.08105146942079047,
+          "minority_terminal": 0.23033809298233304,
+          "velocity_positive": 0.02404515662077654,
+          "pressure_positive": 0.09909714891313576,
+          "terminal_contour_mean_over_radius": 0.11775995659703264,
+          "terminal_zero_contour": {
+            "predicted_components": 1,
+            "reference_components": 1,
+            "mean_distance": 0.025907190451347182,
+            "sampled_hausdorff": 0.05804414125550863,
+            "contour_missing": false
+          }
+        }
+      ],
+      "query_count": 3840,
+      "times": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0
+      ],
+      "physical_identity_and_all_query_frames_checked": true,
+      "direct_solver_residual_max": 9.706916159757384e-09,
+      "direct_solver_diagnostics": [
+        {
+          "time": 0.0,
+          "phase_range": [
+            -1.0,
+            1.0
+          ],
+          "minority_area": 0.1520547892275101,
+          "inlet_flux": 0.0,
+          "outlet_flux": 0.0,
+          "maximum_section_flux_error": 0.0,
+          "divergence_pressure_max": 0.0,
+          "divergence_fine_rms": 0.0,
+          "divergence_fine_interior_rms": 0.0,
+          "integrated_phase_rhs": -3.8984849882962643e-10,
+          "velocity_max": 0.0,
+          "pressure_range": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 5.550004900101158e-13,
+          "linear_residual_max": 2.915161445571357e-09,
+          "krylov_iterations": 38,
+          "seconds": 10.689638392068446,
+          "step": 20,
+          "time": 0.5,
+          "phase_range": [
+            -1.1149160711301886,
+            1.0298695804304336
+          ],
+          "minority_area": 0.15205402855955386,
+          "inlet_flux": 0.09998437500000001,
+          "outlet_flux": 0.09990396387067539,
+          "maximum_section_flux_error": 9.603612932461425e-05,
+          "divergence_pressure_max": 5.493869248418548e-15,
+          "divergence_fine_rms": 0.016350005360919823,
+          "divergence_fine_interior_rms": 1.1972764205356733e-15,
+          "integrated_phase_rhs": -0.0002726796821314114,
+          "velocity_max": 0.17280237562315598,
+          "pressure_range": [
+            -0.013473663222645081,
+            3.006733246225193
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 8.687273123086925e-12,
+          "linear_residual_max": 5.393847812840136e-09,
+          "krylov_iterations": 67,
+          "seconds": 17.38630217174068,
+          "step": 40,
+          "time": 1.0,
+          "phase_range": [
+            -1.1344644529245993,
+            1.021910109677753
+          ],
+          "minority_area": 0.15205409995517463,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.19982710272496856,
+          "maximum_section_flux_error": 0.00017289727503144725,
+          "divergence_pressure_max": 1.2580214647783805e-14,
+          "divergence_fine_rms": 0.02819826309488678,
+          "divergence_fine_interior_rms": 2.553714291370956e-15,
+          "integrated_phase_rhs": -0.0004898170683891404,
+          "velocity_max": 0.3639751183488829,
+          "pressure_range": [
+            -0.0724674424427904,
+            2.220864050712421
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 7.172040739078511e-12,
+          "linear_residual_max": 1.1968145363638882e-09,
+          "krylov_iterations": 70,
+          "seconds": 17.757690161000937,
+          "step": 60,
+          "time": 1.5,
+          "phase_range": [
+            -1.1214813911856538,
+            1.0187591427539404
+          ],
+          "minority_area": 0.15205447103021835,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.19982803292877083,
+          "maximum_section_flux_error": 0.0001719670712291843,
+          "divergence_pressure_max": 1.1924489173864572e-14,
+          "divergence_fine_rms": 0.028067934753112346,
+          "divergence_fine_interior_rms": 2.5446024380380113e-15,
+          "integrated_phase_rhs": -0.00048714313919172086,
+          "velocity_max": 0.36429396205284326,
+          "pressure_range": [
+            -0.07433915859792875,
+            2.228577152746272
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 6.144418307485466e-12,
+          "linear_residual_max": 3.3410818001122777e-09,
+          "krylov_iterations": 67,
+          "seconds": 16.900954715907574,
+          "step": 80,
+          "time": 2.0,
+          "phase_range": [
+            -1.1067897321511324,
+            1.0175376021221756
+          ],
+          "minority_area": 0.1520546568157805,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.19982790479816492,
+          "maximum_section_flux_error": 0.00017209520183508742,
+          "divergence_pressure_max": 1.1497747198774277e-14,
+          "divergence_fine_rms": 0.028067828862259184,
+          "divergence_fine_interior_rms": 2.5567060689285896e-15,
+          "integrated_phase_rhs": -0.00048715640463932317,
+          "velocity_max": 0.3639166564876469,
+          "pressure_range": [
+            -0.07434021076050171,
+            2.2355141654748447
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 5.9898752624576446e-12,
+          "linear_residual_max": 7.314823746717991e-10,
+          "krylov_iterations": 66,
+          "seconds": 45.73585597984493,
+          "step": 100,
+          "time": 2.5,
+          "phase_range": [
+            -1.0943478113004446,
+            1.0152548769929166
+          ],
+          "minority_area": 0.1520547281259556,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.19982788348542452,
+          "maximum_section_flux_error": 0.00017211651457549326,
+          "divergence_pressure_max": 1.0470790900996008e-14,
+          "divergence_fine_rms": 0.028067828704696998,
+          "divergence_fine_interior_rms": 2.5502272293321477e-15,
+          "integrated_phase_rhs": -0.0004867358808822776,
+          "velocity_max": 0.36241237534278886,
+          "pressure_range": [
+            -0.07434020001696225,
+            2.244485672795228
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 6.298073174093588e-12,
+          "linear_residual_max": 4.797067187922721e-10,
+          "krylov_iterations": 67,
+          "seconds": 17.305491814855486,
+          "step": 120,
+          "time": 3.0,
+          "phase_range": [
+            -1.084507272578722,
+            1.0150164982639582
+          ],
+          "minority_area": 0.1520549078143696,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.1998279400810976,
+          "maximum_section_flux_error": 0.0001720599189024008,
+          "divergence_pressure_max": 1.1254885912137524e-14,
+          "divergence_fine_rms": 0.028067849347778638,
+          "divergence_fine_interior_rms": 2.5905067051894337e-15,
+          "integrated_phase_rhs": -0.00048631861171496613,
+          "velocity_max": 0.35796569989026833,
+          "pressure_range": [
+            -0.07434002581320164,
+            2.2545947690925154
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 6.143086039855916e-12,
+          "linear_residual_max": 2.7981245098729346e-10,
+          "krylov_iterations": 67,
+          "seconds": 17.337346042972058,
+          "step": 140,
+          "time": 3.5,
+          "phase_range": [
+            -1.0778984808446612,
+            1.0184394172960933
+          ],
+          "minority_area": 0.15205508644610002,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.19982797561882976,
+          "maximum_section_flux_error": 0.00017202438117025487,
+          "divergence_pressure_max": 1.3315737401597971e-14,
+          "divergence_fine_rms": 0.02806782840006024,
+          "divergence_fine_interior_rms": 2.566909007566568e-15,
+          "integrated_phase_rhs": -0.00048702396404905765,
+          "velocity_max": 0.3484003482490048,
+          "pressure_range": [
+            -0.07434047911250512,
+            2.260096486091524
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 8.911094084851356e-12,
+          "linear_residual_max": 3.465592875173673e-09,
+          "krylov_iterations": 64,
+          "seconds": 16.43596978718415,
+          "step": 160,
+          "time": 4.0,
+          "phase_range": [
+            -1.072252487449639,
+            1.0243213344583117
+          ],
+          "minority_area": 0.1520552761673224,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.19982809608155105,
+          "maximum_section_flux_error": 0.0001719039184489568,
+          "divergence_pressure_max": 1.1652571269005207e-14,
+          "divergence_fine_rms": 0.02806786007225371,
+          "divergence_fine_interior_rms": 2.5665716614099693e-15,
+          "integrated_phase_rhs": -0.00048644045193050933,
+          "velocity_max": 0.33737035579285707,
+          "pressure_range": [
+            -0.0743403525521388,
+            2.253454445465053
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 8.990141964204668e-12,
+          "linear_residual_max": 4.152901356135885e-10,
+          "krylov_iterations": 67,
+          "seconds": 17.610790851991624,
+          "step": 180,
+          "time": 4.5,
+          "phase_range": [
+            -1.0674641808812322,
+            1.0257028323740638
+          ],
+          "minority_area": 0.15205539555312775,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.1998281286295896,
+          "maximum_section_flux_error": 0.00017187137041041467,
+          "divergence_pressure_max": 1.2340822808099006e-14,
+          "divergence_fine_rms": 0.028067882357526334,
+          "divergence_fine_interior_rms": 2.5165444077908306e-15,
+          "integrated_phase_rhs": -0.00048671995416028153,
+          "velocity_max": 0.34612475644127794,
+          "pressure_range": [
+            -0.07434031449226401,
+            2.238915290204669
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 7.333245122254084e-12,
+          "linear_residual_max": 4.5133374815264915e-10,
+          "krylov_iterations": 67,
+          "seconds": 17.243742652703077,
+          "step": 200,
+          "time": 5.0,
+          "phase_range": [
+            -1.0627517389764094,
+            1.0227591761219932
+          ],
+          "minority_area": 0.1520552648069794,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.19982800147312657,
+          "maximum_section_flux_error": 0.0001719985268734403,
+          "divergence_pressure_max": 1.1379786002407855e-14,
+          "divergence_fine_rms": 0.028067848396454383,
+          "divergence_fine_interior_rms": 2.549947168826783e-15,
+          "integrated_phase_rhs": -0.00048658852424410747,
+          "velocity_max": 0.34402271601788265,
+          "pressure_range": [
+            -0.07434090498753992,
+            2.2343984972699165
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 5.432099214885966e-12,
+          "linear_residual_max": 7.291729060832086e-10,
+          "krylov_iterations": 67,
+          "seconds": 17.195673835929483,
+          "step": 220,
+          "time": 5.5,
+          "phase_range": [
+            -1.0592853140739409,
+            1.018788259241583
+          ],
+          "minority_area": 0.15205491115115613,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.1998279207640462,
+          "maximum_section_flux_error": 0.0001720792359538037,
+          "divergence_pressure_max": 1.1227130336521896e-14,
+          "divergence_fine_rms": 0.02806768090972909,
+          "divergence_fine_interior_rms": 2.5068549494126753e-15,
+          "integrated_phase_rhs": -0.0004856160085477939,
+          "velocity_max": 0.3494116783797639,
+          "pressure_range": [
+            -0.07434294123917667,
+            2.245513280303506
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 4.151790022888235e-12,
+          "linear_residual_max": 7.225388065634775e-10,
+          "krylov_iterations": 67,
+          "seconds": 55.654301898088306,
+          "step": 240,
+          "time": 6.0,
+          "phase_range": [
+            -1.0556865035396639,
+            1.014943461924439
+          ],
+          "minority_area": 0.15205478366068556,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.19982800956103036,
+          "maximum_section_flux_error": 0.00017199043896964916,
+          "divergence_pressure_max": 9.492406860545088e-15,
+          "divergence_fine_rms": 0.028067445681504766,
+          "divergence_fine_interior_rms": 2.5407242250449087e-15,
+          "integrated_phase_rhs": -0.0004850121645924889,
+          "velocity_max": 0.35619949545602736,
+          "pressure_range": [
+            -0.07434205824928454,
+            2.256665441004585
+          ]
+        }
+      ],
+      "scope": "Original unweighted phi L2; positive-time flow L2; minority/contour diagnostics. GMLS uses first derivatives and fluxes different from PINO AD/SBP. Spatial/time/pressure-boundary compatibility validation still required."
+    },
+    "space_difference": {
+      "phi": 0.013465297762209004,
+      "terminal_phi": 0.013730220809968241,
+      "velocity": 0.00788984921411895,
+      "pressure": 0.0639255118711345
+    },
+    "time_refinement_arguments": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-u",
+      "/root/nonlocal-pinn/docs/tasks/channel_nonlocal_reference.py",
+      "--saved-config",
+      "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-fine-20261101-01/config.json",
+      "--grid",
+      "192",
+      "80",
+      "--pressure-stride",
+      "1",
+      "--pressure-layout",
+      "interior",
+      "--dt",
+      "0.0125",
+      "--terminal",
+      "6",
+      "--query-grid",
+      "96",
+      "40",
+      "--tolerance",
+      "1e-8",
+      "--max-newton",
+      "16",
+      "--linear-solver",
+      "gmres_lu",
+      "--lu-refresh-steps",
+      "20",
+      "--output",
+      "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-halfdt-20261101-01"
+    ],
+    "time_difference": {
+      "phi": 0.0013668980477103696,
+      "terminal_phi": 0.002120361812990698,
+      "velocity": 0.00037649195782983694,
+      "pressure": 0.004062381485355443
+    },
+    "refined_comparison": {
+      "status": "preliminary_completed_trajectory_comparison_NOT_validated_reference",
+      "numerical": "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-halfdt-20261101-01",
+      "FEM": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+      "PINO": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-geometry-online-width128-01/prediction.npz",
+      "PINO_label": "PINO 20k",
+      "grid": [
+        192,
+        80
+      ],
+      "dt": 0.0125,
+      "pairs": [
+        {
+          "comparison": "GMLS_vs_FEM",
+          "phase_pooled": 0.003746193948973057,
+          "phase_terminal": 0.004495662708216291,
+          "minority_terminal": 0.012983887076887095,
+          "velocity_positive": 0.0010782206816156003,
+          "pressure_positive": 0.006140003300827079,
+          "terminal_contour_mean_over_radius": 0.007378532390015901,
+          "terminal_zero_contour": {
+            "predicted_components": 1,
+            "reference_components": 1,
+            "mean_distance": 0.0016232771258034983,
+            "sampled_hausdorff": 0.0032192959612418097,
+            "contour_missing": false
+          }
+        },
+        {
+          "comparison": "PINO_vs_FEM",
+          "phase_pooled": 0.0532347499101486,
+          "phase_terminal": 0.07881282162552077,
+          "minority_terminal": 0.22416448650184678,
+          "velocity_positive": 0.023825711033683437,
+          "pressure_positive": 0.0990221087049317,
+          "terminal_contour_mean_over_radius": 0.11399615520484477,
+          "terminal_zero_contour": {
+            "predicted_components": 1,
+            "reference_components": 1,
+            "mean_distance": 0.025079154145065848,
+            "sampled_hausdorff": 0.05642516912844418,
+            "contour_missing": false
+          }
+        },
+        {
+          "comparison": "PINO_vs_GMLS",
+          "phase_pooled": 0.05527928316300396,
+          "phase_terminal": 0.08245530356520975,
+          "minority_terminal": 0.23434779067720166,
+          "velocity_positive": 0.023950434866026497,
+          "pressure_positive": 0.09812028547959144,
+          "terminal_contour_mean_over_radius": 0.12066712088323146,
+          "terminal_zero_contour": {
+            "predicted_components": 1,
+            "reference_components": 1,
+            "mean_distance": 0.026546766594310923,
+            "sampled_hausdorff": 0.05931863362038039,
+            "contour_missing": false
+          }
+        }
+      ],
+      "query_count": 3840,
+      "times": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0
+      ],
+      "physical_identity_and_all_query_frames_checked": true,
+      "direct_solver_residual_max": 1.453130948902981e-10,
+      "direct_solver_diagnostics": [
+        {
+          "time": 0.0,
+          "phase_range": [
+            -1.0,
+            1.0
+          ],
+          "minority_area": 0.1520547892275101,
+          "inlet_flux": 0.0,
+          "outlet_flux": 0.0,
+          "maximum_section_flux_error": 0.0,
+          "divergence_pressure_max": 0.0,
+          "divergence_fine_rms": 0.0,
+          "divergence_fine_interior_rms": 0.0,
+          "integrated_phase_rhs": -3.8984849882962643e-10,
+          "velocity_max": 0.0,
+          "pressure_range": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 1.3393730569077889e-12,
+          "linear_residual_max": 2.4706565682208748e-09,
+          "krylov_iterations": 24,
+          "seconds": 8.00473738508299,
+          "step": 40,
+          "time": 0.5,
+          "phase_range": [
+            -1.114953043208754,
+            1.0298549176698815
+          ],
+          "minority_area": 0.1520540281190499,
+          "inlet_flux": 0.09998437500000001,
+          "outlet_flux": 0.09990398565918067,
+          "maximum_section_flux_error": 9.601434081933646e-05,
+          "divergence_pressure_max": 5.329070518200751e-15,
+          "divergence_fine_rms": 0.016345850026286732,
+          "divergence_fine_interior_rms": 1.1490521599473905e-15,
+          "integrated_phase_rhs": -0.0002727275831097248,
+          "velocity_max": 0.17282201415255402,
+          "pressure_range": [
+            -0.013518361030533572,
+            3.0021284799808963
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 4.401148465582507e-13,
+          "linear_residual_max": 4.040565215746028e-09,
+          "krylov_iterations": 42,
+          "seconds": 11.759973561391234,
+          "step": 80,
+          "time": 1.0,
+          "phase_range": [
+            -1.1350617521625586,
+            1.022119232884978
+          ],
+          "minority_area": 0.15205409743455478,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.19982710969817846,
+          "maximum_section_flux_error": 0.00017289030182154885,
+          "divergence_pressure_max": 1.2038980923279041e-14,
+          "divergence_fine_rms": 0.02820355526148926,
+          "divergence_fine_interior_rms": 2.4182615626513786e-15,
+          "integrated_phase_rhs": -0.0004898389012400374,
+          "velocity_max": 0.3639544962975007,
+          "pressure_range": [
+            -0.0724153768224045,
+            2.228658231788798
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 1.35304961679239e-12,
+          "linear_residual_max": 2.4102604356812662e-09,
+          "krylov_iterations": 39,
+          "seconds": 10.815349963027984,
+          "step": 120,
+          "time": 1.5,
+          "phase_range": [
+            -1.1219521109270059,
+            1.018762349806648
+          ],
+          "minority_area": 0.15205446643044146,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.19982803280184952,
+          "maximum_section_flux_error": 0.0001719671981504911,
+          "divergence_pressure_max": 1.0311196341206141e-14,
+          "divergence_fine_rms": 0.02806796313712721,
+          "divergence_fine_interior_rms": 2.422068527418916e-15,
+          "integrated_phase_rhs": -0.0004871340239127721,
+          "velocity_max": 0.3642958953883084,
+          "pressure_range": [
+            -0.0743387664728411,
+            2.2284783945488655
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 4.3165471197426086e-13,
+          "linear_residual_max": 1.3878640459097369e-09,
+          "krylov_iterations": 40,
+          "seconds": 11.61047794111073,
+          "step": 160,
+          "time": 2.0,
+          "phase_range": [
+            -1.107016564287779,
+            1.0175540734408361
+          ],
+          "minority_area": 0.15205464916691153,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.19982788965583748,
+          "maximum_section_flux_error": 0.0001721103441625349,
+          "divergence_pressure_max": 1.2836953722228372e-14,
+          "divergence_fine_rms": 0.028067824944317605,
+          "divergence_fine_interior_rms": 2.428887990495095e-15,
+          "integrated_phase_rhs": -0.0004871766390073454,
+          "velocity_max": 0.36392211600413754,
+          "pressure_range": [
+            -0.07434021757885755,
+            2.235407428668468
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 6.90662804725406e-13,
+          "linear_residual_max": 1.0071516953757964e-09,
+          "krylov_iterations": 39,
+          "seconds": 10.925963907968253,
+          "step": 200,
+          "time": 2.5,
+          "phase_range": [
+            -1.0943851091935508,
+            1.0152939662502638
+          ],
+          "minority_area": 0.15205472163055184,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.1998279011211095,
+          "maximum_section_flux_error": 0.00017209887889049758,
+          "divergence_pressure_max": 1.0921819004749977e-14,
+          "divergence_fine_rms": 0.028067832130297544,
+          "divergence_fine_interior_rms": 2.468451799186842e-15,
+          "integrated_phase_rhs": -0.00048670661218419597,
+          "velocity_max": 0.3624264294518879,
+          "pressure_range": [
+            -0.07434021617390127,
+            2.244364058810292
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 4.0545344859310717e-13,
+          "linear_residual_max": 8.187228672795754e-10,
+          "krylov_iterations": 40,
+          "seconds": 11.379331376869231,
+          "step": 240,
+          "time": 3.0,
+          "phase_range": [
+            -1.0844697525071383,
+            1.0151037946287118
+          ],
+          "minority_area": 0.15205490295285723,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.19982792814785078,
+          "maximum_section_flux_error": 0.00017207185214923593,
+          "divergence_pressure_max": 1.1660811205516097e-14,
+          "divergence_fine_rms": 0.02806784871821932,
+          "divergence_fine_interior_rms": 2.4527332551346236e-15,
+          "integrated_phase_rhs": -0.00048634707951584387,
+          "velocity_max": 0.3579952229092379,
+          "pressure_range": [
+            -0.07433998605360405,
+            2.2544951138465663
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 5.406786129924512e-13,
+          "linear_residual_max": 8.571921436550944e-10,
+          "krylov_iterations": 40,
+          "seconds": 11.244804938789457,
+          "step": 280,
+          "time": 3.5,
+          "phase_range": [
+            -1.0774965607760147,
+            1.018618470325365
+          ],
+          "minority_area": 0.15205508018127806,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.19982798100232907,
+          "maximum_section_flux_error": 0.00017201899767094186,
+          "divergence_pressure_max": 9.967721092962734e-15,
+          "divergence_fine_rms": 0.028067832763745065,
+          "divergence_fine_interior_rms": 2.380534020843954e-15,
+          "integrated_phase_rhs": -0.000487029503020993,
+          "velocity_max": 0.3484507948028504,
+          "pressure_range": [
+            -0.07434042321158009,
+            2.2600303612047883
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 6.02629057766535e-13,
+          "linear_residual_max": 1.0672018130319927e-09,
+          "krylov_iterations": 40,
+          "seconds": 11.318681452888995,
+          "step": 320,
+          "time": 4.0,
+          "phase_range": [
+            -1.0716336947762721,
+            1.0245759597683388
+          ],
+          "minority_area": 0.15205527277609418,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.19982809684517983,
+          "maximum_section_flux_error": 0.00017190315482018548,
+          "divergence_pressure_max": 1.0436096431476471e-14,
+          "divergence_fine_rms": 0.028067854726798503,
+          "divergence_fine_interior_rms": 2.4376916855634e-15,
+          "integrated_phase_rhs": -0.0004864542612089656,
+          "velocity_max": 0.33753948515343196,
+          "pressure_range": [
+            -0.07434044830590349,
+            2.2534659934612145
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 6.046274592108603e-13,
+          "linear_residual_max": 1.147268571810578e-09,
+          "krylov_iterations": 40,
+          "seconds": 11.231196999084204,
+          "step": 360,
+          "time": 4.5,
+          "phase_range": [
+            -1.0667502181208979,
+            1.02599376383658
+          ],
+          "minority_area": 0.1520553902589318,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.19982812412831485,
+          "maximum_section_flux_error": 0.0001718758716851565,
+          "divergence_pressure_max": 1.1560197243909442e-14,
+          "divergence_fine_rms": 0.028067869725414408,
+          "divergence_fine_interior_rms": 2.4517520774928285e-15,
+          "integrated_phase_rhs": -0.0004867240519275512,
+          "velocity_max": 0.34613665900006935,
+          "pressure_range": [
+            -0.07434051601781909,
+            2.23906787196236
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 5.613287612504791e-13,
+          "linear_residual_max": 1.215354927808221e-09,
+          "krylov_iterations": 40,
+          "seconds": 11.373965580016375,
+          "step": 400,
+          "time": 5.0,
+          "phase_range": [
+            -1.062102386268586,
+            1.0230462514462453
+          ],
+          "minority_area": 0.15205525635766393,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.19982799941541807,
+          "maximum_section_flux_error": 0.0001720005845819439,
+          "divergence_pressure_max": 9.457712391025552e-15,
+          "divergence_fine_rms": 0.028067842042245637,
+          "divergence_fine_interior_rms": 2.4401642372141667e-15,
+          "integrated_phase_rhs": -0.0004866011805332374,
+          "velocity_max": 0.3435928855049593,
+          "pressure_range": [
+            -0.07434101327123291,
+            2.2347072550797273
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 4.787281682183675e-13,
+          "linear_residual_max": 1.4212027110716008e-09,
+          "krylov_iterations": 40,
+          "seconds": 11.546862391754985,
+          "step": 440,
+          "time": 5.5,
+          "phase_range": [
+            -1.0589499033869156,
+            1.0190991105976757
+          ],
+          "minority_area": 0.15205490249750586,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.19982792951019032,
+          "maximum_section_flux_error": 0.0001720704898096892,
+          "divergence_pressure_max": 1.3558598688234724e-14,
+          "divergence_fine_rms": 0.02806768365566345,
+          "divergence_fine_interior_rms": 2.466957067447755e-15,
+          "integrated_phase_rhs": -0.00048560284665744637,
+          "velocity_max": 0.34962874899851354,
+          "pressure_range": [
+            -0.07434293289579681,
+            2.2457932684636397
+          ]
+        },
+        {
+          "iterations": 3,
+          "residual_max": 3.583522367733849e-13,
+          "linear_residual_max": 1.263472881873895e-09,
+          "krylov_iterations": 40,
+          "seconds": 11.145753027871251,
+          "step": 480,
+          "time": 6.0,
+          "phase_range": [
+            -1.0556184356944027,
+            1.0152701415756342
+          ],
+          "minority_area": 0.1520547768543741,
+          "inlet_flux": 0.19996875000000003,
+          "outlet_flux": 0.19982799945305968,
+          "maximum_section_flux_error": 0.00017200054694033184,
+          "divergence_pressure_max": 1.3988810110276972e-14,
+          "divergence_fine_rms": 0.028067450997166156,
+          "divergence_fine_interior_rms": 2.4222093779045737e-15,
+          "integrated_phase_rhs": -0.00048500594344010983,
+          "velocity_max": 0.35633098932057056,
+          "pressure_range": [
+            -0.07434217235896476,
+            2.2567170112903683
+          ]
+        }
+      ],
+      "scope": "Original unweighted phi L2; positive-time flow L2; minority/contour diagnostics. GMLS uses first derivatives and fluxes different from PINO AD/SBP. Spatial/time/pressure-boundary compatibility validation still required."
+    },
+    "explicit_refinement_limits": {
+      "phi": 0.025,
+      "terminal_phi": 0.025,
+      "velocity": 0.025,
+      "pressure": 0.08
+    },
+    "space_gate_passed": true,
+    "time_gate_passed": true,
+    "fine_maximum_section_flux_error_over_driving_Q": 0.0008665827251633229,
+    "flux_gate_passed": true,
+    "reference_gate_passed": true
+  },
+  "final_refinement": {
+    "status_path": "/root/autodl-tmp/data/channel_nsch2d/direct-gmls-validation-20261101-01/status.json",
+    "space_difference": {
+      "phi": 0.013465297762209004,
+      "terminal_phi": 0.013730220809968241,
+      "velocity": 0.00788984921411895,
+      "pressure": 0.0639255118711345
+    },
+    "time_difference": {
+      "phi": 0.0013668980477103696,
+      "terminal_phi": 0.002120361812990698,
+      "velocity": 0.00037649195782983694,
+      "pressure": 0.004062381485355443
+    },
+    "limits": {
+      "phi": 0.025,
+      "terminal_phi": 0.025,
+      "velocity": 0.025,
+      "pressure": 0.08
+    },
+    "fine_maximum_section_flux_error_over_driving_Q": 0.0008665827251633229,
+    "space_gate_passed": true,
+    "time_gate_passed": true,
+    "flux_gate_passed": true,
+    "reference_gate_passed": true,
+    "independent_raw_common_query_metric_recomputation": true,
+    "scope": "Finite nominal-geometry tolerances; coarse flux failure retained; not continuum convergence proof"
+  }
+}

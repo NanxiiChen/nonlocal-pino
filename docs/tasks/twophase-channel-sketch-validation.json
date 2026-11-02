@@ -1,0 +1,67 @@
+{
+  "status": "passed",
+  "scope": "Concept drawing only; no simulated fields",
+  "source": "/root/nonlocal-pinn/docs/tasks/twophase-channel-sketch.html.in",
+  "fragment": "/root/.codex/visualizations/2026/10/24/01a16d71-2d47-7201-9441-ab74e0523152/twophase-channel-sketch.html",
+  "bytes": 6934,
+  "source_copy_equal": true,
+  "viewports": [
+    {
+      "theme": "light",
+      "viewport": 800,
+      "root_width": 768,
+      "horizontal_overflow": false,
+      "svg_label_overflow": false,
+      "svg_label_collisions": false,
+      "screenshot": "/root/.codex/visualizations/2026/10/24/01a16d71-2d47-7201-9441-ab74e0523152/twophase-channel-light-800.png"
+    },
+    {
+      "theme": "light",
+      "viewport": 390,
+      "root_width": 358,
+      "horizontal_overflow": false,
+      "svg_label_overflow": false,
+      "svg_label_collisions": false,
+      "screenshot": "/root/.codex/visualizations/2026/10/24/01a16d71-2d47-7201-9441-ab74e0523152/twophase-channel-light-390.png"
+    },
+    {
+      "theme": "light",
+      "viewport": 320,
+      "root_width": 288,
+      "horizontal_overflow": false,
+      "svg_label_overflow": false,
+      "svg_label_collisions": false,
+      "screenshot": "/root/.codex/visualizations/2026/10/24/01a16d71-2d47-7201-9441-ab74e0523152/twophase-channel-light-320.png"
+    },
+    {
+      "theme": "dark",
+      "viewport": 800,
+      "root_width": 768,
+      "horizontal_overflow": false,
+      "svg_label_overflow": false,
+      "svg_label_collisions": false,
+      "screenshot": "/root/.codex/visualizations/2026/10/24/01a16d71-2d47-7201-9441-ab74e0523152/twophase-channel-dark-800.png"
+    },
+    {
+      "theme": "dark",
+      "viewport": 390,
+      "root_width": 358,
+      "horizontal_overflow": false,
+      "svg_label_overflow": false,
+      "svg_label_collisions": false,
+      "screenshot": "/root/.codex/visualizations/2026/10/24/01a16d71-2d47-7201-9441-ab74e0523152/twophase-channel-dark-390.png"
+    },
+    {
+      "theme": "dark",
+      "viewport": 320,
+      "root_width": 288,
+      "horizontal_overflow": false,
+      "svg_label_overflow": false,
+      "svg_label_collisions": false,
+      "screenshot": "/root/.codex/visualizations/2026/10/24/01a16d71-2d47-7201-9441-ab74e0523152/twophase-channel-dark-320.png"
+    }
+  ],
+  "javascript_errors": [],
+  "geometry": "Smooth C2 compact-support wall bump; fixed inlet/outlet",
+  "droplets": "Schematic positions; equal ellipse/circle area is a drawing convention"
+}

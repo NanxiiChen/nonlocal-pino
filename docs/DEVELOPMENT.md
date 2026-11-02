@@ -22,6 +22,12 @@ examples/<name>/
 Keep reference solvers independent from PINN operators when they are intended
 to measure model or discretisation error.
 
+The channel FEM reference optionally accepts a read-only `diagnostic_callback`
+receiving `(time, (velocity, pressure, phi, mu), mesh, facet_tags)` at saved
+snapshots. The absent-hook path retains the original equations and outputs.
+Separate native weak natural-BC traces from algebraic residuals; validate this
+hook with unchanged saved fields before interpreting new boundary diagnostics.
+
 ## APIs And Naming
 
 Use the shared loss-factory shape:
@@ -52,6 +58,315 @@ def make_loss_fn(x_all, D, ...physical_params...,
   and required input files at startup.
 - Fail loudly with context. Never catch an arbitrary exception and silently
   switch to another numerical method.
+
+Channel NS--CH optionally selects `time_discretization.kind=bdf2` with explicit
+dt, replacing time AD in training by BE-started BDF2 physical states from the
+same current model. Actual interval identities are logged; no predecessor is
+frozen. Optional `phase_transport.kind=sbp4_mapped_curl` adds six explicit
+known-input arrays (two derivative matrices, two norm vectors, mapping Jacobian
+and physical SBP measure) to the original ten-array geometry payload. The
+encoder inputs remain unchanged. Matching quadrature and conservative mapped
+phase fluxes do not imply energy/mass stability of the full mixed GMLS/NS
+scheme. Current defaults retain the original experimental AD/GMLS recipe.
+
+The explicit extension `time_derivative={kind:jvp,sampling:continuous_stratified}`
+instead uses `network.time_jets` for physical time derivatives and retains the
+GMLS spatial PDE/BC gradients and Laplacians. It cannot coexist with BDF2.
+`sample_continuous` draws one continuous time from each equal stratum afresh
+on every update. A compiled sampler is shared with canonical global-key replay;
+saved `sampling.npz` then has no discrete `intervals`. Forty collocation times
+are not a finite-difference step. Time points do not interact in the decoder,
+so the all-ones JVP tangent produces each point's own derivative without forming
+a full time Jacobian. Streamfunction velocity is differentiated as a physical
+field, including its mixed space/time derivative. No unused residual spatial
+AD Hessians are computed in this path.
+
+`configs/train_operator_width128_gmls_time40_adaptive_jvp_online.py` changes only
+the time operator/sampling from the adaptive BDF control. The finite runner
+requires that matching completed adaptive BDF run as `--comparison-control`.
+Coldmodel/fullSOAP, initial/final geometry banks and every actual condition draw
+must match; continuous time arrays intentionally differ and are independently
+replayed. The JVP path uses `diagnose_time` for unweighted losses on the complete
+trained spatial grid at240independent continuous probe times, on the nominal
+and one final-pool geometry. These are canonical PDE/BC diagnostics, not an
+independent discretisation/continuum certificate or a BDF full-time audit.
+
+The explicit `train_operator_width128_gmls_time40_jvp_uniform_online.py` uses
+the same timeJVP path with uniform losses, retaining the unweighted
+`make_accumulated_fn` step. No causal prefix/controller is constructed. The
+strict comparison admits either this uniformJVP versus matching uniformBDF,
+or the existing adaptiveJVP versus matching adaptiveBDF; a uniform/causal
+mismatch is rejected. The finite owner requires and audits that matching
+comparison even when causal is absent. Its resource probe checks the complete
+unweighted gradient and actual continuous global-key sampling, and records no
+adaptive-feedback result for the uniform branch. Existing causal/BDF paths
+remain separate; no model/loss-scale/physical output semantics change.
+
+Channel optional `loss.chemical_residual_scale` must be an explicit positive
+finite real scalar and is rejected with eliminated chemical rows. It overrides
+only the chemical PDE-row normalizer. `loss.chemical_scale` remains the physical
+mu decoder amplitude and the explicit legacy row normalizer when the new field
+is absent; preserve that old branch exactly. Never describe changing legacy
+`chemical_scale` as a loss-only ablation. The chemical research preset keeps
+output4/boundary4 and sets row1, with unchanged nine-part/fixed-shape APIs.
+`summary.json` and independent continuous-time diagnostics record both roles;
+unweighted diagnostics mean no causal discount, not unnormalized physical units.
+The frozen constitutive diagnostic reconstructs physical RMS and uses the saved
+independent normalizer if present. Strict paired validation permits only the new
+normalizer and run name, requires an original shared-scale control, and checks
+complete cold model/SOAP and all actual initial/final banks and sampling arrays.
+
+The finite channel owner separately accepts `--geometry-control` for a cold
+geometry-only study. It permits only upper/lower wall amplitudes, prior bounds
+and artifact paths to differ from an audited source. Initial model/fullSOAP
+bytes and actual time/condition/online draw identities must match, while each
+different geometry-input stream is independently reconstructed. Do not route
+this through the unchanged same-geometry `--comparison-control` or claim equal
+physical fields/banks. The stronger preset needs its own refined local FEM;
+frozen transfer is explicitly labeled extrapolation beyond the source prior.
+
+The channel `online.py` controller has opt-in cold-training integration, with
+explicit workers/refresh_size/refresh_every/prefetch_batches and the unchanged
+continuous two-amplitude prior. CPU workers rebuild the canonical geometry/GMLS
+(and optional SBP) inputs without PDE/FEM trajectories, then cast finalized
+arrays. FIFO counters, bounded prefetch, known-field schemas and direct draw IDs
+are tested. `configs/train_operator_conservative_online.py` is an untrained
+research preset; production-resolution training and unseen-geometry accuracy
+remain required before claiming validated online operator learning. Canonical
+train.py uses a context-managed producer, donated fixed-shape pool replacement,
+actual sampled draw IDs/amplitudes and final pool inputs/state. Evaluation
+geometry inputs are separately owned and stored. `audit_training_inputs`
+reconstructs the FIFO stream, actual sampled geometries and final payloads.
+Online continuation is explicitly rejected until full pool recovery exists.
+
+The opt-in channel `boundary_sampling` record requires exactly
+`kind=gauss_legendre`, integer `points_per_side>=2`, and
+`encoder=unchanged_midpoints`, with the explicit GMLS derivative path.
+The existing `boundary/boundary_weights` arrays then store the BC-loss rule;
+`encoder_boundary/encoder_boundary_weights` preserve the original midpoint
+conditioning stream. These extra arrays have explicit fixed shapes and are
+validated/reconstructed in online input audits. Gradient targets follow the
+BC-loss queries. Graph-wall quadrature includes the arc-length Jacobian;
+open Gauss nodes avoid assigning a single normal to a corner vertex. Absence
+preserves all old payloads, encoding and physical fields. Increasing encoder
+token count is a separate architecture/conditioning change.
+
+The GMLS/BDF2/conservative-flux joint path permits the existing explicit
+`balance` settings: stopped inverse-L1-gradient-norm weights over phase,
+chemical, momentum and boundary groups. This changes only the loss metric,
+not any primal residual or sampling weight. It is not learned GradNorm.
+Stagger remains excluded from this combination: a conservative-flux lagging
+rule needs its own primal-parity validation before enabling that path.
+
+Channel `train.microbatch={kind:time,size:8}` optionally accumulates gradients
+for a complete `sample.Nt=40` random time batch. The size must divide Nt. Each
+block uses the same current parameters; the averaged gradient is clipped and
+sent to SOAP once. This is not sequential time integration. The initial path
+requires cold joint losses, without balancing/stagger/refinement; causal uses
+the separate explicit path below.
+`configs/train_operator_width128_gmls_time40_online.py` is a finite5k control
+preserving the original GMLS model and boundary rule. Forty equal strata each
+contain six of the240positive BDF nodes; averaging is unbiased for the original
+full-time mean. It does not force the first positive node on every update.
+This pilot precedes a separate matched40-time causal experiment; causal is not
+enabled by increasing Nt or by accumulating gradients.
+
+Optional channel `causal` explicitly selects `kind=coupled_prefix_mse`,
+`weight_gradient=stop` and `boundary=same_time_weights`. It
+requires cold original GMLS/streamfunction joint losses with BDF or explicit
+time JVP and time microbatches.
+`make_time_parts_fn` returns(condition,time,nineparts) without mixing geometry
+prefixes; the unchanged mean-loss API retains its original reduction order.
+Use shared `CausalWeightor.compute_weights` on the sum of nine scaled MSE terms.
+First evaluate small per-time vectors without AD, stop global40-time weights,
+then differentiate/accumulate8-time blocks with these fixed weights. Never
+reset causal prefixes at block boundaries. The legacy noncausal step remains
+separate. Epsilon is a dynamic scalar in the opt-in compiled step.
+
+The historical fixed-stage preset declares positive increasing `epsilon_values`
+and `steps_per_epsilon` whose stages exactly cover the training budget. Its
+(.01,.1,1,10,100)/1000updates schedule is preserved for replay, not recommended
+as a convergence-based controller.
+
+`configs/train_operator_width128_gmls_time40_adaptive_causal_online.py` instead
+declares `causal.adaptation` with exactly `kind=weight_feedback`, `eps_init`,
+`step_size`, `max_eps`, `max_last_weight`, `min_mean_weight` and
+`geometry_reduction=minimum`; fixed schedule fields cannot coexist. Reuse shared
+`CausalWeightor.update_eps` independently per geometry and take the minimum
+proposal for the common dynamic scalar. Every update increases only when all
+last weights exceed the threshold, decreases if any mean falls below its
+threshold, otherwise holds. Require `0<eps_init<=max_eps`, `step_size>1` and
+`1/Nt<min_mean_weight<max_last_weight<1`; the mean has floor1/Nt because w0=1.
+Current explicit settings are1,1.1,100,.99,.5. This is feedback from freshly
+sampled inputs/times, not a full-time or population convergence certificate.
+`causal-controller.jsonl` records EVERY used/next epsilon plus each geometry's
+mean/last weight; `audit_trace` independently replays all transitions and checks
+periodic full-prefix/objective records against them. Feedback is stopped and
+does not add trainable leaves or change model/SOAP/physical residuals.
+
+Physical/unweighted/weighted diagnostics remain distinct. The finite owner
+additionally requires an audited
+`--comparison-control` and checks coldmodel/fullSOAP bytes, all actual initial/
+final geometry arrays and sampling histories, plus independent saved-array L2.
+Complete unweighted240node and droplet checks remain required; sampled causal
+weights do not certify full-time convergence. No default promotion is implied.
+
+Channel optional `derivatives` explicitly selects `kind=gmls_first`,
+`boundary=gmls`, `velocity=unchanged_streamfunction_ad`, together with BDF2 or the
+explicit time-JVP extension and
+`phase_transport={kind:gmls_conservative,quadrature:sbp4_mapped}`. Five extra known
+arrays store domain x/y weights plus boundary neighbor indices/x/y weights.
+Preserve integer boundary indices when casting/auditing rolling inputs. First
+residual derivatives and div(phi*v) use GMLS; physical velocity remains the same
+AD streamfunction curl, with no new continuity loss. SBP arrays supply the old
+loss measure only in this path, not an exact conservation identity. Baseline
+configs/checkpoints keep their original arithmetic. Prior Laplacian screens do
+not certify new boundary gradients; every actual construction validates them.
+
+`docs/tasks/channel_online_train_runner.py` owns one explicitly requested cold
+20k online run through canonical `train.py`, followed by saved-run input/field,
+phase-balance, droplet-shape and gallery checks. It requires explicit config,
+run name, seed, reference root and matching input-construction screen. Its atomic
+external journal reports the active child and actual latest loss/refresh; a
+detached `screen` session owns the runner independently of the chat terminal.
+This finite wrapper starts no FEM solve, retries or later experiments and does
+not restore the cleared goal schedulers. Intermediate model checkpoints still
+lack complete rolling-pool/optimizer recovery; only a completed run supplies the
+final audited pool/state. Do not reinterpret those snapshots as an exact online
+resume.
+
+Online channel presets may explicitly name `operator.validation_manifest`.
+`cohort.py` freezes independent uniform-prior geometry parameters and direct case
+paths, with strict physical-family/draw checks; this file contains no evolved
+labels. Initial and rolling inputs reject both exact and training-precision
+matches with reserved amplitudes, recorded in reserved_geometries.npz and the
+independent input audit. `cohort_evaluate.py` requires every reserved FEM gate,
+reports individual/mean/worst and geometry-response diagnostics, and validates
+physical flux/no-slip/initial constraints on each domain. Solver `--saved-config`
+reads exact run JSON instead of a dotted preset; it is mutually exclusive with
+`--config` and changes no FEM equations or boundary conditions.
+The Python `cohort.prepare(c,path,count,query_grid)` requires an explicit pair
+of positive query-grid integers; its CLI requires `--query-grid Nx Ny`. The
+newer frozen manifest keeps the same16parameter draws but uses101x43midpoints
+instead of96x40(which coincided with192x80training nodes). Preserve both scopes
+and old files. The final pipeline includes16unseen FEM trios plus one separate
+nominal-development trio, with all gates before frozen GPU evaluation.
+
+Channel geometry-response validation now additionally freezes an explicit
+`response_queries` protocol at identical physical coordinates in the maximum-
+constriction common subdomain. Keep the16parameter draws/primary own-domain
+queries unchanged. Optional FEM `--common-query-grid` exports additional fields
+from the same trajectory; `validate_reference` requires both sets to pass the
+same space/time limits when present. Legacy exports retain their original
+fields/checks. Cohort evaluation uses common coordinates for the beat-blind-mean
+response gate, keeps mapped-coordinate response separately and excludes
+unprescribed initial pressure from flow-response metrics. The research watcher
+requires an explicit absolute `--response-protocol` path and first performs a
+short isolated FEM export-compatibility fixture after GPU work exits. That
+fixture is not a validated reference. Physical config validation must remain
+free of JAX/Equinox imports, including optional initializer path checks.
+
+Channel `train.continuation` supports complete-parent direct-path imports with
+`kind=strict`, `kind=refine`, `kind=operator` or `kind=time_refine`. All restore model AND full SOAP state, global
+RNG/LR counters and parent physical replay into a new run. Strict permits only
+budget/log changes; refine additionally permits integer spatial Nx/Ny increases.
+Replay the parent with its original encoder quadrature before measuring the
+refined-conditioning field change. Reject unsupported online/GradNorm/stagger
+state recovery, missing state files or numerical-setting changes. This contract
+does not reinterpret or move legacy checkpoints.
+Operator refinement additionally permits higher GMLS polynomial degree, no
+fewer neighbors and an explicit positive weight exponent; condition limits,
+physics/model/output semantics and all other settings stay fixed. Record exact
+before/after operators and independently check unchanged physical predictions
+before updates. Wider condition-prior construction screening remains separate
+from solution accuracy. No unknown-field fallback or conditioning relaxation.
+Time refinement permits only an explicit strictly smaller integer subdivision
+of the same BDF2 dt. It changes training rates and time draws, not the network's
+physical output semantics, spatial operator, LR/count or moment state. Record
+the before/after time discretizations; unchanged strict contracts still reject
+that change. Rate consistency probes do not establish solution accuracy.
+
+Channel `train.refinement` selects the canonical deterministic full-time L-BFGS
+mode, with required parent_run/optimizer/iterations/time_batch/history_size/
+max_evaluations/max_line_search/gradient_tolerance/function_tolerance. The first
+mode requires one uniform, original-variable finite geometry and a complete
+audited SOAP parent with unchanged numerical/physical settings. Host FP64
+accumulation retains the configured neural dtype(FP32 in the current preset)
+and averages gradients over every positive BDF node; it
+does not freeze history states or train time windows. Keep inherited input/
+sampling bytes explicitly distinct from new deterministic support. Independent
+validation checks parent bytes, nodes and actual objective counts before field
+replay. Retain parent SOAP state under its own name; final SciPy position/
+gradient does not support exact-history recovery and is not a complete SOAP
+continuation parent. Optimizer termination and accepted/evaluation counts stay
+explicit, including a finite-budget exit without convergence.
+
+Optional channel `pressure_coordinate.kind=chemical_shift` versions only the
+raw pressure semantics as Pi=p+phi*mu, with physical p=Pi-phi*mu returned for
+all derivatives, outlet traction and reference comparisons. It adds no parameter
+leaves; missing record retains old checkpoints exactly. Its product-rule force
+identity uses the current AD first derivatives, not an assumed GMLS product rule.
+Frozen-basis accuracy is worse, so this option remains experimental/off.
+
+The channel full-time finisher optionally declares `droplet_metric` with explicit
+kind=frozen_soft_phase, contrast, temperature, fields, normalization=interior_mean
+and source=parent_model. Its positive mean-one weights derive only from parent
+phase predictions at every BDF node. They stay fixed during L-BFGS, preserving
+a genuine scalar objective/gradient pair. The runtime loss batch adds a separate
+droplet_weights array; saved known_inputs and inherited sampling retain the old
+schema/bytes. Store phase/weights/time in frozen_droplet_metric.npz; final audit
+re-evaluates the parent over all nodes and reconstructs weights. Parent whitelist
+permits this metric-only extension, not combined coordinate/stress changes.
+Missing option preserves original arithmetic/checkpoints. Pure physical config
+validation remains independent of JAX. This is experimental residual weighting;
+do not identify it as an output constraint or use reference evaluation masks in
+the training metric. No online/fresh-state support is implied by this extension.
+
+Channel optional `stress_formulation` explicitly requires kind=cauchy_mixed,
+initialization=preserve_original and a positive constitutive_scale. Six raw
+outputs replace pressure by three Cauchy stresses; physical five-field APIs
+retain p=-trace(sigma)/2. The two independent deviatoric constitutive equations
+are evaluated in the interior and at boundary queries; all original physical
+BC losses stay intact. There is no extra pressure/trace/continuity loss. First
+controls reject coordinate/balance/stagger combinations. Absence preserves old
+four-output arithmetic. The full-time importer whitelists only this output
+extension, copies all parent arrays except the declared output rows, initializes
+sigma=-parent_p*I, and audits the reconstructed initial model. This adds194
+parameters at width96; old SOAP state is provenance, not a compatible shape
+restart. Cold online initialization preserves its original four-field function
+the same way. Spatial stress gradients use AD, GMLS remains for phi/mu, and no
+all-spatial nonlocal claim follows. Recipes remain experimental until measured.
+
+Channel optional `time_embedding=linear_log` splits an even existing Fourier
+width equally between normalized linear and log1p time coordinates, keeping
+raw t/T and the explicit common maximum frequency. Its positive physical scale
+is explicit. It changes decoder features only, not the physical BDF2 times or
+hard lifting, and adds no model leaves. Missing record retains original linear
+arithmetic. Feature/full-gradient tests pass; the first degree3run stopped before
+updates is not an accuracy outcome. A separate cold degree4combination has
+completed with worse phase/pressure accuracy and is not a promoted default.
+An explicit optional `initialization=preserve_linear` retains an old linear
+half-width model's function while adding zero-weight log coordinates. Transfer
+targets the actual time-encoder MLP first layer, not a nonexistent Linear time
+field. Copy every other array; use structural array indices for eqx.tree_at,
+not a selector that branches on leaf values. For width96/8->16directions the
+first input matrix grows96x17->96x33, adding1536weights. Older records without
+the initialization field retain their original constructor/RNG behavior.
+The full-time finisher allows only this whitelisted expansion from a matching
+linear-time parent. Preserve model_parent.eqx, reconstruct/verify the padded
+initial model and check physical replay; original strict continuation contracts
+remain unchanged. This is extra input capacity, not a transformed PDE/loss or
+an exact optimizer-state transfer. No accuracy promotion follows from parity.
+
+Channel full-time refinement optionally declares `stress_initializer` with
+exact kind/model/report/quadratic fields. `physics_auxiliary_block` imports
+only a verified frozen-feature stress fit from the original four-output parent.
+Require absolute paths, exact parent config/stress recipe/full BDF support,
+actual FP32 objective reduction and unchanged physical replay. Reconstruct every
+rounded output row from stored coefficients and compare every model array;
+copy the three payloads into the run and repeat in the final audit. The original
+isotropic transfer remains the missing-record behavior. No cold online default,
+optimizer state, PDE metric, training labels or checkpoint semantics change.
 
 Confined CH optionally enables `operator.online` for a bounded continuously
 refreshed geometry pool. Its explicit fields are workers, refresh_size,
@@ -156,6 +471,32 @@ local AD Hessian traces; spectral flux and the projected-field time JVP remain
 identical. Its point-network Hessian is valid because the grid mass shift is
 constant in a spatial query. Compare fields against one common reference and
 keep native targets separate.
+
+The separate `channel_nsch2d` pilot solves full matched-property unsteady NS--CH
+on a smooth nonperiodic graph channel; it does not replace the prescribed-flow
+`twophase2d`. Canonical train.py selects configs/train_operator.py; the tested
+SOAP recipe remains an accuracy-failed pilot, not SOTA. Only upper/lower inward
+amplitudes vary. Boundary/domain point
+streams share the common encoder; a case-local multichannel decoder retains
+physical(phi,mu,ux,uy,p). The streamfunction extension instead learns raw(phi,
+mu,psi,p), obtains velocity by AD, and imposes flux/divergence/no-slip/inlet and
+initial velocity exactly. It omits a redundant continuity loss. Missing optional
+velocity/lifting records preserve the direct5channel/linear earlier pilots;
+explicit linear and normalized-direct presets retain their recipes.
+
+This channel experiment uses a polynomial-reproducing QR-GMLS physical-node
+Laplacian, with spatial AD (including psi Hessians), time JVP and explicit actual-
+wall/outlet residuals. GMLS is a finite-neighborhood differentiation control,
+not the established regional pair kernel or an automatically conservative/no-
+flux closure. Keep that scope visible in results. Independent P2/P1/P2/P2 FEM
+uses BE-started BDF2, symmetric hydrodynamic outlet traction0 and capillary force
+-phi*grad(mu), with no extra pressure anchor. Training requires embedded matching
+physical identities and a passing predeclared space/time gate. Never run FEM
+MPI and JAX GPU together. The initial trial has one384query development FEM
+geometry; a config field cannot substitute for an actual evaluation cohort.
+Evolved reference labels are used only in reporting. Saved actual draws,
+geometry-bank arrays, source snapshots and validate_run.py support replay and
+hard-flow/phase-area diagnostics; no open-domain constant-mass projection.
 
 The melting local FEM solver is rewritten for the random-ellipsoid operator:
 `examples/icemelting3d/solver.py` requires an explicit dotted config module,
@@ -771,3 +1112,46 @@ fixed-budget `summary.json`/`model_final.eqx`/`optimizer_final.eqx`. An explicit
 that option a completed parent is required. Full SOAP recovery through an
 intermediate pair is independently tested. No checkpoint
 I/O changes the numerical updates, learning-rate schedule or PRNG counters.
+
+
+Channel optional `stream_lifting={kind:normalized_inlet}` requires explicit
+normalized lifting and streamfunction velocity. It reuses `lifting.inlet_length_scale`
+and replaces only the streamfunction inlet envelope by the square of the
+normalized inlet gate. Absence retains original `(x/L)^2` arithmetic.
+The finite runner/comparison requires a completed original-envelope adaptiveJVP
+control and exact cold raw state/fullSOAP/all actual times/geometry inputs.
+Positive-time initial physical velocities intentionally differ; do not equate
+raw-parameter parity with physical-field parity after an ansatz change.
+
+`stream_lifting.kind=normalized_height` is a second explicit channel option,
+using the existing positive channel height in the squared exponential gate.
+The original `normalized_inlet` kind continues to use the phase inlet scale;
+its narrow-layer NS conditioning failure is retained in the task record.
+No new required default/length is introduced. Strict matched-control audits
+still require the original adaptiveJVP baseline, identical rawinitial/SOAP/
+actualtime/geometry streams, and explicitly different positive-time coldvelocity.
+
+Channel `chemical_constraint={kind:interior_gmls_projection,boundary:decoder_trace,
+query:mapped_bilinear}` eliminates only interior nodal mu from the chemical
+relation. It requires original-variable GMLS/conservative flux/timeJVP joint
+losses. Retain boundary nodal values and independent decoder boundary traces;
+omit the redundant chemical soft term (eight remaining terms). Physical query
+factories live in `projected_fields.py`; raw point `fields`/`potentials` reject
+this flag. Precompute/save/replay `evaluation_query_rule.npz` from the actual
+training-dtype coordinates. Native values use exact identity lookup; nonnative
+values use mapped bilinear interpolation or retained boundary traces. Do not
+interpret that query-value rule as a classical spatial-AD mu extension.
+
+The corresponding research refinement explicitly declares
+`train.initialization={kind:physics_model,source_run:/absolute/run,optimizer:fresh}`.
+The source must be a completed audited pure-physics original JVP model. Strict
+config comparison allows only this initializer/chemical flag/lr_init/run name.
+Import the final model only, initialize complete SOAP state from its factory,
+and start fresh pool/RNG/global counters. This is a global-time physics-only
+model refinement, not cold training, exact optimizer continuation, or time
+windowing. Record/audit parent-model bytes, complete fresh optimizer bytes and
+actual sampling/input parity. Config/source-path validation must not import JAX.
+Unweighted diagnostics and physical replay use projected mu consistently;
+preserve all old-branch numerical gates and report the unequal cumulative
+training budget when comparing the source and new stage. No default promotion
+or accuracy claim follows from algebraic elimination.
