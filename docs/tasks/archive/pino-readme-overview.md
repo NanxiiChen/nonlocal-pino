@@ -86,4 +86,4 @@ The user subsequently requested a single root asset directory and publication.
 The four PNGs are now at assets/pino/<case>.png, with all current references
 updated and original bytes preserved. This supersedes the per-example paths
 described in the historical implementation above. See
-[asset organization/publication](../pino-readme-assets-publication.md).
+[asset organization/publication](pino-readme-assets-publication.md).

@@ -1,5 +1,5 @@
 {
-  "status": "central_assets_and_all_current_paths_verified",
+  "status": "published_to_origin_main",
   "moves": [
     {
       "source": "examples/icemelting3d/assets/pino-evolution.png",
@@ -33,5 +33,15 @@
   "empty_old_asset_directories_removed": true,
   "numerical_config_changes": 0,
   "training_updates": 0,
-  "reference_solves": 0
+  "reference_solves": 0,
+  "indexed_content_guard": "2145files/25.98MiB, no report payload or file over1MiB",
+  "diff_check": "passed",
+  "documentation_commit": "78517a5",
+  "payload_main_merge": "25aa17a7886d37c256600bf02cef7ee0b15925f4",
+  "remote_main_after_payload_push": "25aa17a7886d37c256600bf02cef7ee0b15925f4",
+  "push_branch": "main",
+  "dev_pushed": false,
+  "merge_strategy": "Regular no-ff merge; no squash/rebase/reset",
+  "source_tree_equal_between_dev_and_main_after_merge": true,
+  "scope": "Primary documentation/assets and previously committed validated code published; subsequent small closeout commit records this verified publication"
 }

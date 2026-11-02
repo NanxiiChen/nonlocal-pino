@@ -8802,3 +8802,16 @@ required devcommit -> main regular merge -> origin/mainpush workflow. Keep dev
 local, preserve existing commits, and verify the actual remote branch reference.
 The deferred channel20000/lower-final-LR idea remains unlaunched. Relation:
 pino-readme-assets-publication.
+
+
+## 2026-11-02 — Record actual main-only documentation publication
+
+Committed the complete four-PINO README work and centralized exact-byte figures
+on dev78517a5. Regular mainmerge25aa17a includes the prior validated local
+NS--CH/default commits; actual origin/mainpush and separate remote SHA equality
+both pass. Only four curated PNGs,total1.79MiB,are added as binaries. Preserve
+all existing external artifacts and the deferred20000/lower-LR proposal.
+
+Archive the completed task and publish this compact receipt using the same
+regular dev -> main -> origin/main workflow. No devpush,history rewrite,new
+training/FEM or numerical retuning. Relation: pino-readme-assets-publication.
