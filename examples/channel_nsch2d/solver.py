@@ -12,6 +12,7 @@ if __package__ is None or __package__=='':
 os.environ['PKG_CONFIG_PATH']=str(Path(sys.prefix)/'lib/pkgconfig')+os.pathsep+os.environ.get('PKG_CONFIG_PATH','')
 import dolfin as df
 import numpy as np
+from examples.channel_nsch2d.geometry import random_walls,nominal_parameters,with_nominal,validate_mesh_queries,validate_parameters
 from examples.channel_nsch2d.problem import walls,initial_field,flow_rate,material,identity,validate_config
 
 
@@ -30,6 +31,8 @@ def mesh_and_markers(c,amplitudes,nx,ny):
 def fem(c,amplitudes,grid,dt,query,tag,output,*,common_query_grid=None,diagnostic_callback=None):
     """Solve the reference; optional read-only callback receives native snapshots."""
     validate_config(c)
+    validate_parameters(amplitudes,c)
+    if random_walls(c):np.testing.assert_array_equal(amplitudes,nominal_parameters(c))
     if len(grid)!=2 or any(isinstance(v,bool) or not isinstance(v,int) or v<4 for v in grid):
         raise ValueError('FEM grid requires two integer subdivision counts>=4')
     if not np.isfinite(dt) or dt<=0:raise ValueError('FEM dt must be positive finite')
@@ -47,6 +50,7 @@ def fem(c,amplitudes,grid,dt,query,tag,output,*,common_query_grid=None,diagnosti
         if np.any(common_query[:,1]<=bottom) or np.any(common_query[:,1]>=top):
             raise ValueError('Shared physical queries are outside this actual FEM geometry')
     all_queries=query if common_query is None else np.concatenate((query,common_query))
+    validate_mesh_queries(all_queries,amplitudes,c,grid[0])
     if not df.has_lu_solver_method(c.reference.linear_solver):
         raise RuntimeError('Configured FEM linear solver is unavailable')
     mesh,tags=mesh_and_markers(c,amplitudes,*grid)
@@ -148,7 +152,8 @@ def main():
     parser.add_argument('--dt',type=float,required=True)
     parser.add_argument('--query-grid',nargs=2,type=int,required=True)
     parser.add_argument('--common-query-grid',nargs=2,type=int,help='Additional fixed physical queries in the common prior subdomain')
-    parser.add_argument('--upper',type=float,required=True);parser.add_argument('--lower',type=float,required=True)
+    parser.add_argument('--upper',type=float);parser.add_argument('--lower',type=float)
+    parser.add_argument('--parameters',nargs='+',type=float,help='Explicit full random-wall coefficient vector; absent uses declared nominal')
     parser.add_argument('--output',required=True)
     args=parser.parse_args()
     if args.saved_config is None:
@@ -156,18 +161,24 @@ def main():
     else:
         from ml_collections import ConfigDict
         c=ConfigDict(json.loads(Path(args.saved_config).read_text()))
-    c.geometry.upper=args.upper;c.geometry.lower=args.lower;validate_config(c)
+    if random_walls(c):
+        if args.upper is not None or args.lower is not None:raise ValueError('Spline walls require --parameters, not two amplitudes')
+        a=nominal_parameters(c) if args.parameters is None else args.parameters
+    else:
+        if args.parameters is not None or args.upper is None or args.lower is None:raise ValueError('Legacy walls require both --upper and --lower')
+        a=(args.upper,args.lower)
+    c=with_nominal(c,a);validate_config(c)
     # Interior diagnostic queries avoid chord-versus-exact-wall ambiguity when
     # comparing two different curved-boundary FE resolutions.
     qx,qy=args.query_grid
     if min(qx,qy)<1:raise ValueError('Query-grid counts must be positive')
     x=(np.arange(qx)+.5)*c.geometry.length/qx
     e=(np.arange(qy)+.5)/qy
-    xx,ee=np.meshgrid(x,e,indexing='ij');b,t=walls(xx,(args.upper,args.lower),c,xp=np)
+    xx,ee=np.meshgrid(x,e,indexing='ij');b,t=walls(xx,a,c,xp=np)
     query=np.stack((xx,b+ee*(t-b)),axis=-1).reshape(-1,2)
     df.set_log_level(40)
     common=None if args.common_query_grid is None else tuple(args.common_query_grid)
-    _,report=fem(c,(args.upper,args.lower),tuple(args.grid),args.dt,query,'fem',args.output,common_query_grid=common)
+    _,report=fem(c,a,tuple(args.grid),args.dt,query,'fem',args.output,common_query_grid=common)
     print(json.dumps(report,indent=2),flush=True)
 
 

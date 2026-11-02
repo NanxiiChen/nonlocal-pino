@@ -11,23 +11,47 @@ import time
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 
 
-def reference_case(config_path,case,query_grid):
+def reference_case(config_path,case,query_grid,reuse_coarse=None):
     from ml_collections import ConfigDict
     from examples.channel_nsch2d.validate_reference import assess
     root=Path(__file__).resolve().parents[2];folder=Path(case['root']);folder.mkdir(exist_ok=False)
     config=ConfigDict(json.loads(Path(config_path).read_text()))
-    config.geometry.upper,config.geometry.lower=case['amplitudes'];config.reference.root=str(folder)
+    from examples.channel_nsch2d.geometry import with_nominal,random_walls
+    config=with_nominal(config,case['amplitudes']);config.reference.root=str(folder)
+    (folder/'config.json').write_text(config.to_json(indent=2)+'\n')
     env=dict(os.environ);env.pop('VIRTUAL_ENV',None);env['JAX_PLATFORMS']='cpu'
     for name in ('OPENBLAS_NUM_THREADS','OMP_NUM_THREADS','MKL_NUM_THREADS','NUMEXPR_NUM_THREADS'):env[name]='1'
     fenics='/root/miniconda3/envs/fenicsenv/bin/python'
     for tag,grid,dt in (('coarse',config.reference.coarse_grid,config.reference.refined_dt),
                        ('time',config.reference.fine_grid,config.reference.dt),
                        ('fine',config.reference.fine_grid,config.reference.refined_dt)):
+        if tag=='coarse' and reuse_coarse is not None:
+            import numpy as np
+            import shutil
+            from examples.channel_nsch2d.problem import identity,walls
+            from examples.channel_nsch2d.response_queries import validate_arrays
+            source=Path(reuse_coarse)
+            metadata=json.loads(source.with_suffix('.json').read_text())
+            if metadata['grid']!=list(grid) or metadata['dt']!=dt:raise ValueError('Reusable coarse grid/dt mismatch')
+            with np.load(source,allow_pickle=False) as f:d={k:f[k] for k in f.files}
+            if json.loads(str(d['identity_json']))!=json.loads(json.dumps(identity(config))):raise ValueError('Reusable coarse physical identity differs')
+            np.testing.assert_array_equal(d['amplitudes'],case['amplitudes'])
+            np.testing.assert_array_equal(d['time'],np.linspace(0,config.physical.terminal_time,config.reference.snapshots))
+            qx,qy=query_grid;xx,ee=np.meshgrid((np.arange(qx)+.5)*config.geometry.length/qx,(np.arange(qy)+.5)/qy,indexing='ij')
+            b,t=walls(xx,case['amplitudes'],config,xp=np)
+            np.testing.assert_array_equal(d['points'],np.stack((xx,b+ee*(t-b)),axis=-1).reshape(-1,2))
+            validate_arrays(d,config)
+            if d['fields'].shape!=(config.reference.snapshots,qx*qy,5) or not np.isfinite(d['fields']).all():raise ValueError('Invalid reusable fields')
+            shutil.copyfile(source,folder/'bdf-coarse.npz');shutil.copyfile(source.with_suffix('.json'),folder/'bdf-coarse.json')
+            (folder/'coarse-reuse.json').write_text(json.dumps(dict(source=str(source),identity_queries_grid_dt_checked=True,
+                byte_exact=(folder/'bdf-coarse.npz').read_bytes()==source.read_bytes()),indent=2)+'\n')
+            continue
         command=[fenics,'-m','examples.channel_nsch2d.solver','--saved-config',str(config_path),
             '--grid',*[str(v) for v in grid],'--dt',str(dt),'--query-grid',*[str(v) for v in query_grid],
             '--common-query-grid',*[str(v) for v in query_grid],
-            '--upper',str(case['amplitudes'][0]),'--lower',str(case['amplitudes'][1]),
             '--output',str(folder/f'bdf-{tag}.npz')]
+        command += (['--parameters',*[str(v) for v in case['amplitudes']]] if random_walls(config) else
+                    ['--upper',str(case['amplitudes'][0]),'--lower',str(case['amplitudes'][1])])
         with (folder/f'{tag}.log').open('x') as log:
             subprocess.run(command,cwd=root,env=env,stdout=log,stderr=subprocess.STDOUT,check=True)
     report=assess(config,folder/'bdf-coarse.npz',folder/'bdf-time.npz',folder/'bdf-fine.npz')

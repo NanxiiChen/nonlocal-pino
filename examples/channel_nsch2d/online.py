@@ -9,6 +9,8 @@ from pathlib import Path
 import time
 
 
+from examples.channel_nsch2d.geometry import parameter_count,sample_parameters,coefficient_bounds
+
 DRAW_NAMESPACE=314159
 
 
@@ -62,7 +64,7 @@ def sample_geometry(c,draw_id):
     if isinstance(draw_id,bool) or not isinstance(draw_id,int) or draw_id<0:
         raise ValueError('Online draw identity must be a nonnegative integer')
     rng=np.random.default_rng(np.random.SeedSequence([c.train.seed,DRAW_NAMESPACE,draw_id]))
-    return rng.uniform(c.geometry.amplitude_min,c.geometry.amplitude_max,2)
+    return sample_parameters(c,rng)
 
 
 def validate_payload(data,c):
@@ -72,7 +74,7 @@ def validate_payload(data,c):
     n=(c.sample.Nx+1)*(c.sample.Ny+1);k=c.nl.neighbors
     b=4*(c.boundary_sampling.points_per_side if 'boundary_sampling' in c else c.sample.boundary_points)
     shapes=dict(points=(n,2),volumes=(n,),neighbors=(n,k),laplacian=(n,k),
-        interior=(n,),amplitudes=(2,),boundary=(b,5),boundary_weights=(b,),
+        interior=(n,),amplitudes=(parameter_count(c),),boundary=(b,5),boundary_weights=(b,),
         domain=(n,3),domain_weights=(n,))
     shapes.update(boundary_payload_shapes(c))
     if 'phase_transport' in c:
@@ -112,7 +114,7 @@ def validate_payload(data,c):
                     raise ValueError(f'Online {name} disagrees with declared geometry/quadrature')
     np.testing.assert_array_equal(data['domain'][:,:2],data['points'])
     np.testing.assert_array_equal(data['domain_weights'],data['volumes'])
-    bounds=np.asarray([c.geometry.amplitude_min,c.geometry.amplitude_max],dtype=c.train.compute_dtype)
+    bounds=np.asarray(coefficient_bounds(c),dtype=c.train.compute_dtype)
     if np.any(data['amplitudes']<bounds[0]) or np.any(data['amplitudes']>bounds[1]):
         raise ValueError('Online wall amplitudes outside declared prior')
 
@@ -185,7 +187,7 @@ def audit_training_inputs(run,c):
     if len(refresh)!=count or len(records)!=count*size:raise ValueError('Incomplete online refresh/input log')
     dtype=np.dtype(c.train.compute_dtype)
     amplitudes=initial['amplitudes'].astype(dtype).copy();ids=-1-np.arange(capacity,dtype=np.int64)
-    if sampled['draw_ids'].shape!=sampled['indices'].shape or sampled['amplitudes'].shape!=(*sampled['indices'].shape,2):
+    if sampled['draw_ids'].shape!=sampled['indices'].shape or sampled['amplitudes'].shape!=(*sampled['indices'].shape,parameter_count(c)):
         raise ValueError('Sampled rolling geometry identities do not align with actual slot draws')
     if np.any(np.all(amplitudes[:,None,:]==reserved.astype(dtype)[None,:,:],axis=-1)):
         raise ValueError('Initial training bank contains the reserved evaluation geometry')
@@ -237,8 +239,8 @@ class RollingGeometryPool:
         import numpy as np
         validate_online(c)
         self.c=c;self.run=Path(run);self.forbidden=np.asarray(forbidden_amplitudes,dtype=np.float64)
-        if self.forbidden.ndim!=2 or self.forbidden.shape[1]!=2 or not np.isfinite(self.forbidden).all():
-            raise ValueError('Forbidden geometry parameters must be a finite(N,2) array')
+        if self.forbidden.ndim!=2 or self.forbidden.shape[1]!=parameter_count(c) or not np.isfinite(self.forbidden).all():
+            raise ValueError('Forbidden geometry parameters must match the finite(N,parameter_count) family')
         self.capacity=c.operator.train_conditions;self.size=c.operator.online.refresh_size
         self.draw_ids=-1-np.arange(self.capacity,dtype=np.int64)
         self.count=0;self.last_step=-1;self.next_batch=0;self.jobs=deque()

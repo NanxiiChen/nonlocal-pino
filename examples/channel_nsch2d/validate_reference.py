@@ -5,6 +5,7 @@ import importlib
 import json
 import numpy as np
 from examples.channel_nsch2d.problem import walls,identity
+from examples.channel_nsch2d.geometry import envelope_parameters,nominal_parameters
 from examples.channel_nsch2d.response_queries import KEYS,validate_arrays
 
 
@@ -40,6 +41,7 @@ def assess(c,coarse_path,time_path,fine_path):
         if not np.isfinite(d['fields']).all():raise ValueError('Nonfinite reference field')
         if d['fields'].shape!=(c.reference.snapshots,len(d['points']),5):
             raise ValueError('Reference fields must match all snapshots, query points and five physical channels')
+        np.testing.assert_array_equal(d['amplitudes'],nominal_parameters(c))
         np.testing.assert_array_equal(d['points'],fine['points'])
         np.testing.assert_array_equal(d['time'],fine['time'])
     bottom,top=walls(fine['points'][:,0],fine['amplitudes'],c,xp=np)
@@ -48,7 +50,7 @@ def assess(c,coarse_path,time_path,fine_path):
     if any(KEYS & set(d) for d in arrays):
         specs=[validate_arrays(d,c) for d in arrays]
         if any(spec!=specs[0] for spec in specs):raise ValueError('Common physical query protocols differ across FEM refinements')
-        bottom,top=walls(fine['common_points'][:,0],np.full(2,c.geometry.amplitude_max),c,xp=np)
+        bottom,top=walls(fine['common_points'][:,0],envelope_parameters(c),c,xp=np)
         common=dict(protocol=specs[0],query_points=len(fine['common_points']),
             checks=refinement_checks(coarse['common_fields'],time['common_fields'],fine['common_fields'],top-bottom))
     diagnostics=json.loads(Path(fine_path).with_suffix('.json').read_text())['diagnostics']

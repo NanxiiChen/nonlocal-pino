@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 
-def main(config, run_name, seed, reference_root, construction_screen, comparison_control=None, geometry_control=None,balance_control=None,operator_control=None):
+def main(config, run_name, seed, reference_root, construction_screen, comparison_control=None, geometry_control=None,balance_control=None,operator_control=None,random_wall_control=None,capacity_control=None,capacity_probe=None,hardware_trial=False,memory_fraction=None):
     from examples.channel_nsch2d.problem import identity, validate_config
     from examples.channel_nsch2d.cohort import reserved_amplitudes
     from examples.channel_nsch2d.online import validate_construction_screen
@@ -27,7 +27,51 @@ def main(config, run_name, seed, reference_root, construction_screen, comparison
     validate_config(c)
     from examples.channel_nsch2d.initialization import model_initialization_spec
     initialization=model_initialization_spec(c)
-    if operator_control is not None:
+    if hardware_trial and capacity_control is None:
+        raise ValueError('Hardware execution trial requires the explicit capacity control/probe')
+    if memory_fraction is not None and (not hardware_trial or not 0<memory_fraction<=.97):
+        raise ValueError('Explicit allocator fraction in(0,.97] requires the hardware execution trial')
+    if capacity_control is not None:
+        if any(v is not None for v in (comparison_control,geometry_control,balance_control,operator_control,random_wall_control,initialization)):
+            raise ValueError('Capacity trial requires an independent cold width/batch/budget comparison')
+        if capacity_probe is None or not Path(capacity_probe).is_absolute():
+            raise ValueError('Capacity trial requires its absolute qualified resource-probe path')
+        if hardware_trial:
+            from examples.channel_nsch2d.capacity_validation import execution_config as comparison_config
+        else:
+            from examples.channel_nsch2d.capacity_validation import comparison_config
+        comparison_config(c,capacity_control)
+        resource=json.loads((Path(capacity_probe)/'result.json').read_text())
+        if hardware_trial:
+            gpu_uuid=subprocess.check_output(['nvidia-smi','--query-gpu=uuid','--format=csv,noheader'],text=True).strip()
+            if resource['hardware_trial']['gpu_uuid']!=gpu_uuid:
+                raise ValueError('Hardware resource probe belongs to a different physical GPU')
+            if 'allocator_fraction' in resource['hardware_trial']:
+                if memory_fraction!=resource['hardware_trial']['allocator_fraction']:
+                    raise ValueError('Actual allocator fraction must explicitly match the aggressive probe')
+                memory_limit=min(.95*resource['hardware_trial']['total_memory_bytes'],
+                    .97*resource['memory']['bytes_limit'])
+            else:
+                if memory_fraction is not None:raise ValueError('Legacy hardware probe did not qualify an allocator override')
+                memory_limit=min(.9*resource['hardware_trial']['total_memory_bytes'],
+                    .95*resource['memory']['bytes_limit'])
+        else:memory_limit=28*2**30
+        actual=json.loads(c.to_json());qualified=resource['config']
+        actual['log']['run_name']=qualified['log']['run_name']
+        if (resource['status']!='finite_production_probe_passed' or resource['updates']<7
+                or resource['memory']['peak_bytes_in_use']>memory_limit
+                or actual!=qualified or resource['fitted_probe_weights_exported']
+                or not resource['capacity_trial']['full_geometry_pool_on_device']
+                or not resource['capacity_trial']['finite_nominal_evaluation']):
+            raise ValueError('Capacity resource probe did not qualify this complete cold configuration')
+    elif capacity_probe is not None:
+        raise ValueError('Capacity probe belongs only to the declared capacity comparison')
+    elif random_wall_control is not None:
+        if any(v is not None for v in (comparison_control,geometry_control,balance_control,operator_control,initialization)):
+            raise ValueError('Random-wall control requires a cold geometry-family extension only')
+        from examples.channel_nsch2d.random_wall_validation import comparison_config
+        comparison_config(c,random_wall_control)
+    elif operator_control is not None:
         if any(v is not None for v in (comparison_control,geometry_control,balance_control,initialization)):
             raise ValueError('Operator control requires an independent cold derivative-only comparison')
         from examples.channel_nsch2d.integral_validation import comparison_config
@@ -56,10 +100,10 @@ def main(config, run_name, seed, reference_root, construction_screen, comparison
     if ('online' not in c.operator or 'continuation' in c.train or 'refinement' in c.train
             or 'droplet_metric' in c or 'phase_metric' in c or 'residual_transform' in c):
         raise ValueError('This finite cold online pilot requires original residuals and fresh optimizer state')
-    if (c.operator.train_conditions != 16 or c.operator.condition_batch != 2
+    if capacity_control is None and (c.operator.train_conditions != 16 or c.operator.condition_batch != 2
             or (c.train.iterations,c.sample.Nt) not in ((20000,4),(5000,40))):
         raise ValueError('Finite pilot requires16pool/B2 and either20k/Nt4 or5k/Nt40')
-    if c.sample.Nt==40 and ('microbatch' not in c.train
+    if capacity_control is None and c.sample.Nt==40 and ('microbatch' not in c.train
             or c.train.microbatch.to_dict()!=dict(kind='time',size=8)):
         raise ValueError('The40-time pilot requires the explicitly validated8-time accumulation')
     if not Path(reference_root).is_absolute() or not Path(construction_screen).is_absolute():
@@ -81,6 +125,7 @@ def main(config, run_name, seed, reference_root, construction_screen, comparison
         raise RuntimeError('Require1GiBfree for input/state snapshots and finite diagnostics')
     env = dict(os.environ, JAX_PLATFORMS='cuda', OPENBLAS_NUM_THREADS='4',
                OMP_NUM_THREADS='4', MKL_NUM_THREADS='4', NUMEXPR_NUM_THREADS='4', PYTHONUNBUFFERED='1')
+    if memory_fraction is not None:env['XLA_PYTHON_CLIENT_MEM_FRACTION']=str(memory_fraction)
     record = dict(status='preflight_passed', runner_pid=os.getpid(), run=str(run),
         started_utc=datetime.now(timezone.utc).isoformat(), config=config, seed=seed,
         initialization=(initialization if initialization is not None else 'cold; no checkpoint or optimizer import'), requested_steps=c.train.iterations,
@@ -89,6 +134,9 @@ def main(config, run_name, seed, reference_root, construction_screen, comparison
         geometry_control=geometry_control,
         balance_control=balance_control,
         operator_control=operator_control,
+        random_wall_control=random_wall_control,
+        capacity_control=capacity_control,capacity_probe=capacity_probe,
+        hardware_trial=hardware_trial,memory_fraction=memory_fraction,
         construction_screen=construction_screen, screen_summary=screen,
         reserved_geometry_count=len(reserved), prepared_config=json.loads(c.to_json()),
         stages=[], automatic_goal=None, new_FEM_solves=0,
@@ -133,9 +181,10 @@ def main(config, run_name, seed, reference_root, construction_screen, comparison
                                 if complete:
                                     record[key] = json.loads(complete[-1])
                         parity_key='model_stage_state_parity'if initialization is not None else 'cold_state_parity'
-                        if any(v is not None for v in (comparison_control,geometry_control,balance_control,operator_control)) and 'latest_monitor' in record and parity_key not in record:
+                        if any(v is not None for v in (comparison_control,geometry_control,balance_control,operator_control,random_wall_control)) and 'latest_monitor' in record and parity_key not in record:
                             import numpy as np
-                            original=Path(operator_control if operator_control is not None else
+                            original=Path(random_wall_control if random_wall_control is not None else
+                                operator_control if operator_control is not None else
                                 balance_control if balance_control is not None else
                                 comparison_control if comparison_control is not None else geometry_control)
                             if initialization is not None:
@@ -148,16 +197,16 @@ def main(config, run_name, seed, reference_root, construction_screen, comparison
                             if operator_control is not None:
                                 from examples.channel_nsch2d.integral_validation import audit_cold_inputs
                                 record[parity_key]=audit_cold_inputs(run,operator_control)
-                            elif geometry_control is None:
+                            elif geometry_control is None and random_wall_control is None:
                                 with np.load(run/'known_inputs.npz',allow_pickle=False) as x,np.load(original/'known_inputs.npz',allow_pickle=False) as y:
                                     if set(x.files)!=set(y.files):raise ValueError('Actual causal initial input schema differs')
                                     for name in x.files:np.testing.assert_array_equal(x[name],y[name])
                             if operator_control is None:
                                 record[parity_key]=dict(status='passed',cold=initialization is None,
-                                    fresh_geometry_bank_exact=geometry_control is None,first_monitor_step=record['latest_monitor']['step'])
+                                    fresh_geometry_bank_exact=geometry_control is None and random_wall_control is None,first_monitor_step=record['latest_monitor']['step'])
                             if operator_control is not None:
                                 record[parity_key]['cold']=True
-                            elif geometry_control is not None:
+                            elif geometry_control is not None or random_wall_control is not None:
                                 record[parity_key].update(initial_model_complete_optimizer_exact=True,
                                     geometry_inputs_intentionally_changed=True)
                             elif initialization is None:
@@ -165,6 +214,9 @@ def main(config, run_name, seed, reference_root, construction_screen, comparison
                             else:
                                 record[parity_key].update(initial_model_exactly_parent_final=True,
                                     complete_optimizer_exactly_fresh=True,optimizer_and_pool_counters_resumed=False)
+                        if capacity_control is not None and 'latest_monitor' in record and 'capacity_cold_state' not in record:
+                            from examples.channel_nsch2d.capacity_validation import audit_probe_state
+                            record['capacity_cold_state']=audit_probe_state(run,capacity_probe)
                     write(); time.sleep(15)
             finally:
                 if child.poll() is None:
@@ -210,6 +262,16 @@ def main(config, run_name, seed, reference_root, construction_screen, comparison
             matched=audit_comparison(run,operator_control)
             (run/'operator-control-validation.json').write_text(json.dumps(matched,indent=2,allow_nan=False)+'\n')
             record['operator_control_validation']=matched;write()
+        if random_wall_control is not None:
+            from examples.channel_nsch2d.random_wall_validation import audit_comparison
+            matched=audit_comparison(run,random_wall_control)
+            (run/'random-wall-control-validation.json').write_text(json.dumps(matched,indent=2,allow_nan=False)+'\n')
+            record['random_wall_control_validation']=matched;write()
+        if capacity_control is not None:
+            from examples.channel_nsch2d.capacity_validation import audit_comparison
+            matched=audit_comparison(run,capacity_control,capacity_probe,hardware_trial=hardware_trial)
+            (run/'capacity-control-validation.json').write_text(json.dumps(matched,indent=2,allow_nan=False)+'\n')
+            record['capacity_control_validation']=matched;write()
         if 'time_derivative' in c:
             execute('continuous_time_residual',['-m','examples.channel_nsch2d.diagnose_time',
                 '--run='+str(run),'--output='+str(run/'continuous-time-residual'),
@@ -221,6 +283,24 @@ def main(config, run_name, seed, reference_root, construction_screen, comparison
             execute('full_time_residual', ['docs/tasks/channel_pde_bc_diagnosis.py',
                 '--run='+str(run),'--output='+str(run/'full-time-residual'),
                 '--residual-only'],cpu)
+        if random_wall_control is not None or capacity_control is not None:
+            execute('unseen_geometry_evaluation',['-m','examples.channel_nsch2d.cohort_evaluate',
+                '--run='+str(run),'--manifest='+c.operator.validation_manifest,'--output='+str(run/'unseen3')],env)
+            for index in range(3):
+                case=run/'unseen3'/f'case_{index:03d}'
+                execute(f'unseen_phi_gallery_{index}',['-m','examples.channel_nsch2d.evaluate',
+                    '--fields='+str(case/'prediction.npz'),'--output='+str(case/'phi-fields'),
+                    '--field=phi','--times','0','1.5','3','4.5','6'],cpu)
+            record['finite_cohort']=dict(geometries=3,evaluation=str(run/'unseen3'/'evaluation.json'),
+                scope='Predeclared held-out conditional-prior draws; no continuous-prior guarantee')
+        if capacity_control is not None:
+            sources=[]
+            for saved_source in (run/'source').rglob('*.py'):
+                relative=saved_source.relative_to(run/'source')
+                if saved_source.read_bytes()!=(ROOT/relative).read_bytes():
+                    raise ValueError(f'Capacity training source changed: {relative}')
+                sources.append(str(relative))
+            record.update(source_byte_checks=len(sources),source_files=sources)
         record.update(status='completed_with_saved_run_audits', completed_utc=datetime.now(timezone.utc).isoformat(),
             active_child_pid=None, final_metrics=summary['metrics'], online=summary['online'],
             shape_report=str(run/'droplet-shape/metrics.json'), population_accuracy_validated=False)
@@ -239,5 +319,10 @@ if __name__ == '__main__':
     parser.add_argument('--geometry-control',help='Completed source for an explicit geometry-only cold study')
     parser.add_argument('--balance-control',help='Completed fixed-scale source for the nine-term adaptive control')
     parser.add_argument('--operator-control',help='Completed GMLS source for the integral derivative control')
+    parser.add_argument('--random-wall-control',help='Completed integral single-bump control for the explicit random-wall extension')
+    parser.add_argument('--capacity-control',help='Audited random-wall128/B2/5k control for the192/B8/10k trial')
+    parser.add_argument('--capacity-probe',help='Qualified production-grid capacity resource probe')
+    parser.add_argument('--hardware-trial',action='store_true',help='Use a qualified40-time divisor and this physical GPU memory limit')
+    parser.add_argument('--memory-fraction',type=float,help='Explicit allocator fraction, required for an aggressive resource probe')
     args = parser.parse_args()
-    main(args.config, args.run_name, args.seed, args.reference_root, args.construction_screen,args.comparison_control,args.geometry_control,args.balance_control,args.operator_control)
+    main(args.config, args.run_name, args.seed, args.reference_root, args.construction_screen,args.comparison_control,args.geometry_control,args.balance_control,args.operator_control,args.random_wall_control,args.capacity_control,args.capacity_probe,args.hardware_trial,args.memory_fraction)

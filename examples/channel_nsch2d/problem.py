@@ -1,5 +1,6 @@
 """Known geometry/initial/driving data; no numerical solver or JAX imports."""
 import numpy as np
+from examples.channel_nsch2d.geometry import random_walls,profiles,validate_geometry
 
 
 def smoothstep(z,*,xp):
@@ -8,6 +9,7 @@ def smoothstep(z,*,xp):
 
 
 def walls(x,amplitudes,c,*,xp):
+    if random_walls(c):return profiles(x,amplitudes,c,xp=xp)
     s=(x-c.geometry.center)/c.geometry.half_length
     b=xp.maximum(1.-s*s,0.)**4
     bottom=amplitudes[1]*b
@@ -16,6 +18,7 @@ def walls(x,amplitudes,c,*,xp):
 
 
 def wall_slopes(x,amplitudes,c,*,xp):
+    if random_walls(c):return profiles(x,amplitudes,c,xp=xp,derivative=True)
     s=(x-c.geometry.center)/c.geometry.half_length
     derivative=-8.*s*xp.maximum(1.-s*s,0.)**3/c.geometry.half_length
     return amplitudes[1]*derivative,-amplitudes[0]*derivative
@@ -51,17 +54,12 @@ def validate_config(c):
         if ('derivatives' not in c or 'chemical_constraint'in c
                 or 'time_derivative'not in c or any(k in c for k in ('balance','causal'))):
             raise ValueError('Integral pilot requires explicit timeJVP/PDE+BC derivatives and fixed joint losses')
-    positive=(g.length,g.height,g.half_length,p.density,p.viscosity,p.mean_velocity,
+    positive=(g.length,g.height,p.density,p.viscosity,p.mean_velocity,
         p.surface_tension,p.epsilon,p.mobility,p.terminal_time,p.ramp_time,
         c.initial.radius,c.initial.transition)
     if not all(np.isfinite(v) and v>0 for v in positive):
         raise ValueError('Geometry/material/time/initial scales must be positive finite')
-    if not (0<=g.amplitude_min<g.amplitude_max<g.height/2):
-        raise ValueError('Independent inward amplitudes require 0<=min<max<H/2')
-    if not (g.half_length<g.center<g.length-g.half_length):
-        raise ValueError('Compact wall indentation must preserve straight inlet/outlet')
-    if not (0<=g.upper<=g.amplitude_max and 0<=g.lower<=g.amplitude_max):
-        raise ValueError('Requested reference geometry outside amplitude bounds')
+    straight_end=validate_geometry(c)
     integers=(c.sample.Nx,c.sample.Ny,c.sample.Nt,c.sample.boundary_points,
         c.train.iterations,c.operator.train_conditions,c.operator.condition_batch,
         c.log.eval_every,c.log.checkpoint_every,c.reference.snapshots)
@@ -297,7 +295,7 @@ def validate_config(c):
             raise ValueError('Stagger requires complete phase/flow cycles and a nonempty joint tail')
     r=np.sqrt(c.initial.radius**2+2*c.initial.radius*c.initial.transition)
     x,y=c.initial.center
-    if not (r<x<g.center-g.half_length-r and r<y<g.height-r):
+    if not (r<x<straight_end-r and r<y<g.height-r):
         raise ValueError('Whole compact initial droplet must lie in the common straight inlet region')
     for dt in (c.reference.dt,c.reference.refined_dt):
         if not np.isfinite(dt) or dt<=0:raise ValueError('Reference dt must be positive finite')

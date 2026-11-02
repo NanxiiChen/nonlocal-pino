@@ -1,19 +1,49 @@
 # Smooth-channel full NS–CH pilot
 
 This experimental example develops geometry-only operator learning for a full,
-unsteady incompressible Navier–Stokes/Cahn–Hilliard model. It is currently under
-validation of neural accuracy; its independent FEM reference has passed refinement.
+unsteady incompressible Navier–Stokes/Cahn–Hilliard model. The selected random-wall
+operator has completed cold training and evaluation against refinement-validated
+independent local FEM references on one development and three reserved geometries.
 The existing periodic
 `twophase2d` prescribed-flow pilot is unchanged.
 
 ## Default training configuration
 
-`train.py` defaults to `configs/train_default.py`, selecting the validated
-stronger-channel fixed-weight recipe: width128/four heads, SOAP5000/lr1e-3,
-ordinary FP32/highest, GMLS spatial PDE/BC derivatives, physical timeJVP with40
-fresh stratified times and eight-time gradient blocks, rolling16geometry pool/B2.
-Nominal wall amplitudes are upper.18/lower.12; both training amplitudes are drawn
-independently from[.06,.20]. Fresh runs receive automatic timestamp names.
+`train.py` defaults to `configs/train_default.py`, selecting the completed
+random-wall recipe in `train_operator_random_walls_width192_batch8_time20.py`.
+New runs start cold and receive automatic timestamp names. Seeds are runtime
+provenance through `--seed`, not strategy configuration fields.
+
+| Setting | Default |
+|---|---|
+| Geometry | Independent upper/lower smooth profiles,8B-spline coefficients per wall; minimum aperture[.55,.70] |
+| Network | Width192,4heads (48channels/head),2condition blocks,3decoder layers;64spatial Fourier directions |
+| Training | SOAP10000updates,lr1e-3,beta1=beta2=.9,precondition every5updates; ordinary FP32/highest |
+| Geometry sampling | Online16-slot pool, batch8with replacement;2CPU workers replace2slots every50updates |
+| Time sampling |40fresh continuous stratified times per update, physical timeJVP; terminal time6 |
+| Spatial derivatives | Moment-corrected quadratic-kernel integral operators, horizon.075,capacity128,degree3; conservative phase flux |
+| Time gradient blocks |20times each; average both same-parameter gradients before one SOAP update |
+
+The qualified RTX PRO6000 96GB run used **88.06GiB peak active memory** and
+about1.88seconds/update (5.42hours training wall time). Set the allocator fraction
+explicitly for this aggressive default:
+
+```bash
+source .venv/bin/activate
+XLA_PYTHON_CLIENT_MEM_FRACTION=0.97 python -m examples.channel_nsch2d.train
+```
+
+For smaller cards, explicitly select
+`configs/train_operator_random_walls_width192_batch8.py` (two-time blocks,
+about19GiB active), or its `_time8.py` variant (about40.2GiB active).
+These keep the same full40-time objective and10000update budget; floating-point
+reduction order and training trajectories can differ. No automatic memory
+fallback is applied. A32GB example is:
+
+```bash
+python -m examples.channel_nsch2d.train \
+  --config=examples/channel_nsch2d/configs/train_operator_random_walls_width192_batch8.py
+```
 
 All nine soft losses are summed after their fixed residual normalization:
 
@@ -26,30 +56,45 @@ All nine soft losses are summed after their fixed residual normalization:
 | Wall/outlet chemical Neumann |4|
 | Outlet traction |1|
 
-Chemical-potential output amplitude remains4; this is independent of the
-chemical-row divisor1. Stream/pressure output amplitudes are.2/1. Adaptive
-gradient balancing, causal weights and tanh residual transformation are absent
-from the default. The explicit allterms preset below retains the adaptive
-research option. Historical `configs/train_operator.py` keeps the original
-mild width96/Nt4 pilot for reproducibility.
+Chemical-potential output amplitude remains4, independent of the chemical-row
+divisor1. Stream/pressure output amplitudes are.2/1. Known initial fields,
+inlet data and stationary-wall velocity use hard lifts. Streamfunction curl
+still uses spatial AD; integral derivatives do not automatically impose all
+physical boundary conditions. Adaptive gradient balancing, causal weights,
+staggering and tanh residual transformation are absent from this default.
 
-```bash
-source .venv/bin/activate
-python -m examples.channel_nsch2d.train
-```
+The default loads the existing local-FEM reference by direct path:
+`/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development`.
+The independent three-case manifest is
+`/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/manifest.json`.
+These evolved fields are evaluation labels only; training uses zero evolved-field
+labels. New FEM references must match the physical configuration and pass spatial
+and temporal refinement. Do not overlap FEM/MPI and JAX GPU work.
 
-The default references the existing refinement-validated local FEM at
-`/root/autodl-tmp/data/channel_nsch2d/stronger-reference-20261102-01`.
-Independent reference generation must use the same physical config and wall
-amplitudes and pass the three-solve refinement procedure described below.
-Do not overlap FEM/MPI and JAX GPU runs. The selected saved fixed-scale run has
-phi1.947%,velocity3.059%,pressure3.945% on one nominal development geometry;
-population and cross-seed accuracy remain unverified. Full comparison and
-limitations are in the [nine-term experiment](../../docs/tasks/archive/channel-allterms-gradnorm.md).
+The selected saved10000checkpoint is
+`/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/model_final.eqx`.
+Its relative L2 errors against local FEM are:
+
+| Evaluation | Phase, all saved times | Phase at t=6 | Velocity | Pressure | Chemical potential |
+|---|---:|---:|---:|---:|---:|
+| Development geometry |2.68%|4.05%|1.67%|5.89%|14.10%|
+| Three reserved geometries, mean |1.84%|2.27%|2.02%|5.41%|15.92%|
+
+Each geometry uses3840physical query points and13saved times; velocity,
+pressure and chemical errors exclude time0. Worst reserved pressure error is
+9.03%. These are three predeclared, reused validation cases, not a large blind
+test or cross-seed guarantee. The monitored phase minimum at8500was not saved;
+the default is based on the actual10000weights. Final replay, hard constraints,
+online-input/cold-SOAP checks and240independent-time diagnostics completed.
+Historical presets retain their old values, including the stronger single-bump
+GMLS recipe and `configs/train_operator.py` mild pilot. Full evidence is in the
+[random-wall task record](../../docs/tasks/archive/channel-random-wall-pilot.md).
 
 ## Formulation and optional controls
 
-The upper/lower walls independently indent inward using a compact smooth bump;
+The upper/lower stationary walls independently indent inward using the smooth
+random profiles defined in the random-wall section below. The historical
+single-bump presets use a compact smooth bump;
 their amplitude sum controls narrowing and their difference produces centerline
 displacement. Inlet/outlet straight sections, initial droplet and all physical
 parameters/driving laws stay fixed. No internal holes or extra offset parameter.
@@ -94,8 +139,8 @@ b(x)=\max\{1-[(x-2)/0.9]^2,0\}^4,\qquad
 y_b=a_b b(x),\quad y_t=1-a_t b(x).
 $$
 
-By default, each inward amplitude is drawn uniformly from[.06,.20]. Only these two geometry
-parameters vary; no random velocity, material, initial phase or future trajectory.
+In the historical stronger single-bump preset, each inward amplitude is drawn
+uniformly from[.06,.20]. Only those two geometry parameters vary; no random velocity, material, initial phase or future trajectory.
 The default keeps16geometry/operator inputs in a rolling pool, replacing2every50
 updates using two CPU workers. No evolved field labels are in that bank. The
 historical mild pilot instead used[.04,.14] and a fixed16-input bank.
@@ -118,7 +163,7 @@ separate learned field. The default uses the original residual; optional tanh
 coordinate/residual controls are documented below.
 
 The shared heterogeneous point encoder receives two weighted streams:
-192boundary tokens(x,y,nx,ny,type) and15633domain tokens(x,y,phi0), at width128
+192boundary tokens(x,y,nx,ny,type) and15633domain tokens(x,y,phi0), at width192
 with4heads and2condition blocks. Coordinate cross-attention prepares features
 once per spatial set; a3layer temporal decoder reuses them across query times.
 Different geometries have different physical coordinates, with fixed tensor
@@ -293,10 +338,12 @@ For independent FEM, deactivate `.venv` and activate `fenicsenv`; never run its
 MPI solver concurrently with JAX GPU work. Repeat the solver for grid40×16/
 dt.025,64×24/dt.05,and64×24/dt.025, then pass all three to validate_reference:
 
-The commands below reproduce the historical mild geometry. For the current
-default, pass `--config=examples.channel_nsch2d.configs.train_default` to both
+The commands below reproduce the historical mild geometry. To reproduce the
+stronger single-bump geometry, pass the explicit stronger GMLS config to both
 modules, use solver amplitudes `--upper .18 --lower .12`, and export matching
-`--query-grid 96 40` points in every solve. Select fresh output paths.
+`--query-grid 96 40` points in every solve. The random-wall default instead uses
+its16coefficients and the qualified reference trios described below. Select
+fresh output paths.
 
 ```bash
 python -m examples.channel_nsch2d.solver --grid 64 24 --dt .025 --query-grid 32 12 \
@@ -349,8 +396,8 @@ collocation checks before a larger network or accuracy claim.
 Run-specific results and exact resume state are in
 [the task record](../../docs/tasks/archive/channel-nsch-pilot.md).
 
-The default uses physical timeJVP and precomputed polynomial-reproducing
-QR-GMLS spatial gradients/Laplacians on physical domain/wall nodes. The physical
+The default uses physical timeJVP and precomputed moment-corrected integral
+spatial gradients/Laplacians on physical domain/wall nodes. The physical
 streamfunction-to-velocity curl remains spatial AD.
 
 Current derivative paths are explicit:
@@ -359,13 +406,13 @@ Current derivative paths are explicit:
 |---|---|
 | Physical time derivatives | Time JVP |
 | Velocity from psi | Spatial AD: ux=psi_y,uy=-psi_x |
-| First field/pressure gradients, normal gradients and outlet stress | Precomputed QR-GMLS |
-| Physical Laplacians of phi,mu,ux,uy | Precomputed36neighbor cubic-polynomial QR-GMLS |
+| First field/pressure gradients, normal gradients and outlet stress | Precomputed moment-corrected integral operators |
+| Physical Laplacians of phi,mu,ux,uy | Integral operators: horizon.075,capacity128,cubic moments |
 | Loss gradients with respect to parameters | Reverse AD through all operations |
 
-An explicit integral control is available as
+The original single-bump integral control remains available as
 `configs/train_operator_width128_integral_time40_jvp_stronger_online.py`.
-It retains the selected fixed-normalization default's physics, stronger geometry
+It retains the historical stronger GMLS recipe's physics, single-bump geometry
 prior, network, hard lifts, timeJVP40, SOAP5000 and rolling input identities.
 Only the spatial PDE/BC stencils and corresponding flux selector change.
 Its kernel is the same quadratic radial influence used by the repository's
@@ -406,7 +453,7 @@ Laplacian coefficients may change sign and need not form a symmetric pair
 matrix. Do not infer automatic Neumann closure, exact mass/energy preservation,
 pressure stability, or validated continuum convergence from moment consistency.
 The original positive symmetric regional scalar Laplacian remains a distinct
-scheme. The fixed GMLS default and saved results are unchanged. Run status and
+scheme. Historical fixed GMLS presets and their saved results are unchanged. Run status and
 measured comparison belong to the
 [completed integral control](../../docs/tasks/archive/channel-integral-nonlocal-control.md).
 
@@ -940,8 +987,8 @@ reference labels, masks, output map or equation. An independent normalizer is
 rejected when the chemical row is eliminated. The finite comparison requires
 the completed original shared-scale control and exact initial model/fullSOAP /
 actual time/geometry input parity. Reports record both scale roles explicitly.
-This chemical-row1 recipe is selected by the default through its stronger
-geometry variant below; earlier finite validation is recorded in the
+This chemical-row1 recipe is retained by the random-wall default through its
+stronger-geometry/integral ancestors; earlier finite validation is recorded in the
 [completed task](../../docs/tasks/archive/channel-derivative-clarification.md).
 
 `configs/train_operator_width128_gmls_time40_jvp_stronger_online.py` retains
@@ -953,8 +1000,9 @@ refinement-validated reference. Evaluating the earlier frozen operator at
 upper amplitude.18 is extrapolation beyond its original[.04,.14] prior;
 distinguish that from training on the wider family. The finite experiment is
 recorded in [the completed stronger-constriction task](../../docs/tasks/archive/channel-stronger-constriction.md).
-`train_default.py` selects this exact validated configuration with an empty
-run-name field for fresh automatic naming; the historical preset is unchanged.
+This remains an explicit historical preset. `train_default.py` now selects
+the validated width192/B8random-wall configuration described at the top, with
+fresh automatic naming; the historical preset values are unchanged.
 
 Formulation background: [Jacqmin1999](https://doi.org/10.1006/jcph.1999.6332),
 [Abels–Garcke–Grün](https://arxiv.org/abs/1104.1336). Full coupled feedback and
@@ -1046,3 +1094,78 @@ failed the unchanged physical-mu timeJVP primal replay gate (2.786e-5 versus
 reproduced this limitation, and tested materialization barriers did not fix it.
 FP64 contract tests do not establish production FP32 replay or shape accuracy.
 See the active investigation for the current result and resume point.
+
+## Random smooth-wall geometry and smaller presets
+
+`configs/train_operator_random_walls.py` extends the channel geometry only.
+Upper and lower stationary inward profiles each have8positive quartic B-spline
+coefficients, with a compact C3 septic taper on x=[1.15,2.75], taperwidth.35.
+Uniform coefficient proposals[.01,.45] are accepted only when the exact
+piece-polynomial extrema satisfy minimumgap[.55,.70], maximumwall slope1.25 and
+maximumcurvature16; rejection budget10000raises on exhaustion. Thus accepted
+coefficients follow a constrained prior. Straight inlet/outlet and the common
+upstream diffuse droplet are preserved. IC, materials, inletflux, neutral-wetting
+and traction/no-slip conditions are unchanged. No trapping/breakup claim follows.
+
+The generic point encoder is unchanged: wall(x,y,nx,ny,type) and domain(x,y,phi0)
+streams. Coefficients construct points, normals, operators and the mapped hard
+lift, and are NOT additional learned encoder features. Array counts stay fixed;
+the legacy saved key `amplitudes` now holds16coefficients in upper-then-lower
+order for this explicit family. Legacy two-amplitude configurations retain their
+original draw arithmetic, identity and payloads.
+
+The original `train_operator_random_walls.py` preset retains width128, SOAP,
+FP32, moment-corrected
+quadratic integral spatial derivatives, physical timeJVP40/eight-time gradient
+accumulation, fixed residual normalization and online rolling16-pool/B2.
+Streamfunction-to-velocity curl still uses AD. The current default selects
+the width192/B8/timeblock20descendant. New references require their own independent
+FEM trios:64x24versus96x36, dt.05versus.025; all diagnostics at96x40midpoints
+must lie inside the actual chord-wall mesh (no extrapolation). Three independent
+reserved prior draws are frozen before solving or model scoring, in addition to
+one nominal development geometry. Evolved solutions are evaluation only.
+
+Canonical training entry, after reference/input/resource qualification:
+
+```bash
+.venv/bin/python -m examples.channel_nsch2d.train \
+  --config=examples/channel_nsch2d/configs/train_operator_random_walls.py
+```
+
+Compare centroid trajectories, deformation and centroid-aligned zero contours,
+pressure response and minority/interface errors as well as global phi L2.
+Current qualification/status and direct artifact paths belong in
+[the completed task](../../docs/tasks/archive/channel-random-wall-pilot.md).
+
+The opt-in `configs/train_operator_random_walls_width192_batch8.py` tests a
+larger cold model: width192,4heads (48channels/head),8geometry samples and40fresh
+continuous times per update, for10000updates. Depths and Fourier features stay
+unchanged. The online pool still holds16candidates and replaces2every50updates;
+pool capacity differs from geometry batch size, and slot sampling is with
+replacement. Time microbatches of2accumulate all20block gradients at the same
+parameters before one clip/SOAP update. This bounds memory without changing the
+mathematical full-time mean. It is a combined capacity/batch/budget experiment,
+not a continuation or an isolated batch-size ablation. Production resource and
+extended input-prefix checks passed. This explicit
+two-time-block preset remains available for smaller GPUs; the default uses
+20-time blocks. Outcomes belong to the completed task.
+
+For the96GB hardware timing study,
+`configs/train_operator_random_walls_width192_batch8_time8.py` changes only
+the time microbatch from2to8: five blocks still average the complete40-time
+gradient before one SOAP update. Floating-point reduction order may differ.
+The finite owner additionally requires `--hardware-trial`, the matching actual
+GPU resource probe and unchanged capacity control/input screen. It checks the
+physical GPU UUID and memory headroom; no default or accuracy promotion follows
+from a timing result alone. See the completed task for measured speed and interrupted-run
+provenance.
+
+The aggressive96GB variant
+`configs/train_operator_random_walls_width192_batch8_time20.py` uses two20-time
+blocks for the same40-time mean. Its finite owner requires the matching full
+resource probe and explicit `--hardware-trial --memory-fraction .97`. The
+allocator fraction is separately recorded; it does not measure actual live
+memory. `docs/tasks/channel_gpu_memory_probe.py` checks compiled temporary/output
+requirements plus existing live buffers before a candidate executes, then
+measures synchronized full-gradient/SOAP updates if it fits. A memory-preflight
+skip is explicit and does not silently change block size or numerical scheme.

@@ -12,7 +12,7 @@ from matplotlib.patches import Circle
 import numpy as np
 from scipy.interpolate import BSpline
 
-from examples.channel_nsch2d.configs.train_default import get_config
+from examples.channel_nsch2d.configs.train_operator_width128_gmls_time40_jvp_stronger_online import get_config
 from examples.channel_nsch2d.problem import walls
 
 

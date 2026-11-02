@@ -1,13 +1,12 @@
 """Geometry-only physical payloads; no evolved training labels."""
 import numpy as np
 from examples.channel_nsch2d.problem import boundary,boundary_loss_quadrature,quadrature,initial_field
+from examples.channel_nsch2d.geometry import validate_parameters,initial_parameters
 from examples.channel_nsch2d.operators import laplacian_stencils,first_derivative_stencils
 
 
 def geometry_data(amplitudes,c):
-    a=np.asarray(amplitudes,dtype=np.float64)
-    if a.shape!=(2,) or not np.isfinite(a).all() or np.any(a<0) or np.any(a>c.geometry.amplitude_max):
-        raise ValueError('Upper/lower amplitudes must be finite inside declared bounds')
+    a=validate_parameters(amplitudes,c)
     points,volumes=quadrature(a,c,c.sample.Nx,c.sample.Ny)
     integral=c.nl.method=='integral_moment'
     if integral:
@@ -53,12 +52,7 @@ def geometry_data(amplitudes,c):
 
 
 def build_bank(c):
-    if c.operator.train_conditions==1:
-        amplitudes=np.array([[c.geometry.upper,c.geometry.lower]])
-    else:
-        rng=np.random.default_rng(c.operator.dataset_seed)
-        amplitudes=rng.uniform(c.geometry.amplitude_min,c.geometry.amplitude_max,
-                               (c.operator.train_conditions,2))
+    amplitudes=initial_parameters(c)
     data=[];reports=[]
     for a in amplitudes:
         d,r=geometry_data(a,c);data.append(d);reports.append(r)

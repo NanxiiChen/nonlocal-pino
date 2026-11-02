@@ -69,8 +69,11 @@ encoder inputs remain unchanged. Matching quadrature and conservative mapped
 phase fluxes do not imply energy/mass stability of the full mixed GMLS/NS
 scheme. The explicit legacy `configs/train_operator.py` retains the original
 experimental AD/GMLS recipe. The actual channel training default is
-`configs/train_default.py`, selecting the validated stronger GMLS-first/timeJVP
-fixed-normalization recipe with a fresh automatic run name. Do not redirect
+`configs/train_default.py`, selecting the validated random-wall width192/B8/
+SOAP10000/integral/timeJVP fixed-normalization recipe with a fresh automatic
+run name. Its20-time blocks need about88GiB live GPU memory and explicit
+`XLA_PYTHON_CLIENT_MEM_FRACTION=0.97`; smaller block8/block2 presets remain
+explicit choices. Do not redirect
 the legacy factory to its own descendants or alter historical preset values.
 
 The explicit channel integral control uses `nl.method=integral_moment`,
@@ -270,6 +273,31 @@ not restore the cleared goal schedulers. Intermediate model checkpoints still
 lack complete rolling-pool/optimizer recovery; only a completed run supplies the
 final audited pool/state. Do not reinterpret those snapshots as an exact online
 resume.
+
+The finite owner's separate `--capacity-control`/`--capacity-probe` route
+qualifies the explicit random-wall128/B2/5k/timeblock8 to192/B8/10k/timeblock2
+trial. Require a production-grid seven-update resource/nominal-query check,
+complete extended input-prefix screen, and actual cold model/fullSOAP bytes
+equal to the probe state saved before any update. It is a combined experiment;
+geometry slot draws differ, while the initial input bank and shared time prefix
+are checked independently. Keep the original control routes and defaults.
+
+The explicit hardware route adds `--hardware-trial` to the probe and finite
+owner, allowing only explicit40-time divisors(2,4,5,8,10,20,40) on that same capacity problem. Require a
+matching physical GPU UUID, actual full-pool gradient/SOAP/query probe and peak
+memory below both90%of physical memory and95%of the JAX allocator limit. Keep
+the32GB gate unchanged for the original route. Resource timings exclude cold
+compilation and do not establish accuracy; pool/optimizer recovery is still
+required for exact continuation after a hardware interruption.
+
+After the user-authorized aggressive-memory study, a hardware probe may record
+an explicit allocator fraction. The owner then requires the identical
+`--memory-fraction` argument and checks peak<=95%physical/97%allocator memory;
+legacy probes keep their previous gate. The memory probe records compiled
+temporary/output/alias sizes, existing resident buffers, predicted requirement
+and the actual finite-update peak separately. Insufficient-memory candidates
+are skipped explicitly before executing their complete step, without changing
+the declared40-time objective or retrying silently.
 
 Online channel presets may explicitly name `operator.validation_manifest`.
 `cohort.py` freezes independent uniform-prior geometry parameters and direct case
@@ -1191,3 +1219,23 @@ Unweighted diagnostics and physical replay use projected mu consistently;
 preserve all old-branch numerical gates and report the unequal cumulative
 training budget when comparing the source and new stage. No default promotion
 or accuracy claim follows from algebraic elimination.
+
+Channel opt-in `geometry.kind=random_spline` uses `geometry.py` as the shared
+NumPy/JAX graph-wall source. Geometry coefficient count is explicit (two sides
+of `controls` coefficients); the compatibility payload key `amplitudes` carries
+that vector. Use `parameter_count`, `nominal_parameters`, `initial_parameters`
+and `sample_parameters` rather than assuming length2. Preserve the absent-kind
+legacy RNG path. C3 walls use quartic Cox--de Boor evaluation and septic tapers;
+independent host piece-polynomial extrema qualify the conditioned prior. No
+SciPy work enters JIT. Fixed-size point conditioning remains generic.
+
+Random-wall cohort manifests have their own schema and common-physical query
+envelope; exclude only nominal coefficients from that envelope's family identity.
+`solver --parameters` selects the complete coefficient vector (or the explicit
+nominal if absent) and rejects legacy two-amplitude flags for spline walls.
+Validate all queries against the actual piecewise-linear FEM domain before
+factorization. `--random-wall-control` on the finite owner audits the explicit
+geometry-family extension against its completed integral control: cold model/
+complete SOAP and all actual slot/time/drawIDs must match, while physical inputs
+are intentionally different and reconstructed independently. Reference mesh
+sizes and paths differ explicitly. Do not relax existing same-geometry audits.

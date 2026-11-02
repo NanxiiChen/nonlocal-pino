@@ -8501,3 +8501,254 @@ implement the new geometry as an explicit opt-in family, keeping old single-bump
 identities and current defaults. Qualify shared geometry, inputs/operators and
 independent trajectories before claiming physical diversity or NO accuracy.
 Relation: channel-random-wall-pilot.
+
+## 2026-11-02 — Qualify C3 random spline walls without changing NS–CH physics
+
+Local checkpoint3ac7070 completed before numerical changes, as requested.
+Use eight positive quartic B-spline coefficients per wall and a compact septic
+C3 taper on[1.15,2.75], width.35. This upgrades the illustrative cubic preview's
+regularity. NumPy/JAX use the same Cox–de Boor formula; independent SciPy
+piece-polynomial extrema bound minimum aperture[.55,.70], slope1.25 and
+curvature16. Uniform coefficient proposals[.01,.45] are conditioned by these
+explicit geometric constraints with a finite10000-attempt rejection budget.
+This is a conditional coefficient prior, not independent uniform accepted walls.
+
+Keep model/IC/materials/BCs and the width128/SOAP/FP32/integral/timeJVP40/fixed-scale
+recipe. Extend parameter dimension explicitly while preserving legacy two-value
+RNG and payload arithmetic. The network still sees physical wall/domain points;
+coefficients construct geometry, normals, operators and hard lifts only. Freeze
+three independent reserved draws before solving or looking at model scores, plus
+one declared nominal development geometry. Independent FEM trios must pass old
+space/time gates before neural accuracy assessment. Keep old defaults/results.
+Relation: channel-random-wall-pilot.
+
+## 2026-11-02 — Resolve random-wall chord geometry before neural accuracy comparisons
+
+Two reserved random curves put96x40midpoint queries outside the old40x16FEM
+polygonal wall; this is a coarse geometry/export failure before evolution, not
+PINO evidence. Add exact chord-domain query preflight, forbid extrapolation and
+select64x24/96x36space refinement with the same dt.05/.025 and original gates.
+All four actual64intervalwalls clear their diagnostic queries by>.0067. Retain
+attempt01outputs/logs and reuse any complete64x24/.025exports only after explicit
+identity/query/metadata checks. Physical equations and boundary conditions remain
+unchanged; old single-bump reference/default remains valid and untouched.
+Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Hand off one finite random-wall trial after reference qualification
+
+Full220input-only prefix passes83.94s, maxcondition250.93/poly4.57e-12;
+17unique focused checks pass after repairing one synthetic zero-minority metric
+fixture. Actual6-update SOAP/JVP/integral/rolling training and reconstruction pass;
+old GMLS evaluation inputs reproduce saved arrays exactly. Reuse only the two
+complete64x24/.025reference exports after explicit identity/query/grid/dt and
+byte checks; qualify every new96x36trajectory independently.
+
+Own the remaining authorized attempt in one detached finite supervisor: wait for
+its exact FEM owner identity, require all4gates, export actual shape/response plots,
+7GPUresource updates (discard state, stop if insufficient32GiBheadroom), then ONE
+cold5000 throughtrain.py/finite owner with cold-state/time/draw audits and all3
+predeclared unseen evaluations. No automatic retry, newFEM, recurring monitor,
+extra training or default/SOTA promotion. Journal failures explicitly and keep
+Python sources frozen during training. Keep task active until results reviewed.
+Relation: channel-random-wall-pilot.
+
+## 2026-11-02 — Plot the actual saved random-wall endpoint without changing live training
+
+User requests physical fields during the declared cold5000. This preset saves
+checkpoints only at5000; no intermediate trained state exists on disk. Retain
+live training/source/configuration and wait for its actual completed endpoint,
+rather than substitute an old experiment or inject code into the GPU process.
+Add only a docs/tasks postprocess helper, outside the frozen training snapshot.
+Compare saved phi/speed/pressure against the identical refined FEM at saved
+snapshots; use fixed physical contour zoom without centroid/shape correction.
+Pressure begins att.5 because initial pressure is unprescribed. Interpolation is
+spatial display only; verify raw arrays/identity and L2 against the run summary.
+No additional model/PDE/FEM solve, fitting, budget extension, default or Git action.
+Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Test larger random-wall geometry batches and network for10k
+
+User requests more geometry samples, a wider network and10000updates; latest
+steering asks directly about B8 or16. Select one explicit cold192/B8/10000
+trial, with4attention heads (dimension48) and unchanged depths/Fourier features.
+Keep the same physical problem, integral operators,16-slot online pool, SOAP/LR,
+40fresh continuous time samples, fixed nine-term scales and reserved3references.
+Use timeblock2 instead of8 to bound active memory; average all20block gradients
+at the same parameters before one clip/SOAP update. This changes reduction order,
+not the mathematical full-time mean. B16 is deferred: twice the work, repeated
+geometry draws from the16-slot pool and no established accuracy benefit.
+
+Qualify the actual full gradient/SOAP and nominal query on5090-32GB, retaining
+the16input pool, then start ONE finite cold10000 through canonical train.py
+only if it fits. Extend the input-only prior screen to402online draws (zero
+PDE/FEM). Actual unfitted model/fullSOAP must match saved pre-probe state; fitted
+probe state is discarded. Old5k reference/default/result remain intact. This
+combined capacity/batch/budget change cannot identify separate causal effects,
+and is a cold experiment, not an exact rolling-pool continuation. No Git or
+cleanup authorized. Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Re-measure the interrupted capacity trial on RTX PRO6000
+
+User replaced the5090with RTX PRO6000Blackwell Server Edition(97887MiB) and
+requests actual training-time measurements. Old runner/child PIDs are absent,
+GPU is idle and only unfitted initial model/SOAP files exist: preserve all old
+artifacts and mark that external interruption, not a completed/recoverable run.
+
+Benchmark identical width192/B8/Nt40/FP32/SOAP/integral/JVP/fixed-loss inputs
+with timeblock2, then explicit timeblock8 on the larger memory card. Keep the
+full16-slot bank on device; synchronize complete gradients and optimizer updates,
+cover two SOAP refresh cycles after compilation, and discard fitted probe states.
+Reuse the validated402-draw input prefix and existing FEM, because operators,
+geometry prior, data seeds and query sets are unchanged. Changing timeblock
+changes reduction order but not the mathematical40-time mean. No claim of
+bitwise-identical trained trajectories or accuracy follows from timing.
+
+If the new configuration passes resources, use the measured faster block size
+for ONE replacement cold10000 under the earlier authorized budget, with fresh
+run path and the same finite audits/3held-out cases. This is not exact resume
+of the interrupted150steps. Keep old controls/defaults, no FEM/cleanup/Git.
+Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Use PRO6000 memory aggressively through time blocks
+
+User explicitly asks to fill available GPU memory more aggressively. Target
+actual live peak roughly85--90GiB, distinguishing it from allocator reservation.
+Retain width192/B8/Nt40/all physics/loss/SOAP and fixed seeds/inputs. After the
+current block8probe, test block10and20(and40if viable) with explicit95%allocator
+fraction. Inspect compiled full-step temporary/output memory plus existing live
+buffers before executing a candidate; record an explicit memory-preflight skip
+when it exceeds the budget. Never silently shrink a block after failure.
+
+Compile synchronized full gradient/SOAP, preserve one update after the complete
+40-time mean and discard fitted resource states. Choose measured throughput,
+with <=95%physical and97%allocator predicted/live peak giving small runtime
+headroom. This changes execution/reduction order, not the physical objective.
+Only one replacement cold10k after qualification; no newFEM/default/Git/cleanup.
+Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Raise only the aggressive allocator fraction to97%
+
+Block20compiler preflight estimates94319245389bytes(87.841GiB), versus the
+initial95%-allocator/97%-pool gate93969114955bytes(87.516GiB): it was explicitly
+skipped before optimizer execution, exceeding that gate by only.326GiB.
+Physical GPU capacity is95.593GiB. Under the user's aggressive-memory request,
+retry only the resource check at explicit97%allocator, retaining95%physical/
+97%allocator live-peak headroom and the same B8/Nt40/width192/physics. Preserve
+the first skip and exact compiled estimates. No fitted state existed or is
+imported; no automatic numerical fallback or newFEM. Relation: random-wall pilot.
+
+
+## 2026-11-02 — Select measured block20/97%allocator for the replacement cold10k
+
+All eleven complete aggressive-resource updates and nominal finite queries pass.
+Actual peak94548858880bytes=88.0555GiB (~92.12%physical), mean warmed update
+1.886506s. Same PRO6000block8is2.390149s/40.1859GiB; block2is4.704753s/18.8824GiB.
+Original5090block2is4.524410s/18.9841GiB. Full40-time/B8 objective, model and
+optimizer unchanged, but floating-point/hardware trajectories may differ.
+All tested actual initial model/fullSOAP bytes equal the old unfitted state.
+
+Select explicit20-time blocks(two gradients per update),97%allocator and one
+replacement cold10000 through train.py/finite owner. Resource/config/input/GPU
+identity gates pass; actual formal unfitted model/fullSOAP bytes match probe.
+Reuse reference/input prefix and retain all old/skip files. Meets aggressive
+utilization target; no further40-block trial, no claim that untested sizes cannot
+fit or that timing establishes accuracy. Pure10kestimate5.24h,500updates15.72min,
+plus compile/eval/audits. No SOTA/default, physical scheme, FEM, Git or cleanup.
+Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Show saved fields honestly and prepare the first live-run checkpoint gallery
+
+The user requests physical fields while the new PRO6000 trial is near3000
+updates, before its first5000model snapshot. Its metrics monitors retain no
+saved physical arrays. Show the completed old128/B2/5000fields with explicit
+old-run labels; never present them as new192/B8 predictions or substitute the
+unfitted initial state. Keep the running trainer/source/config untouched.
+
+Prepare one finite CPU-only postprocessor waiting for the explicitly named
+5000snapshot and a later completed update (or final summary), ensuring the
+non-atomic checkpoint writer is finished. Reuse existing partial metric replay,
+field plotting and droplet diagnostics; compare replay to the actual5000log.
+This is read-only model evaluation, with no extra training/FEM, optimizer
+recovery, repeated monitoring service, new accuracy claim or Git operation.
+Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Evaluate the same three reserved geometries at the first new snapshot
+
+User explicitly requests other-geometry evaluation during live training. Use
+all three already qualified random-wall references, without model-score case
+selection or a new FEM solve. Execute a CPU-only5000snapshot evaluation for
+the older128/B2model now, checking against its saved cohort metrics, and queue
+the corresponding192/B8snapshot after its nominal replay succeeds. Keep the
+canonical10ktrainer, source snapshots, geometry stream and final audits intact.
+
+Use the existing physical field decoder, manifest/reference gates and metric
+functions; label this partial-checkpoint evaluation separately from a complete
+online-input audit. Report per-case/global/terminal/minority errors plus raw
+zero contours and hard IC/wall/flux checks. CPU code uses explicit finite waiting
+and bounded affinity; no trained-state import, optimization or PDE-reference
+recomputation. This reused3-case cohort is a limited validation estimate, not a
+new large blind test. Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Complete the interrupted5000preview directly from the saved snapshot
+
+At5200updates the new ckpt_005000.eqx exists, but nominal preview PID90219is
+absent and its screen is dead while status still says waiting. No partial
+fields/proof or preview image exists. Training owner67622/child67633is healthy;
+reserved evaluator92372is alive waiting for the missing nominal replay. Exit
+cause is unconfirmed; do not describe this as a numerical/training failure.
+
+Preserve that stale status as an interrupted-waiter receipt and run the exact
+existing CPU nominal replay/field/droplet tools synchronously with a new explicit
+stage journal. The actual later-update journal establishes checkpoint writing
+is finished. Let the existing reserved evaluator consume the resulting replay
+proof, rather than launch a duplicate cohort job. Keep101trainer source bytes,
+checkpoint/model/config/optimizer/training untouched; zero FEM or extra training.
+Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Render the imminent10000snapshot while final audits continue
+
+User requests current physical fields with training already at9900/10000,
+roughly three minutes before the actual final snapshot. Wait for the saved
+completed train summary/10000checkpoint instead of redisplaying the5000fields.
+Reuse CPU snapshot-cohort evaluation for the same three qualified references
+and saved-array nominal gallery. Keep these external preview outputs separate
+from the finite owner's formal final input/capacity/fresh-time/cohort audits.
+
+Figures may show actual10000predictions once saved/replayed, but do not claim
+all final audits completed until their actual exit codes and receipts pass.
+No source/model/training/settings modification, new FEM, duplicate optimization
+or change of the predeclared geometry cohort. Relation: random-wall pilot.
+
+## 2026-11-02 — Promote the completed random-wall operator to the channel default
+
+User accepts the final fields and explicitly requests default promotion and a
+local commit. The finite cold10000 owner has now completed all ten stages with
+exit0, including actual rolling-input/cold-SOAP replay,240fresh-time probes,
+three predeclared reserved geometries and101historical source-byte checks.
+Select the measured width192/B8/Nt40/timeblock20/SOAP/FP32/integral/JVP recipe
+through train_default.py, preserving every historical preset. Use fresh automatic
+run names and runtime seed provenance; do not import the trained checkpoint.
+
+This execution needs about88.06GiB active memory and an explicit97%allocator
+on the qualified96GB PRO6000. Document that requirement and retain explicit
+block8/block2 alternatives; no silent memory fallback. Final nominal phi2.678%,
+u1.670%,p5.893%; the same three reserved cases average1.840/2.016/5.412%, with
+mu15.917%. This is finite reused-cohort evidence, not a broad population or
+cross-seed guarantee. Do not substitute the unsaved8500scalar minimum for the
+actual10000weights. Commit source and compact records to local dev only; no
+merge/push or generated weights/figures. Show complete raw convergence against
+the older128/B2/5000control; width,batch,budget and hardware differ together.
+Pin the historical integral ancestor, geometry-preview helper and legacy-RNG
+test to the explicit stronger GMLS factory: they previously imported the moving
+default, which would create a circular configuration import after promotion.
+Serialized historical preset values must remain equal to the saved snapshots.
+Relation: channel-random-wall-pilot.

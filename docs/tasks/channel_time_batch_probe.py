@@ -28,7 +28,11 @@ def main(a):
     baseline=Path(a.control)
     saved=json.loads((baseline/'config.json').read_text())
     c=importlib.import_module(a.config).get_config()
-    c.train.seed=saved['train']['seed'];c.reference.root=saved['reference']['root']
+    from examples.channel_nsch2d.geometry import random_walls,initial_parameters
+    random_geometry=random_walls(c)
+    capacity_trial=a.capacity_trial or a.hardware_trial
+    c.train.seed=saved['train']['seed']
+    if not random_geometry:c.reference.root=saved['reference']['root']
     validate_config(c)
     temporal='time_derivative' in c
     causal=temporal and 'causal'in c
@@ -43,7 +47,13 @@ def main(a):
         del item['log'];del item['train']['iterations'];del item['sample']['Nt']
     if 'microbatch' in now['train']:del now['train']['microbatch']
     if temporal:
-        if integral:
+        if a.hardware_trial:
+            from examples.channel_nsch2d.capacity_validation import execution_config as comparison_config
+        elif a.capacity_trial:
+            from examples.channel_nsch2d.capacity_validation import comparison_config
+        elif random_geometry:
+            from examples.channel_nsch2d.random_wall_validation import comparison_config
+        elif integral:
             from examples.channel_nsch2d.integral_validation import comparison_config
         elif balanced:
             from examples.channel_nsch2d.balance_validation import comparison_config
@@ -58,19 +68,26 @@ def main(a):
     jax.config.update('jax_default_matmul_precision',c.train.matmul_precision)
     key,_=jax.random.split(jax.random.PRNGKey(c.train.seed))
     template=build_network(c,key)
-    model=(load_initialized_model(template,initialization)if initialization is not None else
+    model=(template if capacity_trial else
+        load_initialized_model(template,initialization)if initialization is not None else
         eqx.tree_deserialise_leaves(baseline/'model_initial.eqx',template))
     optimizer=make_optimizer(c)
     fresh=optimizer.init(eqx.filter(model,eqx.is_array))
-    state=fresh if initialization is not None else eqx.tree_deserialise_leaves(baseline/'optimizer_initial.eqx',fresh)
+    state=fresh if capacity_trial or initialization is not None else eqx.tree_deserialise_leaves(baseline/'optimizer_initial.eqx',fresh)
+    if capacity_trial:
+        eqx.tree_serialise_leaves(output/'model_initial.eqx',model)
+        eqx.tree_serialise_leaves(output/'optimizer_initial.eqx',state)
     with np.load(baseline/'known_inputs.npz',allow_pickle=False) as f:
         if integral:
             from examples.channel_nsch2d.data import geometry_data
-            inputs=[geometry_data(a,c)[0]for a in np.asarray(f['amplitudes'][:c.operator.condition_batch],dtype=np.float64)]
+            parameters=(initial_parameters(c) if random_geometry else np.asarray(f['amplitudes'],dtype=np.float64))
+            selected=parameters if capacity_trial else parameters[:c.operator.condition_batch]
+            inputs=[geometry_data(a,c)[0]for a in selected]
             raw={k:np.stack([d[k]for d in inputs])for k in inputs[0]}
         else:raw={k:f[k][:c.operator.condition_batch]for k in f.files}
-        batch={k:jnp.asarray(v,dtype=v.dtype if np.issubdtype(v.dtype,np.integer)
+        bank={k:jnp.asarray(v,dtype=v.dtype if np.issubdtype(v.dtype,np.integer)
             else c.train.compute_dtype)for k,v in raw.items()}
+        batch=jax.tree.map(lambda v:v[:c.operator.condition_batch],bank)
     loss=make_loss_fn(c)
     if causal:
         from examples.channel_nsch2d.causal import make_causal_fn,make_epsilon_update
@@ -150,14 +167,43 @@ def main(a):
         (output/'gradient-resource.json').write_text(json.dumps(partial,indent=2,allow_nan=False)+'\n')
         from docs.tasks.channel_projected_query_probe import check
         physical_replay=check(model,c,baseline)
+    if capacity_trial:
+        from examples.channel_nsch2d.network import encode,fields
+        from examples.channel_nsch2d.data import geometry_data
+        gate=json.loads((Path(c.reference.root)/'reference-validation.json').read_text())
+        with np.load(gate['reference'],allow_pickle=False)as f:
+            queries=jnp.asarray(f['points'],dtype=c.train.compute_dtype)
+            query_times=jnp.asarray(f['time'],dtype=c.train.compute_dtype)
+            raw_eval,_=geometry_data(f['amplitudes'],c)
+        evaldata={k:jnp.asarray(v,dtype=v.dtype if np.issubdtype(v.dtype,np.integer)
+            else c.train.compute_dtype)for k,v in raw_eval.items()}
+        evaluate=eqx.filter_jit(lambda net:fields(net,encode(net,evaldata),queries,
+            query_times,evaldata['amplitudes'],c))
+        prediction=np.asarray(evaluate(model))
+        if not np.isfinite(prediction).all():raise FloatingPointError('Nonfinite capacity-probe evaluation')
     result=dict(status='finite_production_probe_passed',config=json.loads(c.to_json()),
         control=str(baseline),updates=a.updates,time_samples=c.sample.Nt,
         microbatch=c.train.microbatch.to_dict() if 'microbatch' in c.train else None,
         cold_first_update_seconds=timings[0],warm_update_seconds=float(np.mean(timings[1:])),
         all_update_seconds=timings,all_losses=values,memory=jax.devices()[0].memory_stats(),
         device=jax.devices()[0].device_kind,
-        scope='Resource probe on two fixed original inputs; not a new accuracy/generalization experiment',
+        scope=(f'Resource probe on B{c.operator.condition_batch} fresh initial-bank inputs'
+            if random_geometry else 'Resource probe on fixed original inputs')+'; not an accuracy/generalization experiment',
+        fitted_probe_weights_exported=False,
         evolved_training_labels=0,FEM_solves=0,optimizer_updates_per_time_batch=1)
+    if capacity_trial:
+        result['capacity_trial']=dict(full_geometry_pool_on_device=True,
+            geometry_pool_size=len(parameters),finite_nominal_evaluation=True,
+            cold_state_saved_before_probe_updates=True,
+            parameter_count=sum(a.size for a in jax.tree.leaves(model)if eqx.is_array(a)))
+    if a.hardware_trial:
+        import csv
+        gpu=list(csv.reader(subprocess.check_output(['nvidia-smi',
+            '--query-gpu=name,uuid,memory.total','--format=csv,noheader,nounits'],text=True).splitlines()))
+        if len(gpu)!=1:raise ValueError('Hardware timing requires one visible physical GPU')
+        result['hardware_trial']=dict(gpu_name=gpu[0][0].strip(),gpu_uuid=gpu[0][1].strip(),
+            total_memory_bytes=int(gpu[0][2])*2**20,time_microbatch=c.train.microbatch.size,
+            scope='Same effective condition/time objective; changed hardware and explicit execution block only')
     if initialization is not None:
         result['model_initialization']=initialization
         result['physical_query_replay']=physical_replay
@@ -208,6 +254,9 @@ def main(a):
         for name in ('balance.py','balance_validation.py'):
             relative=Path('examples/channel_nsch2d')/name;target=output/'source'/relative
             target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(root/relative,target)
+    if random_geometry:
+        shutil.copytree(root/'examples/channel_nsch2d',output/'source/examples/channel_nsch2d',
+            dirs_exist_ok=True,ignore=shutil.ignore_patterns('__pycache__'))
     print(json.dumps(result,indent=2),flush=True)
 
 
@@ -215,6 +264,9 @@ if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     for key in ('config','control','output'):p.add_argument('--'+key,required=True)
     p.add_argument('--updates',type=int,required=True)
+    mode=p.add_mutually_exclusive_group()
+    mode.add_argument('--capacity-trial',action='store_true',help='Explicit random-wall192/B8/10k cold resource trial')
+    mode.add_argument('--hardware-trial',action='store_true',help='Same effective192/B8/10k objective, timeblock2or8 hardware timing')
     args=p.parse_args()
     if args.updates<3:raise ValueError('Require a cold update and at least two warm updates')
     main(args)

@@ -2,6 +2,7 @@
 import json
 import numpy as np
 from examples.channel_nsch2d.problem import walls
+from examples.channel_nsch2d.geometry import random_walls,envelope_parameters
 
 
 KIND='maximum_constriction_common_physical_v1'
@@ -12,6 +13,10 @@ def protocol(c,grid):
     if (not isinstance(grid,(tuple,list)) or len(grid)!=2
             or any(isinstance(n,bool) or not isinstance(n,int) or n<1 for n in grid)):
         raise ValueError('Common physical query grid requires two explicit positive integers')
+    if random_walls(c):
+        return dict(kind='random_spline_envelope_common_physical_v1',query_grid=list(grid),
+            geometry={k:v for k,v in c.geometry.to_dict().items() if k!='coefficients'},
+            frame='Identical physical(x,y)points inside the coefficient-maximum inward-wall envelope')
     names=('length','height','center','half_length','amplitude_min','amplitude_max')
     geometry={k:c.geometry[k] for k in names}
     if (not np.isfinite(list(geometry.values())).all()
@@ -27,7 +32,7 @@ def protocol(c,grid):
 def points(c,grid):
     spec=protocol(c,grid);nx,ny=spec['query_grid']
     x,e=np.meshgrid((np.arange(nx)+.5)*c.geometry.length/nx,(np.arange(ny)+.5)/ny,indexing='ij')
-    maximum=np.full(2,c.geometry.amplitude_max)
+    maximum=envelope_parameters(c)
     bottom,top=walls(x,maximum,c,xp=np)
     return np.stack((x,bottom+e*(top-bottom)),axis=-1).reshape(-1,2)
 

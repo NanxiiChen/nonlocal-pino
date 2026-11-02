@@ -36,8 +36,8 @@ def main(config_module,draws,workers,output):
     if path.exists():raise FileExistsError(path)
     for key in ('OPENBLAS_NUM_THREADS','OMP_NUM_THREADS','MKL_NUM_THREADS','NUMEXPR_NUM_THREADS'):os.environ[key]='1'
     os.environ['JAX_PLATFORMS']='cpu';begin=time.perf_counter()
-    rng=np.random.default_rng(c.operator.dataset_seed)
-    initial=rng.uniform(c.geometry.amplitude_min,c.geometry.amplitude_max,(c.operator.train_conditions,2))
+    from examples.channel_nsch2d.geometry import initial_parameters
+    initial=initial_parameters(c)
     rows=[]
     with ProcessPoolExecutor(max_workers=workers,mp_context=multiprocessing.get_context('spawn')) as pool:
         tasks=[pool.submit(one,c.to_dict(),'initial',i,a.tolist()) for i,a in enumerate(initial)]

@@ -1,6 +1,6 @@
-"""Matched integral-kernel derivative control of the fixed-normalization default."""
+"""Matched integral-kernel control of the historical stronger GMLS recipe."""
 from ml_collections import ConfigDict
-from examples.channel_nsch2d.configs.train_default import get_config as baseline
+from examples.channel_nsch2d.configs.train_operator_width128_gmls_time40_jvp_stronger_online import get_config as baseline
 
 
 def get_config():

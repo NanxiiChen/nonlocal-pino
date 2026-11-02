@@ -85,7 +85,8 @@ def evaluate(run,manifest,output):
     for case in cohort['cases']:
         a=np.asarray(case['amplitudes']);root=Path(case['root'])
         gate=json.loads((root/'reference-validation.json').read_text())
-        cc=ConfigDict(c.to_dict());cc.geometry.upper=float(a[0]);cc.geometry.lower=float(a[1])
+        from examples.channel_nsch2d.geometry import with_nominal,envelope_parameters
+        cc=with_nominal(c,a)
         if gate['status']!='passed' or gate['identity']!=json.loads(json.dumps(identity(cc))):
             raise ValueError(f'Unvalidated/mismatched reserved reference: {case["index"]}')
         with np.load(gate['reference'],allow_pickle=False) as f:ref={k:f[k] for k in f.files}
@@ -135,7 +136,7 @@ def evaluate(run,manifest,output):
             raise ValueError(f'Unseen physical/replay constraint failed: {case["index"]}')
         bottom,top=walls(ref['points'][:,0],a,c,xp=np)
         metrics=field_metrics(prediction,target,top-bottom)
-        cb,ct=walls(common_points[:,0],np.full(2,c.geometry.amplitude_max),c,xp=np)
+        cb,ct=walls(common_points[:,0],envelope_parameters(c),c,xp=np)
         common_metrics=field_metrics(common_prediction,common_target,ct-cb)
         folder=output/f'case_{case["index"]:03d}';folder.mkdir()
         (folder/'config.json').write_text(cc.to_json(indent=2)+'\n')
@@ -163,7 +164,7 @@ def evaluate(run,manifest,output):
         geometry_response_beats_mean_predictor=all(response[k]['relative_error']<1 for k in ('phi','velocity','pressure')),
         all_principal_cases_below10percent=all(aggregate[k]['worst']<.1 for k in ('phi','terminal_phi','velocity','pressure')),
         physical_checks='Flux/wall/initial at13times; divergence/primal-JVP at3times/24own+24common queries per geometry',
-        scope=f'{len(results)}predeclared unseen uniform-prior geometries; finite-cohort estimate, not a uniform continuous-prior guarantee')
+        scope=f'{len(results)}predeclared unseen geometries from the declared prior; finite-cohort estimate, not a uniform continuous-prior guarantee')
     (output/'evaluation.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
     print(json.dumps(dict(aggregate=aggregate,target=report['mean_principal_target_met']),indent=2),flush=True)
     return report

@@ -178,7 +178,8 @@ def train(c):
     sampled_times=np.empty((updates,c.sample.Nt),dtype=dtype if discrete else np.float32)
     if online:
         sampled_draw_ids=np.empty((updates,c.operator.condition_batch),dtype=np.int64)
-        sampled_amplitudes=np.empty((updates,c.operator.condition_batch,2),dtype=dtype)
+        from examples.channel_nsch2d.geometry import parameter_count
+        sampled_amplitudes=np.empty((updates,c.operator.condition_batch,parameter_count(c)),dtype=dtype)
         replace=jax.jit(replace_slots,donate_argnums=(0,))
     if discrete:sampled_intervals=np.empty((updates,c.sample.Nt),dtype=np.int32)
     timings=[];start=time.perf_counter();prediction=None

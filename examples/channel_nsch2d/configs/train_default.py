@@ -1,5 +1,5 @@
-"""Validated stronger-channel recipe with fixed residual normalization."""
-from examples.channel_nsch2d.configs.train_operator_width128_gmls_time40_jvp_stronger_online import get_config as fixed_config
+"""Validated random-wall operator; qualified for a 96GB GPU (see README)."""
+from examples.channel_nsch2d.configs.train_operator_random_walls_width192_batch8_time20 import get_config as fixed_config
 
 
 def get_config():

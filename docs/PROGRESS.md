@@ -2,37 +2,30 @@
 
 ## Active task
 
-[Random smooth-wall channel pilot](tasks/channel-random-wall-pilot.md).
-User accepts the design: checkpoint accumulated work locally first, then implement
-and try independent smooth upper/lower random wall profiles. Preserve fixed IC,
-flow/materials/BCs, old results and default. Next: local source checkpoint, shared
-geometry and operator checks, then a few trajectories and a bounded training pilot.
+None. The random-wall channel trial and requested default promotion are complete.
+No further training, FEM, cleanup or push is queued.
 
 ## Latest completed validation
 
-[Stronger channel task](tasks/archive/channel-stronger-constriction.md),
-[full receipt](tasks/channel-stronger-constriction-validation.json).
-Nominal upper/lower(.18,.12), minimumheight.70 versus mild(.12,.08)/.80;
-training prior[.06,.20]. Same physical parameters and successful width128/SOAP/
-FP32/GMLS/JVP40/chemical-row1/rolling geometry recipe via train.py.
+[Random smooth-wall NS–CH operator](tasks/archive/channel-random-wall-pilot.md),
+[compact receipt](tasks/channel-random-wall-pilot-validation.json).
+Canonical channel train.py now defaults to width192/B8/SOAP10000/ordinaryFP32,
+integral spatial derivatives, physical timeJVP40 and online rolling geometry
+inputs. Timeblock20on PRO6000uses88.06GiB peak and explicit97%allocator; README
+includes smaller block8/block2 presets. Automatic fresh run names; runtime seeds.
 
-New nominal localFEM space/time refinement passes original gates. Frozen mild
-operator extrapolation givesphi3.25%,terminal4.47%,u2.99%,p14.45%. Strong-family
-cold5000 givesphi1.9470%,terminal1.6625%,u3.0587%,p3.9455%; terminalminority
-4.8688%,contour2.4662%R0,IoU93.0197%. Same stronger FEM target/queries.
-All13 saved minority errors<=8.7984%. Peak t4 shape is still too flat:
-x-span/y-span1.4096 versusreference1.2996 (~8.47%bias), explicitly included in
-final figure. One development geometry/initialization, no population claim.
+Cold10000and all ten owned final stages exited0;101source bytes checked before
+promotion. Nominal phi2.6781%,terminal4.0550%,u1.6700%,p5.8931%,mu14.1030%.
+Three reused reserved cases averagephi1.8396%,terminal2.2708%,u2.0160%,p5.4118%
+(worst9.0316%),minority4.8474%,mu15.9168%. Terminal areaIoU86.14/94.25/93.64%.
+This is finite-cohort evidence, not population/cross-seed validation. Unsaved
+8500scalar phase minimum2.0476%is not a checkpoint. Pressure response to geometry
+has larger relative error than the total pressure field; preserve this limit.
 
-Cold model/fullSOAP and ALL actual time/condition/drawID comparisons pass;
-each different geometry stream independently reconstructed.91 actualsource/
-owner/helper bytechecks pass. All six owned stages exit0, including240fresh
-continuous-time/full-space diagnostics. Warm.288946s,coldwall1926.685s,
-activepeak7.996GiB. No exact mass/continuum certificate, extra trial/FEM,
-default/SOTA/Git/history/cleanup action.
-
-Preceding mild-case record remains [here](tasks/archive/channel-derivative-clarification.md)
-(phi1.1498%,terminalminority3.5462%). Preserve both geometries and controls.
+Default/saved-run config parity, all55historical presets,4focused tests and
+complete raw convergence figures verified. Full records and external paths are
+in the archived task. Source/compact records prepared for the user-authorized
+local dev commit only; no merge/push, generated weights/images or cleanup.
 
 ## Project and publication
 
@@ -43,6 +36,8 @@ Preserve existing external data/run paths. Git history changes require explicit
 current-turn authorization; the documented workflow pushes main only.
 
 ## Recent completed tasks
+
+- [Random smooth-wall operator and default promotion](tasks/archive/channel-random-wall-pilot.md).
 
 - [Richer random-wall channel design](tasks/archive/channel-random-wall-design.md).
 - [Integral nonlocal channel control](tasks/archive/channel-integral-nonlocal-control.md).

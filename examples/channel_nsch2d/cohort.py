@@ -3,11 +3,13 @@ from pathlib import Path
 import json
 import numpy as np
 from examples.channel_nsch2d.problem import identity
+from examples.channel_nsch2d.geometry import random_walls,sample_parameters
 
 
 DRAW_SEED=20261101
 DRAW_NAMESPACE=271828
 SCHEMA='channel_unseen_geometry_v1'
+RANDOM_SCHEMA='channel_unseen_random_spline_v1'
 
 
 def prepare(c,path,count,query_grid):
@@ -20,11 +22,11 @@ def prepare(c,path,count,query_grid):
     cases=[]
     for i in range(count):
         rng=np.random.default_rng(np.random.SeedSequence([DRAW_SEED,DRAW_NAMESPACE,i]))
-        a=rng.uniform(c.geometry.amplitude_min,c.geometry.amplitude_max,2)
+        a=sample_parameters(c,rng)
         cases.append(dict(index=i,draw_id=i,amplitudes=a.tolist(),root=str(path.parent/f'case_{i:03d}')))
-    value=dict(schema=SCHEMA,physical_family=json.loads(json.dumps(identity(c))),count=count,draw_seed=DRAW_SEED,
+    value=dict(schema=RANDOM_SCHEMA if random_walls(c) else SCHEMA,physical_family=json.loads(json.dumps(identity(c))),count=count,draw_seed=DRAW_SEED,
         draw_namespace=DRAW_NAMESPACE,cases=cases,query_grid=list(query_grid),
-        selection='Frozen independent uniform-prior draws; no model-score selection',
+        selection=('Frozen independent conditional spline-coefficient prior draws; no model-score selection' if random_walls(c) else 'Frozen independent uniform-prior draws; no model-score selection'),
         acceptance='Mean of per-geometry phi, terminal_phi, velocity and pressure relative L2 each below0.1; report worst separately')
     path.write_text(json.dumps(value,indent=2,allow_nan=False)+'\n')
     load(path,c)
@@ -36,7 +38,7 @@ def load(path,c):
     if not path.is_absolute():raise ValueError('Cohort manifest path must be absolute')
     value=json.loads(path.read_text())
     required={'schema','physical_family','count','draw_seed','draw_namespace','cases','query_grid','selection','acceptance'}
-    if set(value)!=required or value['schema']!=SCHEMA:
+    if set(value)!=required or value['schema']!=(RANDOM_SCHEMA if random_walls(c) else SCHEMA):
         raise ValueError('Unexpected frozen-geometry cohort schema')
     if value['physical_family']!=json.loads(json.dumps(identity(c))):
         raise ValueError('Frozen cohort physical family differs from training')
@@ -55,7 +57,7 @@ def load(path,c):
         if Path(case['root'])!=path.parent/f'case_{i:03d}':raise ValueError('Frozen cohort case path changed')
         a=np.asarray(case['amplitudes'],dtype=np.float64)
         rng=np.random.default_rng(np.random.SeedSequence([DRAW_SEED,DRAW_NAMESPACE,i]))
-        expected=rng.uniform(c.geometry.amplitude_min,c.geometry.amplitude_max,2)
+        expected=sample_parameters(c,rng)
         np.testing.assert_array_equal(a,expected)
         amplitudes.append(a)
     if len(np.unique(np.asarray(amplitudes),axis=0))!=count:raise ValueError('Duplicate reserved geometries')

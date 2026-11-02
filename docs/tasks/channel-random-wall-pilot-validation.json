@@ -1,0 +1,1974 @@
+{
+  "status": "completed_default_promoted_full_audits_passed",
+  "branch": "dev",
+  "tests": {
+    "unique_completed_passes": 17,
+    "initial_combined": "15 passed; synthetic phi=1 reporting fixture had zero minority denominator",
+    "corrected_canonical_test": "passed25.104s with phi=.5 reporting fixture; actual six SOAP/JVP/integral/rolling updates",
+    "additional_chord_domain_test": "passed.204s",
+    "source_logs": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/validation",
+    "legacy_saved_GMLS_evaluation_payload": "all arrays byte-equivalent at saved training precision"
+  },
+  "input_screen": "/root/autodl-tmp/data/channel_nsch2d/random-wall-input-screen-20261102-02.json",
+  "input_constructions": 220,
+  "input_screen_seconds": 83.94293388072401,
+  "maximum_condition": 250.9298356098536,
+  "maximum_polynomial_error": 4.5686926464227895e-12,
+  "reference_attempt01": "preserved; coarse chord-domain failure on2/4cases",
+  "reference_root": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02",
+  "pipeline_journal": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/training-pipeline.json",
+  "numerical_default_changed": true,
+  "new_training_metrics_available": true,
+  "generated_binaries_added_to_git": false,
+  "latest_observation": "2026-11-02T14:46:22.507965+00:00",
+  "physical_field_gallery": {
+    "status": "actual_final_saved_fields_plotted",
+    "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-integral-random-walls-online-width128-01",
+    "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-integral-random-walls-online-width128-01/model_final.eqx",
+    "updates": 5000,
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+    "query_shape": [
+      96,
+      40
+    ],
+    "phase_speed_times": [
+      0.0,
+      1.5,
+      3.0,
+      4.5,
+      6.0
+    ],
+    "pressure_times": [
+      0.5,
+      1.5,
+      3.0,
+      4.5,
+      6.0
+    ],
+    "metrics": {
+      "phi": 0.06528498919468548,
+      "terminal_phi": 0.07627542269110166,
+      "velocity": 0.04415152806499135,
+      "pressure": 0.06554715412504408,
+      "chemical": 0.44958528139070497,
+      "dispersed_phase": 0.17251080215388828
+    },
+    "contours": [
+      {
+        "time": 0.0,
+        "negative_phase_IoU": 1.0,
+        "zero_contour": {
+          "predicted_components": 1,
+          "reference_components": 1,
+          "mean_distance": 0.00012608715078004073,
+          "sampled_hausdorff": 0.00038254359625562745,
+          "contour_missing": false
+        },
+        "minority_fraction_relative_L2": 0.002621434043343422
+      },
+      {
+        "time": 1.5,
+        "negative_phase_IoU": 0.9648324927793155,
+        "zero_contour": {
+          "predicted_components": 1,
+          "reference_components": 1,
+          "mean_distance": 0.004521735898718865,
+          "sampled_hausdorff": 0.010587762037013561,
+          "contour_missing": false
+        },
+        "minority_fraction_relative_L2": 0.048185371422098375
+      },
+      {
+        "time": 3.0,
+        "negative_phase_IoU": 0.8384610968650119,
+        "zero_contour": {
+          "predicted_components": 1,
+          "reference_components": 1,
+          "mean_distance": 0.01821358000112676,
+          "sampled_hausdorff": 0.0506413342637308,
+          "contour_missing": false
+        },
+        "minority_fraction_relative_L2": 0.1724857825675529
+      },
+      {
+        "time": 4.5,
+        "negative_phase_IoU": 0.7841748023360439,
+        "zero_contour": {
+          "predicted_components": 1,
+          "reference_components": 1,
+          "mean_distance": 0.02691957922898823,
+          "sampled_hausdorff": 0.0652018711726053,
+          "contour_missing": false
+        },
+        "minority_fraction_relative_L2": 0.23990128555764748
+      },
+      {
+        "time": 6.0,
+        "negative_phase_IoU": 0.7562823591111595,
+        "zero_contour": {
+          "predicted_components": 1,
+          "reference_components": 1,
+          "mean_distance": 0.025339748846694453,
+          "sampled_hausdorff": 0.05237531585255264,
+          "contour_missing": false
+        },
+        "minority_fraction_relative_L2": 0.23320600435921643
+      }
+    ],
+    "predicted_phi_range": [
+      -1.1062743663787842,
+      1.0554462671279907
+    ],
+    "display": "Mapped bilinear interpolation only; no temporal interpolation, field smoothing, clipping in metrics or contour/centroid correction",
+    "scope": "Nominal development geometry; independent held-out evaluation remains a separate result"
+  },
+  "convergence_gallery": {
+    "directory": "/root/autodl-tmp/data/channel_nsch2d/random-wall-convergence-5000-20261102-01",
+    "status": "complete_recorded_histories_verified_and_plotted",
+    "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-integral-random-walls-online-width128-01",
+    "updates": 5000,
+    "L2_records": 11,
+    "loss_records": 51,
+    "L2_steps": [
+      0,
+      500,
+      1000,
+      1500,
+      2000,
+      2500,
+      3000,
+      3500,
+      4000,
+      4500,
+      5000
+    ],
+    "loss_steps": [
+      1,
+      100,
+      200,
+      300,
+      400,
+      500,
+      600,
+      700,
+      800,
+      900,
+      1000,
+      1100,
+      1200,
+      1300,
+      1400,
+      1500,
+      1600,
+      1700,
+      1800,
+      1900,
+      2000,
+      2100,
+      2200,
+      2300,
+      2400,
+      2500,
+      2600,
+      2700,
+      2800,
+      2900,
+      3000,
+      3100,
+      3200,
+      3300,
+      3400,
+      3500,
+      3600,
+      3700,
+      3800,
+      3900,
+      4000,
+      4100,
+      4200,
+      4300,
+      4400,
+      4500,
+      4600,
+      4700,
+      4800,
+      4900,
+      5000
+    ],
+    "last_L2": {
+      "phi": 0.06528498919468545,
+      "terminal_phi": 0.07627542269110166,
+      "velocity": 0.044151528064991334,
+      "pressure": 0.0655471541250441,
+      "dispersed_phase": 0.17251080215388825,
+      "chemical": 0.44958528139070497
+    },
+    "last_losses": {
+      "total": 0.026105612516403198,
+      "phase": 0.004895539488643408,
+      "chemical": 0.0043003191240131855,
+      "momentum": 0.01653879228979349,
+      "boundary": 0.0003709614670697192
+    },
+    "last_500_update_relative_improvement": {
+      "phi": 0.1782679292459578,
+      "terminal_phi": 0.26502906709730656,
+      "velocity": 0.03810090099066399,
+      "pressure": -0.04282301538008615,
+      "dispersed_phase": 0.17826792924595758,
+      "chemical": 0.07310286669563315
+    },
+    "scope": "L2:one development geometry on fixed FEM queries; loss:actual stochastic physics batches, no evolving labels",
+    "temporal_scope": "Phi/droplet includes all saved times; velocity/pressure/chemical exclude unprescribed initial pressure/time0",
+    "smoothing": false,
+    "curve_fitting": false,
+    "loss_grouping": "Momentum x+y, sum of five BC MSE terms; all original scaling retained"
+  },
+  "latest_audit_stage": "completed_with_saved_run_audits",
+  "physical_replay_validation_status": "replay_and_hard_constraints_passed",
+  "original_cold5000_pipeline_status": "completed",
+  "original_source_byte_checks": 97,
+  "held_out_3_evaluation": {
+    "path": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-integral-random-walls-online-width128-01/unseen3/evaluation.json",
+    "status": "frozen_unseen_geometry_evaluation_completed",
+    "aggregate": {
+      "phi": {
+        "mean": 0.06075448657968733,
+        "p90": 0.06105724251266042,
+        "worst": 0.06113367522353501
+      },
+      "phi_area_weighted": {
+        "mean": 0.05559816897656591,
+        "p90": 0.05603274621373406,
+        "worst": 0.056214914461125816
+      },
+      "velocity": {
+        "mean": 0.046609012707121,
+        "p90": 0.04988692978602396,
+        "worst": 0.0511126562227941
+      },
+      "velocity_area_weighted": {
+        "mean": 0.047704980475578584,
+        "p90": 0.05031261740334301,
+        "worst": 0.05126122948234406
+      },
+      "pressure": {
+        "mean": 0.08136581290455415,
+        "p90": 0.10218664177626817,
+        "worst": 0.10914753307187768
+      },
+      "pressure_area_weighted": {
+        "mean": 0.0792215980390243,
+        "p90": 0.09949496903068752,
+        "worst": 0.10625725588398274
+      },
+      "chemical": {
+        "mean": 0.47455391091580235,
+        "p90": 0.5055249369512248,
+        "worst": 0.5172743834114671
+      },
+      "chemical_area_weighted": {
+        "mean": 0.4685494524196214,
+        "p90": 0.5055610563474069,
+        "worst": 0.5196136094527312
+      },
+      "terminal_phi": {
+        "mean": 0.06707365908236451,
+        "p90": 0.07061536068862588,
+        "worst": 0.0709710937203023
+      },
+      "dispersed_fraction": {
+        "mean": 0.16015495764952822,
+        "p90": 0.16122080414626583,
+        "worst": 0.16143715025112895
+      }
+    },
+    "per_geometry": [
+      {
+        "index": 0,
+        "metrics": {
+          "phi": 0.06037827284636493,
+          "phi_area_weighted": 0.055304073224167034,
+          "velocity": 0.043730357859625486,
+          "velocity_area_weighted": 0.045335542857052887,
+          "pressure": 0.06060682904795463,
+          "pressure_area_weighted": 0.058961716615583484,
+          "chemical": 0.44786019822568474,
+          "chemical_area_weighted": 0.43668390388002337,
+          "terminal_phi": 0.06919242856192018,
+          "dispersed_fraction": 0.1586723029706424
+        }
+      },
+      {
+        "index": 1,
+        "metrics": {
+          "phi": 0.06075151166916205,
+          "phi_area_weighted": 0.056214914461125816,
+          "velocity": 0.0511126562227941,
+          "velocity_area_weighted": 0.05126122948234406,
+          "pressure": 0.10914753307187768,
+          "pressure_area_weighted": 0.10625725588398274,
+          "chemical": 0.5172743834114671,
+          "chemical_area_weighted": 0.5196136094527312,
+          "terminal_phi": 0.0709710937203023,
+          "dispersed_fraction": 0.16143715025112895
+        }
+      },
+      {
+        "index": 2,
+        "metrics": {
+          "phi": 0.06113367522353501,
+          "phi_area_weighted": 0.05527551924440486,
+          "velocity": 0.044984024038943395,
+          "velocity_area_weighted": 0.0465181690873388,
+          "pressure": 0.07434307659383015,
+          "pressure_area_weighted": 0.07244582161750668,
+          "chemical": 0.45852715111025516,
+          "chemical_area_weighted": 0.44935084392610986,
+          "terminal_phi": 0.06105745496487107,
+          "dispersed_fraction": 0.1603554197268134
+        }
+      }
+    ],
+    "geometry_response": {
+      "phi": {
+        "relative_error": 0.41078699404294483,
+        "amplitude_ratio": 0.8567534194989983,
+        "correlation": 0.9134953136596273,
+        "scope": "Identical physical(x,y)points; excludes coordinate-map effects; flow uses positive times"
+      },
+      "velocity": {
+        "relative_error": 0.2981422650367164,
+        "amplitude_ratio": 1.039684578103206,
+        "correlation": 0.9580094067465681,
+        "scope": "Identical physical(x,y)points; excludes coordinate-map effects; flow uses positive times"
+      },
+      "pressure": {
+        "relative_error": 0.8778630215661475,
+        "amplitude_ratio": 0.5245897480703589,
+        "correlation": 0.4809004760417138,
+        "scope": "Identical physical(x,y)points; excludes coordinate-map effects; flow uses positive times"
+      }
+    },
+    "mean_principal_target_met": true,
+    "all_principal_cases_below10percent": false,
+    "scope": "3predeclared unseen geometries from the declared prior; finite-cohort estimate, not a uniform continuous-prior guarantee"
+  },
+  "capacity_trial": {
+    "observed_utc": "2026-11-02T07:51:50.774183+00:00",
+    "status": "interrupted_by_external_hardware_change",
+    "config": "examples.channel_nsch2d.configs.train_operator_random_walls_width192_batch8",
+    "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-integral-random-walls-online-width192-b8-10k-01",
+    "pipeline": "/root/autodl-tmp/data/channel_nsch2d/random-walls-width192-b8-10k-20261102-01/training-pipeline.json",
+    "owner_journal": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-integral-random-walls-online-width192-b8-10k-01-process.json",
+    "geometry_batch": 8,
+    "candidate_pool_capacity": 16,
+    "width": 192,
+    "attention_heads": 4,
+    "head_dimension": 48,
+    "parameters": 1232004,
+    "time_samples": 40,
+    "time_microbatch": 2,
+    "requested_updates": 10000,
+    "resource_probe": "/root/autodl-tmp/data/channel_nsch2d/random-walls-width192-b8-10k-20261102-01/resource-probe/result.json",
+    "probe_updates": 7,
+    "warm_seconds": 4.524409633207445,
+    "peak_active_bytes": 20384015360,
+    "cold_state": {
+      "status": "fresh_capacity_model_and_complete_optimizer_exact",
+      "cold": true,
+      "imported_fitted_probe_state": false,
+      "compared_to": "Resource probe state saved BEFORE any update; architecture differs from old control"
+    },
+    "input_screen": {
+      "path": "/root/autodl-tmp/data/channel_nsch2d/random-walls-width192-b8-10k-20261102-01/input-screen.json",
+      "initial_geometries": 16,
+      "online_draws": 402,
+      "seconds": 435.7986078648828,
+      "maximum_condition": 250.9298356098536,
+      "maximum_polynomial_error": 5.60351764988809e-12,
+      "pde_solves": 0,
+      "fem_solves": 0
+    },
+    "focused_tests": {
+      "command": "JAX_PLATFORMS=cpu .venv/bin/python -m unittest tests.test_channel_capacity_validation -v",
+      "passed": 2
+    },
+    "scope": "One cold combined width/batch/budget trial, not exact continuation or isolated ablation",
+    "GPU_training_retries": 0,
+    "actual_initial_monitor": {
+      "step": 0,
+      "elapsed": 80.23792577674612,
+      "phi": 0.47940953578572165,
+      "terminal_phi": 0.5239364515719714,
+      "dispersed_phase": 1.2668045840061275,
+      "velocity": 0.07137368938968428,
+      "pressure": 0.996032847810474,
+      "chemical": 1.6747896854949504,
+      "phi_range": [
+        -1.158311128616333,
+        1.0000014305114746
+      ],
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+      "scope": "One local-FEM geometry; not a generalization estimate"
+    },
+    "live_source_byte_checks": 99,
+    "latest_status": {
+      "observed_utc": "2026-11-02T08:03:48.790427+00:00",
+      "status": "training",
+      "training_child_pid": 806694,
+      "completed_updates_lower_bound": 50,
+      "latest_loss": {
+        "step": 1,
+        "total": 23.4403076171875,
+        "parts": {
+          "phase": 18.586984634399414,
+          "chemical": 1.4004358053207397,
+          "momentum_x": 1.4379591941833496,
+          "momentum_y": 1.9872362613677979,
+          "wall_phase": 0.0020021346863359213,
+          "wall_mu": 0.0028137853369116783,
+          "outlet_traction": 0.018778566271066666,
+          "outlet_phase": 0.002198224887251854,
+          "outlet_mu": 0.0019027580274268985
+        }
+      },
+      "latest_monitor": {
+        "step": 0,
+        "elapsed": 80.23792577674612,
+        "phi": 0.47940953578572165,
+        "terminal_phi": 0.5239364515719714,
+        "dispersed_phase": 1.2668045840061275,
+        "velocity": 0.07137368938968428,
+        "pressure": 0.996032847810474,
+        "chemical": 1.6747896854949504,
+        "phi_range": [
+          -1.158311128616333,
+          1.0000014305114746
+        ],
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+        "scope": "One local-FEM geometry; not a generalization estimate"
+      },
+      "source_byte_checks": 99,
+      "new_trained_L2_available": false
+    },
+    "latest_timing_status": {
+      "observed_utc": "2026-11-02T08:10:32.282318+00:00",
+      "completed_updates_lower_bound": 150,
+      "last_loss_step": 100,
+      "last_loss_total": 1.1492453813552856,
+      "timing_interval": [
+        100,
+        150
+      ],
+      "approximate_wall_seconds_per_update": 4.577187790870666,
+      "approximate_500_update_minutes": 38.14323159058889,
+      "approximate_remaining_to_500_minutes": 26.700262113412222,
+      "approximate_10000_update_hours": 12.714410530196297,
+      "timing_scope": "Saved step100 loss flush to before-step151 refresh file mtime; includes between-update input/host work; excludes initial compile",
+      "trained_L2_available": false
+    }
+  },
+  "pro6000_hardware_trial": {
+    "observed_utc": "2026-11-02T08:33:08.008056+00:00",
+    "status": "replacement_cold10000_started",
+    "hardware": {
+      "gpu_name": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+      "gpu_uuid": "GPU-65a147dd-84d3-89dd-c771-f0d2eac3664f",
+      "total_memory_bytes": 102641958912,
+      "time_microbatch": 2,
+      "scope": "Same effective condition/time objective; changed hardware and explicit execution block only"
+    },
+    "same_scheme_time2": {
+      "result": "/root/autodl-tmp/data/channel_nsch2d/random-walls-pro6000-timing-20261102-01/time2/result.json",
+      "warm_seconds": 4.704752768576145,
+      "warm_first7_aligned": 4.706008260448773,
+      "cold_first_seconds": 354.59136790782213,
+      "peak_bytes": 20274826240,
+      "pure_500_minutes": 39.206273071467876,
+      "pure_10000_hours": 13.068757690489292,
+      "unfitted_state_equal_5090": {
+        "model_initial.eqx": true,
+        "optimizer_initial.eqx": true
+      }
+    },
+    "time8": {
+      "status": "finite_production_probe_passed",
+      "result": "/root/autodl-tmp/data/channel_nsch2d/random-walls-pro6000-timing-20261102-01/time8/result.json",
+      "warm_seconds": 2.3901492793112995,
+      "peak_bytes": 43149239808,
+      "pure_10000_hours": 6.639303553642498
+    },
+    "unchanged_input_screen": "/root/autodl-tmp/data/channel_nsch2d/random-walls-width192-b8-10k-20261102-01/input-screen.json",
+    "focused_guard_tests": 3,
+    "new_FEM_solves": 0,
+    "git_changes_authorized": false,
+    "aggressive_memory": {
+      "user_authorized": true,
+      "time_block": 20,
+      "allocator_fraction": 0.97,
+      "result": "/root/autodl-tmp/data/channel_nsch2d/random-walls-pro6000-timing-20261102-01/time20-fraction97/result.json",
+      "status": "finite_production_probe_passed",
+      "unified_exec_session": 50061,
+      "process_pid": 51302,
+      "actual_peak_target_GiB": [
+        85,
+        90
+      ],
+      "first95percent_preflight": {
+        "status": "skipped_memory_preflight",
+        "result": "/root/autodl-tmp/data/channel_nsch2d/random-walls-pro6000-timing-20261102-01/time20/result.json",
+        "analysis": {
+          "argument_bytes": 290739376,
+          "output_bytes": 28212037,
+          "alias_bytes": 0,
+          "temporary_bytes": 93420688904,
+          "resident_bytes": 870344448,
+          "estimated_peak_bytes": 94319245389,
+          "allowed_peak_bytes": 93969114955,
+          "compile_seconds": 380.03729347512126
+        },
+        "optimizer_updates": 0
+      },
+      "warm_seconds": 1.886506100744009,
+      "peak_active_GiB": 88.05548667907715
+    },
+    "timing_comparison": {
+      "observed_utc": "2026-11-02T09:03:54.203306+00:00",
+      "status": "qualified_block20_selected_replacement_training_started",
+      "rows": [
+        {
+          "label": "RTX5090 / block2",
+          "path": "/root/autodl-tmp/data/channel_nsch2d/random-walls-width192-b8-10k-20261102-01/resource-probe/result.json",
+          "seconds_per_update": 4.524409633207445,
+          "peak_active_GiB": 18.98409366607666,
+          "pure_500_minutes": 37.70341361006204,
+          "pure_10000_hours": 12.567804536687348,
+          "updates": 7
+        },
+        {
+          "label": "PRO6000 / block2",
+          "path": "/root/autodl-tmp/data/channel_nsch2d/random-walls-pro6000-timing-20261102-01/time2/result.json",
+          "seconds_per_update": 4.704752768576145,
+          "peak_active_GiB": 18.88240337371826,
+          "pure_500_minutes": 39.206273071467876,
+          "pure_10000_hours": 13.068757690489292,
+          "updates": 11
+        },
+        {
+          "label": "PRO6000 / block8",
+          "path": "/root/autodl-tmp/data/channel_nsch2d/random-walls-pro6000-timing-20261102-01/time8/result.json",
+          "seconds_per_update": 2.3901492793112995,
+          "peak_active_GiB": 40.185861110687256,
+          "pure_500_minutes": 19.917910660927493,
+          "pure_10000_hours": 6.639303553642498,
+          "updates": 11
+        },
+        {
+          "label": "PRO6000 / block20",
+          "path": "/root/autodl-tmp/data/channel_nsch2d/random-walls-pro6000-timing-20261102-01/time20-fraction97/result.json",
+          "seconds_per_update": 1.886506100744009,
+          "peak_active_GiB": 88.05548667907715,
+          "pure_500_minutes": 15.720884172866741,
+          "pure_10000_hours": 5.240294724288914,
+          "updates": 11
+        }
+      ],
+      "selected": "PRO6000 / block20",
+      "same_effective_geometry_batch": 8,
+      "same_effective_time_batch": 40,
+      "width": 192,
+      "allocator_fraction": 0.97,
+      "speedup_vs5090": 2.3983010876154007,
+      "speedup_vs_pro6000_block2": 2.4938974576974138,
+      "actual_memory_fraction": 0.9211521280596504,
+      "scope": "Timing/resource comparison; no accuracy estimate, different floating-point reduction/hardware may alter trajectories"
+    },
+    "replacement_run": {
+      "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01",
+      "owner_journal": "/root/autodl-tmp/data/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01-process.json",
+      "owner_pid": 67622,
+      "training_pid": 67633,
+      "status": "training",
+      "memory_fraction": 0.97,
+      "time_block": 20,
+      "cold_state": {
+        "status": "fresh_capacity_model_and_complete_optimizer_exact",
+        "cold": true,
+        "imported_fitted_probe_state": false,
+        "compared_to": "Resource probe state saved BEFORE any update; architecture differs from old control"
+      },
+      "live_source_byte_checks": 101,
+      "screen_session": "channel-random-walls-pro6000-192-b8-10k",
+      "actual_first_update_completed": true,
+      "latest_observed_loss": {
+        "step": 1,
+        "total": 23.4403076171875,
+        "parts": {
+          "phase": 18.58698272705078,
+          "chemical": 1.4004356861114502,
+          "momentum_x": 1.4379591941833496,
+          "momentum_y": 1.9872362613677979,
+          "wall_phase": 0.002002131659537554,
+          "wall_mu": 0.002813786966726184,
+          "outlet_traction": 0.018778568133711815,
+          "outlet_phase": 0.0021982237230986357,
+          "outlet_mu": 0.0019027580274268985
+        }
+      },
+      "observed_utc": "2026-11-02T09:11:46.772831+00:00"
+    },
+    "latest_training_status": {
+      "status": "completed_with_saved_run_audits",
+      "observed_utc": "2026-11-02T14:46:22.507965+00:00",
+      "completed_updates": 10000,
+      "training_process_exited": true,
+      "all_audits_complete": true,
+      "nominal_metrics": {
+        "step": 10000,
+        "elapsed": 19501.258503735065,
+        "phi": 0.026781278931850408,
+        "terminal_phi": 0.04054964547654848,
+        "dispersed_phase": 0.07076756798508652,
+        "velocity": 0.016700109554117624,
+        "pressure": 0.058930890802076835,
+        "chemical": 0.14103036287572812,
+        "phi_range": [
+          -1.12398362159729,
+          1.0457229614257812
+        ],
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+        "scope": "One local-FEM geometry; not a generalization estimate"
+      },
+      "journal": "/root/autodl-tmp/data/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01-process.json"
+    }
+  },
+  "physical_field_preview": {
+    "observed_utc": "2026-11-02T10:50:01.928962+00:00",
+    "shown_run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-integral-random-walls-online-width128-01",
+    "shown_step": 5000,
+    "shown_version": "OLD width128/B2, not the current width192/B8 training",
+    "old_gallery": "/root/autodl-tmp/data/channel_nsch2d/random-walls-field-preview-20261102-01/old-width128-step5000",
+    "old_gallery_validation": "/root/autodl-tmp/data/channel_nsch2d/random-walls-field-preview-20261102-01/old-width128-step5000/gallery-validation.json",
+    "current_run_has_trained_checkpoint": true,
+    "current_checkpoint_gallery_waiter": {
+      "status": "partial_checkpoint_gallery_completed",
+      "pid": 95416,
+      "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01",
+      "owner": "/root/autodl-tmp/data/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01-process.json",
+      "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/ckpt_005000.eqx",
+      "step": 5000,
+      "output": "/root/autodl-tmp/data/channel_nsch2d/random-walls-field-preview-20261102-01/current-width192-step5000",
+      "timeout_seconds": 7200,
+      "started_utc": "2026-11-02T10:48:23.972735+00:00",
+      "scope": "One CPU-only partial-checkpoint gallery; no training, FEM or optimizer recovery",
+      "recovered_from_absent_pid": 90219,
+      "interruption_cause": "Unconfirmed; original process absent with stale waiting status",
+      "recovered_utc": "2026-11-02T11:58:57.314379+00:00",
+      "source_byte_checks": 101,
+      "stages": [
+        {
+          "name": "nominal_metric_replay",
+          "pid": 95419,
+          "started_utc": "2026-11-02T11:58:57.315958+00:00",
+          "arguments": [
+            "docs/tasks/channel_partial_evaluate.py",
+            "--run",
+            "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01",
+            "--step",
+            "5000"
+          ],
+          "returncode": 0,
+          "completed_utc": "2026-11-02T11:59:04.457959+00:00"
+        },
+        {
+          "name": "phi_fields",
+          "pid": 95453,
+          "started_utc": "2026-11-02T11:59:04.459568+00:00",
+          "arguments": [
+            "-m",
+            "examples.channel_nsch2d.evaluate",
+            "--fields",
+            "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/partial_005000.npz",
+            "--output",
+            "/root/autodl-tmp/data/channel_nsch2d/random-walls-field-preview-20261102-01/current-width192-step5000",
+            "--field",
+            "phi",
+            "--times",
+            "0",
+            "1.5",
+            "3",
+            "4.5",
+            "6"
+          ],
+          "returncode": 0,
+          "completed_utc": "2026-11-02T11:59:06.338760+00:00"
+        },
+        {
+          "name": "flow_fields",
+          "pid": 95456,
+          "started_utc": "2026-11-02T11:59:06.340595+00:00",
+          "arguments": [
+            "-m",
+            "examples.channel_nsch2d.evaluate",
+            "--fields",
+            "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/partial_005000.npz",
+            "--output",
+            "/root/autodl-tmp/data/channel_nsch2d/random-walls-field-preview-20261102-01/current-width192-step5000",
+            "--field",
+            "speed",
+            "--field",
+            "pressure",
+            "--times",
+            ".5",
+            "1.5",
+            "3",
+            "4.5",
+            "6"
+          ],
+          "returncode": 0,
+          "completed_utc": "2026-11-02T11:59:09.209716+00:00"
+        },
+        {
+          "name": "droplet_shape",
+          "pid": 95457,
+          "started_utc": "2026-11-02T11:59:09.211641+00:00",
+          "arguments": [
+            "docs/tasks/channel_droplet_metrics.py",
+            "--fields",
+            "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/partial_005000.npz",
+            "--output",
+            "/root/autodl-tmp/data/channel_nsch2d/random-walls-field-preview-20261102-01/current-width192-step5000/droplet-shape"
+          ],
+          "returncode": 0,
+          "completed_utc": "2026-11-02T11:59:10.327945+00:00"
+        }
+      ],
+      "completed_utc": "2026-11-02T11:59:10.329161+00:00"
+    },
+    "waiter_screen": "channel-fields-pro6000-5000",
+    "source": "docs/tasks/channel_checkpoint_gallery_waiter.py",
+    "old_figure_validation": "Original saved fields/references/queries and endpoint L2 match; spatial display interpolation only",
+    "verification": "Helper AST/CLI and live waiting branch pass; CPU replay for current5000still pending; unchanged101source bytes",
+    "current_nominal_snapshot_proof": {
+      "status": "partial_checkpoint_metric_replay_passed",
+      "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/ckpt_005000.eqx",
+      "step": 5000,
+      "metrics": {
+        "phi": 0.03640686046328532,
+        "terminal_phi": 0.047300287294953516,
+        "velocity": 0.028909713582161493,
+        "pressure": 0.04735342516548717
+      },
+      "logged_metric_absolute_gap": {
+        "phi": 3.7689588588962764e-08,
+        "terminal_phi": 2.713300074896896e-08,
+        "velocity": 2.2630693014003e-09,
+        "pressure": 6.428695357302283e-08
+      },
+      "phase_min": [
+        -1.0,
+        -1.0977193117141724,
+        -1.111045241355896,
+        -1.1105921268463135,
+        -1.095483422279358,
+        -1.086138129234314,
+        -1.07491934299469,
+        -1.0631020069122314,
+        -1.055976152420044,
+        -1.055166482925415,
+        -1.0571184158325195,
+        -1.0525941848754883,
+        -1.046260118484497
+      ],
+      "phase_max": [
+        1.0000014305114746,
+        1.0281838178634644,
+        1.033280372619629,
+        1.038472294807434,
+        1.0413614511489868,
+        1.0429015159606934,
+        1.0436944961547852,
+        1.0439834594726562,
+        1.0442471504211426,
+        1.0442646741867065,
+        1.043790340423584,
+        1.040543556213379,
+        1.0327870845794678
+      ],
+      "terminal_negative_queries": 127,
+      "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/partial_005000.npz",
+      "scope": "One development FEM geometry, partial model only; no optimizer recovery or complete-run/physical-balance claim"
+    },
+    "recovery_receipt": "/root/autodl-tmp/data/channel_nsch2d/random-walls-field-preview-20261102-01/current-width192-step5000/interrupted-waiter-status.json",
+    "current_gallery": "/root/autodl-tmp/data/channel_nsch2d/random-walls-field-preview-20261102-01/current-width192-step5000"
+  },
+  "evaluation_set_scope": {
+    "observed_utc": "2026-11-02T10:59:45.039331+00:00",
+    "monitored_geometry_count": 1,
+    "monitored_geometry_role": "Development validation; excluded from initial/rolling PDE-training geometries, repeatedly monitored",
+    "phase_time_snapshots": 13,
+    "time_range": [
+      0,
+      6
+    ],
+    "time_spacing": 0.5,
+    "spatial_queries_per_geometry": 3840,
+    "query_grid": [
+      96,
+      40
+    ],
+    "phase_spacetime_queries_per_geometry": 49920,
+    "terminal_phase_spatial_queries": 3840,
+    "velocity_pressure_chemical_positive_time_snapshots": 12,
+    "velocity_pressure_chemical_spacetime_queries_per_geometry": 46080,
+    "phase_reduction": "Unweighted pooled Euclidean relative L2 over one geometry, all space and saved times",
+    "reserved_geometry_count": 3,
+    "reserved_new_run_evaluation": "Final actual10000GPU three-case cohort and independent CPU snapshot evaluation complete; all finite owner stages exited0",
+    "prior_reserved_use": "The same three reserved cases already evaluated with the older width128/B2 run; not a newly unseen final test set",
+    "training": "16-slot rolling geometry candidate pool,8 draws/update,2 replacements/50updates; not a16-sample fixed training set",
+    "reference_records": [
+      {
+        "root": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development",
+        "fields_shape": [
+          13,
+          3840,
+          5
+        ],
+        "points_shape": [
+          3840,
+          2
+        ]
+      },
+      {
+        "root": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000",
+        "fields_shape": [
+          13,
+          3840,
+          5
+        ],
+        "points_shape": [
+          3840,
+          2
+        ]
+      },
+      {
+        "root": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001",
+        "fields_shape": [
+          13,
+          3840,
+          5
+        ],
+        "points_shape": [
+          3840,
+          2
+        ]
+      },
+      {
+        "root": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002",
+        "fields_shape": [
+          13,
+          3840,
+          5
+        ],
+        "points_shape": [
+          3840,
+          2
+        ]
+      }
+    ],
+    "interpretation": "49920 query evaluations do not constitute49920 independent geometry test samples; current nominal L2 does not establish geometry-distribution generalization"
+  },
+  "reserved_snapshot_evaluation": {
+    "observed_utc": "2026-11-02T12:04:02.833173+00:00",
+    "manifest": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/manifest.json",
+    "case_selection": "All three predeclared reserved cases; none selected by model score",
+    "old_status": {
+      "status": "snapshot_cohort_completed",
+      "pid": 92338,
+      "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-integral-random-walls-online-width128-01",
+      "owner": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-integral-random-walls-online-width128-01-process.json",
+      "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-integral-random-walls-online-width128-01/ckpt_005000.eqx",
+      "step": 5000,
+      "manifest": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/manifest.json",
+      "output": "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/old-width128-step5000",
+      "started_utc": "2026-11-02T11:08:54.113434+00:00",
+      "timeout_seconds": 7200,
+      "stages": [
+        {
+          "stage": "reserved_cpu_evaluation",
+          "pid": 92339
+        }
+      ],
+      "source_byte_checks": 97,
+      "completed_utc": "2026-11-02T11:09:10.712683+00:00"
+    },
+    "old_evaluation": "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/old-width128-step5000/evaluation.json",
+    "old_aggregate": {
+      "phi": {
+        "mean": 0.06075447668790046,
+        "worst": 0.061133665591681555
+      },
+      "phi_area_weighted": {
+        "mean": 0.055598159060545695,
+        "worst": 0.05621490354544045
+      },
+      "velocity": {
+        "mean": 0.04660904260704929,
+        "worst": 0.05111269998331038
+      },
+      "velocity_area_weighted": {
+        "mean": 0.04770500454973447,
+        "worst": 0.051261263412662066
+      },
+      "pressure": {
+        "mean": 0.08136581254426219,
+        "worst": 0.10914752752275166
+      },
+      "pressure_area_weighted": {
+        "mean": 0.07922159849622216,
+        "worst": 0.10625725120501477
+      },
+      "chemical": {
+        "mean": 0.47455390975559175,
+        "worst": 0.5172743927186993
+      },
+      "chemical_area_weighted": {
+        "mean": 0.4685494493497748,
+        "worst": 0.5196136183739416
+      },
+      "terminal_phi": {
+        "mean": 0.06707366293773369,
+        "worst": 0.07097110379471014
+      },
+      "dispersed_fraction": {
+        "mean": 0.16015493156273655,
+        "worst": 0.1614371211124467
+      }
+    },
+    "old_per_geometry": [
+      {
+        "index": 0,
+        "metrics": {
+          "phi": 0.060378263768233416,
+          "phi_area_weighted": 0.055304064919213136,
+          "velocity": 0.04373035435541783,
+          "velocity_area_weighted": 0.045335539842027095,
+          "pressure": 0.06060683803379021,
+          "pressure_area_weighted": 0.05896172614998167,
+          "chemical": 0.44786019116075837,
+          "chemical_area_weighted": 0.4366838938215451,
+          "terminal_phi": 0.06919244014064048,
+          "dispersed_fraction": 0.15867227911358314
+        },
+        "hard_constraint_max_gaps": {
+          "initial_phi": 1.4564099606317882e-06,
+          "initial_velocity": 0.0,
+          "wall_velocity": 4.4406857568901614e-07,
+          "section_flux": 1.2808674362818628e-07
+        },
+        "terminal_shape": {
+          "time": 6.0,
+          "phase_global_relative_L2": 0.06919244014064048,
+          "minority_fraction_relative_L2": 0.21038662468287275,
+          "interface_phi_relative_L2": 0.324806227234212,
+          "droplet_band_phi_relative_L2": 0.29510980966995864,
+          "reference_negative_area_fraction": 0.03583051895181007,
+          "negative_phase_IoU": 0.7747782565806908,
+          "zero_contour": {
+            "predicted_components": 1,
+            "reference_components": 1,
+            "mean_distance": 0.0240546822108933,
+            "sampled_hausdorff": 0.0507852244522224,
+            "contour_missing": false
+          },
+          "contour_mean_distance_over_initial_radius": 0.10933946459496954,
+          "velocity_global_relative_L2": 0.05643783689774453,
+          "velocity_interface_relative_L2": 0.11206059478385312,
+          "velocity_droplet_band_relative_L2": 0.1073696676861965,
+          "pressure_global_relative_L2": 0.09402908874045401,
+          "pressure_interface_relative_L2": 0.21633598264445308,
+          "pressure_droplet_band_relative_L2": 0.23819188364887692
+        }
+      },
+      {
+        "index": 1,
+        "metrics": {
+          "phi": 0.06075150070378641,
+          "phi_area_weighted": 0.05621490354544045,
+          "velocity": 0.05111269998331038,
+          "velocity_area_weighted": 0.051261263412662066,
+          "pressure": 0.10914752752275166,
+          "pressure_area_weighted": 0.10625725120501477,
+          "chemical": 0.5172743927186993,
+          "chemical_area_weighted": 0.5196136183739416,
+          "terminal_phi": 0.07097110379471014,
+          "dispersed_fraction": 0.1614371211124467
+        },
+        "hard_constraint_max_gaps": {
+          "initial_phi": 1.4564099606317882e-06,
+          "initial_velocity": 0.0,
+          "wall_velocity": 1.1823856311821146e-06,
+          "section_flux": 1.4148192223339962e-07
+        },
+        "terminal_shape": {
+          "time": 6.0,
+          "phase_global_relative_L2": 0.07097110379471015,
+          "minority_fraction_relative_L2": 0.20855639173513013,
+          "interface_phi_relative_L2": 0.3637647610172926,
+          "droplet_band_phi_relative_L2": 0.3213550701145209,
+          "reference_negative_area_fraction": 0.035532688459732294,
+          "negative_phase_IoU": 0.8067063913008288,
+          "zero_contour": {
+            "predicted_components": 1,
+            "reference_components": 1,
+            "mean_distance": 0.024241207036240518,
+            "sampled_hausdorff": 0.047000257125832924,
+            "contour_missing": false
+          },
+          "contour_mean_distance_over_initial_radius": 0.11018730471018418,
+          "velocity_global_relative_L2": 0.05301125500064195,
+          "velocity_interface_relative_L2": 0.06108565531213028,
+          "velocity_droplet_band_relative_L2": 0.05869531304327024,
+          "pressure_global_relative_L2": 0.08874838299165748,
+          "pressure_interface_relative_L2": 0.31191643206898645,
+          "pressure_droplet_band_relative_L2": 0.34553747144805347
+        }
+      },
+      {
+        "index": 2,
+        "metrics": {
+          "phi": 0.061133665591681555,
+          "phi_area_weighted": 0.05527550871698351,
+          "velocity": 0.04498407348241966,
+          "velocity_area_weighted": 0.046518210394514224,
+          "pressure": 0.07434307207624473,
+          "pressure_area_weighted": 0.07244581813367007,
+          "chemical": 0.4585271453873175,
+          "chemical_area_weighted": 0.4493508358538379,
+          "terminal_phi": 0.06105744487785041,
+          "dispersed_fraction": 0.16035539446217986
+        },
+        "hard_constraint_max_gaps": {
+          "initial_phi": 1.4564099606317882e-06,
+          "initial_velocity": 0.0,
+          "wall_velocity": 8.522467851435067e-07,
+          "section_flux": 1.0272139211453535e-07
+        },
+        "terminal_shape": {
+          "time": 6.0,
+          "phase_global_relative_L2": 0.061057444877850406,
+          "minority_fraction_relative_L2": 0.18641215875402078,
+          "interface_phi_relative_L2": 0.2788702754527044,
+          "droplet_band_phi_relative_L2": 0.2557343240334575,
+          "reference_negative_area_fraction": 0.03475309399671549,
+          "negative_phase_IoU": 0.8411084600445013,
+          "zero_contour": {
+            "predicted_components": 1,
+            "reference_components": 1,
+            "mean_distance": 0.02032994825131751,
+            "sampled_hausdorff": 0.04444852991678998,
+            "contour_missing": false
+          },
+          "contour_mean_distance_over_initial_radius": 0.09240885568780687,
+          "velocity_global_relative_L2": 0.05763372370774374,
+          "velocity_interface_relative_L2": 0.1098692927704359,
+          "velocity_droplet_band_relative_L2": 0.10536898183681584,
+          "pressure_global_relative_L2": 0.09973674112203731,
+          "pressure_interface_relative_L2": 0.19746288699401823,
+          "pressure_droplet_band_relative_L2": 0.20924716607765503
+        }
+      }
+    ],
+    "old_CPU_to_saved_cohort_maximum_metric_gap": 4.94434762646212e-08,
+    "old_overview_images": [
+      "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/old-width128-step5000/reserved-phi.png",
+      "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/old-width128-step5000/reserved-contours.png"
+    ],
+    "current_status": {
+      "status": "snapshot_cohort_completed",
+      "pid": 92372,
+      "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01",
+      "owner": "/root/autodl-tmp/data/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01-process.json",
+      "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/ckpt_005000.eqx",
+      "step": 5000,
+      "manifest": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/manifest.json",
+      "output": "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step5000",
+      "started_utc": "2026-11-02T11:08:56.432965+00:00",
+      "timeout_seconds": 7200,
+      "stages": [
+        {
+          "stage": "reserved_cpu_evaluation",
+          "pid": 95467
+        }
+      ],
+      "source_byte_checks": 101,
+      "completed_utc": "2026-11-02T11:59:43.001521+00:00"
+    },
+    "current_screen": "channel-reserved-pro6000-5000",
+    "source": "docs/tasks/channel_snapshot_cohort.py",
+    "verification": "Helper AST/CLI; actual full3case CPU replay and IC/wall/flux gates; old97and current101source byte checks; inspected both overview PNGs",
+    "new_FEM_solves": 0,
+    "new_training_runs": 0,
+    "scope": "Both old128/B2and current192/B8step5000three-case results actually completed; reused small validation cohort, final10kaudits pending",
+    "current_evaluation": "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step5000/evaluation.json",
+    "current_aggregate": {
+      "phi": {
+        "mean": 0.029351082121138,
+        "worst": 0.03359531944950599
+      },
+      "phi_area_weighted": {
+        "mean": 0.026935482231615432,
+        "worst": 0.030964425955660037
+      },
+      "velocity": {
+        "mean": 0.030659856354308013,
+        "worst": 0.0322100749510503
+      },
+      "velocity_area_weighted": {
+        "mean": 0.03208593913487806,
+        "worst": 0.03328531224744069
+      },
+      "pressure": {
+        "mean": 0.07077222982698395,
+        "worst": 0.10576269318935001
+      },
+      "pressure_area_weighted": {
+        "mean": 0.0697713339759049,
+        "worst": 0.10461141885022693
+      },
+      "chemical": {
+        "mean": 0.2630239863118046,
+        "worst": 0.32953247630727034
+      },
+      "chemical_area_weighted": {
+        "mean": 0.2697379214138006,
+        "worst": 0.34470126184799005
+      },
+      "terminal_phi": {
+        "mean": 0.03304964456411218,
+        "worst": 0.04326477275548592
+      },
+      "dispersed_fraction": {
+        "mean": 0.07733544219826616,
+        "worst": 0.08812150637899113
+      }
+    },
+    "current_per_geometry": [
+      {
+        "index": 0,
+        "parameters": [
+          0.3090539227646124,
+          0.14364653707460726,
+          0.0813203408361208,
+          0.08550434257449695,
+          0.30179060238210026,
+          0.2554867844920518,
+          0.019065546317808997,
+          0.25010729472827614,
+          0.19122780727009883,
+          0.24719943061789257,
+          0.045105197103679655,
+          0.2441051381901631,
+          0.1408498567141242,
+          0.174619574298052,
+          0.09348827290974912,
+          0.3747891429262041
+        ],
+        "metrics": {
+          "phi": 0.028202112300770084,
+          "phi_area_weighted": 0.025468523624060695,
+          "velocity": 0.029865467387460355,
+          "velocity_area_weighted": 0.031574019886723495,
+          "pressure": 0.047911410049194345,
+          "pressure_area_weighted": 0.04749142542356808,
+          "chemical": 0.2211233869012154,
+          "chemical_area_weighted": 0.2222919782484258,
+          "terminal_phi": 0.03166706694011676,
+          "dispersed_fraction": 0.07411431126535248
+        },
+        "hard_constraint_max_gaps": {
+          "initial_phi": 1.4564099606317882e-06,
+          "initial_velocity": 0.0,
+          "wall_velocity": 4.562244839689811e-07,
+          "section_flux": 2.6094711624846667e-07
+        },
+        "terminal_shape": {
+          "time": 6.0,
+          "phase_global_relative_L2": 0.03166706694011676,
+          "minority_fraction_relative_L2": 0.0954342163688441,
+          "interface_phi_relative_L2": 0.14916839027064793,
+          "droplet_band_phi_relative_L2": 0.13512713716575783,
+          "reference_negative_area_fraction": 0.03583051895181007,
+          "negative_phase_IoU": 0.8529280057755508,
+          "zero_contour": {
+            "predicted_components": 1,
+            "reference_components": 1,
+            "mean_distance": 0.01092890519559612,
+            "sampled_hausdorff": 0.01852168726781457,
+            "contour_missing": false
+          },
+          "contour_mean_distance_over_initial_radius": 0.04967684179816418,
+          "velocity_global_relative_L2": 0.03842993937501835,
+          "velocity_interface_relative_L2": 0.06990755784181253,
+          "velocity_droplet_band_relative_L2": 0.06720323334534242,
+          "pressure_global_relative_L2": 0.0774789101978062,
+          "pressure_interface_relative_L2": 0.11921855355390544,
+          "pressure_droplet_band_relative_L2": 0.12182944360773047
+        },
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+        "prediction": "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step5000/case_000/prediction.npz"
+      },
+      {
+        "index": 1,
+        "parameters": [
+          0.31371533005199304,
+          0.06772038083086487,
+          0.31935173035646774,
+          0.048298339326005996,
+          0.29026137418895825,
+          0.1603124954965605,
+          0.1809648868914434,
+          0.12991022922889,
+          0.1371630031263746,
+          0.2660221345631387,
+          0.034765747187667374,
+          0.052428396619163396,
+          0.05312006244347351,
+          0.1909123103807301,
+          0.23047640448489856,
+          0.3814034038970076
+        ],
+        "metrics": {
+          "phi": 0.026255814613137925,
+          "phi_area_weighted": 0.024373497115125556,
+          "velocity": 0.0322100749510503,
+          "velocity_area_weighted": 0.03328531224744069,
+          "pressure": 0.10576269318935001,
+          "pressure_area_weighted": 0.10461141885022693,
+          "chemical": 0.32953247630727034,
+          "chemical_area_weighted": 0.34470126184799005,
+          "terminal_phi": 0.024217093996733847,
+          "dispersed_fraction": 0.06977050895045488
+        },
+        "hard_constraint_max_gaps": {
+          "initial_phi": 1.4564099606317882e-06,
+          "initial_velocity": 0.0,
+          "wall_velocity": 1.2270020306459628e-06,
+          "section_flux": 2.9486088676256017e-07
+        },
+        "terminal_shape": {
+          "time": 6.0,
+          "phase_global_relative_L2": 0.02421709399673385,
+          "minority_fraction_relative_L2": 0.07100019075576401,
+          "interface_phi_relative_L2": 0.12207953171108123,
+          "droplet_band_phi_relative_L2": 0.10717243325428738,
+          "reference_negative_area_fraction": 0.035532688459732294,
+          "negative_phase_IoU": 0.933518487902757,
+          "zero_contour": {
+            "predicted_components": 1,
+            "reference_components": 1,
+            "mean_distance": 0.0076880439832495845,
+            "sampled_hausdorff": 0.015293785361439858,
+            "contour_missing": false
+          },
+          "contour_mean_distance_over_initial_radius": 0.034945654469316294,
+          "velocity_global_relative_L2": 0.03487681591828508,
+          "velocity_interface_relative_L2": 0.0385943074405218,
+          "velocity_droplet_band_relative_L2": 0.03767702794530816,
+          "pressure_global_relative_L2": 0.08401050897405445,
+          "pressure_interface_relative_L2": 0.2437079868659861,
+          "pressure_droplet_band_relative_L2": 0.2565576502718041
+        },
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+        "prediction": "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step5000/case_001/prediction.npz"
+      },
+      {
+        "index": 2,
+        "parameters": [
+          0.407304044162813,
+          0.2116225457558944,
+          0.0525903100886187,
+          0.34568060376815085,
+          0.24837705770529683,
+          0.08141488916656642,
+          0.05388298859976769,
+          0.2000547077101052,
+          0.3046637752352932,
+          0.05923911538732357,
+          0.1582307044455343,
+          0.13592184659185097,
+          0.09689348047697574,
+          0.24936932719772775,
+          0.16712652480411333,
+          0.2974665532681975
+        ],
+        "metrics": {
+          "phi": 0.03359531944950599,
+          "phi_area_weighted": 0.030964425955660037,
+          "velocity": 0.029904026724413384,
+          "velocity_area_weighted": 0.03139848527046999,
+          "pressure": 0.058642586242407486,
+          "pressure_area_weighted": 0.0572111576539197,
+          "chemical": 0.23841609572692818,
+          "chemical_area_weighted": 0.242220524144986,
+          "terminal_phi": 0.04326477275548592,
+          "dispersed_fraction": 0.08812150637899113
+        },
+        "hard_constraint_max_gaps": {
+          "initial_phi": 1.4564099606317882e-06,
+          "initial_velocity": 0.0,
+          "wall_velocity": 9.138535119745939e-07,
+          "section_flux": 2.522458071307909e-07
+        },
+        "terminal_shape": {
+          "time": 6.0,
+          "phase_global_relative_L2": 0.04326477275548592,
+          "minority_fraction_relative_L2": 0.13192891908540172,
+          "interface_phi_relative_L2": 0.20012995651496449,
+          "droplet_band_phi_relative_L2": 0.18267860914351178,
+          "reference_negative_area_fraction": 0.03475309399671549,
+          "negative_phase_IoU": 0.8782326358450494,
+          "zero_contour": {
+            "predicted_components": 1,
+            "reference_components": 1,
+            "mean_distance": 0.014495564251079073,
+            "sampled_hausdorff": 0.027733026765137638,
+            "contour_missing": false
+          },
+          "contour_mean_distance_over_initial_radius": 0.06588892841399578,
+          "velocity_global_relative_L2": 0.037927699187381,
+          "velocity_interface_relative_L2": 0.06766893997114092,
+          "velocity_droplet_band_relative_L2": 0.06525771307033527,
+          "pressure_global_relative_L2": 0.07980246942790983,
+          "pressure_interface_relative_L2": 0.1312251115942117,
+          "pressure_droplet_band_relative_L2": 0.1288842363062014
+        },
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+        "prediction": "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step5000/case_002/prediction.npz"
+      }
+    ],
+    "independent_validation": "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step5000/independent-validation.json",
+    "current_overview_images": [
+      "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step5000/reserved-phi.png",
+      "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step5000/reserved-contours.png"
+    ]
+  },
+  "latest_convergence_plot": {
+    "status": "completed_logged_curves_verified_and_plotted",
+    "observed_utc": "2026-11-02T14:40:09.396487+00:00",
+    "runs": [
+      "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-integral-random-walls-online-width128-01",
+      "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01"
+    ],
+    "last_monitor_steps": [
+      5000,
+      10000
+    ],
+    "last_loss_steps": [
+      5000,
+      10000
+    ],
+    "matched_step": 5000,
+    "matched": {
+      "old": {
+        "phi": 0.06528498919468545,
+        "terminal_phi": 0.07627542269110166,
+        "dispersed_phase": 0.17251080215388825,
+        "velocity": 0.044151528064991334,
+        "pressure": 0.0655471541250441,
+        "chemical": 0.44958528139070497
+      },
+      "current": {
+        "phi": 0.03640689815287391,
+        "terminal_phi": 0.047300314427954265,
+        "dispersed_phase": 0.09620256174904082,
+        "velocity": 0.02890971131909219,
+        "pressure": 0.04735348945244074,
+        "chemical": 0.21433043355457587
+      }
+    },
+    "geometry_count": 1,
+    "spatial_queries": 3840,
+    "phase_time_snapshots": 13,
+    "positive_flow_time_snapshots": 12,
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+    "smoothing": false,
+    "curve_fitting": false,
+    "scope": "Same development geometry; current3reserved10000snapshot evaluation completed separately, no multi-geometry convergence history",
+    "images": [
+      "/root/autodl-tmp/data/channel_nsch2d/random-walls-convergence-20261102-05/relative-l2-comparison.png",
+      "/root/autodl-tmp/data/channel_nsch2d/random-walls-convergence-20261102-05/sampled-loss-comparison.png"
+    ],
+    "output": "/root/autodl-tmp/data/channel_nsch2d/random-walls-convergence-20261102-05",
+    "raw_data": "/root/autodl-tmp/data/channel_nsch2d/random-walls-convergence-20261102-05/curve-data.json",
+    "plot_source": "/root/autodl-tmp/data/channel_nsch2d/random-walls-convergence-20261102-05/plot-source.py",
+    "verification": "Both complete endpoints and every500-step record checked; same FEM targets; finite six-field series and normalized loss sums verified; both PNGs visually inspected",
+    "canonical_single_run_plot": "/root/autodl-tmp/data/channel_nsch2d/random-walls-convergence-20261102-05/current-only/convergence-validation.json"
+  },
+  "user_continue_to_original_budget": {
+    "observed_utc": "2026-11-02T12:06:22.863327+00:00",
+    "requested_steps": 10000,
+    "action": "Keep the SAME live trainer and scheme unchanged through its original finite budget and final audits",
+    "new_run": false,
+    "changed_numerical_settings": false
+  },
+  "latest_field_display": {
+    "status": "actual_saved_snapshot_flow_fields_verified_and_displayed",
+    "observed_utc": "2026-11-02T13:06:14.529285+00:00",
+    "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01",
+    "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/ckpt_005000.eqx",
+    "checkpoint_step": 5000,
+    "latest_training_updates_lower_bound": 7400,
+    "latest_monitor_step": 7000,
+    "phase_geometry_indices": [
+      0,
+      1,
+      2
+    ],
+    "flow_geometry_index": 1,
+    "flow_times": [
+      0.5,
+      1.5,
+      3,
+      4.5,
+      6
+    ],
+    "phase_times": [
+      0,
+      1.5,
+      3,
+      4.5,
+      6
+    ],
+    "row_scope": "Overview pairs FEM/PINO for each geometry; flow triptychs FEM/PINO/absolute error",
+    "images": [
+      "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step5000/reserved-phi.png",
+      "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step5000/case_001/flow-fields/speed-fields.png",
+      "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step5000/case_001/flow-fields/pressure-fields.png"
+    ],
+    "flow_metrics": {
+      "phi": 0.026255814613137925,
+      "phi_area_weighted": 0.024373497115125556,
+      "velocity": 0.0322100749510503,
+      "velocity_area_weighted": 0.03328531224744069,
+      "pressure": 0.10576269318935001,
+      "pressure_area_weighted": 0.10461141885022693,
+      "chemical": 0.32953247630727034,
+      "chemical_area_weighted": 0.34470126184799005,
+      "terminal_phi": 0.024217093996733847,
+      "dispersed_fraction": 0.06977050895045488
+    },
+    "selection": "Geometry1has the largest5000pressure error among these three; illustration, not an unbiased aggregate",
+    "validation": "Exact actual FEM fields/points/times/parameters; original velocity/pressure L2 independently recomputed; both new flow PNGs inspected",
+    "scope": "Current width192/B8model saved at5000updates; no newer model snapshot available yet. Spatial display interpolation only"
+  },
+  "latest_interface_overlay_display": {
+    "observed_utc": "2026-11-02T13:08:23.527880+00:00",
+    "checkpoint_step": 5000,
+    "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/ckpt_005000.eqx",
+    "image": "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step5000/reserved-contours.png",
+    "geometry_indices": [
+      0,
+      1,
+      2
+    ],
+    "times": [
+      0,
+      1.5,
+      3,
+      4.5,
+      6
+    ],
+    "interface": "phi=0",
+    "reference_line": "black solid",
+    "prediction_line": "orange dashed",
+    "equal_physical_zoom": true,
+    "prediction_position_corrected": false,
+    "terminal_negative_phase_area_IoU": [
+      0.8529280057755508,
+      0.933518487902757,
+      0.8782326358450494
+    ],
+    "training_updates_lower_bound": 7450,
+    "verification": "Reused actual validated5000snapshot contours; plotting source and PNG inspected; IoU from independent saved-array checked report"
+  },
+  "final10000_preview": {
+    "observed_utc": "2026-11-02T14:34:04.529750+00:00",
+    "training_status": "completed_exit0",
+    "summary": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/summary.json",
+    "nominal_metrics": {
+      "step": 10000,
+      "elapsed": 19501.258503735065,
+      "phi": 0.026781278931850408,
+      "terminal_phi": 0.04054964547654848,
+      "dispersed_phase": 0.07076756798508652,
+      "velocity": 0.016700109554117624,
+      "pressure": 0.058930890802076835,
+      "chemical": 0.14103036287572812,
+      "phi_range": [
+        -1.12398362159729,
+        1.0457229614257812
+      ],
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+      "scope": "One local-FEM geometry; not a generalization estimate"
+    },
+    "nominal_gallery": "/root/autodl-tmp/data/channel_nsch2d/random-walls-field-preview-20261102-01/current-width192-step10000",
+    "reserved_gallery": "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step10000",
+    "reserved_evaluation": "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step10000/evaluation.json",
+    "reserved_aggregate": {
+      "phi": {
+        "mean": 0.018396035097521093,
+        "worst": 0.019429178253222483
+      },
+      "phi_area_weighted": {
+        "mean": 0.016873146732928397,
+        "worst": 0.017758047488200174
+      },
+      "velocity": {
+        "mean": 0.02016023721310267,
+        "worst": 0.02133513921095487
+      },
+      "velocity_area_weighted": {
+        "mean": 0.020545457911379756,
+        "worst": 0.02161362753866232
+      },
+      "pressure": {
+        "mean": 0.05411770090878828,
+        "worst": 0.0903156452590238
+      },
+      "pressure_area_weighted": {
+        "mean": 0.05336068166625129,
+        "worst": 0.08955979053357979
+      },
+      "chemical": {
+        "mean": 0.1591680788159424,
+        "worst": 0.19994966047166518
+      },
+      "chemical_area_weighted": {
+        "mean": 0.16323431282010784,
+        "worst": 0.20977761580758994
+      },
+      "terminal_phi": {
+        "mean": 0.02270759945074796,
+        "worst": 0.027804002761860448
+      },
+      "dispersed_fraction": {
+        "mean": 0.04847424045170457,
+        "worst": 0.05105930184704743
+      }
+    },
+    "per_geometry": [
+      {
+        "index": 0,
+        "parameters": [
+          0.3090539227646124,
+          0.14364653707460726,
+          0.0813203408361208,
+          0.08550434257449695,
+          0.30179060238210026,
+          0.2554867844920518,
+          0.019065546317808997,
+          0.25010729472827614,
+          0.19122780727009883,
+          0.24719943061789257,
+          0.045105197103679655,
+          0.2441051381901631,
+          0.1408498567141242,
+          0.174619574298052,
+          0.09348827290974912,
+          0.3747891429262041
+        ],
+        "metrics": {
+          "phi": 0.019429178253222483,
+          "phi_area_weighted": 0.017758047488200174,
+          "velocity": 0.01875203341813336,
+          "velocity_area_weighted": 0.01927042688334525,
+          "pressure": 0.03879539567700839,
+          "pressure_area_weighted": 0.03841060149633572,
+          "chemical": 0.13589293422410656,
+          "chemical_area_weighted": 0.13723827752245998,
+          "terminal_phi": 0.027804002761860448,
+          "dispersed_fraction": 0.05105930184704743
+        },
+        "hard_constraint_max_gaps": {
+          "initial_phi": 1.4564099606317882e-06,
+          "initial_velocity": 0.0,
+          "wall_velocity": 4.878925210505258e-07,
+          "section_flux": 2.93615441820938e-07
+        },
+        "terminal_shape": {
+          "time": 6.0,
+          "phase_global_relative_L2": 0.027804002761860444,
+          "minority_fraction_relative_L2": 0.08342905977097588,
+          "interface_phi_relative_L2": 0.13120341467603666,
+          "droplet_band_phi_relative_L2": 0.11889431603660572,
+          "reference_negative_area_fraction": 0.03583051895181007,
+          "negative_phase_IoU": 0.8614367328420071,
+          "zero_contour": {
+            "predicted_components": 1,
+            "reference_components": 1,
+            "mean_distance": 0.009558759468369926,
+            "sampled_hausdorff": 0.01575048035678686,
+            "contour_missing": false
+          },
+          "contour_mean_distance_over_initial_radius": 0.043448906674408753,
+          "velocity_global_relative_L2": 0.022819768440620725,
+          "velocity_interface_relative_L2": 0.04146784598735678,
+          "velocity_droplet_band_relative_L2": 0.03973927685516163,
+          "pressure_global_relative_L2": 0.05898337645687188,
+          "pressure_interface_relative_L2": 0.08072235979425174,
+          "pressure_droplet_band_relative_L2": 0.08068259631657884
+        },
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+        "prediction": "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step10000/case_000/prediction.npz"
+      },
+      {
+        "index": 1,
+        "parameters": [
+          0.31371533005199304,
+          0.06772038083086487,
+          0.31935173035646774,
+          0.048298339326005996,
+          0.29026137418895825,
+          0.1603124954965605,
+          0.1809648868914434,
+          0.12991022922889,
+          0.1371630031263746,
+          0.2660221345631387,
+          0.034765747187667374,
+          0.052428396619163396,
+          0.05312006244347351,
+          0.1909123103807301,
+          0.23047640448489856,
+          0.3814034038970076
+        ],
+        "metrics": {
+          "phi": 0.016519061055275147,
+          "phi_area_weighted": 0.01533955164259489,
+          "velocity": 0.02133513921095487,
+          "velocity_area_weighted": 0.02161362753866232,
+          "pressure": 0.0903156452590238,
+          "pressure_area_weighted": 0.08955979053357979,
+          "chemical": 0.19994966047166518,
+          "chemical_area_weighted": 0.20977761580758994,
+          "terminal_phi": 0.015196235282620018,
+          "dispersed_fraction": 0.043896687807716085
+        },
+        "hard_constraint_max_gaps": {
+          "initial_phi": 1.4564099606317882e-06,
+          "initial_velocity": 0.0,
+          "wall_velocity": 1.3832783452016884e-06,
+          "section_flux": 3.5056173525171985e-07
+        },
+        "terminal_shape": {
+          "time": 6.0,
+          "phase_global_relative_L2": 0.01519623528262002,
+          "minority_fraction_relative_L2": 0.04217688085643465,
+          "interface_phi_relative_L2": 0.07245389486367416,
+          "droplet_band_phi_relative_L2": 0.06325439814861859,
+          "reference_negative_area_fraction": 0.035532688459732294,
+          "negative_phase_IoU": 0.9424576049293857,
+          "zero_contour": {
+            "predicted_components": 1,
+            "reference_components": 1,
+            "mean_distance": 0.004363120685331352,
+            "sampled_hausdorff": 0.010738820482701882,
+            "contour_missing": false
+          },
+          "contour_mean_distance_over_initial_radius": 0.019832366751506146,
+          "velocity_global_relative_L2": 0.022328216425984055,
+          "velocity_interface_relative_L2": 0.029832558388251853,
+          "velocity_droplet_band_relative_L2": 0.028655774362044924,
+          "pressure_global_relative_L2": 0.07631966086321422,
+          "pressure_interface_relative_L2": 0.17438637056634843,
+          "pressure_droplet_band_relative_L2": 0.18176333590850832
+        },
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+        "prediction": "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step10000/case_001/prediction.npz"
+      },
+      {
+        "index": 2,
+        "parameters": [
+          0.407304044162813,
+          0.2116225457558944,
+          0.0525903100886187,
+          0.34568060376815085,
+          0.24837705770529683,
+          0.08141488916656642,
+          0.05388298859976769,
+          0.2000547077101052,
+          0.3046637752352932,
+          0.05923911538732357,
+          0.1582307044455343,
+          0.13592184659185097,
+          0.09689348047697574,
+          0.24936932719772775,
+          0.16712652480411333,
+          0.2974665532681975
+        ],
+        "metrics": {
+          "phi": 0.019239865984065654,
+          "phi_area_weighted": 0.01752184106799013,
+          "velocity": 0.020393539010219768,
+          "velocity_area_weighted": 0.020752319312131704,
+          "pressure": 0.03324206179033261,
+          "pressure_area_weighted": 0.03211165296883836,
+          "chemical": 0.14166164175205545,
+          "chemical_area_weighted": 0.14268704513027364,
+          "terminal_phi": 0.025122560307763428,
+          "dispersed_fraction": 0.05046673170035021
+        },
+        "hard_constraint_max_gaps": {
+          "initial_phi": 1.4564099606317882e-06,
+          "initial_velocity": 0.0,
+          "wall_velocity": 1.0549509852353367e-06,
+          "section_flux": 2.945099431550524e-07
+        },
+        "terminal_shape": {
+          "time": 6.0,
+          "phase_global_relative_L2": 0.025122560307763428,
+          "minority_fraction_relative_L2": 0.07598163924209267,
+          "interface_phi_relative_L2": 0.11575226035965061,
+          "droplet_band_phi_relative_L2": 0.10564917814074516,
+          "reference_negative_area_fraction": 0.03475309399671549,
+          "negative_phase_IoU": 0.9364425335084078,
+          "zero_contour": {
+            "predicted_components": 1,
+            "reference_components": 1,
+            "mean_distance": 0.008465153644974402,
+            "sampled_hausdorff": 0.013505686966362236,
+            "contour_missing": false
+          },
+          "contour_mean_distance_over_initial_radius": 0.038477971113520006,
+          "velocity_global_relative_L2": 0.025095758206337696,
+          "velocity_interface_relative_L2": 0.04524866115251242,
+          "velocity_droplet_band_relative_L2": 0.04349072200252885,
+          "pressure_global_relative_L2": 0.04496284635706292,
+          "pressure_interface_relative_L2": 0.08013158749442316,
+          "pressure_droplet_band_relative_L2": 0.07859242891833318
+        },
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+        "prediction": "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step10000/case_002/prediction.npz"
+      }
+    ],
+    "independent_validation": "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step10000/independent-validation.json",
+    "images": [
+      "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step10000/reserved-phi.png",
+      "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step10000/reserved-contours.png",
+      "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step10000/case_001/flow-fields/speed-fields.png",
+      "/root/autodl-tmp/data/channel_nsch2d/random-walls-reserved-preview-20261102-01/current-width192-step10000/case_001/flow-fields/pressure-fields.png"
+    ],
+    "formal_owner_status": "completed_with_saved_run_audits",
+    "formal_active_child": null,
+    "formal_journal": "/root/autodl-tmp/data/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01-process.json",
+    "all_final_audits_complete": true,
+    "checkpoint_byte_equal_final": true,
+    "source_byte_checks": 101
+  },
+  "pre_implementation_checkpoint": "3ac7070",
+  "final10000_audit": {
+    "status": "completed_with_saved_run_audits",
+    "completed_utc": "2026-11-02T14:40:19.435718+00:00",
+    "journal": "/root/autodl-tmp/data/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01-process.json",
+    "source_byte_checks": 101,
+    "source_audit_scope": "Historical101source bytes verified before subsequent authorized default/import promotion",
+    "stages": [
+      {
+        "stage": "training",
+        "exit_code": 0,
+        "completed_utc": "2026-11-02T14:28:24.660652+00:00"
+      },
+      {
+        "stage": "validate_run",
+        "exit_code": 0,
+        "completed_utc": "2026-11-02T14:31:24.704458+00:00"
+      },
+      {
+        "stage": "diagnose_phase",
+        "exit_code": 0,
+        "completed_utc": "2026-11-02T14:34:24.810666+00:00"
+      },
+      {
+        "stage": "droplet_shape",
+        "exit_code": 0,
+        "completed_utc": "2026-11-02T14:34:39.817964+00:00"
+      },
+      {
+        "stage": "phi_gallery",
+        "exit_code": 0,
+        "completed_utc": "2026-11-02T14:34:54.824110+00:00"
+      },
+      {
+        "stage": "continuous_time_residual",
+        "exit_code": 0,
+        "completed_utc": "2026-11-02T14:37:34.299222+00:00"
+      },
+      {
+        "stage": "unseen_geometry_evaluation",
+        "exit_code": 0,
+        "completed_utc": "2026-11-02T14:39:34.405450+00:00"
+      },
+      {
+        "stage": "unseen_phi_gallery_0",
+        "exit_code": 0,
+        "completed_utc": "2026-11-02T14:39:49.411656+00:00"
+      },
+      {
+        "stage": "unseen_phi_gallery_1",
+        "exit_code": 0,
+        "completed_utc": "2026-11-02T14:40:04.418123+00:00"
+      },
+      {
+        "stage": "unseen_phi_gallery_2",
+        "exit_code": 0,
+        "completed_utc": "2026-11-02T14:40:19.425525+00:00"
+      }
+    ],
+    "receipts": {
+      "validation.json": {
+        "path": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/validation.json",
+        "status": "replay_and_hard_constraints_passed"
+      },
+      "online-validation.json": {
+        "path": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/online-validation.json",
+        "status": "actual_rolling_inputs_reconstructed"
+      },
+      "capacity-control-validation.json": {
+        "path": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/capacity-control-validation.json",
+        "status": "capacity_comparison_passed"
+      },
+      "continuous-time-residual/validation.json": {
+        "path": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/continuous-time-residual/validation.json",
+        "status": "canonical_unweighted_continuous_time_probes_completed"
+      },
+      "unseen3/evaluation.json": {
+        "path": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/unseen3/evaluation.json",
+        "status": "frozen_unseen_geometry_evaluation_completed"
+      }
+    },
+    "nominal_metrics": {
+      "step": 10000,
+      "elapsed": 19501.258503735065,
+      "phi": 0.026781278931850408,
+      "terminal_phi": 0.04054964547654848,
+      "dispersed_phase": 0.07076756798508652,
+      "velocity": 0.016700109554117624,
+      "pressure": 0.058930890802076835,
+      "chemical": 0.14103036287572812,
+      "phi_range": [
+        -1.12398362159729,
+        1.0457229614257812
+      ],
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+      "scope": "One local-FEM geometry; not a generalization estimate"
+    },
+    "reserved_aggregate": {
+      "phi": {
+        "mean": 0.01839603363085256,
+        "p90": 0.019391320931317315,
+        "worst": 0.019429185735950295
+      },
+      "phi_area_weighted": {
+        "mean": 0.016873146175394677,
+        "p90": 0.017710811752743784,
+        "worst": 0.017758055272298304
+      },
+      "velocity": {
+        "mean": 0.020160222487339216,
+        "p90": 0.02114682354080377,
+        "worst": 0.021335149527539843
+      },
+      "velocity_area_weighted": {
+        "mean": 0.020545446006281182,
+        "p90": 0.02144136919991133,
+        "worst": 0.021613635751845463
+      },
+      "pressure": {
+        "mean": 0.054117688790685514,
+        "p90": 0.08001163888829088,
+        "worst": 0.09031571359057496
+      },
+      "pressure_area_weighted": {
+        "mean": 0.05336067044948319,
+        "p90": 0.07932999707782626,
+        "worst": 0.0895598598565992
+      },
+      "chemical": {
+        "mean": 0.15916806652653417,
+        "p90": 0.18829204770322028,
+        "worst": 0.19994965122319183
+      },
+      "chemical_area_weighted": {
+        "mean": 0.1632343049415151,
+        "p90": 0.1963594930526277,
+        "worst": 0.20977760567624423
+      },
+      "terminal_phi": {
+        "mean": 0.022707591834393793,
+        "p90": 0.027267710301607073,
+        "worst": 0.0278040021355434
+      },
+      "dispersed_fraction": {
+        "mean": 0.04847423652987385,
+        "p90": 0.05094080130847804,
+        "worst": 0.051059321511433296
+      }
+    },
+    "geometry_response": {
+      "phi": {
+        "relative_error": 0.18953769832461442,
+        "amplitude_ratio": 1.072812091553766,
+        "correlation": 0.98572772498984,
+        "scope": "Identical physical(x,y)points; excludes coordinate-map effects; flow uses positive times"
+      },
+      "velocity": {
+        "relative_error": 0.1309480590030042,
+        "amplitude_ratio": 1.0070066660099135,
+        "correlation": 0.9915103338611305,
+        "scope": "Identical physical(x,y)points; excludes coordinate-map effects; flow uses positive times"
+      },
+      "pressure": {
+        "relative_error": 0.7299829013287538,
+        "amplitude_ratio": 0.6372249239390124,
+        "correlation": 0.6851431375746886,
+        "scope": "Identical physical(x,y)points; excludes coordinate-map effects; flow uses positive times"
+      }
+    },
+    "population_accuracy_validated": false
+  },
+  "default_promotion": {
+    "status": "default_exactly_matches_saved_successful_run",
+    "all_config_fields_equal_after_run_name_normalization": true,
+    "run_seed_is_runtime_provenance": true,
+    "reference_identity_passed": true,
+    "reserved_geometries": 3,
+    "focused_tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "historical_config_parity": {
+      "status": "historical_factory_values_preserved",
+      "factories": 56,
+      "changed": [
+        "train_default.py"
+      ],
+      "unchanged": 55
+    },
+    "config": "examples/channel_nsch2d/configs/train_default.py",
+    "saved_run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01",
+    "source_changes_after_final_audit": [
+      "Default promotion",
+      "Historical ancestor/preview/test imports pinned explicitly"
+    ],
+    "local_commit_authorized": true,
+    "push_authorized": false,
+    "generated_artifacts_added": false,
+    "syntax_and_links": {
+      "python_ast_files": 35,
+      "json_files": 1,
+      "local_markdown_links": 65,
+      "status": "passed"
+    },
+    "diff_check": "passed"
+  }
+}

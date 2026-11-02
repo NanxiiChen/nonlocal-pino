@@ -81,8 +81,9 @@ def plot_fields(path,output,field_label=None,*,selected_fields=None,selected_tim
                 if row==0:ax.set_title(f't={d["time"][i]:g}')
                 if col==0:ax.set_ylabel(row_labels[row])
             fig.colorbar(mesh,ax=axes[row,:].tolist(),shrink=.85,pad=.012)
-        a,b=map(float,d['amplitudes'])
-        fig.suptitle(f'Full NS–CH: {name}, upper/lower indentation=({a:g}, {b:g})\n'
+        from examples.channel_nsch2d.geometry import random_walls
+        label='independent random spline walls' if random_walls(c) else 'upper/lower indentation=('+', '.join(f'{a:g}' for a in d['amplitudes'])+')'
+        fig.suptitle(f'Full NS–CH: {name}, {label}\n'
                      f'{nx}×{ny} saved queries; linear display interpolation')
         fig.savefig(output/f'{name}-fields.png',dpi=200);fig.savefig(output/f'{name}-fields.pdf');plt.close(fig)
     metrics=Path(path).parent/'metrics.jsonl'
