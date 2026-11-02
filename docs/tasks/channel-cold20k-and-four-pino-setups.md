@@ -21,7 +21,7 @@ In progress: actual cold20k training is running in its detached owner. All four 
 None identified.
 
 ## Next action
-Read the SAME owner process.json and live loss/metrics logs. Do not start a duplicate run or reinterpret initial metrics as trained error. Wait for the prescribed20k endpoint and inspect every final audit exit code/receipt, then compare against the old10k result before considering any default change. User now explicitly authorizes publishing the current figures/READMEs and their reproducible source/configuration/memory records through dev -> commit -> main regular merge -> origin/main push. Keep the same trainer running.
+Read the SAME owner process.json and live loss/metrics logs. Do not start a duplicate run or reinterpret initial metrics as trained error. Wait for the prescribed20k endpoint and inspect every final audit exit code/receipt, then compare against the old10k result before considering any default change. Publication is complete: devbaf211b -> regular mainmerge4ab2d98, origin/main verified equal. Keep the same trainer running; no further numerical changes, restart, default promotion or cleanup.
 
 
 ## User refinement — insert the setup diagrams into the example READMEs
@@ -116,7 +116,7 @@ policy, DEVELOPMENT and artifact ownership(9cases/447directories). Existing
 index content guard passes; all new candidate files also satisfy the1MiBcap.
 No unchanged expensive test suite rerun. Whitespace/AST/JSON/XML/link checks pass.
 PROGRESS, DECISIONS, this self-contained task and compact validation receipt are
-updated. Earlier turns made no Git history changes. The current user turn now authorizes commit/merge/main push for this prepared work; no cleanup is requested.
+updated. Current user-authorized publication completed on devbaf211b and regular mainmerge4ab2d98; actual origin/main reference matches. All24prepared files, including only4new generated SVGs, were published. Staged guard:2159files/26.26MiB;9cases/447artifact directories;54overview links; AST/JSON/XML/whitespace and originalPNG parity pass. The unchanged4focused tests retain their earlier pass. No cleanup, restart or numerical change.
 
 The task remains ACTIVE solely for the background20k run/final audits. Preserve
 the current10k numerical default and all existing external artifacts.
@@ -128,20 +128,20 @@ the current10k numerical default and all existing external artifacts.
   "status": "training",
   "runner_pid": 135660,
   "active_child_pid": 135888,
-  "heartbeat_utc": "2026-11-02T17:07:53.465586+00:00",
+  "heartbeat_utc": "2026-11-02T17:09:53.493251+00:00",
   "latest_loss": {
-    "step": 800,
-    "total": 0.08055920898914337,
+    "step": 900,
+    "total": 0.07301872223615646,
     "parts": {
-      "phase": 0.023725861683487892,
-      "chemical": 0.01964426413178444,
-      "momentum_x": 0.013881942257285118,
-      "momentum_y": 0.022217197343707085,
-      "wall_phase": 0.0003897807328030467,
-      "wall_mu": 0.00029286998324096203,
-      "outlet_traction": 0.00028809704235754907,
-      "outlet_phase": 3.144409856759012e-05,
-      "outlet_mu": 8.775063906796277e-05
+      "phase": 0.0186283141374588,
+      "chemical": 0.015538599342107773,
+      "momentum_x": 0.014478139579296112,
+      "momentum_y": 0.023580167442560196,
+      "wall_phase": 0.00023523051640950143,
+      "wall_mu": 0.00021585139620583504,
+      "outlet_traction": 0.00014751387061551213,
+      "outlet_phase": 4.39542272943072e-05,
+      "outlet_mu": 0.00015095077105797827
     }
   },
   "latest_monitor": {
@@ -161,21 +161,36 @@ the current10k numerical default and all existing external artifacts.
     "scope": "One local-FEM geometry; not a generalization estimate"
   },
   "latest_refresh": {
-    "completed_updates": 800,
-    "batch": 15,
+    "completed_updates": 900,
+    "batch": 17,
     "slots": [
-      14,
-      15
+      2,
+      3
     ],
     "draw_ids": [
-      30,
-      31
+      34,
+      35
     ],
-    "wait_seconds": 0.027921147644519806
+    "wait_seconds": 0.027300778776407242
   }
 }
 ```
 
-## Current publication substep
+## Publication and current status closeout
 
-The user explicitly requested commit/push of the four setup figures and READMEs, then a live training update. Publish the compact assets, reproducible manifest/renderer, already-running opt-in20k configuration/guard/owner/tests and accompanying memory records. No weights, solution arrays, raw training logs or temporary previews are staged. Use the prescribed dev commit -> main regular merge -> origin/main push; retain dev locally. Verify remote main and unchanged frozen trainer Python bytes after the merge. Training and final validation remain active.
+The user-authorized payload is published: devbaf211b, regular mainmerge4ab2d98,
+verified actual origin/main4ab2d981091eb28f23523e1259062555187b43f6. This compact
+closeout records that completed publication and current training observation;
+use the same dev -> main -> origin/main workflow to publish the receipt. No
+weights, raw arrays/logs or temporary previews were committed. All103frozen
+trainer Python files remain byte-identical after branch changes and merge.
+
+At the latest shared500-step monitor, new/old phi16.0451/15.2738%, terminal
+phi18.4044/17.7469%, velocity6.8437/6.9654%, pressure12.9465/12.7339%,
+minority42.3979/40.3600%, chemical105.4217/99.8577%. This is one development FEM
+geometry at an early step, not generalization or the20k endpoint. Training is
+still reducing loss; no accuracy advantage has been established. Read the live
+journal/JSONL for later values, not these dated snapshots.
+
+Task remains ACTIVE for the same owner/trainer20k endpoint and finite audits.
+Memory updated: PROGRESS, DECISIONS, this task and its compact JSON receipt.

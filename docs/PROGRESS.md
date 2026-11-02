@@ -9,10 +9,11 @@ recipe; LR1e-3 ->~1e-5. Full802draw prior/coldstate/input/resource checks pass.
 Journal: /root/autodl-tmp/data/channel_nsch2d/cold20k-lr1e5-20261103-01/process.json.
 Four known-input setup SVGs(195KiBtotal) inserted into each example README;
 4focused tests,XML/raster/link/old-PNG parity/artifact checks pass. Current10k
-SOTA/default unchanged. Next: same20k owner and its finite final audits; no
-restart/FEM/cleanup. User now authorizes publishing the prepared setup figures,
-READMEs and reproducible experiment/source records through dev -> main -> origin/main;
-verify the remote and preserve frozen live trainer bytes. [Receipt](tasks/channel-cold20k-and-four-pino-setups-validation.json).
+SOTA/default unchanged. Setup/documentation payload published on devbaf211b,
+mainmerge4ab2d98; actual origin/main verified. All103live frozen Python files
+remain unchanged. Latest snapshot: at least900updates, latest L2monitor500; early errors
+are similar to the old run at the same step. Next: SAME20k owner and finite
+final audits; no restart/FEM/cleanup or premature default promotion. [Receipt](tasks/channel-cold20k-and-four-pino-setups-validation.json).
 
 ## Deferred work
 
