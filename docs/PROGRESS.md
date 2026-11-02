@@ -2,11 +2,13 @@
 
 ## Active task
 
-[Centralize and publish PINO README assets](tasks/pino-readme-assets-publication.md).
-Move the four images to root assets/pino, update README/generator/provenance and
-verify exact bytes/links/size. User explicitly authorizes this documentation
-commit/push via dev -> main regular merge -> origin/main. Prior README work is
-included. No numerical/default changes, new training or reference solves.
+None. [PINO README assets/publication](tasks/archive/pino-readme-assets-publication.md)
+is complete. Four byte-preserved figures are centralized in assets/pino,total
+1.79MiB. Root/four example overviews,relative links,generator and provenance are
+published. dev78517a5 -> mainmerge25aa17a -> origin/main verified by ls-remote;
+small closeout record follows the same publication workflow. Only main pushed.
+42links/anchors,PNG/JSON/size/indexed-content checks pass; no numerical changes.
+[Publication receipt](tasks/pino-readme-assets-publication-validation.json).
 
 ## Deferred work
 
@@ -46,6 +48,8 @@ Preserve existing external data/run paths. Git history changes require explicit
 current-turn authorization; the documented workflow pushes main only.
 
 ## Recent completed tasks
+
+- [Centralized README figures and verified publication](tasks/archive/pino-readme-assets-publication.md).
 
 - [Four main PINO README summaries and field figures](tasks/archive/pino-readme-overview.md).
 
