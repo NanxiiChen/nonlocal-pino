@@ -2,8 +2,18 @@
 
 ## Active task
 
-None. The random-wall channel trial and requested default promotion are complete.
-No further training, FEM, cleanup or push is queued.
+[Centralize and publish PINO README assets](tasks/pino-readme-assets-publication.md).
+Move the four images to root assets/pino, update README/generator/provenance and
+verify exact bytes/links/size. User explicitly authorizes this documentation
+commit/push via dev -> main regular merge -> origin/main. Prior README work is
+included. No numerical/default changes, new training or reference solves.
+
+## Deferred work
+
+Channel NS--CH: consider20000updates and a lower final learning rate, per the
+user's explicitly deferred proposal. Exact LR and continuation-versus-cold-start
+choice remain undecided. No run/automation is launched or queued. See
+[the recorded idea](../examples/channel_nsch2d/README.md#deferred-experiment).
 
 ## Latest completed validation
 
@@ -36,6 +46,8 @@ Preserve existing external data/run paths. Git history changes require explicit
 current-turn authorization; the documented workflow pushes main only.
 
 ## Recent completed tasks
+
+- [Four main PINO README summaries and field figures](tasks/archive/pino-readme-overview.md).
 
 - [Random smooth-wall operator and default promotion](tasks/archive/channel-random-wall-pilot.md).
 

@@ -1,4 +1,92 @@
-# Ice Melting 3D
+# Ice melting 3D — random-initial-condition PINO
+
+## PINO overview
+
+Learn the entire melting trajectory of a randomly shifted, rotated ellipsoid
+from its initial phase volume. The outer cube and physical parameters are fixed;
+only the initial ice shape varies. Training uses the PDE and prescribed initial
+data, with no positive-time solution labels.
+
+### Problem setup
+
+The driven Allen–Cahn model is
+
+$$
+\phi_t=M\left(\Delta\phi-\frac{\phi^3-\phi}{\epsilon^2}\right)
+-\lambda\frac{1-\phi^2}{\sqrt{2}\epsilon},
+\qquad \phi\approx+1\text{ in ice},\quad\phi\approx-1\text{ in water}.
+$$
+
+The dimensional cube is \([-50,50]^3\), mapped to \([0,1]^3\), and the horizon
+is5 s, or \(t^*\in[0,1]\). Normalized semiaxes are independently uniform in
+[0.24, 0.36], center coordinates in[0.45, 0.55], with Haar-random rotations.
+The initial diffuse interface uses the **Euclidean signed distance** to each
+ellipsoid, positive inside. The native graph has no exchange outside the cube;
+the separate local-FEM check uses homogeneous natural Neumann boundaries.
+The linear shrinking-sphere formula is only an approximate comparison profile,
+not the reference for these random ellipsoids.
+
+### Important strategies
+
+| Component | Selected operator recipe |
+|---|---|
+| Condition / encoder | One 32x32x32 initial phase volume; 4x4x4 patches -> 512 tokens; width 48, 2 blocks, 4 heads |
+| Decoder | Coordinate cross-attention, then 3 temporal FiLM layers; spatial work shared across times; time JVP |
+| Initial condition | Exact hard lift \(u_\theta=u_0+t^*N_\theta\), \(\phi_\theta=\tanh u_\theta\); \(u_0=d_E/(\sqrt2\epsilon^*)\) |
+| Residual | Jacobian-scaled latent PDE residual, evaluated with the stable graph formulation; no separate IC loss |
+| Spatial work |128^3 native graph, horizon 0.01; 256 cores plus their full halo, 32 fixed pools |
+| Online sampling |16 fresh initial ellipsoids/update; 8 shared random times |
+| Optimizer | Adam, lr 1e-3, 5000 updates; ordinary FP32/highest; no causal/interface weighting |
+
+The raw query receives coordinates/time. The initial volume enters the encoder;
+the known analytic initial function also supplies the hard output lift. No
+future ellipsoid shape or melting speed is prescribed by that lift. The tanh
+residual transform is a loss/preconditioning choice, distinct from simply
+bounding the physical output.
+
+### Representative results
+
+Selected final checkpoint: **5000 updates**, from
+`/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01/model_final.eqx`.
+
+| Mean over8 held-out initial shapes | Pooled five times | At5 s |
+|---|---:|---:|
+| Phase relative L2, 24^3 diagnostic nodes |0.2266%|0.0922%|
+| Solid-indicator relative L2, same nodes |0.6425%|4.5017%|
+
+References are time-refined direct **nonlocal** solutions on the128^3 graph;
+reported neural volume errors use24^3 queries, not full128^3 model inference.
+One separately checked ellipsoid gives0.1479% pooled Adam phase error against
+local FEM; the native/local reference difference is0.1474% at those diagnostic
+nodes. This one-case check does not replace the8-input native evaluation.
+SOAP's lower native pooled error did not improve that local-FEM check or the
+late small-solid metrics, so the selected operator uses Adam. One initialization
+and8 inputs do not establish arbitrary-shape or cross-seed accuracy.
+
+![Three held-out ellipsoids melting over five times](../../assets/pino/icemelting3d.png)
+
+Rows are the previously selected held-out inputs5, 9, 2. Columns are
+0, 1.25, 2.5, 3.75, 5 s. These are **actual predicted3 Disosurfaces** \(\phi=0\)
+extracted from96^3 queries, with identical camera and spatial scale. They are
+prediction visualizations, not additional reference solves or L2 measurements.
+
+### Run and reproduce
+
+```bash
+source .venv/bin/activate
+python -m examples.icemelting3d.train --config=examples/icemelting3d/configs/train_operator.py
+```
+
+The existing reference bank is
+`/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1`.
+Preparation commands and the complete equation/scaling definitions are below.
+No-argument `train.py` retains the separate single-sphere SOAP PINN default.
+[Operator validation](../../docs/tasks/archive/icemelting-random-operator.md),
+[local-FEM check](../../docs/tasks/archive/melting-operator-local-fem.md),
+[figure sources and regeneration](../../artifacts/pino_readme_figures.json).
+
+<details>
+<summary>Detailed formulation, single-problem PINN defaults and historical controls</summary>
 
 A shrinking ice sphere driven by an Allen-Cahn equation with a curvature-independent
 source term. The linear-radius tanh profile below is an approximate comparison:
@@ -810,3 +898,5 @@ repository root; existing external data/output paths are retained. Shared
 implementation paths changed during the split; see
 [the source map](../../docs/migration/source-map.json) and
 [migration notes](../../docs/migration/README.md).
+
+</details>

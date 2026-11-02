@@ -1,4 +1,89 @@
-# 2D KKS Phase-Field Electropolishing — PINN + FEM Reference
+# Electropolish 2D — random-initial-condition PINO
+
+## PINO overview
+
+Predict phase and concentration during electropolishing for a continuously
+sampled rough initial metal/electrolyte interface. Geometry, material parameters
+and boundary driving are fixed. Only the initial interface changes; training
+uses physical equations and known initial/boundary data.
+
+### Problem setup
+
+The KKS model couples Allen–Cahn phase evolution and Cahn–Hilliard concentration
+transport in \(\Omega=[0,1]\times[0,0.5]\). Metal has \(\phi\approx1\), electrolyte
+has \(\phi\approx0\). The physical horizon is5 s, mapped to \(t^*\in[0,1]\).
+The top is prescribed electrolyte \((\phi,c)=(0,0)\); the bottom is metal
+\((1,1)\). Left/right inert walls have no external transport.
+
+Each initial profile contains6 random modes, nominal height0.33, amplitude0.03
+and frequency range[1, 5], conditioned to remain inside the domain. The initial
+phase uses distance to the **piecewise-linear interface**, not vertical distance
+alone. Initial endpoint slopes are preserved; they need not satisfy classical
+Neumann compatibility at time0. The nonlocal model represents closed pair
+interactions at the side walls; finite-horizon closure is distinct from imposing
+a pointwise zero AD normal derivative.
+
+### Important strategies
+
+| Component | Selected operator recipe |
+|---|---|
+| Condition / encoder | One 32x64 initial phase image; 4x8 patches -> 64 tokens; width 64, 2 blocks, 4 heads |
+| Decoder | Coordinate cross-attention +3 temporal FiLM layers; shared spatial preparation and time JVP |
+| Condition injection | Image-only conditioning, `arch.local_input=zero`; queries carry coordinates/time |
+| Physical outputs | Bounded phase and an unrestricted liquid-concentration output; total concentration reconstructed by the KKS mixture |
+| Loss | Original AC/CH absolute residuals + initial/top/bottom physical MSE; five losses balanced by inverse parameter-gradient norms |
+| IC / BC | Soft initial and top/bottom constraints; side closure supplied by the native graph |
+| Sampling |8 fresh rough interfaces/update, 4 shared times; 101x51 graph, horizon 0.02, 256 cores + halo, 32 fixed pools |
+| Optimizer | Adam, lr 1e-3, 5000 updates; ordinary FP32/highest; no stagger/causal or inverse-map residual transform |
+
+Removing query-local IC features prevents the decoder from bypassing the image
+encoder. It does **not** remove the IC loss. The KKS relation is enforced
+algebraically; no extra KKS constraint loss is needed. The raw liquid output is
+unrestricted because total concentration has no justified hard upper bound1.
+
+### Representative results
+
+The selected recipe is represented here by the completed matched nonlocal run:
+`/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01/model_final.eqx`.
+The fixed-budget5000 checkpoint was evaluated on64 unseen interfaces:
+
+| Mean per-interface relative L2 | Pooled21 times | At5 s |
+|---|---:|---:|
+| Phase, independent local FD101 target |4.427%|3.176%|
+| Concentration, same local target |5.222%|3.779%|
+| Phase, native nonlocal target |4.392%|3.041%|
+
+Each sample uses101x51 physical nodes. The independent local-FD reference is
+**not FEM**; spatial checks on4 predeclared interfaces use FD201/FD401. This is
+one matched initialization/input stream, not cross-seed validation. The earlier
+image-only checkpoint's4.506% pooled phase score uses a different run and native
+target; it should not be mixed with this table.
+
+![Four unseen rough interfaces evolving during electropolishing](../../assets/pino/electropolish2d.png)
+
+Rows are inputs0, 21, 42, 63, the four predeclared spatial-refinement cases.
+Columns are0, 1.25, 2.5, 3.75, 5 s. Color shows saved PINO phase; dashed lines are
+the independent local-FD101 \(\phi=0.5\) interface. Row labels give each sample's
+pooled phase error, computed on the original21 uniform times, not just the5 shown.
+
+### Run and reproduce
+
+```bash
+source .venv/bin/activate
+python -m examples.electropolish2d.train --config=examples/electropolish2d/configs/train_operator.py
+```
+
+The prepared monitor bank is
+`/root/autodl-tmp/data/electropolish2d/operator_random16_v1`;
+training generates fresh initial profiles online. The64-input native/local test
+banks are `operator_test64_20261028` and `operator_local_test64_20261029` under
+the same data root. No-argument `train.py` keeps the single-interface SOAP PINN.
+[Full comparison and validation](../../docs/tasks/archive/electropolish-operator-local-comparison.md),
+[conditioning diagnosis](../../docs/tasks/archive/electropolish-operator-training.md),
+[figure sources and regeneration](../../artifacts/pino_readme_figures.json).
+
+<details>
+<summary>Detailed formulation, single-problem PINN defaults and historical controls</summary>
 
 ## SOTA default
 
@@ -1200,3 +1285,5 @@ discretization differences remain measurable even with accurate time integration
 [64-test distribution](../../docs/tasks/archive/electro-operator-local-test64.png),
 [early boundary errors](../../docs/tasks/archive/electro-operator-local-boundary.png),
 [representative phase fields](../../docs/tasks/archive/electro-operator-local-fields.png).
+
+</details>

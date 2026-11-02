@@ -20588,7 +20588,81 @@
           }
         ],
         "comparison_figures": "/root/autodl-tmp/data/channel_nsch2d/integral-comparison-20261102-01"
-      }
+      },
+      "operator_default": {
+        "status": "user_accepted_default",
+        "promoted_date": "2026-11-02",
+        "entry": "examples/channel_nsch2d/train.py",
+        "config": "examples/channel_nsch2d/configs/train_default.py",
+        "explicit_recipe": "examples/channel_nsch2d/configs/train_operator_random_walls_width192_batch8_time20.py",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01",
+        "selected_checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/model_final.eqx",
+        "saved_config": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/config.json",
+        "validation_receipt": "docs/tasks/channel-random-wall-pilot-validation.json",
+        "report": "docs/tasks/archive/channel-random-wall-pilot.md",
+        "reference": "Independent refined local mixed FEM",
+        "validation_geometry_count": 3,
+        "metrics": {
+          "phi": {
+            "mean": 0.01839603363085256,
+            "p90": 0.019391320931317315,
+            "worst": 0.019429185735950295
+          },
+          "phi_area_weighted": {
+            "mean": 0.016873146175394677,
+            "p90": 0.017710811752743784,
+            "worst": 0.017758055272298304
+          },
+          "velocity": {
+            "mean": 0.020160222487339216,
+            "p90": 0.02114682354080377,
+            "worst": 0.021335149527539843
+          },
+          "velocity_area_weighted": {
+            "mean": 0.020545446006281182,
+            "p90": 0.02144136919991133,
+            "worst": 0.021613635751845463
+          },
+          "pressure": {
+            "mean": 0.054117688790685514,
+            "p90": 0.08001163888829088,
+            "worst": 0.09031571359057496
+          },
+          "pressure_area_weighted": {
+            "mean": 0.05336067044948319,
+            "p90": 0.07932999707782626,
+            "worst": 0.0895598598565992
+          },
+          "chemical": {
+            "mean": 0.15916806652653417,
+            "p90": 0.18829204770322028,
+            "worst": 0.19994965122319183
+          },
+          "chemical_area_weighted": {
+            "mean": 0.1632343049415151,
+            "p90": 0.1963594930526277,
+            "worst": 0.20977760567624423
+          },
+          "terminal_phi": {
+            "mean": 0.022707591834393793,
+            "p90": 0.027267710301607073,
+            "worst": 0.0278040021355434
+          },
+          "dispersed_fraction": {
+            "mean": 0.04847423652987385,
+            "p90": 0.05094080130847804,
+            "worst": 0.051059321511433296
+          }
+        },
+        "scope": "Three reused predeclared reserved cases, one initialization; not population or cross-seed validation",
+        "readonly_documentation_update": true
+      },
+      "run_children": [
+        "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01"
+      ],
+      "data_children": [
+        "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02"
+      ]
     }
   ],
   "run_seed_policy": {
@@ -20606,5 +20680,32 @@
     "files": 275,
     "bytes": 89953048,
     "policy": "Original files remain local, byte-verified external backup; generated outputs excluded from current Git tree. No history rewrite; old blobs remain in history."
+  },
+  "pino_readme_overview": {
+    "root_readme": "README.md",
+    "figure_manifest": "artifacts/pino_readme_figures.json",
+    "generator": "scripts/render_pino_readme_figures.py",
+    "examples": [
+      {
+        "case": "icemelting3d",
+        "readme": "examples/icemelting3d/README.md",
+        "figure": "assets/pino/icemelting3d.png"
+      },
+      {
+        "case": "electropolish2d",
+        "readme": "examples/electropolish2d/README.md",
+        "figure": "assets/pino/electropolish2d.png"
+      },
+      {
+        "case": "confined_ch2d",
+        "readme": "examples/confined_ch2d/README.md",
+        "figure": "assets/pino/confined_ch2d.png"
+      },
+      {
+        "case": "channel_nsch2d",
+        "readme": "examples/channel_nsch2d/README.md",
+        "figure": "assets/pino/channel_nsch2d.png"
+      }
+    ]
   }
 }

@@ -1,0 +1,37 @@
+{
+  "status": "central_assets_and_all_current_paths_verified",
+  "moves": [
+    {
+      "source": "examples/icemelting3d/assets/pino-evolution.png",
+      "destination": "assets/pino/icemelting3d.png",
+      "bytes": 289226,
+      "exact_bytes_equal": true
+    },
+    {
+      "source": "examples/electropolish2d/assets/pino-evolution.png",
+      "destination": "assets/pino/electropolish2d.png",
+      "bytes": 399754,
+      "exact_bytes_equal": true
+    },
+    {
+      "source": "examples/confined_ch2d/assets/pino-evolution.png",
+      "destination": "assets/pino/confined_ch2d.png",
+      "bytes": 913776,
+      "exact_bytes_equal": true
+    },
+    {
+      "source": "examples/channel_nsch2d/assets/pino-evolution.png",
+      "destination": "assets/pino/channel_nsch2d.png",
+      "bytes": 275761,
+      "exact_bytes_equal": true
+    }
+  ],
+  "total_bytes": 1878517,
+  "local_links_and_anchors": 42,
+  "all_four_png_signatures_passed": true,
+  "metadata_and_generator_paths_agree": true,
+  "empty_old_asset_directories_removed": true,
+  "numerical_config_changes": 0,
+  "training_updates": 0,
+  "reference_solves": 0
+}

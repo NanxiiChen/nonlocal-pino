@@ -22,6 +22,13 @@ examples/<name>/
 Keep reference solvers independent from PINN operators when they are intended
 to measure model or discretisation error.
 
+Curated README figures live in the repository-level `assets/` directory,
+currently `assets/pino/<case>.png`; example READMEs use relative links there.
+Keep one selected evolution image per main operator, below1MiB each and2MiB
+total. Record direct inputs in `artifacts/pino_readme_figures.json` and retain
+raw fields, weights and full research galleries as external artifacts. See
+[`assets/README.md`](../assets/README.md) for the regeneration command.
+
 The channel FEM reference optionally accepts a read-only `diagnostic_callback`
 receiving `(time, (velocity, pressure, phi, mu), mesh, facet_tags)` at saved
 snapshots. The absent-hook path retains the original equations and outputs.

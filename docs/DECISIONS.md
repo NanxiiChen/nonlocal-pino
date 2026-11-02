@@ -8752,3 +8752,53 @@ test to the explicit stronger GMLS factory: they previously imported the moving
 default, which would create a circular configuration import after promotion.
 Serialized historical preset values must remain equal to the saved snapshots.
 Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Organize four completed PINO examples and defer longer channel training
+
+User requests setup/strategy/result summaries and one3--5sample evolution figure
+per main PINO example, plus a root overview. Use the four actual completed
+operators, not the prescribed-flow twophase2d pilot. Cross-check saved configs,
+metrics and sample identities; distinguish graph/nonlocal and local-FEM targets,
+and small illustrative cohorts from larger held-out evaluations. Keep a bounded
+set of necessary documentation figures in the examples and raw weights/data
+external, rather than copying whole galleries or historical plots.
+
+User proposes a future channel extension to20000updates and lower final learning
+rate, explicitly says not urgent. Record as deferred, without launching a run or
+inventing a final LR/restart policy. This turn authorizes documentation/figures,
+not training or a new Git commit/push. Relation: pino-readme-overview.
+
+
+## 2026-11-02 — Keep exactly four portable PINO documentation figures
+
+Delivered one actual multi-sample/five-time PNG in each example assets directory,
+total1878517bytes(1.79MiB), each below the1MiB repository guard. This bounded
+set is necessary for the requested portable README illustrations; do not track
+full galleries/arrays/weights or require restoring local report images to view
+these summaries. Preserve all old README bodies in folded detailed sections.
+Record direct inputs and sample-selection protocols in a small JSON manifest and
+one reproducible saved-field plotting script. Updated index documentation of the
+already selected channel default, without changing its strategy or old metadata.
+
+Checked the8/64/8/3evaluation scopes and distinct native/local targets. Three
+reserved channel cases and eight reused spinodal cases remain limited validation
+cohorts. No new training/FEM, continuation or Git operation follows from this
+README task. The20000/lower-final-LR proposal remains deferred. Relation:
+pino-readme-overview.
+
+
+## 2026-11-02 — Centralize README figures and publish the documentation
+
+User explicitly asks for a single assets/images directory, then commit/push.
+Use assets/pino/<case>.png for the four selected figures, preserve exact PNG
+bytes and update all current README, generator and provenance paths. Add a short
+asset policy/readme; retain1MiBper-image/2MiBtotal limits and external raw fields/
+weights. The previous per-example asset locations are superseded, not duplicate
+copies. No regenerated scientific result or numerical strategy change.
+
+Publish accumulated four-PINO README work plus this path change using the
+required devcommit -> main regular merge -> origin/mainpush workflow. Keep dev
+local, preserve existing commits, and verify the actual remote branch reference.
+The deferred channel20000/lower-final-LR idea remains unlaunched. Relation:
+pino-readme-assets-publication.

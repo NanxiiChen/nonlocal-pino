@@ -1,4 +1,116 @@
-# Smooth-channel full NS–CH pilot
+# Two-phase flow 2D — geometry-parameterized NS–CH PINO
+
+## PINO overview
+
+Predict droplet transport/deformation and the coupled flow through a smooth
+channel with independently randomized upper and lower walls. **Only geometry
+varies**; the initial droplet, inlet driving and material parameters stay fixed.
+This example solves full Navier–Stokes/Cahn–Hilliard coupling, distinct from
+the prescribed-flow CH pilot in `twophase2d`.
+
+### Problem setup
+
+The constant-density/viscosity local model is
+
+$$
+\rho(\mathbf u_t+\mathbf u\cdot\nabla\mathbf u)
+=-\nabla p+\eta\Delta\mathbf u-\phi\nabla\mu,
+\qquad\nabla\cdot\mathbf u=0,
+$$
+
+$$
+\phi_t+\nabla\cdot(\phi\mathbf u)=M\Delta\mu,
+\qquad\mu=A(\phi^3-\phi)-\kappa\Delta\phi.
+$$
+
+Here \(A=3\sigma/(2\sqrt2\epsilon)\), \(\kappa=A\epsilon^2\).
+The undeformed channel is4x1. Each wall has8 positive quartic B-spline
+coefficients and a compact C3 taper on x=[1.15, 2.75]. Constrained proposals
+produce minimum aperture[0.55, 0.70], bounded slope/curvature and straight ends.
+Independent wall profiles naturally allow asymmetric constrictions.
+
+The common upstream droplet has center(0.8, 0.5), radius 0.22 and transition0.05;
+its phase is negative inside and positive in the carrier. The horizon is6,
+with density1, viscosity0.2, mean inlet speed0.2, surface tension0.2, epsilon 0.05,
+mobility 0.0005 and a one-unit inlet ramp. Solid walls are stationary/no-slip,
+neutral-wetting and chemical no-flux. The inlet supplies carrier phase and a
+parabolic velocity; the outlet has zero hydrodynamic traction and zero phase/
+chemical normal gradients. Traction fixes the pressure reference without a
+separate pressure-point anchor.
+
+### Important strategies
+
+| Component | Selected operator recipe |
+|---|---|
+| Condition / encoder | Boundary(x, y, nx, ny, type) and domain(x, y, phi0) point streams, with physical measures |
+| Network | Width192, 4 heads of48, 2 condition blocks, 3 temporal decoder layers, 64 spatial Fourier directions |
+| Physical outputs | Phase, chemical potential, velocity, pressure; velocity from a streamfunction |
+| Hard constraints | Phase/velocity IC and inlet data; wall velocity, section flux and incompressibility through the lift/curl |
+| Spatial derivatives | Moment-corrected integral gradients/Laplacians and BC derivatives, horizon 0.075, capacity128, cubic moments |
+| AD work | Streamfunction-to-velocity spatial curl; physical time JVP; parameter gradients through all operations |
+| Residual loss | Nine original MSE terms with fixed normalizers; chemical output/row/BC scales4/1/4; no tanh, causal, stagger or gradient balancing |
+| Sampling |192x80 subdivisions, 15633 nodes; 40 fresh stratified times/update; 20-time blocks averaged before one update |
+| Online geometry |16-slot rolling input pool, B8 with replacement; 2 CPU workers replace2 slots every 50 updates |
+| Optimizer | SOAP 10000 cold updates, lr 1e-3, beta 1=beta 2=0.9, refresh 5; ordinary FP32/highest |
+
+The initial droplet is not itself a randomized input. Geometry enters through
+physical point sets, normals, operators and the known hard lift; 16 wall
+coefficients are not extra learned encoder tokens. Integral consistency does
+not by itself supply all physical BCs or exact mass/energy conservation.
+
+### Representative results
+
+Selected fixed-budget10000 checkpoint:
+`/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/model_final.eqx`.
+
+| Relative L2 | Development geometry | Mean of3 reserved geometries |
+|---|---:|---:|
+| Phase, pooled13 times |2.6781%|1.8396%|
+| Phase, terminal t=6 |4.0550%|2.2708%|
+| Velocity |1.6700%|2.0160%|
+| Pressure |5.8931%|5.4118%|
+| Minority-phase field |7.0768%|4.8474%|
+| Chemical potential |14.1030%|15.9168%|
+
+References are independent, spatial/time-refined **local mixed FEM** solutions.
+Each case uses3840 physical queries and13 saved times; flow/muerrors exclude t=0.
+The same3 reserved geometries have been reused for validation, not a broad blind
+test. Worst reserved pressure error is9.0316%; pressure's between-geometry
+response remains less accurate than its total field error suggests. All finite
+final replay/input/constraint/240 fresh-time diagnostics completed.
+
+![Three random-wall geometries with coupled two-phase evolution](../../assets/pino/channel_nsch2d.png)
+
+Rows include all3 predeclared reserved geometries. Columns are0, 1.5, 3, 4.5, 6.
+Color shows saved PINO phase; dashed lines are local-FEM \(\phi=0\) interfaces.
+The same physical axes are retained; droplet positions are not shifted to align
+with the reference. The common color scale spans[-1, 1]; numerical fields are
+not clipped. Full speed/pressure galleries remain external artifacts.
+
+### Run and reproduce
+
+```bash
+source .venv/bin/activate
+XLA_PYTHON_CLIENT_MEM_FRACTION=0.97 python -m examples.channel_nsch2d.train
+```
+
+The no-argument entry selects this operator via `configs/train_default.py`.
+The qualified96 GB PRO6000 run used about88.06 GiB active memory and 5.42h wall
+time. Explicit20/8/2-time-block choices and smaller-card commands are given
+in [default training configuration](#default-training-configuration).
+The reference root is
+`/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02`.
+[Complete run/audit record](../../docs/tasks/archive/channel-random-wall-pilot.md),
+[figure sources and regeneration](../../artifacts/pino_readme_figures.json).
+
+### Deferred experiment
+
+A future20000-update study with a lower final learning rate is recorded for
+later. The final LR and continuation-versus-cold-start choice remain undecided;
+no run is scheduled or launched, and the current10000 default is unchanged.
+
+<details>
+<summary>Detailed formulation, single-problem PINN defaults and historical controls</summary>
 
 This experimental example develops geometry-only operator learning for a full,
 unsteady incompressible Navier–Stokes/Cahn–Hilliard model. The selected random-wall
@@ -1169,3 +1281,5 @@ memory. `docs/tasks/channel_gpu_memory_probe.py` checks compiled temporary/outpu
 requirements plus existing live buffers before a candidate executes, then
 measures synchronized full-gradient/SOAP updates if it fits. A memory-preflight
 skip is explicit and does not silently change block size or numerical scheme.
+
+</details>

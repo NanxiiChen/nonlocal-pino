@@ -1,4 +1,98 @@
-# Confined Cahn–Hilliard phase separation
+# Spinodal decomposition 2D — geometry-parameterized PINO
+
+## PINO overview
+
+Learn phase separation and coarsening in an elliptical container with two
+impermeable circular holes. **Only hole positions and radii vary**. Every geometry
+restricts the same fixed10 mode initial function to its domain; the initial
+texture is not independently randomized. This spinodal example remains in the
+existing `confined_ch2d` directory.
+
+### Problem setup
+
+The local Cahn–Hilliard model and neutral/no-flux walls are
+
+$$
+\phi_t=M\Delta\mu,\qquad
+\mu=\beta(\phi^3-\phi)-\epsilon^2\Delta\phi,
+\qquad \partial_n\phi=\partial_n\mu=0.
+$$
+
+The outer ellipse is centered at(0.5, 0.5), with semiaxes(0.5, 0.4).
+Each hole center is sampled within x:[0.22, 0.78], y:[0.27, 0.73], with radius
+[0.045, 0.12]; containment and0.025 clearance constraints reject invalid draws.
+The chosen fixed small-scale10 mode field evolves to dimensionless time3,
+with \(\beta=1\), \(M=0.02\), \(\epsilon=0.06\). No fluid or elasticity is coupled.
+
+The native regional nonlocal operator uses positive symmetric visible pairs,
+physical triangle-cell areas and horizon 0.11. Pairs cannot pass through holes.
+It models closed no-exchange dynamics without a separate Neumann penalty;
+finite-horizon fields need not have pointwise zero local AD normal derivative.
+
+### Important strategies
+
+| Component | Selected operator recipe |
+|---|---|
+| Condition / encoder | Two point streams: boundary(x, y, nx, ny, type) with arc-length measures; domain(x, y, phi0) with cell-area measures |
+| Attention | General normalized cross-attention; width 256, 4 heads of 64, 4 condition blocks; no hand-designed query-to-hole distance bias |
+| Decoder |3 time-FiLM layers; 256 spatial sine/cosine channels; spatial preparation shared across times; time JVP |
+| Outputs | Predict phase; eliminate chemical potential through the graph constitutive relation |
+| Hard constraints | Prescribed initial phase and per-geometry physical-volume mass; no duplicate IC/mass losses |
+| PDE objective | Phase residual preconditioned by a frozen stable-part resolvent; no tanh output/residual transform |
+| Geometry inputs |1024 initial known-input slots; 6 CPU workers replace 32 slots every 100 updates; no training trajectories solved |
+| Batch / mesh |16 geometries, 16 shared positive times plus t=0; Gmsh h0.035; 1536 node/128 neighbor padding |
+| Optimizer | SOAP 50000 cold updates, lr 1e-3, beta 1=beta 2=0.9, refresh 5, axis cap 512, clip 10; ordinary FP32/highest |
+
+Geometry coefficients are used to construct points, normals, quadrature and
+operators. The network sees those generic point streams, not a vector of fitted
+hole identities. Different geometries have different physical queries, padded
+to fixed tensor shapes; all times within one geometry share spatial work.
+This is **one global-time operator**, separate from the30-window single-IVP PINN.
+
+### Representative results
+
+Accepted fixed-budget50000 checkpoint:
+`/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/model_final.eqx`.
+
+| Mean physical-cell weighted relative L2, 8 reserved geometries | Pooled5 times | At t=3 |
+|---|---:|---:|
+| Phase |4.8329%|5.1935%|
+| Chemical potential |10.7329%|14.2757%|
+
+The reference is independently time-refined **native nonlocal** integration.
+Local FEM for this harder10 mode case remains deferred. These8 development
+geometries were reused during configuration studies; they are not a fresh
+blind test. Worst phase errors are9.5686% pooled and10.5862% terminal.
+Recorded training wall time is102.26 min with 20.43 GiB peak active memory on
+RTX6000D; 15994 new online geometries were actually sampled. No evolved labels
+enter the geometry pool or the physical loss.
+
+![Three hole geometries with spinodal phase evolution](../../assets/pino/confined_ch2d.png)
+
+Rows are geometries1027, 1028, 1026: the existing low, upper-median and worst
+pooled-error examples, explicitly selected by error rank. Columns are
+0, 0.75, 1.5, 2.25, 3. Color shows PINO phase; dashed lines show the native-reference
+\(\phi=0\) interfaces. Mesh interpolation is display-only; reported errors use
+original cell values/areas. The same ambient initial field yields different
+later patterns because the holes and closed-boundary interactions differ.
+
+### Run and reproduce
+
+```bash
+source .venv/bin/activate
+python -m examples.confined_ch2d.train --config=examples/confined_ch2d/configs/train_operator.py
+```
+
+The initial input bank and evaluation references are at
+`/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1`.
+Online workers construct new geometry/operator inputs only. No-argument
+`train.py` retains the separate single-IVP time-window configuration.
+[Complete SOTA settings](#geometry-operator-sota),
+[training and audit](../../docs/tasks/archive/confined-ch-width256-online-cold50k.md),
+[figure sources and regeneration](../../artifacts/pino_readme_figures.json).
+
+<details>
+<summary>Detailed formulation, single-problem PINN defaults and historical controls</summary>
 
 Elliptical container with two impermeable circular holes.
 All walls have neutral surface energy and zero mass flux. Standard mixed CH is
@@ -2043,3 +2137,5 @@ training history. The completed run is now the accepted
 [geometry-operator SOTA](#geometry-operator-sota) and is selected by
 `configs/train_operator.py`. It changes network capacity and sampling together;
 the comparison does not isolate either change's contribution.
+
+</details>

@@ -1,129 +1,80 @@
 # nonlocal-pinn
 
-Private GitHub repository: https://github.com/NanxiiChen/nonlocal-pinn
+Physics-only neural operators and PINNs for phase-field dynamics, using nonlocal
+spatial operators and shared spatial/time network evaluation. The four main
+PINO examples learn a family of solutions from known initial fields or geometry;
+**positive-time reference solutions are used only for evaluation**.
 
-Nonlocal spatial operators and physics-informed neural networks for melting,
-electropolishing/corrosion and elasticity. Local AD/FD controls and independent
-FEM references remain part of the validation workflow.
-
-## Examples
-
-- [icemelting3d](examples/icemelting3d/README.md): Allen–Cahn melting, nonlocal/local comparison; an opt-in 3D conditional neural operator for continuously sampled random initial ellipsoids, with measured training memory and independent full-cube references.
-- [electropolish2d](examples/electropolish2d/README.md): Primary corrosion example: KKS electropolishing; opt-in random-initial-interface neural operators with shared-space/time conditioning, fixed-input controls and continuous online sampling.
-- [elasticity2d](examples/elasticity2d/README.md): Nonlocal elasticity with an independent FEM reference.
-- [corrosion1d](examples/corrosion1d/README.md): Earlier implementation, retained for reference.
-- [corrosion2d](examples/corrosion2d/README.md): KKS pit corrosion with a validated matched-graph training preset.
-- [twophase2d](examples/twophase2d/README.md): Periodic prescribed-flow Cahn–Hilliard pilots: constant transport and reversed-vortex deformation, with mixed local-AD/nonlocal controls; no coupled Navier–Stokes yet.
-- [channel_nsch2d](examples/channel_nsch2d/README.md): Full NS–CH operator with independently randomized smooth upper/lower walls, fixed initial droplet and inlet driving. The default uses width192, batch8, SOAP10000, integral spatial operators, timeJVP and online rolling geometry inputs; three reserved local-FEM cases average1.84% phase/2.02% velocity/5.41% pressure error. This aggressive preset needs about88GiB GPU memory; smaller explicit presets remain available. Population accuracy remains unverified.
-- [precipitate2d](examples/precipitate2d/README.md): Periodic coherent elastic-precipitate pilot with differentiable mechanical equilibration and nonlocal phase diffusion.
-
-- [confined_ch2d](examples/confined_ch2d/README.md): Confined CH in an ellipse with impermeable holes; default ten-wave T1.5 case uses30 sequential PINN time windows and a validated independent reference. Opt-in random-geometry operators use boundary/function point sets, physical quadrature and shared spatial/time decoding. Legacy simple/local AD and global-time controls remain explicit options.
-
-The unimplemented [PINO elasticity design](docs/design/pino_elasticity2d.md) is
-retained as a design document. Electropolish2d is the primary corrosion case;
-corrosion2d supplies the pit-corrosion case; corrosion1d is retained for reference.
-
-## Current phase-field defaults
-
-`examples/confined_ch2d/train.py` defaults to
-`configs/train_coarsening_windows.py`:30 logarithmic time windows, phase-only
-prediction with exact chemical elimination and hard mass, SOAP5000+L-BFGS500
-total, initial learning rate1e-3, ordinary FP64. Run it without `--config`;
-run directories are named automatically. Its reference solver selects the same
-complex physical case by default. The legacy simple case remains explicitly
-available through `--config=examples/confined_ch2d/configs/train_base.py`.
-
-The three established phase-field `train.py` entries load `configs/train_base.py` and now
-explicitly use **ordinary GPU compilation** (`train.gpu_policy="ordinary"`).
-Precision is selected per case from complete5000-update controls, rather than
-assuming FP64 always improves a training trajectory. All use SOAP, initial
-lr1e-3 and5000 updates. Physics, reference, sampling, residuals and loss scales
-are unchanged by this policy promotion.
-
-| Case | Default strategy / arithmetic | Physical time | Terminal phi / c relative L2, seeds42 and2026 |
-|---|---|---:|---:|
-| [corrosion2d](examples/corrosion2d/README.md#sota-default) | Original phase; raw KKS CH edges; s_bc; nodal data; **FP64** | 50 s | 0.002499–0.006833 /0.002944–0.008077 |
-| [electropolish2d](examples/electropolish2d/README.md#sota-default) | Original residual; physical data; random IC/BC; **FP32** | 5 s | 0.003399–0.004757 /0.004118–0.005738 |
-| [icemelting3d](examples/icemelting3d/README.md#sota-default) | IC-only latent residual; **FP32** | 5 s | Full-grid graph phi3.9053e-5 (new42),5.9857e-5 (earlier2026) |
-
-```bash
-source .venv/bin/activate
-python -m examples.corrosion2d.train
-python -m examples.electropolish2d.train
-python -m examples.icemelting3d.train
-```
-
-Run these GPU jobs individually. If your shell previously forced deterministic
-operations, prefix the command with `XLA_FLAGS=''`; ordinary mode explicitly
-rejects a conflicting inherited deterministic flag. Unrelated flags are retained.
-Use `--config.train.gpu_policy=deterministic` for a deterministic control; matched
-KKS additionally accepts `--config.train.compute_dtype=float32` or `float64`.
-Old local-AD and ordinary-FP32 research presets retain their previous choices.
-
-Seed is run provenance: canonical configs omit `train.seed`; `--seed=2026`
-selects another run, while the common untuned default is42. Resolved saved
-metadata retains it for direct checkpoint loading. Two seeds are evidence,
-not statistical proof or a guarantee of low error on every run. New directories
-are fresh; checkpoints and reference arrays load by explicit path without hashes.
-
-The [completed default validation](docs/tasks/archive/ordinary-policy-defaults.md)
-includes six new full cold starts, independent CPU field/transport/topology
-checks and complete convergence curves. Electropolish ordinary FP64 fails seed42
-(phi0.2998), so its default stays FP32. Corrosion FP64 improves final fields
-and worst-seed late median, but late spikes and free-node Dq errors1.36–1.38
-remain; it is a speed/field-accuracy compromise. Historical individual best
-checkpoints remain separate from the representative current-default runs in the
-[artifact index](artifacts/index.yaml).
-
-The [isolated steady-update measurements](docs/tasks/archive/phasefield-gpu-policy-audit.md)
-give electropolish ordinary FP3210.98ms versus deterministic FP32197.73ms,
-and melting26.62ms versus468.26ms. The
-[corrosion precision/policy benchmark](docs/tasks/archive/local-ad-performance.md)
-gives ordinary FP6435.13ms versus deterministic FP32229.31ms. These include
-sampling/SOAP/GradNorm but exclude first compilation, evaluation and saving;
-full-run times have different compiler-cache histories. Elasticity and1D corrosion
-were inspected statically, without full accuracy/default promotion.
+Private repository: [NanxiiChen/nonlocal-pinn](https://github.com/NanxiiChen/nonlocal-pinn).
 
 ## Physics-only neural-operator defaults
 
-The neural-operator presets below use the currently recommended
-measured strategies, with known initial/geometry inputs and no evolved-field labels:
+| Main example | What varies between samples | Physical model / horizon | Representative phase relative L2 | Reference / evaluation scope |
+|---|---|---|---:|---|
+| [Ice melting 3D](examples/icemelting3d/README.md#pino-overview) | Initial ellipsoid axes, center and rotation | Driven Allen–Cahn, 5 s |0.227% pooled; 0.092% terminal | Native nonlocal, 8 held-out inputs; one separate local-FEM check |
+| [Electropolish 2D](examples/electropolish2d/README.md#pino-overview) | Initial rough metal/electrolyte interface | Coupled KKS AC/CH, 5 s |4.427% pooled; 3.176% terminal | Independent local FD, 64 unseen inputs |
+| [Spinodal 2D](examples/confined_ch2d/README.md#pino-overview) | Positions and radii of two impermeable holes | Confined Cahn–Hilliard, T=3 |4.833% pooled; 5.193% terminal | Native nonlocal, 8 reused reserved development geometries |
+| [Two-phase flow 2D](examples/channel_nsch2d/README.md#pino-overview) | Independent smooth upper/lower channel profiles | Fully coupled incompressible NS–CH, T=6 |1.840% pooled; 2.271% terminal | Independent local FEM, 3 reused reserved geometries |
 
-| Operator | Default configuration | Validation |
+These are means of per-sample errors from the selected final checkpoints, not
+one common benchmark. Targets, quadratures and evaluation populations differ;
+the example READMEs give the definitions, auxiliary-field errors, limitations,
+direct checkpoints and **3–4 sample evolution figures**. Small reused geometry
+cohorts do not establish population or cross-seed accuracy. Spinodal remains
+in the existing `confined_ch2d` directory; the full NS–CH operator is
+`channel_nsch2d`, distinct from the prescribed-flow `twophase2d` pilot.
+
+| Example | Condition encoder and queries | Selected training strategy |
 |---|---|---|
-| 3D melting | Online B16, Adam5000, lr1e-3, ordinary FP32/highest, hard IC + latent PDE | Eight native tests; one local-FEM check, Adam pooled phi0.1479% |
-| 2D electropolish | Online B8, Adam5000, lr1e-3, ordinary FP32/highest, image-only condition, original AC/CH + IC/BC | Independent64-input local-FD mean phi pooled4.427% |
-| Confined CH geometry | Width256, rolling1024-input pool, B16/Nt16, SOAP50000, lr1e-3, ordinary FP32/highest, hard IC/mass, eliminated mu | Eight reused native development geometries; mean phi pooled4.83%, terminal5.19% |
-| 2D NS–CH channel geometry | `train_default.py`: width128, rolling16/B2/Nt40, SOAP5000, ordinary FP32, GMLS + timeJVP, fixed residual normalization | One nominal local-FEM development geometry; phi1.947%, velocity3.059%, pressure3.945% |
+| Melting |3D initial volume -> patch tokens -> query cross-attention | Adam 5000, B16; hard IC; tanh latent residual; fixed core+halo pool |
+| Electropolish |2D initial image -> patch tokens -> query cross-attention | Adam 5000, B8; original AC/CH + soft IC/BC, five balanced losses; fixed core+halo pool |
+| Spinodal | Boundary and domain-function point streams -> normalized cross-attention | SOAP 50000, width 256, B16; online rolling geometry pool; hard IC/mass; eliminated chemical potential and resolvent residual |
+| Two-phase flow | Boundary and domain-function point streams -> normalized cross-attention | SOAP 10000, width 192, B8; online rolling geometry pool; hard flow/initial data; integral spatial derivatives, time JVP and fixed residual normalization |
+
+Regular domains use patch tokens; irregular geometry uses physical point sets
+with boundary arc-length/domain-area measures. Queries carry coordinates/time,
+without query-local initial-field features. Each operator prepares spatial
+features once and shares that work across times; temporal derivatives use JVP.
+Online initial fields are fresh continuous draws. Geometry pools roll in newly
+constructed **operators/known inputs**, without solving training trajectories.
+
+Run from the repository root, one GPU job at a time:
 
 ```bash
+source .venv/bin/activate
 python -m examples.icemelting3d.train --config=examples/icemelting3d/configs/train_operator.py
 python -m examples.electropolish2d.train --config=examples/electropolish2d/configs/train_operator.py
 python -m examples.confined_ch2d.train --config=examples/confined_ch2d/configs/train_operator.py
-python -m examples.channel_nsch2d.train
+XLA_PYTHON_CLIENT_MEM_FRACTION=0.97 python -m examples.channel_nsch2d.train
 ```
 
-Run individually. No-argument channel `train.py` selects the fixed-normalization
-geometry operator; its legacy `train_operator.py` remains explicit. The other
-three examples still require the shown operator preset, with no-argument
-`train.py` retaining their single-IVP PINN defaults. Melting retains Adam
-for the current local-physics/cost compromise; SOAP's lower native pooled error
-does not guarantee lower local-FEM error. Electropolish disables query-local IC
-features while preserving actual IC losses. Historical finite/online/causal
-controls remain explicit, and saved configs govern old checkpoint replay.
-Selection is not a claim of a global optimum or statistical seed stability.
+The channel default uses the qualified96 GB GPU preset (~88 GiB live memory).
+Its README supplies explicit block 8/block 2 alternatives (~40/~19 GiB) for
+smaller cards. The other three commands explicitly select PINO; their
+no-argument `train.py` entries retain single-IVP PINN defaults. All launchers
+create fresh runs. Existing evaluation banks and direct artifact paths must be
+available; reference preparation commands are in each example.
 
-The confined CH geometry operator now selects the accepted **width256 online
-cold50k SOTA**: fixed small-scale10mode initial field, T3, random positions/radii
-of two impermeable holes, and GNOT-inspired boundary/function point streams.
-Six CPU workers refresh32of1024input slots every100updates; no training PDE/FEM
-trajectories are generated. See its [SOTA configuration and direct checkpoint](examples/confined_ch2d/README.md#geometry-operator-sota)
-for the complete recipe and measured102.26min runtime. These errors use native
-nonlocal references on the same8development geometries; local FEM for this harder
-case remains deferred. The earlier mild16/8pilot is explicitly available as
-`configs/train_operator_mild.py`; all historical controls and the separate
-no-argument single-IVP30-window default are retained.
+Seeds are runtime provenance through `--seed`, not tuned strategy fields.
+Defaults use ordinary compilation and reject a conflicting inherited
+`--xla_gpu_deterministic_ops=true`. Saved configurations govern old checkpoint
+replay; checkpoints/references load by direct paths, without file hashes.
 
+## Other examples and single-problem PINNs
+
+- [Corrosion2D](examples/corrosion2d/README.md): KKS pit corrosion, matched-graph/local-AD controls.
+- [Corrosion1D](examples/corrosion1d/README.md): Earlier one-dimensional implementation.
+- [Elasticity2D](examples/elasticity2d/README.md): Nonlocal elasticity with independent FEM.
+- [Precipitate2D](examples/precipitate2d/README.md): Periodic coherent elastic precipitation with mechanical equilibration.
+- [Two-phase prescribed flow](examples/twophase2d/README.md): Periodic CH transport/deformation with prescribed velocity, without coupled NS.
+- The four main example directories also retain their original single-problem
+  PINNs and research controls. In particular, confined CH's no-argument PINN
+  uses 30 time windows; its geometry PINO uses one global-time operator.
+- [Elasticity PINO design](docs/design/pino_elasticity2d.md) remains a design document.
+
+Single-problem defaults, seed checks and local/nonlocal controls are documented
+in the corresponding READMEs. Their error values should not be substituted for
+operator errors over varying inputs.
 
 ## Setup and use
 
@@ -146,6 +97,7 @@ configuration files; review their external paths before launching a new run.
 src/nonlocal_pinn/
   operators/ geometry/ nn/ training/ baselines/ io/
 examples/                 # case geometry, BCs, configs, CLI and formulations
+assets/pino/              # four compact README evolution figures
 tests/                    # existing focused numerical/restart regressions
 artifacts/index.yaml      # external artifact ownership, JSON-compatible YAML
 scripts/check_artifacts.py
@@ -167,9 +119,15 @@ authorized historical run renames are recorded in the artifact index.
 The [artifact index](artifacts/index.yaml) records current ownership; check it
 with `python scripts/check_artifacts.py`.
 
-Generated research figures, videos, experiment arrays/checkpoints and compiler
+Generated research galleries, videos, experiment arrays/checkpoints and compiler
 dumps under `docs/tasks` are **local artifacts, not Git content**. Git keeps
-source, Markdown, configs, metrics and regeneration scripts. Figure links in
+source, Markdown, configs, metrics and regeneration scripts. The four compact
+`assets/pino/*.png` figures are the deliberate documentation
+exception: one representative multi-sample image per main operator, collected
+in [assets](assets/README.md). Their direct
+inputs, sample identities and regeneration command are recorded in
+[figure provenance](artifacts/pino_readme_figures.json); raw arrays/weights stay
+external. Figure links in
 archived reports refer to optional local files; they can be restored on this
 host from the direct-path [local artifact manifest](artifacts/local_files.json):
 
