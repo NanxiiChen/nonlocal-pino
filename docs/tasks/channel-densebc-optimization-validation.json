@@ -1,0 +1,558 @@
+{
+  "status": "completed_fixed20k_pair_and_independent_audits_no_accuracy_gain",
+  "updated_utc": "2026-11-01T12:33:46.192928+00:00",
+  "task": "docs/tasks/channel-derivative-clarification.md",
+  "baseline": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-first-online-width128-01",
+  "uniform": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-densebc-uniform-online-width128-01",
+  "balanced": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-densebc-balanced-online-width128-01",
+  "comparison_journal": "/root/autodl-tmp/data/channel_nsch2d/densebc-comparison-20261101-01/status.json",
+  "final_audit_journal": "/root/autodl-tmp/data/channel_nsch2d/densebc-final-audits-20261101-01/status.json",
+  "prior_live_receipt": "/root/autodl-tmp/data/channel_nsch2d/densebc-final-audits-20261101-01/live-receipt-before-final.json",
+  "scope": "One initialization/reused nominal local-FEM development geometry; all final endpoints fixed20k, no reference labels in training; not population/stability/continuum evidence",
+  "results": {
+    "original": {
+      "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-first-online-width128-01",
+      "metrics": {
+        "step": 20000,
+        "elapsed": 2311.6460379911587,
+        "phi": 0.0493310117894823,
+        "terminal_phi": 0.07167850088610535,
+        "dispersed_phase": 0.1381375497564596,
+        "velocity": 0.027692411832887905,
+        "pressure": 0.0996428904251431,
+        "chemical": 0.23982518185061794,
+        "phi_range": [
+          -1.137813687324524,
+          1.0263491868972778
+        ],
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+        "scope": "One local-FEM geometry; not a generalization estimate"
+      },
+      "wall_seconds": 2318.8322224118747,
+      "warm_update_seconds": 0.07619534732672474,
+      "terminal_shape": {
+        "minority_fraction_relative_L2": 0.20416640217453338,
+        "interface_phi_relative_L2": 0.3926823506849121,
+        "negative_phase_IoU": 0.7892015372923696,
+        "zero_contour": {
+          "predicted_components": 1,
+          "reference_components": 1,
+          "mean_distance": 0.02253880719199566,
+          "sampled_hausdorff": 0.05056949294325641,
+          "contour_missing": false
+        }
+      },
+      "validation": {
+        "status": "replay_and_hard_constraints_passed",
+        "saved_field_max_gap": 2.384185791015625e-06,
+        "maximum_flux_error": 1.9148609742281053e-07,
+        "maximum_wall_speed": 9.60864667831629e-08,
+        "maximum_divergence": 3.725290298461914e-09,
+        "online_inputs": {
+          "status": "actual_rolling_inputs_reconstructed",
+          "refresh_count": 399,
+          "installed_inputs": 798,
+          "distinct_sampled_online_draws": 798,
+          "final_pool_inputs_rebuilt": 16,
+          "evaluation_inputs_independent": true,
+          "evolved_training_labels": 0,
+          "scope": "Actual input identities and fixed-shape operators; not an accuracy or generalization claim"
+        }
+      }
+    },
+    "uniform": {
+      "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-densebc-uniform-online-width128-01",
+      "metrics": {
+        "step": 20000,
+        "elapsed": 2319.7600056873634,
+        "phi": 0.050056128281567275,
+        "terminal_phi": 0.0737444450745595,
+        "dispersed_phase": 0.14016803345973472,
+        "velocity": 0.047442905717359624,
+        "pressure": 0.12024345165203826,
+        "chemical": 0.2721268976177949,
+        "phi_range": [
+          -1.1349644660949707,
+          1.0257481336593628
+        ],
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+        "scope": "One local-FEM geometry; not a generalization estimate"
+      },
+      "wall_seconds": 2327.1140042552724,
+      "warm_update_seconds": 0.07532775218829198,
+      "terminal_shape": {
+        "minority_fraction_relative_L2": 0.21010439067049372,
+        "interface_phi_relative_L2": 0.40441713357114606,
+        "negative_phase_IoU": 0.7892015372923696,
+        "zero_contour": {
+          "predicted_components": 1,
+          "reference_components": 1,
+          "mean_distance": 0.023281589476472648,
+          "sampled_hausdorff": 0.051276528422519216,
+          "contour_missing": false
+        }
+      },
+      "validation": {
+        "status": "replay_and_hard_constraints_passed",
+        "saved_field_max_gap": 2.86102294921875e-06,
+        "maximum_flux_error": 2.641722331581109e-07,
+        "maximum_wall_speed": 2.2795757104177028e-07,
+        "maximum_divergence": 1.4901161193847656e-08,
+        "online_inputs": {
+          "status": "actual_rolling_inputs_reconstructed",
+          "refresh_count": 399,
+          "installed_inputs": 798,
+          "distinct_sampled_online_draws": 798,
+          "final_pool_inputs_rebuilt": 16,
+          "evaluation_inputs_independent": true,
+          "evolved_training_labels": 0,
+          "scope": "Actual input identities and fixed-shape operators; not an accuracy or generalization claim"
+        }
+      }
+    },
+    "balanced": {
+      "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-densebc-balanced-online-width128-01",
+      "metrics": {
+        "step": 20000,
+        "elapsed": 2670.0957159399986,
+        "phi": 0.25094848961834226,
+        "terminal_phi": 0.2669089491074526,
+        "dispersed_phase": 0.7027102873724766,
+        "velocity": 0.050443778763803016,
+        "pressure": 0.2971011915040381,
+        "chemical": 1.9645807857775885,
+        "phi_range": [
+          -1.0,
+          1.0481438636779785
+        ],
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+        "scope": "One local-FEM geometry; not a generalization estimate"
+      },
+      "wall_seconds": 2677.3400264130905,
+      "warm_update_seconds": 0.09301290553414,
+      "terminal_shape": {
+        "minority_fraction_relative_L2": 0.7779112444134839,
+        "interface_phi_relative_L2": 1.1843385517942775,
+        "negative_phase_IoU": 0.0,
+        "zero_contour": {
+          "predicted_components": 0,
+          "reference_components": 1,
+          "mean_distance": null,
+          "sampled_hausdorff": null,
+          "contour_missing": true
+        }
+      },
+      "validation": {
+        "status": "replay_and_hard_constraints_passed",
+        "saved_field_max_gap": 2.1457672119140625e-06,
+        "maximum_flux_error": 1.9004713008863305e-07,
+        "maximum_wall_speed": 2.0235782471900166e-07,
+        "maximum_divergence": 1.4901161193847656e-08,
+        "online_inputs": {
+          "status": "actual_rolling_inputs_reconstructed",
+          "refresh_count": 399,
+          "installed_inputs": 798,
+          "distinct_sampled_online_draws": 798,
+          "final_pool_inputs_rebuilt": 16,
+          "evaluation_inputs_independent": true,
+          "evolved_training_labels": 0,
+          "scope": "Actual input identities and fixed-shape operators; not an accuracy or generalization claim"
+        }
+      }
+    }
+  },
+  "paired_state_and_actual_draw_parity": {
+    "exact_initial_model_and_SOAP": true,
+    "all_20000_update_condition_and_time_arrays_identical": true,
+    "condition_draws_per_arm": 40000,
+    "time_draws_per_arm": 80000
+  },
+  "independent_boundary_trace": {
+    "original": {
+      "path": "/root/autodl-tmp/data/channel_nsch2d/pino-reference-bc-diagnosis-20261101/boundary-traces/report.json",
+      "terminal": {
+        "time": 6.0,
+        "normal_rms_phi_mu": {
+          "training_sites": {
+            "AD": [
+              0.004698088547465684,
+              0.03448026178450257
+            ],
+            "GMLS": [
+              0.0019492524081626723,
+              0.009764380155206673
+            ]
+          },
+          "independent512": {
+            "AD": [
+              0.04354474917765647,
+              0.5146783794598347
+            ],
+            "GMLS": [
+              0.05605354570646942,
+              0.6756658803372226
+            ]
+          }
+        }
+      }
+    },
+    "uniform": {
+      "path": "/root/autodl-tmp/data/channel_nsch2d/densebc-final-audits-20261101-01/uniform-boundary/report.json",
+      "terminal": {
+        "time": 6.0,
+        "normal_rms_phi_mu": {
+          "training_sites": {
+            "AD": [
+              0.007903527929065738,
+              0.03730015711555641
+            ],
+            "GMLS": [
+              0.0024587988131998502,
+              0.008185384636731272
+            ]
+          },
+          "independent512": {
+            "AD": [
+              0.007871447499401118,
+              0.03717349454042274
+            ],
+            "GMLS": [
+              0.002456668192920673,
+              0.008192425374295695
+            ]
+          }
+        }
+      }
+    },
+    "balanced": {
+      "path": "/root/autodl-tmp/data/channel_nsch2d/densebc-final-audits-20261101-01/balanced-boundary/report.json",
+      "terminal": {
+        "time": 6.0,
+        "normal_rms_phi_mu": {
+          "training_sites": {
+            "AD": [
+              0.0005428346707482371,
+              0.0037227983952288915
+            ],
+            "GMLS": [
+              0.0005795538475902339,
+              0.0029007209252203438
+            ]
+          },
+          "independent512": {
+            "AD": [
+              0.0005432274495366575,
+              0.003734920427422044
+            ],
+            "GMLS": [
+              0.0005797529129616088,
+              0.0029034461477219645
+            ]
+          }
+        }
+      }
+    }
+  },
+  "independent_terminal_strain": {
+    "original": {
+      "path": "/root/autodl-tmp/data/channel_nsch2d/pino-reference-bc-diagnosis-20261101/velocity-shape-audit-v2.json",
+      "terminal": {
+        "time": 6.0,
+        "regions": {
+          "droplet": {
+            "velocity_relative_L2": 0.04079286551037836,
+            "centroid_velocity_gap": 0.005586789190054242,
+            "reference_fluctuating_velocity_rms": 0.008511739358802553,
+            "fluctuating_velocity_relative_L2": 1.27415705668931,
+            "strain_rate_relative_L2": 0.889087524768521
+          },
+          "interface": {
+            "velocity_relative_L2": 0.04406516773269506,
+            "centroid_velocity_gap": 0.0022719677025185903,
+            "reference_fluctuating_velocity_rms": 0.03456153897381257,
+            "fluctuating_velocity_relative_L2": 0.35373341133038316,
+            "strain_rate_relative_L2": 0.2531821257135441
+          }
+        }
+      }
+    },
+    "uniform": {
+      "path": "/root/autodl-tmp/data/channel_nsch2d/densebc-final-audits-20261101-01/uniform-strain.json",
+      "terminal": {
+        "time": 6.0,
+        "regions": {
+          "droplet": {
+            "velocity_relative_L2": 0.042099310011224536,
+            "centroid_velocity_gap": 0.006156673724979473,
+            "reference_fluctuating_velocity_rms": 0.008511739358802553,
+            "fluctuating_velocity_relative_L2": 1.2902683708560039,
+            "strain_rate_relative_L2": 0.8809826091525826
+          },
+          "interface": {
+            "velocity_relative_L2": 0.04453072129837458,
+            "centroid_velocity_gap": 0.002511016711260021,
+            "reference_fluctuating_velocity_rms": 0.03456153897381257,
+            "fluctuating_velocity_relative_L2": 0.35625813962239533,
+            "strain_rate_relative_L2": 0.2540286780118296
+          }
+        }
+      }
+    },
+    "balanced": {
+      "path": "/root/autodl-tmp/data/channel_nsch2d/densebc-final-audits-20261101-01/balanced-strain.json",
+      "terminal": {
+        "time": 6.0,
+        "regions": {
+          "droplet": {
+            "velocity_relative_L2": 0.06730344172141316,
+            "centroid_velocity_gap": 0.01087427299535486,
+            "reference_fluctuating_velocity_rms": 0.008511739358802553,
+            "fluctuating_velocity_relative_L2": 1.9899347974846082,
+            "strain_rate_relative_L2": 1.3766063409245277
+          },
+          "interface": {
+            "velocity_relative_L2": 0.06678901376591806,
+            "centroid_velocity_gap": 0.0009588121540061883,
+            "reference_fluctuating_velocity_rms": 0.03456153897381257,
+            "fluctuating_velocity_relative_L2": 0.544622630086599,
+            "strain_rate_relative_L2": 0.371254480962825
+          }
+        }
+      }
+    }
+  },
+  "full240time_PDE_audits": {
+    "original_nominal": {
+      "path": "/root/autodl-tmp/data/channel_nsch2d/pino-reference-bc-diagnosis-20261101/frozen-20k-v2/nominal-dense.json",
+      "mean_scaled_PDE_mse": [
+        0.00017119477559073706,
+        0.00045785753083411965,
+        0.00016229875607639256,
+        0.00010935329203835205
+      ],
+      "first_scaled_PDE_mse": [
+        0.007885221695738284,
+        0.02874489001128901,
+        0.010297428251279087,
+        0.006958747541162504
+      ],
+      "CH_first_node_energy_fraction": 0.19191643136034608,
+      "CH_mean_after_first": 0.00013891851232652127,
+      "frozen_primal_gap": 9.5367431640625e-07,
+      "canonical_four_time_PDE_loss_max_gap": 3.18055912409325e-08
+    },
+    "original_final_training_pool_slot0": {
+      "path": "/root/autodl-tmp/data/channel_nsch2d/pino-reference-bc-diagnosis-20261101/frozen-20k-v2/final_training_pool_slot0-dense.json",
+      "mean_scaled_PDE_mse": [
+        0.00017300063268652454,
+        0.0004062879152424342,
+        0.00015484389275468267,
+        9.968987731276416e-05
+      ],
+      "first_scaled_PDE_mse": [
+        0.008303302726475737,
+        0.028304037858922056,
+        0.010081821287327293,
+        0.006837254076422821
+      ],
+      "CH_first_node_energy_fraction": 0.1999824749562536,
+      "CH_mean_after_first": 0.00013898263229410098,
+      "frozen_primal_gap": 9.5367431640625e-07,
+      "canonical_four_time_PDE_loss_max_gap": 7.6669338439821e-09
+    },
+    "uniform_nominal": {
+      "path": "/root/autodl-tmp/data/channel_nsch2d/densebc-final-audits-20261101-01/uniform-residual/nominal-dense.json",
+      "mean_scaled_PDE_mse": [
+        0.00020125638115807423,
+        0.00046314691479697916,
+        0.00015944635756858506,
+        0.00011381520926585922
+      ],
+      "first_scaled_PDE_mse": [
+        0.009143456066374886,
+        0.026254542657263354,
+        0.008919238882180654,
+        0.008303628758420657
+      ],
+      "CH_first_node_energy_fraction": 0.18929950638420762,
+      "CH_mean_after_first": 0.00016384131971365222,
+      "frozen_primal_gap": 1.430511474609375e-06,
+      "canonical_four_time_PDE_loss_max_gap": 2.6356624393484565e-08
+    },
+    "uniform_final_training_pool_slot0": {
+      "path": "/root/autodl-tmp/data/channel_nsch2d/densebc-final-audits-20261101-01/uniform-residual/final_training_pool_slot0-dense.json",
+      "mean_scaled_PDE_mse": [
+        0.00021419470801778908,
+        0.0003966064364854455,
+        0.00015156148142663693,
+        0.00010828261319436469
+      ],
+      "first_scaled_PDE_mse": [
+        0.01060123462368526,
+        0.025869382527969775,
+        0.00904607452364838,
+        0.008417761385042416
+      ],
+      "CH_first_node_energy_fraction": 0.20622269962128745,
+      "CH_mean_after_first": 0.00017073428996060316,
+      "frozen_primal_gap": 9.5367431640625e-07,
+      "canonical_four_time_PDE_loss_max_gap": 3.6273280052637625e-08
+    },
+    "balanced_nominal": {
+      "path": "/root/autodl-tmp/data/channel_nsch2d/densebc-final-audits-20261101-01/balanced-residual/nominal-dense.json",
+      "mean_scaled_PDE_mse": [
+        5.23727009503955,
+        7.170356198666658e-05,
+        0.0006804303943471376,
+        0.0005595870034990562
+      ],
+      "first_scaled_PDE_mse": [
+        1256.871475281875,
+        0.014486589072431284,
+        0.1458020882872069,
+        0.12607931065802647
+      ],
+      "CH_first_node_energy_fraction": 0.9999416461834385,
+      "CH_mean_after_first": 0.0003068934209956641,
+      "frozen_primal_gap": 1.430511474609375e-06,
+      "canonical_four_time_PDE_loss_max_gap": 2.7972482983672393e-08
+    },
+    "balanced_final_training_pool_slot0": {
+      "path": "/root/autodl-tmp/data/channel_nsch2d/densebc-final-audits-20261101-01/balanced-residual/final_training_pool_slot0-dense.json",
+      "mean_scaled_PDE_mse": [
+        5.13484766722128,
+        7.03202995260104e-05,
+        0.000675561278890099,
+        0.0005592410991725844
+      ],
+      "first_scaled_PDE_mse": [
+        1232.2861233288827,
+        0.01423380159772983,
+        0.14567521412912393,
+        0.12667438043973442
+      ],
+      "CH_first_node_energy_fraction": 0.9999372613616206,
+      "CH_mean_after_first": 0.0003235012728955354,
+      "frozen_primal_gap": 1.430511474609375e-06,
+      "canonical_four_time_PDE_loss_max_gap": 3.611816599600158e-08
+    }
+  },
+  "first_node_canonical_replay": {
+    "path": "/root/autodl-tmp/data/channel_nsch2d/densebc-initial-interval-check-20261101-01/result.json",
+    "status": "both_first_node_checks_passed",
+    "results": [
+      {
+        "label": "uniform",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-densebc-uniform-online-width128-01",
+        "time": 0.025,
+        "canonical_unweighted_loss_parts": [
+          0.00914345495402813,
+          0.026254544034600258,
+          0.008919291198253632,
+          0.008303564041852951,
+          2.532338839955628e-06,
+          2.6714867999544367e-05,
+          8.748473192099482e-05,
+          9.635346032155212e-06,
+          1.909527782117948e-05
+        ],
+        "independent_frozen_PDE_parts": [
+          0.009143456066374886,
+          0.026254542657263354,
+          0.008919238882180654,
+          0.008303628758420657
+        ],
+        "maximum_absolute_PDE_gap": 6.471656770548617e-08,
+        "canonical_CH": 0.00914345495402813,
+        "seconds": 4.384285235311836,
+        "status": "passed"
+      },
+      {
+        "label": "balanced",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-densebc-balanced-online-width128-01",
+        "time": 0.025,
+        "canonical_unweighted_loss_parts": [
+          1256.8712158203125,
+          0.014486589469015598,
+          0.1458020955324173,
+          0.126079261302948,
+          1.470850179430272e-06,
+          5.667596724379109e-06,
+          5.018552201363491e-06,
+          1.6336792896254337e-06,
+          3.205949724360835e-06
+        ],
+        "independent_frozen_PDE_parts": [
+          1256.871475281875,
+          0.014486589072431284,
+          0.1458020882872069,
+          0.12607931065802647
+        ],
+        "maximum_absolute_PDE_gap": 0.00025946156256395625,
+        "canonical_CH": 1256.8712158203125,
+        "seconds": 3.832635661121458,
+        "status": "passed"
+      }
+    ],
+    "actual_first_interval_training_update_count": 334,
+    "scope": "Unchanged canonical per-equation loss at the first positive time node; CPU finalmodel replay, not a new trained model"
+  },
+  "original_comparison_accuracy_baseline_retained": true,
+  "default_or_SOTA_promotion": false,
+  "new_reference_solves": 0,
+  "automatic_goal": null,
+  "all_finite_workers_exited": true,
+  "GPU_idle_observed": true,
+  "queued_training_runs": 0,
+  "conclusions": [
+    "Dense BC quadrature sharply reduces independent natural-BC defects but does not improve field/shape/strain accuracy in this control",
+    "Stopped inverse-gradient weighting fails phase/droplet accuracy despite smaller BC and late-time residuals",
+    "Adaptive first positive BDF node dominates full-time CH defect; canonical replay and an actual training geometry confirm it; that interval was sampled334times",
+    "Early-time dynamics convergence is the next issue to investigate; precise optimizer/weighting mechanism is not uniquely established"
+  ],
+  "preflight": {
+    "path": "/root/autodl-tmp/data/channel_nsch2d/densebc-preflight-20261101-01/preflight.json",
+    "status": "passed",
+    "cases": 818,
+    "maximum_condition": 2816476.2647338333,
+    "polynomial_error": 2.0756538560818367e-13,
+    "full_network_physical_field_gap": 0.0,
+    "nodes": 15633,
+    "BC_points": 768,
+    "encoder_boundary_points": 192,
+    "seconds": 52.57858411502093
+  },
+  "tests": {
+    "status": "11_focused_tests_passed_after_correcting_tuple_assertion",
+    "initial_suite_tests": 11,
+    "initial_suite_seconds": 153.845,
+    "initial_test_assertion_error": "Tuple encoder output was incorrectly coerced to one ndarray in new test; numerical code unchanged",
+    "corrected_isolated_test_seconds": 13.027,
+    "checks": [
+      "physical arc-length quadrature/moments and corner coverage",
+      "identical encoder and physical outputs",
+      "adaptive actual full-loss gradient vs stopped weighted loss",
+      "actual adaptive online3update training and final input audit",
+      "legacy GMLS gradient/flux/finite-difference controls",
+      "analytic inverse-gradient weighting"
+    ]
+  },
+  "verification": {
+    "changed_python_ASTs": 15,
+    "all_changed_python_whitespace": true,
+    "CLI_help": true,
+    "source_copies": "/root/autodl-tmp/data/channel_nsch2d/densebc-preflight-20261101-01/sources",
+    "byte_equality": true
+  },
+  "final_verification": {
+    "all10per_run_stages_exit0": true,
+    "all6independent_audit_stages_exit0": true,
+    "raw_saved_field_metrics_independently_recomputed": true,
+    "maximum_metric_gap": 4.163336342344337e-17,
+    "independent_reference_query_time_arrays_exact": true,
+    "canonical_first_node_replay_passed": true,
+    "source_for_first_node_check": "/root/autodl-tmp/data/channel_nsch2d/densebc-initial-interval-check-20261101-01/check.py"
+  },
+  "next_action": "Review first-positive-time PDE convergence/temporal sampling variance before any further trial; retain one global network and derive explicit unbiased quadrature if mandatory time nodes are used. No further run queued.",
+  "broader_droplet_accuracy_objective_achieved": false
+}

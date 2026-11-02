@@ -1,0 +1,153 @@
+{
+  "status": "saved_continuous_probe_initial_residual_allocation_checked",
+  "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-adaptive-jvp-online-width128-01",
+  "updated_utc": "2026-11-01T18:40:55.904154+00:00",
+  "early_horizon": 0.15,
+  "terminal_time": 6.0,
+  "cases": [
+    {
+      "label": "nominal",
+      "source": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-adaptive-jvp-online-width128-01/continuous-time-residual/nominal-losses.npz",
+      "early_samples": 6,
+      "total_samples": 240,
+      "rows": [
+        {
+          "part": "phase",
+          "peak_time": 0.016974862664937973,
+          "peak_MSE": 0.004521338269114494,
+          "fraction_first_0p15": 0.051680415868759155,
+          "mean_after_1p5": 0.0008829967700876296
+        },
+        {
+          "part": "chemical",
+          "peak_time": 0.016974862664937973,
+          "peak_MSE": 0.03648241609334946,
+          "fraction_first_0p15": 0.4786054491996765,
+          "mean_after_1p5": 0.0003495223354548216
+        },
+        {
+          "part": "momentum_x",
+          "peak_time": 0.016974862664937973,
+          "peak_MSE": 0.012475091964006424,
+          "fraction_first_0p15": 0.3216661512851715,
+          "mean_after_1p5": 0.00015868153423070908
+        },
+        {
+          "part": "momentum_y",
+          "peak_time": 0.016974862664937973,
+          "peak_MSE": 0.012536866590380669,
+          "fraction_first_0p15": 0.3812759518623352,
+          "mean_after_1p5": 0.00013210436736699194
+        },
+        {
+          "part": "wall_phase",
+          "peak_time": 5.981804370880127,
+          "peak_MSE": 9.831275747274049e-06,
+          "fraction_first_0p15": 0.010400946252048016,
+          "mean_after_1p5": 4.0654440454090945e-06
+        },
+        {
+          "part": "wall_mu",
+          "peak_time": 0.016974862664937973,
+          "peak_MSE": 2.0451831005630083e-05,
+          "fraction_first_0p15": 0.05495021492242813,
+          "mean_after_1p5": 4.530129899649182e-06
+        },
+        {
+          "part": "outlet_traction",
+          "peak_time": 0.016974862664937973,
+          "peak_MSE": 5.4189731599763036e-05,
+          "fraction_first_0p15": 0.10207635909318924,
+          "mean_after_1p5": 4.562486083159456e-06
+        },
+        {
+          "part": "outlet_phase",
+          "peak_time": 5.981804370880127,
+          "peak_MSE": 1.7950313122128136e-05,
+          "fraction_first_0p15": 0.002379742916673422,
+          "mean_after_1p5": 6.800111805205233e-06
+        },
+        {
+          "part": "outlet_mu",
+          "peak_time": 1.0262624025344849,
+          "peak_MSE": 3.972730701207183e-05,
+          "fraction_first_0p15": 0.005848353262990713,
+          "mean_after_1p5": 2.136530019924976e-05
+        }
+      ]
+    },
+    {
+      "label": "final_pool_slot0",
+      "source": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-adaptive-jvp-online-width128-01/continuous-time-residual/final_pool_slot0-losses.npz",
+      "early_samples": 6,
+      "total_samples": 240,
+      "rows": [
+        {
+          "part": "phase",
+          "peak_time": 0.016974862664937973,
+          "peak_MSE": 0.00431250361725688,
+          "fraction_first_0p15": 0.043675169348716736,
+          "mean_after_1p5": 0.0010563425021246076
+        },
+        {
+          "part": "chemical",
+          "peak_time": 0.016974862664937973,
+          "peak_MSE": 0.03646858409047127,
+          "fraction_first_0p15": 0.48519018292427063,
+          "mean_after_1p5": 0.0003392621874809265
+        },
+        {
+          "part": "momentum_x",
+          "peak_time": 0.016974862664937973,
+          "peak_MSE": 0.012632885947823524,
+          "fraction_first_0p15": 0.3279193043708801,
+          "mean_after_1p5": 0.00015147477097343653
+        },
+        {
+          "part": "momentum_y",
+          "peak_time": 0.016974862664937973,
+          "peak_MSE": 0.012895076535642147,
+          "fraction_first_0p15": 0.3742902874946594,
+          "mean_after_1p5": 0.00014248289517126977
+        },
+        {
+          "part": "wall_phase",
+          "peak_time": 5.981804370880127,
+          "peak_MSE": 9.79272044787649e-06,
+          "fraction_first_0p15": 0.010864061303436756,
+          "mean_after_1p5": 4.427742169355042e-06
+        },
+        {
+          "part": "wall_mu",
+          "peak_time": 0.016974862664937973,
+          "peak_MSE": 1.4563011973223183e-05,
+          "fraction_first_0p15": 0.059666234999895096,
+          "mean_after_1p5": 3.7355748645495623e-06
+        },
+        {
+          "part": "outlet_traction",
+          "peak_time": 0.016974862664937973,
+          "peak_MSE": 5.9860954934265465e-05,
+          "fraction_first_0p15": 0.09334295988082886,
+          "mean_after_1p5": 6.1433911469066516e-06
+        },
+        {
+          "part": "outlet_phase",
+          "peak_time": 5.981804370880127,
+          "peak_MSE": 1.6712021533749066e-05,
+          "fraction_first_0p15": 0.0021249717101454735,
+          "mean_after_1p5": 6.301728717517108e-06
+        },
+        {
+          "part": "outlet_mu",
+          "peak_time": 1.0262624025344849,
+          "peak_MSE": 4.451389395399019e-05,
+          "fraction_first_0p15": 0.006608434487134218,
+          "mean_after_1p5": 2.6089885068358853e-05
+        }
+      ]
+    }
+  ],
+  "scope": "Read-only reduction of original independently stratified240continuous canonical fullspace probes; fraction estimates temporal integral allocation, not an exact continuum integral or unique causal mechanism. No supervised labels.",
+  "decision": "Do not change the currently running normalizedstream control. Initial chemical/momentum coupling merits later diagnosis if the fixedendpoint still fails localizedshape agreement."
+}

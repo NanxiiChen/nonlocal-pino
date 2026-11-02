@@ -1,0 +1,111 @@
+{
+  "status": "completed_cold5000_all_six_audits_passed",
+  "operator": {
+    "method": "integral_moment",
+    "horizon": 0.075,
+    "padded_capacity": 128,
+    "moment_degree": 3
+  },
+  "tests": {
+    "passed": 6,
+    "seconds": 158.862
+  },
+  "config_factories_imported": 52,
+  "legacy_GMLS_payload_exact": true,
+  "construction_screen": "/root/autodl-tmp/data/channel_nsch2d/integral-stronger-input-screen-20261102-01.json",
+  "resource_probe": "/root/autodl-tmp/data/channel_nsch2d/integral-stronger-resource-20261102-01/result.json",
+  "probe_warm_step_seconds": 0.42963100511891145,
+  "probe_peak_active_bytes": 8467511296,
+  "process_journal": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-integral-time40-jvp-stronger-online-width128-01-process.json",
+  "defaults_changed": false,
+  "new_FEM_solves": 0,
+  "git_history_changed": false,
+  "matched_control_status": "matched_cold_state_geometry_encoder_quadrature_and_all_time_draws_passed",
+  "results": [
+    {
+      "label": "GMLS",
+      "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stronger-online-width128-01",
+      "metrics": {
+        "phi": 0.01947021846977325,
+        "terminal_phi": 0.01662508887492755,
+        "velocity": 0.030587430231969328,
+        "pressure": 0.039454649231110944,
+        "chemical": 0.1959890656441865,
+        "dispersed_phase": 0.0535378471322717
+      },
+      "warm_update_seconds": 0.288945757650371,
+      "wall_seconds": 1926.6846731109545,
+      "shape": {
+        "minority_fraction_relative_L2": 0.04868801991381474,
+        "negative_phase_IoU": 0.9301967255756171,
+        "contour_mean_distance_over_initial_radius": 0.024662213746822852,
+        "worst_minority_fraction_relative_L2": 0.08798401416850687
+      }
+    },
+    {
+      "label": "moment_corrected_integral",
+      "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-integral-time40-jvp-stronger-online-width128-01",
+      "metrics": {
+        "phi": 0.020714124873896622,
+        "terminal_phi": 0.01876655783768296,
+        "velocity": 0.026915449622887937,
+        "pressure": 0.038078959201280634,
+        "chemical": 0.1803351004607682,
+        "dispersed_phase": 0.05695825409967162
+      },
+      "warm_update_seconds": 0.4255867093289355,
+      "wall_seconds": 2619.879900394939,
+      "shape": {
+        "minority_fraction_relative_L2": 0.05499834641452422,
+        "negative_phase_IoU": 0.916397474604861,
+        "contour_mean_distance_over_initial_radius": 0.02920672253816028,
+        "worst_minority_fraction_relative_L2": 0.08772961946139766
+      }
+    }
+  ],
+  "warm_update_seconds": 0.4255867093289355,
+  "wall_seconds": 2619.879900394939,
+  "training_peak_active_bytes": 9053896192,
+  "plots": "/root/autodl-tmp/data/channel_nsch2d/integral-comparison-20261102-01",
+  "source_checks": {
+    "training_files_exact": 89,
+    "separate_actual_postprocess_snapshots": 2,
+    "owner_exact": true,
+    "shared_source_files_exact": 3
+  },
+  "initial_interface_diagnostic": "/root/autodl-tmp/data/channel_nsch2d/integral-initial-interface-consistency-20261102-01.json",
+  "stages": [
+    {
+      "stage": "training",
+      "exit_code": 0
+    },
+    {
+      "stage": "validate_run",
+      "exit_code": 0
+    },
+    {
+      "stage": "diagnose_phase",
+      "exit_code": 0
+    },
+    {
+      "stage": "droplet_shape",
+      "exit_code": 0
+    },
+    {
+      "stage": "phi_gallery",
+      "exit_code": 0
+    },
+    {
+      "stage": "continuous_time_residual",
+      "exit_code": 0
+    }
+  ],
+  "task": "docs/tasks/archive/channel-integral-nonlocal-control.md",
+  "continuous_time_report": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-integral-time40-jvp-stronger-online-width128-01/continuous-time-residual/validation.json",
+  "limitations": [
+    "One nominal development geometry/initialization; not population or cross-seed accuracy",
+    "Moment correction changes the symmetric regional matrix; no automatic BC or exact mass/energy claim",
+    "Streamfunction curl remains spatial AD and time derivatives JVP",
+    "t4 too flat: integral aspect1.42038 versus FEM1.29955"
+  ]
+}

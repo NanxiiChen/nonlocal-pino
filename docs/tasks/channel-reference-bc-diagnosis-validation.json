@@ -1,0 +1,332 @@
+{
+  "status": "bounded_reference_PDE_BC_diagnosis_completed_halfdt_reference_still_pending",
+  "observed_utc": "2026-11-01T07:56:43.245346+00:00",
+  "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-first-online-width128-01",
+  "root": "/root/autodl-tmp/data/channel_nsch2d/pino-reference-bc-diagnosis-20261101",
+  "scope": "ONE nominal development geometry plus one final-pool training input for residuals; no population claim, new training, default promotion or unique-cause proof",
+  "conclusion": "Evidence favors insufficient coupled PDE/flow convergence over a shared reference boundary implementation bug. Real unsampled outlet-corner BC defects remain; CH Neumann sensitivity and a static outlet-Stokes sensitivity do not explain the main droplet shape gap.",
+  "final_PINO_metrics": {
+    "step": 20000,
+    "elapsed": 2311.6460379911587,
+    "phi": 0.0493310117894823,
+    "terminal_phi": 0.07167850088610535,
+    "dispersed_phase": 0.1381375497564596,
+    "velocity": 0.027692411832887905,
+    "pressure": 0.0996428904251431,
+    "chemical": 0.23982518185061794,
+    "phi_range": [
+      -1.137813687324524,
+      1.0263491868972778
+    ],
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+    "scope": "One local-FEM geometry; not a generalization estimate"
+  },
+  "final_PINO_seconds": 2318.8322224118747,
+  "final_warm_update_seconds": 0.07619534732672474,
+  "final_run_validation": {
+    "status": "replay_and_hard_constraints_passed",
+    "saved_field_max_gap": 2.384185791015625e-06,
+    "primal_jvp_max_gap": 7.152557373046875e-07,
+    "maximum_flux_error": 1.9148609742281053e-07,
+    "maximum_wall_speed": 9.60864667831629e-08,
+    "maximum_divergence": 3.725290298461914e-09
+  },
+  "final_online_validation": {
+    "status": "actual_rolling_inputs_reconstructed",
+    "refresh_count": 399,
+    "installed_inputs": 798,
+    "distinct_sampled_online_draws": 798,
+    "final_pool_inputs_rebuilt": 16,
+    "evaluation_inputs_independent": true,
+    "evolved_training_labels": 0,
+    "scope": "Actual input identities and fixed-shape operators; not an accuracy or generalization claim"
+  },
+  "reference_fine_vs_FEM": {
+    "comparison": "GMLS_vs_FEM",
+    "phase_pooled": 0.0029102864258052337,
+    "phase_terminal": 0.0026680202432034614,
+    "minority_terminal": 0.007694169133297524,
+    "velocity_positive": 0.0010385752164100675,
+    "pressure_positive": 0.005625217271653039,
+    "terminal_contour_mean_over_radius": 0.004220110144154474,
+    "terminal_zero_contour": {
+      "predicted_components": 1,
+      "reference_components": 1,
+      "mean_distance": 0.0009284242317139842,
+      "sampled_hausdorff": 0.0018590875120294346,
+      "contour_missing": false
+    }
+  },
+  "reference_native_GMLS_BC": {
+    "status": "completed",
+    "GMLS": {
+      "direct-gmls-full-20261101-02": {
+        "wall_speed_max": 9.836641795643013e-20,
+        "inlet_u_gap_max": 4.9151530243007035e-21,
+        "inlet_v_gap_max": 6.474355240209445e-20,
+        "inlet_phi_gap_max": 0.0,
+        "inlet_mu_gap_max": 1.0566274525264135e-14,
+        "natural_phi_normal_max": 5.83220351489189e-14,
+        "natural_mu_normal_max": 2.997430413883681e-12,
+        "outlet_traction_max": 3.344546861683284e-15,
+        "interior_divergence_max": 7.854827899222983e-15,
+        "minority_area_initial": 0.15203267059229042,
+        "minority_area_terminal": 0.15203446640293955,
+        "maximum_relative_minority_area_drift": 5.292235079265109e-05,
+        "maximum_newton_residual": 4.226103911264545e-10,
+        "maximum_section_flux_gap_over_driving_Q": 0.27118425042829614
+      },
+      "direct-gmls-fine-20261101-01": {
+        "wall_speed_max": 1.743089675226295e-18,
+        "inlet_u_gap_max": 7.728761394592521e-20,
+        "inlet_v_gap_max": 1.035103643019187e-18,
+        "inlet_phi_gap_max": 0.0,
+        "inlet_mu_gap_max": 5.682478626468319e-14,
+        "natural_phi_normal_max": 1.3094289997252402e-13,
+        "natural_mu_normal_max": 3.8045346198313795e-11,
+        "outlet_traction_max": 6.980527267330672e-15,
+        "interior_divergence_max": 1.5449447277049444e-14,
+        "minority_area_initial": 0.15205478922750987,
+        "minority_area_terminal": 0.15205478366068503,
+        "maximum_relative_minority_area_drift": 5.0025912398546396e-06,
+        "maximum_newton_residual": 9.706916159757384e-09,
+        "maximum_section_flux_gap_over_driving_Q": 0.0008665827251633229
+      }
+    },
+    "scope": "Independent recomputation from native saved node arrays and exact FP64 stencils, all13stored snapshots; originalGMLS Newton/flux logs include all240steps. FEM boundary conventions independently exercised by separate manufactured tests."
+  },
+  "reference_FEM_MMS": {
+    "status": "manufactured_Neumann_traction_and_pressure_constant_checks_passed",
+    "rows": [
+      {
+        "grid": [
+          16,
+          8
+        ],
+        "boundary_lengths": [
+          8.030571475121949,
+          1.0,
+          1.0
+        ],
+        "normal_integral_closure": [
+          2.47198095326695e-17,
+          0.0
+        ],
+        "poisson_L2": 9.24499784687137e-11,
+        "poisson_neumann_L2": 2.1404779421009177e-12,
+        "velocity_L2": 4.933579799809432e-14,
+        "pressure_L2": 1.9874931798820038e-13,
+        "outlet_traction_L2": 3.664440973392408e-14
+      },
+      {
+        "grid": [
+          32,
+          16
+        ],
+        "boundary_lengths": [
+          8.032596237567539,
+          1.0,
+          1.0
+        ],
+        "normal_integral_closure": [
+          -1.2485265642528387e-17,
+          0.0
+        ],
+        "poisson_L2": 3.7282626632636323e-10,
+        "poisson_neumann_L2": 4.7190953515006435e-12,
+        "velocity_L2": 1.0144981242764289e-13,
+        "pressure_L2": 1.494549414408907e-12,
+        "outlet_traction_L2": 5.4437614752359226e-14
+      }
+    ],
+    "scope": "Actual curved mesh/marker factory; nonzero manufactured boundary data, no transient NSCH solve; checks implementation conventions, not complete physical-model correctness"
+  },
+  "reference_FEM_native_replay": {
+    "report": "/root/autodl-tmp/data/channel_nsch2d/pino-reference-bc-diagnosis-20261101/native-fem/audit.json",
+    "callback_parity_gap": 0.0,
+    "full_reference_gap": 0.0,
+    "note": "Native FE natural derivative/traction traces are weak-BC diagnostics and need not vanish pointwise."
+  },
+  "dense_PDE_BC": {
+    "nominal_PDE_scaled_MSE": [
+      0.00017119477559073706,
+      0.00045785753083411965,
+      0.00016229875607639256,
+      0.00010935329203835205
+    ],
+    "training_slot0_PDE_scaled_MSE": [
+      0.00017300063268652454,
+      0.0004062879152424342,
+      0.00015484389275468267,
+      9.968987731276416e-05
+    ],
+    "nominal_canonical_loss_gap": 3.18055912409325e-08,
+    "training_canonical_loss_gap": 7.6669338439821e-09,
+    "nominal_original_BC_RMS": [
+      0.0011185941716630116,
+      0.005616215489510671,
+      0.0012862048361684689,
+      0.0007534747753269261,
+      0.004404373271955391
+    ],
+    "nominal_dense_BC_RMS": [
+      0.048622722190145365,
+      0.6833755014914055,
+      0.005803230426879823,
+      0.011036913765399224,
+      0.08547078795843038
+    ],
+    "nominal_continuous_BC": {
+      "wall": {
+        "phi_normal_rms": 0.03956039952909276,
+        "mu_normal_rms": 0.5689931463928581
+      },
+      "outlet": {
+        "phi_normal_rms": 0.015490793097286558,
+        "mu_normal_rms": 0.19824114253953568
+      },
+      "traction_times": [
+        0.5,
+        3.0,
+        6.0
+      ],
+      "outlet_traction_rms": [
+        0.034681521856306546,
+        0.06222821659294557,
+        0.06090519012973253
+      ]
+    },
+    "report_paths": [
+      "/root/autodl-tmp/data/channel_nsch2d/pino-reference-bc-diagnosis-20261101/frozen-20k-v2/nominal-dense.json",
+      "/root/autodl-tmp/data/channel_nsch2d/pino-reference-bc-diagnosis-20261101/frozen-20k-v2/final_training_pool_slot0-dense.json"
+    ]
+  },
+  "controlled_CH_rollouts": {
+    "same_PINO_velocity_target_BC": {
+      "seconds": 386.21910751005635,
+      "maximum_scaled_residual": 5.357936316841005e-13,
+      "phi_L2": 0.04558997329199903,
+      "terminal_phi_L2": 0.06485885690283867,
+      "terminal_minority_L2": 0.18925096248252127
+    },
+    "same_PINO_velocity_learned_BC": {
+      "seconds": 387.67076994199306,
+      "maximum_scaled_residual": 5.351274978693255e-13,
+      "phi_L2": 0.045590535502539914,
+      "terminal_phi_L2": 0.06485913323875435,
+      "terminal_minority_L2": 0.18925176880012393
+    },
+    "reference_velocity_linear": {
+      "status": "reference_velocity_CH_control_completed",
+      "interpolation": "linear",
+      "seconds": 284.11187464697286,
+      "phi_L2": 0.011974683195047206,
+      "terminal_phi_L2": 0.00975328680401239,
+      "terminal_minority_L2": 0.028459010891797462,
+      "maximum_scaled_residual": 5.468958619303521e-13,
+      "scope": "Same96x40/dt.025 CH solver and zero natural BCs; velocities interpolated from13fineGMLS snapshots. This introduces temporal interpolation uncertainty and is a diagnostic, not a new fully coupled reference."
+    },
+    "reference_velocity_PCHIP": {
+      "status": "reference_velocity_CH_control_completed",
+      "interpolation": "pchip",
+      "seconds": 284.46219460386783,
+      "phi_L2": 0.013603802994423436,
+      "terminal_phi_L2": 0.00929771692964815,
+      "terminal_minority_L2": 0.027129708444629277,
+      "maximum_scaled_residual": 5.45785638905727e-13,
+      "scope": "Same96x40/dt.025 CH solver and zero natural BCs; velocities interpolated from13fineGMLS snapshots. This introduces temporal interpolation uncertainty and is a diagnostic, not a new fully coupled reference."
+    }
+  },
+  "CH_BC_change_terminal_phi_L2": 2.6351349859986053e-05,
+  "velocity_shape_terminal": {
+    "time": 6.0,
+    "regions": {
+      "droplet": {
+        "velocity_relative_L2": 0.04079286551037836,
+        "centroid_velocity_gap": 0.005586789190054242,
+        "reference_fluctuating_velocity_rms": 0.008511739358802553,
+        "fluctuating_velocity_relative_L2": 1.27415705668931,
+        "strain_rate_relative_L2": 0.889087524768521
+      },
+      "interface": {
+        "velocity_relative_L2": 0.04406516773269506,
+        "centroid_velocity_gap": 0.0022719677025185903,
+        "reference_fluctuating_velocity_rms": 0.03456153897381257,
+        "fluctuating_velocity_relative_L2": 0.35373341133038316,
+        "strain_rate_relative_L2": 0.2531821257135441
+      }
+    }
+  },
+  "reference_shape_strain_uncertainty": {
+    "time": 6.0,
+    "regions": {
+      "droplet": {
+        "GMLS_reference_vs_FEM_strain_L2": 0.059271658379610334,
+        "PINO_vs_FEM_strain_L2": 0.8790275438694991
+      },
+      "interface": {
+        "GMLS_reference_vs_FEM_strain_L2": 0.021315375443617886,
+        "PINO_vs_FEM_strain_L2": 0.2543662429519075
+      }
+    }
+  },
+  "outlet_static_Stokes_sensitivity": {
+    "status": "steady_boundary_response_and_pressure_shift_calibration_passed",
+    "sparse_residual_max": 1.0311765650049441e-12,
+    "constant_traction_calibration_velocity": 1.0321048419551707e-12,
+    "constant_traction_calibration_pressure_gap": 1.0924550153390555e-10,
+    "regions": {
+      "droplet": {
+        "boundary_response_velocity_rms": 7.920762436613376e-07,
+        "boundary_response_over_learned_velocity_error": 6.492589874050586e-05,
+        "boundary_response_over_learned_strain_error": 1.4751271466097099e-05
+      },
+      "interface": {
+        "boundary_response_velocity_rms": 7.407492368235067e-07,
+        "boundary_response_over_learned_velocity_error": 5.9570240638740414e-05,
+        "boundary_response_over_learned_strain_error": 1.964582175026196e-05
+      },
+      "near_outlet": {
+        "boundary_response_velocity_rms": 0.001657513958957555,
+        "boundary_response_over_learned_velocity_error": 0.07741223122431844,
+        "boundary_response_over_learned_strain_error": 0.6343060664685732
+      }
+    },
+    "scope": "Fine192x80 homogeneous steady Stokes response to negative actual learned6s AD outlet traction; zero correction on wall/inlet. Calibrated by unit pressure shift. This is a static linear sensitivity, not proof excluding transient/nonlinear coupled boundary effects."
+  },
+  "figures": [
+    "/root/autodl-tmp/data/channel_nsch2d/pino-reference-bc-diagnosis-20261101/boundary-traces/mu-normal-traces.png",
+    "/root/autodl-tmp/data/channel_nsch2d/pino-reference-bc-diagnosis-20261101/figures/controlled-contours.png",
+    "/root/autodl-tmp/data/channel_nsch2d/pino-reference-bc-diagnosis-20261101/figures/pde-bc-convergence.png"
+  ],
+  "source_files": [
+    "docs/tasks/channel_fem_boundary_mms.py",
+    "docs/tasks/channel_fem_native_bc_audit.py",
+    "docs/tasks/channel_frozen_ch.py",
+    "docs/tasks/channel_pde_bc_diagnosis.py",
+    "docs/tasks/channel_reference_velocity_ch.py",
+    "docs/tasks/channel_boundary_trace.py",
+    "docs/tasks/channel_velocity_shape_audit.py",
+    "docs/tasks/channel_outlet_stokes_sensitivity.py",
+    "docs/tasks/channel_bc_diagnosis_plot.py",
+    "tests/test_channel_frozen_ch.py",
+    "examples/channel_nsch2d/solver.py"
+  ],
+  "verification": {
+    "new_focused_CH_tests": 2,
+    "CH_test_status": "passed",
+    "changed_Python_ASTs": 11,
+    "exact_source_copies": true,
+    "image_PDF_outputs_inspected": true,
+    "unchanged_native_FEM_reference_replay": true,
+    "actual_canonical_loss_cross_check": true,
+    "same_grid_and_IC_for_controlled_CH": true
+  },
+  "limitations": [
+    "GMLS independent halfdt trajectory remains running; its full reference gate is not complete.",
+    "CH causal controls use96x40/dt.025, not PINO192x80; reference velocities are interpolated from13stored snapshots, independently linear and PCHIP.",
+    "Steady Stokes response is a linear static sensitivity, not a fully transient nonlinear NSCH boundary ablation.",
+    "FEM/GMLS agreement, source checks and manufactured solutions do not prove absence of every shared physical-model error."
+  ],
+  "next_action": "Focus future optimization on chemical-potential/NS coupling and deformation/strain diagnostics; repair boundary corner coverage independently. Preserve the already running reference halfdt validator; no new training is queued."
+}

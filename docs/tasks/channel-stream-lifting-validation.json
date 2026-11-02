@@ -1,0 +1,865 @@
+{
+  "status": "normalized_stream_cold5k_all_finite_audits_complete_accuracy_failed",
+  "updated_utc": "2026-11-01T19:28:46.289660+00:00",
+  "config": "examples/channel_nsch2d/configs/train_operator_width128_gmls_time40_jvp_stream_online.py",
+  "planned_run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stream-online-width128-01",
+  "control": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-adaptive-jvp-online-width128-01",
+  "budget": 5000,
+  "time_samples": 40,
+  "time_microbatch": 8,
+  "condition_batch": 2,
+  "stream_lifting": {
+    "kind": "normalized_inlet"
+  },
+  "existing_length_source": "lifting.inlet_length_scale",
+  "change_scope": "Only generic stream inlet envelope changes; same JVP/freshactualtimes/adaptivecausal/model/rawcoldstate/SOAP/geometry/GMLS/IC/BC/reference. Positive-time cold physicalvelocity intentionally changes.",
+  "derivation": "h(0)=hprime(0)=0, wall factor and its derivative vanish on both curved walls; hard initialzero velocity, full inlet velocity, no slip, flux and physicalcurl-div retained.",
+  "baseline_final": {
+    "step": 5000,
+    "elapsed": 2160.8164339181967,
+    "phi": 0.06775954294994686,
+    "terminal_phi": 0.09001610860025504,
+    "dispersed_phase": 0.18974144044860008,
+    "velocity": 0.04360820440003941,
+    "pressure": 0.0820213037406627,
+    "chemical": 0.28948372780786846,
+    "phi_range": [
+      -1.129929542541504,
+      1.027076005935669
+    ],
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+    "scope": "One local-FEM geometry; not a generalization estimate"
+  },
+  "baseline_terminal_shape": {
+    "time": 6.0,
+    "phase_global_relative_L2": 0.09001610860025502,
+    "minority_fraction_relative_L2": 0.2568282425500797,
+    "interface_phi_relative_L2": 0.4911096322029684,
+    "droplet_band_phi_relative_L2": 0.4233671700093853,
+    "reference_negative_area_fraction": 0.03505584470788838,
+    "negative_phase_IoU": 0.7496570462612197,
+    "zero_contour": {
+      "predicted_components": 1,
+      "reference_components": 1,
+      "mean_distance": 0.028464316676722126,
+      "sampled_hausdorff": 0.05841123060825743,
+      "contour_missing": false
+    },
+    "contour_mean_distance_over_initial_radius": 0.12938325762146421,
+    "velocity_global_relative_L2": 0.04412692177772244,
+    "velocity_interface_relative_L2": 0.04299689214801832,
+    "velocity_droplet_band_relative_L2": 0.04052793163323954,
+    "pressure_global_relative_L2": 0.06249441277880068,
+    "pressure_interface_relative_L2": 0.15426888430014826,
+    "pressure_droplet_band_relative_L2": 0.1526946651517151
+  },
+  "baseline_all_finite_audits_complete": true,
+  "tests": {
+    "unique_focused_passed": 3,
+    "initial_suite": {
+      "tests": 3,
+      "passed": 2,
+      "failed": 1,
+      "wall_seconds": 82.575
+    },
+    "initial_failure": "40point Gauss integration insufficient for nonpolynomial neural velocity; unchanged flux tolerance2e-11. Independent40/80/160convergence plus exactboundary stream difference prove quadrature origin.",
+    "corrected_constraints_passed_seconds": 27.51,
+    "flux_quadrature": {
+      "rows": [
+        {
+          "order": 40,
+          "maximum_flux_error": 2.472257547958545e-06,
+          "dtype": "float64"
+        },
+        {
+          "order": 80,
+          "maximum_flux_error": 5.124766166986205e-10,
+          "dtype": "float64"
+        },
+        {
+          "order": 160,
+          "maximum_flux_error": 2.1338486533295509e-13,
+          "dtype": "float64"
+        }
+      ],
+      "maximum_boundary_stream_flux_error": 0.0
+    },
+    "coverage": [
+      "FP64 hardinitial/inlet/wall velocity",
+      "Independent sectionquadrature and curl-divergence",
+      "Old absentflag streamarithmetic exactparity",
+      "Physical9residual parametergradient vs finite differences for phi and stream heads",
+      "Strictschema and one-change JVPcontrol matching"
+    ],
+    "historical_BDF_and_timeJVP_comparison_schemas_passed": true,
+    "changed_Python_AST_files": 7
+  },
+  "production_resource_probe": {
+    "output": "/root/autodl-tmp/data/channel_nsch2d/stream-jvp-production-probe-20261102-01",
+    "status": "finite_production_probe_passed",
+    "updates": 20,
+    "cold_first_update_seconds": 361.2660027751699,
+    "warm_update_seconds": 0.3310739484272505,
+    "peak_active_GiB": 7.8287835121154785,
+    "all_gradient_feedback_updates_finite": true,
+    "time_sampler": {
+      "planned_updates": 5000,
+      "all_planned_GPU_strata_and_order_passed": true,
+      "actual_probe_times_exact_global_key_replay": true,
+      "repeated_time_batch": false
+    },
+    "scope": "Resource probe on two fixed original inputs; not a new accuracy/generalization experiment",
+    "compiler_warning": "XLA autotuning timer delaywarnings retained in external log; synchronized Python warm-update times, not a compile-stage device-timer benchmark"
+  },
+  "new_FEM_solves": 0,
+  "evolved_training_labels": 0,
+  "thread_goal": {
+    "objective": "\u8bf7\u6309\u7167\u8fd9\u6837\u7684\u601d\u8def\u6301\u7eed\u89e3\u51b3\u4f18\u5316\uff0c\u89e3\u51b3\u6db2\u6ef4\u5f62\u72b6\u4e0e\u53c2\u8003\u89e3\u4e0d\u5339\u914d\u7684\u95ee\u9898",
+    "status": "active",
+    "explicit_budget": null,
+    "old_automatic_queues_revived": false
+  },
+  "no_default_or_SOTA_promotion": true,
+  "no_Git_or_cleanup": true,
+  "further_training_queued": 0,
+  "next_action": "Completed failed narrow-envelope control; do not resume. Sole new continuation is channel-stream-height-validation.json. Preserve all oldaccuracy/audit/source/input/time evidence.",
+  "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stream-online-width128-01",
+  "journal": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-stream-online-width128-01-process.json",
+  "runner_pid": 187439,
+  "training_pid": 187445,
+  "active_child_pid": null,
+  "owner_stage": "completed_with_saved_run_audits",
+  "owner_heartbeat_utc": "2026-11-01T19:19:53.574157+00:00",
+  "owner_source": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-stream-online-width128-01-owner.py",
+  "screen": "channel-stream-jvp40-20261102",
+  "training_completed": true,
+  "final_audits_completed": true,
+  "initial_state_and_bank_parity": {
+    "status": "passed",
+    "raw_model_complete_optimizer_and_initial_bank_exact": true,
+    "positive_time_initial_physical_velocity_same": false
+  },
+  "actual_source_and_owner_byte_checks_passed": 14,
+  "latest_monitor": {
+    "step": 5000,
+    "elapsed": 2387.169526432175,
+    "phi": 0.38142153715405264,
+    "terminal_phi": 0.41526622690103926,
+    "dispersed_phase": 1.0680631646407222,
+    "velocity": 0.335679718097532,
+    "pressure": 0.6402713100119467,
+    "chemical": 2.1213282996249596,
+    "phi_range": [
+      -1.1380482912063599,
+      1.0656946897506714
+    ],
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+    "scope": "One local-FEM geometry; not a generalization estimate"
+  },
+  "latest_logged_optimizer_step": 5000,
+  "production_gradient_updates_observed": true,
+  "latest_loss": {
+    "step": 5000,
+    "total": 0.008730563335120678,
+    "parts": {
+      "phase": 0.0005017962539568543,
+      "chemical": 0.0054114521481096745,
+      "momentum_x": 0.0011823222739621997,
+      "momentum_y": 0.001574215479195118,
+      "wall_phase": 5.353177584765945e-06,
+      "wall_mu": 1.6504091036040336e-05,
+      "outlet_traction": 1.4375283171830233e-05,
+      "outlet_phase": 6.122910690464778e-06,
+      "outlet_mu": 1.8421726053929888e-05
+    },
+    "unweighted_parts": {
+      "phase": 0.0005046857404522598,
+      "chemical": 0.005447857081890106,
+      "momentum_x": 0.0011905571445822716,
+      "momentum_y": 0.0015848221955820918,
+      "wall_phase": 5.3965959523338825e-06,
+      "wall_mu": 1.6632358892820776e-05,
+      "outlet_traction": 1.4457606994255912e-05,
+      "outlet_phase": 6.167012998048449e-06,
+      "outlet_mu": 1.8562299374025315e-05
+    },
+    "causal": {
+      "epsilon": 0.03914247453212738,
+      "mean_weight": 0.9929782748222351,
+      "minimum_weight": 0.986437201499939,
+      "last_time_weights": [
+        0.9868707060813904,
+        0.986437201499939
+      ],
+      "next_epsilon": 0.03914247453212738
+    }
+  },
+  "latest_feedback": {
+    "step": 5000,
+    "epsilon": 0.03914247453212738,
+    "next_epsilon": 0.03914247453212738,
+    "mean_weights": [
+      0.9930793642997742,
+      0.9928771257400513
+    ],
+    "last_time_weights": [
+      0.9868707060813904,
+      0.986437201499939
+    ]
+  },
+  "frozen_cold_envelope_diagnosis": {
+    "report": "/root/autodl-tmp/data/channel_nsch2d/frozen-stream-envelope-20261102-02/validation.json",
+    "status": "frozen_cold_envelope_conditioning_probe_completed",
+    "nodes": 15633,
+    "canonical_primal_and_rate_gaps": [
+      {
+        "kind": "quadratic",
+        "maximum_primal_or_rate_gap": 0.0
+      },
+      {
+        "kind": "normalized_inlet",
+        "maximum_primal_or_rate_gap": 0.0
+      }
+    ],
+    "source": "Same savedcold FP32parameters/operatorcoefficients promotedCPUFP64; no fittedstates or labels",
+    "cases": [
+      {
+        "kind": "quadratic",
+        "gate_third_derivative_at_inlet": 0.0,
+        "inlet_momentum_residual_fraction": 0.09059416394630837,
+        "regions": [
+          {
+            "region": "all",
+            "area_fraction": 1.0,
+            "mean_scaled_parts": [
+              14.240868872228583,
+              0.15642601540879944,
+              0.34258719930767795,
+              0.06188622111631087
+            ],
+            "GMLS_divergence_RMS": 1.1642099739199076e-05
+          },
+          {
+            "region": "inlet_x_below_0p2",
+            "area_fraction": 0.04963279834611172,
+            "mean_scaled_parts": [
+              1.17328887071821,
+              0.030120743627150046,
+              0.6993031380293738,
+              0.03897744623845733
+            ],
+            "GMLS_divergence_RMS": 1.167971981458773e-07
+          },
+          {
+            "region": "remaining",
+            "area_fraction": 0.9503672016538883,
+            "mean_scaled_parts": [
+              14.923321467349657,
+              0.16302229111515792,
+              0.32395775773750707,
+              0.06308262878051714
+            ],
+            "GMLS_divergence_RMS": 1.1942204695661554e-05
+          }
+        ]
+      },
+      {
+        "kind": "normalized_inlet",
+        "gate_third_derivative_at_inlet": -48000.0,
+        "inlet_momentum_residual_fraction": 0.9397867619531403,
+        "regions": [
+          {
+            "region": "all",
+            "area_fraction": 1.0,
+            "mean_scaled_parts": [
+              14.959241068804692,
+              0.15642601540879944,
+              0.6252059794819086,
+              10.236900874755728
+            ],
+            "GMLS_divergence_RMS": 0.0014464168295359383
+          },
+          {
+            "region": "inlet_x_below_0p2",
+            "area_fraction": 0.04963279834611172,
+            "mean_scaled_parts": [
+              1.1783268153389417,
+              0.030120743627150046,
+              1.4352425659614798,
+              204.23650210069368
+            ],
+            "GMLS_divergence_RMS": 0.006490976020170842
+          },
+          {
+            "region": "remaining",
+            "area_fraction": 0.9503672016538883,
+            "mean_scaled_parts": [
+              15.678947448588218,
+              0.16302229111515792,
+              0.5829019285006163,
+              0.10529798471865066
+            ],
+            "GMLS_divergence_RMS": 3.168951353466232e-05
+          }
+        ]
+      },
+      {
+        "kind": "normalized_height",
+        "gate_third_derivative_at_inlet": -6.0,
+        "inlet_momentum_residual_fraction": 0.07084981512231929,
+        "regions": [
+          {
+            "region": "all",
+            "area_fraction": 1.0,
+            "mean_scaled_parts": [
+              14.417569200107193,
+              0.15642601540879944,
+              0.43879056458422433,
+              0.07948480966341508
+            ],
+            "GMLS_divergence_RMS": 2.085335686501967e-05
+          },
+          {
+            "region": "inlet_x_below_0p2",
+            "area_fraction": 0.04963279834611172,
+            "mean_scaled_parts": [
+              1.1732729618346671,
+              0.030120743627150046,
+              0.6985416642514752,
+              0.04128594312688064
+            ],
+            "GMLS_divergence_RMS": 1.6775649442300907e-06
+          },
+          {
+            "region": "remaining",
+            "area_fraction": 0.9503672016538883,
+            "mean_scaled_parts": [
+              15.109250776750818,
+              0.16302229111515792,
+              0.4252250985964163,
+              0.08147974029292175
+            ],
+            "GMLS_divergence_RMS": 2.1387523344720957e-05
+          }
+        ]
+      }
+    ],
+    "scope": "Frozen initial-parameter conditioning and original trained GMLS-grid diagnostics; geometry-height gate is only a diagnostic, not a trained result, live-run change or continuum accuracy proof",
+    "first_probe_execution_correction": "01 stopped before anycase result after actual XLA constantfold logs;02 passes model/encoded/data as explicit JIT arguments, both original/narrow canonicalgaps0"
+  },
+  "new_frozen_probe_AST_passed": true,
+  "training_exit_code": 0,
+  "resource_summary": {
+    "wall_seconds": 2394.436401918996,
+    "warm_update_seconds": 0.36722087750683075,
+    "device_memory_bytes": {
+      "num_allocs": 2957323,
+      "bytes_in_use": 239019520,
+      "peak_bytes_in_use": 8604006656,
+      "largest_alloc_size": 8135957504,
+      "bytes_limit": 25253068800,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 25253068800,
+      "peak_pool_bytes": 25253068800
+    },
+    "device": {
+      "kind": "NVIDIA GeForce RTX 5090",
+      "platform": "gpu",
+      "jax_version": "0.10.1"
+    },
+    "microbatch": {
+      "kind": "time",
+      "size": 8,
+      "time_samples_per_update": 40,
+      "optimizer_updates_per_batch": 1,
+      "clipping": "Once, after the complete averaged gradient"
+    },
+    "active_peak_GiB": 8.013105630874634
+  },
+  "completed_stages": [
+    {
+      "stage": "training",
+      "exit_code": 0
+    },
+    {
+      "stage": "validate_run",
+      "exit_code": 0
+    },
+    {
+      "stage": "diagnose_phase",
+      "exit_code": 0
+    },
+    {
+      "stage": "droplet_shape",
+      "exit_code": 0
+    },
+    {
+      "stage": "phi_gallery",
+      "exit_code": 0
+    },
+    {
+      "stage": "continuous_time_residual",
+      "exit_code": 0
+    }
+  ],
+  "completed_canonical_audit": {
+    "status": "replay_and_hard_constraints_passed",
+    "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stream-online-width128-01",
+    "continuity_enforcement": "hard_streamfunction",
+    "soft_continuity_accuracy_pass_claimed": false,
+    "saved_field_max_gap": 3.337860107421875e-06,
+    "primal_jvp_max_gap": 1.6689300537109375e-06,
+    "primal_query_batching": "Independent saved/probe/section/boundary/domain queries concatenated; separate time-JVP probe",
+    "maximum_flux_error": 1.9645699526893434e-07,
+    "maximum_wall_speed": 1.1736982230559079e-07,
+    "maximum_divergence": 1.4901161193847656e-08,
+    "section_x": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      1.25,
+      1.5,
+      1.75,
+      2.0,
+      2.25,
+      2.5,
+      2.75,
+      3.0,
+      3.25,
+      3.5,
+      3.75,
+      4.0
+    ],
+    "flux_times": [
+      0.5,
+      3.0,
+      6.0
+    ],
+    "flux": [
+      [
+        0.09999999995724736,
+        0.0999999984259865,
+        0.10000000270499318,
+        0.10000019794711139,
+        0.09999999862801635,
+        0.10000000214675395,
+        0.09999999885365558,
+        0.10000000431353169,
+        0.0999999961070849,
+        0.10000000480445911,
+        0.10000000204908571,
+        0.1000000035903279,
+        0.10000000175139216,
+        0.10000000097082144,
+        0.09999999988526495,
+        0.09999999942751765,
+        0.0999999953570043
+      ],
+      [
+        0.1999999999144947,
+        0.20000000131281698,
+        0.2000000142793747,
+        0.20000007262126912,
+        0.20000000244585558,
+        0.20000000234099372,
+        0.19999999712715966,
+        0.20000001074644633,
+        0.19999999239472632,
+        0.20000001027923445,
+        0.1999999997313929,
+        0.2000000031315419,
+        0.19999999872729693,
+        0.20000000072159757,
+        0.20000000198393503,
+        0.19999999678995442,
+        0.19999999501450266
+      ],
+      [
+        0.1999999999144947,
+        0.19999999980692681,
+        0.2000000042206209,
+        0.1999999748609914,
+        0.20000000920301506,
+        0.2000000025825383,
+        0.19999999901233464,
+        0.20000000858304956,
+        0.1999999904240717,
+        0.20000000984343524,
+        0.20000000203534585,
+        0.20000000354141306,
+        0.20000000272442311,
+        0.19999999983940508,
+        0.2000000002251128,
+        0.199999993711302,
+        0.1999999957294564
+      ]
+    ],
+    "phase_area_times": [
+      0.0,
+      0.5,
+      1.0,
+      1.5,
+      2.0,
+      2.5,
+      3.0,
+      3.5,
+      4.0,
+      4.5,
+      5.0,
+      5.5,
+      6.0
+    ],
+    "phase_area": [
+      0.15205479523328574,
+      0.15204353682619473,
+      0.15232331277315958,
+      0.15336866330694415,
+      0.15389762946812172,
+      0.15423045807083113,
+      0.15448123868680522,
+      0.15453527966932493,
+      0.1543913216208381,
+      0.15405600919233411,
+      0.1536895364518088,
+      0.15325467621339048,
+      0.15270009397291223
+    ],
+    "full_grid_phase_min": [
+      -1.0,
+      -1.0947612524032593,
+      -1.1217399835586548,
+      -1.1374832391738892,
+      -1.1388452053070068,
+      -1.1325154304504395,
+      -1.1206300258636475,
+      -1.1067516803741455,
+      -1.091861367225647,
+      -1.07568359375,
+      -1.0580174922943115,
+      -1.0402964353561401,
+      -1.023435354232788
+    ],
+    "full_grid_phase_max": [
+      1.0000014305114746,
+      1.0279371738433838,
+      1.0485237836837769,
+      1.0595394372940063,
+      1.0627031326293945,
+      1.0628714561462402,
+      1.0624117851257324,
+      1.0620384216308594,
+      1.0622889995574951,
+      1.0635417699813843,
+      1.0653862953186035,
+      1.066198706626892,
+      1.063024878501892
+    ],
+    "negative_phase_area": [
+      0.15182292461395264,
+      0.14531251788139343,
+      0.14010415971279144,
+      0.13515624403953552,
+      0.13046875596046448,
+      0.12317708879709244,
+      0.11796876043081284,
+      0.11171873658895493,
+      0.10651042312383652,
+      0.10130209475755692,
+      0.09713540971279144,
+      0.09322917461395264,
+      0.08906251192092896
+    ],
+    "negative_phase_area_scope": "Zero-contour core diagnostic, not the conserved diffuse-phase integral",
+    "full_grid_diagnostic_fields": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stream-online-width128-01/diagnostic_fields.npz",
+    "full_grid_points": 15633,
+    "phase_area_scope": "Diagnostic only: open-domain mass balance includes boundary flux, not imposed constant mass",
+    "condition_visit_counts": [
+      603,
+      613,
+      592,
+      612,
+      650,
+      605,
+      650,
+      632,
+      654,
+      598,
+      617,
+      603,
+      659,
+      605,
+      639,
+      668
+    ],
+    "sampling_start_step": 0,
+    "sampling_updates": 5000,
+    "actual_draws_reproduced_from_global_keys": true,
+    "actual_time_strata_passed": true,
+    "supervised_evolved_field_samples": 0,
+    "metrics": {
+      "phi": {
+        "unweighted": 0.38142154489956337,
+        "physical_area_weighted": 0.37801155843998585
+      },
+      "velocity": {
+        "unweighted": 0.3356797513155335,
+        "physical_area_weighted": 0.3435230093424069
+      },
+      "pressure": {
+        "unweighted": 0.6402714178730701,
+        "physical_area_weighted": 0.6485972830002293
+      }
+    },
+    "diagnostic_queries": 3840,
+    "scope": "One development FEM geometry; no population estimate",
+    "online_inputs": {
+      "status": "actual_rolling_inputs_reconstructed",
+      "refresh_count": 99,
+      "installed_inputs": 198,
+      "distinct_sampled_online_draws": 198,
+      "final_pool_inputs_rebuilt": 16,
+      "evaluation_inputs_independent": true,
+      "evolved_training_labels": 0,
+      "scope": "Actual input identities and fixed-shape operators; not an accuracy or generalization claim"
+    },
+    "time_derivative": {
+      "kind": "jvp",
+      "sampling": "continuous_stratified",
+      "actual_time_samples": 40,
+      "updates": 5000,
+      "resampled_every_update": true,
+      "shared_across_condition_batch": true,
+      "scope": "Exact saved draws reproduced from global keys and checked against continuous strata; no fixed BDF node indices"
+    },
+    "GMLS_residual_derivatives": {
+      "configuration": {
+        "boundary": "gmls",
+        "kind": "gmls_first",
+        "velocity": "unchanged_streamfunction_ad"
+      },
+      "maximum_interior_discrete_divergence": 0.004199080169200897,
+      "scope": "Approximate GMLS divergence is diagnostic, not the exact physical AD-curl constraint or a training loss"
+    }
+  },
+  "completed_causal_trace_audit": {
+    "status": "actual_causal_schedule_global_prefix_and_objective_passed",
+    "records": 51,
+    "maximum_weight_gap": 8.268060847083092e-08,
+    "first_weight_one": true,
+    "geometry_prefixes_separate": true,
+    "prefix_scope": "All sampled times before microbatch slicing",
+    "scope": "Logged pre-update objectives; stopped AD verified by focused gradient tests, not inferred from logs",
+    "feedback": {
+      "status": "every_actual_feedback_state_transition_passed",
+      "updates": 5000,
+      "maximum_state_gap": 2.9802322387695312e-08,
+      "actions": {
+        "increase": 8,
+        "decrease": 42,
+        "hold": 4950
+      },
+      "final_next_epsilon": 0.03914247453212738,
+      "reduction": "Minimum of independent geometry proposals; no averaging hides an underweighted sample"
+    }
+  },
+  "matched_control": {
+    "status": "full_actual_cold_state_condition_time_and_input_parity_passed",
+    "control": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-adaptive-jvp-online-width128-01",
+    "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stream-online-width128-01",
+    "updates": 5000,
+    "condition_draws": 10000,
+    "time_draws": 200000,
+    "initial_model_and_complete_optimizer_exact": true,
+    "initial_and_final_input_banks_exact": true,
+    "all_actual_sampling_arrays_exact": true,
+    "metrics_recomputed_maximum_gap": 0.0,
+    "results": [
+      {
+        "label": "jvp_original_stream",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-adaptive-jvp-online-width128-01",
+        "metrics": {
+          "phi": 0.06775954294994686,
+          "terminal_phi": 0.09001610860025504,
+          "velocity": 0.04360820440003941,
+          "pressure": 0.0820213037406627
+        },
+        "wall_seconds": 2167.8922303570434,
+        "warm_update_seconds": 0.33775220577558307
+      },
+      {
+        "label": "jvp_normalized_stream",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stream-online-width128-01",
+        "metrics": {
+          "phi": 0.38142153715405264,
+          "terminal_phi": 0.41526622690103926,
+          "velocity": 0.335679718097532,
+          "pressure": 0.6402713100119467
+        },
+        "wall_seconds": 2394.436401918996,
+        "warm_update_seconds": 0.36722087750683075
+      }
+    ],
+    "scope": "One initialization/reused nominalFEM geometry; no multi-seed or population conclusion",
+    "representation": {
+      "training": {
+        "kind": "normalized_inlet"
+      },
+      "control": "quadratic_x_over_length",
+      "same_actual_continuous_times": true,
+      "raw_cold_model_and_complete_optimizer_exact": true,
+      "initial_positive_time_physical_velocity_equal": false,
+      "same_physical_PDE_BC_and_reference": true
+    }
+  },
+  "completed_continuous_time_audit": {
+    "status": "canonical_unweighted_continuous_time_probes_completed",
+    "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stream-online-width128-01",
+    "time_derivative": {
+      "kind": "jvp",
+      "sampling": "continuous_stratified"
+    },
+    "time_samples": 240,
+    "probe_seed": 20261102,
+    "part_names": [
+      "phase",
+      "chemical",
+      "momentum_x",
+      "momentum_y",
+      "wall_phase",
+      "wall_mu",
+      "outlet_traction",
+      "outlet_phase",
+      "outlet_mu"
+    ],
+    "cases": [
+      {
+        "label": "nominal",
+        "amplitudes": [
+          0.11999999731779099,
+          0.07999999821186066
+        ],
+        "domain_nodes": 15633,
+        "time_samples": 240,
+        "mean_parts": [
+          0.000561005319468677,
+          0.005477810278534889,
+          0.002053564414381981,
+          0.0016515350434929132,
+          5.2172936193528585e-06,
+          2.736462738539558e-05,
+          2.3570251869386993e-05,
+          2.1296357317623915e-06,
+          0.00011509761679917574
+        ],
+        "maximum_parts": [
+          0.00519129354506731,
+          0.052367135882377625,
+          0.010082779452204704,
+          0.011044062674045563,
+          1.3444683645502664e-05,
+          3.828811168204993e-05,
+          6.412881339201704e-05,
+          4.639370672521181e-06,
+          0.00014518716488964856
+        ],
+        "mean_unweighted_total": 0.00991729460656643,
+        "source": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stream-online-width128-01/continuous-time-residual/nominal-losses.npz"
+      },
+      {
+        "label": "final_pool_slot0",
+        "amplitudes": [
+          0.07738466560840607,
+          0.1170973926782608
+        ],
+        "domain_nodes": 15633,
+        "time_samples": 240,
+        "mean_parts": [
+          0.0005663115298375487,
+          0.005469540599733591,
+          0.002127627143636346,
+          0.001740167965181172,
+          5.070373390481109e-06,
+          2.5191588065354154e-05,
+          3.12699812639039e-05,
+          2.1813518742419546e-06,
+          0.00013163477706257254
+        ],
+        "maximum_parts": [
+          0.005129697732627392,
+          0.052305031567811966,
+          0.010288300924003124,
+          0.011087523773312569,
+          1.159355178970145e-05,
+          3.4855496778618544e-05,
+          7.9156227002386e-05,
+          4.473588433029363e-06,
+          0.0001674405939411372
+        ],
+        "mean_unweighted_total": 0.010098995640873909,
+        "source": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stream-online-width128-01/continuous-time-residual/final_pool_slot0-losses.npz"
+      }
+    ],
+    "reference_labels_used": 0,
+    "scope": "Canonical unweighted timeJVP/GMLS PDE+BC losses on the full trained spatial grid, at independently drawn continuous times; no causal discount, no independent solver or continuum convergence proof"
+  },
+  "terminal_shape": {
+    "time": 6.0,
+    "phase_global_relative_L2": 0.4152662269010392,
+    "minority_fraction_relative_L2": 1.2296339457085712,
+    "interface_phi_relative_L2": 1.3979656852033364,
+    "droplet_band_phi_relative_L2": 1.530170837457765,
+    "reference_negative_area_fraction": 0.03505584470788838,
+    "negative_phase_IoU": 0.0,
+    "zero_contour": {
+      "predicted_components": 1,
+      "reference_components": 1,
+      "mean_distance": 1.434061333224085,
+      "sampled_hausdorff": 1.6421782508935414,
+      "contour_missing": false
+    },
+    "contour_mean_distance_over_initial_radius": 6.518460605564023,
+    "velocity_global_relative_L2": 0.30681330503161375,
+    "velocity_interface_relative_L2": 0.06754154680594342,
+    "velocity_droplet_band_relative_L2": 0.06777771360034285,
+    "pressure_global_relative_L2": 0.554626669311133,
+    "pressure_interface_relative_L2": 0.25013447501269714,
+    "pressure_droplet_band_relative_L2": 0.2659858318529236
+  },
+  "source_proof_scope": "Actual preserved training source compared to immutable preceding resourceprobe source where available, plus unchanged source/owner; later height-option workingtree changes do not alter this completed run",
+  "original_JVP_frozen_diagnoses": {
+    "gradient_report": "/root/autodl-tmp/data/channel_nsch2d/frozen-coupling-gradient-20261102-02/validation.json",
+    "full40time_groups": {
+      "all": {
+        "phase_norm": 1.3031707358912281,
+        "flow_norm": 0.7558202963105773,
+        "cosine": 0.5793346788701422,
+        "phase_gradient_dot_total": 2.2688771274711383,
+        "flow_gradient_dot_total": 1.1418874809028625
+      },
+      "shared_trunk": {
+        "phase_norm": 1.2958909130097784,
+        "flow_norm": 0.6082772386409917,
+        "cosine": 0.6986289239993199,
+        "phase_gradient_dot_total": 2.230035155057663,
+        "flow_gradient_dot_total": 0.9207030956850555
+      },
+      "output_head": {
+        "phase_norm": 0.13755256617732478,
+        "flow_norm": 0.44862358527645324,
+        "cosine": 0.3228242056056829,
+        "phase_gradient_dot_total": 0.03884197241347519,
+        "flow_gradient_dot_total": 0.22118438521780698
+      }
+    },
+    "projection_report": "/root/autodl-tmp/data/channel_nsch2d/frozen-phase-subspace-20261102-01/validation.json",
+    "projection_uses_reference_only_for_diagnosis": true,
+    "projection_weights_or_checkpoints_exported": false,
+    "production_training_labels": 0
+  },
+  "final_phi_gallery": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stream-online-width128-01/phi-fields/phi-fields.png",
+  "final_phi_gallery_inspected": true
+}

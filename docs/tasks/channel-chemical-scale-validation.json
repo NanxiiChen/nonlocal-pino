@@ -1,0 +1,398 @@
+{
+  "status": "cold5000_and_all_owned_audits_completed_nominal_droplet_shape_improved",
+  "updated_utc": "2026-11-01T23:06:26.914386+00:00",
+  "config": "examples/channel_nsch2d/configs/train_operator_width128_gmls_time40_jvp_chemical_online.py",
+  "planned_run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01",
+  "control": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01",
+  "budget": 5000,
+  "time_samples": 40,
+  "time_microbatch": 8,
+  "condition_batch": 2,
+  "chemical_output_amplitude": 4.0,
+  "chemical_residual_normalizer": 1.0,
+  "control_residual_normalizer": 4.0,
+  "chemical_MSE_multiplier": 16.0,
+  "change_scope": "ChemicalPDE-row normalization ONLY; physicalprimal/BC/model/SOAP/geometry/IC/time/otherlosses/ref/budget unchanged; no newterm or labels",
+  "tests": {
+    "new_passed": 3,
+    "new_seconds": 70.769,
+    "new_log": "/tmp/channel-chemical-scale-tests.log",
+    "legacy_passed": 3,
+    "legacy_seconds": 54.527,
+    "legacy_log": "/tmp/channel-chemical-scale-legacy-tests.log",
+    "AST_files": 8,
+    "actualsinglefieldcomparison": true,
+    "diff_check_passed": true
+  },
+  "resource_probe": {
+    "status": "finite_production_probe_passed",
+    "pid": null,
+    "exec_session": null,
+    "updates": 20,
+    "output": "/root/autodl-tmp/data/channel_nsch2d/chemical-scale-production-probe-20261102-01",
+    "log": "/root/autodl-tmp/data/channel_nsch2d/chemical-scale-production-probe-20261102-01.log",
+    "first_update_seconds": 339.77022279892117,
+    "warm_update_seconds": 0.2853491645747502,
+    "active_peak_bytes": 8534905344,
+    "active_peak_GiB": 7.948750019073486,
+    "all20gradients_finite": true,
+    "time_sampler": {
+      "planned_updates": 5000,
+      "all_planned_GPU_strata_and_order_passed": true,
+      "actual_probe_times_exact_global_key_replay": true,
+      "repeated_time_batch": false
+    },
+    "actual_source_byte_copies_passed_before_metadata_only_key_edit": 11
+  },
+  "training_started": true,
+  "reference_labels_in_training": 0,
+  "new_FEM_solves": 0,
+  "default_or_SOTA_changed": false,
+  "Git_or_cleanup": false,
+  "goal_status": "nominal_development_shape_goal_achieved",
+  "next_action": "No queued work. Requested timeJVP/fresh continuous resampling and nominal shape optimization complete; preserve completed opt-in control. Unseen-geometry and repeat-initialization accuracy are not established. No default/SOTA/FEM/Git/cleanup action.",
+  "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01",
+  "journal": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01-process.json",
+  "runner_pid": null,
+  "training_pid": null,
+  "owner_stage": "completed_with_saved_run_audits",
+  "screen": "channel-chemical-jvp40-20261102",
+  "owner_source": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01-owner.py",
+  "initial_state_and_bank_parity": {
+    "status": "passed",
+    "cold": true,
+    "fresh_geometry_bank_exact": true,
+    "first_monitor_step": 0,
+    "initial_model_complete_optimizer_and_geometry_bank_exact": true
+  },
+  "actual_source_and_owner_byte_checks": 89,
+  "step0_physical_metrics_exactly_match_control": true,
+  "latest_monitor": {
+    "step": 5000,
+    "elapsed": 1904.1730337799527,
+    "phi": 0.011498005370497801,
+    "terminal_phi": 0.012156983204048562,
+    "dispersed_phase": 0.03219691288200614,
+    "velocity": 0.027099790894083608,
+    "pressure": 0.041185694764130025,
+    "chemical": 0.16788531578655852,
+    "phi_range": [
+      -1.1333825588226318,
+      1.0396111011505127
+    ],
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+    "scope": "One local-FEM geometry; not a generalization estimate"
+  },
+  "production_training_updates_observed": true,
+  "latest_logged_optimizer_step": 5000,
+  "final_audits_completed": true,
+  "postprobe_metadata_edit": "Only paired-report key actual_continuous_times_and_geometry_exact renamed actual_times_and_geometry_exact, avoiding a false continuous-only description for BDF uses; no arithmetic/config/gradient change.",
+  "session_changes": [
+    "Optionalpositive independent chemicalPDE-row normalizer, unchangedlegacyoutputamplitude/arithmetic",
+    "Explicit researchpreset output4/row1 plus strictsinglefield pairedcomparison and scalemetadata",
+    "Summary/continuousdiagnostic/frozenRMS distinguish roles",
+    "3new and3legacy focusedcontracts pass; bounded20resourcequalified and canonicalcold5000started",
+    "README/DEVELOPMENT/task/dashboard/decisions/receipt/index updated; no default/Git/FEM/cleanup"
+  ],
+  "latest_loss": {
+    "step": 5000,
+    "total": 0.002475094050168991,
+    "parts": {
+      "phase": 0.0008219584706239402,
+      "chemical": 0.0006250296719372272,
+      "momentum_x": 0.0005594660760834813,
+      "momentum_y": 0.0004070002178195864,
+      "wall_phase": 9.553786185279023e-06,
+      "wall_mu": 1.9121895093121566e-05,
+      "outlet_traction": 1.4344729606818873e-05,
+      "outlet_phase": 6.507027137558907e-06,
+      "outlet_mu": 1.2112231161154341e-05
+    }
+  },
+  "latest_refresh": {
+    "completed_updates": 4950,
+    "batch": 98,
+    "slots": [
+      4,
+      5
+    ],
+    "draw_ids": [
+      196,
+      197
+    ],
+    "wait_seconds": 0.004713637754321098
+  },
+  "physical_curve": "/root/autodl-tmp/data/channel_nsch2d/chemical-scale-curve-20261102-03/convergence.png",
+  "runner_pid_at_launch": 358835,
+  "training_pid_at_launch": 358893,
+  "active_child_pid": null,
+  "owner_and_all_children_exited": true,
+  "stages": [
+    {
+      "stage": "training",
+      "pid": 358893,
+      "arguments": [
+        "-m",
+        "examples.channel_nsch2d.train",
+        "--config=examples/channel_nsch2d/configs/train_operator_width128_gmls_time40_jvp_chemical_online.py",
+        "--config.reference.root=/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101",
+        "--config.log.run_name=20261102-5090-gmls-time40-jvp-chemical-online-width128-01",
+        "--seed=42"
+      ],
+      "log": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01-training.log",
+      "started_utc": "2026-11-01T22:22:32.840458+00:00",
+      "exit_code": 0,
+      "completed_utc": "2026-11-01T22:55:21.580640+00:00"
+    },
+    {
+      "stage": "validate_run",
+      "pid": 375141,
+      "arguments": [
+        "-m",
+        "examples.channel_nsch2d.validate_run",
+        "--run=/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01"
+      ],
+      "log": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01-validate_run.log",
+      "started_utc": "2026-11-01T22:55:21.586074+00:00",
+      "exit_code": 0,
+      "completed_utc": "2026-11-01T22:57:51.687335+00:00"
+    },
+    {
+      "stage": "diagnose_phase",
+      "pid": 378534,
+      "arguments": [
+        "-m",
+        "examples.channel_nsch2d.diagnose_phase",
+        "--run=/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01"
+      ],
+      "log": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01-diagnose_phase.log",
+      "started_utc": "2026-11-01T22:57:51.690440+00:00",
+      "exit_code": 0,
+      "completed_utc": "2026-11-01T23:00:51.876159+00:00"
+    },
+    {
+      "stage": "droplet_shape",
+      "pid": 383626,
+      "arguments": [
+        "docs/tasks/channel_droplet_metrics.py",
+        "--fields=/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01/prediction.npz",
+        "--output=/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01/droplet-shape"
+      ],
+      "log": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01-droplet_shape.log",
+      "started_utc": "2026-11-01T23:00:51.879533+00:00",
+      "exit_code": 0,
+      "completed_utc": "2026-11-01T23:01:06.882467+00:00"
+    },
+    {
+      "stage": "phi_gallery",
+      "pid": 383634,
+      "arguments": [
+        "-m",
+        "examples.channel_nsch2d.evaluate",
+        "--fields=/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01/prediction.npz",
+        "--output=/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01/phi-fields",
+        "--field=phi",
+        "--times",
+        "0",
+        "1.5",
+        "3",
+        "4.5",
+        "6"
+      ],
+      "log": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01-phi_gallery.log",
+      "started_utc": "2026-11-01T23:01:06.886406+00:00",
+      "exit_code": 0,
+      "completed_utc": "2026-11-01T23:01:21.889260+00:00"
+    },
+    {
+      "stage": "continuous_time_residual",
+      "pid": 383645,
+      "arguments": [
+        "-m",
+        "examples.channel_nsch2d.diagnose_time",
+        "--run=/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01",
+        "--output=/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01/continuous-time-residual",
+        "--time-samples=240",
+        "--probe-seed=20261102"
+      ],
+      "log": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01-continuous_time_residual.log",
+      "started_utc": "2026-11-01T23:01:26.679863+00:00",
+      "exit_code": 0,
+      "completed_utc": "2026-11-01T23:04:11.977421+00:00"
+    }
+  ],
+  "final_metrics": {
+    "step": 5000,
+    "elapsed": 1904.1730337799527,
+    "phi": 0.011498005370497801,
+    "terminal_phi": 0.012156983204048562,
+    "dispersed_phase": 0.03219691288200614,
+    "velocity": 0.027099790894083608,
+    "pressure": 0.041185694764130025,
+    "chemical": 0.16788531578655852,
+    "phi_range": [
+      -1.1333825588226318,
+      1.0396111011505127
+    ],
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
+    "scope": "One local-FEM geometry; not a generalization estimate"
+  },
+  "terminal_shape": {
+    "time": 6.0,
+    "phase_global_relative_L2": 0.01215698320404856,
+    "minority_fraction_relative_L2": 0.03546168680006798,
+    "interface_phi_relative_L2": 0.06654987045279621,
+    "droplet_band_phi_relative_L2": 0.05748382231482662,
+    "reference_negative_area_fraction": 0.03505584470788838,
+    "negative_phase_IoU": 0.9654004957323961,
+    "zero_contour": {
+      "predicted_components": 1,
+      "reference_components": 1,
+      "mean_distance": 0.003770885174869094,
+      "sampled_hausdorff": 0.008081297133104454,
+      "contour_missing": false
+    },
+    "contour_mean_distance_over_initial_radius": 0.01714038715849588,
+    "velocity_global_relative_L2": 0.029552936041000732,
+    "velocity_interface_relative_L2": 0.028194775051642414,
+    "velocity_droplet_band_relative_L2": 0.027169322656348267,
+    "pressure_global_relative_L2": 0.022228042681609002,
+    "pressure_interface_relative_L2": 0.04734542758117624,
+    "pressure_droplet_band_relative_L2": 0.04689684878817052
+  },
+  "shape_over_saved_times": {
+    "maximum_minority_relative_L2": 0.04559499904194219,
+    "maximum_contour_over_initial_radius": 0.02131129299228561,
+    "minimum_IoU": 0.9222262309608334
+  },
+  "cold_wall_seconds": 1911.7632860760204,
+  "warm_update_seconds": 0.28700911086959946,
+  "active_peak_bytes": 8699247872,
+  "paired_control": {
+    "status": "matched_cold_state_all_inputs_and_chemical_row_scaling_only_passed",
+    "control": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01",
+    "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01",
+    "updates": 5000,
+    "condition_draws": 10000,
+    "time_draws": 200000,
+    "initial_model_and_complete_optimizer_exact": true,
+    "initial_and_final_input_banks_exact": true,
+    "all_actual_sampling_arrays_exact": true,
+    "metrics_recomputed_maximum_gap": 1.3877787807814457e-17,
+    "results": [
+      {
+        "label": "shared_chemical_scale",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-uniform-online-width128-01",
+        "metrics": {
+          "phi": 0.04972615397312753,
+          "terminal_phi": 0.06886024717929727,
+          "velocity": 0.042189752595254544,
+          "pressure": 0.08806873956327856
+        },
+        "wall_seconds": 1912.1812234870158,
+        "warm_update_seconds": 0.2873277921427267
+      },
+      {
+        "label": "independent_chemical_residual_scale",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01",
+        "metrics": {
+          "phi": 0.011498005370497801,
+          "terminal_phi": 0.012156983204048562,
+          "velocity": 0.027099790894083597,
+          "pressure": 0.041185694764130025
+        },
+        "wall_seconds": 1911.7632860760204,
+        "warm_update_seconds": 0.28700911086959946
+      }
+    ],
+    "scope": "One initialization/reused nominalFEM geometry; no multi-seed or population conclusion",
+    "chemical_scaling": {
+      "output_amplitude_unchanged": 4.0,
+      "control_residual_normalizer": 4.0,
+      "trial_residual_normalizer": 1.0,
+      "chemical_MSE_multiplier": 16.0,
+      "boundary_mu_normalizer_unchanged": 4.0,
+      "actual_times_and_geometry_exact": true,
+      "physical_output_semantics_unchanged": true
+    }
+  },
+  "continuous_probe_raw_RMS": [
+    {
+      "case": "nominal",
+      "control_raw_chemical_RMS": 0.09375634767977237,
+      "trial_raw_chemical_RMS": 0.02451689877241599,
+      "control_raw_phase_RMS": 0.003629172184247103,
+      "trial_raw_phase_RMS": 0.004719930707532882
+    },
+    {
+      "case": "final_pool_slot0",
+      "control_raw_chemical_RMS": 0.09290893597991338,
+      "trial_raw_chemical_RMS": 0.024505300507953173,
+      "control_raw_phase_RMS": 0.0038508806418193274,
+      "trial_raw_phase_RMS": 0.004896567758596554
+    }
+  ],
+  "contours": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01/droplet-shape/contours.png",
+  "phi_fields": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-chemical-online-width128-01/phi-fields/phi-fields.png",
+  "frozen_constitutive_diagnostic": "/root/autodl-tmp/data/channel_nsch2d/chemical-scale-mu-diagnostic-20261102-01/validation.json",
+  "frozen_terminal_constitutive": {
+    "time": 6.0,
+    "original_mu_native_relative": 0.22655804279615366,
+    "projected_mu_native_relative": 0.171550319778826,
+    "native_mu_RMS": 0.18608501292087015,
+    "native_projection_relative_gap": 2.7030051811084845e-07,
+    "original_interface_mu_native_relative": 0.17800090290270038,
+    "projected_interface_mu_native_relative": 0.09673683050905162,
+    "projected_CH_residual_change_RMS": 0.05923052665519173,
+    "projected_momentum_residual_change_RMS": 0.9228854008383276,
+    "constitutive_residual_RMS": 0.0314734098376741,
+    "loss_normalized_constitutive_residual_RMS": 0.0314734098376741,
+    "constitutive_residual_over_native_mu_RMS": 0.16913457641566057,
+    "interface_constitutive_residual_RMS": 0.0940017633370132,
+    "interface_constitutive_residual_over_native_mu_RMS": 0.17171355448823739
+  },
+  "error_region_diagnostic": "/root/autodl-tmp/data/channel_nsch2d/chemical-scale-error-regions-20261102-01/validation.json",
+  "terminal_velocity_components": {
+    "u_x": {
+      "relative_L2": 0.02367736719555626,
+      "absolute_RMS": 0.0053929573606748115,
+      "reference_RMS": 0.2277684556789302
+    },
+    "u_y": {
+      "relative_L2": 0.49569160805349527,
+      "absolute_RMS": 0.004035257293961779,
+      "reference_RMS": 0.008140660903676811
+    }
+  },
+  "population_accuracy_validated": false,
+  "stability_across_initializations_validated": false,
+  "verification": {
+    "saved_field_max_gap": 2.86102294921875e-06,
+    "physical_time_jvp_primal_gap": 7.152557373046875e-07,
+    "maximum_flux_error": 1.947725666584521e-07,
+    "maximum_wall_speed": 9.390858934921198e-08,
+    "maximum_divergence": 3.725290298461914e-09,
+    "actual_all5000_time_key_replay": true,
+    "actual_sampling_arrays_exact_to_control": true,
+    "actual_rolling_inputs": {
+      "status": "actual_rolling_inputs_reconstructed",
+      "refresh_count": 99,
+      "installed_inputs": 198,
+      "distinct_sampled_online_draws": 198,
+      "final_pool_inputs_rebuilt": 16,
+      "evaluation_inputs_independent": true,
+      "evolved_training_labels": 0,
+      "scope": "Actual input identities and fixed-shape operators; not an accuracy or generalization claim"
+    },
+    "continuous_time_diagnostic": "canonical_unweighted_continuous_time_probes_completed",
+    "continuous_probe_times": 240,
+    "continuous_probe_cases": 2,
+    "scope": "Numerical replay/constraints/sampling checks and completed finite residual diagnostics; no exact GMLS mass identity or continuum/population accuracy certificate"
+  },
+  "continuation_changes": [
+    "Followed the sole existing owner to5000 and every finite audit; no new training launch",
+    "Read-only physical convergence/rawchemicalRMS plotting helper, actual0..5000 histories; final plot and source copy outsideGit",
+    "Saved-state chemical consistency and error-location/velocity-component diagnostics; no weights or labels imported",
+    "Visually inspected all five contour/phi-field panels; archived completed task and updated dashboard/decision/receipt/artifact links"
+  ]
+}

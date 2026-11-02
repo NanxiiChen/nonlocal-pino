@@ -1,0 +1,51 @@
+{
+  "status": "continuous_eliminated_CH_identity_passed",
+  "dimension": 2,
+  "records": [
+    {
+      "amplitude": 1.0,
+      "latent_shift": -3.0,
+      "chemical_identity_max_gap": 2.157996004115148e-15,
+      "transformed_laplacian_max_gap": 1.123392648471783e-12,
+      "transformed_laplacian_relative_gap": 2.4422120233989806e-14
+    },
+    {
+      "amplitude": 1.0,
+      "latent_shift": 0.0,
+      "chemical_identity_max_gap": 3.3306690738754696e-16,
+      "transformed_laplacian_max_gap": 3.573409313300082e-15,
+      "transformed_laplacian_relative_gap": 2.678684657123738e-16
+    },
+    {
+      "amplitude": 1.0,
+      "latent_shift": 3.0,
+      "chemical_identity_max_gap": 2.1371793224034263e-15,
+      "transformed_laplacian_max_gap": 1.0041951721774515e-12,
+      "transformed_laplacian_relative_gap": 3.86295765529823e-14
+    },
+    {
+      "amplitude": 1.25,
+      "latent_shift": -3.0,
+      "chemical_identity_max_gap": 5.329070518200751e-15,
+      "transformed_laplacian_max_gap": 2.0676459459338883e-12,
+      "transformed_laplacian_relative_gap": 2.419688893803106e-14
+    },
+    {
+      "amplitude": 1.25,
+      "latent_shift": 0.0,
+      "chemical_identity_max_gap": 6.661338147750939e-16,
+      "transformed_laplacian_max_gap": 3.3202918660694625e-15,
+      "transformed_laplacian_relative_gap": 2.0653970565698908e-16
+    },
+    {
+      "amplitude": 1.25,
+      "latent_shift": 3.0,
+      "chemical_identity_max_gap": 4.440892098500626e-15,
+      "transformed_laplacian_max_gap": 1.8615420428277267e-12,
+      "transformed_laplacian_relative_gap": 3.8918630412784084e-14
+    }
+  ],
+  "discrete_linear_block_identity_max_gap": 2.220446049250313e-16,
+  "method": "Independent physical fourth derivatives versus factored latent expression, float64 AD",
+  "scope": "Algebra only: no mixed-network, GMLS/SBP, boundary, NS coupling or training-accuracy claim"
+}

@@ -1,0 +1,257 @@
+{
+  "schema": 1,
+  "figures": {
+    "icemelting3d": {
+      "run": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01",
+      "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01/model_final.eqx",
+      "samples": [
+        5,
+        9,
+        2
+      ],
+      "physical_times": [
+        0,
+        1.25,
+        2.5,
+        3.75,
+        5
+      ],
+      "source_files": [
+        "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame000.npz",
+        "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame015.npz",
+        "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame030.npz",
+        "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame045.npz",
+        "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case005-frame060.npz",
+        "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame000.npz",
+        "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame015.npz",
+        "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame030.npz",
+        "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame045.npz",
+        "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case009-frame060.npz",
+        "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame000.npz",
+        "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame015.npz",
+        "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame030.npz",
+        "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame045.npz",
+        "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/meshes/case002-frame060.npz"
+      ],
+      "prediction_provenance": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/prediction-provenance.json",
+      "prior_prediction_checks": {
+        "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01/model_final.eqx",
+        "config": "/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01/config.json",
+        "dataset": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1",
+        "input_indices": [
+          5,
+          9,
+          2
+        ],
+        "shape": [
+          61,
+          96,
+          96,
+          96
+        ],
+        "axis_order": "time,x,y,z",
+        "time_scale_seconds": 5.0,
+        "backend": "gpu",
+        "matmul_precision": "highest",
+        "fields": [
+          {
+            "index": 5,
+            "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/case005-phi.npz",
+            "seconds": 42.004776783287525,
+            "replay_gap": 9.387731552124023e-07,
+            "hard_initial_field_gap": 4.1453677738223504e-06,
+            "chunk_gap": 4.76837158203125e-07,
+            "phi_min": -1.0,
+            "phi_max": 1.0
+          },
+          {
+            "index": 9,
+            "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/case009-phi.npz",
+            "seconds": 10.081624150276184,
+            "replay_gap": 1.3113021850585938e-06,
+            "hard_initial_field_gap": 2.114586183099565e-06,
+            "chunk_gap": 4.470348358154297e-07,
+            "phi_min": -1.0,
+            "phi_max": 1.0
+          },
+          {
+            "index": 2,
+            "path": "/root/autodl-tmp/data/icemelting3d/operator_render3d_v1/case002-phi.npz",
+            "seconds": 9.122869899496436,
+            "replay_gap": 8.940696716308594e-07,
+            "hard_initial_field_gap": 1.8623008839202537e-06,
+            "chunk_gap": 3.8743019104003906e-07,
+            "phi_min": -1.0,
+            "phi_max": 1.0
+          }
+        ],
+        "checkpoint_unchanged": true,
+        "scope": "Actual dense neural-operator inference, no training or mesh/field smoothing. Render resolution is not a new accuracy/convergence study."
+      },
+      "selection": "The existing randomly selected held-out trio; unchanged IDs",
+      "display": "Actual saved marching-cubes meshes; no shape smoothing/rescaling; orthographic camera",
+      "reference": "Prediction-only 3D surfaces; eight-input error uses native nonlocal references",
+      "image": "assets/pino/icemelting3d.png",
+      "bytes": 289226,
+      "dpi": 150,
+      "field": "phi",
+      "numerical_fields_changed": false,
+      "weights_or_raw_data_copied": false
+    },
+    "electropolish2d": {
+      "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01",
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01/model_final.eqx",
+      "source_files": [
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01/evaluation64.npz",
+        "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01/evaluation64.json"
+      ],
+      "samples": [
+        0,
+        21,
+        42,
+        63
+      ],
+      "physical_times": [
+        0.0,
+        1.25,
+        2.5,
+        3.75,
+        5.0
+      ],
+      "records": [
+        {
+          "index": 0,
+          "reference": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_000/local101.npz",
+          "pooled_phi": 0.06975860773142713
+        },
+        {
+          "index": 21,
+          "reference": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_021/local101.npz",
+          "pooled_phi": 0.0523032510020611
+        },
+        {
+          "index": 42,
+          "reference": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_042/local101.npz",
+          "pooled_phi": 0.047104817263823005
+        },
+        {
+          "index": 63,
+          "reference": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_063/local101.npz",
+          "pooled_phi": 0.03776199224668947
+        }
+      ],
+      "selection": "All four previously declared spatial-refinement inputs (0,21,42,63), not selected by model score",
+      "reference": "Independent local FD101; metrics use the original21uniform times",
+      "display": "Saved physical phase, continuous display interpolation only; no phase clipping or metric interpolation",
+      "image": "assets/pino/electropolish2d.png",
+      "bytes": 399754,
+      "dpi": 150,
+      "field": "phi",
+      "numerical_fields_changed": false,
+      "weights_or_raw_data_copied": false
+    },
+    "confined_ch2d": {
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train",
+      "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/model_final.eqx",
+      "samples": [
+        1027,
+        1028,
+        1026
+      ],
+      "times": [
+        0.0,
+        0.75,
+        1.5,
+        2.25,
+        3.0
+      ],
+      "records": [
+        {
+          "index": 1027,
+          "source": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/prediction_1027.npz",
+          "reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1027/reference.npz",
+          "pooled_phi": 0.01724137063465901
+        },
+        {
+          "index": 1028,
+          "source": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/prediction_1028.npz",
+          "reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1028/reference.npz",
+          "pooled_phi": 0.04646277806645906
+        },
+        {
+          "index": 1026,
+          "source": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/prediction_1026.npz",
+          "reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1026/reference.npz",
+          "pooled_phi": 0.09568625174440736
+        }
+      ],
+      "source_files": [
+        "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/final_fields_02/gallery.json"
+      ],
+      "selection": "Existing low/upper-median/worst pooled development-error examples, explicitly stratified",
+      "reference": "Time-refined native regional nonlocal; not local FEM",
+      "display": "Area-weighted incident-cell projection and linear original-mesh interpolation; analytic hole masks; original cell L2 unchanged",
+      "image": "assets/pino/confined_ch2d.png",
+      "bytes": 913776,
+      "dpi": 150,
+      "field": "phi",
+      "numerical_fields_changed": false,
+      "weights_or_raw_data_copied": false
+    },
+    "channel_nsch2d": {
+      "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01",
+      "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/model_final.eqx",
+      "samples": [
+        0,
+        1,
+        2
+      ],
+      "times": [
+        0,
+        1.5,
+        3,
+        4.5,
+        6
+      ],
+      "records": [
+        {
+          "index": 0,
+          "source": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/unseen3/case_000/prediction.npz",
+          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+          "pooled_phi": 0.019429185735950302
+        },
+        {
+          "index": 1,
+          "source": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/unseen3/case_001/prediction.npz",
+          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+          "pooled_phi": 0.016519053443822
+        },
+        {
+          "index": 2,
+          "source": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/unseen3/case_002/prediction.npz",
+          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+          "pooled_phi": 0.019239861712785394
+        }
+      ],
+      "source_files": [
+        "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/unseen3/evaluation.json"
+      ],
+      "selection": "All three predeclared reserved reference geometries; reused validation cohort",
+      "reference": "Independent spatial/time-refined local mixed FEM",
+      "display": "Physical mapped coordinates; fixed physical domain scale; no droplet position correction",
+      "image": "assets/pino/channel_nsch2d.png",
+      "bytes": 275761,
+      "dpi": 150,
+      "field": "phi",
+      "numerical_fields_changed": false,
+      "weights_or_raw_data_copied": false
+    }
+  },
+  "generator": "scripts/render_pino_readme_figures.py",
+  "command": ".venv/bin/python scripts/render_pino_readme_figures.py --case all",
+  "source_loading": "Direct paths, no hashes",
+  "inference_runs": 0,
+  "reference_solves": 0,
+  "training_updates": 0,
+  "total_image_bytes": 1878517
+}

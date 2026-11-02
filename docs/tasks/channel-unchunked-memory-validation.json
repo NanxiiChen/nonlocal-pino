@@ -1,0 +1,62 @@
+{
+  "status": "compile_only_8_and_40_complete_full40_plan_exceeds_physical_card",
+  "external_report": "/root/autodl-tmp/data/channel_nsch2d/unchunked-time-memory-20261101-01/result.json",
+  "helper": "docs/tasks/channel_unchunked_memory.py",
+  "config_source": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-gmls-time40-online-width128-01/config.json",
+  "scope": "Compiler estimates only; GPU autotuning disabled; not a runtime peak/speed measurement",
+  "jax_version": "0.10.1",
+  "device": "NVIDIA GeForce RTX 5090",
+  "physical_card_MiB": 32607,
+  "physical_card_GiB": 31.8427734375,
+  "plans": [
+    {
+      "time_samples": 8,
+      "condition_batch": 2,
+      "nodes": 15633,
+      "compile_seconds": 376.9529917030595,
+      "temp_size_in_bytes": 10479359312,
+      "argument_size_in_bytes": 34307600,
+      "output_size_in_bytes": 15125420,
+      "alias_size_in_bytes": 0,
+      "estimated_total_bytes": 10528792332,
+      "estimated_total_GiB": 9.805701982229948,
+      "exceeds_physical_card": false
+    },
+    {
+      "time_samples": 40,
+      "condition_batch": 2,
+      "nodes": 15633,
+      "compile_seconds": 187.59959783079103,
+      "temp_size_in_bytes": 37902792016,
+      "argument_size_in_bytes": 34307728,
+      "output_size_in_bytes": 15125420,
+      "alias_size_in_bytes": 0,
+      "estimated_total_bytes": 37952225164,
+      "estimated_total_GiB": 35.34576405212283,
+      "exceeds_physical_card": true
+    }
+  ],
+  "compiled_update_executions": 0,
+  "optimizer_updates": 0,
+  "diagnostic_XLA_FLAGS": "--xla_gpu_autotune_level=0",
+  "diagnostic_preallocate": "false",
+  "warm_speed_of_full40_measured": false,
+  "runtime_peak_of_full40_measured": false,
+  "existing_8_time_accumulation_peak_GiB": 9.650033950805664,
+  "result_limits": "Diagnostic disables GPU autotuning. Plans are compiler estimates, not runtime peaks or a universal impossibility result. Existing training unchanged; no OOM experiment performed.",
+  "compiler_rematerialization_stderr": {
+    "target_bytes": 23958579289,
+    "before_bytes": 45176216137,
+    "after_bytes": 27056791051,
+    "source": "Actual compiler stderr from this invocation; an intermediate pass, not final compiled heap statistics"
+  },
+  "source_byte_comparisons": 4,
+  "helper_AST_passed": true,
+  "source_and_config_changed": false,
+  "current_training_restart_or_cancelled": false,
+  "reference_solves": 0,
+  "new_causal_runs": 0,
+  "next_action": "Keep the existing Nt40/micro8 cold5k and owned finite audits. A different full40 execution plan would require memory optimization and a new isolated resource measurement.",
+  "updated_utc": "2026-11-01T13:34:38.472402+00:00",
+  "primary_method_reference": "https://docs.jax.dev/en/latest/201/memory-spaces.html#measuring"
+}

@@ -1,0 +1,209 @@
+{
+  "status": "completed_finite_cold5000_and_all_audits",
+  "baseline_checkpoint": "b2dff4b",
+  "implementation": {
+    "config": "examples/channel_nsch2d/configs/train_operator_width128_gmls_time40_jvp_allterms_online.py",
+    "algorithm": "Stopped inverse-L1-gradient ratio/EMA, not original learned GradNorm",
+    "residual_divisors": "All nine used residual divisors1",
+    "output_amplitudes": {
+      "mu": 4.0,
+      "stream": 0.2,
+      "pressure": 1.0
+    },
+    "weights": 9,
+    "time_samples": 40,
+    "time_microbatch": 8,
+    "optimizer_updates_per_batch": 1,
+    "weight_refresh_every": 100
+  },
+  "verification": {
+    "focused_tests": 7,
+    "focused_tests_seconds": 136.435,
+    "production_probe": "/root/autodl-tmp/data/channel_nsch2d/allterms-resource-20261102-01/result.json",
+    "production_probe_updates": 102,
+    "production_probe_exit_code": 0,
+    "owner": "/root/autodl-tmp/data/channel_nsch2d/20261102-5090-gmls-time40-jvp-allterms-online-width128-01-process.json",
+    "all_owned_stages_exit_zero": true,
+    "saved_training_source_byte_checks": 90,
+    "matched_control": {
+      "status": "matched_cold_state_all_inputs_time_and_nine_weight_history_passed",
+      "control": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stronger-online-width128-01",
+      "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-allterms-online-width128-01",
+      "initial_model_complete_optimizer_exact": true,
+      "all_initial_final_input_and_actual_sampling_arrays_exact": true,
+      "refresh_records": 50,
+      "raw_residual_divisors": true,
+      "physical_output_scales_unchanged": true,
+      "results": [
+        {
+          "label": "fixed_scales",
+          "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stronger-online-width128-01",
+          "metrics": {
+            "phi": 0.01947021846977325,
+            "terminal_phi": 0.01662508887492755,
+            "velocity": 0.030587430231969324,
+            "pressure": 0.03945464923111095
+          },
+          "warm_update_seconds": 0.288945757650371,
+          "wall_seconds": 1926.6846731109545
+        },
+        {
+          "label": "raw_residuals_nine_adaptive_weights",
+          "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-allterms-online-width128-01",
+          "metrics": {
+            "phi": 0.028770295554797744,
+            "terminal_phi": 0.026360257032070636,
+            "velocity": 0.05125774249408207,
+            "pressure": 0.0826714267525037
+          },
+          "warm_update_seconds": 0.3155958024609985,
+          "wall_seconds": 2165.8321700789966
+        }
+      ],
+      "scope": "One initialization/nominal development geometry; not population accuracy or original learned GradNorm"
+    },
+    "final_static_checks": {
+      "changed_python_AST": 9,
+      "config_factories": 50,
+      "strict_JSON": true,
+      "task_and_artifact_links": true,
+      "UTF8_and_size": true,
+      "whitespace": true,
+      "owned_processes_exited": true,
+      "GPU_free": true,
+      "git_diff_check": true
+    }
+  },
+  "results": [
+    {
+      "label": "fixed_scales",
+      "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stronger-online-width128-01",
+      "metrics": {
+        "step": 5000,
+        "elapsed": 1919.4972377349623,
+        "phi": 0.01947021846977325,
+        "terminal_phi": 0.01662508887492755,
+        "dispersed_phase": 0.0535378471322717,
+        "velocity": 0.030587430231969324,
+        "pressure": 0.03945464923111095,
+        "chemical": 0.19598906564418656,
+        "phi_range": [
+          -1.1334023475646973,
+          1.037866473197937
+        ],
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/stronger-reference-20261102-01/bdf-fine.npz",
+        "scope": "One local-FEM geometry; not a generalization estimate"
+      },
+      "wall_seconds": 1926.6846731109545,
+      "warm_update_seconds": 0.288945757650371,
+      "peak_recorded_device_bytes": 8586035712,
+      "terminal_shape": {
+        "time": 6.0,
+        "phase_global_relative_L2": 0.01662508887492755,
+        "minority_fraction_relative_L2": 0.04868801991381474,
+        "interface_phi_relative_L2": 0.08791451940713188,
+        "droplet_band_phi_relative_L2": 0.07674157757747616,
+        "reference_negative_area_fraction": 0.033733035020601404,
+        "negative_phase_IoU": 0.9301967255756171,
+        "zero_contour": {
+          "predicted_components": 1,
+          "reference_components": 1,
+          "mean_distance": 0.0054256870243010276,
+          "sampled_hausdorff": 0.010499352829750523,
+          "contour_missing": false
+        },
+        "contour_mean_distance_over_initial_radius": 0.024662213746822852,
+        "velocity_global_relative_L2": 0.03582869941940552,
+        "velocity_interface_relative_L2": 0.05052721864628191,
+        "velocity_droplet_band_relative_L2": 0.048483373705176705,
+        "pressure_global_relative_L2": 0.0356678110588512,
+        "pressure_interface_relative_L2": 0.07725050718110969,
+        "pressure_droplet_band_relative_L2": 0.0758837110796754
+      },
+      "worst_saved_minority_relative_L2": 0.08798401416850687,
+      "t4_shape": {
+        "prediction_xspan_over_yspan": 1.4095757764408543,
+        "reference_xspan_over_yspan": 1.2995502363319074
+      },
+      "independent240time_mean_physical_RMS": {
+        "phase": 0.006578830629587174,
+        "chemical": 0.02895195409655571,
+        "momentum_x": 0.022760413587093353,
+        "momentum_y": 0.021835558116436005,
+        "wall_phase": 0.0033257482573390007,
+        "wall_mu": 0.01860729418694973,
+        "outlet_traction": 0.003172420896589756,
+        "outlet_phase": 0.0029661243315786123,
+        "outlet_mu": 0.01541043445467949
+      }
+    },
+    {
+      "label": "raw_residuals_nine_adaptive_weights",
+      "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-allterms-online-width128-01",
+      "metrics": {
+        "step": 5000,
+        "elapsed": 2158.7418606947176,
+        "phi": 0.028770295554797744,
+        "terminal_phi": 0.026360257032070636,
+        "dispersed_phase": 0.07911054967124753,
+        "velocity": 0.05125774249408207,
+        "pressure": 0.0826714267525037,
+        "chemical": 0.3892749067209449,
+        "phi_range": [
+          -1.1190778017044067,
+          1.0319973230361938
+        ],
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/stronger-reference-20261102-01/bdf-fine.npz",
+        "scope": "One local-FEM geometry; not a generalization estimate"
+      },
+      "wall_seconds": 2165.8321700789966,
+      "warm_update_seconds": 0.3155958024609985,
+      "peak_recorded_device_bytes": 22583938304,
+      "terminal_shape": {
+        "time": 6.0,
+        "phase_global_relative_L2": 0.026360257032070632,
+        "minority_fraction_relative_L2": 0.07688574914687116,
+        "interface_phi_relative_L2": 0.13731974830769758,
+        "droplet_band_phi_relative_L2": 0.11993130161893735,
+        "reference_negative_area_fraction": 0.033733035020601404,
+        "negative_phase_IoU": 0.9165294997378811,
+        "zero_contour": {
+          "predicted_components": 1,
+          "reference_components": 1,
+          "mean_distance": 0.007752924921698465,
+          "sampled_hausdorff": 0.017433505359526893,
+          "contour_missing": false
+        },
+        "contour_mean_distance_over_initial_radius": 0.03524056782590212,
+        "velocity_global_relative_L2": 0.05709273516221859,
+        "velocity_interface_relative_L2": 0.06551228693651523,
+        "velocity_droplet_band_relative_L2": 0.06231632314094473,
+        "pressure_global_relative_L2": 0.08807496063184804,
+        "pressure_interface_relative_L2": 0.14179333943603326,
+        "pressure_droplet_band_relative_L2": 0.13826564892534915
+      },
+      "worst_saved_minority_relative_L2": 0.1338381549141685,
+      "t4_shape": {
+        "prediction_xspan_over_yspan": 1.516767874848446,
+        "reference_xspan_over_yspan": 1.2995502363319074
+      },
+      "independent240time_mean_physical_RMS": {
+        "phase": 0.011175408028066158,
+        "chemical": 0.03839878365397453,
+        "momentum_x": 0.027956819161772728,
+        "momentum_y": 0.027276018634438515,
+        "wall_phase": 0.00012931185483466834,
+        "wall_mu": 0.00038039570790715516,
+        "outlet_traction": 0.0012586951488628983,
+        "outlet_phase": 0.0001833923306548968,
+        "outlet_mu": 0.001548364176414907
+      }
+    }
+  ],
+  "plots": "/root/autodl-tmp/data/channel_nsch2d/allterms-comparison-20261102-01",
+  "recommendation": "Keep successful fixed-scale recommendation; retain raw-adaptive scheme as opt-in research control",
+  "scope": "One initialization/reused nominal development geometry, identical actual input/time streams; not population accuracy or a claim about every GradNorm variant",
+  "defaults_changed": false,
+  "new_FEM_solves": 0,
+  "git_operations": false
+}

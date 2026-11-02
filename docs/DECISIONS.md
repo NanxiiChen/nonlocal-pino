@@ -5547,3 +5547,3258 @@ their explicitly recorded unresolved failures; no retraining/default changes.
 Archive the completed task and publish this accurate receipt through the same
 devcommit -> regularmainmerge -> pushmain workflow. Do not embed the containing
 commit's own ID or rewrite history to add it later. Relation: current-code-publication.
+
+## 2026-10-31 — Explain geometry conditioning with actual point inputs
+
+User requests an illustrated HTML on parameterized geometry and neural inputs.
+Use actual currentSOTA point/measure arrays for several geometries, not synthetic
+evolved fields or invented learned attention. Explain separate192x5boundary and
+Nx3domain streams, physical arc/area measures, zero-measure padding, generic
+normalized integral attention and same-geometry shared spatial preparation.
+Distinguish geometry construction parameters from encoder inputs, neural input
+from operator/loss payload, hard mass from no-flux graph, and geometry-dependent
+point coordinates from shared coordinates across time. CurrentSOTA linear t/T
+lifting and no latent-token bottleneck must follow source rather than earlier
+research variants. Deliver a standalone offline file; the inspected visualize
+skill excludes standalone-file requests, so no inline-fragment restrictions are
+applied. Generated HTML/media stay outside Git with compact regeneration facts.
+No training, checkpoint/default change or current-turn Git authorization.
+Relation: geometry-operator-html-explainer.
+
+## 2026-10-31 — Validate offline geometry explanation against source and browser
+
+Deliver the Chinese standalone illustrated HTML with actual input geometries
+0/256/768rather than invented learned outputs. Verify original192boundary rows,
+normals/arcmeasures and1162/1229/1223domain points; weighted hardmass arithmetic
+and equal output copies pass. Existing isolated Chromium/Playwright/Noto tools
+exercise token clicks,3geometry/view switches,24normal arrows, local bonds,
+time/rolling controls and scalar measure-splitting invariance. Desktop/mobile
+390px has no JSerror/externalrequest/overflow. Correct a decorative normal line
+intercepting clicks and a low-contrast caption, with no numerical model change.
+Keep generated746KBHTML/PNG outside Git and retain source template/generator/
+validation receipt. No new dependency, training/default or Git operation.
+Archive completed task, no queued follow-up. Relation: geometry-operator-html-explainer.
+
+## 2026-10-31 — Prefer a conceptual geometry explainer after user feedback
+
+User finds the seven-section HTML too detailed. Make a separate concise
+three-step illustrated page using the same real inputs: shape, point-map
+conditioning, position/time query. Omit formula/tensor/optimizer details from
+the primary explanation; retain the earlier technical version separately.
+Return the main conceptual explanation directly in Chinese too. No numerical
+or configuration change. Relation: geometry-operator-concept.
+
+## 2026-10-31 — Keep the network schematic conceptual and query sharing explicit
+
+User requests a simple diagram of regular-grid patch encoding and irregular-domain
+boundary/domain point encoding, with cross-attention queries. Deliver Mermaid
+instead of another detailed interactive page. Retain separate irregular stream
+reads and equal fusion, and place time after spatial attention as in the current
+separable implementations. A common diagram stage denotes the same design role,
+not shared trained weights between examples. Regular-grid samples share a spatial
+set/time vector within an update; different irregular geometries have their own
+physical queries despite fixed-shape padding. Neither token type nor coordinate
+sharing implies shared learned conditional features. No runtime/default change.
+Relation: conditional-operator-architecture.
+
+## 2026-10-31 — Recommend smooth constricted channels for geometry-only two-phase inputs
+
+User asks for a meaningful changing outer domain without holes, randomizing only
+geometry. Recommend a smooth contraction--expansion microchannel with fixed
+upstream/downstream sections, fixed initial droplet in a common upstream region,
+fixed material properties and fixed inlet flow. Start with throat width, taper
+length and optional wall asymmetry; no random roughness, sharp corners or forced
+breakup requirement. Geometry-dependent velocity is a response under fixed
+driving, not an additional random condition. Confined cavities are a cheaper
+alternative with potentially similar relaxed drops; branched channels are a
+later, more difficult option. Physical plausibility follows primary microfluidic
+deformation/phase-field studies; no training or breakup regime is established.
+
+Current twophase2d remains prescribed periodic CH. A genuinely hydrodynamic new
+case needs phase-to-flow feedback: propose low-Re coupled Stokes--CH first or
+NS--CH if inertia is relevant. A frozen single-phase Stokes field plus advective
+CH would only be an explicitly one-way pilot. Existing FFT/periodic-neighbor
+derivatives cannot be transplanted to curved walls; nonlocal pair closure alone
+does not impose velocity no-slip/contact angle. Open-channel phase mass obeys
+boundary flux balance, so the closed-grid constant-mass hard constraint must not
+be carried over indiscriminately. Model/BC/scales and reference validation remain
+future implementation decisions, not silently selected defaults. Relation:
+twophase-geometry-design.
+
+## 2026-10-31 — Illustrate geometry-only microchannels without simulated claims
+
+User asks to see the proposed channel. Draw a smooth compact-support wall
+constriction and three example outer domains with identical inlet/outlet and
+initial droplet. Main-panel later outlines show the same droplet schematically
+at successive locations, explicitly not numerical solutions. Ellipse area is
+kept equal in the sketch as a visual convention, not a validated conservation
+result. Mark width/transition length and show centerline offset in the asymmetric
+example. Use a compact responsive themed visual without parameter sliders,
+physics equations or invented flow/pressure fields. No PDE, defaults, training
+or Git change. Relation: twophase-channel-sketch.
+
+## 2026-10-31 — Use independent inward walls and honor full NS coupling
+
+User explicitly prefers independent upper/lower indentations with no offset
+parameter and requires NS coupling. For a first common-bump family take
+yt=H-at*b(x), yb=ab*b(x): width depends on at+ab and center displacement on
+ab-at. Keep inlet/outlet straight/common, positive resolved minimum gap and
+bounded slopes/curvature; common center/length first is a recommendation, not
+an implemented restriction. Fix initial phase/materials/driving, with a common
+smooth inlet-flow ramp and zero initial velocity as a compatible possible start.
+
+Recommend full unsteady NS--CH as requested, retaining inertial terms while
+choosing a manageable fixed flow regime. Earlier Stokes suggestion is now only
+background, not a substitute. Matched density/viscosity is a prospective first
+case retaining capillary feedback; extreme contrasts/breakup are later options.
+Geometry-dependent velocity is a solution response. In a2Dfixed impermeable
+channel, cross-section continuity makes mean axial velocity Q(t)/h(x), not a
+complete velocity profile. Pressure/transverse flow/capillary feedback require
+the coupled solve.
+
+Mixed(phi,mu,ux,uy,p) is a proposed starting representation, with physical
+scales and separate PDE components. First spatial AD plus validated nonlocal
+second derivatives/time JVP can be a pragmatic hybrid; existing periodic FFT
+and scalar regional-Neumann closure do not implement arbitrary-wall NS/no-slip.
+Pressure-force/flux compatibility and capillary equilibrium need independent
+checks before operator learning. No stable field-L2, training-time, automatic
+NS-BC or full-nonlocal claim is supported. This turn is analysis only; do not
+launch simulation or change defaults. Relation: twophase-independent-wall-nsch.
+
+## 2026-10-31 — Clarify physical wall constraints separately from geometry tokens
+
+User asks how an indentation changes flow through BCs. Explain stationary-wall
+velocity Dirichlet u=0 on the actual upper/lower curves, fixed inlet velocity/
+flow protocol and a compatible open outlet. Geometry changes where the same
+wall condition is applied and which interior region solves NS. Pressure is a
+response, not an extra prescribed wall pressure/force or throat velocity. Flux
+continuity controls mean Q/h; viscosity and coupled momentum determine profiles.
+Geometry tokens condition a NO but do not enforce its BCs; exact constraints or
+explicit boundary residuals remain necessary. Neutral phase-wall and chemical
+no-flux conditions are separate from velocity no-slip. No runtime BC is chosen
+or implemented by this conceptual explanation. Relation: twophase-wall-bc-clarification.
+
+## 2026-10-31 — Build a separate mild coupled channel pilot with explicit derivative scope
+
+User authorizes trying the full NS--CH geometry-conditioned case with mild flow
+and smooth walls. Add channel_nsch2d without replacing periodic twophase2d.
+Matched rho1/eta.2, mean inlet.2, sigma.2, epsilon.05, M.0005, T6 are explicit
+pilot units. Upper/lower amplitudes vary independently; compact C2 initial phase
+is fixed in the common straight inlet region. No-slip/inlet/initial data use
+generic lifting; hydrodynamic zero outlet traction fixes pressure, no extra gauge.
+Phase and mu inlet reservoirs are(+1,0), walls/outlet natural neutral/no-flux.
+
+Independent fully coupled P2/P1/P2/P2 FEM first-order exploratory runs complete,
+with flux/area checks but phase time-step discrepancy2.51%pooled, above the
+predeclared2.5%maximum-time gate. Switch production reference to BE-started BDF2,
+retain all exploratory arrays, rerun the same space/time controls with explicit
+physical identities. No gate relaxation or metadata retrofit of the early files.
+
+For spatial training, investigate physical-node QR-GMLS Laplacians as a boundary-
+compatible finite-neighborhood differentiation control with polynomial reproduction,
+per Compadre's functional derivation. This is NOT the previous regional pair
+operator, does not automatically impose no-slip/Neumann and does not inherit its
+symmetry/energy conservation. Retain spatial first AD/time JVP and evaluate against
+local FEM. Such a result cannot be advertised as validation of the old nonlocal
+kernel. Implemented generic point encoder is reused without changing shared API;
+local multichannel decoder preserves all5fields instead of the scalar convenience
+decoder. No evolved labels enter training. Relation: channel-nsch-pilot.
+
+## 2026-10-31 — Normalize hard lifting rather than encode future droplet motion
+
+BDF2 reference gates pass with original thresholds. First5000Adam single-geometry
+physics trial finishes but fails: phi41.99%, velocity38.63%, pressure63.08%.
+Linear hard lifting multiplies the required phase correction by(t/T)*(x/L), only
+~.05 near the initial droplet at t1.5. Try generic normalized gates1-exp(-t/.25)
+and1-exp(-x/.05), with scales tied to epsilon/U and epsilon. This preserves only
+known initial/inlet/wall constraints and contains no trajectory/reference fields.
+Cold same-stream comparison is required; no accuracy gain is assumed. Keep
+the missing optional lifting record as the documented linear pilot convention
+and provide train_linear.py, preserving old saved config/checkpoint arithmetic.
+Migration compatibility rules read; no old artifacts edited. Relation: channel-nsch-pilot.
+
+## 2026-10-31 — Remove the leaky-flow minimum using a standard streamfunction constraint
+
+Normalized direct-velocity trial also fails5000updates(phi43.35%,velocity98.86%).
+Independent GPU checkpoint replay and primal/JVP values agree to roundoff, but
+measured cross-section flow falls from0.19995at the inlet to0.00180at outlet.
+Thus a small sampled divergence loss has not ensured global incompressibility.
+Preserve this failure and its audit; do not call lower loss an accurate flow.
+
+Use the standard2Drepresentation u=(psi_y,-psi_x), with eta=(y-yb)/h and
+psi=Q(t)*(3eta²-2eta³)+Q0*g(t)*(x/L)²*16eta²(1-eta)²*Npsi. This imposes only
+flux/no-slip/inlet/initial constraints, not NS or any evolved droplet trajectory.
+The freely learned correction can represent the remaining smooth admissible
+flow; pressure/capillary feedback and inertial terms remain trained. Remove the
+redundant continuity loss. Raw outputs become(phi,mu,psi,p), physical outputs
+remain(phi,mu,ux,uy,p). Missing optional velocity record preserves both earlier
+5channel direct checkpoints. Keep explicit legacy presets and old artifacts.
+
+Try a modest width96/3decoder mixed model and SOAP on16geometry-only inputs,
+with one known local-FEM evaluation geometry. This is a bundled operator pilot,
+not an isolated accuracy attribution or a validated unseen-geometry population.
+Recheck exact flux/divergence/BC/JVP and actual gradients before claiming success.
+Relation: channel-nsch-pilot.
+
+## 2026-10-31 — Retain the first channel operator as an accuracy-failed pilot
+
+Cold16geometry/SOAP5000 streamfunction trial finishes: phi30.59%,u4.82%,p22.96%
+on one384query local-FEM development geometry; terminalphi33.73%. Raw pooled
+norms and physical-area-weighted norms are distinct.16.68mincold,52.89mswarm,
+2.80GiBactive peak;62.29GiBallocator pool is not model peak. Canonical train.py
+selects this actually tested operator recipe, without a SOTA claim. Preserve
+both earlier failed direct controls and all reference/refinement files.
+
+Independent GPU checkpoint replay, exact-flow constraints and all16actual
+condition/time streams pass, but dispersed area drops0.15203->0.05587. At t1.5
+weak phase balance.17551 greatly exceeds the integrated strong residual3.86e-5.
+Decomposition shows AD-advection quadrature gap-.17545, versus mobility-scaled
+Laplacian Gauss gap2.51e-5. Refining only diagnostic quadrature96x40->192x80,
+holding encoder/model fixed, changes advection gap to+.02580 and retains weak
+storage defect.17544. Central differences at3large-gradient queries agree with
+AD to4.15e-5/6.23e-5relative. This supports collocation/integration aliasing as
+a concern, not a large derivative error at those points or a unique-cause proof.
+
+Do not attribute all error to GMLS diffusion, call the current phase field
+accurate, or infer generalization/old-regional-kernel speed or accuracy. A direct
+native coupled GMLS baseline and fully converged diagnostic quadrature remain
+unvalidated. Before a larger network, prioritize conservative transport and
+spatial collocation checks against the same frozen model/reference. No further
+training is automatically queued. Existing artifact fields solid/solid_area
+mean dispersed fluid, not solid; new output names are corrected without editing
+old files. No Git operation or deletion. Relation: channel-nsch-pilot.
+
+## 2026-10-31 — Isolate direct continuity plus GradNorm from the derivative scheme
+
+User asks why the channel pilot did not use the established nonlocal operator,
+then explicitly requests testing full direct NS--CH with GradNorm versus the
+streamfunction constraint. Clarify time/spatial AD-JVP, streamfunction AD and
+GMLS Laplacians; this temporary implementation did not establish superiority
+over regional nonlocal differentiation. Curved geometry itself is not a barrier;
+the old confined-CH example already uses regional pairs on curved domains.
+No automatic adaptation of its closed natural-flux closure to velocity no-slip,
+inlet reservoirs and outlet stress is assumed. Nonlocal Stokes primary source
+Du/Tian1805.08261 supports operator-dependent feasibility, not this NS--CH case.
+
+Run matched direct/streamfunction controls with the repository's existing
+gradient-norm balancing convention, preserving the same derivatives/BCs/physics,
+width96,SOAP5000,16geometry/B2,Nt4 and run seed. This is authorized new training;
+regional-kernel replacement is a separate task, avoiding confounded results.
+Use explicit phase,chemical,momentum,continuity(if soft),boundary groups; no
+duplicate continuity loss for hard streamfunction. Balance full-network gradient
+L1 norms using inverse norms/clip/stopped EMA, as in corrosion2d, not an assertion
+of exact reproduction of the learned-weight GradNorm paper. Save raw losses,
+weights/norms/state and actual draws; assess FEM L2/flux/area, not weighted loss.
+Earlier uniform-weight streamfunction remains a retained reference. No Git or
+cleanup authorization. Relation: channel-derivative-clarification.
+
+## 2026-10-31 — Restart matched controls on 5090 and check integral boundary closure first
+
+The user replaced the GPU with RTX5090/32GB during streamfunction compilation.
+Retain the completed old-card direct result and interrupted stream logs, then
+cold-start direct-GradNorm, stream-GradNorm and uniform-stream controls on the
+new card. This avoids comparing timings across hardware or treating the
+interrupted stream as trained. Record device identity and active peak separately
+from the allocator pool; no model/precision/sampling reduction is required.
+
+For the additional all-spatial-nonlocal question, first check the established
+integral kernels on the actual channel with a CPU consistency/manufactured-field
+probe. Corrected gradients reproduce linear fields and interior gradient/Laplacian
+errors decrease under refinement, but a bare regional natural-flux Laplacian
+fails the no-slip Poiseuille wall layer, and a closed negative-adjoint divergence
+misses an open-boundary flux. Do not simply swap either into NS--CH or call
+GMLS the original nonlocal integral method. A mixed-BC and pressure-stability
+validation is required before a full nonlocal training comparison. This is
+evidence about the tested closures, not a rejection of nonlocal derivatives.
+Relation: channel-derivative-clarification.
+
+## 2026-10-31 — Test phase-region balancing and partitioned loss updates separately
+
+User observes phase L2 rising while velocity L2 falls and authorizes staggered
+optimization/phase preconditioning, specifically emphasizing the small droplet
+and interface. Extend the current task rather than replacing the pending matched
+controls. Preserve their physics, inputs and derivative scheme. An inverse tanh
+Jacobian emphasizes saturated phases and is not an interface indicator; do not
+claim that melting's exact cancellation transfers to mixed CH.
+
+First test two separate cold5000controls from the uniform streamfunction recipe:
+(1) alternate phase/chemical versus momentum blocks every25updates for4000,
+then1000joint updates, using lagged cross-physics factors and masking inactive
+output-head updates; shared encoder/decoder and the global SOAP state remain
+shared, so entire physical fields are not frozen; (2) retain half the full-domain
+phase/chemical residual norm and allocate half equally to volume-normalized
+droplet/carrier/interface regions. Regions use stopped current predicted phase,
+not reference or future trajectory, with explicit minimum fraction. This is a
+positive residual metric, not an exact coordinate transform or new PDE. Report
+droplet L2/area as well as full phi L2; do not hide phase disappearance behind
+region weights. Do not combine the two changes before these separate checks.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Isolate an actual phase coordinate transform in mixed NS--CH
+
+User rejects region balancing as the preferred route and requests the melting
+style output map followed by its residual transformation. Retain the five
+completed controls as evidence, not successful interface solutions: stagger
+phi26.77% versus uniform30.60%, but terminal phi is positive everywhere on3977
+diagnostic nodes. Regions phi31.21% also loses the negative-phase core.
+
+The quartic CH equation has no maximum principle. Saved local-FEM development
+queries across all13times span[-1.1286841,1.0301374]; an ordinary tanh or amplitude
+1.1 would exclude this reference. First test explicit amplitude a=1.25, with
+finite latent initial coordinate atanh(phi0/a), preserving existing hard lifts.
+This is a pilot output range, not a physical bound or reference trajectory.
+Compare two cold5000uniform-stream controls: map alone and the same map with
+transport residual multiplied by a/J, J=a*sech(s)^2. Leave chemical, momentum
+and physical boundary residuals unchanged. The diffusion of mu does not factor
+by J; retain its full inverse-J factor. Keep GMLS applied to physical fields,
+without invoking a local nonlinear chain rule for a neighborhood operator.
+
+Differentiate through the true Jacobian, unlike stopped region weights. Evaluate
+J stably as4a*sigmoid(2s)*sigmoid(-2s); use an explicit minimum-J fail guard,
+not a silent denominator floor or clipping. Report map saturation/J and physical
+fields, not just transformed losses. No combined stagger/GradNorm/region change
+in these first controls; no default/SOTA promotion, Git operation or deletion.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Preserve saturated map-only failure and isolate the pending transform
+
+Map-only output reaches a nearly uniform1.25 at positive evaluation times;
+phi46.56%,no terminal negative core, and near-bound fraction12/13. A newly added
+FP32 inverse-J diagnostic then overflows during JSON serialization, stopping
+the serial driver before the transformed control starts. This logging defect
+is not evidence of a physical-field NaN or a completed5000run. Preserve its
+logs, source and2500checkpoint; do not reset/restart just to conceal failure.
+
+Fix only diagnostic arithmetic: compute nonzero-J reciprocals in hostFP64, and
+report an explicit null/status if compute-dtype J underflows to zero. Do not
+floor the training denominator or weaken its fail guard. Run the previously
+unstarted transformed arm separately. Compare completed controls against the
+complete uniform baseline; any map-only plot must retain its actual truncated
+history and partial-checkpoint scope, with no actual-draw parity claim when
+the failed run never published sampling.npz. Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Test monolithic discrete-time residuals on one channel geometry
+
+The transformed5000control completes with phi30.5730%,terminal33.5464%,u4.8590%,
+p20.8100%; Jmin.2786 and no saturation, but no terminal negative-phase core.
+This scarcely changes uniform30.6001% and does not solve phase transport.
+Independent replay is running. Do not promote the map as an accuracy improvement.
+
+Next fix geometry(.12,.08),B1, retaining the same general point operator and
+full NS--CH/BCs. Test one global-time network with backward Euler at the first
+positive time and BDF2 thereafter. Derive each rate directly from physical
+predictions at t_n,t_(n-1),t_(n-2); parameter gradients pass through every state,
+without frozen predecessors. All current-time spatial derivatives remain the
+existing AD/GMLS operators. A uniform dt=.05 is motivated by the independently
+checked FEM .05/.025 time difference (max phi0.77%), not a new physics parameter.
+Draw four interval indices from disjoint equal time strata, including the full
+initial-to-terminal interval support, and log actual indices/times.
+
+Use original additive output and uniform physical residuals initially; isolate
+this from further coordinate/weight/stagger changes. This is a bundled
+single-geometry/discrete-time experiment, not an isolated causal attribution.
+It adds temporal discretization error, to assess alongside phase shape/area,
+velocity and pressure against the same independent FEM. The .05 reference time
+check does not by itself bound this neural/GMLS solution error. Do not invoke a
+nonlinear time chain rule for BDF2, or conflate this with a sequential window
+method. Online geometry pools remain deferred until single-geometry accuracy.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Prepare bounded online channel inputs while the accuracy run compiles
+
+The user's overall goal explicitly requires background generation and rolling
+replacement after the single-geometry stage. Prepare the input-only controller
+and CPU checks during the pending BDF2 run; do not start online training or
+claim geometry generalization before the single-geometry target is verified.
+Reuse the established confined-CH protocol: stateless continuous geometry draws,
+bounded spawned CPU workers/prefetch, FIFO consumption at fixed update counters,
+fixed-shape/dtype slot replacement and frozen independent evaluation inputs.
+
+This channel only needs two smooth wall amplitudes from the declared unchanged
+uniform prior. Workers call the existing canonical FP64 geometry/GMLS builder,
+then cast finalized inputs to the requested training dtype. No training PDE,
+FEM trajectory, reference field, new kernel or boundary formulation is involved.
+Fail on malformed payloads, worker errors or skipped refresh counters; never
+prefer faster/accepted geometries or modify the prior silently. Log actual
+draw IDs/amplitudes and FIFO slot versions, retaining bounded pool state and
+initial/final input snapshots at existing external paths. No hashed loading,
+Git/default promotion or deletion. Actual online optimizer training remains
+dependent on single-geometry accuracy, not on the plumbing checks alone.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Probe mapped conservative phase transport after BDF2 fails
+
+Single-geometry BDF2 finishesphi30.2276%,terminal33.7667%,u4.2158%,p21.8539%.
+Independent replay passes, but at t1.5 continuous weak phase balance is.16675
+while integrated strong residual is-.00502; the advection quadrature gap is
+-.17169 versus mobility-scaled Laplacian Gauss gap7.38e-5. Time differencing
+alone therefore leaves the earlier transport inconsistency unresolved.
+
+Test a published nonperiodic summation-by-parts first derivative before further
+training. Fisher--Carpenter NASA/TM2013-217971 AppendixA.1 gives the fourth-order
+interior/second-order boundary diagonal-norm operator and its SBP identity.
+On the existing mapped tensor grid y=b(x)+eta*h(x), derive contravariant flux
+q_x=D_eta*psi, q_eta=-D_x*psi. Tensor derivatives commute, making their discrete
+divergence zero; phase advection is h^(-1)[D_x(phi*q_x)+D_eta(phi*q_eta)].
+Use the associated positive SBP quadrature for the integral identity. This
+targets spatial derivative/integration aliasing using field values and actual
+open-boundary flux, without a constant-mass prior or phase-region weighting.
+
+First verify coefficient identities, smooth physical-field refinement, curved
+wall/open-flux balance, and the frozen pilot's SBP-versus-AD velocity agreement.
+Only then enable a separate single-geometry BDF2 transport control. Retain
+GMLS physical Laplacians and existing NS/BCs initially. This is a structured
+finite-difference transport experiment, not the original regional nonlocal
+kernel or a proof of full NS--CH energy/mass stability. No default promotion,
+physical-model change, Git operation or deletion.
+Source: https://ntrs.nasa.gov/api/citations/20130011028/downloads/20130011028.pdf
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Refine the successful conservative transport control with full state
+
+Conservative single-geometry5000 completesphi7.7663%,terminal10.8663%,u3.6539%,
+p11.7481%; it improves phase substantially but does not meet the complete target.
+Independent audit is pending. Passive-advection sparse-exponential versus exact
+mapped characteristics gives terminalphi8.50% at96x40 and4.03% at192x80; this
+is an M=0/base-stream diagnostic, not the full NS--CH error or a universal bound.
+It motivates resolution refinement before increasing network size.
+
+After the parent replay passes, import its complete model AND SOAP state into a
+new192x80run with total10000global updates. Preserve physical/BC/model/optimizer/
+time/transport settings, seed and global PRNG/LR counters; explicitly permit
+only spatial resolution change. The geometry encoder quadrature also refines,
+so replay parent fields with its original config, then measure the pre-update
+field change with refined conditioning. Never claim those fields are identical
+or silently reset moments. Model leaves remain compatible. Predicted active
+memory~4times the measured1.60GiB is within the5090/32GB budget; measure actual.
+
+Implement a direct-path, new-run continuation contract (strict or explicit
+resolution refinement), validating complete parent files/config/replay. Read
+docs/migration/README.md first, as required; old paths/formats are retained.
+No online input/GradNorm/stagger state recovery is assumed. Online geometry
+training remains a later cold-start experiment unless separately implemented.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Validate the near-target operator on denser independent FEM queries
+
+Current reported neural errors use384midpoint queries. Before declaring the
+single-geometry10%target met, evaluate the frozen refined checkpoint on96x40
+interior queries. Regenerate the same predeclared FEM space/time trio at those
+queries and rerun its unchanged independent gates; export density changes no
+PDE, physical parameters or mesh/time choices. Keep the old reference/gate files
+unchanged and write a separate explicit data directory.
+
+Prepare the serial driver now, but execute FEM only after the refined GPU run
+and its independent GPU audits finish and no GPU process remains. Use the
+isolated fenicsenv interpreter for solves, then the JAX environment for frozen
+checkpoint evaluation. Dense reference fields are evaluation-only and never
+enter the optimizer. This prevents a coarse diagnostic grid from hiding field
+error; it does not establish unseen-geometry generalization. No Git/deletion.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Prepare opt-in rolling-input training without changing the live control
+
+The conservative single-geometry run is close to the complete10% target, and
+its full-state spatial refinement is live. Prepare the previously CPU-tested
+rolling producer's canonical optimizer-loop integration while that run compiles;
+keep it disabled in all old/live presets and defer actual online training until
+the single-geometry assessment. This implements the already authorized second
+part of the overall goal, not an additional geometry-specific network prior.
+
+A cold opt-in run retains the existing initial bank and independent immutable
+FEM evaluation inputs, starts bounded CPU prefetch, and replaces fixed slots at
+predeclared completed-update counters. Log the actual sampled draw IDs and wall
+amplitudes as well as slot indices/times; retain initial/final inputs and pool
+state. Always close workers on exceptions, fail on skipped counters/invalid
+payloads, and do not infer geometry identity from reused slot numbers. Reject
+online continuation until full pool recovery exists. Independently reconstruct
+the refresh/sample stream and final known inputs; no future fields or reference
+labels enter the optimizer. Current model/PDE/residual/optimizer choices stay
+unchanged. No Git action, cleanup or SOTA promotion.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Distinguish mixed CH scaling from eliminated continuous cancellation
+
+The user's tanh question requires a narrower statement than saying CH diffusion
+cannot cancel. In the implemented mixed network mu is independent, so Lmu has
+no automatic map-Jacobian factor and the phase-only inverse-J metric can amplify
+chemical fitting error. Its completed matched5000control givesphi30.57% versus
+30.60% original, with no late droplet core. It is not promoted.
+
+For the continuous constitutively eliminated equation and phi=a*tanh(s), let
+J=a*sech(s)^2 and H=-A*a*phi-kappa*Delta(s)+(2*kappa*phi/a)*|grad(s)|^2.
+Then mu=J*H+A*(a^2-1)*phi and Delta(mu)/J has an exact expression with bounded
+coefficient ratios and no explicit division by J. Independently differentiated
+2D physical fourth derivatives versus that factorization pass six FP64 cases
+(a=1/1.25, three latent shifts), relative gap<=3.90e-14. This verifies algebra,
+not a GMLS/SBP chain rule, NS/boundary closure or a trained accuracy benefit.
+
+Standard a=1 remains incompatible with finite compact pure-phase latent ICs
+and excludes this quartic reference's overshoots. A continuous eliminated
+transform is a possible separate control; do not silently replace the current
+mixed or conservative training equations or claim it already improves L2.
+Inverse-J scaling emphasizes small-J bulk residuals as well, so it is not
+intrinsically an interface-region weighting. Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Queue a finite strict continuation before online generalization if needed
+
+The192x80 stage reaches global10000 withphi7.4055%,terminal10.0041%,u3.2137%,
+p10.3988% on the old sparse diagnostic cohort. It narrowly misses the complete
+target; do not round terminal10.0041% into success or start online training yet.
+After independent physical replay and denser FEM gates/evaluation, use one
+predeclared strict full-state continuation to20000 only if those dense principal
+fields still fail10%. Keep the same grid/model/PDE/BCs/loss/SOAP/schedule/global
+random stream; this tests continued convergence, not a new tuned seed/metric.
+Re-evaluate the frozen result against the same already validated dense FEM.
+
+Launch the cold online20k research recipe only after all four principal dense
+metrics pass, otherwise leave the goal active and report the failed gate. The
+queued orchestrator waits for existing FEM/GPU drivers and executes each stage
+serially, preserving FEM/GPU exclusion, all artifacts and explicit direct paths.
+This automation is a finite task driver, not a promise of convergence or an
+infinite retry loop. Online generalization still requires actual unseen-domain
+reference evaluation after training. Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Freeze16 unseen geometries before online training
+
+The full goal requires generalization, not only one successful development
+geometry or successful input replacement. Before the queued cold online run,
+freeze16 independent uniform-prior wall-amplitude draws in an explicit external
+manifest. Use a reserved sampling namespace, separate from the initial bank and
+online producer. Record complete physical-family identity, exact amplitudes and
+direct case paths; do not rank/select draws by model error or use hashes.
+The trainer may read only geometry parameters to reject accidental overlap;
+no evolved validation field enters the optimizer.
+
+After online training/audits exit and GPU is idle, build the original three
+space/time FEM references for every reserved geometry, using four isolated
+CPU processes with one BLAS thread each. No FEM/GPU overlap. Apply the unchanged
+per-geometry reference gates before any frozen-model evaluation. Fail loudly
+on a solver/gate error rather than omitting a difficult sample.
+
+First generalization assessment reports all16individual errors, mean/p90/worst,
+pooled/terminal phi, positive-time velocity/pressure, dispersed fraction and
+geometry-response amplitude/error in the common normalized query coordinates.
+Use predeclared mean of per-geometry principal errors<10% as the population
+accuracy estimate, retaining worst-case outcomes and the finite-cohort scope;
+no uniform guarantee over the continuous prior. Auxiliary mu remains separate.
+Any later optimization based on this cohort must call it development evidence,
+not a fresh final test. Retain full references/predictions at external paths.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Diagnose the remaining pressure error using the declared traction BC
+
+The dense one-geometry assessment isphi7.3469%,terminal9.9693%,u3.2536%,
+p10.3346%; strict continuation is live. Before changing coupled loss weights,
+probe a generic physical gauge correction on the frozen10000model. The existing
+outlet BC is symmetric hydrodynamic traction0. At the straight outlet its normal
+row is2*nu*ux_x-p=0; subtracting its quadrature mean defect through a spatially
+constant pressure shift leaves every interior momentum pressure gradient and all
+other fields unchanged, while enforcing the mean of that already declared BC.
+This uses no reference pressure or extra point Dirichlet condition.
+
+Compute this diagnostic on CPU while the GPU continuation compiles, and first
+check physical primal replay against saved GPU queries. Compare pressure L2
+before/after only for evaluation; do not select the shift by reference error,
+change the live run, or claim a trained benefit. Exact original predictions and
+failed evaluation logs remain preserved. If the correction is immaterial, leave
+it diagnostic; if useful, a separately explicit pure field wrapper would need
+momentum-gradient/boundary/parameter-gradient validation before adoption.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Keep outlet pressure-gauge projection diagnostic only
+
+The frozen10000model CPU/GPU primal replay passes9.54e-7. A64point Gauss
+outlet-traction-derived constant shift enforces the mean normal traction to
+7.59e-19 but changes dense pressure L2 from10.3346% to10.3929%, slightly worse.
+There is no useful gain; reject adding this wrapper/default or an extra pressure
+Dirichlet anchor. The remaining error is not removed by that gauge correction;
+this does not uniquely identify its cause. Original fields and all logs remain.
+
+The existing raw all-time joint field diagnostic also includes a free initial
+pressure against FEM's zero initialization. Keep that diagnostic rather than
+rewriting it; label its scope and additionally report positive-time joint norms.
+Principal acceptance continues to use the explicitly defined per-field norms,
+with pressure/velocity at positive times. Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Prepare dual linear/log time features for the measured startup error
+
+Strict continuation reaches~15000 with lower velocity/chemical errors but
+slightly worse phi/pressure; longer training is not yet a remedy. Frozen10000
+arrays show75.88% of positive-time pressure SSE in the first second. Late mu
+error is not pinned to the original droplet support: that5.625%area holds only
+.367%of late mu SSE. Do not add a decaying-IC ansatz or region weights from
+this diagnostic.
+
+Prepare a cold, opt-in general temporal-feature control inspired by the repo's
+log-time coordinates. Keep one global network and all PDE/time-step/geometry/
+spatial/lifting/output/optimizer settings. Retain raw t/T; split the existing
+8Fourier directions into4linear-time and4log-time directions, each with the
+same explicit maximum frequency2. The log coordinate is
+log1p(t/tau)/log1p(T/tau), reusing the declared lifting timescale tau=.25.
+This preserves feature width/model parameter leaves and late-time linear
+features while resolving startup more finely. Missing optional time_embedding
+record preserves old arithmetic/checkpoints. No solution/trajectory prior or
+reference label enters the features; BDF2 still differences physical states.
+
+Check legacy identity, analytic time derivatives, initial physical equality
+and full new mixed-PDE parameter gradients before any run. Complete the live
+20000budget first; only launch the new cold control if the single-geometry
+accuracy gate still fails. The comparison against the staged old run bundles
+initialization history and features, not an isolated causal superiority claim.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Check chemical-potential cancellation error before further architecture tuning
+
+The prescribed20000stage endsphi7.7854%,terminal11.2528%,u2.8783%,p12.2500%:
+lower sampled loss/velocity error did not improve the coupled physical fields.
+Alongside the already prepared optional temporal control, probe the current
+GMLS constitutive discretization independently of NN optimization. For a smooth
+manufactured radial tanh of squared distance (no center singularity), evaluate
+analytic Lap(phi), mu=A*(phi^3-phi)-kappa*Lap(phi), and analytic Lap(mu).
+Compare GMLS Lap(phi), implied mu and phase RHS on actual96x40/192x80 grids.
+This exposes cancellation amplification in mu, not a native NS--CH solution or
+a boundary-condition validation; the manufactured field need not obey BCs.
+
+Compare explicitly named degree3/4 and neighbor/positive-weight settings under
+the unchanged condition_limit=1e9. Record rejected conditioning cases and their
+errors, never regularize/fallback or change the live/queued configurations.
+Check the analytic Lap(phi) independently with2D AD. A higher-degree option is
+only a candidate if it actually passes conditioning and improves consistency
+across translated interface locations; no trained-accuracy claim from this probe.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Prioritize validated GMLS order refinement over the unstarted time control
+
+Manufactured192x80 consistency confirms degree3/36/weight16 has maxLap(phi)
+2.545%,impliedmu5.183%,phase-RHS16.192%; degree4/48/weight12 gives.331%,.674%,
+3.929%with maximum condition8.55e6 under the unchanged1e9limit. Degree4/36 is
+rank-deficient (~5.8e20) and rejected. Degree4/48/weight16 is slightly more
+accurate but has1.79e8condition; choose weight12 for the larger conditioning
+margin, subject to a broader continuous-prior construction check. These are
+manufactured consistency errors, not solution-error bounds.
+
+The newly cold dual-time trial397307 is actually still compiling with an empty
+loss file (zero completed updates). Stop it before the first update and retain
+its initial model/optimizer/source/known inputs/logs and explicit interruption
+record. Its two temporal-feature tests remain valid, but there is no trained
+accuracy/throughput or failed-convergence claim. Its driver/watchers exit without
+launching online/FEM work. This saves an uninformative old-operator trial rather
+than changing two numerical factors together.
+
+Next import the independently audited10000model+fullSOAP state (better physical
+fields than20000) into a new explicit operator-refinement run with degree4/48/
+weight12, preserving linear time features, grid/physics/model/optimizer/RNG/LR.
+Only these declared operator settings may change; verify original and new
+conditioning fields match exactly, since encoding does not consume GMLS rows.
+Do not raise condition limits or silently reset moments. Online defaults stay
+unpromoted pending actual accuracy and prior-range checks.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Test startup features cold after the isolated operator continuation misses
+
+Degree4/48/weight12 full-state continuation completes15000: sparsephi7.5915%,
+terminal10.5805%,u2.9344%,p11.1190%; the complete target remains unmet. All16
+initial+1024online input operators actually pass in712.65s/fourCPUworkers,
+maxcondition8.55e6 and polynomial error5.59e-11, no stored operator arrays,
+PDE/FEM trajectories or finite-library training. This construction screen is
+not a solution-accuracy result.
+
+Retain the better-consistent checked operator and next run the already verified
+dual linear/log time representation from cold10000updates, followed by the same
+independent physical/dense FEM checks. Only if it meets the single-geometry
+accuracy gate, start the corresponding cold online20k recipe and frozen16FEM
+assessment. New combined initial/physical/PDE-gradient check passes123.548s;
+construction-screen budget/prior/record-completeness guard test passes.004s.
+No new region weights, solution-shaped prior, physics/BC/time-step change, or
+reference label enters optimization. The comparison bundles cold initialization
+history and input coordinates; do not infer isolated causal/seed-robust gains.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Strengthen final evaluation with genuinely off-grid queries
+
+Direct KD-tree comparison finds all3840of the96x40midpoint queries coincide
+with odd-index nodes of the192x80training grid. FEM solves/fields were independent
+and never used in the loss, so their scores remain valid nodal accuracy evidence,
+but do not claim spatial interpolation accuracy from them.101x43midpoint queries
+have only1coincidence among4343nodes on the nominal geometry.
+
+Keep the original frozen16manifest/parameters and reference files untouched.
+Write a separate offgrid manifest with the SAME geometry draws/family and
+explicit101x43queries; update only the pending degree4/dual-time online recipe's
+validation path. No future validation fields have been computed/seen or used
+in that online training. Replace its still-waiting reference watcher, retaining
+its prior metadata/logs. Final post-online references include all16unseen
+geometries plus a separate nominal-development trio on that off-grid layout.
+Evaluate the nominal pressure/phase/velocity and the16case population separately,
+keeping original per-field10%criteria and worst/response diagnostics unchanged.
+This strengthens, not relaxes, the field/generalization evidence. No training
+PDE, geometry prior/draw, output mapping or optimizer change.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Finish dual-time control and check temporal consistency before further tuning
+
+Cold degree4/dual-time10000 completes: dense phi20.8607%,terminal22.8635%,
+velocity3.7190%,pressure24.0519%,chemical151.369%. All physical/replay checks
+complete, but accuracy fails; its driver and unseen watcher exit without online
+training or FEM. Retain every file and the negative outcome. Best development
+result remains the linear-time degree3 global10000 model, not this cold control.
+
+Before another optimizer/coordinate choice, compare BE/BDF2 rates of that frozen
+best physical network against its analytic time JVP at identical interior sites
+and positive times for dt .1/.05/.025/.0125. This measures only the time
+approximation of a known differentiable field, not solution/reference error or
+a reason to relax acceptance. In particular, test whether startup velocity-rate
+truncation is material before proposing time refinement to address pressure.
+No output/physics/BC/optimizer change; the exact continuous CH tanh identities
+remain algebraic evidence and do not override the failed mixed training control.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Isolate BDF2 time refinement with the complete best model state
+
+The frozen-network probe finds dt.05 relative physical-rate errors phi1.2453%
+and velocity2.8490% against analytic time JVP; dt.025 gives.3231%/.7241%,
+and dt.0125 gives.0816%/.1841%. At startup t1 the velocity-rate RMS difference
+falls.00640->.00182. These are field-rate consistency measurements, not proof
+that time truncation uniquely causes pressure error or a trained improvement.
+
+Test only dt.05->.025 from the audited best global10000 state, preserving the
+original degree3 spatial operator, linear time basis, physical predictions,
+complete SOAP moments/counts, loss scales and all physics/BCs. New explicit
+continuation kind=time_refine permits only a strictly smaller integer BDF2
+subdivision; strict/operator/spatial contracts stay unchanged. Run5000new
+updates to global15000 and perform the unchanged independent/dense field gates.
+The cold online counterpart is conditional on those gates and retains the
+frozen off-grid16manifest. This is a consistency control rather than another
+output prior or an unverified claim for tanh/block preconditioning.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Prepare a physics-only frozen pressure-head diagnostic
+
+Historical metric audit finds no saved intermediate checkpoint with all four
+principal errors<10%; do not substitute checkpoint selection for a solution.
+While the time-refinement run proceeds, prepare one finite diagnostic for the
+remaining pressure bottleneck. Hold every phi/mu/velocity-producing parameter
+fixed and vary only the last pressure-linear row/bias. Its momentum gradients
+and normal outlet traction enter linearly, so the original pressure-dependent
+loss is a positive-semidefinite quadratic in that row. Accumulate its exact
+all-positive-BDF-node/full-grid statistics, normalized as the current loss,
+using FP64 host accumulation after FP32 neural/physical evaluations. Optimize
+the quadratic without evolved labels, then evaluate the frozen result.
+
+Independently test feature/physical pressure and gradient identities and the
+quadratic directional expansion. No pressure anchor/gauge/BC, loss reweighting,
+phase map, physics or reference change. This is a bounded frozen-block probe,
+not a proven remedy or a canonical training/default promotion. Queue it only
+if the active time-refinement driver actually exits with the accuracy target
+unmet; otherwise skip. Never overlap another GPU/FEM job or restart current
+training to run it. Any optimizer termination/conditioning limitation remains
+explicit; do not silently regularize the quadratic.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Pressure probe uses actual inputs and the completed finer-time state
+
+Time-refinement reaches prescribed15000: developmentphi6.3676%,terminal8.2135%,
+u2.8113%,p10.6508%, improving phase versus the imported10000state while pressure
+still fails. Independent replay/dense checks are now executing. Use this complete
+new phase field for the single frozen-pressure diagnostic, not the older7.35%
+model. Stop the previous500587 worker while verified still waiting, with no
+updates/GPU work, retaining its log/progress and an explicit interruption record.
+Queue the new worker on the same training driver477932 and require its final
+failed-gate state; skip if the online recipe actually proceeds.
+
+Load the actual parent known_inputs.npz, validate its schema/ranges and cast as
+in training; do not regenerate QR stencils for a fixed-field diagnostic. Save
+probe/feature source snapshots. After optimizing the FP64 host quadratic,
+re-evaluate every original FP32 neural momentum/traction residual; reject a
+quadratic-only improvement lost through coefficient rounding. Only then load
+FEM fields for evaluation. Pressure-basis/gradient/unchanged-field and quadratic
+identity tests pass14.298s. No model/physical-field benefit claimed yet.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Check a thermodynamic pressure coordinate after the linear-head probe is negligible
+
+The pressure-only probe actually completes all240BDFnodes/full15633spatial
+nodes: physics objective.000368637->.000347449(5.75%reduction), actual FP32
+residual agrees with the FP64 quadratic to6.5e-11; scaled Gram eigenvalues
+.006996..16.535, no rank/regularization issue. Dense pressure10.59792%->10.59316%,
+other fields exactly unchanged. This is a negative practical result, not a
+solution or a reason to train that row longer. New finer-time dense phase is
+6.33299%/terminal8.53774%,velocity2.85852%,pressure10.59792%; all replays pass.
+
+Next isolate the exact output-coordinate alternative Pi=p+phi*mu with all
+phi/mu/velocity parameters frozen. Product rule gives
+  grad(p)+phi*grad(mu)=grad(Pi)-mu*grad(phi).
+Physical pressure remains p=Pi-phi*mu, so outlet traction must remain
+  -Pi+phi*mu+2*nu*ux_x (and unchanged tangential traction).
+Do NOT replace the outlet condition with zero modified-pressure traction or
+compare Pi to the original FEM p. The same four-output parameter tree is
+retained, but the new config explicitly versions the pressure semantics; old
+configs/checkpoints retain their old arithmetic. No solution prior, extra
+pressure anchor, IC/BC/PDE/reference change, region weight or tanh bound.
+
+Modified-pressure/capillary-force forms are standard in CHNS, e.g. Lethe theory
+https://chaos-polymtl.github.io/lethe/documentation/theory/multiphase/cfd/cahn-hilliard.html
+and Chen--Shen2016 https://www.math.purdue.edu/~shen7/pub/Che.S16.pdf . The exact
+Pi=p+phi*mu identity here follows independently from this repository's force
+convention; do not claim identical notation or proven PINO benefit from those
+sources. Local AD first derivatives satisfy the product rule; this is not a
+nonlinear GMLS product rule. Check neural physical-field/gradient/force/traction
+identities and old-config compatibility, then run one frozen-coordinate fit
+with the same all-time physical objective and evaluate original pressure only.
+Do not promote the coordinate or resume online training without actual gates.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Retain original pressure and test deterministic full-time coupled refinement
+
+Frozen Pi=p+phi*mu fitting passes force/traction/derivative and FP32 residual
+checks but fails accuracy: original physical pressure26.028% versus10.598%.
+Its pressure-dependent objective.25777 is far above original.00036864. This
+is a failure of the fixed existing basis under that representation, not proof
+that the equivalent CHNS formulation is generally bad. In particular, Pi is
+not necessarily smoother: constant mu and p already give interfacial Pi=p+mu*phi.
+Keep the opt-in coordinate explicitly experimental and do not promote it.
+Both frozen probes leave all other fields exactly unchanged and retain outputs.
+
+Next reuse the standard SOAP->L-BFGS strategy from existing phase-field examples,
+with ORIGINAL variables/loss/scales and the completed dt.025model. A separate
+canonical train.py mode imports the complete audited parent, records its SOAP
+state without pretending SciPy can exactly restart it, and optimizes all NN
+parameters. Each objective/gradient averages every240positive BDF node over
+fixed8time batches on the full spatial grid. All batches differentiate the same
+current global network and its history states; this is gradient accumulation,
+not time windows or frozen previous solutions. No evolved labels enter it.
+
+Run one finite250accepted-step control, explicit FP32 neural gradients/FP64host
+accumulation/SciPy, fixed positive tolerances and budgets. Compare accumulated
+gradients independently with the monolithic objective, validate original parent
+bytes/config/known inputs and explicit deterministic node support, then perform
+actual full physical/dense field gates. Refinement input provenance must label
+inherited stochastic records; do not claim new SOAP draws. Preserve every prior
+artifact and do not claim exact L-BFGS restart support or default improvement.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Localize the constitutive residual without changing the live optimizer
+
+Full-time L-BFGS actually passes production gradient/memory feasibility and
+reaches175accepted steps. Loss decreases but development pressure~10.76%still
+fails. The full240node objective has a dominant chemical-relation contribution
+(~.00110 versus total~.00164), which is not established from a few random batches.
+Leave the finite250control unchanged. In parallel use an isolated CPU-only
+frozen-parent diagnostic to locate chemical residual versus time and known
+initial support. Cache spatial preparation only for that immutable checkpoint,
+then evaluate all240positive nodes and the actual saved operator/quadrature.
+
+Require physical phi/mu replay against its saved GPU grid snapshots and a
+5%relative match to the actual first full-objective chemical loss before using
+allocation results. A failed CPU agreement gate stays a failure, never a
+training weight or fallback. No evolved FEM labels, resampling/region objective,
+physics/BC/output/optimizer change or new GPU/FEM overlap. The time bins are
+reporting bins, not sequential training windows. This diagnosis will distinguish
+a startup representation issue from evidence for simply training longer; it
+cannot by itself identify a unique cause or an effective remedy.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Preserve the learned function while adding startup time capacity
+
+The CPU-only constitutive allocation actually matches saved GPU phi/mu to
+2.15e-6 and the first full-objective chemical loss to1.20e-7relative.53.03%of
+chemical loss lies at t<=.1(1.67%of horizon),64.95%at t<=.25. The named initial
+support fraction52.72%uses abs(phi0)<.999, i.e. the INITIAL TRANSITION BAND,
+not the whole initial droplet; keep this definition explicit. These are
+allocation diagnostics, not new loss weights or proof of unique causation.
+
+Full-time L-BFGS completes250accepted steps/274actual complete objectives,
+reduces loss10.93%, but development p10.800%/phi6.399%does not improve the gate.
+Budget reached(status1), not convergence. Production activepeak8.291GiB and
+inherited-input/full-time-support audit pass; independent field/dense checks
+are still running. Do not spend another budget on an unchanged head alone.
+
+Next test a small function-preserving temporal expansion, not a replacement
+of the learned basis. Keep all8linear-time Fourier directions, add8log-time
+directions using the existing explicit tau=.25coordinate. This doubles the
+FiLM input17->33, adding9216weights(~3%of model). Embed the complete old time
+matrix in its corresponding linear sine/cosine columns and initialize every
+new log column to zero; copy all other parameter arrays exactly. Initial
+physical fields and derivatives must replay before optimization. This differs
+from the earlier cold4linear+4log control, which discarded half the linear
+basis and did not preserve a learned function.
+
+Version this opt-in initialization explicitly; absent record retains old
+constructor/RNG/arithmetic/checkpoint behavior. The new refinement mode permits
+only this declared capacity expansion from an audited LINEAR-time SOAP parent;
+all physics/loss/scales/grid/dt remain fixed. L-BFGS intentionally starts new
+history; never claim an exact SOAP-state transfer across shapes. Test exact
+feature embedding, new-column gradients, cold initialization parity and real
+parent field replay. Run one250step finite control only if the current driver's
+unchanged dense accuracy gate actually fails. A new cold online counterpart
+uses the same preservation of its original linear initialization, if the
+single-geometry gate passes. No motion/solution prior, causal weighting,
+region metric, IC change or time windows; no unseen labels generated/selected.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Correct the expansion target to the actual time-encoder MLP input
+
+The focused transfer tests reject the first implementation before any new GPU
+training: the real shared time encoder is eqx.nn.MLP, with the changing matrix
+at time.layers[0].weight, not a single Linear time.weight. Source inspection
+confirms its input17->33 and hiddenwidth96. The exact parameter increase is
+1536weights(~0.5%of model), NOT the previously estimated9216. All subsequent
+MLP layers and all other model leaves are copied unchanged. Correct the known
+input-layer path and corresponding tests; retain the original failed test log.
+The function-preserving sine/cosine column mapping and initial-zero-log argument
+remain the same. No live training was restarted or initialized with the rejected
+transfer implementation. Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Check actual trained-field operator errors before another capacity sweep
+
+The function-preserving extension is active(physical initial replay0) and by
+175steps remains close to the old full-time trajectory, pressure~10.74%. Finish
+its finite control and audits. If it still fails, prioritize actual operator
+consistency over another unmeasured architecture change: on the SAME frozen
+best dt.025network compare GMLS3 and checkedGMLS4 Laplacians to exact spatial
+AD on its phi/mu and velocity. No new field training/reference labels.
+
+Use all physical grid nodes for phi/mu and a declared32x32interior subset for
+velocity(third streamfunction derivatives), at fixed startup/late times. Compare
+matched physical primals and independently manufactured derivative identities
+before interpreting the norm differences. Report chemical-residual shifts and
+mobility-scaled diffusion/viscous errors, not a native coupled-solution error or
+unique-cause proof. Preserve all BCs/pressure definitions and do not assume a
+nonlinear discrete chain rule. Queue only after the active driver terminates
+with its unchanged accuracy target unmet; skip if actual online training goes
+ahead, so no GPU/FEM work overlaps. Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Separate trained-field stencil error from precision and representation
+
+The function-preserving time expansion completes250steps/276full objectives,
+passes inherited-input/physical/dense audits, but dense pressure10.705%still
+fails. Phase6.3595%/terminal8.5968%does not improve the best SOAP parent. No
+online/FEM was launched; both finite driver and watcher exit normally.
+
+The actual frozen-parent GMLS/AD comparison completes with primal gaps<1.7e-6.
+Degree3phi Laplacian errors are14.7%at t=.025and22.2%at6; degree4reduces the
+first to10.5%but leaves late21.96%. Velocity-Laplacian differences on the
+declared1024points remain~26--51%. These are derivatives of the learned NN,
+not errors against the physical solution. In particular unresolved NN curvature,
+FP32 derivatives and stencil truncation must not be conflated.
+
+Before another training change, freeze the same model AND encoder inputs and
+compare original FP32 versus promoted FP64 jets. Then use a twice-refined
+physical query grid and degree4stencils while retaining the ORIGINAL encoder
+quadrature/context. Compare all stencils at identical declared1024physical
+points/times, require primal and saved-field agreement, and retain condition/
+polynomial checks. No retraining, labels, BC/model change or FEM/GPU overlap.
+This diagnostic cannot demonstrate improved trained L2 or justify a nonlinear
+discrete chain rule. Region balancing remains unadopted; plain bounded tanh
+still excludes the existing quartic-CH overshoots. Relation:
+channel-derivative-clarification.
+
+## 2026-11-01 — Test spatial resolution after the matched precision/grid evidence
+
+The frozen-grid comparison actually completes, paired physical gap8.02e-6and
+saved GPU replay9.54e-7pass. On the SAME1024physical queries, promoted FP64
+changes AD Laplacians by at most2.14e-5relative; it does not resolve the observed
+stencil discrepancy. At t=1, degree4velocity-Laplacian difference falls38.52%
+to7.00%on192x80->384x160query grids with original encoder/context fixed. At6,
+it falls37.65%->6.84%; phi and mu differences also decrease. This supports
+spatial resolution as a test direction, not a solution-error attribution or
+assumption that higher degree alone will help. The FP32-named host stencil
+record uses rounded FP32 field/coefficient values with FP64 NumPy summation;
+it is not an emulation of the GPU reduction kernel.
+
+Run one spatial-only384x160control from the best audited dt.025SOAP parent,
+retaining degree3/36/weight16, full SOAP state, physical output, original loss,
+Nt4, width96and original time embedding. Use existing kind=refine, global
+15000->20000(5000newupdates), no extra API or numerical whitelist. This isolates
+point density instead of bundling it with the degree4probe. Keep the FP32
+policy: switching all training to FP64 has no support from this probe.
+
+The Nt4single/B1memory estimate is~22GiB versus23.5GiB configured pool, not a
+measured feasibility claim; retain a failed attempt if the actual full-gradient
+path cannot fit. Do not silently lower precision, quadrature or batch inside
+training. The explicit untrained online counterpart uses B1at the same Nt4to
+keep the physics batch product fixed on32GB; it still samples continuously and
+uses FIFO rolling geometry inputs. Only passing single-geometry physical/dense
+gates may launch it. No region balancing/tanh/default promotion, reference
+change, cleanup, Git operation or unmeasured L2 benefit. Relation:
+channel-derivative-clarification.
+
+## 2026-11-01 — Screen the refined online input prefix during compilation
+
+The384x160single-geometry process597711is confirmed live in first-gradient
+compilation; the warning is a CUDA autotuning timer, not a terminal job state.
+Use spare CPU capacity for the existing input-only conditioning screen of its
+explicit future online preset. Check all16initial geometries and802online
+input draws, covering399installed refreshes plus2prefetched batches at size2.
+Use four isolated NumPy/SciPy workers, one BLAS thread each, no GPU/JAX kernels,
+FEM/PDE trajectories or stored operator arrays. This does not replace the live
+rolling pool with a finite training bank or demonstrate solution accuracy.
+
+Retain the actual finite family/draw/operator/grid report and run the existing
+validate_construction_screen contract once complete. A failed construction
+must remain a failure; no conditioning relaxation or draw rejection is allowed.
+The single-geometry accuracy gate and complete unseen evaluation still apply.
+No training/model/loss/reference/default/Git/cleanup change. Relation:
+channel-derivative-clarification.
+
+## 2026-11-01 — Diagnose global momentum closure before adding another loss
+
+The refined input-only prior screen actually passes818constructions/451.38s
+and the existing exact-recipe contract(maxcondition2.86e6,polynomialerror1.52e-10).
+The384x160training gradient/SOAP updates fit32GB; at16750phase6.164%improves
+but pressure10.889%still fails. Continue its fixed budget unchanged.
+
+Probe the ORIGINAL best frozen SOAP model on CPU only. For matched density,
+incompressible flow and sigma=-pI+nu*(grad u+grad u.T), integrating the original
+NS equation gives R=[rho*int(u_t)+rho*int_boundary(u*(u.n))
+-int_boundary(sigma*n)+int(phi*grad(mu))]/area. This is an exact continuous
+constant-test weak identity, including all actual wall/inlet/outlet tractions;
+zero outlet traction must not be silently substituted for its imperfect NN
+value. Time BDF and spatial integration commute linearly for the fixed model.
+Compare this with the volume mean of the actual GMLS momentum row, with original
+and refined volume/boundary quadrature and saved-GPU physical replay gates.
+
+Independently validate manufactured divergence-free polynomial fields, stress
+signs, flat-domain exact integrals, curved-domain divergence theorem and pressure
+gradients before interpretation. Primary stress/strong/weak reference:
+https://jsdokken.com/dolfinx-tutorial/chapter2/navierstokes.html
+Use fixed original encoder/context, no retraining, labels, FEM, new weighting,
+pressure anchor or physical BC change. An unconverged quadrature/replay failure
+must remain a failure. This research diagnostic does not yet add a conservation
+loss, claim a unique pressure cause, or demonstrate improved trained L2.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Retain the weak-probe gate failure and refine quadrature
+
+The independently manufactured flat/curved momentum theorem and pressure-gradient
+unit test passes(0.292s). The actual CPU frozen-model probe reaches its final
+quadrature check, but192x80->384x160volume agreement fails at t=.5and6 under
+the PREDECLARED1e-4+5%criterion. Boundary192->384differences~3e-5..5e-5pass;
+volume differences~3e-4..5e-4do not. Preserve its failed-gate.json/source/log and
+exit1. Do not relax the tolerance or use this as a validated pressure diagnosis.
+
+Repeat into a NEW directory, adding768x320diagnostic volume quadrature with
+original model/encoder unchanged, and test384->768convergence at the same
+criterion. Save all actual balance vectors even if the refined gate fails;
+label them unvalidated instead of losing them. This is quadrature convergence
+of a frozen field, not a new training-grid/default or physical-model change.
+No additional loss is implemented. Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Prefer a checked viscous-flux operator over another conservation loss
+
+The refined frozen weak-momentum probe passes unchanged gates: original-GPU
+replay3.28e-6;384->768volume gaps<=1.83e-5and192->384boundary gaps<=5.37e-5.
+At t=.5weak balance=(.000128,-.002347), and whole-grid GMLS mean=(-.000067,
+-.001860); discrepancies are small. Do NOT add a global momentum loss from
+this evidence or claim a demonstrated pressure cause. First failed quadrature
+probe remains retained. Current fine training at19500still has pressure11.16%.
+
+Next consistency diagnostic uses the exact Newtonian identity nu*Lap(u)=div(tau),
+tau=nu*(grad(u)+grad(u).T), since streamfunction divergence is exact. Obtain
+velocity gradients by the EXISTING first-velocity AD(psi Hessian), then apply
+mapped SBP divergence to their stress flux. This requires no new output,
+weight, pressure anchor or higher AD order. For y=b(x)+eta*h(x), use mapped
+fluxes h*Fx and Fy-y_x*Fx with y_x=D_xY and J=h=D_etaY, giving the SBP geometric
+conservation identity. Retain original GMLS phase/mu Laplacians and explicit BCs.
+
+First verify constant flux/GCL, exact flat polynomial viscous derivatives and
+curved-grid convergence independently; then compare the same frozen NN's flux
+operator to exact velocity AD Laplacian on declared1024points. Only a successful
+actual consistency result may justify one new training control. No production
+PDE/loss/default has changed yet. Rao/Sun/Liu2020(https://arxiv.org/abs/2002.10558)
+also motivates mixed stress formulations, but its extra learned stresses are
+NOT implemented or assumed necessary for this smaller flux test.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Reject the measured SBP viscous flux; test mixed Cauchy stresses
+
+The frozen viscous-flux comparison passes physical replay3.28e-6/primal0but
+is NEGATIVE: at t=1GMLS error38.49%, original-grid SBPflux85.05%, refined SBP
+19.54%. The latter is also worse than the previously checked fine-grid GMLS4
+7.00%. Its manufactured/GCL test passes0.901s, but that does not establish NN
+accuracy. Do not promote or train this flux operator. Research source remains
+under docs/tasks, with no production switch added.
+
+Try the established mixed-Cauchy-stress NS formulation instead(Rao/Sun/Liu2020,
+https://arxiv.org/abs/2002.10558, Eqs3--4), not a new heuristic loss weighting.
+Replace raw pressure by sigma_xx,sigma_xy,sigma_yy; p=-trace(sigma)/2exactly.
+Hard streamfunction divergence makes only TWO independent constitutive rows
+necessary: (sxx-syy)/2-nu*(ux_x-uy_y), and sxy-nu*(ux_y+uy_x).
+Momentum uses rho*(u_t+u.grad(u))-div(sigma)+phi*grad(mu). Enforce constitutive
+rows in the interior and on existing boundary queries; keep ALL original
+physical BC losses, including velocity/pressure outlet traction. No extra
+pressure/trace/divergence or duplicate traction loss. Scale stress equations
+explicitly by existing pressure unit1; no learned balance/region scheme.
+
+Add only194last-layer parameters at width96: copy every parent array, keep
+phi/mu/psi rows, set sxx=syy=-parent_raw_p,sxy=0. This preserves all original
+physical fields/derivatives before optimization; no stress teacher/FEM labels.
+Cold counterpart uses the same original-function initialization. GMLS remains
+for phi/mu; stress gradients use spatial AD first derivatives, with the same
+existing highest psi-Hessian order. This is not all-spatial nonlocal NS.
+
+Version the option explicitly and preserve absent-record checkpoint arithmetic.
+Extend the audited full-time L-BFGS importer ONLY for this declared output
+change, retaining parent SOAP state as provenance without shape-state recovery.
+Use one250accepted-step/all240BDF-node control, exact parent inputs/scales/grid/
+time features/physics. Check manufactured constitutive/momentum equivalence,
+physical-state transfer, new-head/full accumulated gradients and strict parent
+guards before GPU launch. Wait for the live spatial driver to finish its
+unchanged dense gate, and run only if that gate fails. Then repeat physical/
+dense audits; only a passing single geometry starts cold online/rolling inputs
+and the full unseen cohort. No default promotion, physics change, cleanup orGit.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Equilibrate new auxiliary stress heads without moving the physical fields
+
+Mixed-stress first full gradient actually completes782.30s; all240time nodes
+and13parts are finite. By100accepted steps loss falls.46290->.04053but pressure
+10.65%->38.95%and chemical29.33%->74.40%. Continue the original250budget and
+independent audit; do not stop/restart it based on this early metric.
+The isotropic sigma=-pIinitializer omits the known viscous stress, so its first
+momentum_x loss.35119is a large new imbalance. Test a coherent auxiliary-block
+initialization independently on CPU while the existing trial continues.
+
+Keep phi/mu/psi/physicalp and every shared parameter fixed. Parameterize only
+sigma=-pI+[[d1,d2],[d2,-d1]], with d1,d2linear in the frozen final feature basis.
+The TWO momentum equations and interior/boundary constitutive equations are
+linear in these two output rows. Assemble their EXACT existing weighted least-
+squares quadratic over every240BDFnode and actual known inputs; no extra loss,
+new weight or evolved label. A194variable finite L-BFGS solve equilibrates this
+block before allowing all parameters to move. This is a standard block-coordinate
+physics solve, not an interface/motion prior or external stress teacher.
+
+First independently test quadratic/residual/gradient identity. Check frozen
+pressure feature identity and saved-GPU physical replay; match the before-
+objective to the ACTUAL first GPU mixed-stress objective's six relevant parts.
+Recompute actual rounded six-output NS/constitutive residuals and physical
+fields after fitting; require reduction, quadratic agreement and unchanged
+physical replay before retaining a projected initialization. No numerical
+rank/denominator fallback, hidden regularization or new training option yet.
+If successful, a subsequent separate same250budget control may import the
+verified stress-only checkpoint. Cold online joint training remains the same
+mixed formulation; this auxiliary equilibration addresses extension of an
+already trained model. Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Keep tanh conclusions scoped; gate any stress-head import explicitly
+
+User rejects region balancing and prefers a genuine phase-coordinate/residual
+transformation. Keep region balancing unadopted. Regular quartic CH permits
+overshoots, so standard tanh would change the representable solution; the actual
+saved development range is about[-1.129,1.030]. The earlier amplitude1.25 mixed
+transport inverse-J control gives30.573% versus30.600%phase and predates SBP/BDF2.
+It establishes no improvement for the newer6%model. Independent continuous CH
+elimination identities are checked but do not justify a discrete nonlinear chain
+rule or an untested change in boundary conditions. Primary maximum-principle
+source: https://ems.press/content/serial-article-files/15928, introduction.
+
+Continue the existing finite mixed-stress control and its independent audits.
+Its250accepted-step sparse metrics show pressure28.29%, so it cannot be promoted.
+For the separately running physics-only auxiliary-block fit, allow an optional
+EXPLICIT full-time initializer record naming model/report/quadratic by absolute
+paths only if all actual FP32 reduction/physical replay gates pass. Reconstruct
+the output rows from the stored two coefficient vectors, compare every shared
+array/phase/chemical/streamfunction row exactly and replay physical fields before
+optimization. Copy the initializer evidence locally and repeat reconstruction in
+the final input audit. Do not weaken isotropic-init audits for other controls.
+If verified, run a separate unchanged250step budget; no hidden initializer,
+optimizer-state recovery, reference labels, default promotion, cleanup or Git.
+Cold online recipe remains unchanged and conditional on the full single gate.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Prepare a plain capacity control while the finite stress trial compiles
+
+The equilibrated-stress GPU671008is confirmed alive/CPUbusy in first-gradient
+compilation; do not restart or overlap it. Previous turn is progress: actual
+auxiliary solve/reconstruction/GPUinitial replay passed and a finite control was
+launched. Pressure remains the principal single-case gate. Previous constant-
+pressure adjustment/frozen pressure-row fit do not help; earlier error allocation
+puts75.9%pressure SSE in the first second, without proving a unique cause.
+
+If the current finite driver completes with a failed dense gate, next try a
+plain cold width128model with64spatial Fourier directions(128channels), four
+heads, original8linear-time directions/maxfrequency2and otherwise original
+four-output streamfunction formulation. Retain finest192x80GMLS3/36/weight16,
+SBP phase transport, dt.025, all physical scales/losses/BCs and SOAP settings.
+Run20000updates from fresh parameters/state; no stress heads, map, region,
+GradNorm, stagger or causal weighting. This changes capacity and cold training
+path relative to the staged96parent, so do not attribute any gain to width alone.
+Use matching cold20konline counterpart if all single-case dense gates pass;
+continuous prior/16slots/B2/Nt4/refresh2every50/2workers and frozen cohort stay.
+
+This modest capacity control uses no new PDE or checkpoint semantics. The
+original SOAPcap256covers its256-wide feedforward axes; do not alter optimizer
+coverage. Actual full-gradient/optimizer memory must fit32GB, otherwise fail
+without silently reducing model/batch/dtype. Preserve current finite results
+and unknown outcome; skip the new control if its predecessor proceeds online.
+No default promotion, reference labels, new reference solve, cleanup or Git.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Check exact viscous stress followed by GMLS first derivatives
+
+Keep current equilibrated-stress250trial and queued plain width128cold control
+unchanged. A CPU-only consistency diagnostic can test a distinct unmeasured
+alternative while GPU work proceeds: compute tau=nu*(grad(u)+grad(u).T) from
+the EXISTING velocity AD gradients, then reconstruct div(tau) using GMLS first-
+derivative moments. Since streamfunction div(u)=0, the continuous identity is
+exactly div(tau)=nu*Lap(u). No learned stress fields, auxiliary loss, pressure
+coordinate, local nonlinear discrete chain rule or new BC is involved.
+
+Earlier mapped-SBP stress divergence has worse measured consistency than GMLS
+Laplacian, and remains rejected. That result does not test the QR-GMLS gradient.
+Use the original scaled-monomial QR construction and weights/neighbor count;
+first-derivative target moments are1/radius for x or y monomial, zero otherwise.
+Independently check polynomial gradients, exact manufactured divergence-free
+viscous fields on flat/curved domains and smooth refinement before evaluating
+the actual frozen parent. Then compare at the same1024physical points/four times,
+fixed original encoder, original/refined query grids and actual GPU replay gate.
+
+Primary construction reference is the existing Compadre GMLS mathematical
+overview linked in operators.py; the target-functional derivation is directly
+checked. Keep source under docs/tasks, not a production operator/config switch.
+If negative, retain it and do not train it. Even a positive frozen consistency
+result is not native-solution or trained L2 evidence. No FEM/GPU overlap,
+reference trajectories, default promotion, cleanup or Git. Relation:
+channel-derivative-clarification.
+
+## 2026-11-01 — Retain the negative GMLS exact-stress diagnostic; keep capacity trial next
+
+Manufactured polynomial/viscous identity/refinement test passes.288s. Actual
+frozen-parent CPU/GPU replay3.28e-6and primal0pass, but first-GMLS differentiation
+of exact viscous stress is NEGATIVE on the original grid: at t1degree3/4relative
+derivative discrepancy65.58/55.59%, versus existing velocity Laplacian38.49%.
+Fine degree3stress-gradient17.33%still exceeds the earlier fine velocity-GMLS4
+7.00%. The result is a frozen NN consistency comparison, not a physical-solution
+error or a fundamental claim that first derivatives are harder than second.
+
+Keep report/source/frozen fields at gmls-exact-stress-consistency-20261101;
+add no production gradient option and do not train this variant. Current250
+mixed-stress control remains running around200steps with pressure16.33%; finish
+its unchanged budget/audits, then the already queued ordinary width128cold
+control if the final gate fails. No PDE/loss/BC/reference/default changes,
+cleanup, Git, or overall-goal completion. Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Reject completed equilibrated-stress control; begin plain cold capacity run
+
+The250accepted-step/all240BDFnode equilibrated-stress trial completes1541.483s,
+270objectives, final loss.009193, budget status1(not converged). Strict auxiliary
+row reconstruction/copied evidence/input/time and physical replay pass; dense
+3840FEMphi/terminal/u/p=6.8236/8.7079/4.0020/16.0643%, chemical34.8978%.
+It improves on the isotropic stress control but is worse than the original
+four-output parent. Do not promote it or start its online counterpart. Its
+watcher exits without FEM. Keep paired actual curves/source/input checks.
+
+The already authorized/validated plain width128cold20k control actually starts
+only after that failed dense gate: driver685888/GPU700795, original4outputs,
+GMLS3/SBP/dt.025, same physical PDE/BCs/scales/SOAP, no map/region/balance/stagger.
+Actual saved initial optimizer equals fresh initialization in all254array leaves;
+no continuation/refinement. Shared module imports resolve inside this independent
+repository, not the sibling. Initial step0evaluation is not a trained result;
+first training gradient compiles normally. Online/cohort remains conditional.
+
+Additional saved-reference diagnostic keeps the accepted reference unchanged:
+best15kpressure errors versus spatial-coarse/time-coarse/fine refs are10.7144/
+11.0391/10.5979%; spatial-reference shift is nearly orthogonal to its NN error
+(cosine.0108). This does not prove continuum error or justify selecting a different
+reference to pass. Keep the actual fine FEM gate and10%threshold. No default,
+new FEM solve, cleanup, Git or goal-completion claim. Relation:
+channel-derivative-clarification.
+
+## 2026-11-01 — Observe full width128updates; label monitoring grids explicitly
+
+GPU700795actually finishes compilation and reaches400then800updates, including
+many SOAPrefreshes, with no OOM or shape/dtype reduction on32GB. At500the actual
+dense3840queryphi/terminal/u/p=14.0711/17.0627/6.6388/50.9599%; these are early
+cold-training values, not the prescribed20koutcome. Continue the fixed budget.
+NVML used memory24950MiB is process allocation/pool, NOT JAX active peak memory.
+
+The new run monitors the dense reference directly, whereas earlier parent
+training curves used384queries. Fix the research convergence plot to label each
+actual query count and network width, with a legend outside the data axes.
+Read counts from saved prediction payloads for completed runs; do not silently
+relabel earlier curves as dense or compare different monitoring sets as matched.
+Final acceptance still uses the separate common3840FEMassessment, unchanged.
+This reporting-only edit changes no live training/model/operator/optimizer.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Validate geometry response at identical physical coordinates
+
+Code inspection finds geometry_response currently centers fields at equal
+normalized(x,eta)indices; its scope correctly admits coordinate-map effects.
+This alone cannot prove conditional physical response: a geometry-blind ambient
+field such as f(x,y)=y changes at mapped query coordinates. Strengthen the final
+unseen validation BEFORE any online model/unseen FEM exists; do not change the
+16reserved draws, primary own-domain queries or physical-L2thresholds.
+
+Add an opt-in FEM diagnostic export at a shared physical query set. For the
+nonnegative bump and independent inward amplitudes bounded by a_max, the channel
+with both amplitudes a_max is contained in EVERY allowed domain. Use the same
+101x43midpoint layout in this common subdomain; points are bitwise identical
+across geometries. Export these fields from the SAME FEM trajectory, not extra
+PDE solves. Require independent space/time gates for both original and common
+query fields. Legacy FEM calls without the optional request retain old outputs.
+
+Compute geometry-response error/correlation/amplitude at these identical
+physical points and use that response for the already required beat-blind-mean
+gate. Retain mapped-coordinate response separately. Phi/pressure at fixed points
+cannot vary through query-map effects, giving a meaningful encoder-conditioned
+response check. Derive/test corner containment including coarse faceted walls,
+coordinate false-positive example, and rejection of failed common refinement.
+No interpolation of reference trajectories, training labels, loss/model changes,
+new geometry selection or weakened gate. Keep source/CLIcompatible, explicit
+protocol metadata and all failed diagnostics. Restart ONLY the still-waiting
+cohort orchestration watcher after code/tests pass; never restart the live GPU
+training. No FEniCS/MPI while JAXGPU runs. Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Prepare a matched multiscale-time control after plain capacity fails
+
+Plain width128cold20kfinishes with dense-monitor phi/terminal/u/p=4.9521/7.8083/
+2.0919/13.2886%; independent final audits are still proceeding. The model improves
+phase/velocity, but capacity alone does not solve pressure. Actual saved fields
+put52.89%pressure SSE in t<=1s and72.14%in the spatial mean-error component;
+these diagnostics do not identify a unique cause or justify a pressure gauge shift.
+
+Only after the complete failed dense gate, try the EXISTING linear_log time
+embedding with the SAME8directions(4linear+4log), scale.25taken from the known
+lifting scale. Everything else stays the same as cold width12820k: four outputs,
+GMLS3/36/16/SBP/dt.025/physics/BCs/scales/SOAP/RNG. The earlier degree3dual-time
+trial was interrupted before any update; degree4combination and a short expanded-
+basis L-BFGS result do not measure this matched full degree3control. This adds
+no trajectory prior, parameters, residual weighting or new differentiation rule.
+Physical BDF times remain unchanged; only decoder coordinates change.
+
+Check same-backend initial arrays exactly and later actual condition/time streams
+before attributing differences to the embedding. Use the completed linear-width128
+run as the plotting baseline; generic finite-driver reporting gains an explicit
+baseline path with its original default retained. Keep20kbudget/no early best-
+checkpoint selection. Matching online counterpart remains conditional, with the
+new fixed-physical response protocol and isolated FEM compatibility smoke before
+any unseen reference solve. No default promotion, cleanup, Git or goal completion.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Verify common-query FEM export and start matched time-coordinate control
+
+The plain cold width128 linear-time20k control completes all independent input,
+physical and dense3840-query audits: phi/terminal/u/p=4.9521/7.8083/2.0919/
+13.2886%. Training2941.741s, warm92.549ms, JAXactivepeak7156914688bytes.
+Pressure fails the unchanged10%gate, so no online run or unseen FEM is launched
+for it. Keep every artifact and its fresh-state initialization proof.
+
+During the empty-GPU interval, two short isolated FEniCS API fixtures verify
+optional common-query export: original fields have maximum gap0, both primary
+and common shapes3x35x5. This is compatibility evidence, not a refined reference.
+Physical config validation now lazily imports JAX-dependent initializer execution;
+path/schema checks remain pure so exact saved configs validate in the FEM env.
+The common-coordinate response gate has nine focused checks, including a mocked
+reporting integration that is explicitly not trained/FEM accuracy evidence.
+
+After the failed gate and FEM exit, start cold width128 linear/log20k. Actual
+GPU initial model/optimizer bytes and all16known-input arrays match the linear
+control exactly; only nonlogging config difference is time_embedding. Its
+positive-time fields may initially differ because decoder coordinates differ.
+Driver743953/GPU743956, watcher745579, new explicit common-query protocol.
+The old driver685888/watcher686167 exit normally without downstream work.
+Do not restart the live training because of compile warnings. Current goal is
+unachieved; no default promotion, cleanup, Git or reference/acceptance changes.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Diagnose pressure spatial modes while matched training compiles
+
+Keep the live cold linear/log control unchanged. A pure NumPy reporting probe
+will decompose saved positive-time pressure error into the orthogonal constant,
+physical-x, physical-y and remaining components under the same unweighted query
+metric. Compare completed original15k and cold width12820k on identical dense
+FEM fields/coordinates/times, with mean cross-section pressure profiles.
+
+Reference values are used only to characterize the existing error, never to fit
+an output correction, alter pressure gauge, select checkpoints or train weights.
+Projection budgets and direct least-squares parity must close. This diagnostic
+can distinguish smooth global pressure error from unresolved local structure,
+not establish its unique numerical cause or prove any remedy. It introduces no
+PDE/model/default/optimizer change and requires no GPU/FEM work or cleanup.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Honor the user's provisional near10percent pressure acceptance
+
+The user explicitly accepts pressure close to10% if the strict threshold cannot
+be broken. Communicated working interpretation: phi, terminalphi and positive-
+time velocity remain<10%; pressure<=11% is provisionally acceptable, while the
+strict<10% result is always retained/reported separately. This is a user-directed
+acceptance change, not a numerical/model/reference modification or a claim that
+11% is strictly below10%. Continue the already running fixed20k control.
+
+If the strict current driver proceeds online, leave its pipeline alone. If it
+finishes its budget/audits but fails strict accuracy, a serial online-only
+follow-up may accept its final candidate under the explicit11%pressure rule.
+If that final candidate also fails, the already audited original15k control
+(phi6.333%,terminal8.538%,u2.859%,p10.598%) is the fallback recipe. Choose between
+these two named final candidates, not among intermediate checkpoints/seeds.
+Recompute their saved dense field metrics and check physical/input audit and
+online recipe equivalence before any launch. Preserve original strict reports.
+The fallback staged single and cold online are not a matched cold-start study.
+
+Launch only cold continuous-prior geometry learning with bounded background
+input generation/rolling16pool,B2,Nt4,2workers/replace2each50. No evolved training
+labels. Existing16reserved geometries/common physical response/refinement/flow
+checks remain, with provisional pressure assessed explicitly at final audit.
+No old training restart, new pressure gauge, cleanup, Git or default promotion.
+Relation: channel-derivative-clarification.
+
+
+## 2026-11-01 — Stop automatic follow-ups after the user clears the goal
+
+The user clears the automatic thread goal; get_goal confirms null. Do not mark
+it complete or restart goal pursuit. Stop the4identity-verified orchestration
+PIDs743953/745579/768053/768069with SIGTERM, retaining already-started GPU743956
+single training so its progress is not discarded. ps confirms that training is
+live under parentPID1 and all four schedulers are gone. No new online/FEM starts.
+
+Publish explicit user-cleared scheduler progress records preserving prior state;
+make memory/task/index resume require a new user request. The full numerical/
+online objective is incomplete, not blocked/achieved. Leave task unarchived;
+ordinary final training artifacts may publish, but independent final audits and
+all subsequent experiments are no longer queued. No file deletion, Git history
+or numerical/default change. Relation: channel-derivative-clarification.
+
+
+## 2026-11-01 — Correct stopped-training state after parent sessions finish
+
+The training child initially survived scheduler SIGTERM under parentPID1.
+After reaping the4parentexec handles(all143), final verification finds743956
+also absent and GPUempty. Intended retention failed; user informed promptly.
+Session cleanup is the observed timing, not an independently isolated mechanism.
+Do not automatically restart after the user-cleared goal. Preserve5k/10kmodel-
+only checkpoints/logs(lastloss12100,lastfield12000); no final20k artifacts or
+exact SOAP recovery. Correct all progress/task/index records to terminal rather
+than retain the stale live claim. No online/FEM, file cleanup, Git or completed-
+objective claim. Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Show the saved10k checkpoint fields on user request
+
+The user asks to see physical fields after clearing the automatic goal. Treat
+this as a bounded evaluation/visualization request, not permission to restart
+training or online/FEM scheduling. Use the latest actually saved checkpoint,
+ckpt_010000.eqx, rather than the later12k scalar log without saved weights.
+Reload on CPU with exact saved config, reproduce its logged dense-FEM L2, then
+use the existing field-gallery helper for phi/speed/pressure at0/1.5/3/4.5/6.
+Rows are reference/prediction/absolute error with common per-field time scales;
+display interpolation does not change metric queries. Preserve partial status
+and exclude unprescribed initial pressure from pressure L2 as before. No new
+FEM solve, training, default, cleanup or Git history change. Relation:
+channel-derivative-clarification.
+
+## 2026-11-01 — Plot positive-time pressure separately from unprescribed initial pressure
+
+The first requested10k gallery is generated and inspected. Its t0pressure is
+unprescribed; the FEM zero initialization versus neural unconstrained pressure
+sets a large color range that obscures positive-time errors. Preserve that raw
+all-time gallery. For the user-facing pressure panel, explicitly request
+.5/1.5/3/4.5/6s and set display scales over exactly those selected snapshots.
+Keep phi/speed at0/1.5/3/4.5/6. Pressure L2 already excludes t0; no metric change,
+pressure shift, field clipping or alteration of saved values follows.
+
+Add optional field/time selectors to the existing plotting helper, rejecting
+unknown fields and absent/nonordered times. Missing selectors retain previous
+plotting arithmetic. Exercise the real new request and default path; this is
+plotting-only, not training/residual work. No training, FEM or goal restart.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Prioritize droplet shape and bounded minority-phase residual metric
+
+The user explicitly requests stronger droplet emphasis or preconditioning after
+seeing the10kfields, superseding the earlier preference against region weighting
+for this bounded optimization task. Do not recreate the cleared automatic goal
+or restart the old online/FEM queues. First quantify minority-fraction/interface/
+zero-contour/IoU and local velocity errors from saved dense fields; keep original
+whole-field L2 and report reference-defined masks only as evaluation metrics.
+
+Pressure does not enter CH transport directly; it affects phi through solved
+velocity and coupled optimization. Global pressure L2 alone cannot prove shape
+causality. Test an explicit positive bounded diagonal residual metric, not a
+strict tanh output that excludes observed quartic-CH overshoot. Let m(phi) be
+sigmoid(-phi/tau), w=(1+alpha*m)/(1+alpha*<m>_interior). Use alpha24,tau.2,
+interior quadrature normalization and retain every PDE point with positive
+weight. First variant applies to phase/chemical/momentum rows, leaves BCs and
+all physical derivatives unchanged. This is a loss metric, not an output map.
+
+For deterministic L-BFGS, freeze m/w from the complete audited15kparent at all
+240BDFnodes BEFORE optimization. Stop-gradient on model-dependent changing
+weights would not be the derivative of the line-search objective; fixed parent
+weights avoid that mismatch. Store exact parent phase/weights/time and audit
+them independently. Same physical zero set, no reference-derived masks or labels
+in training, no prescribed trajectory or changed mass/BC constraint.
+
+Use existing canonical train.py/full-time refinement with an explicit narrow
+metric-only parent whitelist; original missing-option behavior stays identical.
+Compare same parent/budget/nodes against the retained original250-step finisher,
+including shape/localflow metrics. Do not claim robust superiority from one run
+or use earlier pre-SBP region controls as a matched result. No Git/cleanup/default
+promotion or automatic geometry follow-up. Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Audit FEM droplet shape before interpreting weighted agreement
+
+User questions whether the visibly plausible PINO flatten/rebound might expose
+reference error. Treat this as steering the active bounded trial, not permission
+to restore old goals/queues. Do not equate FEM agreement with established physical
+truth. Existing globalphi/u/p FEM gates omit droplet shape and exclude chemical
+potential from acceptance. Re-evaluate saved40x16dt.025/64x24dt.05/64x24dt.025
+exports on identical3840physical queries using minority/interface/IoU/contours.
+No new FEM runs while GPU refinement is active.
+
+Saved-data audit shows FEM also stretches then rebounds: t4.5axis-width ratio
+1.139(fine) versus1.597(PINO10k);t6.941 versus1.320. Terminal FEM space/time
+contourmean shifts.723/1.222%R0 versus PINO12.095%R0; minorityq1.383/2.191%
+versus23.617%. Thus measured reference changes are smaller, but two meshes and
+two time steps of the SAME implementation do not prove exactness or rule out a
+shared modeling/implementation error. Chemical8.8--9.6%pooled refinement changes
+remain relevant to capillary balance. Weak/strong forms inspected: same +phi gradmu
+residual, mu=A(phi^3-phi)-kappaLphi, conservative transport, matched material,
+inlet/wall/outlet data; pressure convention consistent. Do not change physics to
+force a reference match.
+
+Also distinguish local-reference uncertainty, nonlocal discretization error and
+network optimization. Existing independently checked manufactured192x80degree3/
+36neighbor probe reports~2.3--2.5%Lphi,4.7--5.2%impliedmu,14.8--16.2%composed
+phase-RHS differences. These are consistency probes, NOT direct nonlocal solution
+errors or proof that this caused the observed deformation. Retain finite
+weighted250trial as a test only; report its agreement conditionally and do not
+promote it purely from global L2. Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Retain bounded droplet weighting as a minor-gain control only
+
+The frozen soft minority metric completed250acceptedL-BFGSsteps/269objectives
+from the exact audited15kSOAP parent, hit its budget limit(notconverged), and
+passed independent inherited-payload/full240node metric reconstruction, model
+replay/hardconstraints, dense3840commonqueries and shape comparison. All workers
+exited; no automatic goal/online/FEM queue restarted. New phase/weights/time
+artifact remains external; no default/SOTA promotion or Git/cleanup action.
+
+Compared with the retained same-parent250step original-residual control, terminal
+minorityq24.6510->24.4184%,interfacephi47.1877->46.5863%,IoU77.4956->77.6295%,
+meancontour12.6603->12.3798%R0. Its own weighted objective drops22.32%, but shape
+curves/contours nearly coincide. Do not present this as solving deformation or
+strong evidence that a larger droplet budget is sufficient. Dense all-time
+phi/u/p=6.3372/2.8550/10.9078%,terminalphi8.5165%;chemical31.0896%remains weak.
+The trial applies to one geometry, with no multiseed/population inference.
+
+User's FEM concern prompted saved spatial/time contour comparison: same-family
+FEM also stretches/rebounds with smaller magnitude. Measured contour changes
+are much smaller than the PINO/FEM gap, but they are consistency evidence, not
+proof against a shared solver/formulation defect. New README guidance separates
+reference/nonlocal/network error. Reference uncertainty and direct nonlocal
+baseline remain separate scientific questions before attributing shape bias to
+pressure or optimizing weights indefinitely. Bounded request complete; historical
+broad channel accuracy/operator objective remains unresolved and inactive.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — User authorizes finite geometry-online NSCH training
+
+Latest user explicitly asks to try parameterized-geometry background rolling
+training with the present scheme. This authorizes a NEW finite cold20k run,
+not restarting the cleared automatic goal or old conditional scheduler/FEM
+queues. Use existing width128/fourheads/linear-logtime preset, FP32/highest/
+ordinary, original residual, streamfunction and mapped conservative SBP phase
+transport, BE-started BDF2dt.025. SOAPinitiallr1e-3,beta1=beta2=.9,refresh5.
+The minor-gain frozen single-case droplet metric is NOT carried into new
+geometries; it has no online parent-weight recovery/support and was not promoted.
+No new tanh/coordinate/BC/physical prior is introduced.
+
+Cold continuous uniform upper/lower amplitude prior[.04,.14],fixedIC/driving,
+16slotpool/B2/Nt4,2CPUworkers,replace2every50updates,prefetch2batches. At20k,
+798newinputs are installed, up to802submitted including bounded prefetch.
+Reuse actual matching802draw construction screen stress-online-prior-validation-
+20261101.json: despite its historical name, physical/grid/GMLS/seed/bank settings
+match exactly; it contains no neural architecture/stress field or PDE solutions.
+Checks passed maximumcondition2.857e6 and polynomialerror3.58e-11. Do not repeat
+that unchanged expensive screen or require the old abandoned <10%scheduler gate:
+user now explicitly requests this pilot despite known shape limitations.
+
+Use dense3840queryexisting FEM only for nominal development monitoring; reserve
+existing16independent geometry parameters but do not imply solved unseenFEM or
+population accuracy. Record droplet diagnostics as well as allphysical L2.
+Launch one durable screen-backed finite runner via canonicaltrain.py, verify
+cold initial state and actual rolling replacement, then independent saved-run
+input/field audits on completion. No new FEM, next experiments, cleanup, Git or
+SOTA promotion is authorized. Same active channel task, goal tool stays cleared.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Online pilot startup and real rolling inputs verified
+
+Durablescreen809374.channel_geometry_online_20261101owns runner809375/train809379,
+run20261101-5090-geometry-online-width128-01. After firstcompile, actual optimizer
+updates run with finite losses. Cold model and completeSOAPinitial bytes exactly
+match the previously audited coldwidth128run; actual config matches prepared,
+12numericalsource snapshots and runner snapshot match. All16initial inputpayloads
+validate; slots0/15and immutable evaluation payload independently rebuild exactly;
+17reservedparameters excluded atFP32. Three focusedonline tests pass.573s.
+
+Liveprefix checked through loggedstep1900: 37scheduledFIFOrefreshes/
+74installednewinputs, exact stateless amplitudes/operator bounds/noPDEorFEM,
+with subsequent completed optimizer updates. Full sampled-draw/finalpool/model
+reconstruction remains a completion gate, not yet claimed. Firstupdate50refresh
+wait0.011175s. Effective observed1000--1500speed
+0.172322s/update includes monitor/rolling overhead. Nominal1000phi/terminal/
+minorityq/u/p=10.289/14.467/28.810/5.955/40.444%; early single-development-geometry
+metrics only, no converged/generalization claim. Keep prescribed20kbudget and
+finite saved-run audits running; no midrun numerics change, newFEM, old automatic
+goal/queue, Git/cleanup or SOTA promotion. Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Show current online pilot fields from fixed10k snapshot
+
+User requests current results and physical fields while the authorized20k online
+run is still live. Use latest persisted10kmodel, explicitly distinguish it from
+live10.5k+metrics. Keep training intact; replay on CPUlimited to4cores, no second
+GPU context or newFEM. Existing partial evaluator reproduces logged10kmetrics
+within2e-6before publishing data. Plot nominal96x40reference/prediction/error at
+0/1.5/3/4.5/6forphi/speed and positive.5/1.5/3/4.5/6forpressure. Exclude
+unprescribedinitialpressure from flow metrics; zoom zero-contours at equal scale.
+
+Also show fixed reservedmanifest indices0/5/11, chosen before reading their
+predictions, with the same10kmodel and their own canonical192x80known-input
+contexts. These are prediction-only geometry-response illustrations, not solved
+FEMcomparisons or measured generalization errors. Validate finite shapes, actual
+initialphi/velocity, no-slip/inlet and cross-section flux, retain rawphysical
+queries before display-only linear interpolation. Keep all arrays/figures
+external and source/compact receipts in repository. No default/Git/cleanup,
+new training or oldgoal/queue action. Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Direct nonlocal NS--CH reference requested
+
+User now explicitly asks for a purely numerical nonlocal reference to separate
+PINO optimization from FEM/nonlocal discretization. This extends the same active
+channel task, without restarting cancelled queues or modifying live training.
+Start with the nominal geometry and frozen saved physical config, FP64 CPU only.
+Use the current GMLS Laplacian exactly, GMLS polynomial-reproducing first
+derivatives/evaluation for numerical unknowns, original NS--CH signs/BCs and
+BE-started implicit BDF2. Since current PINO uses AD first derivatives and SBP
+phase fluxes, a direct all-GMLS solver cannot be described as an identical
+discretization. Record this distinction, pressure/velocity compatibility and
+conservation diagnostics explicitly.
+
+A coarser pressure node layout avoids assuming equal-order collocation is stable;
+this is an experimental numerical choice, not a proved inf-sup result. Check
+polynomial reproduction, the actual sparse Jacobian by independent finite
+differences, nonlinear/linear solve residuals and refinement before calling its
+trajectory a reference. No artificial compressibility, pressure smoothing,
+changed outlet pressure/traction or unstated stabilization is permitted.
+Published staggered meshfree NS work motivates checking compatibility:
+https://arxiv.org/abs/1611.03911 and
+https://www.sciencedirect.com/science/article/pii/S0021999122008191 . A failed direct solve remains a failed
+control, not evidence for either PINO or FEM. Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Direct numerical pilot complete; retain explicit reference gates
+
+The new all-GMLS CPU prototype reuses the current PINO difference-form
+Laplacian (maxcoarse gap3.64e-12), original implicit NS--CH signs and
+hydrodynamic traction BCs. Initial coarse layouts are NOT references: full
+nodal pressure develops huge oscillations and stops at1.125; coarse-pressure
+constraints miss fine divergence. A separate transient single-phase Stokes
+fixture also exposes pressure/layout problems, so do not attribute these
+failures to CH or optimizer error alone, or assert a uniquely diagnosed mode.
+
+Interior pressure nodes (wall/open-boundary values reconstructed for original
+traction) finish96x40/dt.025/T6 in535.58s, all240Newton solves<1e-8. Analytical
+Poiseuille signs/outlet shear and pressure-anchor checks, nonlinear Jacobian FD
+and directLU/GMRES parity pass3tests/.375s. GMRES solves each CURRENT Newton
+matrix with an explicitly reused LU preconditioner; no frozen-Jacobian
+substitution or silent solver fallback. Current helper snapshots and all failed
+outputs retained. This is an experimental compatible-layout control, not a
+proved pressure-stable method.
+
+Same3840queries/physical parameters: coarse directGMLS versusFEM phi1.1626%,
+terminalphi1.1371%,terminalminorityq3.3005%,u.8051%,p6.4481%,terminalcontour
+1.8572%R0. Completed onlinePINO20k versusFEM phi5.3235%,terminal7.8813%,
+terminalminorityq22.4164%,u2.3826%,p9.9022%,contour11.3996%R0; versusdirect
+coarsephi4.9287%,terminal7.1248%,contour10.1196%R0. This suggests FEM/nonlocal
+differences are not the entire phase-shape gap, but coarse reference boundary
+flow/pressure and spatial/time error remain unvalidated. It does not separate
+PINO AD/SBP/GMLS discretization from network error exactly.
+
+One production192x80/.025 CPU solve is live in independent screen840158,
+solver840159. The waiting launcher only was ended after verifying independent
+sessions; same solver remained alive under screenPPID1, no solve restart.
+A finite detached validation helper waits for that actualPID, performs exactly
+one192x80/.0125 CPU trajectory, then spatial/time and three-way field
+comparisons. Explicit limitsphi/terminalphi/u2.5%,p8%,maximum sectionflux
+2.5%ofdrivingQ. Failed gates remain explicit; no retries/new FEM/training or
+old automatic goal/queues. No default/reference promotion before gates.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — User authorizes GMLS-first PINO residual control
+
+User requests stopping current training and trying GMLS in PINO, then explicitly
+confirms trying GMLS derivatives. Process inspection shows previous20ktraining
+and finite audits already completed; GPU empty, only separately authorized CPU
+reference/refinement jobs remain. Retain those for this comparison. No training
+process was falsely reported killed. Clarified GMLS is a finite-neighborhood
+reconstruction of local differential functionals, not a different nonlocal
+physical PDE or the regional pair-integral kernel. Source: Compadre GMLS overview
+https://github.com/sandialabs/compadre#generalized-moving-least-squares-gmls .
+
+Cold20k matched width128 online/SOAP/FP32 control: retain exact model, stream
+function physical lifting, IC/BC targets, timeBDF2, quadrature, sampler and seed
+provenance. New opt-in derivatives.kind=gmls_first replaces PDE/BC first jets
+with checked GMLS stencils; phase_transport.kind=gmls_conservative uses GMLS
+div(phi*v), retaining original SBP physical loss measure only. Existing GMLS
+Laplacian stays byte-identical. Velocity is still the SAME analytic AD curl of
+the network streamfunction, preserving exact physical divergence/no-slip/flux;
+this is residual-derivative isolation, not an all-spatial-AD-free architecture.
+No redundant approximate continuity loss is added; GMLSdiv is diagnostic only.
+This control cannot by itself exclude every nonlocal truncation error or exactly
+match a discrete primitive-variable reference. Report all three error sources.
+
+Construct domain/boundary gradients on CPU outside parameter AD. Validate each
+actual geometry's rank/reproduction, shapes and integer indices. Old802drawscreen
+only certifies the unchanged Laplacian/prior, not the new boundary gradients;
+record that scope and actual gradient checks explicitly. Preserve old checkpoint
+arithmetic and default configs. No Git/default/SOTA promotion or FEM queue.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — GMLS residual PINO preflight passes and finite control launched
+
+Five new tests plus five focused regressions pass. Tests include independent
+cubic boundary gradients, conservative-form flux signs, loss parameter FD,
+unchanged physical output/initialLaplacian, invalid config/schema rejection and
+actual canonical3updateonline/SOAP/rolling/final-input audit. Shape guard recheck
+passes.818boundarytemplate constructions (16initial+802online/prefetch) pass in
+20.494s: maxcondition1.92978e6, polynomialerror2.3918e-13. Identical domain
+QRgeometry/basis/neighbors inherit the old finite-prior rank screen, while every
+actual domain-gradient construction also validates its own functional targets.
+No PDE/FEM/NN solve enters input preparation.
+
+New durable screen858940.channel_gmls_first_online_20261101 owns runner858941/
+train858968, run20261101-5090-gmls-first-online-width128-01. Canonicaltrain.py cold20k
+with finite saved-run audits, no retries/newtrainingqueue. All16shared initial
+input arrays match original baseline exactly, all21keypayload shapes/dtypes/
+ranges pass, model and completeSOAPinitial bytes exactly match. Separate eval
+payload and17reservedgeometries checked;14numericalsource snapshots match.
+Actual first optimizer update and rolling refresh are still pending initial
+compilation at this record; no trained accuracy/speed improvement claimed.
+
+The user was told no old training process existed to stop: original20k had
+already finished. Retain separately authorized CPU numerical-reference jobs,
+which use no GPU/FEM. New residual derivative/flux settings are opt-in; no
+physical ansatz/default/SOTA, checkpointcompatibility or Git history change.
+Current-stage aliases now refer to the newGMLSrun; chronological
+online_rolling_launch_20261101 explicitly retains the completed original case.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — GMLS residual control enters real GPU updates
+
+Supersede the preceding launch-stage pending/compilation label: the actual
+journal had already reached500 while the launch memory was being written.
+Independent live-prefix audit now verifies1200loggedupdates,23FIFOrefreshes/
+46actualnewinputs, stateless geometry parameters and both domain/boundary
+gradient rank/reproduction guards, with no inputPDE/FEM solves. InitialGPU
+physical monitor agrees with original within3.524e-9, in addition to exact
+coldmodel/SOAPbytes and all16sharedinput arrays.
+
+Nominal1000phi/terminalphi/u/p=10.2882/13.4019/5.9343/38.1254%; early results
+not final accuracy/superiority/generalization evidence. Effective500--1000
+interval.094917s/update includes monitor/input/host overhead, not isolated
+operator timing. Keep same20kbudget/finalaudits. Newcurrent aliases refer to
+the GMLScontrol; chronological original20krecord remains intact.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Scope of PINO versus direct-GMLS alignment clarified
+
+User asks whether the current PINO derivatives match the direct GMLS reference.
+Source inspection confirms the same degree3/k36/weight16 reconstruction family,
+full-node scalar/velocity Laplacian and conservative-form CH transport, but not
+the same complete discrete system. Direct pressure gradients reconstruct from
+interior pressure nodes to full velocity nodes; PINO differentiates pressure
+values on the full node cloud. PINO retains AD streamfunction velocity and exact
+continuous incompressibility; direct solver uses primitive velocities with a
+GMLS continuity equation. Natural BCs use off-node soft losses in PINO versus
+strong equations at tensor-edge nodes in the direct solve. BDF2 parameters match,
+but PINO histories come from the current global network, direct histories from
+previous solved states. The completed displayed reference is96x40, while PINO
+uses192x80; the separately launched fine reference is a distinct control.
+
+Call this residual-derivative alignment, not identical discretization. Reject
+attributing the entire remaining discrepancy solely to neural training. This
+clarification changes no live job, numerical setting, default or artifact result.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Matched GMLS PINO interim8000 status
+
+User asks for results. Actual metrics.jsonl records at the identical8000updates
+and same dense localFEM queries: GMLS/original phi6.2072/6.4706%, terminalphi
+8.5074/8.9114%, u4.2926/3.4888%, p12.0856/11.1892%. Modest phase improvement
+does not establish overall superiority; velocity/pressure currently worse.
+5000--8000 elapsed monitor intervals give.093407/.174751s/update,1.87085x ratio.
+This includes evaluation/online/host overhead and excludes initial compilation;
+it is not isolated derivative timing. Keep prescribed20k and final shape audits,
+not selecting a checkpoint or promoting defaults from this intermediate result.
+
+Actual CPU fine reference at158/240steps,t3.95/6; validator still waits for fine,
+half-dt has not started. Current PINO errors still reference existing localFEM,
+not an unfinished GMLS trajectory. Input audit scope remains through1200logged
+updates; later scalar logs are not a new complete input audit. No run mutation,
+Git/deletion/new training/FEM, or automaticgoal restoration.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Actual10k gallery and bounded streamfunction audit
+
+Requested latest fields replay completed on CPU for ckpt_010000.eqx; actual
+same-query localFEM phi/terminalphi/u/p=6.059923/8.554646/3.822430/10.484431%.
+Maximum logged-metric gap2.407e-8; exact reference points/times/fields checked.
+Phi/speed galleries at0/1.5/3/4.5/6, pressure at.5/1.5/3/4.5/6, and equal-scale
+zero-contour zoom inspected. Late prediction remains wider/flatter. Terminal
+minorityq24.6198%, contour12.8044%R0; no shape-resolution success claimed.
+
+User asks whether streamfunction AD velocity is responsible. Audit the saved
+checkpoint without changing training: compare actual AD curl against independent
+finite differences and pointwise reverse AD; check continuous AD divergence
+separately from GMLS discrete divergence and conservative-flux product defects.
+Also diagnose GMLS curl commutator; replacing AD curl by arbitrary GMLS curl
+does not automatically guarantee discrete incompressibility. CPU FP64 promotion
+of saved FP32 coefficients is only a rounding diagnostic, not a new training
+result. No new solve/training, optimizer/BC/loss/default change or Git action.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Saved10k streamfunction derivative audit completed
+
+Actual CPU audit uses92mixed global/interface querypoints and.5/1.5/3/4.5/6s.
+FP32 actual JVP curl versus pointwise reverseAD max8.941e-8; querybatch change
+max2.384e-7; continuousADdiv max5.215e-8. CenteredFD h.01/.003/.001/.0003 has
+relative gaps2.428e-4/1.979e-5/2.638e-5/9.798e-5, showing FP32 roundoff at
+small h. Promote saved coefficients/inputs toFP64 only for diagnosis: reverseAD
+gap2.359e-16, div1.422e-16, FD relative errors2.217e-6/1.994e-7/2.215e-8/1.994e-9
+at h.001/.0003/.0001/.00003 (quadratic convergence). Promoted64 versus actual32
+velocityrelative1.008e-7. No AD sign/axis/batch-coupling bug observed on probes.
+
+Full15633node compatibility uses savedFP32 fields/weights with FP64 accumulation
+for diagnostic reduction, not bitwise replay of FP32 residual arithmetic. At6s
+GMLSdiv interiorRMS1.281e-4/interface6.496e-6. Interface phi*div RMS versus
+ADadvectiveRMS=2.051e-6, conservativeGMLS minusADtransport ratio.001332;
+early.5s corresponding ratios.0001375/.01417. Thus no large interface divergence
+anomaly was found; this does not exclude accumulated discretization or prove a
+unique cause of phase deformation. GMLS curl also has nonzero discrete divergence.
+AD correctness does not establish physical accuracy of the learned streamfunction
+or equal optimization behavior versus primitive velocity. No new ablation started.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — User clarifies GMLS curl replacement, not an AD bug hypothesis
+
+Clarified requested concept: replace psi-to-velocity differentiation itself,
+u=Dy*psi,v=-Dx*psi, with precomputed GMLS matrices. Existing GMLS-first trial
+does not do this; physical curl remains AD. Saved10k audit already computes a
+GMLS curl as postprocessing, not as a newly trained model. With the same gradient
+pair, its discrete divergence is (Dx*Dy-Dy*Dx)*psi; generic irregular-cloud
+reconstruction has no exact commutation identity. The measured terminal interior
+GMLS-curl divergenceRMS8.731e-5 confirms a nonzero defect on this checkpoint.
+Smooth streamfunction wall/inlet lifting likewise does not by itself give exact
+finite-stencil boundary velocities. A future replacement must explicitly handle
+discrete continuity and velocity BCs or use compatible operators; parameter
+backpropagation remains AD even when all spatial derivatives use stencils.
+No new training, numerical implementation, runtime or default change is implied
+by the feasibility explanation; current finite jobs remain as previously launched.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — User requests reference versus PDE/BC convergence diagnosis
+
+Scope: investigate a shared reference boundary error versus PINO optimization;
+do not infer validity merely from FEM/GMLS agreement or small stochastic loss.
+Completed fine192x80 GMLS versus existing localFEM: phi.2910%, terminalphi.2668%,
+terminalminorityq.7694%, u.1039%, p.5625%, contour.4220%R0. Independent halfdt
+GMLS validation is still running. GMLS-first PINO20k is now trained, final
+phi4.9331%,terminal7.1679%,u2.7692%,p9.9643%; finite audits are completing.
+
+Plan: source/weak-form/normal/tag/pressure-traction audit; full240time-node frozen
+PINO PDE/BC evaluation, including original versus independent boundary sites
+and physicalAD checks; compare nominal and a final-pool training geometry.
+For causal evidence, freeze learned velocity and reintegrate only CH from the
+same analyticIC, first with target BCs then with actual learned natural-BC data.
+Begin96x40/dt.025 (same existing coarseGMLS resolution) as an explicitly bounded
+diagnostic; use its two runs to separate phase-equation defect from BC defect,
+not to claim an exact full coupled-reference error. Validate CH Jacobian and
+equilibrium before use. No new trained model/default/PDE/BC change. Keep native
+CPU halfdt solver; never overlap FEniCS with JAX GPU. Frozen feature preparation
+may be cached only inside this read-only checkpoint diagnostic.
+Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Boundary blind spot found; causal velocity controls required
+
+Actual frozen240-node nominal audit reproduces canonical FP32 loss within3.18e-8;
+feature-chain physical replay9.54e-7. Sampled objective is99.27%PDE, but this is
+misleading for unsampled BCs: wallmu_n RMS original sites.00562, independent192
+sites/side GMLS.6834 and continuousAD.5690. A separate512sites/side trace shows
+the large defect is localized near outlet corners, after the last48midpoint
+wall sample, not broad wall oscillation. At6s original-site AD/GMLSmu_n RMS
+.03448/.00976 versus denseAD/GMLS.51468/.67567. Fixed boundary coordinates
+across all geometries leave this corner blind spot despite geometry rolling.
+Do not attribute all droplet error to it before sensitivity checks.
+
+Target-zero-BC CH reintegration with frozen PINO velocity still has terminalphi
+6.4859%, versus PINO7.1679%; phase defect alone is not a complete explanation.
+Add same96x40CH controls driven by fineGMLS reference velocities, independently
+linear/PCHIP interpolation from13stored times. This interpolation is an explicit
+diagnostic uncertainty, not a new reference; compare both before attribution.
+
+Actual FEM nonzero Neumann/traction MMS passes. Read-only native snapshot hook
+added, short callback/no-hook parity and full original64x24/.025 trajectory
+reproduction are exactly0. Native FEM derivative/traction traces are not zero
+pointwise (weak natural enforcement); report them without treating raw traces
+as equivalent to weak residuals. DirectGMLS fine BC/interior continuity gaps
+~1e-11--1e-14; coarse max sectionflux error27.12%drivingQ is a real failed
+compatibility control, reduced to.08666%onfine. Fine time refinement pending.
+No altered physical BC/NN/default/training. Relation: channel-derivative-clarification.
+
+
+## 2026-11-01 — Controlled diagnosis favors coupled flow convergence; BC blindspot is separate
+
+All bounded diagnosis jobs completed. Exact phase reintegration under learned
+velocity yields terminalphi6.48589%(zeroBC)vs6.48591%(learnedBC), solutiongap
+.002635%. Changing only velocity source to fine reference gives.92977--.97533%
+(PCHIP/linear13snapshot interpolation), with all nonlinear residuals<5.5e-13.
+This favors velocity/coupledPDE accuracy as the main droplet-shape bottleneck;
+not merely phase-Neumann failure or a shared reference implementation bug.
+Reference interpolated-velocity and96grid limits are retained explicitly.
+
+WholevelocityL2=2.77%conceals droplet-centeredvelocity127.4%andstrain88.9%errors;
+interface35.4%/25.3%. Common-query reference-strain difference5.93%/2.13%is much
+smaller thanPINO87.9%/25.4%. Full240time nominal and one actualtrainingpool0
+residuals are similar, and chemical relation is their largest scaledPDE term.
+Actual independent-canonical loss gap3.18e-8/7.67e-9 validates audit arithmetic.
+
+A genuine boundary sampling blindspot remains: densewallmu_nRMS.68GMLS/.57AD
+versus.0056atfixedtraining sites;97--98%oflatewallmu_nenergy is nearoutletx>3.95.
+Fix this coverage/validation independently, not claim sampledBCloss proves BCs.
+Fine homogeneous steadyStokes response to learned outlettraction is tiny in the
+droplet (velocity7.9e-7); calibration and source signs pass. This static result
+is not a proof excluding all transient/nonlinear boundary feedback.
+
+Nonzero manufactured FEM Neumann/traction checks, exact nativeFEMreference replay,
+and nativefineGMLS BC checks find no shared boundary implementation error.
+CoarseGMLS27.12%flux FAIL remains unaccepted, fine.08666%Q. FineGMLS halfdt CPU
+trajectory remains the only running continuation; do not promote reference yet.
+Optional read-only FEM snapshot hook changes no field (actual parity0), docs
+updated. No new training/default/SOTA/Git/cleanup or automaticgoal action.
+Relation: channel-derivative-clarification.
+
+
+## 2026-11-01 — Continue coupled optimization with independent BC quadrature
+
+User authorizes the next optimization after diagnosis. Use positive standard
+192-point Gauss-Legendre quadrature on each physical boundary side for the
+explicit BC losses; preserve the original48-midpoint encoder stream in separate
+known-input arrays, so this changes enforcement coverage without changing the
+conditioning map. Arc-length Jacobians multiply quadrature weights, no corner
+vertex or arbitrary normal selection. This repairs the observed fixed-site
+blindspot; it is not assumed to solve the main droplet deformation error.
+
+Compare fresh20k uniform and existing stopped inverse-L1-gradient-norm weighting
+controls with identical initial model/SOAP and online inputs. Reuse explicit
+repo settings (epsilon1e-6,cap1000,EMA new fraction.9,every100), separate phase,
+chemical,momentum,boundary groups. This is inverse-gradient weighting, not the
+original learned GradNorm objective. No phase-region masks, motion priors,
+reference supervision, stagger primal changes, new PDE/BC or default promotion.
+Reject online continuation rather than silently reset/import partial state.
+
+Independent GMLS halfdt validation has finished: original explicit space/time/
+flux gates PASS. Time phi/terminal/u/p=.13669/.21204/.03765/.40624%; finite fine
+flux .08666%Q. Retain coarse27.12%Q failure and explicit pressure8%spatial gate;
+passing finite gates is not an exact continuum certificate. No more solves.
+Relation: channel-derivative-clarification.
+
+
+## 2026-11-01 — Dense-BC and inverse-gradient controls finish without accuracy gain
+
+Keep the original GMLS20k run as the accuracy comparison baseline; do not promote
+either new control or change defaults. Exact coldmodel/fullSOAP and all20000
+actual condition/time arrays match, with40000conditions/80000times perarm.
+All per-run canonical and six independent final diagnostic stages complete0.
+Nominal localFEM phi/terminal/u/p: original4.933/7.168/2.769/9.964%, denseBC
+uniform5.006/7.374/4.744/12.024%, denseBC adaptive25.095/26.691/5.044/29.710%.
+Terminal minorityphase and shape also fail to improve; adaptive loses its zero
+contour. These are one-initialization/reused-development results, not a universal
+method or SOAP ranking.
+
+Independent512side t6wallmu-normal RMS drops from.675666 to.00819243(GMLS)
+and.514678 to.0371735(AD) with denseBC, while phase/strain accuracy stays similar.
+Thus BC sampling blindspot is repaired numerically but was not the main shape
+bottleneck in these controls. Reject sampledBCloss as a sufficient accuracy test.
+
+Adaptive full240node audit finds mean scaledCH MSE5.23727 versusuniform.0002013;
+99.994%ofits CH residual energy is at the first positive BDF time.025. Direct
+unchanged canonical loss replay confirms that node:1256.8712 versusuniform
+.00914345; actual training sampled that interval334times. Similar defect appears
+on an actual finaltrainingpool input. This is a real unoptimized initial-time
+layer, not omitted sampling or a frozen-evaluator artifact. Positive-time
+sampled losses can look small while the trajectory and late droplet are wrong.
+Weights are a plausible contributor, not a uniquely proven optimization cause;
+retain the deferred SOAP repeatability issue without reopening it here.
+
+No next run is queued by the status request. Further optimization should first
+examine initial-time PDE convergence/temporal sampling variance, retaining one
+global network and explicit unbiased quadrature if mandatory nodes are tested.
+Do not silently add timewindows, constant open-domain mass, future-motion priors,
+reference supervision or a new BC. Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Increase channel temporal coverage before testing causal loss
+
+User requests 30--50 random times per update; select40, which divides the240
+positive BDF nodes into40equal strata of6nodes. Uniform sampling within each
+stratum retains the original full-time mean objective in expectation. It raises
+first-node inclusion from1/60to1/6, but does not guarantee that particular node
+in every update. No extra mandatory node or changed time quadrature is hidden.
+
+Preserve the best original GMLS physical model, boundary rule, width128, SOAP,
+online geometry protocol and random initialization. Add an explicit40-time
+research preset. The existing4-time runs remain historical comparisons, not
+causal controls. Channel currently has no causal implementation enabled; the
+shared CausalWeightor can supply stopped exponential prefix weights, as in
+Wang/Sankaran/Perdikaris, https://arxiv.org/html/2203.07404v1 (section3).
+That mechanism is relevant to the failed adaptive arm's initial-time layer,
+not a proven explanation or cure for every baseline shape error.
+
+Use explicit8-time gradient accumulation to bound memory: all40times and both
+conditions use the same current parameters, averaged before one gradient clip
+and one SOAP update. This is an execution strategy for the same loss, not time
+windows or five optimizer updates. Independently verify full40-time loss and
+parameter-gradient identity, then measure real production-grid speed/memory.
+First run a finite5000-update noncausal40-time control to isolate time coverage;
+causal requires a separate matched40-time experiment, not a comparison against
+the old4-time trajectory. No default/SOTA promotion or FEM solve. Relation:
+channel-derivative-clarification.
+
+## 2026-11-01 — Check unchunked40-time memory without interrupting training
+
+User asks whether gradient accumulation is necessary and whether all40times
+can fit32GB in one call. Accumulation is an execution choice, not a PDE or
+optimizer requirement; the measured9.65GiB is for8-time blocks and cannot
+establish the unchunked peak. Keep the ongoing cold5k control unchanged.
+
+Compile, but do not execute, the unchunked full loss+gradient+SOAP update with
+the exact128width/B2/192x80/FP32 model. Compare8and40time compiler memory plans;
+model/state/data remain on host, GPU preallocation is disabled in the separate
+diagnostic process and GPU autotuning is disabled to avoid profiling kernels
+alongside the live training. These diagnostic flags are not applied to training.
+Use JAX compiled.memory_analysis temporary+argument+output-alias bytes. This
+is a compiler estimate with a different tuning setting, not a measured runtime
+peak, speed benchmark or authorization to replace/restart the current run.
+If fit is uncertain, retain the uncertainty rather than force an OOM test on
+the occupied card. No new numerical method/reference/accuracy control or Git
+operation. Relation: channel-derivative-clarification.
+
+
+## 2026-11-01 — Retain current8-time accumulation after unchunked memory planning
+
+The completed full40 compiler plan exceeds physical32GBcard capacity. Retain
+8-time accumulation in the live40-time control; do not interrupt it or trigger
+an occupied-card OOM test. Treat disabled-autotuning compiled-buffer totals as
+scoped estimates, not measured runtime peaks or a proof against every possible
+optimized implementation. Exact plans/verification belong in the active task
+and channel-unchunked-memory-validation.json, not a new default or accuracy
+claim. Relation: channel-derivative-clarification.
+
+## 2026-11-01 — Matched40-time causal control after the completed uniform5k
+
+User explicitly requests continued optimization. The40-time uniform5k run and
+all finite replay/input/shape/full240node audits have completed; preserve it as
+the matched control. Test one cold5000-update causal run, with the same model,
+fullSOAP initialization, physics, geometry draw stream,40time strata and8-time
+memory blocks. No restart/continuation, reference labels, new BC, region mask,
+motion prior, GradNorm or default promotion.
+
+Define per-condition/per-time loss as the sum of the existing nine spatially
+normalized squared PDE/softBC terms. Shared CausalWeightor.compute_weights
+supplies stopped exp(-epsilon*prefix_loss). Apply the same temporal weight to
+all nine terms; hardIC and exactflow constraints stay unchanged. Compute prefixes
+over ALL40times, independently for each geometry, before accumulating weighted
+gradients over8-time blocks. A no-gradient forward pass stores only40x9loss
+values, then a second blockwise pass differentiates with frozen global weights.
+Clip and update SOAP once after the complete mean gradient.
+
+Use the published increasing epsilon sequence(.01,.1,1,10,100), fixed1000updates
+per stage for this finite pilot, not the paper's weight-triggered early exit.
+Source: https://arxiv.org/html/2203.07404v1 section3/Algorithm1. This is sampled
+causal weighting, not a full240time-prefix certificate; the firstBDFnode is
+sampled with1/6probability per update. Log unweighted parts and all weights/
+segments, audit the complete unweighted240node residual after training. Compare
+physicalL2, minorityphase and contours, not just the discounted objective.
+Preserve noncausal arithmetic/step and validate zero-epsilon full-loss/gradient
+identity plus independent frozen-weight gradients and cross-block prefixes.
+Relation: channel-derivative-clarification.
+
+## 2026-11-02 — Reject promotion of the fixed-stage causal40 pilot
+
+Preserve uniform40 as the better matched5000update control. The fixed1000step
+causal schedule regresses sharply after epsilon10->100: late temporalweights
+collapse to zero, unweightedphase residual rises while weightedloss stays small.
+Training and canonical replay/input/hardflow/global-prefix checks complete;
+existing finiteowner must finish its shape/fulltime/paired-draw audits. Do not
+restart a completed run or queue a new experiment from this status request.
+
+Reject a small discountedobjective as sufficient convergence evidence and do
+not infer a general failure of causal weighting or a uniquely identified SOAP
+bug. Before any further causal experiment, assess residual/weight-convergence
+gates for strength advancement rather than a forced wall-clock stage switch.
+This is a future candidate, not an implemented guarantee. Preserve the physical
+PDE/BC/representation/defaults and all failed outputs. Relation:
+channel-derivative-clarification. Results and exactresume stay in the active task.
+
+## 2026-11-02 — Reuse existing causal weight feedback for the channel pilot
+
+User explicitly requires adaptive causal strength and points to existing
+examples. Reuse shared CausalWeightor.update_eps, already wired in melting,
+corrosion and electropolish; do not invent a new physical residual or patch the
+fixed-stage outcome. Its rule increases strength when the last sampled-time
+weight exceeds max_last_weight and decreases it when mean weight falls below
+min_mean_weight. Preserve the old fixed-stage config/results for provenance.
+
+Add an explicit adaptive config: eps_init1,step_size1.1,max_eps100,
+max_last_weight.99,min_mean_weight.5. These are transparent engineering settings,
+not a physical law or established optimum: .5 is the existing melting/corrosion
+backoff threshold; 1.1 is the existing electropolish-operator multiplier. In
+particular the per-time mean is at least1/Nt because w0=1, so a threshold below
+that floor cannot activate backoff. Do not inherit .01 blindly for Nt40.
+
+One scalar strength is shared across the condition batch. Apply the existing
+controller independently to each geometry and take the minimum proposal: any
+underweighted sample relaxes the common strength, and an increase requires all
+samples to pass. The nine existing PDE/BC terms retain common global40time
+prefixes; eight-time memory blocks/oneclip/SOAP and all physical settings remain.
+Record used/next strength and pergeometry mean/last weights at EVERY update,
+then independently replay the whole feedback chain and periodic full prefixes.
+Validate increase, hold, backoff, disagreement, cap and tamper detection plus
+actual canonical training before one matched cold5000run. No reference solve,
+default promotion, Git action, automaticgoal or subsequent queue.
+
+The previous fixed-stage owner stopped at its fulltime numerical cross-check
+(gap9.590e-6 above its unchanged absolute gate), after training/replay/input/
+phase/shape/gallery completed. Preserve this failed audit; do not loosen the
+gate or claim all finalaudits passed. Its remaining completepaired input/metric
+check can be run separately on CPU; no training/reference retry. Relation:
+channel-derivative-clarification.
+
+## 2026-11-02 — Show saved channel fields after the current finite endpoint
+
+User asks to see physicalfields from the current adaptivecausal experiment.
+No intermediate model/field is stored: only the prescribed5000checkpoint exists
+at the endpoint. Preserve live training and wait for its already-authorized
+finite endpoint rather than fabricate a partialfield or interrupt/restart it.
+Prepare a CPU-only saved-array gallery at exactsaved times0,1.5,3,4.5,6. Use
+existing plot_fields for phi/speed/pressure reference-prediction-absoluteerror,
+and existing rawmapped zero-contour extraction to compare uniform/adaptive/FEM
+with a common physicalzoom scale. No numericalinterpolation in time, solver,
+networkevaluation or trainingloss modification. Spatiallinear interpolation is
+for display only; metrics/provenance use exactoriginal savedqueries. Check
+samebudget/reference/points/times/geometry and independently reproduce stored
+L2 before drawing. Media stay external, regeneration helper and smallreceipt
+stay in Git. No defaultpromotion, newrun/FEM, Git/history or cleanup action.
+Relation: channel-derivative-clarification.
+
+## 2026-11-02 — Matched time-JVP and continuous-resampling control
+
+User questions time-difference error and explicitly requests timeJVP with fresh
+random times eachupdate. Clarified that40 sampled times are drawn from240BDF
+nodes and do not define dt: BDF2 always uses.025 including neighboringstates.
+Time-discretization bias remains testable, not an established cause of phase
+error. Preserve the runningadaptiveBDF5000 endpoint/gallery and finiteaudits.
+
+Add one explicit time_derivative={kind:jvp,sampling:continuous_stratified}
+research preset inheriting the SAME adaptivecausal40 recipe and removing BDF2.
+Forty orderedcontinuous times are freshly sampled eachupdate, shared across
+conditions; geometry/space/GMLS/model/IC/BC/SOAP/seed/8timeblocks remain fixed.
+TimeJVP differentiates canonical physicalfields, including ADcurl velocity;
+spatial PDE/BCfirstderivatives and Laplacians stay GMLS. Avoid computing unused
+spatialADHessians through the old combinedfield_jets branch. Preserve the
+existingBDF and legacyAD branches' arithmetic and savedcheckpoint behavior.
+
+Test physical/timeJVP against an independent timeJacobian/finite differences,
+parametergradients, sharedtimegradientaccumulation and actualcanonical online
+training/resampling/causalstate replay. Before a new finitecold5000run check
+productionGPUmemory/time with boundedprobe when existingGPUaudits finish. No
+concurrentGPUexperiment/FEM, no reference solve/default/Git/cleanup or further
+queue. Compare actualcoldstate and entiregeometry streams; timesschema changes
+intentionally, so audit its global-key replay independently instead of claiming
+same-time arrays. PhysicalL2 uses the SAME reference/queries/savedtimes. Both
+sampling and timeoperator change as explicitly requested; do not uniquely
+attribute any gain to one of them.
+
+BDF-specific fulltimeaudit must not be applied to the JVP configuration. Give
+continuous-time diagnostics an explicit path/name/scope and retain existing
+old numericalgates unchanged. This is a temporal-derivative control, not a new
+physicalmodel or removal of Neumann/flow constraints. Relation:
+channel-derivative-clarification; requestedphysicalfield gallery stays pending.
+
+## 2026-11-02 — User enables the continuous droplet-shape optimization goal
+
+User explicitly enables active goal: 请按照这样的思路持续解决优化，解决液滴形状与参考解不匹配的问题.
+get_goal confirms active status with no explicit tokenbudget. This supersedes
+prior statements that no threadgoal exists; it does not revive any old daemon,
+experiment queue or FEM schedule. Continue evidence-driven finitecontrols under
+this goal, beginning with the requested matchedtimeJVP/continuousresampling.
+Track localizedminority/contour metrics and actual field shape as well as global
+phi/velocity/pressure; allglobal errors below10% alone do not solve the shape
+mismatch. Preserve failed controls/referencegates and numericalmethod provenance.
+Keep the goal active until meaningful shapeagreement is achieved; no default,
+Git/history or cleanup operation is authorized by this goal. Relation:
+channel-derivative-clarification.
+
+## 2026-11-02 — Retain timeJVP control after frozen early-rate diagnostics
+
+Read-only savedBDFnetwork probes show initialtime derivative discrepancy that
+shrinks strongly under smallersteps; independentCPUprimal replay passes. Keep
+the requested exacttimeJVP/continuous-sampling control running. Reject the
+inference that this proves the FEMreference is wrong, or guarantees a better
+trainedphasefield. InitialBE versuslaterBDF2 order and FP32/frozen-network
+scope are explicit; detailednumbers live in active task/receipt.
+
+A separate freestream/GMLSdiv probe finds a tiny lateinterface correction
+relative to the CHdefect. Do not change phaseadvection on that weak explanation
+now. Preserve currentoperator/BC/model while testing time; broadenconditioning
+work only after inspecting the requested fixedendpoint and localizedshape
+metrics. Threadgoal staysactive; no newparallelrun/default/Git/cleanup action.
+Relation: channel-derivative-clarification.
+
+## 2026-11-02 — Check the streamfunction inlet envelope after matched time-JVP
+
+The requested cold5000timeJVP/continuous-time control has completed training
+and canonical replay: phase/terminal/velocity/pressure6.77595/9.00161/4.36082/
+8.20213%, with nearly coincident late contours against adaptiveBDF. Do not
+attribute the remaining flattening to the BDF timestep. Final finite residual/
+shape audits are still owned by the existing runner and must finish unchanged.
+
+Under the user active droplet-shape goal, next test one generic hard-boundary
+ansatz normalization, after the current GPU owner exits. Current streamfunction
+correction contains (x/L)^2 even when phase lifting is normalized. At x=.8,L=4
+this suppresses its amplitude by.04. A saved-field decomposition shows late
+interface velocity correction is small and underfit despite modest global
+velocity L2; this motivates a conditioning control, not a proved unique cause.
+
+Add opt-in stream_lifting={kind:normalized_inlet}, using the EXISTING inlet
+length scale: h(x)=(1-exp(-x/ell))^2 instead of (x/L)^2. Both h(0)=h'(0)=0;
+wall factor16eta^2(1-eta)^2 and its gradient vanish at both curved walls.
+Thus full inlet velocity, wall no-slip, exact section flux, initial zero
+velocity and physical curl incompressibility are retained. No evolved droplet
+prior, regional weighting, PDE/BC/reference change or new length is introduced.
+Absence must retain original arithmetic and old checkpoints. Positive-time
+initial physical velocities intentionally change under this ansatz, while raw
+cold network/SOAP and t0velocity are unchanged; do not claim all initialfields
+are equal. Keep JVP/fresh40times/adaptivecausal/all other settings fixed.
+
+Validate hard constraints/flux/divergence with independent FP64 derivatives and
+parameter-gradient finite differences, strict configuration/oldbranch parity,
+then bounded production-gradient resource probe before one matched cold5k.
+Comparison must require the completed JVP baseline, exact actualtimes/conditions/
+initial-final inputs, coldrawmodel/fullSOAP and same saved physical queries.
+No overlap with current GPU audits, FEM/default/Git/history/cleanup action, or
+automatic later experiment queue. Relation: channel-derivative-clarification.
+
+## 2026-11-02 — Diagnose inlet-envelope derivative stiffness without changing the live run
+
+The normalizedstream trial is worse at500steps (phase41.55%,velocity40.23%)
+than its matchedJVP baseline (10.33%,6.85%); retain the prescribed5000endpoint.
+Do not promote or restart on this earlycomparison. A generic hard-boundary
+factor can increase PDE stiffness even while improving its value scaling.
+
+For h=(1-exp(-x/ell))^2, its thirdderivative at0 is -6/ell^3: existingphaseinlet
+ell=.05 gives -48000, while the originalquadratic has zero thirdderivative.
+Viscosity of curlpsi involves THIRD derivatives ofpsi; this can amplify a narrow
+lifting boundarylayer and GMLS truncationerror. Check independently with a
+read-only frozen COLDmodel/actualgrid probe, not another training run.
+
+Compare originalquadratic, actualnarrow gate and one geometry-scale diagnostic
+h=(1-exp(-x/H))^2 usingexistingchannelheightH. This is only a frozen diagnostic;
+no newruntimeoption, hyperparameter, PDE/BC/reference or live-source change.
+Use exact savedFP32parameter/operator values promotedtoCPUFP64 for derivative
+identities and canonicalprimal/rate parity. Measure fullgrid scaledresiduals,
+inlet allocation and approximateGMLSdivergence. No evolvedlabels, no FEM/GPU
+experiment overlap. Only a verified evidence-based laterdecision may authorize
+another finitecontrol. The first decisionappend failed on a Python quoting
+error; corrected immediately, with no productionnumerical changes. Relation:
+channel-derivative-clarification.
+
+## 2026-11-02 — Restore the short dashboard role without discarding evidence
+
+PROGRESS grew to1244lines of duplicated completed-task results and superseded
+live-owner statements, conflicting with its required short-dashboard role.
+Preserve the entire prior dashboard in a dated historical snapshot, rebase
+relative links and verify every destination is unchanged. Replace only the
+current dashboard with the one unchanged active task/goal, exact currentowner,
+failed/passing comparison scope, linked receipts and a small recent-task index.
+The full active task, numerical evidence, failed gates, decisions and external
+runs remain intact. This is memory maintenance during the verified live wait,
+not a scope reduction, active-task switch, completion claim or Git operation.
+
+## 2026-11-02 — Inspect original JVP phase/flow gradient interference read-only
+
+The new narrow-envelope control does not explain the ORIGINAL model's flat
+late droplet. While that finite run finishes unchanged, inspect the saved
+originalJVP5000model: split the existing9scaled terms into phase/chemical/phaseBC
+versus momentum/traction, and measure complete/shared-trunk gradient norms and
+cosines on actual nominal+finalpool0 inputs and8fixed diagnostic times.
+Use exactsavedFP32values promotedCPUFP64, no fitting, lossweight change or labels.
+Check finitegradients and exactsum ofgroup parts. This can reveal a competing
+optimization direction but cannot reconstruct SOAP's historicalupdates, prove
+a unique cause, or establish that independentfield/block training will work.
+Do not add a newarchitecture/trainingqueue based solely on the hypothesis.
+Relation: channel-derivative-clarification.
+
+## 2026-11-02 — Do not generalize an early-biased eight-time gradient probe
+
+The first originalJVP probe has positive phase/flow cosine (sharedtrunk.743),
+not cancellation, and flowgradient norm8.73times phase. Its eight fixedtimes
+put HALF the samples in first.25s; this is NOT representative of a uniform
+fullhorizon trainingbatch. Preserve that diagnostic and its limitations.
+
+Before drawing a field-block/weighting conclusion, run one independently
+stratified40-time fullhorizon frozenprobe, sameactual twoinputs/model/operator
+values and no causaldiscount. Accumulate five8time gradients at one unchanged
+parameterstate with explicit hostFP64 mean, preserving fixed compiledshapes.
+Report the complete mean-gradient cosine and all blockdiagnostics. This is
+new temporal coverage for an unresolved inference, not a repeat of an unchanged
+numerical suite or a trainingupdate. Live narrowgatecontrol remains unchanged.
+
+## 2026-11-02 — Separate frozen phase-feature capacity from a training remedy
+
+The representative40-time originalJVP gradient probe is positive (sharedcosine
+.699); do not claim persistent NS/phase gradient cancellation or introduce
+independentfield/stagger architecture on that unsupported explanation.
+
+Inspect the phase features of the unchanged saved originalJVP network by a
+reference-informed LINEAR SUBSPACE PROJECTION, using its saved nominalFEM field.
+Extract the128learned decoder features plusbias, multiply by the exact hardIC/
+inlet gates, and solve an explicit column-scaled SVD least-squares projection.
+Check exact reconstruction of the saved physicalphase first; record rank,
+singular values, coefficientnorm and the attainable frozen-basis field error.
+This is an unconstrained REPRESENTATION diagnostic, not a physicalsolver or a
+productiontraining result. Evolvedreference rows are used in this diagnostic
+only, never in training, checkpoints, initialization or lossweights. Emit no
+fitted checkpoint or reusable headcoefficients. A lowprojection error does not
+prove a coupled PDE solution with these frozenfeatures exists; a higherror is
+not an architecture-wide lower bound because the trunk can change. Relation:
+channel-derivative-clarification.
+
+## 2026-11-02 — Reject narrow stream normalization and test one smooth geometry-scale gate
+
+Narrow-inlet5000 and ALL finiteaudits complete, oldowner187439 EXITED. Physical
+phase/terminal/velocity/pressure38.142/41.527/33.568/64.027%, zero-contour IoU0:
+reject this recipe, preserve its exactstate/input/time/shape/residual evidence.
+Do not relabel this failure as a speed/accuracy improvement or reference error.
+
+Frozen originalphase-feature projection confirms its current learnedbasis has
+some unused representational room (unconstrained labelprojection pooled3.364%
+versus actual6.776%, headnormratio2.50); this is NOT a physics-trained result.
+No fitted coefficients/checkpoint were emitted or will be imported. Full40-time
+phase/flow gradientcosines are positive, so do not add a splitarchitecture or
+stagger on an unsupported persistent-cancellation hypothesis.
+
+Next ONE cold5000 control uses stream_lifting.kind=normalized_height:
+h(x)=(1-exp(-x/H))^2 with existingpositivechannelheightH. This restores more
+upstream stream sensitivity without the narrowgate's large thirdderivatives.
+The independent frozenprobe already reproduces canonicalold/narrow outputs and
+shows no inlet residual concentration for this candidate. Require newbranch
+hardBC/flux/divergence/parametergradient/config tests, then boundedproduction
+GPUprobe beforelaunch. All other model/GMLS/JVP/fresh40times/causal/SOAP/
+geometry/IC/BC/reference settings remain those of the completed ORIGINAL JVP
+control, with exactrawcold/fullSOAP and all actualtime/geometry parity.
+
+Preserve the existing normalized_inlet and absentflag arithmetic for previous
+checkpoints; both researchoptions stay explicit/off. No newlengthscale, evolved
+interfaceprior, fieldlabels, PDE/BC change, newreference/default/Git/cleanup or
+later experimentqueue. Original dropletshape goal remains active/unachieved.
+Relation: channel-derivative-clarification.
+
+## 2026-11-02 — Validate interior chemical static condensation before integration
+
+The height-scale trial also has poor earlyaccuracy (1500phase39.895% versus
+originalJVP7.442%). Preserve its existing5000endpoint; do not continue a family
+of inlet-scale tuning. Investigate the mixed chemical variable as a general
+coupling issue while this run finishes unchanged.
+
+For the ORIGINAL discretechemical row r_mu=mu-A(phi^3-phi)+kappa*Lphi on
+interiornodes I, define mu_bar_I=A(phi^3-phi)_I-kappa*(Lphi)_I and retain ALL
+mu_B and independent boundary-query traces. This is algebraic elimination of
+INTERIOR unknowns only. Projecting boundarymu as well would change the current
+Neumann/Dirichlet closure and can overconstrain the discreteproblem; reject it.
+At the nodal-equation level, zero sets are identical: every originalsolution
+is fixed by this projector, and every reducedsolution satisfies r_mu_I=0.
+This does not assert identical finiteNN parameterizations or improved training.
+
+First add an UNUSED pure projector/rate-linearization prototype and verify its
+idempotence, retained boundaryvalues, dense-matrix/stencil consistency, exact
+manufactured GMLS gradients, and timeJVP/finite-difference chainrule. Compare
+frozen originalJVP fields and independently solved directGMLS nodal reference
+under the SAME currentstored operator. No trainedweights/physics/BC/default
+change or reference solve. Only integrate a researchpreset after these checks
+and the currentheight control's fixedendpoint provide evidence. Keep all
+physical/evaluation/query semantics explicit; no rawmu reported as projectedmu.
+Relation: channel-derivative-clarification.
+
+## 2026-11-02 — Integrate exact interior chemical constraint as physics-only global refinement
+
+Height-scale5000 and ALLfiniteaudits COMPLETE/EXITED. It also fails accuracy
+(phase38.262%,terminal41.205%,velocity32.737%,pressure65.077%). Stop the inlet-
+normalization family; preserve both failed controls and the originalJVP baseline.
+
+The unused chemical projector/rate and query-recovery prototypes pass6focused
+contracts (3algebraic5.601s,3physical-query102.315s). Native directGMLS interior
+projection changes mu by at most2.831e-7relative; projected interiorchemical
+residual1.78e-15 and independent canonicalPDE-change identity2.27e-13. On the
+frozen inaccuratePINO, mu substitution worsens native muerror and CH/NS balance;
+this is evidence for inconsistent coupled fields, not a postprocessing cure.
+
+Integrate one explicit chemical_constraint={kind:interior_gmls_projection,
+boundary:decoder_trace,query:mapped_bilinear}. Remove the redundant chemical
+loss; keep all boundarytraces and physicalBCs. Physicalmu at querypoints comes
+from the projected native field with explicit interpolation/boundarytraces,
+never the unused rawinterior decoder output. Do not claim a classicalAD spatial
+mu extension. Preserve all absentflag/previouscheckpoint behavior and gates.
+
+The first trained test will be GLOBAL-TIME physics-only REFINEMENT from the
+completed originaladaptiveJVP5000 model, with freshSOAP and freshrolling-pool/
+step counters, lr1e-4 and5000newupdates. Rawphi/velocity/pressure should initially
+match that source; physicalmu intentionally changes. This is not a coldstart,
+exactonline optimizer continuation, timewindow, or a single-factor comparison
+against an equally trained model. No reference-informed projection coefficients
+or evolvedlabels may initialize or train it. The source checkpoint is itself
+pure-physics trained and its bytes/provenance must be independently audited.
+
+Require strictsource/config/schema, physicalparametergradients/global40-time
+accumulation, actualsmall canonical training/replay/input audits, oldbranch
+regressions, and bounded productionGPUresource/gradient probe before one finite
+fullstage. Keep originalPDE, geometry/prior, GMLS, JVP/fresh40times, adaptivecausal
+policy and BCdata. No newFEM/default/SOTA/Git/cleanup or laterqueue. Goal remains
+active until realphysicalshape agreement, not a lowprojected/discountedloss.
+Relation: channel-derivative-clarification.
+
+## 2026-11-02 — Verify reduced-system integration before a production stage
+
+Integrated interior-only chemical recovery, explicit physical query values and
+model-only pure-physics initialization into canonical train/replay/diagnostics.
+Eight soft terms remain; preserve boundary traces, every original physical BC,
+all old absent-flag paths and unchanged numerical gates. Config/source checks
+remain free of JAX imports. Parent finalmodel bytes and complete fresh SOAP
+factory bytes are independently checked; new global-time counters/pool are fresh.
+
+Full eight-term parameter gradients/finite differences and global40 versus8-time
+accumulation pass; actual parent3step plus child3step canonical online training,
+replay, boundary/flux/continuity, key/input/controller, model provenance and
+tampered optimizer checks pass. Original timeJVP/height regressions6pass81.268s.
+The initial width4 plumbing fixture failed the unchanged64point flux quadrature
+measurement1.442e-4>2e-5; use an explicitly smoother spatial_scale.25 in BOTH
+fixture stages instead of modifying the production bandwidth or loosening gates.
+That fixture retrial passes50.964s. No production improvement is inferred.
+
+Run one bounded20update production-grid gradient/resource probe BEFORE full
+training, including alternate physical query batches/timeJVP under the same
+absolute2e-5 replay gate. This specifically checks whether discrete chemical
+curvature recovery magnifies FP32 query/compiler differences. Keep probe-fitted
+weights ephemeral and never import them into the actual refinement stage.
+No new FEM, default, cleanup or Git change. Relation: channel-derivative-clarification.
+
+## 2026-11-02 — Retain failed FP32 physical replay gate and isolate time layout
+
+Production chemical-refinement probe01 completed20finite gradient/controller
+updates, firstcompile355.775s/warm.33449s. Ordinary querybatch replay passes
+3.815e-6, but physical timeJVP primal differs2.78614e-5>unchanged2e-5. Fullprobe
+FAILS; do not launch5000, relax gates, import its ephemeral fittedweights or
+call it a trainedaccuracy result. Preserve actualupdates/log/failure.json and
+pre-change source copies under its direct external path. Activepeak memory was
+not published before this gate; do not infer it from JAX's reserved allocation.
+
+First diagnose a FROZEN ORIGINALparent finalmodel on the actualGPU/grid/dtype:
+compare ordinary13versus3-time values,3-time ordinary versus timeJVP primal,
+and an explicit fixed-single-time map alternative. No optimizer or reference
+labels in this diagnostic. A common fixedtime computation body may remove
+shape-dependent arithmetic magnified by chemical curvature recovery; it is a
+candidate, not an assumed fix. Only integrate/re-probe after actual evidence.
+Relation: channel-derivative-clarification.
+
+## 2026-11-02 — Native frozen time layout is exact; do not adopt a time map without evidence
+
+Frozen originalparent on actualGPU/FP32/full15633nodes gives BITWISEZERO gaps
+for13vs3-time native values,3-time native valuevsJVPprimal and the combined
+comparison. Both existingbatched and candidate single-time-map forms are exact.
+Preserve report frozen-projected-time-primal-20261102-01/validation.json and
+actualsources. This disproves the proposed native time-layout explanation for
+that frozen model; do not integrate a time-map workaround on this evidence.
+It does not reproduce the failed full-query check after20probeupdates.
+
+Next bounded READONLY diagnostic compares complete physical-query contexts on
+that same frozen source model, ordinary versus a barrier materializing the full
+native rawstate before constitutive projection. JVP/time/query branches may
+otherwise compile different live channel subsets; barrier effectiveness is a
+hypothesis, not an assumed numerical fix. No trainedweights/PDE/default/gate
+change, optimizerupdate or evolvedlabel. Relation: channel-derivative-clarification.
+
+## 2026-11-02 — Reject barrier workarounds; separate uniform timeJVP from causal weighting
+
+Frozen full physical-query context reproduces the originalfailure: muJVPprimal
+3.79039e-5>2e-5; phi/u/v/p gaps1.19e-7/3.73e-9/3.49e-10/7.15e-7 are small.
+A rawstate barrier leaves muJVPgap unchanged; a further projectedstate barrier
+worsens querybatchmu2.77042e-4 and JVPmu4.28064e-5. Allvariants exit normally as
+READONLYdiagnostics and explicitly record failed numerical gates; no barrier,
+time-map or changedtolerance is integrated into production. Preserve frozen
+barrier01/02 reports/sources, failed productionprobe01 and all numerical gates.
+No fittedprobe coefficients/weights emitted or imported. No fullchemical-stage
+training started. Its FP64 contracts and finiteFP32gradient updates do not
+constitute qualifiedFP32physicalreplay or trained shape improvement.
+
+Stop this small compiler-workaround family. Leave chemical recovery an explicit
+unpromoted research branch with its current numerical limitation documented.
+The requested original-variable timeJVP experiment itself is complete and its
+normal physical replay passes; its matched adaptiveBDF/JVP5k phase accuracy is
+similar, with fasterJVP. This does not isolate causal weighting from the best
+uniformBDF recipe, which has bettershape. Next meaningful goal step is a matched
+UNIFORMoriginal-variable coldJVP40continuous-time control against completed
+uniformBDF40, before more output/chemical parameterization changes. Keep
+model/SOAP/allactualgeometry/globalkeys/IC/BC/GMLS/ref/budget unchanged, remove
+only the adaptivecausal recipe by inheriting the uniform preset. Require strict
+comparisonconfig/actualcoldstate/input/key proof, focusedsmall training/replay
+and boundedproductionresourcecheck before one finite5000run. This is an exact
+next action, not a launchedrun or an automaticlaterqueue. Goalactive; no newFEM,
+default/SOTA/Git/cleanup authorization. Relation: channel-derivative-clarification.
+
+## 2026-11-02 — Qualify and launch one uniform original-variable timeJVP control
+
+NewuniformJVP3focusedcontracts pass54.133s (strictmatchedBDF/no causalcontrol,
+full40/eightblockallparametergradient identity, actualmatched3stepcoldtraining/
+physicalreplay/input/globaltimekeys/independenttimeaudit). Actualproductionconfig
+matches saveduniformBDF except timeoperator/sampling/runname; versus completed
+adaptiveJVP only causalweights/name differ. OriginaladaptiveJVP/BDF strictmatch
+still passes. No model/loss-scale/geometry/IC/BC/operator/optimizer change.
+
+Production20probe COMPLETE/EXIT0: firstcompile342.313s,warm.284155s,actualactive
+peak8534905856bytes(7.948GiB). All20fullgradients finite, all5000plannedtime
+strata/order and20actualglobal-key draws pass,11actualsourcebytecopies match.
+No causalcontroller or fittedprobeweights imported. Existing reference and
+finiteprior construction screen pass; sourceowner terminal, GPUcurrentlyfree,
+35GiBdiskfree. This is resourcequalification, not trainedaccuracy.
+
+Launch ONE cold5000 uniformloss JVP40/eight-time-block online geometry run using
+canonicaltrain.py and finiteowner, explicituniformBDFcomparison. Keep exactcold
+model/fullSOAP/allactualgeometry/continuouskey proofs and all original numeric
+replay/shape/residual gates. NominalFEM developmentgeometry/onesource seed is
+not a population claim. Completeallownedaudits; no newFEM/default/SOTA/Git/
+cleanup, laterqueue or probeweight initialization. Goalactive untilphysical
+shape agreement. Relation: channel-derivative-clarification.
+
+## 2026-11-02 — Localize late phase error before another representation change
+
+While the qualifieduniformJVP5000 continues unchanged, compare saved physical
+phase errors in three DISJOINT diagnostic zones: current reference dropletband,
+old initialfootprint outside that band, and remaining domain. This tests whether
+late error is dominated by learning to cancel the additive hardIC footprint,
+or by the evolving interface itself. Use physicalarea measures and verify the
+zone error contributions exactly sum to totalerror. KnownIC/reference masks
+are DIAGNOSTIC ONLY; no masks/labels/weights enter training. Do not change an
+ansatz or residualscale based only on a plausible narrative or pooledphi L2.
+The pooledminority and phi error numerators differ only by a factor1/4, so their
+curves are not independent spatial-shape evidence. Contours remain necessary.
+No newGPU/FEM/optimizer/default/Git/cleanup action. Relation: channel-derivative-clarification.
+
+## 2026-11-02 — Reject residual-IC-footprint explanation; inspect chemical normalization separately
+
+Savedfinal5000 fields from uniformBDF/adaptiveBDF/adaptiveJVP put96.90--97.16%
+of terminalphase squared error in the CURRENT reference dropletband. OldIC-only
+footprint contributes0.00276--0.01392%, remainingdomain2.83--3.09%. This does
+not support residual initial-blob artifacts as the main observederror; do not
+change the hardIC ansatz on that hypothesis. It is not an architecture-wide
+capacity statement. Diagnosticmasks never entertraining.
+
+Codeinspection also confirms loss.chemical_scale=4 controls BOTH network mu
+amplitude(network.py) and chemical-row normalization(losses.py). Merely reducing
+that value would change physicaloutputcoordinates and lossweights together.
+Before any loss-only chemical-weight control, explicitly separate those roles
+and preserve coldphysicalfields/parameters. Extend the frozenstate diagnostic
+with raw constitutive-residual RMS relative to independently solved native mu,
+includinginterface values, to assess whether its small normalizedloss conceals
+substantial physical mismatch. No productionmodel/default/scaling change now;
+currentuniformJVP5000 keeps its fixedendpoint and allowned audits. No newFEM,
+GPUrun, labels or Git/cleanup. Relation: channel-derivative-clarification.
+
+## 2026-11-02 — Uniform JVP completes with modest shape gain; isolate chemical residual scale next
+
+UniformJVPcold5000 and ALLownedfiniteaudits COMPLETE/EXIT0, owner314769 EXITED.
+Phi4.9726%,terminal6.8860%,u4.2190%,p8.8069%; warm.287328s/wall1912.18s,
+activepeak8.103GiB. Terminalweightedminority19.9952%,contour10.3223%R0,
+IoU80.6076%: modestgain overuniformBDF20.8196%/10.7787%R0, still visiblyflat
+late. GoalNOTachieved. Cold/fullSOAP/allinitial-finalbanks and actualtime/
+geometry proofs pass. Extrauniform/adaptiveJVPpair has exactcoldbytes and all
+46input/drawarrayfields; configs differonlycausal/name. Do not infer a stable
+multiseed ranking or populationaccuracy from this oneinitialization.
+
+Late currentinterface(|refphi|<.9) accounts96.1--96.5%of phaseerror across
+controls. Globalvelocity hides transverseerror: newterminalweightedux3.619%,
+uy70.738%(referenceuyRMS.008141,errorRMS.005759). Newnativechemicalconstitutive
+mismatchRMS.09934 versusreference_muRMS.18609=53.386%(interface56.251%).
+Actualreference/stencil consistency remains2.831e-7relative; no newsolver.
+This supports testing coupled-law convergence/physical scaling before changing
+hardIC or adding geometry/region priors. It is not a proven causal explanation.
+
+Next ONE candidate: independent chemical-row residualnormalizer1.0 while KEEPING
+legacy chemicaloutputamplitude4.0, allotheroriginaluniformJVP/model/SOAP/
+geometry/time/BC/reference/budget settings. A positiveexplicit optional
+loss.chemical_residual_scale can override row normalization; absence must retain
+old sharedchemical_scale arithmetic/checkpoints. Do NOT merelyset legacy
+chemical_scale=1 (that changes both muoutputandloss). No newchemicalprojection,
+fieldlabels, masks, term, timewindow or controller. This numerical loss-only
+control multiplies chemicalMSE16x without changing any physicalprimal/coldstate.
+
+Require strictsinglefieldconfig/physicalprimal+allotherloss parity, complete
+parametergradient and focusedactualsmallcoldtraining/replay/input audits, then
+boundedproductionresource/gradient probe before ONEcold5000 versus this completed
+uniformJVP source. Keep all existing numerical gates; no defaults/SOTA/Git/
+cleanup/newFEM or laterqueue. This is exactnextwork, not a launchedcandidate.
+Relation: channel-derivative-clarification.
+
+## 2026-11-02 — Separate chemical output and residual scales, preserving old physical fields
+
+Implemented optional positiveexplicit loss.chemical_residual_scale in the row
+normalizer only. Legacy chemical_scale remains outputamplitude4 and the explicit
+oldrow normalizer when absent. Firstcontrol row1 increaseschemicalMSE16x, with
+unchanged physicalPDE/BC/model/SOAP/time/geometry and nine softterms. Reject an
+unusednormalizer when chemicalrow is eliminated. Savedsummary/continuous-time/
+frozenchemicaldiagnostic metadata distinguish the two roles. Strictcomparison
+permits only the newfield/runname and requires the originalsharedscale control.
+No preconditionedoutput/range map, new term/mask/labels or physicalprior.
+
+Threefocusedcontracts PASS70.769s: physicalprimal/coldparameter/allotherparts
+bitwiseparity, chemicalfactor/gradientdecomposition/independentFD/global40time
+accumulation, positive/unusedfields/strictconfig, actualsmallcoldtraining/
+replay/fullinput/timekey/scalemetadata. ThreelegacyuniformJVP contracts also
+PASS54.527s. EightAST/actualsavedsource singlefieldcomparison/gitdiff--check PASS.
+No productionaccuracy claimed. BeginONEbounded20productiongradient/resource
+probe from originalCOLDsource state, discard its fittedweights. Qualify before
+onefinitecold5000. Preserve everyexistingnumericalgate/default/checkpoint/path;
+no newFEM/Git/cleanup or laterqueue. Relation: channel-derivative-clarification.
+
+## 2026-11-02 — Qualify one loss-only chemical-row cold5000 control
+
+Chemicalnormalizer20productionprobe COMPLETE/EXIT0: compile339.770s,
+warm.285349s,activepeak8534905344bytes(7.948GiB), all20gradients finite,
+all5000plannedtime/20actualglobal-keydraws and11actualsourcebytes pass. Metadata-
+only postprobe reportkey now saysactual_times_and_geometry_exact (supports
+BDF/JVP comparisons honestly); no numeric/config/gradient change afterprobe.
+Original4output/row1 and allother PDE/BC/model/SOAP/geometry/time settings match
+completeduniformJVP; reference/construction gates pass andGPUfree.
+
+LaunchONEfinitecold5000 through canonicaltrain.py/owner with that explicit
+completeduniformJVP control. Discardprobe-fittedweights, prove actualcoldmodel/
+fullSOAP/initialbank andphysicalstep0parity, followrealupdates/fixedendpoint and
+allownedphysical/input/time/shape audits. Recheckuy and physicalchemicalRMS;
+normalizedloss magnitudes differbyconstruction and are not accuracycomparisons.
+No newFEM/default/SOTA/Git/cleanup or laterqueue; goalstillactive/unachieved.
+Relation: channel-derivative-clarification.
+
+## 2026-11-02 — Complete timeJVP controls and close nominal droplet-shape diagnosis
+
+The sole chemical-row1/physical-output4 cold5000 and all six owned finite stages
+completed/exit0; owner and children exited, no later queue. Exact original model/
+fullSOAP, initial/final input banks and ALL actual times/geometry arrays match
+the original uniformJVP control. All5000 continuous-time key draws/strata and99
+rolling refreshes replay; numerical gates unchanged. Independent240time/full-
+space diagnostics completed on nominal and final-pool geometry. No new FEM,
+evolved training labels, masks, output map, hard projection or fitted probe
+initialization. No default/SOTA/Git/history/cleanup change.
+
+TimeJVP/fresh continuous strata alone gave modest improvement over uniformBDF40
+(phase5.3677% ->4.9726%, terminal7.1787% ->6.8860%). Keeping that JVP scheme and
+changing ONLY chemical-row normalizer4->1 (chemicalMSE16x, output/boundary4
+unchanged) gives phase1.1498%, terminal1.2157%, velocity2.7100%, pressure4.1186%.
+Terminal minority19.9952% ->3.5462%, contour10.3223%R0 ->1.7140%R0,
+IoU80.6076% ->96.5400%; five actual contour panels were inspected and the large
+late flattening mismatch is greatly reduced. All13 saved minority errors<=4.56%.
+This satisfies the nominal-development physical-shape goal as well as the
+working principal-field error target. Archive the completed task and clear the
+active dashboard; retain explicit one-initialization/one-FEM-geometry scope.
+Unseen-geometry and repeat-initialization accuracy are not established.
+
+Raw chemical consistency improves (terminal RMS.09934 ->.03147; independent240
+nominal mean-RMS.09376 ->.02452), but raw CH mean-RMS.003629 ->.004720 increases.
+Do not interpret lower total/one-row loss as better accuracy or claim every PDE
+residual decreased. Auxiliary pooledmu16.79% and small terminaluy49.57%relative
+(absoluteRMS.00404) remain explicit limitations. No exact GMLS mass/continuum
+convergence claim. This evidence favors addressing coupled-law loss balance
+over attributing late shape mainly to BDF truncation, without a universal or
+multi-seed causal claim. Reject further automatic dt/FEM/hyperparameter queues
+now that the requested finite diagnosis/nominal optimization is complete.
+
+Final continuation added only a read-only actual-history/rawRMS plotting helper
+and records; production numerical code unchanged. Source plot and all figures
+are external, no generated media added to Git. New helper AST/JSON/link/diff
+checks pass; previous focused3new/3legacy contracts remain valid. Relation:
+docs/tasks/archive/channel-derivative-clarification.md and final
+channel-chemical-scale-validation.json.
+
+## 2026-11-02 — Increase only smooth channel indentation for the next trial
+
+Use nominal upper/lower(.18,.12) instead of(.12,.08), preserving the compact
+center2/half-length.9 shape and all initial/material/inlet/time parameters.
+Minimum nominal channel height changes.80->.70 (12.5% narrower); higher local
+speed should arise from the same imposed flux, not a separate driving change.
+Prospective stronger-family prior[.06,.20] retains positive minimum height.60.
+Keep width128/FP32/SOAP/JVP40/online pool and chemical output4/row1 recipe.
+First independently refine the new localFEM reference and evaluate the frozen
+parent operator as an explicitly labeled extrapolation test. Only if that is
+insufficient, use one finite cold5000 stronger-family run via canonicaltrain.py.
+Reject simultaneous inlet/material/architecture changes or reuse of the mild
+geometry's evolved reference, which would confound the trial. No indefinite
+queue/default/SOTA/Git/cleanup action. Relation: channel-stronger-constriction.
+
+## 2026-11-02 — Screen stronger geometry with the actual GMLS boundary index dtype
+
+The input-prior helper's initial-bank branch cast only domain neighbors to
+int32, leaving the newer boundary_neighbors as FP32. Correct it to preserve
+both integer index arrays, matching canonical online.build_input; no operator
+weights or training arithmetic change. Actual production nominal(.18,.12) and
+prior-corner(.20,.20) payloads now pass shape/dtype/domain+boundary reproduction
+checks. Minimum heights.70/.60, maximum Laplacian condition2.8566e6<1e9,
+polynomial errors<2.84e-11. Full202-draw prefix screen is still required before
+any stronger-family training. Relation: channel-stronger-constriction.
+
+## 2026-11-02 — Train the stronger geometry family after a bounded frozen extrapolation
+
+New localFEM trio and full202+16 input screen PASS. Spatial maximum-time errors
+phi1.6116%,u1.4329%,p2.4019%; temporal phi.9265%,u.2813%,p1.9983%. Keep original
+gates. Frozen original checkpoint transfer passes source replay4.7684e-6 and
+new hardIC/wall/flux checks without changing weights. New nominal phi3.2529%,
+terminal4.4658%,u2.9881%,p14.4499%; terminalminority12.8749%,contour6.7792%R0,
+IoU81.7901%. This is extrapolation beyond originaluppermax.14 to.18, not a new
+trained solution. Shape and pressure degrade enough to justify the previously
+declared ONE cold5000 stronger-family trial with the unchanged successful
+chemical-row1/JVP40/SOAP recipe. Do not tune physics or loss from reference.
+
+The existing finite train.py owner now accepts explicit --geometry-control,
+separate from unchanged same-geometry --comparison-control. Strict config
+comparison permits only four wall/prior values and artifact paths. Compare
+actual cold model/fullSOAP bytes and all time/condition/online draw IDs;
+geometry arrays intentionally differ and each canonical input stream must be
+independently reconstructed. No false same-geometry/primal-parity claim.
+Two guard/tamper tests PASS0.036s; AST/ref/input/actualsourceconfig gates pass.
+No production network/PDE/optimizer arithmetic change. Owner/helper copies are
+preserved at launch. This launches no extra FEM, retries, later studies,
+default/SOTA/Git or cleanup. Relation: channel-stronger-constriction.
+
+## 2026-11-02 — Include peak constriction response in the final stronger-case figure
+
+All stronger-family5000/finite audits completed/exit0 and geometry-only cold/
+time/draw-identity proof passes. Across all13 saved snapshots, minority L2 peaks
+8.7984%, contour4.1861%R0; terminal4.8688%/2.4662%R0/IoU93.0197%. Inspecting
+only the automatic0/1.5/3/4.5/6 gallery misses peak flattening at t4.0: predicted
+x-span/y-span1.4096 versus FEM1.2996. This remains an approximately8.5% shape-
+amplitude bias in the harder pilot, despite overallphi1.9470%. Include t4 in
+an explicit matched-query frozen/cold/reference contour comparison and report
+the limitation; do not present only terminal L2 as full shape agreement. This
+is a completed finite stronger-case trial, not a further optimization queue or
+population/SOTA claim. No new training/physics/labels. Relation:
+channel-stronger-constriction.
+
+## 2026-11-02 — Close the finite stronger-constriction pilot without changing defaults
+
+Completed the predeclared geometry-only cold5000 and every owned finite audit,
+including actual coldstate/time/condition/draw identities and independent input
+reconstruction for each different geometry family. All owners/children exited;
+no later queue. Newnominal localFEM/flow gates remain unchanged and passed.
+Pure-physics online training uses no evolved labels or extra solver trajectories.
+Phi1.9470%,terminal1.6625%,u3.0587%,p3.9455% versus frozen extrapolation
+3.2529%/4.4658%/2.9881%/14.4499%. Terminalminority4.8688%,contour2.4662%R0,
+IoU93.0197%; worst savedminority8.7984%. This meets the finite first harder-trial
+scope; it is not mild-case-level shape precision or validated population error.
+Peak t4 x/y-span1.4096 versusreference1.2996 remains explicit in finalplots and
+records. Preserve that limitation; no automatic further tuning.
+
+Archive the task, clear active dashboard and preserve both cases/reference/
+frozen/cold outputs. Opt-in preset only; no default/SOTA/Git/cleanup action.
+Training wall1926.685s,warm.288946s,activepeak7.996GiB; all generated media remain
+external. Two focused guards/state/time-tamper tests pass0.036s; seven AST,
+JSON/link/actual-figure/diff checks pass. No unchanged expensive suite repeated.
+Relation: docs/tasks/archive/channel-stronger-constriction.md and corresponding
+channel-stronger-constriction-validation.json.
+
+## 2026-11-02 — Save the current channel implementation before loss-balancing changes
+
+User authorizes a local commit of current code before further modification.
+Review and preserve accumulated NS–CH source/configurations/tests and compact
+research records on local dev, retaining external weights/figures/data paths.
+Do not infer push or main merge authorization from this commit-only request.
+Reuse unchanged completed numerical validation, add syntax/content/whitespace
+checks, and make no new loss/training change during the checkpoint operation.
+Reject blanket staging of ignored generated artifacts or history rewriting.
+Relation: current-channel-code-checkpoint.
+
+## 2026-11-02 — Test all nine adaptive weights with raw residuals and exact full-time gradients
+
+User requests implementation after explicitly saving current code ondev at
+b2dff4b. Extend existing stopped inverse-L1-gradient/EMA balancing, honestly
+distinguished from original learned GradNorm, with explicit grouping=terms.
+Set all used residual divisors1 in a separate stronger-geometry research preset;
+retain muoutput4/streamoutput.2/pressureoutput1 and every physical/model/input
+setting. Previous successful fixed-scale default/control remains untouched.
+
+Accumulate each part's full40-time parameter gradient before taking its norm,
+then compute stopped EMA/clipped weights and one joint weighted update. Refresh
+every100updates; other updates reuse weights and eight-time blocks. Reject
+averaging block norms, updating weights per block, or changing SOAP between
+blocks. Preserve absent-grouping legacy arithmetic and unsupported combinations.
+First prove gradients/oneSOAP/actualsmalltraining, then boundedproductionprobe
+and ONE cold5000 with same initial model/SOAP and actualtime/geometry identities.
+Compare physical L2/shape rather than differently scaled loss magnitudes.
+No newFEM/default/SOTA/Git/cleanup or unbounded experiment queue.
+Relation: channel-allterms-gradnorm.
+
+## 2026-11-02 — Qualify one raw-residual nine-weight cold5000 control
+
+Seven focused tests PASS136.435s and production102-update probe EXIT0 with all
+gradients/weights finite. Includes ordinary and refreshed weight branches with
+full40-time gradients. Held.288800s,warmrefresh2.794011s,meanwarm.313604s versus
+fixed-scale control.288946s. Probe peak20.875GiB includes compilation/autotune;
+32GiB5090 fits and GPU context exits. Reused exact reference/input screen and
+strict allowed-config comparison pass. No fitted probe state is imported.
+
+Launch the single declared cold5000 through canonicaltrain.py/finite owner with
+--balance-control, keeping actualcoldmodel/fullSOAP/input/time equality gates,
+nine-weight schedule/EMA/objective audit and physicalfield/shape diagnostics.
+No further experiment/reference/default/SOTA/Git/cleanup queue is authorized.
+Accuracy is unknown until measured; preserve old fixed-scale result regardless.
+Relation: channel-allterms-gradnorm.
+
+## 2026-11-02 — Retain nine-term adaptive weighting as opt-in after the matched comparison
+
+The one declared cold5000 and all six owned stages completed/exit0. Exact cold
+model/fullSOAP, every initial/final input and actual time/geometry draw match;
+all50weight refreshes/objectives replay and90saved source byte checks pass.
+Seven focused tests and finite102-update resource probe remain valid. No
+evolved labels, physics/output-map/reference/sampling changes or extra studies.
+
+Raw-adaptive phi2.8770%,terminal2.6360%,u5.1258%,p8.2671%,mu38.9275%, versus
+fixed1.9470%/1.6625%/3.0587%/3.9455%/19.5989%. Terminalminority7.6886% versus
+4.8688%; worst13.3838% versus8.7984%. Peak t4 flattening is less accurate:
+x/y-span1.51677 versus FEM1.29955 and fixed1.40958, included in inspected plots.
+Independent240-time probes show smaller boundary residuals but larger CH and
+chemical residuals: gradient-norm equality did not deliver better physical
+accuracy at the same budget. Do not label all GradNorm variants ineffective or
+claim population/cross-seed accuracy from this one nominal/initialization test.
+
+Keep the explicit nine-term/all-divisors1 entry and validated exact-time-block
+implementation, but retain successful fixed-scale recommendation/defaults and
+artifact current_run. Training warm.315596s(~9.2%overhead), wall2165.832s,
+recorded peak~21.0GiB including compile/autotune. Close/archive the finite task;
+no automatic further training, newFEM, default/SOTA/Git or cleanup action.
+Relation: docs/tasks/archive/channel-allterms-gradnorm.md and compact receipt.
+
+## 2026-11-02 — Select validated fixed residual normalization as the actual channel default
+
+User explicitly chooses fixed weights after the nine-term raw-adaptive control
+underperformed. Select the completed stronger-channel width128/SOAP/FP32/GMLS/
+JVP40/rolling/fixed-normalization recipe through a new train_default wrapper.
+CH divisor.2, chemical-row1, chemical-boundary4, outputmu4; no adaptive balance.
+Use fresh automatic run names rather than the existing historical result name.
+Do not change train_operator.py's inherited legacy factory, which would create
+cycles and alter dozens of explicit controls. Preserve saved configs/paths and
+all optional research presets. This is default selection, not a new accuracy,
+population or cross-seed validation; no new training/FEM/Git operation.
+Relation: channel-fixed-normalization-default.
+
+
+## 2026-11-02 — Distinguish GMLS neighborhood differentiation from nonlocal continuum operators
+
+User asks whether the channel GMLS may be called nonlocal to align examples.
+Code inspection confirms degree3/36-neighbor first-derivative and Laplacian
+functionals, not a regional integral target. Compadre describes generalized
+finite-difference stencils; primary Sandia GMLS literature classifies this use
+as localized meshfree differentiation. Recommend neighborhood-based meshfree
+differentiation as the shared framework, explicitly naming integral nonlocal
+and GMLS realizations. A nonlocal numerical-stencil description requires that
+restricted definition; reject relabeling the continuum PDE or claiming the same
+kernel, all-spatial-AD removal or automatic Neumann conditions. Time JVP and
+AD streamfunction curl remain. No numerical/configuration/Git changes.
+Relation: docs/tasks/archive/channel-gmls-terminology.md.
+
+
+## 2026-11-02 — Test a moment-corrected original integral kernel on the stronger channel
+
+User authorizes an actual integral-operator accuracy control. Use the existing
+2D quadratic radial kernel k=120/(pi*delta^4)*(1-r/delta)^2 and actual nodal
+volumes; horizon delta=.075, degree3 moment constraints, capacity128 padded
+without truncation. Baseline gradient coefficients are k*V*xi/2 (full-ball
+second moment=2I), Laplacian k*V. Correct each baseline coefficient vector by
+the minimum weighted-norm perturbation satisfying the derivative moments of
+centered nonconstant monomials through degree3. Derivation: with B containing
+scaled Taylor monomials and W=diag(k*V), a=a0+W*B*(B.T*W*B)^-1*(t-B.T*a0).
+Evaluate on neighbor-minus-target physical fields; use QR, not normal equations.
+Thus the interior Laplacian retains the original kernel's unconstrained
+component, while truncated wall/inlet/outlet supports reproduce derivatives
+without imposing an unphysical natural-flux closure. This is a documented
+adaptation of reproducing constrained nonlocal quadrature (Trask et al. 2018,
+https://arxiv.org/abs/1801.04488) and higher-order NOM moment construction
+(https://doi.org/10.1007/s00366-021-01537-x, equations26--34), not a novel method
+or the exact original symmetric regional pair matrix. Weighted least-squares
+algebra remains related to GMLS. No pair symmetry, automatic Neumann, exact
+mass/energy or incompressible discrete stability is claimed.
+
+Keep explicit physical BC losses/hard lifts, AD streamfunction curl/timeJVP,
+fixed normalization, architecture/SOAP/seed and geometry/time draw identities.
+Only operator/payload shapes and named research selector change. Require
+polynomial/corner/off-node tests, smooth and no-slip layer refinement, complete
+input-only construction checks and a finite GPU probe before one cold5000.
+Reject the known-invalid bare regional wall Laplacian and closed-adjoint open
+divergence. Preserve the current default/reference/results; no newFEM/Git.
+Relation: channel-integral-nonlocal-control.
+
+
+## 2026-11-02 — Retain the validated integral channel control as opt-in
+
+One authorized cold5000 and all six owned stages exit0; strict actual initial
+model/fullSOAP and all unchanged initial/final/evaluation geometry, encoder,
+quadrature and sampled time/draw identities match. Six focused tests,220input
+constructions and finite7-update full-time gradient probe pass. No fitted probe
+state or evolved labels enter training. Direct-path source/state checks pass.
+
+Integral moment phi2.0714%,terminal1.8767%,u2.6915%,p3.8079%,mu18.0335%, versus
+GMLS1.9470%/1.6625%/3.0587%/3.9455%/19.5989%. Terminal minority5.4998% versus
+4.8688%, IoU91.6397% versus93.0197%; worst saved minority8.7730% versus8.7984%.
+Peak t4 remains too flat: aspect1.42038 versus GMLS1.40958 and FEM1.29955,
+explicit in inspected contour comparison. Warm.425587s versus.288946s,
+coldwall2619.880s versus1926.685s, peakactive8.432GiB. Independent240-time
+probes complete; their differing discrete residuals do not measure continuum
+error. Physical AD-curl divergence remains near roundoff while approximate
+integral divergence is a separate diagnostic.
+
+This establishes an empirical integral-kernel differentiation route with close
+accuracy in one nominal/initialization test, not stable superiority, population
+accuracy, automatic Neumann closure or a conservative nonlocal NS theory. Keep
+fixed GMLS default/control/reference and all old results. Close/archive task;
+no new FEM, default/SOTA/Git/cleanup or further experiment.
+Relation: docs/tasks/archive/channel-integral-nonlocal-control.md and receipt.
+
+
+## 2026-11-02 — Recommend a controlled random-wall microchannel family
+
+User asks for physically meaningful geometry diversity beyond the shared-center/
+width two-amplitude channel. Current aperture .60--.88 exceeds droplet diameter
+.44 across the prior; one nominal plot does not measure population response.
+Recommend independent smooth upper/lower wall functions, with amplitude, finite
+correlation length and minimum aperture controlling repeated, staggered throats.
+Position alone can mainly shift event timing; widths/slopes/spacing influence
+deformation history. Preserve fixed IC/flow/materials, stationary walls and
+straight inlet/outlet; retain the generic geometry point-token encoder. Compare
+shape/centroid/pressure histories rather than terminal background-dominated L2.
+
+Primary microfluidic-constriction experiments support this motivation; rough
+fracture wetting/trapping is a broader analogue requiring additional physical
+validation. Avoid initial arbitrary high-frequency roughness or an automatic
+pinchoff target. Only a CPU geometry preview was produced:8B-spline coefficients
+per wall,5legal samples, illustrative aperture[.55,.70]/slope1.25. These are not
+qualified solver/training settings. Production needs unified JAX/FEM geometry,
+regularity/curvature/resolution and integral horizon/capacity checks, followed
+by a few trajectories establishing actual shape diversity before training.
+No numerical/default/reference/Git change or automatic experiment queue.
+Relation: docs/tasks/archive/channel-random-wall-design.md.
+
+## 2026-11-02 — Checkpoint before the accepted random-wall implementation
+
+User accepts the smooth random-wall design and requests commit before attempting
+it. Save accumulated validated source/config/tests and compact records locally on
+dev first; no generated weights/figures/data, push or history rewriting. Then
+implement the new geometry as an explicit opt-in family, keeping old single-bump
+identities and current defaults. Qualify shared geometry, inputs/operators and
+independent trajectories before claiming physical diversity or NO accuracy.
+Relation: channel-random-wall-pilot.
+
+## 2026-11-02 — Qualify C3 random spline walls without changing NS–CH physics
+
+Local checkpoint3ac7070 completed before numerical changes, as requested.
+Use eight positive quartic B-spline coefficients per wall and a compact septic
+C3 taper on[1.15,2.75], width.35. This upgrades the illustrative cubic preview's
+regularity. NumPy/JAX use the same Cox–de Boor formula; independent SciPy
+piece-polynomial extrema bound minimum aperture[.55,.70], slope1.25 and
+curvature16. Uniform coefficient proposals[.01,.45] are conditioned by these
+explicit geometric constraints with a finite10000-attempt rejection budget.
+This is a conditional coefficient prior, not independent uniform accepted walls.
+
+Keep model/IC/materials/BCs and the width128/SOAP/FP32/integral/timeJVP40/fixed-scale
+recipe. Extend parameter dimension explicitly while preserving legacy two-value
+RNG and payload arithmetic. The network still sees physical wall/domain points;
+coefficients construct geometry, normals, operators and hard lifts only. Freeze
+three independent reserved draws before solving or looking at model scores, plus
+one declared nominal development geometry. Independent FEM trios must pass old
+space/time gates before neural accuracy assessment. Keep old defaults/results.
+Relation: channel-random-wall-pilot.
+
+## 2026-11-02 — Resolve random-wall chord geometry before neural accuracy comparisons
+
+Two reserved random curves put96x40midpoint queries outside the old40x16FEM
+polygonal wall; this is a coarse geometry/export failure before evolution, not
+PINO evidence. Add exact chord-domain query preflight, forbid extrapolation and
+select64x24/96x36space refinement with the same dt.05/.025 and original gates.
+All four actual64intervalwalls clear their diagnostic queries by>.0067. Retain
+attempt01outputs/logs and reuse any complete64x24/.025exports only after explicit
+identity/query/metadata checks. Physical equations and boundary conditions remain
+unchanged; old single-bump reference/default remains valid and untouched.
+Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Hand off one finite random-wall trial after reference qualification
+
+Full220input-only prefix passes83.94s, maxcondition250.93/poly4.57e-12;
+17unique focused checks pass after repairing one synthetic zero-minority metric
+fixture. Actual6-update SOAP/JVP/integral/rolling training and reconstruction pass;
+old GMLS evaluation inputs reproduce saved arrays exactly. Reuse only the two
+complete64x24/.025reference exports after explicit identity/query/grid/dt and
+byte checks; qualify every new96x36trajectory independently.
+
+Own the remaining authorized attempt in one detached finite supervisor: wait for
+its exact FEM owner identity, require all4gates, export actual shape/response plots,
+7GPUresource updates (discard state, stop if insufficient32GiBheadroom), then ONE
+cold5000 throughtrain.py/finite owner with cold-state/time/draw audits and all3
+predeclared unseen evaluations. No automatic retry, newFEM, recurring monitor,
+extra training or default/SOTA promotion. Journal failures explicitly and keep
+Python sources frozen during training. Keep task active until results reviewed.
+Relation: channel-random-wall-pilot.
+
+## 2026-11-02 — Plot the actual saved random-wall endpoint without changing live training
+
+User requests physical fields during the declared cold5000. This preset saves
+checkpoints only at5000; no intermediate trained state exists on disk. Retain
+live training/source/configuration and wait for its actual completed endpoint,
+rather than substitute an old experiment or inject code into the GPU process.
+Add only a docs/tasks postprocess helper, outside the frozen training snapshot.
+Compare saved phi/speed/pressure against the identical refined FEM at saved
+snapshots; use fixed physical contour zoom without centroid/shape correction.
+Pressure begins att.5 because initial pressure is unprescribed. Interpolation is
+spatial display only; verify raw arrays/identity and L2 against the run summary.
+No additional model/PDE/FEM solve, fitting, budget extension, default or Git action.
+Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Test larger random-wall geometry batches and network for10k
+
+User requests more geometry samples, a wider network and10000updates; latest
+steering asks directly about B8 or16. Select one explicit cold192/B8/10000
+trial, with4attention heads (dimension48) and unchanged depths/Fourier features.
+Keep the same physical problem, integral operators,16-slot online pool, SOAP/LR,
+40fresh continuous time samples, fixed nine-term scales and reserved3references.
+Use timeblock2 instead of8 to bound active memory; average all20block gradients
+at the same parameters before one clip/SOAP update. This changes reduction order,
+not the mathematical full-time mean. B16 is deferred: twice the work, repeated
+geometry draws from the16-slot pool and no established accuracy benefit.
+
+Qualify the actual full gradient/SOAP and nominal query on5090-32GB, retaining
+the16input pool, then start ONE finite cold10000 through canonical train.py
+only if it fits. Extend the input-only prior screen to402online draws (zero
+PDE/FEM). Actual unfitted model/fullSOAP must match saved pre-probe state; fitted
+probe state is discarded. Old5k reference/default/result remain intact. This
+combined capacity/batch/budget change cannot identify separate causal effects,
+and is a cold experiment, not an exact rolling-pool continuation. No Git or
+cleanup authorized. Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Re-measure the interrupted capacity trial on RTX PRO6000
+
+User replaced the5090with RTX PRO6000Blackwell Server Edition(97887MiB) and
+requests actual training-time measurements. Old runner/child PIDs are absent,
+GPU is idle and only unfitted initial model/SOAP files exist: preserve all old
+artifacts and mark that external interruption, not a completed/recoverable run.
+
+Benchmark identical width192/B8/Nt40/FP32/SOAP/integral/JVP/fixed-loss inputs
+with timeblock2, then explicit timeblock8 on the larger memory card. Keep the
+full16-slot bank on device; synchronize complete gradients and optimizer updates,
+cover two SOAP refresh cycles after compilation, and discard fitted probe states.
+Reuse the validated402-draw input prefix and existing FEM, because operators,
+geometry prior, data seeds and query sets are unchanged. Changing timeblock
+changes reduction order but not the mathematical40-time mean. No claim of
+bitwise-identical trained trajectories or accuracy follows from timing.
+
+If the new configuration passes resources, use the measured faster block size
+for ONE replacement cold10000 under the earlier authorized budget, with fresh
+run path and the same finite audits/3held-out cases. This is not exact resume
+of the interrupted150steps. Keep old controls/defaults, no FEM/cleanup/Git.
+Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Use PRO6000 memory aggressively through time blocks
+
+User explicitly asks to fill available GPU memory more aggressively. Target
+actual live peak roughly85--90GiB, distinguishing it from allocator reservation.
+Retain width192/B8/Nt40/all physics/loss/SOAP and fixed seeds/inputs. After the
+current block8probe, test block10and20(and40if viable) with explicit95%allocator
+fraction. Inspect compiled full-step temporary/output memory plus existing live
+buffers before executing a candidate; record an explicit memory-preflight skip
+when it exceeds the budget. Never silently shrink a block after failure.
+
+Compile synchronized full gradient/SOAP, preserve one update after the complete
+40-time mean and discard fitted resource states. Choose measured throughput,
+with <=95%physical and97%allocator predicted/live peak giving small runtime
+headroom. This changes execution/reduction order, not the physical objective.
+Only one replacement cold10k after qualification; no newFEM/default/Git/cleanup.
+Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Raise only the aggressive allocator fraction to97%
+
+Block20compiler preflight estimates94319245389bytes(87.841GiB), versus the
+initial95%-allocator/97%-pool gate93969114955bytes(87.516GiB): it was explicitly
+skipped before optimizer execution, exceeding that gate by only.326GiB.
+Physical GPU capacity is95.593GiB. Under the user's aggressive-memory request,
+retry only the resource check at explicit97%allocator, retaining95%physical/
+97%allocator live-peak headroom and the same B8/Nt40/width192/physics. Preserve
+the first skip and exact compiled estimates. No fitted state existed or is
+imported; no automatic numerical fallback or newFEM. Relation: random-wall pilot.
+
+
+## 2026-11-02 — Select measured block20/97%allocator for the replacement cold10k
+
+All eleven complete aggressive-resource updates and nominal finite queries pass.
+Actual peak94548858880bytes=88.0555GiB (~92.12%physical), mean warmed update
+1.886506s. Same PRO6000block8is2.390149s/40.1859GiB; block2is4.704753s/18.8824GiB.
+Original5090block2is4.524410s/18.9841GiB. Full40-time/B8 objective, model and
+optimizer unchanged, but floating-point/hardware trajectories may differ.
+All tested actual initial model/fullSOAP bytes equal the old unfitted state.
+
+Select explicit20-time blocks(two gradients per update),97%allocator and one
+replacement cold10000 through train.py/finite owner. Resource/config/input/GPU
+identity gates pass; actual formal unfitted model/fullSOAP bytes match probe.
+Reuse reference/input prefix and retain all old/skip files. Meets aggressive
+utilization target; no further40-block trial, no claim that untested sizes cannot
+fit or that timing establishes accuracy. Pure10kestimate5.24h,500updates15.72min,
+plus compile/eval/audits. No SOTA/default, physical scheme, FEM, Git or cleanup.
+Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Show saved fields honestly and prepare the first live-run checkpoint gallery
+
+The user requests physical fields while the new PRO6000 trial is near3000
+updates, before its first5000model snapshot. Its metrics monitors retain no
+saved physical arrays. Show the completed old128/B2/5000fields with explicit
+old-run labels; never present them as new192/B8 predictions or substitute the
+unfitted initial state. Keep the running trainer/source/config untouched.
+
+Prepare one finite CPU-only postprocessor waiting for the explicitly named
+5000snapshot and a later completed update (or final summary), ensuring the
+non-atomic checkpoint writer is finished. Reuse existing partial metric replay,
+field plotting and droplet diagnostics; compare replay to the actual5000log.
+This is read-only model evaluation, with no extra training/FEM, optimizer
+recovery, repeated monitoring service, new accuracy claim or Git operation.
+Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Evaluate the same three reserved geometries at the first new snapshot
+
+User explicitly requests other-geometry evaluation during live training. Use
+all three already qualified random-wall references, without model-score case
+selection or a new FEM solve. Execute a CPU-only5000snapshot evaluation for
+the older128/B2model now, checking against its saved cohort metrics, and queue
+the corresponding192/B8snapshot after its nominal replay succeeds. Keep the
+canonical10ktrainer, source snapshots, geometry stream and final audits intact.
+
+Use the existing physical field decoder, manifest/reference gates and metric
+functions; label this partial-checkpoint evaluation separately from a complete
+online-input audit. Report per-case/global/terminal/minority errors plus raw
+zero contours and hard IC/wall/flux checks. CPU code uses explicit finite waiting
+and bounded affinity; no trained-state import, optimization or PDE-reference
+recomputation. This reused3-case cohort is a limited validation estimate, not a
+new large blind test. Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Complete the interrupted5000preview directly from the saved snapshot
+
+At5200updates the new ckpt_005000.eqx exists, but nominal preview PID90219is
+absent and its screen is dead while status still says waiting. No partial
+fields/proof or preview image exists. Training owner67622/child67633is healthy;
+reserved evaluator92372is alive waiting for the missing nominal replay. Exit
+cause is unconfirmed; do not describe this as a numerical/training failure.
+
+Preserve that stale status as an interrupted-waiter receipt and run the exact
+existing CPU nominal replay/field/droplet tools synchronously with a new explicit
+stage journal. The actual later-update journal establishes checkpoint writing
+is finished. Let the existing reserved evaluator consume the resulting replay
+proof, rather than launch a duplicate cohort job. Keep101trainer source bytes,
+checkpoint/model/config/optimizer/training untouched; zero FEM or extra training.
+Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Render the imminent10000snapshot while final audits continue
+
+User requests current physical fields with training already at9900/10000,
+roughly three minutes before the actual final snapshot. Wait for the saved
+completed train summary/10000checkpoint instead of redisplaying the5000fields.
+Reuse CPU snapshot-cohort evaluation for the same three qualified references
+and saved-array nominal gallery. Keep these external preview outputs separate
+from the finite owner's formal final input/capacity/fresh-time/cohort audits.
+
+Figures may show actual10000predictions once saved/replayed, but do not claim
+all final audits completed until their actual exit codes and receipts pass.
+No source/model/training/settings modification, new FEM, duplicate optimization
+or change of the predeclared geometry cohort. Relation: random-wall pilot.
+
+## 2026-11-02 — Promote the completed random-wall operator to the channel default
+
+User accepts the final fields and explicitly requests default promotion and a
+local commit. The finite cold10000 owner has now completed all ten stages with
+exit0, including actual rolling-input/cold-SOAP replay,240fresh-time probes,
+three predeclared reserved geometries and101historical source-byte checks.
+Select the measured width192/B8/Nt40/timeblock20/SOAP/FP32/integral/JVP recipe
+through train_default.py, preserving every historical preset. Use fresh automatic
+run names and runtime seed provenance; do not import the trained checkpoint.
+
+This execution needs about88.06GiB active memory and an explicit97%allocator
+on the qualified96GB PRO6000. Document that requirement and retain explicit
+block8/block2 alternatives; no silent memory fallback. Final nominal phi2.678%,
+u1.670%,p5.893%; the same three reserved cases average1.840/2.016/5.412%, with
+mu15.917%. This is finite reused-cohort evidence, not a broad population or
+cross-seed guarantee. Do not substitute the unsaved8500scalar minimum for the
+actual10000weights. Commit source and compact records to local dev only; no
+merge/push or generated weights/figures. Show complete raw convergence against
+the older128/B2/5000control; width,batch,budget and hardware differ together.
+Pin the historical integral ancestor, geometry-preview helper and legacy-RNG
+test to the explicit stronger GMLS factory: they previously imported the moving
+default, which would create a circular configuration import after promotion.
+Serialized historical preset values must remain equal to the saved snapshots.
+Relation: channel-random-wall-pilot.
+
+
+## 2026-11-02 — Organize four completed PINO examples and defer longer channel training
+
+User requests setup/strategy/result summaries and one3--5sample evolution figure
+per main PINO example, plus a root overview. Use the four actual completed
+operators, not the prescribed-flow twophase2d pilot. Cross-check saved configs,
+metrics and sample identities; distinguish graph/nonlocal and local-FEM targets,
+and small illustrative cohorts from larger held-out evaluations. Keep a bounded
+set of necessary documentation figures in the examples and raw weights/data
+external, rather than copying whole galleries or historical plots.
+
+User proposes a future channel extension to20000updates and lower final learning
+rate, explicitly says not urgent. Record as deferred, without launching a run or
+inventing a final LR/restart policy. This turn authorizes documentation/figures,
+not training or a new Git commit/push. Relation: pino-readme-overview.
+
+
+## 2026-11-02 — Keep exactly four portable PINO documentation figures
+
+Delivered one actual multi-sample/five-time PNG in each example assets directory,
+total1878517bytes(1.79MiB), each below the1MiB repository guard. This bounded
+set is necessary for the requested portable README illustrations; do not track
+full galleries/arrays/weights or require restoring local report images to view
+these summaries. Preserve all old README bodies in folded detailed sections.
+Record direct inputs and sample-selection protocols in a small JSON manifest and
+one reproducible saved-field plotting script. Updated index documentation of the
+already selected channel default, without changing its strategy or old metadata.
+
+Checked the8/64/8/3evaluation scopes and distinct native/local targets. Three
+reserved channel cases and eight reused spinodal cases remain limited validation
+cohorts. No new training/FEM, continuation or Git operation follows from this
+README task. The20000/lower-final-LR proposal remains deferred. Relation:
+pino-readme-overview.
+
+
+## 2026-11-02 — Centralize README figures and publish the documentation
+
+User explicitly asks for a single assets/images directory, then commit/push.
+Use assets/pino/<case>.png for the four selected figures, preserve exact PNG
+bytes and update all current README, generator and provenance paths. Add a short
+asset policy/readme; retain1MiBper-image/2MiBtotal limits and external raw fields/
+weights. The previous per-example asset locations are superseded, not duplicate
+copies. No regenerated scientific result or numerical strategy change.
+
+Publish accumulated four-PINO README work plus this path change using the
+required devcommit -> main regular merge -> origin/mainpush workflow. Keep dev
+local, preserve existing commits, and verify the actual remote branch reference.
+The deferred channel20000/lower-final-LR idea remains unlaunched. Relation:
+pino-readme-assets-publication.

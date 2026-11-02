@@ -1,0 +1,148 @@
+{
+  "status": "passed",
+  "figures": [
+    {
+      "case": "icemelting3d",
+      "samples": [
+        5,
+        9,
+        2
+      ],
+      "times": [
+        0,
+        1.25,
+        2.5,
+        3.75,
+        5
+      ],
+      "image": "assets/pino/icemelting3d.png",
+      "bytes": 289226,
+      "dimensions": [
+        1800,
+        1170
+      ],
+      "saved_strategy": [
+        48,
+        16,
+        5000,
+        "adam"
+      ]
+    },
+    {
+      "case": "electropolish2d",
+      "samples": [
+        0,
+        21,
+        42,
+        63
+      ],
+      "times": [
+        0.0,
+        1.25,
+        2.5,
+        3.75,
+        5.0
+      ],
+      "image": "assets/pino/electropolish2d.png",
+      "bytes": 399754,
+      "dimensions": [
+        2025,
+        1095
+      ],
+      "saved_strategy": [
+        64,
+        8,
+        5000,
+        "adam"
+      ]
+    },
+    {
+      "case": "confined_ch2d",
+      "samples": [
+        1027,
+        1028,
+        1026
+      ],
+      "times": [
+        0.0,
+        0.75,
+        1.5,
+        2.25,
+        3.0
+      ],
+      "image": "assets/pino/confined_ch2d.png",
+      "bytes": 913776,
+      "dimensions": [
+        1950,
+        1200
+      ],
+      "saved_strategy": [
+        256,
+        16,
+        50000,
+        "soap"
+      ]
+    },
+    {
+      "case": "channel_nsch2d",
+      "samples": [
+        0,
+        1,
+        2
+      ],
+      "times": [
+        0,
+        1.5,
+        3,
+        4.5,
+        6
+      ],
+      "image": "assets/pino/channel_nsch2d.png",
+      "bytes": 275761,
+      "dimensions": [
+        2325,
+        720
+      ],
+      "saved_strategy": [
+        192,
+        8,
+        10000,
+        "soap"
+      ]
+    }
+  ],
+  "total_image_bytes": 1878517,
+  "local_links_and_anchors": 36,
+  "headline_metrics": {
+    "icemelting3d": {
+      "pooled_phi": 0.002266476587448006,
+      "terminal_phi": 0.0009221335021845623,
+      "evaluation_inputs": 8
+    },
+    "electropolish2d": {
+      "pooled_phi": 0.044273589411034736,
+      "terminal_phi": 0.0317553414222361,
+      "evaluation_inputs": 64
+    },
+    "confined_ch2d": {
+      "pooled_phi": 0.048329145319487045,
+      "terminal_phi": 0.051934891974683844,
+      "evaluation_inputs": 8
+    },
+    "channel_nsch2d": {
+      "pooled_phi": 0.01839603363085256,
+      "terminal_phi": 0.022707591834393793,
+      "evaluation_inputs": 3
+    }
+  },
+  "historical_readme_sections_exact": true,
+  "historical_artifact_metadata_exact": true,
+  "all_figures_visually_inspected": true,
+  "plot_generator": "Executed all four renderers on actual saved data; changed3Dlayout rerendered and inspected",
+  "artifact_index": "445 registered directories pass",
+  "repository_content_guard": "2134 current tracked files pass; four new images separately checked below1MiBeach/2MiBtotal",
+  "numerical_configs_changed": false,
+  "training_updates": 0,
+  "reference_solves": 0,
+  "git_history_operations": 0
+}

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>变化的几何，怎样进入神经算子？</title>
+<style>
+:root{--paper:#f7f7f2;--ink:#172c2b;--muted:#607270;--teal:#147f77;--blue:#416fd1;--gold:#bb7926;--line:#dbe2dc;--card:#fff;--soft:#eaf4f1;--mono:ui-monospace,SFMono-Regular,Consolas,monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Noto Sans CJK SC","Microsoft YaHei",sans-serif}a{color:var(--teal);text-underline-offset:4px}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:4px}main{max-width:1220px;margin:auto;padding:0 36px 70px}.top{padding:24px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;font-size:12px;letter-spacing:.08em}.tag{color:var(--teal);font-weight:700}.hero{padding:64px 0 38px}.eyebrow{font-size:12px;color:var(--teal);letter-spacing:.15em;font-weight:700}h1{font-size:clamp(32px,4.7vw,56px);line-height:1.26;letter-spacing:-.04em;margin:16px 0 22px}h1 em{font-style:normal;color:var(--teal)}.lead{font-size:19px;max-width:880px;color:#425c59}.chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:24px}.chip{padding:4px 12px;font-size:12px;border:1px solid var(--line);border-radius:99px;background:#fff}.nav{display:flex;flex-wrap:wrap;gap:18px;padding:16px 0 24px;font-size:13px;border-bottom:1px solid var(--line)}section{padding:48px 0 16px;scroll-margin-top:20px}.section-head{display:grid;grid-template-columns:54px 1fr;gap:12px;align-items:start;margin-bottom:24px}.num{font:14px var(--mono);color:var(--teal);padding-top:10px}h2{font-size:28px;line-height:1.4;margin:0 0 8px;letter-spacing:-.02em}h3{font-size:19px;margin:0 0 12px}p{margin:0 0 14px}.muted,.caption{color:var(--muted)}.caption{font-size:13px;line-height:1.6}.grid2{display:grid;grid-template-columns:1.08fr 1fr;gap:22px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px}.teal{color:var(--teal)}.blue{color:var(--blue)}.gold{color:var(--gold)}.small{font-size:13px}.callout{padding:18px 22px;background:var(--soft);border-left:3px solid var(--teal);border-radius:0 10px 10px 0;margin-top:20px}.equation{font-family:var(--mono);background:#f2f5f1;border:1px solid #e0e7df;border-radius:10px;padding:16px 18px;margin:16px 0;line-height:1.85;overflow:auto;font-size:14px}.equation sub,.equation sup{font-size:10px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.pill{border:1px solid var(--line);background:#fff;border-radius:99px;padding:7px 13px;font-size:13px;color:var(--ink)}.pill[aria-pressed=true]{background:var(--ink);color:white;border-color:var(--ink)}.pill:hover{border-color:var(--teal)}.legend{display:flex;gap:17px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:10px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}.geo-wrap{position:relative}.geo-wrap svg{width:100%;height:auto;display:block;border:1px solid #e8ede7;border-radius:12px;background:#fafbf8}svg text{font-family:inherit}svg .pick{cursor:pointer}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0 0}.stat{border-top:1px solid var(--line);padding-top:12px}.stat strong{display:block;font:23px var(--mono);line-height:1.5}.stat span{font-size:12px;color:var(--muted)}.inspector{min-height:152px;background:#f3f6f4;border-radius:10px;padding:16px;margin:14px 0;font:13px/1.9 var(--mono)}.inspector .title{font-family:inherit;font-weight:700;margin-bottom:6px}.param{display:grid;grid-template-columns:1fr 1fr;gap:8px;font:12px var(--mono);margin-top:16px}.param div{padding:10px;background:#f3f6f4;border-radius:8px}.tokens{display:flex;gap:5px;flex-wrap:wrap;margin:16px 0}.tok{display:inline-flex;flex-direction:column;align-items:center;border:1px solid #d6e8e5;border-radius:8px;padding:9px 12px;background:#edf7f4;font:14px var(--mono)}.tok small{font:10px/1.5 inherit;color:var(--muted)}.tokens.b .tok{background:#eff3fd;border-color:#d7e0f6}.weight{margin-left:8px;background:#fff9ec!important;border-color:#eddbb9!important;color:var(--gold)}.stream-card{border-top:4px solid var(--teal)}.stream-card.b{border-top-color:var(--blue)}.table{width:100%;border-collapse:collapse;font-size:13px}.table th,.table td{text-align:left;border-bottom:1px solid var(--line);padding:11px 8px;vertical-align:top}.table th{color:var(--muted);font-weight:500}.matrix{display:flex;gap:6px;align-items:center;margin:18px 0;font:13px var(--mono)}.matrix-rows{height:122px;width:116px;display:flex;flex-direction:column;gap:4px}.matrix-row{height:9px;display:flex;gap:3px}.matrix-row i{display:block;flex:1;border-radius:2px;background:#75b7a6}.matrix-row.pad i{background:#dfe5e0}.matrix-label{font-size:12px;color:var(--muted);margin-left:7px}.arrow{color:var(--muted);font-size:22px;text-align:center}.flow{display:grid;grid-template-columns:1fr 34px 1.1fr 34px 1fr;align-items:center;gap:4px;margin:22px 0}.block{padding:20px 16px;border:1px solid var(--line);background:#fff;border-radius:12px;text-align:center;line-height:1.6;transition:opacity .2s,box-shadow .2s}.block strong{display:block;font-size:16px}.block small{display:block;font-size:12px;color:var(--muted);margin-top:7px}.block.a{border-top:4px solid var(--teal)}.block.b{border-top:4px solid var(--blue)}.block.dark{background:var(--ink);color:#fff;border-color:var(--ink)}.block.dark small{color:#c1d9d2}.twostream{display:grid;gap:10px}.attention{background:var(--ink);color:#eaf6f1;border-radius:16px;padding:28px;margin-top:22px}.attention .caption{color:#bdd6d0}.attention .equation{background:#263e3a;border-color:#39534b;color:#f6fffb}.attention h3{color:#fff}.timeline{display:grid;grid-template-columns:1fr 1fr;gap:22px}.shared{background:var(--ink);color:#f6fffb;padding:24px;border-radius:12px}.shared small{display:block;color:#b4d2c7}.times{display:flex;gap:8px;align-items:center;justify-content:space-around;margin-top:22px}.time{flex:1;text-align:center;border:1px solid var(--line);border-radius:10px;background:#fff;padding:12px 4px;font-size:13px}.time.active{border-color:var(--teal);box-shadow:inset 0 0 0 1px var(--teal)}.slider{display:flex;gap:12px;align-items:center;margin:14px 0}.slider input{accent-color:var(--teal);width:100%}.slider output{font:16px var(--mono);min-width:52px}.twocol{columns:2;column-gap:30px}.twocol p{break-inside:avoid}.pool{display:grid;grid-template-columns:repeat(32,1fr);gap:3px;margin:18px 0}.slot{height:13px;background:#dfe8e1;border-radius:2px}.slot.fresh{background:var(--teal)}.slot.pick{outline:1px solid var(--gold);outline-offset:1px}.fine{font-size:12px;color:var(--muted)}details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:17px 20px;margin-top:12px}summary{cursor:pointer;font-weight:650}details p{margin-top:14px}code{font-family:var(--mono);font-size:.88em;background:#edf1ed;padding:2px 5px;border-radius:4px;overflow-wrap:anywhere}.source{font-size:13px}.source a{display:block;margin:7px 0}.footer{padding:30px 0 0;border-top:1px solid var(--line);margin-top:42px;font-size:12px;color:var(--muted)}.hide{display:none}.test-note{color:var(--muted);font-size:12px}.trace-row{display:flex;align-items:center;gap:12px;margin:8px 0}.trace-row b{width:90px;font-size:13px;font-weight:500}.bar-track{height:12px;flex:1;background:#e3e9e3;border-radius:4px;overflow:hidden}.bar-fill{height:100%;background:var(--teal);transition:width .25s}.trace-row output{font:13px var(--mono);min-width:60px}.flow-caption{display:flex;gap:20px;justify-content:space-between;font-size:12px;color:var(--muted)}.badge{display:inline-block;background:#edf3ee;border-radius:5px;padding:1px 8px;font-size:12px}.nonsynthetic{font-size:12px;color:#6b6e5a;border-top:1px solid var(--line);padding-top:13px;margin-top:18px}
+#geo line,#geo ellipse,#geo text{pointer-events:none}
+.attention details .caption{color:var(--muted)}
+@media(max-width:850px){main{padding:0 20px 40px}.hero{padding-top:38px}.grid2,.timeline{grid-template-columns:1fr}.flow{grid-template-columns:1fr}.flow>.arrow{transform:rotate(90deg);height:30px}.twocol{columns:1}.section-head{grid-template-columns:32px 1fr;gap:5px}h2{font-size:23px}.card{padding:20px}.top{font-size:10px}.stats{gap:8px}.stat strong{font-size:20px}.pool{gap:2px}.table{font-size:12px}}
+@media print{body{background:white}main{max-width:none;padding:0}.nav,.toolbar,button{display:none}.card,.attention,.shared,details{break-inside:avoid}section{padding-top:24px}.hero{padding-top:24px}a{color:inherit}.grid2{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<main id="geometry-operator-explainer">
+<div class="top"><span class="tag">NONLOCAL PINN / CONFINED CH</span><span>当前 SOTA 实现图解 · 2026.10.31</span></div>
+<header class="hero">
+<div class="eyebrow">PARAMETERIZED GEOMETRY → POINT CONDITIONING</div>
+<h1>变化的几何，<br>怎样变成<em>神经算子的输入</em>？</h1>
+<p class="lead">固定同一个初始波动场，随机改变两个圆孔。把每个物理域转换成<strong>两组带积分权重的点</strong>，同一个网络就能接收不同的孔位置、半径和域内离散点。</p>
+<div class="chips"><span class="chip">边界流：192 × 5</span><span class="chip">域内流：N × 3</span><span class="chip">坐标查询 → 256 维空间特征</span><span class="chip">同一几何的时间批次共享计算</span></div>
+</header>
+<nav class="nav" aria-label="章节导航"><a href="#geometry">01 随机几何</a><a href="#inputs">02 两路输入</a><a href="#network">03 网络怎么读取</a><a href="#shared">04 时空共享</a><a href="#physics">05 非局部物理</a><a href="#pool">06 在线样本池</a></nav>
+
+<section id="geometry">
+<div class="section-head"><span class="num">01</span><div><h2>先改变物理域，再得到这个域上的点集</h2><p class="muted">外椭圆固定；两孔的位置、大小连续随机。下面是训练库中的三个真实几何。</p></div></div>
+<div class="grid2">
+<div class="card">
+<div class="toolbar" id="case-buttons" aria-label="选择真实几何"><button class="pill" data-case="0" aria-pressed="true">几何 A</button><button class="pill" data-case="1" aria-pressed="false">几何 B</button><button class="pill" data-case="2" aria-pressed="false">几何 C</button></div>
+<div class="geo-wrap"><svg id="geo" viewBox="0 0 560 460" role="img" aria-label="真实有孔椭圆域、边界点与域内三角形重心。点击一个点查看输入特征。"></svg></div>
+<div class="toolbar" id="view-buttons" aria-label="选择显示点集"><button class="pill" data-view="both" aria-pressed="true">两路点集</button><button class="pill" data-view="boundary" aria-pressed="false">边界点</button><button class="pill" data-view="domain" aria-pressed="false">域内点</button><button class="pill" id="normal-toggle" aria-pressed="false">显示外法向</button><button class="pill" id="edge-toggle" aria-pressed="false">局部连边</button></div>
+<div class="legend"><span><i class="dot" style="background:var(--teal)"></i>边界 condition</span><span><i class="dot" style="background:var(--blue)"></i>域内 (x,y,φ₀)</span><span>选中点：金色圆环</span></div>
+<div class="stats"><div class="stat"><strong id="node-count"></strong><span>真实域内积分点 N</span></div><div class="stat"><strong>192</strong><span>边界采样点</span></div><div class="stat"><strong id="area-count"></strong><span>离散面积 ∑ Aᵢ</span></div></div>
+</div>
+<div class="card">
+<h3>孔参数决定域 Ω(g)</h3>
+<div class="equation">g = (c₁ₓ, c₁ᵧ, r₁, c₂ₓ, c₂ᵧ, r₂)<br>Ω(g) = 固定椭圆 ∖ 两个圆孔</div>
+<p>两个圆心都从 <code>[0.22, 0.78] × [0.27, 0.73]</code> 中抽取，半径在 <code>[0.045, 0.12]</code> 内。代码再拒绝孔相交或距离外壁过近的样本，安全间距为 0.025。</p>
+<div class="param" id="hole-values"></div>
+<div class="callout"><strong>六个参数用来生成几何。</strong><br>当前网络实际读取的是由这个几何生成的边界点、域内点与权重；编码器没有直接接收这六个数。</div>
+<h3 style="margin-top:24px">点击图中一个点，查看真实输入行</h3>
+<div class="inspector" id="inspector" aria-live="polite"></div>
+<p class="caption">域内点来自 Gmsh 三角网格的重心。每个点的面积 Aᵢ 就是对应三角形的面积。孔被从几何中挖掉，孔中没有真实积分点。</p>
+<div class="nonsynthetic">颜色表示固定初始函数 φ₀ 的值，所有几何使用同一函数。此页展示真实输入数组与计算流程；不展示模型预测场或学习到的注意力权重。</div>
+</div>
+</div>
+</section>
+
+<section id="inputs">
+<div class="section-head"><span class="num">02</span><div><h2>输入由“点的特征”和“点代表的物理测度”组成</h2><p class="muted">坐标可随几何变化。不同数量的点通过零测度 padding 对齐形状。</p></div></div>
+<div class="grid2">
+<div class="card stream-card"><h3><span class="teal">A / 边界点流</span></h3><div class="tokens"><span class="tok">x<small>坐标</small></span><span class="tok">y<small>坐标</small></span><span class="tok">nₓ<small>外法向</small></span><span class="tok">nᵧ<small>外法向</small></span><span class="tok">b<small>边界类型</small></span><span class="tok weight">Δs<small>独立权重</small></span></div>
+<p><strong>5 个特征</strong>构成一行 token。弧长 Δs 单独传给注意力积分，不是拼在末尾的第 6 个神经特征。</p>
+<table class="table"><tr><th>边界</th><th>点数</th><th>b</th><th>外法向的方向</th></tr><tr><td>固定外椭圆</td><td>96</td><td>0</td><td>从物理域指向外部</td></tr><tr><td>两个孔壁</td><td>48 + 48</td><td>均为 1</td><td>从物理域指向孔内</td></tr></table>
+<p class="caption" style="margin-top:15px">两个孔共享相同的类型编码，没有“孔 1 / 孔 2”身份 token。圆孔每点的弧长为 2πr / 48，外椭圆使用对应角度处的弧长微元。</p></div>
+<div class="card stream-card b"><h3><span class="blue">B / 域内函数点流</span></h3><div class="tokens b"><span class="tok">x<small>坐标</small></span><span class="tok">y<small>坐标</small></span><span class="tok">φ₀<small>已知初值</small></span><span class="tok weight">Aᵢ<small>独立面积权重</small></span></div>
+<p>每个三角形重心取一行 <strong>(x, y, φ₀(x,y))</strong>。虽然 φ₀ 的公式固定，但不同物理域保留的点及面积分布不同，因此这一流也携带了几何信息。</p>
+<div class="matrix"><div class="matrix-rows" id="padding-matrix"></div><span class="matrix-label"><strong id="pad-real"></strong> 行真实数据<br>补齐到 1536 行<br><span style="color:var(--ink)">灰色行：Aᵢ = 0</span></span></div>
+<p class="caption">先屏蔽零权重行，再进行逐点特征提升；注意力积分、质量均值和 loss 都按真实面积计算。padding 只是固定数组长度，并不把孔或虚拟点变成物理域。</p></div>
+</div>
+<div class="callout"><strong>同一位置的初始场值，在不同几何中相同。</strong>这里只有几何随机化，没有随机化波动初值。10 个固定 Fourier 模态定义 φ₀；不同几何可以有不同的初始总质量，之后分别守恒各自的初始质量。</div>
+<details><summary>看一下固定初值与输入数组的精确表达</summary><div class="equation">φ₀(x) = 0.2 ∑ₖ aₖ cos(π kₖ · ((x − c) / a) + αₖ)<br>c = (0.5, 0.5)，a = (0.5, 0.4)，固定 10 个模态<br><br>boundary: (192, 5)　　boundary_weights: (192,)<br>domain: (N, 3) → padding (1536, 3)<br>domain_weights: (N,) → padding (1536,)</div><p class="caption">各模态系数由当前配置固定。图中每个点的 φ₀ 由仓库的 fixed_initial 原函数计算。</p></details>
+</section>
+
+<section id="network">
+<div class="section-head"><span class="num">03</span><div><h2>两路点集怎样影响同一个查询点？</h2><p class="muted">当前使用 HeterogeneousPointOperator：GNOT 启发的多输入流积分注意力。</p></div></div>
+<div class="card">
+<div class="flow"><div class="twostream"><div class="block a"><strong>边界点集</strong><small>192 × 5 + 弧长权重<br>独立逐点 MLP → 192 × 256</small></div><div class="block b"><strong>域内函数点集</strong><small>1536 × 3 + 面积权重<br>另一套逐点 MLP → 1536 × 256</small></div></div><div class="arrow">→</div><div class="block dark"><strong>4 个空间条件交互块</strong><small>每块分别读取边界流、域内流<br>两条信息流等权混合<br>残差连接 + 前馈 MLP</small></div><div class="arrow">→</div><div class="block"><strong>hθ(x; Ω, φ₀)</strong><small>每个查询点 256 维<br>已经带有当前几何的信息</small></div></div>
+<div class="flow-caption"><span>输入点各自提升，保留两条序列。</span><span>查询点仅提供空间坐标 x = (x,y)。</span></div>
+<div class="equation">坐标嵌入 e(x) = [x, sin(πxB), cos(πxB)] ∈ ℝ²⁵⁸<br>128 个固定 Fourier 方向 B → 256 个正余弦通道，再加原坐标 2 维<br>查询：258 → 256；边界提升输入：261 维；域内提升输入：259 维</div>
+<p>边界流与域内流分别用各自的 MLP、key/value 投影。查询点的隐藏状态读取两流后更新，再进入下一空间交互块。4 个 head 各有 64 个通道。</p>
+<div class="callout"><strong>为什么换孔就能得到不同的响应？</strong><br>即使查询坐标 x 完全相同，孔壁位置、法向、域内点的支持范围和测度都改变了。查询读到的上下文随之改变，因此得到不同的 hθ。全部几何共用一套 θ。</div>
+</div>
+<div class="attention">
+<h3>“带测度的注意力”在做什么？</h3>
+<p>可以把它理解为：查询点根据已学特征，从几何上的点集做一次归一化积分。每条流分别积分后，取两条消息的均值。点的贡献由特征匹配和物理测度共同决定。</p>
+<div class="equation">message(q) = [∑ⱼ wⱼ (q̂ · k̂ⱼ) vⱼ] / [∑ⱼ wⱼ (q̂ · k̂ⱼ)]<br>q̂ = softmax(q)，k̂ⱼ = softmax(kⱼ)　// softmax 在每个 head 的特征维上<br>wⱼ = 边界弧长 Δsⱼ，或域内面积 Aⱼ</div>
+<p class="caption">这不是对所有输入点做标准的 query–key 行 softmax；代码使用归一化线性积分注意力。先聚合 ∑ w k̂vᵀ 与 ∑ w k̂，再让查询读取，避免构造完整 Nq × Nk 权重矩阵。</p>
+<details style="color:var(--ink)"><summary>为什么“面积 / 弧长”很重要？点数多的区域不会自动获得更大物理权重</summary><p>把同一 token 复制成两行，同时把原来的权重各分一半，积分分子与分母都不变。下面只演示这条代数性质，不显示模型学习到的真实注意力。</p><div class="toolbar"><button class="pill" id="split-toggle" aria-pressed="false">把中间一个 token 拆成两行</button></div><div class="trace-row"><b id="split-label">3 行 token</b><div class="bar-track"><div class="bar-fill" id="split-bar"></div></div><output id="split-value"></output></div><p class="caption" id="split-desc"></p></details>
+</div>
+<details><summary>它与 CViT、GNOT、Perceiver 的关系</summary><p>这里延续了 CViT 的“condition 与 query 分开”思路，但改用不规则点集，不再切图像 patch。当前核心是 GNOT 启发的异构输入流与归一化积分注意力，没有实现完整 GNOT 的几何 MoE，也没有 query 自注意力。</p><p>当前 SOTA 没有 Perceiver 式的固定数量可学习 latent token 瓶颈。它保留两条输入序列，利用积分矩的结合律高效读取；积分矩与“先编码成 32 个 latent token”是不同的结构。</p><p>网络没有专门的“查询点到孔壁距离”注意力偏置。坐标、法向、初值、测度都是一般的几何 / 函数信息；架构可接收同类点集，但当前训练分布仍只覆盖固定外椭圆和两个圆孔。</p></details>
+</section>
+
+<section id="shared">
+<div class="section-head"><span class="num">04</span><div><h2>空间部分只算一次，多个时刻一起解码</h2><p class="muted">共享发生在同一个几何的时间批次中；不同几何可以有各自的空间坐标。</p></div></div>
+<div class="timeline"><div class="card"><div class="shared"><strong>geometry + 两路输入 → hθ(x)</strong><small>encoder + 4 次空间条件交互<br>一个空间点集，完成一次学习特征计算</small></div><div class="arrow">↓</div><div class="times"><div class="time active">t = 0</div><div class="time">t = 1</div><div class="time">t = 2</div><div class="time">t = 3</div></div><p class="caption" style="margin-top:16px">各时间分支读取同一组 hθ(x)。时间特征经 FiLM 产生缩放 / 平移，调制 3 层 decoder。训练默认 Nt = 16，这里为示意显示 4 个分支。</p></div>
+<div class="card"><h3>一个物理查询的完整路径</h3><div class="slider"><label for="time-slider">t</label><input id="time-slider" type="range" min="0" max="3" step="0.05" value="0"><output id="time-value">0.00</output></div><div class="equation" id="time-equation"></div><p>网络原始查询提供 <strong>坐标与时间</strong>；φ₀ 的已知函数值通过域内 encoder 流进入模型，也在最后的物理输出包装中用于精确初值。</p><p class="caption">时间滑块只解释当前 SOTA 的 s = t / 3 和输出硬约束，不计算或伪造一张随时间演化的预测场。</p></div></div>
+<div class="card" style="margin-top:22px"><h3>初值与质量守恒怎样放到最终输出？</h3><div class="equation">zᵢ(t) = decoderθ(hᵢ, t / T)<br>z̄(t) = ∑ᵢ Aᵢ zᵢ(t) / ∑ᵢ Aᵢ<br>φᵢ(t) = φ₀(xᵢ) + (t/T) [zᵢ(t) − z̄(t)]</div><div class="grid2"><p><strong>t = 0：</strong>增量前乘子为 0，每个几何的初始场都精确等于 φ₀ 在该域上的取值。</p><p><strong>任意 t：</strong>增量的面积加权和为 0，保持每个几何各自的初始总质量。</p></div><p class="caption">对额外绘图点查询时，也使用原始域内积分点计算 z̄；不会改成对“这次绘图查询点”求平均。物理输出因此保留原来的质量定义。模型参数更新后，学习到的编码与 h 必须重新计算；这里只在同一次前向 / 梯度计算的时间批次内共享。</p></div>
+</section>
+
+<section id="physics">
+<div class="section-head"><span class="num">05</span><div><h2>几何同时决定 encoder 输入与 PDE 离散</h2><p class="muted">只有两路点集进入神经编码器；邻接图与残差预条件矩阵用于物理计算。</p></div></div>
+<div class="grid2"><div class="card"><h3>神经网络看见的内容</h3><p class="teal"><strong>边界 (x,y,nₓ,nᵧ,b) + Δs</strong></p><p class="blue"><strong>域内 (x,y,φ₀) + A</strong></p><p>网络预测一个相场增量，得到 φ。没有把邻接矩阵、未来 φ / μ、reference solution 或 FEM 轨迹作为 encoder 特征。</p><div class="equation">同一套 θ：Gθ(边界点集, 域内函数点集)(x,t)</div></div>
+<div class="card"><h3>物理计算另外使用的内容</h3><p><strong>该几何的点、面积、邻接与系数</strong>构造正的区域型算子 A<sub>g</sub> ≈ −Δ，交互半径 δ = 0.11。穿过圆孔的连边会被剔除。</p><div class="equation">(A<sub>g</sub> φ)ᵢ = ∑ⱼ cᵢⱼ (φᵢ − φⱼ)<br>μ = β(φ³ − φ) + ε² A<sub>g</sub> φ<br>r = φ<sub>t</sub> + M A<sub>g</sub> μ</div><p class="caption">当前只学习 φ，μ 由化学势关系消元得到。时间导数使用 JVP。已知输入构造的稳定部分 resolvent 用于残差范数；它也不是 encoder 输入。</p></div></div>
+<div class="callout"><strong>两条作用路径缺一不可。</strong>几何点集使模型能够区分不同域；每个域自己的非局部图使 PDE 训练使用该域的物理相互作用。只改变图而不给模型几何上下文，无法充分表达条件算子。</div>
+<details><summary>边界上的“无通量”与前面的“质量硬约束”有什么区别？</summary><p>图中只连接域内可见的点对，不跨孔、也不把域外节点作为通量来源；配合成对对称和物理面积权重，形成封闭的区域型离散。这个有限作用域的边界处理，与相场增量的全域质量投影是两个独立机制。</p><p>它不等于证明神经函数在每个壁面点的经典法向导数精确为零。外法向作为 encoder 输入也不自动构成 Neumann 硬约束。当前训练没有额外的壁面法向导数 loss；几何分辨率、作用半径与局部极限仍属于数值验证问题。</p></details>
+</section>
+
+<section id="pool">
+<div class="section-head"><span class="num">06</span><div><h2>连续几何分布，由后台生产输入、滚动送给训练</h2><p class="muted">新几何需要重建点集与算子；这里产生的是已知物理输入，不是未来解标签。</p></div></div>
+<div class="card"><div class="flow"><div class="block"><strong>连续随机 g</strong><small>拒绝无效孔组合<br>6 个 CPU worker</small></div><div class="arrow">→</div><div class="block"><strong>剖分 / 点集 / 权重 / 图</strong><small>构造残差范数与 padding<br>不求解未来 PDE 轨迹</small></div><div class="arrow">→</div><div class="block dark"><strong>容量 1024 的候选池</strong><small>每 100 步替换 32 个几何<br>每次训练抽取 B = 16</small></div></div>
+<div class="pool" id="pool-grid" aria-label="1024 个候选槽位，每行 32 个"></div><div class="toolbar"><button class="pill" id="pool-step">演示一次刷新：替换 32 个</button><button class="pill" id="pool-reset">重置示意</button><span class="caption" id="pool-info"></span></div>
+<p>每小格代表一个槽位，绿色表示已被新输入替换过。池内数量有限，几何来源连续；一份输入可以复用多次，后台再按固定顺序替换。这个示意按钮不启动任何实际训练或预计算。</p>
+<p class="caption">每个样本同时保存 8 个已知输入数组：points、volumes、initial、neighbors、coefficients、metric、condition、condition_weights。前面“域内函数点流”是将 points 与 initial 组合后得到的网络视图。候选池的滚动替换会同步更新整份输入。</p></div>
+</section>
+
+<section id="takeaway">
+<div class="section-head"><span class="num">07</span><div><h2>把实现连成一句话</h2></div></div>
+<div class="card"><p style="font-size:21px;line-height:1.9"><strong>随机孔</strong>决定物理域；物理域变成<strong>带法向 / 初值 / 测度的两路点集</strong>；查询坐标通过<strong>共享的积分注意力</strong>读取几何；多个时间通过<strong>同一份空间特征</strong>解码；该几何自己的非局部图提供<strong>PDE 训练约束</strong>。</p><p class="muted">这种输入接口可以推广到其他边界和已知场的点集表示。当前实验只验证了固定外椭圆、两个圆孔与固定初值的分布；任意拓扑、新边界类型或新几何范围需要相应数据与独立验证。</p></div>
+</section>
+
+<details class="source"><summary>对应到代码：核查入口与实现位置</summary><a href="https://github.com/NanxiiChen/nonlocal-pinn/blob/0dc54bc/examples/confined_ch2d/configs/train_operator.py">默认入口：configs/train_operator.py → width256 在线 SOTA</a><a href="https://github.com/NanxiiChen/nonlocal-pinn/blob/0dc54bc/examples/confined_ch2d/operator_problem.py">孔分布、有效性、固定初值、边界点与弧长：operator_problem.py</a><a href="https://github.com/NanxiiChen/nonlocal-pinn/blob/0dc54bc/examples/confined_ch2d/operator_training.py">两路 encode、共享 prepare、硬初值 / 质量、μ 消元：operator_training.py</a><a href="https://github.com/NanxiiChen/nonlocal-pinn/blob/0dc54bc/src/nonlocal_pinn/nn/point_conditional.py">通用点流提升与归一化积分注意力：point_conditional.py</a><a href="https://github.com/NanxiiChen/nonlocal-pinn/blob/0dc54bc/examples/confined_ch2d/operator_online.py">后台输入构造与滚动刷新：operator_online.py</a><p class="caption">链接指向已发布版本，需要仓库访问权限。页面本身完全离线可用，不加载远端脚本、字体或图片。原始数组路径：<code id="source-path"></code>。</p></details>
+<footer class="footer">数据来自现有几何输入库 0 / 256 / 768 号样本；所有点、法向与积分权重由当前代码核对。此文件解释输入与计算方式，不构成新的精度、速度或几何泛化实验。</footer>
+</main>
+<script id="geometry-data" type="application/json">__GEOMETRY_INPUT_DATA__</script>
+<script>
+(()=>{
+'use strict';
+const root=document.getElementById('geometry-operator-explainer');
+const data=JSON.parse(document.getElementById('geometry-data').textContent);
+const $=s=>root.querySelector(s), $$=s=>Array.from(root.querySelectorAll(s));
+const state={sample:0,view:'both',normals:false,edges:false,selected:{stream:'boundary',index:96},time:0,pool:0,split:false};
+const C={teal:'#147f77',blue:'#416fd1',gold:'#bb7926',ink:'#172c2b'};
+const fmt=(v,n=4)=>Number(v).toFixed(n), px=x=>40+480*x, py=y=>470-480*y;
+const svgNS='http://www.w3.org/2000/svg';
+function svg(name,attrs){const el=document.createElementNS(svgNS,name);for(const [k,v] of Object.entries(attrs))el.setAttribute(k,v);return el;}
+function add(parent,name,attrs){const el=svg(name,attrs);parent.appendChild(el);return el;}
+function color(v){const t=Math.max(0,Math.min(1,(v+.16)/.32));const a=[65,111,209],b=[222,145,63];return `rgb(${a.map((x,i)=>Math.round(x+(b[i]-x)*t)).join(',')})`;}
+function render(){
+ const g=data.cases[state.sample], plot=$('#geo');plot.replaceChildren();
+ const title=add(plot,'title',{});title.textContent=`训练库几何 ${g.index}：${g.nodes} 个三角形重心、192 个边界点`;
+ const defs=add(plot,'defs',{});const marker=add(defs,'marker',{id:'normal-arrow',viewBox:'0 0 8 8',refX:7,refY:4,markerWidth:4,markerHeight:4,orient:'auto-start-reverse'});add(marker,'path',{d:'M0,0 L8,4 L0,8 Z',fill:C.teal});
+ add(plot,'ellipse',{cx:px(.5),cy:py(.5),rx:240,ry:192,fill:'#eef3ec',stroke:'#a4b5a7','stroke-width':1.5});
+ const label=add(plot,'text',{x:48,y:28,fill:'#657971','font-size':12});label.textContent='固定外椭圆 · 真实积分点';
+ if(state.edges&&state.selected.stream==='domain'){
+  const idx=state.selected.index, p=g.domain[idx];for(const j of g.adjacency[idx]){const q=g.domain[j];add(plot,'line',{x1:px(p[0]),y1:py(p[1]),x2:px(q[0]),y2:py(q[1]),stroke:C.gold,'stroke-opacity':.58,'stroke-width':1.6});}
+ }
+ for(const h of g.holes)add(plot,'ellipse',{cx:px(h[0]),cy:py(h[1]),rx:480*h[2],ry:480*h[2],fill:'#fafbf8',stroke:'#d2d9d0','stroke-width':1.5});
+ if(state.view!=='boundary')g.domain.forEach((p,i)=>{add(plot,'circle',{cx:px(p[0]),cy:py(p[1]),r:1.9,fill:color(p[2]),'fill-opacity':.82,'data-stream':'domain','data-index':i,class:'pick'});});
+ if(state.view!=='domain')g.boundary.forEach((p,i)=>{add(plot,'circle',{cx:px(p[0]),cy:py(p[1]),r:2.7,fill:C.teal,'data-stream':'boundary','data-index':i,class:'pick'});});
+ if(state.normals)g.boundary.forEach((p,i)=>{if(i%8===0)add(plot,'line',{x1:px(p[0]),y1:py(p[1]),x2:px(p[0]+.032*p[2]),y2:py(p[1]+.032*p[3]),stroke:C.teal,'stroke-width':1.7,'marker-end':'url(#normal-arrow)'});});
+ const s=state.selected, p=s.stream==='boundary'?g.boundary[s.index]:g.domain[s.index];
+ add(plot,'circle',{cx:px(p[0]),cy:py(p[1]),r:7.5,fill:'none',stroke:C.gold,'stroke-width':2.4,'pointer-events':'none'});
+ if(s.stream==='boundary')add(plot,'line',{x1:px(p[0]),y1:py(p[1]),x2:px(p[0]+.065*p[2]),y2:py(p[1]+.065*p[3]),stroke:C.gold,'stroke-width':2.2});
+ $('#node-count').textContent=g.nodes;$('#area-count').textContent=fmt(g.discrete_area,3);
+ $('#hole-values').innerHTML=g.holes.map((h,i)=>`<div>孔 ${i+1}<br>c = (${fmt(h[0],3)}, ${fmt(h[1],3)})<br>r = ${fmt(h[2],3)}</div>`).join('');
+ $('#pad-real').textContent=g.nodes;$('#source-path').textContent=g.source;
+ const mat=$('#padding-matrix');mat.replaceChildren();for(let i=0;i<10;i++){const row=document.createElement('div');row.className='matrix-row'+(i>=Math.round(10*g.nodes/1536)?' pad':'');for(let j=0;j<3;j++)row.appendChild(document.createElement('i'));mat.appendChild(row);}
+ if(s.stream==='boundary'){
+  $('#inspector').innerHTML=`<div class="title">边界 token #${s.index}　${p[4]===0?'外椭圆':'孔壁'}</div><div>[x, y, nₓ, nᵧ, b]</div><div>[${p.map((x,i)=>i===4?x:fmt(x)).join(', ')}]</div><div>独立弧长权重 Δs = ${fmt(g.ds[s.index],6)}</div><div class="caption">箭头表示物理域的外法向；孔壁法向指向孔内。</div>`;
+ }else{
+  $('#inspector').innerHTML=`<div class="title">域内 token #${s.index}　三角形重心</div><div>[x, y, φ₀] = [${p.map(x=>fmt(x)).join(', ')}]</div><div>独立面积权重 Aᵢ = ${fmt(g.area[s.index],7)}</div><div class="caption">真实邻居 ${g.degree[s.index]} 个${state.edges?'；图中最多显示 24 条已存连边':''}。φ₀ 是已知初值。</div>`;
+ }
+ $$('[data-case]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.case===state.sample)));
+ $$('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===state.view)));
+ $('#normal-toggle').setAttribute('aria-pressed',String(state.normals));$('#edge-toggle').setAttribute('aria-pressed',String(state.edges));
+}
+$$('[data-case]').forEach(b=>b.addEventListener('click',()=>{state.sample=+b.dataset.case;state.selected={stream:'boundary',index:96};render();}));
+$$('[data-view]').forEach(b=>b.addEventListener('click',()=>{state.view=b.dataset.view;if(state.view==='domain')state.selected={stream:'domain',index:Math.floor(data.cases[state.sample].nodes/2)};if(state.view==='boundary')state.selected={stream:'boundary',index:96};render();}));
+$('#geo').addEventListener('click',e=>{const node=e.target.closest('[data-stream]');if(node){state.selected={stream:node.dataset.stream,index:+node.dataset.index};render();}});
+$('#normal-toggle').addEventListener('click',()=>{state.normals=!state.normals;render();});
+$('#edge-toggle').addEventListener('click',()=>{state.edges=!state.edges;if(state.edges){state.view='both';state.selected={stream:'domain',index:Math.floor(data.cases[state.sample].nodes/2)};}render();});
+function timeRender(){const s=state.time/3;$('#time-value').textContent=fmt(state.time,2);$('#time-equation').innerHTML=`s = t / T = ${fmt(s,3)}<br>φ(x,t) = φ₀(x) + ${fmt(s,3)} × [z(x,t) − z̄(t)]<br>${state.time===0?'此时增量为 0 → 精确得到初值。':'空间 hθ(x) 复用；时间 FiLM 与输出均值随 t 变化。'}`;$$('.time').forEach((el,i)=>el.classList.toggle('active',i===Math.round(state.time)));}
+$('#time-slider').addEventListener('input',e=>{state.time=+e.target.value;timeRender();});
+function splitRender(){const weights=state.split?[.2,.15,.15,.5]:[.2,.3,.5],score=state.split?[.7,1.1,1.1,.8]:[.7,1.1,.8],values=state.split?[1,3,3,2]:[1,3,2];let num=0,den=0;weights.forEach((w,i)=>{num+=w*score[i]*values[i];den+=w*score[i];});const result=num/den;$('#split-label').textContent=state.split?'4 行 token':'3 行 token';$('#split-value').textContent=fmt(result,4);$('#split-bar').style.width=(result/3*100)+'%';$('#split-toggle').setAttribute('aria-pressed',String(state.split));$('#split-desc').textContent=state.split?'中间 token 的测度 0.30 拆成 0.15 + 0.15，特征 / 值相同，归一化积分保持不变。':'三个 token 的测度为 0.20 / 0.30 / 0.50。点击按钮，检查拆分后的结果是否改变。';}
+$('#split-toggle').addEventListener('click',()=>{state.split=!state.split;splitRender();});
+function poolRender(){const grid=$('#pool-grid');grid.replaceChildren();for(let i=0;i<1024;i++){const el=document.createElement('i');el.className='slot'+(i<Math.min(state.pool,32)*32?' fresh':'');el.setAttribute('aria-hidden','true');grid.appendChild(el);}$('#pool-info').textContent=`示意第 ${state.pool} 次刷新 · 累计安装 ${state.pool*32} 个新输入`}
+$('#pool-step').addEventListener('click',()=>{state.pool++;poolRender();});$('#pool-reset').addEventListener('click',()=>{state.pool=0;poolRender();});
+render();timeRender();splitRender();poolRender();
+root.dataset.ready='true';
+window.geometryExplainer={data,state,render};
+})();
+</script>
+</body>
+</html>
