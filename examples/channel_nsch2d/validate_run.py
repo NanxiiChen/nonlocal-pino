@@ -219,9 +219,12 @@ def validate(run):
         gx,gy=gmls_first_jets(domain,domain,data,boundary=False)
         div=np.asarray(gx[...,2]+gy[...,3],dtype=np.float64)
         mask=np.asarray(data['interior'])>0
-        report['GMLS_residual_derivatives']=dict(configuration=c.derivatives.to_dict(),
+        integral=c.nl.method=='integral_moment'
+        key='integral_residual_derivatives'if integral else 'GMLS_residual_derivatives'
+        spatial='integral'if integral else 'GMLS'
+        report[key]=dict(configuration=c.derivatives.to_dict(),
             maximum_interior_discrete_divergence=float(np.max(np.abs(div[:,mask]))),
-            scope='Approximate GMLS divergence is diagnostic, not the exact physical AD-curl constraint or a training loss')
+            scope='Approximate '+spatial+' divergence is diagnostic, not the exact physical AD-curl constraint or a training loss')
     if refinement_audit is not None:
         report['refinement_inputs']=refinement_audit
         report['sampling_scope']='Inherited parent stochastic stage; new refinement uses the audited complete BDF time grid'

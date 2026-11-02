@@ -6,6 +6,49 @@ validation of neural accuracy; its independent FEM reference has passed refineme
 The existing periodic
 `twophase2d` prescribed-flow pilot is unchanged.
 
+## Default training configuration
+
+`train.py` defaults to `configs/train_default.py`, selecting the validated
+stronger-channel fixed-weight recipe: width128/four heads, SOAP5000/lr1e-3,
+ordinary FP32/highest, GMLS spatial PDE/BC derivatives, physical timeJVP with40
+fresh stratified times and eight-time gradient blocks, rolling16geometry pool/B2.
+Nominal wall amplitudes are upper.18/lower.12; both training amplitudes are drawn
+independently from[.06,.20]. Fresh runs receive automatic timestamp names.
+
+All nine soft losses are summed after their fixed residual normalization:
+
+| Residual | Divisor before squaring |
+|---|---:|
+| CH transport |0.2|
+| Chemical-potential relation |1|
+| Both momentum components |1|
+| Wall/outlet phase Neumann |1|
+| Wall/outlet chemical Neumann |4|
+| Outlet traction |1|
+
+Chemical-potential output amplitude remains4; this is independent of the
+chemical-row divisor1. Stream/pressure output amplitudes are.2/1. Adaptive
+gradient balancing, causal weights and tanh residual transformation are absent
+from the default. The explicit allterms preset below retains the adaptive
+research option. Historical `configs/train_operator.py` keeps the original
+mild width96/Nt4 pilot for reproducibility.
+
+```bash
+source .venv/bin/activate
+python -m examples.channel_nsch2d.train
+```
+
+The default references the existing refinement-validated local FEM at
+`/root/autodl-tmp/data/channel_nsch2d/stronger-reference-20261102-01`.
+Independent reference generation must use the same physical config and wall
+amplitudes and pass the three-solve refinement procedure described below.
+Do not overlap FEM/MPI and JAX GPU runs. The selected saved fixed-scale run has
+phi1.947%,velocity3.059%,pressure3.945% on one nominal development geometry;
+population and cross-seed accuracy remain unverified. Full comparison and
+limitations are in the [nine-term experiment](../../docs/tasks/archive/channel-allterms-gradnorm.md).
+
+## Formulation and optional controls
+
 The upper/lower walls independently indent inward using a compact smooth bump;
 their amplitude sum controls narrowing and their difference produces centerline
 displacement. Inlet/outlet straight sections, initial droplet and all physical
@@ -51,10 +94,11 @@ b(x)=\max\{1-[(x-2)/0.9]^2,0\}^4,\qquad
 y_b=a_b b(x),\quad y_t=1-a_t b(x).
 $$
 
-Each inward amplitude is drawn uniformly from[.04,.14]. Only these two geometry
+By default, each inward amplitude is drawn uniformly from[.06,.20]. Only these two geometry
 parameters vary; no random velocity, material, initial phase or future trajectory.
-The first operator trial uses16precomputed geometry/operator inputs, not an
-infinite rolling geometry pool. No evolved field labels are in that bank.
+The default keeps16geometry/operator inputs in a rolling pool, replacing2every50
+updates using two CPU workers. No evolved field labels are in that bank. The
+historical mild pilot instead used[.04,.14] and a fixed16-input bank.
 
 For the streamfunction recipe, let e=(y-y_b)/(y_t-y_b), Q(t) the prescribed
 inlet flux, and g(t)=1-exp(-t/.25). Learn a free scalar correction Npsi:
@@ -74,7 +118,7 @@ separate learned field. The default uses the original residual; optional tanh
 coordinate/residual controls are documented below.
 
 The shared heterogeneous point encoder receives two weighted streams:
-192boundary tokens(x,y,nx,ny,type) and3977domain tokens(x,y,phi0), at width96
+192boundary tokens(x,y,nx,ny,type) and15633domain tokens(x,y,phi0), at width128
 with4heads and2condition blocks. Coordinate cross-attention prepares features
 once per spatial set; a3layer temporal decoder reuses them across query times.
 Different geometries have different physical coordinates, with fixed tensor
@@ -104,6 +148,25 @@ residual despite tighter boundary enforcement. These remain research controls;
 defaults are unchanged. See the [completed investigation](../../docs/tasks/archive/channel-derivative-clarification.md)
 for the comparison and independent checks. Use each checkpoint's saved config
 for evaluation.
+
+The opt-in `configs/train_operator_width128_gmls_time40_jvp_allterms_online.py`
+tests independent adaptive weights for all nine soft terms on the stronger
+geometry family. It preserves the physical output amplitudes(mu4,stream.2,p1),
+sets the phase/chemical/momentum/Neumann/traction residual divisors to1, and
+uses the existing inverse-L1-gradient/EMA algorithm with cap1000,epsilon1e-6,
+new-weight fraction.9 and refresh100. This is not original learned GradNorm.
+All40 continuously resampled times contribute to each term's gradient before
+its norm is taken. Eight-time blocks bound memory; one joint SOAP update follows
+the full weighted mean gradient. No causal weighting, evolved labels, regional
+weights or time windows are added. The completed matched cold5000 control gives
+phi2.877%,velocity5.126%,pressure8.267%,mu38.927%, versus fixed-scale
+1.947%/3.059%/3.945%/19.599%. Terminal minority-field L2 is7.689% versus4.869%.
+Independent240-time probes find tighter boundary residuals but larger CH and
+chemical-relation residuals. Thus equalizing parameter-gradient norms does not
+automatically give the best physical accuracy at this budget. Keep this scheme
+opt-in; current recommendations/defaults remain unchanged. These are one nominal
+development geometry/initialization results, not population accuracy or a test
+of every GradNorm variant. See the [completed comparison](../../docs/tasks/archive/channel-allterms-gradnorm.md).
 
 An opt-in experimental `pressure_coordinate.kind=chemical_shift` interprets
 the raw pressure channel as Pi=p+phi*mu. The physical wrapper returns
@@ -190,7 +253,7 @@ including near inlet/outlet corners. A low sampled boundary loss alone does not
 certify the continuous boundary traces. Native FEM natural BCs are imposed
 weakly and need not have exactly zero pointwise derivative/traction traces.
 
-The accepted local reference is64×24Taylor–Hood/mixed FEM, dt=.025,BDF2,26909DOFs.
+For the historical mild case, the accepted local reference is64×24Taylor–Hood/mixed FEM, dt=.025,BDF2,26909DOFs.
 Against40×16and dt=.05 controls, maximum-time phi discrepancies are1.56%/0.77%,
 velocity1.54%/0.22%, pressure3.19%/2.01%. Chemical potential is less precise
 (11.85%/15.56%) and is reported outside the phi/velocity/pressure gate.
@@ -207,7 +270,7 @@ nonlocal discretization and network optimization errors distinct when interpreti
 PINO/FEM shape differences; a lower weighted training loss alone certifies none
 of these.
 
-Canonical physics-only operator launch (after generating/validating the reference):
+Explicit historical mild-pilot launch (after generating/validating its reference):
 
 ```bash
 source .venv/bin/activate
@@ -218,7 +281,7 @@ python -m examples.channel_nsch2d.evaluate \
   --fields /absolute/run/directory/prediction.npz --output /absolute/figure/directory
 ```
 
-The canonical train.py defaults to the tested operator preset. It selects
+The historical `train_operator.py` preset selects
 SOAP5000,lr=.001,beta1=beta2=.9,precondition every5
 updates, condition batch2 and4fresh stratified times. Arithmetic isFP32 with
 ordinary GPU compilation. The base recipe has the same formulation with Adam;
@@ -229,6 +292,11 @@ final optimizer, per-loss terms and one-geometry FEM metrics are saved separatel
 For independent FEM, deactivate `.venv` and activate `fenicsenv`; never run its
 MPI solver concurrently with JAX GPU work. Repeat the solver for grid40×16/
 dt.025,64×24/dt.05,and64×24/dt.025, then pass all three to validate_reference:
+
+The commands below reproduce the historical mild geometry. For the current
+default, pass `--config=examples.channel_nsch2d.configs.train_default` to both
+modules, use solver amplitudes `--upper .18 --lower .12`, and export matching
+`--query-grid 96 40` points in every solve. Select fresh output paths.
 
 ```bash
 python -m examples.channel_nsch2d.solver --grid 64 24 --dt .025 --query-grid 32 12 \
@@ -281,9 +349,9 @@ collocation checks before a larger network or accuracy claim.
 Run-specific results and exact resume state are in
 [the task record](../../docs/tasks/archive/channel-nsch-pilot.md).
 
-The experimental training derivative uses spatial AD/time JVP (including the
-streamfunction Hessian for first physical velocity derivatives), with a
-precomputed polynomial-reproducing QR-GMLS Laplacian on physical domain/wall nodes.
+The default uses physical timeJVP and precomputed polynomial-reproducing
+QR-GMLS spatial gradients/Laplacians on physical domain/wall nodes. The physical
+streamfunction-to-velocity curl remains spatial AD.
 
 Current derivative paths are explicit:
 
@@ -291,9 +359,56 @@ Current derivative paths are explicit:
 |---|---|
 | Physical time derivatives | Time JVP |
 | Velocity from psi | Spatial AD: ux=psi_y,uy=-psi_x |
-| First field/pressure gradients, normal gradients and outlet stress | Spatial JVP/AD |
+| First field/pressure gradients, normal gradients and outlet stress | Precomputed QR-GMLS |
 | Physical Laplacians of phi,mu,ux,uy | Precomputed36neighbor cubic-polynomial QR-GMLS |
 | Loss gradients with respect to parameters | Reverse AD through all operations |
+
+An explicit integral control is available as
+`configs/train_operator_width128_integral_time40_jvp_stronger_online.py`.
+It retains the selected fixed-normalization default's physics, stronger geometry
+prior, network, hard lifts, timeJVP40, SOAP5000 and rolling input identities.
+Only the spatial PDE/BC stencils and corresponding flux selector change.
+Its kernel is the same quadratic radial influence used by the repository's
+2D scalar integral operators:
+
+$$
+k_\delta(r)=\frac{120}{\pi\delta^4}(1-r/\delta)^2\,\mathbf 1_{r<\delta},
+\qquad \delta=0.075.
+$$
+
+Use all physical neighbors inside that radius, with a padded capacity128;
+overflow or unresolved moments fail rather than truncate/expand the horizon.
+With nodal volume \(V_j\), baseline coefficients are
+\(a^0_{x,j}=k_\delta V_j\xi_{j,x}/2\),
+\(a^0_{y,j}=k_\delta V_j\xi_{j,y}/2\), and
+\(a^0_{L,j}=k_\delta V_j\). The full-ball second moment is \(2I\).
+For centered, factorial-scaled Taylor monomials \(B\) through degree3 (excluding
+the constant), set \(W=\operatorname{diag}(k_\delta V_j)\). Each derivative
+target \(t\) determines the corrected coefficients:
+
+$$
+a=a^0+WB(B^TWB)^{-1}(t-B^Ta^0),\qquad
+D_\delta f(x)=\sum_j a_j[f(x_j)-f(x)].
+$$
+
+This is the minimum weighted-norm correction satisfying \(B^Ta=t\), evaluated
+with weighted QR in `integral_operators.py`. It preserves the original kernel's
+moment-nullspace component; it is an adaptation of
+[reproducing constrained integral quadrature](https://arxiv.org/abs/1801.04488)
+and [higher-order nonlocal moments, equations26–34](https://doi.org/10.1007/s00366-021-01537-x).
+Its moment algebra is related to GMLS; this is an actual horizon/kernel/volume/
+coefficient change, not a claim of a fundamentally unrelated approximation.
+
+Truncated supports at walls/inlet/outlet satisfy the same polynomial conditions,
+including off-node boundary queries. Physical boundary losses remain explicit;
+no-slip does not become a zero-normal-velocity-gradient condition. Corrected
+Laplacian coefficients may change sign and need not form a symmetric pair
+matrix. Do not infer automatic Neumann closure, exact mass/energy preservation,
+pressure stability, or validated continuum convergence from moment consistency.
+The original positive symmetric regional scalar Laplacian remains a distinct
+scheme. The fixed GMLS default and saved results are unchanged. Run status and
+measured comparison belong to the
+[completed integral control](../../docs/tasks/archive/channel-integral-nonlocal-control.md).
 
 `configs/train_operator_width128_gmls_first_online.py` is an opt-in matched
 cold20k control. Its `derivatives` record explicitly selects `gmls_first`,
@@ -825,7 +940,8 @@ reference labels, masks, output map or equation. An independent normalizer is
 rejected when the chemical row is eliminated. The finite comparison requires
 the completed original shared-scale control and exact initial model/fullSOAP /
 actual time/geometry input parity. Reports record both scale roles explicitly.
-This control is unpromoted; finite validation is recorded in the
+This chemical-row1 recipe is selected by the default through its stronger
+geometry variant below; earlier finite validation is recorded in the
 [completed task](../../docs/tasks/archive/channel-derivative-clarification.md).
 
 `configs/train_operator_width128_gmls_time40_jvp_stronger_online.py` retains
@@ -837,6 +953,8 @@ refinement-validated reference. Evaluating the earlier frozen operator at
 upper amplitude.18 is extrapolation beyond its original[.04,.14] prior;
 distinguish that from training on the wider family. The finite experiment is
 recorded in [the completed stronger-constriction task](../../docs/tasks/archive/channel-stronger-constriction.md).
+`train_default.py` selects this exact validated configuration with an empty
+run-name field for fresh automatic naming; the historical preset is unchanged.
 
 Formulation background: [Jacqmin1999](https://doi.org/10.1006/jcph.1999.6332),
 [Abels–Garcke–Grün](https://arxiv.org/abs/1104.1336). Full coupled feedback and

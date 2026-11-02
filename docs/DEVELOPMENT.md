@@ -67,7 +67,25 @@ known-input arrays (two derivative matrices, two norm vectors, mapping Jacobian
 and physical SBP measure) to the original ten-array geometry payload. The
 encoder inputs remain unchanged. Matching quadrature and conservative mapped
 phase fluxes do not imply energy/mass stability of the full mixed GMLS/NS
-scheme. Current defaults retain the original experimental AD/GMLS recipe.
+scheme. The explicit legacy `configs/train_operator.py` retains the original
+experimental AD/GMLS recipe. The actual channel training default is
+`configs/train_default.py`, selecting the validated stronger GMLS-first/timeJVP
+fixed-normalization recipe with a fresh automatic run name. Do not redirect
+the legacy factory to its own descendants or alter historical preset values.
+
+The explicit channel integral control uses `nl.method=integral_moment`,
+`derivatives={kind:integral_first,boundary:integral,velocity:unchanged_streamfunction_ad}`
+and `phase_transport.kind=integral_conservative`. Its radial horizon includes all
+physical neighbors, padded with zero weights to the explicit `nl.neighbors`
+capacity; overflow/rank failure raises. `integral_operators.py` corrects the
+original quadratic radial gradient/Laplacian coefficients to degree3 derivative
+moments using physical nodal volumes and weighted QR. Payload keys and physical
+conditioning arrays stay the same; stencil widths change. TimeJVP, explicit
+BCs and AD streamfunction curl remain. `integral_validation` permits only the
+operator/selectors/run-name differences and checks actual cold model/SOAP and
+all unchanged initial/final conditioning/quadrature/time arrays. The finite
+runner's `--operator-control` selects this audit independently of other controls.
+No default promotion or symmetric-pair conservation claim follows.
 
 The explicit extension `time_derivative={kind:jvp,sampling:continuous_stratified}`
 instead uses `network.time_jets` for physical time derivatives and retains the
@@ -162,14 +180,32 @@ Channel `train.microbatch={kind:time,size:8}` optionally accumulates gradients
 for a complete `sample.Nt=40` random time batch. The size must divide Nt. Each
 block uses the same current parameters; the averaged gradient is clipped and
 sent to SOAP once. This is not sequential time integration. The initial path
-requires cold joint losses, without balancing/stagger/refinement; causal uses
-the separate explicit path below.
+requires cold joint losses, without stagger/refinement; the original uniform,
+explicit termwise-balancing and causal paths remain separate.
 `configs/train_operator_width128_gmls_time40_online.py` is a finite5k control
 preserving the original GMLS model and boundary rule. Forty equal strata each
 contain six of the240positive BDF nodes; averaging is unbiased for the original
 full-time mean. It does not force the first positive node on every update.
 This pilot precedes a separate matched40-time causal experiment; causal is not
 enabled by increasing Nt or by accumulating gradients.
+
+Channel `balance.grouping=terms` explicitly assigns one stopped inverse-L1-
+gradient/EMA weight per soft term (nine with streamfunction). Absence retains
+legacy physics-group arithmetic; `grouping=physics` names that older grouping.
+The new `make_balanced_accumulated_fn` averages each term's complete parameter
+gradient over all time blocks BEFORE taking its L1 norm. On refresh, reuse
+these gradients to form the weighted sum; on held steps, accumulate only the
+fixed-weight gradient. Clip and update SOAP once afterward. Averaging block
+norms or changing weights inside a block sequence is not this algorithm.
+This is not the learned-weight/training-rate objective of original GradNorm.
+
+The explicit allterms stronger-channel preset retains outputmu4/stream.2/p1,
+sets all used residual divisors1 and balances all nine terms with the existing
+epsilon1e-6/cap1000/newfraction.9/refresh100 rule. Its independent
+`balance_validation` audits the matched fixed-scale control, actual cold states,
+all input/time arrays, refresh schedule, EMA and weighted objective. The finite
+owner accepts `--balance-control` separately from prior temporal/geometry
+controls. No default promotion follows from enabling adaptive weighting.
 
 Optional channel `causal` explicitly selects `kind=coupled_prefix_mse`,
 `weight_gradient=stop` and `boundary=same_time_weights`. It

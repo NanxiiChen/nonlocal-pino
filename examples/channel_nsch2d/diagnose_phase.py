@@ -70,6 +70,9 @@ def diagnose(run,advection_grid):
         advection_quadrature_gap=advection_gap.tolist(),gmls_laplacian_gauss_gap=gauss_gap.tolist(),
         mobility_scaled_laplacian_gauss_gap=(c.physical.mobility*gauss_gap).tolist(),
         scope='Same trained quadrature; includes every open boundary. No extra mass loss or reference label used in training.')
+    if c.nl.method=='integral_moment':
+        report['integrated_integral_strong_residual']=report.pop('integrated_gmls_strong_residual')
+        report['integral_laplacian_gauss_gap']=report.pop('gmls_laplacian_gauss_gap')
     if 'phase_transport' in c and c.phase_transport.kind=='sbp4_mapped_curl':
         from examples.channel_nsch2d.transport import conservative_advection
         @eqx.filter_jit
@@ -91,7 +94,7 @@ def diagnose(run,advection_grid):
             continuous_JVP_storage_rate=(dt[...,0]@measure).tolist(),
             dispersed_phase_area=((1-phase.reshape(len(times),-1))/2@measure).tolist(),
             scope='Advection identity only; GMLS diffusion, boundary PDE masks and BDF2-versus-continuous time are separate')
-    if 'phase_transport' in c and c.phase_transport.kind=='gmls_conservative':
+    if 'phase_transport' in c and c.phase_transport.kind in ('gmls_conservative','integral_conservative'):
         from examples.channel_nsch2d.losses import gmls_phase_advection,gmls_first_jets
         @eqx.filter_jit
         def discrete_transport(net,d):
@@ -100,12 +103,15 @@ def diagnose(run,advection_grid):
             return gmls_phase_advection(z,d),gx[...,2]+gy[...,3]
         rate,div=[np.asarray(a,dtype=np.float64) for a in discrete_transport(model,data)]
         measure=np.asarray(data['transport_measure'],dtype=np.float64)
-        report['gmls_phase_transport']=dict(training_dtype=c.train.compute_dtype,
+        integral=c.nl.method=='integral_moment'
+        key='integral_phase_transport'if integral else 'gmls_phase_transport'
+        spatial='Moment-corrected integral'if integral else 'GMLS'
+        report[key]=dict(training_dtype=c.train.compute_dtype,
             advection_integral=(rate@measure).tolist(),
             physical_boundary_phase_flux=advective_flux.tolist(),
             quadrature_and_operator_flux_gap=(rate@measure-advective_flux).tolist(),
             maximum_interior_discrete_divergence=float(np.max(np.abs(div[:,raw['interior']>0]))),
-            scope='GMLS conservative differential form, not an exact SBP mass identity. Physical velocity remains the unchanged AD curl; continuous-JVP storage is an independent diagnostic.')
+            scope=spatial+' conservative differential form, not an exact SBP mass identity. Physical velocity remains the unchanged AD curl; continuous-JVP storage is an independent diagnostic.')
     if advection_grid is not None:
         # Refine diagnostic integration while holding the original geometry
         # encoder/context and trained model fixed. No new conditioning tokens.

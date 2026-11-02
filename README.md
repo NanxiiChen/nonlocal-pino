@@ -86,7 +86,7 @@ were inspected statically, without full accuracy/default promotion.
 
 ## Physics-only neural-operator defaults
 
-The opt-in `configs/train_operator.py` presets use the currently recommended
+The neural-operator presets below use the currently recommended
 measured strategies, with known initial/geometry inputs and no evolved-field labels:
 
 | Operator | Default configuration | Validation |
@@ -94,15 +94,19 @@ measured strategies, with known initial/geometry inputs and no evolved-field lab
 | 3D melting | Online B16, Adam5000, lr1e-3, ordinary FP32/highest, hard IC + latent PDE | Eight native tests; one local-FEM check, Adam pooled phi0.1479% |
 | 2D electropolish | Online B8, Adam5000, lr1e-3, ordinary FP32/highest, image-only condition, original AC/CH + IC/BC | Independent64-input local-FD mean phi pooled4.427% |
 | Confined CH geometry | Width256, rolling1024-input pool, B16/Nt16, SOAP50000, lr1e-3, ordinary FP32/highest, hard IC/mass, eliminated mu | Eight reused native development geometries; mean phi pooled4.83%, terminal5.19% |
+| 2D NS–CH channel geometry | `train_default.py`: width128, rolling16/B2/Nt40, SOAP5000, ordinary FP32, GMLS + timeJVP, fixed residual normalization | One nominal local-FEM development geometry; phi1.947%, velocity3.059%, pressure3.945% |
 
 ```bash
 python -m examples.icemelting3d.train --config=examples/icemelting3d/configs/train_operator.py
 python -m examples.electropolish2d.train --config=examples/electropolish2d/configs/train_operator.py
 python -m examples.confined_ch2d.train --config=examples/confined_ch2d/configs/train_operator.py
+python -m examples.channel_nsch2d.train
 ```
 
-Run individually. These are the recommended NO presets; no-argument `train.py`
-still selects each established single-IVP PINN default. Melting retains Adam
+Run individually. No-argument channel `train.py` selects the fixed-normalization
+geometry operator; its legacy `train_operator.py` remains explicit. The other
+three examples still require the shown operator preset, with no-argument
+`train.py` retaining their single-IVP PINN defaults. Melting retains Adam
 for the current local-physics/cost compromise; SOAP's lower native pooled error
 does not guarantee lower local-FEM error. Electropolish disables query-local IC
 features while preserving actual IC losses. Historical finite/online/causal

@@ -44,6 +44,13 @@ def identity(c):
 
 def validate_config(c):
     g,p=c.geometry,c.physical
+    integral=c.nl.method=='integral_moment'
+    if integral:
+        from examples.channel_nsch2d.integral_operators import validate_integral
+        validate_integral(c)
+        if ('derivatives' not in c or 'chemical_constraint'in c
+                or 'time_derivative'not in c or any(k in c for k in ('balance','causal'))):
+            raise ValueError('Integral pilot requires explicit timeJVP/PDE+BC derivatives and fixed joint losses')
     positive=(g.length,g.height,g.half_length,p.density,p.viscosity,p.mean_velocity,
         p.surface_tension,p.epsilon,p.mobility,p.terminal_time,p.ramp_time,
         c.initial.radius,c.initial.transition)
@@ -76,9 +83,10 @@ def validate_config(c):
         if (isinstance(m.size,bool) or not isinstance(m.size,int) or m.size<1
                 or m.size>c.sample.Nt or c.sample.Nt%m.size):
             raise ValueError('Time microbatch size must be a positive integer divisor of Nt')
-        if (any(k in c for k in ('balance','stagger'))
+        term_balance=('balance' in c and 'grouping' in c.balance and c.balance.grouping=='terms')
+        if ('stagger' in c or ('balance' in c and not term_balance)
                 or any(k in c.train for k in ('continuation','refinement'))):
-            raise ValueError('Time microbatch currently requires cold uniform joint losses')
+            raise ValueError('Time microbatch requires cold uniform joint losses or explicit termwise balance')
     if 'causal' in c:
         q=c.causal
         adaptive_causal='adaptation' in q
@@ -140,6 +148,8 @@ def validate_config(c):
     if 'balance' in c:
         b=c.balance
         if b.kind!='gradnorm' or b.norm!='l1':raise ValueError('Explicit balance requires gradnorm/L1')
+        if 'grouping' in b and b.grouping not in ('physics','terms'):
+            raise ValueError('Balance grouping must explicitly select physics or terms')
         if not 0<b.epsilon<1 or not np.isfinite(b.cap) or b.cap<1:
             raise ValueError('Balance requires finite epsilon in(0,1) and cap>=1')
         if not 0<b.new_weight_fraction<=1:raise ValueError('Balance EMA fraction must be in(0,1]')
@@ -234,9 +244,9 @@ def validate_config(c):
                 or c.sample.include_initial_time):
             raise ValueError('Explicit time derivative requires jvp/continuous_stratified, GMLS space and no discrete-time/t0 row')
     if 'phase_transport' in c:
-        if c.phase_transport.kind not in ('sbp4_mapped_curl','gmls_conservative') or 'velocity' not in c:
+        if c.phase_transport.kind not in ('sbp4_mapped_curl','gmls_conservative','integral_conservative') or 'velocity' not in c:
             raise ValueError('Explicit SBP/GMLS phase transport requires the streamfunction representation')
-        if c.phase_transport.kind=='gmls_conservative' and ('derivatives' not in c
+        if c.phase_transport.kind in ('gmls_conservative','integral_conservative') and ('derivatives' not in c
                 or set(c.phase_transport)!={'kind','quadrature'} or c.phase_transport.quadrature!='sbp4_mapped'):
             raise ValueError('GMLS conservative transport requires GMLS gradients and explicit sbp4_mapped loss quadrature')
         if min(c.sample.Nx,c.sample.Ny)<8:
@@ -245,10 +255,11 @@ def validate_config(c):
             raise ValueError('First SBP transport controls require uniform original residual metrics')
     if 'derivatives' in c:
         s=c.derivatives
-        if (set(s)!={'kind','boundary','velocity'} or s.kind!='gmls_first' or s.boundary!='gmls'
+        expected=('integral_first','integral','integral_conservative')if integral else ('gmls_first','gmls','gmls_conservative')
+        if (set(s)!={'kind','boundary','velocity'} or s.kind!=expected[0] or s.boundary!=expected[1]
                 or s.velocity!='unchanged_streamfunction_ad' or 'velocity' not in c
                 or not any(k in c for k in ('time_discretization','time_derivative')) or 'phase_transport' not in c
-                or c.phase_transport.kind!='gmls_conservative'):
+                or c.phase_transport.kind!=expected[2]):
             raise ValueError('GMLS-first residual control requires explicit boundary/unchanged_streamfunction_ad, BDF2 or explicit timeJVP, and GMLS flux')
         if any(k in c for k in ('stagger','stress_formulation','phase_metric','droplet_metric','residual_transform','phase_coordinate')):
             raise ValueError('GMLS residual control requires original physical outputs and joint losses')

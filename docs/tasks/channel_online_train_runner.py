@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 
-def main(config, run_name, seed, reference_root, construction_screen, comparison_control=None, geometry_control=None):
+def main(config, run_name, seed, reference_root, construction_screen, comparison_control=None, geometry_control=None,balance_control=None,operator_control=None):
     from examples.channel_nsch2d.problem import identity, validate_config
     from examples.channel_nsch2d.cohort import reserved_amplitudes
     from examples.channel_nsch2d.online import validate_construction_screen
@@ -27,7 +27,17 @@ def main(config, run_name, seed, reference_root, construction_screen, comparison
     validate_config(c)
     from examples.channel_nsch2d.initialization import model_initialization_spec
     initialization=model_initialization_spec(c)
-    if geometry_control is not None:
+    if operator_control is not None:
+        if any(v is not None for v in (comparison_control,geometry_control,balance_control,initialization)):
+            raise ValueError('Operator control requires an independent cold derivative-only comparison')
+        from examples.channel_nsch2d.integral_validation import comparison_config
+        comparison_config(c,operator_control)
+    elif balance_control is not None:
+        if comparison_control is not None or geometry_control is not None or initialization is not None:
+            raise ValueError('Balance control requires cold training and no other comparison')
+        from examples.channel_nsch2d.balance_validation import comparison_config
+        comparison_config(c,balance_control)
+    elif geometry_control is not None:
         if comparison_control is not None or initialization is not None:
             raise ValueError('Geometry control requires cold training and no same-geometry comparison')
         from ml_collections import ConfigDict
@@ -77,6 +87,8 @@ def main(config, run_name, seed, reference_root, construction_screen, comparison
         time_samples_per_update=c.sample.Nt,
         comparison_control=comparison_control,
         geometry_control=geometry_control,
+        balance_control=balance_control,
+        operator_control=operator_control,
         construction_screen=construction_screen, screen_summary=screen,
         reserved_geometry_count=len(reserved), prepared_config=json.loads(c.to_json()),
         stages=[], automatic_goal=None, new_FEM_solves=0,
@@ -121,9 +133,11 @@ def main(config, run_name, seed, reference_root, construction_screen, comparison
                                 if complete:
                                     record[key] = json.loads(complete[-1])
                         parity_key='model_stage_state_parity'if initialization is not None else 'cold_state_parity'
-                        if (comparison_control is not None or geometry_control is not None) and 'latest_monitor' in record and parity_key not in record:
+                        if any(v is not None for v in (comparison_control,geometry_control,balance_control,operator_control)) and 'latest_monitor' in record and parity_key not in record:
                             import numpy as np
-                            original=Path(comparison_control if comparison_control is not None else geometry_control)
+                            original=Path(operator_control if operator_control is not None else
+                                balance_control if balance_control is not None else
+                                comparison_control if comparison_control is not None else geometry_control)
                             if initialization is not None:
                                 from examples.channel_nsch2d.initialization import audit_model_initialization
                                 record['model_initialization_parity']=audit_model_initialization(run,c)
@@ -131,13 +145,19 @@ def main(config, run_name, seed, reference_root, construction_screen, comparison
                                 for name in ('model_initial.eqx','optimizer_initial.eqx'):
                                     if (run/name).read_bytes()!=(original/name).read_bytes():
                                         raise ValueError(f'Actual causal cold state differs: {name}')
-                            if geometry_control is None:
+                            if operator_control is not None:
+                                from examples.channel_nsch2d.integral_validation import audit_cold_inputs
+                                record[parity_key]=audit_cold_inputs(run,operator_control)
+                            elif geometry_control is None:
                                 with np.load(run/'known_inputs.npz',allow_pickle=False) as x,np.load(original/'known_inputs.npz',allow_pickle=False) as y:
                                     if set(x.files)!=set(y.files):raise ValueError('Actual causal initial input schema differs')
                                     for name in x.files:np.testing.assert_array_equal(x[name],y[name])
-                            record[parity_key]=dict(status='passed',cold=initialization is None,
-                                fresh_geometry_bank_exact=geometry_control is None,first_monitor_step=record['latest_monitor']['step'])
-                            if geometry_control is not None:
+                            if operator_control is None:
+                                record[parity_key]=dict(status='passed',cold=initialization is None,
+                                    fresh_geometry_bank_exact=geometry_control is None,first_monitor_step=record['latest_monitor']['step'])
+                            if operator_control is not None:
+                                record[parity_key]['cold']=True
+                            elif geometry_control is not None:
                                 record[parity_key].update(initial_model_complete_optimizer_exact=True,
                                     geometry_inputs_intentionally_changed=True)
                             elif initialization is None:
@@ -180,6 +200,16 @@ def main(config, run_name, seed, reference_root, construction_screen, comparison
             matched=audit_cold_geometry(run,geometry_control)
             (run/'geometry-control-validation.json').write_text(json.dumps(matched,indent=2,allow_nan=False)+'\n')
             record['geometry_control_validation']=matched;write()
+        if balance_control is not None:
+            from examples.channel_nsch2d.balance_validation import audit_comparison
+            matched=audit_comparison(run,balance_control)
+            (run/'balance-control-validation.json').write_text(json.dumps(matched,indent=2,allow_nan=False)+'\n')
+            record['balance_control_validation']=matched;write()
+        if operator_control is not None:
+            from examples.channel_nsch2d.integral_validation import audit_comparison
+            matched=audit_comparison(run,operator_control)
+            (run/'operator-control-validation.json').write_text(json.dumps(matched,indent=2,allow_nan=False)+'\n')
+            record['operator_control_validation']=matched;write()
         if 'time_derivative' in c:
             execute('continuous_time_residual',['-m','examples.channel_nsch2d.diagnose_time',
                 '--run='+str(run),'--output='+str(run/'continuous-time-residual'),
@@ -207,5 +237,7 @@ if __name__ == '__main__':
     parser.add_argument('--construction-screen', required=True)
     parser.add_argument('--comparison-control',help='Required for a matched causal/timeJVP pilot')
     parser.add_argument('--geometry-control',help='Completed source for an explicit geometry-only cold study')
+    parser.add_argument('--balance-control',help='Completed fixed-scale source for the nine-term adaptive control')
+    parser.add_argument('--operator-control',help='Completed GMLS source for the integral derivative control')
     args = parser.parse_args()
-    main(args.config, args.run_name, args.seed, args.reference_root, args.construction_screen,args.comparison_control,args.geometry_control)
+    main(args.config, args.run_name, args.seed, args.reference_root, args.construction_screen,args.comparison_control,args.geometry_control,args.balance_control,args.operator_control)

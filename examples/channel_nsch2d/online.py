@@ -33,7 +33,9 @@ def validate_construction_screen(c,path):
         raise ValueError('Input-prior screen has missing or duplicate actual construction records')
     result={k:v for k,v in checked.items() if k!='cases'}
     if 'derivatives' in c:
-        result['additional_gradient_scope']='Prior screen covers unchanged Laplacian/prior only; domain/boundary GMLS gradients are rank/reproduction checked in every actual input construction'
+        result['additional_gradient_scope']=('Integral domain/boundary moments are checked in every screened construction'
+            if c.nl.method=='integral_moment'else
+            'Prior screen covers unchanged Laplacian/prior only; domain/boundary GMLS gradients are rank/reproduction checked in every actual input construction')
     return result
 
 

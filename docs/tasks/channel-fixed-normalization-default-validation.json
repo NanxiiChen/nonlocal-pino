@@ -1,0 +1,27 @@
+{
+  "status": "actual_default_matches_saved_fixed_normalization_configuration",
+  "default_config": "examples/channel_nsch2d/configs/train_default.py",
+  "selected_run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stronger-online-width128-01",
+  "exact_saved_config_parity_excluding": [
+    "train.seed runtime provenance",
+    "log.run_name for fresh automatic naming"
+  ],
+  "adaptive_balance": false,
+  "residual_divisors": {
+    "phase": 0.2,
+    "chemical": 1.0,
+    "momentum": 1.0,
+    "boundary_phi": 1.0,
+    "boundary_mu": 4.0,
+    "traction": 1.0
+  },
+  "chemical_output_amplitude": 4.0,
+  "actual_train_default_flag_resolved": true,
+  "config_factories_imported": 51,
+  "unchanged_historical_config_source_files": 51,
+  "reference_and_manifest_files_present": true,
+  "verification": "Actual Abseil default resolution/config validation/parity, factory import+serialization, syntax and diff checks; no numerical rerun",
+  "training_started": false,
+  "FEM_started": false,
+  "git_history_changed": false
+}

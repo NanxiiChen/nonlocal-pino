@@ -65,7 +65,8 @@ def diagnose(run,output,time_samples,probe_seed):
     report=dict(status='canonical_unweighted_continuous_time_probes_completed',run=str(run),
         time_derivative=c.time_derivative.to_dict(),time_samples=time_samples,probe_seed=probe_seed,
         part_names=list(part_names(c)),cases=cases,reference_labels_used=0,
-        scope='Canonical unweighted timeJVP/GMLS PDE+BC losses on the full trained spatial grid, at independently drawn continuous times; no causal discount, no independent solver or continuum convergence proof')
+        spatial_operator=c.nl.to_dict(),
+        scope='Canonical unweighted timeJVP PDE+BC losses with the saved spatial operator on the full trained grid, at independent continuous times; no causal discount or continuum convergence proof')
     if 'chemical_residual_scale'in c.loss:
         report['chemical_scaling']=dict(output_amplitude=c.loss.chemical_scale,
             residual_normalizer=c.loss.chemical_residual_scale,

@@ -18,7 +18,7 @@ from examples.channel_nsch2d.problem import validate_config,identity
 from examples.channel_nsch2d.data import build_bank,geometry_data
 from examples.channel_nsch2d.network import build_network,encode,fields,phase_jacobian
 from examples.channel_nsch2d.losses import make_loss_fn,part_names
-from examples.channel_nsch2d.balance import group_names,make_balanced_fn
+from examples.channel_nsch2d.balance import group_names,make_balanced_fn,make_balanced_accumulated_fn
 from examples.channel_nsch2d.partition import stage_at,mask_output_updates
 from examples.channel_nsch2d.phase_coordinate import jacobian_diagnostics
 from examples.channel_nsch2d.temporal import sample_intervals
@@ -28,7 +28,7 @@ from ml_collections import ConfigDict
 from nonlocal_pinn.training.optimizers import make_optimizer
 from nonlocal_pinn.training.runtime import configure_gpu_policy,with_run_seed
 
-_CONFIG=config_flags.DEFINE_config_file('config',str(Path(__file__).parent/'configs/train_operator.py'))
+_CONFIG=config_flags.DEFINE_config_file('config',str(Path(__file__).parent/'configs/train_default.py'))
 _SEED=flags.DEFINE_integer('seed',None,'Run provenance, not a strategy parameter')
 
 
@@ -74,8 +74,9 @@ def train(c):
     causal='causal' in c
     feedback_causal=causal and 'adaptation' in c.causal
     adaptive_fn=make_balanced_fn(c) if adaptive else None
+    if adaptive and 'microbatch' in c.train:adaptive_fn=make_balanced_accumulated_fn(c)
     accumulated_fn=None
-    if 'microbatch' in c.train and not causal:
+    if 'microbatch' in c.train and not causal and not adaptive:
         from examples.channel_nsch2d.time_batching import make_accumulated_fn
         accumulated_fn=make_accumulated_fn(c,loss)
     adaptive_weights=jnp.ones(len(group_names(c)),dtype=dtype)
@@ -319,6 +320,10 @@ def train(c):
     if memory is not None:summary['device_memory_bytes']=memory
     summary['device']=dict(kind=jax.devices()[0].device_kind,platform=jax.default_backend(),jax_version=jax.__version__)
     if adaptive:summary['balance']=dict(groups=group_names(c),final_weights=np.asarray(adaptive_weights).tolist())
+    if adaptive and 'grouping' in c.balance:
+        summary['balance'].update(settings=c.balance.to_dict(),
+            algorithm='Stopped inverse-L1-gradient ratio with clipping and EMA; not original learned GradNorm',
+            gradient_scope='Norm of each full condition/time-mean parameter gradient, before optimizer clipping')
     if 'microbatch' in c.train:
         summary['microbatch']=dict(**c.train.microbatch.to_dict(),
             time_samples_per_update=c.sample.Nt,optimizer_updates_per_batch=1,
@@ -341,13 +346,14 @@ def train(c):
     if 'chemical_residual_scale'in c.loss:
         summary['chemical_scaling']=dict(output_amplitude=c.loss.chemical_scale,
             residual_normalizer=c.loss.chemical_residual_scale,boundary_normalizer=c.loss.boundary_mu_scale,
-            scope='Only the chemical PDE-row normalization changes; physical mu output amplitude and all boundary scales retain their explicit values')
+            scope='Physical mu output amplitude, chemical residual normalizer and boundary normalizer are independent explicit settings')
     if 'phase_transport' in c:
         summary['phase_transport']=c.phase_transport.to_dict()
-        if c.phase_transport.kind=='gmls_conservative':
+        if c.phase_transport.kind in ('gmls_conservative','integral_conservative'):
             summary['derivatives']=c.derivatives.to_dict()
-            summary['method']=('GMLS PDE/BC first derivatives and physical Laplacians; '
-                'GMLS div(phi*v) without an exact discrete mass identity; '+time_method+
+            spatial='Moment-corrected radial integral'if c.nl.method=='integral_moment'else 'GMLS'
+            summary['method']=(spatial+' PDE/BC first derivatives and physical Laplacians; '
+                +spatial+' div(phi*v) without an exact discrete mass identity; '+time_method+
                 '; unchanged AD streamfunction physical velocity/constraints; SBP loss quadrature only')
         else:
             summary['method']+='; phase advection from mapped conservative SBP curl fluxes, SBP loss quadrature'

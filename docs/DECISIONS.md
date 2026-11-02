@@ -8322,3 +8322,182 @@ Reuse unchanged completed numerical validation, add syntax/content/whitespace
 checks, and make no new loss/training change during the checkpoint operation.
 Reject blanket staging of ignored generated artifacts or history rewriting.
 Relation: current-channel-code-checkpoint.
+
+## 2026-11-02 — Test all nine adaptive weights with raw residuals and exact full-time gradients
+
+User requests implementation after explicitly saving current code ondev at
+b2dff4b. Extend existing stopped inverse-L1-gradient/EMA balancing, honestly
+distinguished from original learned GradNorm, with explicit grouping=terms.
+Set all used residual divisors1 in a separate stronger-geometry research preset;
+retain muoutput4/streamoutput.2/pressureoutput1 and every physical/model/input
+setting. Previous successful fixed-scale default/control remains untouched.
+
+Accumulate each part's full40-time parameter gradient before taking its norm,
+then compute stopped EMA/clipped weights and one joint weighted update. Refresh
+every100updates; other updates reuse weights and eight-time blocks. Reject
+averaging block norms, updating weights per block, or changing SOAP between
+blocks. Preserve absent-grouping legacy arithmetic and unsupported combinations.
+First prove gradients/oneSOAP/actualsmalltraining, then boundedproductionprobe
+and ONE cold5000 with same initial model/SOAP and actualtime/geometry identities.
+Compare physical L2/shape rather than differently scaled loss magnitudes.
+No newFEM/default/SOTA/Git/cleanup or unbounded experiment queue.
+Relation: channel-allterms-gradnorm.
+
+## 2026-11-02 — Qualify one raw-residual nine-weight cold5000 control
+
+Seven focused tests PASS136.435s and production102-update probe EXIT0 with all
+gradients/weights finite. Includes ordinary and refreshed weight branches with
+full40-time gradients. Held.288800s,warmrefresh2.794011s,meanwarm.313604s versus
+fixed-scale control.288946s. Probe peak20.875GiB includes compilation/autotune;
+32GiB5090 fits and GPU context exits. Reused exact reference/input screen and
+strict allowed-config comparison pass. No fitted probe state is imported.
+
+Launch the single declared cold5000 through canonicaltrain.py/finite owner with
+--balance-control, keeping actualcoldmodel/fullSOAP/input/time equality gates,
+nine-weight schedule/EMA/objective audit and physicalfield/shape diagnostics.
+No further experiment/reference/default/SOTA/Git/cleanup queue is authorized.
+Accuracy is unknown until measured; preserve old fixed-scale result regardless.
+Relation: channel-allterms-gradnorm.
+
+## 2026-11-02 — Retain nine-term adaptive weighting as opt-in after the matched comparison
+
+The one declared cold5000 and all six owned stages completed/exit0. Exact cold
+model/fullSOAP, every initial/final input and actual time/geometry draw match;
+all50weight refreshes/objectives replay and90saved source byte checks pass.
+Seven focused tests and finite102-update resource probe remain valid. No
+evolved labels, physics/output-map/reference/sampling changes or extra studies.
+
+Raw-adaptive phi2.8770%,terminal2.6360%,u5.1258%,p8.2671%,mu38.9275%, versus
+fixed1.9470%/1.6625%/3.0587%/3.9455%/19.5989%. Terminalminority7.6886% versus
+4.8688%; worst13.3838% versus8.7984%. Peak t4 flattening is less accurate:
+x/y-span1.51677 versus FEM1.29955 and fixed1.40958, included in inspected plots.
+Independent240-time probes show smaller boundary residuals but larger CH and
+chemical residuals: gradient-norm equality did not deliver better physical
+accuracy at the same budget. Do not label all GradNorm variants ineffective or
+claim population/cross-seed accuracy from this one nominal/initialization test.
+
+Keep the explicit nine-term/all-divisors1 entry and validated exact-time-block
+implementation, but retain successful fixed-scale recommendation/defaults and
+artifact current_run. Training warm.315596s(~9.2%overhead), wall2165.832s,
+recorded peak~21.0GiB including compile/autotune. Close/archive the finite task;
+no automatic further training, newFEM, default/SOTA/Git or cleanup action.
+Relation: docs/tasks/archive/channel-allterms-gradnorm.md and compact receipt.
+
+## 2026-11-02 — Select validated fixed residual normalization as the actual channel default
+
+User explicitly chooses fixed weights after the nine-term raw-adaptive control
+underperformed. Select the completed stronger-channel width128/SOAP/FP32/GMLS/
+JVP40/rolling/fixed-normalization recipe through a new train_default wrapper.
+CH divisor.2, chemical-row1, chemical-boundary4, outputmu4; no adaptive balance.
+Use fresh automatic run names rather than the existing historical result name.
+Do not change train_operator.py's inherited legacy factory, which would create
+cycles and alter dozens of explicit controls. Preserve saved configs/paths and
+all optional research presets. This is default selection, not a new accuracy,
+population or cross-seed validation; no new training/FEM/Git operation.
+Relation: channel-fixed-normalization-default.
+
+
+## 2026-11-02 — Distinguish GMLS neighborhood differentiation from nonlocal continuum operators
+
+User asks whether the channel GMLS may be called nonlocal to align examples.
+Code inspection confirms degree3/36-neighbor first-derivative and Laplacian
+functionals, not a regional integral target. Compadre describes generalized
+finite-difference stencils; primary Sandia GMLS literature classifies this use
+as localized meshfree differentiation. Recommend neighborhood-based meshfree
+differentiation as the shared framework, explicitly naming integral nonlocal
+and GMLS realizations. A nonlocal numerical-stencil description requires that
+restricted definition; reject relabeling the continuum PDE or claiming the same
+kernel, all-spatial-AD removal or automatic Neumann conditions. Time JVP and
+AD streamfunction curl remain. No numerical/configuration/Git changes.
+Relation: docs/tasks/archive/channel-gmls-terminology.md.
+
+
+## 2026-11-02 — Test a moment-corrected original integral kernel on the stronger channel
+
+User authorizes an actual integral-operator accuracy control. Use the existing
+2D quadratic radial kernel k=120/(pi*delta^4)*(1-r/delta)^2 and actual nodal
+volumes; horizon delta=.075, degree3 moment constraints, capacity128 padded
+without truncation. Baseline gradient coefficients are k*V*xi/2 (full-ball
+second moment=2I), Laplacian k*V. Correct each baseline coefficient vector by
+the minimum weighted-norm perturbation satisfying the derivative moments of
+centered nonconstant monomials through degree3. Derivation: with B containing
+scaled Taylor monomials and W=diag(k*V), a=a0+W*B*(B.T*W*B)^-1*(t-B.T*a0).
+Evaluate on neighbor-minus-target physical fields; use QR, not normal equations.
+Thus the interior Laplacian retains the original kernel's unconstrained
+component, while truncated wall/inlet/outlet supports reproduce derivatives
+without imposing an unphysical natural-flux closure. This is a documented
+adaptation of reproducing constrained nonlocal quadrature (Trask et al. 2018,
+https://arxiv.org/abs/1801.04488) and higher-order NOM moment construction
+(https://doi.org/10.1007/s00366-021-01537-x, equations26--34), not a novel method
+or the exact original symmetric regional pair matrix. Weighted least-squares
+algebra remains related to GMLS. No pair symmetry, automatic Neumann, exact
+mass/energy or incompressible discrete stability is claimed.
+
+Keep explicit physical BC losses/hard lifts, AD streamfunction curl/timeJVP,
+fixed normalization, architecture/SOAP/seed and geometry/time draw identities.
+Only operator/payload shapes and named research selector change. Require
+polynomial/corner/off-node tests, smooth and no-slip layer refinement, complete
+input-only construction checks and a finite GPU probe before one cold5000.
+Reject the known-invalid bare regional wall Laplacian and closed-adjoint open
+divergence. Preserve the current default/reference/results; no newFEM/Git.
+Relation: channel-integral-nonlocal-control.
+
+
+## 2026-11-02 — Retain the validated integral channel control as opt-in
+
+One authorized cold5000 and all six owned stages exit0; strict actual initial
+model/fullSOAP and all unchanged initial/final/evaluation geometry, encoder,
+quadrature and sampled time/draw identities match. Six focused tests,220input
+constructions and finite7-update full-time gradient probe pass. No fitted probe
+state or evolved labels enter training. Direct-path source/state checks pass.
+
+Integral moment phi2.0714%,terminal1.8767%,u2.6915%,p3.8079%,mu18.0335%, versus
+GMLS1.9470%/1.6625%/3.0587%/3.9455%/19.5989%. Terminal minority5.4998% versus
+4.8688%, IoU91.6397% versus93.0197%; worst saved minority8.7730% versus8.7984%.
+Peak t4 remains too flat: aspect1.42038 versus GMLS1.40958 and FEM1.29955,
+explicit in inspected contour comparison. Warm.425587s versus.288946s,
+coldwall2619.880s versus1926.685s, peakactive8.432GiB. Independent240-time
+probes complete; their differing discrete residuals do not measure continuum
+error. Physical AD-curl divergence remains near roundoff while approximate
+integral divergence is a separate diagnostic.
+
+This establishes an empirical integral-kernel differentiation route with close
+accuracy in one nominal/initialization test, not stable superiority, population
+accuracy, automatic Neumann closure or a conservative nonlocal NS theory. Keep
+fixed GMLS default/control/reference and all old results. Close/archive task;
+no new FEM, default/SOTA/Git/cleanup or further experiment.
+Relation: docs/tasks/archive/channel-integral-nonlocal-control.md and receipt.
+
+
+## 2026-11-02 — Recommend a controlled random-wall microchannel family
+
+User asks for physically meaningful geometry diversity beyond the shared-center/
+width two-amplitude channel. Current aperture .60--.88 exceeds droplet diameter
+.44 across the prior; one nominal plot does not measure population response.
+Recommend independent smooth upper/lower wall functions, with amplitude, finite
+correlation length and minimum aperture controlling repeated, staggered throats.
+Position alone can mainly shift event timing; widths/slopes/spacing influence
+deformation history. Preserve fixed IC/flow/materials, stationary walls and
+straight inlet/outlet; retain the generic geometry point-token encoder. Compare
+shape/centroid/pressure histories rather than terminal background-dominated L2.
+
+Primary microfluidic-constriction experiments support this motivation; rough
+fracture wetting/trapping is a broader analogue requiring additional physical
+validation. Avoid initial arbitrary high-frequency roughness or an automatic
+pinchoff target. Only a CPU geometry preview was produced:8B-spline coefficients
+per wall,5legal samples, illustrative aperture[.55,.70]/slope1.25. These are not
+qualified solver/training settings. Production needs unified JAX/FEM geometry,
+regularity/curvature/resolution and integral horizon/capacity checks, followed
+by a few trajectories establishing actual shape diversity before training.
+No numerical/default/reference/Git change or automatic experiment queue.
+Relation: docs/tasks/archive/channel-random-wall-design.md.
+
+## 2026-11-02 — Checkpoint before the accepted random-wall implementation
+
+User accepts the smooth random-wall design and requests commit before attempting
+it. Save accumulated validated source/config/tests and compact records locally on
+dev first; no generated weights/figures/data, push or history rewriting. Then
+implement the new geometry as an explicit opt-in family, keeping old single-bump
+identities and current defaults. Qualify shared geometry, inputs/operators and
+independent trajectories before claiming physical diversity or NO accuracy.
+Relation: channel-random-wall-pilot.

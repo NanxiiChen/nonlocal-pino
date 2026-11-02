@@ -7580,7 +7580,7 @@
       "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
       "reference_validation": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/reference-validation.json",
       "entry": "examples/channel_nsch2d/train.py",
-      "operator_config": "examples/channel_nsch2d/configs/train_operator.py",
+      "operator_config": "examples/channel_nsch2d/configs/train_default.py",
       "status": "completed_stronger_geometry_cold5000_and_all_audits",
       "derivative_scope": "AD and finite-neighborhood QR-GMLS; not the regional pair kernel",
       "failed_controls": [
@@ -20504,7 +20504,91 @@
         "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
         "scope": "One local-FEM geometry; not a generalization estimate"
       },
-      "current_run_scope": "Latest stronger-geometry opt-in pilot; defaults unchanged; one nominal FEM geometry"
+      "current_run_scope": "Latest stronger-geometry opt-in pilot; defaults unchanged; one nominal FEM geometry",
+      "allterms_gradient_control_20261102": {
+        "status": "completed_finite_cold5000_and_all_audits",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-allterms-online-width128-01",
+        "control": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stronger-online-width128-01",
+        "config": "examples/channel_nsch2d/configs/train_operator_width128_gmls_time40_jvp_allterms_online.py",
+        "receipt": "docs/tasks/channel-allterms-gradnorm-validation.json",
+        "task": "docs/tasks/archive/channel-allterms-gradnorm.md",
+        "plots": "/root/autodl-tmp/data/channel_nsch2d/allterms-comparison-20261102-01",
+        "defaults_changed": false,
+        "recommendation": "Keep successful fixed-scale recommendation; retain raw-adaptive scheme as opt-in research control",
+        "scope": "One initialization/reused nominal development geometry, identical actual input/time streams; not population accuracy or a claim about every GradNorm variant"
+      },
+      "legacy_operator_config": "examples/channel_nsch2d/configs/train_operator.py",
+      "default_selection_20261102": {
+        "strategy": "Fixed residual normalization; no adaptive balance",
+        "selected_run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stronger-online-width128-01",
+        "task": "docs/tasks/archive/channel-fixed-normalization-default.md",
+        "validation": "docs/tasks/channel-fixed-normalization-default-validation.json",
+        "residual_divisors": {
+          "phase": 0.2,
+          "chemical": 1.0,
+          "momentum": 1.0,
+          "boundary_phi": 1.0,
+          "boundary_mu": 4.0,
+          "traction": 1.0
+        },
+        "chemical_output_amplitude": 4.0,
+        "fresh_automatic_run_names": true,
+        "scope": "Default selection of an existing nominal-geometry validated recipe, not new population validation"
+      },
+      "integral_control_20261102": {
+        "status": "completed_cold5000_all_six_audits_passed",
+        "config": "examples/channel_nsch2d/configs/train_operator_width128_integral_time40_jvp_stronger_online.py",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-integral-time40-jvp-stronger-online-width128-01",
+        "control": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stronger-online-width128-01",
+        "task": "docs/tasks/archive/channel-integral-nonlocal-control.md",
+        "receipt": "docs/tasks/channel-integral-nonlocal-control-validation.json",
+        "defaults_changed": false,
+        "new_FEM_solves": 0,
+        "scope": "One matched cold5000, nominal local-FEM development geometry; comparable accuracy, slightly worse phase/shape, slower updates; optional research preset",
+        "results": [
+          {
+            "label": "GMLS",
+            "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stronger-online-width128-01",
+            "metrics": {
+              "phi": 0.01947021846977325,
+              "terminal_phi": 0.01662508887492755,
+              "velocity": 0.030587430231969328,
+              "pressure": 0.039454649231110944,
+              "chemical": 0.1959890656441865,
+              "dispersed_phase": 0.0535378471322717
+            },
+            "warm_update_seconds": 0.288945757650371,
+            "wall_seconds": 1926.6846731109545,
+            "shape": {
+              "minority_fraction_relative_L2": 0.04868801991381474,
+              "negative_phase_IoU": 0.9301967255756171,
+              "contour_mean_distance_over_initial_radius": 0.024662213746822852,
+              "worst_minority_fraction_relative_L2": 0.08798401416850687
+            }
+          },
+          {
+            "label": "moment_corrected_integral",
+            "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-integral-time40-jvp-stronger-online-width128-01",
+            "metrics": {
+              "phi": 0.020714124873896622,
+              "terminal_phi": 0.01876655783768296,
+              "velocity": 0.026915449622887937,
+              "pressure": 0.038078959201280634,
+              "chemical": 0.1803351004607682,
+              "dispersed_phase": 0.05695825409967162
+            },
+            "warm_update_seconds": 0.4255867093289355,
+            "wall_seconds": 2619.879900394939,
+            "shape": {
+              "minority_fraction_relative_L2": 0.05499834641452422,
+              "negative_phase_IoU": 0.916397474604861,
+              "contour_mean_distance_over_initial_radius": 0.02920672253816028,
+              "worst_minority_fraction_relative_L2": 0.08772961946139766
+            }
+          }
+        ],
+        "comparison_figures": "/root/autodl-tmp/data/channel_nsch2d/integral-comparison-20261102-01"
+      }
     }
   ],
   "run_seed_policy": {

@@ -43,7 +43,7 @@ def residual_components(value,dt,dx,dy,lap,c,active=None,phase_advection=None,st
 
 
 def gmls_first_jets(value,center,data,*,boundary):
-    """Differentiate the unchanged physical field using precomputed weights."""
+    """Apply GMLS or explicit integral weights to the unchanged physical field."""
     index=data['boundary_neighbors'] if boundary else data['neighbors']
     gx=data['boundary_gradient_x'] if boundary else data['gradient_x']
     gy=data['boundary_gradient_y'] if boundary else data['gradient_y']
@@ -94,7 +94,7 @@ def _make_condition_loss(c,*,per_time):
         scales=jnp.array([l.phase_scale,chemical_scale,l.momentum_scale,l.momentum_scale,l.continuity_scale])
         phase_advection=None
         if 'phase_transport' in c:
-            if c.phase_transport.kind=='gmls_conservative':
+            if c.phase_transport.kind in ('gmls_conservative','integral_conservative'):
                 phase_advection=gmls_phase_advection(value,data)
             else:
                 stream=potentials(net,encoded,data['points'],times,data['amplitudes'],c)[...,2]

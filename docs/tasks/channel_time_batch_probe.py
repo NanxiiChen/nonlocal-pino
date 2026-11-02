@@ -32,6 +32,8 @@ def main(a):
     validate_config(c)
     temporal='time_derivative' in c
     causal=temporal and 'causal'in c
+    balanced='balance'in c
+    integral=c.nl.method=='integral_moment'
     from examples.channel_nsch2d.initialization import model_initialization_spec,load_initialized_model
     initialization=model_initialization_spec(c)
     # A warm physics-only mode names its source explicitly; cold modes keep
@@ -41,7 +43,12 @@ def main(a):
         del item['log'];del item['train']['iterations'];del item['sample']['Nt']
     if 'microbatch' in now['train']:del now['train']['microbatch']
     if temporal:
-        from examples.channel_nsch2d.causal import comparison_config
+        if integral:
+            from examples.channel_nsch2d.integral_validation import comparison_config
+        elif balanced:
+            from examples.channel_nsch2d.balance_validation import comparison_config
+        else:
+            from examples.channel_nsch2d.causal import comparison_config
         comparison_config(c,baseline)
         if subprocess.check_output(['nvidia-smi','--query-compute-apps=pid','--format=csv,noheader'],text=True).strip():
             raise RuntimeError('GPU is occupied; do not overlap the timeJVP resource probe')
@@ -57,8 +64,13 @@ def main(a):
     fresh=optimizer.init(eqx.filter(model,eqx.is_array))
     state=fresh if initialization is not None else eqx.tree_deserialise_leaves(baseline/'optimizer_initial.eqx',fresh)
     with np.load(baseline/'known_inputs.npz',allow_pickle=False) as f:
-        batch={k:jnp.asarray(f[k][:c.operator.condition_batch],dtype=f[k].dtype
-            if np.issubdtype(f[k].dtype,np.integer) else c.train.compute_dtype) for k in f.files}
+        if integral:
+            from examples.channel_nsch2d.data import geometry_data
+            inputs=[geometry_data(a,c)[0]for a in np.asarray(f['amplitudes'][:c.operator.condition_batch],dtype=np.float64)]
+            raw={k:np.stack([d[k]for d in inputs])for k in inputs[0]}
+        else:raw={k:f[k][:c.operator.condition_batch]for k in f.files}
+        batch={k:jnp.asarray(v,dtype=v.dtype if np.issubdtype(v.dtype,np.integer)
+            else c.train.compute_dtype)for k,v in raw.items()}
     loss=make_loss_fn(c)
     if causal:
         from examples.channel_nsch2d.causal import make_causal_fn,make_epsilon_update
@@ -72,6 +84,17 @@ def main(a):
                 jnp.all(jnp.isfinite(a))for a in jax.tree.leaves((gradient,aux))if eqx.is_array(a)]))
             updates,opt=optimizer.update(gradient,opt,net)
             return eqx.apply_updates(net,updates),opt,value,parts,nxt,aux,finite
+    elif balanced:
+        from examples.channel_nsch2d.balance import make_balanced_accumulated_fn,group_names
+        balanced_objective=make_balanced_accumulated_fn(c)
+        weights=jnp.ones(len(group_names(c)),dtype=c.train.compute_dtype)
+        @eqx.filter_jit
+        def balanced_step(net,opt,batch,times,previous,refresh):
+            value,parts,weights,norms,gradient=balanced_objective(net,batch,times,previous,refresh)
+            finite=jnp.isfinite(value)&jnp.all(jnp.stack([jnp.all(jnp.isfinite(a))
+                for a in jax.tree.leaves((gradient,weights,norms))if eqx.is_array(a)]))
+            updates,opt=optimizer.update(gradient,opt,net)
+            return eqx.apply_updates(net,updates),opt,value,parts,weights,norms,finite
     else:
         vg=make_accumulated_fn(c,loss) if 'microbatch' in c.train else eqx.filter_value_and_grad(loss,has_aux=True)
     if temporal:
@@ -107,6 +130,10 @@ def main(a):
         if causal:
             model,state,value,parts,epsilon,aux,finite=causal_step(model,state,batch,ts,epsilon)
             if not bool(finite):raise FloatingPointError('Nonfinite actual timeJVP probe gradient/feedback')
+        elif balanced:
+            refresh=jnp.asarray(i%c.balance.update_every==0)
+            model,state,value,parts,weights,norms,finite=balanced_step(model,state,batch,ts,weights,refresh)
+            if not bool(finite):raise FloatingPointError('Nonfinite termwise full-time gradient or weights')
         elif temporal:
             model,state,value,parts,finite=step(model,state,batch,ts)
             if not bool(finite):raise FloatingPointError('Nonfinite actual uniform timeJVP probe gradient')
@@ -141,10 +168,17 @@ def main(a):
         if causal:
             result['adaptive_feedback']=dict(final_next_epsilon=float(epsilon),
                 final_mean_weights=np.asarray(aux['weights']).mean(axis=-1).tolist(),
-                exact_time_jvp=True,space='unchanged_GMLS',extra_spatial_residual_AD=False)
+                exact_time_jvp=True,space=c.nl.method,extra_spatial_residual_AD=False)
+        elif balanced:
+            result['termwise_balance']=dict(settings=c.balance.to_dict(),groups=group_names(c),
+                all_gradient_and_weight_updates_finite=True,final_weights=np.asarray(weights).tolist(),
+                refresh_updates=[i+1 for i in range(a.updates)if i%c.balance.update_every==0],
+                warm_refresh_seconds=[timings[i]for i in range(1,a.updates)if i%c.balance.update_every==0],
+                warm_held_seconds=float(np.mean([timings[i]for i in range(1,a.updates)if i%c.balance.update_every!=0])),
+                scope='Norms after complete40-time per-term parameter-gradient accumulation; fitted probe state discarded')
         else:
             result['uniform_time_objective']=dict(causal_weights=False,all_gradient_updates_finite=True,
-                exact_time_jvp=True,space='unchanged_GMLS',extra_spatial_residual_AD=False)
+                exact_time_jvp=True,space=c.nl.method,extra_spatial_residual_AD=False)
         result['time_sampler']=dict(planned_updates=c.train.iterations,
             all_planned_GPU_strata_and_order_passed=True,actual_probe_times_exact_global_key_replay=True,
             repeated_time_batch=bool(np.array_equal(actual_times[0],actual_times[1])))
@@ -170,6 +204,10 @@ def main(a):
             target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(root/relative,target)
         relative=Path('docs/tasks/channel_projected_query_probe.py');target=output/'source'/relative
         target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(root/relative,target)
+    if balanced:
+        for name in ('balance.py','balance_validation.py'):
+            relative=Path('examples/channel_nsch2d')/name;target=output/'source'/relative
+            target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(root/relative,target)
     print(json.dumps(result,indent=2),flush=True)
 
 

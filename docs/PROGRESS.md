@@ -2,10 +2,11 @@
 
 ## Active task
 
-None. [Current channel code checkpoint](tasks/archive/current-channel-code-checkpoint.md)
-records the local dev save before further loss changes; no push/main merge or
-numerical change. Stronger trial/inventory complete; GPU free and no experiment
-queued. GradNorm remains a separate discussion, with no new implementation.
+[Random smooth-wall channel pilot](tasks/channel-random-wall-pilot.md).
+User accepts the design: checkpoint accumulated work locally first, then implement
+and try independent smooth upper/lower random wall profiles. Preserve fixed IC,
+flow/materials/BCs, old results and default. Next: local source checkpoint, shared
+geometry and operator checks, then a few trajectories and a bounded training pilot.
 
 ## Latest completed validation
 
@@ -43,6 +44,11 @@ current-turn authorization; the documented workflow pushes main only.
 
 ## Recent completed tasks
 
+- [Richer random-wall channel design](tasks/archive/channel-random-wall-design.md).
+- [Integral nonlocal channel control](tasks/archive/channel-integral-nonlocal-control.md).
+- [GMLS versus nonlocal terminology](tasks/archive/channel-gmls-terminology.md).
+- [Fixed normalization default](tasks/archive/channel-fixed-normalization-default.md).
+- [Nine-term raw-residual adaptive weighting](tasks/archive/channel-allterms-gradnorm.md).
 - [Local channel code checkpoint](tasks/archive/current-channel-code-checkpoint.md).
 - [Current channel scheme inventory](tasks/archive/channel-scheme-inventory.md).
 - [Slightly stronger channel constriction](tasks/archive/channel-stronger-constriction.md).
