@@ -25,7 +25,12 @@ to measure model or discretisation error.
 Curated README figures live in the repository-level `assets/` directory,
 currently `assets/pino/<case>.png`; example READMEs use relative links there.
 Keep one selected evolution image per main operator, below1MiB each and2MiB
-total. Record direct inputs in `artifacts/pino_readme_figures.json` and retain
+total. Four additional setup SVGs live in `assets/pino-setups/`, below256KiB
+combined, with compact prescribed parameters in
+`artifacts/pino_setup_schematics.json` and the CPU-only
+`scripts/render_pino_setup_schematics.py`. These show conditions/BCs, not solved
+fields; the same spinodal initial texture is shared between geometry samples.
+Record evolution-figure direct inputs in `artifacts/pino_readme_figures.json` and retain
 raw fields, weights and full research galleries as external artifacts. See
 [`assets/README.md`](../assets/README.md) for the regeneration command.
 
@@ -280,6 +285,16 @@ not restore the cleared goal schedulers. Intermediate model checkpoints still
 lack complete rolling-pool/optimizer recovery; only a completed run supplies the
 final audited pool/state. Do not reinterpret those snapshots as an exact online
 resume.
+
+`docs/tasks/channel_cold20k_runner.py` separately owns the opt-in192/B8/time20
+budget/LR experiment. `budget_validation.py` permits only10000->20000iterations,
+the declared exponential decay-rate change and run name against the completed
+audited10k control. Same-GPU/same-shape historical memory evidence is explicitly
+reused, without calling it a new resource run. Actual fresh model/fullSOAP and
+initial/evaluation/reserved inputs must match, and final sampling must preserve
+the complete10k geometry/time prefix. The802online-draw prior screen and existing
+reference/rolling/replay/cohort/fresh-time audits remain required. The old
+capacity-control contract is unchanged; no automatic SOTA promotion follows.
 
 The finite owner's separate `--capacity-control`/`--capacity-probe` route
 qualifies the explicit random-wall128/B2/5k/timeblock8 to192/B8/10k/timeblock2

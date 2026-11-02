@@ -1,0 +1,129 @@
+{
+  "status": "training_running_setup_publication_prepared",
+  "observed_utc": "2026-11-02T17:08:02.472919+00:00",
+  "owner_journal": "/root/autodl-tmp/data/channel_nsch2d/cold20k-lr1e5-20261103-01/process.json",
+  "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time20-cold20k-lr1e5-01",
+  "owner_pid": 135660,
+  "trainer_pid": 135888,
+  "requested_steps": 20000,
+  "last_logged_loss_step": 800,
+  "last_completed_update_lower_bound": 800,
+  "learning_rate": {
+    "initial": 0.001,
+    "decay_every": 2000,
+    "decay_rate": 0.6309573444801932,
+    "floor": 1e-05,
+    "at20000": 1e-05
+  },
+  "cold_state": {
+    "status": "cold_model_complete_optimizer_and_input_bank_exact",
+    "model_and_full_optimizer_exact": true,
+    "initial_geometry_bank_exact": true,
+    "evaluation_and_reserved_inputs_exact": true,
+    "fitted_state_imported": false
+  },
+  "resource": {
+    "status": "historical_same_shape_resource_evidence_reused",
+    "probe": "/root/autodl-tmp/data/channel_nsch2d/random-walls-pro6000-timing-20261102-01/time20-fraction97",
+    "gpu": {
+      "name": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+      "uuid": "GPU-65a147dd-84d3-89dd-c771-f0d2eac3664f",
+      "total_memory_bytes": 102641958912
+    },
+    "allocator_fraction": 0.97,
+    "historical_peak_bytes": 94548858880,
+    "historical_warm_update_seconds": 1.886506100744009,
+    "new_resource_updates": 0,
+    "fitted_state_imported": false,
+    "scope": "Only budget/LR decay differ; actual cold state and inputs are checked separately"
+  },
+  "input_screen": {
+    "status": "passed",
+    "online_draws": 802,
+    "initial_geometries": 16,
+    "workers": 8,
+    "seconds": 143.8942024447024,
+    "maximum_condition": 250.9298356098536,
+    "maximum_polynomial_error": 5.60351764988809e-12,
+    "pde_solves": 0,
+    "fem_solves": 0
+  },
+  "focused_tests": {
+    "passed": 4,
+    "command": "JAX_PLATFORMS=cpu OPENBLAS_NUM_THREADS=1 .venv/bin/python -m unittest tests.test_channel_budget_validation -v"
+  },
+  "setup_figures": {
+    "status": "passed",
+    "images": [
+      {
+        "case": "icemelting3d",
+        "path": "assets/pino-setups/icemelting3d.svg",
+        "bytes": 40135
+      },
+      {
+        "case": "electropolish2d",
+        "path": "assets/pino-setups/electropolish2d.svg",
+        "bytes": 28949
+      },
+      {
+        "case": "confined_ch2d",
+        "path": "assets/pino-setups/confined_ch2d.svg",
+        "bytes": 45807
+      },
+      {
+        "case": "channel_nsch2d",
+        "path": "assets/pino-setups/channel_nsch2d.svg",
+        "bytes": 84877
+      }
+    ],
+    "total_svg_bytes": 199768,
+    "changed_overview_local_links_checked": 22,
+    "evolution_pngs_byte_unchanged": true,
+    "exact_SVG_rasterization": "system librsvg/cairo; all four previews visually inspected"
+  },
+  "artifact_directories_checked": 447,
+  "current_SOTA_default_changed": false,
+  "original_evolution_figures_unchanged": true,
+  "new_training_metrics_available": true,
+  "git_operations": true,
+  "cleanup": false,
+  "remaining": "Same finite20k owner and final prescribed audits; no duplicate run",
+  "latest_monitor": {
+    "step": 500,
+    "elapsed": 1387.4213997870684,
+    "phi": 0.16045069044767718,
+    "terminal_phi": 0.18404425036284416,
+    "dispersed_phase": 0.42397919731182654,
+    "velocity": 0.0684368066250908,
+    "pressure": 0.12946496772193702,
+    "chemical": 1.0542165944452593,
+    "phi_range": [
+      -1.0591129064559937,
+      1.0482302904129028
+    ],
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+    "scope": "One local-FEM geometry; not a generalization estimate"
+  },
+  "latest_loss": {
+    "step": 800,
+    "total": 0.08055920898914337,
+    "parts": {
+      "phase": 0.023725861683487892,
+      "chemical": 0.01964426413178444,
+      "momentum_x": 0.013881942257285118,
+      "momentum_y": 0.022217197343707085,
+      "wall_phase": 0.0003897807328030467,
+      "wall_mu": 0.00029286998324096203,
+      "outlet_traction": 0.00028809704235754907,
+      "outlet_phase": 3.144409856759012e-05,
+      "outlet_mu": 8.775063906796277e-05
+    }
+  },
+  "publication": {
+    "status": "prepared",
+    "authorization": "Explicit current-turn user request",
+    "workflow": "dev commit -> main regular merge -> origin/main push only",
+    "generated_media": "four compact setup SVGs only",
+    "live_frozen_python_files_unchanged": 103
+  }
+}
