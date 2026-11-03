@@ -82,10 +82,12 @@ phase fluxes do not imply energy/mass stability of the full mixed GMLS/NS
 scheme. The explicit legacy `configs/train_operator.py` retains the original
 experimental AD/GMLS recipe. The actual channel training default is
 `configs/train_default.py`, selecting the validated random-wall width192/B8/
-SOAP10000/integral/timeJVP fixed-normalization recipe with a fresh automatic
-run name. Its20-time blocks need about88GiB live GPU memory and explicit
-`XLA_PYTHON_CLIENT_MEM_FRACTION=0.97`; smaller block8/block2 presets remain
-explicit choices. Do not redirect
+SOAP20000/integral/timeJVP fixed-normalization recipe with a fresh automatic
+run name. It uses36random times in two18-time blocks and LR1e-3->1e-5;
+measured active peak83.50GiB with explicit `XLA_PYTHON_CLIENT_MEM_FRACTION=0.97`.
+Historical10000/40time/block20/8/2presets retain their old numerical values;
+their resource results do not qualify an unmeasured36-time block variant.
+Do not redirect
 the legacy factory to its own descendants or alter historical preset values.
 
 The explicit channel integral control uses `nl.method=integral_moment`,
@@ -287,7 +289,7 @@ final audited pool/state. Do not reinterpret those snapshots as an exact online
 resume.
 
 `docs/tasks/channel_cold20k_runner.py` separately owns the opt-in192/B8/time20
-budget/LR experiment. `budget_validation.py` permits only10000->20000iterations,
+budget/LR experiment. The base `budget_validation.py` route permits only10000->20000iterations,
 the declared exponential decay-rate change and run name against the completed
 audited10k control. Same-GPU/same-shape historical memory evidence is explicitly
 reused, without calling it a new resource run. Actual fresh model/fullSOAP and
@@ -295,6 +297,28 @@ initial/evaluation/reserved inputs must match, and final sampling must preserve
 the complete10k geometry/time prefix. The802online-draw prior screen and existing
 reference/rolling/replay/cohort/fresh-time audits remain required. The old
 capacity-control contract is unchanged; no automatic SOTA promotion follows.
+
+The explicit `--execution-time-block=8` extension permits only the separate
+`train_operator_random_walls_width192_batch8_time8_cold20k.py` preset. The
+logical40-time objective is unchanged: five complete gradient chunks precede
+each optimizer update. The default20-block comparison still rejects undeclared
+block changes. Probe and production auxiliary-output trees can produce different
+compiled temporary-memory requirements; a matching finite probe alone cannot
+certify the canonical executable's peak. Require headroom and actual production
+updates. Preserve reduction-order and throughput differences in comparisons.
+
+The separately declared `--execution-time-block=18` route requires the exact
+36-time/18-block cold20k preset; geometry batch8 remains fixed. The resource
+probe adds explicit `--time-samples=36 --time-block=18`. Legacy guards continue
+to require40times unless that route is selected. Actual cold model/fullSOAP and
+initial geometry inputs remain exact, and final geometry slot/draw prefixes
+are compared. The changed-width time arrays instead require successful
+independent global-key replay and36-stratum coverage in `validate_run`; never
+claim the old40-time prefix is identical. Equal-block accumulation code and
+the physical horizon/equations are unchanged.
+The finite owner explicitly records252fresh diagnostic times for the18-block
+route(14complete blocks); legacy20/8routes retain240. This is a post-training
+diagnostic count, separate from the36random training times per update.
 
 The finite owner's separate `--capacity-control`/`--capacity-probe` route
 qualifies the explicit random-wall128/B2/5k/timeblock8 to192/B8/10k/timeblock2

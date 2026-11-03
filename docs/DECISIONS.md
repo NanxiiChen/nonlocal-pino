@@ -8915,3 +8915,159 @@ and prescribed audits. Same500-step development-geometry errors are similar
 to the old run, with no established accuracy advantage yet. Rejected: treating
 latest500-step L2 as a later optimizer step, cohort validation or final outcome.
 Relation: channel-cold20k-and-four-pino-setups.
+
+
+## 2026-11-03 — Restart the interrupted20k channel experiment from scratch
+
+User reports an accidental shutdown and explicitly requests a new run from
+zero. The old owner/trainer PIDs are absent, screen socket is dead, logs stop at
+8800updates/latest8500monitor without a terminal exception, and the container
+PID1 started recently. Preserve all old artifacts, including the5k model-only
+checkpoint; do not call it a complete optimizer/pool recovery. Start a separate
+fresh20k run with the identical192/B8/time20/SOAP/rolling/integral/JVP recipe and
+LR1e-3 ->1e-5, using runtime42for comparison. No fitted state import.
+
+The GPU is still a96GB PRO6000 but its physical UUID has changed from
+GPU-65a147dd-84d3-89dd-c771-f0d2eac3664f to
+GPU-c55d506d-0eea-666e-713c-3ca8e3d81c9f. Existing same-device memory evidence
+cannot qualify it. Run the existing full-gradient11-update explicit97%allocator
+resource probe on this device first; discard fitted probe weights. After success,
+the unchanged finite cold20k owner must repeat the802-draw input construction
+screen, verify fresh model/fullSOAP/input equality and run canonical train.py,
+then the prescribed final audits. No FEM, automatic retries, numerical retuning,
+default promotion, cleanup or Git history operation is authorized this turn.
+Relation: channel-cold20k-and-four-pino-setups.
+
+
+## 2026-11-03 — Explicit smaller time blocks after canonical-step OOM
+
+New-GPU timeblock20resource probe passed(peak86.32GiB), but the actual
+canonical train.py first-step executable failed with RESOURCE_EXHAUSTED while
+allocating91.91GiB. Both owner/trainer terminated; no optimizer update completed.
+The probe and production JIT wrappers have different auxiliary output trees,
+so matching objective and array shapes did not guarantee matching compiled
+temporary-memory use. Preserve this failed attempt and its logs; record the
+preflight limitation rather than interpreting it as a successful full training
+resource certificate.
+
+Within the user-authorized cold restart, select the already supported timeblock8
+execution on the same40sample time batch,192width,B8,physical loss and20k/LR
+schedule. This accumulates five gradient chunks per optimizer update; it changes
+floating-point reduction order and throughput, not the intended full-time loss.
+Use a separate explicit opt-in config and narrow execution-time-block argument
+in the budget guard/finite owner; preserve the existing strict20block route.
+Qualify the8block on the actual GPU and confirm canonical optimizer updates,
+with substantial memory headroom. Reject simply raising the allocator/memory
+limits, hidden fallback, changing physics/sampling, checkpoint recovery or
+calling this bitwise-equivalent training. No auto retry or default promotion;
+one separately recorded corrective cold attempt from0. Relation:
+channel-cold20k-and-four-pino-setups.
+
+
+## 2026-11-03 — User selects36time samples in two18-time blocks
+
+User says the8block peak40GiB underuses the96GB card, then explicitly
+clarifies total36random time samples and timeblock18; geometry batch stays8.
+Stop only the owned8block startup through its finite owner signal handler and
+preserve its resource/input logs. Use a new cold20k opt-in36/18preset, with the
+same network, physical horizon6, SOAP/LR/geometry inputs and rolling scheme.
+This uses the existing equal-block implementation unchanged; no16+16+8tail
+implementation, padding/masking or extra loss weighting is needed.
+
+Keep the legacy40/20and explicit40/8guards strict. Add a narrow declared36/18
+route in the owner/resource/config guard. Actual initial model/fullSOAP and
+geometries must still match the completed control. Final geometry/slot/draw
+prefix remains comparable; time arrays have different widths and must instead
+be independently replayed against all36continuous strata using validate_run.
+Do not claim exact40-time-prefix equality or isolate learning-rate effects.
+Qualify the actual36/18resource and require canonical optimizer updates after
+the earlier probe/production memory mismatch. No FEM, default promotion,
+cleanup, automatic retries or Git operations. Relation:
+channel-cold20k-and-four-pino-setups.
+
+
+## 2026-11-03 — Explain channel cost from measured scale and actual differentiation
+
+Respond to the timing question with the actual canonical300->400wall interval
+(1.6265s/update), exact full-grid/query counts and inspected loss/derivative
+sharing.9loss terms are summed before one parameter-gradient call per chunk;
+current cost includes full15633nodes/B8/Nt36/K128and nested streamfunction
+space/time JVPs. GNOT-style attention is associative linear, with spatial
+preparation shared across times; do not claim a quadratic attention matrix or
+9separate parameter backprops. These establish structural workload, not measured
+component percentages. Keep the active job running; reject interrupting it or
+launching another GPU benchmark merely to provide a qualitative explanation.
+Relation: channel-cold20k-and-four-pino-setups.
+
+
+## 2026-11-03 — Plot live convergence and the actual saved5k fields
+
+User requests convergence curves and physical fields. Keep the36/18trainer
+running on GPU; use existing CPU-only partial evaluation for the latest saved
+checkpoint5000and independently replay its logged metrics against the same
+qualified local FEM. Do not label live scalar monitor6000as available weights.
+Plot complete current/old histories without smoothing or truncating the old
+10k endpoint. Show phase/speed/pressure reference,prediction,error at saved
+times, with positive-time pressure only because initial pressure is not fixed.
+Add zero-contour overlap at equal physical zoom to expose droplet-shape error.
+Use native saved arrays for metrics/contours; interpolation is display-only.
+Reject interrupting training, GPU inference competition, invented new-checkpoint
+fields or new FEM solves. Keep output media/arrays external and save direct
+provenance/reproduction source. Relation: channel-cold20k-and-four-pino-setups.
+
+## 2026-11-03 — Finish saved20k evaluation after diagnostic-count rejection
+
+The canonical20k trainer exited0and published final model/fulloptimizer/pool;
+saved-field/hard-constraint/input/time replay and phase-balance diagnostics also
+exited0. The finite owner then rejected its stale240probe-time request because
+240is not divisible by the user-selected18time block, before producing any
+continuous-time diagnostic. Preserve that failed owner journal/log unchanged.
+This is a post-training orchestration failure, not a failed training or PDE
+accuracy gate. User now explicitly requests20kand the three reserved geometry
+errors against10k, so finish those saved-model evaluations without restarting
+or tuning training. Run the existing qualified3case cohort first; explicitly
+use252independent stratified diagnostic times(14complete18-time blocks) in a
+separate completion record, with the original probe seed. No runtime/source
+fallback, changed training batch, new FEM, frozen numerical-source changes or default
+promotion. Complete remaining saved-field/shape/gallery/source checks and
+retain direct old/new provenance. Reject silently calling the original owner
+successful, replacing240by a partial masked block, or using an earlier scalar
+minimum instead of the actual20k model. Relation:
+channel-cold20k-and-four-pino-setups.
+
+## 2026-11-03 — Correct only the finite owner's18-block diagnostic count
+
+The completed run exposed a deterministic orchestration bug: the opt-in18block
+owner always passed240to diagnose_time, whose existing divisibility contract
+rejects that count. Make the future18route explicitly record/pass252instead;
+legacy20and8routes retain240. No padding, partial blocks, exception fallback,
+PDE/train/checkpoint change or edited historical owner journal. Actual252probe
+execution validates the previously rejected route. README records the corrected
+operational count and qualified endpoint comparison. Relation:
+channel-cold20k-and-four-pino-setups.
+
+## 2026-11-03 — User promotes the qualified36/18cold20k channel result
+
+User explicitly requests SOTA/default promotion and README/image updates.
+Switch only the canonical default alias to the existing completed36-time,
+18-block20k preset with the measured LR1e-3->1e-5schedule. Keep192width/B8/SOAP/
+FP32/ordinary/integral/JVP/rolling physics and all historical presets intact.
+Select the actual20k final checkpoint and all three predeclared reserved cases
+for the existing centralized README image; update direct-path provenance and
+selected artifact metadata. Do not rank-pick cases or use the unsaved18kminimum.
+Preserve the finite-cohort/mixed-per-case result and historical10k comparison;
+promotion reflects the user's selected tradeoff, not uniform improvement or
+cross-seed validation. Training/reference arrays and old snapshots retain
+their paths. No new training, FEM, raw-artifact Git import, cleanup, commit or
+push is authorized. Relation: channel-20k-sota-promotion.
+
+## 2026-11-03 — Publish the completed20k SOTA and outstanding supporting work
+
+User explicitly authorizes commit and push in the current turn. Include the
+related36/18execution/config/guard work, recorded finite validation and final
+20kpromotion, README/provenance and single curated channel PNG. No raw arrays,
+weights/logs/full galleries or unrelated file is in scope. Preserve historical
+run records/default controls. Follow devcommit->mainregularmerge->origin/main
+push; dev remains local, no history rewrite. Verify remote main and publish a
+small memory closeout after the payload, preserving actual commit identities
+without claiming a self-referential hash. Relation: channel-20k-sota-publication.

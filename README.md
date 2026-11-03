@@ -14,7 +14,7 @@ Private repository: [NanxiiChen/nonlocal-pinn](https://github.com/NanxiiChen/non
 | [Ice melting 3D](examples/icemelting3d/README.md#pino-overview) | Initial ellipsoid axes, center and rotation | Driven Allen–Cahn, 5 s |0.227% pooled; 0.092% terminal | Native nonlocal, 8 held-out inputs; one separate local-FEM check |
 | [Electropolish 2D](examples/electropolish2d/README.md#pino-overview) | Initial rough metal/electrolyte interface | Coupled KKS AC/CH, 5 s |4.427% pooled; 3.176% terminal | Independent local FD, 64 unseen inputs |
 | [Spinodal 2D](examples/confined_ch2d/README.md#pino-overview) | Positions and radii of two impermeable holes | Confined Cahn–Hilliard, T=3 |4.833% pooled; 5.193% terminal | Native nonlocal, 8 reused reserved development geometries |
-| [Two-phase flow 2D](examples/channel_nsch2d/README.md#pino-overview) | Independent smooth upper/lower channel profiles | Fully coupled incompressible NS–CH, T=6 |1.840% pooled; 2.271% terminal | Independent local FEM, 3 reused reserved geometries |
+| [Two-phase flow 2D](examples/channel_nsch2d/README.md#pino-overview) | Independent smooth upper/lower channel profiles | Fully coupled incompressible NS–CH, T=6 |1.643% pooled; 2.196% terminal | Independent local FEM, 3 reused reserved geometries |
 
 These are means of per-sample errors from the selected final checkpoints, not
 one common benchmark. Targets, quadratures and evaluation populations differ;
@@ -29,7 +29,7 @@ in the existing `confined_ch2d` directory; the full NS–CH operator is
 | Melting |3D initial volume -> patch tokens -> query cross-attention | Adam 5000, B16; hard IC; tanh latent residual; fixed core+halo pool |
 | Electropolish |2D initial image -> patch tokens -> query cross-attention | Adam 5000, B8; original AC/CH + soft IC/BC, five balanced losses; fixed core+halo pool |
 | Spinodal | Boundary and domain-function point streams -> normalized cross-attention | SOAP 50000, width 256, B16; online rolling geometry pool; hard IC/mass; eliminated chemical potential and resolvent residual |
-| Two-phase flow | Boundary and domain-function point streams -> normalized cross-attention | SOAP 10000, width 192, B8; online rolling geometry pool; hard flow/initial data; integral spatial derivatives, time JVP and fixed residual normalization |
+| Two-phase flow | Boundary and domain-function point streams -> normalized cross-attention | SOAP 20000, width 192, B8; lr 1e-3 to 1e-5; 36 random times in two18-time blocks; online rolling geometry pool; hard flow/initial data; integral spatial derivatives, time JVP and fixed residual normalization |
 
 Regular domains use patch tokens; irregular geometry uses physical point sets
 with boundary arc-length/domain-area measures. Queries carry coordinates/time,
@@ -48,9 +48,9 @@ python -m examples.confined_ch2d.train --config=examples/confined_ch2d/configs/t
 XLA_PYTHON_CLIENT_MEM_FRACTION=0.97 python -m examples.channel_nsch2d.train
 ```
 
-The channel default uses the qualified96 GB GPU preset (~88 GiB live memory).
-Its README supplies explicit block 8/block 2 alternatives (~40/~19 GiB) for
-smaller cards. The other three commands explicitly select PINO; their
+The channel default uses the qualified96 GB GPU preset (~83.50 GiB active memory,
+9.16h training). Its README also records historical smaller-memory controls
+with different time-sampling/budget settings. The other three commands explicitly select PINO; their
 no-argument `train.py` entries retain single-IVP PINN defaults. All launchers
 create fresh runs. Existing evaluation banks and direct artifact paths must be
 available; reference preparation commands are in each example.

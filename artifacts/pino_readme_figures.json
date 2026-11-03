@@ -199,8 +199,8 @@
       "weights_or_raw_data_copied": false
     },
     "channel_nsch2d": {
-      "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01",
-      "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/model_final.eqx",
+      "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04",
+      "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/model_final.eqx",
       "samples": [
         0,
         1,
@@ -216,31 +216,31 @@
       "records": [
         {
           "index": 0,
-          "source": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/unseen3/case_000/prediction.npz",
+          "source": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_000/prediction.npz",
           "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
-          "pooled_phi": 0.019429185735950302
+          "pooled_phi": 0.019860020536880407
         },
         {
           "index": 1,
-          "source": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/unseen3/case_001/prediction.npz",
+          "source": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_001/prediction.npz",
           "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
-          "pooled_phi": 0.016519053443822
+          "pooled_phi": 0.014292626036913723
         },
         {
           "index": 2,
-          "source": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/unseen3/case_002/prediction.npz",
+          "source": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_002/prediction.npz",
           "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
-          "pooled_phi": 0.019239861712785394
+          "pooled_phi": 0.015152341709821082
         }
       ],
       "source_files": [
-        "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/unseen3/evaluation.json"
+        "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/evaluation.json"
       ],
       "selection": "All three predeclared reserved reference geometries; reused validation cohort",
       "reference": "Independent spatial/time-refined local mixed FEM",
       "display": "Physical mapped coordinates; fixed physical domain scale; no droplet position correction",
       "image": "assets/pino/channel_nsch2d.png",
-      "bytes": 275761,
+      "bytes": 275257,
       "dpi": 150,
       "field": "phi",
       "numerical_fields_changed": false,
@@ -253,5 +253,5 @@
   "inference_runs": 0,
   "reference_solves": 0,
   "training_updates": 0,
-  "total_image_bytes": 1878517
+  "total_image_bytes": 1878013
 }

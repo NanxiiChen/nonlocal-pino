@@ -1,13 +1,13 @@
 {
-  "status": "setup_figures_published_training_running",
-  "observed_utc": "2026-11-02T17:09:59.295576+00:00",
-  "owner_journal": "/root/autodl-tmp/data/channel_nsch2d/cold20k-lr1e5-20261103-01/process.json",
-  "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time20-cold20k-lr1e5-01",
-  "owner_pid": 135660,
-  "trainer_pid": 135888,
+  "status": "completed20k_and_all_prescribed_saved_run_audits",
+  "observed_utc": "2026-11-03T13:10:18.580794+00:00",
+  "owner_journal": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/owner/process.json",
+  "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04",
+  "owner_pid": 56643,
+  "trainer_pid": 73588,
   "requested_steps": 20000,
-  "last_logged_loss_step": 900,
-  "last_completed_update_lower_bound": 900,
+  "last_logged_loss_step": 20000,
+  "last_completed_update_lower_bound": 20000,
   "learning_rate": {
     "initial": 0.001,
     "decay_every": 2000,
@@ -23,33 +23,39 @@
     "fitted_state_imported": false
   },
   "resource": {
-    "status": "historical_same_shape_resource_evidence_reused",
-    "probe": "/root/autodl-tmp/data/channel_nsch2d/random-walls-pro6000-timing-20261102-01/time20-fraction97",
+    "status": "finite_production_probe_passed",
+    "output": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/resource-probe",
     "gpu": {
-      "name": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
-      "uuid": "GPU-65a147dd-84d3-89dd-c771-f0d2eac3664f",
-      "total_memory_bytes": 102641958912
+      "gpu_name": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+      "gpu_uuid": "GPU-c55d506d-0eea-666e-713c-3ca8e3d81c9f",
+      "total_memory_bytes": 102641958912,
+      "time_microbatch": 18,
+      "allocator_fraction": 0.97
     },
+    "updates": 11,
+    "time_samples": 36,
+    "time_block": 18,
     "allocator_fraction": 0.97,
-    "historical_peak_bytes": 94548858880,
-    "historical_warm_update_seconds": 1.886506100744009,
-    "new_resource_updates": 0,
-    "fitted_state_imported": false,
-    "scope": "Only budget/LR decay differ; actual cold state and inputs are checked separately"
+    "peak_bytes": 89420045312,
+    "peak_GiB": 83.27890682220459,
+    "warm_update_seconds": 1.603064552694559,
+    "compile_seconds": 369.83398827631027,
+    "finite_nominal_evaluation": true,
+    "fitted_probe_weights_exported": false
   },
   "input_screen": {
     "status": "passed",
     "online_draws": 802,
     "initial_geometries": 16,
     "workers": 8,
-    "seconds": 143.8942024447024,
+    "seconds": 135.72883593291044,
     "maximum_condition": 250.9298356098536,
     "maximum_polynomial_error": 5.60351764988809e-12,
     "pde_solves": 0,
     "fem_solves": 0
   },
   "focused_tests": {
-    "passed": 4,
+    "passed": 6,
     "command": "JAX_PLATFORMS=cpu OPENBLAS_NUM_THREADS=1 .venv/bin/python -m unittest tests.test_channel_budget_validation -v"
   },
   "setup_figures": {
@@ -85,40 +91,9 @@
   "current_SOTA_default_changed": false,
   "original_evolution_figures_unchanged": true,
   "new_training_metrics_available": true,
-  "git_operations": true,
+  "git_operations": false,
   "cleanup": false,
-  "remaining": "Same finite20k owner and final prescribed audits; no duplicate run",
-  "latest_monitor": {
-    "step": 500,
-    "elapsed": 1387.4213997870684,
-    "phi": 0.16045069044767718,
-    "terminal_phi": 0.18404425036284416,
-    "dispersed_phase": 0.42397919731182654,
-    "velocity": 0.0684368066250908,
-    "pressure": 0.12946496772193702,
-    "chemical": 1.0542165944452593,
-    "phi_range": [
-      -1.0591129064559937,
-      1.0482302904129028
-    ],
-    "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
-    "scope": "One local-FEM geometry; not a generalization estimate"
-  },
-  "latest_loss": {
-    "step": 900,
-    "total": 0.07301872223615646,
-    "parts": {
-      "phase": 0.0186283141374588,
-      "chemical": 0.015538599342107773,
-      "momentum_x": 0.014478139579296112,
-      "momentum_y": 0.023580167442560196,
-      "wall_phase": 0.00023523051640950143,
-      "wall_mu": 0.00021585139620583504,
-      "outlet_traction": 0.00014751387061551213,
-      "outlet_phase": 4.39542272943072e-05,
-      "outlet_mu": 0.00015095077105797827
-    }
-  },
+  "remaining": "None for the requested training/schematics/evaluation; no automatic promotion, training or Git operation",
   "publication": {
     "dev_commit": "baf211b",
     "main_merge": "4ab2d981091eb28f23523e1259062555187b43f6",
@@ -132,40 +107,1113 @@
     "live_frozen_python_files_unchanged": 103,
     "cleanup": false
   },
-  "same_step_comparison": {
-    "step": 500,
-    "new_cold20k": {
-      "step": 500,
-      "elapsed": 1387.4213997870684,
-      "phi": 0.16045069044767718,
-      "terminal_phi": 0.18404425036284416,
-      "dispersed_phase": 0.42397919731182654,
-      "velocity": 0.0684368066250908,
-      "pressure": 0.12946496772193702,
-      "chemical": 1.0542165944452593,
+  "interrupted_attempt": {
+    "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time20-cold20k-lr1e5-01",
+    "owner_journal": "/root/autodl-tmp/data/channel_nsch2d/cold20k-lr1e5-20261103-01/process.json",
+    "status": "interrupted_after_external_shutdown",
+    "last_completed_update_lower_bound": 8800,
+    "latest_loss": {
+      "step": 8800,
+      "total": 0.0033976519480347633,
+      "parts": {
+        "phase": 0.0007888749823905528,
+        "chemical": 0.0006365264998748899,
+        "momentum_x": 0.0008608467178419232,
+        "momentum_y": 0.0010158558143302798,
+        "wall_phase": 2.549787132011261e-05,
+        "wall_mu": 5.217765647103079e-05,
+        "outlet_traction": 8.94363893166883e-06,
+        "outlet_phase": 3.221383167328895e-06,
+        "outlet_mu": 5.707364834961481e-06
+      }
+    },
+    "latest_monitor": {
+      "step": 8500,
+      "elapsed": 16560.774477921426,
+      "phi": 0.02475889014572315,
+      "terminal_phi": 0.031206244993270415,
+      "dispersed_phase": 0.06542355374742707,
+      "velocity": 0.021250332920066957,
+      "pressure": 0.029810874925010594,
+      "chemical": 0.14645948740179487,
       "phi_range": [
-        -1.0591129064559937,
-        1.0482302904129028
+        -1.1208820343017578,
+        1.048437237739563
       ],
       "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
       "scope": "One local-FEM geometry; not a generalization estimate"
     },
-    "old_cold10k": {
-      "step": 500,
-      "elapsed": 1427.5452512800694,
-      "phi": 0.15273849239386744,
-      "terminal_phi": 0.17746880017642236,
-      "dispersed_phase": 0.40360027883387595,
-      "velocity": 0.06965373949233242,
-      "pressure": 0.12733948345418566,
-      "chemical": 0.998577161162229,
+    "checkpoint": "ckpt_005000.eqx",
+    "owner_and_trainer_absent": true,
+    "screen_socket_dead": true,
+    "user_confirmed_shutdown": true,
+    "old_artifacts_preserved": true,
+    "exception_in_final_log": false
+  },
+  "restart": {
+    "user_authorized": true,
+    "kind": "fresh_network_and_complete_optimizer",
+    "fitted_checkpoint_import": false,
+    "config": "examples/channel_nsch2d/configs/train_operator_random_walls_width192_batch8_time18_nt36_cold20k.py",
+    "runtime_seed": 42,
+    "logical_time_samples": 36,
+    "execution_time_block": 18,
+    "gradient_chunks_per_optimizer_update": 2,
+    "geometry_batch": 8,
+    "screen": "channel-cold20k-nt36-time18-20261103-04",
+    "screen_server_pid": 56642,
+    "preparation_root": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04",
+    "launcher": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/launch.sh",
+    "startup_guard_tests": 6,
+    "math_implementation_changed": false,
+    "planned_CPU_time_sampling": {
+      "scope": "CPU planning check, actual GPU draws require final replay",
+      "updates": 20000,
+      "time_samples": 36,
+      "strata_passed": true,
+      "ordered": true,
+      "nonfinite": 0,
+      "violations": [],
+      "saved_times": false
+    },
+    "owner_pid": 56643,
+    "input_screen_pid": 73482,
+    "trainer_pid": 73588,
+    "live_frozen_python_files_unchanged": 105,
+    "actual_cold_state_passed": true,
+    "actual_production_update_completed": true
+  },
+  "failed_resource_qualified_attempt": {
+    "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time20-cold20k-lr1e5-02",
+    "owner_journal": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-20261103-02/owner/process.json",
+    "status": "failed_or_interrupted",
+    "error": "Canonical first-step RESOURCE_EXHAUSTED allocating91.91GiB; finite probe had passed86.32GiB",
+    "completed_optimizer_updates": 0,
+    "resource": {
+      "status": "finite_production_probe_passed",
+      "output": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-20261103-02/resource-probe",
+      "gpu": {
+        "gpu_name": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+        "gpu_uuid": "GPU-c55d506d-0eea-666e-713c-3ca8e3d81c9f",
+        "total_memory_bytes": 102641958912,
+        "time_microbatch": 20,
+        "allocator_fraction": 0.97
+      },
+      "updates": 11,
+      "allocator_fraction": 0.97,
+      "peak_bytes": 92689859072,
+      "peak_GiB": 86.32415819168091,
+      "warm_update_seconds": 1.8963462094776333,
+      "compile_seconds": 372.31161032803357,
+      "finite_nominal_evaluation": true,
+      "fitted_probe_weights_exported": false
+    },
+    "actual_cold_state": {
+      "status": "cold_model_complete_optimizer_and_input_bank_exact",
+      "model_and_full_optimizer_exact": true,
+      "initial_geometry_bank_exact": true,
+      "evaluation_and_reserved_inputs_exact": true,
+      "fitted_state_imported": false
+    },
+    "initial_monitor": {
+      "step": 0,
+      "elapsed": 56.139619522728026,
+      "phi": 0.47940953586336305,
+      "terminal_phi": 0.5239364519577291,
+      "dispersed_phase": 1.2668045842112892,
+      "velocity": 0.07137368938064623,
+      "pressure": 0.9960328478711266,
+      "chemical": 1.6747896861291274,
       "phi_range": [
-        -1.0675320625305176,
-        1.0403268337249756
+        -1.158311128616333,
+        1.0000014305114746
       ],
       "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
       "scope": "One local-FEM geometry; not a generalization estimate"
     },
-    "scope": "Same single development FEM geometry and training step; early optimization only, not final/cohort performance"
+    "artifacts_preserved": true
+  },
+  "superseded_time8_attempt": {
+    "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time8-cold20k-lr1e5-03",
+    "owner_journal": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-time8-20261103-03/owner/process.json",
+    "status": "stopped_for_user_requested_higher_memory_setting",
+    "owner_exit": "SystemExit(143)",
+    "resource": {
+      "status": "finite_production_probe_passed",
+      "output": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-time8-20261103-03/resource-probe",
+      "gpu": {
+        "gpu_name": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+        "gpu_uuid": "GPU-c55d506d-0eea-666e-713c-3ca8e3d81c9f",
+        "total_memory_bytes": 102641958912,
+        "time_microbatch": 8,
+        "allocator_fraction": 0.97
+      },
+      "updates": 11,
+      "allocator_fraction": 0.97,
+      "peak_bytes": 43147762688,
+      "peak_GiB": 40.18448543548584,
+      "warm_update_seconds": 2.3944573759101333,
+      "compile_seconds": 365.0783076127991,
+      "finite_nominal_evaluation": true,
+      "fitted_probe_weights_exported": false
+    },
+    "artifacts_preserved": true,
+    "trained_metrics_available": false
+  },
+  "latest_monitor": {
+    "step": 20000,
+    "elapsed": 32972.56945055723,
+    "phi": 0.01449620420593507,
+    "terminal_phi": 0.01901957363955198,
+    "dispersed_phase": 0.038305157841030966,
+    "velocity": 0.013312134683055553,
+    "pressure": 0.046702822210027584,
+    "chemical": 0.11674443733517723,
+    "phi_range": [
+      -1.1230411529541016,
+      1.0460937023162842
+    ],
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+    "scope": "One local-FEM geometry; not a generalization estimate"
+  },
+  "latest_loss": {
+    "step": 20000,
+    "total": 0.003030199557542801,
+    "parts": {
+      "phase": 0.0006279589142650366,
+      "chemical": 0.0005396537599153817,
+      "momentum_x": 0.0007715217070654035,
+      "momentum_y": 0.0010084273526445031,
+      "wall_phase": 2.550979479565285e-05,
+      "wall_mu": 4.918386912322603e-05,
+      "outlet_traction": 4.013286343251821e-06,
+      "outlet_phase": 1.3502917681762483e-06,
+      "outlet_mu": 2.5805397854128387e-06
+    }
+  },
+  "actual_production_update_completed": true,
+  "verification": {
+    "focused_tests": 6,
+    "syntax": "changed modules AST passed",
+    "json": "passed",
+    "artifact_directories": 452,
+    "git_diff_check": "passed",
+    "new_FEM_solves": 0,
+    "cleanup": false,
+    "frozen_source_files_unchanged": 105,
+    "independent_paired_metric_replay": "passed",
+    "remaining_postprocess_stages": 8,
+    "remaining_postprocess_exit_codes": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "continuous_time_probe_count": 252,
+    "final_physical_galleries_and_convergence_visually_inspected": 5,
+    "owner_CLI": "passed",
+    "changed_Python_AST": "passed",
+    "new_training_steps": 0
+  },
+  "performance_explanation": {
+    "scope": "Structural read-only diagnosis and measured canonical wall interval, not per-kernel profiling",
+    "production_wall_timing": {
+      "start_step": 300,
+      "end_step": 400,
+      "start_loss_flush_utc": "2026-11-03T03:44:24.884235+00:00",
+      "end_loss_flush_utc": "2026-11-03T03:47:07.534240+00:00",
+      "seconds_per_update": 1.6265000462532044,
+      "scope": "Actual canonical loss-file flush interval; includes rolling/host/log work; excludes cold compilation"
+    },
+    "spatial_nodes": 15633,
+    "interior_PDE_nodes": 15089,
+    "geometry_batch": 8,
+    "time_samples": 36,
+    "time_block": 18,
+    "logical_condition_time_nodes_per_update": 4502304,
+    "neighbor_count": 128,
+    "logical_neighbor_visits_per_application": 576294912,
+    "network_parameters": 1232004,
+    "soft_loss_terms": 9,
+    "loss_aggregation": "Shared fields/derivatives, sum9parts; one parameter-gradient pass per18-time block and one SOAP update after both blocks",
+    "derivative_path": "Spatial JVP streamfunction curl -> time JVP of physical fields -> parameter backprop; PDE/BC spatial residual operators remain integral nonlocal",
+    "attention": "Associative normalized linear integral attention; spatial preparation shared across times within each block",
+    "electropolish_default": {
+      "geometry_batch": 8,
+      "time_samples": 4,
+      "PDE_cores": 256,
+      "spatial_mode": "core+halo"
+    },
+    "hotspot_percentages_measured": false,
+    "source_changes": false,
+    "extra_GPU_profiling": false
+  },
+  "latest_refresh": {
+    "completed_updates": 19950,
+    "batch": 398,
+    "slots": [
+      12,
+      13
+    ],
+    "draw_ids": [
+      796,
+      797
+    ],
+    "wait_seconds": 0.02158102486282587
+  },
+  "recent_wall_seconds_per_update": 1.6285842285258696,
+  "same_step_development_comparison": {
+    "step": 5500,
+    "current": {
+      "step": 5500,
+      "elapsed": 9395.125071062706,
+      "phi": 0.028194673111910304,
+      "terminal_phi": 0.03675106894654468,
+      "dispersed_phase": 0.07450235858196722,
+      "velocity": 0.02796235056099174,
+      "pressure": 0.0603764522928033,
+      "chemical": 0.21732982510067117,
+      "phi_range": [
+        -1.1177362203598022,
+        1.0509729385375977
+      ],
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+      "scope": "One local-FEM geometry; not a generalization estimate"
+    },
+    "old_10k_run": {
+      "step": 5500,
+      "elapsed": 10943.939573518932,
+      "phi": 0.02616770830775526,
+      "terminal_phi": 0.033473403048160176,
+      "dispersed_phase": 0.06914625255183937,
+      "velocity": 0.02931230337085588,
+      "pressure": 0.05570262803646368,
+      "chemical": 0.2143065492199144,
+      "phi_range": [
+        -1.1204755306243896,
+        1.0497357845306396
+      ],
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+      "scope": "One local-FEM geometry; not a generalization estimate"
+    },
+    "scope": "Same one reused development FEM geometry, not cohort/population evidence; current36time sampling differs from old40"
+  },
+  "yesterday_today_timing_comparison": {
+    "yesterday": {
+      "total_steps": 10000,
+      "times_per_step": 40,
+      "time_block": 20,
+      "geometry_batch": 8,
+      "network_width": 192,
+      "interval": [
+        4000,
+        5500
+      ],
+      "seconds_per_step": 1.9015880242387453,
+      "recorded_at_step5500_hours": 3.03998321486637,
+      "raw_budget_hours": 5.282188956218738,
+      "completed_wall_hours": 5.417016251037518
+    },
+    "today": {
+      "total_steps": 20000,
+      "times_per_step": 36,
+      "time_block": 18,
+      "geometry_batch": 8,
+      "network_width": 192,
+      "interval": [
+        4000,
+        5500
+      ],
+      "seconds_per_step": 1.6241450940395394,
+      "recorded_at_step5500_hours": 2.609756964184085,
+      "raw_budget_hours": 9.023028300219664
+    },
+    "today_step_time_decrease_percent": 14.590065075229608,
+    "whole_budget_runtime_ratio": 1.7081986984954078,
+    "current": {
+      "status": "training",
+      "updates_at_least": 5900,
+      "latest_monitor": {
+        "step": 5500,
+        "elapsed": 9395.125071062706,
+        "phi": 0.028194673111910304,
+        "terminal_phi": 0.03675106894654468,
+        "dispersed_phase": 0.07450235858196722,
+        "velocity": 0.02796235056099174,
+        "pressure": 0.0603764522928033,
+        "chemical": 0.21732982510067117,
+        "phi_range": [
+          -1.1177362203598022,
+          1.0509729385375977
+        ],
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+        "scope": "One local-FEM geometry; not a generalization estimate"
+      },
+      "training_started_utc": "2026-11-03T03:27:50.995985+00:00"
+    }
+  },
+  "live_gallery": {
+    "status": "live_curves_and_actual_saved_checkpoint_plotted",
+    "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04",
+    "control": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01",
+    "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/ckpt_015000.eqx",
+    "checkpoint_step": 15000,
+    "latest_curve_step": 18000,
+    "latest_curve_metrics": {
+      "step": 18000,
+      "elapsed": 29717.69741685223,
+      "phi": 0.01144663354153173,
+      "terminal_phi": 0.012751280744884474,
+      "dispersed_phase": 0.030246890725869797,
+      "velocity": 0.013286553981328643,
+      "pressure": 0.020387753583552645,
+      "chemical": 0.1056443642871188,
+      "phi_range": [
+        -1.1222777366638184,
+        1.0456610918045044
+      ],
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+      "scope": "One local-FEM geometry; not a generalization estimate"
+    },
+    "checkpoint_metrics": {
+      "phi": 0.020371091238219285,
+      "terminal_phi": 0.029176302928034532,
+      "velocity": 0.014457691544954894,
+      "pressure": 0.03639527586102811
+    },
+    "replay_metric_gaps": {
+      "phi": 6.488861915149302e-08,
+      "terminal_phi": 2.5923556343232512e-08,
+      "velocity": 3.059058128335179e-09,
+      "pressure": 6.654672788514171e-08
+    },
+    "query_shape": [
+      96,
+      40
+    ],
+    "phase_times": [
+      0.0,
+      1.5,
+      3.0,
+      4.5,
+      6.0
+    ],
+    "flow_times": [
+      0.5,
+      1.5,
+      3.0,
+      4.5,
+      6.0
+    ],
+    "contour_counts": [
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        1
+      ]
+    ],
+    "smoothing": false,
+    "time_interpolation": false,
+    "display_interpolation": "Mapped bilinear fields only; contours and metrics use native saved queries",
+    "scope": "One reused development FEM geometry; saved15000 fields differ from later scalar monitor, no cohort claim",
+    "directory": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/live-gallery-15000-20261103-194855/figures",
+    "images": [
+      "phi-fields.png",
+      "droplet-contours.png",
+      "speed-fields.png",
+      "pressure-fields.png",
+      "relative-l2.png"
+    ],
+    "primary_images_visually_inspected": 5,
+    "replay_device": "cpu",
+    "GPU_trainer_continued": true,
+    "plotter": "docs/tasks/channel_live_training_gallery.py",
+    "raw_curve_data": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/live-gallery-15000-20261103-194855/figures/curve-data.json",
+    "replay_and_plot_exit_codes": [
+      0,
+      0
+    ]
+  },
+  "current_development_vs_old_endpoint": {
+    "current": {
+      "step": 19500,
+      "elapsed": 32159.270496371202,
+      "phi": 0.015561702570439762,
+      "terminal_phi": 0.02204345957374176,
+      "dispersed_phase": 0.04112065922690427,
+      "velocity": 0.013588247314185856,
+      "pressure": 0.04150904214471849,
+      "chemical": 0.11450262963828314,
+      "phi_range": [
+        -1.1230305433273315,
+        1.0460014343261719
+      ],
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+      "scope": "One local-FEM geometry; not a generalization estimate"
+    },
+    "old_endpoint": {
+      "step": 10000,
+      "elapsed": 19501.258503735065,
+      "phi": 0.026781278931850408,
+      "terminal_phi": 0.04054964547654848,
+      "dispersed_phase": 0.07076756798508652,
+      "velocity": 0.016700109554117624,
+      "pressure": 0.058930890802076835,
+      "chemical": 0.14103036287572812,
+      "phi_range": [
+        -1.12398362159729,
+        1.0457229614257812
+      ],
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+      "scope": "One local-FEM geometry; not a generalization estimate"
+    },
+    "scope": "One reused development local-FEM case; current longer budget and36time draws versus old40; final reserved cohort and source/input audits pending"
+  },
+  "live_checkpoint_steps": [
+    5000,
+    10000,
+    15000,
+    20000
+  ],
+  "live_process_check": {
+    "owner_alive": false,
+    "trainer_alive": false,
+    "completion_alive": false,
+    "scope": "All finite stages have finished"
+  },
+  "live_gallery_history": [
+    {
+      "status": "live_curves_and_actual_saved_checkpoint_plotted",
+      "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04",
+      "control": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01",
+      "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/ckpt_005000.eqx",
+      "checkpoint_step": 5000,
+      "latest_curve_step": 6500,
+      "latest_curve_metrics": {
+        "step": 6500,
+        "elapsed": 11018.986123388633,
+        "phi": 0.027428497093145692,
+        "terminal_phi": 0.03639543248917857,
+        "dispersed_phase": 0.07247779457087422,
+        "velocity": 0.02630206978949581,
+        "pressure": 0.08662273113174176,
+        "chemical": 0.20497748210300312,
+        "phi_range": [
+          -1.1214344501495361,
+          1.050879955291748
+        ],
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+        "scope": "One local-FEM geometry; not a generalization estimate"
+      },
+      "checkpoint_metrics": {
+        "phi": 0.033766888453398376,
+        "terminal_phi": 0.040315604114052994,
+        "velocity": 0.0293214522025528,
+        "pressure": 0.05074201381003498
+      },
+      "replay_metric_gaps": {
+        "phi": 1.3222935045520412e-08,
+        "terminal_phi": 8.606730064752988e-09,
+        "velocity": 1.0559530680409601e-10,
+        "pressure": 1.3464442415178635e-08
+      },
+      "query_shape": [
+        96,
+        40
+      ],
+      "phase_times": [
+        0.0,
+        1.5,
+        3.0,
+        4.5,
+        6.0
+      ],
+      "flow_times": [
+        0.5,
+        1.5,
+        3.0,
+        4.5,
+        6.0
+      ],
+      "contour_counts": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "smoothing": false,
+      "time_interpolation": false,
+      "display_interpolation": "Mapped bilinear fields only; contours and metrics use native saved queries",
+      "scope": "One reused development FEM geometry; saved5000 fields differ from later scalar monitor, no cohort claim",
+      "directory": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/live-gallery-20261103-143218/figures",
+      "images": [
+        "relative-l2.png",
+        "phi-fields.png",
+        "droplet-contours.png",
+        "speed-fields.png",
+        "pressure-fields.png"
+      ],
+      "primary_images_visually_inspected": 5,
+      "replay_device": "cpu",
+      "GPU_trainer_continued": true,
+      "plotter": "docs/tasks/channel_live_training_gallery.py",
+      "raw_curve_data": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/live-gallery-20261103-143218/figures/curve-data.json",
+      "replay_and_plot_exit_codes": [
+        0,
+        0
+      ]
+    }
+  ],
+  "task": "docs/tasks/archive/channel-cold20k-and-four-pino-setups.md",
+  "production": {
+    "summary": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/summary.json",
+    "training_exit_code": 0,
+    "wall_seconds": 32985.806782427244,
+    "warm_update_seconds": 1.6082611047044877,
+    "peak_active_bytes": 89653278720,
+    "peak_active_GiB": 83.49612236022949,
+    "iterations": 20000,
+    "supervised_evolved_field_samples": 0
+  },
+  "original_postprocessing_failure": {
+    "journal": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/owner/process.json",
+    "status": "failed_or_interrupted",
+    "error": "RuntimeError('continuous_time_residual failed with exit1; see /root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/owner/continuous_time_residual.log; no retry')",
+    "original_journal_preserved": true,
+    "original_count": 240,
+    "execution_time_block": 18,
+    "reason": "Diagnostic count not divisible by block; canonical training completed successfully"
+  },
+  "supplemental_completion": {
+    "directory": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/final-completion-20261103-210103",
+    "journal": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/final-completion-20261103-210103/completion.json",
+    "status": "remaining_saved20k_audits_completed",
+    "stages": [
+      {
+        "stage": "unseen_geometry_evaluation",
+        "pid": 124073,
+        "arguments": [
+          "-m",
+          "examples.channel_nsch2d.cohort_evaluate",
+          "--run=/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04",
+          "--manifest=/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/manifest.json",
+          "--output=/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3"
+        ],
+        "platform": "cuda",
+        "log": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/final-completion-20261103-210103/unseen_geometry_evaluation.log",
+        "started_utc": "2026-11-03T13:01:03.864090+00:00",
+        "exit_code": 0,
+        "completed_utc": "2026-11-03T13:03:33.886029+00:00"
+      },
+      {
+        "stage": "continuous_time_residual_252",
+        "pid": 127409,
+        "arguments": [
+          "-m",
+          "examples.channel_nsch2d.diagnose_time",
+          "--run=/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04",
+          "--output=/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/continuous-time-residual-252",
+          "--time-samples=252",
+          "--probe-seed=20261103"
+        ],
+        "platform": "cuda",
+        "log": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/final-completion-20261103-210103/continuous_time_residual_252.log",
+        "started_utc": "2026-11-03T13:03:33.887979+00:00",
+        "exit_code": 0,
+        "completed_utc": "2026-11-03T13:05:18.915309+00:00"
+      },
+      {
+        "stage": "droplet_shape",
+        "pid": 130009,
+        "arguments": [
+          "docs/tasks/channel_droplet_metrics.py",
+          "--fields=/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/prediction.npz",
+          "--output=/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/droplet-shape"
+        ],
+        "platform": "cpu",
+        "log": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/final-completion-20261103-210103/droplet_shape.log",
+        "started_utc": "2026-11-03T13:05:18.920696+00:00",
+        "exit_code": 0,
+        "completed_utc": "2026-11-03T13:05:23.922973+00:00"
+      },
+      {
+        "stage": "phi_gallery",
+        "pid": 130014,
+        "arguments": [
+          "-m",
+          "examples.channel_nsch2d.evaluate",
+          "--fields=/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/prediction.npz",
+          "--output=/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/phi-fields",
+          "--field=phi",
+          "--times",
+          "0",
+          "1.5",
+          "3",
+          "4.5",
+          "6"
+        ],
+        "platform": "cpu",
+        "log": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/final-completion-20261103-210103/phi_gallery.log",
+        "started_utc": "2026-11-03T13:05:23.924219+00:00",
+        "exit_code": 0,
+        "completed_utc": "2026-11-03T13:05:28.925481+00:00"
+      },
+      {
+        "stage": "unseen_phi_gallery_0",
+        "pid": 130019,
+        "arguments": [
+          "-m",
+          "examples.channel_nsch2d.evaluate",
+          "--fields=/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_000/prediction.npz",
+          "--output=/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_000/phi-fields",
+          "--field=phi",
+          "--times",
+          "0",
+          "1.5",
+          "3",
+          "4.5",
+          "6"
+        ],
+        "platform": "cpu",
+        "log": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/final-completion-20261103-210103/unseen_phi_gallery_0.log",
+        "started_utc": "2026-11-03T13:05:28.926685+00:00",
+        "exit_code": 0,
+        "completed_utc": "2026-11-03T13:05:33.927969+00:00"
+      },
+      {
+        "stage": "unseen_phi_gallery_1",
+        "pid": 130024,
+        "arguments": [
+          "-m",
+          "examples.channel_nsch2d.evaluate",
+          "--fields=/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_001/prediction.npz",
+          "--output=/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_001/phi-fields",
+          "--field=phi",
+          "--times",
+          "0",
+          "1.5",
+          "3",
+          "4.5",
+          "6"
+        ],
+        "platform": "cpu",
+        "log": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/final-completion-20261103-210103/unseen_phi_gallery_1.log",
+        "started_utc": "2026-11-03T13:05:33.930106+00:00",
+        "exit_code": 0,
+        "completed_utc": "2026-11-03T13:05:38.931778+00:00"
+      },
+      {
+        "stage": "unseen_phi_gallery_2",
+        "pid": 130038,
+        "arguments": [
+          "-m",
+          "examples.channel_nsch2d.evaluate",
+          "--fields=/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_002/prediction.npz",
+          "--output=/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_002/phi-fields",
+          "--field=phi",
+          "--times",
+          "0",
+          "1.5",
+          "3",
+          "4.5",
+          "6"
+        ],
+        "platform": "cpu",
+        "log": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/final-completion-20261103-210103/unseen_phi_gallery_2.log",
+        "started_utc": "2026-11-03T13:05:38.934058+00:00",
+        "exit_code": 0,
+        "completed_utc": "2026-11-03T13:05:43.935958+00:00"
+      },
+      {
+        "stage": "convergence",
+        "pid": 130049,
+        "arguments": [
+          "docs/tasks/channel_random_wall_convergence.py",
+          "--run=/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04",
+          "--output=/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/convergence"
+        ],
+        "platform": "cpu",
+        "log": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/final-completion-20261103-210103/convergence.log",
+        "started_utc": "2026-11-03T13:05:43.938235+00:00",
+        "exit_code": 0,
+        "completed_utc": "2026-11-03T13:05:48.940368+00:00"
+      }
+    ],
+    "time_probe_count": 252,
+    "time_probe_platform": "cuda",
+    "new_training_steps": 0,
+    "new_FEM_solves": 0,
+    "automatic_retries": 0
+  },
+  "final_comparison": {
+    "status": "paired_saved10k20k_metrics_independently_recomputed",
+    "old_run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01",
+    "new_run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04",
+    "nominal": {
+      "phi": {
+        "old10k": 0.026781278931850408,
+        "new20k": 0.014496204205935071,
+        "relative_reduction": 0.45871874741967444
+      },
+      "terminal_phi": {
+        "old10k": 0.04054964547654848,
+        "new20k": 0.01901957363955198,
+        "relative_reduction": 0.5309558587743566
+      },
+      "dispersed_fraction": {
+        "old10k": 0.07076756798508652,
+        "new20k": 0.038305157841030966,
+        "relative_reduction": 0.45871874741967456
+      },
+      "velocity": {
+        "old10k": 0.01670010955411762,
+        "new20k": 0.013312134683055551,
+        "relative_reduction": 0.20287141590797064
+      },
+      "pressure": {
+        "old10k": 0.058930890802076835,
+        "new20k": 0.046702822210027584,
+        "relative_reduction": 0.20749845158658808
+      },
+      "chemical": {
+        "old10k": 0.14103036287572815,
+        "new20k": 0.11674443733517723,
+        "relative_reduction": 0.17220352444211584
+      }
+    },
+    "per_geometry": [
+      {
+        "index": 0,
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+        "metrics": {
+          "phi": {
+            "old10k": 0.0194291857359503,
+            "new20k": 0.019860020536880404,
+            "relative_reduction": -0.022174619502088655
+          },
+          "terminal_phi": {
+            "old10k": 0.0278040021355434,
+            "new20k": 0.02868202299317516,
+            "relative_reduction": -0.03157893792956301
+          },
+          "dispersed_fraction": {
+            "old10k": 0.051059321511433296,
+            "new20k": 0.05219154253798413,
+            "relative_reduction": -0.022174619502088433
+          },
+          "velocity": {
+            "old10k": 0.018751998340618324,
+            "new20k": 0.014131496096867766,
+            "relative_reduction": 0.24640052541718616
+          },
+          "pressure": {
+            "old10k": 0.03879534007915456,
+            "new20k": 0.047161217684880984,
+            "relative_reduction": -0.2156413009566982
+          },
+          "chemical": {
+            "old10k": 0.13589291473307663,
+            "new20k": 0.12744880031061048,
+            "relative_reduction": 0.06213800358210164
+          }
+        }
+      },
+      {
+        "index": 1,
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+        "metrics": {
+          "phi": {
+            "old10k": 0.016519053443822,
+            "new20k": 0.014292626036913721,
+            "relative_reduction": 0.13477935733302837
+          },
+          "terminal_phi": {
+            "old10k": 0.015196230401776227,
+            "new20k": 0.016781926556158788,
+            "relative_reduction": -0.10434799371015169
+          },
+          "dispersed_fraction": {
+            "old10k": 0.04389666758153121,
+            "new20k": 0.03798030293583086,
+            "relative_reduction": 0.13477935733302826
+          },
+          "velocity": {
+            "old10k": 0.02133514952753984,
+            "new20k": 0.01563059795544062,
+            "relative_reduction": 0.2673780919480162
+          },
+          "pressure": {
+            "old10k": 0.09031571359057497,
+            "new20k": 0.06588466102447928,
+            "relative_reduction": 0.27050721956146107
+          },
+          "chemical": {
+            "old10k": 0.19994965122319183,
+            "new20k": 0.16633987627607505,
+            "relative_reduction": 0.16809119066479494
+          }
+        }
+      },
+      {
+        "index": 2,
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+        "metrics": {
+          "phi": {
+            "old10k": 0.019239861712785394,
+            "new20k": 0.01515234170982108,
+            "relative_reduction": 0.21245059158861046
+          },
+          "terminal_phi": {
+            "old10k": 0.025122542965861763,
+            "new20k": 0.020419092870480115,
+            "relative_reduction": 0.18722030256941025
+          },
+          "dispersed_fraction": {
+            "old10k": 0.05046672049665705,
+            "new20k": 0.039745035871605196,
+            "relative_reduction": 0.21245059158861068
+          },
+          "velocity": {
+            "old10k": 0.02039351959385948,
+            "new20k": 0.01575407426666157,
+            "relative_reduction": 0.2274960585319885
+          },
+          "pressure": {
+            "old10k": 0.03324201270232703,
+            "new20k": 0.04547556186509373,
+            "relative_reduction": -0.36801469490775807
+          },
+          "chemical": {
+            "old10k": 0.14166163362333412,
+            "new20k": 0.12483510107112211,
+            "relative_reduction": 0.11877974382924517
+          }
+        }
+      }
+    ],
+    "aggregate": {
+      "phi": {
+        "old10k": {
+          "mean": 0.018396033630852567,
+          "worst": 0.0194291857359503,
+          "p90": 0.01939132093131732
+        },
+        "new20k": {
+          "mean": 0.016434996094538402,
+          "worst": 0.019860020536880404,
+          "p90": 0.018918484771468538
+        },
+        "mean_relative_reduction": 0.10660110628550101
+      },
+      "terminal_phi": {
+        "old10k": {
+          "mean": 0.022707591834393793,
+          "worst": 0.0278040021355434,
+          "p90": 0.027267710301607073
+        },
+        "new20k": {
+          "mean": 0.02196101413993802,
+          "worst": 0.02868202299317516,
+          "p90": 0.027029436968636154
+        },
+        "mean_relative_reduction": 0.03287788946976655
+      },
+      "dispersed_fraction": {
+        "old10k": {
+          "mean": 0.04847423652987385,
+          "worst": 0.051059321511433296,
+          "p90": 0.05094080130847805
+        },
+        "new20k": {
+          "mean": 0.043305627115140057,
+          "worst": 0.05219154253798413,
+          "p90": 0.04970224120470834
+        },
+        "mean_relative_reduction": 0.10662590655859983
+      },
+      "velocity": {
+        "old10k": {
+          "mean": 0.020160222487339213,
+          "worst": 0.02133514952753984,
+          "p90": 0.02114682354080377
+        },
+        "new20k": {
+          "mean": 0.01517205610632332,
+          "worst": 0.01575407426666157,
+          "p90": 0.01572937900441738
+        },
+        "mean_relative_reduction": 0.24742615733276274
+      },
+      "pressure": {
+        "old10k": {
+          "mean": 0.054117688790685514,
+          "worst": 0.09031571359057497,
+          "p90": 0.0800116388882909
+        },
+        "new20k": {
+          "mean": 0.052840480191484664,
+          "worst": 0.06588466102447928,
+          "p90": 0.06213997235655962
+        },
+        "mean_relative_reduction": 0.023600575481720787
+      },
+      "chemical": {
+        "old10k": {
+          "mean": 0.1591680665265342,
+          "worst": 0.19994965122319183,
+          "p90": 0.18829204770322028
+        },
+        "new20k": {
+          "mean": 0.13954125921926921,
+          "worst": 0.16633987627607505,
+          "p90": 0.15856166108298214
+        },
+        "mean_relative_reduction": 0.12330869963789559
+      }
+    },
+    "geometry_response": {
+      "old10k": {
+        "phi": {
+          "relative_error": 0.18953769832461442,
+          "amplitude_ratio": 1.072812091553766,
+          "correlation": 0.98572772498984,
+          "scope": "Identical physical(x,y)points; excludes coordinate-map effects; flow uses positive times"
+        },
+        "velocity": {
+          "relative_error": 0.1309480590030042,
+          "amplitude_ratio": 1.0070066660099135,
+          "correlation": 0.9915103338611305,
+          "scope": "Identical physical(x,y)points; excludes coordinate-map effects; flow uses positive times"
+        },
+        "pressure": {
+          "relative_error": 0.7299829013287538,
+          "amplitude_ratio": 0.6372249239390124,
+          "correlation": 0.6851431375746886,
+          "scope": "Identical physical(x,y)points; excludes coordinate-map effects; flow uses positive times"
+        }
+      },
+      "new20k": {
+        "phi": {
+          "relative_error": 0.21324635930467092,
+          "amplitude_ratio": 1.0927749485784908,
+          "correlation": 0.983131559375096,
+          "scope": "Identical physical(x,y)points; excludes coordinate-map effects; flow uses positive times"
+        },
+        "velocity": {
+          "relative_error": 0.09390611618936273,
+          "amplitude_ratio": 0.997418091569684,
+          "correlation": 0.9955827488587254,
+          "scope": "Identical physical(x,y)points; excludes coordinate-map effects; flow uses positive times"
+        },
+        "pressure": {
+          "relative_error": 0.6728256808944455,
+          "amplitude_ratio": 0.7130253410347527,
+          "correlation": 0.7403038008120362,
+          "scope": "Identical physical(x,y)points; excludes coordinate-map effects; flow uses positive times"
+        }
+      }
+    },
+    "exact_same_reference_query_inputs": true,
+    "reference_points_per_geometry": 3840,
+    "time_snapshots": 13,
+    "phi_time_scope": "All13times including hard initial",
+    "flow_chemical_time_scope": "12positive times; excludes unprescribed initial pressure",
+    "training_hours": {
+      "old10k": 5.42073741184444,
+      "new20k": 9.16272410622979
+    },
+    "limitations": "One cold initialization and3predeclared reused reserved geometries;36versus40training time draws plus changedLR/budget/GPU; not population/cross-seed or isolatedLR evidence"
+  },
+  "final_cohort": {
+    "report": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/evaluation.json",
+    "aggregate": {
+      "phi": {
+        "mean": 0.016434996094538402,
+        "p90": 0.01891848477146854,
+        "worst": 0.019860020536880404
+      },
+      "phi_area_weighted": {
+        "mean": 0.015074491113013302,
+        "p90": 0.01730176882475081,
+        "worst": 0.018173955026008666
+      },
+      "velocity": {
+        "mean": 0.01517205610632332,
+        "p90": 0.01572937900441738,
+        "worst": 0.01575407426666157
+      },
+      "velocity_area_weighted": {
+        "mean": 0.015744838840270406,
+        "p90": 0.01625180798683675,
+        "worst": 0.016290404474973336
+      },
+      "pressure": {
+        "mean": 0.052840480191484664,
+        "p90": 0.06213997235655962,
+        "worst": 0.06588466102447928
+      },
+      "pressure_area_weighted": {
+        "mean": 0.0519413366883934,
+        "p90": 0.06141070905494845,
+        "worst": 0.06513762381895621
+      },
+      "chemical": {
+        "mean": 0.13954125921926921,
+        "p90": 0.15856166108298214,
+        "worst": 0.16633987627607505
+      },
+      "chemical_area_weighted": {
+        "mean": 0.14316837227747503,
+        "p90": 0.16504571995620582,
+        "worst": 0.17401802850323397
+      },
+      "terminal_phi": {
+        "mean": 0.02196101413993802,
+        "p90": 0.027029436968636154,
+        "worst": 0.02868202299317516
+      },
+      "dispersed_fraction": {
+        "mean": 0.043305627115140057,
+        "p90": 0.04970224120470834,
+        "worst": 0.05219154253798413
+      }
+    },
+    "geometries": 3,
+    "all_principal_cases_below10percent": true
   }
 }

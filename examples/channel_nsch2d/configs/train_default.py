@@ -1,5 +1,5 @@
-"""Validated random-wall operator; qualified for a 96GB GPU (see README)."""
-from examples.channel_nsch2d.configs.train_operator_random_walls_width192_batch8_time20 import get_config as fixed_config
+"""Selected cold20k random-wall operator; qualified for a96GB GPU (see README)."""
+from examples.channel_nsch2d.configs.train_operator_random_walls_width192_batch8_time18_nt36_cold20k import get_config as fixed_config
 
 
 def get_config():

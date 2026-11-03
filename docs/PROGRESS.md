@@ -2,18 +2,11 @@
 
 ## Active task
 
-[Channel cold20k and four PINO setup schematics](tasks/channel-cold20k-and-four-pino-setups.md).
-Actual cold20k trainer135888under detached owner135660/screen
-channel-cold20k-20261103-01is running. Preserved192/B8/integral/JVP/SOAP/rolling
-recipe; LR1e-3 ->~1e-5. Full802draw prior/coldstate/input/resource checks pass.
-Journal: /root/autodl-tmp/data/channel_nsch2d/cold20k-lr1e5-20261103-01/process.json.
-Four known-input setup SVGs(195KiBtotal) inserted into each example README;
-4focused tests,XML/raster/link/old-PNG parity/artifact checks pass. Current10k
-SOTA/default unchanged. Setup/documentation payload published on devbaf211b,
-mainmerge4ab2d98; actual origin/main verified. All103live frozen Python files
-remain unchanged. Latest snapshot: at least900updates, latest L2monitor500; early errors
-are similar to the old run at the same step. Next: SAME20k owner and finite
-final audits; no restart/FEM/cleanup or premature default promotion. [Receipt](tasks/channel-cold20k-and-four-pino-setups-validation.json).
+[Publish20k channel SOTA](tasks/channel-20k-sota-publication.md).
+User explicitly requests commit/push of the completed20kdefault/README/image
+and outstanding supporting source/config/validation records. Review staged
+scope and guards, commit on dev, regular-merge into main and push origin/main;
+verify remote commit and publish memory closeout. No new training/FEM/cleanup.
 
 ## Deferred work
 
@@ -21,13 +14,33 @@ Phase-field/displacement boundary-conditioned precipitate example is recorded
 but explicitly deferred by the user; no implementation, training or reference
 solve. [Feasibility](tasks/archive/traction-conditioned-elastic-pino-analysis.md),
 [concept sketch](tasks/archive/elastic-boundary-response-sketch.md).
-The prior channel20000/lower-LR proposal is now the authorized active task above.
+The channel20000/lower-LR study is complete and archived below.
 
 ## Latest completed validation
 
+[Promoted20kdefault](tasks/archive/channel-20k-sota-promotion.md):
+user-selected actual20kendpoint and all3predeclared reserved cases. Native
+phase errors1.9860/1.4293/1.5152%; new curated PNG275257bytes and four-PNG total
+1878013bytes. Other three PNGs/provenance unchanged. Current default exactly
+matches saved20kconfig apart from runtime seed/run name; old10kcontrols retained.
+47local links,9case/452artifact roots, JSON/AST/image/diff checks pass.
+
+[Cold20k endpoint comparison](tasks/archive/channel-cold20k-and-four-pino-setups.md):
+20k final development phi1.4496%,terminal1.9020%,u1.3312%,p4.6703%; same3reserved
+means phi1.6435%,terminal2.1961%,u1.5172%,p5.2840%,minority4.3306%,mu13.9541%.
+Against old10k reserved means: phase10.7%and velocity24.7%relative reductions;
+terminalphase3.3%and pressure2.4%. Some cases worsen; pressure worst9.0316%->6.5885%.
+Original owner stopped at240/18diagnostic-count rejection after successful
+training. Separate explicit252probe completion finished all8remaining stages;
+original failure journal preserved. Future18route now records252; legacy20/8
+retain240. Exact saved-field paired replay and105source bytes pass. Train
+wall9.1627h; subsequently promoted as current default by explicit user request. One initialization,
+three reused reserved cases; changedLR/budget and36vs40times are coupled.
+Direct completion: /root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/final-completion-20261103-210103/completion.json.
+
 [Random smooth-wall NS–CH operator](tasks/archive/channel-random-wall-pilot.md),
 [compact receipt](tasks/channel-random-wall-pilot-validation.json).
-Canonical channel train.py now defaults to width192/B8/SOAP10000/ordinaryFP32,
+Previous10kselection used width192/B8/SOAP10000/ordinaryFP32,
 integral spatial derivatives, physical timeJVP40 and online rolling geometry
 inputs. Timeblock20on PRO6000uses88.06GiB peak and explicit97%allocator; README
 includes smaller block8/block2 presets. Automatic fresh run names; runtime seeds.
@@ -54,6 +67,12 @@ Preserve existing external data/run paths. Git history changes require explicit
 current-turn authorization; the documented workflow pushes main only.
 
 ## Recent completed tasks
+
+- [20k channel SOTA/default and README image promotion](tasks/archive/channel-20k-sota-promotion.md).
+
+- [Final20k physical fields on four geometries](tasks/archive/channel-final20k-field-gallery.md).
+
+- [Cold20k endpoint comparison and four PINO setup diagrams](tasks/archive/channel-cold20k-and-four-pino-setups.md).
 
 - [Displacement-boundary morphology-response concept sketch](tasks/archive/elastic-boundary-response-sketch.md).
 

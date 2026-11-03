@@ -27,14 +27,15 @@ def main(a):
     c.train.seed = a.seed
     c.log.run_name = a.run_name
     validate_config(c)
-    comparison_config(c, a.control)
+    comparison_config(c, a.control, a.execution_time_block)
     run = Path(c.log.log_dir)/a.run_name
     if run.exists() or output.exists():
         raise FileExistsError('Fresh run and owner output paths are required')
     query = subprocess.check_output(['nvidia-smi', '--query-gpu=name,uuid,memory.total',
                                      '--format=csv,noheader,nounits'], text=True).strip().split(', ')
     gpu = dict(name=query[0], uuid=query[1], total_memory_bytes=int(query[2])*2**20)
-    resource = resource_evidence(c, a.control, a.resource_probe, gpu, a.memory_fraction)
+    resource = resource_evidence(c, a.control, a.resource_probe, gpu, a.memory_fraction,
+                                 a.execution_time_block)
     if subprocess.check_output(['nvidia-smi', '--query-compute-apps=pid', '--format=csv,noheader'], text=True).strip():
         raise RuntimeError('GPU occupied; this owner starts no concurrent experiment')
     if shutil.disk_usage(run.parent).free < 4*2**30:
@@ -50,6 +51,8 @@ def main(a):
                   started_utc=datetime.now(timezone.utc).isoformat(), run=str(run),
                   config=a.config, control=a.control, seed=a.seed, requested_steps=20000,
                   initialization='Cold model and complete fresh SOAP; no checkpoint or optimizer import',
+                  execution_time_block=a.execution_time_block,
+                  continuous_time_probe_samples=252 if a.execution_time_block == 18 else 240,
                   resource=resource, prepared_config=json.loads(c.to_json()),
                   active_child_pid=None, stages=[], new_FEM_solves=0, automatic_retries=0,
                   scope='One initialization; same reused development/3reserved FEM cases, not a population guarantee')
@@ -94,7 +97,7 @@ def main(a):
                                 if lines:
                                     record[key] = json.loads(lines[-1])
                         if 'latest_monitor' in record and 'actual_cold_state' not in record:
-                            record['actual_cold_state'] = audit_cold(run, a.control)
+                            record['actual_cold_state'] = audit_cold(run, a.control, a.execution_time_block)
                         if 'latest_loss' in record:
                             step = record['latest_loss']['step']
                             record['scheduled_lr_at_last_logged_update'] = max(c.train.lr_min,
@@ -130,16 +133,16 @@ def main(a):
         if summary['status'] != 'completed' or summary['iterations'] != 20000:
             raise ValueError('Training did not publish the prescribed20k endpoint')
         if 'actual_cold_state' not in record:
-            record['actual_cold_state'] = audit_cold(run, a.control)
+            record['actual_cold_state'] = audit_cold(run, a.control, a.execution_time_block)
         for name in ('validate_run', 'diagnose_phase'):
             execute(name, ['-m', 'examples.channel_nsch2d.'+name, '--run='+str(run)], env)
-        comparison = audit_completed(run, a.control)
+        comparison = audit_completed(run, a.control, a.execution_time_block)
         (run/'budget-control-validation.json').write_text(json.dumps(comparison, indent=2)+'\n')
         record['budget_control'] = comparison
         save()
         execute('continuous_time_residual', ['-m', 'examples.channel_nsch2d.diagnose_time',
             '--run='+str(run), '--output='+str(run/'continuous-time-residual'),
-            '--time-samples=240', '--probe-seed=20261103'], cpu)
+            '--time-samples='+str(record['continuous_time_probe_samples']), '--probe-seed=20261103'], cpu)
         execute('droplet_shape', ['docs/tasks/channel_droplet_metrics.py',
             '--fields='+str(run/'prediction.npz'), '--output='+str(run/'droplet-shape')], cpu)
         execute('phi_gallery', ['-m', 'examples.channel_nsch2d.evaluate',
@@ -179,4 +182,6 @@ if __name__ == '__main__':
     parser.add_argument('--seed', type=int, required=True)
     parser.add_argument('--memory-fraction', type=float, required=True)
     parser.add_argument('--screen-workers', type=int, required=True)
+    parser.add_argument('--execution-time-block', type=int, choices=(8, 18),
+                        help='Explicit40/8 or36/18 time sampling/block extension')
     main(parser.parse_args())
