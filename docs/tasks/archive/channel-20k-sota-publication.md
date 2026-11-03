@@ -21,15 +21,18 @@ figure provenance and artifact pointers. All changes relate to this session.
 Current-turn user explicitly authorizes commit and push.
 
 ## Status
-In progress: final review/validation, remote freshness check and dev payload
-commit, followed by main merge/push and verified memory closeout.
+User-requested payload published and independently verified on origin/main.
+devc11a172regular-merged as mainece0130; remote main exactly matches that merge.
+Source/config/default/README/curated image and supporting records are published.
+This archived task and updated receipt/dashboard are the publication closeout.
 
 ## Blocker
 None.
 
 ## Next action
-Check remote main/tree and review staged scope, run focused checks, then commit
-on dev and merge/push only main. Record verified Git outcomes without raw data.
+No further source or numerical work. Publish this compact memory closeout
+through the same devcommit/mainmerge/mainpush workflow, verify remote main and
+clean working tree; no further experiment, cleanup or dev push.
 
 ## Payload preflight
 
@@ -42,3 +45,21 @@ Only selected channel PNG is included(275257bytes). All staged changes are
 related source/config/docs/compact receipts. No training/FEM/cleanup. Initial
 read-only config command used system Python and failed before staging/commit;
 corrected project.venv check passes. Payload is ready for devcommit/mainmerge/push.
+
+## Publication and task-end
+
+Payload devcommit: `c11a17262303d63c3dd0d76554fb813ccdb7cc54`.
+Regular mainmerge: `ece01307948be4351b8ae9e7a3c8049d4ad48be8`.
+Push origin/main succeeded; independent git ls-remote returned that exact merge
+for refs/heads/main. devwas not pushed, no history rewritten. Working tree was
+clean after payload publication.26files contain selected20kdefault, explicit
+36/18guards/configs, finite audit/archived records, README/provenance and the
+single275257byte curated image. No weights/arrays/logs/full galleries copied.
+
+Memory closeout updates PROGRESS, DECISIONS, this archive and the compact
+channel-20k-sota-publication-validation.jsonreceipt. It records verified payload
+commit identities rather than inventing a self-referential commit hash. JSON/
+local-link/index/whitespace checks suffice for the memory-only followup; the
+six focused tests and saved-config parity remain valid. Publish this closeout
+with the same authorized regular-merge/main-only workflow and verify the final
+remote state. No training, FEM, cleanup or further source change remains.

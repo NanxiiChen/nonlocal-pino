@@ -9071,3 +9071,13 @@ run records/default controls. Follow devcommit->mainregularmerge->origin/main
 push; dev remains local, no history rewrite. Verify remote main and publish a
 small memory closeout after the payload, preserving actual commit identities
 without claiming a self-referential hash. Relation: channel-20k-sota-publication.
+
+## 2026-11-03 — Preserve verified20k payload publication in the memory closeout
+
+Payload c11a172was regular-merged as ece0130and origin/main independently
+verified at that exact merge. Archive the completed payload task and publish
+the compact receipt/dashboard through the same authorized dev/main workflow;
+keep the payload hashes explicit and final memory-commit identity observable
+from Git rather than self-referential document content. No numerical source,
+training, FEM, cleanup or dev push is added. Relation:
+channel-20k-sota-publication.
