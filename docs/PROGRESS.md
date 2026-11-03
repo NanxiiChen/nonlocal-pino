@@ -2,11 +2,12 @@
 
 ## Active task
 
-[Publish20k channel SOTA](tasks/channel-20k-sota-publication.md).
-User explicitly requests commit/push of the completed20kdefault/README/image
-and outstanding supporting source/config/validation records. Review staged
-scope and guards, commit on dev, regular-merge into main and push origin/main;
-verify remote commit and publish memory closeout. No new training/FEM/cleanup.
+None. [20k channel publication](tasks/archive/channel-20k-sota-publication.md)
+payload devc11a172regular-merged as mainece0130and pushed; independent remote
+main verification matches. This compact publication-memory closeout follows
+the same dev/main/main-only-push workflow. Six focused tests, config parity,
+9case/452artifact and2167file content checks pass. No training/FEM/cleanup.
+[Publication receipt](tasks/channel-20k-sota-publication-validation.json).
 
 ## Deferred work
 
@@ -67,6 +68,8 @@ Preserve existing external data/run paths. Git history changes require explicit
 current-turn authorization; the documented workflow pushes main only.
 
 ## Recent completed tasks
+
+- [20k SOTA code/docs/image publication](tasks/archive/channel-20k-sota-publication.md).
 
 - [20k channel SOTA/default and README image promotion](tasks/archive/channel-20k-sota-promotion.md).
 

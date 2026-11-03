@@ -1,7 +1,7 @@
 {
-  "status": "preflight_passed_pending_dev_commit_and_main_push",
-  "observed_utc": "2026-11-03T13:37:50.996963+00:00",
-  "task": "docs/tasks/channel-20k-sota-publication.md",
+  "status": "payload_published_and_remote_verified",
+  "observed_utc": "2026-11-03T13:40:02.354919+00:00",
+  "task": "docs/tasks/archive/channel-20k-sota-publication.md",
   "remote": "https://github.com/NanxiiChen/nonlocal-pinn.git",
   "remote_main_before": "57f617b4c120c1be81e7758bf92feea504ce911a",
   "local_main_before": "57f617b4c120c1be81e7758bf92feea504ce911a",
@@ -61,5 +61,13 @@
     "raw_weights_arrays_logs_included": false,
     "only_curated_image": "assets/pino/channel_nsch2d.png",
     "curated_image_bytes": 275257
-  }
+  },
+  "payload_dev_commit": "c11a17262303d63c3dd0d76554fb813ccdb7cc54",
+  "payload_main_merge": "ece01307948be4351b8ae9e7a3c8049d4ad48be8",
+  "remote_main_verified_payload": "ece01307948be4351b8ae9e7a3c8049d4ad48be8",
+  "remote_verification": "git ls-remote --heads origin refs/heads/main",
+  "pushed_branch": "main",
+  "dev_pushed": false,
+  "working_tree_clean_after_payload": true,
+  "closeout": "This memory-only receipt/archive/dashboard follows the same authorized dev/main workflow; final closeout commit identity is recorded by Git and final response"
 }
