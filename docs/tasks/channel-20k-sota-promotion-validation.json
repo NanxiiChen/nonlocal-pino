@@ -1,0 +1,168 @@
+{
+  "status": "user_selected20k_SOTA_default_promoted",
+  "observed_utc": "2026-11-03T13:30:27.376134+00:00",
+  "task": "docs/tasks/archive/channel-20k-sota-promotion.md",
+  "selected": {
+    "status": "user_accepted_SOTA_default",
+    "selection_label": "SOTA",
+    "promoted_date": "2026-11-03",
+    "entry": "examples/channel_nsch2d/train.py",
+    "config": "examples/channel_nsch2d/configs/train_default.py",
+    "explicit_recipe": "examples/channel_nsch2d/configs/train_operator_random_walls_width192_batch8_time18_nt36_cold20k.py",
+    "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04",
+    "selected_checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/model_final.eqx",
+    "saved_config": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/config.json",
+    "validation_receipt": "docs/tasks/channel-20k-sota-promotion-validation.json",
+    "report": "docs/tasks/archive/channel-20k-sota-promotion.md",
+    "reference": "Independent refined local mixed FEM",
+    "validation_geometry_count": 3,
+    "metrics": {
+      "phi": {
+        "mean": 0.016434996094538402,
+        "p90": 0.01891848477146854,
+        "worst": 0.019860020536880404
+      },
+      "phi_area_weighted": {
+        "mean": 0.015074491113013302,
+        "p90": 0.01730176882475081,
+        "worst": 0.018173955026008666
+      },
+      "velocity": {
+        "mean": 0.01517205610632332,
+        "p90": 0.01572937900441738,
+        "worst": 0.01575407426666157
+      },
+      "velocity_area_weighted": {
+        "mean": 0.015744838840270406,
+        "p90": 0.01625180798683675,
+        "worst": 0.016290404474973336
+      },
+      "pressure": {
+        "mean": 0.052840480191484664,
+        "p90": 0.06213997235655962,
+        "worst": 0.06588466102447928
+      },
+      "pressure_area_weighted": {
+        "mean": 0.0519413366883934,
+        "p90": 0.06141070905494845,
+        "worst": 0.06513762381895621
+      },
+      "chemical": {
+        "mean": 0.13954125921926921,
+        "p90": 0.15856166108298214,
+        "worst": 0.16633987627607505
+      },
+      "chemical_area_weighted": {
+        "mean": 0.14316837227747503,
+        "p90": 0.16504571995620582,
+        "worst": 0.17401802850323397
+      },
+      "terminal_phi": {
+        "mean": 0.02196101413993802,
+        "p90": 0.027029436968636154,
+        "worst": 0.02868202299317516
+      },
+      "dispersed_fraction": {
+        "mean": 0.043305627115140057,
+        "p90": 0.04970224120470834,
+        "worst": 0.05219154253798413
+      }
+    },
+    "development_metrics": {
+      "step": 20000,
+      "elapsed": 32972.56945055723,
+      "phi": 0.01449620420593507,
+      "terminal_phi": 0.01901957363955198,
+      "dispersed_phase": 0.038305157841030966,
+      "velocity": 0.013312134683055553,
+      "pressure": 0.046702822210027584,
+      "chemical": 0.11674443733517723,
+      "phi_range": [
+        -1.1230411529541016,
+        1.0460937023162842
+      ],
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+      "scope": "One local-FEM geometry; not a generalization estimate"
+    },
+    "training_updates": 20000,
+    "time_samples": 36,
+    "time_block": 18,
+    "learning_rate": {
+      "initial": 0.001,
+      "decay_every": 2000,
+      "decay_rate": 0.6309573444801932,
+      "floor": 1e-05
+    },
+    "warm_update_seconds": 1.6082611047044877,
+    "training_wall_seconds": 32985.806782427244,
+    "peak_active_memory_bytes": 89653278720,
+    "completion_journal": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/final-completion-20261103-210103/completion.json",
+    "paired_comparison": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/final-completion-20261103-210103/endpoint-comparison.json",
+    "curated_figure": "assets/pino/channel_nsch2d.png",
+    "scope": "User-selected actual20k endpoint;3reused predeclared reserved cases, one initialization; mixed per-case benefits, no population/cross-seed guarantee"
+  },
+  "default_saved_config_parity": "exact_after_runtime_seed_and_run_name_injection",
+  "fresh_automatic_run_names": true,
+  "strategy_seed_field": false,
+  "frozen_source_differences": [
+    "examples/channel_nsch2d/configs/train_default.py"
+  ],
+  "historical_presets_unchanged": true,
+  "new_training_steps": 0,
+  "new_FEM_solves": 0,
+  "cleanup": false,
+  "git_operations": false,
+  "figure": {
+    "image": "assets/pino/channel_nsch2d.png",
+    "bytes": 275257,
+    "pixels": [
+      2325,
+      720
+    ],
+    "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04",
+    "samples": [
+      0,
+      1,
+      2
+    ],
+    "times": [
+      0,
+      1.5,
+      3,
+      4.5,
+      6
+    ],
+    "per_case_phi_L2": [
+      0.019860020536880407,
+      0.014292626036913723,
+      0.015152341709821082
+    ],
+    "native_metric_replay": "passed",
+    "visually_inspected": true,
+    "other_three_pngs_byte_unchanged": true,
+    "other_three_provenance_records_unchanged": true,
+    "total_four_png_bytes": 1878013,
+    "renderer": "JAX_PLATFORMS=cpu CUDA_VISIBLE_DEVICES= .venv/bin/python scripts/render_pino_readme_figures.py --case channel_nsch2d",
+    "renderer_exit_code": 0
+  },
+  "verification": {
+    "config_schema": "passed",
+    "default_actual_saved_config_parity": "exact_except_runtime_seed_and_run_name",
+    "fresh_run_name_empty": true,
+    "strategy_seed_absent": true,
+    "only_frozen_source_difference": "examples/channel_nsch2d/configs/train_default.py",
+    "historical_presets": "byte_unchanged",
+    "changed_Python_AST": "passed",
+    "metadata_JSON": "passed",
+    "local_doc_links": 47,
+    "artifact_cases": 9,
+    "artifact_directories": 452,
+    "all_four_image_byte_budgets": "passed",
+    "git_diff_check": "passed",
+    "new_code_tests": 0,
+    "new_training_steps": 0,
+    "new_reference_solves": 0,
+    "cleanup": false,
+    "git_operations": false
+  }
+}

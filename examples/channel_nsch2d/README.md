@@ -55,9 +55,9 @@ These are setup inputs, not predicted flow fields.
 | Spatial derivatives | Moment-corrected integral gradients/Laplacians and BC derivatives, horizon 0.075, capacity128, cubic moments |
 | AD work | Streamfunction-to-velocity spatial curl; physical time JVP; parameter gradients through all operations |
 | Residual loss | Nine original MSE terms with fixed normalizers; chemical output/row/BC scales4/1/4; no tanh, causal, stagger or gradient balancing |
-| Sampling |192x80 subdivisions, 15633 nodes; 40 fresh stratified times/update; 20-time blocks averaged before one update |
+| Sampling |192x80 subdivisions, 15633 nodes; 36 fresh stratified times/update; two18-time blocks averaged before one update |
 | Online geometry |16-slot rolling input pool, B8 with replacement; 2 CPU workers replace2 slots every 50 updates |
-| Optimizer | SOAP 10000 cold updates, lr 1e-3, beta 1=beta 2=0.9, refresh 5; ordinary FP32/highest |
+| Optimizer | SOAP 20000 cold updates, lr 1e-3 to1e-5, decay `10**(-0.2)` every2000updates, beta 1=beta 2=0.9, refresh 5; ordinary FP32/highest |
 
 The initial droplet is not itself a randomized input. Geometry enters through
 physical point sets, normals, operators and the known hard lift; 16 wall
@@ -66,24 +66,25 @@ not by itself supply all physical BCs or exact mass/energy conservation.
 
 ### Representative results
 
-Selected fixed-budget10000 checkpoint:
-`/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/model_final.eqx`.
+Selected SOTA/default, fixed-budget20000 checkpoint:
+`/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/model_final.eqx`.
 
 | Relative L2 | Development geometry | Mean of3 reserved geometries |
 |---|---:|---:|
-| Phase, pooled13 times |2.6781%|1.8396%|
-| Phase, terminal t=6 |4.0550%|2.2708%|
-| Velocity |1.6700%|2.0160%|
-| Pressure |5.8931%|5.4118%|
-| Minority-phase field |7.0768%|4.8474%|
-| Chemical potential |14.1030%|15.9168%|
+| Phase, pooled13 times |1.4496%|1.6435%|
+| Phase, terminal t=6 |1.9020%|2.1961%|
+| Velocity |1.3312%|1.5172%|
+| Pressure |4.6703%|5.2840%|
+| Minority-phase field |3.8305%|4.3306%|
+| Chemical potential |11.6744%|13.9541%|
 
 References are independent, spatial/time-refined **local mixed FEM** solutions.
 Each case uses3840 physical queries and13 saved times; flow/muerrors exclude t=0.
 The same3 reserved geometries have been reused for validation, not a broad blind
-test. Worst reserved pressure error is9.0316%; pressure's between-geometry
-response remains less accurate than its total field error suggests. All finite
-final replay/input/constraint/240 fresh-time diagnostics completed.
+test. Worst reserved pressure error is6.5885%; pressure's between-geometry
+response remains less accurate than its total field error suggests. Final
+replay/input/constraint checks and252fresh-time diagnostics completed. Average
+errors improve over10k, with mixed per-case results documented below.
 
 ![Three random-wall geometries with coupled two-phase evolution](../../assets/pino/channel_nsch2d.png)
 
@@ -101,27 +102,36 @@ XLA_PYTHON_CLIENT_MEM_FRACTION=0.97 python -m examples.channel_nsch2d.train
 ```
 
 The no-argument entry selects this operator via `configs/train_default.py`.
-The qualified96 GB PRO6000 run used about88.06 GiB active memory and 5.42h wall
-time. Explicit20/8/2-time-block choices and smaller-card commands are given
+The qualified96 GB PRO6000 run used about83.50 GiB peak active memory and9.16h
+training wall time. The selected18-time-block configuration and historical
+smaller-card controls are given
 in [default training configuration](#default-training-configuration).
 The reference root is
 `/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02`.
-[Complete run/audit record](../../docs/tasks/archive/channel-random-wall-pilot.md),
+[Complete run/audit record](../../docs/tasks/archive/channel-cold20k-and-four-pino-setups.md),
 [figure sources and regeneration](../../artifacts/pino_readme_figures.json).
 
-### Longer cold-start experiment
+### Selected20k strategy and historical10k comparison
 
-The opt-in `train_operator_random_walls_width192_batch8_time20_cold20k.py`
-preserves the selected physics/network/sampling and starts a fresh model and
-complete SOAP state for20000 updates. The existing exponential LR schedule uses
+The default `train_operator_random_walls_width192_batch8_time18_nt36_cold20k.py`
+starts a fresh model and complete SOAP state for20000 updates, with36fresh
+continuous-stratified times in two18-time blocks, geometry batch8and horizon6.
+The existing exponential LR schedule uses
 initial1e-3, decay interval2000, rate `10**(-0.2)` and floor1e-5: about1e-4 at10k
 and1e-5 at20k, versus1.6807e-4 at the old10k endpoint. The last applied update
-uses the19999 schedule index, approximately1.00023e-5. This is an experimental
-budget/LR comparison; the validated10000 default remains unchanged.
+uses the19999 schedule index, approximately1.00023e-5. The historical10000/
+40-time/block20preset retains its original values for comparison.
+
+The explicit `train_operator_random_walls_width192_batch8_time20_cold20k.py`
+and `train_operator_random_walls_width192_batch8_time8_cold20k.py` controls keep
+40random times with blocks20and8respectively. The8block reduces memory at the
+cost of more work and a different reduction order. Their40-time sampling is
+distinct from the selected36-time default. Recorded memory/resource results
+remain attached to their original configurations and devices.
 
 ```bash
 XLA_PYTHON_CLIENT_MEM_FRACTION=0.97 python -m examples.channel_nsch2d.train \
-  --config=examples/channel_nsch2d/configs/train_operator_random_walls_width192_batch8_time20_cold20k.py
+  --config=examples/channel_nsch2d/configs/train_operator_random_walls_width192_batch8_time18_nt36_cold20k.py
 ```
 
 The finite owner `docs/tasks/channel_cold20k_runner.py` checks the matching
@@ -131,6 +141,44 @@ model/fullSOAP/input equality and, after training, audits/replays the complete
 rolling stream, same3reserved FEM cases, fresh-time residuals and field figures.
 No FEM generation, fitted-checkpoint import, automatic retry or default promotion
 is included. Runtime seed is comparison provenance, not a strategy field.
+The smaller-block owner route additionally requires explicit
+`--execution-time-block=8` and a matching8-block resource probe; the original
+route continues to reject undeclared execution changes. A finite probe's JIT
+wrapper is not the exact canonical training executable: validate actual
+production updates as well, with memory headroom.
+The36/18route uses explicit `--execution-time-block=18` and a matching probe
+with `--time-block=18 --time-samples=36`. Its time draws are independently
+replayed in36strata; they do not equal the previous40-column time arrays.
+Its finite owner uses252fresh diagnostic times, divisible by18; the20/8routes
+retain240. These diagnostic samples do not change the training time batch.
+
+The completed36/18cold20k run is
+`/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04`.
+Its development-case errors are phi1.4496%, terminalphi1.9020%, velocity1.3312%,
+pressure4.6703%, minority3.8305%and chemical11.6744%. Same three reserved
+geometries, unchanged refinement-validated local FEM/query arrays:
+
+| Mean relative L2 | Completed10k | Completed20k |
+|---|---:|---:|
+| Phase field |1.8396%|1.6435%|
+| Terminal phase field |2.2708%|2.1961%|
+| Minority fraction |4.8474%|4.3306%|
+| Velocity |2.0160%|1.5172%|
+| Pressure |5.4118%|5.2840%|
+| Chemical potential |15.9168%|13.9541%|
+
+Velocity improves on all three cases. Pressure worsens on cases000and002but
+improves on case001; its worst-case error drops9.0316%to6.5885%. Phase worsens
+slightly on case000; terminal phase worsens on000and001. Thus longer training
+has mixed per-case benefits. Mean phase/velocity reductions are10.7%/24.7%;
+the mean pressure reduction is2.4%. This is one initialization and three reused
+reserved cases, with budget/LR and36vs40time sampling changing together.
+The20krecipe is now selected as the default; this does not imply uniform
+per-case or cross-seed improvement. Raw paired results/provenance are under the
+run's `unseen3/evaluation.json` and the external preparation root's
+`final-completion-20261103-210103/endpoint-comparison.json`. The original owner
+stopped at the now-corrected240/18diagnostic-count check; its failure journal
+is retained separately from the explicit saved-model completion record.
 
 <details>
 <summary>Detailed formulation, single-problem PINN defaults and historical controls</summary>
@@ -145,7 +193,7 @@ The existing periodic
 ## Default training configuration
 
 `train.py` defaults to `configs/train_default.py`, selecting the completed
-random-wall recipe in `train_operator_random_walls_width192_batch8_time20.py`.
+random-wall recipe in `train_operator_random_walls_width192_batch8_time18_nt36_cold20k.py`.
 New runs start cold and receive automatic timestamp names. Seeds are runtime
 provenance through `--seed`, not strategy configuration fields.
 
@@ -153,14 +201,14 @@ provenance through `--seed`, not strategy configuration fields.
 |---|---|
 | Geometry | Independent upper/lower smooth profiles,8B-spline coefficients per wall; minimum aperture[.55,.70] |
 | Network | Width192,4heads (48channels/head),2condition blocks,3decoder layers;64spatial Fourier directions |
-| Training | SOAP10000updates,lr1e-3,beta1=beta2=.9,precondition every5updates; ordinary FP32/highest |
+| Training | SOAP20000updates,lr1e-3->1e-5,decay `10**(-.2)` every2000updates,beta1=beta2=.9,precondition every5updates; ordinary FP32/highest |
 | Geometry sampling | Online16-slot pool, batch8with replacement;2CPU workers replace2slots every50updates |
-| Time sampling |40fresh continuous stratified times per update, physical timeJVP; terminal time6 |
+| Time sampling |36fresh continuous stratified times per update, physical timeJVP; terminal time6 |
 | Spatial derivatives | Moment-corrected quadratic-kernel integral operators, horizon.075,capacity128,degree3; conservative phase flux |
-| Time gradient blocks |20times each; average both same-parameter gradients before one SOAP update |
+| Time gradient blocks |18times each; average both same-parameter gradients before one SOAP update |
 
-The qualified RTX PRO6000 96GB run used **88.06GiB peak active memory** and
-about1.88seconds/update (5.42hours training wall time). Set the allocator fraction
+The qualified RTX PRO6000 96GB run used **83.50GiB peak active memory** and
+about1.61seconds/warm update (9.16hours training wall time). Set the allocator fraction
 explicitly for this aggressive default:
 
 ```bash
@@ -168,12 +216,12 @@ source .venv/bin/activate
 XLA_PYTHON_CLIENT_MEM_FRACTION=0.97 python -m examples.channel_nsch2d.train
 ```
 
-For smaller cards, explicitly select
+Historical smaller-card controls explicitly select
 `configs/train_operator_random_walls_width192_batch8.py` (two-time blocks,
 about19GiB active), or its `_time8.py` variant (about40.2GiB active).
-These keep the same full40-time objective and10000update budget; floating-point
-reduction order and training trajectories can differ. No automatic memory
-fallback is applied. A32GB example is:
+These retain their original40-time objective and10000update budget; they are
+not the new36-time/20000default. Floating-point reduction order and trajectories
+can differ. No automatic memory fallback is applied. A historical32GB control is:
 
 ```bash
 python -m examples.channel_nsch2d.train \
@@ -206,24 +254,24 @@ These evolved fields are evaluation labels only; training uses zero evolved-fiel
 labels. New FEM references must match the physical configuration and pass spatial
 and temporal refinement. Do not overlap FEM/MPI and JAX GPU work.
 
-The selected saved10000checkpoint is
-`/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/model_final.eqx`.
+The selected saved20000checkpoint is
+`/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/model_final.eqx`.
 Its relative L2 errors against local FEM are:
 
 | Evaluation | Phase, all saved times | Phase at t=6 | Velocity | Pressure | Chemical potential |
 |---|---:|---:|---:|---:|---:|
-| Development geometry |2.68%|4.05%|1.67%|5.89%|14.10%|
-| Three reserved geometries, mean |1.84%|2.27%|2.02%|5.41%|15.92%|
+| Development geometry |1.45%|1.90%|1.33%|4.67%|11.67%|
+| Three reserved geometries, mean |1.64%|2.20%|1.52%|5.28%|13.95%|
 
 Each geometry uses3840physical query points and13saved times; velocity,
 pressure and chemical errors exclude time0. Worst reserved pressure error is
-9.03%. These are three predeclared, reused validation cases, not a large blind
-test or cross-seed guarantee. The monitored phase minimum at8500was not saved;
-the default is based on the actual10000weights. Final replay, hard constraints,
-online-input/cold-SOAP checks and240independent-time diagnostics completed.
+6.59%. These are three predeclared, reused validation cases, not a large blind
+test or cross-seed guarantee. The monitored phase minimum at18000was not saved;
+the default is based on the actual20000weights. Final replay, hard constraints,
+online-input/cold-SOAP checks and252independent-time diagnostics completed.
 Historical presets retain their old values, including the stronger single-bump
 GMLS recipe and `configs/train_operator.py` mild pilot. Full evidence is in the
-[random-wall task record](../../docs/tasks/archive/channel-random-wall-pilot.md).
+[20k task record](../../docs/tasks/archive/channel-cold20k-and-four-pino-setups.md).
 
 ## Formulation and optional controls
 
@@ -1254,7 +1302,7 @@ FP32, moment-corrected
 quadratic integral spatial derivatives, physical timeJVP40/eight-time gradient
 accumulation, fixed residual normalization and online rolling16-pool/B2.
 Streamfunction-to-velocity curl still uses AD. The current default selects
-the width192/B8/timeblock20descendant. New references require their own independent
+the width192/B8/Nt36/timeblock18/20000descendant. New references require their own independent
 FEM trios:64x24versus96x36, dt.05versus.025; all diagnostics at96x40midpoints
 must lie inside the actual chord-wall mesh (no extrapolation). Three independent
 reserved prior draws are frozen before solving or model scoring, in addition to
@@ -1270,7 +1318,7 @@ Canonical training entry, after reference/input/resource qualification:
 Compare centroid trajectories, deformation and centroid-aligned zero contours,
 pressure response and minority/interface errors as well as global phi L2.
 Current qualification/status and direct artifact paths belong in
-[the completed task](../../docs/tasks/archive/channel-random-wall-pilot.md).
+[the completed20k task](../../docs/tasks/archive/channel-cold20k-and-four-pino-setups.md).
 
 The opt-in `configs/train_operator_random_walls_width192_batch8.py` tests a
 larger cold model: width192,4heads (48channels/head),8geometry samples and40fresh
@@ -1282,8 +1330,9 @@ parameters before one clip/SOAP update. This bounds memory without changing the
 mathematical full-time mean. It is a combined capacity/batch/budget experiment,
 not a continuation or an isolated batch-size ablation. Production resource and
 extended input-prefix checks passed. This explicit
-two-time-block preset remains available for smaller GPUs; the default uses
-20-time blocks. Outcomes belong to the completed task.
+two-time-block preset remains available as a historical smaller-GPU control;
+the selected default uses36times in two18-time blocks and20000updates.
+Outcomes belong to the completed task.
 
 For the96GB hardware timing study,
 `configs/train_operator_random_walls_width192_batch8_time8.py` changes only

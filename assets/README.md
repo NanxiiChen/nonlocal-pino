@@ -10,6 +10,11 @@ PINO example READMEs:
 | [confined_ch2d.png](pino/confined_ch2d.png) | Random holes, 2D spinodal decomposition |
 | [channel_nsch2d.png](pino/channel_nsch2d.png) | Random channel walls, coupled 2D NS–CH flow |
 
+The channel figure uses the selected20000-step final model and all three
+predeclared reserved geometries, with the same five times and FEM contour
+overlays as the earlier10000-step figure. Its source fields and per-case L2
+values are recorded in the provenance manifest below.
+
 Keep only curated documentation images here: each PNG below 1 MiB and the four
 images below 2 MiB in total. Raw fields, checkpoints, full galleries and videos
 remain external artifacts.

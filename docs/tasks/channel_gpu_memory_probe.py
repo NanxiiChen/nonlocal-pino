@@ -30,9 +30,11 @@ def main(a):
     from nonlocal_pinn.training.optimizers import make_optimizer
     from nonlocal_pinn.training.runtime import configure_gpu_policy
 
-    if (a.time_block not in (2,4,5,8,10,20,40) or a.updates<11
-            or not 0<a.memory_fraction<=.97):
-        raise ValueError('Require a40-time divisor, >=11updates and explicit allocator fraction in(0,.97]')
+    declared36 = a.time_samples == 36
+    if ((declared36 and a.time_block != 18)
+            or (not declared36 and a.time_block not in (2,4,5,8,10,20,40))
+            or a.updates<11 or not 0<a.memory_fraction<=.97):
+        raise ValueError('Require a40-time divisor or explicit36/18, >=11updates and allocator fraction in(0,.97]')
     if subprocess.check_output(['nvidia-smi','--query-compute-apps=pid','--format=csv,noheader'],text=True).strip():
         raise RuntimeError('GPU occupied; do not overlap memory probes')
     gpu=list(csv.reader(subprocess.check_output(['nvidia-smi',
@@ -42,6 +44,7 @@ def main(a):
     control=Path(a.control);c=get_config()
     c.train.seed=json.loads((control/'config.json').read_text())['train']['seed']
     comparison_config(c,control)
+    if declared36:c.sample.Nt=36
     c.train.microbatch.size=a.time_block;validate_config(c)
     output=Path(a.output);output.mkdir(parents=True,exist_ok=False)
     (output/'config.json').write_text(c.to_json(indent=2)+'\n')
@@ -127,7 +130,7 @@ def main(a):
         capacity_trial=dict(full_geometry_pool_on_device=True,geometry_pool_size=c.operator.train_conditions,
             finite_nominal_evaluation=True,cold_state_saved_before_probe_updates=True,
             parameter_count=sum(v.size for v in jax.tree.leaves(model)if eqx.is_array(v))),
-        optimizer_updates_per_time_batch=1,scope='Finite resource timing, same B8/Nt40 objective; no accuracy claim',**common)
+        optimizer_updates_per_time_batch=1,scope=f'Finite resource timing, B8/Nt{c.sample.Nt}; no accuracy claim',**common)
     (output/'result.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
     print(json.dumps(result,indent=2),flush=True)
 
@@ -136,6 +139,8 @@ if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     for key in ('control','output'):p.add_argument('--'+key,required=True)
     p.add_argument('--time-block',type=int,required=True)
+    p.add_argument('--time-samples',type=int,choices=(36,),
+                   help='Explicit36-time/18-block sampling extension; absent preserves the40-time route')
     p.add_argument('--memory-fraction',type=float,required=True)
     p.add_argument('--updates',type=int,required=True)
     main(p.parse_args())

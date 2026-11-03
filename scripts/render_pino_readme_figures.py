@@ -228,7 +228,7 @@ def channel():
     from ml_collections import ConfigDict
     from examples.channel_nsch2d.problem import walls
     case = 'channel_nsch2d'
-    run = LOGS/case/'20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01'
+    run = LOGS/case/'20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04'
     config = ConfigDict(read_json(run/'config.json'))
     report = read_json(run/'unseen3/evaluation.json')
     fig, axes = plt.subplots(3, 5, figsize=(15.5, 4.8), layout='constrained')

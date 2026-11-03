@@ -4520,7 +4520,7 @@
         "selected_checkpoint_seed": 42,
         "seed_input": "--seed; common untuned run default42; omitted from strategy config",
         "seed_scope": "Selected checkpoint seed is historical provenance, not a strategy parameter or promised default accuracy.",
-        "stability_assessment": "Observed three-seed phi range0.004225–0.010744, c0.005006–0.012727; no universal guarantee and Dq remains high.",
+        "stability_assessment": "Observed three-seed phi range0.004225\u20130.010744, c0.005006\u20130.012727; no universal guarantee and Dq remains high.",
         "audit": "docs/tasks/archive/corrosion-robust-objective-audit.json"
       },
       "ordinary_policy_defaults_20261026": {
@@ -7576,19 +7576,19 @@
       "role": "experimental_full_nsch_geometry_operator",
       "data_root": "/root/autodl-tmp/data/channel_nsch2d",
       "run_root": "/root/autodl-tmp/tf-logs/channel_nsch2d",
-      "task": "docs/tasks/archive/channel-nsch-pilot.md",
+      "task": "docs/tasks/archive/channel-20k-sota-promotion.md",
       "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
       "reference_validation": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/reference-validation.json",
       "entry": "examples/channel_nsch2d/train.py",
       "operator_config": "examples/channel_nsch2d/configs/train_default.py",
-      "status": "completed_stronger_geometry_cold5000_and_all_audits",
+      "status": "user_selected20k_SOTA_and_all_saved_run_audits_completed",
       "derivative_scope": "AD and finite-neighborhood QR-GMLS; not the regional pair kernel",
       "failed_controls": [
         "/root/autodl-tmp/tf-logs/channel_nsch2d/20261031-channel-single-gmls-01",
         "/root/autodl-tmp/tf-logs/channel_nsch2d/20261031-channel-single-normalized-01"
       ],
-      "current_run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-stronger-online-width128-01",
-      "receipt": "docs/tasks/channel-chemical-scale-validation.json",
+      "current_run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04",
+      "receipt": "docs/tasks/channel-20k-sota-promotion-validation.json",
       "active_task": null,
       "optimization_comparison": "/root/autodl-tmp/data/channel_nsch2d/phase-comparison-20261101-5090-phase/results.json",
       "coordinate_comparison": {
@@ -7600,24 +7600,24 @@
       },
       "optimization_receipt": "docs/tasks/channel-nsch-optimization-validation.json",
       "final_metrics": {
-        "step": 5000,
-        "elapsed": 1919.4972377349623,
-        "phi": 0.01947021846977325,
-        "terminal_phi": 0.01662508887492755,
-        "dispersed_phase": 0.0535378471322717,
-        "velocity": 0.030587430231969324,
-        "pressure": 0.03945464923111095,
-        "chemical": 0.19598906564418656,
+        "step": 20000,
+        "elapsed": 32972.56945055723,
+        "phi": 0.01449620420593507,
+        "terminal_phi": 0.01901957363955198,
+        "dispersed_phase": 0.038305157841030966,
+        "velocity": 0.013312134683055553,
+        "pressure": 0.046702822210027584,
+        "chemical": 0.11674443733517723,
         "phi_range": [
-          -1.1334023475646973,
-          1.037866473197937
+          -1.1230411529541016,
+          1.0460937023162842
         ],
-        "reference": "/root/autodl-tmp/data/channel_nsch2d/stronger-reference-20261102-01/bdf-fine.npz",
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
         "scope": "One local-FEM geometry; not a generalization estimate"
       },
-      "validation": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-geometry-online-width128-01/validation.json",
-      "phase_balance": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-geometry-online-width128-01/phase-balance.json",
-      "figures": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-geometry-online-width128-01/phi-fields",
+      "validation": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/validation.json",
+      "phase_balance": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/phase-balance.json",
+      "figures": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/phi-fields",
       "single_geometry_experiment": {
         "status": "height_scale_cold5k_all_finite_audits_complete",
         "updated_utc": "2026-11-01T20:20:45.599597+00:00",
@@ -7686,7 +7686,7 @@
         "no_Git_or_cleanup": true,
         "further_training_queued": 0,
         "thread_goal": {
-          "objective": "请按照这样的思路持续解决优化，解决液滴形状与参考解不匹配的问题",
+          "objective": "\u8bf7\u6309\u7167\u8fd9\u6837\u7684\u601d\u8def\u6301\u7eed\u89e3\u51b3\u4f18\u5316\uff0c\u89e3\u51b3\u6db2\u6ef4\u5f62\u72b6\u4e0e\u53c2\u8003\u89e3\u4e0d\u5339\u914d\u7684\u95ee\u9898",
           "status": "active",
           "explicit_budget": null,
           "old_automatic_queues_revived": false
@@ -8425,7 +8425,7 @@
         "no_Git_or_cleanup": true,
         "further_training_queued": 0,
         "thread_goal": {
-          "objective": "请按照这样的思路持续解决优化，解决液滴形状与参考解不匹配的问题",
+          "objective": "\u8bf7\u6309\u7167\u8fd9\u6837\u7684\u601d\u8def\u6301\u7eed\u89e3\u51b3\u4f18\u5316\uff0c\u89e3\u51b3\u6db2\u6ef4\u5f62\u72b6\u4e0e\u53c2\u8003\u89e3\u4e0d\u5339\u914d\u7684\u95ee\u9898",
           "status": "active",
           "explicit_budget": null,
           "old_automatic_queues_revived": false
@@ -8988,7 +8988,7 @@
         },
         "validation": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261031-channel-operator-stream-01/validation.json"
       },
-      "final_metrics_run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-geometry-online-width128-01",
+      "final_metrics_run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04",
       "best_dense_development": {
         "status": "dense_FEM_evaluation_completed",
         "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261101-5090-refinement-channel-single-sbp-refined-01",
@@ -11356,7 +11356,7 @@
       },
       "acceptance_policy": {
         "kind": "user_provisional_near10_pressure",
-        "user_instruction": "压力确实比较困难，如果实在无法突破10%，接近10%也暂且接受吧",
+        "user_instruction": "\u538b\u529b\u786e\u5b9e\u6bd4\u8f83\u56f0\u96be\uff0c\u5982\u679c\u5b9e\u5728\u65e0\u6cd5\u7a81\u783410%\uff0c\u63a5\u8fd110%\u4e5f\u6682\u4e14\u63a5\u53d7\u5427",
         "strict_limit": 0.1,
         "provisional_limits": {
           "phi": 0.1,
@@ -17866,7 +17866,7 @@
         }
       },
       "thread_goal": {
-        "objective": "请按照这样的思路持续解决优化，解决液滴形状与参考解不匹配的问题",
+        "objective": "\u8bf7\u6309\u7167\u8fd9\u6837\u7684\u601d\u8def\u6301\u7eed\u89e3\u51b3\u4f18\u5316\uff0c\u89e3\u51b3\u6db2\u6ef4\u5f62\u72b6\u4e0e\u53c2\u8003\u89e3\u4e0d\u5339\u914d\u7684\u95ee\u9898",
         "status": "active",
         "explicit_budget": null,
         "old_automatic_queues_revived": false
@@ -17974,7 +17974,7 @@
         "no_Git_or_cleanup": true,
         "further_training_queued": 0,
         "thread_goal": {
-          "objective": "请按照这样的思路持续解决优化，解决液滴形状与参考解不匹配的问题",
+          "objective": "\u8bf7\u6309\u7167\u8fd9\u6837\u7684\u601d\u8def\u6301\u7eed\u89e3\u51b3\u4f18\u5316\uff0c\u89e3\u51b3\u6db2\u6ef4\u5f62\u72b6\u4e0e\u53c2\u8003\u89e3\u4e0d\u5339\u914d\u7684\u95ee\u9898",
           "status": "active",
           "explicit_budget": null,
           "old_automatic_queues_revived": false
@@ -18867,7 +18867,7 @@
         "new_FEM_solves": 0,
         "evolved_training_labels": 0,
         "thread_goal": {
-          "objective": "请按照这样的思路持续解决优化，解决液滴形状与参考解不匹配的问题",
+          "objective": "\u8bf7\u6309\u7167\u8fd9\u6837\u7684\u601d\u8def\u6301\u7eed\u89e3\u51b3\u4f18\u5316\uff0c\u89e3\u51b3\u6db2\u6ef4\u5f62\u72b6\u4e0e\u53c2\u8003\u89e3\u4e0d\u5339\u914d\u7684\u95ee\u9898",
           "status": "active",
           "explicit_budget": null,
           "old_automatic_queues_revived": false
@@ -19684,7 +19684,7 @@
         "no_Git_or_cleanup": true,
         "further_training_queued": 0,
         "thread_goal": {
-          "objective": "请按照这样的思路持续解决优化，解决液滴形状与参考解不匹配的问题",
+          "objective": "\u8bf7\u6309\u7167\u8fd9\u6837\u7684\u601d\u8def\u6301\u7eed\u89e3\u51b3\u4f18\u5316\uff0c\u89e3\u51b3\u6db2\u6ef4\u5f62\u72b6\u4e0e\u53c2\u8003\u89e3\u4e0d\u5339\u914d\u7684\u95ee\u9898",
           "status": "active",
           "explicit_budget": null,
           "old_automatic_queues_revived": false
@@ -20360,7 +20360,7 @@
         "goal_scope": "Nominal development geometry/saved snapshots; no multi-seed or unseen-geometry accuracy claim",
         "next_action": "No queued experiment; preserve completed opt-in control"
       },
-      "completed_task": "docs/tasks/archive/channel-stronger-constriction.md",
+      "completed_task": "docs/tasks/archive/channel-20k-sota-promotion.md",
       "previous_final_metrics_retained": {
         "step": 20000,
         "elapsed": 4297.0324397310615,
@@ -20504,7 +20504,7 @@
         "reference": "/root/autodl-tmp/data/channel_nsch2d/dense-reference-20261101/bdf-fine.npz",
         "scope": "One local-FEM geometry; not a generalization estimate"
       },
-      "current_run_scope": "Latest stronger-geometry opt-in pilot; defaults unchanged; one nominal FEM geometry",
+      "current_run_scope": "User-selected actual20k endpoint;3reused predeclared reserved cases, one initialization; mixed per-case benefits, no population/cross-seed guarantee",
       "allterms_gradient_control_20261102": {
         "status": "completed_finite_cold5000_and_all_audits",
         "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-5090-gmls-time40-jvp-allterms-online-width128-01",
@@ -20590,83 +20590,119 @@
         "comparison_figures": "/root/autodl-tmp/data/channel_nsch2d/integral-comparison-20261102-01"
       },
       "operator_default": {
-        "status": "user_accepted_default",
-        "promoted_date": "2026-11-02",
+        "status": "user_accepted_SOTA_default",
+        "selection_label": "SOTA",
+        "promoted_date": "2026-11-03",
         "entry": "examples/channel_nsch2d/train.py",
         "config": "examples/channel_nsch2d/configs/train_default.py",
-        "explicit_recipe": "examples/channel_nsch2d/configs/train_operator_random_walls_width192_batch8_time20.py",
-        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01",
-        "selected_checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/model_final.eqx",
-        "saved_config": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/config.json",
-        "validation_receipt": "docs/tasks/channel-random-wall-pilot-validation.json",
-        "report": "docs/tasks/archive/channel-random-wall-pilot.md",
+        "explicit_recipe": "examples/channel_nsch2d/configs/train_operator_random_walls_width192_batch8_time18_nt36_cold20k.py",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04",
+        "selected_checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/model_final.eqx",
+        "saved_config": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/config.json",
+        "validation_receipt": "docs/tasks/channel-20k-sota-promotion-validation.json",
+        "report": "docs/tasks/archive/channel-20k-sota-promotion.md",
         "reference": "Independent refined local mixed FEM",
         "validation_geometry_count": 3,
         "metrics": {
           "phi": {
-            "mean": 0.01839603363085256,
-            "p90": 0.019391320931317315,
-            "worst": 0.019429185735950295
+            "mean": 0.016434996094538402,
+            "p90": 0.01891848477146854,
+            "worst": 0.019860020536880404
           },
           "phi_area_weighted": {
-            "mean": 0.016873146175394677,
-            "p90": 0.017710811752743784,
-            "worst": 0.017758055272298304
+            "mean": 0.015074491113013302,
+            "p90": 0.01730176882475081,
+            "worst": 0.018173955026008666
           },
           "velocity": {
-            "mean": 0.020160222487339216,
-            "p90": 0.02114682354080377,
-            "worst": 0.021335149527539843
+            "mean": 0.01517205610632332,
+            "p90": 0.01572937900441738,
+            "worst": 0.01575407426666157
           },
           "velocity_area_weighted": {
-            "mean": 0.020545446006281182,
-            "p90": 0.02144136919991133,
-            "worst": 0.021613635751845463
+            "mean": 0.015744838840270406,
+            "p90": 0.01625180798683675,
+            "worst": 0.016290404474973336
           },
           "pressure": {
-            "mean": 0.054117688790685514,
-            "p90": 0.08001163888829088,
-            "worst": 0.09031571359057496
+            "mean": 0.052840480191484664,
+            "p90": 0.06213997235655962,
+            "worst": 0.06588466102447928
           },
           "pressure_area_weighted": {
-            "mean": 0.05336067044948319,
-            "p90": 0.07932999707782626,
-            "worst": 0.0895598598565992
+            "mean": 0.0519413366883934,
+            "p90": 0.06141070905494845,
+            "worst": 0.06513762381895621
           },
           "chemical": {
-            "mean": 0.15916806652653417,
-            "p90": 0.18829204770322028,
-            "worst": 0.19994965122319183
+            "mean": 0.13954125921926921,
+            "p90": 0.15856166108298214,
+            "worst": 0.16633987627607505
           },
           "chemical_area_weighted": {
-            "mean": 0.1632343049415151,
-            "p90": 0.1963594930526277,
-            "worst": 0.20977760567624423
+            "mean": 0.14316837227747503,
+            "p90": 0.16504571995620582,
+            "worst": 0.17401802850323397
           },
           "terminal_phi": {
-            "mean": 0.022707591834393793,
-            "p90": 0.027267710301607073,
-            "worst": 0.0278040021355434
+            "mean": 0.02196101413993802,
+            "p90": 0.027029436968636154,
+            "worst": 0.02868202299317516
           },
           "dispersed_fraction": {
-            "mean": 0.04847423652987385,
-            "p90": 0.05094080130847804,
-            "worst": 0.051059321511433296
+            "mean": 0.043305627115140057,
+            "p90": 0.04970224120470834,
+            "worst": 0.05219154253798413
           }
         },
-        "scope": "Three reused predeclared reserved cases, one initialization; not population or cross-seed validation",
-        "readonly_documentation_update": true
+        "development_metrics": {
+          "step": 20000,
+          "elapsed": 32972.56945055723,
+          "phi": 0.01449620420593507,
+          "terminal_phi": 0.01901957363955198,
+          "dispersed_phase": 0.038305157841030966,
+          "velocity": 0.013312134683055553,
+          "pressure": 0.046702822210027584,
+          "chemical": 0.11674443733517723,
+          "phi_range": [
+            -1.1230411529541016,
+            1.0460937023162842
+          ],
+          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+          "scope": "One local-FEM geometry; not a generalization estimate"
+        },
+        "training_updates": 20000,
+        "time_samples": 36,
+        "time_block": 18,
+        "learning_rate": {
+          "initial": 0.001,
+          "decay_every": 2000,
+          "decay_rate": 0.6309573444801932,
+          "floor": 1e-05
+        },
+        "warm_update_seconds": 1.6082611047044877,
+        "training_wall_seconds": 32985.806782427244,
+        "peak_active_memory_bytes": 89653278720,
+        "completion_journal": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/final-completion-20261103-210103/completion.json",
+        "paired_comparison": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/final-completion-20261103-210103/endpoint-comparison.json",
+        "curated_figure": "assets/pino/channel_nsch2d.png",
+        "scope": "User-selected actual20k endpoint;3reused predeclared reserved cases, one initialization; mixed per-case benefits, no population/cross-seed guarantee"
       },
       "run_children": [
         "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01",
-        "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time20-cold20k-lr1e5-01"
+        "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time20-cold20k-lr1e5-01",
+        "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time20-cold20k-lr1e5-02",
+        "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04"
       ],
       "data_children": [
         "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02",
-        "/root/autodl-tmp/data/channel_nsch2d/cold20k-lr1e5-20261103-01"
+        "/root/autodl-tmp/data/channel_nsch2d/cold20k-lr1e5-20261103-01",
+        "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-20261103-02",
+        "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-time8-20261103-03",
+        "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04"
       ],
       "cold20k_LR_experiment_20261103": {
-        "status": "training_running",
+        "status": "interrupted_after_external_shutdown",
         "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time20-cold20k-lr1e5-01",
         "owner_journal": "/root/autodl-tmp/data/channel_nsch2d/cold20k-lr1e5-20261103-01/process.json",
         "control": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01",
@@ -20675,8 +20711,193 @@
         "lr_initial": 0.001,
         "lr_at_20000": 1e-05,
         "default_changed": false,
-        "task": "docs/tasks/channel-cold20k-and-four-pino-setups.md"
-      }
+        "task": "docs/tasks/archive/channel-cold20k-and-four-pino-setups.md",
+        "last_completed_update_lower_bound": 8800,
+        "last_monitor_step": 8500,
+        "owner_and_trainer_absent": true,
+        "artifacts_preserved": true
+      },
+      "cold20k_shutdown_restart_20261103": {
+        "status": "failed_first_production_step_OOM",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time20-cold20k-lr1e5-02",
+        "owner_journal": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-20261103-02/owner/process.json",
+        "launcher": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-20261103-02/launch.sh",
+        "resource_probe": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-20261103-02/resource-probe",
+        "physical_gpu_uuid": "GPU-c55d506d-0eea-666e-713c-3ca8e3d81c9f",
+        "updates": 20000,
+        "fresh_model_and_complete_optimizer": true,
+        "checkpoint_import": false,
+        "default_changed": false,
+        "task": "docs/tasks/archive/channel-cold20k-and-four-pino-setups.md",
+        "resource_status": "finite_production_probe_passed",
+        "resource_peak_bytes": 92689859072,
+        "resource_warm_seconds": 1.8963462094776333,
+        "actual_cold_state": {
+          "status": "cold_model_complete_optimizer_and_input_bank_exact",
+          "model_and_full_optimizer_exact": true,
+          "initial_geometry_bank_exact": true,
+          "evaluation_and_reserved_inputs_exact": true,
+          "fitted_state_imported": false
+        },
+        "input_screen_status": "passed",
+        "completed_optimizer_updates": 0,
+        "artifacts_preserved": true
+      },
+      "cold20k_time8_correction_20261103": {
+        "status": "stopped_for_user_requested_higher_memory_setting",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time8-cold20k-lr1e5-03",
+        "owner_journal": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-time8-20261103-03/owner/process.json",
+        "launcher": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-time8-20261103-03/launch.sh",
+        "resource_probe": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-time8-20261103-03/resource-probe",
+        "physical_gpu_uuid": "GPU-c55d506d-0eea-666e-713c-3ca8e3d81c9f",
+        "updates": 20000,
+        "logical_time_samples": 40,
+        "execution_time_block": 8,
+        "fresh_model_and_complete_optimizer": true,
+        "checkpoint_import": false,
+        "default_changed": false,
+        "task": "docs/tasks/archive/channel-cold20k-and-four-pino-setups.md",
+        "resource_status": "finite_production_probe_passed",
+        "resource_peak_bytes": 43147762688,
+        "resource_warm_seconds": 2.3944573759101333,
+        "artifacts_preserved": true
+      },
+      "cold20k_user36_18_restart_20261103": {
+        "status": "training_and_supplemental_saved_run_audits_completed",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04",
+        "owner_journal": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/owner/process.json",
+        "launcher": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/launch.sh",
+        "resource_probe": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/resource-probe",
+        "physical_gpu_uuid": "GPU-c55d506d-0eea-666e-713c-3ca8e3d81c9f",
+        "updates": 20000,
+        "logical_time_samples": 36,
+        "execution_time_block": 18,
+        "geometry_batch": 8,
+        "fresh_model_and_complete_optimizer": true,
+        "checkpoint_import": false,
+        "default_changed": true,
+        "task": "docs/tasks/archive/channel-cold20k-and-four-pino-setups.md",
+        "resource_status": "finite_production_probe_passed",
+        "resource_peak_bytes": 89420045312,
+        "resource_warm_seconds": 1.603064552694559,
+        "actual_cold_state": {
+          "status": "cold_model_complete_optimizer_and_input_bank_exact",
+          "model_and_full_optimizer_exact": true,
+          "initial_geometry_bank_exact": true,
+          "evaluation_and_reserved_inputs_exact": true,
+          "fitted_state_imported": false
+        },
+        "input_screen_status": "passed",
+        "actual_production_update_completed": true,
+        "owner_pid": 56643,
+        "trainer_pid": 73588,
+        "original_owner_status": "failed_or_interrupted",
+        "completion_journal": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/final-completion-20261103-210103/completion.json",
+        "paired_comparison": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/final-completion-20261103-210103/endpoint-comparison.json",
+        "completed_optimizer_updates": 20000,
+        "final_metrics": {
+          "step": 20000,
+          "elapsed": 32972.56945055723,
+          "phi": 0.01449620420593507,
+          "terminal_phi": 0.01901957363955198,
+          "dispersed_phase": 0.038305157841030966,
+          "velocity": 0.013312134683055553,
+          "pressure": 0.046702822210027584,
+          "chemical": 0.11674443733517723,
+          "phi_range": [
+            -1.1230411529541016,
+            1.0460937023162842
+          ],
+          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+          "scope": "One local-FEM geometry; not a generalization estimate"
+        },
+        "reserved_geometries": 3,
+        "reserved_mean": {
+          "phi": 0.016434996094538402,
+          "phi_area_weighted": 0.015074491113013302,
+          "velocity": 0.01517205610632332,
+          "velocity_area_weighted": 0.015744838840270406,
+          "pressure": 0.052840480191484664,
+          "pressure_area_weighted": 0.0519413366883934,
+          "chemical": 0.13954125921926921,
+          "chemical_area_weighted": 0.14316837227747503,
+          "terminal_phi": 0.02196101413993802,
+          "dispersed_fraction": 0.043305627115140057
+        },
+        "postprocessing_probe_times": 252,
+        "frozen_source_files_checked": 105,
+        "SOTA_promotion_task": "docs/tasks/archive/channel-20k-sota-promotion.md"
+      },
+      "operator_default_history": [
+        {
+          "status": "user_accepted_default",
+          "promoted_date": "2026-11-02",
+          "entry": "examples/channel_nsch2d/train.py",
+          "config": "examples/channel_nsch2d/configs/train_default.py",
+          "explicit_recipe": "examples/channel_nsch2d/configs/train_operator_random_walls_width192_batch8_time20.py",
+          "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01",
+          "selected_checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/model_final.eqx",
+          "saved_config": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261102-pro6000-integral-random-walls-online-width192-b8-time20-10k-01/config.json",
+          "validation_receipt": "docs/tasks/channel-random-wall-pilot-validation.json",
+          "report": "docs/tasks/archive/channel-random-wall-pilot.md",
+          "reference": "Independent refined local mixed FEM",
+          "validation_geometry_count": 3,
+          "metrics": {
+            "phi": {
+              "mean": 0.01839603363085256,
+              "p90": 0.019391320931317315,
+              "worst": 0.019429185735950295
+            },
+            "phi_area_weighted": {
+              "mean": 0.016873146175394677,
+              "p90": 0.017710811752743784,
+              "worst": 0.017758055272298304
+            },
+            "velocity": {
+              "mean": 0.020160222487339216,
+              "p90": 0.02114682354080377,
+              "worst": 0.021335149527539843
+            },
+            "velocity_area_weighted": {
+              "mean": 0.020545446006281182,
+              "p90": 0.02144136919991133,
+              "worst": 0.021613635751845463
+            },
+            "pressure": {
+              "mean": 0.054117688790685514,
+              "p90": 0.08001163888829088,
+              "worst": 0.09031571359057496
+            },
+            "pressure_area_weighted": {
+              "mean": 0.05336067044948319,
+              "p90": 0.07932999707782626,
+              "worst": 0.0895598598565992
+            },
+            "chemical": {
+              "mean": 0.15916806652653417,
+              "p90": 0.18829204770322028,
+              "worst": 0.19994965122319183
+            },
+            "chemical_area_weighted": {
+              "mean": 0.1632343049415151,
+              "p90": 0.1963594930526277,
+              "worst": 0.20977760567624423
+            },
+            "terminal_phi": {
+              "mean": 0.022707591834393793,
+              "p90": 0.027267710301607073,
+              "worst": 0.0278040021355434
+            },
+            "dispersed_fraction": {
+              "mean": 0.04847423652987385,
+              "p90": 0.05094080130847804,
+              "worst": 0.051059321511433296
+            }
+          },
+          "scope": "Three reused predeclared reserved cases, one initialization; not population or cross-seed validation",
+          "readonly_documentation_update": true
+        }
+      ]
     }
   ],
   "run_seed_policy": {
