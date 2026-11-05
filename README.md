@@ -1,8 +1,8 @@
 # nonlocal-pinn
 
 Physics-only neural operators and PINNs for phase-field dynamics, using nonlocal
-spatial operators and shared spatial/time network evaluation. The four main
-PINO examples learn a family of solutions from known initial fields or geometry;
+spatial operators and shared spatial/time network evaluation. The PINO examples
+learn families of solutions from known initial fields, geometry or material fields;
 **positive-time reference solutions are used only for evaluation**.
 
 Private repository: [NanxiiChen/nonlocal-pinn](https://github.com/NanxiiChen/nonlocal-pinn).
@@ -62,6 +62,7 @@ replay; checkpoints/references load by direct paths, without file hashes.
 
 ## Other examples and single-problem PINNs
 
+- [Heterogeneous corrosion 2D](examples/heterogeneous_corrosion2d/README.md): activation-controlled material-map PINO pilot with fixed initial pit/geometry. Mild cold5000 phase L2 0.795% native/1.010% local FV; stronger spatial contrast with width96/cold10000 gives0.865%/1.227% on4 held-out materials and substantially larger asymmetric growth. A matched Adam local-AD control gives0.872% against the same local FV target, with17.92ms versus nonlocal14.60ms warm updates. The example records SOAP failure controls, material-response diagnostics and remaining concentration-residual limitations.
 - [Corrosion2D](examples/corrosion2d/README.md): KKS pit corrosion, matched-graph/local-AD controls.
 - [Corrosion1D](examples/corrosion1d/README.md): Earlier one-dimensional implementation.
 - [Elasticity2D](examples/elasticity2d/README.md): Nonlocal elasticity with independent FEM.
@@ -97,8 +98,8 @@ configuration files; review their external paths before launching a new run.
 src/nonlocal_pinn/
   operators/ geometry/ nn/ training/ baselines/ io/
 examples/                 # case geometry, BCs, configs, CLI and formulations
-assets/pino/              # four compact README evolution figures
-assets/pino-setups/       # four lightweight problem/condition SVG schematics
+assets/pino/              # compact README evolution figures
+assets/pino-setups/       # lightweight problem/condition SVG schematics
 tests/                    # existing focused numerical/restart regressions
 artifacts/index.yaml      # external artifact ownership, JSON-compatible YAML
 scripts/check_artifacts.py

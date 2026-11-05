@@ -1,0 +1,379 @@
+{
+  "audited_at_utc": "2026-11-05T16:36:42.498860+00:00",
+  "audit_backend": "CPU/NumPy only; no model inference, GPU, training or checkpoint selection",
+  "baseline": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261105-activation-stronger-w96-cold10000-01",
+  "reference": "/root/autodl-tmp/data/heterogeneous_corrosion2d/20261105-activation-stronger-reference-01/local_reference.npz",
+  "metric_aggregation": "Arithmetic mean of four per-material relative L2 ratios; pooled means time-space flattened within each material. Values are fractions, not percentages.",
+  "scope": "Single fixed initialization, four reused held-out materials; negative SOAP results retained. Local AD adds two Neumann loss terms and differs in boundary enforcement.",
+  "verification_method": "Initial model and applicable optimizer files compared byte-for-byte; every recorded graph/sampling array compared with exact dtype and np.array_equal; saved prediction targets/time/coordinates/parameters compared exactly against the common local-FV reference; metrics independently recomputed from saved fields. No hashes.",
+  "runs": {
+    "nonlocal_soap_1e3": {
+      "path": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-activation-stronger-w96-soap-cold10000-01",
+      "status": "complete",
+      "optimizer": "soap",
+      "initial_learning_rate": 0.001,
+      "spatial_derivative": "sparse",
+      "checks": {
+        "initial_model_bytes_identical": true,
+        "seed_identical": true,
+        "config_changes_validated": true,
+        "physics_only_declared": true,
+        "all_baseline_graph_arrays_identical": [
+          "points",
+          "graph_row",
+          "graph_col",
+          "graph_weight",
+          "core_ids",
+          "core_mask",
+          "actual_halo_nodes",
+          "ic_ids",
+          "mouth_ids"
+        ],
+        "soap_state_note": "Fresh SOAP initialization, not Adam moments; independent leaf parity was verified earlier and intentionally not repeated.",
+        "complete_10000_step_material_trace_exact": true,
+        "complete_10000_step_time_trace_exact": true,
+        "common_local_reference_arrays_exact": true
+      },
+      "launch_receipt": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-activation-stronger-w96-soap-cold10000-01.launch.json",
+      "launch_utc": null,
+      "launch_note": "First launch receipt contains no wall-clock timestamp; none inferred.",
+      "metrics_recomputed": {
+        "pooled_rel_l2_phi": 0.9493363658847792,
+        "terminal_rel_l2_phi": 1.0,
+        "pooled_rel_l2_c": 0.9460676703053967,
+        "terminal_rel_l2_c": 0.9999825808303786
+      },
+      "terminal_interfaces_present": 0,
+      "timing": {
+        "first_update_including_compile_seconds": 277.25772660202347,
+        "all_warm_updates_mean_seconds": 0.04802510950979151,
+        "all_update_sum_seconds": 757.4607965904288,
+        "sampling_sum_seconds": 54.61150915012695,
+        "evaluation_sum_seconds": 28.606305803870782,
+        "setup_seconds": 6.032292759977281,
+        "actual_total_seconds": 874.783217624994,
+        "timing_limit": "Complete run contains concurrent training/compilation; whole-run and mixed warm timings are not isolated performance benchmarks.",
+        "uncontended_gpu_updates_2_through_1000": {
+          "count": 999,
+          "mean_seconds": 0.02362118639705425,
+          "median_seconds": 0.018799175042659044,
+          "evidence": "Local AD launch receipt declares first1000 uncontended and last nonlocal logged step5600 before launch; CPU read-only audits may have run."
+        }
+      },
+      "memory": {
+        "peak_bytes_in_use": 4441102848,
+        "peak_GiB_in_use": 4.136099338531494,
+        "peak_pool_bytes": 17834626304,
+        "note": "Per-process allocator live-byte high water and reserved pool are different quantities; no device-wide sum inferred."
+      },
+      "completion_record_file_mtime_utc": "2026-11-05T16:20:17.054468+00:00",
+      "completion_time_note": "Filesystem mtime of final summary publication; not a separately recorded process-exit event."
+    },
+    "local_ad_soap_1e3": {
+      "path": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-activation-stronger-w96-local-soap-cold10000-01",
+      "status": "complete",
+      "optimizer": "soap",
+      "initial_learning_rate": 0.001,
+      "spatial_derivative": "local_ad",
+      "checks": {
+        "initial_model_bytes_identical": true,
+        "seed_identical": true,
+        "config_changes_validated": true,
+        "physics_only_declared": true,
+        "all_baseline_graph_arrays_identical": [
+          "points",
+          "graph_row",
+          "graph_col",
+          "graph_weight",
+          "core_ids",
+          "core_mask",
+          "actual_halo_nodes",
+          "ic_ids",
+          "mouth_ids"
+        ],
+        "neumann_quadrature_reconstructed_exactly": {
+          "points": 248,
+          "length": 3.09
+        },
+        "soap_state_note": "Fresh SOAP initialization, not Adam moments; independent leaf parity was verified earlier and intentionally not repeated.",
+        "complete_10000_step_material_trace_exact": true,
+        "complete_10000_step_time_trace_exact": true,
+        "common_local_reference_arrays_exact": true
+      },
+      "launch_receipt": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-activation-stronger-w96-local-soap-cold10000-01.launch.json",
+      "launch_utc": "2026-11-05T16:13:10.292706+00:00",
+      "metrics_recomputed": {
+        "pooled_rel_l2_phi": 0.9493367148603093,
+        "terminal_rel_l2_phi": 0.9999999999783108,
+        "pooled_rel_l2_c": 0.9460810917843225,
+        "terminal_rel_l2_c": 0.9999973101630797
+      },
+      "terminal_interfaces_present": 0,
+      "timing": {
+        "first_update_including_compile_seconds": 767.3033396839164,
+        "all_warm_updates_mean_seconds": 0.03784014689732343,
+        "all_update_sum_seconds": 1145.6669685102534,
+        "sampling_sum_seconds": 20.435392742045224,
+        "evaluation_sum_seconds": 28.336750738555565,
+        "setup_seconds": 5.998729804996401,
+        "actual_total_seconds": 1231.1906463878695,
+        "timing_limit": "Complete run contains concurrent training/compilation; whole-run and mixed warm timings are not isolated performance benchmarks."
+      },
+      "memory": {
+        "peak_bytes_in_use": 3450499584,
+        "peak_GiB_in_use": 3.2135281562805176,
+        "peak_pool_bytes": 26751940352,
+        "note": "Per-process allocator live-byte high water and reserved pool are different quantities; no device-wide sum inferred."
+      },
+      "completion_record_file_mtime_utc": "2026-11-05T16:33:42.325298+00:00",
+      "completion_time_note": "Filesystem mtime of final summary publication; not a separately recorded process-exit event."
+    },
+    "nonlocal_soap_3e4": {
+      "path": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-activation-stronger-w96-soap-lr3e4-cold10000-01",
+      "status": "complete",
+      "optimizer": "soap",
+      "initial_learning_rate": 0.0003,
+      "spatial_derivative": "sparse",
+      "checks": {
+        "initial_model_bytes_identical": true,
+        "seed_identical": true,
+        "config_changes_validated": true,
+        "physics_only_declared": true,
+        "all_baseline_graph_arrays_identical": [
+          "points",
+          "graph_row",
+          "graph_col",
+          "graph_weight",
+          "core_ids",
+          "core_mask",
+          "actual_halo_nodes",
+          "ic_ids",
+          "mouth_ids"
+        ],
+        "soap_state_note": "Fresh SOAP initialization, not Adam moments; independent leaf parity was verified earlier and intentionally not repeated.",
+        "complete_10000_step_material_trace_exact": true,
+        "complete_10000_step_time_trace_exact": true,
+        "common_local_reference_arrays_exact": true
+      },
+      "launch_receipt": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-activation-stronger-w96-soap-lr3e4-cold10000-01.launch.json",
+      "launch_utc": "2026-11-05T16:21:48.651113+00:00",
+      "metrics_recomputed": {
+        "pooled_rel_l2_phi": 0.22666844984464346,
+        "terminal_rel_l2_phi": 0.285488719366825,
+        "pooled_rel_l2_c": 0.1952469210285571,
+        "terminal_rel_l2_c": 0.2760625732575877
+      },
+      "terminal_interfaces_present": 4,
+      "timing": {
+        "first_update_including_compile_seconds": 274.01406372501515,
+        "all_warm_updates_mean_seconds": 0.03160855821258847,
+        "all_update_sum_seconds": 590.0680372926872,
+        "sampling_sum_seconds": 21.520688544027507,
+        "evaluation_sum_seconds": 27.958195311482996,
+        "setup_seconds": 5.573500372003764,
+        "actual_total_seconds": 673.638469772879,
+        "timing_limit": "Complete run contains concurrent training/compilation; whole-run and mixed warm timings are not isolated performance benchmarks."
+      },
+      "memory": {
+        "peak_bytes_in_use": 4441236736,
+        "peak_GiB_in_use": 4.136224031448364,
+        "peak_pool_bytes": 17834626304,
+        "note": "Per-process allocator live-byte high water and reserved pool are different quantities; no device-wide sum inferred."
+      },
+      "completion_record_file_mtime_utc": "2026-11-05T16:33:03.133790+00:00",
+      "completion_time_note": "Filesystem mtime of final summary publication; not a separately recorded process-exit event."
+    },
+    "local_ad_adam_1e3": {
+      "path": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-activation-stronger-w96-local-adam-cold10000-01",
+      "status": "complete",
+      "optimizer": "adam",
+      "initial_learning_rate": 0.001,
+      "spatial_derivative": "local_ad",
+      "checks": {
+        "initial_model_bytes_identical": true,
+        "seed_identical": true,
+        "config_changes_validated": true,
+        "physics_only_declared": true,
+        "all_baseline_graph_arrays_identical": [
+          "points",
+          "graph_row",
+          "graph_col",
+          "graph_weight",
+          "core_ids",
+          "core_mask",
+          "actual_halo_nodes",
+          "ic_ids",
+          "mouth_ids"
+        ],
+        "neumann_quadrature_reconstructed_exactly": {
+          "points": 248,
+          "length": 3.09
+        },
+        "initial_adam_optimizer_bytes_identical": true,
+        "complete_10000_step_material_trace_exact": true,
+        "complete_10000_step_time_trace_exact": true,
+        "common_local_reference_arrays_exact": true,
+        "independent_metrics_match_training_and_unified_comparison": true
+      },
+      "launch_receipt": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-activation-stronger-w96-local-adam-cold10000-01.launch.json",
+      "launch_utc": "2026-11-05T16:31:41.747596+00:00",
+      "metrics_recomputed": {
+        "pooled_rel_l2_phi": 0.008721038095840513,
+        "terminal_rel_l2_phi": 0.015164444814044449,
+        "pooled_rel_l2_c": 0.01064200230784352,
+        "terminal_rel_l2_c": 0.018832508737073927
+      },
+      "timing": {
+        "first_update_including_compile_seconds": 438.30713199684396,
+        "all_warm_updates_mean_seconds": 0.017921401931443114,
+        "all_update_sum_seconds": 617.5032299093436,
+        "sampling_sum_seconds": 15.236891278298572,
+        "evaluation_sum_seconds": 29.31118924031034,
+        "setup_seconds": 5.742399022914469,
+        "actual_total_seconds": 673.4434977830388,
+        "timing_limit": "Cold compilation overlapped earlier SOAP trials. All warm updates are after the other three tracked trials completed, according to estimated wall-clock windows below. No continuous device-wide process history is available.",
+        "estimated_clock_windows": {
+          "method": "First warm update begins just after loss step1. Conservative launch-based anchor = launch receipt Unix time + measured setup + first-loss elapsed; summary-based anchor = final summary mtime - measured total + setup + first-loss elapsed. Import/startup delay is omitted by launch anchor; summary publication delay is small but unmeasured. These are clock estimates, not profiler events.",
+          "launch_based_first_warm_update_utc": "2026-11-05T16:39:34.559598+00:00",
+          "summary_based_first_warm_update_utc": "2026-11-05T16:39:35.281689+00:00",
+          "other_summary_publications_utc": {
+            "nonlocal_soap_1e3": "2026-11-05T16:20:17.054468+00:00",
+            "local_ad_soap_1e3": "2026-11-05T16:33:42.325298+00:00",
+            "nonlocal_soap_3e4": "2026-11-05T16:33:03.133790+00:00"
+          },
+          "minimum_gap_after_last_other_summary_seconds": 352.234299659729,
+          "conclusion": "All other three tracked training trials completed approximately 352 seconds or more before AD Adam warm updates began. No later GPU job launch is recorded in this experiment group. Warm updates may be treated as free of this group's concurrency; this does not prove absence of unrecorded external GPU work."
+        }
+      },
+      "memory": {
+        "peak_bytes_in_use": 3242082560,
+        "peak_GiB_in_use": 3.0194246768951416,
+        "peak_pool_bytes": 26751940352,
+        "note": "Per-process allocator live-byte high water and reserved pool are distinct."
+      },
+      "terminal_interfaces_present": 4,
+      "completion_record_file_mtime_utc": "2026-11-05T16:42:55.928756+00:00",
+      "completion_time_note": "Filesystem mtime of final summary publication; not a separately recorded process-exit event."
+    }
+  },
+  "overlap_evidence": [
+    {
+      "event": "Local AD SOAP launched during nonlocal SOAP",
+      "launch_utc": "2026-11-05T16:13:10.292706+00:00",
+      "nonlocal_last_logged_step_before_launch": 5600,
+      "safe_nonlocal_timing_prefix": "updates2..1000",
+      "nonlocal_completion_record_utc": "2026-11-05T16:20:17.054468+00:00"
+    },
+    {
+      "event": "Nonlocal SOAP3e-4 launched during local AD SOAP",
+      "launch_utc": "2026-11-05T16:21:48.651113+00:00",
+      "local_AD_SOAP_completion_record_utc": "2026-11-05T16:33:42.325298+00:00"
+    },
+    {
+      "event": "Local AD Adam launched while both later SOAP trials were still running",
+      "launch_utc": "2026-11-05T16:31:41.747596+00:00",
+      "other_completion_records_utc": [
+        "2026-11-05T16:33:42.325298+00:00",
+        "2026-11-05T16:33:03.133790+00:00"
+      ]
+    }
+  ],
+  "outstanding": "None for the four fixed10000 control runs: all are complete and all saved actual sampling traces have been checked. Population, cross-seed and isolated cold-compilation benchmarks remain outside this finite study.",
+  "lower_lr_nonpure_bulk_branch_diagnostic": {
+    "run": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-activation-stronger-w96-soap-lr3e4-cold10000-01",
+    "bulk_selection": "y>=0.4, outside the final reference pit in all four held-out samples",
+    "points_per_sample": 1296,
+    "derivation": "Ignoring spatial curvature and time derivative, AC bracket = 2*phi*(1-phi)*[N2*(1-2*phi)-3*N1*q*dc]; interior stationary root phi_star=(1-3*N1*q*dc/N2)/2. This is an algebraic stationary branch, not a claim of dynamic stability.",
+    "constant_q_minus_cle_root": 0.8136351549753489,
+    "per_condition": [
+      {
+        "condition": 0,
+        "phi_mean": 0.810710153002062,
+        "phi_std": 0.0014751654385721537,
+        "phi_minmax": [
+          0.8069019317626953,
+          0.8150481581687927
+        ],
+        "q_over_cle_mean": -0.9850878537004045,
+        "q_over_cle_std": 0.0004651884448558498,
+        "phi_star_mean": 0.8089581816596602,
+        "phi_minus_phi_star_rms": 0.0022539090953705957,
+        "reaction_bracket_rms": 0.005499684413373982,
+        "reference_phi_min": 0.9999355569505449,
+        "bulk_phi_mean_at_t09": 0.8107239005190355
+      },
+      {
+        "condition": 1,
+        "phi_mean": 0.8120108532868786,
+        "phi_std": 0.0014173776309734864,
+        "phi_minmax": [
+          0.8086379766464233,
+          0.8156005144119263
+        ],
+        "q_over_cle_mean": -0.9850575089962755,
+        "q_over_cle_std": 0.00048651847539940373,
+        "phi_star_mean": 0.808948664493678,
+        "phi_minus_phi_star_rms": 0.0033869939113644176,
+        "reaction_bracket_rms": 0.008235710572315936,
+        "reference_phi_min": 0.9981171232328966,
+        "bulk_phi_mean_at_t09": 0.8114522009352108
+      },
+      {
+        "condition": 2,
+        "phi_mean": 0.8107248448571305,
+        "phi_std": 0.001740013755518563,
+        "phi_minmax": [
+          0.8068649172782898,
+          0.8170052766799927
+        ],
+        "q_over_cle_mean": -0.9852393693373975,
+        "q_over_cle_std": 0.0005149694963106638,
+        "phi_star_mean": 0.8090057022899496,
+        "phi_minus_phi_star_rms": 0.002378730537498759,
+        "reaction_bracket_rms": 0.00579039362937357,
+        "reference_phi_min": 0.9991846569128139,
+        "bulk_phi_mean_at_t09": 0.8105812498632773
+      },
+      {
+        "condition": 3,
+        "phi_mean": 0.8105437583117573,
+        "phi_std": 0.001916173850524828,
+        "phi_minmax": [
+          0.8066074252128601,
+          0.8170984983444214
+        ],
+        "q_over_cle_mean": -0.9852471953260401,
+        "q_over_cle_std": 0.0004664374619655091,
+        "phi_star_mean": 0.8090081567951105,
+        "phi_minus_phi_star_rms": 0.002390862239782008,
+        "reaction_bracket_rms": 0.005816928559147759,
+        "reference_phi_min": 0.9974232726281314,
+        "bulk_phi_mean_at_t09": 0.810568650379593
+      }
+    ],
+    "limitation": "Saved fields establish proximity to this algebraic bulk branch. They do not independently certify the local time/space residual balance or identify its optimization cause."
+  },
+  "adam_comparison": {
+    "unified_comparison_directory": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-local-reference-comparison-01",
+    "nonlocal_metrics_against_same_local_reference_recomputed": {
+      "pooled_rel_l2_phi": 0.012269237168364061,
+      "terminal_rel_l2_phi": 0.02086133563817482,
+      "pooled_rel_l2_c": 0.014866780044721275,
+      "terminal_rel_l2_c": 0.02550962373369562
+    },
+    "local_ad_metrics_against_same_local_reference_recomputed": {
+      "pooled_rel_l2_phi": 0.008721038095840513,
+      "terminal_rel_l2_phi": 0.015164444814044449,
+      "pooled_rel_l2_c": 0.01064200230784352,
+      "terminal_rel_l2_c": 0.018832508737073927
+    },
+    "nonlocal_warm_update_mean_seconds": 0.014597659889371669,
+    "local_ad_warm_update_mean_seconds": 0.017921401931443114,
+    "local_over_nonlocal_warm_time_ratio": 1.227690059040998,
+    "nonlocal_actual_total_seconds": 380.2589501431212,
+    "local_ad_actual_total_seconds": 673.4434977830388,
+    "nonlocal_peak_GiB_in_use": 3.9314305782318115,
+    "scope": "Matched cold model/Adam state and every sampled material/time/core input; one initialization and four reused materials. Local AD has explicit Neumann losses and seven-term gradient normalization; native graph has five terms and a finite-horizon boundary closure. Warm timing is useful for this implementation; cold/total AD timing was initially concurrent and cannot establish an isolated compile-time ratio. No universal optimizer/method ranking or default promotion follows."
+  },
+  "completed_audit_at_utc": "2026-11-05T16:48:00.440865+00:00"
+}

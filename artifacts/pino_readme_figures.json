@@ -245,6 +245,67 @@
       "field": "phi",
       "numerical_fields_changed": false,
       "weights_or_raw_data_copied": false
+    },
+    "heterogeneous_corrosion2d": {
+      "run": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261105-activation-stronger-w96-cold10000-01",
+      "checkpoint": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261105-activation-stronger-w96-cold10000-01/model_final.eqx",
+      "source_files": [
+        "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261105-activation-stronger-w96-cold10000-01/prediction.npz",
+        "/root/autodl-tmp/data/heterogeneous_corrosion2d/20261105-activation-stronger-reference-01/local_reference.npz",
+        "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-local-reference-comparison-01/summary.json",
+        "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261105-activation-stronger-w96-cold10000-01/config.json"
+      ],
+      "samples": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "nondimensional_times": [
+        0.0,
+        0.2,
+        0.5,
+        0.8,
+        1.0
+      ],
+      "records": [
+        {
+          "index": 0,
+          "pooled_phi": 0.011688701439097976,
+          "terminal_phi": 0.01973054925466913
+        },
+        {
+          "index": 1,
+          "pooled_phi": 0.008224749994850046,
+          "terminal_phi": 0.014093246012530189
+        },
+        {
+          "index": 2,
+          "pooled_phi": 0.013070069393355924,
+          "terminal_phi": 0.022687523329695338
+        },
+        {
+          "index": 3,
+          "pooled_phi": 0.0160934278461523,
+          "terminal_phi": 0.02693402395580464
+        }
+      ],
+      "mean_pooled_phi": 0.012269237168364063,
+      "selection": "All four predeclared held-out material maps; no selection by error",
+      "reference": "Independent local nodal finite volume plus BDF; not FEM and not the native target stored with prediction",
+      "metric": "Uniform-node/time relative L2 over all eleven saved times, then arithmetic mean over materials",
+      "display": "Saved physical phase and kinetics; Gouraud display interpolation only; actual saved times, no temporal interpolation; y increases downward; 256-color PNG encoding",
+      "png_palette_colors": 256,
+      "pixel_dimensions": [
+        1875,
+        1035
+      ],
+      "image": "assets/pino/heterogeneous_corrosion2d.png",
+      "bytes": 173611,
+      "dpi": 150,
+      "field": "phi",
+      "numerical_fields_changed": false,
+      "weights_or_raw_data_copied": false
     }
   },
   "generator": "scripts/render_pino_readme_figures.py",
@@ -253,5 +314,5 @@
   "inference_runs": 0,
   "reference_solves": 0,
   "training_updates": 0,
-  "total_image_bytes": 1878013
+  "total_image_bytes": 2051624
 }

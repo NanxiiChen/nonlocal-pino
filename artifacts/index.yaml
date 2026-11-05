@@ -20898,6 +20898,109 @@
           "readonly_documentation_update": true
         }
       ]
+    },
+    {
+      "case": "heterogeneous_corrosion2d",
+      "owner": "nonlocal-pinn",
+      "data_root": "/root/autodl-tmp/data/heterogeneous_corrosion2d",
+      "run_root": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d",
+      "role": "research_pilot",
+      "data_children": [
+        "/root/autodl-tmp/data/heterogeneous_corrosion2d/20261105-activation-pilot-01",
+        "/root/autodl-tmp/data/heterogeneous_corrosion2d/20261105-activation-pilot-02",
+        "/root/autodl-tmp/data/heterogeneous_corrosion2d/20261105-stronger-screen-01",
+        "/root/autodl-tmp/data/heterogeneous_corrosion2d/20261105-activation-stronger-reference-01"
+      ],
+      "run_children": [
+        "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261105-activation-probe50-01",
+        "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261105-activation-cold5000-01",
+        "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261105-activation-stronger-cold5000-01",
+        "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261105-activation-stronger-w96-cold10000-01",
+        "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-activation-stronger-w96-soap-cold10000-01",
+        "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-activation-stronger-w96-local-soap-cold10000-01",
+        "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-activation-stronger-w96-soap-lr3e4-cold10000-01",
+        "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-activation-stronger-w96-local-adam-cold10000-01",
+        "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-local-reference-comparison-01"
+      ],
+      "pilot": {
+        "entry": "examples/heterogeneous_corrosion2d/train.py",
+        "config": "examples/heterogeneous_corrosion2d/configs/train_base.py",
+        "record": "docs/tasks/archive/heterogeneous-corrosion-pilot.md",
+        "checkpoint": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261105-activation-cold5000-01/model_final.eqx",
+        "reference": "/root/autodl-tmp/data/heterogeneous_corrosion2d/20261105-activation-pilot-02/native_reference.npz",
+        "local_reference": "/root/autodl-tmp/data/heterogeneous_corrosion2d/20261105-activation-pilot-02/local_reference.npz",
+        "condition": "fresh continuous positive material-kinetics map; fixed initial pit/domain",
+        "steps": 5000,
+        "optimizer": "adam",
+        "mean_native_phi_relative_l2": 0.007950050379384432,
+        "mean_local_phi_relative_l2": 0.010099355684167787,
+        "holdout_count": 4,
+        "scope": "one initialization; early concentration transient and boundary PDE residuals need improvement"
+      },
+      "stronger_pilot": {
+        "config": "examples/heterogeneous_corrosion2d/configs/train_stronger_wide.py",
+        "run": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261105-activation-stronger-w96-cold10000-01",
+        "checkpoint": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261105-activation-stronger-w96-cold10000-01/model_final.eqx",
+        "reference": "/root/autodl-tmp/data/heterogeneous_corrosion2d/20261105-activation-stronger-reference-01/native_reference.npz",
+        "local_reference": "/root/autodl-tmp/data/heterogeneous_corrosion2d/20261105-activation-stronger-reference-01/local_reference.npz",
+        "steps": 10000,
+        "width": 96,
+        "optimizer": "adam",
+        "mean_native_phi_relative_l2": 0.008649139257604304,
+        "mean_local_phi_relative_l2": 0.012269237168364061,
+        "holdout_count": 4,
+        "condition": "kappa0.5..4; constant latent coefficient0 and12 spatial std1.3; unchanged fixed pit",
+        "diagnostics": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261105-activation-stronger-w96-cold10000-01/diagnostics/stronger_comparison.json",
+        "scope": "one cold seed; same four standardized spatial inputs; early concentration residuals still imperfect"
+      },
+      "matched_optimizer_spatial_controls": {
+        "record": "docs/tasks/archive/heterogeneous-corrosion-local-ad.md",
+        "audit": "docs/tasks/archive/heterogeneous-corrosion-control-audit.json",
+        "report": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-local-reference-comparison-01/summary.json",
+        "reference": "/root/autodl-tmp/data/heterogeneous_corrosion2d/20261105-activation-stronger-reference-01/local_reference.npz",
+        "steps": 10000,
+        "holdout_count": 4,
+        "pairing": "Exact cold initial model, same optimizer initial state where applicable, all material/time draws and spatial core/IC identities",
+        "results": [
+          {
+            "run": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261105-activation-stronger-w96-cold10000-01",
+            "method": "sparse",
+            "optimizer": "adam",
+            "mean_local_phi_relative_l2": 0.012269237168364061,
+            "terminal_local_phi_relative_l2": 0.02086133563817482
+          },
+          {
+            "run": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-activation-stronger-w96-local-adam-cold10000-01",
+            "method": "local_ad",
+            "optimizer": "adam",
+            "mean_local_phi_relative_l2": 0.008721038095840513,
+            "terminal_local_phi_relative_l2": 0.015164444814044449
+          },
+          {
+            "run": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-activation-stronger-w96-soap-cold10000-01",
+            "method": "sparse",
+            "optimizer": "soap",
+            "mean_local_phi_relative_l2": 0.9493363658847792,
+            "terminal_local_phi_relative_l2": 1.0
+          },
+          {
+            "run": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-activation-stronger-w96-local-soap-cold10000-01",
+            "method": "local_ad",
+            "optimizer": "soap",
+            "mean_local_phi_relative_l2": 0.9493367148611017,
+            "terminal_local_phi_relative_l2": 0.9999999999789078
+          },
+          {
+            "run": "/root/autodl-tmp/tf-logs/heterogeneous_corrosion2d/20261106-activation-stronger-w96-soap-lr3e4-cold10000-01",
+            "method": "sparse",
+            "optimizer": "soap",
+            "mean_local_phi_relative_l2": 0.22666844984464346,
+            "terminal_local_phi_relative_l2": 0.285488719366825
+          }
+        ],
+        "timing_scope": "Adam warm updates are uncontended; AD startup and SOAP totals partly overlap other trials. Report compilation and observed wall totals separately.",
+        "selection": "Original nonlocal Adam preset retained; no default promotion or cross-seed ranking."
+      }
     }
   ],
   "run_seed_policy": {
