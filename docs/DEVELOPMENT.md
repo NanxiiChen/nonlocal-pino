@@ -25,7 +25,7 @@ to measure model or discretisation error.
 Curated README figures live in the repository-level `assets/` directory,
 currently `assets/pino/<case>.png`; example READMEs use relative links there.
 Keep one selected evolution image per main operator, below1MiB each and2MiB
-total. Four additional setup SVGs live in `assets/pino-setups/`, below256KiB
+total. Five additional setup SVGs live in `assets/pino-setups/`, below256KiB
 combined, with compact prescribed parameters in
 `artifacts/pino_setup_schematics.json` and the CPU-only
 `scripts/render_pino_setup_schematics.py`. These show conditions/BCs, not solved

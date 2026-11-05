@@ -2,12 +2,9 @@
 
 ## Active task
 
-None. [20k channel publication](tasks/archive/channel-20k-sota-publication.md)
-payload devc11a172regular-merged as mainece0130and pushed; independent remote
-main verification matches. This compact publication-memory closeout follows
-the same dev/main/main-only-push workflow. Six focused tests, config parity,
-9case/452artifact and2167file content checks pass. No training/FEM/cleanup.
-[Publication receipt](tasks/channel-20k-sota-publication-validation.json).
+[Publish heterogeneous corrosion and preview particle geometries](tasks/heterogeneous-publication-and-particle-preview.md).
+Prepare compact README figures, commit dev and merge/push main, then begin
+smooth irregular ceramic geometry generation and show actual sampled inputs.
 
 ## Deferred work
 
@@ -18,6 +15,25 @@ solve. [Feasibility](tasks/archive/traction-conditioned-elastic-pino-analysis.md
 The channel20000/lower-LR study is complete and archived below.
 
 ## Latest completed validation
+
+[Matched heterogeneous corrosion controls](tasks/archive/heterogeneous-corrosion-local-ad.md):
+four new cold10000 runs and55checkpoint evaluations against one local FV bank.
+Adam nonlocal/localAD phase1.227%/.872%, terminal2.086%/1.516%; uncontended warm
+14.60/17.92ms, peaks3.93/3.02GiB. Same initial state and every input draw verified.
+Both SOAP1e-3 controls fail by saturation; SOAP3e-4 remains22.67%phase. Preserve
+negative controls and current defaults. Ten new focused tests and complete
+input/field audits pass; [compact audit](tasks/archive/heterogeneous-corrosion-control-audit.json).
+One paired initialization/four heldout maps; AD adds explicit wall losses and
+cold costs partly overlap. No pending jobs, Git action or deletion.
+
+[Heterogeneous material-map corrosion pilot](tasks/archive/heterogeneous-corrosion-pilot.md):
+fresh online positive kinetics, fixed pit/geometry, activation-dominated KKS.
+Mild cold5000 native/local phase0.795%/1.010%. Stronger kappa0.5..4 with zero
+latent constant mode, width96/Adam cold10000: phase0.865%/1.227%, terminal1.306%/2.086%.
+Four held-out inputs only; material-centered endpoint error8.31%, reference/PINO
+mirrorasymmetry15.08/14.96%. Independent FV refinements,11focused tests and fullgrid
+residual audits pass; early concentration transport and unvisited boundary cores
+remain imperfect. Explicit presets/records,380s finalrun,3.93GiB peak. No Git action.
 
 [Promoted20kdefault](tasks/archive/channel-20k-sota-promotion.md):
 user-selected actual20kendpoint and all3predeclared reserved cases. Native
@@ -68,6 +84,42 @@ Preserve existing external data/run paths. Git history changes require explicit
 current-turn authorization; the documented workflow pushes main only.
 
 ## Recent completed tasks
+
+- [Current corrosion KKS relation versus legacy bounded constraint](tasks/archive/heterogeneous-kks-constraint.md).
+
+- [Nonlocal internal-wall advantage and confined-CH reuse](tasks/archive/nonlocal-internal-wall-advantage.md).
+
+- [Inert ceramic particles as corrosion geometry](tasks/archive/inert-particle-corrosion-geometry.md).
+
+- [Heterogeneous corrosion: paired SOAP and local-AD controls](tasks/archive/heterogeneous-corrosion-local-ad.md).
+
+- [Activation-controlled heterogeneous corrosion implementation and stronger material prior](tasks/archive/heterogeneous-corrosion-pilot.md).
+
+- [Heterogeneous pitting-corrosion candidate](tasks/archive/heterogeneous-pitting-candidate.md).
+
+- [Obstacle-conditioned two-phase flow candidates](tasks/archive/obstacle-two-phase-candidates.md).
+
+- [ATG boundary loading and morphology](tasks/archive/atg-boundary-morphology.md).
+
+- [ATG interface concept sketch](tasks/archive/atg-interface-concept-sketch.md).
+
+- [Two-phase interfaces with simple elasticity](tasks/archive/twophase-linear-elastic-candidates.md).
+
+- [Temperature versus initial-grain parameterization](tasks/archive/grain-temperature-versus-initial.md).
+
+- [Grain migration time and loading interpretation](tasks/archive/grain-migration-time-loading.md).
+
+- [Grain-boundary versus corrosion/fracture multiscale explanation](tasks/archive/multiscale-interface-distinction.md).
+
+- [Loaded polycrystal RVE concept sketch](tasks/archive/polycrystal-rve-concept-sketch.md).
+
+- [Phase-field RVE operator recommendations](tasks/archive/phasefield-rve-operator-candidates.md).
+
+- [Twin-model equations and feasibility](tasks/archive/twin-model-equations.md).
+
+- [Twin boundary-condition concept sketch](tasks/archive/twin-boundary-concept-sketch.md).
+
+- [Visually distinctive phase-field/mechanics candidates](tasks/archive/mechanical-phase-morphology-candidates.md).
 
 - [20k SOTA code/docs/image publication](tasks/archive/channel-20k-sota-publication.md).
 

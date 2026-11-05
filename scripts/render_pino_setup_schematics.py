@@ -18,6 +18,7 @@ sys.path.insert(0, str(ROOT))
 from examples.icemelting3d.ellipsoids import rotation, validate_parameters
 from examples.confined_ch2d.operator_problem import fixed_initial, valid_holes
 from examples.channel_nsch2d.geometry import profiles, validate_parameters as validate_walls
+from examples.heterogeneous_corrosion2d.problem import material_field
 
 NS = 'http://www.w3.org/2000/svg'
 ET.register_namespace('', NS)
@@ -185,7 +186,52 @@ def channel(case, group, bx, by, index):
         line(group, [[xx+11, ymid-3], [xx+15, ymid], [xx+11, ymid+3]], lambda p: p, INK, 1.4)
 
 
+def heterogeneous(case, group, bx, by, index):
+    """Prescribed material map and the same initial pit, not an evolved field."""
+    c = ConfigDict(dict(geometry=case['geometry'], material=case['material']))
+    coefficients = np.asarray(case['parameters'][index], dtype=float)
+    if not np.isfinite(coefficients).all() or coefficients[0] != 0:
+        raise ValueError('Expected finite stronger-prior input with zero constant mode')
+    g = c.geometry
+    xx, yy = np.meshgrid(np.linspace(0, g.length, 31), np.linspace(0, g.height, 19))
+    values = material_field(c, coefficients, np.stack((xx.ravel(), yy.ravel()), -1), np).reshape(xx.shape)
+    point = lambda q: (bx+PANEL*q[0]/g.length, by+PANEL*q[1]/g.length)
+    fig, ax = plt.subplots()
+    cmap = plt.get_cmap('YlGnBu_r')
+    levels = np.linspace(c.material.minimum, c.material.maximum, 7)
+    contour = ax.contourf(xx, yy, values, levels=levels, cmap=cmap)
+    for level, (segments, kinds) in enumerate(zip(contour.allsegs, contour.allkinds, strict=True)):
+        color = matplotlib.colors.to_hex(cmap((level+.5)/6))
+        for vertices, codes in zip(segments, kinds, strict=True):
+            commands = []
+            for p, code in zip(vertices, codes, strict=True):
+                px, py = point(p)
+                commands.append('Z' if code == 79 else ('M' if code == 1 else 'L')+f'{px:.2f},{py:.2f}')
+            node(group, 'path', d=' '.join(commands), fill=color, fill_rule='evenodd')
+    plt.close(fig)
+    theta = np.linspace(0, np.pi, 65)
+    pit = np.column_stack((g.pit_x+g.pit_radius*np.cos(theta), g.pit_radius*np.sin(theta)))
+    node(group, 'path', d=path_data(pit, point, True), fill='#e6f4fb')
+    line(group, pit, point, INK, 1.7)
+    line(group, [[0, 0], [0, g.height], [g.length, g.height], [g.length, 0]], point, GRAY, 1.3)
+    for segment in ([[0, 0], [g.pit_x-g.mouth_half_width, 0]],
+                    [[g.pit_x+g.mouth_half_width, 0], [g.length, 0]]):
+        line(group, segment, point, INK, 3)
+    line(group, [[g.pit_x-g.mouth_half_width, 0], [g.pit_x+g.mouth_half_width, 0]], point, BLUE, 3)
+    px, py = point([g.pit_x, 0])
+    line(group, [[px, py-14], [px, py+8]], lambda p: p, BLUE, 1.6)
+    line(group, [[px-3, py+4], [px, py+8], [px+3, py+4]], lambda p: p, BLUE, 1.6)
+
+
 SPECS = {
+    'heterogeneous_corrosion2d': dict(title='Heterogeneous corrosion 2D | random material field',
+        varying='Spatial reaction kinetics kappa(x,y), continuously sampled between 0.5 and 4',
+        fixed='Rectangle 1 x 0.6, initial pit, opening and transport; dimensionless time 0-1',
+        body=177.6,
+        footer=['BC: Blue opening (phi,c)=(0,0); other exterior walls are closed to exchange.',
+                'Physics: Activation-controlled Allen-Cahn + KKS concentration transport -> phi(x,y,t), c(x,y,t).',
+                'Condition: Material image -> 2D patch tokens -> shared coordinate/time queries.',
+                'Setup only. Pale blue marks the same initial electrolyte pit; all matrix regions can corrode.']),
     'icemelting3d': dict(title='Ice melting 3D | random initial condition',
         varying='Initial ellipsoid center, three semiaxes and 3D orientation',
         fixed='Cube, material parameters and melting drive; time 0-5 s',
@@ -233,7 +279,8 @@ def render(case, record, output):
     text(group, 28, 64, 'Varying: '+spec['varying'], 17)
     text(group, 28, 88, 'Fixed: '+spec['fixed'], 16)
     draw = {'icemelting3d': ellipse_projection, 'electropolish2d': electro,
-            'confined_ch2d': spinodal, 'channel_nsch2d': channel}[case]
+            'confined_ch2d': spinodal, 'channel_nsch2d': channel,
+            'heterogeneous_corrosion2d': heterogeneous}[case]
     if case == 'confined_ch2d':
         spinodal_texture(record, group)
     for index in range(3):
@@ -241,10 +288,18 @@ def render(case, record, output):
         text(group, bx, 128, 'Sample '+chr(65+index), 17)
         draw(record, group, bx, 148, index)
     y = 148+spec['body']+28
-    node(group, 'rect', x=28, y=y-12, width=16, height=11, fill=BLUE, fill_opacity=.45)
-    text(group, 52, y, spec['phase'], 15.5)
-    line(group, [[560, y-6], [582, y-6]], lambda p: p, ORANGE, 2.2)
-    text(group, 592, y, spec['variable'], 15.5)
+    if case == 'heterogeneous_corrosion2d':
+        for i in range(6):
+            node(group, 'rect', x=28+24*i, y=y-12, width=24, height=12,
+                 fill=matplotlib.colors.to_hex(plt.get_cmap('YlGnBu_r')((i+.5)/6)))
+        text(group, 188, y, 'Slow (0.5) -> fast (4): matrix reaction kinetics', 15.5)
+        line(group, [[680, y-6], [702, y-6]], lambda p: p, INK, 1.7)
+        text(group, 712, y, 'Fixed initial pit interface', 15.5)
+    else:
+        node(group, 'rect', x=28, y=y-12, width=16, height=11, fill=BLUE, fill_opacity=.45)
+        text(group, 52, y, spec['phase'], 15.5)
+        line(group, [[560, y-6], [582, y-6]], lambda p: p, ORANGE, 2.2)
+        text(group, 592, y, spec['variable'], 15.5)
     y += 28
     for value in spec['footer']:
         for part in textwrap.wrap(value, width=112):
@@ -269,7 +324,7 @@ def main():
     for case, record in manifest['cases'].items():
         results.append(render(case, record, ROOT/record['output']))
     if sum(r['bytes'] for r in results) >= 256*1024:
-        raise ValueError('Four setup SVGs must total less than256KiB')
+        raise ValueError('Setup SVGs must total less than256KiB')
     print(json.dumps(dict(status='rendered_known_input_setups', figures=results,
                           total_bytes=sum(r['bytes'] for r in results), pde_solves=0, inference_runs=0), indent=2))
 

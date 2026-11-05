@@ -1,4 +1,4 @@
-"""Render the four compact README galleries from existing saved fields/meshes.
+"""Render compact README galleries from existing saved fields/meshes.
 
 No inference, training or reference solve is performed. Run with --case all.
 The direct paths deliberately describe these selected historical checkpoints.
@@ -16,13 +16,15 @@ from matplotlib.patches import Circle, Ellipse
 from matplotlib.tri import Triangulation
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection, Line3DCollection
 import numpy as np
+from PIL import Image
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 DATA = Path('/root/autodl-tmp/data')
 LOGS = Path('/root/autodl-tmp/tf-logs')
 DPI = 150
-CASES = ('icemelting3d', 'electropolish2d', 'confined_ch2d', 'channel_nsch2d')
+CASES = ('icemelting3d', 'electropolish2d', 'confined_ch2d', 'channel_nsch2d',
+         'heterogeneous_corrosion2d')
 MAX_IMAGE_BYTES = 1024 * 1024
 MAX_TOTAL_BYTES = 2 * 1024 * 1024
 
@@ -56,11 +58,18 @@ def time_indices(saved, selected):
     return result
 
 
-def save(fig, case, record):
+def save(fig, case, record, *, palette_colors=None):
     image = REPO / 'assets' / 'pino' / (case + '.png')
     image.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(image, dpi=DPI, facecolor='white', pil_kwargs={'optimize': True})
     plt.close(fig)
+    if palette_colors is not None:
+        with Image.open(image) as raster:
+            compact = raster.convert('RGB').quantize(
+                colors=palette_colors, method=Image.Quantize.MEDIANCUT,
+                dither=Image.Dither.NONE)
+        compact.save(image, optimize=True, dpi=(DPI, DPI))
+        record.update(png_palette_colors=palette_colors, pixel_dimensions=list(compact.size))
     size = image.stat().st_size
     if size > MAX_IMAGE_BYTES:
         raise ValueError(f'Documentation image exceeds 1 MiB: {image} ({size})')
@@ -266,6 +275,96 @@ def channel():
         display='Physical mapped coordinates; fixed physical domain scale; no droplet position correction'))
 
 
+def heterogeneous_corrosion():
+    case = 'heterogeneous_corrosion2d'
+    run = LOGS/case/'20261105-activation-stronger-w96-cold10000-01'
+    source = run/'prediction.npz'
+    reference = DATA/case/'20261105-activation-stronger-reference-01/local_reference.npz'
+    report_path = LOGS/case/'20261106-local-reference-comparison-01/summary.json'
+    a, ref = read_arrays(source), read_arrays(reference)
+    config = read_json(run/'config.json')
+    report = read_json(report_path)
+    matches = [entry for entry in report['runs'] if entry['run'] == str(run)]
+    if len(matches) != 1 or matches[0]['final_step'] != 10000:
+        raise ValueError('Expected the completed nonlocal Adam 10000-step comparison')
+    if str(ref['backend']) != 'independent_local_fv':
+        raise ValueError('Heterogeneous gallery requires the independent local FV reference')
+    if report['reference'] != str(reference):
+        raise ValueError('Comparison report names a different reference')
+    for key in ('points', 'time', 'parameters'):
+        np.testing.assert_array_equal(a[key], ref[key])
+    if a['prediction'].shape != (4, 11, 3969, 2) or ref['kappa'].shape != (4, 3969):
+        raise ValueError('Unexpected saved heterogeneous field/input shape')
+    np.testing.assert_array_equal(
+        np.column_stack((a['X'].ravel(), a['Y'].ravel())), a['points'])
+    if not np.isfinite(a['prediction']).all() or not np.isfinite(ref['kappa']).all():
+        raise ValueError('Nonfinite heterogeneous prediction/material field')
+    samples, times = (0, 1, 2, 3), (0, .2, .5, .8, 1)
+    ids = time_indices(a['time'], times)
+    fig, axes = plt.subplots(4, 6, figsize=(12.5, 6.9))
+    fig.subplots_adjust(left=.065, right=.99, bottom=.11, top=.85, wspace=.14, hspace=.36)
+    records = []
+    for row, sample in enumerate(samples):
+        predicted, target = a['prediction'][sample, ..., 0], ref['fields'][sample, ..., 0]
+        error = relative_l2(predicted, target, weights=1)
+        terminal = relative_l2(predicted[-1], target[-1], weights=1)
+        logged = matches[0]['final_metrics']['conditions'][sample]
+        np.testing.assert_allclose(error, logged['pooled_rel_l2_phi'], rtol=0, atol=2e-8)
+        np.testing.assert_allclose(terminal, logged['terminal_rel_l2_phi'], rtol=0, atol=2e-8)
+        for col, ax in enumerate(axes[row]):
+            if col == 0:
+                field = ref['kappa'][sample].reshape(a['X'].shape)
+                material_image = ax.pcolormesh(
+                    a['X'], a['Y'], field, shading='gouraud', cmap='magma',
+                    vmin=config['material']['minimum'], vmax=config['material']['maximum'])
+                ax.contour(a['X'], a['Y'], target[0].reshape(a['X'].shape),
+                           levels=[.5], colors='white', linewidths=.65)
+                ax.set_ylabel(f'Material {sample}\nL2 = {100*error:.2f}%', fontsize=8)
+            else:
+                index = ids[col-1]
+                phase_image = ax.pcolormesh(
+                    a['X'], a['Y'], predicted[index].reshape(a['X'].shape),
+                    shading='gouraud', cmap='viridis', vmin=0, vmax=1)
+                ax.contour(a['X'], a['Y'], target[index].reshape(a['X'].shape),
+                           levels=[.5], colors='black', linewidths=.8, linestyles='--')
+            ax.set(xlim=(0, config['geometry']['length']),
+                   ylim=(config['geometry']['height'], 0), aspect='equal')
+            ax.set_xticks([0, .5, 1]); ax.set_yticks([0, .3, .6])
+            ax.tick_params(labelsize=6.5, length=2, pad=2)
+            if col != 0:
+                ax.set_yticklabels([])
+            if row != len(samples)-1:
+                ax.set_xticklabels([])
+            if row == 0:
+                ax.set_title('Input: kinetics $\\kappa(x,y)$' if col == 0
+                             else f'$t^*={times[col-1]:g}$', fontsize=9)
+        records.append(dict(index=sample, pooled_phi=error, terminal_phi=terminal))
+    material_bar = fig.add_axes((.085, .07, .115, .012))
+    phase_bar = fig.add_axes((.39, .07, .43, .012))
+    fig.colorbar(material_image, cax=material_bar, orientation='horizontal', ticks=[.5, 2, 4])
+    fig.colorbar(phase_image, cax=phase_bar, orientation='horizontal', ticks=[0, .5, 1])
+    material_bar.set_xlabel('Reaction multiplier $\\kappa$', fontsize=8)
+    phase_bar.set_xlabel('PINO phase $\\phi$: 0 = electrolyte, 1 = metal', fontsize=8)
+    material_bar.tick_params(labelsize=7); phase_bar.tick_params(labelsize=7)
+    fig.suptitle('Heterogeneous corrosion: four held-out material maps', fontsize=13, y=.975)
+    fig.text(.5, .925, 'Nonlocal PINO / Adam / 10,000 steps  |  fixed initial pit and geometry',
+             ha='center', fontsize=9)
+    fig.text(.5, .893, 'Dashed black: local-FV reference $\\phi=0.5$  |  white on input: initial interface',
+             ha='center', fontsize=8.5)
+    mean_error = float(np.mean([r['pooled_phi'] for r in records]))
+    np.testing.assert_allclose(mean_error, matches[0]['final_metrics']['pooled_rel_l2_phi'],
+                               rtol=0, atol=2e-8)
+    return save(fig, case, dict(run=str(run), checkpoint=str(run/'model_final.eqx'),
+        source_files=[str(source), str(reference), str(report_path), str(run/'config.json')],
+        samples=list(samples), nondimensional_times=a['time'][ids].tolist(), records=records,
+        mean_pooled_phi=mean_error,
+        selection='All four predeclared held-out material maps; no selection by error',
+        reference='Independent local nodal finite volume plus BDF; not FEM and not the native target stored with prediction',
+        metric='Uniform-node/time relative L2 over all eleven saved times, then arithmetic mean over materials',
+        display='Saved physical phase and kinetics; Gouraud display interpolation only; actual saved times, no temporal interpolation; y increases downward; 256-color PNG encoding'),
+        palette_colors=256)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--case', required=True, choices=('all', *CASES))
@@ -274,7 +373,8 @@ def main():
     manifest = REPO/'artifacts/pino_readme_figures.json'
     report = read_json(manifest) if manifest.exists() else dict(schema=1, figures={})
     if report['schema'] != 1: raise ValueError('Unsupported README figure schema')
-    renderers = dict(zip(CASES, (melting, electropolish, spinodal, channel), strict=True))
+    renderers = dict(zip(CASES, (melting, electropolish, spinodal, channel,
+                               heterogeneous_corrosion), strict=True))
     selected = CASES if args.case == 'all' else (args.case,)
     for case in selected:
         report['figures'][case] = renderers[case]()
@@ -282,7 +382,7 @@ def main():
                   command='.venv/bin/python scripts/render_pino_readme_figures.py --case all',
                   source_loading='Direct paths, no hashes', inference_runs=0, reference_solves=0,
                   training_updates=0, total_image_bytes=sum(r['bytes'] for r in report['figures'].values()))
-    if report['total_image_bytes'] > MAX_TOTAL_BYTES: raise ValueError('Four README images exceed 2 MiB budget')
+    if report['total_image_bytes'] > MAX_TOTAL_BYTES: raise ValueError('README images exceed 2 MiB budget')
     manifest.write_text(json.dumps(report, indent=2, allow_nan=False)+'\n')
     print(json.dumps(dict(images={k:v['bytes'] for k,v in report['figures'].items()},
                           total_bytes=report['total_image_bytes']), indent=2))

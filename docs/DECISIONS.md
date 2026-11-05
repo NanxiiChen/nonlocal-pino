@@ -9081,3 +9081,392 @@ keep the payload hashes explicit and final memory-commit identity observable
 from Git rather than self-referential document content. No numerical source,
 training, FEM, cleanup or dev push is added. Relation:
 channel-20k-sota-publication.
+
+
+## 2026-11-05 — Recommend boundary-driven twins as a visual mechanics alternative
+
+User reopens the deferred elastic-example discussion, requesting classic,
+visually distinctive phase-field/displacement cases rather than execution.
+Primary sources support localized displacement-driven martensitic variant
+turning and pressure-driven interacting twins; pure ferroelastic switching
+provides a smaller-strain alternative. Prefer this family for future boundary
+conditioning, while keeping chemoelastic stripes and fracture as alternatives.
+Distinguish finite-strain martensite from linear-elastic ferroelastic domains;
+do not promise the former's complex patterns from the latter or from arbitrary
+uniform loading. Fix initial seeds and ramp if the input is only a spatial
+boundary profile. Rejected: merely relabeling the precipitate CH model, claiming
+an idealized imposed indentation solves contact, or starting simulations without
+candidate/model selection. Existing fracture-project separation and all SOTA
+defaults remain intact. Relation: mechanical-phase-morphology-candidates.
+
+
+## 2026-11-05 — Draw a shared-initial-state twin concept illustration
+
+The user requests a schematic, so illustrate one common initial two-variant
+microstructure and three boundary displacement profiles (centered, offset,
+double-lobed). Use the same support/reference geometry, explicitly distinguish
+displacement from traction and label later shapes as hypothetical. Built-in
+imagegen provides a preview illustration; no solved phase/stress field, numeric
+time, guaranteed morphology or calibrated crystal orientation is claimed.
+Reject presenting generated graphics as PINO/FEM results. Relation:
+twin-boundary-concept-sketch.
+
+
+## 2026-11-05 — Explain a small-strain two-variant mechanics reduction
+
+User asks for governing equations and complexity. Present an explicit
+isothermal, quasistatic two-existing-variant Allen--Cahn/elasticity energy with
+constant stiffness, double well and cubic eigenstrain interpolation. Independently
+check the positive stress-driving term in phase evolution and boundary-work
+energy balance. Distinguish this proposed reduction from full finite-strain
+martensite, phase creation and guaranteed branching. Whole-top displacement
+profiles constrain zero-profile segments; they do not solve indenter contact.
+Fixed mixed-domain IC and fixed ramp are suitable for a spatial-boundary-function
+operator. Reject adding a phase-mass constraint, hard-zero displacement IC,
+automatic mechanical Neumann claims or implementation without physical choices.
+Relation: twin-model-equations.
+
+
+## 2026-11-05 — Frame the next mechanics operator as a loaded evolving cell
+
+User seeks a fine-scale phase-field operator suited future multiscale mechanics,
+without full FE2 now. Recommend fixed periodic polycrystal/initial orientations
+with macrostrain-history loading as a genuinely new candidate; compare elastic
+inhomogeneous rafting and composite microdamage. Use macro affine displacement
+plus periodic fluctuations and averaged stress, retaining phase history and
+mechanical Hill--Mandel power. Do not equate that power with stored energy only,
+call arbitrary boundary curves first-order homogenization, or label a small
+illustrative cell statistically representative without checks. Independent
+constant-C/linear-eigenstrain CH audit shows both morphology and mean-stress
+insensitivity can make an otherwise plausible load-conditioned example trivial;
+require a physically justified coupling. No model/parameter selected, fracture
+project crossed, code written, simulation run or Git operation. Relation:
+phasefield-rve-operator-candidates.
+
+
+## 2026-11-05 — Illustrate the macrostrain-conditioned polycrystal cell
+
+User requests a schematic while discussing RVE candidates. Show a conceptual
+macro loading source, one fixed initial grain pattern and three strain loading
+families feeding a cell operator, with microscopic fields and averaged stress
+as outputs. Evolved grain patterns are hypothetical; no fake stress curves,
+numerical values, predicted material-specific texture or full FE2 implementation.
+Colors encode fixed orientations and growth changes occupied regions, rather
+than claiming grains rotate or transform into new phases. Preview-only built-in
+imagegen; no numerical work or Git history change. Relation:
+polycrystal-rve-concept-sketch.
+
+## 2026-11-05 — Separate interface physics from multiscale coupling architecture
+
+User asks to understand grain-boundary multiscale using familiar corrosion and
+fracture mechanics. Explain the physical interfaces first: orientation-domain
+migration within intact solid, metal dissolution into an environment, and loss
+of mechanical connectivity through fracture. Grain growth is not elastic
+elongation, crystal rotation or necessarily a change of thermodynamic phase.
+Separate this classification from RVE homogenization versus local submodeling;
+either physical mechanism can participate in either architecture when its
+assumptions hold. Explain macrostrain/history to averaged-stress feedback and
+why localized cracks and environmental boundaries complicate a bulk RVE.
+Do not imply ordinary loading always gives mobile grain boundaries, that
+corrosion kinetics depend only on stress, or that a polycrystal computation
+automatically constitutes a multiscale model. The user's existing mechanisms
+remain suitable for a fine-scale operator; no requirement to adopt grain
+physics, numerical implementation or Git operation. Relation:
+multiscale-interface-distinction.
+
+## 2026-11-05 — Distinguish quasistatic mechanics from grain migration kinetics
+
+Clarify the proposed small-strain elastic/Allen-Cahn model as instantaneous
+mechanical equilibrium coupled to time-dependent microstructure. With a frozen
+grain structure, a linear elastic target load can be solved directly; holding
+the boundary input still requires evolving the phase and re-equilibrating
+mechanics. Load-and-hold idealizes a mechanically equilibrated loading transient
+short relative to migration, not a literal inertial impact. Distinguish imposed
+strain from imposed stress, finite ramp histories from numerical increments,
+and physical evolution from a space-time PINO training strategy. A single
+energy minimization is not a finite-time migration solution. No loading or
+material parameters chosen, code run or Git operation. Relation:
+grain-migration-time-loading.
+
+## 2026-11-05 — Prefer initial microstructure for morphology-rich grain operators
+
+Compare the user's explicit temperature input with initial grain distributions.
+Both are physically meaningful: uniform temperature/history describes thermal
+processing or a macro thermal condition; initial grain geometry and orientations
+describe material state/variability. For the user's desired distinct morphologies,
+recommend initial-state conditioning first with fixed temperature and a prescribed
+mechanical protocol, pending physical-model selection. Under identical initial
+state, time-independent mechanical boundaries, temperature-independent energy
+and elasticity, and one common positive thermal mobility multiplier, temperature
+is exactly a time reparameterization. Do not generalize this to different grain
+activation energies, thermal strain/stiffness/energy changes or fixed physical
+time ramps. Mean temperature does not determine a nonuniform thermal field.
+Reject calling temperature unphysical, promising morphology yields large average
+stress differences, or interpreting this discussion as implementation approval.
+Relation: grain-temperature-versus-initial.
+
+## 2026-11-05 — Redirect to continuum two-phase interfaces with linear elasticity
+
+User explicitly rejects crystal/grain emphasis and asks for larger-scale moving
+two-phase interfaces with simple elasticity. Prefer classic ATG stress-driven
+solid/external-phase surface instability as a new visual candidate, and compare
+mechanically assisted dissolution/corrosion and chemoelastic two-composition
+fronts. ATG supports quasistatic Hooke elasticity with genuine phase/mass-transfer
+surface migration; do not confuse it with elastic buckling or arbitrary large
+deformation. A fixed-temperature pressure reservoir and interface-controlled
+kinetics can omit NS/thermal transport; surface diffusion and diffusion-limited
+dissolution are distinct, more involved models. Keep boundaries and small-strain
+limits explicit, including loss of shear rigidity outside the solid, and do not
+promise late crack branching. Physical length/time scales remain material- and
+load-dependent. Recommendations only; prior precipitate implementation remains
+deferred and no new numerical work or Git operation is authorized. Relation:
+twophase-linear-elastic-candidates.
+
+## 2026-11-05 — Illustrate ATG load-and-hold interface evolution
+
+User requests the schematic after the ATG proposal. Generate one conceptual
+solid/melt setup and one loading sample at three qualitative stages, with
+outward displacement arrows only on the solid and a fixed-temperature/pressure
+melt reservoir. Distinguish surface-energy smoothing from possible elastic
+destabilization and actual phase migration from stretching/buckling. No fake
+time, stress map, accuracy value, solid-volume conservation or late fracture
+claim. Mark boundary displacement as a possible operator input, without
+pretending the time panels are different input samples. Built-in imagegen
+preview only; do not import into repository assets, implement or run a solver.
+Relation: atg-interface-concept-sketch.
+
+## 2026-11-05 — Separate ATG depth changes from morphology diversity
+
+Uniform load amplitude can look like a depth/rate change for a single initial
+mode during linear growth, but the classic elastic and capillary terms have
+different wave-number dependence: amplitude also changes wavelength selection
+when multiple modes are available. Smooth outer displacement profiles may bias
+groove competition by changing interfacial stress, provided their spatial
+differences reach the interface through elastic equilibrium. Treat this as an
+untested finite-domain inference, not as a simulated result or a pointwise
+boundary-to-groove map. Reject guaranteed distinct topology, final groove counts
+or impressive shapes from arbitrary random boundary noise. Recommend a fixed
+weakly multimode initial field and a few low-frequency load contrasts for later
+feasibility checks; no implementation or Git operation selected. Relation:
+atg-boundary-morphology.
+
+## 2026-11-05 — Prefer physical two-fluid interfaces around fixed obstacles
+
+User proposes a cylinder-flow-like geometry-conditioned phase-field example.
+Recommend droplet deflection/deformation around one or two fixed smooth posts,
+then test possible geometry-dependent splitting; porous two-fluid displacement
+is a richer extension. Phase field represents immiscible fluids with capillary
+feedback, while solid obstacles remain separate domain geometry. Keep flow,
+initial droplet and material/wetting conditions fixed when sampling geometry.
+Experimental pillar breakup and published NS--CH/phase-field obstacle models
+support feasibility, not a predicted outcome for untested 2D parameters. Reject
+using a static solid mask alone as the phase-field evolution or requiring vortex
+shedding for interesting morphologies. Current channel hard velocity lifting
+cannot transfer unchanged to internal holes; wetting, no-slip/appropriate slip,
+thin-film resolution and obstacle-aware nonlocal neighborhoods need validation.
+No implementation, solver run or Git operation is selected. Relation:
+obstacle-two-phase-candidates.
+
+## 2026-11-05 — Distinguish material kinetics from inert corrosion obstacles
+
+User supplies Mai et al2016 and proposes heterogeneous pitting based on Figures8
+and9. Read the attachment and images: Figure8 assumes noncorrodible SiC particles
+in aluminum, while Figure9 varies scalar interface kinetics across a fixed grain
+map; no grain migration is solved. Recommend positive finite-contrast material
+kinetics maps as the simpler initial operator input, with strictly inert particles
+as a separately qualified extension. Figure9's activation-controlled regime is
+essential; diffusion-limited settings can suppress sensitivity to kinetics.
+Preserve fixed IC/geometry/driving when testing material conditioning. Existing
+patch encoder and shared coordinate/time queries can consume material images.
+Reject equating L=0 with impermeability, copying undocumented particle BCs from
+the figure, or treating variable diffusivity times a Laplacian as conservative
+flux. Current pitting outer BCs differ from the paper and need explicit matching.
+This is feasibility advice only: no code, simulation or Git operation authorized.
+Relation: heterogeneous-pitting-candidate.
+
+## 2026-11-05 — Start a separate activation-controlled material-map PINO
+
+User explicitly authorizes the first trial and names the regime 活化控制.
+Implement heterogeneous_corrosion2d without changing the four established PINO
+defaults. Hold the initial pit, exterior domain and opening/closed-wall boundary
+conditions fixed; sample smooth positive finite-contrast kinetic maps. Multiply
+the entire existing KKS AC driving force by the local kinetics, with constant
+conservative CH transport. Use material-image conditioning and shared coordinate
+queries, nonlocal spatial derivatives and time JVP, with no evolved reference
+labels in training. Independently qualify reaction/transport sensitivity and
+local/nonlocal discretizations before interpreting training results. Strictly
+inert inclusions, evolving grains, electrochemical-potential equations and
+mechanics remain outside this pilot. Artifact paths are explicit and no existing
+logs/weights are deleted; no Git history operation was requested. Relation:
+heterogeneous-corrosion-pilot.
+
+## 2026-11-05 — Qualify the activation regime before neural training
+
+Choose dimensionless KKS nCH80, nAC2=4, nAC3=4/(2*30^2), nAC1=4*2A/w and
+positive kappa1..3. Independent local FV solutions show D-doubling changes
+dissolution area advance0.76–3.32%, whereas kappa1->3 produces substantially
+larger pits. This supports activation-dominated dynamics without assuming
+instantaneous diffusion. Four held-out native/local phase discrepancies are
+0.27–0.55% pooled; one161x97 local refinement changes phase0.11% pooled.
+Keep evaluation fields entirely outside physics training. Reject claiming exact
+paper calibration, a local FEM reference, or impermeable inert particles.
+Use exact shared host coordinates for IC generation and FP32 only for production
+graph construction; an earlier reference bank that failed strict IC validation
+was preserved and superseded before training. Relation: heterogeneous-corrosion-pilot.
+
+## 2026-11-05 — Strengthen spatial kinetics while retaining the mild pilot
+
+The user accepts the first fields but requests greater lateral asymmetry.
+CPU screening supports kappa0.5..4 with spatial Gaussian coefficient std1.3
+and the latent constant coefficient fixed0. This increases measured lateral
+dissolution-centroid shifts while keeping total pit areas more comparable.
+Use an explicit per-coefficient Gaussian scale vector; keep the existing
+scalar-scale configuration and original run intact. Fixing latent mean does
+not strictly fix the nonlinear physical kappa mean. Reject adding pit-aware
+left/right forcing or inert particles, and avoid the0.5..5 trial that brings
+some pits too close to other walls. Qualify and cold-train the stronger prior
+with the same physics/network/optimizer before reporting its learned accuracy.
+Relation: heterogeneous-corrosion-pilot.
+
+## 2026-11-05 — Address stronger-prior underfitting without changing physics
+
+The stronger same-width64 cold5000 endpoint has native mean phase5.49% and
+terminal9.84%; material-centered error67.5%terminal reveals inaccurate input
+response despite a visually plausible mean asymmetry. Preserve this control.
+Run an explicit width96/spatialfeatures48 cold10000 preset with LR decay every
+2000 updates, leaving material prior, PDE, spatial sampling, losses and Adam
+unchanged. This capacity/budget trial is a general optimization change, not
+reference supervision or a hand-designed output shape. Do not claim the
+contributions of width and budget are separately identified. Relation:
+heterogeneous-corrosion-pilot.
+
+## 2026-11-05 — Retain both qualified material priors and the fixed10000 endpoint
+
+The stronger width96 cold10000 run completes with mean native/local phase
+0.865%/1.227% on the same four held-out materials; endpoint phase1.306%/2.086%.
+Reference/PINO mean mirror asymmetry15.08%/14.96% and centered response error8.31%
+terminal support accurate stronger asymmetry. Keep the fixed-budget endpoint
+rather than selecting the lower9750 evaluation. Preserve mild and stronger5k
+controls, explicit presets and all external artifacts. Do not infer population
+accuracy, separate capacity effects or SOTA promotion from this small cohort.
+Full-grid diagnostics retain large t0 and localized boundary CH residuals as
+follow-up work despite low phase errors. Eleven focused tests plus independent
+solver/reference and production-run checks support closing this first trial.
+No commit, push, deletion or main-example default change. Relation:
+heterogeneous-corrosion-pilot.
+
+## 2026-11-05 — Compare stronger material PINO against local spatial AD
+
+User requests accuracy/time comparison with local reference for both methods.
+Use the successful width96/10000 stronger prior and replay its cold initial
+weights, optimizer, material/time draws and core/IC locations. Local AD uses
+physical phase/q Laplacians, time JVP and explicit zero normal phase/q gradients
+outside the mouth; finite-horizon graph closure remains distinct. Preserve
+all prior settings/runs, compare fixed-budget endpoints and separate compilation
+from steady updates. Do not treat the reference as training labels or assume
+matching derivative backends removes their different boundary enforcement.
+Relation: heterogeneous-corrosion-local-ad.
+
+## 2026-11-05 — Test nonlocal SOAP before the local-AD control
+
+User questions the pilot's Adam choice and explicitly asks for nonlocal+SOAP
+first, then local AD. Retain the Adam result; its selection was an initial
+implementation choice, not evidence of optimizer superiority. Use the existing
+shared SOAP factory with explicit b1=.95,b2=.9,frequency10,maxdim256 and no1D
+preconditioning, preserving network, initial model, input draws, LR schedule
+and10000-update budget. SOAP gets a fresh optimizer state; Adam moments cannot
+be reused. Follow with matching local AD+SOAP, including its explicit natural
+boundary costs. Do not silently replace established example defaults or select
+checkpoints using held-out errors. Relation: heterogeneous-corrosion-local-ad.
+
+## 2026-11-06 — Diagnose SOAP saturation and isolate a lower learning rate
+
+The matched nonlocal SOAP1e-3 trial predicts an erroneous rapid transition to
+phi=0. Independent CPU inspection of the5000 checkpoint confirms bounded-output
+saturation, rather than a reference/metric loading problem: on15 points of one
+held-out map, t=.001 phase is below.00023 and fromt=.01 phase/time derivative
+are exact FP32zero. At t0 the initial field is approximately fitted but its
+physical time derivative reaches-3279. Original AC loss then vanishes; weights
+cannot recover a zero mapping gradient. Preserve this negative control. Add a
+declared3e-4 initial-LR SOAP control with unchanged schedule, budget, model,
+sampling and losses; no hidden switch to another residual or initial constraint.
+User allows concurrent runs; record overlaps and use uncontended timing windows,
+never rank raw concurrent total times as isolated performance. Relation:
+heterogeneous-corrosion-local-ad.
+
+## 2026-11-06 — Retain Adam and report the matched local-AD tradeoff
+
+All four new10000-update controls and55 saved-checkpoint evaluations complete.
+Against one independent local FV bank, nonlocal/Adam gives mean phase1.2269%
+pooled/2.0861%terminal; local AD/Adam gives.8721%/1.5164%, improving three of four
+materials. Warm steps are14.60/17.92ms; active peaks3.93/3.02GiB. Local AD adds
+two explicit length-weighted no-flux losses and requires nohalo. This is a
+complete-method comparison, not a pure interior-operator ablation. The fixed
+10000endpoint, one matched initialization and four-map cohort do not establish
+a cross-seed ranking; at9000 the phase errors are very close. Nonlocal errors
+include its discrepancy from the local reference.
+
+Both SOAP1e-3 controls collapse to nearly100%terminal error; nonlocal SOAP3e-4
+avoids full saturation but remains22.67%pooled/28.55%terminal, with bulk phase
+near the non-pure stationary reaction root. Preserve these negative controls
+and existing Adam presets. Do not promote SOAP or silently replace residuals,
+ICs or reference targets. User-authorized concurrent runs speed experimentation
+but contaminate some wall timings; retain overlap receipts and compare clean
+Adam warm windows. No Git history operation or artifact deletion was performed.
+Relation: heterogeneous-corrosion-local-ad.
+
+## 2026-11-06 — Distinguish inert particles from porous or reactive inclusions
+
+User accepts retaining the current comparison and asks whether noncorroding
+ceramic particles can become excluded parameterized geometry with Neumann walls.
+Recommend that interpretation only under explicit fixed-particle, impermeable,
+no-surface-reaction assumptions. In current KKS transport, no flux is normal
+derivative of q zero; homogeneous phase Neumann additionally selects a neutral
+wall energy. Section4.3/Figure8 of Mai et al.2016 specifies noncorrodible particles
+but not their numerical interior/interface treatment; do not present our choice
+as a recovered implementation. Reject L=0 alone as impermeability, an electrolyte
+cavity interpretation, and endpoint-only nonlocal masks that bridge particles.
+Geometry point tokens and sample-dependent operators are a plausible next pilot,
+with boundary consistency independently validated before training. This is
+conceptual advice only; retain all results and defaults, no new solve or Git
+operation. Relation: inert-particle-corrosion-geometry.
+
+## 2026-11-06 — Reuse the confined-CH boundary mechanism with a bounded claim
+
+User identifies confined_ch2d as the analogy for ceramic-particle geometry.
+Its visible symmetric pair operator already embeds closed-wall exchange and
+omits separate Neumann losses; the existing local-AD comparison adds two wall
+normal penalties. This supports a boundary-training advantage over the current
+strong-form AD route, not exact pointwise local Neumann at finite horizon or
+an exclusive advantage over FEM/FV/weak PINNs. Preserve geometry preprocessing,
+physical quadrature and blocked cross-particle interactions; encoder boundary
+tokens may still be required. Reuse the mechanism with corrosion phase/q laws,
+not the closed-CH constant-mass projection, because corrosion has a reservoir
+opening. No implementation, training or Git operation is requested. Relation:
+nonlocal-internal-wall-advantage.
+
+## 2026-11-06 — Clarify retained KKS algebra and relaxed concentration bounds
+
+Read-only audit confirms heterogeneous_corrosion2d uses bounded phase and
+unrestricted scaled liquid concentration, reconstructing total concentration
+with the KKS mixture. It does not call the legacy kks_constraint, which also
+bounded liquid concentration and forced q<=0 for cSe=1. Current mapping matches
+the electropolish PINO, retains KKS thermodynamics without an extra KKS loss,
+and leaves IC/mouth conditions soft. Do not describe this as either removing
+KKS physics or retaining all old concentration bounds. No new bounded-map
+ablation or advantage is established for the material pilot. No implementation,
+training or Git action. Relation: heterogeneous-kks-constraint.
+
+## 2026-11-06 — Publish the material-conditioned corrosion pilot before geometry work
+
+User authorizes a documented example with setup/evolution figures, commit and
+push, then smooth irregular ceramic-particle geometry previews. Preserve the
+successful nonlocal Adam10000 result, existing defaults and all optimizer/AD
+controls. Curate four held-out material trajectories with the common local FV
+reference, plus a known-input-only SVG matching the existing repository style.
+Keep direct provenance and strict small-asset budgets; no weights/raw fields
+enter Git. Explicitly record that10k is not established as fully converged;
+future budget/LR/hyperparameter optimization is TODO, not an experiment now.
+Publish source/tests and linked lightweight task records on dev, merge normally
+into main and push only main. Start new geometry code only after publication.
+Relation: heterogeneous-publication-and-particle-preview.
