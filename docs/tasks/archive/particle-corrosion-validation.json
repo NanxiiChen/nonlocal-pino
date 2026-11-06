@@ -1,0 +1,359 @@
+{
+  "date": "2026-11-06",
+  "status": "complete",
+  "target": "1% not achieved; permitted 3% overall fallback met by nonlocal",
+  "geometry": "eight smooth inert particles; at least four within 0.12 of initial pit",
+  "source": "examples/particle_corrosion2d",
+  "default": "examples/particle_corrosion2d/configs/train_default.py",
+  "training": {
+    "physics_only": true,
+    "future_reference_targets": false,
+    "geometry_bank": 64,
+    "width": 192,
+    "updates": 20000,
+    "optimizer": "adam",
+    "precision": "float32",
+    "gpu": "RTX 5090 32GB"
+  },
+  "pairing": {
+    "runs": [
+      "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-eight-nonlocal-w192-cold20000-01",
+      "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-eight-local-ad-w192-cold20000-01"
+    ],
+    "methods": [
+      "nonlocal",
+      "local_ad"
+    ],
+    "seed": 1607243318,
+    "inputs": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-input-bank64-01",
+    "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reference4-01",
+    "identical_initial_model": true,
+    "identical_initial_optimizer": true,
+    "identical_sampling_arrays": true,
+    "identical_common_sources": [
+      "examples/particle_corrosion2d/network.py",
+      "examples/particle_corrosion2d/losses.py",
+      "examples/particle_corrosion2d/local_ad.py",
+      "examples/particle_corrosion2d/problem.py",
+      "examples/particle_corrosion2d/inputs.py",
+      "src/nonlocal_pinn/nn/point_conditional.py",
+      "src/nonlocal_pinn/nn/conditional.py",
+      "src/nonlocal_pinn/training/optimizers.py"
+    ],
+    "permitted_config_differences": [
+      "nl.method",
+      "loss.gradnorm_bias[5:]"
+    ],
+    "limitation": "Local AD adds two Neumann terms and balances seven losses; nonlocal balances five."
+  },
+  "costs": {
+    "nonlocal": {
+      "first_update_compile_and_refresh_seconds": 205.53351972997189,
+      "warm_all": {
+        "count": 19999,
+        "mean_seconds": 0.021378561877087896,
+        "median_seconds": 0.019740566611289978
+      },
+      "warm_held": {
+        "count": 19200,
+        "mean_seconds": 0.020147912957860777,
+        "median_seconds": 0.019690541550517082
+      },
+      "warm_refresh": {
+        "count": 799,
+        "mean_seconds": 0.05095110161320886,
+        "median_seconds": 0.05072992295026779
+      },
+      "update_total_seconds": 633.0833787098527,
+      "sample_total_seconds": 22.662308160215616,
+      "evaluation_total_seconds": 67.76162810623646,
+      "setup_seconds": 10.072616398334503,
+      "total_seconds": 747.923561193049,
+      "peak_bytes_in_use": 4479325184,
+      "peak_gib": 4.171696662902832,
+      "peak_pool_bytes": 25251741696,
+      "timing_scope": "All updates synchronized; first includes compilation. Total includes setup, evaluation and I/O.",
+      "memory_scope": "Cumulative JAX active peak of the whole process, including evaluation; allocator pool reported separately."
+    },
+    "local_ad": {
+      "first_update_compile_and_refresh_seconds": 493.42150478437543,
+      "warm_all": {
+        "count": 19999,
+        "mean_seconds": 0.031629615584440995,
+        "median_seconds": 0.028605476021766663
+      },
+      "warm_held": {
+        "count": 19200,
+        "mean_seconds": 0.02916493888653349,
+        "median_seconds": 0.02852408029139042
+      },
+      "warm_refresh": {
+        "count": 799,
+        "mean_seconds": 0.09085588917621086,
+        "median_seconds": 0.09028550237417221
+      },
+      "update_total_seconds": 1125.982186857611,
+      "sample_total_seconds": 21.732071697711945,
+      "evaluation_total_seconds": 66.07626729086041,
+      "setup_seconds": 10.295068066567183,
+      "total_seconds": 1236.6816138848662,
+      "peak_bytes_in_use": 3887262208,
+      "peak_gib": 3.6202950477600098,
+      "peak_pool_bytes": 25251741696,
+      "timing_scope": "All updates synchronized; first includes compilation. Total includes setup, evaluation and I/O.",
+      "memory_scope": "Cumulative JAX active peak of the whole process, including evaluation; allocator pool reported separately."
+    }
+  },
+  "reserved": {
+    "nonlocal": {
+      "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-eight-nonlocal-w192-cold20000-01",
+      "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reserved8-01",
+      "checkpoint": "model_final.eqx",
+      "metrics": {
+        "phi_pooled": 0.019587079219515607,
+        "phi_terminal": 0.034235597617353036,
+        "c_pooled": 0.02351002895521876,
+        "c_terminal": 0.0408979480802989,
+        "corroded_pooled": 0.058353279953593296,
+        "corroded_terminal": 0.07525754623803042,
+        "phase_change": 0.08647654125305061,
+        "terminal_iou": 0.9611708388658301,
+        "terminal_interface_area_error": 0.03717038258077676,
+        "conditions": [
+          {
+            "phi_pooled": 0.020352404340019933,
+            "phi_terminal": 0.04086752477664826,
+            "c_pooled": 0.02461171205454225,
+            "c_terminal": 0.04916736660541861,
+            "corroded_pooled": 0.05936043317026179,
+            "corroded_terminal": 0.0858826811303287,
+            "phase_change": 0.08735658878089261,
+            "terminal_iou": 0.9547993078653654,
+            "terminal_interface_area_error": 0.045200692134634575
+          },
+          {
+            "phi_pooled": 0.01816305729569359,
+            "phi_terminal": 0.02895626274038923,
+            "c_pooled": 0.02193820764686137,
+            "c_terminal": 0.034459116848003124,
+            "corroded_pooled": 0.05294619709283745,
+            "corroded_terminal": 0.062447733217855725,
+            "phase_change": 0.07827182520849638,
+            "terminal_iou": 0.9685409252054765,
+            "terminal_interface_area_error": 0.024920262244030187
+          },
+          {
+            "phi_pooled": 0.021753046416892997,
+            "phi_terminal": 0.035106491199379065,
+            "c_pooled": 0.026290695150314614,
+            "c_terminal": 0.041861987820951914,
+            "corroded_pooled": 0.06487864486274833,
+            "corroded_terminal": 0.07944362433968928,
+            "phase_change": 0.09612856250295054,
+            "terminal_iou": 0.9608490252713983,
+            "terminal_interface_area_error": 0.03910855004808999
+          },
+          {
+            "phi_pooled": 0.018396112365031105,
+            "phi_terminal": 0.02837318242672108,
+            "c_pooled": 0.021963052513861055,
+            "c_terminal": 0.03396252124952777,
+            "corroded_pooled": 0.05542823852864899,
+            "corroded_terminal": 0.06420252458477241,
+            "phase_change": 0.0824032533126807,
+            "terminal_iou": 0.9630948980084515,
+            "terminal_interface_area_error": 0.03690510199154845
+          },
+          {
+            "phi_pooled": 0.023046880941811364,
+            "phi_terminal": 0.03411944596311609,
+            "c_pooled": 0.027945308762831477,
+            "c_terminal": 0.04115295067833678,
+            "corroded_pooled": 0.06922181245454566,
+            "corroded_terminal": 0.07556326297403826,
+            "phase_change": 0.10292558264757537,
+            "terminal_iou": 0.9585074289874129,
+            "terminal_interface_area_error": 0.041424699444329326
+          },
+          {
+            "phi_pooled": 0.01893557398226219,
+            "phi_terminal": 0.0381378708746542,
+            "c_pooled": 0.022292525953527445,
+            "c_terminal": 0.044927030573716636,
+            "corroded_pooled": 0.05722169307180258,
+            "corroded_terminal": 0.08514229001988632,
+            "phase_change": 0.08490702311038759,
+            "terminal_iou": 0.9540715822327103,
+            "terminal_interface_area_error": 0.04281287425210798
+          },
+          {
+            "phi_pooled": 0.016436152367295405,
+            "phi_terminal": 0.03341224214000247,
+            "c_pooled": 0.019500392933271132,
+            "c_terminal": 0.03987962692261524,
+            "corroded_pooled": 0.048607869634489084,
+            "corroded_terminal": 0.07210445475019968,
+            "phase_change": 0.07144827843255455,
+            "terminal_iou": 0.9671529232762677,
+            "terminal_interface_area_error": 0.032847076723732306
+          },
+          {
+            "phi_pooled": 0.019613406047118268,
+            "phi_terminal": 0.034911760817913945,
+            "c_pooled": 0.02353833662654071,
+            "c_terminal": 0.041772983943821146,
+            "corroded_pooled": 0.059161350813412436,
+            "corroded_terminal": 0.07727379888747304,
+            "phase_change": 0.0883712160288671,
+            "terminal_iou": 0.9623506200795583,
+            "terminal_interface_area_error": 0.034143803807741284
+          }
+        ]
+      }
+    },
+    "local_ad": {
+      "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-eight-local-ad-w192-cold20000-01",
+      "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reserved8-01",
+      "checkpoint": "model_final.eqx",
+      "metrics": {
+        "phi_pooled": 0.9726645600602494,
+        "phi_terminal": 1.0,
+        "c_pooled": 0.970734773423167,
+        "c_terminal": 0.9999980329549484,
+        "corroded_pooled": 2.896891234863451,
+        "corroded_terminal": 2.20030216574869,
+        "phase_change": 4.292210856867197,
+        "terminal_iou": 0.17794277934957303,
+        "terminal_interface_area_error": 4.6285749286850475,
+        "conditions": [
+          {
+            "phi_pooled": 0.9725325864667189,
+            "phi_terminal": 1.0,
+            "c_pooled": 0.9705979441424969,
+            "c_terminal": 0.999998033123241,
+            "corroded_pooled": 2.8365177189926496,
+            "corroded_terminal": 2.1014896541064902,
+            "phase_change": 4.174304313762854,
+            "terminal_iou": 0.19208528524827734,
+            "terminal_interface_area_error": 4.206020850100324
+          },
+          {
+            "phi_pooled": 0.9725821247179357,
+            "phi_terminal": 1.0,
+            "c_pooled": 0.9706457796255822,
+            "c_terminal": 0.9999980330489833,
+            "corroded_pooled": 2.8351242853254575,
+            "corroded_terminal": 2.156622690483357,
+            "phase_change": 4.19124252197781,
+            "terminal_iou": 0.18226338551003982,
+            "terminal_interface_area_error": 4.486565484349109
+          },
+          {
+            "phi_pooled": 0.9727383888619752,
+            "phi_terminal": 1.0,
+            "c_pooled": 0.9707912500574674,
+            "c_terminal": 0.9999980349474954,
+            "corroded_pooled": 2.901200472734567,
+            "corroded_terminal": 2.2629326176872024,
+            "phase_change": 4.29861368475366,
+            "terminal_iou": 0.16891562136396762,
+            "terminal_interface_area_error": 4.920115569685942
+          },
+          {
+            "phi_pooled": 0.9727233946699042,
+            "phi_terminal": 1.0,
+            "c_pooled": 0.9708021786401644,
+            "c_terminal": 0.9999980312249714,
+            "corroded_pooled": 2.9308553461779967,
+            "corroded_terminal": 2.2627889944054465,
+            "phase_change": 4.357201712168345,
+            "terminal_iou": 0.16989722037677837,
+            "terminal_interface_area_error": 4.885911480966644
+          },
+          {
+            "phi_pooled": 0.9727121502417553,
+            "phi_terminal": 0.9999999999999999,
+            "c_pooled": 0.9707817146951165,
+            "c_terminal": 0.9999980334757183,
+            "corroded_pooled": 2.9215622799191907,
+            "corroded_terminal": 2.2146685290457953,
+            "phase_change": 4.344057014256433,
+            "terminal_iou": 0.1763885311279416,
+            "terminal_interface_area_error": 4.669302837352052
+          },
+          {
+            "phi_pooled": 0.972712774579325,
+            "phi_terminal": 1.0,
+            "c_pooled": 0.9707917585653837,
+            "c_terminal": 0.9999980320677456,
+            "corroded_pooled": 2.9394552219491037,
+            "corroded_terminal": 2.2324867170309286,
+            "phase_change": 4.361639425788832,
+            "terminal_iou": 0.17459020222092483,
+            "terminal_interface_area_error": 4.727698274469086
+          },
+          {
+            "phi_pooled": 0.9726027362679982,
+            "phi_terminal": 1.0,
+            "c_pooled": 0.9706699616260397,
+            "c_terminal": 0.9999980335784913,
+            "corroded_pooled": 2.8763512327157947,
+            "corroded_terminal": 2.158025031163457,
+            "phase_change": 4.2279232725666915,
+            "terminal_iou": 0.18283490663430865,
+            "terminal_interface_area_error": 4.469415104633809
+          },
+          {
+            "phi_pooled": 0.972712324676383,
+            "phi_terminal": 1.0,
+            "c_pooled": 0.9707976000330856,
+            "c_terminal": 0.9999980321729407,
+            "corroded_pooled": 2.9340633210928484,
+            "corroded_terminal": 2.2134030920668435,
+            "phase_change": 4.382704909662947,
+            "terminal_iou": 0.1765670823143461,
+            "terminal_interface_area_error": 4.663569827923412
+          }
+        ]
+      }
+    }
+  },
+  "validation": {
+    "focused_tests_passed": 22,
+    "syntax_modules_checked": 30,
+    "default_matches_selected_saved_config": true,
+    "cohorts_disjoint": [
+      64,
+      4,
+      8
+    ],
+    "encoder_reconstruction_geometries": 76,
+    "all_draws_independently_replayed": 20000,
+    "saved_field_metrics_recomputed": true,
+    "old_five_images_and_figure_records_unchanged": true
+  },
+  "full_domain_audit": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-eight-w192-fullgrid-audit-01/audit.json",
+  "limitations": [
+    "Single paired initialization, small finite reserved cohort",
+    "Terminal and corroded-phase errors exceed full-field pooled error",
+    "Finite-horizon wall closure differs from pointwise local Neumann",
+    "Local AD optimization collapsed; does not establish intrinsic AD inaccuracy",
+    "Fixed 64 x 8 geometry/core pool; full-domain residual tails remain",
+    "Brief 13-second CPU audit overlap in AD total time; GPU jobs serial"
+  ],
+  "figure": {
+    "path": "assets/pino/particle_corrosion2d.png",
+    "bytes": 229742,
+    "geometries": "first four reserved",
+    "times": [
+      0,
+      0.2,
+      0.5,
+      0.8,
+      1
+    ]
+  },
+  "pending_jobs": false,
+  "git_operation": false,
+  "deletions": false
+}
