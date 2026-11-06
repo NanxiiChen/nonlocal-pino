@@ -24,9 +24,9 @@ DATA = Path('/root/autodl-tmp/data')
 LOGS = Path('/root/autodl-tmp/tf-logs')
 DPI = 150
 CASES = ('icemelting3d', 'electropolish2d', 'confined_ch2d', 'channel_nsch2d',
-         'heterogeneous_corrosion2d')
+         'heterogeneous_corrosion2d', 'particle_corrosion2d')
 MAX_IMAGE_BYTES = 1024 * 1024
-MAX_TOTAL_BYTES = 2 * 1024 * 1024
+MAX_TOTAL_BYTES = 5 * 1024 * 1024 // 2
 
 
 def read_json(path):
@@ -365,6 +365,135 @@ def heterogeneous_corrosion():
         palette_colors=256)
 
 
+def particle_corrosion():
+    from examples.particle_corrosion2d.configs.train_default import get_config
+
+    case = 'particle_corrosion2d'
+    run = LOGS/case/'20261106-online-geometry-spatial-w192-cold20000-02'
+    evaluation = LOGS/case/'20261106-online-w192-reused8-final-02'
+    references = DATA/case/'20261106-eight-local-reserved8-01'
+    report_path = evaluation/'metrics.json'
+    report = read_json(report_path)
+    reference_manifest = read_json(references/'manifest.json')
+    frozen_path = Path(reference_manifest['preview'])
+    frozen = read_json(frozen_path)
+    config, summary = read_json(run/'config.json'), read_json(run/'summary.json')
+    runtime, audit = read_json(run/'runtime.json'), read_json(run/'online_validation.json')
+    default_config = json.loads(json.dumps(get_config().to_dict()))
+    if config != default_config:
+        raise ValueError('Particle gallery run no longer matches the current default configuration')
+    if (report['run'] != str(run) or report['reference'] != str(references)
+            or report['checkpoint'] != 'model_final.eqx' or report['training_performed']
+            or summary['steps'] != 20000 or summary['training_uses_reference_targets']
+            or not runtime['rolling_inputs'] or not runtime['cold_initialization']
+            or runtime['training_uses_reference_targets']
+            or str(references) not in runtime['excluded_reference_paths']
+            or not (run/'model_final.eqx').is_file()):
+        raise ValueError('Particle gallery requires the default rolling nonlocal20k final evaluation')
+    if (audit['status'] != 'passed' or audit['run'] != str(run)
+            or audit['updates'] != summary['steps'] or audit['evaluation_overlap'] != 0
+            or audit['future_training_fields'] != 0
+            or audit['exact_final_slots_reconstructed'] != summary['geometry_count']):
+        raise ValueError('Particle gallery requires the passed rolling-input replay audit')
+    if (reference_manifest['backend'] != 'local_p1_lumped_fem'
+            or not frozen['never_use_for_training'] or len(frozen['samples']) != 8
+            or len(reference_manifest['cases']) != 8 or len(report['metrics']['conditions']) != 8):
+        raise ValueError('Expected the predeclared eight-geometry reserved local-FEM cohort')
+    for field in ('geometry', 'particles', 'physical'):
+        if config[field] != reference_manifest['config'][field] or config[field] != frozen['config'][field]:
+            raise ValueError(f'Particle reference/conditioning mismatch in {field}')
+    for saved, declared in zip(reference_manifest['cases'], frozen['samples'], strict=True):
+        if saved['geometry'] != declared['geometry']:
+            raise ValueError('Reference geometry order differs from the frozen reserved inputs')
+    samples, times = (0, 1, 2, 3), (0, .2, .5, .8, 1)
+    fig, axes = plt.subplots(4, 5, figsize=(12.5, 7.4))
+    fig.subplots_adjust(left=.075, right=.985, bottom=.12, top=.85, wspace=.12, hspace=.28)
+    records, validated_records = [], []
+    for sample in range(len(reference_manifest['cases'])):
+        source = evaluation/f'prediction_{sample:03d}.npz'
+        reference = references/reference_manifest['cases'][sample]['file']
+        a, ref = read_arrays(source), read_arrays(reference)
+        for key in ('points', 'times'):
+            np.testing.assert_array_equal(a[key], ref[key])
+        if (a['prediction'].shape != ref['fields'].shape
+                or a['prediction'].shape != (len(ref['times']), len(ref['points']), 2)
+                or not np.isfinite(a['prediction']).all()
+                or not np.isfinite(ref['fields']).all() or np.any(ref['volumes'] <= 0)):
+            raise ValueError('Invalid particle prediction/reference fields or physical measures')
+        saved_times = ref['times']
+        if len(saved_times) != 11 or np.any(np.diff(saved_times) <= 0):
+            raise ValueError('Expected eleven ordered physical-time snapshots')
+        ids = time_indices(saved_times, times)
+        time_weights = np.empty(len(saved_times))
+        time_weights[0] = (saved_times[1]-saved_times[0])/2
+        time_weights[-1] = (saved_times[-1]-saved_times[-2])/2
+        time_weights[1:-1] = (saved_times[2:]-saved_times[:-2])/2
+        predicted, target = a['prediction'][..., 0], ref['fields'][..., 0]
+        error = relative_l2(predicted, target, weights=time_weights[:, None]*ref['volumes'])
+        terminal = relative_l2(predicted[-1], target[-1], weights=ref['volumes'])
+        logged = report['metrics']['conditions'][sample]
+        np.testing.assert_allclose(error, logged['phi_pooled'], rtol=0, atol=2e-10)
+        np.testing.assert_allclose(terminal, logged['phi_terminal'], rtol=0, atol=2e-10)
+        validated_records.append(dict(index=sample, source=str(source), reference=str(reference),
+                                      pooled_phi=error, terminal_phi=terminal))
+        if sample not in samples:
+            continue
+        row = samples.index(sample)
+        records.append(validated_records[-1])
+        xy = ref['points']
+        tri = Triangulation(xy[:, 0], xy[:, 1], ref['triangles'])
+        for col, index in enumerate(ids):
+            ax = axes[row, col]
+            image = ax.tripcolor(tri, predicted[index], shading='gouraud',
+                                cmap='viridis', vmin=0, vmax=1)
+            ax.tricontour(tri, target[index], levels=[.5], colors='black',
+                          linewidths=.85, linestyles='--')
+            # Missing FEM triangles are the actual inert inclusions; no new
+            # Delaunay triangulation or interpolation through a particle.
+            ax.set_facecolor('#a8b2b8')
+            ax.set(xlim=(0, config['geometry']['length']),
+                   ylim=(config['geometry']['height'], 0), aspect='equal')
+            ax.set_xticks([0, .5, 1]); ax.set_yticks([0, .3, .6])
+            ax.tick_params(labelsize=7, length=2, pad=2)
+            if col == 0:
+                ax.set_ylabel(f'Geometry {sample}\nL2 = {100*error:.2f}%', fontsize=9)
+            else:
+                ax.set_yticklabels([])
+            if row != len(samples)-1:
+                ax.set_xticklabels([])
+            if row == 0:
+                ax.set_title(f'$t^*={times[col]:g}$', fontsize=10)
+    colorbar = fig.add_axes((.33, .07, .44, .013))
+    fig.colorbar(image, cax=colorbar, orientation='horizontal', ticks=[0, .5, 1])
+    colorbar.set_xlabel('PINO phase $\\phi$: 0 = electrolyte, 1 = metal', fontsize=9)
+    colorbar.tick_params(labelsize=8)
+    fig.suptitle('Particle corrosion: rolling geometry and core/halo sampling', fontsize=13, y=.975)
+    fig.text(.5, .929, 'Default nonlocal PINO / Adam / 20,000 steps  |  four previously inspected comparison geometries',
+             ha='center', fontsize=9)
+    fig.text(.5, .895, 'Gray: impermeable ceramic  |  dashed black: local-FEM reference $\\phi=0.5$',
+             ha='center', fontsize=9)
+    cohort_mean = float(np.mean([r['pooled_phi'] for r in validated_records]))
+    np.testing.assert_allclose(cohort_mean, report['metrics']['phi_pooled'], rtol=0, atol=2e-10)
+    result = save(fig, case, dict(run=str(run), checkpoint=str(run/'model_final.eqx'),
+        evaluation=str(evaluation), source_files=[str(report_path), str(run/'config.json'),
+            str(run/'runtime.json'), str(run/'summary.json'), str(run/'online_validation.json'),
+            str(REPO/'examples/particle_corrosion2d/configs/train_default.py'),
+            str(references/'manifest.json'), str(frozen_path)],
+        samples=list(samples), nondimensional_times=list(times), records=records,
+        evaluation_cohort_size=8, evaluation_cohort_mean_pooled_phi=cohort_mean,
+        selected_mean_pooled_phi=float(np.mean([r['pooled_phi'] for r in records])),
+        validated_cohort_records=validated_records, default_configuration_exact=True,
+        rolling_input_audit=str(run/'online_validation.json'),
+        selection='First four of the same eight previously inspected comparison geometries in frozen input order; no error-based sample selection and no new blind test. Current default rolling core/halo model at its fixed20000-update endpoint.',
+        reference='Independent local P1 mass-lumped FEM/BDF, h0.01,256boundary points per particle; rtol2e-8,atol2e-10,max_step0.0125',
+        metric='Physical nodal-volume and trapezoidal physical-time relative L2 over all eleven saved times; cohort aggregates are arithmetic means over geometries',
+        display='Original conforming FEM triangles; Gouraud display interpolation only; actual saved times; gray holes from excluded triangles; no phase clipping, field smoothing or temporal interpolation; 256-color PNG encoding'),
+        palette_colors=256)
+    if result['bytes'] > 250*1024:
+        raise ValueError('Particle README image exceeds its250KiB compact-asset target')
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--case', required=True, choices=('all', *CASES))
@@ -374,7 +503,7 @@ def main():
     report = read_json(manifest) if manifest.exists() else dict(schema=1, figures={})
     if report['schema'] != 1: raise ValueError('Unsupported README figure schema')
     renderers = dict(zip(CASES, (melting, electropolish, spinodal, channel,
-                               heterogeneous_corrosion), strict=True))
+                               heterogeneous_corrosion, particle_corrosion), strict=True))
     selected = CASES if args.case == 'all' else (args.case,)
     for case in selected:
         report['figures'][case] = renderers[case]()
@@ -382,7 +511,7 @@ def main():
                   command='.venv/bin/python scripts/render_pino_readme_figures.py --case all',
                   source_loading='Direct paths, no hashes', inference_runs=0, reference_solves=0,
                   training_updates=0, total_image_bytes=sum(r['bytes'] for r in report['figures'].values()))
-    if report['total_image_bytes'] > MAX_TOTAL_BYTES: raise ValueError('README images exceed 2 MiB budget')
+    if report['total_image_bytes'] > MAX_TOTAL_BYTES: raise ValueError('README images exceed 2.5 MiB budget')
     manifest.write_text(json.dumps(report, indent=2, allow_nan=False)+'\n')
     print(json.dumps(dict(images={k:v['bytes'] for k,v in report['figures'].items()},
                           total_bytes=report['total_image_bytes']), indent=2))

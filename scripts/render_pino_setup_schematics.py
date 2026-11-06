@@ -19,6 +19,7 @@ from examples.icemelting3d.ellipsoids import rotation, validate_parameters
 from examples.confined_ch2d.operator_problem import fixed_initial, valid_holes
 from examples.channel_nsch2d.geometry import profiles, validate_parameters as validate_walls
 from examples.heterogeneous_corrosion2d.problem import material_field
+from examples.particle_corrosion2d.geometry import boundary as particle_boundary, validate_geometry
 
 NS = 'http://www.w3.org/2000/svg'
 ET.register_namespace('', NS)
@@ -223,7 +224,52 @@ def heterogeneous(case, group, bx, by, index):
     line(group, [[px-3, py+4], [px, py+8], [px+3, py+4]], lambda p: p, BLUE, 1.6)
 
 
+def particles(case, group, bx, by, index):
+    """Actual accepted ceramic geometry; the common pit is initial data only."""
+    c = ConfigDict({name: case[name] for name in ('geometry', 'particles', 'validation')})
+    record = case['records'][index]
+    validate_geometry(record, c)
+    g = c.geometry
+    if ((g.length, g.height, g.pit_x, g.pit_radius, g.mouth_half_width) !=
+            (1., .6, .5, .12, .055) or c.particles.count != 8 or
+            case['fixed']['kappa'] != 2 or case['fixed']['t_max'] != 1):
+        raise ValueError('Particle setup labels require the documented eight-particle problem')
+    point = lambda q: (bx+PANEL*q[0]/g.length, by+PANEL*q[1]/g.length)
+    node(group, 'rect', x=bx, y=by, width=PANEL, height=PANEL*g.height/g.length,
+         fill='#f9eee0')
+    theta = np.linspace(0, np.pi, 49)
+    pit = np.column_stack((g.pit_x+g.pit_radius*np.cos(theta), g.pit_radius*np.sin(theta)))
+    node(group, 'path', d=path_data(pit, point, True), fill='#c8e7f7')
+    line(group, pit, point, BLUE, 1.7)
+    # These filled solid inclusions remain distinct from the blue electrolyte.
+    # Sampling controls display resolution only; validation above is finer.
+    theta = np.arange(64)*(2*np.pi/64)
+    for particle in record['particles']:
+        contour = particle_boundary(particle, theta)[0]
+        node(group, 'path', d=path_data(contour, point, True), fill='#d6dce2',
+             stroke=ORANGE, stroke_width=1.7, stroke_linejoin='round')
+    line(group, [[0, 0], [0, g.height], [g.length, g.height], [g.length, 0]],
+         point, GRAY, 1.3)
+    for segment in ([[0, 0], [g.pit_x-g.mouth_half_width, 0]],
+                    [[g.pit_x+g.mouth_half_width, 0], [g.length, 0]]):
+        line(group, segment, point, INK, 2.5)
+    line(group, [[g.pit_x-g.mouth_half_width, 0], [g.pit_x+g.mouth_half_width, 0]],
+         point, BLUE, 4)
+    px, py = point([g.pit_x, 0])
+    line(group, [[px, py-13], [px, py+6]], lambda p: p, BLUE, 1.5)
+    line(group, [[px-3, py+2], [px, py+6], [px+3, py+2]], lambda p: p, BLUE, 1.5)
+
+
 SPECS = {
+    'particle_corrosion2d': dict(title='Particle corrosion 2D | random ceramic geometry',
+        varying='Positions, sizes, orientations and smooth shapes of eight ceramic particles',
+        fixed='Rectangle 1 x 0.6, initial pit and opening; uniform matrix kappa = 2; time 0-1',
+        body=177.6,
+        footer=['BC: Blue opening has phi = c = 0; all other outer and ceramic walls: dn(phi) = dn(q) = 0.',
+                'Here q = c - (c_se - c_le) h(phi) - c_le; neutral wetting and no solute flux through walls.',
+                'Physics: Matrix dissolution, Allen-Cahn + KKS concentration transport -> phi(x,y,t), c(x,y,t).',
+                'Condition: Domain/initial-field points + boundary points -> point tokens -> coordinate/time queries.',
+                'Setup only. Ceramic is fixed impermeable solid, not electrolyte; no future interfaces are shown.']),
     'heterogeneous_corrosion2d': dict(title='Heterogeneous corrosion 2D | random material field',
         varying='Spatial reaction kinetics kappa(x,y), continuously sampled between 0.5 and 4',
         fixed='Rectangle 1 x 0.6, initial pit, opening and transport; dimensionless time 0-1',
@@ -280,7 +326,7 @@ def render(case, record, output):
     text(group, 28, 88, 'Fixed: '+spec['fixed'], 16)
     draw = {'icemelting3d': ellipse_projection, 'electropolish2d': electro,
             'confined_ch2d': spinodal, 'channel_nsch2d': channel,
-            'heterogeneous_corrosion2d': heterogeneous}[case]
+            'heterogeneous_corrosion2d': heterogeneous, 'particle_corrosion2d': particles}[case]
     if case == 'confined_ch2d':
         spinodal_texture(record, group)
     for index in range(3):
@@ -288,7 +334,14 @@ def render(case, record, output):
         text(group, bx, 128, 'Sample '+chr(65+index), 17)
         draw(record, group, bx, 148, index)
     y = 148+spec['body']+28
-    if case == 'heterogeneous_corrosion2d':
+    if case == 'particle_corrosion2d':
+        for x, fill, label in ((28, '#f9eee0', 'Corrodible matrix'),
+                               (310, '#c8e7f7', 'Same initial electrolyte pit'),
+                               (680, '#d6dce2', 'Random solid ceramic')):
+            node(group, 'rect', x=x, y=y-12, width=16, height=11, fill=fill,
+                 stroke=ORANGE if x == 680 else GRAY, stroke_width=1)
+            text(group, x+24, y, label, 15.5)
+    elif case == 'heterogeneous_corrosion2d':
         for i in range(6):
             node(group, 'rect', x=28+24*i, y=y-12, width=24, height=12,
                  fill=matplotlib.colors.to_hex(plt.get_cmap('YlGnBu_r')((i+.5)/6)))
@@ -316,17 +369,22 @@ def render(case, record, output):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--manifest', type=Path, default=ROOT/'artifacts/pino_setup_schematics.json')
+    parser.add_argument('--case', choices=tuple(SPECS), help='Render only this case; preserve other SVG files')
     args = parser.parse_args()
     manifest = json.loads(args.manifest.read_text())
     if manifest['schema'] != 1 or manifest['pde_solves'] != 0 or manifest['inference_runs'] != 0:
         raise ValueError('Known-input-only setup manifest required')
     results = []
     for case, record in manifest['cases'].items():
-        results.append(render(case, record, ROOT/record['output']))
-    if sum(r['bytes'] for r in results) >= 256*1024:
-        raise ValueError('Setup SVGs must total less than256KiB')
+        if args.case is None or case == args.case:
+            results.append(render(case, record, ROOT/record['output']))
+    if not results:
+        raise ValueError('Selected case is absent from the setup manifest')
+    total_bytes = sum((ROOT/record['output']).stat().st_size for record in manifest['cases'].values())
+    if total_bytes >= 320*1024:
+        raise ValueError('Setup SVGs must total less than 320 KiB')
     print(json.dumps(dict(status='rendered_known_input_setups', figures=results,
-                          total_bytes=sum(r['bytes'] for r in results), pde_solves=0, inference_runs=0), indent=2))
+                          total_bytes=total_bytes, pde_solves=0, inference_runs=0), indent=2))
 
 
 if __name__ == '__main__':

@@ -24,8 +24,8 @@ to measure model or discretisation error.
 
 Curated README figures live in the repository-level `assets/` directory,
 currently `assets/pino/<case>.png`; example READMEs use relative links there.
-Keep one selected evolution image per main operator, below1MiB each and2MiB
-total. Five additional setup SVGs live in `assets/pino-setups/`, below256KiB
+Keep one selected evolution image per documented operator, below1MiB each and
+2.5MiB total for the six current images. Six additional setup SVGs live in `assets/pino-setups/`, below320KiB
 combined, with compact prescribed parameters in
 `artifacts/pino_setup_schematics.json` and the CPU-only
 `scripts/render_pino_setup_schematics.py`. These show conditions/BCs, not solved
@@ -720,6 +720,57 @@ freezes intermediate fields nor dispatches the window engine. Do not conflate
 this weighting variant with all details/benchmarks of the cited causal-PINN paper.
 
 ## Artifact Paths
+
+Particle-corrosion `configs/train_online.py` adds an explicit
+`operator.online` record: workers, geometry_every/size, spatial_every/size,
+prefetch, halo, neighbors and worker_cache. A bounded spawn-process producer
+constructs known geometry, mesh, visible-pair operator, conditioning and spatial
+inputs only. Independent clocks refresh retained geometries' complete core/halo
+sets and IC points as well as replacing geometries. Geometry wins same-slot
+overlap at one tick; whole slot payloads install atomically before sampling.
+Runtime seed namespaces determine geometry IDs and spatial revisions; worker
+completion order never selects training inputs. Fixed padding fails on overflow.
+Worker caches include the contour and mesh/operator, avoiding repeat geometry
+rejection sampling when only cores change. Missing online record preserves the
+historical fixed bank arithmetic and presets.
+
+Inadmissible random particle candidates are normal rejection-sampling events:
+check both declared contour resolutions before acceptance and retry without
+changing clearances or the RNG stream. `sample_geometry(..., diagnostics=...)`
+optionally records rejection counters without drawing randomness. Only the
+dedicated `GeometrySamplingExhausted` budget signal is retried by the background
+producer, with a warning on every budget restart. Other construction errors
+propagate. Cached geometry diagnostics are reused, not counted as new draws.
+
+Canonical `train.py --sampling-control FIXED_RUN` permits only the online record
+to differ, reproducing the old cold model/optimizer and slot/pool/time draws.
+Safe rolling padding can differ from the old bank's measured padding; record
+that execution-shape difference when comparing accuracy or update speed.
+The documented candidate-admission/retry repair is the sole shared-source
+exception: all other geometry, physics, network and operator functions must
+match. Preserve the original fixed input arrays and disclose the source exception
+in the comparison receipt.
+`--exclude-reference DIR` adds geometry-only exclusions from another reference
+manifest; the primary reference geometries are always excluded. Save initial/
+final pools, per-step consumed geometry/revision IDs and FIFO event metadata.
+`online_validation` audits these identities and independently rebuilds every
+updated final slot. Intermediate model/pool-identity snapshots do not supply
+exact continuation; the trainer does not implement online resume.
+
+Particle optional `sample.full_grid={nodes,neighbors}` uses one full mesh graph
+per geometry instead of the sampled core pools. Keep every physical mesh node
+available as a neighbor; only mouth Dirichlet rows and padded rows have zero
+PDE measure. Other exterior and ceramic-wall rows retain physical lumped-volume
+weights. The original five losses and soft mouth treatment are unchanged.
+`prepare_initial_full_bank` explicitly rebuilds known mesh/operator arrays while
+copying the historical IC/BC/conditioning arrays exactly. Spatial refreshes keep
+the same IC draws; full graph rows do not change while the geometry is retained.
+`train.py --full-grid-control ROLLING_CORE_RUN` reproduces the cold arrays and all
+geometry/revision/time draws. Original pool-ID RNG draws remain recorded but
+unused for full PDE selection, avoiding a shifted time stream and eight duplicate
+graph copies. `full_grid_validation` independently checks complete row coverage,
+physical volumes and all native CSR coefficients in initial/final pools. This
+opt-in comparison does not change the rolling core/halo default.
 
 The `precipitate2d` periodic pilot learns phase/chemical fields and eliminates
 homogeneous-isotropic elastic equilibrium with a differentiable Fourier solve.

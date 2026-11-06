@@ -2,9 +2,11 @@
 
 ## Active task
 
-[Publish heterogeneous corrosion and preview particle geometries](tasks/heterogeneous-publication-and-particle-preview.md).
-Prepare compact README figures, commit dev and merge/push main, then begin
-smooth irregular ceramic geometry generation and show actual sampled inputs.
+[Publish particle corrosion README and figures](tasks/particle-corrosion-publication.md).
+User authorizes recording the comparisons, a setup schematic and multi-sample
+evolution figure, then commit/merge/push through dev→main. Preserve the current
+rolling core/halo default, external artifacts and other examples' images.
+No training or cleanup requested.
 
 ## Deferred work
 
@@ -15,6 +17,40 @@ solve. [Feasibility](tasks/archive/traction-conditioned-elastic-pino-analysis.md
 The channel20000/lower-LR study is complete and archived below.
 
 ## Latest completed validation
+
+[Whole-mesh versus rolling core/halo](tasks/archive/particle-corrosion-full-grid.md):
+samewidth192/B4/Nt8/Adam20k,coldstate,380geometry stream and IC/BC/time draws.
+Full-grid same8localFEM meanphi1.7451%pooled/2.8658%terminal versus1.9827%/3.1209%;
+c2.1093%/3.4481% versus2.3964%/3.7405%. All8phase pooled errors improve,7terminal.
+Held32.53vs22.56ms,total1065.80vs959.04s(+11.13%),activepeak7.18vs4.93GiB;
+producerwait25.54vs158.82s is already included. Full20kidentity/64final-input
+replay and independent128initial/final whole-mesh CSR/volume/mouth-padding audits
+pass.16newtests+26legacy regressions pass. Core/halo default and prior figures
+remain unchanged; full is a completed comparison, not automatic promotion.
+
+[Rolling particle-corrosion inputs](tasks/archive/particle-corrosion-online.md):
+default now uses a64slot background geometry/core-halo pool, same8particle
+physics/width192/Adam20k. Invalid candidates regenerate without aborting training;
+the exact formerly failing draw251 now installs successfully. Cold20krun02 and
+all audits complete:316newgeometries,1520spatialrefreshes,380sampledgeometries,
+all64final slots rebuilt exactly, no evaluation overlap/labels;33focused tests
+pass. Same8reused localFEM cases give phase1.9827%pooled/3.1209%terminal and
+concentration2.3964%/3.7405%. Fixed pooled errors remain slightly lower; terminal
+errors improve. Keep old fixed preset, lowest-pooled result and labeled figure.
+Held22.56ms,total959.04s,activepeak4.93GiB;164.31sonline overhead includes158.82s
+producer wait. Different padding and one paired initialization limit attribution.
+
+[Eight-particle geometry PINO](tasks/archive/particle-corrosion-pino.md),
+[compact receipt](tasks/archive/particle-corrosion-validation.json): eight smooth
+inert particles, four close to the same initial pit. Historical fixed nonlocal width192/
+Adam20000 gives reserved8 phase1.9587% pooled/3.4236% terminal and concentration
+2.3510%/4.0898% against independently refined localFEM. Allowed3%overall fallback
+met;1%unmet. Full-domain residual audit still finds wall/late-time tails. Matched
+localAD20k collapses (97.2665%phase); derivative/state/sampling audits pass, so
+this is failed optimization, not intrinsic AD inaccuracy. Held updates19.69/
+28.52ms, total747.92/1236.68s on5090.22focused tests pass, cohorts64/4/8disjoint,
+all76conditioning inputs/all20kdraws replayed, saved metrics reproduced. One
+compact4samplefigure; historical images unchanged. Working tree not committed.
 
 [Matched heterogeneous corrosion controls](tasks/archive/heterogeneous-corrosion-local-ad.md):
 four new cold10000 runs and55checkpoint evaluations against one local FV bank.
@@ -84,6 +120,14 @@ Preserve existing external data/run paths. Git history changes require explicit
 current-turn authorization; the documented workflow pushes main only.
 
 ## Recent completed tasks
+
+- [Whole-mesh particle-corrosion PINO versus rolling core/halo](tasks/archive/particle-corrosion-full-grid.md).
+
+- [Rolling particle geometries/core-halo pools and rejection recovery](tasks/archive/particle-corrosion-online.md).
+
+- [Stronger random ceramic-particle corrosion PINO and matched AD controls](tasks/archive/particle-corrosion-pino.md).
+
+- [Published heterogeneous corrosion and smooth particle inputs](tasks/archive/heterogeneous-publication-and-particle-preview.md).
 
 - [Current corrosion KKS relation versus legacy bounded constraint](tasks/archive/heterogeneous-kks-constraint.md).
 

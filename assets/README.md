@@ -1,6 +1,6 @@
 # README figures
 
-`pino/` contains five representative evolution figures used by the PINO
+`pino/` contains six representative evolution figures used by the PINO
 example READMEs:
 
 | Figure | Example |
@@ -10,20 +10,27 @@ example READMEs:
 | [confined_ch2d.png](pino/confined_ch2d.png) | Random holes, 2D spinodal decomposition |
 | [channel_nsch2d.png](pino/channel_nsch2d.png) | Random channel walls, coupled 2D NS–CH flow |
 | [heterogeneous_corrosion2d.png](pino/heterogeneous_corrosion2d.png) | Random material kinetics, activation-controlled corrosion |
+| [particle_corrosion2d.png](pino/particle_corrosion2d.png) | Eight random inert ceramic particles, geometry-conditioned corrosion |
 
 The channel figure uses the selected20000-step final model and all three
 predeclared reserved geometries, with the same five times and FEM contour
 overlays as the earlier10000-step figure. Its source fields and per-case L2
 values are recorded in the provenance manifest below.
 
-Keep only curated documentation images here: each PNG below 1 MiB and the five
-images below 2 MiB in total. Raw fields, checkpoints, full galleries and videos
+The particle figure uses the current rolling-geometry/core-halo default's
+20000-step final model on the first four of eight reused comparison geometries,
+with independent local FEM interface overlays at actual times0,.2,.5,.8,1.
+The remaining four, fixed-bank/full-grid controls and complete fields stay in
+external artifacts.
+
+Keep only curated documentation images here: each PNG below 1 MiB and the six
+images below 2.5 MiB in total. Raw fields, checkpoints, full galleries and videos
 remain external artifacts.
 
-`pino-setups/` contains five additional lightweight SVG setup schematics, one
-per example. Each shows three prescribed inputs, the fixed physics/boundaries,
-and the varying condition. They contain no predicted/evolved fields. The five
-SVGs total less than256KiB and use portable vector geometry/text:
+`pino-setups/` contains six additional lightweight SVG setup schematics for
+the six cases below. Each shows three prescribed inputs, the fixed physics/boundaries,
+and the varying condition. They contain no predicted/evolved fields. The six
+SVGs total less than320KiB and use portable vector geometry/text:
 
 | Setup | Varying input |
 |---|---|
@@ -32,6 +39,7 @@ SVGs total less than256KiB and use portable vector geometry/text:
 | [confined_ch2d.svg](pino-setups/confined_ch2d.svg) | Two hole positions/radii; same initial field |
 | [channel_nsch2d.svg](pino-setups/channel_nsch2d.svg) | Upper/lower walls; same initial droplet and driving |
 | [heterogeneous_corrosion2d.svg](pino-setups/heterogeneous_corrosion2d.svg) | Spatial reaction kinetics; same pit, domain and reservoir |
+| [particle_corrosion2d.svg](pino-setups/particle_corrosion2d.svg) | Smooth inert ceramic positions/shapes; same pit, matrix and reservoir |
 
 [Known-input parameters](../artifacts/pino_setup_schematics.json) preserve the
 accepted illustration samples. Regenerate without training, model inference,

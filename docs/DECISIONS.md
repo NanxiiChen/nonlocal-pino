@@ -9470,3 +9470,294 @@ future budget/LR/hyperparameter optimization is TODO, not an experiment now.
 Publish source/tests and linked lightweight task records on dev, merge normally
 into main and push only main. Start new geometry code only after publication.
 Relation: heterogeneous-publication-and-particle-preview.
+
+## 2026-11-06 — Start smooth random aggregate inputs after verified publication
+
+The material-conditioned corrosion publication is complete (main c12b8c3,
+remote verified). Begin a separate particle_corrosion2d geometry-only preview.
+Hold the outer rectangle, initial pit and proposed homogeneous matrix kinetics
+fixed; randomize six inert-particle positions, sizes, aspect ratios, rotations
+and low-mode smooth radial contours. Positive radial functions and invertible
+elliptic transforms avoid self-intersection; explicit curvature/clearance
+rejection avoids sharp tips and narrow passages. Actual geometric inputs and
+compact direct parameters are saved before any evolution. Reject presenting
+these as solved fields or inheriting the old grid/interface/horizon accuracy
+without qualification. No new training, reference solve or second publication
+is part of this preview stage. Relation: heterogeneous-publication-and-particle-preview.
+
+## 2026-11-06 — Extend particle inputs into a qualified corrosion operator
+
+The active user goal now requests complete physics-only geometry-conditioned
+corrosion training, aiming at1% relativeL2 with3--5% fallback after repeated
+attempts, plus matched localAD accuracy/timing. Retain the accepted six smooth
+inert-particle prior and homogeneous matrix kinetics. Start with kappa2 and the
+existing KKS equations/scales, not reference-derived forcing or closed-system
+mass projection. A conforming polygonal P1 FEM with lumped physical mass is the
+independent local reference; a symmetric visible-pair regional integral operator
+is the native nonlocal baseline. Use the same particle polygons in both and
+qualify mesh/horizon effects separately before interpreting neural errors.
+Geometry conditioning reuses general heterogeneous point attention, with
+separate domain/function and boundary/normal streams and coordinate-only queries.
+No specialized distance attention or evolved reference field enters training.
+Original residuals, soft IC/mouth conditions, timeJVP and Adam are the initial
+baseline; the previous material-case SOAP failures do not justify changing the
+physical problem. LocalAD adds explicit no-flux wall losses, so comparison is
+of complete methods. Fixed-shape core+halo payloads include physical quadrature
+and explicit overflow checks. Relation: particle-corrosion-pino.
+
+## 2026-11-06 — Qualify particle references before choosing the first horizon
+
+The first conforming P1 reference is time-converged to approximately1e-8 in
+relative phase; h.015/poly128 versus h.01/poly256 changes pooled/terminal phase
+.208/.388%. Use the finer local mesh as common evaluation target. On the same
+coarse physical nodes, native integral delta.035 versus refined local gives
+1.115/2.163% phase under physical-space/trapezoidal-time weighting; delta.026
+reduces this to.945/1.865%, with lower cost. Select delta.026 for the first
+training bank and preserve both direct controls. This is a one-geometry choice,
+not a universal optimal horizon or a proved hard accuracy floor; smaller horizon
+also increases irregular-grid first-moment quadrature noise. Replay the same
+64 known geometries/core draws when rebuilding the operator inputs. Reserve
+eight fresh geometries before training for a later independent cohort check.
+Relation: particle-corrosion-pino.
+
+## 2026-11-06 — Increase particle interactions at the user's request
+
+Before the first neural training, the user finds differences between the six
+particle reference geometries too mild and asks for somewhat more particles or
+closer placement. Change only the geometry prior to eight particles, with at
+least four wall contours within.12of the initial pit (previously six, at least
+two within.22). Keep particle size/shape/clearance and all PDE parameters fixed.
+Check feasibility and new direct evolutions before rebuilding the training bank.
+Existing six-particle banks/references/probes remain labeled mild controls and
+are not silently reused as eight-particle accuracy evidence. The original
+physics-only training/error target and matched localAD comparison remain active.
+Relation: particle-corrosion-pino.
+
+## 2026-11-06 — Condition placement explicitly instead of weakening clearance
+
+Two independent attempts at eight particles/four near the pit exhausted the
+old whole-geometry rejection budget. Preserve all requested geometric bounds
+and introduce explicit placement=near_first: the first four accepted particles
+must meet the near-pit criterion, then place the remaining particles with the
+same admissibility checks and shuffle identities. This changes the geometry
+sampling distribution, not the PDE; it is documented as the new conditioned
+prior, not an equivalent acceleration of the old rejection distribution.
+The explicit global_rejection mode retains the old sampling procedure when
+selected. Stored actual six-particle records remain usable without resampling.
+No silent fallback or relaxation of physical clearances is introduced.
+Relation: particle-corrosion-pino.
+
+## 2026-11-06 — Diagnose the first particle neural plateau before enlarging the bank
+
+The first eight-particle nonlocal width96/Adam10000 endpoint gives phase4.185%
+pooled/5.396%terminal on four unseen development geometries, with concentration
+5.023/6.451%. Four fixed training-geometry diagnostics give phase4.212/5.136%
+and concentration5.040/6.138%; these fields were generated only after training
+and never used as training targets. This small cohort shows no material
+train/generalization gap. Prefer a general capacity/optimization control over
+expanding the geometry bank alone: width192,96spatial frequencies,20000cold
+updates with LR halving every3000steps to1e-5. Preserve all physics, loss,
+sampling and point-conditioning structure. This changes capacity and budget
+together and is not an isolated causal attribution to width. The original
+matched width96 localAD run is already in progress; keep it for a complete
+paired baseline comparison. Reserve the additional eight geometries for final
+evaluation after the strategy is chosen. Relation: particle-corrosion-pino.
+
+## 2026-11-06 — Retain the wider result and qualify a discretization refinement
+
+Width192/Adam20000 completes at phase1.9584%pooled/3.5366%terminal and
+concentration2.3670%/4.2557% on the four development geometries. The matched
+width96 localAD10000 control stagnates at28.951%phase, while nonlocal gives4.185%.
+Report this as failed optimization under the declared BC/loss recipe, not
+inherent AD inaccuracy. Paired initial arrays/sampling/common sources are exact.
+
+Saved-field condition-response diagnostics show inaccurate small conditional
+variations, but most global error energy is mean-field bias. Actual learned
+attention is selective (boundary meanKL.216 versus physical-measure weighting),
+so reject a diagnosis of uniform-attention collapse. Do not redesign attention
+merely from its formula. Before accepting the3%fallback, qualify a third general
+control: h.015/delta.026→h.01/delta.020, retain width192/20000 and all physics,
+and enlarge each geometry's core pool8→32 to improve collocation coverage.
+No reference fields enter training. Run the new neural control only if its
+independent native discretization check improves. Relation: particle-corrosion-pino.
+
+## 2026-11-06 — Keep the qualified wide model after a non-improving refinement
+
+The h.01/delta.020 direct control does not lower pooled phase error (1.1520%
+versus1.1412% on the first geometry); terminalphase improves modestly2.137→2.017%.
+Metrics use their respective physical quadratures, so do not infer a definite
+deterioration from the small pooled difference. Do not launch a new64geometry
+bank/20000training merely to claim a refinement improvement. Preserve this
+negative/mixed numerical control and its explicit untrained research preset.
+
+Choose the fixed20000 width192 endpoint for final frozen-eight-geometry
+evaluation, after two cold neural budgets and independent horizon/resolution
+controls. The1%target has not been achieved; the user explicitly permits3--5%
+after repeated attempts. Keep the stronger8particle prior unchanged, and run a
+matched cold localAD width192/20000 control. Report local optimization failure
+separately from discretization and derivative correctness. No attention redesign,
+reference-based correction or after-the-fact checkpoint picking is introduced.
+Relation: particle-corrosion-pino.
+
+## 2026-11-06 — Qualify the selected particle model on the frozen cohort
+
+The predeclared eight reserved geometries give phase1.9587%pooled/3.4236%terminal,
+concentration2.3510%/4.0898%, corroded5.8353%/7.5258%, and terminalIoU96.117%.
+Every individual phase pooled error is1.6436--2.3047%; concentration is below2.80%.
+This agrees with the four development cases and meets the permitted3%overall
+fallback, not the original1%target or a3%terminal guarantee. Use the exact fixed
+20000endpoint; no checkpoint chosen using reserved fields. Promote only this
+nonlocal recipe through train_default.py, preserving all historical presets.
+
+Add one compact evolutionPNG showing the first four reserved geometries with
+actual localFEM contours. To accommodate a sixth example while preserving the
+five existing images byte-for-byte, raise their aggregate cap from2MiBto2.5MiB;
+per-file1MiB and existing five-SVG256KiB limits remain. No fields/checkpoints
+enterGit. The matched wide localAD run is still required before closing the task.
+Relation: particle-corrosion-pino.
+
+## 2026-11-06 — Close the stronger ceramic-particle PINO comparison
+
+Complete the8particle/four-near-pit problem without weakening the geometry prior.
+The selected nonlocal width192/Adam20000 model satisfies the allowed3%overall
+fallback on8predeclared geometries: phi1.9587%,c2.3510%; terminal3.4236/4.0898%.
+The1%target is not reached. Retain the same default and frozen endpoint.
+
+The matched localAD20000 control fails: phi97.2665%pooled/100%terminal on the
+same8references, with nearlyzero phase at all saved positive times. Direct
+cold-state/source/RNG/field audits pass. Report failed optimization under the
+7-loss recipe; reject an inference of intrinsic AD inaccuracy or a universal
+nonlocal speed/accuracy advantage. Held update medians19.69/28.52ms and total
+747.92/1236.68s compare complete methods with their different wall treatments.
+
+Full-domain residuals agree in scale with independent volume sampling, but
+wall/late-time tails persist. Preserve them, concentration range excursions,
+negative numerical controls and the need for additional seeds. Archive the
+completed task and publish only one compact figure plus direct artifact records
+in the working tree; no new Git operation or follow-on training is authorized.
+Relation: particle-corrosion-pino; particle-corrosion-validation.json.
+
+## 2026-11-06 — Clarify fixed sampling in the particle-corrosion result
+
+The user asks whether training geometries are rolling. Actual saved source,
+runtime and manifest confirm a fixed64geometry bank,8fixed core/halo pools each,
+random4geometry/4pool draws and8fresh uniform times per update. The complete
+random trace is generated before training; no new geometry or core set replaces
+the bank during updates. Describe the1.9587%result as finite-bank training.
+Do not infer that existing rolling support in other examples is enabled here,
+and do not start an unrequested rolling implementation from a confirmation
+question. Relation: particle-sampling-clarification.
+
+## 2026-11-06 — Add independent geometry and spatial rolling to particle corrosion
+
+The user explicitly requests rolling random geometries and core/halo samples.
+Use deterministic FIFO background CPU known-input production with a64slot pool,
+independent geometry and spatial refresh schedules, fixed padded payloads and
+complete visible halos. Retained geometries also receive fresh mass-proportional
+core sets and initial-condition points. Worker completion order cannot select
+training inputs; overlap events install one internally consistent slot payload.
+No PDE/reference trajectories are generated in the producer.
+
+Keep the8particle prior, width192, Adam20k and losses unchanged. Match the old
+cold arrays and slot/pool/time draws using an explicit sampling-control route.
+Safe rolling padding3072/64 differs from old2560/48; record that execution-shape
+change instead of claiming a derivative-only or perfectly isolated sampling
+ablation. Preserve fixed presets/fields. Reuse development4 and previous8cases
+for comparison, exclude all12from training, and disclose prior inspection.
+Relation: particle-corrosion-online.
+
+## 2026-11-06 — Treat inadmissible online geometries as normal rejection sampling
+
+The first rolling run stopped before update15751 because coarse candidate
+curvature passed while refined curvature failed the unchanged0.015limit.
+The user explicitly requires invalid geometries to be regenerated, not to stop
+training. Apply both existing resolutions during candidate admission and the
+existing refinement checks on complete layouts. Record rejection reasons and
+counts. Exhausting a bounded layout-search budget raises a dedicated sampling
+exception; the background producer continues with the same RNG stream and
+reports each retry. Unexpected numerical/programming exceptions still propagate.
+Do not weaken clearances, switch seeds, reuse old inputs silently, or catch all
+ValueErrors. Old fixed inputs remain byte-identical; source comparison explicitly
+allows only the documented sampler/retry instrumentation repair. Preserve the
+interrupted run and restart cold because its intermediate weights do not contain
+the optimizer state. Relation: particle-corrosion-online.
+
+## 2026-11-06 — Validate and select rolling particle inputs as the requested default
+
+Repaired cold20000 run02 completes with316new geometries and1520independent
+spatial refreshes; its original failing draw251 rejects one refined candidate
+and installs normally. All20kconsumed identities replay, all64final slots rebuild
+exactly, and development/reused evaluation geometries remain excluded. The
+same8localFEM comparisons give phase1.9827%pooled/3.1209%terminal and concentration
+2.3964%/3.7405%; fixed-bank values remain1.9587%/3.4236% and2.3510%/4.0898%.
+Select train_online through train_default to satisfy the user's continuously
+refreshed input strategy. Do not call this uniformly better accuracy: pooled
+errors are slightly higher, terminal errors lower, from one paired initialization
+and an already-inspected cohort. Preserve train_wide, old fixed-bank metrics,
+image and lowest-pooled-error record.
+
+Total training959.04s versus fixed747.92s; held update22.56ms versus19.69ms.
+Online overhead164.31s includes158.82sFIFO wait, so do not add them again.
+Padding3072/64 versus2560/48 and the declared sampler-admission repair limit
+strict sampling-only attribution. No extra training, new FEM trajectories,
+Git changes or artifact deletion are implied. Relation: particle-corrosion-online.
+
+## 2026-11-06 — Compare whole-mesh PDE quadrature with rolling core/halo sampling
+
+The user requests a full-grid experiment next. Hold rolling geometries,
+model/optimizer/losses, IC/BC input draws and time draws fixed; replace only the
+sampled PDE mean by all non-mouth mesh rows weighted by physical lumped volumes.
+All mesh nodes remain available as nonlocal neighbors. Geometry-specific mesh
+sizes use explicit zero-weight padding, never truncated neighborhoods. Store
+the complete graph once per geometry, not eight identical core-pool copies.
+Preserve core-pool RNG draws as unused provenance to avoid shifting time draws.
+Qualify full-shape memory/throughput before a matched cold20k run. Do not
+interpret this as changing the reference or enabling supervised training.
+Relation: particle-corrosion-full-grid.
+
+
+## 2026-11-06 — Record the full-grid comparison without changing the default
+
+Matched cold20kfull-grid training gives phase1.7451%pooled/2.8658%terminal on
+the same8reusedlocalFEM geometries, versus core/halo1.9827%/3.1209%. All8pooled
+and7terminal cases improve. The full discrete volume-weighted objective uses
+every non-mouth node and retains mouth predictions as neighbors; it does not
+change the physical model or soft boundary enforcement. Actual cold states,
+geometry/IC/time traces and initial/final conditioning arrays match, and all
+128initial/final full graphs pass independent CSR/volume/masking checks.
+
+Whole-run cost1065.80s versus959.04s rises11.13%, while held updates32.53ms
+versus22.56ms rise44.16%. Producer waiting falls25.54s versus158.82s, so total
+time alone is not a kernel-speed comparison. Full activepeak7.18GiB fits5090.
+Keep the existing rolling core/halo default because the user requested testing,
+not selection. Document full-grid's lower measured error alongside its higher
+per-update and memory cost; preserve historical selected records and qualify
+their scope rather than calling the older core result universally best.
+No further optimization, new reference trajectory, Git action or cleanup follows.
+Relation: particle-corrosion-full-grid.
+
+## 2026-11-06 — Publish particle geometry setup and default-model evolution
+
+The user considers the full-grid/core-halo difference modest and requests
+documentation, a setup diagram, multi-sample evolution and commit/push. Preserve
+the rolling core/halo default and exact measured comparisons. Replace the one
+curated particle evolution PNG with the current default's first four reused
+comparison geometries, retaining the same actual snapshot times and localFEM
+interface overlays. Keep full-grid fields externally linked. Add one portable
+code-native setup SVG with accepted known geometry/IC/BC inputs and no invented
+evolved physics. Preserve all other curated images and the existing size caps;
+six SVGs can fit the same256KiB combined budget. Publish related pending example
+code/tests/docs and compact assets through the authorized dev commit→main merge
+→origin/main push. No new training, default change or external artifact cleanup.
+Relation: particle-corrosion-publication.
+
+## 2026-11-06 — Allow one additional compact setup SVG without changing old figures
+
+The five existing setupSVGs already total253804bytes, leaving8340bytes of their
+256KiBbudget. For the requested sixth particle diagram, raise the combined cap
+to320KiB and retain all five original SVGs unchanged. The increase is64KiB;
+PNG limits remain1MiBperfile/2.5MiBaggregate. Prefer truthful readable contours
+and labels over squeezing a six-figure set into its earlier five-figure cap.
+This routine documentation-budget adjustment implements the authorized new
+diagram and introduces no raw scientific arrays or large generated outputs.
+Relation: particle-corrosion-publication.
