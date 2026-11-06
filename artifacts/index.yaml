@@ -22534,7 +22534,7 @@
         "interpretation": "Full-grid lowers measured phase and concentration errors relative to rolling core/halo, and its pooled phase error also falls below the historical selected fixed-bank result. It costs more time per update and active memory. This is one paired initialization on a reused cohort; the user requested a comparison, so the default and historical selected artifacts are not automatically changed."
       },
       "sota_record_status": "Historical selected fixed-bank core/halo result preserved for provenance. The current README figure shows the rolling core/halo default instead. The full-grid comparison measures lower pooled error on the reused eight cases; it has not been selected as the default or promoted to this historical SOTA pointer.",
-      "publication_record": "docs/tasks/particle-corrosion-publication.md",
+      "publication_record": "docs/tasks/archive/particle-corrosion-publication.md",
       "setup_schematic": {
         "image": "assets/pino-setups/particle_corrosion2d.svg",
         "manifest": "artifacts/pino_setup_schematics.json",

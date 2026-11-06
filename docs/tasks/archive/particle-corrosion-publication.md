@@ -1,6 +1,6 @@
 # Publish the ceramic-particle corrosion example and figures
 
-Date: 2026-11-06 (Asia/Shanghai). Status: content verified; authorized Git publication pending.
+Date: 2026-11-06 (Asia/Shanghai). Status: complete; content published and remote verified.
 
 ## Goal and authorization
 
@@ -39,9 +39,9 @@ No raw fields,weights,large galleries or logs in Git.
 4. Archive this record/update dashboard, commit dev, merge main and push main;
    verify remote main matches the published local commit.
 
-Blocker: none. Next: commit the reviewed related changes on dev, regular merge
-into main and push origin/main. Verify the remote, then archive this task and
-publish the compact completion record through the same workflow.
+Blocker: none. Required content and Git publication are complete. This closing
+record is archived and published through the same authorized dev→main workflow.
+No follow-up training or cleanup is queued.
 
 Actual existing5SVG total253804bytes, leaving only8340bytes under the former
 256KiB cap. Explicitly raise the six-figure cap to320KiB while preserving all
@@ -81,3 +81,11 @@ The first ad-hoc image check assumed every historical provenance record had a
 pixel_dimensions field; one older record omits it. The corrected check verifies
 all PNGs and validates recorded dimensions where present. Final check passes;
 no image or scientific source was changed to accommodate the check.
+
+## Publication receipt
+
+Content commit on dev:896bbca. Regular main merge:a27ce31178ca834031dd325add3bf34c341526f3.
+Push origin/main succeeded; independent git ls-remote returned that exact main
+commit and the working tree was clean. Only main was pushed. This final small
+record closes the task, updates the dashboard and archived task pointer, and
+does not change the published numerical code or assets.
