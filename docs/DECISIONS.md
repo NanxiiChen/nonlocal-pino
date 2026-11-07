@@ -9761,3 +9761,850 @@ and labels over squeezing a six-figure set into its earlier five-figure cap.
 This routine documentation-budget adjustment implements the authorized new
 diagram and introduces no raw scientific arrays or large generated outputs.
 Relation: particle-corrosion-publication.
+
+## 2026-11-06 — Distinguish the particle pilot's time and mobility from SI values
+
+The current default, actual online run02 and reused8 FEM physics/time settings
+agree: dimensionless horizon1, uniform phase-mobility multiplier2, transport80.
+Inherited groups specify L0*w*T0=4 and D*T0/Lc^2=80, not a separately calibrated
+time in seconds or dimensional mobility. Do not label horizon1 as1second or
+kappa2 as a dimensional L. Extending time preserves the coupled coefficients;
+changing only kappa changes phase-versus-transport kinetics, so these are not
+exactly interchangeable. This is a verified explanation, not authorization to
+modify the problem, train, or republish. Relation: particle-corrosion-time-kinetics.
+
+## 2026-11-06 — Propose a common time scale for further corrosion at t*=1
+
+The user wants more advanced corrosion while retaining a unit normalized time
+interval. Propose scaling n_ac1,n_ac2,n_ac3,n_ch together by2, keeping kappa2
+and initial/boundary/geometry definitions fixed. This implements T0_new=2*T0
+and preserves relative kinetic rates and interface width. The implemented
+autonomous RHS and Jacobian scale correctly for factors1.5and2. Increasing
+only kappa would instead change reaction/transport competition; altering only
+one AC term would change the energy ratios. These alternatives do not meet the
+same time-rescaling interpretation. The factor2 case is a proposal, not a new
+default, solved morphology or completed training. Relation:
+particle-corrosion-faster-normalized-time.
+
+## 2026-11-06 — Validate twice-speed references before cold retraining
+
+The user authorizes a uniform factor2 experiment at t_max1, conditional on a
+sound reference. Add separate train_speed2/reference_speed2 presets, retaining
+the published default. Use the same frozen development4/reused8 geometry
+cohorts, strict local FEM/BDF settings and first-case space/time refinement
+before canonical cold20000 training. Preserve width192/B4/Nt8/Adam and rolling
+geometry/core-halo settings. A fresh runtime seed means the eventual comparison
+is not a paired-seed accuracy attribution. No solution labels enter training,
+and no Git publication or deletion is part of this request. Relation:
+particle-corrosion-speed2.
+
+## 2026-11-06 — Twice-speed reference gate passed; start the approved cold run
+
+All12same-geometry localFEM references are finite and retain valid phase ranges.
+First-case mesh refinement changes phase0.12027%pooled/0.25819%terminal; temporal
+differences are below5e-7percent. All8overlap trajectories verify the time-scaling
+identity. Final smooth-corroded area is2.05138times the old value on average;
+new coverage35.31..38.29% versus17.21..19.34% of the non-ceramic area. Curated
+reference comparison visibly reaches additional particles. These checks meet
+the declared gate; start canonical cold20k with the same architecture/optimizer
+and new references. No implication that PINO has already converged, that phase
+error will improve, or that the proposed preset is a new default. Relation:
+particle-corrosion-speed2.
+
+## 2026-11-06 — Align experimental mouth losses with the operator's Dirichlet nodes
+
+The first speed2 cold20k fails (reused8phase42.08%pooled/65.88%terminal).
+Whole-mesh diagnostics reveal a concrete boundary-sampling gap: at t=.1,
+mouth quadrature max|c/cLe|=0.000734 while an actual native mouth node reaches
+27.00. These nodes are excluded from PDE rows but remain operator neighbors;
+the existing independent midpoint BC queries do not constrain their endpoints.
+Add an explicit mesh_dirichlet mouth-loss sampling option with physical P1 edge
+weights, including every operator mouth node, and zero-weight fixed padding.
+Keep the encoder's known boundary tokens and the original physics/IC/five-loss
+formulation. Old missing-selector configurations retain historical midpoint
+behavior, explicitly validated against bank metadata. Do not silently change
+the published default or erase the failed run. Test the alignment and cold-train
+the corrected speed2 experiment, as part of making the authorized case work.
+This addresses an observed boundary inconsistency; early-time interface
+residuals are also large, so successful convergence is not assumed. Relation:
+particle-corrosion-speed2.
+
+## 2026-11-06 — Retain qualified speed2 references and failed PINO controls
+
+The corrected second cold20k finishes all online/evaluation audits but still
+has reused8phase41.2232%pooled/63.2892%terminal, versus42.0821%/65.8807% for
+the first trial. Actual mouth-node concentration error at t=.1 falls from
+27.0015 to0.0016764 in c/cLe units, confirming the intended sampling repair;
+large early interface AC and concentration PDE residuals remain. Do not promote
+either trial, blame the independently qualified reference, or attribute the
+small accuracy change solely to boundary handling across fresh seeds. Preserve
+the original1x default and both negative trials. The authorized reference-first
+experiment is complete; further loss/causal/IC optimization is untested and not
+queued. Reject continuing an open-ended series without first reporting these
+results. Relation: particle-corrosion-speed2.
+
+## 2026-11-06 — Audit early shrinkage and test32random times per update
+
+The user now requests a closer boundary audit and at least16randomly changed
+times per step. Existing8times already change every step, use physical-time
+JVP and share one time vector across geometry samples. Adopt a separate Nt32
+preset inheriting the speed2/operator-node BC recipe; preserve all other model,
+loss, optimizer and reference settings. Profile finite gradients/memory before
+launching canonical cold20k and automatic final audits. Fresh initialization is
+recorded, so this tests practical convergence rather than isolating time-count
+causality. No default promotion or reinterpretation of raw-L1 losses as melting
+Jacobian-preconditioned losses. Relation: particle-corrosion-time32-diagnosis.
+
+## 2026-11-06 — Increasing random times alone does not repair accelerated corrosion
+
+The Nt32cold20k run finishes all five stages with reused8phase41.2407%pooled/
+63.2984%terminal, essentially the same as the Nt8node-mouth result41.2232%/
+63.2892%. Actual-node BCs remain small while early interface AC/CH residuals
+remain large; the independent direct nonlocal early trajectory expands normally.
+Record this negative result and retain the1xdefault. Do not claim that temporal
+sampling never matters, infer isolated Nt causality across fresh seeds, or
+automatically repeat training without a scoped change to address convergence.
+This completes the boundary/time-count diagnostic. Relation:
+particle-corrosion-time32-diagnosis.
+
+## 2026-11-06 — Separate valid time rescaling from dimensional calibration
+
+The dimensional audit confirms particle speed2 doubles all effective PDE
+coefficients, including kappa consistently, and the production residual/RHS/
+Jacobian satisfy the2xidentity. However, original particle groups cannot be
+obtained from the complete electropolish material tuple by any length/time
+choice: effectiveN_AC3/N_CH=L*alpha/D differs by545.2941. Holding electro
+A,omega,alpha,D yields Lc51.3179um,Tc247.861s and actual matrixL1.83387e-9;
+speed2 hasTc495.722s with the same mobility. These are conditional interpretations,
+not a claim of identical material properties or the original assigned SI units.
+Preserve existing dimensionless pilot/results. Any future calibrated preset
+should specify physical parameters and scales first and derive all groups and
+interface width together, counting kappa once. Do not label an AC-only time
+as a complete mapping, or use this mismatch alone to explain neural collapse.
+Relation: particle-corrosion-dimensional-audit.
+
+## 2026-11-06 — Correct KKS README units without changing numerical parameters
+
+The stated volumetric free energy requires A,omega in J/m^3,alpha in J/m,
+and actual Allen-Cahn mobilityL in m^3/(J*s). Old corrosion/electropolish README
+tables incorrectly included /s in the energy densities and used m/(J*s) forL.
+Correct those text labels and call A the chemical-energy coefficient. The
+implemented PDE and existing coefficient values are unchanged; solver-config
+comments already use energy-density units. The independent SI residual check
+agrees with particle production residuals to1.1e-14. Relation:
+particle-corrosion-dimensional-audit.
+
+## 2026-11-06 — Implement a dimensional-first particle-material candidate
+
+The user authorizes matching electropolish constants with a modest mobility
+increase and adapting geometry/scales, then fresh reference and training.
+Initial candidate uses actualL2e-6 (2xelectropolish), D8.5e-10,A5.35e7,
+alpha2.575e-5,omega1.76e7,Lc50um and50x30um geometry with a6um pit.
+Derive all rates and interfacek29.22959 together. Store SI inputs and a checked
+derived cache; stale rates/widths, incomplete SI fields and mismatched reference
+units fail explicitly. Keep historical dimensionless paths readable. In the SI
+path kappa=1 because physical.L is already the actual mobility. Nt32/node-mouth/
+rolling inputs are retained. Reference screening will select physical duration
+before training; no assumption that the preliminary1s candidate is optimal.
+Relation: particle-corrosion-physical-pilot.
+
+## 2026-11-06 — Select five physical seconds after local-reference screening
+
+At actualL2e-6 and Lc50um, the first reused geometry's local reference expands
+monotonically: smooth corrosion fraction4.8043%initial,12.3933%at2s,
+21.4433%at5s. The5s interface reaches several ceramics without consuming the
+domain. Set Tc5s, matching electropolish's duration, and derive groups
+Nch1.7,N1=1070,N2=176,N3=.103; kappa remains1. The physical10–90%width
+is3.75857um, not an independently fitted IC parameter. Reject the preliminary
+1s horizon because it produces little interaction. Run fresh local references,
+space/time qualification, direct native check and cold20k; previous1x/speed2
+fields belong to another material regime. Relation: particle-corrosion-physical-pilot.
+
+## 2026-11-06 — Qualify physical references and disclose larger native discrepancy
+
+The5s SI first-case local mesh refinement gives phase0.18510%pooled/0.22273%
+terminal; tighter/half-step time integration changes phase by less than7e-7%.
+All8reused geometries expand and retain exact reservoir data; all64initial
+geometry identities replay and new inputs contain no evolved fields. On the
+same h.01/256-contour reference mesh, direct regional nonlocal evolution with
+delta.026 differs from localFEM by7.2966%phase pooled/9.1114%terminal. This is
+larger than the old material regime and must not be mistaken for PINO error.
+Proceed with the requested cold20k to measure the unchanged neural scheme on
+the new physics; do not silently tune the horizon, relabel native as local,
+or promise a sub-percent total error. This first native check is on a denser
+mesh than training and is not an exact training-discretization error floor.
+Relation: particle-corrosion-physical-pilot.
+
+## 2026-11-06 — Preserve physical20k nonconvergence and separate strategy differences
+
+All five physical-pilot owner stages finish successfully, but final8localFEM
+phase35.4226%pooled/46.8794%terminal remains inaccurate; first-case native on
+the exact training mesh gives33.6062%/46.2413%. Initial pit fitting and small
+actual mouth errors coexist with large early interface PDE residuals and wrong
+pit filling. Keep the requested dimensional-first physical definition and all
+negative results; do not promote these weights or attribute failure only to
+local/native discretization. Old low-error particle results have different
+material groups and cannot be treated as a matched coefficient-only control.
+
+The requested audit of the successful electro operator confirms both use
+joint AC/CH,unit fixed PDE loss scales,originalL1residuals,Adam and no causal.
+Particle differs in cLe-normalized data losses/grouping,faster LR decay,
+gradient-weight EMA,point geometry encoder,batch/time and operator quadrature.
+Saved/frozen electro loss ASTs and scalar coefficient/LR/draw calculations are
+checked. Reject claiming a missed stagger/causal switch as the proven cause.
+Record slower-LR and data-metric controls, then causal/stagger as untested
+possibilities; do not launch extra training from a diagnostic question.
+Relation: particle-corrosion-physical-pilot.
+
+## 2026-11-06 — Optimize the retained physical corrosion regime
+
+The explicit goal authorizes new physics-only optimization at the unchanged SI
+coefficients. Begin short slower-LR and IC/BC-metric controls using development
+references for reporting only; preserve final reserved assessments and failures.
+Do not restore historical dimensionless physics, relabel native as local, or
+claim 2% from low averaged loss. Initial lifting/early-time controls may follow
+if joint soft-IC training keeps filling the pit. Relation: physical-optimization.
+
+## 2026-11-06 — Explicit data metric and label-free bounded initial lifting
+
+Optional loss.concentration_scale multiplies concentration IC/BC errors before
+squaring; absence retains historical 1/cLe. Optional bounded_exponential lifting
+uses gate g=1-exp(-t/tau): phi=(1-g)phi0+g*sigmoid(2z), s=h(phi0)+g*z_s,
+c=cLe*s+(cSe-cLe)h(phi). Thus t=0 is exact with no evolved reference, phi stays
+bounded, and KKS is retained. The liquid PDE differences use the effective s
+and the time JVP includes g derivatives. This constrains only the initial state,
+not an interface trajectory. Exponential rather than rational lifting avoids
+a persistent O(tau/T) restriction on accessible phase values at late time.
+Declare tau and reject this experimental option on the unqualified local-AD
+path. Existing checkpoints without the option keep the historical map.
+Relation: physical-optimization.
+
+## 2026-11-06 — Resolve early time and measure actual native bias
+
+The new opt-in global log-time rule uses one t=0 PDE node and Nt-1 randomly
+stratified positive nodes, tau=.01 declared explicitly. The decoder may use
+normalized log1p(t/tau); time JVP remains in physical dimensionless time with
+its full chain rule. This intentionally changes the temporal residual measure;
+it is not uniform-time unbiased sampling, time windows, or reference labels.
+Default uniform draws preserve exact NumPy stream arithmetic. A separate
+production-mesh local BDF solve shows6.5794%native/local phase discrepancy,
+8.3338%terminal, while interior trace moments average3.93458(expected4).
+Do not promise a2%local result solely by training longer; screen half-horizon
+on an existing finer reference mesh before any operator/default change.
+Relation: physical-optimization.
+
+## 2026-11-06 — Remove redundant IC training for the hard-map branch
+
+The hard initial map requires no IC loss or neural IC query. Subsequent hard
+controls use four explicit loss biases/names (AC,CH,two mouth data terms) and
+prepare only graph/mouth queries; old soft controls retain five terms. The
+first hard5000 run imported the prior five-term source and is preserved as such.
+Optional mean_square PDE reduction permits a conventional L2-residual control
+of large localized errors; absent option retains L1. These change optimization,
+not physical coefficients. Relation: physical-optimization.
+
+## 2026-11-06 — Qualify the initial-lifting derivative range before continuing
+
+For phi=(1-g)phi0+g*sigma with g'(0)=1/tau, the PDE initial tangent F0
+requires sigma(t=0)=phi0+tau*F0 in[0,1]. Independent native RHS checks expose
+that tau.01 prevents131072initial core-row samples from matching F0 in14330
+rows. Tau.001 and.0003 have0violations across64geometries/eight pools. Use the
+explicit tau.001 for subsequent hard controls; log-coordinate/sampling scales
+remain.01 and have different roles. Stop the just-started old-tau log control
+before an update, preserve its source/log/status, then relaunch under a fresh
+path. This restriction belongs to the newly tested map; it does not explain
+historical soft-IC failures. Relation: physical-optimization.
+
+## 2026-11-06 — Test an initial latent increment and exact prescribed mouth data
+
+The bounded convex blend requires the unlifted neural phase to reconstruct
+phi0 rapidly, and random initial outputs replace pure phases by approximately
+one half at positive time. Test an explicit latent_additive alternative:
+z=z0+log1p(t/tau)*z_theta, s=h(phi0)+log1p(t/tau)*s_theta, with z0 the known
+initial tanh coordinate only. It gives an unrestricted initial phase derivative
+where0<phi0<1 and introduces no evolved interface trajectory. Zero-initialize
+only the final increment head so the cold field is the known IC at all times;
+the PDE, not reference data, must learn all evolution. Explicit exact_mouth
+Dirichlet projection fixes only the prescribed mouth nodes/trace and removes
+both redundant soft mouth losses. Regional neighbors therefore use the same
+exact reservoir values as the independent BDF solver. Retain all old maps and
+soft-BC controls. This is a new experimental candidate, not a proven remedy.
+Relation: physical-optimization.
+
+## 2026-11-06 — Return to original outputs and isolate early AC/CH strategies
+
+The user explicitly rejects further ansatz complexity and requests diagnosis
+against the successful slower-kinetics case, followed by established stagger,
+causal and pre-scale ideas. Keep the original phase/KKS output, soft IC/BC,
+32uniform random times and current SI physics. Prior custom-map experiments
+remain negative records, not the route for new trials. All former jobs are
+terminal at this check. First quantify reaction/diffusion time-scale changes
+and early physical AC/CH rates; then use exact cold state and source sampling
+prefixes for bounded strategy controls. A constant PDE scale is largely
+canceled by inverse-gradient balancing, so distinguish it from a post-balancing
+CH priority multiplier. Reuse repository stagger masks and adaptive causal
+controller; do not treat electro's unused switches as evidence they cannot help.
+The automatic broad goal was paused; this turn performs the newly requested
+focused diagnosis/finite controls, without automatically changing goal status.
+Relation: physical-optimization.
+
+## 2026-11-06 — Prioritize early AC enforcement based on signed dynamics audit
+
+The old20k original-output physical model has mean interface phi_t+83.86 at0,
+but its own AC RHS-44.78 and direct native RHS-13.00. Thus incorrect q alone
+does not explain shrinkage: the model violates even its own AC evolution sign.
+Interface q RMS/cLe is45.05%despitephiRMS.01467 andcRMS.001212. Direct old/new
+native early trajectories both grow monotonically over0..05. Double-well bulk
+relaxation1/(2kappaN2) changes.0625->.002841; interface diffusion time changes
+6.705e-5->.003324, changing their ratio by1090.59. These are diagnostic time
+scales, not an exact full coupled spectrum. Under32uniform times91.30%updates
+miss t<.002841. Test causal and stagger plus an AC(not CH) post-balancing
+priority10, superseding the provisional CH-priority direction. A raw pre-scale
+can be canceled by inverse-gradient weighting, so label this priority honestly.
+Relation: physical-optimization.
+
+## 2026-11-06 — Resume original-output optimization with resolved initial collocation
+
+The user reactivates the unchanged2%goal. Keep the original output,soft data
+constraints and current SI physics. Add an explicit initial_layer time rule:
+one0node,seven randomly stratified nodes in[0,4/(2*kappa*N2)],24unchanged
+full-domain uniform draws,always32nodes. This deliberately changes the residual
+measure,not the PDE or its normalized horizon; no time windows or decoder map.
+Strategy controls retain identical cold states,geometry/pool draws and the24
+untouched source times; transformed times are declared in runtime metadata.
+
+Also test the equivalent IC metric(phi,s),s=(c-dc*h(phi))/cLe. The prescribed
+physical IC uniquely determines s0; no additional data or solution prior is
+introduced. The old scaled physical IC metric has a large off-diagonal
+Jacobian dc*h'/cLe (about40.6nearphi.5), allowing small phi/c errors to hide a
+large qerror. The new metric changes weighting/conditioning only; its zero set
+is identical. Compare causal+early sampling with/without this IC metric before
+any combination promotion. Existing speculative maps remain unpromoted.
+Relation: physical-optimization.
+
+## 2026-11-06 — Retain a conventional data-only warmup control after saturation
+
+ACpriority10converges to purephi1(ACresidual0,mouthphase loss1) rather than
+valid dynamics. A separate original-output control may pretrain only prescribed
+IC/BC for1000updates,then enable the same causal PDE objectives. No positive-time
+field target is introduced. Reuse dynamic objective masks; keep adaptive causal
+epsilon frozen during data-only warmup and retain optimizer state at transition.
+Its5000budget is1000data+4000PDEupdates,which must be reported explicitly.
+This is a later controlled option,not assumed to improve the pending early/IC
+controls. Physical coefficients and the single global-time network are retained.
+Relation: physical-optimization.
+
+## 2026-11-06 — Screen a conventional warmup/MSE causal recipe on original outputs
+
+The first early+naturalIC5000control improves phase35.69->30.57%but still has
+wrong dynamics. Next screen10000updates:1000data-only warmup,then9000PDE,
+conventional mean-square physical residuals and min_mean_causal_weight.1.
+The previous.5requires roughly half the32times active even before the initial
+layer is learned; .1permits stronger early focus while remaining above1/32,
+so epsilon still relaxes if only one time is active. This is a combined standard
+recipe,not a one-factor attribution or a changed output ansatz. Report its5k
+checkpoint separately from10k and the unequal PDE budget. Physical parameters,
+original mapping,sampling prior,optimizer and single global network remain fixed.
+Relation: physical-optimization.
+
+## 2026-11-06 — Validate equivalent global time-integral residuals before training
+
+The conventional warmup/MSE/causal10000trial ends30.2678%phase,not a solution.
+Test the equivalent IVP form y(t)-y0+integral_0^t G(y)=0 using the original
+network/physical coefficients. Every endpoint remains tied to the prescribed
+initial field; no predecessor is frozen and no output ansatz is introduced.
+Use composite Simpson quadrature at32resampled endpoints plus31midpoints,
+including0,T and the resolved initial layer. Substitute the known initial field
+only in G(0),consistent with the IVP. Standard softIC/BC remain.
+
+Independent BDF dense-output checks on the production geometry across32random
+rules give Simpson consistency defects:phase mean.0544%,max.1105%;concentration
+mean.1267%,max.2193%. Trapezoid is materially worse. These are quadrature defects,
+not a bound on optimized trajectory error. Validate polynomial exactness and
+physical RHS/signs,then profile actual memory/training. The original strong
+PDE/JVP will still be audited on predictions. Relation: physical-optimization.
+
+## 2026-11-06 — Reject oscillatory integral fields and test existing SOAP
+
+The integral 5k candidate lowers development phase error to 25.20% overall /
+18.13% terminal, but shrinks/regrows nonphysically. Whole-graph original PDE
+audit confirms nonconvergence (first-geometry native error 22.52%); do not
+extend it solely for the terminal metric. Next use the established SOAP factory
+with the original strong residuals, original outputs and the completed
+causal/initial-layer control's exact model and sampling. This is an optimizer
+comparison, not another output ansatz or changed physical parameters.
+
+Extend strategy-control validation only for explicit Adam/SOAP selection;
+all other optimizer settings remain equal. Require byte/array-identical cold
+model and input traces; initialize each optimizer with its own factory state.
+Do not deserialize Adam state into SOAP or claim identical optimizer states.
+Report the exception explicitly in runtime metadata. No default promotion.
+Relation: physical-optimization.
+
+## 2026-11-06 — Test actual causal focus rather than only its enable flag
+
+The paired SOAP 5k ends30.18%phase,not better than Adam early-causal29.46%.
+The warmup/MSE causal run's final last-time weight is.746(mean.845); reducing
+only min_mean_weight did not make its eventual temporal focus strong. Its
+existing controller increases epsilon only when last weight exceeds.9, so
+weak late suppression is consistent with the configured policy.
+
+Next paired10k keeps the same original fields,MSE,1000datawarmup,naturalIC,
+time/geometry draws and Adam,changing controller thresholds to
+max_last_weight=.1,min_mean_weight=.05. Epsilon remains adaptive,initial1,
+cap100,step1.1. These are explicit optimization thresholds,not physical
+constants or guaranteed improvements. Inspect actual weight histories and
+early dynamics before extending or combining further changes. No extra output
+mapping,reference targets or fixed previous-window solution is introduced.
+Relation: physical-optimization.
+
+## 2026-11-06 — Separate known IC fields before adding another output prior
+
+Strict adaptive causal10k ends27.95%phase,still wrong. Its5k early audit improves
+the initial interface derivative to-9.77(reference-13.00),but its ownACRHS is
+-5.29,and later driving remains wrong. Natural-variable IC errors are still
+material. On one known initial-bank geometry the phi/s IC MSE values are
+7.27e-5/8.89e-5,but their parameterL1gradient norms are.886/4.016. The merged
+IC loss therefore does not independently balance both fields; this is a
+diagnostic small sample,not a proven sole cause of nonconvergence.
+
+Test only splitting that equivalent IC metric into two independently balanced
+losses. Keep original outputs,physical AC/CH,MSE,strictcausal,1000warmup and
+the same10kmodel/Adam/input schedule. Six declared losses replace five; no
+new target,initial ansatz,Sobolev penalty or evolved reference is introduced.
+This conventional grouping test precedes another structural modification.
+Relation: physical-optimization.
+
+## 2026-11-06 — Native evolution from the learned IC vetoes more IC constraints
+
+Independently integrate the unchanged full production-native PDE from the
+strictcausal final prediction at0. Its trajectory differs from the prescribed-IC
+native trajectory by only.071996%phase overall/.028920%terminal. Phase-only
+IC perturbation gives.073872%/.031094%;liquid-only.003161%/.002342%.
+Thus this model's remaining~28%neural error is not explained by amplification
+of its remaining IC error. Remove the not-yet-run six-loss IC split and its
+preset/tests,retaining the diagnostic and decision record. No training run used
+that proposed grouping. More IC constraints are not the next remedy.
+
+Next change only the already-implemented logarithmic decoder time coordinate,
+using tau=1/(2*kappa*N2)=.00284091. The first reaction time then spans about
+.118of the embedding coordinate rather than.00284,while physical times,
+sampling,PDE coefficients and full physical-time JVP remain unchanged.
+Use original outputs/softIC/BC,strict adaptivecausal and the exact10kcontrol
+input schedule. This is an input-coordinate resolution test,not another output
+ansatz or time-window solution. Cold model/Adam bytes remain identical;
+strategy-control validation explicitly permits only this existing coordinate
+option in addition to prior declared choices. Relation: physical-optimization.
+
+## 2026-11-06 — Test bounded KKS row elimination of the time-derivative coupling
+
+The original output map gives c_t=cle*s_t+dc*hprime(phi)*phi_t. Atphi.5
+the two raw-rate rows,normalized separately,have cosine.998786 and condition
+40.58;this is a local rate-channel Jacobian,not a network Hessian. Native
+initial interface rates arephi_t-13.00,s_t806.95,c_t10.16;the original PINO
+instead givesphi_t+83.86,s_t-151.35,c_t114.39. Strictcausal learns the initial
+rates much better but later dynamics still fail. Diagonal pre-scales alone
+cannot remove this derivative cross-term.
+
+Test the bounded equivalent row operation Rtilde_c=R_c-dc*hprime(phi)*R_phi,
+retaining R_phi. For original outputs it is evaluated stably as
+cle*s_t+G_c-dc*hprime(phi)*G_phi,where y_t+G=0. The mixing coefficient is
+bounded by1.5*dc;there is no inverse tanh Jacobian,new physical parameter or
+singular pure-phase division. Both residual zeros are exactly the original
+AC/CH zeros;CH physical residual remains an independent acceptance diagnostic.
+Differentiate the complete transformed loss,including its state-dependent
+coefficient. Retain original output/softdata,strictcausal,MSE and10kbudget;
+compare against the completed strictcausal control. Validate the algebra,
+rate decoupling and parameter gradients independently before training. Run only
+after the pending log-coordinate control finishes. Relation: physical-optimization.
+
+## 2026-11-06 — Isolate single-geometry optimization before more residual variants
+
+Bounded KKS row elimination10k finishes28.7734%phase overall/40.2496%terminal,
+without improvement. Keep its audit/provenance but do not promote it. Next use
+the original strong physical residuals and the existing strictcausal recipe on
+one fixed previously generated training geometry. Retain SI coefficients and
+the same192-wide network;remove rolling geometry,not physical complexity.
+
+Use B1,Ncore1024,Nt32,IC4096,32fixedcomplete-halo pools:per-update PDE/IC
+point counts match B4,Ncore256,IC1024. This changes geometry/batch/sampling
+structure together and uses a fresh recorded runtime seed,not a one-factor
+paired claim. Periodic evaluation remains on the distinct development4;the
+actual diagnostic metric is separately computed on the reused training
+geometry against its existing direct-native solution. No evolved fields enter
+updates. A single-geometry success would not establish operator generalization
+or achieve the held-out local-FEM goal. No new PDE method or output prior.
+Relation: physical-optimization.
+
+## 2026-11-06 — Keep ordinary optimizer/CH-priority controls on the fixed case
+
+Single-geometry10k remains24.3833%phase against its direct-native solution
+(26.8538%against same-mesh local). Thus the main difficulty already exists
+without geometry variation;increasing the geometry library is not the next
+remedy. Early whole-graph AC/CH RMS is.127/.151,but later CH remains~.3 and
+the pit stops growing. These differently scaled residuals alone are not proof
+of parameter-gradient dominance.
+
+Test two standard options using this completed fixed case as the exact cold
+model/input control:SOAP with the improved naturalIC/warmup/strictcausal recipe,
+and Adam with post-gradient-balancing CHpriority10. The earlier SOAP trial used
+the less successful physicalIC/no-warmup recipe,so it did not cover this
+combination. Do not call post-balancing priority a raw pre-scale or a physical
+coefficient. Keep every other setting equal. Source sampling is fresh
+initial_layer;extend replay validation only to identical declared source/target
+initial-layer rules,and never transform saved times twice.
+
+Run these two fixed-case controls concurrently:the measured source peak is
+5.239GiB active/8.998GiB pool on32GB,and preallocation stays off. This is an
+accuracy comparison,not a fair wall-time benchmark under concurrent load.
+SOAP has its own factory-cold state;both share the exact cold model and draws.
+These are single-geometry diagnostics,not held-out operator or goal qualification.
+Relation: physical-optimization.
+
+## 2026-11-06 — Check gradient metric and refresh lag before changing the physics
+
+The post-final fixed-case gradient audit has AC/CH cosine+.259,not strong
+mutual cancellation. With held logged weights,the IC L2gradient contribution
+is~20.1 versusAC.61/CH.79. The full combinednorm20.8is83%of the sum of
+individual norms. This is one post-update sampled batch,not proof of a global
+cause. The inverseL1balance and25-steprefresh do not imply balancedEuclidean
+updates;low ICvalue alone does not imply small weighted ICgradient.
+
+Prepare an optional inverseL2-gradient norm with stable scaled accumulation,
+and a single-case every-update-refresh control. Preserve the exact historical
+L1path by default. Check both ordinary/causal fullAdam updates independently.
+Keep PDE/outputs/IC/BC/sampling/optimizer unchanged;report the two normalization
+changes as a combined control,not separately attributed effects. Decide whether
+to run after the pending SOAP/CHpriority results. No new physical parameter,
+residual ansatz or reference training target. Relation: physical-optimization.
+
+
+## 2026-11-06 — Test whether persistent causal discount stalls the late trajectory
+
+The L2/every-update single-case control completes at24.6386%native phase versus
+24.3833%baseline. Its late causal weight is still.032at10k,mean.354. Better
+gradient balancing did not recover dynamics;do not promote it or claim the
+one-snapshot IC-gradient imbalance was the cause. BC errors remain small.
+
+Run two exact cold-model/Adam/input controls on this completed L2 source:joint
+PDE throughout(after the unchanged1000datawarmup),and adaptivecausal through
+update5000 followed by joint full-time PDE. The latter tests initial fitting
+followed by release of late-time suppression,not a frozen time-window solution.
+Keep one global model,the physical parameters,all data and the10kbudget fixed.
+An explicit loss.causal_steps controls the release;effectiveepsilon becomes0
+and all temporalweights1,while the positive controller state is frozen. Test
+the complete released physical loss/Adam update against ordinary training.
+The two runs may overlap with preallocationoff using measured single-case
+memory;do not compare overlapping timings as an isolated speed benchmark.
+Do not introduce new output maps or evolved-reference labels. This is a
+single-geometry optimization diagnostic,not held-out local-FEM qualification.
+Relation: physical-optimization.
+
+
+## 2026-11-06 — Prepare a global-network time-horizon curriculum for a stalled front
+
+Dense-time diagnosis locates a good short trajectory(phase.14%at.0091),then
+transport/front failure. On the true late front,predictedphi>.99and its map
+Jacobian falls to.000249. This supports optimization trapping in an incorrect
+nearly stationary phase;it does not prove a full-network Hessian mechanism.
+Keep the pending causal-release/joint controls to completion before judging.
+
+If both remain poor,test progressive random-time coverage with one global
+network:unchanged1000datawarmup;then increase the sampled global-time horizon
+exponentially from.02to1over4000updates;then5000full-domainupdates. Preserve the
+eightoriginalearly-time slots(.01136band)and rescale only the24globaldraws.
+No physical coefficient,output mapping,BC,IC,model or optimizer is changed.
+Physical-timeJVP is evaluated at the actual rescaled times. This is a declared
+curriculum measure,not uniform full-time sampling during the ramp.
+
+Every subinterval is queried from the same current model;no predecessor or
+intermediate field is frozen and no reference target is introduced. This
+precedes another output ansatz or an unboundedinverseJacobian residual. The
+three explicit optional sampling settings are validated/replayed. Pair source
+must be a completed non-curriculum joint run;verify coldstate and actualtime
+transformation independently. Single-case evidence is not operator success.
+Relation: physical-optimization.
+
+
+## 2026-11-06 — Honor explicit goal pause; show saved physical fields only
+
+The user paused optimization while asking to inspect current fields. The
+conditional horizon test had already started. Suspend only its verified owned
+process group618216(owner618216/child625528)withSIGSTOP,preserving RAMstate and
+preventing automatic follow-up stages. Read back the appgoalstatuspaused and
+verify bothprocessstatesT;recordPID/startticks in externalhorizon_pause.json.
+Do not resume without a userrequest or start a duplicate run. The ownerjournal
+still saysrunningbecauseitsprocessissuspended;pauseevidence takesprecedence.
+
+Use the latest completed joint10k fieldarrays and the samegeometrydirectnative
+reference for visualization. Checkpoint/points/times/KKSidentityandderivedL2
+are checked. No training or newreference solve follows the pause. Preserve
+negative25.93%phaseoverall/34.15%terminal result;~2%localgoalremainsunmet.
+Relation: physical-optimization.
+
+
+## 2026-11-06 — Check actual BC precision and prepare sustained stagger
+
+User suggests mouth precision/CH fitting. Verify actual saved jointconfig and
+code:mouthloss is mean((c/cLe)^2),cLe=.0356643,allactualDirichletnodes covered.
+Do not reject this hypothesis merely because absoluteerrorsare~1e-5. Frozen
+exactBCprojection barelychangesCH_RMS at.1(.39827->.39833);this isolatesan
+instantaneousoperatorcontribution,not cumulativeboundarysensitivity. Current
+CHresidualis~45%ofnativeconcentrationrateRMS,sointeriortransport isunresolved.
+
+Currentlatestrecipeisjoint. Historicalstagger5k onlyalternatedfirst2000updates
+andusedadifferentloss/samplingrecipe;do notclaimitexcludesuser'ssuggestion.
+Prepareonlya9000PDEupdate25AC/25CHalternatecontrolaftertheunchanged1000data
+warmup,retainingcLeBCnormalizationandIC/BConallupdates. Validateonlythesetwo
+configdifferencesandactualinputreplayagainstcompletedjoint10k. No physical
+change,newoutputprior,trainingorautomaticresume. Goal/horizonremainpaused;
+READMEandreceiptlabelthepresetuntrained. Relation:physical-optimization.
+
+
+## 2026-11-07 — Execute the user-authorized sustained-stagger control
+
+The user explicitly says to try the prepared stagger scheme. Run only that
+finite cold10k experiment against completed single_joint10000-01:1000data-only
+updates,then25AC/25CHalternating for9000PDEupdates. AllIC/BCterms stayactive,
+includingcLe-normalized mouthconcentration. Keepphysicalcoefficients,original
+outputs,network,Adam/LR,gradientbalancing and actualconditioning/core/time draws.
+The reused singletraininggeometry is an optimizationdiagnostic,not held-out
+operatorqualification. Check completecoldmodel/Adam and allactualinputdraws.
+
+The older horizonowner/group618216 remains SIGSTOP-suspended;this request
+selects stagger and doesnotauthorize resuming that different experiment.
+The broadappgoal ispaused and~2%localaccuracyunmet;this finite experiment is
+newlyauthorized. Evaluate originalunweightedAC/CH anddataerrors aswellasphase,
+totalconcentration andKKSliquidL2. Noevolvedreference targets,automaticlater
+experiments,SOTApromotion,Gitoperation orcleanup. Relation:physical-optimization.
+
+
+## 2026-11-07 — Retain sustained-stagger as a negative coupled-PDE control
+
+Matched10k finishes:phase25.93%->25.59%overall/34.15%->34.01%terminal;liquid
+52.47%->38.62%,butCH_RMSat.1 .398->.455andAC .112->.560. Mouthcmaxalsoincreases
+2.75e-5->9.07e-5. Corrodedfractionremains5.36%vsnative17.48%. Thus thisshared
+network25/25lossalternationimprovesliquidvaluesbutdoesnotrecovercorrectcoupled
+dynamics. Keepdefaultunchanged;donotclaimtheuser'sBCconcernistherebyexcluded,
+orallstaggermethodsdisproved. Noautomaticlongertrialorothernewexperiment.
+
+Exactcoldmodel/fullAdam/actualsamplingandnumericalcoresourceparitypass.
+Independentfullgraphevaluationanddensephysicaltimeauditpass. Localplotvariable
+shadowingfailedonlythecomparisonrenderer;renameandreport-onlyrecoverypass,
+withidenticalnumericresultsandpreservedfailurejournal. No retraining.
+Thebroaderappgoalremainspaused/unmet,andtheoldhorizonprocessgroupremainssuspended.
+Relation:physical-optimization.
+
+
+## 2026-11-07 — User permits easier physics while retaining visible particle effects
+
+The user explicitly relaxes the fixed-parameter requirement:seek an easier
+corrosion case that still covers substantial area and visibly interacts with
+ceramic particles. Continue this task with that revised scope;do not reinterpret
+the old high-mobility failures as successes. Preserve the old presets/results.
+
+First screen direct native solutions on three known development geometries.
+KeepD,A,omega,alpha,cSe,cLe,Lc50um,interfacewidth,pitandparticles fixed. Change
+actualmobilityL and physicaldurationTc,then derive every dimensionlessgroup.
+Candidates:L2e-9 withTc250/350/450s,andL5e-9/Tc140s;includeL2e-6/Tc5s as the
+hardcontrol. These empirical case-design choices are not a material calibration
+or a guaranteed convergence remedy. Normalizedtime stays0..1. Count corroded
+fraction/netgrowth and wetted particleperimeter,not only visualarea.
+
+Select a moderate candidate from reference morphology before purephysics cold
+PINO training. Favor the proven joint original-output recipe over the failed
+25/25stagger; no new outputprior or evolved-field targets. Verify new reference/
+input metadata match newSIcoefficients. Oldhorizongroup remains suspended.
+NoGitoperation,cleanup or automatic claimof~2%on the oldparameterproblem.
+Relation:physical-optimization.
+
+
+## 2026-11-07 — Select moderate long-duration activation regime and train joint PINO
+
+Screened3geometries:moderateL2e-9/Tc350scovers24.35%andinteracts4–5particles,
+versushard17.97%;mild18.50%,longer33.56%. Selectmoderateasfirstrecoveryrather
+thanmaximizingareaat450s. Keepallotherphysical/geometricparametersfixed.
+Derivedgroups119/74.9/12.32/.00721restoreareaction/transportbalancecloseto
+historicalsuccess. Thisisadifferentphysicalregime,notsolvingoldL2e-6case.
+
+Newlocalreferencefirstcase space sensitivity.079%phaseandtime negligible;
+productionnative/localphasebias~2%on4devgeometries. Newcanonicalinputgeneration
+matchesalloldknownarraysexactlywhilemetadatacorrectlychangesL/Tc. Start20k
+coldoriginaljointMAE/Adam/width192/Nt32withrollinggeometryandspatialpools.
+Do notcarryoverfailedstagger/custompriorsorclaimaccuracybeforecompletion.
+Oldpresets/defaultandhorizonpauseunchanged;referencefieldsareevaluationonly.
+Relation:physical-optimization.
+
+
+## 2026-11-07 — User selects fewer particles farther from the initial pit
+
+The user explicitly requests fewerparticlesandlargerinitialseparation. Set6
+instead of8,pitclearance.075instead of.03,andpairclearance.055instead of.035.
+Retainatleast2particleswithsurfacegapbelow.16,sointeractionoccurslaterwithout
+removingit. KeepselectedmoderateSIphysicsL2e-9/Tc350sandallradii/shapeprior.
+Thischangesgeometryprior,countandspacing,notPDEtermsorinitialpit.
+
+Initial90%phase contour is.0376outsidephi.5. Oldminimumgap.03canthereforeplace
+particlesinsideinitialdiffuseinterface;newgap.075moveswallsintophi>=.9877.
+Thisreduces,butdoesnotexactlyeliminate,initialNeumannincompatibility. Quantify
+actualwallnormalderivativesbeforeclaimingitisthecause;oldernear-pitcasealso
+hadsuccessfulruns,soitcannotbyitselfbeadefinitiveexplanation.
+
+UseanoptionalCLI runtimeseedonlytomatchtheeight-particlemoderaterun'scold
+model/Adamandactualcondition/core/timedraws. Seedremainsabsentfromstrategy
+configs;defaultfresh-randombehaviorstaysunchanged. Rejectexplicitseedwith
+existingcomparisoncontrols. Validateruntimeoptionandthenverifyactualbytes/
+arrays. Existinghardhorizonstaypaused;nomid-runphysics/geometrymutation.
+Rebuildallknowninputsandlocal/nativereferencesforthenewsix-particleprior.
+NoGitoperationorcleanup. Relation:physical-optimization.
+
+
+## 2026-11-07 — Validate later particle interaction before the six-particle trial
+
+New64layouts havenoinitialphase-band/horizonoverlap,versus11/64and40/64old.
+Medianinitialnormalq/cLeRMSdrops.11217->.0009068. This supportsreducingearly
+compatibilitylayers,butdoesnotproveithascausedtheoptimizationfailure.
+Newdirectreferencesstillcorrode29.5%andaffect3–5particles,mostlyafter.4..7,
+solargerinitialgapsdonotremovethephysicaleffecttheuserwantstosee.
+
+Localfirstcase spacecheck.1007%phase,time negligible;native/localbias~1.76%.
+Start20kcoldsix-particlejointPINOonlyafterthemoderateeightownerclearedallstages.
+Oldeightfinished34.12%localphase,soonlychangingL/Tcwasinsufficientforthatcold
+run. Matchitscoldmodel/fullAdamandactualslot/pool/timedrawsviaCLIprovenance,
+notaseedstrategyfield;spatialcoordinateschangeintentionally. Initialpairchecks
+pass. Keepnewgeometryandinit/drawchangesseparateinreporting;fourdevelopment
+casesperpriorarenotapopulationcausalityproof. Nodefaultpromotionyet.
+Relation:physical-optimization.
+
+
+## 2026-11-07 — Complete the fewer/farther particle trial without promotion
+
+The user-selected six-particle prior, pit gap 0.075 and pair gap 0.055, restores
+useful cold convergence under moderate SI physics L=2e-9/Tc=350 s and the
+original joint AC/CH recipe. The actual 20k endpoint on four development cases
+has phase 3.091% overall/5.985% terminal against local FEM, and 1.637%/3.110%
+against direct nonlocal. Native terminal IoU is 97.95%; all owner stages,
+20k online draws, complete final slots and eight saved-field metrics pass.
+
+Keep the case as an explicit preset. Do not silently promote it as the solution
+to the old high-mobility problem or claim a near-2% local result. Fewer particles
+and larger separation changed together; matched initialization and logical
+sampling support the combined geometry change, not either factor separately
+or cross-seed stability. Preserve the negative eight-particle control and
+independent local/native references. No automatic additional training, default
+promotion, Git operation, cleanup or resume of paused horizon group 618216.
+Relation: particle-corrosion-physical-optimization.
+
+
+## 2026-11-07 — User requests a modest capacity increase on the six-particle case
+
+Compare a cold 20k width256/spatial_features128 model against the completed
+width192/spatial_features96 model. The sin/cos embedding grows192->256 and
+four attention heads grow48->64 features each. Keep conditioning depth2,
+FiLM decoder depth3, frequency scales, six-particle geometry, SI physics,
+original joint losses, Adam/LR schedule, batch/core/time counts and online
+pool settings unchanged. This is a joint backbone/embedding capacity control,
+not a width-only or head-count experiment.
+
+Reuse the exact initial known-input bank and local/native development references.
+Replay the baseline runtime seed only to match all actual slot/pool/time draws
+and rolling physical input identities; it remains absent from strategy configs.
+Different parameter shapes require fresh model/full Adam state, so exact cold
+weight equality is neither expected nor claimed. Record parameter counts and
+production first25-step peak memory, including gradient-weight refresh. If the
+declared model fails, preserve that failure instead of silently reducing batch,
+core count or changing numerical settings. Audit all input traces and final
+saved fields, then compare actual endpoints. No default promotion, Git action,
+cleanup or resume of old horizon group618216. Relation:physical-optimization.
+
+
+## 2026-11-07 — Retry width256 with an explicit contiguous allocator pool
+
+The first attempt exits with RESOURCE_EXHAUSTED before any optimizer update,
+requesting one20.52GiB buffer under the default non-preallocating allocator.
+Preserve run01, its journal/trace/source/initial states and traceback. Allocation
+fragmentation versus a total-memory shortfall is not yet established.
+
+Attempt02 keeps exactly the same width256 numerical configuration and runtime
+seed, but declares XLA_PYTHON_CLIENT_PREALLOCATE=true and memory fraction0.90.
+The5090 has32GiB and only the explicitly paused old job's~671MiB context remains.
+Do not reduce batch/core/time counts or alter physics/losses silently. This is
+an explicit resource-policy retry, not an accuracy improvement or checkpoint
+continuation. Audit new cold state/draw equality with failed01, and input stream
+parity against width192. No other numerical trial follows automatically.
+Relation:physical-optimization.
+
+
+## 2026-11-07 — Complete width256 control with a modest gain and retain both presets
+
+Same-stream cold20k width256/Fourier256 lowers local phase3.091%/5.985% to
+2.933%/5.757% and native1.637%/3.110% to1.450%/2.781%, on the same four development
+geometries. All four local phase/concentration overall/terminal case errors
+improve. This is a modest gain, not a near2% local result or cross-seed proof.
+Final20k input/source identity, full online replay and eight independently
+recomputed physical-field files pass. Retain the real15k2.805% monitor minimum
+as a saved checkpoint, separately from the fixed-budget endpoint.
+
+Attempt01's pre-update memory failure is preserved; attempt02's explicit90%
+preallocation succeeds with identical cold state/config. Completed-run time
+23.35→28.47min, held median49.06→62.94ms and active peak15.66→20.69GiB. Report
+resource policy and the failed attempt separately; do not silently change the
+batch/core/time counts or label reservation as active memory. No extra numerical
+experiment, default/SOTA promotion, Git operation or cleanup. All new owners
+are terminal. Old horizon group618216 remains paused. Relation:physical-optimization.
+
+
+## 2026-11-07 — Document the user-accepted six-particle width256 result
+
+The user accepts the physical fields and asks to update this example's README.
+Select the actual width25620k model_final endpoint as the representative result,
+not the15k monitor minimum. Rewrite stable problem/physics/architecture/sampling/
+usage guidance around six farther particles and L2e-9/Tc350s. Publish the first
+three of the four development geometries with direct-native interface overlays,
+and report independent local FEM and native metrics separately. Preserve old
+high-mobility and dimensionless results as explicit historical comparisons.
+
+Update the existing centralized PNG/SVG slots and their direct-path provenance,
+not duplicate raw arrays/weights or add research galleries to Git. Extend only
+CPU documentation renderers; no PDE/train/network changes, inference, training
+or new reference solves. Keep the numerical train_default selector unchanged:
+commands explicitly select train_physical_spaced_w256.py for the documented
+result. User acceptance of documentation is not an implicit default/seed/Git
+promotion. Archive this accepted finite study after verification, while retaining
+the unmet near2% local aspiration and the old paused horizon recovery record.
+No commit/push or cleanup is authorized. Relation:physical-optimization.
+
+
+## 2026-11-07 — Finish the accepted particle-corrosion README publication
+
+The README and root overview now describe the six-particle50x30um/350s width256
+20k result, with separate local FEM/native errors and explicit reproduction
+commands. The centralized PNG shows first3of4 development layouts at five times;
+its native contours are labeled explicitly. The matching SVG contains18actual
+particle paths across the same three layouts. PNG+SVG total242287bytes, replacing
+the old slots. Other10case PNG/SVG files and their case metadata remain byte/
+value-identical; all6PNG and6SVG budgets pass.
+
+The CPU renderer independently checks all4local and4native saved-field norms.
+All146local documentation links,79frozen numerical/model source files and
+AST/JSON/XML checks pass. An initial SVG-count oracle included the legend;
+it was corrected to count path elements, with no geometry/image change.
+No inference, training, new reference solve, numerical-default change, Git
+operation or cleanup. User acceptance completes this finite study/documentation
+scope; archive its MD/JSON while retaining the unmet2% aspiration and explicitly
+paused old horizon recovery. Relation:physical-optimization.
+
+
+## 2026-11-07 — Publish the six-particle case in the main example tables
+
+The user authorized the homepage update, commit and push. Place the six-particle
+350 s result alongside the principal PINO examples in both tables. Link the
+explicit width-256 preset's run guide because its inputs and launch settings
+belong to this documented case. Preserve the four-geometry scope of the two
+reference comparisons.
+
+Include the related pending physical studies, presets, numerical code, regressions,
+curated images and SI unit documentation. A README-only commit would omit
+dependencies of the documented recipe and figure renderer. Follow the local dev
+commit and regular merge into main, then push only main. Relation: the archived
+physical optimization study and its six-particle documentation publication.

@@ -2,10 +2,13 @@
 
 ## Active task
 
-None. The particle-corrosion code, results and illustrated README are published;
-no training, cleanup or further optimization is queued.
+None.
 
 ## Deferred work
+
+The old high-mobility horizon process group618216 remains explicitly paused.
+Recovery details are preserved in the archived physical study below; do not
+automatically resume or discard it.
 
 Phase-field/displacement boundary-conditioned precipitate example is recorded
 but explicitly deferred by the user; no implementation, training or reference
@@ -14,6 +17,68 @@ solve. [Feasibility](tasks/archive/traction-conditioned-elastic-pino-analysis.md
 The channel20000/lower-LR study is complete and archived below.
 
 ## Latest completed validation
+
+[Six-particle corrosion homepage publication](tasks/archive/publish-six-particle-corrosion.md).
+The 350 s case appears in the root results and training strategy tables. The
+release includes the documented width-256 recipe, reproducibility sources and
+curated figures. All 107 particle-corrosion CPU regressions, saved preset
+parity, 79 frozen source comparisons and documentation checks passed.
+
+[Accepted six-particle corrosion SI study and documentation](tasks/archive/particle-corrosion-physical-optimization.md):
+width256/Adam cold20k on50x30um/350s, original joint residuals and rolling
+geometry/core-halo inputs. Same4development cases: local phase2.933%/5.757%,
+native1.450%/2.781%; modest improvement over192 at22% longer run and20.69GiB
+active peak. All input/field audits pass. README/root overview now present the
+accepted setup, explicit recipe and separate native/local metrics. Centralized
+PNG(first3layouts,5times)+SVG total242287bytes; other cases preserved. All146
+local links,79frozen numerical-source files,AST/JSON/XML and figure budgets
+pass. All older
+controls and the unmet2% aspiration remain qualified in the archive. No numerical
+default change, new solve/training, Git action or cleanup.
+[Compact record](tasks/archive/particle-corrosion-physical-optimization.json).
+
+
+[Physical particle case and strategy audit](tasks/archive/particle-corrosion-physical-pilot.md):
+actualL2e-6,Lc50um,Tc5s; derivedgroups1.7/1070/176/.103,50x30um region.
+All5owner stages complete; final8localFEM phase35.4226%pooled/46.8794%terminal,
+c34.7789%/45.6977%. First same-production-native phase33.6062%/46.2413% shows
+neural convergence failure in addition to native/local discretization error.
+22.94min,49.04msmedian,15.3945GiBpeak. All20kdraws/64finalslots audited; all8
+saved-field metrics independently recomputed.24focused tests retained.
+Both particle and successful electroPINO use joint originalL1/Adam/no causal/
+unitPDEscales. Differences include cLe-normalized IC/BC and loss grouping,
+faster LR decay,architecture,batch and geometry/operator measures. Early
+interface residuals remain large despite small mouth errors. Physical-default
+change is not a SOTA promotion; old dimensionless results remain separate.
+[Compact receipt](tasks/archive/particle-corrosion-physical-pilot.json).
+
+[Particle dimensional audit](tasks/archive/particle-corrosion-dimensional-audit.md):
+effectiveN3/Nch disagrees with electropolishL*alpha/D by545.294times, independent
+of characteristic scales. Holding electroA,omega,alpha,D yields Lc51.3179um,
+Tc247.861s(original)/495.722s(speed2), requiring different actualL1.83387e-9.
+Full identical material mapping has no solution; AC-only.454545s is invalid as
+a complete interpretation. Forward/inverse scalar checks, independent SI/PINO
+residuals(max1.1e-14),2xRHS/Jacobian and four saved-run config checks pass.
+README unit errors corrected; numerical parameters/defaults remain unchanged.
+This identifies missing calibration, not a proven cause of neural collapse.
+
+[Particle-corrosion32random times](tasks/archive/particle-corrosion-time32-diagnosis.md):
+node-aligned speed2 cold20k gives reused8phase41.2407%pooled/63.2984%terminal,
+versus8times41.2232%/63.2892%; no useful improvement.23.33min,49.09msheld,
+15.68GiB activepeak. Boundary targets align; independent native early solution
+expands, but PINO still collapses and early interface PDE residuals remain high.
+All20000draws/64finalinput slots audited; final8metrics recomputed, five owner
+stages pass. Fresh seeds limit attribution. Original1xdefault retained.
+
+[Twice-speed particle corrosion](tasks/archive/particle-corrosion-speed2.md):
+t_max1 with all four rates doubled gives2.0514times the mean final corrosion
+area, qualified by first-case FEM space/time refinement and eight overlap-time
+identities. Cold20k phase42.0821%pooled/65.8807%terminal; aligning soft mouth
+losses to operator nodes removes a large observed BC gap but a second cold20k
+still gives41.2232%/63.2892%. Early interface PDE residuals remain large. Both
+full online audits and all19focused tests pass; negative fields/results retained.
+Each run about17min/4.92GiB. Default remains original1x rolling configuration;
+fresh seeds/reused8cases limit attribution. No Git action, cleanup or pending jobs.
 
 [Published particle corrosion](tasks/archive/particle-corrosion-publication.md):
 current rolling core/halo default and full-grid comparison documented, with a
@@ -129,6 +194,18 @@ Preserve existing external data/run paths. Git history changes require explicit
 current-turn authorization; the documented workflow pushes main only.
 
 ## Recent completed tasks
+
+- [Physical particle-corrosion cold20k and electropolish strategy comparison](tasks/archive/particle-corrosion-physical-pilot.md): corrected SI setup, qualified reference, failed neural evolution and exact scheme differences preserved.
+
+- [Particle-corrosion dimensional coefficients and conditional physical time](tasks/archive/particle-corrosion-dimensional-audit.md): valid2xrescaling, but different material regime from electropolish; full derivation and reproducible CPU audit retained.
+
+- [Particle-corrosion boundary audit and32random-time control](tasks/archive/particle-corrosion-time32-diagnosis.md): completed20k, no accuracy recovery from increasing uniform time samples alone.
+
+- [Twice-speed reference validation and two cold PINO trials](tasks/archive/particle-corrosion-speed2.md): reference grows correctly; node-aligned BC fixes a sampling gap, but early-time PDE convergence remains unresolved.
+
+- [More corrosion within normalized unit time](tasks/archive/particle-corrosion-faster-normalized-time.md): propose multiplying all AC coefficients and concentration diffusion by2 with kappa2/t_max1 unchanged; RHS/Jacobian scaling verified, no new morphology result or configuration change.
+
+- [Particle-corrosion time horizon and kinetic coefficients](tasks/archive/particle-corrosion-time-kinetics.md): verified dimensionless0..1, uniform kappa2, n_ch80; no seconds/mobility calibration or parameter changes.
 
 - [Published particle-corrosion setup, results and illustrated README](tasks/archive/particle-corrosion-publication.md).
 

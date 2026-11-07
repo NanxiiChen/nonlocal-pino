@@ -1,7 +1,7 @@
 """Render compact README galleries from existing saved fields/meshes.
 
 No inference, training or reference solve is performed. Run with --case all.
-The direct paths deliberately describe these selected historical checkpoints.
+Direct paths describe the selected checkpoints; older regimes remain in task records.
 """
 import argparse
 import json
@@ -366,131 +366,166 @@ def heterogeneous_corrosion():
 
 
 def particle_corrosion():
-    from examples.particle_corrosion2d.configs.train_default import get_config
+    """Accepted six-particle SI result; saved fields only, no inference."""
+    from examples.particle_corrosion2d.configs.train_physical_spaced_w256 import get_config
 
     case = 'particle_corrosion2d'
-    run = LOGS/case/'20261106-online-geometry-spatial-w192-cold20000-02'
-    evaluation = LOGS/case/'20261106-online-w192-reused8-final-02'
-    references = DATA/case/'20261106-eight-local-reserved8-01'
-    report_path = evaluation/'metrics.json'
-    report = read_json(report_path)
+    run = LOGS/case/'20261107-spaced-six-w256-cold20000-02'
+    study = DATA/case/'20261107-spaced-six-width256-02'
+    reference_root = DATA/case/'20261107-spaced-six-01'
+    references, local_references = reference_root/'native_dev4', reference_root/'local_dev4'
+    config, summary, runtime = (read_json(run/name) for name in
+                                ('config.json', 'summary.json', 'runtime.json'))
+    report = read_json(study/'native_evaluation.json')
+    audit = read_json(run/'online_validation.json')
+    pair = read_json(study/'capacity_pair_validation.json')
     reference_manifest = read_json(references/'manifest.json')
-    frozen_path = Path(reference_manifest['preview'])
+    local_manifest = read_json(local_references/'manifest.json')
+    frozen_path = Path(reference_manifest['source_geometry'])
     frozen = read_json(frozen_path)
-    config, summary = read_json(run/'config.json'), read_json(run/'summary.json')
-    runtime, audit = read_json(run/'runtime.json'), read_json(run/'online_validation.json')
-    default_config = json.loads(json.dumps(get_config().to_dict()))
-    if config != default_config:
-        raise ValueError('Particle gallery run no longer matches the current default configuration')
-    if (report['run'] != str(run) or report['reference'] != str(references)
-            or report['checkpoint'] != 'model_final.eqx' or report['training_performed']
-            or summary['steps'] != 20000 or summary['training_uses_reference_targets']
+    if config != json.loads(get_config().to_json()):
+        raise ValueError('Selected particle run differs from the documented width256 preset')
+    if (summary['steps'] != 20000 or summary['training_uses_reference_targets']
             or not runtime['rolling_inputs'] or not runtime['cold_initialization']
             or runtime['training_uses_reference_targets']
-            or str(references) not in runtime['excluded_reference_paths']
+            or runtime['reference'] != str(local_references)
+            or report['run'] != str(run) or pair['status'] != 'passed'
             or not (run/'model_final.eqx').is_file()):
-        raise ValueError('Particle gallery requires the default rolling nonlocal20k final evaluation')
+        raise ValueError('Particle gallery requires the qualified cold width25620k endpoint')
     if (audit['status'] != 'passed' or audit['run'] != str(run)
-            or audit['updates'] != summary['steps'] or audit['evaluation_overlap'] != 0
+            or audit['updates'] != 20000 or audit['evaluation_overlap'] != 0
             or audit['future_training_fields'] != 0
             or audit['exact_final_slots_reconstructed'] != summary['geometry_count']):
-        raise ValueError('Particle gallery requires the passed rolling-input replay audit')
-    if (reference_manifest['backend'] != 'local_p1_lumped_fem'
-            or not frozen['never_use_for_training'] or len(frozen['samples']) != 8
-            or len(reference_manifest['cases']) != 8 or len(report['metrics']['conditions']) != 8):
-        raise ValueError('Expected the predeclared eight-geometry reserved local-FEM cohort')
-    for field in ('geometry', 'particles', 'physical'):
-        if config[field] != reference_manifest['config'][field] or config[field] != frozen['config'][field]:
-            raise ValueError(f'Particle reference/conditioning mismatch in {field}')
-    for saved, declared in zip(reference_manifest['cases'], frozen['samples'], strict=True):
-        if saved['geometry'] != declared['geometry']:
-            raise ValueError('Reference geometry order differs from the frozen reserved inputs')
-    samples, times = (0, 1, 2, 3), (0, .2, .5, .8, 1)
-    fig, axes = plt.subplots(4, 5, figsize=(12.5, 7.4))
-    fig.subplots_adjust(left=.075, right=.985, bottom=.12, top=.85, wspace=.12, hspace=.28)
-    records, validated_records = [], []
-    for sample in range(len(reference_manifest['cases'])):
-        source = evaluation/f'prediction_{sample:03d}.npz'
-        reference = references/reference_manifest['cases'][sample]['file']
-        a, ref = read_arrays(source), read_arrays(reference)
-        for key in ('points', 'times'):
-            np.testing.assert_array_equal(a[key], ref[key])
-        if (a['prediction'].shape != ref['fields'].shape
-                or a['prediction'].shape != (len(ref['times']), len(ref['points']), 2)
-                or not np.isfinite(a['prediction']).all()
-                or not np.isfinite(ref['fields']).all() or np.any(ref['volumes'] <= 0)):
-            raise ValueError('Invalid particle prediction/reference fields or physical measures')
-        saved_times = ref['times']
-        if len(saved_times) != 11 or np.any(np.diff(saved_times) <= 0):
-            raise ValueError('Expected eleven ordered physical-time snapshots')
-        ids = time_indices(saved_times, times)
-        time_weights = np.empty(len(saved_times))
-        time_weights[0] = (saved_times[1]-saved_times[0])/2
-        time_weights[-1] = (saved_times[-1]-saved_times[-2])/2
-        time_weights[1:-1] = (saved_times[2:]-saved_times[:-2])/2
-        predicted, target = a['prediction'][..., 0], ref['fields'][..., 0]
-        error = relative_l2(predicted, target, weights=time_weights[:, None]*ref['volumes'])
-        terminal = relative_l2(predicted[-1], target[-1], weights=ref['volumes'])
-        logged = report['metrics']['conditions'][sample]
-        np.testing.assert_allclose(error, logged['phi_pooled'], rtol=0, atol=2e-10)
-        np.testing.assert_allclose(terminal, logged['phi_terminal'], rtol=0, atol=2e-10)
-        validated_records.append(dict(index=sample, source=str(source), reference=str(reference),
-                                      pooled_phi=error, terminal_phi=terminal))
+        raise ValueError('Particle gallery requires complete rolling-input replay')
+    if (reference_manifest['backend'] != 'native_visible_regional_integral'
+            or local_manifest['backend'] != 'local_p1_lumped_fem'
+            or local_manifest['source_geometry'] != str(frozen_path)
+            or len(frozen['samples']) != 4 or len(reference_manifest['cases']) != 4
+            or len(local_manifest['cases']) != 4 or len(report['conditions']) != 4
+            or len(summary['final']['conditions']) != 4):
+        raise ValueError('Expected the same four development geometries for both references')
+    for name in ('geometry', 'geometry_si', 'particles', 'physical', 'nondim'):
+        for declared in (reference_manifest, local_manifest, frozen):
+            if config[name] != declared['config'][name]:
+                raise ValueError('Particle reference/conditioning mismatch: '+name)
+
+    def validate_prediction(prediction, reference, logged):
+        if (prediction.shape != reference['fields'].shape
+                or prediction.shape != (11, len(reference['points']), 2)
+                or not np.isfinite(prediction).all()
+                or not np.isfinite(reference['fields']).all()
+                or np.any(reference['volumes'] <= 0)):
+            raise ValueError('Invalid saved particle fields or physical quadrature')
+        ts = reference['times']
+        if ts[0] != 0 or ts[-1] != 1 or np.any(np.diff(ts) <= 0):
+            raise ValueError('Expected eleven ordered snapshots on the unit interval')
+        np.testing.assert_allclose(reference['physical_time'],
+                                   ts*config['nondim']['T_c'], rtol=0, atol=1e-12)
+        tw = np.r_[np.diff(ts)[0], np.diff(ts)[:-1]+np.diff(ts)[1:], np.diff(ts)[-1]]/2
+        result = {}
+        for channel, name in enumerate(('phi', 'c')):
+            result[name+'_pooled'] = relative_l2(
+                prediction[..., channel], reference['fields'][..., channel],
+                weights=tw[:, None]*reference['volumes'])
+            result[name+'_terminal'] = relative_l2(
+                prediction[-1, :, channel], reference['fields'][-1, :, channel],
+                weights=reference['volumes'])
+        for name, value in result.items():
+            np.testing.assert_allclose(value, logged[name], rtol=0, atol=2e-10)
+        return result
+
+    samples, times = (0, 1, 2), (0, .2, .5, .8, 1)
+    fig, axes = plt.subplots(3, 5, figsize=(12.5, 6.3))
+    fig.subplots_adjust(left=.075, right=.985, bottom=.14, top=.80, wspace=.12, hspace=.24)
+    records, validated_records, local_records = [], [], []
+    for sample, (entry, local_entry, prescribed) in enumerate(zip(
+            reference_manifest['cases'], local_manifest['cases'], frozen['samples'], strict=True)):
+        if entry['geometry'] != prescribed['geometry'] or local_entry['geometry'] != prescribed['geometry']:
+            raise ValueError('Reference geometry order differs from prescribed inputs')
+        source = study/f'native_prediction_{sample:03d}.npz'
+        reference_path = references/entry['file']
+        native, ref = read_arrays(source), read_arrays(reference_path)
+        np.testing.assert_array_equal(native['points'], ref['points'])
+        np.testing.assert_array_equal(native['volumes'], ref['volumes'])
+        predicted = native['fields'][time_indices(native['times'], ref['times'])]
+        score = validate_prediction(predicted, ref, report['conditions'][sample]['native'])
+        validated_records.append(dict(index=sample, source=str(source),
+                                      reference=str(reference_path), pooled_phi=score['phi_pooled'],
+                                      terminal_phi=score['phi_terminal'], **score))
+        local_source = run/f'prediction_{sample:03d}.npz'
+        local_path = local_references/local_entry['file']
+        local, local_ref = read_arrays(local_source), read_arrays(local_path)
+        for name in ('points', 'times'):
+            np.testing.assert_array_equal(local[name], local_ref[name])
+        local_score = validate_prediction(
+            local['prediction'], local_ref, summary['final']['conditions'][sample])
+        local_records.append(dict(index=sample, source=str(local_source),
+                                  reference=str(local_path), **local_score))
         if sample not in samples:
             continue
-        row = samples.index(sample)
         records.append(validated_records[-1])
+        row = samples.index(sample)
         xy = ref['points']
         tri = Triangulation(xy[:, 0], xy[:, 1], ref['triangles'])
-        for col, index in enumerate(ids):
+        for col, index in enumerate(time_indices(ref['times'], times)):
             ax = axes[row, col]
-            image = ax.tripcolor(tri, predicted[index], shading='gouraud',
+            image = ax.tripcolor(tri, predicted[index, :, 0], shading='gouraud',
                                 cmap='viridis', vmin=0, vmax=1)
-            ax.tricontour(tri, target[index], levels=[.5], colors='black',
-                          linewidths=.85, linestyles='--')
-            # Missing FEM triangles are the actual inert inclusions; no new
-            # Delaunay triangulation or interpolation through a particle.
+            ax.tricontour(tri, predicted[index, :, 0], levels=[.5], colors='#263746', linewidths=.8)
+            ax.tricontour(tri, ref['fields'][index, :, 0], levels=[.5],
+                          colors='white', linewidths=1, linestyles='--')
             ax.set_facecolor('#a8b2b8')
             ax.set(xlim=(0, config['geometry']['length']),
                    ylim=(config['geometry']['height'], 0), aspect='equal')
             ax.set_xticks([0, .5, 1]); ax.set_yticks([0, .3, .6])
             ax.tick_params(labelsize=7, length=2, pad=2)
             if col == 0:
-                ax.set_ylabel(f'Geometry {sample}\nL2 = {100*error:.2f}%', fontsize=9)
+                ax.set_ylabel(f'Geometry {sample+1}\nNative L2 = {100*score["phi_pooled"]:.2f}%',
+                              fontsize=8)
             else:
                 ax.set_yticklabels([])
             if row != len(samples)-1:
                 ax.set_xticklabels([])
             if row == 0:
-                ax.set_title(f'$t^*={times[col]:g}$', fontsize=10)
+                seconds = config['nondim']['T_c']*times[col]
+                ax.set_title(f'$t^*={times[col]:g}$ ({seconds:g} s)', fontsize=9)
     colorbar = fig.add_axes((.33, .07, .44, .013))
     fig.colorbar(image, cax=colorbar, orientation='horizontal', ticks=[0, .5, 1])
     colorbar.set_xlabel('PINO phase $\\phi$: 0 = electrolyte, 1 = metal', fontsize=9)
     colorbar.tick_params(labelsize=8)
-    fig.suptitle('Particle corrosion: rolling geometry and core/halo sampling', fontsize=13, y=.975)
-    fig.text(.5, .929, 'Default nonlocal PINO / Adam / 20,000 steps  |  four previously inspected comparison geometries',
+    fig.suptitle('Six-particle corrosion: geometry-conditioned PINO', fontsize=13, y=.98)
+    fig.text(.5, .932, 'Width256 / Adam / cold20k / 0-350 s | first three of four development geometries',
              ha='center', fontsize=9)
-    fig.text(.5, .895, 'Gray: impermeable ceramic  |  dashed black: local-FEM reference $\\phi=0.5$',
+    fig.text(.5, .89, 'Gray: ceramic | dark solid: PINO | white dashed: direct nonlocal reference interface',
              ha='center', fontsize=9)
-    cohort_mean = float(np.mean([r['pooled_phi'] for r in validated_records]))
-    np.testing.assert_allclose(cohort_mean, report['metrics']['phi_pooled'], rtol=0, atol=2e-10)
-    result = save(fig, case, dict(run=str(run), checkpoint=str(run/'model_final.eqx'),
-        evaluation=str(evaluation), source_files=[str(report_path), str(run/'config.json'),
-            str(run/'runtime.json'), str(run/'summary.json'), str(run/'online_validation.json'),
-            str(REPO/'examples/particle_corrosion2d/configs/train_default.py'),
-            str(references/'manifest.json'), str(frozen_path)],
-        samples=list(samples), nondimensional_times=list(times), records=records,
-        evaluation_cohort_size=8, evaluation_cohort_mean_pooled_phi=cohort_mean,
-        selected_mean_pooled_phi=float(np.mean([r['pooled_phi'] for r in records])),
-        validated_cohort_records=validated_records, default_configuration_exact=True,
+    for name in ('phi_pooled', 'phi_terminal', 'c_pooled', 'c_terminal'):
+        np.testing.assert_allclose(np.mean([r[name] for r in validated_records]),
+                                   report['mean_native'][name], rtol=0, atol=2e-10)
+        np.testing.assert_allclose(np.mean([r[name] for r in local_records]),
+                                   summary['final'][name], rtol=0, atol=2e-10)
+    result = save(fig, case, dict(
+        run=str(run), checkpoint=str(run/'model_final.eqx'), evaluation=str(study),
+        reference_directory=str(references), local_reference_directory=str(local_references),
+        source_files=[str(run/'config.json'), str(run/'runtime.json'), str(run/'summary.json'),
+            str(run/'online_validation.json'), str(study/'native_evaluation.json'),
+            str(study/'capacity_pair_validation.json'), str(study/'saved_field_metric_validation.json'),
+            str(REPO/'examples/particle_corrosion2d/configs/train_physical_spaced_w256.py'),
+            str(references/'manifest.json'), str(local_references/'manifest.json'), str(frozen_path)],
+        samples=list(samples), nondimensional_times=list(times), physical_times=[350*t for t in times],
+        records=records, evaluation_cohort_size=4,
+        evaluation_cohort_mean_pooled_phi=report['mean_native']['phi_pooled'],
+        selected_mean_pooled_phi=float(np.mean([r['phi_pooled'] for r in records])),
+        local_cohort_mean_pooled_phi=summary['final']['phi_pooled'],
+        validated_cohort_records=validated_records, validated_local_cohort_records=local_records,
+        representative_configuration_exact=True, default_configuration_exact=False,
         rolling_input_audit=str(run/'online_validation.json'),
-        selection='First four of the same eight previously inspected comparison geometries in frozen input order; no error-based sample selection and no new blind test. Current default rolling core/halo model at its fixed20000-update endpoint.',
-        reference='Independent local P1 mass-lumped FEM/BDF, h0.01,256boundary points per particle; rtol2e-8,atol2e-10,max_step0.0125',
-        metric='Physical nodal-volume and trapezoidal physical-time relative L2 over all eleven saved times; cohort aggregates are arithmetic means over geometries',
-        display='Original conforming FEM triangles; Gouraud display interpolation only; actual saved times; gray holes from excluded triangles; no phase clipping, field smoothing or temporal interpolation; 256-color PNG encoding'),
+        selection='First three of four previously inspected development geometries, saved input order; fixed20k endpoint. No error-based layout selection or new blind cohort.',
+        reference='Production visible regional integral, spacing0.015/128contour edges. Independent local P1 FEM spacing0.01/256edges is audited separately; contours use native reference.',
+        metric='Physical nodal-volume and trapezoidal time relative L2 on eleven snapshots; arithmetic mean across four geometries.',
+        display='Original physical triangles, gray holes, Gouraud display interpolation only; actual saved times; no new triangulation, clipping, field smoothing or temporal interpolation; 256-color PNG.'),
         palette_colors=256)
     if result['bytes'] > 250*1024:
-        raise ValueError('Particle README image exceeds its250KiB compact-asset target')
+        raise ValueError('Particle README image exceeds its250KiB target')
     return result
 
 

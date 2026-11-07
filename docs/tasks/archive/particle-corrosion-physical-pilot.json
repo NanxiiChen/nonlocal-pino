@@ -1,0 +1,118 @@
+{
+  "status": "passed",
+  "owner_status": "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/owner_status.json",
+  "report": "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/report.json",
+  "reference_validation": "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/validation.json",
+  "strategy_audit": "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/strategy_comparison.json",
+  "stages": [
+    "train",
+    "online_audit",
+    "evaluation",
+    "report",
+    "full_mesh_audit"
+  ],
+  "final_local8_metrics": {
+    "phi_pooled": 0.3542263588991792,
+    "phi_terminal": 0.4687939481002681,
+    "c_pooled": 0.3477885333904699,
+    "c_terminal": 0.4569767342931699
+  },
+  "native_first_case": {
+    "phi_pooled": 0.3360617374992474,
+    "phi_terminal": 0.4624128424685667,
+    "c_pooled": 0.3302550704603618,
+    "c_terminal": 0.4479877636815256,
+    "corroded_pooled": 0.9406013413741898,
+    "corroded_terminal": 0.9658820578040822,
+    "phase_change": 1.3421942404804938,
+    "terminal_iou": 0.0203086141221615,
+    "terminal_interface_area_error": 0.9796913858778384
+  },
+  "total_training_seconds": 1376.4441105797887,
+  "held_step_seconds": 0.04903784766793251,
+  "peak_active_GiB": 15.39454436302185,
+  "coefficient_groups": {
+    "particle": [
+      1.7,
+      1070.0,
+      175.99999999999997,
+      0.103
+    ],
+    "electropolish": [
+      0.425,
+      535.0,
+      87.99999999999999,
+      0.012875
+    ],
+    "old_particle": [
+      80.0,
+      48.63636363636363,
+      8.0,
+      0.0044444444444444444
+    ]
+  },
+  "lr": {
+    "0": {
+      "particle": 0.001,
+      "electropolish": 0.001,
+      "electro_within_completed_budget": true
+    },
+    "3000": {
+      "particle": 0.0005,
+      "electropolish": 0.000857375,
+      "electro_within_completed_budget": true
+    },
+    "5000": {
+      "particle": 0.0003149802624737183,
+      "electropolish": 0.0007737809374999998,
+      "electro_within_completed_budget": true
+    },
+    "10000": {
+      "particle": 9.921256574801247e-05,
+      "electropolish": 0.0005987369392383787,
+      "electro_within_completed_budget": false
+    },
+    "20000": {
+      "particle": 1e-05,
+      "electropolish": 0.0003584859224085419,
+      "electro_within_completed_budget": false
+    }
+  },
+  "temporal_coverage": {
+    "particle": {
+      "shape": [
+        20000,
+        32
+      ],
+      "median_earliest": 0.021580882370471954,
+      "fraction_batches_without_tstar_lt_001": 0.72935,
+      "fraction_batches_without_tstar_lt_003": 0.38305
+    },
+    "electropolish": {
+      "shape": [
+        5000,
+        4
+      ],
+      "median_earliest": 0.16621045768260956,
+      "fraction_batches_without_tstar_lt_001": 0.969,
+      "fraction_batches_without_tstar_lt_003": 0.8954
+    }
+  },
+  "numerical_source_files_checked": [
+    "examples/particle_corrosion2d/dimensional.py",
+    "examples/particle_corrosion2d/network.py",
+    "examples/particle_corrosion2d/losses.py",
+    "examples/particle_corrosion2d/inputs.py",
+    "examples/particle_corrosion2d/operators.py",
+    "examples/particle_corrosion2d/problem.py",
+    "examples/particle_corrosion2d/solver.py",
+    "examples/particle_corrosion2d/train.py",
+    "examples/particle_corrosion2d/configs/train_physical.py"
+  ],
+  "source_electropolish_loss_ast_parity": {
+    "physical_fields": true,
+    "make_loss_components": true,
+    "make_loss_vector": true
+  },
+  "interpretation": "Completed requested physical redefinition/cold run; inaccurate neural solution preserved. All final values independently remeasured on saved fields; no next optimization experiment launched."
+}

@@ -37,6 +37,52 @@ def mouth_quadrature(c):
     return points,np.full(n,length/n)
 
 
+def mouth_sampling_policy(c):
+    """Absent selector preserves the historical independent midpoint losses."""
+    if 'mouth_sampling' not in c.operator:
+        return 'midpoint'
+    policy = c.operator.mouth_sampling
+    if policy not in ('midpoint', 'mesh_dirichlet'):
+        raise ValueError('Mouth sampling must be midpoint or mesh_dirichlet')
+    return policy
+
+
+def mesh_mouth_quadrature(c, mesh):
+    """Every discrete reservoir node, with lumped P1 boundary-edge measure."""
+    points = np.asarray(mesh['points'])
+    mouth = np.asarray(mesh['mouth'])
+    edges = np.asarray(mesh['boundary_edges'])[np.asarray(mesh['boundary_groups']) == 1]
+    if (points.ndim != 2 or points.shape[1] != 2 or mouth.shape != (len(points),)
+            or mouth.dtype != np.bool_ or edges.ndim != 2 or edges.shape[1] != 2
+            or len(edges) == 0 or not np.issubdtype(edges.dtype, np.integer)
+            or np.any(edges < 0) or np.any(edges >= len(points)) or not np.isfinite(points).all()):
+        raise ValueError('Invalid mouth-node/edge geometry')
+    ids = np.flatnonzero(mouth)
+    if not np.array_equal(ids, np.unique(edges)):
+        raise ValueError('Mouth edges must cover exactly the discrete Dirichlet nodes')
+    capacity = c.operator.mouth_points
+    if isinstance(capacity, bool) or not isinstance(capacity, int) or len(ids) > capacity:
+        raise ValueError(f'Mouth-node padding overflow: {len(ids)} nodes / {capacity} slots')
+    actual = points[ids]
+    g = c.geometry
+    if (np.any(np.abs(actual[:, 1]) > 1e-12)
+            or np.any(np.abs(actual[:, 0]-g.pit_x) > g.mouth_half_width+1e-12)):
+        raise ValueError('Discrete mouth nodes lie outside the declared reservoir')
+    lengths = np.linalg.norm(points[edges[:, 1]]-points[edges[:, 0]], axis=1)
+    if np.any(lengths <= 0) or not np.isclose(lengths.sum(), 2*g.mouth_half_width, rtol=1e-12, atol=1e-12):
+        raise ValueError('Mouth edge measure differs from the declared opening length')
+    nodal = np.zeros(len(points))
+    np.add.at(nodal, edges[:, 0], lengths/2)
+    np.add.at(nodal, edges[:, 1], lengths/2)
+    if np.any(nodal[ids] <= 0):
+        raise ValueError('Every operator mouth node needs positive boundary weight')
+    padded_points = np.tile(actual[0], (capacity, 1))
+    padded_weights = np.zeros(capacity)
+    padded_points[:len(ids)] = actual
+    padded_weights[:len(ids)] = nodal[ids]
+    return padded_points, padded_weights
+
+
 def wall_quadrature(c, record):
     """PDE-domain outward normals; ceramic outward normals have opposite sign."""
     length,height=c.geometry.length,c.geometry.height
@@ -101,7 +147,10 @@ def initial_payload(c, mesh, rng):
     ids=rng.choice(len(mesh['points']),size=c.operator.ic_points,replace=True,
                    p=mesh['volumes']/mesh['volumes'].sum())
     points=mesh['points'][ids]
-    return dict(ic_points=points,initial_ic=initial_fields(c,points),ic_weights=np.ones(len(ids)))
+    result = dict(ic_points=points,initial_ic=initial_fields(c,points),ic_weights=np.ones(len(ids)))
+    if mouth_sampling_policy(c) == 'mesh_dirichlet':
+        result['mouth_points'], result['mouth_weights'] = mesh_mouth_quadrature(c, mesh)
+    return result
 
 
 def pad_graph(payload, halo_size, neighbor_size):

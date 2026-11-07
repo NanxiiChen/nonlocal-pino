@@ -6,8 +6,10 @@ import numpy as np
 
 
 def load_references(directory,c):
+    from .dimensional import has_dimensional_inputs, require_matching_units
     directory=Path(directory).resolve()
     manifest=json.loads((directory/'manifest.json').read_text())
+    require_matching_units(manifest['config'], c)
     for name in ('geometry','particles','physical'):
         if json.loads(c.to_json())[name]!=manifest['config'][name]:
             raise ValueError(f'Reference {name} differs from training physics/prior')
@@ -26,6 +28,10 @@ def load_references(directory,c):
                 or np.any(np.diff(data['times'])<=0) or data['times'][0]!=0 or data['times'][-1]!=c.sample.t_max):
             raise ValueError('Invalid reference fields/physical quadrature')
         references.append(data)
+        if has_dimensional_inputs(c):
+            if 'physical_time' not in data or not np.allclose(
+                    data['physical_time'], data['times']*c.nondim.T_c, rtol=0, atol=1e-12):
+                raise ValueError('Reference physical times do not match the declared characteristic time')
     return references,manifest
 
 

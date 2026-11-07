@@ -4520,7 +4520,7 @@
         "selected_checkpoint_seed": 42,
         "seed_input": "--seed; common untuned run default42; omitted from strategy config",
         "seed_scope": "Selected checkpoint seed is historical provenance, not a strategy parameter or promised default accuracy.",
-        "stability_assessment": "Observed three-seed phi range0.004225–0.010744, c0.005006–0.012727; no universal guarantee and Dq remains high.",
+        "stability_assessment": "Observed three-seed phi range0.004225\u20130.010744, c0.005006\u20130.012727; no universal guarantee and Dq remains high.",
         "audit": "docs/tasks/archive/corrosion-robust-objective-audit.json"
       },
       "ordinary_policy_defaults_20261026": {
@@ -7686,7 +7686,7 @@
         "no_Git_or_cleanup": true,
         "further_training_queued": 0,
         "thread_goal": {
-          "objective": "请按照这样的思路持续解决优化，解决液滴形状与参考解不匹配的问题",
+          "objective": "\u8bf7\u6309\u7167\u8fd9\u6837\u7684\u601d\u8def\u6301\u7eed\u89e3\u51b3\u4f18\u5316\uff0c\u89e3\u51b3\u6db2\u6ef4\u5f62\u72b6\u4e0e\u53c2\u8003\u89e3\u4e0d\u5339\u914d\u7684\u95ee\u9898",
           "status": "active",
           "explicit_budget": null,
           "old_automatic_queues_revived": false
@@ -8425,7 +8425,7 @@
         "no_Git_or_cleanup": true,
         "further_training_queued": 0,
         "thread_goal": {
-          "objective": "请按照这样的思路持续解决优化，解决液滴形状与参考解不匹配的问题",
+          "objective": "\u8bf7\u6309\u7167\u8fd9\u6837\u7684\u601d\u8def\u6301\u7eed\u89e3\u51b3\u4f18\u5316\uff0c\u89e3\u51b3\u6db2\u6ef4\u5f62\u72b6\u4e0e\u53c2\u8003\u89e3\u4e0d\u5339\u914d\u7684\u95ee\u9898",
           "status": "active",
           "explicit_budget": null,
           "old_automatic_queues_revived": false
@@ -11356,7 +11356,7 @@
       },
       "acceptance_policy": {
         "kind": "user_provisional_near10_pressure",
-        "user_instruction": "压力确实比较困难，如果实在无法突破10%，接近10%也暂且接受吧",
+        "user_instruction": "\u538b\u529b\u786e\u5b9e\u6bd4\u8f83\u56f0\u96be\uff0c\u5982\u679c\u5b9e\u5728\u65e0\u6cd5\u7a81\u783410%\uff0c\u63a5\u8fd110%\u4e5f\u6682\u4e14\u63a5\u53d7\u5427",
         "strict_limit": 0.1,
         "provisional_limits": {
           "phi": 0.1,
@@ -17866,7 +17866,7 @@
         }
       },
       "thread_goal": {
-        "objective": "请按照这样的思路持续解决优化，解决液滴形状与参考解不匹配的问题",
+        "objective": "\u8bf7\u6309\u7167\u8fd9\u6837\u7684\u601d\u8def\u6301\u7eed\u89e3\u51b3\u4f18\u5316\uff0c\u89e3\u51b3\u6db2\u6ef4\u5f62\u72b6\u4e0e\u53c2\u8003\u89e3\u4e0d\u5339\u914d\u7684\u95ee\u9898",
         "status": "active",
         "explicit_budget": null,
         "old_automatic_queues_revived": false
@@ -17974,7 +17974,7 @@
         "no_Git_or_cleanup": true,
         "further_training_queued": 0,
         "thread_goal": {
-          "objective": "请按照这样的思路持续解决优化，解决液滴形状与参考解不匹配的问题",
+          "objective": "\u8bf7\u6309\u7167\u8fd9\u6837\u7684\u601d\u8def\u6301\u7eed\u89e3\u51b3\u4f18\u5316\uff0c\u89e3\u51b3\u6db2\u6ef4\u5f62\u72b6\u4e0e\u53c2\u8003\u89e3\u4e0d\u5339\u914d\u7684\u95ee\u9898",
           "status": "active",
           "explicit_budget": null,
           "old_automatic_queues_revived": false
@@ -18867,7 +18867,7 @@
         "new_FEM_solves": 0,
         "evolved_training_labels": 0,
         "thread_goal": {
-          "objective": "请按照这样的思路持续解决优化，解决液滴形状与参考解不匹配的问题",
+          "objective": "\u8bf7\u6309\u7167\u8fd9\u6837\u7684\u601d\u8def\u6301\u7eed\u89e3\u51b3\u4f18\u5316\uff0c\u89e3\u51b3\u6db2\u6ef4\u5f62\u72b6\u4e0e\u53c2\u8003\u89e3\u4e0d\u5339\u914d\u7684\u95ee\u9898",
           "status": "active",
           "explicit_budget": null,
           "old_automatic_queues_revived": false
@@ -19684,7 +19684,7 @@
         "no_Git_or_cleanup": true,
         "further_training_queued": 0,
         "thread_goal": {
-          "objective": "请按照这样的思路持续解决优化，解决液滴形状与参考解不匹配的问题",
+          "objective": "\u8bf7\u6309\u7167\u8fd9\u6837\u7684\u601d\u8def\u6301\u7eed\u89e3\u51b3\u4f18\u5316\uff0c\u89e3\u51b3\u6db2\u6ef4\u5f62\u72b6\u4e0e\u53c2\u8003\u89e3\u4e0d\u5339\u914d\u7684\u95ee\u9898",
           "status": "active",
           "explicit_budget": null,
           "old_automatic_queues_revived": false
@@ -21036,7 +21036,24 @@
         "/root/autodl-tmp/data/particle_corrosion2d/20261106-reference-contact-audit-01",
         "/root/autodl-tmp/data/particle_corrosion2d/20261106-reference-qualification-01",
         "/root/autodl-tmp/data/particle_corrosion2d/20261106-reference-qualification-02",
-        "/root/autodl-tmp/data/particle_corrosion2d/20261106-reserved8-inputs-01"
+        "/root/autodl-tmp/data/particle_corrosion2d/20261106-reserved8-inputs-01",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-qualification-01",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-local-dev4-01",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-local-reused8-01",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-input-bank64-01",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-mouth-nodes-study-01",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-mouth-nodes-input-bank64-01",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-time32-study-01",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/dev4",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/inputs64",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/native_h01",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/native_training_mesh",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/reused8",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/screening_5s",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/screening_reference",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/spatial_h0075",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/temporal_half"
       ],
       "record": "docs/tasks/archive/particle-corrosion-online.md",
       "manifest": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-particle-preview-01/manifest.json",
@@ -21065,74 +21082,40 @@
         "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-integration-probe-01",
         "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-vs-fixed-w192-02",
         "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-w192-reused8-final-02",
-        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-resource-probe-01"
+        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-resource-probe-01",
+        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-online-w192-cold20000-01",
+        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-online-w192-reused8-final-01",
+        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-study-report-01",
+        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-mouth-nodes-w192-cold20000-01",
+        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-mouth-nodes-w192-reused8-final-01",
+        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-mouth-nodes-report-01",
+        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-time32-w192-cold20000-01",
+        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-time32-w192-reused8-final-01",
+        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-time32-report-01",
+        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-physical5s-w192-cold20000-01",
+        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-physical5s-w192-reused8-final-01"
       ],
-      "input_bank": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-input-bank64-01",
-      "development_reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reference4-01",
-      "reserved_reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reserved8-01",
+      "input_bank": "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/inputs64",
+      "development_reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/dev4",
+      "reserved_reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/reused8",
       "baseline_nonlocal_run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-eight-nonlocal-w96-cold10000-01",
       "baseline_local_ad_run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-eight-local-ad-w96-cold10000-01",
       "default_training": {
         "entry": "examples/particle_corrosion2d/train.py",
         "config": "examples/particle_corrosion2d/configs/train_default.py",
-        "recipe_config": "examples/particle_corrosion2d/configs/train_online.py",
-        "status": "Validated rolling core/halo default requested by the user; historical fixed-bank selected result retained. Completed full-grid comparison has lower measured error but is not promoted.",
-        "selected_run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02",
-        "selected_checkpoint": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02/model_final.eqx",
-        "saved_config": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02/config.json",
-        "runtime": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02/runtime.json",
-        "summary": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02/summary.json",
-        "configuration_matches_selected_run": true,
+        "recipe_config": "examples/particle_corrosion2d/configs/train_physical.py",
+        "status": "SI physical definition retained as requested; completed cold20k is inaccurate and is not a SOTA promotion.",
+        "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-physical5s-w192-cold20000-01",
         "optimizer": "adam",
         "iterations": 20000,
         "width": 192,
-        "spatial_fourier_features": 96,
         "condition_batch": 4,
-        "time_samples": 8,
-        "geometry_count": 64,
-        "core_points": 256,
-        "pool_per_geometry": 8,
-        "nonlocal_delta": 0.026,
-        "mesh_spacing": 0.015,
-        "mesh_boundary_points_per_particle": 128,
-        "lr_init": 0.001,
-        "lr_min": 1e-05,
-        "lr_decay_every": 3000,
-        "lr_decay_rate": 0.5,
-        "compute_dtype": "float32",
-        "gpu_policy": "ordinary",
-        "matmul_precision": "highest",
-        "initial_condition": "soft normalized loss",
-        "kks_mapping": "bounded tanh phase; unrestricted scaled liquid concentration; algebraic total concentration",
-        "losses": [
-          "ac",
-          "ch",
-          "mouth_phi",
-          "mouth_c_over_cle",
-          "initial"
-        ],
-        "time_derivative": "physical-time JVP",
-        "spatial_derivative": "visible symmetric regional nonlocal negative Laplacian",
-        "gradient_weighting": "stopped inverse-L1 gradient norms with EMA and explicit cap",
-        "seed_policy": "Fresh runtime seed when unpaired; this matched validation reuses the fixed-control runtime seed, never a configuration parameter.",
-        "selected_checkpoint_rule": "Fixed20000 endpoint; reused8 evaluation is a previously inspected comparison cohort, not a new untouched test.",
+        "time_samples": 32,
+        "time_derivative": "JVP with respect to normalized time",
+        "sampling": "rolling random geometries and core/halo plus IC refreshes",
         "training_uses_reference_targets": false,
-        "geometry_pool_capacity": 64,
-        "distinct_sampled_geometries": 380,
-        "distinct_sampled_geometry_spatial_versions": 1900,
-        "rolling_settings": {
-          "workers": 4,
-          "geometry_every": 250,
-          "geometry_size": 4,
-          "spatial_every": 50,
-          "spatial_size": 4,
-          "prefetch": 4,
-          "halo": 3072,
-          "neighbors": 64,
-          "worker_cache": 64
-        },
-        "sampling": "Background fresh geometries and independent complete core/halo plus IC refreshes",
-        "selection_reason": "Continuous geometry and spatial input sampling requested by the user; not selected for lower pooled error."
+        "physical_config": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-physical5s-w192-cold20000-01/config.json",
+        "record": "docs/tasks/archive/particle-corrosion-physical-pilot.md"
       },
       "sota_run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-eight-nonlocal-w192-cold20000-01",
       "sota_metric": {
@@ -21180,18 +21163,15 @@
       },
       "curated_result_figure": {
         "image": "assets/pino/particle_corrosion2d.png",
-        "manifest": "artifacts/pino_readme_figures.json",
-        "generator": "scripts/render_pino_readme_figures.py",
-        "bytes": 230575,
+        "bytes": 210534,
         "pixel_dimensions": [
           1875,
-          1110
+          945
         ],
         "samples": [
           0,
           1,
-          2,
-          3
+          2
         ],
         "nondimensional_times": [
           0,
@@ -21200,11 +21180,22 @@
           0.8,
           1
         ],
-        "evaluation": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-w192-reused8-final-02",
-        "checkpoint": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02/model_final.eqx",
+        "physical_times": [
+          0,
+          70.0,
+          175.0,
+          280.0,
+          350
+        ],
+        "evaluation": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-width256-02",
+        "checkpoint": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/model_final.eqx",
         "field": "phi",
-        "display": "Original conforming FEM triangles; Gouraud display interpolation only; actual saved times; gray holes from excluded triangles; no phase clipping, field smoothing or temporal interpolation; 256-color PNG encoding",
-        "selection": "First four of the same eight previously inspected comparison geometries in frozen input order; no error-based sample selection and no new blind test. Current default rolling core/halo model at its fixed20000-update endpoint."
+        "display": "Original physical triangles, gray holes, Gouraud display interpolation only; actual saved times; no new triangulation, clipping, field smoothing or temporal interpolation; 256-color PNG.",
+        "selection": "First three of four previously inspected development geometries, saved input order; fixed20k endpoint. No error-based layout selection or new blind cohort.",
+        "manifest": "artifacts/pino_readme_figures.json",
+        "generator": "scripts/render_pino_readme_figures.py",
+        "reference": "direct nonlocal; independent local FEM metrics reported separately",
+        "scope": "User-accepted six-particle SI20k result; explicit preset, not the numerical default"
       },
       "completed_width96_comparison": {
         "report": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-eight-w96-paired-comparison-01/comparison.json",
@@ -22533,13 +22524,362 @@
         },
         "interpretation": "Full-grid lowers measured phase and concentration errors relative to rolling core/halo, and its pooled phase error also falls below the historical selected fixed-bank result. It costs more time per update and active memory. This is one paired initialization on a reused cohort; the user requested a comparison, so the default and historical selected artifacts are not automatically changed."
       },
-      "sota_record_status": "Historical selected fixed-bank core/halo result preserved for provenance. The current README figure shows the rolling core/halo default instead. The full-grid comparison measures lower pooled error on the reused eight cases; it has not been selected as the default or promoted to this historical SOTA pointer.",
+      "sota_record_status": "Historical dimensionless SOTA is preserved separately. Current README figure selects the accepted six-particle SI350s width25620k result via an explicit preset; numerical train_default still points to the high-mobility5s research case.",
       "publication_record": "docs/tasks/archive/particle-corrosion-publication.md",
       "setup_schematic": {
         "image": "assets/pino-setups/particle_corrosion2d.svg",
         "manifest": "artifacts/pino_setup_schematics.json",
         "generator": "scripts/render_pino_setup_schematics.py",
-        "prescribed_inputs_only": true
+        "prescribed_inputs_only": true,
+        "samples": [
+          0,
+          1,
+          2
+        ],
+        "particles_per_sample": 6,
+        "bytes": 31753,
+        "geometry_source": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/native_dev4/manifest.json"
+      },
+      "speed2_study": {
+        "record": "docs/tasks/archive/particle-corrosion-speed2.md",
+        "status": "complete_reference_qualified_two_cold_trials_failed_optimization",
+        "training_config": "examples/particle_corrosion2d/configs/train_speed2.py",
+        "reference_config": "examples/particle_corrosion2d/configs/reference_speed2.py",
+        "rate_multiplier": 2.0,
+        "t_max": 1.0,
+        "kappa": 2.0,
+        "input_bank": "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-input-bank64-01",
+        "development_reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-local-dev4-01",
+        "reused8_reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-local-reused8-01",
+        "qualification": "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-qualification-01/validation.json",
+        "reference_gallery": "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-qualification-01/reference_speed2_vs_original.png",
+        "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-online-w192-cold20000-01",
+        "default_changed": false,
+        "new_blind_test": false,
+        "paired_initialization": false,
+        "training_uses_reference_targets": false,
+        "initial_trial_report": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-study-report-01/report.json",
+        "initial_trial_full_mesh_audit": "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-qualification-01/full_mesh_residual_audit.json",
+        "initial_trial_reused8_phi_pooled": 0.42082051555202166,
+        "corrective_boundary_trial": {
+          "config": "examples/particle_corrosion2d/configs/train_speed2_mouth_nodes.py",
+          "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-mouth-nodes-w192-cold20000-01",
+          "input_bank": "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-mouth-nodes-input-bank64-01",
+          "study": "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-mouth-nodes-study-01",
+          "policy": "mesh_dirichlet",
+          "boundary_tokens_unchanged": true,
+          "initial_geometry_records_exact": 64,
+          "unchanged_input_arrays": 15,
+          "changed_input_arrays": [
+            "mouth_points",
+            "mouth_weights"
+          ],
+          "paired_initialization": false,
+          "status": "complete_failed_optimization",
+          "evaluation": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-mouth-nodes-w192-reused8-final-01",
+          "report": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-mouth-nodes-report-01/report.json",
+          "fields": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-mouth-nodes-report-01/fields_first4.png",
+          "convergence": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-mouth-nodes-report-01/convergence.png",
+          "full_mesh_audit": "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-mouth-nodes-study-01/full_mesh_residual_audit.json",
+          "input_validation": "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-mouth-nodes-study-01/input_validation.json",
+          "metrics": {
+            "phi_pooled": 0.41223223823399047,
+            "phi_terminal": 0.6328921703780214,
+            "c_pooled": 0.424853250135543,
+            "c_terminal": 0.6454783292159789,
+            "corroded_pooled": 0.899566495690181,
+            "corroded_terminal": 0.8415652465111962,
+            "phase_change": 1.10437726718345,
+            "terminal_iou": 0.22066359714200912,
+            "terminal_interface_area_error": 0.7793364028579909
+          },
+          "costs": {
+            "first_update_compile_and_refresh_seconds": 185.22187583893538,
+            "warm_all": {
+              "count": 19999,
+              "mean_seconds": 0.024299379193584315,
+              "median_seconds": 0.022540077567100525
+            },
+            "warm_held": {
+              "count": 19200,
+              "mean_seconds": 0.022872618900728413,
+              "median_seconds": 0.022491347044706345
+            },
+            "warm_refresh": {
+              "count": 799,
+              "mean_seconds": 0.05858448260138569,
+              "median_seconds": 0.057590045034885406
+            },
+            "update_total_seconds": 671.185160331428,
+            "sample_total_seconds": 24.61327663436532,
+            "evaluation_total_seconds": 71.03238765150309,
+            "setup_seconds": 11.023476485162973,
+            "total_seconds": 1018.975888710469,
+            "peak_bytes_in_use": 5284326912,
+            "peak_gib": 4.921412944793701,
+            "peak_pool_bytes": 9661579264,
+            "timing_scope": "All updates synchronized; first includes compilation. Total includes setup, evaluation and I/O.",
+            "memory_scope": "Cumulative JAX active peak of the whole process, including evaluation; allocator pool reported separately."
+          },
+          "online_audit": {
+            "status": "passed",
+            "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-mouth-nodes-w192-cold20000-01",
+            "updates": 20000,
+            "installed_events": 399,
+            "installed_new_geometries": 316,
+            "installed_spatial_refreshes": 1520,
+            "distinct_sampled_geometries": 380,
+            "distinct_sampled_geometry_spatial_versions": 1900,
+            "exact_final_slots_reconstructed": 64,
+            "unchanged_initial_slots": 0,
+            "evaluation_overlap": 0,
+            "future_training_fields": 0,
+            "scope": "All consumed identities and all final physical input arrays audited; intermediate payloads are not stored."
+          }
+        },
+        "initial_trial_metrics": {
+          "phi_pooled": 0.42082051555202166,
+          "phi_terminal": 0.6588068305838427,
+          "c_pooled": 0.43318437799138615,
+          "c_terminal": 0.6704007448481222,
+          "corroded_pooled": 0.9183115890025462,
+          "corroded_terminal": 0.8760754727884614,
+          "phase_change": 1.1273929535779321,
+          "terminal_iou": 0.1680196876019384,
+          "terminal_interface_area_error": 0.8319803123980616
+        },
+        "conclusion": "Reference validation passed; boundary sampling repair works at operator nodes, but large early-time interface PDE residuals and inaccurate evolution persist. Preserve original default."
+      },
+      "time32_study": {
+        "record": "docs/tasks/archive/particle-corrosion-time32-diagnosis.md",
+        "status": "complete_no_accuracy_improvement",
+        "config": "examples/particle_corrosion2d/configs/train_speed2_time32.py",
+        "study": "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-time32-study-01",
+        "boundary_time_audit": "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-time32-study-01/boundary_time_audit.json",
+        "resource_probe": "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-time32-study-01/resource_probe.json",
+        "default_changed": false,
+        "paired_initialization": false,
+        "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-time32-w192-cold20000-01",
+        "owner_status": "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-time32-study-01/owner_status.json",
+        "owner_pid": 220408,
+        "runtime_seed": 452250743,
+        "time_samples_per_step": 32,
+        "matched_elapsed_time_errors": "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-time32-study-01/matched_elapsed_time_errors.json",
+        "resource_summary": {
+          "first_compile_seconds": 213.99370108172297,
+          "held_median_seconds": 0.048732904717326164,
+          "refresh_median_seconds": 0.15272895991802216,
+          "peak_active_bytes": 16519942912
+        },
+        "evaluation": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-time32-w192-reused8-final-01",
+        "report": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-time32-report-01/report.json",
+        "convergence": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-time32-report-01/convergence.png",
+        "fields": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-time32-report-01/fields_first4.png",
+        "full_mesh_audit": "/root/autodl-tmp/data/particle_corrosion2d/20261106-speed2-time32-study-01/full_mesh_residual_audit.json",
+        "final_metrics": {
+          "phi_pooled": 0.4124074980459718,
+          "phi_terminal": 0.6329837355223352,
+          "c_pooled": 0.42514255654446387,
+          "c_terminal": 0.6455331653103431,
+          "corroded_pooled": 0.8999483928411696,
+          "corroded_terminal": 0.8416859719839092,
+          "phase_change": 1.1048459451611299,
+          "terminal_iou": 0.22104766694610034,
+          "terminal_interface_area_error": 0.7789523330538997
+        },
+        "previous_time8_metrics": {
+          "phi_pooled": 0.41223223823399047,
+          "phi_terminal": 0.6328921703780214,
+          "c_pooled": 0.424853250135543,
+          "c_terminal": 0.6454783292159789,
+          "corroded_pooled": 0.899566495690181,
+          "corroded_terminal": 0.8415652465111962,
+          "phase_change": 1.10437726718345,
+          "terminal_iou": 0.22066359714200912,
+          "terminal_interface_area_error": 0.7793364028579909
+        },
+        "training_costs": {
+          "first_update_compile_and_refresh_seconds": 196.3504692390561,
+          "warm_all": {
+            "count": 19999,
+            "mean_seconds": 0.05328458445849398,
+            "median_seconds": 0.04916617274284363
+          },
+          "warm_held": {
+            "count": 19200,
+            "mean_seconds": 0.0491346318590998,
+            "median_seconds": 0.04908921383321285
+          },
+          "warm_refresh": {
+            "count": 799,
+            "mean_seconds": 0.153008101239931,
+            "median_seconds": 0.1529480218887329
+          },
+          "update_total_seconds": 1261.9888738244772,
+          "sample_total_seconds": 28.128391481935978,
+          "evaluation_total_seconds": 69.18629921600223,
+          "setup_seconds": 11.291513923555613,
+          "total_seconds": 1399.871935736388,
+          "peak_bytes_in_use": 16836275712,
+          "peak_gib": 15.680003643035889,
+          "peak_pool_bytes": 19325255680,
+          "timing_scope": "All updates synchronized; first includes compilation. Total includes setup, evaluation and I/O.",
+          "memory_scope": "Cumulative JAX active peak of the whole process, including evaluation; allocator pool reported separately."
+        },
+        "online_audit": {
+          "status": "passed",
+          "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-time32-w192-cold20000-01",
+          "updates": 20000,
+          "installed_events": 399,
+          "installed_new_geometries": 316,
+          "installed_spatial_refreshes": 1520,
+          "distinct_sampled_geometries": 380,
+          "distinct_sampled_geometry_spatial_versions": 1900,
+          "exact_final_slots_reconstructed": 64,
+          "unchanged_initial_slots": 0,
+          "evaluation_overlap": 0,
+          "future_training_fields": 0,
+          "scope": "All consumed identities and all final physical input arrays audited; intermediate payloads are not stored."
+        }
+      },
+      "dimensional_audit": {
+        "record": "docs/tasks/archive/particle-corrosion-dimensional-audit.md",
+        "receipt": "docs/tasks/archive/particle-corrosion-dimensional-audit.json",
+        "reproduce": "docs/tasks/archive/particle_corrosion_dimensional_audit.py",
+        "status": "complete",
+        "uniform_speed2_scaling_correct": true,
+        "identical_electropolish_material_mapping": false,
+        "numerical_defaults_changed": false,
+        "new_training": false
+      },
+      "historical_dimensionless_default_training": {
+        "entry": "examples/particle_corrosion2d/train.py",
+        "config": "examples/particle_corrosion2d/configs/train_default.py",
+        "recipe_config": "examples/particle_corrosion2d/configs/train_online.py",
+        "status": "Validated rolling core/halo default requested by the user; historical fixed-bank selected result retained. Completed full-grid comparison has lower measured error but is not promoted.",
+        "selected_run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02",
+        "selected_checkpoint": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02/model_final.eqx",
+        "saved_config": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02/config.json",
+        "runtime": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02/runtime.json",
+        "summary": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02/summary.json",
+        "configuration_matches_selected_run": true,
+        "optimizer": "adam",
+        "iterations": 20000,
+        "width": 192,
+        "spatial_fourier_features": 96,
+        "condition_batch": 4,
+        "time_samples": 8,
+        "geometry_count": 64,
+        "core_points": 256,
+        "pool_per_geometry": 8,
+        "nonlocal_delta": 0.026,
+        "mesh_spacing": 0.015,
+        "mesh_boundary_points_per_particle": 128,
+        "lr_init": 0.001,
+        "lr_min": 1e-05,
+        "lr_decay_every": 3000,
+        "lr_decay_rate": 0.5,
+        "compute_dtype": "float32",
+        "gpu_policy": "ordinary",
+        "matmul_precision": "highest",
+        "initial_condition": "soft normalized loss",
+        "kks_mapping": "bounded tanh phase; unrestricted scaled liquid concentration; algebraic total concentration",
+        "losses": [
+          "ac",
+          "ch",
+          "mouth_phi",
+          "mouth_c_over_cle",
+          "initial"
+        ],
+        "time_derivative": "physical-time JVP",
+        "spatial_derivative": "visible symmetric regional nonlocal negative Laplacian",
+        "gradient_weighting": "stopped inverse-L1 gradient norms with EMA and explicit cap",
+        "seed_policy": "Fresh runtime seed when unpaired; this matched validation reuses the fixed-control runtime seed, never a configuration parameter.",
+        "selected_checkpoint_rule": "Fixed20000 endpoint; reused8 evaluation is a previously inspected comparison cohort, not a new untouched test.",
+        "training_uses_reference_targets": false,
+        "geometry_pool_capacity": 64,
+        "distinct_sampled_geometries": 380,
+        "distinct_sampled_geometry_spatial_versions": 1900,
+        "rolling_settings": {
+          "workers": 4,
+          "geometry_every": 250,
+          "geometry_size": 4,
+          "spatial_every": 50,
+          "spatial_size": 4,
+          "prefetch": 4,
+          "halo": 3072,
+          "neighbors": 64,
+          "worker_cache": 64
+        },
+        "sampling": "Background fresh geometries and independent complete core/halo plus IC refreshes",
+        "selection_reason": "Continuous geometry and spatial input sampling requested by the user; not selected for lower pooled error."
+      },
+      "historical_dimensionless_inputs": {
+        "input_bank": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-input-bank64-01",
+        "development_reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reference4-01",
+        "reserved_reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reserved8-01"
+      },
+      "physical_study": {
+        "status": "complete_neural_nonconvergence",
+        "record": "docs/tasks/archive/particle-corrosion-physical-pilot.md",
+        "study": "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01",
+        "owner_status": "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/owner_status.json",
+        "reference_validation": "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/validation.json",
+        "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-physical5s-w192-cold20000-01",
+        "physical_time_seconds": 5.0,
+        "characteristic_length_m": 5e-05,
+        "receipt": "docs/tasks/archive/particle-corrosion-physical-pilot.json",
+        "evaluation": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-physical5s-w192-reused8-final-01",
+        "final_report": "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/report.json",
+        "final_local8_metrics": {
+          "phi_pooled": 0.3542263588991792,
+          "phi_terminal": 0.4687939481002681,
+          "c_pooled": 0.3477885333904699,
+          "c_terminal": 0.4569767342931699
+        },
+        "first_geometry_native_metrics": {
+          "phi_pooled": 0.3360617374992474,
+          "phi_terminal": 0.4624128424685667,
+          "c_pooled": 0.3302550704603618,
+          "c_terminal": 0.4479877636815256,
+          "corroded_pooled": 0.9406013413741898,
+          "corroded_terminal": 0.9658820578040822,
+          "phase_change": 1.3421942404804938,
+          "terminal_iou": 0.0203086141221615,
+          "terminal_interface_area_error": 0.9796913858778384
+        },
+        "strategy_audit": "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/strategy_comparison.json",
+        "convergence": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-physical5s-w192-cold20000-01/convergence.png",
+        "fields": "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-pilot-01/fields_first4.png"
+      },
+      "readme_selected_physical": {
+        "record": "docs/tasks/archive/particle-corrosion-physical-optimization.md",
+        "entry": "examples/particle_corrosion2d/train.py",
+        "config": "examples/particle_corrosion2d/configs/train_physical_spaced_w256.py",
+        "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02",
+        "checkpoint": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/model_final.eqx",
+        "study": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-width256-02",
+        "input_bank": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/inputs64",
+        "local_reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4",
+        "native_reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/native_dev4",
+        "cohort_size": 4,
+        "shown_samples": [
+          0,
+          1,
+          2
+        ],
+        "phase_local_overall": 0.02932962081359325,
+        "phase_local_terminal": 0.057566767106230744,
+        "phase_native_overall": 0.01450387460428327,
+        "phase_native_terminal": 0.027811682305386755,
+        "L": 2e-09,
+        "L_c": 5e-05,
+        "T_c": 350,
+        "particles": 6,
+        "width": 256,
+        "optimizer": "adam",
+        "updates": 20000,
+        "numerical_default_changed": false
       }
     }
   ],
@@ -22596,7 +22936,7 @@
       }
     ],
     "image_count": 6,
-    "total_image_bytes": 2281366,
+    "total_image_bytes": 2262158,
     "image_budget_bytes": 2621440
   },
   "pino_setup_schematics": {

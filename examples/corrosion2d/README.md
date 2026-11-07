@@ -481,12 +481,16 @@ Edge weights pre-computed from SparseD operator. Supported kernels: `cubic`, `qu
 | Symbol | Value | Unit | Description |
 |---|---|---|---|
 | $D$ | $8.5 \times 10^{-10}$ | m²/s | Diffusion coefficient |
-| $A$ | $5.35 \times 10^7$ | J/(m³·s) | Reaction constant |
-| $L$ | 2.0 | m/(J·s) | Interface mobility |
+| \(A\) | \(5.35 \times 10^7\) | J/m³ | Chemical-energy coefficient |
+| \(L\) | 2.0 | m³/(J·s) | Interface mobility |
 | $\alpha_\phi$ | $1.03 \times 10^{-4}$ | J/m | Gradient energy coefficient |
-| $\omega_\phi$ | $1.76 \times 10^7$ | J/(m³·s) | Barrier height |
+| \(\omega_\phi\) | \(1.76 \times 10^7\) | J/m³ | Barrier height |
 | $c_{Se}$ | 1.0 | — | Equilibrium concentration (solid) |
 | $c_{Le}$ | 5100 / 1.43e5 | — | Equilibrium concentration (liquid) |
+
+Units follow the volumetric free energy with normalized concentration. Earlier
+energy-density `/s` and mobility length-power labels were documentation errors;
+the numerical values are unchanged. See the [dimensional audit](../../docs/tasks/archive/particle-corrosion-dimensional-audit.md).
 
 ### Non-Dimensionalisation
 

@@ -230,10 +230,12 @@ def particles(case, group, bx, by, index):
     record = case['records'][index]
     validate_geometry(record, c)
     g = c.geometry
-    if ((g.length, g.height, g.pit_x, g.pit_radius, g.mouth_half_width) !=
-            (1., .6, .5, .12, .055) or c.particles.count != 8 or
-            case['fixed']['kappa'] != 2 or case['fixed']['t_max'] != 1):
-        raise ValueError('Particle setup labels require the documented eight-particle problem')
+    if (not np.allclose((g.length, g.height, g.pit_x, g.pit_radius, g.mouth_half_width),
+                        (1., .6, .5, .12, .055), rtol=0, atol=1e-14)
+            or c.particles.count != 6 or case['fixed']['kappa'] != 1
+            or case['fixed']['t_max'] != 1 or case['fixed']['L_c'] != 5e-5
+            or case['fixed']['T_c'] != 350 or case['fixed']['mobility'] != 2e-9):
+        raise ValueError('Particle setup labels require the documented six-particle SI problem')
     point = lambda q: (bx+PANEL*q[0]/g.length, by+PANEL*q[1]/g.length)
     node(group, 'rect', x=bx, y=by, width=PANEL, height=PANEL*g.height/g.length,
          fill='#f9eee0')
@@ -262,8 +264,8 @@ def particles(case, group, bx, by, index):
 
 SPECS = {
     'particle_corrosion2d': dict(title='Particle corrosion 2D | random ceramic geometry',
-        varying='Positions, sizes, orientations and smooth shapes of eight ceramic particles',
-        fixed='Rectangle 1 x 0.6, initial pit and opening; uniform matrix kappa = 2; time 0-1',
+        varying='Positions, sizes, orientations and smooth shapes of six ceramic particles',
+        fixed='50 x 30 um region, initial pit and opening; uniform matrix mobility; time 0-350 s',
         body=177.6,
         footer=['BC: Blue opening has phi = c = 0; all other outer and ceramic walls: dn(phi) = dn(q) = 0.',
                 'Here q = c - (c_se - c_le) h(phi) - c_le; neutral wetting and no solute flux through walls.',

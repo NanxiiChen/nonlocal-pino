@@ -405,12 +405,17 @@ With `configs/train_legacy.py`, setting `--config.nl.method=fd` switches to a 5-
 | Symbol | Value | Unit | Description |
 |---|---|---|---|
 | $D$ | $8.5 \times 10^{-10}$ | m²/s | Diffusion coefficient |
-| $A$ | $5.35 \times 10^7$ | J/(m³·s) | Reaction constant |
-| $L$ | $1.0 \times 10^{-6}$ | m/(J·s) | Interface mobility |
+| \(A\) | \(5.35 \times 10^7\) | J/m³ | Chemical-energy coefficient |
+| \(L\) | \(1.0 \times 10^{-6}\) | m³/(J·s) | Interface mobility |
 | $\alpha_\phi$ | $1.03 \times 10^{-4} / 4$ | J/m | Gradient energy coefficient |
-| $\omega_\phi$ | $1.76 \times 10^7$ | J/(m³·s) | Barrier height |
+| \(\omega_\phi\) | \(1.76 \times 10^7\) | J/m³ | Barrier height |
 | $c_{Se}$ | 1.0 | — | Equilibrium concentration (solid) |
 | $c_{Le}$ | $5100 / 1.43 \times 10^5$ | — | Equilibrium concentration (liquid) |
+
+These units follow the volumetric free energy and dimensional AC equation above;
+concentration is normalized. The old energy-density `/s` and mobility length
+power in this table were documentation errors, not changes to the implemented
+parameter values. See the [dimensional audit](../../docs/tasks/archive/particle-corrosion-dimensional-audit.md).
 
 ### Non-Dimensionalisation
 

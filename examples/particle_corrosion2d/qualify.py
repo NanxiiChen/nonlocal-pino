@@ -18,6 +18,7 @@ from .mesh import build_mesh
 from .operators import build_operator
 from .problem import validate
 from .solver import solve
+from .dimensional import has_dimensional_inputs
 
 
 def qualify(c,preview,output,backend,spacing,boundary_points):
@@ -40,6 +41,8 @@ def qualify(c,preview,output,backend,spacing,boundary_points):
             c.reference.rtol,c.reference.atol,c.reference.max_step)
         data=dict(points=mesh['points'],triangles=mesh['triangles'],volumes=mesh['volumes'],
                   times=times,fields=fields,**conditioning(c,record))
+        if has_dimensional_inputs(c):
+            data['physical_time'] = times*c.nondim.T_c
         file=f'case_{i:03d}.npz';np.savez_compressed(output/file,**data)
         records.append(dict(file=file,geometry=record,mesh=mesh['mesh_info'],solver=info))
         references.append(data)

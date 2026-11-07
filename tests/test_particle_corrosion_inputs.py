@@ -1,5 +1,8 @@
 """Physical sampling measures and complete, padded nonlocal row payloads."""
 import unittest
+import json
+from pathlib import Path
+import tempfile
 
 import numpy as np
 from scipy import sparse
@@ -8,7 +11,7 @@ from examples.particle_corrosion2d.configs.train_base import get_config
 from examples.particle_corrosion2d.geometry import boundary, sample_geometry
 from examples.particle_corrosion2d.inputs import (
     conditioning, graph_payload, initial_payload, mouth_quadrature, pad_graph,
-    wall_quadrature)
+    wall_quadrature, mesh_mouth_quadrature, mouth_sampling_policy)
 from examples.particle_corrosion2d.problem import initial_fields
 
 
@@ -111,6 +114,65 @@ class ParticleInputTests(unittest.TestCase):
         data = graph_payload(c, mesh, matrix, np.random.default_rng(2))
         with self.assertRaisesRegex(ValueError, 'too small'):
             pad_graph(data, 3, 128)
+
+    def test_mouth_nodes_have_physical_measure_and_no_unconstrained_endpoints(self):
+        c = get_config()
+        points = np.array([[.445, 0.], [.49, 0.], [.555, 0.], [.5, .1]])
+        mesh = dict(points=points, mouth=np.array([True, True, True, False]),
+                    boundary_edges=np.array([[0, 1], [1, 2], [2, 3]]),
+                    boundary_groups=np.array([1, 1, 0]))
+        query, measure = mesh_mouth_quadrature(c, mesh)
+        active = measure > 0
+        np.testing.assert_array_equal(query[active], points[:3])
+        np.testing.assert_allclose(measure[:3], [.0225, .055, .0325], atol=1e-15)
+        self.assertAlmostEqual(measure.sum(), .11)
+        self.assertAlmostEqual(measure@query[:, 0], .11*.5)
+        # A smooth trace can vanish at every old midpoint yet violate both
+        # operator boundary endpoints. The nodal loss must detect that trace.
+        mid, mid_weights = mouth_quadrature(c)
+        def trace(x):
+            return np.prod((x[:, None]-mid[:, 0])/(.445-mid[:, 0]), axis=1)
+        self.assertEqual(float(mid_weights@trace(mid[:, 0])**2), 0.)
+        self.assertGreater(float(measure@trace(query[:, 0])**2), .05)
+        self.assertTrue(np.all(measure[3:] == 0))
+        c.operator.mouth_points = 2
+        with self.assertRaisesRegex(ValueError, 'overflow'):
+            mesh_mouth_quadrature(c, mesh)
+        c.operator.mouth_points = 16
+        mesh['mouth'][1] = False
+        with self.assertRaisesRegex(ValueError, 'exactly'):
+            mesh_mouth_quadrature(c, mesh)
+
+    def test_mouth_option_preserves_encoder_and_random_ic_draws(self):
+        from examples.particle_corrosion2d.mesh import build_mesh
+        c = get_config()
+        mesh = build_mesh(c, self.record, c.mesh.spacing)
+        old_condition = conditioning(c, self.record)
+        legacy = initial_payload(c, mesh, np.random.default_rng(94))
+        self.assertEqual(mouth_sampling_policy(c), 'midpoint')
+        c.operator.mouth_sampling = 'mesh_dirichlet'
+        updated = initial_payload(c, mesh, np.random.default_rng(94))
+        for name in legacy:
+            np.testing.assert_array_equal(legacy[name], updated[name])
+        current_condition = conditioning(c, self.record)
+        for name in old_condition:
+            np.testing.assert_array_equal(old_condition[name], current_condition[name])
+        active = updated['mouth_weights'] > 0
+        np.testing.assert_array_equal(updated['mouth_points'][active], mesh['points'][mesh['mouth']])
+        self.assertTrue(np.all(initial_fields(c, updated['mouth_points'][active]) == 0))
+        c.operator.mouth_sampling = 'unknown'
+        with self.assertRaisesRegex(ValueError, 'Mouth sampling'):
+            initial_payload(c, mesh, np.random.default_rng(94))
+
+    def test_bank_cannot_silently_reuse_midpoint_queries_for_node_policy(self):
+        from examples.particle_corrosion2d.train import load_bank
+        c = get_config()
+        prior = json.loads(c.to_json())
+        c.operator.mouth_sampling = 'mesh_dirichlet'
+        with tempfile.TemporaryDirectory() as directory:
+            Path(directory, 'manifest.json').write_text(json.dumps(dict(config=prior)))
+            with self.assertRaisesRegex(ValueError, 'mouth sampling policy'):
+                load_bank(directory, c)
 
 
 if __name__ == '__main__':
