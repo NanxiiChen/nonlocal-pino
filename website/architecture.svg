@@ -1,16 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="690" viewBox="0 0 1024 690" role="img" aria-labelledby="title description">
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="748" viewBox="0 0 1024 748" role="img" aria-labelledby="title description">
   <title id="title">Fixed-domain and parameterized-domain operator architectures</title>
-  <desc id="description">The fixed-domain path encodes patches with self-attention and reads them with one spatial cross-attention. The parameterized-domain path independently lifts boundary and domain point tokens, which provide separate keys and values. A shared coordinate query reads each stream with its own quadrature-normalized cross-attention. The two messages are averaged before projecting and updating the query state in each block. Both paths reuse their spatial features for temporal FiLM decoding.</desc>
+  <desc id="description">The fixed-domain path encodes patches with self-attention and reads them with one spatial cross-attention. The parameterized-domain path independently lifts boundary and domain point tokens, which provide separate keys and values. A shared coordinate query reads each stream with its own quadrature-normalized cross-attention. The two messages are averaged before projecting and updating the query state in each block. Both paths reuse their spatial features across times. A time MLP supplies a separate scale and shift for each of the three decoder hidden layers. Each layer applies a linear map, FiLM and GELU before the final output head.</desc>
   <defs>
     <marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#50627a"/></marker>
     <marker id="boundary-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#3563a0"/></marker>
     <marker id="domain-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#34745e"/></marker>
   </defs>
 
-  <rect width="1024" height="690" fill="#f5f8fc"/>
+  <rect width="1024" height="748" fill="#f5f8fc"/>
   <g fill="#fff" stroke="#c6d4e6">
-    <rect x="22" y="20" width="306" height="639" rx="12"/>
-    <rect x="346" y="20" width="656" height="639" rx="12"/>
+    <rect x="22" y="20" width="306" height="683" rx="12"/>
+    <rect x="346" y="20" width="656" height="683" rx="12"/>
   </g>
 
   <!-- Token encoders -->
@@ -64,8 +64,8 @@
 
   <!-- Temporal decoders -->
   <g fill="#eaf0f9" stroke="#b9cbe3">
-    <rect x="42" y="591" width="266" height="51" rx="7"/>
-    <rect x="366" y="591" width="616" height="51" rx="7"/>
+    <rect x="42" y="591" width="266" height="97" rx="7"/>
+    <rect x="366" y="591" width="616" height="97" rx="7"/>
   </g>
 
   <g fill="#214f98" font-family="monospace" font-size="14" font-weight="700">
@@ -115,11 +115,20 @@
         <text x="175" y="427">Reads the patch tokens</text>
         <text x="519" y="427">Arc-length weighted · normalized</text>
         <text x="829" y="427">Area-weighted · normalized</text>
-        <text x="512" y="680">Spatial query features are reused across sampled times.</text>
+        <text x="512" y="722">Spatial query features are reused across sampled times.</text>
+        <text x="512" y="740">The time MLP supplies one scale and shift pair per hidden layer.</text>
       </g>
-      <g font-size="16" font-weight="650">
-        <text x="175" y="623">Time FiLM → physical fields</text>
-        <text x="674" y="623">Time FiLM → physical fields</text>
+      <g fill="#214f98" font-family="monospace" font-size="13" font-weight="700">
+        <text x="175" y="615">TEMPORAL DECODER</text>
+        <text x="674" y="615">TEMPORAL DECODER</text>
+      </g>
+      <g font-size="15" font-weight="650">
+        <text x="175" y="640">(Linear → FiLM → GELU) ×3</text>
+        <text x="674" y="640">(Linear → FiLM → GELU) ×3</text>
+      </g>
+      <g font-size="14" fill="#4c5b6f">
+        <text x="175" y="670">↓ Linear output head</text>
+        <text x="674" y="670">↓ Linear output head</text>
       </g>
     </g>
   </g>

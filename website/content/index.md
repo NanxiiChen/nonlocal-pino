@@ -13,8 +13,8 @@ $$
 The auxiliary fields depend on the PDE. Training evaluates physical residuals at sampled times and points, alongside any soft initial or boundary constraints. Positive-time solver trajectories enter evaluation only. A single trained operator handles multiple inputs from its condition family.
 
 <figure>
-  <a href="assets/architecture.svg"><img src="assets/architecture.svg" width="1024" height="690" alt="A fixed-domain query reads patches. A parameterized-domain query reads boundary and domain tokens separately and averages the messages before updating the query state."></a>
-  <figcaption>Coordinate queries read one patch stream for a fixed domain and two separately weighted point streams for a parameterized domain. Both paths reuse their spatial features for time decoding.</figcaption>
+  <a href="assets/architecture.svg"><img src="assets/architecture.svg" width="1024" height="748" alt="A fixed-domain query reads patches. A parameterized-domain query averages separate boundary and domain reads. Both temporal decoders modulate three hidden layers with FiLM."></a>
+  <figcaption>Coordinate queries read one patch stream for a fixed domain and two separately weighted point streams for a parameterized domain. Both paths reuse spatial features across times and apply FiLM in each temporal hidden layer.</figcaption>
 </figure>
 
 ## Method chapters

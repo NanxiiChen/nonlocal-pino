@@ -10676,3 +10676,21 @@ normalization and average the messages before updating the query state. Keep
 the fixed-domain patch path separate so the shared decoder pattern does not
 look like a merge across cases. The prior single attention label obscured the
 two reads. Relation: point-operator architecture clarification.
+
+## 2026-11-07 — Show layerwise FiLM in the temporal decoder
+
+The user asks whether the bottom FiLM label represents one final-layer
+operation. The selected decoders prepare spatial features first, then use a
+time MLP to produce separate scale and shift vectors for each of three hidden
+layers. Each hidden layer applies linear, FiLM, and GELU in order, before the
+linear output head. Expand both diagram panels and align the report equation
+with the implemented scale `1 + gamma` and affine layer. Relation: the
+two-stream architecture diagram.
+
+## 2026-11-07 — Release the temporal FiLM clarification to Pages
+
+The user authorizes commit, push, and Pages publication of the reviewed
+diagram and explanation. Include the existing validation records with the
+three website source files. Use the standard dev-to-main merge and the
+existing Pages workflow, then compare the served SVG and both affected pages
+with the built files. Relation: layerwise FiLM in the temporal decoder.
