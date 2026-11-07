@@ -18,6 +18,14 @@ The channel20000/lower-LR study is complete and archived below.
 
 ## Latest completed validation
 
+[Two-stream architecture diagram](tasks/archive/two-stream-architecture-diagram.md).
+The overview and architecture chapter show both weighted context reads, their
+shared query, and their per-block average. The build and four-width checks pass.
+
+[Point-operator architecture clarification](tasks/archive/point-operator-diagram.md).
+The local report distinguishes pointwise encoder lifts from weighted spatial
+cross-attention. The SVG, affected pages and KaTeX build pass validation.
+
 [Technical report GitHub Pages release](tasks/archive/research-report-pages.md).
 The nine-page report is live at the [project site](https://nanxiichen.github.io/nonlocal-pinn/).
 The first Actions build and deploy succeeded, and the public homepage and all

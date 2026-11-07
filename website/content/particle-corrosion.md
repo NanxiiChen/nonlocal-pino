@@ -88,7 +88,7 @@ Both width and Fourier feature capacity change, and the parameter shapes initial
 
 | Component | Selected setting |
 | --- | --- |
-| Network | Two point streams, width 256, four heads, two heterogeneous attention blocks, three time-FiLM layers |
+| Network | Two point streams, width 256, four heads, two spatial cross-attention blocks, three time-FiLM layers |
 | Spatial work | Target mesh spacing 0.015, horizon 0.026, 256 sampled cores, complete halo |
 | Samples per update | 4 geometry draws and 32 freshly sampled times |
 | Online pool | 64 geometry slots, four CPU workers, geometry and spatial payloads refreshed on separate schedules |

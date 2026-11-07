@@ -68,7 +68,7 @@ The worst development phase errors are 9.5686% pooled and 10.5862% terminal. Loc
 
 | Component | Selected setting |
 | --- | --- |
-| Network | Two point streams, width 256, four heads, four condition blocks, three time-FiLM layers |
+| Network | Two point streams, width 256, four heads, four spatial cross-attention blocks, three time-FiLM layers |
 | Geometry | Gmsh target spacing 0.035, horizon 0.11, padding 1,536 nodes and 128 neighbors |
 | Known-input pool | 1,024 initial slots, six CPU workers, 32 replacements every 100 updates |
 | Samples per update | 16 geometries and 16 positive times plus the initial time |

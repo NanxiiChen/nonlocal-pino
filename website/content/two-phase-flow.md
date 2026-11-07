@@ -68,7 +68,7 @@ The budget, learning-rate schedule and number of time samples changed together. 
 
 | Component | Selected setting |
 | --- | --- |
-| Network | Width 192, four heads, two point condition blocks, three time-FiLM layers |
+| Network | Width 192, four heads, two spatial cross-attention blocks, three time-FiLM layers |
 | Derivatives | \(192\times80\) subdivisions, 15,633 nodes, horizon 0.075, capacity 128, cubic moment reproduction |
 | Samples per update | 8 geometry draws, 36 stratified times accumulated as two 18-time blocks |
 | Online pool | 16 slots, two CPU workers, replace two slots every 50 updates |
