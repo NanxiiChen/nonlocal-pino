@@ -6,7 +6,7 @@ The user authorized a commit and push in this turn. The release follows the
 local dev branch and a regular merge into main before pushing origin/main.
 
 The accepted study and artifact provenance are recorded in the
-[physical optimization archive](archive/particle-corrosion-physical-optimization.md).
+[physical optimization archive](particle-corrosion-physical-optimization.md).
 The working tree contains the related physical studies, configuration presets,
 regressions and cross-reference unit documentation. Include these so the
 overview, documented preset and historical controls can be read and reproduced
@@ -26,7 +26,6 @@ links its run guide. The publication also includes the pending particle model
 code, presets, tests, prior study records and unit documentation that accompany
 the example.
 
-The local dev and main trees matched at preparation. Origin/main pointed to
-the local main merge at bbce14d. The authorized publication uses a dev commit
-followed by a regular merge and a push of main. Verify the published main ref
-against the local merge commit after pushing.
+The example was committed on dev as af2800d and merged into main as e0b2793.
+An independent remote lookup confirmed e0b2793 on origin/main. A documentation
+follow-up corrects the relative study link after archiving this record.
