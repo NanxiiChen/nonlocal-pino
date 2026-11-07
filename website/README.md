@@ -37,8 +37,8 @@ The generated site loads its math fonts locally. [KaTeX API](https://katex.org/d
 
 ## Publishing
 
-`website/dist/` is the static artifact for a future Pages workflow. Its internal
-links and resources are relative so it can be served under a project subpath.
-The current task covers local construction and review. A future GitHub Actions
-job can run the same locked install and build from a fresh checkout, then
-publish only `website/dist/` after the repository's Pages settings are decided.
+The [Pages workflow](../.github/workflows/pages.yml) runs the locked install
+and build on changes to the site sources, figures or workflow on `main`. It can
+also be dispatched manually from `main`. The deploy job publishes
+`website/dist/` to the `github-pages` environment. The report's links and
+assets use relative paths so the same build works under a project subpath.
