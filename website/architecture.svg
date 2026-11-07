@@ -1,33 +1,126 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="440" viewBox="0 0 960 440" role="img" aria-labelledby="title description">
-  <title id="title">Patch and point encoders with a shared decoder pattern</title>
-  <desc id="description">Fixed-domain patches or geometry-dependent point sets become condition tokens. Coordinate queries read those tokens with cross-attention. Time FiLM then produces the physical fields.</desc>
-  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#3764a0"/></marker></defs>
-  <rect width="960" height="440" fill="#f8fafd"/>
-  <g fill="#fff" stroke="#c6d4e6" stroke-width="2">
-    <rect x="34" y="35" width="424" height="203" rx="9"/>
-    <rect x="502" y="35" width="424" height="203" rx="9"/>
-    <rect x="214" y="290" width="532" height="108" rx="9" fill="#ebf2fd"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="690" viewBox="0 0 1024 690" role="img" aria-labelledby="title description">
+  <title id="title">Fixed-domain and parameterized-domain operator architectures</title>
+  <desc id="description">The fixed-domain path encodes patches with self-attention and reads them with one spatial cross-attention. The parameterized-domain path independently lifts boundary and domain point tokens, which provide separate keys and values. A shared coordinate query reads each stream with its own quadrature-normalized cross-attention. The two messages are averaged before projecting and updating the query state in each block. Both paths reuse their spatial features for temporal FiLM decoding.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#50627a"/></marker>
+    <marker id="boundary-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#3563a0"/></marker>
+    <marker id="domain-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#34745e"/></marker>
+  </defs>
+
+  <rect width="1024" height="690" fill="#f5f8fc"/>
+  <g fill="#fff" stroke="#c6d4e6">
+    <rect x="22" y="20" width="306" height="639" rx="12"/>
+    <rect x="346" y="20" width="656" height="639" rx="12"/>
   </g>
-  <g fill="#214f98" font-family="monospace" font-size="15" font-weight="700">
-    <text x="58" y="68">FIXED DOMAIN</text><text x="526" y="68">PARAMETERIZED DOMAIN</text><text x="240" y="320">SHARED DECODER PATTERN</text>
+
+  <!-- Token encoders -->
+  <rect x="42" y="105" width="266" height="130" rx="8" fill="#eef3fb" stroke="#bdcde3"/>
+  <rect x="366" y="105" width="295" height="130" rx="8" fill="#eef4fd" stroke="#aac4e6"/>
+  <rect x="687" y="105" width="295" height="130" rx="8" fill="#eef7f2" stroke="#b0d1c0"/>
+  <g fill="none" stroke="#5879aa" stroke-width="1.5">
+    <rect x="59" y="150" width="52" height="52" rx="3" fill="#fff"/>
+    <path d="M76 150v52m17-52v52M59 167h52m-52 17h52"/>
   </g>
-  <g stroke="#5479ad" stroke-width="2">
-    <rect x="62" y="98" width="99" height="99" rx="3" fill="#ebf2fd"/>
-    <path d="M95 98v99m33-99v99M62 131h99m-99 33h99"/>
-    <path d="M534 130Q544 101 593 103Q638 111 633 153Q621 188 576 194Q532 185 534 130Z" fill="#ebf2fd"/>
-    <circle cx="595" cy="149" r="15" fill="#fff"/>
+  <g fill="#3563a0">
+    <circle cx="389" cy="158" r="4"/><circle cx="389" cy="175" r="4"/><circle cx="389" cy="192" r="4"/>
   </g>
-  <g fill="#214f98">
-    <circle cx="540" cy="121" r="4"/><circle cx="565" cy="106" r="4"/><circle cx="598" cy="104" r="4"/><circle cx="624" cy="119" r="4"/><circle cx="631" cy="150" r="4"/><circle cx="612" cy="182" r="4"/><circle cx="576" cy="193" r="4"/><circle cx="547" cy="181" r="4"/><circle cx="595" cy="134" r="4"/><circle cx="608" cy="157" r="4"/>
+  <g fill="#34745e">
+    <circle cx="710" cy="158" r="4"/><circle cx="710" cy="175" r="4"/><circle cx="710" cy="192" r="4"/>
   </g>
-  <g fill="#699d87">
-    <circle cx="553" cy="138" r="4"/><circle cx="572" cy="124" r="4"/><circle cx="560" cy="165" r="4"/><circle cx="579" cy="178" r="4"/><circle cx="614" cy="168" r="4"/>
+
+  <!-- Spatial query boxes -->
+  <g fill="#f8fafd" stroke="#d0dbe9">
+    <rect x="42" y="263" width="266" height="305" rx="8"/>
+    <rect x="366" y="263" width="616" height="305" rx="8"/>
   </g>
-  <g font-family="system-ui, sans-serif" fill="#172438">
-    <g font-size="24" font-weight="700"><text x="192" y="128">Patch tokens</text><text x="658" y="128">Point tokens</text></g>
-    <g font-size="17"><text x="192" y="158">2D image / 3D volume</text><text x="192" y="183">Patch self-attention</text><text x="658" y="158">Boundary / domain streams</text><text x="658" y="183">Weighted cross-attention</text></g>
-    <text x="240" y="357" font-size="19" font-weight="650">Coordinate queries → cross-attention → time FiLM</text>
-    <text x="240" y="381" font-size="15">Spatial features are shared across sampled times.</text>
+  <g fill="#fff" stroke="#c4d0e0">
+    <rect x="91" y="304" width="168" height="35" rx="6"/>
+    <rect x="545" y="304" width="258" height="35" rx="6"/>
+    <rect x="66" y="380" width="218" height="65" rx="7"/>
+    <rect x="570" y="474" width="208" height="34" rx="6"/>
+    <rect x="66" y="524" width="218" height="34" rx="6"/>
+    <rect x="532" y="524" width="284" height="34" rx="6"/>
   </g>
-  <g fill="none" stroke="#3764a0" stroke-width="2" marker-end="url(#arrow)"><path d="M246 238v22h124v24"/><path d="M714 238v22H590v24"/></g>
+  <rect x="395" y="380" width="248" height="65" rx="7" fill="#eef4fd" stroke="#aac4e6"/>
+  <rect x="705" y="380" width="248" height="65" rx="7" fill="#eef7f2" stroke="#b0d1c0"/>
+
+  <!-- The encoder routes carry context into the K/V projections of each read. -->
+  <g fill="none" stroke-width="1.7" stroke-linejoin="round">
+    <path d="M101 235v17H54v104h54v20" stroke="#3563a0" marker-end="url(#boundary-arrow)"/>
+    <path d="M433 235v17h-55v104h55v20" stroke="#3563a0" marker-end="url(#boundary-arrow)"/>
+    <path d="M914 235v17h56v104h-56v20" stroke="#34745e" marker-end="url(#domain-arrow)"/>
+  </g>
+  <g fill="none" stroke="#50627a" stroke-width="1.7" stroke-linejoin="round" marker-end="url(#arrow)">
+    <path d="M175 339v37"/>
+    <path d="M674 339v16h-72v21"/>
+    <path d="M674 355h72v21"/>
+    <path d="M175 445v75"/>
+    <path d="M519 445v14h103v11"/>
+    <path d="M829 445v14H726v11"/>
+    <path d="M674 508v12"/>
+    <path d="M175 558v29"/>
+    <path d="M674 558v29"/>
+  </g>
+
+  <!-- Temporal decoders -->
+  <g fill="#eaf0f9" stroke="#b9cbe3">
+    <rect x="42" y="591" width="266" height="51" rx="7"/>
+    <rect x="366" y="591" width="616" height="51" rx="7"/>
+  </g>
+
+  <g fill="#214f98" font-family="monospace" font-size="14" font-weight="700">
+    <text x="42" y="52">FIXED DOMAIN</text>
+    <text x="366" y="52">PARAMETERIZED DOMAIN</text>
+    <text x="59" y="130">PATCH ENCODER</text>
+    <text x="383" y="130">BOUNDARY POINT ENCODER</text>
+    <text x="704" y="130" fill="#2f6b56">DOMAIN POINT ENCODER</text>
+    <text x="64" y="287">SPATIAL QUERY</text>
+    <text x="388" y="287">SPATIAL QUERY BLOCK · REPEATED</text>
+  </g>
+  <g fill="#172438" font-family="system-ui, sans-serif">
+    <g font-size="14" fill="#4c5b6f">
+      <text x="42" y="78">Ice melting · Electropolish</text>
+      <text x="366" y="78">Spinodal · Two-phase flow · Particle corrosion</text>
+    </g>
+    <g font-size="15">
+      <text x="122" y="160">2D image / 3D volume</text>
+      <text x="122" y="182">Patch self-attention</text>
+      <text x="122" y="204" font-weight="650">Patch tokens</text>
+      <text x="402" y="163">Coordinates, normals, type</text>
+      <text x="402" y="185">Pointwise MLP lift</text>
+      <text x="402" y="207" font-weight="650">Boundary tokens</text>
+      <text x="723" y="163">Coordinates, initial field</text>
+      <text x="723" y="185">Pointwise MLP lift</text>
+      <text x="723" y="207" font-weight="650">Domain tokens</text>
+    </g>
+    <g font-size="13" font-family="monospace" font-weight="700">
+      <text x="117" y="372" fill="#3563a0">K, V</text>
+      <text x="442" y="372" fill="#3563a0">K, V</text>
+      <text x="875" y="372" fill="#34745e">K, V</text>
+    </g>
+    <g text-anchor="middle">
+      <g font-size="14" font-weight="650">
+        <text x="175" y="327">Coordinate query Q</text>
+        <text x="674" y="327">Shared coordinate query Q</text>
+        <text x="175" y="546">Prepared query features</text>
+        <text x="674" y="496">Mean of both messages</text>
+        <text x="674" y="546">Update query state</text>
+      </g>
+      <g font-size="16" font-weight="700">
+        <text x="175" y="407">Patch cross-attention</text>
+        <text x="519" y="407">Boundary cross-attention</text>
+        <text x="829" y="407">Domain cross-attention</text>
+      </g>
+      <g font-size="13" fill="#4c5b6f">
+        <text x="175" y="427">Reads the patch tokens</text>
+        <text x="519" y="427">Arc-length weighted · normalized</text>
+        <text x="829" y="427">Area-weighted · normalized</text>
+        <text x="512" y="680">Spatial query features are reused across sampled times.</text>
+      </g>
+      <g font-size="16" font-weight="650">
+        <text x="175" y="623">Time FiLM → physical fields</text>
+        <text x="674" y="623">Time FiLM → physical fields</text>
+      </g>
+    </g>
+  </g>
 </svg>

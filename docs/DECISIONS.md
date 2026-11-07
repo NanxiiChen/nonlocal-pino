@@ -10656,3 +10656,23 @@ Keep site source and automation in separate commits so a workflow credential
 problem cannot prevent publishing the source commit to the repository. A
 branch-based Pages source would need generated files in Git. Relation: the
 technical report implementation and its local validation.
+
+## 2026-11-07 — Separate point encoding and weighted spatial reads in the report
+
+The user asks whether weighted cross-attention runs inside the point encoder.
+The selected heterogeneous point operator independently lifts each point in
+`encode` and reads the resulting contexts in `prepare_encoded`. The query
+state changes across spatial blocks while the boundary and domain contexts
+stay fixed. Normalize with the point measures in each stream and average the
+two messages. Place the quadrature label on the spatial query read rather
+than the point encoder. Relation: technical report architecture diagram.
+
+## 2026-11-07 — Draw both context reads in the geometry decoder
+
+The user requests the full boundary/domain data flow and authorizes commit
+and push. Give each point stream an independent encoder and K/V path. Fan the
+same coordinate query into both weighted reads, show the per-stream quadrature
+normalization and average the messages before updating the query state. Keep
+the fixed-domain patch path separate so the shared decoder pattern does not
+look like a merge across cases. The prior single attention label obscured the
+two reads. Relation: point-operator architecture clarification.
