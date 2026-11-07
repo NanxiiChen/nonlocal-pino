@@ -18,6 +18,14 @@ The channel20000/lower-LR study is complete and archived below.
 
 ## Latest completed validation
 
+[Temporal FiLM Pages release](tasks/archive/publish-temporal-film.md).
+The release build contains both three-layer decoder panels and the rendered
+layerwise FiLM equation. The existing Pages workflow publishes these assets.
+
+[Temporal FiLM clarification](tasks/archive/temporal-film-diagram.md).
+The local diagram and report show three individually modulated decoder layers
+and a separate output head. The build and four-width checks pass.
+
 [Two-stream architecture diagram](tasks/archive/two-stream-architecture-diagram.md).
 The overview and architecture chapter show both weighted context reads, their
 shared query, and their per-block average. The build and four-width checks pass.
