@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="440" viewBox="0 0 960 440" role="img" aria-labelledby="title description">
+  <title id="title">Patch and point encoders with a shared decoder pattern</title>
+  <desc id="description">Fixed-domain patches or geometry-dependent point sets become condition tokens. Coordinate queries read those tokens with cross-attention. Time FiLM then produces the physical fields.</desc>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#3764a0"/></marker></defs>
+  <rect width="960" height="440" fill="#f8fafd"/>
+  <g fill="#fff" stroke="#c6d4e6" stroke-width="2">
+    <rect x="34" y="35" width="424" height="203" rx="9"/>
+    <rect x="502" y="35" width="424" height="203" rx="9"/>
+    <rect x="214" y="290" width="532" height="108" rx="9" fill="#ebf2fd"/>
+  </g>
+  <g fill="#214f98" font-family="monospace" font-size="15" font-weight="700">
+    <text x="58" y="68">FIXED DOMAIN</text><text x="526" y="68">PARAMETERIZED DOMAIN</text><text x="240" y="320">SHARED DECODER PATTERN</text>
+  </g>
+  <g stroke="#5479ad" stroke-width="2">
+    <rect x="62" y="98" width="99" height="99" rx="3" fill="#ebf2fd"/>
+    <path d="M95 98v99m33-99v99M62 131h99m-99 33h99"/>
+    <path d="M534 130Q544 101 593 103Q638 111 633 153Q621 188 576 194Q532 185 534 130Z" fill="#ebf2fd"/>
+    <circle cx="595" cy="149" r="15" fill="#fff"/>
+  </g>
+  <g fill="#214f98">
+    <circle cx="540" cy="121" r="4"/><circle cx="565" cy="106" r="4"/><circle cx="598" cy="104" r="4"/><circle cx="624" cy="119" r="4"/><circle cx="631" cy="150" r="4"/><circle cx="612" cy="182" r="4"/><circle cx="576" cy="193" r="4"/><circle cx="547" cy="181" r="4"/><circle cx="595" cy="134" r="4"/><circle cx="608" cy="157" r="4"/>
+  </g>
+  <g fill="#699d87">
+    <circle cx="553" cy="138" r="4"/><circle cx="572" cy="124" r="4"/><circle cx="560" cy="165" r="4"/><circle cx="579" cy="178" r="4"/><circle cx="614" cy="168" r="4"/>
+  </g>
+  <g font-family="system-ui, sans-serif" fill="#172438">
+    <g font-size="24" font-weight="700"><text x="192" y="128">Patch tokens</text><text x="658" y="128">Point tokens</text></g>
+    <g font-size="17"><text x="192" y="158">2D image / 3D volume</text><text x="192" y="183">Patch self-attention</text><text x="658" y="158">Boundary / domain streams</text><text x="658" y="183">Weighted cross-attention</text></g>
+    <text x="240" y="357" font-size="19" font-weight="650">Coordinate queries → cross-attention → time FiLM</text>
+    <text x="240" y="381" font-size="15">Spatial features are shared across sampled times.</text>
+  </g>
+  <g fill="none" stroke="#3764a0" stroke-width="2" marker-end="url(#arrow)"><path d="M246 238v22h124v24"/><path d="M714 238v22H590v24"/></g>
+</svg>

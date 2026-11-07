@@ -2,7 +2,8 @@
 
 ## Active task
 
-None.
+[GitHub Pages release](tasks/research-report-pages.md). Publish the technical
+report through the repository's Pages workflow and check the live site.
 
 ## Deferred work
 
@@ -17,6 +18,15 @@ solve. [Feasibility](tasks/archive/traction-conditioned-elastic-pino-analysis.md
 The channel20000/lower-LR study is complete and archived below.
 
 ## Latest completed validation
+
+[Nonlocal PINO technical report site](tasks/archive/research-report-site.md).
+The selected technical-reference design builds nine static chapters under
+`website/dist/`, with local KaTeX typesetting and five complete cases. The locked
+build and four-width Chromium checks, including offline fonts, pass.
+
+[Research-site layout previews](tasks/archive/research-site-prototypes.md).
+Three local designs reused the five primary case figures and passed desktop
+and narrow-screen Chromium checks. The technical report supersedes the chooser.
 
 [Six-particle corrosion homepage publication](tasks/archive/publish-six-particle-corrosion.md).
 The 350 s case appears in the root results and training strategy tables. The
