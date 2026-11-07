@@ -1,2 +1,2 @@
-"""Validated default with rolling random geometries and core/halo samples."""
-from examples.particle_corrosion2d.configs.train_online import get_config
+"""Dimensional-first material/geometry preset; see README for validation status."""
+from examples.particle_corrosion2d.configs.train_physical import get_config

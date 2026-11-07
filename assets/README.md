@@ -10,18 +10,20 @@ example READMEs:
 | [confined_ch2d.png](pino/confined_ch2d.png) | Random holes, 2D spinodal decomposition |
 | [channel_nsch2d.png](pino/channel_nsch2d.png) | Random channel walls, coupled 2D NS–CH flow |
 | [heterogeneous_corrosion2d.png](pino/heterogeneous_corrosion2d.png) | Random material kinetics, activation-controlled corrosion |
-| [particle_corrosion2d.png](pino/particle_corrosion2d.png) | Eight random inert ceramic particles, geometry-conditioned corrosion |
+| [particle_corrosion2d.png](pino/particle_corrosion2d.png) | Six random inert ceramic particles, geometry-conditioned corrosion |
 
 The channel figure uses the selected20000-step final model and all three
 predeclared reserved geometries, with the same five times and FEM contour
 overlays as the earlier10000-step figure. Its source fields and per-case L2
 values are recorded in the provenance manifest below.
 
-The particle figure uses the current rolling-geometry/core-halo default's
-20000-step final model on the first four of eight reused comparison geometries,
-with independent local FEM interface overlays at actual times0,.2,.5,.8,1.
-The remaining four, fixed-bank/full-grid controls and complete fields stay in
-external artifacts.
+The particle figure uses the user-accepted six-particle SI case's width256
+20000-step final model on the first three of four development geometries,
+with direct nonlocal interface overlays at actual times0,.2,.5,.8,1 (0..350s).
+Independent local FEM and native errors are both audited and reported separately.
+The setup SVG uses the same three prescribed layouts. Historical eight-particle
+regimes, controls, raw fields and checkpoints remain in external artifacts.
+The numerical train_default selector is separate from this documented preset.
 
 Keep only curated documentation images here: each PNG below 1 MiB and the six
 images below 2.5 MiB in total. Raw fields, checkpoints, full galleries and videos

@@ -7,7 +7,7 @@ learn families of solutions from known initial fields, geometry or material fiel
 
 Private repository: [NanxiiChen/nonlocal-pinn](https://github.com/NanxiiChen/nonlocal-pinn).
 
-## Physics-only neural-operator defaults
+## Physics-only neural-operator examples
 
 | Main example | What varies between samples | Physical model / horizon | Representative phase relative L2 | Reference / evaluation scope |
 |---|---|---|---:|---|
@@ -15,6 +15,7 @@ Private repository: [NanxiiChen/nonlocal-pinn](https://github.com/NanxiiChen/non
 | [Electropolish 2D](examples/electropolish2d/README.md#pino-overview) | Initial rough metal/electrolyte interface | Coupled KKS AC/CH, 5 s |4.427% pooled; 3.176% terminal | Independent local FD, 64 unseen inputs |
 | [Spinodal 2D](examples/confined_ch2d/README.md#pino-overview) | Positions and radii of two impermeable holes | Confined Cahn–Hilliard, T=3 |4.833% pooled; 5.193% terminal | Native nonlocal, 8 reused reserved development geometries |
 | [Two-phase flow 2D](examples/channel_nsch2d/README.md#pino-overview) | Independent smooth upper/lower channel profiles | Fully coupled incompressible NS–CH, T=6 |1.643% pooled; 2.196% terminal | Independent local FEM, 3 reused reserved geometries |
+| [Ceramic-particle corrosion 2D](examples/particle_corrosion2d/README.md) | Positions, sizes and shapes of six inert particles around a fixed pit | Coupled KKS AC/CH, 350 s | **2.93% overall / 5.76% terminal** against local FEM, **1.45% / 2.78%** against direct nonlocal evolution | Same four development geometries for both references |
 
 These are means of per-sample errors from the selected final checkpoints, not
 one common benchmark. Targets, quadratures and evaluation populations differ;
@@ -30,6 +31,7 @@ in the existing `confined_ch2d` directory; the full NS–CH operator is
 | Electropolish |2D initial image -> patch tokens -> query cross-attention | Adam 5000, B8; original AC/CH + soft IC/BC, five balanced losses; fixed core+halo pool |
 | Spinodal | Boundary and domain-function point streams -> normalized cross-attention | SOAP 50000, width 256, B16; online rolling geometry pool; hard IC/mass; eliminated chemical potential and resolvent residual |
 | Two-phase flow | Boundary and domain-function point streams -> normalized cross-attention | SOAP 20000, width 192, B8; lr 1e-3 to 1e-5; 36 random times in two18-time blocks; online rolling geometry pool; hard flow/initial data; integral spatial derivatives, time JVP and fixed residual normalization |
+| Ceramic-particle corrosion | Boundary and initial-field point streams with coordinate-only queries | Adam 20,000 updates, width 256, 4 geometry draws and 32 random times per update. Rolling geometry and core/halo pools, joint AC/CH losses and time JVP |
 
 Regular domains use patch tokens; irregular geometry uses physical point sets
 with boundary arc-length/domain-area measures. Queries carry coordinates/time,
@@ -55,6 +57,9 @@ no-argument `train.py` entries retain single-IVP PINN defaults. All launchers
 create fresh runs. Existing evaluation banks and direct artifact paths must be
 available; reference preparation commands are in each example.
 
+The ceramic-particle result uses the explicit width-256 preset. Its input
+preparation and launch commands are in the [corrosion run guide](examples/particle_corrosion2d/README.md#run-the-documented-case).
+
 Seeds are runtime provenance through `--seed`, not tuned strategy fields.
 Defaults use ordinary compilation and reject a conflicting inherited
 `--xla_gpu_deterministic_ops=true`. Saved configurations govern old checkpoint
@@ -63,7 +68,6 @@ replay; checkpoints/references load by direct paths, without file hashes.
 ## Other examples and single-problem PINNs
 
 - [Heterogeneous corrosion 2D](examples/heterogeneous_corrosion2d/README.md): activation-controlled material-map PINO pilot with fixed initial pit/geometry. Mild cold5000 phase L2 0.795% native/1.010% local FV; stronger spatial contrast with width96/cold10000 gives0.865%/1.227% on4 held-out materials and substantially larger asymmetric growth. A matched Adam local-AD control gives0.872% against the same local FV target, with17.92ms versus nonlocal14.60ms warm updates. The example records SOAP failure controls, material-response diagnostics and remaining concentration-residual limitations.
-- [Ceramic-particle corrosion](examples/particle_corrosion2d/README.md): geometry-conditioned KKS corrosion around eight smooth inert aggregates, four close to the initial pit. The width192/Adam20000 default rolls both random geometries and core/halo samples through a bounded pool. On eight reused comparison geometries, independent local FEM gives **1.98% phase / 2.40% concentration** pooled relative L2 and3.12%/3.74% terminal errors. Its README includes a setup schematic and four-sample default-model evolution. The full-grid control gives1.75%pooled phase error with11%more total runtime; fixed-bank and matched local AD controls remain documented. Invalid geometry candidates are rejected and regenerated.
 - [Corrosion2D](examples/corrosion2d/README.md): KKS pit corrosion, matched-graph/local-AD controls.
 - [Corrosion1D](examples/corrosion1d/README.md): Earlier one-dimensional implementation.
 - [Elasticity2D](examples/elasticity2d/README.md): Nonlocal elasticity with independent FEM.

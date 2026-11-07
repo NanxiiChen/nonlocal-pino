@@ -308,24 +308,28 @@
       "weights_or_raw_data_copied": false
     },
     "particle_corrosion2d": {
-      "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02",
-      "checkpoint": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02/model_final.eqx",
-      "evaluation": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-w192-reused8-final-02",
+      "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02",
+      "checkpoint": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/model_final.eqx",
+      "evaluation": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-width256-02",
+      "reference_directory": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/native_dev4",
+      "local_reference_directory": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4",
       "source_files": [
-        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-w192-reused8-final-02/metrics.json",
-        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02/config.json",
-        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02/runtime.json",
-        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02/summary.json",
-        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02/online_validation.json",
-        "/root/nonlocal-pinn/examples/particle_corrosion2d/configs/train_default.py",
-        "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reserved8-01/manifest.json",
-        "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-particle-reserved8-inputs-01/manifest.json"
+        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/config.json",
+        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/runtime.json",
+        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/summary.json",
+        "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/online_validation.json",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-width256-02/native_evaluation.json",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-width256-02/capacity_pair_validation.json",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-width256-02/saved_field_metric_validation.json",
+        "/root/nonlocal-pinn/examples/particle_corrosion2d/configs/train_physical_spaced_w256.py",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/native_dev4/manifest.json",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4/manifest.json",
+        "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/preview/manifest.json"
       ],
       "samples": [
         0,
         1,
-        2,
-        3
+        2
       ],
       "nondimensional_times": [
         0,
@@ -334,110 +338,150 @@
         0.8,
         1
       ],
+      "physical_times": [
+        0,
+        70.0,
+        175.0,
+        280.0,
+        350
+      ],
       "records": [
         {
           "index": 0,
-          "source": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-w192-reused8-final-02/prediction_000.npz",
-          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reserved8-01/case_000.npz",
-          "pooled_phi": 0.022527653102479468,
-          "terminal_phi": 0.038209633891302316
+          "source": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-width256-02/native_prediction_000.npz",
+          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/native_dev4/case_000.npz",
+          "pooled_phi": 0.013148389294550863,
+          "terminal_phi": 0.025650489144963953,
+          "phi_pooled": 0.013148389294550863,
+          "phi_terminal": 0.025650489144963953,
+          "c_pooled": 0.015995229509615305,
+          "c_terminal": 0.031101708994186492
         },
         {
           "index": 1,
-          "source": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-w192-reused8-final-02/prediction_001.npz",
-          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reserved8-01/case_001.npz",
-          "pooled_phi": 0.02193458943105292,
-          "terminal_phi": 0.029955295864292675
+          "source": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-width256-02/native_prediction_001.npz",
+          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/native_dev4/case_001.npz",
+          "pooled_phi": 0.014276889898511181,
+          "terminal_phi": 0.03353036419727894,
+          "phi_pooled": 0.014276889898511181,
+          "phi_terminal": 0.03353036419727894,
+          "c_pooled": 0.01726704891112444,
+          "c_terminal": 0.03867741834384881
         },
         {
           "index": 2,
-          "source": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-w192-reused8-final-02/prediction_002.npz",
-          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reserved8-01/case_002.npz",
-          "pooled_phi": 0.02231720603943895,
-          "terminal_phi": 0.033389757949860904
-        },
-        {
-          "index": 3,
-          "source": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-w192-reused8-final-02/prediction_003.npz",
-          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reserved8-01/case_003.npz",
-          "pooled_phi": 0.020085141939635197,
-          "terminal_phi": 0.029642158592248558
+          "source": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-width256-02/native_prediction_002.npz",
+          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/native_dev4/case_002.npz",
+          "pooled_phi": 0.014272822642651438,
+          "terminal_phi": 0.025623055711866377,
+          "phi_pooled": 0.014272822642651438,
+          "phi_terminal": 0.025623055711866377,
+          "c_pooled": 0.017314179164023377,
+          "c_terminal": 0.029598190771020463
         }
       ],
-      "evaluation_cohort_size": 8,
-      "evaluation_cohort_mean_pooled_phi": 0.019827201879320834,
-      "selected_mean_pooled_phi": 0.021716147628151633,
+      "evaluation_cohort_size": 4,
+      "evaluation_cohort_mean_pooled_phi": 0.01450387460428327,
+      "selected_mean_pooled_phi": 0.01389936727857116,
+      "local_cohort_mean_pooled_phi": 0.02932962081359325,
       "validated_cohort_records": [
         {
           "index": 0,
-          "source": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-w192-reused8-final-02/prediction_000.npz",
-          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reserved8-01/case_000.npz",
-          "pooled_phi": 0.022527653102479468,
-          "terminal_phi": 0.038209633891302316
+          "source": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-width256-02/native_prediction_000.npz",
+          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/native_dev4/case_000.npz",
+          "pooled_phi": 0.013148389294550863,
+          "terminal_phi": 0.025650489144963953,
+          "phi_pooled": 0.013148389294550863,
+          "phi_terminal": 0.025650489144963953,
+          "c_pooled": 0.015995229509615305,
+          "c_terminal": 0.031101708994186492
         },
         {
           "index": 1,
-          "source": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-w192-reused8-final-02/prediction_001.npz",
-          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reserved8-01/case_001.npz",
-          "pooled_phi": 0.02193458943105292,
-          "terminal_phi": 0.029955295864292675
+          "source": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-width256-02/native_prediction_001.npz",
+          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/native_dev4/case_001.npz",
+          "pooled_phi": 0.014276889898511181,
+          "terminal_phi": 0.03353036419727894,
+          "phi_pooled": 0.014276889898511181,
+          "phi_terminal": 0.03353036419727894,
+          "c_pooled": 0.01726704891112444,
+          "c_terminal": 0.03867741834384881
         },
         {
           "index": 2,
-          "source": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-w192-reused8-final-02/prediction_002.npz",
-          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reserved8-01/case_002.npz",
-          "pooled_phi": 0.02231720603943895,
-          "terminal_phi": 0.033389757949860904
+          "source": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-width256-02/native_prediction_002.npz",
+          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/native_dev4/case_002.npz",
+          "pooled_phi": 0.014272822642651438,
+          "terminal_phi": 0.025623055711866377,
+          "phi_pooled": 0.014272822642651438,
+          "phi_terminal": 0.025623055711866377,
+          "c_pooled": 0.017314179164023377,
+          "c_terminal": 0.029598190771020463
         },
         {
           "index": 3,
-          "source": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-w192-reused8-final-02/prediction_003.npz",
-          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reserved8-01/case_003.npz",
-          "pooled_phi": 0.020085141939635197,
-          "terminal_phi": 0.029642158592248558
-        },
-        {
-          "index": 4,
-          "source": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-w192-reused8-final-02/prediction_004.npz",
-          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reserved8-01/case_004.npz",
-          "pooled_phi": 0.020977719301435556,
-          "terminal_phi": 0.035526476072980755
-        },
-        {
-          "index": 5,
-          "source": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-w192-reused8-final-02/prediction_005.npz",
-          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reserved8-01/case_005.npz",
-          "pooled_phi": 0.01703909428350292,
-          "terminal_phi": 0.02834832395130138
-        },
-        {
-          "index": 6,
-          "source": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-w192-reused8-final-02/prediction_006.npz",
-          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reserved8-01/case_006.npz",
-          "pooled_phi": 0.016145110705675286,
-          "terminal_phi": 0.028094742728613526
-        },
-        {
-          "index": 7,
-          "source": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-w192-reused8-final-02/prediction_007.npz",
-          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261106-eight-local-reserved8-01/case_007.npz",
-          "pooled_phi": 0.01759110023134638,
-          "terminal_phi": 0.026501694049074275
+          "source": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-width256-02/native_prediction_003.npz",
+          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/native_dev4/case_003.npz",
+          "pooled_phi": 0.01631739658141959,
+          "terminal_phi": 0.026442820167437743,
+          "phi_pooled": 0.01631739658141959,
+          "phi_terminal": 0.026442820167437743,
+          "c_pooled": 0.019942623834762873,
+          "c_terminal": 0.031735487719416984
         }
       ],
-      "default_configuration_exact": true,
-      "rolling_input_audit": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02/online_validation.json",
-      "selection": "First four of the same eight previously inspected comparison geometries in frozen input order; no error-based sample selection and no new blind test. Current default rolling core/halo model at its fixed20000-update endpoint.",
-      "reference": "Independent local P1 mass-lumped FEM/BDF, h0.01,256boundary points per particle; rtol2e-8,atol2e-10,max_step0.0125",
-      "metric": "Physical nodal-volume and trapezoidal physical-time relative L2 over all eleven saved times; cohort aggregates are arithmetic means over geometries",
-      "display": "Original conforming FEM triangles; Gouraud display interpolation only; actual saved times; gray holes from excluded triangles; no phase clipping, field smoothing or temporal interpolation; 256-color PNG encoding",
+      "validated_local_cohort_records": [
+        {
+          "index": 0,
+          "source": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/prediction_000.npz",
+          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4/case_000.npz",
+          "phi_pooled": 0.02796431549510155,
+          "phi_terminal": 0.05536244681361068,
+          "c_pooled": 0.03408415003275033,
+          "c_terminal": 0.06694172395977904
+        },
+        {
+          "index": 1,
+          "source": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/prediction_001.npz",
+          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4/case_001.npz",
+          "phi_pooled": 0.02836540546372791,
+          "phi_terminal": 0.06066852183865951,
+          "c_pooled": 0.03437048160114002,
+          "c_terminal": 0.07185289246818939
+        },
+        {
+          "index": 2,
+          "source": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/prediction_002.npz",
+          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4/case_002.npz",
+          "phi_pooled": 0.029193117402458137,
+          "phi_terminal": 0.05524128466918523,
+          "c_pooled": 0.03549357356887261,
+          "c_terminal": 0.06533345834105782
+        },
+        {
+          "index": 3,
+          "source": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/prediction_003.npz",
+          "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4/case_003.npz",
+          "phi_pooled": 0.031795644893085395,
+          "phi_terminal": 0.05899481510346755,
+          "c_pooled": 0.03870190055253198,
+          "c_terminal": 0.0707083168127198
+        }
+      ],
+      "representative_configuration_exact": true,
+      "default_configuration_exact": false,
+      "rolling_input_audit": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/online_validation.json",
+      "selection": "First three of four previously inspected development geometries, saved input order; fixed20k endpoint. No error-based layout selection or new blind cohort.",
+      "reference": "Production visible regional integral, spacing0.015/128contour edges. Independent local P1 FEM spacing0.01/256edges is audited separately; contours use native reference.",
+      "metric": "Physical nodal-volume and trapezoidal time relative L2 on eleven snapshots; arithmetic mean across four geometries.",
+      "display": "Original physical triangles, gray holes, Gouraud display interpolation only; actual saved times; no new triangulation, clipping, field smoothing or temporal interpolation; 256-color PNG.",
       "png_palette_colors": 256,
       "pixel_dimensions": [
         1875,
-        1110
+        945
       ],
       "image": "assets/pino/particle_corrosion2d.png",
-      "bytes": 230575,
+      "bytes": 210534,
       "dpi": 150,
       "field": "phi",
       "numerical_fields_changed": false,
@@ -450,5 +494,5 @@
   "inference_runs": 0,
   "reference_solves": 0,
   "training_updates": 0,
-  "total_image_bytes": 2282199
+  "total_image_bytes": 2262158
 }

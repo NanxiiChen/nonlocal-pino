@@ -4,6 +4,7 @@ from contextlib import ExitStack
 from functools import partial
 import importlib.util
 import json
+from numbers import Integral
 from pathlib import Path
 import secrets
 import shutil
@@ -25,8 +26,21 @@ def write_json(path,value):
     Path(path).write_text(json.dumps(value,indent=2,allow_nan=False)+'\n')
 
 
+def resolve_runtime_seed(value):
+    """Optional replay provenance; absent values retain a fresh random run."""
+    if value is None:
+        return secrets.randbits(32)
+    if isinstance(value,bool) or not isinstance(value,Integral) or not 0<=value<2**32:
+        raise ValueError('Runtime seed must be an integer in[0,2**32)')
+    return int(value)
+
+
 def load_bank(path,c):
+    from .dimensional import require_matching_units
+    from ml_collections import ConfigDict
+    from .inputs import mouth_sampling_policy
     path=Path(path).resolve();manifest=json.loads((path/'manifest.json').read_text())
+    require_matching_units(manifest['config'], c)
     actual=json.loads(c.to_json())
     for name in ('geometry','particles','physical','mesh'):
         if manifest['config'][name]!=actual[name]:raise ValueError(f'Geometry bank {name} differs')
@@ -36,6 +50,8 @@ def load_bank(path,c):
         if manifest['config']['sample'][name]!=actual['sample'][name]:raise ValueError(f'Bank {name} differs')
     for name in ('domain_shape','wall_points_per_particle','wall_points_per_side','mouth_points','ic_points','geometry_count'):
         if manifest['config']['operator'][name]!=actual['operator'][name]:raise ValueError(f'Bank conditioning {name} differs')
+    if mouth_sampling_policy(ConfigDict(manifest['config'])) != mouth_sampling_policy(c):
+        raise ValueError('Bank mouth sampling policy differs from training')
     with np.load(path/'inputs.npz',allow_pickle=False) as source:
         arrays={key:source[key] for key in source.files}
     if set(arrays)!=set(manifest['fixed_keys']+manifest['graph_keys']):raise ValueError('Bank payload schema mismatch')
@@ -58,13 +74,20 @@ def load_bank(path,c):
 
 
 def train(c,output,inputs,reference,config_path,paired_run,
-          sampling_control=None,exclude_references=(),full_grid_control=None):
+          sampling_control=None,exclude_references=(),full_grid_control=None,strategy_control=None,
+          runtime_seed=None):
     started=time.perf_counter();validate(c)
     from .full_grid import is_full,prepare_initial_full_bank,validate_full
     full_grid=is_full(c)
     if full_grid:validate_full(c)
-    if sum(path is not None for path in (paired_run,sampling_control,full_grid_control))>1:
+    from .strategies import validate_strategies
+    validate_strategies(c)
+    if sum(path is not None for path in (paired_run,sampling_control,full_grid_control,strategy_control))>1:
         raise ValueError('Select exactly one comparison control, not multiple controls')
+    if runtime_seed is not None:
+        resolve_runtime_seed(runtime_seed)
+        if any(path is not None for path in (paired_run,sampling_control,full_grid_control,strategy_control)):
+            raise ValueError('Runtime seed cannot override a comparison control seed')
     if full_grid_control is not None and not full_grid:
         raise ValueError('--full-grid-control requires the explicit sample.full_grid configuration')
     if c.train.compute_dtype!='float32':raise ValueError('This initial runner qualifies ordinary FP32 only')
@@ -97,8 +120,11 @@ def train(c,output,inputs,reference,config_path,paired_run,
         from .local_ad import make_loss_vector,LOSS_NAMES
     else:
         from .losses import make_loss_vector,LOSS_NAMES
+        from .losses import loss_names
+        LOSS_NAMES=loss_names(c)
     from .losses import make_step
     control=None
+    source_times_identical=None
     if paired_run is not None:
         paired_run=Path(paired_run).resolve()
         prior=json.loads((paired_run/'config.json').read_text())
@@ -127,34 +153,63 @@ def train(c,output,inputs,reference,config_path,paired_run,
         seed=runtime['seed']
         with np.load(full_grid_control/'sampling.npz',allow_pickle=False) as source:
             control={key:source[key] for key in source.files}
-    else:seed=secrets.randbits(32)
+    elif strategy_control is not None:
+        from .strategies import load_strategy_control
+        strategy_control=Path(strategy_control).resolve(strict=True)
+        runtime,control=load_strategy_control(c,strategy_control,inputs,reference)
+        seed=runtime['seed']
+        with np.load(strategy_control/'sampling.npz',allow_pickle=False) as source:
+            source_times_identical=np.array_equal(control['times'],source['times'][:c.train.iterations])
+        if runtime['excluded_reference_paths'] != [str(Path(path).resolve()) for path in exclude_references]:
+            raise ValueError('Strategy control must exclude the same evaluation geometries')
+    else:seed=resolve_runtime_seed(runtime_seed)
     rng=np.random.default_rng(seed)
     condition_ids=rng.integers(len(manifest['geometries']),size=(c.train.iterations,c.operator.condition_batch),dtype=np.int32)
     pool_ids=rng.integers(c.sample.K_pool,size=condition_ids.shape,dtype=np.int32)
-    times=rng.uniform(0,c.sample.t_max,size=(c.train.iterations,c.sample.Nt)).astype(np.float32)
+    from .sampling import sample_times
+    times=sample_times(rng,c)
+    if 'horizon_curriculum' in c.sample:
+        from .sampling import horizon_fractions
+        time_horizons=c.sample.t_max*horizon_fractions(c)
     trace=dict(condition_ids=condition_ids,pool_ids=pool_ids,times=times)
-    if control is not None:
+    if strategy_control is not None:
+        trace=control
+        condition_ids,pool_ids,times=(trace[k] for k in ('condition_ids','pool_ids','times'))
+    elif control is not None:
         for key in trace:
             if not np.array_equal(trace[key],control[key]):raise ValueError(f'Paired draw mismatch: {key}')
     net=build_network(c,jax.random.PRNGKey(seed))
     optimizer=make_optimizer(c);state=optimizer.init(eqx.filter(net,eqx.is_array))
-    initialization_control=next((path for path in (paired_run,sampling_control,full_grid_control)
+    initialization_control=next((path for path in (paired_run,sampling_control,full_grid_control,strategy_control)
                                  if path is not None),None)
+    paired_optimizer=None
     if initialization_control is not None:
-        old_net=eqx.tree_deserialise_leaves(initialization_control/'model_initial.eqx',net)
-        old_state=eqx.tree_deserialise_leaves(initialization_control/'optimizer_initial.eqx',state)
-        for new,old in zip(jax.tree.leaves((net,state)),jax.tree.leaves((old_net,old_state)),strict=True):
-            if eqx.is_array(new) and not np.array_equal(np.asarray(new),np.asarray(old)):
-                raise ValueError('Cold paired model/optimizer do not reproduce saved initialization')
+        from .strategies import verify_cold_initialization
+        paired_optimizer=verify_cold_initialization(net,state,c,initialization_control,
+                                                    strategy_control is not None)
     loss=make_loss_vector(c);step=make_step(loss,optimizer,c,LOSS_NAMES)
+    causal='use_causal' in c.loss and c.loss.use_causal
+    stagger='stagger_steps' in c.loss and c.loss.stagger_steps>0
+    scheduled=stagger or ('data_warmup_steps' in c.loss and c.loss.data_warmup_steps>0)
+    if causal:
+        from .losses import make_loss_components
+        from .strategies import make_causal_step
+        step=make_causal_step(make_loss_components(c),optimizer,c,LOSS_NAMES)
+        epsilon=jnp.asarray(c.causal.eps_init,dtype=jnp.float32)
     weights=jnp.ones(len(LOSS_NAMES),dtype=jnp.float32)
     run=Path(output).resolve();run.mkdir(parents=True,exist_ok=False)
     write_json(run/'config.json',json.loads(c.to_json()))
     write_json(run/'runtime.json',dict(seed=seed,inputs=str(Path(inputs).resolve()),
+        seed_source='comparison_control' if initialization_control is not None else
+                    'fresh_random' if runtime_seed is None else 'explicit_runtime_replay',
         reference=str(Path(reference).resolve()),devices=[str(x) for x in jax.devices()],
         cold_initialization=True,paired_run=None if paired_run is None else str(paired_run),
         sampling_control=None if sampling_control is None else str(sampling_control),
         full_grid_control=None if full_grid_control is None else str(full_grid_control),
+        strategy_control=None if strategy_control is None else str(strategy_control),
+        paired_optimizer_initialization=paired_optimizer,
+        source_time_draws_identical=source_times_identical,
+        time_sampling='uniform' if 'temporal' not in c.sample else c.sample.temporal.kind,
         pde_sampling='full_grid' if full_grid else 'core_halo',
         pool_ids_used_for_pde=not full_grid,
         rolling_inputs=online_enabled,
@@ -171,7 +226,8 @@ def train(c,output,inputs,reference,config_path,paired_run,
     repo=Path(__file__).resolve().parents[2]
     sources=list(Path(__file__).parent.rglob('*.py'))+[
         repo/'src/nonlocal_pinn/nn/point_conditional.py',repo/'src/nonlocal_pinn/nn/conditional.py',
-        repo/'src/nonlocal_pinn/training/optimizers.py',repo/'src/nonlocal_pinn/training/runtime.py']
+        repo/'src/nonlocal_pinn/training/optimizers.py',repo/'src/nonlocal_pinn/training/runtime.py',
+        repo/'src/nonlocal_pinn/training/causal.py']
     for source in sources:
         target=run/'source'/source.relative_to(repo);target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(source,target)
     shutil.copyfile(config_path,run/'supplied_config.py')
@@ -227,8 +283,28 @@ def train(c,output,inputs,reference,config_path,paired_run,
             jax.block_until_ready(payload)
             sample_seconds.append(time.perf_counter()-sample_start)
             begin=time.perf_counter()
-            net,state,weights,values,finite=step(net,state,weights,jnp.asarray(times[i]),payload,
-                jnp.asarray(i%c.train.gradnorm_update_every==0))
+            refresh=jnp.asarray(i%c.train.gradnorm_update_every==0)
+            if scheduled:
+                from .strategies import active_losses
+                active=jnp.asarray(active_losses(c,i,len(LOSS_NAMES)))
+            if causal:
+                epsilon_used=epsilon
+                if 'causal_steps' in c.loss:
+                    causal_active=jnp.asarray(i<c.loss.causal_steps)
+                    epsilon_used=jnp.where(causal_active,epsilon,0.)
+                    net,state,weights,epsilon,values,causal_diagnostics,finite=step(
+                        net,state,weights,epsilon,jnp.asarray(times[i]),payload,refresh,
+                        active if scheduled else None,causal_active)
+                elif scheduled:
+                    net,state,weights,epsilon,values,causal_diagnostics,finite=step(
+                        net,state,weights,epsilon,jnp.asarray(times[i]),payload,refresh,active)
+                else:
+                    net,state,weights,epsilon,values,causal_diagnostics,finite=step(
+                        net,state,weights,epsilon,jnp.asarray(times[i]),payload,refresh)
+            elif scheduled:
+                net,state,weights,values,finite=step(net,state,weights,jnp.asarray(times[i]),payload,refresh,active)
+            else:
+                net,state,weights,values,finite=step(net,state,weights,jnp.asarray(times[i]),payload,refresh)
             jax.block_until_ready((net,state,weights,values,finite));updates.append(time.perf_counter()-begin)
             if not bool(finite):raise FloatingPointError(f'Nonfinite objective/gradient at update{i+1}')
             if i in (0,24,c.train.iterations-1):
@@ -239,6 +315,13 @@ def train(c,output,inputs,reference,config_path,paired_run,
                 entry=dict(step=i+1,parts=np.asarray(values).tolist(),loss_names=list(LOSS_NAMES),
                     weights=np.asarray(weights).tolist(),update_seconds=updates[-1],
                     elapsed_seconds=time.perf_counter()-train_start)
+                if causal:
+                    entry.update(causal_epsilon_used=float(epsilon_used),causal_epsilon_next=float(epsilon),
+                        causal_mean_weight=float(jnp.mean(causal_diagnostics[0])),
+                        causal_last_weight=float(causal_diagnostics[0,-1]))
+                    if 'causal_steps' in c.loss:entry['causal_active']=bool(causal_active)
+                if scheduled:entry['active_losses']=np.asarray(active).tolist()
+                if 'horizon_curriculum' in c.sample:entry['sampled_time_horizon']=float(time_horizons[i])
                 stream.write(json.dumps(entry,allow_nan=False)+'\n');stream.flush();print(json.dumps(entry),flush=True)
             if (i+1)%c.log.checkpoint_every==0:
                 eqx.tree_serialise_leaves(run/f'model_{i+1:06d}.eqx',net)
@@ -269,6 +352,10 @@ def train(c,output,inputs,reference,config_path,paired_run,
         spatial_derivative=c.nl.method,training_uses_reference_targets=False,
         online=online_summary,
         final_weights=np.asarray(weights).tolist(),total_seconds=time.perf_counter()-started)
+    if causal:summary['final_causal_epsilon']=float(epsilon)
+    if 'data_warmup_steps' in c.loss:
+        summary['data_warmup_updates']=c.loss.data_warmup_steps
+        summary['pde_updates']=c.train.iterations-c.loss.data_warmup_steps
     write_json(run/'summary.json',summary);print('COMPLETE '+str(run),flush=True)
     return summary
 
@@ -279,6 +366,7 @@ def main():
     parser.add_argument('--inputs',required=True,type=Path)
     parser.add_argument('--reference',required=True,type=Path)
     parser.add_argument('--output',required=True,type=Path)
+    parser.add_argument('--seed',type=int,help='Optional runtime replay seed, never a strategy/configuration parameter')
     parser.add_argument('--paired-run',type=Path)
     parser.add_argument('--sampling-control',type=Path,
                         help='Completed fixed-input run with identical recipe; reproduce cold state and common random draws')
@@ -286,12 +374,14 @@ def main():
                         help='Additional reference directory whose geometry must never enter the rolling training pool')
     parser.add_argument('--full-grid-control',type=Path,
                         help='Completed rolling core/halo run; match cold state and all geometry/IC/time draws')
+    parser.add_argument('--strategy-control',type=Path,
+                        help='Completed original-output run; reproduce cold state and its exact sampling prefix')
     args=parser.parse_args();path=args.config.resolve(strict=True)
     spec=importlib.util.spec_from_file_location('particle_training_config',path)
     if spec is None or spec.loader is None:raise ValueError(f'Invalid config{path}')
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
     train(module.get_config(),args.output,args.inputs,args.reference,path,args.paired_run,
-          args.sampling_control,args.exclude_reference,args.full_grid_control)
+          args.sampling_control,args.exclude_reference,args.full_grid_control,args.strategy_control,args.seed)
 
 
 if __name__=='__main__':main()

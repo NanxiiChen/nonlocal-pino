@@ -25,6 +25,8 @@ def initial_fields(c, points, mouth):
 
 
 def make_system(c, diffusion_matrix, points, mouth):
+    from .dimensional import validate_dimensional
+    validate_dimensional(c)
     p = c.physical
     nch, n1, n2, n3, kappa = p.n_ch, p.n_ac1, p.n_ac2, p.n_ac3, p.kappa
     dc, cle = p.c_se-p.c_le, p.c_le

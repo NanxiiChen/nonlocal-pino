@@ -1,0 +1,227 @@
+{
+  "status": "completed_accuracy_unmet",
+  "automatic_goal_status": "active",
+  "user_direction": "Original outputs and established strategies, no custom ansatz continuation",
+  "physics": "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-optimization-01/early_physics.json",
+  "network": "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-optimization-01/early_network.json",
+  "paired_control": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-physical5s-w192-cold20000-01",
+  "owner_pid": null,
+  "current_child": null,
+  "status_journal": "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-optimization-01/original_strategy_status.json",
+  "tests": {
+    "new_strategy": 3,
+    "old_regression": 2
+  },
+  "cold_model_bytes_identical": true,
+  "cold_optimizer_bytes_identical": true,
+  "sampling_prefix_arrays_identical": true,
+  "latest_stage": {
+    "name": "ac_priority_audit",
+    "pid": 387393,
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-c",
+      "import sys,runpy;sys.argv=['early_network.py','--run','/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-original-ac_priority5000-01','--name','early_ac_priority'];runpy.run_path('/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-optimization-01/early_network.py',run_name='__main__')"
+    ],
+    "status": "passed",
+    "started": 1793957372.880114,
+    "exit_code": 0,
+    "ended": 1793957447.5886765
+  },
+  "causal_final_phase": 0.3569398815948034,
+  "completed_metrics": [
+    {
+      "name": "causal",
+      "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-original-causal5000-01",
+      "steps": 5000,
+      "metrics": {
+        "phi_pooled": 0.3569398815948034,
+        "phi_terminal": 0.47001007645758475,
+        "c_pooled": 0.3495975957710564,
+        "c_terminal": 0.4580842262549884,
+        "corroded_pooled": 0.9503104947291208,
+        "corroded_terminal": 0.9684425619047218,
+        "phase_change": 1.2942063618455522,
+        "terminal_iou": 0.014826496787426865,
+        "terminal_interface_area_error": 0.9851735032125731,
+        "conditions": [
+          {
+            "phi_pooled": 0.35619572778353276,
+            "phi_terminal": 0.47383031143300797,
+            "c_pooled": 0.3487245610729702,
+            "c_terminal": 0.4610929108936882,
+            "corroded_pooled": 0.950600331741543,
+            "corroded_terminal": 0.9691650603346791,
+            "phase_change": 1.291034527177756,
+            "terminal_iou": 0.014259807302037252,
+            "terminal_interface_area_error": 0.9857401926979628
+          },
+          {
+            "phi_pooled": 0.35302892911748684,
+            "phi_terminal": 0.4687920338310082,
+            "c_pooled": 0.34586392167779767,
+            "c_terminal": 0.4561995267156593,
+            "corroded_pooled": 0.9501680961834071,
+            "corroded_terminal": 0.9687965160658978,
+            "phase_change": 1.2956697932323105,
+            "terminal_iou": 0.014392832651660083,
+            "terminal_interface_area_error": 0.9856071673483399
+          },
+          {
+            "phi_pooled": 0.36331074223182963,
+            "phi_terminal": 0.47654800713817924,
+            "c_pooled": 0.3555150443220437,
+            "c_terminal": 0.4645566637692931,
+            "corroded_pooled": 0.9508542345612927,
+            "corroded_terminal": 0.9685434894640677,
+            "phase_change": 1.2890512804917489,
+            "terminal_iou": 0.014238601084679347,
+            "terminal_interface_area_error": 0.9857613989153207
+          },
+          {
+            "phi_pooled": 0.35522412724636443,
+            "phi_terminal": 0.46086995342814385,
+            "c_pooled": 0.348286856011414,
+            "c_terminal": 0.4504878036413132,
+            "corroded_pooled": 0.9496193164302406,
+            "corroded_terminal": 0.9672651817542427,
+            "phase_change": 1.3010698464803931,
+            "terminal_iou": 0.01641474611133077,
+            "terminal_interface_area_error": 0.9835852538886692
+          }
+        ],
+        "step": 5000,
+        "seconds": 531.4013598933816
+      }
+    },
+    {
+      "name": "stagger",
+      "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-original-stagger5000-01",
+      "steps": 5000,
+      "metrics": {
+        "phi_pooled": 0.35109815634938096,
+        "phi_terminal": 0.46491167603150424,
+        "c_pooled": 0.34542060738396896,
+        "c_terminal": 0.4543193896298229,
+        "corroded_pooled": 0.9347552756912425,
+        "corroded_terminal": 0.9579342985516013,
+        "phase_change": 1.2730204625038501,
+        "terminal_iou": 0.02635046052578747,
+        "terminal_interface_area_error": 0.9736495394742126,
+        "conditions": [
+          {
+            "phi_pooled": 0.35049909410030883,
+            "phi_terminal": 0.46889896528905345,
+            "c_pooled": 0.34465514526750324,
+            "c_terminal": 0.4574552986562469,
+            "corroded_pooled": 0.9353973928760698,
+            "corroded_terminal": 0.9590785625337921,
+            "phase_change": 1.2703870286255121,
+            "terminal_iou": 0.025830071723209662,
+            "terminal_interface_area_error": 0.9741699282767904
+          },
+          {
+            "phi_pooled": 0.3471249792510571,
+            "phi_terminal": 0.46366886419195685,
+            "c_pooled": 0.3416373196609672,
+            "c_terminal": 0.4524092628707325,
+            "corroded_pooled": 0.9342777700910037,
+            "corroded_terminal": 0.9582090731289659,
+            "phase_change": 1.274001400441347,
+            "terminal_iou": 0.02536181601976072,
+            "terminal_interface_area_error": 0.9746381839802394
+          },
+          {
+            "phi_pooled": 0.35747793752245344,
+            "phi_terminal": 0.4714193686163394,
+            "c_pooled": 0.35134043833313805,
+            "c_terminal": 0.46077646295736613,
+            "corroded_pooled": 0.9355886604682739,
+            "corroded_terminal": 0.9581199656780791,
+            "phase_change": 1.2683560917580177,
+            "terminal_iou": 0.026519287421607304,
+            "terminal_interface_area_error": 0.9734807125783927
+          },
+          {
+            "phi_pooled": 0.3492906145237045,
+            "phi_terminal": 0.45565950602866745,
+            "c_pooled": 0.3440495262742672,
+            "c_terminal": 0.4466365340349461,
+            "corroded_pooled": 0.9337572793296226,
+            "corroded_terminal": 0.9563295928655677,
+            "phase_change": 1.2793373291905232,
+            "terminal_iou": 0.027690666938572178,
+            "terminal_interface_area_error": 0.9723093330614279
+          }
+        ],
+        "step": 5000,
+        "seconds": 537.5463480949402
+      }
+    },
+    {
+      "name": "ac_priority",
+      "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-original-ac_priority5000-01",
+      "steps": 5000,
+      "metrics": {
+        "phi_pooled": 0.3756021400606323,
+        "phi_terminal": 0.4853223089436328,
+        "c_pooled": 0.9720747444836119,
+        "c_terminal": 1.0053881709150272,
+        "corroded_pooled": 1.0,
+        "corroded_terminal": 1.0,
+        "phase_change": 1.3618801076092277,
+        "terminal_iou": 0.0,
+        "terminal_interface_area_error": 1.0,
+        "conditions": [
+          {
+            "phi_pooled": 0.3747060840323319,
+            "phi_terminal": 0.4889056888621551,
+            "c_pooled": 0.9719285348548,
+            "c_terminal": 1.0052360934327293,
+            "corroded_pooled": 1.0,
+            "corroded_terminal": 1.0,
+            "phase_change": 1.3581254751132215,
+            "terminal_iou": 0.0,
+            "terminal_interface_area_error": 1.0
+          },
+          {
+            "phi_pooled": 0.3715436568987055,
+            "phi_terminal": 0.4838911227186872,
+            "c_pooled": 0.9721260534196408,
+            "c_terminal": 1.0054134812243305,
+            "corroded_pooled": 1.0,
+            "corroded_terminal": 0.9999999999999999,
+            "phase_change": 1.363621656486159,
+            "terminal_iou": 0.0,
+            "terminal_interface_area_error": 1.0
+          },
+          {
+            "phi_pooled": 0.38208878819558406,
+            "phi_terminal": 0.4920254096378322,
+            "c_pooled": 0.9721117454304142,
+            "c_terminal": 1.0055031820787734,
+            "corroded_pooled": 1.0,
+            "corroded_terminal": 1.0,
+            "phase_change": 1.3556770676788086,
+            "terminal_iou": 0.0,
+            "terminal_interface_area_error": 1.0
+          },
+          {
+            "phi_pooled": 0.3740700311159078,
+            "phi_terminal": 0.47646701455585677,
+            "c_pooled": 0.9721326442295927,
+            "c_terminal": 1.0053999269242755,
+            "corroded_pooled": 1.0,
+            "corroded_terminal": 1.0,
+            "phase_change": 1.3700962311587217,
+            "terminal_iou": 0.0,
+            "terminal_interface_area_error": 1.0
+          }
+        ],
+        "step": 5000,
+        "seconds": 531.4032676704228
+      }
+    }
+  ],
+  "next_status_journal": "/root/autodl-tmp/data/particle_corrosion2d/20261106-physical-optimization-01/gn_l2_status.json"
+}

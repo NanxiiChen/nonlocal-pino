@@ -51,7 +51,7 @@ def draw_case(ax, record, c, index):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--config', default='examples.particle_corrosion2d.configs.geometry_base')
+    parser.add_argument('--config', default='examples.particle_corrosion2d.configs.train_default')
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--count', type=int, default=4)
     parser.add_argument('--seed', type=int)

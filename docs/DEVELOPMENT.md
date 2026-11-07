@@ -721,6 +721,19 @@ this weighting variant with all details/benchmarks of the cited causal-PINN pape
 
 ## Artifact Paths
 
+Particle-corrosion `train_default.py` now selects `train_physical.py`: explicit
+SI `physical.{D,A,L,alpha_phi,omega_phi}`, `nondim.{L_c,T_c}` and `geometry_si`
+produce all four PDE groups, normalized geometry and initial interface width
+through `dimensional.derive_config`. `physical.L` is actual mobility, so kappa
+must equal1 in this path. Cache consistency and normalized t_max1 are validated
+before reference/training; partial SI records and stale groups fail. Input and
+reference loading checks units as well as existing physical fields. New SI
+references include `physical_time=times*T_c`; legacy dimensionless manifests
+remain readable only with matching legacy configs. `train_online.py` preserves
+the old physics. Preview also selects the current preset so its IC metadata
+matches preparation/reference generation. New physical accuracy must not be
+inferred from historical dimensionless results.
+
 Particle-corrosion `configs/train_online.py` adds an explicit
 `operator.online` record: workers, geometry_every/size, spatial_every/size,
 prefetch, halo, neighbors and worker_cache. A bounded spawn-process producer
@@ -771,6 +784,17 @@ unused for full PDE selection, avoiding a shifted time stream and eight duplicat
 graph copies. `full_grid_validation` independently checks complete row coverage,
 physical volumes and all native CSR coefficients in initial/final pools. This
 opt-in comparison does not change the rolling core/halo default.
+
+Particle optional `operator.mouth_sampling=mesh_dirichlet` aligns the two mouth
+losses with every Dirichlet node used by the discrete operator. Lumped P1 edge
+lengths give positive weights to endpoints as well as interior nodes; remaining
+`operator.mouth_points` capacity is zero-weight padding, never truncation.
+Geometry boundary encoder tokens retain their independent midpoint quadrature.
+Only the mouth-loss point/weight arrays are overridden during initial and
+rolling payload construction, with no extra RNG draws. Missing selector retains
+historical `midpoint` behavior; input-bank metadata must match this policy.
+This experimental option does not change the physical BC, impose it hard, or
+promote a new default. The speed2 study documents the endpoint gap it addresses.
 
 The `precipitate2d` periodic pilot learns phase/chemical fields and eliminates
 homogeneous-isotropic elastic equilibrium with a differentiable Fourier solve.
@@ -1336,3 +1360,131 @@ geometry-family extension against its completed integral control: cold model/
 complete SOAP and all actual slot/time/drawIDs must match, while physical inputs
 are intentionally different and reconstructed independently. Reference mesh
 sizes and paths differ explicitly. Do not relax existing same-geometry audits.
+
+Particle-corrosion experimental physical presets retain SI coefficients and
+use explicit optional training maps. `loss.concentration_scale` multiplies
+concentration IC/BC errors before squaring; absence retains1/cLe. The optional
+`phase.initial_lifting={kind:bounded_exponential,time_scale:tau}` uses
+`g=1-exp(-t/tau)`, bounded convex initial-phase lifting and additive liquid
+lifting. Predictions, nonlocal residuals and physical-time JVP use the same
+map; no evolved trajectories enter training. Optional
+`arch.time_coordinate={kind:logarithmic,time_scale:tau}` changes decoder input
+only, with the physical JVP chain rule retained. These options currently reject
+local_AD rather than silently applying an unmatched map. Optional
+`sample.temporal={kind:logarithmic_stratified,time_scale:tau}` uses an exact
+initial PDE node and Nt-1 random log-time strata covering the entire horizon;
+this declares a different residual-time measure. Missing options preserve the
+historical soft-IC/uniform-time recipe. They are research controls, not SOTA.
+
+The particle physical research branch also accepts
+`phase.initial_lifting.kind=latent_additive`. The explicit known initial latent
+coordinate is incremented by `log1p(t/tau)*z_theta`; liquid concentration uses
+an additive increment with the same gate. `arch.zero_output=True` initializes
+only the final increment head to zero, preserving all other random leaves.
+`boundary.dirichlet=exact_mouth` projects the prescribed reservoir values at
+actual query mouth coordinates and removes both redundant soft mouth terms.
+This requires the nonlocal/hard-IC branch and uses two explicit PDE loss biases.
+Time JVP includes all lifting/projection operations. Existing maps are retained.
+These are unpromoted optimization candidates, with no evolved reference input.
+
+Particle original-output strategy controls accept `--strategy-control` with a
+completed run and a budget no longer than its saved budget. Only explicit
+PDE scales/post-balancing biases,stagger/causal settings and budget may differ;
+model/physics and non-strategy settings remain fixed. Cold model/optimizer arrays and
+independently replayed source sampling prefixes are required, not a reset from
+a trained checkpoint. Stagger gates PDE objectives while retaining every data
+term; it does not freeze one physical field. Adaptive causal reuses the shared
+controller on per-time physical-volume AC/CH segments, with stopped prefix
+weights and IC/BC outside causal weighting. Scalars/selectors stay dynamic in
+JIT and are logged. No default promotion follows from these research controls.
+
+An explicit Adam/SOAP strategy comparison may additionally change only
+`train.optimizer`; all learning-rate and SOAP hyperparameters remain fixed.
+The cold model and actual sampling still match. Each optimizer keeps its own
+factory-initialized state; runtime `paired_optimizer_initialization=False`
+declares that these states are intentionally different. Other control types
+still require identical cold optimizer states. Do not load Adam state into SOAP.
+
+Original-output strategy controls may independently select the existing
+`arch.time_coordinate={kind:logarithmic,time_scale:tau}` option. The original
+linear-time source is still required; all other architecture fields and actual
+physical time draws are checked. No parameter leaf is added by this coordinate
+choice, so cold model/optimizer arrays must still match. Time JVP includes the
+coordinate chain rule; this is independent of any hard initial lifting.
+
+`loss.transport_residual=ac_eliminated` is an explicit original-output
+nonlocal strong-residual control. Keep Rphi and replace Rc by
+Rc-dc*hprime(phi)*Rphi, evaluated as cle*s_t+Gc-dc*hprime(phi)*Gphi with
+the raw liquid JVP. No inverse tanh Jacobian is evaluated. The state-dependent
+mixing coefficient is differentiated; do not silently stop its gradient.
+Use the `ch_ac_eliminated` label and build causal segments from these trained
+components. Original physical residuals remain independent diagnostics.
+Reject combinations with integral-time/hard-output variants until qualified.
+
+Strategy sources may also be completed fresh `initial_layer` runs,with exactly
+the same source/target temporal settings. Recreate the entire source schedule
+using its saved budget/configuration,then take the requested prefix. Do not
+transform its saved times again. Runtime time identity compares actual arrays.
+
+`loss.gradnorm_norm=l2` selects a scaled Euclidean parameter-gradient norm;
+missing selection retains the exact historical L1 sum. Both ordinary and
+causal steps share the norm helper and reject nonfinite raw norms before
+clipping can hide them. `train.gradnorm_update_every` remains explicit and
+positive;strategy controls can change it. These are inverse-gradient balancing
+controls,not original learned-weight GradNorm. L1 balancing need not balance
+Euclidean update magnitudes. A metric/refresh change does not change the PDE.
+
+Particle `train.py --seed` optionally replays runtime initialization/sampling
+without adding a seed to strategy configs. Omission preserves
+`secrets.randbits(32)`. Validate an integer in `[0,2**32)` and reject an override
+with any existing comparison-control argument. Runtime records `seed_source`;
+the default random path and saved-control paths retain their prior behavior.
+Across geometry-prior changes, compare cold model/full optimizer and actual
+condition indices, pool indices and times. Do not claim that physical spatial
+points remain identical when the geometry itself changes. Rebuild and audit
+all known geometry/operator inputs under the new prior.
+
+Optional particle `loss.causal_steps` releases adaptive causal discounts after
+that many absolute optimizer updates, including any data warmup. It requires
+causal enabled and an integer strictly inside the training budget. Released
+steps use effective epsilon zero (all time weights one) and freeze the positive
+controller state; model and optimizer state continue unchanged. A scalar
+dynamic selector avoids recompilation at release. Logs distinguish effective
+epsilon used from the retained controller state and record `causal_active`.
+This is a global-network optimization schedule, not time-window integration.
+The absent option preserves the historical full-budget causal path.
+
+Particle `sample.horizon_curriculum` optionally declares exactly
+`kind=exponential`, `initial_fraction` and integer `ramp_steps`. After explicit
+data warmup it increases the global random-time horizon from that fraction of
+`t_max` to the full interval; a nonempty final full-time tail is required.
+The original `initial_layer` slots are retained exactly and must fit inside
+the first horizon. Only remaining global time draws are scaled. Random keys,
+physical coefficients, time JVP and network time-coordinate normalization stay
+unchanged. This intentionally changes the training measure during the ramp.
+Initially qualify only joint original strong nonlocal losses, with no causal,
+stagger, alternative output or eliminated-row combination. A strategy source
+must not already use this curriculum. Logs record actual time horizons;
+independent replay must distinguish transformed times from unchanged core and
+condition draws. One global model is updated throughout; no field is frozen
+or propagated between windows.
+
+Particle original-output controls additionally support
+`sample.temporal.kind=initial_layer` with explicit early_count/early_end:
+one zero node,early_count-1random early strata,and untouched global uniform
+draws. This changes the residual measure intentionally. `loss.initial_metric=
+phase_liquid` uses the equivalent prescribed(phi,s)IC,s=(c-dc*h(phi))/cLe.
+`loss.data_warmup_steps` masks only PDE objectives initially and freezes causal
+epsilon; optimizer state is retained at the transition. Runtime records whether
+source time draws are identical or explicitly transformed.
+
+The experimental `loss.time_form=integral_simpson` keeps the original mapping
+and changes only the temporal residual to y(t)-y0+int G=0. Its
+`integral_initial_layer`rule supplies0,T,random early strata and random global
+strata.32endpoints require63network evaluations including midpoints; spatial
+preparation is shared. The prescribed G(0)is substituted from the known IC;
+all later integrands remain current-network outputs. There is one global
+network,no frozen predecessor,and no time JVP in this loss. Standard physical
+JVP residuals remain evaluation diagnostics. Initially require nonlocal original
+outputs and causal off; do not silently combine unqualified variants. Composite
+Simpson consistency defects must be distinguished from trajectory accuracy.

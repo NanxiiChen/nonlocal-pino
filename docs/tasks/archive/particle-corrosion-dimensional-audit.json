@@ -1,0 +1,179 @@
+{
+  "status": "passed",
+  "group_order": [
+    "N_CH",
+    "effective_N_AC1",
+    "effective_N_AC2",
+    "effective_N_AC3"
+  ],
+  "legacy": {
+    "electropolish": {
+      "physical": {
+        "A": 53500000.0,
+        "D": 8.5e-10,
+        "L": 1e-06,
+        "alpha_phi": 2.575e-05,
+        "c_le": 0.03566433566433566,
+        "c_se": 1.0,
+        "omega_phi": 17600000.0
+      },
+      "scales": {
+        "L_c": 0.0001,
+        "T_c": 5.0
+      },
+      "effective_groups": [
+        0.425,
+        535.0,
+        87.99999999999999,
+        0.012875
+      ],
+      "interface_k": 58.45918001610474
+    },
+    "corrosion": {
+      "physical": {
+        "A": 53500000.0,
+        "D": 8.5e-10,
+        "L": 2.0,
+        "alpha_phi": 0.000103,
+        "c_le": 0.03566433566433566,
+        "c_se": 1.0,
+        "omega_phi": 17600000.0
+      },
+      "scales": {
+        "L_c": 0.0001,
+        "T_c": 50.0
+      },
+      "effective_groups": [
+        4.25,
+        10700000000.0,
+        1760000000.0,
+        1030000.0
+      ],
+      "interface_k": 29.22959000805237
+    }
+  },
+  "particle_original": [
+    80.0,
+    48.63636363636363,
+    8.0,
+    0.0044444444444444444
+  ],
+  "particle_speed2": [
+    160.0,
+    97.27272727272727,
+    16.0,
+    0.008888888888888889
+  ],
+  "invariant_particle": 5.555555555555556e-05,
+  "invariant_electropolish": 0.030294117647058822,
+  "invariant_ratio_electropolish_over_particle": 545.2941176470588,
+  "anchors": {
+    "electropolish_energy_and_D": {
+      "original": {
+        "length_m": 5.131785973004649e-05,
+        "time_s": 247.86096256684493,
+        "actual_matrix_L": 1.8338727076591153e-09,
+        "base_L_before_kappa": 9.169363538295577e-10,
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1.8338727076591153e-09,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        }
+      },
+      "speed2": {
+        "length_m": 5.131785973004649e-05,
+        "time_s": 495.72192513368987,
+        "actual_matrix_L": 1.8338727076591153e-09,
+        "base_L_before_kappa": 9.169363538295577e-10,
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 1.8338727076591153e-09,
+          "alpha_phi": 2.575e-05,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        }
+      }
+    },
+    "corrosion_energy_and_D": {
+      "original": {
+        "length_m": 0.00010263571946009298,
+        "time_s": 991.4438502673797,
+        "actual_matrix_L": 4.5846817691477883e-10,
+        "base_L_before_kappa": 2.2923408845738942e-10,
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 4.5846817691477883e-10,
+          "alpha_phi": 0.000103,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        }
+      },
+      "speed2": {
+        "length_m": 0.00010263571946009298,
+        "time_s": 1982.8877005347595,
+        "actual_matrix_L": 4.5846817691477883e-10,
+        "base_L_before_kappa": 2.2923408845738942e-10,
+        "physical": {
+          "A": 53500000.0,
+          "D": 8.5e-10,
+          "L": 4.5846817691477883e-10,
+          "alpha_phi": 0.000103,
+          "c_le": 0.03566433566433566,
+          "c_se": 1.0,
+          "omega_phi": 17600000.0
+        }
+      }
+    },
+    "electropolish_length_D_A_omega": {
+      "length_m": 0.0001,
+      "original_time_s": 941.1764705882352,
+      "speed2_time_s": 1882.3529411764705,
+      "physical": {
+        "A": 53500000.0,
+        "D": 8.5e-10,
+        "L": 4.829545454545455e-10,
+        "alpha_phi": 9.77777777777778e-05,
+        "c_le": 0.03566433566433566,
+        "c_se": 1.0,
+        "omega_phi": 17600000.0
+      }
+    }
+  },
+  "same_electropolish_L_time_from_AC_only": 0.4545454545454546,
+  "same_electropolish_material_at_5s": [
+    0.425,
+    535.0,
+    87.99999999999999,
+    0.012875
+  ],
+  "same_electropolish_material_at_10s": [
+    0.85,
+    1070.0,
+    175.99999999999997,
+    0.02575
+  ],
+  "si_residual_max_abs_difference": {
+    "ac": 1.5543122344752192e-15,
+    "ch": 1.0658141036401503e-14
+  },
+  "scaling_checks": {
+    "residual_with_doubled_time_derivative": true,
+    "solver_rhs": true,
+    "solver_jacobian": true
+  },
+  "saved_run_physics_checked": [
+    "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-online-geometry-spatial-w192-cold20000-02",
+    "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-online-w192-cold20000-01",
+    "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-mouth-nodes-w192-cold20000-01",
+    "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261106-speed2-time32-w192-cold20000-01"
+  ],
+  "interpretation": "No exact length/time pair makes all current particle groups equal to the electropolish material tuple. Anchors explicitly permit different dimensional mobility, or mobility and alpha. No physical coefficients or training defaults changed."
+}
