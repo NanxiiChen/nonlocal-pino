@@ -10608,3 +10608,51 @@ curated images and SI unit documentation. A README-only commit would omit
 dependencies of the documented recipe and figure renderer. Follow the local dev
 commit and regular merge into main, then push only main. Relation: the archived
 physical optimization study and its six-particle documentation publication.
+
+## 2026-11-07 — Prototype three research-site reading orders before deployment
+
+The user requests a GitHub Pages research site and explicitly stages the layout
+review first. Put three local, dependency-free previews under `website/`, since
+`site/` is reserved by the repository's generated-output ignore rule. Reuse the
+five curated figures and share one set of case summaries and comparison scopes
+so the alternatives can be judged on reading order. Defer a site framework,
+workflow and Pages configuration until a layout is selected. The current private
+repository requires a separate check of Pages eligibility and publication scope.
+
+Use distinct descriptions for the symmetric regional diffusion operator and
+moment-corrected channel stencils. Describe finite-horizon no-exchange closure
+and retain time JVP and the channel's streamfunction curl in the AD accounting.
+Show optional loss tools separately from selected recipes and attach every
+reported number to its actual reference and cohort. A single shared error
+leaderboard or generic zero-flux claim would obscure those distinctions.
+Relation: six-particle homepage publication and the five primary PINO cases.
+
+## 2026-11-07 — Build the selected technical report as static HTML with KaTeX
+
+The user selects the technical-reference design and asks for standard LaTeX
+equations. Use authored Markdown and a small lockfile-pinned static build under
+`website/`. Pre-render KaTeX HTML and MathML and bundle the stylesheet and fonts
+so the report is readable locally and under a repository subpath. Replace the
+layout chooser with the chosen report, preserve the five curated figure pairs
+as the only scientific images bundled, and link to repository source rather
+than copying the research tree into the output.
+
+Organize the report as an overview, three method chapters and five detailed
+cases, with a consistent reference scope and reproducible commands per case.
+A client-side router, CDN math renderer and hosted prototype add requirements
+that are unnecessary for a static technical report. The user defers the GitHub
+Pages decision. Relation: research-site layout prototypes.
+
+## 2026-11-07 — Publish the technical report through GitHub Pages
+
+The user authorizes committing, pushing and deploying the selected report.
+GitHub accepted Pages in Actions mode for the private project repository and
+assigned the public project URL. Publish the built `website/dist/` artifact
+only. Build on relevant main-branch changes and on manual dispatch, and scope
+the Pages and OIDC write permissions to the deploy job. The source repository
+continues to use the local dev to regular main merge workflow.
+
+Keep site source and automation in separate commits so a workflow credential
+problem cannot prevent publishing the source commit to the repository. A
+branch-based Pages source would need generated files in Git. Relation: the
+technical report implementation and its local validation.

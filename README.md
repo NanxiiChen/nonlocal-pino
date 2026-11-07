@@ -7,6 +7,9 @@ learn families of solutions from known initial fields, geometry or material fiel
 
 Private repository: [NanxiiChen/nonlocal-pinn](https://github.com/NanxiiChen/nonlocal-pinn).
 
+The [technical report site](website/README.md) covers the architecture,
+nonlocal spatial calculus, training strategies and the five main PINO cases.
+
 ## Physics-only neural-operator examples
 
 | Main example | What varies between samples | Physical model / horizon | Representative phase relative L2 | Reference / evaluation scope |
@@ -105,6 +108,7 @@ src/nonlocal_pinn/
 examples/                 # case geometry, BCs, configs, CLI and formulations
 assets/pino/              # compact README evolution figures
 assets/pino-setups/       # lightweight problem/condition SVG schematics
+website/                  # static technical report source and build
 tests/                    # existing focused numerical/restart regressions
 artifacts/index.yaml      # external artifact ownership, JSON-compatible YAML
 scripts/check_artifacts.py

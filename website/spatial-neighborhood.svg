@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="344" viewBox="0 0 960 344" role="img" aria-labelledby="title description">
+  <title id="title">Visible interactions in a truncated neighborhood</title>
+  <desc id="description">Active edges connect a core to neighbors inside its horizon. A gray inclusion excludes an occluded edge even when its endpoint is within the horizon.</desc>
+  <rect width="960" height="344" fill="#f8fafd"/>
+  <circle cx="263" cy="172" r="137" fill="#edf3fd" stroke="#7298c7" stroke-dasharray="7 7" stroke-width="2"/>
+  <path d="M263 172L158 142M263 172L184 242M263 172L240 76M263 172L287 254M263 172L324 84" stroke="#3764a0" stroke-width="2.5"/>
+  <path d="M263 172l128-1" stroke="#a9584c" stroke-dasharray="6 6" stroke-width="2.5"/>
+  <ellipse cx="339" cy="184" rx="35" ry="47" fill="#c6cfd9" stroke="#8a9cb0" stroke-width="2"/>
+  <g fill="#214f98"><circle cx="158" cy="142" r="6"/><circle cx="184" cy="242" r="6"/><circle cx="240" cy="76" r="6"/><circle cx="287" cy="254" r="6"/><circle cx="324" cy="84" r="6"/><circle cx="263" cy="172" r="9"/></g>
+  <circle cx="391" cy="171" r="6" fill="#a9584c"/>
+  <g font-family="system-ui, sans-serif" fill="#172438">
+    <text x="486" y="87" font-size="26" font-weight="700">Regional interaction support</text>
+    <g font-size="17"><text x="534" y="138">Visible pair inside the horizon</text><text x="534" y="184">Pair excluded by the inclusion</text><text x="534" y="230">Impermeable interior</text></g>
+  </g>
+  <path d="M487 133h32" stroke="#3764a0" stroke-width="3"/>
+  <path d="M487 179h32" stroke="#a9584c" stroke-width="3" stroke-dasharray="5 4"/>
+  <rect x="487" y="216" width="32" height="18" rx="3" fill="#c6cfd9" stroke="#8a9cb0"/>
+</svg>
