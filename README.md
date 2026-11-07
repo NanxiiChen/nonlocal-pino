@@ -7,8 +7,9 @@ learn families of solutions from known initial fields, geometry or material fiel
 
 Private repository: [NanxiiChen/nonlocal-pinn](https://github.com/NanxiiChen/nonlocal-pinn).
 
-The [technical report site](website/README.md) covers the architecture,
-nonlocal spatial calculus, training strategies and the five main PINO cases.
+The [technical report site](https://nanxiichen.github.io/nonlocal-pinn/) covers
+the architecture, nonlocal spatial calculus, training strategies and the five
+main PINO cases. See the [local build guide](website/README.md).
 
 ## Physics-only neural-operator examples
 

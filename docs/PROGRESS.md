@@ -2,8 +2,7 @@
 
 ## Active task
 
-[GitHub Pages release](tasks/research-report-pages.md). Publish the technical
-report through the repository's Pages workflow and check the live site.
+None.
 
 ## Deferred work
 
@@ -18,6 +17,11 @@ solve. [Feasibility](tasks/archive/traction-conditioned-elastic-pino-analysis.md
 The channel20000/lower-LR study is complete and archived below.
 
 ## Latest completed validation
+
+[Technical report GitHub Pages release](tasks/archive/research-report-pages.md).
+The nine-page report is live at the [project site](https://nanxiichen.github.io/nonlocal-pinn/).
+The first Actions build and deploy succeeded, and the public homepage and all
+84 published files match the locally built artifact byte for byte.
 
 [Nonlocal PINO technical report site](tasks/archive/research-report-site.md).
 The selected technical-reference design builds nine static chapters under
