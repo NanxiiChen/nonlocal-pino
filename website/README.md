@@ -5,6 +5,8 @@ report layout. It includes an overview, architecture, spatial calculus and
 training chapters, and a chapter for each case. Case chapters follow the same
 sequence from setup and derivation to field results, comparison and reproduction.
 
+Read the [published technical report](https://nanxiichen.github.io/nonlocal-pino/).
+
 ## Build and preview locally
 
 Run from the repository root with Node.js 22 or newer.

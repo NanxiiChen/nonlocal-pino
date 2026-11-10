@@ -58,4 +58,4 @@ $$
 
 The closed-form correction is \(W B(B^\mathsf T W B)^{-1}(b-B^\mathsf T a_0)\). The code evaluates it by weighted QR and checks polynomial reproduction. Neighbor-minus-target differences cancel constants. The procedure builds derivative rows at interior and boundary targets for both gradient components and the **positive** Laplacian \(\Delta\).
 
-The corrected rows need not be symmetric pairs. The channel prescribes wall and outlet residuals explicitly. AD is still used for the curl of its streamfunction, time JVP and parameter backpropagation. See the [stencil implementation](https://github.com/NanxiiChen/nonlocal-pinn/blob/main/examples/channel_nsch2d/integral_operators.py) and the [channel case](two-phase-flow.html).
+The corrected rows need not be symmetric pairs. The channel prescribes wall and outlet residuals explicitly. AD is still used for the curl of its streamfunction, time JVP and parameter backpropagation. See the [stencil implementation](https://github.com/NanxiiChen/nonlocal-pino/blob/main/examples/channel_nsch2d/integral_operators.py) and the [channel case](two-phase-flow.html).

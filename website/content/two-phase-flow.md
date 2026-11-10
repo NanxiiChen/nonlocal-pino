@@ -81,4 +81,4 @@ source .venv/bin/activate
 XLA_PYTHON_CLIENT_MEM_FRACTION=0.97 python -m examples.channel_nsch2d.train
 ~~~
 
-The default loads the prepared random-wall evaluation bank by its configured path. For reference preparation, match the saved wall coefficients and physical parameters, and verify FEM space/time refinement before training. See the [example and configuration guide](https://github.com/NanxiiChen/nonlocal-pinn/blob/main/examples/channel_nsch2d/README.md).
+The default loads the prepared random-wall evaluation bank by its configured path. For reference preparation, match the saved wall coefficients and physical parameters, and verify FEM space/time refinement before training. See the [example and configuration guide](https://github.com/NanxiiChen/nonlocal-pino/blob/main/examples/channel_nsch2d/README.md).

@@ -1,13 +1,13 @@
-# nonlocal-pinn
+# nonlocal-pino
 
 Physics-only neural operators and PINNs for phase-field dynamics, using nonlocal
 spatial operators and shared spatial/time network evaluation. The PINO examples
 learn families of solutions from known initial fields, geometry or material fields;
 **positive-time reference solutions are used only for evaluation**.
 
-Private repository: [NanxiiChen/nonlocal-pinn](https://github.com/NanxiiChen/nonlocal-pinn).
+Source code is hosted at [NanxiiChen/nonlocal-pino](https://github.com/NanxiiChen/nonlocal-pino).
 
-The [technical report site](https://nanxiichen.github.io/nonlocal-pinn/) covers
+The [technical report site](https://nanxiichen.github.io/nonlocal-pino/) covers
 the architecture, nonlocal spatial calculus, training strategies and the five
 main PINO cases. See the [local build guide](website/README.md).
 

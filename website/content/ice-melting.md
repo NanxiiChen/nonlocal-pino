@@ -89,4 +89,4 @@ python -m examples.icemelting3d.train \
   --config=examples/icemelting3d/configs/train_operator.py
 ~~~
 
-Preparation creates a new reference bank at the configured path. See the [example source and full run notes](https://github.com/NanxiiChen/nonlocal-pinn/blob/main/examples/icemelting3d/README.md#pino-overview).
+Preparation creates a new reference bank at the configured path. See the [example source and full run notes](https://github.com/NanxiiChen/nonlocal-pino/blob/main/examples/icemelting3d/README.md#pino-overview).
