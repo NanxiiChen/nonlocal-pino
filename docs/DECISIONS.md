@@ -10694,3 +10694,88 @@ diagram and explanation. Include the existing validation records with the
 three website source files. Use the standard dev-to-main merge and the
 existing Pages workflow, then compare the served SVG and both affected pages
 with the built files. Relation: layerwise FiLM in the temporal decoder.
+
+## 2026-11-10 — Pair three time injection methods on Electropolish 2D
+
+Use the published nonlinear electro operator recipe and the independent
+64-interface local reference bank to assess field error. Compare the existing
+three decoder FiLM pairs, relocating the first pair to the query before
+cross-attention, and concatenating time Fourier features into the query without
+FiLM. Relocation keeps the modulation budget and changes where time can affect
+the attention read. A direct query keeps the encoder, width, hidden layers and
+output head while changing the time projection. Report the parameter counts,
+fixed-update error, common initialization and training samples separately.
+Use one full-budget case before extending to a geometry case. Relation: the
+attention and temporal FiLM ordering audit.
+
+## 2026-11-10 — Keep spatial attention followed by layerwise time FiLM
+
+The user confirms retaining spatial-only queries for cross-attention and
+applying time FiLM in each subsequent MLP hidden layer for the selected
+operators. Document the rationale in the Electropolish README. A fixed
+spatial query set shares the attention result across times. Moving time into
+the query expands the attention reads from Nx to Nt times Nx. The matched
+Electropolish runs support the selected design on both local reference error
+and synchronized update time. The measured ranking covers one case and seed,
+and the direct-query arm has lower parameter count. Relation: the Electropolish
+time-injection ablation.
+
+## 2026-11-10 — Isolate Electropolish time sampling before widening the model
+
+The user requests 16 points and a pooled phase error near 2%. The preceding
+four-point comparison referred to shared time queries. Change `sample.Nt`
+from 4 to 16 and keep the 256 spatial cores, halo construction, condition
+draws, optimizer, width 64 and 5,000 updates. Use the audited seed-42 decoder
+arm as the baseline and the same 64 local FD101 references for evaluation.
+If the pooled phase error exceeds 2.2%, test width 96 at the same time count.
+This sequence separates the sampled-time and capacity changes and retains the
+spatial attention followed by layerwise FiLM design. Relation: Electropolish
+temporal conditioning ablation.
+
+## 2026-11-10 — Extend the four-time Electropolish control to 10,000 updates
+
+The user asks to inspect convergence and extend training if errors still fall.
+At 5,000 updates, the four-time, width-64 arm scores 3.985% pooled phase L2
+on 64 local FD101 references. The 16-time, width-96 arm scores 3.897% with
+a more expensive update. The four-time monitor drops from 5.94% to 5.07%
+over updates 4,000–5,000. Extend this smaller control first and isolate the
+training budget. Keep the step-indexed learning-rate schedule and sample
+streams. A cold run reproduces the prefix without restarting the optimizer
+at step 5,000, since the saved checkpoint contains only the model. Relation:
+Electropolish time sampling and width comparison.
+
+## 2026-11-11 — Save the temporal sampling control at both training budgets
+
+Extend both 16-time configurations to 10,000 steps and add a fresh four-time,
+width-64 paired run. Save the 5,000-step checkpoint on the same trajectory
+so the budget comparison controls for cold-run numerical variation. Compare
+the four- and 16-time width-64 arms at both budgets, with matched initial
+weights, spatial batches and interface draws. Use all 64 native and local
+FD101 targets, and compare FD101/201/401 on the same four refinement inputs.
+Use another paired seed if the sample-count ranking needs confirmation.
+Retain the previous physics and step-indexed learning-rate schedule.
+Relation: Electropolish time sampling, width and training budget.
+
+## 2026-11-11 — Repeat the 5,000-step sampling comparison at seed 43
+
+The old four-time checkpoints from matched seed-42 streams differ by
+0.443 percentage points on the same FD101 cases. The old four-versus-16
+result has the same sign on native and refined local references. Use the
+next integer seed for a fresh paired width-64 comparison at 5,000 updates
+to see whether the original time-count ranking survives a different
+initialization and training stream. The seed-42 midpoint/final pairs test
+budget directly. A second seed at both budgets would cost more and is
+unnecessary for checking the original 5,000-step ranking. Relation:
+Electropolish temporal sample count and reference audit.
+
+## 2026-11-11 — Promote the audited 10,000-step Electropolish operator
+
+The user selects width 96, 16 shared times and 10,000 Adam updates as the
+recommended operator default. Preserve the single-interface PINN entry
+and freeze the earlier 5,000-step operator recipe for matched spatial
+and time-injection controls. Reuse the four predeclared refinement cases
+for the curated phase image, with the 10,000-step predictions and the same
+FD101 contours. Update the README and the report pages that reuse this
+image. Publish source, evidence and one replacement image through a normal
+dev-to-main merge. Relation: Electropolish temporal sample count and
+reference audit.

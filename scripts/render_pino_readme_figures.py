@@ -144,10 +144,17 @@ def melting():
 
 def electropolish():
     case = 'electropolish2d'
-    run = LOGS / case / '20261029-electro-operator-match-nonlocal-01'
-    source = run / 'evaluation64.npz'
-    arrays = read_arrays(source); report = read_json(run/'evaluation64.json')
+    run = LOGS / case / '20261111-electro-time-audit-s42-t16-w96'
+    checkpoint = run / 'model_final.eqx'
+    source = run / 'spatial_evaluation64.npz'
+    evaluation = run / 'spatial_evaluation64.json'
+    arrays = read_arrays(source)
+    report = read_json(evaluation)
     config = read_json(run/'config.json')
+    if (report['status'] != 'passed' or report['count'] != 64
+            or report['iterations'] != config['train']['iterations']
+            or report['model'] != str(checkpoint) or not checkpoint.is_file()):
+        raise ValueError('Electropolish evaluation must describe the selected final checkpoint')
     samples, times = (0, 21, 42, 63), (0, .25, .5, .75, 1)
     ids = time_indices(arrays['time'], times)
     regular = report['regular_time_indices']
@@ -157,10 +164,15 @@ def electropolish():
         path = DATA/case/'operator_local_test64_20261029'/f'condition_{sample:03d}'/'local101.npz'
         ref = read_arrays(path)
         for key in ('time', 'X', 'Y'): np.testing.assert_array_equal(arrays[key], ref[key])
+        record = report['records'][sample]
+        metadata = json.loads(str(ref['metadata_json']))
+        if (record['index'] != sample or metadata['index'] != sample
+                or record['surface_id'] != metadata['surface_id']
+                or record['surface_id'] != arrays['surface_ids'][sample]):
+            raise ValueError(f'Electropolish prediction/reference identity mismatch for case {sample}')
         pred = arrays['prediction'][sample]
-        np.testing.assert_allclose(arrays['initial'][sample].reshape(51, 101, 2), ref['fields'][0], rtol=0, atol=3e-7)
         error = relative_l2(pred[regular, ..., 0], ref['fields'][regular, ..., 0], weights=1)
-        logged = next(r for r in report['records'] if r['index'] == sample)['local101_64']['pooled_phi']
+        logged = record['local101_64']['pooled_phi']
         np.testing.assert_allclose(error, logged, rtol=0, atol=2e-10)
         for col, index in enumerate(ids):
             ax = axes[row, col]
@@ -174,12 +186,12 @@ def electropolish():
             if col == 0: ax.set_ylabel(f'Input {sample}\nL2 = {100*error:.2f}%', fontsize=9)
         records.append(dict(index=sample, reference=str(path), pooled_phi=error))
     fig.colorbar(image, ax=axes.ravel().tolist(), shrink=.7, label='PINO phi')
-    fig.suptitle('Electropolishing: four unseen initial interfaces\nColor: PINO phase; dashed: local-FD reference phi = 0.5', fontsize=13)
-    return save(fig, case, dict(run=str(run), checkpoint=str(run/'model_final.eqx'),
-        source_files=[str(source), str(run/'evaluation64.json')], samples=list(samples),
+    fig.suptitle('Electropolishing · four unseen interfaces at 10,000 updates\nPINO phase with dashed local-FD interfaces at phi = 0.5', fontsize=13)
+    return save(fig, case, dict(run=str(run), checkpoint=str(checkpoint),
+        source_files=[str(source), str(evaluation)], samples=list(samples),
         physical_times=[t*config['nondim']['T_c'] for t in times], records=records,
         selection='All four previously declared spatial-refinement inputs (0,21,42,63), not selected by model score',
-        reference='Independent local FD101; metrics use the original21uniform times',
+        reference='Independent local FD101 at 21 uniform times',
         display='Saved physical phase, continuous display interpolation only; no phase clipping or metric interpolation'))
 
 

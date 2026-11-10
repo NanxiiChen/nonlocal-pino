@@ -33,14 +33,14 @@ varies. These are prescribed inputs, not predicted fields.
 
 | Component | Selected operator recipe |
 |---|---|
-| Condition / encoder | One 32x64 initial phase image; 4x8 patches -> 64 tokens; width 64, 2 blocks, 4 heads |
-| Decoder | Coordinate cross-attention +3 temporal FiLM layers; shared spatial preparation and time JVP |
-| Condition injection | Image-only conditioning, `arch.local_input=zero`; queries carry coordinates/time |
+| Condition / encoder | One 32×64 initial phase image, 4×8 patches, 64 tokens, width 96, 2 blocks, 4 heads |
+| Decoder | [Spatial-only cross-attention](#time-injection-ablation), then time FiLM in all three pointwise MLP hidden layers; time JVP |
+| Condition injection | Image-only conditioning, `arch.local_input=zero`; spatial coordinates enter attention and time enters the decoder |
 | Physical outputs | Bounded phase and an unrestricted liquid-concentration output; total concentration reconstructed by the KKS mixture |
 | Loss | Original AC/CH absolute residuals + initial/top/bottom physical MSE; five losses balanced by inverse parameter-gradient norms |
 | IC / BC | Soft initial and top/bottom constraints; side closure supplied by the native graph |
-| Sampling |8 fresh rough interfaces/update, 4 shared times; 101x51 graph, horizon 0.02, 256 cores + halo, 32 fixed pools |
-| Optimizer | Adam, lr 1e-3, 5000 updates; ordinary FP32/highest; no stagger/causal or inverse-map residual transform |
+| Sampling | 8 fresh rough interfaces per update, 16 shared times, 101×51 graph, horizon 0.02, 256 cores + halo, 32 fixed core sets |
+| Optimizer | Adam, initial learning rate 1e-3, 10,000 updates, ordinary FP32 with highest matmul precision |
 
 Removing query-local IC features prevents the decoder from bypassing the image
 encoder. It does **not** remove the IC loss. The KKS relation is enforced
@@ -49,28 +49,29 @@ unrestricted because total concentration has no justified hard upper bound1.
 
 ### Representative results
 
-The selected recipe is represented here by the completed matched nonlocal run:
-`/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01/model_final.eqx`.
-The fixed-budget5000 checkpoint was evaluated on64 unseen interfaces:
+The selected checkpoint uses 16 shared times, width 96 and 10,000 updates.
+The table reports one seed-42 cold run on 64 unseen initial interfaces.
 
-| Mean per-interface relative L2 | Pooled21 times | At5 s |
+| Mean per-interface relative L2 | Pooled over 21 times | At 5 s |
 |---|---:|---:|
-| Phase, independent local FD101 target |4.427%|3.176%|
-| Concentration, same local target |5.222%|3.779%|
-| Phase, native nonlocal target |4.392%|3.041%|
+| Phase, independent local FD101 | **1.740%** | **1.540%** |
+| Concentration, independent local FD101 | 2.072% | 1.843% |
+| Phase, native nonlocal reference | 1.537% | 1.256% |
+| Concentration, native nonlocal reference | 1.833% | 1.506% |
 
-Each sample uses101x51 physical nodes. The independent local-FD reference is
-**not FEM**; spatial checks on4 predeclared interfaces use FD201/FD401. This is
-one matched initialization/input stream, not cross-seed validation. The earlier
-image-only checkpoint's4.506% pooled phase score uses a different run and native
-target; it should not be mixed with this table.
+Each sample uses 101×51 evaluation nodes. The four predeclared refinement
+cases score 2.043% pooled phase on FD101 and 2.002% on FD401. On the same
+training trajectory, the 5,000-step checkpoint scored 3.934% pooled phase
+on all 64 FD101 cases. At width 64, the pooled effect of increasing the
+time count was small and changed sign across the two tested seeds.
+[Paired checkpoint and reference audit](../../docs/tasks/archive/electro-time-reference-audit.md).
 
 ![Four unseen rough interfaces evolving during electropolishing](../../assets/pino/electropolish2d.png)
 
-Rows are inputs0, 21, 42, 63, the four predeclared spatial-refinement cases.
-Columns are0, 1.25, 2.5, 3.75, 5 s. Color shows saved PINO phase; dashed lines are
-the independent local-FD101 \(\phi=0.5\) interface. Row labels give each sample's
-pooled phase error, computed on the original21 uniform times, not just the5 shown.
+Rows show inputs 0, 21, 42 and 63, the four predeclared spatial-refinement cases.
+Columns show 0, 1.25, 2.5, 3.75 and 5 s. Color shows the saved PINO phase.
+Dashed lines show the independent local-FD101 \(\phi=0.5\) interface.
+Row labels give the pooled phase error over all 21 uniform times.
 
 ### Run and reproduce
 
@@ -79,19 +80,21 @@ source .venv/bin/activate
 python -m examples.electropolish2d.train --config=examples/electropolish2d/configs/train_operator.py
 ```
 
+The selected model is stored at
+`/root/autodl-tmp/tf-logs/electropolish2d/20261111-electro-time-audit-s42-t16-w96/model_final.eqx`.
 The prepared monitor bank is
 `/root/autodl-tmp/data/electropolish2d/operator_random16_v1`;
 training generates fresh initial profiles online. The64-input native/local test
 banks are `operator_test64_20261028` and `operator_local_test64_20261029` under
 the same data root. No-argument `train.py` keeps the single-interface SOAP PINN.
-[Full comparison and validation](../../docs/tasks/archive/electropolish-operator-local-comparison.md),
+[Historical local-AD comparison](../../docs/tasks/archive/electropolish-operator-local-comparison.md),
 [conditioning diagnosis](../../docs/tasks/archive/electropolish-operator-training.md),
 [figure sources and regeneration](../../artifacts/pino_readme_figures.json).
 
 <details>
 <summary>Detailed formulation, single-problem PINN defaults and historical controls</summary>
 
-## SOTA default
+## Single-interface PINN default
 
 Seed is not a strategy parameter. The canonical `get_config()` has no
 `train.seed`; choose a run with `train.py --seed=2026`. With no override, the
@@ -647,11 +650,11 @@ as the **current recommended NO preset**. It learns random initial fields over
 | Setting | Recommended NO |
 |---|---|
 | Input sampling | Fresh online six-mode rough interfaces; 8 conditions/update |
-| Optimizer | Adam, initial learning rate1e-3,5000updates |
+| Optimizer | Adam, initial learning rate 1e-3, 10,000 updates |
 | Compilation | Ordinary FP32, highest matmul precision |
-| Conditioning | Initial image encoder; coordinate queries; `arch.local_input=zero` |
+| Conditioning | Width 96, initial-image encoder, spatial attention and time FiLM, `arch.local_input=zero` |
 | Physics | Original AC/CH, soft IC and top/bottom BC: five losses, gradient balancing |
-| Sampling | Shared times, core+halo spatial queries; no causal weighting |
+| Sampling | 16 shared times and fixed core+halo spatial sets, with causal weighting disabled |
 
 ```bash
 XLA_PYTHON_CLIENT_PREALLOCATE=false python examples/electropolish2d/train.py \
@@ -660,21 +663,23 @@ XLA_PYTHON_CLIENT_PREALLOCATE=false python examples/electropolish2d/train.py \
 
 The evaluation bank must already be prepared; the historical preparation command
 below uses the same bank. Training draws new inputs online, not from that bank.
-The saved image-only run is
+The earlier 5,000-step, width-64, four-time recipe is available as
+[`configs/train_operator_5k.py`](configs/train_operator_5k.py).
+Its original image-only run is
 `/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-online-global-adam-01`:
 64 unseen graph-reference inputs give mean pooled/terminal phi4.506/3.502%.
 A matched repeat of this strategy against64 independent local-FD references gives
 4.427/3.176%; these are different runs/reference targets, not interchangeable
-checkpoint scores. See the validation sections below. This is the best validated
-recipe currently recommended, without a seed-stability or global-optimum claim.
+checkpoint scores. The validation sections below retain these historical controls.
 
 Generated figures/arrays are optional local artifacts; see the root
 [artifact restoration policy](../../README.md#artifacts-and-recovery).
 
 ### Full, fixed-pool and rolling-pool spatial controls
 
-Three optional presets use the same canonical `train.py`, current online B8/
-Adam5000/Nt4/image-only network, five physical losses and initial/time streams:
+Three optional presets use the same canonical `train.py` with the historical
+width-64, online B8/Adam5000/Nt4 image-only network, five physical losses and
+initial/time streams:
 
 | Preset | Spatial PDE sampling |
 |---|---|
@@ -1296,5 +1301,74 @@ discretization differences remain measurable even with accurate time integration
 [64-test distribution](../../docs/tasks/archive/electro-operator-local-test64.png),
 [early boundary errors](../../docs/tasks/archive/electro-operator-local-boundary.png),
 [representative phase fields](../../docs/tasks/archive/electro-operator-local-fields.png).
+
+### Time injection ablation
+
+The selected operator uses **spatial coordinates alone as cross-attention
+queries** to the encoded initial interface. For a fixed condition and set of
+\(N_x\) query locations, the decoder reuses the spatial attention output at
+all \(N_t\) sampled times. A time embedding supplies a separate FiLM scale and
+shift for each of the three pointwise MLP hidden layers.
+
+The opt-in `configs/train_operator_temporal_query.py` uses the same physics
+and sampling with two explicit choices for `arch.temporal_query`.
+
+- `query_film` moves the first time FiLM pair to the coordinate query before
+  cross-attention. The second and third decoder layers keep their FiLM pairs.
+- `joint_query` applies an affine query projection to the concatenated spatial
+  and time Fourier features. The three decoder layers use ordinary GELU.
+
+Both variants encode the initial interface once. Their attention queries
+depend on time, so the same \(N_x\) locations produce \(N_t N_x\) attention
+queries to the same encoder tokens. At \(N_t=4\), this is four times the query
+count. Both designs already decode fields at all \(N_t N_x\) pairs. The
+attention expansion increases one part of the training step, alongside
+condition encoding, temporal decoding, PDE residuals and the optimizer.
+
+Three cold runs used seed 42 and the same 5,000-update budget, initial
+interface draws, and space and time samples. Errors are mean per-interface
+relative \(L^2\) against the independent local FD101 reference for 64 unseen
+interfaces. Pooled errors use 21 saved times and terminal errors use 5 s.
+Timings are median synchronized warm updates without a loss-weight refresh,
+measured on a 48 GB RTX 4090 with ordinary FP32 compilation.
+
+| Time injection | Phase pooled | Phase terminal | Concentration pooled | Concentration terminal | Median warm update |
+|---|---:|---:|---:|---:|---:|
+| **Spatial attention, then three FiLM layers** | **3.985%** | **3.043%** | **4.724%** | **3.628%** | **10.39 ms** |
+| Query FiLM, then two FiLM layers | 5.908% | 4.781% | 6.931% | 5.637% | 20.87 ms |
+| Joint \((x,t)\) query | 8.085% | 6.237% | 9.324% | 7.278% | 19.77 ms |
+
+Moving the first FiLM pair to the query kept the model size and all initial
+weights equal, while increasing pooled phase error by 1.92 percentage points.
+The joint query took about 1.90 times the warm update time of decoder FiLM
+and used about 17% fewer parameters. This experiment covers one case and one
+seed. Its accuracy and timing favor spatial attention followed by layerwise
+time FiLM for the selected Electropolish recipe.
+
+The local-AD training path requires the standard temporal decoder. To run the
+joint-query variant, use the explicit opt-in configuration.
+
+~~~bash
+python -m examples.electropolish2d.train \
+  --config=examples/electropolish2d/configs/train_operator_temporal_query.py \
+  --config.arch.temporal_query=joint_query --seed=42
+~~~
+
+See the [time injection comparison](../../docs/tasks/archive/electro-temporal-conditioning.md)
+for refinement results, pairing checks, and run paths.
+The [time sampling, width and budget comparison](../../docs/tasks/archive/electro-time-sampling-width.md)
+records the four- and 16-time controls and the separate 10,000-update run.
+
+For a within-run budget comparison, set `--config.log.checkpoint_step=5000`
+with the recommended 10,000-step `configs/train_operator.py`.
+The optional intermediate step must coincide with a monitor evaluation and
+precede the final update. It saves model weights and monitor predictions
+while training continues with the same optimizer state. The default value
+of zero disables the intermediate write.
+
+The [paired budget and reference audit](../../docs/tasks/archive/electro-time-reference-audit.md)
+reports 1.740% pooled phase relative L2 at 10,000 steps for 16 times and
+width 96 on 64 local FD101 cases. The equal-width time-count effect at
+5,000 steps changes sign across two seeds.
 
 </details>

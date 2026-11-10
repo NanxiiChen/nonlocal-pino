@@ -18,6 +18,35 @@ The channel20000/lower-LR study is complete and archived below.
 
 ## Latest completed validation
 
+[Electropolish 10,000-step default and publication](tasks/archive/electro-operator-10k-publication.md).
+The operator preset uses width 96, 16 shared times and 10,000 Adam steps.
+The README and report show 1.740% pooled and 1.540% terminal phase L2 on
+64 local FD101 cases and reuse the updated 404,017-byte phase gallery.
+Historical control configurations, checkpoint loading, ten focused
+tests and the nine-page report build pass.
+
+[Electropolish temporal sample count and reference audit](tasks/archive/electro-time-reference-audit.md).
+Paired 5,000/10,000 checkpoints reach 2.483%, 2.555%, and 1.740% pooled
+phase L2 on 64 local FD101 cases for 4/64, 16/64 and 16/96 respectively.
+Equal-width sampling differences at 5,000 are small and change sign across
+seeds. Native and local FD refinement checks preserve the old run ranking.
+
+[Electropolish time sampling, width and training budget](tasks/archive/electro-time-sampling-width.md).
+At 5,000 steps, 16 times raises pooled phase L2 from 3.985% to 4.612% at
+width 64. Width 96 recovers 3.897%. The separate 10,000-step four-time
+control gives 4.015% on the same 64 local FD101 cases.
+
+[Electropolish temporal conditioning ablation](tasks/archive/electro-temporal-conditioning.md).
+Matched cold 5,000-step runs on 64 local FD101 targets give pooled phase L2 of
+3.985% for decoder FiLM, 5.908% for query FiLM, and 8.085% for joint queries.
+Training draws and all saved-field norms were independently checked.
+The [case README update](tasks/archive/electro-time-injection-readme.md) records
+the retained architecture, the attention query count, and warm step timing.
+
+[Attention and temporal FiLM ordering audit](tasks/archive/attention-film-order.md).
+The published figure matches all five training paths. Spatial attention is
+computed before the three time-FiLM layers. The Pages SVG was checked directly.
+
 [Temporal FiLM Pages release](tasks/archive/publish-temporal-film.md).
 The release build contains both three-layer decoder panels and the rendered
 layerwise FiLM equation. The existing Pages workflow publishes these assets.

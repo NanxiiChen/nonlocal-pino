@@ -1,4 +1,4 @@
-"""Evaluate fixed-budget spatial controls against identical existing64targets."""
+"""Evaluate fixed-budget operator controls against identical existing 64 targets."""
 import argparse
 import json
 from pathlib import Path
@@ -47,14 +47,19 @@ def aggregate(records, group):
         for name in ('pooled_phi', 'terminal_phi', 'pooled_c', 'terminal_c')})
 
 
-def evaluate(run):
-    path = run/'spatial_evaluation64.json'
+def evaluate(run, step=None):
+    suffix = '' if step is None else f'_step_{step:06d}'
+    model_path = run / ('model_final.eqx' if step is None else f'model{suffix}.eqx')
+    monitor_path = run / f'prediction{suffix}.npz'
+    path = run / f'spatial_evaluation64{suffix}.json'
     if path.exists():
         raise FileExistsError(path)
     c = ConfigDict(json.loads((run/'config.json').read_text()))
     summary = json.loads((run/'summary.json').read_text())
-    if summary['iterations'] != 5000 or summary['training_uses_positive_time_labels']:
+    if summary['iterations'] != c.train.iterations or summary['training_uses_positive_time_labels']:
         raise ValueError('Expected complete fixed-budget physics-only run')
+    if step is not None and (not 0 < step < c.train.iterations or step != c.log.checkpoint_step):
+        raise ValueError('Expected the explicitly declared intermediate checkpoint step')
     configure_gpu_policy(c.train.gpu_policy)
     jax.config.update('jax_enable_x64', False)
     jax.config.update('jax_default_matmul_precision', c.train.matmul_precision)
@@ -79,9 +84,9 @@ def evaluate(run):
     points = np.column_stack([xx.ravel(), yy.ravel()]).astype(np.float32)
     x, ts = jnp.asarray(points), jnp.asarray(times, dtype=jnp.float32)
     template = _build_network(c.arch, c.operator.image_shape, jax.random.key(0))
-    net = eqx.tree_deserialise_leaves(run/'model_final.eqx', template)
+    net = eqx.tree_deserialise_leaves(model_path, template)
     if not all(np.isfinite(np.asarray(a)).all() for a in jax.tree.leaves(eqx.filter(net, eqx.is_array))):
-        raise FloatingPointError('Nonfinite final checkpoint')
+        raise FloatingPointError('Nonfinite checkpoint')
     predict = eqx.filter_jit(lambda model, image, known: predict_fields(model, image, x, ts, known, c))
     records, predictions, inference = [], [], []
     start = time.perf_counter()
@@ -113,23 +118,27 @@ def evaluate(run):
         print('EVAL', run.name, i, item['native64']['pooled_phi'], item['local101_64']['pooled_phi'], flush=True)
     data, metadata, _ = load_dataset(c)
     replay = []
-    with np.load(run/'prediction.npz') as stored:
+    with np.load(monitor_path) as stored:
         for k, index in enumerate(metadata['eval_indices']):
             actual = np.asarray(predict(net, jnp.asarray(data['images'][index]),
                 jnp.asarray(data['initial'][index]))).reshape(len(times), *xx.shape, 2)[regular]
             gap = float(np.max(abs(actual-stored['prediction'][k])))
             np.testing.assert_allclose(actual, stored['prediction'][k], rtol=0, atol=2e-5)
             replay.append(gap)
-    result = dict(status='passed', run=str(run), model=str(run/'model_final.eqx'),
-        spatial_mode=c.sample.spatial.mode, count=64, time=times.tolist(),
+    result = dict(status='passed', run=str(run), model=str(model_path),
+        iterations=summary['iterations'] if step is None else step,
+        training_iterations=summary['iterations'],
+        spatial_mode=c.sample.spatial.mode if 'spatial' in c.sample else 'legacy_fixed_pool',
+        count=64, time=times.tolist(),
         regular_time_indices=regular.tolist(), input_cache=str(BASE/'prediction.npz'),
         native_reference=str(BASE), local_reference=str(LOCAL),
         groups={g:aggregate(records, g) for g in ('native64', 'local101_64', 'local201_4', 'local401_4')},
         records=records, monitor_replay_max_gap=max(replay),
         first_inference_seconds=inference[0], warm_inference_mean_seconds=float(np.mean(inference[1:])),
         evaluation_seconds=time.perf_counter()-start,
-        scope='Same64reused development inputs and existing independently refined native/localFD targets; fixed5000final model, one initialization; no test selection or fresh statistical stability claim')
-    np.savez_compressed(run/'spatial_evaluation64.npz', prediction=np.stack(predictions),
+        scope='Same 64 development inputs with independent native/local FD targets; '
+              'fixed-budget checkpoint, one initialization, no fresh statistical stability claim')
+    np.savez_compressed(run / f'spatial_evaluation64{suffix}.npz', prediction=np.stack(predictions),
         time=times, X=xx, Y=yy, surface_ids=np.asarray(manifest['surface_ids']))
     path.write_text(json.dumps(result, indent=2, allow_nan=False)+'\n')
     print('EVALUATION_COMPLETE', run, json.dumps(result['groups']), flush=True)
@@ -138,4 +147,6 @@ def evaluate(run):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--run', type=Path, required=True)
-    evaluate(parser.parse_args().run)
+    parser.add_argument('--step', type=int, help='Evaluate the declared intermediate checkpoint')
+    args = parser.parse_args()
+    evaluate(args.run, args.step)

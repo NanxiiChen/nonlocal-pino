@@ -48,14 +48,16 @@ Mean absolute PDE residuals and three physical MSE terms (initial, top and botto
 
 <figure>
   <a href="assets/electropolish2d.png"><img src="assets/electropolish2d.png" width="2025" height="1095" alt="Phase evolution for four rough initial interfaces over five times"></a>
-  <figcaption>Unseen inputs 0, 21, 42 and 63 at 0, 1.25, 2.5, 3.75 and 5 s. Dashed curves are local-FD101 phase interfaces.</figcaption>
+  <figcaption>The 10,000-step operator on unseen inputs 0, 21, 42 and 63 at 0, 1.25, 2.5, 3.75 and 5 s. Dashed curves are local-FD101 phase interfaces.</figcaption>
 </figure>
 
 ## References and comparisons
 
-Both training arms are scored against the same independent centered local FD101 reference with mirrored side-wall closure, 64 unseen interfaces, \(101\times51\) nodes and 21 saved times. Finer FD201 and FD401 grids are checked on four declared inputs. The arms share the initial model and actual condition, time, core, IC and prescribed-boundary draws. The AD arm computes coordinate Hessian traces and adds the side-wall loss.
+The selected 10,000-step operator scores **1.740% pooled and 1.540% terminal phase error**, and **2.072% pooled and 1.843% terminal concentration error**. Evaluation uses an independent centered local FD101 reference with mirrored side-wall closure, 64 unseen interfaces, \(101\times51\) nodes and 21 saved times. The same checkpoint gives 2.002% pooled phase error on the four finer FD401 cases. The selected result comes from one cold run.
 
-| Quantity | Nonlocal PINO | Local-AD PINO |
+The historical 5,000-step local-AD comparison used the same FD101 bank. Its two arms share the initial model and actual condition, time, core, IC and prescribed-boundary draws. The AD arm computes coordinate Hessian traces and adds the side-wall loss.
+
+| Quantity | Nonlocal PINO, 5,000 steps | Local-AD PINO, 5,000 steps |
 | --- | ---: | ---: |
 | Phase \(L^2\), pooled / terminal | 4.427% / 3.176% | 8.595% / 5.498% |
 | Concentration \(L^2\), pooled / terminal | 5.222% / 3.779% | 9.835% / 6.431% |
@@ -63,17 +65,17 @@ Both training arms are scored against the same independent centered local FD101 
 | First update, compilation plus call | 223.35 s | 533.87 s |
 | Warm synchronized update mean | 16.71 ms | 19.35 ms |
 
-The reported cold time includes setup and periodic evaluation. It excludes reference generation and the final 64-input test. On the direct nonlocal target, the selected graph model gives 4.392% pooled and 3.041% terminal phase error. The paired experiment measures this geometry family and one initialization.
+The reported cold time includes setup and periodic evaluation. It excludes reference generation and the final 64-input test. On the direct nonlocal target, the historical 5,000-step graph model gives 4.392% pooled and 3.041% terminal phase error. The paired experiment measures this geometry family and one initialization.
 
 ## Implementation and reproduction
 
 | Component | Selected setting |
 | --- | --- |
 | Condition | \(32\times64\) image, \(4\times8\) patches, 64 tokens |
-| Model | Width 64, four heads, two encoder blocks, three time-FiLM layers |
+| Model | Width 96, four heads, two encoder blocks, spatial cross-attention and three time-FiLM layers |
 | Spatial work | \(101\times51\) graph, horizon 0.02, 256 cores plus full halo, 32 fixed sets |
-| Samples per update | 8 fresh initial profiles and 4 shared times |
-| Optimizer | Adam, \(10^{-3}\) initial rate, 5,000 updates, ordinary FP32 |
+| Samples per update | 8 fresh initial profiles and 16 shared times |
+| Optimizer | Adam, \(10^{-3}\) initial rate, 10,000 updates, ordinary FP32 |
 
 ~~~bash
 source .venv/bin/activate

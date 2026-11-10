@@ -16,7 +16,7 @@ main PINO cases. See the [local build guide](website/README.md).
 | Main example | What varies between samples | Physical model / horizon | Representative phase relative L2 | Reference / evaluation scope |
 |---|---|---|---:|---|
 | [Ice melting 3D](examples/icemelting3d/README.md#pino-overview) | Initial ellipsoid axes, center and rotation | Driven Allen–Cahn, 5 s |0.227% pooled; 0.092% terminal | Native nonlocal, 8 held-out inputs; one separate local-FEM check |
-| [Electropolish 2D](examples/electropolish2d/README.md#pino-overview) | Initial rough metal/electrolyte interface | Coupled KKS AC/CH, 5 s |4.427% pooled; 3.176% terminal | Independent local FD, 64 unseen inputs |
+| [Electropolish 2D](examples/electropolish2d/README.md#pino-overview) | Initial rough metal/electrolyte interface | Coupled KKS AC/CH, 5 s | 1.740% pooled; 1.540% terminal | Independent local FD101, 64 unseen inputs |
 | [Spinodal 2D](examples/confined_ch2d/README.md#pino-overview) | Positions and radii of two impermeable holes | Confined Cahn–Hilliard, T=3 |4.833% pooled; 5.193% terminal | Native nonlocal, 8 reused reserved development geometries |
 | [Two-phase flow 2D](examples/channel_nsch2d/README.md#pino-overview) | Independent smooth upper/lower channel profiles | Fully coupled incompressible NS–CH, T=6 |1.643% pooled; 2.196% terminal | Independent local FEM, 3 reused reserved geometries |
 | [Ceramic-particle corrosion 2D](examples/particle_corrosion2d/README.md) | Positions, sizes and shapes of six inert particles around a fixed pit | Coupled KKS AC/CH, 350 s | **2.93% overall / 5.76% terminal** against local FEM, **1.45% / 2.78%** against direct nonlocal evolution | Same four development geometries for both references |
@@ -32,7 +32,7 @@ in the existing `confined_ch2d` directory; the full NS–CH operator is
 | Example | Condition encoder and queries | Selected training strategy |
 |---|---|---|
 | Melting |3D initial volume -> patch tokens -> query cross-attention | Adam 5000, B16; hard IC; tanh latent residual; fixed core+halo pool |
-| Electropolish |2D initial image -> patch tokens -> query cross-attention | Adam 5000, B8; original AC/CH + soft IC/BC, five balanced losses; fixed core+halo pool |
+| Electropolish | 2D initial image -> patch tokens -> spatial cross-attention -> time FiLM | Adam 10,000, width 96, B8, 16 shared times; original AC/CH + soft IC/BC, five balanced losses; fixed core+halo pool |
 | Spinodal | Boundary and domain-function point streams -> normalized cross-attention | SOAP 50000, width 256, B16; online rolling geometry pool; hard IC/mass; eliminated chemical potential and resolvent residual |
 | Two-phase flow | Boundary and domain-function point streams -> normalized cross-attention | SOAP 20000, width 192, B8; lr 1e-3 to 1e-5; 36 random times in two18-time blocks; online rolling geometry pool; hard flow/initial data; integral spatial derivatives, time JVP and fixed residual normalization |
 | Ceramic-particle corrosion | Boundary and initial-field point streams with coordinate-only queries | Adam 20,000 updates, width 256, 4 geometry draws and 32 random times per update. Rolling geometry and core/halo pools, joint AC/CH losses and time JVP |

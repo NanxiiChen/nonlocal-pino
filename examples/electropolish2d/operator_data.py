@@ -90,6 +90,9 @@ def validate_config(c):
         raise ValueError('Random-interface operator requires unrestricted linear_liquid KKS map')
     if 'local_input' in c.arch and c.arch.local_input not in ('initial', 'zero'):
         raise ValueError('arch.local_input must be initial or zero')
+    if 'temporal_query' in c.arch and (c.arch.temporal_query not in ('query_film', 'joint_query')
+            or c.arch.conditioning != 'cross_attention' or c.nl.method != 'sparse'):
+        raise ValueError('Temporal query study requires query_film or joint_query and sparse cross-attention training')
     if o.reference_action not in ('prepare', 'load'):
         raise ValueError('operator.reference_action must be prepare or load')
     if (o.image_shape[0] != 1 or c.nl.method not in ('sparse', 'local_ad')

@@ -982,9 +982,12 @@ two feature channels. IC loss targets and global input images stay unchanged.
 Both modes have identical parameter shapes/initialization and retain physical
 IC supervision. Old saved configs lacking this optional field use the legacy
 initial mode. Replay through `predict_fields` with saved configuration; raw
-network calls alone do not apply this case-local feature option. The canonical train_operator.py preset selects online B8/5000 Adam and zero
-query-local features, matching the validated image-only run. Historical initial
-mode is explicit in train_operator_legacy.py and the old online controls.
+network calls alone do not apply this case-local feature option.
+`train_operator.py` selects online B8/Adam, width 96, 16 shared times,
+10,000 updates and zero query-local features. The matched spatial and
+time-injection presets inherit `train_operator_5k.py`, which keeps width 64,
+four times and 5,000 updates. Historical initial mode is explicit in
+`train_operator_legacy.py` and the old online controls.
 
 Electropolish `configs/train_operator_local.py` selects opt-in `nl.method=local_ad`
 through the same operator trainer. Its `operator_local.py` shares encoded images
