@@ -9,6 +9,7 @@ from ml_collections import ConfigDict
 
 from examples.electropolish2d import train
 from examples.electropolish2d.configs.train_operator import get_config
+from examples.electropolish2d.configs.train_operator_5k import get_config as pilot_config
 from examples.electropolish2d.configs.train_base import get_config as single_config
 from examples.electropolish2d.operator_training import _build_network
 from examples.electropolish2d.operator_data import validate_config
@@ -22,7 +23,7 @@ with patch('examples.electropolish2d.operator_training.train_operator',return_va
     validate_config(c)
 assert 'operator' not in single_config()
 path=Path('/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-cross-01')
-old=ConfigDict(json.loads((path/'config.json').read_text()));new=get_config()
+old=ConfigDict(json.loads((path/'config.json').read_text()));new=pilot_config()
 k=jax.random.split(jax.random.PRNGKey(42),3)[0]
 a=_build_network(old.operator,old.operator.image_shape,k)
 b=_build_network(new.arch,new.operator.image_shape,k)

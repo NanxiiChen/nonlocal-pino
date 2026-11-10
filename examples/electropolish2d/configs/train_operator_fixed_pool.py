@@ -1,6 +1,6 @@
 """Matched fixed32-entry core+halo control with safe fixed-shape padding."""
 from ml_collections import ConfigDict
-from examples.electropolish2d.configs.train_operator import get_config as baseline
+from examples.electropolish2d.configs.train_operator_5k import get_config as baseline
 
 
 def get_config():

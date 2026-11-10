@@ -143,13 +143,16 @@ class ConditionalFieldOperator(eqx.Module):
             hidden = block(hidden, hidden)
         return jax.vmap(self.encoder_norm)(hidden)
 
-    def prepare_encoded(self, encoded, x, local):
+    def project_queries(self, x, local):
         if x.ndim != 2 or x.shape[1] != len(self.extent) or local.shape != (len(x), self.local_dim):
             raise ValueError(f'Queries must be (Nx,{len(self.extent)}) with aligned (Nx,local_dim) input features')
         xn = x / jnp.asarray(self.extent, dtype=x.dtype)
         proj = jnp.pi * (xn @ jax.lax.stop_gradient(self.spatial_frequencies))
         features = jnp.concatenate([xn, jnp.sin(proj), jnp.cos(proj), local], -1)
-        hidden = jax.vmap(self.spatial_projection)(features)
+        return jax.vmap(self.spatial_projection)(features)
+
+    def prepare_encoded(self, encoded, x, local):
+        hidden = self.project_queries(x, local)
         if self.cross_attention is not None:
             return self.cross_attention(hidden, encoded)
         gamma, beta = self.condition_film(encoded.mean(0)).reshape(2, self.width)
@@ -158,10 +161,12 @@ class ConditionalFieldOperator(eqx.Module):
     def prepare(self, condition, x, local):
         return self.prepare_encoded(self.encode(condition), x, local)
 
-    def _temporal(self, t):
+    def temporal_features(self, t):
         phase = jnp.pi * t * jnp.asarray(self.time_frequencies, dtype=t.dtype)
-        embedding = jnp.concatenate([jnp.atleast_1d(t), jnp.sin(phase), jnp.cos(phase)])
-        return self.time_film(embedding).reshape(len(self.layers), 2, self.width)
+        return jnp.concatenate([jnp.atleast_1d(t), jnp.sin(phase), jnp.cos(phase)])
+
+    def _temporal(self, t):
+        return self.time_film(self.temporal_features(t)).reshape(len(self.layers), 2, self.width)
 
     def _point(self, hidden, film):
         for layer, modulation in zip(self.layers, film):

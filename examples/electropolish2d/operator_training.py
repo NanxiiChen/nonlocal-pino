@@ -31,7 +31,7 @@ from examples.electropolish2d.operator_data import (
 def _build_network(architecture, image_shape, key):
     """Build from explicit architecture metadata and the condition image shape."""
     o = architecture
-    return ConditionalFieldOperator(
+    net = ConditionalFieldOperator(
         image_shape=tuple(image_shape), patch_shape=tuple(o.patch_shape),
         extent=tuple(o.extent), width=o.width, encoder_depth=o.encoder_depth,
         heads=o.heads, mlp_ratio=o.mlp_ratio, decoder_depth=o.decoder_depth,
@@ -39,6 +39,10 @@ def _build_network(architecture, image_shape, key):
         time_features=o.time_features, time_scale=o.time_scale,
         local_dim=2, out_dim=2, conditioning=o.conditioning,
         norm_eps=o.norm_eps, key=key)
+    if 'temporal_query' in o:
+        from examples.electropolish2d.temporal_query import TemporalQueryOperator
+        return TemporalQueryOperator(net, o.temporal_query, key=jr.fold_in(key, 1001))
+    return net
 
 
 def physical_fields(raw, c):
@@ -72,6 +76,7 @@ def make_loss_components(c, nd, n_ic, n_bc):
     """
     n_ch, n1, n2, n3, dc, cle = nd
     causal = CausalWeightor(n_chunks=None) if c.loss.use_causal else None
+    temporal_query = 'temporal_query' in c.arch
 
     def components(net, times, payload, sub_data, core_mask):
         if causal is None:
@@ -82,7 +87,12 @@ def make_loss_components(c, nd, n_ic, n_bc):
 
         def condition_parts(image, known):
             prepared = net.prepare(image, x, _query_initial(known, c))
-            evolution_cache = jnp.concatenate([prepared[:n_graph], prepared[-2*n_bc:]])
+            features = prepared[0] if temporal_query else prepared
+
+            def with_context(spatial):
+                return (spatial, prepared[1]) if temporal_query else spatial
+
+            evolution_cache = with_context(jnp.concatenate([features[:n_graph], features[-2*n_bc:]]))
 
             def physical_at_times(ts):
                 return physical_fields(net.decode(evolution_cache, ts), c)
@@ -113,7 +123,7 @@ def make_loss_components(c, nd, n_ic, n_bc):
                 diagnostics = jnp.stack([w_ac, w_ch, ac_segments, ch_segments])
             zero = fields[:, n_graph:n_graph+n_bc]
             one = fields[:, n_graph+n_bc:]
-            initial = physical_fields(net.decode(prepared[n_graph:n_graph+n_ic],
+            initial = physical_fields(net.decode(with_context(features[n_graph:n_graph+n_ic]),
                                                  jnp.zeros(1, dtype=times.dtype))[0], c)
             parts = jnp.stack([ac_loss, ch_loss,
                 jnp.mean(jnp.sum(zero**2, -1)),
@@ -185,6 +195,11 @@ def train_operator(c):
         return prepare_dataset(c)
     if c.arch.model != 'conditional_field':
         raise ValueError('Operator training requires arch.model=conditional_field')
+    checkpoint_step = c.log.checkpoint_step if 'checkpoint_step' in c.log else 0
+    if checkpoint_step != 0 and (
+        not 0 < checkpoint_step < c.train.iterations or checkpoint_step % c.log.eval_every
+    ):
+        raise ValueError('log.checkpoint_step must be zero or an intermediate evaluation step')
     jax.config.update('jax_enable_x64', False)
     jax.config.update('jax_default_matmul_precision', c.train.matmul_precision)
     data, metadata, references = load_dataset(c)
@@ -211,6 +226,7 @@ def train_operator(c):
         'examples/electropolish2d/spatial_sampling.py',
         'examples/electropolish2d/operator_local.py',
         'examples/electropolish2d/configs/train_operator.py',
+        'examples/electropolish2d/configs/train_operator_5k.py',
         'examples/electropolish2d/configs/train_operator_single.py',
         'examples/electropolish2d/configs/train_operator_online.py',
         'examples/electropolish2d/configs/train_operator_local.py',
@@ -225,6 +241,9 @@ def train_operator(c):
         'src/nonlocal_pinn/nn/conditional.py', 'src/nonlocal_pinn/nn/constraints.py',
         'src/nonlocal_pinn/operators/__init__.py', 'src/nonlocal_pinn/training/runtime.py',
         'src/nonlocal_pinn/training/optimizers.py', 'src/nonlocal_pinn/training/causal.py']
+    if 'temporal_query' in c.arch:
+        sources += ['examples/electropolish2d/temporal_query.py',
+                    'examples/electropolish2d/configs/train_operator_temporal_query.py']
     for name in sources:
         target = run / 'source' / name
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -423,6 +442,10 @@ def train_operator(c):
                 print(json.dumps(entry), flush=True)
             if (iteration+1) % c.log.eval_every == 0 or iteration+1 == c.train.iterations:
                 prediction, last = evaluate(iteration+1)
+                if iteration+1 == checkpoint_step:
+                    eqx.tree_serialise_leaves(run / f'model_step_{checkpoint_step:06d}.eqx', net)
+                    np.savez_compressed(run / f'prediction_step_{checkpoint_step:06d}.npz',
+                                        prediction=prediction)
     elapsed = time.perf_counter()-start
     loop_seconds = time.perf_counter()-loop_start
     eqx.tree_serialise_leaves(run / 'model_final.eqx', net)

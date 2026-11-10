@@ -1,8 +1,10 @@
-"""Recommended physics-only NO: online B8/5000 Adam, image-only condition."""
-from examples.electropolish2d.configs.train_operator_online import get_config as online_config
+"""Recommended Electropolish PINO with 16 shared times and width 96."""
+from examples.electropolish2d.configs.train_operator_5k import get_config as baseline
 
 
 def get_config():
-    c = online_config()
-    c.arch.local_input = 'zero'
+    c = baseline()
+    c.arch.width = 96
+    c.sample.Nt = 16
+    c.train.iterations = 10_000
     return c
