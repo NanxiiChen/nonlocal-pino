@@ -5,7 +5,7 @@ import { katex } from '@mdit/plugin-katex';
 
 const root = import.meta.dirname;
 const output = join(root, 'dist');
-const repository = 'https://github.com/NanxiiChen/nonlocal-pinn';
+const repository = 'https://github.com/NanxiiChen/nonlocal-pino';
 
 const pages = [
   { slug: 'index', title: 'Nonlocal physics‑informed neural operators', label: 'Overview', group: 'Report' },

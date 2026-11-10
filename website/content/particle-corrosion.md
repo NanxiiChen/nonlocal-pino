@@ -94,7 +94,7 @@ Both width and Fourier feature capacity change, and the parameter shapes initial
 | Online pool | 64 geometry slots, four CPU workers, geometry and spatial payloads refreshed on separate schedules |
 | Optimizer | Adam, 20,000 cold updates, initial \(10^{-3}\), halve every 3,000 updates, floor \(10^{-5}\), ordinary FP32 |
 
-Prepare the initial known-input bank and independent local reference from the explicit six-particle recipe. The [repository run guide](https://github.com/NanxiiChen/nonlocal-pinn/blob/main/examples/particle_corrosion2d/README.md#run-the-documented-case) gives the preview, input preparation and local/native qualification commands. Then train from the repository root.
+Prepare the initial known-input bank and independent local reference from the explicit six-particle recipe. The [repository run guide](https://github.com/NanxiiChen/nonlocal-pino/blob/main/examples/particle_corrosion2d/README.md#run-the-documented-case) gives the preview, input preparation and local/native qualification commands. Then train from the repository root.
 
 ~~~bash
 source .venv/bin/activate

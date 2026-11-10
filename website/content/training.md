@@ -33,7 +33,7 @@ $$
 w_0=1,\qquad w_k=\exp\!\left(-\epsilon_c\sum_{i<k}\ell_i\right).
 $$
 
-All five selected recipes use their documented objectives with causal weighting disabled. See the [shared controller](https://github.com/NanxiiChen/nonlocal-pinn/blob/main/src/nonlocal_pinn/training/causal.py) for its adaptation rule.
+All five selected recipes use their documented objectives with causal weighting disabled. See the [shared controller](https://github.com/NanxiiChen/nonlocal-pino/blob/main/src/nonlocal_pinn/training/causal.py) for its adaptation rule.
 
 ## Validation protocol
 

@@ -10779,3 +10779,19 @@ FD101 contours. Update the README and the report pages that reuse this
 image. Publish source, evidence and one replacement image through a normal
 dev-to-main merge. Relation: Electropolish temporal sample count and
 reference audit.
+
+## 2026-11-11 — Use the renamed GitHub Pages and repository URLs
+
+GitHub reports the public `NanxiiChen/nonlocal-pino` repository and its
+`/nonlocal-pino/` Pages site. HTTP checks confirm the new site and the
+old path returns 404. Update current README and report source links.
+Pages already advertises the new address and uses relative site
+navigation, so retain the existing workflow. Record the former address
+in the historical release record. Relation: technical report Pages release.
+
+## 2026-11-11 — Publish the Pages link correction through the existing workflow
+
+The user authorizes the release. Merge the corrected source links through
+dev into main and use the existing push-triggered workflow. Match the
+workflow run to the main merge SHA and verify the published report at
+`/nonlocal-pino/`. Relation: GitHub Pages repository rename.

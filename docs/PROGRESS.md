@@ -18,6 +18,11 @@ The channel20000/lower-LR study is complete and archived below.
 
 ## Latest completed validation
 
+[GitHub Pages repository rename](tasks/archive/pages-repository-rename.md).
+The public report uses `/nonlocal-pino/`. The README and all nine generated
+pages use the renamed repository, with 308 relative references, eight
+source links and 60 font references checked in the local build.
+
 [Electropolish 10,000-step default and publication](tasks/archive/electro-operator-10k-publication.md).
 The operator preset uses width 96, 16 shared times and 10,000 Adam steps.
 The README and report show 1.740% pooled and 1.540% terminal phase L2 on
@@ -64,7 +69,7 @@ The local report distinguishes pointwise encoder lifts from weighted spatial
 cross-attention. The SVG, affected pages and KaTeX build pass validation.
 
 [Technical report GitHub Pages release](tasks/archive/research-report-pages.md).
-The nine-page report is live at the [project site](https://nanxiichen.github.io/nonlocal-pinn/).
+The nine-page report is live at the [project site](https://nanxiichen.github.io/nonlocal-pino/).
 The first Actions build and deploy succeeded, and the public homepage and all
 84 published files match the locally built artifact byte for byte.
 
@@ -246,7 +251,7 @@ local dev commit only; no merge/push, generated weights/images or cleanup.
 
 ## Project and publication
 
-Independent repository: private `NanxiiChen/nonlocal-pinn`, default branch main.
+The public repository is `NanxiiChen/nonlocal-pino`, with `main` as its default branch.
 [Split validation/recovery](migration/VALIDATION.md);
 [completed split task](tasks/archive/project-split-validation.md).
 Preserve existing external data/run paths. Git history changes require explicit

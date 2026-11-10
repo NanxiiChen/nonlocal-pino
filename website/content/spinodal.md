@@ -82,4 +82,4 @@ python -m examples.confined_ch2d.train \
   --config=examples/confined_ch2d/configs/train_operator.py
 ~~~
 
-Use the prepared 1,024-slot input bank and separate evaluation bank. See the [example configuration and native reference preparation notes](https://github.com/NanxiiChen/nonlocal-pinn/blob/main/examples/confined_ch2d/README.md#geometry-operator-sota).
+Use the prepared 1,024-slot input bank and separate evaluation bank. See the [example configuration and native reference preparation notes](https://github.com/NanxiiChen/nonlocal-pino/blob/main/examples/confined_ch2d/README.md#geometry-operator-sota).

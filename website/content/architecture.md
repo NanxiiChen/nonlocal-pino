@@ -47,4 +47,4 @@ The linear output head reads \(\mathbf z_3\), and each case applies its physical
 
 ## Implementation
 
-Read the [point conditional implementation](https://github.com/NanxiiChen/nonlocal-pinn/blob/main/src/nonlocal_pinn/nn/point_conditional.py) for the geometry encoder and see the [melting case](ice-melting.html) and [electropolish case](electropolish.html) for the patch configurations. [Training and validation](training.html) describes how the inputs are assembled and sampled.
+Read the [point conditional implementation](https://github.com/NanxiiChen/nonlocal-pino/blob/main/src/nonlocal_pinn/nn/point_conditional.py) for the geometry encoder and see the [melting case](ice-melting.html) and [electropolish case](electropolish.html) for the patch configurations. [Training and validation](training.html) describes how the inputs are assembled and sampled.

@@ -83,4 +83,4 @@ python -m examples.electropolish2d.train \
   --config=examples/electropolish2d/configs/train_operator.py
 ~~~
 
-The preset expects its prepared monitoring bank. The independent native/local evaluation banks and local-AD control are documented in the [example and reference preparation guide](https://github.com/NanxiiChen/nonlocal-pinn/blob/main/examples/electropolish2d/README.md).
+The preset expects its prepared monitoring bank. The independent native/local evaluation banks and local-AD control are documented in the [example and reference preparation guide](https://github.com/NanxiiChen/nonlocal-pino/blob/main/examples/electropolish2d/README.md).
