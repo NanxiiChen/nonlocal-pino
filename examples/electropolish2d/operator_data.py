@@ -70,6 +70,9 @@ def condition_split(index, source_train_count, selected):
 
 
 def validate_config(c):
+    if 'method_control' in c.operator:
+        from examples.electropolish2d.operator_pairing import validate_control
+        validate_control(c)
     if 'spatial' in c.sample:
         from examples.electropolish2d.spatial_sampling import validate_spatial
         validate_spatial(c)

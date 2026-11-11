@@ -22,8 +22,8 @@ def validate_spatial(c):
         value = s[name]
         if isinstance(value, bool) or not isinstance(value, int) or value < 1:
             raise ValueError(f'spatial.{name} must be a positive integer')
-    if c.nl.method != 'sparse' or 'online' not in c.operator or c.loss.use_causal:
-        raise ValueError('Spatial controls require noncausal, online-condition sparse training')
+    if c.nl.method not in ('sparse', 'local_ad') or 'online' not in c.operator or c.loss.use_causal:
+        raise ValueError('Spatial controls require noncausal online sparse/local_ad training')
 
 
 def pad_subgraph(raw, max_nodes, max_edges):
@@ -70,11 +70,16 @@ class SpatialSampler:
     def __init__(self, op, points, free, ic_ids, bc_ids, c):
         validate_spatial(c)
         self.settings = c.sample.spatial
+        self.local_ad = c.nl.method == 'local_ad'
         self.op = op
         self.points = np.asarray(points, dtype=np.float32)
         self.free = np.asarray(free, dtype=bool)
         self.ic_ids = np.asarray(ic_ids, dtype=np.int32)
         self.bc_ids = np.asarray(bc_ids, dtype=np.int32)
+        # The local control uses the same core draw but explicitly imposes the
+        # side-wall condition. Dirichlet corners are not duplicated here.
+        self.side_ids = np.flatnonzero(self.free & (
+            np.isclose(self.points[:, 0], 0.) | np.isclose(self.points[:, 0], 1.))).astype(np.int32)
         self.core_count, self.capacity = c.sample.K_core, c.sample.K_pool
         n = len(points)
         if self.free.shape != (n,) or not np.any(self.free):
@@ -116,7 +121,14 @@ class SpatialSampler:
         width = len(self.points) if self.settings.mode == 'full' else self.core_count
         selected_mask = np.arange(width) < len(selected)
         selected = np.pad(selected, (0, width-len(selected)), mode='edge')
-        node_ids = np.concatenate([ids, self.ic_ids, self.bc_ids]).astype(np.int32)
+        if self.local_ad:
+            # Graph construction is retained ONLY to reproduce the nonlocal
+            # stream. No graph halo is sent through the network or IC sampler.
+            ids, sub, mask = selected, None, selected_mask
+            boundary_ids = np.concatenate([self.bc_ids, self.side_ids])
+        else:
+            boundary_ids = self.bc_ids
+        node_ids = np.concatenate([ids, self.ic_ids, boundary_ids]).astype(np.int32)
         arrays = (node_ids, self.points[node_ids], sub, mask, self.nearest[node_ids])
         return SpatialBatch(arrays, selected, selected_mask, actual, time.perf_counter()-start)
 
@@ -182,7 +194,11 @@ class SpatialSampler:
             unique_free_cores=int(self._covered.sum()), free_nodes=int(self.free.sum()),
             coverage=float(self._covered.sum()/self.free.sum()),
             padded_nodes=len(self._host[0].arrays[3]),
-            padded_edges=len(self._host[0].arrays[2][0]),
+            padded_edges=0 if self.local_ad else len(self._host[0].arrays[2][0]),
+            evaluated_graph_halos=not self.local_ad,
+            construction_scope=('Shared nonlocal graph/subgraph construction retained for paired core draw identity; '
+                                'not an optimized local-AD end-to-end preparation pipeline'
+                                if self.local_ad else 'Native complete one-hop graph rows'),
             initial_build_seconds=self.initial_build_seconds,
             initial_transfer_seconds=self.initial_transfer_seconds,
             producer_wait_seconds=float(sum(self.wait_seconds)),

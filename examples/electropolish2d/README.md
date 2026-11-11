@@ -76,6 +76,10 @@ Columns show 0, 1.25, 2.5, 3.75 and 5 s. Color shows the saved PINO phase.
 Dashed lines show the independent local-FD101 \(\phi=0.5\) interface.
 Row labels give the pooled phase error over all 21 uniform times.
 
+The separate [current nonlocal/local-AD comparison](#current-rolling-nonlocallocal-ad-research-control)
+below includes two cold initializations, convergence curves, three-input
+reference/prediction fields and a complete figure-reproduction manifest.
+
 ### Run and reproduce
 
 ```bash
@@ -1274,7 +1278,148 @@ principle. The term \(-N_{CH}(c_{Se}-c_{Le})\nabla^2h(\phi)\) is a source in the
 concentration equation, so \(c\leq1\) does not follow from \(\phi\in[0,1]\).
 This matches the unrestricted liquid output; no concentration clipping is used.
 
-### Matched full local AD/nonlocal comparison
+### Current rolling nonlocal/local-AD research control
+
+The explicit research pair uses the current width96/Nt16/B8/Adam10000 recipe:
+
+```bash
+python -m examples.electropolish2d.train \
+  --config=examples/electropolish2d/configs/train_operator_rolling_nonlocal.py --seed=42
+python -m examples.electropolish2d.train \
+  --config=examples/electropolish2d/configs/train_operator_rolling_local.py --seed=42
+python -m examples.electropolish2d.operator_pairing \
+  --nonlocal-run=/path/to/nonlocal-run --local-run=/path/to/local-run
+```
+
+Both arms draw the same rolling cores, online profiles, times and IC/Dirichlet
+points. Local AD evaluates only the256padded cores,1024IC points,202Dirichlet
+points and98side-wall points; graph halos never enter its network queries.
+Its extra side-wall loss and positive-time compatibility treatment are the
+same as the historical local control above. The original rough input family,
+physical normalization and five common losses are unchanged. These presets
+save the5000checkpoint in addition to the fixed10000endpoint; production and
+historical presets retain their existing settings.
+
+`method_control.json` records the method, boundary semantics and direct input
+paths. The audit checks cold model/Adam bytes, source snapshots, all actual
+time/profile/core/IC/BC identities and sampled actual encoder/IC/Dirichlet
+inputs at the initial, first-replacement and final updates. IC values allow
+only a declared3e-7FP32 fusion tolerance. No evolved-field labels enter training.
+The common64local-FD reference cohort remains a reused development set.
+
+To match the core stream exactly, local AD currently retains the shared graph
+and subgraph preparation. Its setup/producer cost must be reported separately;
+this comparison does **not** measure an optimized graph-free local preparation
+pipeline. First-call compilation, synchronized warm updates, data sampling and
+evaluation are recorded separately. The completed two-initialization study is
+in the [comparison record](../../docs/tasks/archive/pino-rolling-local-ad-controls.md).
+One full pair passes the strict audit; the other retains a recorded FP32
+encoder/IC value mismatch despite identical physical draws, with a separate
+qualified report. Neither production defaults nor audit tolerances were
+changed. Historical controls below use an older, smaller recipe.
+
+#### Completed 10,000-step comparison
+
+Both methods use width96, B8 fresh initial profiles, Nt16 random shared times,
+256 cores and32rolling spatial sets, ordinary FP32 and Adam1e-3 (decay0.95
+every1000updates, floor1e-5). Five common losses use inverse-gradient balancing
+refreshed every25updates; AD adds the explicit side-wall Neumann group.
+The network has two patch-encoder blocks, four attention heads and three
+pointwise decoder layers with time FiLM. Both use shared-time JVPs; only the
+spatial differentiation/boundary formulation differs. The exact configurations
+for all four runs are preserved in the figure manifest, including runtime seeds.
+
+The distribution uses the **final 10,000-step seed-42 weights on the same 64
+local-FD101 development inputs**. This is the first strictly audited training
+pair, not a seed chosen by error. Both methods are evaluated on identical inputs.
+
+For each test input \(i\), first compute the relative L2 for each physical
+solution channel over the complete space-time evaluation set \(Q_i\), then
+average the two channels \(u=(\phi,c)\):
+
+$$
+e_{i,k}=\frac{\sqrt{\sum_{q\in Q_i}|\hat u_{i,k}(q)-u_{i,k}(q)|^2}}
+{\sqrt{\sum_{q\in Q_i}|u_{i,k}(q)|^2}},\qquad
+e_i=\frac{e_{i,\phi}+e_{i,c}}{2},\qquad
+\bar e=\frac{1}{64}\sum_{i=1}^{64}e_i.
+$$
+
+The violin displays the 64 individual \(e_i\); the reported mean is \(\bar e\).
+Each channel is normalized separately before averaging. We do not concatenate
+channels before normalization or average instantaneous relative errors. The
+KDE uses all64samples and Scott bandwidth in log-error coordinates; thin dashed
+lines indicate the25th,50thand75thpercentiles. The compact figure displays raw
+error ratios on a logarithmic axis, without percentage scaling, dots or mean
+annotations. Tails extend three bandwidths beyond the observed log extrema;
+they represent smoothed density, not extra samples. Matplotlib autoscales y.
+These describe variation across inputs, not confidence intervals.
+The figure omits the example-name title; both exports are named
+`electropolish2d_distribution.pdf` / `.png`. The source manifest below records
+the editable PDF path and the matching README PNG.
+
+The evaluation set contains all 101×51 spatial nodes at 21 uniformly spaced
+times from \(t^*=0\) to 1 (0–5 s), including endpoints. Ordinary discrete L2
+assigns equal weight to these points. Four extra early-time diagnostic snapshots
+in the saved field files are outside this declared uniform evaluation grid.
+Both channels are physical phase and concentration, evaluated before averaging.
+
+| Method | Mean error | Median | Interquartile range |
+|---|---:|---:|---:|
+| Nonlocal | 2.047% | 1.838% | 1.622%–2.473% |
+| Local AD | 4.631% | 4.246% | 3.460%–5.505% |
+
+![Final Electropolish weights: distribution of channel-averaged space-time relative L2 on 64 inputs](../../assets/pino-comparisons/electropolish2d_distribution.png)
+
+Only final seed-42 errors are displayed; the sparse checkpoint convergence
+curves have been retired from this section. Existing fields are reused and
+all metrics recomputed; no new training or reference solve is needed. Other
+initializations and their original audit status remain in the archived study:
+in particular, seed 43 is still recorded as failing its strict FP32 input-value
+pairing check, and is not part of this figure or table.
+
+On the same49140MiB RTX4090, two-seed mean warm
+updates cost42.77ms(nonlocal) versus28.54ms(AD), with active peaks13.00 versus
+5.31GiB. Complete cold child processes take10.46 versus11.47minutes: AD's
+longer first compilation outweighs its faster updates at this budget. These
+process totals include setup/output, exclude later64case evaluation/audits,
+and retain the shared graph-preparation overhead in AD. They do not establish
+a nonlocal warm-update speed advantage.
+
+![Three rough initial profiles: local FD reference, nonlocal and local AD phase evolution](../../assets/pino-comparisons/electropolish2d_fields.png)
+
+Each group of three rows shows local FD101, nonlocal PINO and local AD PINO.
+The first three64cohort entries (zero-based0,1,2) are shown, without error-based
+selection, using the strict seed42pair's final10kmodels. Columns are actual
+saved \(t^*=0,0.25,0.5,0.75,1\), or0,1.25,2.5,3.75,5s. Black contours show
+the displayed field's \(\phi=0.5\) interface; white dashed contours show the
+local reference. All panels share0..1phase colors; labels give phase-only
+spatial L2 at the displayed time, separate from the channel-averaged violin metric.
+Gouraud interpolation is display-only. No numerical field or saved time is
+smoothed/interpolated. The displayed pair favors nonlocal on this cohort;
+individual inputs/times need not have the same ordering.
+
+The [figure source manifest](../../artifacts/pino_derivative_comparisons.json)
+records full saved configurations, final/midpoint checkpoints, numerical
+source snapshots, reference/prediction paths and original surface identities.
+The [validation and plotted values](../../artifacts/pino_derivative_comparison_validation.json)
+store every plotted per-channel and channel-averaged error, numerator/denominator
+norms, evaluation grids, KDE settings and rendering versions. See the [evaluation record](../../docs/tasks/archive/pino-derivative-evaluation64.md)
+for exact inference commands and replay checks, and the
+[distribution record](../../docs/tasks/archive/pino-final-violin-figures.md)
+for the new metric and superseded-figure archive.
+From the repository root, regenerate these two images with:
+
+```bash
+JAX_PLATFORMS=cpu OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 \
+  .venv/bin/python scripts/render_pino_derivative_comparisons.py --case electropolish2d
+```
+
+Existing external fields/logs are required; no training, model inference or
+reference solve is performed. The renderer checks source configuration and
+saved-field identities rather than substituting current defaults. Weights and
+raw arrays are not copied into the repository.
+
+### Historical matched5000-step local AD/nonlocal comparison
 
 Two fresh canonical runs retain the original incompatible random ICs, identical
 73initial parameter arrays and all40000actual online profiles, time/core/IC/BC

@@ -19,6 +19,19 @@ BASE = Path('/root/autodl-tmp/data/electropolish2d/operator_test64_20261028')
 LOCAL = Path('/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029')
 
 
+def validate_reference_identity(config, source):
+    """One physical target for sparse and explicit local-AD training controls."""
+    for name in ('physical', 'nondim', 'surface'):
+        if config[name] != source[name]:
+            raise ValueError('Common reference physical identity mismatch: '+name)
+    actual, expected = dict(config['nl']), dict(source['nl'])
+    method, source_method = actual.pop('method'), expected.pop('method')
+    if method not in ('sparse', 'local_ad') or source_method != 'sparse':
+        raise ValueError('Common reference requires the sparse/local_ad derivative controls')
+    if actual != expected:
+        raise ValueError('Common reference nonlocal discretization metadata mismatch')
+
+
 def relative(prediction, target):
     a, b = np.asarray(prediction, dtype=np.float64), np.asarray(target, dtype=np.float64)
     denominator = np.sum(b*b)
@@ -66,9 +79,7 @@ def evaluate(run, step=None):
     manifest = json.loads((BASE/'manifest.json').read_text())
     local_manifest = json.loads((LOCAL/'manifest.json').read_text())
     source = json.loads(Path(manifest['source_config']).read_text())
-    for name in ('physical', 'nondim', 'surface', 'nl'):
-        if json.loads(c[name].to_json()) != source[name]:
-            raise ValueError('Common reference physical identity mismatch: '+name)
+    validate_reference_identity(json.loads(c.to_json()), source)
     if manifest['count'] != 64:
         raise ValueError('Expected64declared input identities')
     with np.load(BASE/'prediction.npz') as stored:
@@ -129,6 +140,7 @@ def evaluate(run, step=None):
         iterations=summary['iterations'] if step is None else step,
         training_iterations=summary['iterations'],
         spatial_mode=c.sample.spatial.mode if 'spatial' in c.sample else 'legacy_fixed_pool',
+        spatial_derivative=c.nl.method,
         count=64, time=times.tolist(),
         regular_time_indices=regular.tolist(), input_cache=str(BASE/'prediction.npz'),
         native_reference=str(BASE), local_reference=str(LOCAL),

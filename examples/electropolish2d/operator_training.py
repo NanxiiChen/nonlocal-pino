@@ -205,6 +205,7 @@ def train_operator(c):
     data, metadata, references = load_dataset(c)
     online = 'online' in c.operator
     local_ad = c.nl.method == 'local_ad'
+    method_control = 'method_control' in c.operator
     n_losses = len(c.loss.gradnorm_bias)
     selected_inputs = np.empty(0, dtype=np.int32) if online else training_condition_indices(c)
     stamp = datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S-%f')
@@ -244,11 +245,20 @@ def train_operator(c):
     if 'temporal_query' in c.arch:
         sources += ['examples/electropolish2d/temporal_query.py',
                     'examples/electropolish2d/configs/train_operator_temporal_query.py']
+    if method_control:
+        sources += ['examples/electropolish2d/operator_pairing.py',
+                    'examples/electropolish2d/configs/train_operator_rolling_nonlocal.py',
+                    'examples/electropolish2d/configs/train_operator_rolling_local.py']
     for name in sources:
         target = run / 'source' / name
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(repo / name, target)
     _write_json(run / 'source/files.json', sources)
+    if method_control:
+        from examples.electropolish2d.operator_pairing import control_record, input_witness, witness_steps
+        _write_json(run / 'method_control.json', control_record(c, run))
+        witness_updates = witness_steps(c.train.iterations, c.sample.K_pool)
+        witnesses, witness_seconds = [], []
     xx, yy, points = grid(c)
     x = jnp.asarray(points, dtype=jnp.float32)
     op = build_D(x, c.nl.delta, method='sparse', kernel=c.nl.kernel)
@@ -428,6 +438,10 @@ def train_operator(c):
                 online_accepted[iteration] = int(accepted)
             else:
                 sampled_conditions[iteration] = np.asarray(cond_ids)
+            if method_control and iteration in witness_updates:
+                witness_start = time.perf_counter()
+                witnesses.append(input_witness(fresh_images, local, queries, len(mask), len(ic_ids), n_bc))
+                witness_seconds.append(time.perf_counter()-witness_start)
             if (iteration+1) % c.log.log_every == 0 or iteration == 0:
                 entry = dict(step=iteration+1, parts=np.asarray(values).tolist(),
                              weights=np.asarray(weights).tolist(), seconds=time.perf_counter()-start)
@@ -456,6 +470,9 @@ def train_operator(c):
                      if spatial is None else spatial.trace())
     np.savez_compressed(run / 'sampling.npz', times=sampled_times, **spatial_trace,
                         ic_ids=ic_ids, dirichlet_ids=bc_ids, side_ids=side_ids)
+    if method_control:
+        np.savez_compressed(run / 'paired_inputs.npz', steps=np.asarray(witness_updates),
+            **{key:np.stack([w[key] for w in witnesses]) for key in witnesses[0]})
     warm = np.asarray(update_seconds)[1:]
     refresh_indices = np.arange(1, c.train.iterations) % c.train.gradnorm_update_every == 0
     timing = dict(setup_seconds=setup_seconds, trainer_seconds=elapsed,
@@ -467,6 +484,8 @@ def train_operator(c):
         warm_nonrefresh_median_seconds=None if not np.any(~refresh_indices) else float(np.median(warm[~refresh_indices])),
         warm_refresh_median_seconds=None if not np.any(refresh_indices) else float(np.median(warm[refresh_indices])),
         scope='Updates synchronized through parameters/optimizer state; first update includes compilation; setup/evaluation separate')
+    if method_control:
+        timing['paired_input_witness_seconds'] = witness_seconds
     _write_json(run / 'timing.json', timing)
     if spatial is not None:
         _write_json(run / 'spatial_sampling.json', dict(**spatial.summary(),

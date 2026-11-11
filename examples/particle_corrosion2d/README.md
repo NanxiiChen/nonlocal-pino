@@ -342,6 +342,157 @@ Seeds are runtime provenance, not strategy configuration fields. Omit `--seed`
 for a fresh run; use it only for deliberate replay. Intermediate model
 checkpoints do not provide exact rolling-pool/optimizer continuation.
 
+### Opt-in matched rolling nonlocal/local-AD study
+
+The research presets `train_physical_spaced_w256_method_nonlocal.py` and
+`train_physical_spaced_w256_method_local_ad.py` inherit the selected six-particle,
+350 s, width256, Adam20k recipe. They retain the same five shared losses and
+inverse-gradient balancing; AD adds the two explicit Neumann terms. These
+presets do not change the production or historical defaults. Intermediate
+models are saved every5,000 updates; they are diagnostics, not resumable states.
+
+Run the nonlocal preset with the usual `--inputs`, `--reference`, `--output`
+and optional runtime `--seed`. After completing its independent
+`python -m examples.particle_corrosion2d.online_validation --run RUN --workers 4`
+audit, run the AD preset with `--rolling-method-control RUN`. This imports only
+the cold initialization provenance and sampling seed, never trained weights.
+Both sides require the same input-bank/reference paths and geometry exclusions.
+Audit the completed AD inputs with `online_validation`, then use
+`python -m examples.particle_corrosion2d.method_validation --run AD_RUN --control NL_RUN`.
+The existing `compare --runs NL_RUN AD_RUN --output NEW_DIRECTORY` includes the
+same strict audit and recomputes metrics from saved fields without inference.
+
+The audit compares cold model/optimizer bytes, numerical sources, actual
+geometry/revision/time draws, installed geometries, complete initial/final
+inputs, and the actual PDE core coordinates/weights at every update.
+`core_trace_incomplete.npy` temporarily occupies234.4MiB at20k/B4/K256 and is
+compressed only on successful completion. A failed run retains its incomplete
+trace. Trace I/O and rolling waits are reported separately from optimizer
+updates. AD evaluates only cores, without halo network evaluations. For strict
+input pairing both methods still build/store the same graph payload; this is
+explicit unused graph-preparation overhead in the AD comparison, not an
+intrinsic requirement of local differentiation. The completed two-initialization
+study and same-device measurements are in the
+[comparison record](../../docs/tasks/archive/pino-rolling-local-ad-controls.md).
+Both particle pairs pass the full input/state audit. The comparison preserves
+the production defaults; historical results below use a different recipe.
+
+#### Completed 20,000-step comparison
+
+These are new cold runs of the six-particle, 350 s recipe: width256, four
+geometry draws, 32 random shared times, 256 cores and eight core/halo sets per
+geometry, with rolling geometry/spatial pools. Both methods use ordinary
+FP32, Adam1e-3 (decay0.5 every3000updates, floor1e-5), the same five common
+losses and inverse-gradient balancing refreshed every25updates. Local AD adds
+the two explicit positive-time Neumann groups. The displayed pair uses runtime
+seed 42, the first strictly audited initialization rather than an error-selected seed.
+
+The comparison below uses the **final 20,000-step seed-42 weights on 64 fresh
+geometries**. All layouts follow the original six-particle prior and were frozen
+after training but before reference solves or checkpoint inference. They exclude
+all 700 unique geometries from the initial/rolling training banks and the old
+four-case development set. Both methods use exactly the same 64 inputs.
+
+The common reference is independent local P1 FEM with lumped mass: mesh spacing
+0.01, 256 polygon nodes per hole, BDF rtol/atol 2e-8/2e-10 and maximum normalized
+step 0.00625. Four predeclared mesh-refinement checks at spacing 0.0075 keep the
+hole polygons fixed; phase differences are 0.0903–0.1093% under the original
+physical-quadrature diagnostic. A time-step-halving check changes that phase
+metric by 1.31e-7%. These checks qualify the sampled refinements, not a continuum
+bound for every geometry. No reference fields enter physics training.
+
+For each test input \(i\), first compute the relative L2 for each physical
+solution channel over the complete space-time evaluation set \(Q_i\), then
+average the two channels \(u=(\phi,c)\):
+
+$$
+e_{i,k}=\frac{\sqrt{\sum_{q\in Q_i}|\hat u_{i,k}(q)-u_{i,k}(q)|^2}}
+{\sqrt{\sum_{q\in Q_i}|u_{i,k}(q)|^2}},\qquad
+e_i=\frac{e_{i,\phi}+e_{i,c}}{2},\qquad
+\bar e=\frac{1}{64}\sum_{i=1}^{64}e_i.
+$$
+
+The violin displays the 64 individual \(e_i\); the reported mean is \(\bar e\).
+Each channel is normalized separately before averaging. We do not concatenate
+channels before normalization or average instantaneous relative errors. The
+KDE uses all64samples and Scott bandwidth in log-error coordinates; thin dashed
+lines indicate the25th,50thand75thpercentiles. The compact figure displays raw
+error ratios on a logarithmic axis, without percentage scaling, dots or mean
+annotations. Tails extend three bandwidths beyond the observed log extrema;
+they represent smoothed density, not extra samples. Matplotlib autoscales y.
+These describe variation across inputs, not confidence intervals.
+The figure omits the example-name title; both exports are named
+`particle_corrosion2d_distribution.pdf` / `.png`. The source manifest below records
+the editable PDF path and the matching README PNG.
+
+Here \(Q_i\) contains every physical FEM node at all 11 uniformly saved times
+from \(t^*=0\) to 1 (0–350 s), including endpoints. The new metric uses ordinary
+**unweighted discrete L2 over evaluation points**. For this irregular mesh,
+this is a point-sampling measure: it does not use nodal volume or trapezoidal
+time weights. Previous phase-only/physical-quadrature scores remain historical
+metrics in the evaluation records and must not be substituted for these values.
+
+| Method | Mean error | Median | Interquartile range |
+|---|---:|---:|---:|
+| Nonlocal | 4.554% | 4.420% | 4.204%–4.957% |
+| Local AD | 32.515% | 32.500% | 32.182%–32.945% |
+
+![Final particle-corrosion weights: distribution of channel-averaged space-time relative L2 on 64 inputs](../../assets/pino-comparisons/particle_corrosion2d_distribution.png)
+
+Only the completed seed-42 model pair is displayed. The sparse intermediate
+checkpoints are retained in the archive; no convergence curve is shown here.
+
+On the same49140MiB RTX4090, the two-seed mean warm
+update costs93.50ms(nonlocal) versus80.40ms(AD); complete cold child processes
+take34.38 versus33.52minutes. Active peaks are20.44 versus11.21GiB. Process
+time includes setup/output but excludes subsequent independent evaluation and
+audits; AD retains the shared graph-preparation cost for exact input pairing.
+These runs show an accuracy advantage, **not** a nonlocal per-update speed or
+memory advantage.
+
+![Three particle geometries: local FEM, nonlocal and local AD phase evolution](../../assets/pino-comparisons/particle_corrosion2d_fields.png)
+
+Each group of three rows shows local FEM, nonlocal PINO and local AD PINO for
+one geometry. These are the first three **new 64-case cohort** entries (zero-based0,1,2), using
+the strict seed42pair's final20kmodels, without error-based sample selection.
+Columns are actual saved times \(t^*=0,0.2,0.5,0.8,1\), or0,70,175,280,350s.
+Gray holes are the original ceramic geometry; all panels share the phase
+scale0..1. Black contours show the displayed field's \(\phi=0.5\) interface;
+white dashed contours show the local reference. Panel labels give the original
+volume-weighted, phase-only spatial L2 at that time, separate from the two-channel
+space-time violin metric. Original FEM triangles are retained; Gouraud interpolation is
+display-only, with no field smoothing or temporal interpolation.
+
+Nonlocal tracks the expanding pit with some late interface-position error.
+AD remains near the original pit size and also shows an initial-condition
+fitting shortfall, as in the old four-geometry inspection. These experiments
+do not isolate the Neumann boundary treatment as the cause or show that local
+AD is intrinsically inaccurate. The fresh64cohort confirms the same accuracy
+ordering under the declared final-checkpoint metric. The previous phase-only,
+other-initialization and small-cohort results remain in the original comparison
+and 64-case evaluation records. No new model or default is selected here.
+
+The [figure source manifest](../../artifacts/pino_derivative_comparisons.json)
+stores all four full saved configurations, direct model/source/data paths,
+sample identities and actual times. The
+[validation and plotted values](../../artifacts/pino_derivative_comparison_validation.json)
+record every plotted per-channel and channel-averaged error, numerator and
+denominator norms, evaluation grids, KDE settings, rendering versions and image sizes. The [64-case evaluation record](../../docs/tasks/archive/pino-derivative-evaluation64.md)
+contains exact reference/inference commands and cohort/replay checks. The
+[distribution record](../../docs/tasks/archive/pino-final-violin-figures.md)
+records the new reduction order and the superseded-figure archive.
+To regenerate just these two images from the repository root:
+
+```bash
+JAX_PLATFORMS=cpu OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 \
+  .venv/bin/python scripts/render_pino_derivative_comparisons.py --case particle_corrosion2d
+```
+
+The command reads the existing external artifacts and checks their saved
+configurations and field metrics; it performs no training, model inference or
+reference solve. Use the saved configurations, not a later default, to replay
+these checkpoints. Raw weights/fields remain outside Git.
+
 ## Artifacts and historical comparisons
 
 The selected [20k checkpoint](/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/model_final.eqx),
