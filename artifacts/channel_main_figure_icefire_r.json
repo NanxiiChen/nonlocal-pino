@@ -1,0 +1,133 @@
+{
+  "schema": "channel_main_figure_v1",
+  "source_figure_manifest": "artifacts/pino_readme_figures.json",
+  "style_source": "artifacts/particle_corrosion_main_figure.json",
+  "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04",
+  "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/model_final.eqx",
+  "checkpoint_step": 20000,
+  "runtime_seed": 42,
+  "config": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/config.json",
+  "summary": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/summary.json",
+  "reserved_evaluation": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/evaluation.json",
+  "reserved_manifest": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/manifest.json",
+  "samples": [
+    "development",
+    "reserved_000",
+    "reserved_001",
+    "reserved_002"
+  ],
+  "selection": "Nominal development geometry followed by all three predeclared reserved geometries; not four blind test inputs",
+  "times": [
+    0,
+    1.5,
+    3,
+    4.5,
+    6
+  ],
+  "time_label": "t*",
+  "time_units": "t*=t/T, with T=6 original model-time units; normalized display coordinate only",
+  "grid_shape": [
+    96,
+    40
+  ],
+  "wall_plot_points": 1001,
+  "phase_channel": 0,
+  "interface_level": 0,
+  "reference": "Independent spatial/time-refined local mixed FEM; BDF2",
+  "metric": "Equal-weight spatial relative L2 of physical phase on all3840original queries at each displayed time; no interpolation in metric",
+  "records": [
+    {
+      "label": "development",
+      "role": "nominal development geometry",
+      "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/prediction.npz",
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+      "pooled_phase_expected": 0.01449620420593507
+    },
+    {
+      "label": "reserved_000",
+      "role": "predeclared reserved geometry",
+      "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_000/prediction.npz",
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+      "pooled_phase_expected": 0.019860020536880407
+    },
+    {
+      "label": "reserved_001",
+      "role": "predeclared reserved geometry",
+      "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_001/prediction.npz",
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+      "pooled_phase_expected": 0.014292626036913723
+    },
+    {
+      "label": "reserved_002",
+      "role": "predeclared reserved geometry",
+      "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_002/prediction.npz",
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+      "pooled_phase_expected": 0.015152341709821082
+    }
+  ],
+  "style": {
+    "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+    "font_family": "Helvetica",
+    "font_source": "https://raw.githubusercontent.com/NanxiiChen/PI-CViT/main/helvetica/Helvetica.ttf",
+    "font_size": 6,
+    "heading_size": 7,
+    "text_color": "#222222",
+    "figure_mm": [
+      170,
+      59
+    ],
+    "dpi": 450,
+    "png_dpi": 300,
+    "cmap": "icefire_r",
+    "limits": [
+      -1.2,
+      1.2
+    ],
+    "interpolation": "Gouraud on original mapped96x40 query grid",
+    "interpolation_stage": "display only",
+    "contour_color": "#FFFFFF",
+    "contour_linewidth": 0.5,
+    "contour_linestyle": "--",
+    "axes_linewidth": 0.45,
+    "panel_width_mm": 26.8,
+    "panel_height_mm": 6.7,
+    "left_mm": 10,
+    "column_gap_mm": 2,
+    "row_bottoms_mm": [
+      48,
+      34,
+      20,
+      6
+    ],
+    "row_label_x_mm": 7.8,
+    "error_gap_mm": 2.8,
+    "time_heading_y_mm": 57,
+    "example_title": false,
+    "colorbar_x_mm": 157,
+    "colorbar_width_mm": 2.2,
+    "colorbar_height_mm": 36,
+    "colorbar_label_pad_pt": 4,
+    "reference_legend": false,
+    "superscript_size": 5,
+    "superscript_rise_pt": 2.3,
+    "math_italic_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
+    "scientific_labels": "editable vector spans; sans-serif italic L; explicit 5 pt superscripts",
+    "superscript_gap_pt": 0.25,
+    "colorbar_ticks": [
+      -1.2,
+      0,
+      1.2
+    ],
+    "wall_color": "#E6E6E6",
+    "wall_edge_color": "#555555",
+    "wall_linewidth": 0.45,
+    "cmap_source": "Exact seaborn0.13.2 icefire LUT; bundled with its BSD license; reversed entry order",
+    "cmap_file": "scripts/colormaps/icefire.json"
+  },
+  "output": {
+    "pdf": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-main-20261112/two_phase_flow2d_main_phase_icefire_r.pdf",
+    "png": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-main-20261112/two_phase_flow2d_main_phase_icefire_r.png",
+    "receipt": "artifacts/channel_main_figure_icefire_r_validation.json"
+  },
+  "previous_preview": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-main-20261112/two_phase_flow2d_main_phase.png"
+}

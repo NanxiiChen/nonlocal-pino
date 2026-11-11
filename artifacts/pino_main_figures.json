@@ -1,0 +1,64 @@
+{
+  "schema": "pino_main_publication_v1",
+  "date": "2026-11-12",
+  "maximum_file_bytes": 2097152,
+  "maximum_collection_bytes": 9437184,
+  "scope": "Five approved final publication figures only; byte-identical to external PDF/PNG sources; raw fields and weights remain external",
+  "figures": [
+    {
+      "example": "icemelting3d",
+      "specification": "artifacts/melting_main_figure.json",
+      "validation": "artifacts/melting_main_figure_validation.json",
+      "pdf": "assets/pino-main/icemelting3d.pdf",
+      "png": "assets/pino-main/icemelting3d.png",
+      "bytes": {
+        "pdf": 1117449,
+        "png": 686984
+      }
+    },
+    {
+      "example": "electropolish2d",
+      "specification": "artifacts/electropolish_main_figure.json",
+      "validation": "artifacts/electropolish_main_figure_validation.json",
+      "pdf": "assets/pino-main/electropolish2d.pdf",
+      "png": "assets/pino-main/electropolish2d.png",
+      "bytes": {
+        "pdf": 274869,
+        "png": 329170
+      }
+    },
+    {
+      "example": "confined_ch2d",
+      "specification": "artifacts/spinodal_main_figure.json",
+      "validation": "artifacts/spinodal_main_figure_validation.json",
+      "pdf": "assets/pino-main/confined_ch2d.pdf",
+      "png": "assets/pino-main/confined_ch2d.png",
+      "bytes": {
+        "pdf": 1734310,
+        "png": 1322057
+      }
+    },
+    {
+      "example": "channel_nsch2d",
+      "specification": "artifacts/channel_main_figure_icefire_r.json",
+      "validation": "artifacts/channel_main_figure_icefire_r_validation.json",
+      "pdf": "assets/pino-main/channel_nsch2d.pdf",
+      "png": "assets/pino-main/channel_nsch2d.png",
+      "bytes": {
+        "pdf": 778836,
+        "png": 300054
+      }
+    },
+    {
+      "example": "particle_corrosion2d",
+      "specification": "artifacts/particle_corrosion_main_figure.json",
+      "validation": "artifacts/particle_corrosion_main_figure_validation.json",
+      "pdf": "assets/pino-main/particle_corrosion2d.pdf",
+      "png": "assets/pino-main/particle_corrosion2d.png",
+      "bytes": {
+        "pdf": 1175016,
+        "png": 587598
+      }
+    }
+  ]
+}

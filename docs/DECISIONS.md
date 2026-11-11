@@ -11327,3 +11327,177 @@ the unused title margin while retaining the same physical size, labels, data,
 KDE and automatic y limits. Archive the prior presentation externally. Reject
 changing scores or numerical experiments as part of this presentation update.
 Relation: title-free-violins; current-turn commit and push are authorized.
+
+## 2026-11-12 — Preview predicted phase with reference contours and local-in-time errors
+
+For the Electropolish main-figure redesign, retain the selected rolling 10k
+checkpoint and predeclared samples 0/21/42/63. Display predicted phase at five
+actual saved times, with reference phi=0.5 dashed contours and a shared scale.
+Each panel error is the unweighted spatial relative L2 for phase at that time,
+not the channel-averaged space-time metric of the violin. Smooth only the field
+display by bilinear interpolation; calculate norms and contours from original
+nodal fields. Rasterize fill only, leaving text/contours editable vector objects.
+Produce external previews and explicit reproduction metadata before replacing
+the curated image. No new solves, inference, training or Git action.
+Relation: electropolish-main-figure preview requested by the user.
+
+## 2026-11-12 — Use 170 mm publication width and compact field annotations
+
+User confirms 170 mm (A4 minus two 20 mm margins) for large field galleries.
+Render at this physical width, not by scaling an already typeset larger image.
+Use coolwarm for this Electropolish figure, omit its reference legend and tighten
+spacing. Center the single colorbar on the combined physical-panel extent and
+put its variable above the bar. Typeset scientific errors with multiplication
+signs and raised exponents while retaining the explicit 5 pt minimum for
+superscripts. Same data and metric; preserve previous preview externally.
+Relation: electropolish-main-compact; no Git action or README promotion.
+
+## 2026-11-12 — Separate Electropolish model agreement from irreversibility
+
+Raw saved PINO and independent local/native references show substantial local
+phase increases, including crossing from below to above phi=0.5. Existing
+FD201/FD401 and time-refinement checks retain this behavior. The implemented
+Allen–Cahn/KKS gradient flow permits both signs of phi_t; the tanh map only
+bounds phi. At an interior valley witness, the interfacial-energy contribution
+overcomes a negative chemical dissolution term. Total diffuse solid area still
+falls at all saved times in all64inputs. Therefore do not describe low L2 or
+agreement among solvers as proof of dissolution-only physical validity.
+
+Record this model limitation and preserve the actual arrays/figures. Reject
+clipping predictions, adding phi_t<=0, or tuning coefficients silently: any
+unilateral kinetics or physical recalibration changes the model and requires
+its own derivation and regenerated reference. Do not claim all corrosion is
+irreversible; the intended anodic dissolution-only regime needs explicit
+physical assessment. Relation: electropolish-monotonicity; no Git action.
+
+## 2026-11-12 — Preview particle corrosion with the same phase-gallery conventions
+
+Use the accepted width256/20k six-particle350s main-figure checkpoint, all four
+predeclared development inputs in saved order, and independent local P1 FEM
+references for contours and instantaneous nodal phase errors. Retain the
+user's170mm/coolwarm/editable5–7pt style. Show actual saved times0/.2/.5/.8/1:
+the existing references do not contain .25/.75; do not invent those snapshots
+by temporal interpolation. Reuse the original physical triangles, with gray
+ceramic interiors and vector boundary/interface lines. Metrics use equal node
+weights, following the current plotting convention; independently verify the
+historical volume-weighted metrics only as a source-identity check.
+
+Keep the existing native-reference README image until preview review. Do not
+silently switch to the newer derivative-control checkpoint/cohort. Preserve
+direct provenance and external PDF/PNG. No new inference/solve or Git action.
+Relation: particle-corrosion-main-figure.
+
+## 2026-11-12 — Spinodal publication preview uses RdBu_r and raw cell errors
+
+At the user's request, use RdBu_r with a shared symmetric[-1,1]phase scale,
+four first reserved inputs1024–1027in saved order and the accepted50kcheckpoint.
+Show actual dimensionless times0/.75/1.5/2.25/3 and native-reference phi=0
+contours. This is not the historical error-ranked three-row selection or a
+local-FEM comparison. Preserve the170mm/5–7pt/eq-aspect publication layout.
+
+Both fields are cell-centered; reconstruct display vertex values by positive
+incident-cell area weights and interpolate only on the original physical
+triangles. Analytic circle masks exclude hole interiors. Calculate each
+instantaneous relative L2 from equally weighted original cell-center values,
+not interpolated vertices/pixels or the old volume-weighted pooled score.
+No new inference/solve, metric-driven sample selection, numerical defaults,
+README-image replacement or Git action. Relation: spinodal-main-figure.
+
+## 2026-11-12 — Four-input two-phase gallery preserves the full channel scale
+
+Use the accepted20k NS–CH model, one nominal development geometry plus all three
+predeclared reserved geometries, with local mixed-FEM zero-interface contours.
+The four rows are not four unseen cases. Show actual saved times0/1.5/3/4.5/6,
+physical mapped coordinates and complete4:1channel extent at equal aspect;
+do not shift droplets or stretch/crop geometry to increase apparent agreement.
+
+Choose PuOr and shared[-1.2,1.2]limits to include the saved phase overshoots
+in both prediction and reference, rather than silently saturating at[-1,1].
+Use original mapped96x40queries with Gouraud display; scores remain equal-node
+instantaneous phase norms. Reuse the170mm/editable5–7pt/scientific-label style,
+gray solid-wall regions and vector reference/wall curves. No new numerical
+solutions, defaults, curated-image replacement or Git action.
+Relation: channel-main-figure.
+
+## 2026-11-12 — Replace channel PuOr preview with icefire
+
+User rejects the initial PuOr appearance and explicitly selects icefire.
+Use Seaborn's exact icefire colormap; retain shared[-1.2,1.2]limits,
+all four inputs/times, raw errors and170mmphysical layout. Preserve the prior
+PuOr PDF/PNG externally. This supersedes only the palette part of the preceding
+channel-main-figure decision; no numerical or sample-selection change.
+The plotting environment lacks Seaborn/Pandas: extract the256RGBentries from
+the0.13.2wheel and preserve its BSD license in scripts/colormaps/icefire.json.
+Matplotlib reads this explicit table, avoiding new runtime dependencies or
+an approximate substitute palette. No package installation in the project.
+Because icefire is dark at phi=0, use white reference dashes for contrast.
+This changes only contour visibility; actual contour coordinates stay identical.
+
+## 2026-11-12 — Reversed channel palette and explicit normalized display time
+
+User requests icefire_r and asks about nondimensional time. Preserve the earlier
+icefire preview and create a separately named icefire_r figure/specification.
+Reverse the exact licensed LUT, retaining white reference contours and all
+field/norm values. Label the five existing model snapshots by t/T with T=6:
+0, .25, .5, .75, 1. This is a display-coordinate change, not a new simulation.
+Network temporal features already use t/T, while physical-time JVP and FEM/PDE
+use original model time. Do not call the saved time seconds without a physical
+calibration, or confuse network input normalization with complete PDE
+nondimensionalization. Relation: channel-icefire-reversed.
+
+User then requests the compact t* notation rather than t/T on each panel.
+Use t*=t/T in provenance; draw t* with editable sans-serif spans and a 5 pt
+superscript. Numerical snapshots and normalization are unchanged.
+
+## 2026-11-12 — Proposed combined 3D/slice Melting publication layout
+
+User asks how to present Melting and suggests 3D shapes plus spatial slices.
+Recommend paired rows per sample, five actual normalized times0/.25/.5/.75/1:
+matte orthographic predicted phi=0 surfaces above, fixed near-midplane predicted
+phase slices with native-reference zero contours below. Three samples give a
+six-row main figure; retaining four would give eight rows. This is a design
+recommendation, not an approved sample-count change or executed redraw.
+Keep equal XYZ scales and identical cameras/limits through time. Avoid overlaying
+two opaque 3D surfaces or drawing prescribed shrinking ellipsoids in place of
+predictions. Surface color is decorative constant shading, not a phase colorbar.
+Use one shared phase scale for slices; label instantaneous whole-volume phase
+errors on the existing original diagnostic points, not a slice-only norm.
+
+Existing 3D meshes are the historical fixed5kmodel; use the selected rolling10k
+checkpoint for any new figure. Current saved predictions contain24^3diagnostic
+queries; references additionally preserve128^2near-centralXYslices at
+z*=64/127, five times. Dense current-model inference is needed for surfaces
+and slice predictions, but these views do not require a new reference solve.
+An optional exactly centered or arbitrary sample-centered slice would require
+additional reference exports and is not assumed available. No new numerical
+work or Git operation. Relation: melting-main-figure-design.
+
+## 2026-11-12 — Execute the approved Melting paired-row publication figure
+
+User approves the preceding design. Retain the previously randomly selected
+trio5/9/2 and actual t*=0/.25/.5/.75/1. Infer the current rolling10k model on
+128^3queries for phi=0 surfaces and on the exact existing native-reference
+slice planez*=64/127. Use original24^3diagnostic fields for instantaneous
+whole-volume phase errors, independently replayed against the checkpoint.
+Keep a fixed orthographic view/equal physical scales and matte ice-blue
+surfaces; choose RdBu[-1,1] for shared slice colors, with dark dashed native
+reference contours. No geometric smoothing or rescaled ellipsoid model.
+Export170mmPDF/PNG with editable text/vector interfaces and raster field layers;
+retain old models/figures. No new reference solves, training or Git operation.
+Relation: melting-main-figure.
+
+## 2026-11-12 — Publish approved phase galleries before horizon/grid experiments
+
+User approves all five main figures and explicitly authorizes commit/push,
+then requests fixed-interface-thickness PINO horizon/particle-density controls.
+Publish only final PDF/PNG pairs in assets/pino-main plus plotting/provenance
+support; retain original figures as historical references and raw fields/weights
+externally. The five-pair collection has an explicit9MiBbudget, each file<2MiB;
+this is separate from the existing curated6PNGbudget. It is a justified final
+paper-artifact collection, not a general allowance for experiment images.
+Do not include pending unrelated Melting thin/extreme implementation in this
+figure commit. Start the new numerical study after the authorized push.
+For the study, retain the agreed complete-space-time per-channel normalization
+and equal channel average before64-input mean/sampleSD. Use one common local
+reference independent of training horizon, and final10kweights rather than
+best-checkpoint selection. Relation: pino-main-publication-horizon-study.

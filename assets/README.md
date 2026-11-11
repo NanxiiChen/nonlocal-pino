@@ -137,3 +137,13 @@ images. The renderer checks source configs, coordinate/time identities and
 original field metrics before deriving the new errors; no training, inference
 or solve is performed. Missing external data raises an error. Numerical values
 remain readable in the receipt; full field regeneration requires the arrays.
+
+## Publication main figures
+
+The approved170mmPDF/PNG main-figure pairs now live in
+[pino-main](pino-main/README.md), with exact model/data/style records in
+[the publication manifest](../artifacts/pino_main_figures.json). Each example
+README now embeds this collection. The older `pino/` entries above remain
+historical galleries with their original selections and reference conventions.
+The separate10-file publication budget is9MiB, each file below2MiB; raw fields,
+meshes and weights remain external. See the collection README for regeneration.

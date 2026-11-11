@@ -2,8 +2,10 @@
 
 ## Active task
 
-None. Title-free violin figures and README captions are complete and verified.
-No GPU work; paused process group 618216 remains untouched.
+[Publish main figures and measure Electropolish horizon/grid sensitivity](tasks/pino-main-publication-horizon-study.md).
+First publish the five approved main figures and reproducibility records;
+then run fixed-thickness cold10k nonlocal horizon/density controls and evaluate
+final checkpoints on64common local-reference inputs with mean±sampleSD.
 
 ## Deferred work
 
@@ -23,6 +25,78 @@ solve. [Feasibility](tasks/archive/traction-conditioned-elastic-pino-analysis.md
 The channel20000/lower-LR study is complete and archived below.
 
 ## Latest completed validation
+
+[Melting paired 3D/slice main figure](tasks/archive/melting-main-figure.md).
+Current rolling10k inference on128^3queries for existing random trio5/9/2;
+five normalized times, true zero surfaces above fixedXYphase slices with native
+reference contours. 170x166mmPDF/PNG;15original24^3volume norms,checkpoint replay,
+hardIC,closed meshes,equal scales,embedded editable5–7pttext and raster/vector
+layers pass; PNG/PDF inspected. Direct provenance retained. No training, new
+reference solve, README-image promotion or Git operation.
+
+[Melting combined 3D/slice figure design](tasks/archive/melting-main-figure-design.md).
+Recommend paired surface/slice rows and five normalized times; three samples
+for compactness or four for consistency. Current rolling10k differs from old
+3Dgallery. Verified existing24^3volume and128^2near-midplane reference exports;
+new model inference would supply surfaces/slices. Design only, no redraw or Git.
+
+[Reversed icefire and normalized channel time](tasks/archive/channel-icefire-reversed.md).
+Separate icefire_r preview uses t*=t/T with T=6, five headings from0to1.
+All 20 errors/source records and vector geometry paths unchanged; editable
+5–7 pt text, dimensions and raster/vector layers verified; PNG/PDF inspected.
+Original icefire retained. No numerical, README-image or Git operation.
+
+[Two-phase-flow main-figure preview](tasks/archive/channel-main-figure.md).
+Accepted 20k model, one development plus three reserved geometries, five saved
+times; icefire phase with white dashed local-FEM interfaces and 20 raw spatial
+phase errors. 170 x 59 mm PDF/PNG, full channel at equal aspect; embedded editable
+5–7 pt text, raster fields and vector contours/walls verified. Scores and layout
+unchanged from initial PuOr preview; exact licensed palette and direct provenance
+saved. No inference, solve, curated-image replacement or Git action.
+
+[Spinodal main-figure preview](tasks/archive/spinodal-main-figure.md).
+Accepted50kmodel, first four reserved inputs, five actual times; RdBu_r phase
+with native nonlocal reference zero contours and20instantaneous raw-cell errors.
+170x113mmPDF/PNG, display-only cell projection, original triangles/hole masks.
+Source/norm checks,40hole pixels,60vector geometry aspect checks, embedded
+editable5–7pttext and raster/vector layers pass; PNG/PDF inspected. Direct
+provenance saved. No inference, solve, README-image promotion or Git action.
+
+[Particle-corrosion main-figure preview](tasks/archive/particle-corrosion-main-figure.md).
+Accepted20kmodel, all four development geometries, five actual saved times:
+predicted phase with local-FEM dashed contours and20instantaneous nodal errors.
+170x92mmPDF/PNG, coolwarm, gray ceramic, original physical triangles. Raw norms,
+model/input identity, six-hole topology,120hole pixels, embedded editable5–7pt
+text and raster/vector layers verified; PNG/PDF inspected. Direct-path receipt
+saved; no inference, solve, README-image promotion or Git action.
+
+[Electropolish monotonicity diagnosis](tasks/archive/electropolish-monotonicity.md).
+Raw64-input audit:62/64PINO and reference inputs have phase increases>0.01;
+all have decreasing integrated solid area at saved times. Refined FD and native
+references retain the reversal. Exact AC-term audit identifies interfacial
+energy overcoming negative chemical drive; production RHS agreement1.28e-13.
+README explicitly distinguishes model agreement from dissolution-only physical
+validity. Reproduction receipt and editable PDF/PNG saved. No PDE or Git change.
+
+[Electropolish row-label spacing](tasks/archive/electropolish-row-label-spacing.md).
+Moved Sample labels 3.3 mm right; actual PDF clearance is 1.14 mm. All other text
+origins and all field-area PNG pixels unchanged. Scores and existing PDF checks
+pass; preview inspected. Specification/receipt updated; no README or Git action.
+
+[Compact 170 mm Electropolish main figure](tasks/archive/electropolish-main-compact.md).
+170 x 85 mm PDF/PNG with coolwarm, no legend, scientific error labels and centered
+colorbar/top label. All 20 raw scores unchanged. Actual PDF dimension, raster/vector
+layers, embedded 5–7 pt text, exponent spacing and colorbar alignment pass;
+PNG/PDF visually inspected. Plotting guide records 170 mm large-figure width.
+Previous preview preserved; no README promotion, training or Git action.
+
+[Electropolish main-figure preview](tasks/archive/electropolish-main-figure.md).
+Four selected inputs by five times: predicted phase, dashed local-FD interface,
+shared colorbar and 20 instantaneous spatial phase errors. PDF contains raster
+colors only; embedded editable Helvetica text and dashed vector paths verified.
+Independent raw-node norms and sample/grid/time checks pass; PDF/PNG inspected.
+External preview and repo reproduction records saved; README promotion awaits
+user review. No training, inference, reference solve or Git action.
 
 [Title-free publication violins](tasks/archive/title-free-violins.md).
 Removed example titles, retained case filenames and reclaimed title margins.

@@ -73,14 +73,18 @@ Recorded training wall time is102.26 min with 20.43 GiB peak active memory on
 RTX6000D; 15994 new online geometries were actually sampled. No evolved labels
 enter the geometry pool or the physical loss.
 
-![Three hole geometries with spinodal phase evolution](../../assets/pino/confined_ch2d.png)
+![Four hole geometries with predicted spinodal phase and reference interfaces](../../assets/pino-main/confined_ch2d.png)
 
-Rows are geometries1027, 1028, 1026: the existing low, upper-median and worst
-pooled-error examples, explicitly selected by error rank. Columns are
-0, 0.75, 1.5, 2.25, 3. Color shows PINO phase; dashed lines show the native-reference
-\(\phi=0\) interfaces. Mesh interpolation is display-only; reported errors use
-original cell values/areas. The same ambient initial field yields different
-later patterns because the holes and closed-boundary interactions differ.
+Rows are the first four reserved inputs1024–1027 in saved order; columns are
+actual dimensionless times0,0.75,1.5,2.25,3. RdBu_r shows predicted phase and
+dashed curves show the **native nonlocal** reference \(\phi=0\) interfaces.
+Display interpolation uses the original physical triangles and excludes holes.
+Panel errors use equally weighted original cell-center values at each time;
+the table above retains its historical physical-cell weighted pooled metric.
+[Editable170mmPDF](../../assets/pino-main/confined_ch2d.pdf) ·
+[Source/style specification](../../artifacts/spinodal_main_figure.json).
+The [older error-ranked gallery](../../assets/pino/confined_ch2d.png) remains
+historical; these four rows were not chosen by error rank.
 
 ### Run and reproduce
 

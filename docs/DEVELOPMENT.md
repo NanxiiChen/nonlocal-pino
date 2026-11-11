@@ -38,6 +38,14 @@ Record evolution-figure direct inputs in `artifacts/pino_readme_figures.json` an
 raw fields, weights and full research galleries as external artifacts. See
 [`assets/README.md`](../assets/README.md) for the regeneration command.
 
+The approved publication main figures additionally live in `assets/pino-main/`:
+one final editable PDF and matching PNG per principal example, five pairs total.
+Their separate budget is9MiB combined and2MiB per file. Keep source arrays,
+weights and alternative previews external. `artifacts/pino_main_figures.json`
+links direct per-case source/style/validation records; `scripts/publish_main_figures.py`
+copies only approved final files byte-for-byte. This collection does not expand
+the budgets for older curated images or comparison figures.
+
 The user-requested nonlocal/local-AD study adds four comparison PNGs under
 `assets/pino-comparisons/`, separately limited to1MiB each and2MiBcombined.
 Preserve the original six-image SOTA budget and selected checkpoints. Their

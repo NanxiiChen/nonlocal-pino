@@ -75,16 +75,25 @@ ellipsoid against local FEM, giving 0.1479% pooled phase error, with a
 0.1474% native/local reference difference on the same nodes. That
 historical reference check and its SOAP control are recorded below.
 
-### Historical three-dimensional visualization
+### Three-dimensional interfaces and phase slices
 
-![Three held-out ellipsoids melting over five times](../../assets/pino/icemelting3d.png)
+![Three held-out ellipsoids: predicted 3D surfaces and XY phase slices](../../assets/pino-main/icemelting3d.png)
 
-This existing illustration uses the earlier fixed-pool 5,000-step checkpoint
-from `20261029-melting-operator-online-b16-01`. Rows are held-out inputs
-5, 9 and 2; columns are 0, 1.25, 2.5, 3.75 and 5 s.
-These are **actual predicted 3D isosurfaces** \(\phi=0\)
-extracted from96^3 queries, with identical camera and spatial scale. They are
-prediction visualizations, not additional reference solves or L2 measurements.
+The selected rolling10k model is shown for the previously random held-out inputs
+5,9,2. Each pair of rows shows true predicted \(\phi=0\) surfaces above a fixed
+XY phase slice at \(z^*=64/127\). Columns are \(t^*=0,0.25,0.5,0.75,1\), or0..5s.
+Dark dashed slice contours are the **native nonlocal** reference interfaces.
+All 3D frames use identical orthographic camera, lighting and physical scales.
+The ice-blue surface shading is separate from the shared RdBu slice color scale.
+
+Panel errors are instantaneous phase relative L2 on the original24^3volume
+queries, while surfaces use128^3dense predictions and slices128^2queries.
+The first-frame dotted plane identifies the slice; no surface smoothing or
+prescribed shrink law is applied. [Editable170mmPDF](../../assets/pino-main/icemelting3d.pdf),
+[source/style specification](../../artifacts/melting_main_figure.json),
+[reproduction and verification](../../docs/tasks/archive/melting-main-figure.md).
+The [historical fixed5k 3D gallery](../../assets/pino/icemelting3d.png) remains
+available; it is not the model shown above.
 
 ### Run and reproduce
 

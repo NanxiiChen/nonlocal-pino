@@ -1,0 +1,134 @@
+{
+  "schema": "melting_main_figure_v1",
+  "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/model_final.eqx",
+  "config": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/config.json",
+  "checkpoint_step": 10000,
+  "runtime_seed": 43,
+  "reference_manifest": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1/manifest.json",
+  "reference_kind": "Time-refined direct nonlocal native128^3 graph",
+  "samples": [
+    5,
+    9,
+    2
+  ],
+  "selection": "Existing random held-out trio; selected before predictions/scores in melting-random-samples-selection.json",
+  "selection_record": "docs/tasks/archive/melting-random-samples-selection.json",
+  "times": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    1
+  ],
+  "physical_time_scale_seconds": 5,
+  "slice_index": 64,
+  "slice_z": 0.5039370078740157,
+  "surface_axis_points": 128,
+  "replay_tolerance": 2e-05,
+  "initial_tolerance": 5e-05,
+  "mesh_tolerance": 1e-05,
+  "prepared_root": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared",
+  "inference_receipt": "artifacts/melting_main_figure_inference.json",
+  "mesh_receipt": "artifacts/melting_main_figure_meshes.json",
+  "metric": "Instantaneous unweighted phase relative L2 on all original24^3volume diagnostic queries; no slice/interpolation metric",
+  "records": [
+    {
+      "sample": 5,
+      "reference": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1/condition_005.npz",
+      "saved_prediction": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/prediction_005.npz"
+    },
+    {
+      "sample": 9,
+      "reference": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1/condition_009.npz",
+      "saved_prediction": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/prediction_009.npz"
+    },
+    {
+      "sample": 2,
+      "reference": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1/condition_002.npz",
+      "saved_prediction": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/prediction_002.npz"
+    }
+  ],
+  "style": {
+    "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+    "font_family": "Helvetica",
+    "font_source": "https://raw.githubusercontent.com/NanxiiChen/PI-CViT/main/helvetica/Helvetica.ttf",
+    "math_italic_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
+    "font_size": 6,
+    "heading_size": 7,
+    "text_color": "#222222",
+    "axes_linewidth": 0.45,
+    "superscript_size": 5,
+    "superscript_rise_pt": 2.3,
+    "superscript_gap_pt": 0.25,
+    "figure_mm": [
+      170,
+      166
+    ],
+    "dpi": 450,
+    "png_dpi": 300,
+    "panel_width_mm": 26.8,
+    "column_gap_mm": 2,
+    "left_mm": 10,
+    "slice_bottoms_mm": [
+      111,
+      59,
+      7
+    ],
+    "surface_bottoms_mm": [
+      134,
+      82,
+      30
+    ],
+    "surface_height_mm": 27,
+    "surface_color": "#84BACD",
+    "surface_limits": [
+      0,
+      1
+    ],
+    "slice_limits": [
+      0,
+      1
+    ],
+    "surface_elevation": 23,
+    "surface_azimuth": -57,
+    "surface_zoom": 1.45,
+    "light_direction": [
+      -1,
+      -1,
+      2
+    ],
+    "surface_ambient": 0.64,
+    "surface_diffuse": 0.36,
+    "contour_color": "#333333",
+    "contour_linewidth": 0.5,
+    "contour_linestyle": "--",
+    "cmap": "RdBu",
+    "limits": [
+      -1,
+      1
+    ],
+    "time_heading_y_mm": 163,
+    "row_label_x_mm": 7.8,
+    "error_gap_mm": 2.8,
+    "colorbar_x_mm": 157,
+    "colorbar_width_mm": 2.2,
+    "colorbar_height_mm": 36,
+    "colorbar_label_pad_pt": 4,
+    "colorbar_ticks": [
+      -1,
+      0,
+      1
+    ],
+    "slice_cue_color": "#9AA7AD",
+    "slice_cue_width": 0.4,
+    "slice_cue_bounds": [
+      0.15,
+      0.85
+    ]
+  },
+  "output": {
+    "pdf": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/icemelting3d_main_phase.pdf",
+    "png": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/icemelting3d_main_phase.png",
+    "receipt": "artifacts/melting_main_figure_validation.json"
+  }
+}

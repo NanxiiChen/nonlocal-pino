@@ -1,0 +1,988 @@
+{
+  "schema": "melting_main_figure_validation_v1",
+  "status": "passed",
+  "specification": {
+    "schema": "melting_main_figure_v1",
+    "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/model_final.eqx",
+    "config": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/config.json",
+    "checkpoint_step": 10000,
+    "runtime_seed": 43,
+    "reference_manifest": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1/manifest.json",
+    "reference_kind": "Time-refined direct nonlocal native128^3 graph",
+    "samples": [
+      5,
+      9,
+      2
+    ],
+    "selection": "Existing random held-out trio; selected before predictions/scores in melting-random-samples-selection.json",
+    "selection_record": "docs/tasks/archive/melting-random-samples-selection.json",
+    "times": [
+      0,
+      0.25,
+      0.5,
+      0.75,
+      1
+    ],
+    "physical_time_scale_seconds": 5,
+    "slice_index": 64,
+    "slice_z": 0.5039370078740157,
+    "surface_axis_points": 128,
+    "replay_tolerance": 2e-05,
+    "initial_tolerance": 5e-05,
+    "mesh_tolerance": 1e-05,
+    "prepared_root": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared",
+    "inference_receipt": "artifacts/melting_main_figure_inference.json",
+    "mesh_receipt": "artifacts/melting_main_figure_meshes.json",
+    "metric": "Instantaneous unweighted phase relative L2 on all original24^3volume diagnostic queries; no slice/interpolation metric",
+    "records": [
+      {
+        "sample": 5,
+        "reference": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1/condition_005.npz",
+        "saved_prediction": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/prediction_005.npz"
+      },
+      {
+        "sample": 9,
+        "reference": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1/condition_009.npz",
+        "saved_prediction": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/prediction_009.npz"
+      },
+      {
+        "sample": 2,
+        "reference": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1/condition_002.npz",
+        "saved_prediction": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/prediction_002.npz"
+      }
+    ],
+    "style": {
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+      "font_family": "Helvetica",
+      "font_source": "https://raw.githubusercontent.com/NanxiiChen/PI-CViT/main/helvetica/Helvetica.ttf",
+      "math_italic_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
+      "font_size": 6,
+      "heading_size": 7,
+      "text_color": "#222222",
+      "axes_linewidth": 0.45,
+      "superscript_size": 5,
+      "superscript_rise_pt": 2.3,
+      "superscript_gap_pt": 0.25,
+      "figure_mm": [
+        170,
+        166
+      ],
+      "dpi": 450,
+      "png_dpi": 300,
+      "panel_width_mm": 26.8,
+      "column_gap_mm": 2,
+      "left_mm": 10,
+      "slice_bottoms_mm": [
+        111,
+        59,
+        7
+      ],
+      "surface_bottoms_mm": [
+        134,
+        82,
+        30
+      ],
+      "surface_height_mm": 27,
+      "surface_color": "#84BACD",
+      "surface_limits": [
+        0,
+        1
+      ],
+      "slice_limits": [
+        0,
+        1
+      ],
+      "surface_elevation": 23,
+      "surface_azimuth": -57,
+      "surface_zoom": 1.45,
+      "light_direction": [
+        -1,
+        -1,
+        2
+      ],
+      "surface_ambient": 0.64,
+      "surface_diffuse": 0.36,
+      "contour_color": "#333333",
+      "contour_linewidth": 0.5,
+      "contour_linestyle": "--",
+      "cmap": "RdBu",
+      "limits": [
+        -1,
+        1
+      ],
+      "time_heading_y_mm": 163,
+      "row_label_x_mm": 7.8,
+      "error_gap_mm": 2.8,
+      "colorbar_x_mm": 157,
+      "colorbar_width_mm": 2.2,
+      "colorbar_height_mm": 36,
+      "colorbar_label_pad_pt": 4,
+      "colorbar_ticks": [
+        -1,
+        0,
+        1
+      ],
+      "slice_cue_color": "#9AA7AD",
+      "slice_cue_width": 0.4,
+      "slice_cue_bounds": [
+        0.15,
+        0.85
+      ]
+    },
+    "output": {
+      "pdf": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/icemelting3d_main_phase.pdf",
+      "png": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/icemelting3d_main_phase.png",
+      "receipt": "artifacts/melting_main_figure_validation.json"
+    }
+  },
+  "renderer": "scripts/render_melting_main_figure.py",
+  "versions": {
+    "python": "3.12.3",
+    "numpy": "2.4.6",
+    "matplotlib": "3.11.0"
+  },
+  "records": [
+    {
+      "sample": 5,
+      "reference": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1/condition_005.npz",
+      "saved_prediction": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/prediction_005.npz",
+      "panels": [
+        {
+          "time": 0,
+          "relative_l2": 5.067934815483437e-07,
+          "numerator_norm": 5.749449147735813e-05,
+          "denominator_norm": 113.44757494058977,
+          "spatial_nodes": 13824,
+          "reference_contour_segments": 1,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 5.07 \\times 10^{-7}",
+            "mantissa": "5.07",
+            "exponent": -7,
+            "width_mm": 19.997869791666666
+          }
+        },
+        {
+          "time": 0.25,
+          "relative_l2": 0.0004053492455580642,
+          "numerator_norm": 0.04659745288814021,
+          "denominator_norm": 114.9563084149502,
+          "spatial_nodes": 13824,
+          "reference_contour_segments": 1,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 4.05 \\times 10^{-4}",
+            "mantissa": "4.05",
+            "exponent": -4,
+            "width_mm": 19.997869791666666
+          }
+        },
+        {
+          "time": 0.5,
+          "relative_l2": 0.0005491984323153308,
+          "numerator_norm": 0.06376569944206349,
+          "denominator_norm": 116.10684898213881,
+          "spatial_nodes": 13824,
+          "reference_contour_segments": 1,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 5.49 \\times 10^{-4}",
+            "mantissa": "5.49",
+            "exponent": -4,
+            "width_mm": 19.997869791666666
+          }
+        },
+        {
+          "time": 0.75,
+          "relative_l2": 0.001033706315007648,
+          "numerator_norm": 0.12085856314180389,
+          "denominator_norm": 116.91769837055674,
+          "spatial_nodes": 13824,
+          "reference_contour_segments": 1,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 1.03 \\times 10^{-3}",
+            "mantissa": "1.03",
+            "exponent": -3,
+            "width_mm": 19.997869791666666
+          }
+        },
+        {
+          "time": 1,
+          "relative_l2": 0.001707064877838714,
+          "numerator_norm": 0.2004006699047038,
+          "denominator_norm": 117.3948761446183,
+          "spatial_nodes": 13824,
+          "reference_contour_segments": 1,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 1.71 \\times 10^{-3}",
+            "mantissa": "1.71",
+            "exponent": -3,
+            "width_mm": 19.997869791666666
+          }
+        }
+      ],
+      "parameters": [
+        0.48391828753162425,
+        0.47416134578605673,
+        0.5323491969413922,
+        0.2932707410836721,
+        0.3102322489075705,
+        0.32619981181590135,
+        -0.1551697430572903,
+        0.5736326773657145,
+        0.5784472270639759,
+        0.5588082925295346
+      ]
+    },
+    {
+      "sample": 9,
+      "reference": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1/condition_009.npz",
+      "saved_prediction": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/prediction_009.npz",
+      "panels": [
+        {
+          "time": 0,
+          "relative_l2": 3.1511877529525174e-07,
+          "numerator_norm": 3.5633430340054894e-05,
+          "denominator_norm": 113.07936287410364,
+          "spatial_nodes": 13824,
+          "reference_contour_segments": 1,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 3.15 \\times 10^{-7}",
+            "mantissa": "3.15",
+            "exponent": -7,
+            "width_mm": 19.997869791666666
+          }
+        },
+        {
+          "time": 0.25,
+          "relative_l2": 0.00042585898292160445,
+          "numerator_norm": 0.04882898174935503,
+          "denominator_norm": 114.6599783204382,
+          "spatial_nodes": 13824,
+          "reference_contour_segments": 1,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 4.26 \\times 10^{-4}",
+            "mantissa": "4.26",
+            "exponent": -4,
+            "width_mm": 19.997869791666666
+          }
+        },
+        {
+          "time": 0.5,
+          "relative_l2": 0.0005633918728370246,
+          "numerator_norm": 0.0652979979956174,
+          "denominator_norm": 115.90156185037215,
+          "spatial_nodes": 13824,
+          "reference_contour_segments": 1,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 5.63 \\times 10^{-4}",
+            "mantissa": "5.63",
+            "exponent": -4,
+            "width_mm": 19.997869791666666
+          }
+        },
+        {
+          "time": 0.75,
+          "relative_l2": 0.0009555582531014775,
+          "numerator_norm": 0.11158916439300544,
+          "denominator_norm": 116.77902841696768,
+          "spatial_nodes": 13824,
+          "reference_contour_segments": 1,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 9.56 \\times 10^{-4}",
+            "mantissa": "9.56",
+            "exponent": -4,
+            "width_mm": 19.997869791666666
+          }
+        },
+        {
+          "time": 1,
+          "relative_l2": 0.0018760022512390926,
+          "numerator_norm": 0.2201002955629065,
+          "denominator_norm": 117.32411057477734,
+          "spatial_nodes": 13824,
+          "reference_contour_segments": 1,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 1.88 \\times 10^{-3}",
+            "mantissa": "1.88",
+            "exponent": -3,
+            "width_mm": 19.997869791666666
+          }
+        }
+      ],
+      "parameters": [
+        0.461407498383414,
+        0.5312358872066657,
+        0.5040127642019585,
+        0.3232342014743364,
+        0.3485781625492527,
+        0.29797510069799166,
+        -0.7361602964224906,
+        0.4092086749477736,
+        -0.5204904249609505,
+        0.14037804615611074
+      ]
+    },
+    {
+      "sample": 2,
+      "reference": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1/condition_002.npz",
+      "saved_prediction": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/prediction_002.npz",
+      "panels": [
+        {
+          "time": 0,
+          "relative_l2": 1.944120580425206e-07,
+          "numerator_norm": 2.2181151385544335e-05,
+          "denominator_norm": 114.09349609731002,
+          "spatial_nodes": 13824,
+          "reference_contour_segments": 1,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 1.94 \\times 10^{-7}",
+            "mantissa": "1.94",
+            "exponent": -7,
+            "width_mm": 19.997869791666666
+          }
+        },
+        {
+          "time": 0.25,
+          "relative_l2": 0.0004251409376181613,
+          "numerator_norm": 0.04908717585867103,
+          "denominator_norm": 115.46094839438513,
+          "spatial_nodes": 13824,
+          "reference_contour_segments": 1,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 4.25 \\times 10^{-4}",
+            "mantissa": "4.25",
+            "exponent": -4,
+            "width_mm": 19.997869791666666
+          }
+        },
+        {
+          "time": 0.5,
+          "relative_l2": 0.0006885302522515749,
+          "numerator_norm": 0.08019783041261262,
+          "denominator_norm": 116.47684346527446,
+          "spatial_nodes": 13824,
+          "reference_contour_segments": 1,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 6.89 \\times 10^{-4}",
+            "mantissa": "6.89",
+            "exponent": -4,
+            "width_mm": 19.997869791666666
+          }
+        },
+        {
+          "time": 0.75,
+          "relative_l2": 0.001227860033550606,
+          "numerator_norm": 0.14385176307227135,
+          "denominator_norm": 117.15648293909757,
+          "spatial_nodes": 13824,
+          "reference_contour_segments": 1,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 1.23 \\times 10^{-3}",
+            "mantissa": "1.23",
+            "exponent": -3,
+            "width_mm": 19.997869791666666
+          }
+        },
+        {
+          "time": 1,
+          "relative_l2": 0.001623689398124552,
+          "numerator_norm": 0.19079354421480696,
+          "denominator_norm": 117.50618340871333,
+          "spatial_nodes": 13824,
+          "reference_contour_segments": 1,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 1.62 \\times 10^{-3}",
+            "mantissa": "1.62",
+            "exponent": -3,
+            "width_mm": 19.997869791666666
+          }
+        }
+      ],
+      "parameters": [
+        0.503571988248676,
+        0.46967869667664414,
+        0.49412605067277054,
+        0.2699938611786826,
+        0.2647235014511153,
+        0.3208023451130782,
+        0.2459848008575575,
+        -0.8242473047751323,
+        0.508962276060617,
+        -0.03263831897010542
+      ]
+    }
+  ],
+  "text": [
+    {
+      "text": "\u22121",
+      "size_pt": 6.0,
+      "font_file": null
+    },
+    {
+      "text": "0",
+      "size_pt": 6.0,
+      "font_file": null
+    },
+    {
+      "text": "1",
+      "size_pt": 6.0,
+      "font_file": null
+    },
+    {
+      "text": "\u03c6",
+      "size_pt": 7.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 5.07 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22127",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "t",
+      "size_pt": 7.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "*",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 0.00",
+      "size_pt": 7.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 4.05 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22124",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "t",
+      "size_pt": 7.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "*",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 0.25",
+      "size_pt": 7.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 5.49 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22124",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "t",
+      "size_pt": 7.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "*",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 0.50",
+      "size_pt": 7.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 1.03 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22123",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "t",
+      "size_pt": 7.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "*",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 0.75",
+      "size_pt": 7.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 1.71 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22123",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "t",
+      "size_pt": 7.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "*",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 1.00",
+      "size_pt": 7.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Sample 1",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "3D",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "XY",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 3.15 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22127",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 4.26 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22124",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 5.63 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22124",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 9.56 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22124",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 1.88 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22123",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Sample 2",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "3D",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "XY",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 1.94 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22127",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 4.25 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22124",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 6.89 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22124",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 1.23 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22123",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 1.62 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22123",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Sample 3",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "3D",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "XY",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    }
+  ],
+  "png_pixels": [
+    2007,
+    1960
+  ],
+  "output_bytes": {
+    "pdf": 1117449,
+    "png": 686984
+  },
+  "layout": {
+    "figure_mm": [
+      170,
+      166
+    ],
+    "colorbar_rect_mm": [
+      157,
+      66.0,
+      2.2,
+      36
+    ],
+    "slice_aspect": "equal",
+    "surface_aspect": [
+      1,
+      1,
+      1
+    ],
+    "camera": "fixed orthographic"
+  },
+  "layers": {
+    "surfaces": "raster diffuse shading; vector silhouettes",
+    "slices": "raster physical phase",
+    "reference": "vector zero contours",
+    "text": "editable embedded TrueType"
+  },
+  "smoothing": false,
+  "temporal_interpolation": false,
+  "metric_interpolation": false,
+  "independent_validation": {
+    "raw_norms": "All15instantaneous3Dphase errors independently recomputed with math.fsum",
+    "metric_points_per_time": 13824,
+    "volumes": "All three predicted zero-surface volumes decrease at all five times",
+    "pdf_mm": [
+      170,
+      166
+    ],
+    "pdf_font_sizes_pt": [
+      5,
+      6,
+      7
+    ],
+    "pdf_embedded_truetype": true,
+    "pdf_raster_layers": 31,
+    "slice_equal_scale": "60frame edges independently measure26.8mm",
+    "reference_vector_dashes": true,
+    "pdf_text_edit": "Temporary copy edited successfully",
+    "text_bounds": "passed",
+    "visual_png": "passed",
+    "visual_pdf": "passed"
+  }
+}

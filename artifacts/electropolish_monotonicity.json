@@ -1,0 +1,166 @@
+{
+  "schema": "electropolish_monotonicity_v1",
+  "source_manifest": "/root/nonlocal-pinn/artifacts/electropolish_main_figure.json",
+  "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool/model_final.eqx",
+  "prediction": "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool/spatial_evaluation64.npz",
+  "config": "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool/config.json",
+  "report": "/root/autodl-tmp/tf-logs/electropolish2d/monotonicity-20261112/electropolish2d_monotonicity.json",
+  "figure_pdf": "/root/autodl-tmp/tf-logs/electropolish2d/monotonicity-20261112/electropolish2d_monotonicity.pdf",
+  "figure_png": "/root/autodl-tmp/tf-logs/electropolish2d/monotonicity-20261112/electropolish2d_monotonicity.png",
+  "command": ".venv/bin/python scripts/audit_electropolish_monotonicity.py --manifest artifacts/electropolish_main_figure.json --output-dir /root/autodl-tmp/tf-logs/electropolish2d/monotonicity-20261112",
+  "summary": {
+    "PINO": {
+      "samples": 64,
+      "samples_with_phase_increase_above_001": 62,
+      "samples_with_upward_half_phase_crossing": 57,
+      "samples_with_increasing_solid_area_above_1e_9": 0
+    },
+    "local101": {
+      "samples": 64,
+      "samples_with_phase_increase_above_001": 62,
+      "samples_with_upward_half_phase_crossing": 58,
+      "samples_with_increasing_solid_area_above_1e_9": 0
+    }
+  },
+  "refinements": [
+    {
+      "index": 0,
+      "method": "local101",
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_000/local101.npz",
+      "maximum_upward_excursion": 0.7175649266011142,
+      "maximum_time_refinement_error": 2.0087184373059133e-08
+    },
+    {
+      "index": 0,
+      "method": "local201",
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_000/local201.npz",
+      "maximum_upward_excursion": 0.743599516572111,
+      "maximum_time_refinement_error": 3.1050521307466905e-09
+    },
+    {
+      "index": 0,
+      "method": "local401",
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_000/local401.npz",
+      "maximum_upward_excursion": 0.7468288202050681,
+      "maximum_time_refinement_error": 3.182224469417896e-09
+    },
+    {
+      "index": 0,
+      "method": "native101",
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_000/native101.npz",
+      "maximum_upward_excursion": 0.7087458896894496,
+      "maximum_time_refinement_error": 1.2615386241125868e-08
+    },
+    {
+      "index": 21,
+      "method": "local101",
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_021/local101.npz",
+      "maximum_upward_excursion": 0.8029686138123342,
+      "maximum_time_refinement_error": 1.4395027115996872e-08
+    },
+    {
+      "index": 21,
+      "method": "local201",
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_021/local201.npz",
+      "maximum_upward_excursion": 0.8043189130046791,
+      "maximum_time_refinement_error": 3.030116815796968e-09
+    },
+    {
+      "index": 21,
+      "method": "local401",
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_021/local401.npz",
+      "maximum_upward_excursion": 0.806431486093742,
+      "maximum_time_refinement_error": 2.031430321259049e-09
+    },
+    {
+      "index": 21,
+      "method": "native101",
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_021/native101.npz",
+      "maximum_upward_excursion": 0.799301719543883,
+      "maximum_time_refinement_error": 1.5810149099189307e-08
+    },
+    {
+      "index": 42,
+      "method": "local101",
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_042/local101.npz",
+      "maximum_upward_excursion": 0.7078748817827947,
+      "maximum_time_refinement_error": 1.6449113470460426e-08
+    },
+    {
+      "index": 42,
+      "method": "local201",
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_042/local201.npz",
+      "maximum_upward_excursion": 0.7175308398012336,
+      "maximum_time_refinement_error": 3.101360762790859e-09
+    },
+    {
+      "index": 42,
+      "method": "local401",
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_042/local401.npz",
+      "maximum_upward_excursion": 0.7244380930318632,
+      "maximum_time_refinement_error": 3.1223563356531193e-09
+    },
+    {
+      "index": 42,
+      "method": "native101",
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_042/native101.npz",
+      "maximum_upward_excursion": 0.701816149828795,
+      "maximum_time_refinement_error": 1.553673923004698e-08
+    },
+    {
+      "index": 63,
+      "method": "local101",
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_063/local101.npz",
+      "maximum_upward_excursion": 0.3096236112758156,
+      "maximum_time_refinement_error": 1.3414582085237096e-08
+    },
+    {
+      "index": 63,
+      "method": "local201",
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_063/local201.npz",
+      "maximum_upward_excursion": 0.3077194514353221,
+      "maximum_time_refinement_error": 2.3720453930419855e-09
+    },
+    {
+      "index": 63,
+      "method": "local401",
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_063/local401.npz",
+      "maximum_upward_excursion": 0.3070448627959623,
+      "maximum_time_refinement_error": 2.582335843550602e-09
+    },
+    {
+      "index": 63,
+      "method": "native101",
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_063/native101.npz",
+      "maximum_upward_excursion": 0.3004579859205769,
+      "maximum_time_refinement_error": 1.2057377921086706e-08
+    }
+  ],
+  "rhs_validation": {
+    "production_rhs_check": "passed",
+    "snapshots": [
+      0,
+      1,
+      3,
+      6,
+      14,
+      24
+    ],
+    "max_abs_error": 1.2807532813663993e-13,
+    "free_nodes": 4949
+  },
+  "plot_validation": {
+    "figure_mm": [
+      170,
+      61
+    ],
+    "font_size_pt": [
+      6,
+      7
+    ],
+    "fonts": "embedded Helvetica TrueType",
+    "images": 0,
+    "visual_inspection": "passed"
+  },
+  "physical_qualification": "Agreement with the implemented model does not establish dissolution-only physical validity; phase bounds are not irreversibility."
+}

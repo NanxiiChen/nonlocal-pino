@@ -1,0 +1,73 @@
+{
+  "status": "passed",
+  "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/model_final.eqx",
+  "config": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/config.json",
+  "reference_manifest": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1/manifest.json",
+  "samples": [
+    5,
+    9,
+    2
+  ],
+  "times": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    1
+  ],
+  "backend": "gpu",
+  "jax_version": "0.10.1",
+  "numpy_version": "2.4.6",
+  "matmul_precision": "highest",
+  "dtype": "float32",
+  "axis_order": "time,x,y,z",
+  "surface_axis_points": 128,
+  "slice_z": 0.5039370078740157,
+  "checkpoint_unchanged": true,
+  "training": false,
+  "reference_solve": false,
+  "records": [
+    {
+      "sample": 5,
+      "file": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared/case005-fields.npz",
+      "seconds": 18.200279511511326,
+      "replay_gap": 9.51811671257019e-07,
+      "initial_gap": 4.487665308389177e-06,
+      "chunk_gap": 0.0,
+      "slice_gap": 0.0,
+      "phase_range": [
+        -1.0,
+        1.0
+      ],
+      "output_bytes": 11541470
+    },
+    {
+      "sample": 9,
+      "file": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared/case009-fields.npz",
+      "seconds": 4.868292223662138,
+      "replay_gap": 9.08970832824707e-07,
+      "initial_gap": 2.2116953800367656e-06,
+      "chunk_gap": 0.0,
+      "slice_gap": 0.0,
+      "phase_range": [
+        -1.0,
+        1.0
+      ],
+      "output_bytes": 12343645
+    },
+    {
+      "sample": 2,
+      "file": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared/case002-fields.npz",
+      "seconds": 4.506522908806801,
+      "replay_gap": 9.527429938316345e-07,
+      "initial_gap": 1.4636231664144628e-06,
+      "chunk_gap": 0.0,
+      "slice_gap": 0.0,
+      "phase_range": [
+        -1.0,
+        1.0
+      ],
+      "output_bytes": 9777368
+    }
+  ]
+}

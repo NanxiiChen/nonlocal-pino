@@ -1,0 +1,116 @@
+{
+  "schema": "spinodal_main_figure_v1",
+  "source_figure_manifest": "artifacts/pino_readme_figures.json",
+  "style_source": "artifacts/particle_corrosion_main_figure.json",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train",
+  "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/model_final.eqx",
+  "checkpoint_step": 50000,
+  "runtime_seed": 42,
+  "config": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/config.json",
+  "summary": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/summary.json",
+  "validation": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/final_fields_02/gallery.json",
+  "reference_manifest": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/manifest.json",
+  "samples": [
+    1024,
+    1025,
+    1026,
+    1027
+  ],
+  "selection": "First four of eight reserved development inputs in saved order; not selected by score",
+  "dimensionless_times": [
+    0,
+    0.75,
+    1.5,
+    2.25,
+    3
+  ],
+  "time_label": "t*",
+  "field": "phi",
+  "interface_level": 0,
+  "reference": "Independent time-refined native nonlocal integration; not local FEM",
+  "metric": "Equal-weight original-cell-center spatial relative L2 of physical phase at each displayed time; no display reconstruction in metric",
+  "records": [
+    {
+      "index": 1024,
+      "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/prediction_1024.npz",
+      "reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1024/reference.npz"
+    },
+    {
+      "index": 1025,
+      "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/prediction_1025.npz",
+      "reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1025/reference.npz"
+    },
+    {
+      "index": 1026,
+      "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/prediction_1026.npz",
+      "reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1026/reference.npz"
+    },
+    {
+      "index": 1027,
+      "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/prediction_1027.npz",
+      "reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1027/reference.npz"
+    }
+  ],
+  "style": {
+    "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+    "font_family": "Helvetica",
+    "font_source": "https://raw.githubusercontent.com/NanxiiChen/PI-CViT/main/helvetica/Helvetica.ttf",
+    "font_size": 6,
+    "heading_size": 7,
+    "text_color": "#222222",
+    "figure_mm": [
+      170,
+      113
+    ],
+    "dpi": 450,
+    "png_dpi": 300,
+    "cmap": "RdBu_r",
+    "limits": [
+      -1,
+      1
+    ],
+    "interpolation": "Incident-cell area-weighted vertex reconstruction, original triangles/Gouraud display",
+    "interpolation_stage": "display only",
+    "contour_color": "#222222",
+    "contour_linewidth": 0.45,
+    "contour_linestyle": "--",
+    "axes_linewidth": 0.45,
+    "panel_width_mm": 26.8,
+    "panel_height_mm": 21.44,
+    "left_mm": 10,
+    "column_gap_mm": 2,
+    "row_bottoms_mm": [
+      87.5,
+      60,
+      32.5,
+      5
+    ],
+    "row_label_x_mm": 7.8,
+    "error_gap_mm": 2.8,
+    "time_heading_y_mm": 111.5,
+    "example_title": false,
+    "colorbar_x_mm": 157,
+    "colorbar_width_mm": 2.2,
+    "colorbar_height_mm": 43,
+    "colorbar_label_pad_pt": 4,
+    "reference_legend": false,
+    "superscript_size": 5,
+    "superscript_rise_pt": 2.3,
+    "math_italic_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
+    "scientific_labels": "editable vector spans; sans-serif italic L; explicit 5 pt superscripts",
+    "superscript_gap_pt": 0.25,
+    "hole_color": "#FFFFFF",
+    "hole_edge_color": "#555555",
+    "hole_linewidth": 0.45,
+    "colorbar_ticks": [
+      -1,
+      0,
+      1
+    ]
+  },
+  "output": {
+    "pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/publication-main-20261112/spinodal2d_main_phase.pdf",
+    "png": "/root/autodl-tmp/tf-logs/confined_ch2d/publication-main-20261112/spinodal2d_main_phase.png",
+    "receipt": "artifacts/spinodal_main_figure_validation.json"
+  }
+}

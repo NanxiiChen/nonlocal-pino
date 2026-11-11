@@ -1,0 +1,1415 @@
+{
+  "schema": "channel_main_figure_validation_v1",
+  "status": "passed",
+  "renderer": "scripts/render_channel_main_figure.py",
+  "specification": {
+    "schema": "channel_main_figure_v1",
+    "source_figure_manifest": "artifacts/pino_readme_figures.json",
+    "style_source": "artifacts/particle_corrosion_main_figure.json",
+    "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04",
+    "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/model_final.eqx",
+    "checkpoint_step": 20000,
+    "runtime_seed": 42,
+    "config": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/config.json",
+    "summary": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/summary.json",
+    "reserved_evaluation": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/evaluation.json",
+    "reserved_manifest": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/manifest.json",
+    "samples": [
+      "development",
+      "reserved_000",
+      "reserved_001",
+      "reserved_002"
+    ],
+    "selection": "Nominal development geometry followed by all three predeclared reserved geometries; not four blind test inputs",
+    "times": [
+      0,
+      1.5,
+      3,
+      4.5,
+      6
+    ],
+    "time_label": "t*",
+    "time_units": "t*=t/T, with T=6 original model-time units; normalized display coordinate only",
+    "grid_shape": [
+      96,
+      40
+    ],
+    "wall_plot_points": 1001,
+    "phase_channel": 0,
+    "interface_level": 0,
+    "reference": "Independent spatial/time-refined local mixed FEM; BDF2",
+    "metric": "Equal-weight spatial relative L2 of physical phase on all3840original queries at each displayed time; no interpolation in metric",
+    "records": [
+      {
+        "label": "development",
+        "role": "nominal development geometry",
+        "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/prediction.npz",
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+        "pooled_phase_expected": 0.01449620420593507
+      },
+      {
+        "label": "reserved_000",
+        "role": "predeclared reserved geometry",
+        "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_000/prediction.npz",
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+        "pooled_phase_expected": 0.019860020536880407
+      },
+      {
+        "label": "reserved_001",
+        "role": "predeclared reserved geometry",
+        "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_001/prediction.npz",
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+        "pooled_phase_expected": 0.014292626036913723
+      },
+      {
+        "label": "reserved_002",
+        "role": "predeclared reserved geometry",
+        "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_002/prediction.npz",
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+        "pooled_phase_expected": 0.015152341709821082
+      }
+    ],
+    "style": {
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+      "font_family": "Helvetica",
+      "font_source": "https://raw.githubusercontent.com/NanxiiChen/PI-CViT/main/helvetica/Helvetica.ttf",
+      "font_size": 6,
+      "heading_size": 7,
+      "text_color": "#222222",
+      "figure_mm": [
+        170,
+        59
+      ],
+      "dpi": 450,
+      "png_dpi": 300,
+      "cmap": "icefire_r",
+      "limits": [
+        -1.2,
+        1.2
+      ],
+      "interpolation": "Gouraud on original mapped96x40 query grid",
+      "interpolation_stage": "display only",
+      "contour_color": "#FFFFFF",
+      "contour_linewidth": 0.5,
+      "contour_linestyle": "--",
+      "axes_linewidth": 0.45,
+      "panel_width_mm": 26.8,
+      "panel_height_mm": 6.7,
+      "left_mm": 10,
+      "column_gap_mm": 2,
+      "row_bottoms_mm": [
+        48,
+        34,
+        20,
+        6
+      ],
+      "row_label_x_mm": 7.8,
+      "error_gap_mm": 2.8,
+      "time_heading_y_mm": 57,
+      "example_title": false,
+      "colorbar_x_mm": 157,
+      "colorbar_width_mm": 2.2,
+      "colorbar_height_mm": 36,
+      "colorbar_label_pad_pt": 4,
+      "reference_legend": false,
+      "superscript_size": 5,
+      "superscript_rise_pt": 2.3,
+      "math_italic_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
+      "scientific_labels": "editable vector spans; sans-serif italic L; explicit 5 pt superscripts",
+      "superscript_gap_pt": 0.25,
+      "colorbar_ticks": [
+        -1.2,
+        0,
+        1.2
+      ],
+      "wall_color": "#E6E6E6",
+      "wall_edge_color": "#555555",
+      "wall_linewidth": 0.45,
+      "cmap_source": "Exact seaborn0.13.2 icefire LUT; bundled with its BSD license; reversed entry order",
+      "cmap_file": "scripts/colormaps/icefire.json"
+    },
+    "output": {
+      "pdf": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-main-20261112/two_phase_flow2d_main_phase_icefire_r.pdf",
+      "png": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-main-20261112/two_phase_flow2d_main_phase_icefire_r.png",
+      "receipt": "artifacts/channel_main_figure_icefire_r_validation.json"
+    },
+    "previous_preview": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-main-20261112/two_phase_flow2d_main_phase.png"
+  },
+  "versions": {
+    "python": "3.12.3",
+    "numpy": "2.4.6",
+    "matplotlib": "3.11.0",
+    "colormap_provider": "seaborn",
+    "colormap_version": "0.13.2"
+  },
+  "records": [
+    {
+      "label": "development",
+      "role": "nominal development geometry",
+      "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/prediction.npz",
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+      "pooled_phase_expected": 0.01449620420593507,
+      "amplitudes": [
+        0.03,
+        0.0525,
+        0.15,
+        0.24,
+        0.225,
+        0.1125,
+        0.0525,
+        0.03,
+        0.03,
+        0.0525,
+        0.12,
+        0.18,
+        0.1875,
+        0.12,
+        0.0525,
+        0.03
+      ],
+      "pooled_phase_check": 0.01449620420593507,
+      "phase_range_all_times": [
+        -1.1230411529541016,
+        1.0460937023162842
+      ],
+      "panels": [
+        {
+          "time_index": 0,
+          "time": 0,
+          "prediction_range": [
+            -1.0,
+            1.0000014305114746
+          ],
+          "reference_range": [
+            -1.0052497773080913,
+            1.015698623398447
+          ],
+          "relative_l2": 0.000977923619988069,
+          "numerator_norm": 0.060142168969665726,
+          "denominator_norm": 61.49986332306758,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 9.78 \\times 10^{-4}",
+            "mantissa": "9.78",
+            "exponent": -4,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 3,
+          "time": 1.5,
+          "prediction_range": [
+            -1.113358974456787,
+            1.0301209688186646
+          ],
+          "reference_range": [
+            -1.1235221088075917,
+            1.0212048567722443
+          ],
+          "relative_l2": 0.006511092540970451,
+          "numerator_norm": 0.3962591380812945,
+          "denominator_norm": 60.85908556634241,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 6.51 \\times 10^{-3}",
+            "mantissa": "6.51",
+            "exponent": -3,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 6,
+          "time": 3,
+          "prediction_range": [
+            -1.078859567642212,
+            1.0460937023162842
+          ],
+          "reference_range": [
+            -1.092904337849388,
+            1.0512073349343514
+          ],
+          "relative_l2": 0.012977961421527356,
+          "numerator_norm": 0.7799538466230514,
+          "denominator_norm": 60.09833295769344,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 1.30 \\times 10^{-2}",
+            "mantissa": "1.30",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 9,
+          "time": 4.5,
+          "prediction_range": [
+            -1.0606410503387451,
+            1.0371230840682983
+          ],
+          "reference_range": [
+            -1.0736331314928498,
+            1.0386406036701734
+          ],
+          "relative_l2": 0.020867256770033753,
+          "numerator_norm": 1.2444076871332455,
+          "denominator_norm": 59.63446469496012,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 2.09 \\times 10^{-2}",
+            "mantissa": "2.09",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 12,
+          "time": 6,
+          "prediction_range": [
+            -1.0457181930541992,
+            1.0335999727249146
+          ],
+          "reference_range": [
+            -1.04904025281595,
+            1.0164631490601512
+          ],
+          "relative_l2": 0.01901957363955198,
+          "numerator_norm": 1.1432477921904054,
+          "denominator_norm": 60.109012633857105,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 1.90 \\times 10^{-2}",
+            "mantissa": "1.90",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        }
+      ]
+    },
+    {
+      "label": "reserved_000",
+      "role": "predeclared reserved geometry",
+      "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_000/prediction.npz",
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+      "pooled_phase_expected": 0.019860020536880407,
+      "amplitudes": [
+        0.3090539227646124,
+        0.14364653707460726,
+        0.0813203408361208,
+        0.08550434257449695,
+        0.30179060238210026,
+        0.2554867844920518,
+        0.019065546317808997,
+        0.25010729472827614,
+        0.19122780727009883,
+        0.24719943061789257,
+        0.045105197103679655,
+        0.2441051381901631,
+        0.1408498567141242,
+        0.174619574298052,
+        0.09348827290974912,
+        0.3747891429262041
+      ],
+      "pooled_phase_check": 0.019860020536880404,
+      "phase_range_all_times": [
+        -1.1236240863800049,
+        1.0498381853103638
+      ],
+      "panels": [
+        {
+          "time_index": 0,
+          "time": 0,
+          "prediction_range": [
+            -1.0,
+            1.0000014305114746
+          ],
+          "reference_range": [
+            -1.0052497773080913,
+            1.015698623398447
+          ],
+          "relative_l2": 0.000977923619988069,
+          "numerator_norm": 0.060142168969665726,
+          "denominator_norm": 61.49986332306758,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 9.78 \\times 10^{-4}",
+            "mantissa": "9.78",
+            "exponent": -4,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 3,
+          "time": 1.5,
+          "prediction_range": [
+            -1.1154820919036865,
+            1.0195906162261963
+          ],
+          "reference_range": [
+            -1.123855402825003,
+            1.0215044359816314
+          ],
+          "relative_l2": 0.004940711011223739,
+          "numerator_norm": 0.30056010908531,
+          "denominator_norm": 60.833371634676084,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 4.94 \\times 10^{-3}",
+            "mantissa": "4.94",
+            "exponent": -3,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 6,
+          "time": 3,
+          "prediction_range": [
+            -1.077352523803711,
+            1.0344879627227783
+          ],
+          "reference_range": [
+            -1.0888395503904176,
+            1.0405794874088943
+          ],
+          "relative_l2": 0.012651887800630096,
+          "numerator_norm": 0.7616527078797066,
+          "denominator_norm": 60.20071627901841,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 1.27 \\times 10^{-2}",
+            "mantissa": "1.27",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 9,
+          "time": 4.5,
+          "prediction_range": [
+            -1.0580329895019531,
+            1.0392751693725586
+          ],
+          "reference_range": [
+            -1.078832812737492,
+            1.0467824806794075
+          ],
+          "relative_l2": 0.03127661249984831,
+          "numerator_norm": 1.8618990118375165,
+          "denominator_norm": 59.53007256928948,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 3.13 \\times 10^{-2}",
+            "mantissa": "3.13",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 12,
+          "time": 6,
+          "prediction_range": [
+            -1.0455083847045898,
+            1.0223724842071533
+          ],
+          "reference_range": [
+            -1.0517439674488243,
+            1.0192440512888568
+          ],
+          "relative_l2": 0.02868202299317516,
+          "numerator_norm": 1.7216748677338873,
+          "denominator_norm": 60.026270397438736,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 2.87 \\times 10^{-2}",
+            "mantissa": "2.87",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        }
+      ]
+    },
+    {
+      "label": "reserved_001",
+      "role": "predeclared reserved geometry",
+      "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_001/prediction.npz",
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+      "pooled_phase_expected": 0.014292626036913723,
+      "amplitudes": [
+        0.31371533005199304,
+        0.06772038083086487,
+        0.31935173035646774,
+        0.048298339326005996,
+        0.29026137418895825,
+        0.1603124954965605,
+        0.1809648868914434,
+        0.12991022922889,
+        0.1371630031263746,
+        0.2660221345631387,
+        0.034765747187667374,
+        0.052428396619163396,
+        0.05312006244347351,
+        0.1909123103807301,
+        0.23047640448489856,
+        0.3814034038970076
+      ],
+      "pooled_phase_check": 0.014292626036913721,
+      "phase_range_all_times": [
+        -1.1263071298599243,
+        1.0433311462402344
+      ],
+      "panels": [
+        {
+          "time_index": 0,
+          "time": 0,
+          "prediction_range": [
+            -1.0,
+            1.0000014305114746
+          ],
+          "reference_range": [
+            -1.0052497773080913,
+            1.015698623398447
+          ],
+          "relative_l2": 0.000977923619988069,
+          "numerator_norm": 0.060142168969665726,
+          "denominator_norm": 61.49986332306758,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 9.78 \\times 10^{-4}",
+            "mantissa": "9.78",
+            "exponent": -4,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 3,
+          "time": 1.5,
+          "prediction_range": [
+            -1.1152887344360352,
+            1.0339441299438477
+          ],
+          "reference_range": [
+            -1.1244602511615434,
+            1.0233598816348797
+          ],
+          "relative_l2": 0.007992199563027077,
+          "numerator_norm": 0.4860989354630456,
+          "denominator_norm": 60.821671384658686,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 7.99 \\times 10^{-3}",
+            "mantissa": "7.99",
+            "exponent": -3,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 6,
+          "time": 3,
+          "prediction_range": [
+            -1.0809135437011719,
+            1.0418189764022827
+          ],
+          "reference_range": [
+            -1.0895482260676501,
+            1.0365760311211172
+          ],
+          "relative_l2": 0.02115624590359003,
+          "numerator_norm": 1.2741876734586302,
+          "denominator_norm": 60.22749401123248,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 2.12 \\times 10^{-2}",
+            "mantissa": "2.12",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 9,
+          "time": 4.5,
+          "prediction_range": [
+            -1.0674302577972412,
+            1.043170690536499
+          ],
+          "reference_range": [
+            -1.0736198180754306,
+            1.0412463998355646
+          ],
+          "relative_l2": 0.014514700670632144,
+          "numerator_norm": 0.8692509038083568,
+          "denominator_norm": 59.88762176591956,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 1.45 \\times 10^{-2}",
+            "mantissa": "1.45",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 12,
+          "time": 6,
+          "prediction_range": [
+            -1.0569603443145752,
+            1.0386968851089478
+          ],
+          "reference_range": [
+            -1.0571658054090896,
+            1.0198052668771895
+          ],
+          "relative_l2": 0.016781926556158788,
+          "numerator_norm": 1.0068309736356749,
+          "denominator_norm": 59.99495768655826,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 1.68 \\times 10^{-2}",
+            "mantissa": "1.68",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        }
+      ]
+    },
+    {
+      "label": "reserved_002",
+      "role": "predeclared reserved geometry",
+      "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_002/prediction.npz",
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+      "pooled_phase_expected": 0.015152341709821082,
+      "amplitudes": [
+        0.407304044162813,
+        0.2116225457558944,
+        0.0525903100886187,
+        0.34568060376815085,
+        0.24837705770529683,
+        0.08141488916656642,
+        0.05388298859976769,
+        0.2000547077101052,
+        0.3046637752352932,
+        0.05923911538732357,
+        0.1582307044455343,
+        0.13592184659185097,
+        0.09689348047697574,
+        0.24936932719772775,
+        0.16712652480411333,
+        0.2974665532681975
+      ],
+      "pooled_phase_check": 0.01515234170982108,
+      "phase_range_all_times": [
+        -1.1226481199264526,
+        1.050959587097168
+      ],
+      "panels": [
+        {
+          "time_index": 0,
+          "time": 0,
+          "prediction_range": [
+            -1.0,
+            1.0000014305114746
+          ],
+          "reference_range": [
+            -1.0052497773080913,
+            1.015698623398447
+          ],
+          "relative_l2": 0.000977923619988069,
+          "numerator_norm": 0.060142168969665726,
+          "denominator_norm": 61.49986332306758,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 9.78 \\times 10^{-4}",
+            "mantissa": "9.78",
+            "exponent": -4,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 3,
+          "time": 1.5,
+          "prediction_range": [
+            -1.1126666069030762,
+            1.0204315185546875
+          ],
+          "reference_range": [
+            -1.1240793069829536,
+            1.0220718099666786
+          ],
+          "relative_l2": 0.006170482675772226,
+          "numerator_norm": 0.37537482788398147,
+          "denominator_norm": 60.83394891583646,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 6.17 \\times 10^{-3}",
+            "mantissa": "6.17",
+            "exponent": -3,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 6,
+          "time": 3,
+          "prediction_range": [
+            -1.0773742198944092,
+            1.050959587097168
+          ],
+          "reference_range": [
+            -1.093671005889725,
+            1.0554925169474643
+          ],
+          "relative_l2": 0.016620538573000377,
+          "numerator_norm": 0.9974616021553178,
+          "denominator_norm": 60.013795447980705,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 1.66 \\times 10^{-2}",
+            "mantissa": "1.66",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 9,
+          "time": 4.5,
+          "prediction_range": [
+            -1.061596155166626,
+            1.0448384284973145
+          ],
+          "reference_range": [
+            -1.0752582522826195,
+            1.0509263892206646
+          ],
+          "relative_l2": 0.017994257029137553,
+          "numerator_norm": 1.0717829259168896,
+          "denominator_norm": 59.562499534233844,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 1.80 \\times 10^{-2}",
+            "mantissa": "1.80",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 12,
+          "time": 6,
+          "prediction_range": [
+            -1.0482714176177979,
+            1.0231900215148926
+          ],
+          "reference_range": [
+            -1.0513044498206132,
+            1.0215364530495177
+          ],
+          "relative_l2": 0.020419092870480115,
+          "numerator_norm": 1.2259814528783497,
+          "denominator_norm": 60.04093622840372,
+          "spatial_nodes": 3840,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 2.04 \\times 10^{-2}",
+            "mantissa": "2.04",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        }
+      ]
+    }
+  ],
+  "text": [
+    {
+      "text": "\u22121.2",
+      "size_pt": 6.0,
+      "font_file": null
+    },
+    {
+      "text": "0.0",
+      "size_pt": 6.0,
+      "font_file": null
+    },
+    {
+      "text": "1.2",
+      "size_pt": 6.0,
+      "font_file": null
+    },
+    {
+      "text": "\u03c6",
+      "size_pt": 7.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 9.78 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22124",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "t",
+      "size_pt": 7.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "*",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 0.00",
+      "size_pt": 7.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 6.51 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22123",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "t",
+      "size_pt": 7.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "*",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 0.25",
+      "size_pt": 7.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 1.30 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "t",
+      "size_pt": 7.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "*",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 0.50",
+      "size_pt": 7.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 2.09 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "t",
+      "size_pt": 7.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "*",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 0.75",
+      "size_pt": 7.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 1.90 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "t",
+      "size_pt": 7.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "*",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 1.00",
+      "size_pt": 7.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Sample 1",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 9.78 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22124",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 4.94 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22123",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 1.27 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 3.13 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 2.87 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Sample 2",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 9.78 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22124",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 7.99 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22123",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 2.12 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 1.45 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 1.68 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Sample 3",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 9.78 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22124",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 6.17 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22123",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 1.66 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 1.80 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 2.04 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Sample 4",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    }
+  ],
+  "png_pixels": [
+    2007,
+    696
+  ],
+  "display_time": {
+    "label": "t*",
+    "divisor": 6.0,
+    "values": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ]
+  },
+  "layout": {
+    "field_vertical_bounds_mm": [
+      6,
+      54.7
+    ],
+    "colorbar_rect_mm": [
+      157,
+      12.350000000000001,
+      2.2,
+      36
+    ],
+    "colorbar_center_mm": 30.35,
+    "colorbar_label_position": "top, horizontal",
+    "aspect": "equal"
+  },
+  "output_bytes": {
+    "pdf": 778836,
+    "png": 300054
+  },
+  "metric_interpolation": false,
+  "temporal_interpolation": false,
+  "inference": false,
+  "layers": {
+    "field": "raster, Gouraud on original mapped query grid",
+    "reference_contours": "vector, original local FEM query values",
+    "walls": "vector masks and analytic wall curves",
+    "text": "editable embedded Helvetica; DejaVu Sans Oblique L; 5pt superscripts",
+    "colorbar": "raster gradient, vector ticks/text"
+  },
+  "independent_validation": {
+    "raw_records": "All20scores, references and fields identical to icefire receipt",
+    "display_time": "t*=t/T, T=6; five headings match normalized snapshot coordinates",
+    "pdf_mm": [
+      170,
+      59
+    ],
+    "pdf_font_sizes_pt": [
+      5,
+      6,
+      7
+    ],
+    "embedded_truetype": true,
+    "raster_layers": 21,
+    "vector_paths": "All wall, frame and reference contour coordinates identical to icefire",
+    "text_bounds": "passed",
+    "visual_png": "passed",
+    "visual_pdf": "passed"
+  }
+}
