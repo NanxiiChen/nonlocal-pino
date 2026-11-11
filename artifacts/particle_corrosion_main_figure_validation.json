@@ -1,0 +1,1832 @@
+{
+  "schema": "particle_corrosion_main_figure_validation_v1",
+  "status": "passed",
+  "renderer": "scripts/render_particle_corrosion_main_figure.py",
+  "specification": {
+    "schema": "particle_corrosion_main_figure_v1",
+    "source_figure_manifest": "artifacts/pino_readme_figures.json",
+    "style_source": "artifacts/electropolish_main_figure.json",
+    "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02",
+    "checkpoint": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/model_final.eqx",
+    "config": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/config.json",
+    "summary": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/summary.json",
+    "reference_manifest": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4/manifest.json",
+    "samples": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "selection": "All four predeclared development geometries, saved order, not chosen by error",
+    "normalized_times": [
+      0,
+      0.2,
+      0.5,
+      0.8,
+      1
+    ],
+    "phase_channel": 0,
+    "interface_level": 0.5,
+    "reference": "Independent local P1 FEM, mass lumped, spacing0.01/256edges; same geometry and SI coefficients",
+    "metric": "Equal-weight spatial node relative L2 of physical phase at each displayed time; holes have no field nodes",
+    "records": [
+      {
+        "index": 0,
+        "prediction": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/prediction_000.npz",
+        "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4/case_000.npz"
+      },
+      {
+        "index": 1,
+        "prediction": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/prediction_001.npz",
+        "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4/case_001.npz"
+      },
+      {
+        "index": 2,
+        "prediction": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/prediction_002.npz",
+        "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4/case_002.npz"
+      },
+      {
+        "index": 3,
+        "prediction": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/prediction_003.npz",
+        "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4/case_003.npz"
+      }
+    ],
+    "style": {
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+      "font_family": "Helvetica",
+      "font_source": "https://raw.githubusercontent.com/NanxiiChen/PI-CViT/main/helvetica/Helvetica.ttf",
+      "font_size": 6,
+      "heading_size": 7,
+      "text_color": "#222222",
+      "figure_mm": [
+        170,
+        92
+      ],
+      "dpi": 450,
+      "png_dpi": 300,
+      "cmap": "coolwarm",
+      "limits": [
+        0,
+        1
+      ],
+      "interpolation": "Gouraud on original physical triangles",
+      "interpolation_stage": "display only",
+      "contour_color": "#222222",
+      "contour_linewidth": 0.65,
+      "contour_linestyle": "--",
+      "axes_linewidth": 0.45,
+      "panel_width_mm": 26.8,
+      "panel_height_mm": 16.08,
+      "left_mm": 10,
+      "column_gap_mm": 2,
+      "row_bottoms_mm": [
+        72,
+        49.8,
+        27.6,
+        5.4
+      ],
+      "row_label_x_mm": 7.8,
+      "error_gap_mm": 2.8,
+      "time_heading_y_mm": 90.5,
+      "example_title": false,
+      "colorbar_x_mm": 157,
+      "colorbar_width_mm": 2.2,
+      "colorbar_height_mm": 43,
+      "colorbar_label_pad_pt": 4,
+      "reference_legend": false,
+      "superscript_size": 5,
+      "superscript_rise_pt": 2.3,
+      "math_italic_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
+      "scientific_labels": "editable vector spans; sans-serif italic L; explicit 5 pt superscripts",
+      "superscript_gap_pt": 0.25,
+      "hole_color": "#E0E0E0",
+      "hole_edge_color": "#555555",
+      "hole_linewidth": 0.35
+    },
+    "output": {
+      "pdf": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-main-20261112/particle_corrosion2d_main_phase.pdf",
+      "png": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-main-20261112/particle_corrosion2d_main_phase.png",
+      "receipt": "artifacts/particle_corrosion_main_figure_validation.json"
+    },
+    "runtime": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/runtime.json",
+    "checkpoint_step": 20000,
+    "runtime_seed": 17617494
+  },
+  "versions": {
+    "python": "3.12.3",
+    "numpy": "2.4.6",
+    "matplotlib": "3.11.0"
+  },
+  "records": [
+    {
+      "index": 0,
+      "prediction": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/prediction_000.npz",
+      "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4/case_000.npz",
+      "geometry": {
+        "schema": "smooth_radial_particles_v1",
+        "particles": [
+          {
+            "center": [
+              0.20745803761786413,
+              0.14418761180819778
+            ],
+            "equivalent_radius": 0.05936884103155859,
+            "aspect": 1.130591155458744,
+            "angle": 4.590648563997981,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              -0.08848599256941318,
+              -0.03521354474995522,
+              0.007919333008831412
+            ],
+            "sine": [
+              -0.044619612688920555,
+              0.013312575866380379,
+              0.01120900851893578
+            ],
+            "radial_scale": 0.05903131600260523
+          },
+          {
+            "center": [
+              0.5477693037280249,
+              0.3050664492761664
+            ],
+            "equivalent_radius": 0.05709994512956371,
+            "aspect": 1.39650062042301,
+            "angle": 4.029651179135047,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              0.08127697793872991,
+              0.03776900954665811,
+              -0.001480642958420763
+            ],
+            "sine": [
+              0.0185604934155606,
+              -0.022620206732731213,
+              -0.024751302127490337
+            ],
+            "radial_scale": 0.05682953859473301
+          },
+          {
+            "center": [
+              0.18144243214671482,
+              0.3785153523732311
+            ],
+            "equivalent_radius": 0.058781264859244856,
+            "aspect": 1.0400243678467103,
+            "angle": 3.4797436181506822,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              0.006777343548248304,
+              0.006377704240794837,
+              0.011700978396347173
+            ],
+            "sine": [
+              -0.0022350683134269105,
+              -0.012367347834660007,
+              -0.004361975578779833
+            ],
+            "radial_scale": 0.0587694957072819
+          },
+          {
+            "center": [
+              0.7322272362987088,
+              0.18036855862135742
+            ],
+            "equivalent_radius": 0.04505971511849286,
+            "aspect": 1.1540324285984722,
+            "angle": 1.2482148568113132,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              0.1130977878834942,
+              -0.01360347201351985,
+              -0.015502299254964352
+            ],
+            "sine": [
+              0.08195859671270425,
+              0.010009466358518224,
+              0.0026812638893438986
+            ],
+            "radial_scale": 0.044612555240098085
+          },
+          {
+            "center": [
+              0.7539144044593152,
+              0.4645436980145655
+            ],
+            "equivalent_radius": 0.055593368606502755,
+            "aspect": 1.3874182379525455,
+            "angle": 1.9553241954538636,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              -0.02296195670019404,
+              -0.0605370452323727,
+              0.023525225986616438
+            ],
+            "sine": [
+              -0.07091507837492234,
+              0.0070257254022233215,
+              0.0116380013777509
+            ],
+            "radial_scale": 0.05531746862796059
+          },
+          {
+            "center": [
+              0.34470012226112406,
+              0.2821922762296567
+            ],
+            "equivalent_radius": 0.053966813724737876,
+            "aspect": 1.0816300194960473,
+            "angle": 2.8334433470143674,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              -0.042471149087963136,
+              -0.014379920235967675,
+              -0.007603768633363534
+            ],
+            "sine": [
+              -0.025657442727578736,
+              -0.04316028159706238,
+              0.006191195730564307
+            ],
+            "radial_scale": 0.053842176530479485
+          }
+        ]
+      },
+      "nodes": 8516,
+      "triangles": 15185,
+      "hole_edges": 1536,
+      "historical_pooled_phase_check": 0.02796431549510155,
+      "panels": [
+        {
+          "time_index": 0,
+          "normalized_time": 0,
+          "physical_time_seconds": 0.0,
+          "prediction_range": [
+            1.1920928955078125e-05,
+            0.9999970197677612
+          ],
+          "relative_l2": 0.0033816822557697027,
+          "numerator_norm": 0.30516609389306587,
+          "denominator_norm": 90.24091289842582,
+          "spatial_nodes": 8516,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 3.38 \\times 10^{-3}",
+            "mantissa": "3.38",
+            "exponent": -3,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 2,
+          "normalized_time": 0.2,
+          "physical_time_seconds": 70.0,
+          "prediction_range": [
+            5.683302879333496e-05,
+            0.9999991655349731
+          ],
+          "relative_l2": 0.007021683377576361,
+          "numerator_norm": 0.6236876405928103,
+          "denominator_norm": 88.8230937020811,
+          "spatial_nodes": 8516,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 7.02 \\times 10^{-3}",
+            "mantissa": "7.02",
+            "exponent": -3,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 5,
+          "normalized_time": 0.5,
+          "physical_time_seconds": 175.0,
+          "prediction_range": [
+            1.767277717590332e-05,
+            0.9999991655349731
+          ],
+          "relative_l2": 0.03388119256676025,
+          "numerator_norm": 2.8703098594780236,
+          "denominator_norm": 84.71690758294007,
+          "spatial_nodes": 8516,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 3.39 \\times 10^{-2}",
+            "mantissa": "3.39",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 3
+        },
+        {
+          "time_index": 8,
+          "normalized_time": 0.8,
+          "physical_time_seconds": 280.0,
+          "prediction_range": [
+            2.3543834686279297e-06,
+            0.9999994039535522
+          ],
+          "relative_l2": 0.05455991953386761,
+          "numerator_norm": 4.259534476963187,
+          "denominator_norm": 78.07076171215972,
+          "spatial_nodes": 8516,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 5.46 \\times 10^{-2}",
+            "mantissa": "5.46",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 5
+        },
+        {
+          "time_index": 10,
+          "normalized_time": 1,
+          "physical_time_seconds": 350.0,
+          "prediction_range": [
+            5.364418029785156e-07,
+            0.9999988079071045
+          ],
+          "relative_l2": 0.06776221552755139,
+          "numerator_norm": 5.034384777998057,
+          "denominator_norm": 74.29486681926936,
+          "spatial_nodes": 8516,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 6.78 \\times 10^{-2}",
+            "mantissa": "6.78",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 5
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "prediction": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/prediction_001.npz",
+      "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4/case_001.npz",
+      "geometry": {
+        "schema": "smooth_radial_particles_v1",
+        "particles": [
+          {
+            "center": [
+              0.14321356474234953,
+              0.1731920800360907
+            ],
+            "equivalent_radius": 0.05310285744930321,
+            "aspect": 1.2691376681631903,
+            "angle": 1.6296453133617814,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              0.01840057348290054,
+              0.01424249283460652,
+              0.0014441549313130803
+            ],
+            "sine": [
+              0.021837652587396807,
+              0.028164179338525986,
+              -0.01200242930539561
+            ],
+            "radial_scale": 0.05305092344164878
+          },
+          {
+            "center": [
+              0.5313378827818234,
+              0.31291719417874336
+            ],
+            "equivalent_radius": 0.05586604442632001,
+            "aspect": 1.332597253296897,
+            "angle": 3.847777366104703,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              0.0034617471949047857,
+              0.051672521571814276,
+              0.01652742172986847
+            ],
+            "sine": [
+              0.014646181941122192,
+              -0.021645004856660106,
+              -0.024122188602510815
+            ],
+            "radial_scale": 0.05574834772919469
+          },
+          {
+            "center": [
+              0.7940382419026065,
+              0.37233855728300114
+            ],
+            "equivalent_radius": 0.05956048983701853,
+            "aspect": 1.3614912559350958,
+            "angle": 0.6838360223417429,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              -0.07041817620925567,
+              0.013555335952849164,
+              0.01695739806678835
+            ],
+            "sine": [
+              0.05286522505971599,
+              -0.021652757306336496,
+              -0.00014577354634552655
+            ],
+            "radial_scale": 0.059302609644197646
+          },
+          {
+            "center": [
+              0.7728913368081062,
+              0.13621113380274302
+            ],
+            "equivalent_radius": 0.05141886763532052,
+            "aspect": 1.070173585785778,
+            "angle": 2.14270123721771,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              -0.03618859823179347,
+              0.04660271362918559,
+              0.010477692055810376
+            ],
+            "sine": [
+              0.008008289087251977,
+              0.054549132219066036,
+              -0.011926016360624028
+            ],
+            "radial_scale": 0.051245137233477234
+          },
+          {
+            "center": [
+              0.17548229962704165,
+              0.4412124736822378
+            ],
+            "equivalent_radius": 0.07225953114326875,
+            "aspect": 1.2673734984008789,
+            "angle": 0.7638004067986965,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              0.03761654307293234,
+              0.01680049092121944,
+              0.009415619373893762
+            ],
+            "sine": [
+              -0.028649930466161953,
+              -0.016973872854980927,
+              0.023692505387594008
+            ],
+            "radial_scale": 0.07213483342806071
+          },
+          {
+            "center": [
+              0.33445841826568223,
+              0.3488719161600422
+            ],
+            "equivalent_radius": 0.0670733197483239,
+            "aspect": 1.3483699191657432,
+            "angle": 0.06828000119105004,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              -0.01461029018899199,
+              0.02829248244928409,
+              -0.02328743140767675
+            ],
+            "sine": [
+              -0.12248338123284286,
+              -0.02670048815966992,
+              0.011067598881721484
+            ],
+            "radial_scale": 0.06649457267086342
+          }
+        ]
+      },
+      "nodes": 8403,
+      "triangles": 14959,
+      "hole_edges": 1536,
+      "historical_pooled_phase_check": 0.02836540546372791,
+      "panels": [
+        {
+          "time_index": 0,
+          "normalized_time": 0,
+          "physical_time_seconds": 0.0,
+          "prediction_range": [
+            1.1086463928222656e-05,
+            0.9999970197677612
+          ],
+          "relative_l2": 0.003427992346901716,
+          "numerator_norm": 0.30715034365086447,
+          "denominator_norm": 89.60065034231268,
+          "spatial_nodes": 8403,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 3.43 \\times 10^{-3}",
+            "mantissa": "3.43",
+            "exponent": -3,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 2,
+          "normalized_time": 0.2,
+          "physical_time_seconds": 70.0,
+          "prediction_range": [
+            5.409121513366699e-05,
+            0.9999991655349731
+          ],
+          "relative_l2": 0.007085826040547763,
+          "numerator_norm": 0.624891470417021,
+          "denominator_norm": 88.18893758344572,
+          "spatial_nodes": 8403,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 7.09 \\times 10^{-3}",
+            "mantissa": "7.09",
+            "exponent": -3,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 5,
+          "normalized_time": 0.5,
+          "physical_time_seconds": 175.0,
+          "prediction_range": [
+            1.8209218978881836e-05,
+            0.9999991655349731
+          ],
+          "relative_l2": 0.024612774081626376,
+          "numerator_norm": 2.082103052613223,
+          "denominator_norm": 84.59440799757428,
+          "spatial_nodes": 8403,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 2.46 \\times 10^{-2}",
+            "mantissa": "2.46",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 8,
+          "normalized_time": 0.8,
+          "physical_time_seconds": 280.0,
+          "prediction_range": [
+            2.4437904357910156e-06,
+            0.9999995231628418
+          ],
+          "relative_l2": 0.04745364928048479,
+          "numerator_norm": 3.7369327718462877,
+          "denominator_norm": 78.74911262900687,
+          "spatial_nodes": 8403,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 4.75 \\times 10^{-2}",
+            "mantissa": "4.75",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 3
+        },
+        {
+          "time_index": 10,
+          "normalized_time": 1,
+          "physical_time_seconds": 350.0,
+          "prediction_range": [
+            5.364418029785156e-07,
+            0.9999988675117493
+          ],
+          "relative_l2": 0.09329988709003602,
+          "numerator_norm": 6.8978793284711815,
+          "denominator_norm": 73.93234379602848,
+          "spatial_nodes": 8403,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 9.33 \\times 10^{-2}",
+            "mantissa": "9.33",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 5
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "prediction": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/prediction_002.npz",
+      "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4/case_002.npz",
+      "geometry": {
+        "schema": "smooth_radial_particles_v1",
+        "particles": [
+          {
+            "center": [
+              0.5308917227313454,
+              0.3694885407050936
+            ],
+            "equivalent_radius": 0.06335959836498316,
+            "aspect": 1.1344534078835449,
+            "angle": 3.8618595706054597,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              -0.0034608889224830197,
+              -0.018101845068482513,
+              -0.00523211696492047
+            ],
+            "sine": [
+              0.0787817025375344,
+              -0.02322750681198724,
+              -0.001437440382171047
+            ],
+            "radial_scale": 0.0631349142558962
+          },
+          {
+            "center": [
+              0.20796873742235136,
+              0.1685969627845031
+            ],
+            "equivalent_radius": 0.052230452117987936,
+            "aspect": 1.2814179342634278,
+            "angle": 5.696363653175832,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              -0.08625168964948952,
+              0.04084026499312612,
+              0.000567469397136798
+            ],
+            "sine": [
+              0.010561310973963005,
+              0.013748096721829813,
+              0.019699397701628412
+            ],
+            "radial_scale": 0.05197569732113053
+          },
+          {
+            "center": [
+              0.1399433183245151,
+              0.3897611754982928
+            ],
+            "equivalent_radius": 0.060960108036403116,
+            "aspect": 1.1764893238109053,
+            "angle": 0.2100677877588418,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              0.035113091854045674,
+              -0.0623718606475455,
+              -0.012338009182722855
+            ],
+            "sine": [
+              0.02076132336406554,
+              0.0019463202137924697,
+              -0.017014921723111233
+            ],
+            "radial_scale": 0.06077765027731169
+          },
+          {
+            "center": [
+              0.8690511651537154,
+              0.10841841495350175
+            ],
+            "equivalent_radius": 0.05102028964101357,
+            "aspect": 1.266237038349613,
+            "angle": 1.1027659898613065,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              -0.10126845933482169,
+              -0.03509358625329448,
+              -0.016999128651653043
+            ],
+            "sine": [
+              0.11641746353511662,
+              0.0006980117806777851,
+              -0.0036087310139551938
+            ],
+            "radial_scale": 0.05038133691262607
+          },
+          {
+            "center": [
+              0.35318290083843296,
+              0.28262464266689313
+            ],
+            "equivalent_radius": 0.05356561082462292,
+            "aspect": 1.0960573858968492,
+            "angle": 6.115737833046886,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              -0.11344247420353894,
+              -0.025665849821112963,
+              0.00324845426231526
+            ],
+            "sine": [
+              0.014413570107550342,
+              -0.004038872093059634,
+              0.0016633830865293347
+            ],
+            "radial_scale": 0.053199343367994555
+          },
+          {
+            "center": [
+              0.661353512394937,
+              0.21859630649642894
+            ],
+            "equivalent_radius": 0.05127853848984908,
+            "aspect": 1.1620143287581162,
+            "angle": 1.9399413399960903,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              -0.06601546615519724,
+              0.049088673497599496,
+              -0.026309531008971286
+            ],
+            "sine": [
+              -0.005189491223666453,
+              0.024199964330327412,
+              0.03566963123391098
+            ],
+            "radial_scale": 0.05103975216504061
+          }
+        ]
+      },
+      "nodes": 8502,
+      "triangles": 15157,
+      "hole_edges": 1536,
+      "historical_pooled_phase_check": 0.029193117402458137,
+      "panels": [
+        {
+          "time_index": 0,
+          "normalized_time": 0,
+          "physical_time_seconds": 0.0,
+          "prediction_range": [
+            1.2218952178955078e-05,
+            0.999997079372406
+          ],
+          "relative_l2": 0.0033769567391579783,
+          "numerator_norm": 0.3044915760926568,
+          "denominator_norm": 90.16744945586119,
+          "spatial_nodes": 8502,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 3.38 \\times 10^{-3}",
+            "mantissa": "3.38",
+            "exponent": -3,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 2,
+          "normalized_time": 0.2,
+          "physical_time_seconds": 70.0,
+          "prediction_range": [
+            5.7309865951538086e-05,
+            0.9999992251396179
+          ],
+          "relative_l2": 0.007393582844502171,
+          "numerator_norm": 0.656001992822809,
+          "denominator_norm": 88.72585952162673,
+          "spatial_nodes": 8502,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 7.39 \\times 10^{-3}",
+            "mantissa": "7.39",
+            "exponent": -3,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 5,
+          "normalized_time": 0.5,
+          "physical_time_seconds": 175.0,
+          "prediction_range": [
+            1.6868114471435547e-05,
+            0.9999991059303284
+          ],
+          "relative_l2": 0.029081489144538834,
+          "numerator_norm": 2.465715369262872,
+          "denominator_norm": 84.78642056491474,
+          "spatial_nodes": 8502,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 2.91 \\times 10^{-2}",
+            "mantissa": "2.91",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 2
+        },
+        {
+          "time_index": 8,
+          "normalized_time": 0.8,
+          "physical_time_seconds": 280.0,
+          "prediction_range": [
+            2.1457672119140625e-06,
+            0.9999993443489075
+          ],
+          "relative_l2": 0.06055061485595064,
+          "numerator_norm": 4.731370871714848,
+          "denominator_norm": 78.13910532487137,
+          "spatial_nodes": 8502,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 6.06 \\times 10^{-2}",
+            "mantissa": "6.06",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 5
+        },
+        {
+          "time_index": 10,
+          "normalized_time": 1,
+          "physical_time_seconds": 350.0,
+          "prediction_range": [
+            4.76837158203125e-07,
+            0.9999985098838806
+          ],
+          "relative_l2": 0.08304789067301786,
+          "numerator_norm": 6.097706837430927,
+          "denominator_norm": 73.4239820905176,
+          "spatial_nodes": 8502,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 8.30 \\times 10^{-2}",
+            "mantissa": "8.30",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 6
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "prediction": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/prediction_003.npz",
+      "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4/case_003.npz",
+      "geometry": {
+        "schema": "smooth_radial_particles_v1",
+        "particles": [
+          {
+            "center": [
+              0.25918982867160084,
+              0.15457864840436278
+            ],
+            "equivalent_radius": 0.06947608340075873,
+            "aspect": 1.0141872018799827,
+            "angle": 1.4434768267719436,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              0.08561233225623359,
+              0.030477812042380915,
+              0.004530834709529324
+            ],
+            "sine": [
+              0.018810910731719078,
+              0.05883868226467015,
+              0.020436596396727725
+            ],
+            "radial_scale": 0.0690432353222927
+          },
+          {
+            "center": [
+              0.2646853166923109,
+              0.4349132861384174
+            ],
+            "equivalent_radius": 0.05693392767871225,
+            "aspect": 1.0922982035292672,
+            "angle": 5.424380489110844,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              0.070226121560859,
+              -0.03337427322649007,
+              0.005683298650881779
+            ],
+            "sine": [
+              -0.08086938988019644,
+              0.005049837905015547,
+              -0.019751414892412163
+            ],
+            "radial_scale": 0.05656507517241953
+          },
+          {
+            "center": [
+              0.421828432844911,
+              0.31655917835954017
+            ],
+            "equivalent_radius": 0.05160612248889422,
+            "aspect": 1.4316803872317285,
+            "angle": 4.148526357124448,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              -0.002898122173710335,
+              -0.029430126900300044,
+              -0.020994353915015883
+            ],
+            "sine": [
+              -0.005648590975279065,
+              -0.03357543796114332,
+              0.0047898161636905105
+            ],
+            "radial_scale": 0.051541742995523464
+          },
+          {
+            "center": [
+              0.6026034655343508,
+              0.2437672246987946
+            ],
+            "equivalent_radius": 0.05492467987631143,
+            "aspect": 1.0360463486045022,
+            "angle": 5.858199821474334,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              0.08828403845611628,
+              -0.024857131807051777,
+              0.001443917237017199
+            ],
+            "sine": [
+              0.1075504467741767,
+              0.014782008100490397,
+              0.002114327171259347
+            ],
+            "radial_scale": 0.05437515853822217
+          },
+          {
+            "center": [
+              0.6271182275691959,
+              0.4262059818624647
+            ],
+            "equivalent_radius": 0.06793544543977251,
+            "aspect": 1.152440333557748,
+            "angle": 2.214629321929098,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              0.030893393480989736,
+              0.027630912405224153,
+              -0.018137760047898587
+            ],
+            "sine": [
+              -0.016099711584722544,
+              4.8810245646651913e-05,
+              0.022721587780180446
+            ],
+            "radial_scale": 0.06783967365576066
+          },
+          {
+            "center": [
+              0.8500557464786951,
+              0.33568929698730277
+            ],
+            "equivalent_radius": 0.056942818356521915,
+            "aspect": 1.33248749664887,
+            "angle": 1.9954240339721945,
+            "modes": [
+              3,
+              4,
+              5
+            ],
+            "cosine": [
+              -0.10424092705164882,
+              -0.006553706688385239,
+              -0.0067455260813930416
+            ],
+            "sine": [
+              -0.023421787718152065,
+              0.033100985925799326,
+              -0.0030726903751862396
+            ],
+            "radial_scale": 0.05658592132593605
+          }
+        ]
+      },
+      "nodes": 8396,
+      "triangles": 14945,
+      "hole_edges": 1536,
+      "historical_pooled_phase_check": 0.031795644893085395,
+      "panels": [
+        {
+          "time_index": 0,
+          "normalized_time": 0,
+          "physical_time_seconds": 0.0,
+          "prediction_range": [
+            1.1235475540161133e-05,
+            0.9999970197677612
+          ],
+          "relative_l2": 0.003445010885124959,
+          "numerator_norm": 0.30852533641339813,
+          "denominator_norm": 89.55714414301688,
+          "spatial_nodes": 8396,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 3.45 \\times 10^{-3}",
+            "mantissa": "3.45",
+            "exponent": -3,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 2,
+          "normalized_time": 0.2,
+          "physical_time_seconds": 70.0,
+          "prediction_range": [
+            5.367398262023926e-05,
+            0.9999991655349731
+          ],
+          "relative_l2": 0.00923957266670229,
+          "numerator_norm": 0.8131954568413952,
+          "denominator_norm": 88.0122367316836,
+          "spatial_nodes": 8396,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 9.24 \\times 10^{-3}",
+            "mantissa": "9.24",
+            "exponent": -3,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 1
+        },
+        {
+          "time_index": 5,
+          "normalized_time": 0.5,
+          "physical_time_seconds": 175.0,
+          "prediction_range": [
+            1.755356788635254e-05,
+            0.9999990463256836
+          ],
+          "relative_l2": 0.03369983696827665,
+          "numerator_norm": 2.8179925249505007,
+          "denominator_norm": 83.62036076326478,
+          "spatial_nodes": 8396,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 3.37 \\times 10^{-2}",
+            "mantissa": "3.37",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 3
+        },
+        {
+          "time_index": 8,
+          "normalized_time": 0.8,
+          "physical_time_seconds": 280.0,
+          "prediction_range": [
+            2.205371856689453e-06,
+            0.9999992847442627
+          ],
+          "relative_l2": 0.05600179283643175,
+          "numerator_norm": 4.3924598439769795,
+          "denominator_norm": 78.43427185994449,
+          "spatial_nodes": 8396,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 5.60 \\times 10^{-2}",
+            "mantissa": "5.60",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 4
+        },
+        {
+          "time_index": 10,
+          "normalized_time": 1,
+          "physical_time_seconds": 350.0,
+          "prediction_range": [
+            4.76837158203125e-07,
+            0.9999980926513672
+          ],
+          "relative_l2": 0.06387460287660754,
+          "numerator_norm": 4.788109105774447,
+          "denominator_norm": 74.9610782711883,
+          "spatial_nodes": 8396,
+          "display_label": {
+            "latex": "\\mathrm{Rel.}\\ L^{2} = 6.39 \\times 10^{-2}",
+            "mantissa": "6.39",
+            "exponent": -2,
+            "width_mm": 19.997869791666666
+          },
+          "reference_contour_segments": 4
+        }
+      ]
+    }
+  ],
+  "text": [
+    {
+      "text": "0.0",
+      "size_pt": 6.0,
+      "font_file": null
+    },
+    {
+      "text": "0.5",
+      "size_pt": 6.0,
+      "font_file": null
+    },
+    {
+      "text": "1.0",
+      "size_pt": 6.0,
+      "font_file": null
+    },
+    {
+      "text": "\u03c6",
+      "size_pt": 7.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 3.38 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22123",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "t* = 0.00",
+      "size_pt": 7.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 7.02 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22123",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "t* = 0.20",
+      "size_pt": 7.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 3.39 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "t* = 0.50",
+      "size_pt": 7.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 5.46 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "t* = 0.80",
+      "size_pt": 7.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 6.78 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "t* = 1.00",
+      "size_pt": 7.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Sample 1",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 3.43 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22123",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 7.09 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22123",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 2.46 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 4.75 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 9.33 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Sample 2",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 3.38 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22123",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 7.39 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22123",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 2.91 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 6.06 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 8.30 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Sample 3",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 3.45 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22123",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 9.24 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22123",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 3.37 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 5.60 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Rel. ",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "L",
+      "size_pt": 6.0,
+      "font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf"
+    },
+    {
+      "text": "2",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": " = 6.39 \u00d7 10",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "\u22122",
+      "size_pt": 5.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    },
+    {
+      "text": "Sample 4",
+      "size_pt": 6.0,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf"
+    }
+  ],
+  "png_pixels": [
+    2007,
+    1086
+  ],
+  "layout": {
+    "field_vertical_bounds_mm": [
+      5.4,
+      88.08
+    ],
+    "colorbar_rect_mm": [
+      157,
+      25.240000000000002,
+      2.2,
+      43
+    ],
+    "colorbar_center_mm": 46.74,
+    "colorbar_label_position": "top, horizontal"
+  },
+  "output_bytes": {
+    "pdf": 1175016,
+    "png": 587598
+  },
+  "metric_interpolation": false,
+  "temporal_interpolation": false,
+  "inference": false,
+  "layers": {
+    "field": "raster, Gouraud display on original physical triangles",
+    "reference_contours": "vector, original local FEM nodes",
+    "holes": "no field; gray, vector edges",
+    "text": "embedded editable Helvetica; DejaVu Sans Oblique L; 5pt superscripts",
+    "colorbar": "raster gradient, vector ticks/text"
+  },
+  "independent_validation": {
+    "instantaneous_norms": "20 checked with Python math.fsum",
+    "particle_center_pixels": "120 gray interiors checked",
+    "pdf_mm": [
+      170,
+      92
+    ],
+    "pdf_font_sizes_pt": [
+      5.0,
+      6.0,
+      7.0
+    ],
+    "pdf_fonts_embedded": true,
+    "pdf_type3_fonts": false,
+    "pdf_text_color": "#222222",
+    "pdf_raster_layers": 21,
+    "vector_reference_paths": true,
+    "pdf_text_edit_smoke_check": "passed for sample and scientific annotation; temporary copy only",
+    "visual_png": "passed",
+    "runtime": {
+      "seed": 17617494,
+      "inputs": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/inputs64",
+      "seed_source": "explicit_runtime_replay",
+      "reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4",
+      "devices": [
+        "cuda:0"
+      ],
+      "cold_initialization": true,
+      "paired_run": null,
+      "sampling_control": null,
+      "full_grid_control": null,
+      "strategy_control": null,
+      "paired_optimizer_initialization": null,
+      "source_time_draws_identical": null,
+      "time_sampling": "uniform",
+      "pde_sampling": "core_halo",
+      "pool_ids_used_for_pde": true,
+      "rolling_inputs": true,
+      "excluded_reference_paths": [],
+      "paired_sampling_verified": false,
+      "training_uses_reference_targets": false,
+      "checkpoint_selection": "fixed training budget",
+      "conditioning": "known domain and wall point measures",
+      "parameters": 2248450
+    },
+    "visual_pdf": "passed"
+  }
+}

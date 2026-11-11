@@ -1,0 +1,355 @@
+{
+  "status": "passed",
+  "source": "artifacts/melting_main_figure_inference.json",
+  "skimage_version": "0.26.0",
+  "numpy_version": "2.5.4",
+  "level": 0,
+  "smoothing": false,
+  "records": [
+    {
+      "sample": 5,
+      "frame": 0,
+      "time": 0,
+      "file": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared/meshes/case005-frame000.npz",
+      "vertices": 29194,
+      "faces": 58384,
+      "volume": 0.12426823585820652,
+      "phi_residual": 9.281245638703695e-07,
+      "closed": true,
+      "bounds": [
+        [
+          0.17161735892295837,
+          0.1568545401096344,
+          0.23162570595741272
+        ],
+        [
+          0.7962076663970947,
+          0.7914625406265259,
+          0.8330531120300293
+        ]
+      ]
+    },
+    {
+      "sample": 5,
+      "frame": 1,
+      "time": 0.25,
+      "file": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared/meshes/case005-frame001.npz",
+      "vertices": 18622,
+      "faces": 37240,
+      "volume": 0.06314740250857004,
+      "phi_residual": 9.218603054250707e-07,
+      "closed": true,
+      "bounds": [
+        [
+          0.23410721123218536,
+          0.2193317711353302,
+          0.2939903736114502
+        ],
+        [
+          0.7338194847106934,
+          0.7290796041488647,
+          0.7706400156021118
+        ]
+      ]
+    },
+    {
+      "sample": 5,
+      "frame": 2,
+      "time": 0.5,
+      "file": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared/meshes/case005-frame002.npz",
+      "vertices": 10408,
+      "faces": 20812,
+      "volume": 0.026306172512941584,
+      "phi_residual": 9.169860391011753e-07,
+      "closed": true,
+      "bounds": [
+        [
+          0.2965388894081116,
+          0.2816852331161499,
+          0.3562745749950409
+        ],
+        [
+          0.6715203523635864,
+          0.6668302416801453,
+          0.7083084583282471
+        ]
+      ]
+    },
+    {
+      "sample": 5,
+      "frame": 3,
+      "time": 0.75,
+      "file": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared/meshes/case005-frame003.npz",
+      "vertices": 4568,
+      "faces": 9132,
+      "volume": 0.007576264600570847,
+      "phi_residual": 9.228033377439715e-07,
+      "closed": true,
+      "bounds": [
+        [
+          0.35881128907203674,
+          0.3439413607120514,
+          0.4185023009777069
+        ],
+        [
+          0.6093066930770874,
+          0.6046558022499084,
+          0.6460874676704407
+        ]
+      ]
+    },
+    {
+      "sample": 5,
+      "frame": 4,
+      "time": 1,
+      "file": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared/meshes/case005-frame004.npz",
+      "vertices": 1082,
+      "faces": 2160,
+      "volume": 0.0008292276675544303,
+      "phi_residual": 1.0396865945949685e-06,
+      "closed": true,
+      "bounds": [
+        [
+          0.4209293723106384,
+          0.40617868304252625,
+          0.48067015409469604
+        ],
+        [
+          0.5471214652061462,
+          0.5424211025238037,
+          0.5839147567749023
+        ]
+      ]
+    },
+    {
+      "sample": 9,
+      "frame": 0,
+      "time": 0,
+      "file": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared/meshes/case009-frame000.npz",
+      "vertices": 31746,
+      "faces": 63488,
+      "volume": 0.14058266700866537,
+      "phi_residual": 9.252194104192313e-07,
+      "closed": true,
+      "bounds": [
+        [
+          0.15626326203346252,
+          0.2027902603149414,
+          0.16671612858772278
+        ],
+        [
+          0.7665460705757141,
+          0.8596758842468262,
+          0.8413154482841492
+        ]
+      ]
+    },
+    {
+      "sample": 9,
+      "frame": 1,
+      "time": 0.25,
+      "file": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared/meshes/case009-frame001.npz",
+      "vertices": 20648,
+      "faces": 41292,
+      "volume": 0.0735261938601383,
+      "phi_residual": 9.384764325659489e-07,
+      "closed": true,
+      "bounds": [
+        [
+          0.21876125037670135,
+          0.2652008533477783,
+          0.22917313873767853
+        ],
+        [
+          0.704208254814148,
+          0.7972282767295837,
+          0.7788946628570557
+        ]
+      ]
+    },
+    {
+      "sample": 9,
+      "frame": 2,
+      "time": 0.5,
+      "file": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared/meshes/case009-frame002.npz",
+      "vertices": 11930,
+      "faces": 23856,
+      "volume": 0.03207976831260843,
+      "phi_residual": 9.152196298600757e-07,
+      "closed": true,
+      "bounds": [
+        [
+          0.2812098562717438,
+          0.3274897634983063,
+          0.2915787100791931
+        ],
+        [
+          0.6419732570648193,
+          0.7348507046699524,
+          0.7165278196334839
+        ]
+      ]
+    },
+    {
+      "sample": 9,
+      "frame": 3,
+      "time": 0.75,
+      "file": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared/meshes/case009-frame003.npz",
+      "vertices": 5576,
+      "faces": 11148,
+      "volume": 0.010085860008888493,
+      "phi_residual": 9.009254426928237e-07,
+      "closed": true,
+      "bounds": [
+        [
+          0.34350937604904175,
+          0.38971033692359924,
+          0.3538399934768677
+        ],
+        [
+          0.5797709226608276,
+          0.6725835204124451,
+          0.6543068885803223
+        ]
+      ]
+    },
+    {
+      "sample": 9,
+      "frame": 4,
+      "time": 1,
+      "file": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared/meshes/case009-frame004.npz",
+      "vertices": 1584,
+      "faces": 3164,
+      "volume": 0.0014041389877592584,
+      "phi_residual": 1.083099391507858e-06,
+      "closed": true,
+      "bounds": [
+        [
+          0.40559136867523193,
+          0.45189982652664185,
+          0.41595908999443054
+        ],
+        [
+          0.5175435543060303,
+          0.610353946685791,
+          0.5922033786773682
+        ]
+      ]
+    },
+    {
+      "sample": 2,
+      "frame": 0,
+      "time": 0,
+      "file": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared/meshes/case002-frame000.npz",
+      "vertices": 24670,
+      "faces": 49336,
+      "volume": 0.0960001510632309,
+      "phi_residual": 9.300687224822468e-07,
+      "closed": true,
+      "bounds": [
+        [
+          0.23199881613254547,
+          0.19277323782444,
+          0.18521778285503387
+        ],
+        [
+          0.7751511335372925,
+          0.7465904951095581,
+          0.8030155897140503
+        ]
+      ]
+    },
+    {
+      "sample": 2,
+      "frame": 1,
+      "time": 0.25,
+      "file": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared/meshes/case002-frame001.npz",
+      "vertices": 15014,
+      "faces": 30024,
+      "volume": 0.04533645248458685,
+      "phi_residual": 9.360045964967867e-07,
+      "closed": true,
+      "bounds": [
+        [
+          0.2944549024105072,
+          0.25520575046539307,
+          0.24761712551116943
+        ],
+        [
+          0.7127816081047058,
+          0.6842830181121826,
+          0.7406343221664429
+        ]
+      ]
+    },
+    {
+      "sample": 2,
+      "frame": 2,
+      "time": 0.5,
+      "file": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared/meshes/case002-frame002.npz",
+      "vertices": 7744,
+      "faces": 15484,
+      "volume": 0.016556250231464065,
+      "phi_residual": 9.328701935373829e-07,
+      "closed": true,
+      "bounds": [
+        [
+          0.35680243372917175,
+          0.31752410531044006,
+          0.3099401891231537
+        ],
+        [
+          0.6505370736122131,
+          0.6220651268959045,
+          0.6783221960067749
+        ]
+      ]
+    },
+    {
+      "sample": 2,
+      "frame": 3,
+      "time": 0.75,
+      "file": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared/meshes/case002-frame003.npz",
+      "vertices": 2818,
+      "faces": 5632,
+      "volume": 0.0034987881503127215,
+      "phi_residual": 9.130773150900495e-07,
+      "closed": true,
+      "bounds": [
+        [
+          0.41902801394462585,
+          0.37975725531578064,
+          0.37220826745033264
+        ],
+        [
+          0.5883272290229797,
+          0.5598220825195312,
+          0.6160179376602173
+        ]
+      ]
+    },
+    {
+      "sample": 2,
+      "frame": 4,
+      "time": 1,
+      "file": "/root/autodl-tmp/tf-logs/icemelting3d/publication-main-20261112/prepared/meshes/case002-frame004.npz",
+      "vertices": 236,
+      "faces": 468,
+      "volume": 6.688268768470832e-05,
+      "phi_residual": 1.0460374824106111e-06,
+      "closed": true,
+      "bounds": [
+        [
+          0.4813914895057678,
+          0.4420872628688812,
+          0.4430018365383148
+        ],
+        [
+          0.5260233879089355,
+          0.49738916754722595,
+          0.5453221201896667
+        ]
+      ]
+    }
+  ]
+}

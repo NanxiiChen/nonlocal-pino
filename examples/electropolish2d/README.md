@@ -69,12 +69,16 @@ The earlier fixed-pool 10,000-step result was 1.740% pooled and 1.540%
 terminal phase L2. Its same-trajectory 5,000-step checkpoint scored 3.934%
 pooled phase. [Historical budget and reference audit](../../docs/tasks/archive/electro-time-reference-audit.md).
 
-![Four unseen rough interfaces evolving during electropolishing](../../assets/pino/electropolish2d.png)
+![Four unseen rough interfaces evolving during electropolishing](../../assets/pino-main/electropolish2d.png)
 
-Rows show inputs 0, 21, 42 and 63, the four predeclared spatial-refinement cases.
-Columns show 0, 1.25, 2.5, 3.75 and 5 s. Color shows the saved PINO phase.
-Dashed lines show the independent local-FD101 \(\phi=0.5\) interface.
-Row labels give the pooled phase error over all 21 uniform times.
+Rows are the predeclared inputs0,21,42,63, at \(t^*=0,0.25,0.5,0.75,1\) (0..5s).
+Color shows the selected final rolling10k PINO phase. Dashed curves are the
+independent local-FD101 \(\phi=0.5\) interfaces. Each panel reports its own
+instantaneous spatial phase relative L2, with equal weights on original queries;
+it is distinct from the pooled values above. Fields are raster, text/contours
+editable vector;170mmwidth and equal physical scales are retained.
+[PDF](../../assets/pino-main/electropolish2d.pdf) ·
+[Source/style specification](../../artifacts/electropolish_main_figure.json).
 
 The separate [current nonlocal/local-AD comparison](#current-rolling-nonlocallocal-ad-research-control)
 below includes two cold initializations, convergence curves, three-input
@@ -307,6 +311,31 @@ graph to isolate training error, and assess convergence toward a local PDE
 separately. This example alone does not establish operator superiority.
 
 ## Governing Equations (Local / Classical)
+
+### Scope: net dissolution does not imply pointwise irreversibility
+
+The implemented Allen–Cahn/KKS model does **not** enforce \(\partial_t\phi\leq0\).
+The output map bounds \(\phi\) between zero and one, but leaves its time derivative
+unrestricted. The interfacial-energy term can fill a concave valley while the
+overall solid area decreases. This is a property of the equations being solved,
+not evidence that reverse metal growth is physically appropriate for an
+anodic, dissolution-only electropolishing experiment.
+
+The selected rolling 10k model and its 64 local-FD references were audited on
+all 25 saved snapshots. Both have 62/64 inputs with a fixed-node phase increase
+above 0.01; 57/64 PINO inputs and 58/64 references cross from below to above
+\(\phi=0.5\) somewhere. Nevertheless, all 64 inputs in both methods have decreasing
+integrated diffuse solid area between saved times. Four existing FD201/FD401
+and native-graph checks retain the reverse motion. These finite snapshots can
+disprove monotonicity, but cannot certify monotonicity between snapshots.
+
+Consequently, a low reference error validates numerical agreement with this
+model; it does not validate dissolution-only physics. No unilateral constraint
+or clipping has been added. Reproduction paths, driving-term checks and the
+diagnostic figure are recorded in
+[the monotonicity audit](../../docs/tasks/archive/electropolish-monotonicity.md).
+
+### Free energy and evolution
 
 2D KKS phase-field model for electropolishing. Domain: $\Omega = [0,1] \times [0,0.5]$ (non-dimensional).
 

@@ -18,14 +18,17 @@ geometries is **2.93% overall / 5.76% terminal against local FEM**, and
 This schematic shows prescribed inputs and boundary conditions; it contains
 no predicted future interfaces.
 
-![Width256 PINO phase evolution for three six-particle layouts, with direct nonlocal reference contours](../../assets/pino/particle_corrosion2d.png)
+![Four six-particle layouts with predicted phase and local-FEM interfaces](../../assets/pino-main/particle_corrosion2d.png)
 
-Rows show the **first three of four development geometries** in their saved
-order; columns are \(t^*=0,0.2,0.5,0.8,1\), or 0, 70, 175, 280 and 350 s.
-Yellow is metal, purple is electrolyte/corroded material, and gray is inert
-ceramic. Dark solid lines mark the PINO interface \(\phi=0.5\); white dashed
-lines mark the **direct nonlocal reference** interface. The fields use
-`model_final.eqx` at 20k, with no evolved-field training labels.
+Rows show all four development geometries in saved order at actual times
+\(t^*=0,0.2,0.5,0.8,1\), or0,70,175,280,350s. Coolwarm shows predicted phase;
+gray interiors are inert ceramic and dashed curves are independent **local-FEM**
+\(\phi=0.5\) interfaces. Each panel reports instantaneous unweighted nodal
+phase relative L2; the headline historical volume-weighted metrics remain
+separate. Original physical triangles and equal spatial scales are retained.
+The accepted width256 final20k model is unchanged.
+[Editable170mmPDF](../../assets/pino-main/particle_corrosion2d.pdf) ·
+[Source/style specification](../../artifacts/particle_corrosion_main_figure.json).
 
 ## Problem setup and parameterized geometry
 

@@ -74,6 +74,13 @@ saved configurations, checkpoints, metric definitions and external data paths;
 four compact comparison images. These controls do not replace selected SOTA
 results above or establish a universal accuracy/speed advantage.
 
+The five approved publication main figures are collected in
+[assets/pino-main](assets/pino-main/README.md), with170mmeditable PDF originals,
+matching PNG previews and [direct source/configuration records](artifacts/pino_main_figures.json).
+They show predicted phase, reference interfaces and instantaneous spatial phase
+errors; these panel metrics differ from the complete-space-time channel-average
+metric used for the comparison distributions.
+
 Run from the repository root, one GPU job at a time:
 
 ```bash

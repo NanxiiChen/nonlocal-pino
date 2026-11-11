@@ -86,13 +86,17 @@ response remains less accurate than its total field error suggests. Final
 replay/input/constraint checks and252fresh-time diagnostics completed. Average
 errors improve over10k, with mixed per-case results documented below.
 
-![Three random-wall geometries with coupled two-phase evolution](../../assets/pino/channel_nsch2d.png)
+![Four channel geometries with predicted phase and local-FEM interfaces](../../assets/pino-main/channel_nsch2d.png)
 
-Rows include all3 predeclared reserved geometries. Columns are0, 1.5, 3, 4.5, 6.
-Color shows saved PINO phase; dashed lines are local-FEM \(\phi=0\) interfaces.
-The same physical axes are retained; droplet positions are not shifted to align
-with the reference. The common color scale spans[-1, 1]; numerical fields are
-not clipped. Full speed/pressure galleries remain external artifacts.
+Rows show the nominal development geometry followed by all three predeclared
+reserved geometries; they are not four blind test cases. Columns use normalized
+display time \(t^*=t/T=0,0.25,0.5,0.75,1\), with original model horizon \(T=6\).
+The icefire_r phase scale spans[-1.2,1.2]to include actual numerical overshoots.
+White dashed curves are local-FEM \(\phi=0\) interfaces; panel errors are
+instantaneous unweighted phase relative L2 on all3840original queries.
+Full channel geometry and equal spatial scales are preserved, with no droplet
+position corrections. [Editable170mmPDF](../../assets/pino-main/channel_nsch2d.pdf) ·
+[Source/style specification](../../artifacts/channel_main_figure_icefire_r.json).
 
 ### Spatial sampling experiment
 

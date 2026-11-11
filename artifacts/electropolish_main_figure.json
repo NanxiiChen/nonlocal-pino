@@ -1,0 +1,100 @@
+{
+  "schema": "electropolish_main_figure_v1",
+  "source_figure_manifest": "artifacts/pino_readme_figures.json",
+  "run": "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool",
+  "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool/model_final.eqx",
+  "prediction": "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool/spatial_evaluation64.npz",
+  "evaluation": "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool/spatial_evaluation64.json",
+  "config": "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool/config.json",
+  "references": [
+    {
+      "index": 0,
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_000/local101.npz"
+    },
+    {
+      "index": 21,
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_021/local101.npz"
+    },
+    {
+      "index": 42,
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_042/local101.npz"
+    },
+    {
+      "index": 63,
+      "file": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_063/local101.npz"
+    }
+  ],
+  "samples": [
+    0,
+    21,
+    42,
+    63
+  ],
+  "selection": "All four previously declared spatial-refinement inputs (0,21,42,63), not selected by model score",
+  "normalized_times": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "phase_channel": 0,
+  "interface_level": 0.5,
+  "metric": "unweighted spatial relative L2 of physical phase at the displayed sample and time",
+  "style": {
+    "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+    "font_family": "Helvetica",
+    "font_source": "https://raw.githubusercontent.com/NanxiiChen/PI-CViT/main/helvetica/Helvetica.ttf",
+    "font_size": 6,
+    "heading_size": 7,
+    "text_color": "#222222",
+    "figure_mm": [
+      170,
+      85
+    ],
+    "dpi": 450,
+    "png_dpi": 300,
+    "cmap": "coolwarm",
+    "limits": [
+      0,
+      1
+    ],
+    "interpolation": "bilinear",
+    "interpolation_stage": "data",
+    "contour_color": "#222222",
+    "contour_linewidth": 0.65,
+    "contour_linestyle": "--",
+    "axes_linewidth": 0.45,
+    "panel_width_mm": 26.8,
+    "panel_height_mm": 13.4,
+    "left_mm": 10,
+    "column_gap_mm": 2,
+    "row_bottoms_mm": [
+      67,
+      47.7,
+      28.4,
+      9.1
+    ],
+    "row_label_x_mm": 7.8,
+    "error_gap_mm": 2.8,
+    "time_heading_y_mm": 83.0,
+    "example_title": false,
+    "colorbar_x_mm": 157,
+    "colorbar_width_mm": 2.2,
+    "colorbar_height_mm": 43,
+    "colorbar_label_pad_pt": 4,
+    "reference_legend": false,
+    "superscript_size": 5,
+    "superscript_rise_pt": 2.3,
+    "math_italic_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
+    "scientific_labels": "editable vector spans; sans-serif italic L; explicit 5 pt superscripts",
+    "superscript_gap_pt": 0.25
+  },
+  "output": {
+    "pdf": "/root/autodl-tmp/tf-logs/electropolish2d/publication-main-20261112/compact-170mm-close-labels/electropolish2d_main_phase.pdf",
+    "png": "/root/autodl-tmp/tf-logs/electropolish2d/publication-main-20261112/compact-170mm-close-labels/electropolish2d_main_phase.png",
+    "receipt": "artifacts/electropolish_main_figure_validation.json"
+  },
+  "previous_preview": "/root/autodl-tmp/tf-logs/electropolish2d/publication-main-20261112/compact-170mm",
+  "revision_archive": "/root/autodl-tmp/tf-logs/electropolish2d/publication-main-20261112/compact-170mm-close-labels/before_redraw"
+}
