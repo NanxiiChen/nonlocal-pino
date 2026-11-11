@@ -18,6 +18,7 @@ Here \(P_\ell\) denotes a case-specific residual scaling or transform. Soft-data
 
 - **Shared time queries.** Prepare spatial query features once per condition, then evaluate a fresh batch of times. Time JVP differentiates in physical or nondimensional time as specified by the model.
 - **Core+halo.** Evaluate residuals on sampled core nodes and retain the full neighbors needed by those rows. Halo values support the stencil. Fixed padding preserves JIT shapes.
+- **Rolling spatial pools.** Electropolish starts from 32 complete core+halo sets and replaces them using one background CPU worker. Paired runs at two seeds improve phase and concentration errors at about 4–5% more warm step time on the measured RTX 4090. The selected Melting recipe also rolls 256-core sets and trains for 10,000 updates. Its endpoint pooled error is lower than the paired fixed control, while terminal error and late-window medians favor fixed in that run.
 - **Online inputs.** Fixed-domain cases draw fresh initial fields. Geometry cases roll a bounded pool of meshes, quadrature, known inputs and precomputed operators. Workers prepare these inputs independently of evolved reference fields.
 - **Time microbatches.** The selected channel averages the two 18-time gradient blocks at fixed parameters before its single optimizer update. It still trains one global-time operator.
 

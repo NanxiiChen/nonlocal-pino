@@ -132,6 +132,8 @@ def train_spatial(c):
                 with (run/'loss.jsonl').open('a') as stream:
                     stream.write(json.dumps(record, allow_nan=False)+'\n')
                 print('TRAIN', json.dumps(record), flush=True)
+            if 'model_every' in c.log and (k+1) % c.log.model_every == 0:
+                eqx.tree_serialise_leaves(run/f'model_{k+1:06d}.eqx', net)
             if refs is not None and ((k+1) % c.log.eval_every == 0 or k+1 == iterations):
                 evaluate(manifest['monitor_indices'], k+1, 'monitor')
     elapsed = time.perf_counter()-loop

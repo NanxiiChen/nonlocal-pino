@@ -85,6 +85,9 @@ def validate_config(c):
         if ('stagger' in c or ('balance' in c and not term_balance)
                 or any(k in c.train for k in ('continuation','refinement'))):
             raise ValueError('Time microbatch requires cold uniform joint losses or explicit termwise balance')
+    if 'spatial' in c.sample:
+        from examples.channel_nsch2d.spatial_sampling import validate_spatial
+        validate_spatial(c)
     if 'causal' in c:
         q=c.causal
         adaptive_causal='adaptation' in q

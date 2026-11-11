@@ -1,6 +1,6 @@
 """Matched spatial control: fixed32uniform core+halo sets, safe padding."""
 from ml_collections import ConfigDict
-from examples.icemelting3d.configs.train_operator import get_config as base_config
+from examples.icemelting3d.configs.train_operator_5k import get_config as base_config
 
 
 def get_config():

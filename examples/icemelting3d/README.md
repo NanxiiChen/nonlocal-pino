@@ -39,9 +39,9 @@ not predicted fields. [Setup figure inputs and regeneration](../../artifacts/pin
 | Decoder | Coordinate cross-attention, then 3 temporal FiLM layers; spatial work shared across times; time JVP |
 | Initial condition | Exact hard lift \(u_\theta=u_0+t^*N_\theta\), \(\phi_\theta=\tanh u_\theta\); \(u_0=d_E/(\sqrt2\epsilon^*)\) |
 | Residual | Jacobian-scaled latent PDE residual, evaluated with the stable graph formulation; no separate IC loss |
-| Spatial work |128^3 native graph, horizon 0.01; 256 cores plus their full halo, 32 fixed pools |
+| Spatial work |128^3 native graph, horizon 0.01; 256 cores plus their full halo, 32 initial sets and background rolling replacement |
 | Online sampling |16 fresh initial ellipsoids/update; 8 shared random times |
-| Optimizer | Adam, lr 1e-3, 5000 updates; ordinary FP32/highest; no causal/interface weighting |
+| Optimizer | Adam, lr 1e-3, 10,000 updates; ordinary FP32/highest; no causal/interface weighting |
 
 The raw query receives coordinates/time. The initial volume enters the encoder;
 the known analytic initial function also supplies the hard output lift. No
@@ -51,27 +51,38 @@ bounding the physical output.
 
 ### Representative results
 
-Selected final checkpoint: **5000 updates**, from
-`/root/autodl-tmp/tf-logs/icemelting3d/20261029-melting-operator-online-b16-01/model_final.eqx`.
+Selected final checkpoint at **10,000 cold-start updates**, using the rolling
+spatial pool:
+`/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/model_final.eqx`.
 
 | Mean over8 held-out initial shapes | Pooled five times | At5 s |
 |---|---:|---:|
-| Phase relative L2, 24^3 diagnostic nodes |0.2266%|0.0922%|
-| Solid-indicator relative L2, same nodes |0.6425%|4.5017%|
+| Phase relative L2, 24^3 diagnostic nodes | **0.1002%** | **0.1711%** |
+| Solid-indicator relative L2, same nodes |0.2908%|8.4058%|
 
 References are time-refined direct **nonlocal** solutions on the128^3 graph;
 reported neural volume errors use24^3 queries, not full128^3 model inference.
-One separately checked ellipsoid gives0.1479% pooled Adam phase error against
-local FEM; the native/local reference difference is0.1474% at those diagnostic
-nodes. This one-case check does not replace the8-input native evaluation.
-SOAP's lower native pooled error did not improve that local-FEM check or the
-late small-solid metrics, so the selected operator uses Adam. One initialization
-and8 inputs do not establish arbitrary-shape or cross-seed accuracy.
+The paired fixed-pool 10,000-step run gives 0.1203% pooled and 0.1132%
+terminal phase error. Both modes use identical cold model/Adam state,
+initial ellipsoids and time draws. At the five saved evaluations from
+9,000 to 10,000 updates, pooled medians are 0.1203% fixed and 0.1439%
+rolling. The user-selected default uses rolling; the measured rankings
+vary with time, metric and endpoint. This is one runtime seed on eight
+reused reference inputs. [Full cold10k comparison](../../docs/tasks/archive/melting-pools-cold10k.md).
+
+The earlier fixed-pool 5,000-step Adam model was separately checked on one
+ellipsoid against local FEM, giving 0.1479% pooled phase error, with a
+0.1474% native/local reference difference on the same nodes. That
+historical reference check and its SOAP control are recorded below.
+
+### Historical three-dimensional visualization
 
 ![Three held-out ellipsoids melting over five times](../../assets/pino/icemelting3d.png)
 
-Rows are the previously selected held-out inputs5, 9, 2. Columns are
-0, 1.25, 2.5, 3.75, 5 s. These are **actual predicted3 Disosurfaces** \(\phi=0\)
+This existing illustration uses the earlier fixed-pool 5,000-step checkpoint
+from `20261029-melting-operator-online-b16-01`. Rows are held-out inputs
+5, 9 and 2; columns are 0, 1.25, 2.5, 3.75 and 5 s.
+These are **actual predicted 3D isosurfaces** \(\phi=0\)
 extracted from96^3 queries, with identical camera and spatial scale. They are
 prediction visualizations, not additional reference solves or L2 measurements.
 
@@ -219,11 +230,13 @@ belongs to the historical 4 s bounded run.
 ## Random initial ellipsoid neural operator (experimental)
 
 The opt-in [configs/train_operator.py](configs/train_operator.py) is the current
-recommended NO preset: online B16, Adam1e-3/5000updates, ordinary FP32/highest,
-hard IC and latent PDE loss. It matches the saved Adam winning recipe except
-run-name/runtime-seed provenance. Selection uses the current local-FEM whole-field
-accuracy/cost compromise; SOAP remains available explicitly. See the comparisons
-below. Generated figures/arrays are local artifacts, with a
+recommended NO preset: online B16, Adam1e-3/10000updates, ordinary FP32/highest,
+hard IC, latent PDE loss and a background rolling core/halo pool. Its numerical
+configuration matches the selected cold10k checkpoint; runtime seed, run name
+and research checkpoint cadence are recorded separately. The current eight-input
+comparison uses native nonlocal references. The local-FEM check below evaluates
+the historical fixed-pool 5,000-step model. SOAP remains available explicitly.
+Generated figures/arrays are local artifacts, with a
 [restoration manifest](../../README.md#artifacts-and-recovery).
 
 This preset uses the same
@@ -262,14 +275,14 @@ are independently checked. See [Eberly's nearest-point construction](https://www
 |3Dpatch encoder|4x4x4patches,512tokens,width48,2blocks,4heads|
 |Spatial conditioning|Coordinate cross-attention to input tokens; XYZ queries|
 |Temporal work|Shared spatial preparation, then3-layer temporal FiLM decoder/time JVP|
-|Batch/sampling|16fresh ellipsoids/update,8shared uniform times,256cores,32fixed core/halo pools|
-|Training|Adam1e-3,5000updates, ordinaryFP32/highest matmul|
+|Batch/sampling|16fresh ellipsoids/update,8shared uniform times,256cores,32initial core/halo sets and a background rolling FIFO|
+|Training|Adam1e-3,10000updates, ordinaryFP32/highest matmul|
 |Physical output/loss|Exact prescribed IC, stable latent residual MAE only|
 |Held-out bank|2monitor and8final-test ellipsoids; no future-field training labels|
 |Reference|Independent full-cube RK4 with step halving; no sphere/octant symmetry|
 
 The actual graph has2097152nodes and12484608directed edges, degree6; padded
-training queries are1788core+halo nodes for this pool. Neither attention nor
+training queries use1792fixed core+halo slots for the rolling pool. Neither attention nor
 the training decoder materializes the full spatial grid across all times.
 Reference evaluation encodes once per condition and queries in1024-point
 chunks. The shared `ConditionalFieldOperator` also keeps historical2Dpatch
@@ -713,8 +726,14 @@ for matched-budget controls, reproducibility and limits of the accuracy claims.
 
 ## Spatial sampling controls
 
-The canonical NO retains its fixed32core+halo pool. Optional matched controls
-start through the same `train.py`:
+The canonical NO uses a rolling pool and 10,000 cold-start Adam updates.
+It starts with 32 uniform 256-core sets, then a bounded background FIFO
+supplies a new set each update. One CPU worker prepares up to 32 future
+sets. Fixed buffers hold 1,792 nodes and 1,536 edges, preserving every
+six-neighbor stencil. Initial profiles and physical time samples are also
+redrawn each update. The selected recipe keeps the same five-second horizon.
+
+Historical 5,000-step matched controls start through the same `train.py`:
 
 ```bash
 python -m examples.icemelting3d.train --config=examples/icemelting3d/configs/train_operator_fixed_pool.py
@@ -740,7 +759,45 @@ do not remove the full-grid computation cost. Measure full memory/wall cost
 before scheduling a long comparison. Existing native reference banks are
 evaluation-only; no evolved training labels or extra Neumann loss are added.
 Per-run sampling/initial+final optimizer states and synchronized spatial/
-condition/update timers are recorded directly. No new default is promoted.
+condition/update timers are recorded directly. The older canonical recipe
+is available as `configs/train_operator_5k.py`.
+
+For a fresh 10,000-update pool comparison, use the explicit cold preset:
+
+```bash
+python -m examples.icemelting3d.train \
+  --config=examples/icemelting3d/configs/train_operator_pool_10k.py \
+  --config.sample.spatial.mode=fixed_pool --seed=43
+python -m examples.icemelting3d.train \
+  --config=examples/icemelting3d/configs/train_operator_pool_10k.py \
+  --config.sample.spatial.mode=rolling_pool --seed=43
+```
+
+Both calls initialize a fresh model and Adam state. The optional explicit
+log.model_every=250 saves model snapshots at monitoring steps, enabling
+same-trajectory midpoint and late-checkpoint diagnostics. Evaluation retains
+the original fixed1024query chunks and eight reference ellipsoids.
+
+The completed cold10kseed43pair on the same RTX4090 gives the following
+means over the same8testellipsoids. The5000columns use checkpoints from
+these new trajectories.
+
+| Spatial mode | 5000 pooled / terminal phase L2 | 10000 pooled / terminal phase L2 | Warm effective median |
+|---|---:|---:|---:|
+| Fixed |0.2347% /0.1154%|0.1203% /0.1132%|16.26ms|
+| Rolling |0.4132% /0.2264%|0.1002% /0.1711%|16.68ms|
+
+Cold process times are263.1/267.4s and active peaks1.494GiB. Both actual
+cold states and all condition/time draws match within the pair; the first5000
+sampling draws also match the preceding seed43study. Their5000model metrics
+differ from that independent run despite the same cold state and draws;
+strict optimizer-trajectory repeatability under ordinaryFP32remains unresolved.
+
+Late checkpoint tests at9000/9250/9500/9750/10000still fluctuate. The median
+pooled phase error is0.1203%fixed/0.1439%rolling; the final pooled comparison
+favors rolling on7of8inputs and terminal favors fixed on8of8. These outcomes
+support an endpoint-sensitive comparison,without a stable population ranking.
+[Cold10krecord](../../docs/tasks/archive/melting-pools-cold10k.md).
 
 The2026-10-31 matched cold5000comparison uses the same80000actual ellipsoids,
 40000time draws, initial model/Adam state and first32core sets. Final mean
@@ -767,7 +824,20 @@ rolling, so whole-field phase and tiny late-solid rankings differ.
 Physical L2 uses24^3diagnostic nodes at five times, averaged per input. References
 integrate the full128^3native graph; these are not full-grid/continuum L2 or a
 fresh blind/seed-stability claim. Convergence curves use two fixed monitoring
-inputs, distinct from the eight final evaluation inputs. Defaults stay fixed.
+inputs, distinct from the eight final evaluation inputs. These are historical 5,000-step results.
+The 2026-11-11 seed43 repeat also uses FP32 for both actual saved models,
+Adam5000 and the identical eight test inputs. Its final pooled phase errors
+are0.1290%fixed and0.5449%rolling,terminal0.2062%/0.5199%. These are final-model
+comparisons. Late monitoring on two separate inputs fluctuates strongly:
+seed43rolling is0.1115%at4750and0.4739%at5000; the4000–5000monitor median
+is0.1498%rolling versus0.2012%fixed. In seed42the corresponding medians
+are0.1089%rolling/0.0936%fixed. Thus a final-update preference does not establish
+a lower converged error floor or worse rolling generalization. Both seed pairs
+reuse the same spatial draw sequence and the same eight test ellipsoids.
+Both recipes draw new initial conditions and times each update. The reference
+uses FP64for both arms; training and actual saved neural parameters are FP32.
+[Precision and endpoint audit](../../docs/tasks/archive/melting-pool-generalization-audit.md).
+
 Full-grid training was canceled by the user after a3update performance probe
 (15.44s warm step,38.31GiB activepeak); no full5000accuracy result is claimed.
 Fresh standard1024query GPU checkpoint replay passes. A supplemental65536query

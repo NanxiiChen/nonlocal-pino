@@ -17,7 +17,7 @@ import numpy as np
 from ml_collections import ConfigDict
 
 from .geometry import GeometrySamplingExhausted, sample_geometry, validate_geometry
-from .inputs import conditioning, graph_payload, initial_payload, pad_graph
+from .inputs import conditioning, graph_payload, initial_payload, make_core_sampler, pad_graph
 from .problem import validate
 from .full_grid import full_graph, is_full, validate_full
 
@@ -212,7 +212,8 @@ def build_input(config, seed, geometry_id, revision, initial_record):
         actual_halo = len(mesh['points'])
         actual_neighbors = int(np.max(np.sum(graphs[0]['coefficients'] > 0, axis=-1)))
     else:
-        graphs = [graph_payload(c, mesh, matrix, rng) for _ in range(c.sample.K_pool)]
+        sample_cores = make_core_sampler(c, mesh)
+        graphs = [graph_payload(c, mesh, matrix, rng, sample_cores=sample_cores) for _ in range(c.sample.K_pool)]
         actual_halo = max(len(graph['graph_points']) for graph in graphs)
         actual_neighbors = max(graph['neighbors'].shape[1] for graph in graphs)
         if actual_halo > c.operator.online.halo or actual_neighbors > c.operator.online.neighbors:

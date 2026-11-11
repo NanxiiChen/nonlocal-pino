@@ -53,14 +53,25 @@ The edge formula follows from the difference of two hyperbolic tangents divided 
 
 <figure>
   <a href="assets/icemelting3d.png"><img src="assets/icemelting3d.png" width="1800" height="1170" alt="Three predicted ice ellipsoids shrinking across five times"></a>
-  <figcaption>Held-out inputs 5, 9 and 2 at 0, 1.25, 2.5, 3.75 and 5 s. Surfaces are predicted φ = 0 isosurfaces extracted from 96³ visualization queries.</figcaption>
+  <figcaption>Historical visualization from the earlier fixed-pool 5,000-step model. Held-out inputs 5, 9 and 2 at 0, 1.25, 2.5, 3.75 and 5 s. Surfaces are predicted φ = 0 isosurfaces extracted from 96³ visualization queries.</figcaption>
 </figure>
 
 ## References and comparisons
 
+The selected cold 10,000-step rolling model gives **0.1002% pooled / 0.1711% terminal phase L2** and **0.2908% / 8.4058% solid-indicator L2** on eight reference inputs. The native reference integrates the full cubic graph; neural error is measured on a 24³ diagnostic grid at five times.
+
+| Pool, cold 10,000 updates | Pooled phase L2 | Terminal phase L2 | Warm effective median |
+| --- | ---: | ---: | ---: |
+| Fixed | 0.1203% | 0.1132% | 16.26 ms |
+| Rolling, selected | 0.1002% | 0.1711% | 16.68 ms |
+
+Both arms share runtime seed 43, initial model/Adam state, input shapes and time draws. Timings were measured serially on the same RTX 4090; active peaks are about 1.494 GiB. Late checkpoints fluctuate and their pooled medians favor fixed (0.1203% versus 0.1439%). The selected rolling recipe reflects the user's choice after this finite-budget comparison.
+
+The historical 5,000-step optimizer comparison below uses the earlier fixed spatial pool.
+
 The eight held-out shapes use time-refined direct nonlocal integration on the \(128^3\) graph. The field errors below pool five times on a \(24^3\) diagnostic grid. The optimizer control uses the same input draws and final budget.
 
-| Mean relative error | Adam, selected | SOAP control |
+| Mean relative error | Adam, historical 5k | SOAP, historical 5k |
 | --- | ---: | ---: |
 | Pooled phase \(L^2\) | 0.2266% | 0.0785% |
 | Terminal phase \(L^2\) | 0.0922% | 0.1291% |
@@ -76,9 +87,10 @@ In the separate one-shape local FEM check, the two references differ by 0.1474% 
 | --- | --- |
 | Condition | \(32^3\) volume, \(4^3\) patches, 512 tokens |
 | Model | Width 48, four heads, two encoder blocks, three time-FiLM layers |
-| Spatial work | \(128^3\) graph, horizon 0.01, 256 cores plus full halo, 32 fixed sets |
+| Spatial work | \(128^3\) graph, horizon 0.01, 256 cores plus full halo, 32 initial sets and a background rolling FIFO |
+| Background pool | One CPU worker, 32 prefetched sets, 1,792 node slots / 1,536 edges |
 | Samples per update | 16 fresh ellipsoids and 8 shared times |
-| Optimizer | Adam, \(10^{-3}\) initial rate, 5,000 updates, ordinary FP32 |
+| Optimizer | Adam, \(10^{-3}\) initial rate, 10,000 updates, ordinary FP32 |
 
 ~~~bash
 source .venv/bin/activate

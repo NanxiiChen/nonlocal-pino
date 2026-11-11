@@ -10795,3 +10795,141 @@ The user authorizes the release. Merge the corrected source links through
 dev into main and use the existing push-triggered workflow. Match the
 workflow run to the main merge SHA and verify the published report at
 `/nonlocal-pino/`. Relation: GitHub Pages repository rename.
+
+## 2026-11-11 — Separate PINO spatial sampling from changes to the operator
+
+Hold the graph, quadrature, encoder and explicit boundary losses fixed in the
+primary core-count study. For the channel, retain all stencil support needed
+for sampled PDE targets and the existing boundary residuals. Compare an
+area-proportional draw to a physical boundary-band stratified draw at the
+same core count, using area fractions to preserve the original loss measure.
+Do not infer neural accuracy or runtime from stencil coverage alone.
+For confined CH, treat exact residual-row sampling and a sparse reformulation
+as different experiments because the mass projection and dense resolvent
+depend on all physical nodes. Reuse historical regular-domain pool comparisons
+and propose matched current-preset repeats before any default promotion.
+Relation: spatial pool comparisons and the five PINO recipes.
+
+## 2026-11-11 — Screen compact core sets and retime on the current GPU
+
+The RTX 4090 currently reports 49,140 MiB. Keep old device timings as historical
+evidence and compare new training arms serially on the same device. Reuse
+the opt-in strict-padding controls for the regular domains. Retest the current
+Electropolish recipe at two runtime seeds and the Melting recipe at a second
+seed. Keep the same first 32 sets and actual condition/time draws within each
+pair. Core-set background production can share lifecycle conventions across
+examples while per-example defaults follow the measured trade-off.
+
+On 32 saved channel geometries, a 512-core scattered draw requires about 94%
+of the domain nodes with complete support. Spatial tiles at the same nominal
+budget reduce the union to about 31%. Include tiles in the channel screening
+rather than extending four long scattered runs before measuring throughput.
+One geometry-specific wall band of width delta with exact area-fraction
+weights is sufficient for the first boundary-density test. The explicit
+boundary terms and conditioning tokens remain full. Relation: PINO spatial
+sampling study.
+
+## 2026-11-11 — Run matched channel and particle sampling experiments
+
+Compare 512 scattered and 512 tile-distributed channel residual rows with
+the full-grid control on the current RTX 4090. Preserve 36 time samples, the
+full geometry encoder, all physical boundary rows and complete nonzero
+stencils. Draw eight tiles with replacement by quadrature mass. Use 64 rows
+per tile, with a uniform without-replacement subsample only for larger edge
+tiles and an inclusion-probability correction. Use padded fixed-shape buffers.
+For ceramic corrosion, put 128 of 256 draws within one interaction radius of
+the actual polygonal hole edges and weight by stratum volumes. Use the
+published 350 s physics and a separately prepared wall-core bank from the
+same input preparation seed, proving geometry and non-PDE payload parity.
+Queue GPU arms serially after the already active regular-domain study.
+
+## 2026-11-11 — Keep spatial sampling choices qualified by the completed case
+
+All same-device queues exited successfully. Both current Electropolish pairs
+favor rolling, while the new Melting seed43 repeats the prior preference for
+fixed on whole-field phase error. Channel 512-core tiles halve scattered-step
+time but give21.01%reserved phase at2k versus8.66%scatter and6.99%full.
+Ceramic half-wall sampling fails at20k with32.18%local phase versus3.46%area,
+also failing against the native reference. Preserve these negative controls.
+Do not promote a universal sampling default from coverage or throughput alone.
+The common2kchannel budget leaves all development curves declining, so any
+longer-budget claim requires its own matched run. Relation: PINO sampling study.
+
+## 2026-11-11 — Promote rolling spatial inputs only for Electropolish
+
+The user requests the improved rolling cases' documentation and best defaults.
+Promote the current Electropolish width96/Nt16/Adam10k recipe to the validated
+rolling_pool selector, with256cores,32initial sets,3328node/3072edge capacities,
+one CPU worker and32prefetch entries. Two paired seeds favor rolling against the
+same64localFD101cases, with approximately4–5%additional warm step time on the
+current RTX4090. Select the better observed final checkpoint for the curated
+four-input figure and report both seed pairs. Preserve the original5k control
+presets and saved configurations. Melting's measured fixed-pool preference and
+the channel/ceramic negative controls give no basis for a shared default switch.
+Update the example/root README, report source and selected artifact pointers.
+Relation: completed PINO spatial sampling study.
+
+## 2026-11-11 — Audit Melting pool accuracy before attributing its cause
+
+The user questions the fixed-pool ranking and suspects FP64 or a small test
+cohort. Use actual saved model/config/RNG/evaluation artifacts of both paired
+runs to check precision and per-input rankings. Distinguish conditional
+uncertainty across the eight reused test ellipsoids from initialization
+uncertainty across only two seed pairs and devices. A bootstrap over these
+inputs cannot establish stability across training seeds. The known chunk-size
+forward issue remains a qualification. Relation: PINO spatial sampling study.
+
+## 2026-11-11 — Qualify Melting's fixed-pool ranking by its training endpoint
+
+The checkpoint audit excludes FP64training as a confounder: all four models
+are FP32and share paired cold states/actual IC/time streams. Eight reused test
+ellipsoids favor fixed at the final5000updates in both seeds. However,seed43
+rolling monitor error jumps0.1115%at4750to0.4739%at5000,and its late median
+is lower than fixed. The fixed-pool final-model preference therefore does not
+identify a better converged generalization floor. Preserve that narrower claim
+and the small cohort and shared spatial-draw qualifications. Relation: Melting
+pool generalization audit.
+
+## 2026-11-11 — Run the Melting 10k comparison from fresh initialization
+
+The user overrides the continuation proposal with a direct cold-start request.
+Run both fixed and rolling arms to10000updates with runtime seed43. Build a
+fresh model and Adam state in each arm and retain the step-indexed LR schedule.
+Save model-only snapshots at the250update monitoring cadence for endpoint
+analysis. No continuation code or old checkpoint loading enters training.
+Compare5000and10000states from the same new trajectory. Relation: Melting
+pool precision and endpoint audit.
+
+## 2026-11-11 — Retain endpoint-qualified Melting pool results after cold10k
+
+Both authorized cold runs and checkpoint evaluations finish. Final pooled
+phase favors rolling0.1002%overfixed0.1203%,while finalterminalphase favors
+fixed0.1132%overrolling0.1711%. Five late test checkpoints still fluctuate and
+their pooledmedian favors fixed. Preserve the finite-budget/8input scope and
+avoid a universal sampling-order claim. New5kmidpoints differ from independent
+old5kstates despite exact cold/input prefix identities; ordinaryGPUoptimizer
+repeatability remains unqualified. No default promotion follows this run.
+Relation: Melting cold10kpool comparison.
+
+## 2026-11-11 — Promote the user-selected Melting rolling10k recipe
+
+The user chooses rolling as the default after the cold10k comparison.
+Set the canonical operator to Adam10000 and rolling K256/32initial sets,
+1792node/1536edge buffers,oneworker/32prefetch. Freeze the old canonical5k
+base before redirecting the fixed-control import, so the rolling/fixed/10k
+research presets preserve their exact values and avoid recursion. Record
+selected final pooled/terminalphase0.1002/0.1711% on8native test inputs,
+late fluctuation and ordinaryGPUrepeatability limits. Runtime seed remains
+provenance. Relation: Melting cold10k comparison and user default selection.
+
+## 2026-11-11 — Preserve historical Melting figure provenance in the rolling release
+
+Keep the existing 3D phase isosurface gallery and explicitly identify its
+fixed-pool 5,000-step checkpoint. The new selected rolling 10k result has its
+own numerical table and artifact pointer. Do not present the historical image
+or its separate local-FEM audit as observations of the new model. Re-rendering
+and dependency installation are unnecessary for this default/documentation
+request. Six focused Melting regressions, saved-config/checkpoint parity and
+the nine-page report build pass. The user authorizes publication of the current
+code and records via dev commit, regular main merge and main-only push.
+Relation: Melting rolling-default promotion and completed sampling study.

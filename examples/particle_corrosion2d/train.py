@@ -48,6 +48,10 @@ def load_bank(path,c):
         if manifest['config']['nl'][name]!=actual['nl'][name]:raise ValueError(f'Bank nonlocal {name} differs')
     for name in ('K_pool','K_core'):
         if manifest['config']['sample'][name]!=actual['sample'][name]:raise ValueError(f'Bank {name} differs')
+    saved_sample = manifest['config']['sample']
+    if ('core_wall' in saved_sample) != ('core_wall' in actual['sample']) or (
+            'core_wall' in saved_sample and saved_sample['core_wall'] != actual['sample']['core_wall']):
+        raise ValueError('Bank ceramic-wall core sampling differs from training')
     for name in ('domain_shape','wall_points_per_particle','wall_points_per_side','mouth_points','ic_points','geometry_count'):
         if manifest['config']['operator'][name]!=actual['operator'][name]:raise ValueError(f'Bank conditioning {name} differs')
     if mouth_sampling_policy(ConfigDict(manifest['config'])) != mouth_sampling_policy(c):

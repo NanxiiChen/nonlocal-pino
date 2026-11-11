@@ -144,7 +144,7 @@ def melting():
 
 def electropolish():
     case = 'electropolish2d'
-    run = LOGS / case / '20261111-electro-time-audit-s42-t16-w96'
+    run = LOGS / case / 'pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool'
     checkpoint = run / 'model_final.eqx'
     source = run / 'spatial_evaluation64.npz'
     evaluation = run / 'spatial_evaluation64.json'
@@ -186,7 +186,7 @@ def electropolish():
             if col == 0: ax.set_ylabel(f'Input {sample}\nL2 = {100*error:.2f}%', fontsize=9)
         records.append(dict(index=sample, reference=str(path), pooled_phi=error))
     fig.colorbar(image, ax=axes.ravel().tolist(), shrink=.7, label='PINO phi')
-    fig.suptitle('Electropolishing · four unseen interfaces at 10,000 updates\nPINO phase with dashed local-FD interfaces at phi = 0.5', fontsize=13)
+    fig.suptitle('Electropolishing · rolling spatial pool at 10,000 updates\nPINO phase with dashed local-FD interfaces at phi = 0.5', fontsize=13)
     return save(fig, case, dict(run=str(run), checkpoint=str(checkpoint),
         source_files=[str(source), str(evaluation)], samples=list(samples),
         physical_times=[t*config['nondim']['T_c'] for t in times], records=records,

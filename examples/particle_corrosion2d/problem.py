@@ -40,6 +40,14 @@ def validate(c):
             raise ValueError('Initial lifting time_scale must be positive finite')
         if c.nl.method != 'nonlocal':
             raise ValueError('Initial lifting is qualified only for the explicit nonlocal path')
+    if 'core_wall' in c.sample:
+        spec = c.sample.core_wall
+        if (set(spec) != {'distance', 'count'} or c.nl.method != 'nonlocal'
+                or 'full_grid' in c.sample or 'online' not in c.operator
+                or isinstance(spec.distance, bool) or not np.isfinite(spec.distance) or spec.distance <= 0
+                or isinstance(spec.count, bool) or not isinstance(spec.count, int)
+                or not 0 < spec.count < c.sample.K_core):
+            raise ValueError('core_wall requires a positive distance and both wall and bulk draws in rolling nonlocal core+halo')
     p = c.physical
     values = [p.kappa,p.n_ch,p.n_ac1,p.n_ac2,p.n_ac3,p.c_se,p.c_le,
               c.sample.t_max,c.mesh.spacing,c.nl.delta]

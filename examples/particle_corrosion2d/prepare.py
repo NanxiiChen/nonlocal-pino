@@ -12,7 +12,7 @@ import numpy as np
 from ml_collections import ConfigDict
 
 from .geometry import sample_geometry
-from .inputs import conditioning,graph_payload,initial_payload,pad_graph
+from .inputs import conditioning,graph_payload,initial_payload,make_core_sampler,pad_graph
 from .problem import validate
 
 
@@ -27,7 +27,8 @@ def one_geometry(arguments):
     mesh=build_mesh(c,record,c.mesh.spacing)
     matrix=build_operator(c,record,mesh['points'],mesh['volumes'])
     fixed={**conditioning(c,record),**initial_payload(c,mesh,rng)}
-    graphs=[graph_payload(c,mesh,matrix,rng) for _ in range(c.sample.K_pool)]
+    sample_cores=make_core_sampler(c,mesh)
+    graphs=[graph_payload(c,mesh,matrix,rng,sample_cores=sample_cores) for _ in range(c.sample.K_pool)]
     metadata=dict(nodes=len(mesh['points']),triangles=len(mesh['triangles']),
                   seconds=time.perf_counter()-start,seed=int(seed))
     return record,fixed,graphs,metadata
@@ -58,7 +59,8 @@ def prepare(c,output,workers,runtime_seed):
     manifest=dict(config=c.to_dict(),runtime_seed=seed,geometries=[r[0] for r in results],
         records=[r[3] for r in results],halo_size=halos,neighbor_size=neighbor_size,
         seconds=time.perf_counter()-start,training_fields_generated=False,
-        sampling='mass-proportional core and IC sampling with replacement',
+        sampling=('ceramic-wall and bulk stratified core draws; mass-proportional IC draws'
+                  if 'core_wall' in c.sample else 'mass-proportional core and IC sampling with replacement'),
         fixed_keys=list(fixed),graph_keys=list(graphs))
     (output/'manifest.json').write_text(json.dumps(manifest,indent=2,allow_nan=False)+'\n')
     print(json.dumps(dict(complete=str(output),seconds=manifest['seconds'],

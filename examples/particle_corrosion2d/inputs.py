@@ -1,8 +1,8 @@
 """Known geometry/function measures and fixed-shape sampled PDE payloads.
 
-No evolved solution is computed here. Core and IC nodes are sampled with
-replacement in proportion to P1 lumped mass; their unweighted empirical means
-estimate the respective physical-domain means. Every core retains all its
+No evolved solution is computed here. The baseline draws core and IC nodes
+with replacement in proportion to P1 lumped mass. The optional wall sampler
+uses weighted stratum means to estimate the same physical-domain mean. Every core retains all its
 visible horizon neighbors. Boundary quadrature is independent of mesh nodes.
 """
 import numpy as np
@@ -120,11 +120,58 @@ def wall_quadrature(c, record):
     return np.concatenate(points),np.concatenate(normals),np.concatenate(weights),np.concatenate(kinds)
 
 
-def graph_payload(c, mesh, matrix, rng):
-    """A complete core+halo subgraph, not an induced/truncated core graph."""
-    points,volumes=mesh['points'],mesh['volumes']
-    free=np.flatnonzero(~mesh['mouth'])
-    core=rng.choice(free,size=c.sample.K_core,replace=True,p=volumes[free]/volumes[free].sum())
+def particle_wall_band(points, polygons, distance):
+    """Distance band of the actual polygonal hole boundaries."""
+    near = np.zeros(len(points), dtype=bool)
+    for polygon in polygons:
+        candidates = np.flatnonzero(np.all(
+            (points >= polygon.min(axis=0)-distance) & (points <= polygon.max(axis=0)+distance), axis=1))
+        edge = np.roll(polygon, -1, axis=0)-polygon
+        squared_length = np.sum(edge**2, axis=1)
+        if np.any(squared_length <= 0):
+            raise ValueError('A ceramic wall edge has zero length')
+        offset = points[candidates, None, :]-polygon[None, :, :]
+        parameter = np.clip(np.sum(offset*edge, axis=-1)/squared_length, 0., 1.)
+        near[candidates] |= np.any(np.sum((offset-parameter[..., None]*edge)**2, axis=-1) <= distance**2, axis=1)
+    return near
+
+
+def make_core_sampler(c, mesh):
+    """Draw complete PDE targets with area sampling or fixed wall strata."""
+    volumes = mesh['volumes']
+    free = np.flatnonzero(~mesh['mouth'])
+    if 'core_wall' not in c.sample:
+        probabilities = volumes[free]/volumes[free].sum()
+
+        def area(rng):
+            return (rng.choice(free, size=c.sample.K_core, replace=True, p=probabilities),
+                    np.ones(c.sample.K_core))
+
+        return area
+
+    near = particle_wall_band(mesh['points'], mesh['hole_polygons'], c.sample.core_wall.distance)
+    strata = (free[near[free]], free[~near[free]])
+    counts = (c.sample.core_wall.count, c.sample.K_core-c.sample.core_wall.count)
+    masses = np.array([volumes[ids].sum() for ids in strata])
+    if np.any(masses <= 0):
+        raise ValueError('Both ceramic wall and bulk strata must have positive free-node area')
+    weights = np.concatenate([np.full(n, mass/masses.sum()*c.sample.K_core/n)
+                              for mass, n in zip(masses, counts, strict=True)])
+
+    def stratified(rng):
+        core = np.concatenate([rng.choice(ids, n, replace=True, p=volumes[ids]/mass)
+                               for ids, n, mass in zip(strata, counts, masses, strict=True)])
+        return core, weights
+
+    return stratified
+
+
+def graph_payload(c, mesh, matrix, rng, *, sample_cores=None):
+    """A complete core+halo subgraph, with the prescribed core loss measure."""
+    points = mesh['points']
+    if sample_cores is None:
+        sample_cores = make_core_sampler(c, mesh)
+    core, weights = sample_cores(rng)
     rows=[]; coefficients=[]
     for idx in core:
         row=matrix.getrow(int(idx))
@@ -140,7 +187,7 @@ def graph_payload(c, mesh, matrix, rng):
         neighbors[i,:len(row)]=np.searchsorted(halo,row)
         coef[i,:len(row)]=values
     return dict(graph_points=points[halo],core_indices=np.searchsorted(halo,core).astype(np.int32),
-        neighbors=neighbors,coefficients=coef,pde_weights=np.ones(len(core)))
+        neighbors=neighbors,coefficients=coef,pde_weights=weights)
 
 
 def initial_payload(c, mesh, rng):

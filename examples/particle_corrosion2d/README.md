@@ -277,6 +277,21 @@ files independently reproduce their metrics. Remaining limitations include
 finite-horizon error, slight late-time growth underestimation, and the small,
 already-inspected development cohort.
 
+## Ceramic-wall sampling experiment
+
+The [wall-core control](configs/train_physical_spaced_w256_wall_cores.py)
+reserves 128 of 256 PDE draws for free nodes within one nonlocal horizon of
+the actual ceramic polygon edges. The other 128 draws cover the remaining
+free nodes. Each draw uses the node's lumped area within its stratum.
+The stratum means are weighted by their total areas, so the estimator
+retains the full-domain PDE measure. Complete visible-pair stencils and
+the original initial and reservoir samples are used in both arms.
+
+Prepare the wall-core bank with the same input seed as its area-sampled
+partner and check the geometry and non-PDE arrays before comparing runs.
+The [study record](../../docs/tasks/archive/pino-spatial-sampling-study.md) gives
+the data paths and matched GPU procedure.
+
 ## Run the documented case
 
 Use `.venv` from the repository root; CPU meshing needs the optional

@@ -6,6 +6,10 @@ None.
 
 ## Deferred work
 
+Optional regional diagnostics and a dense Spinodal row-only timing probe from
+the [completed spatial study](tasks/archive/pino-spatial-sampling-study.md)
+remain available. All queued training and evaluation are complete; GPU is idle.
+
 The old high-mobility horizon process group618216 remains explicitly paused.
 Recovery details are preserved in the archived physical study below; do not
 automatically resume or discard it.
@@ -17,6 +21,42 @@ solve. [Feasibility](tasks/archive/traction-conditioned-elastic-pino-analysis.md
 The channel20000/lower-LR study is complete and archived below.
 
 ## Latest completed validation
+
+[Melting rolling-pool default](tasks/archive/melting-rolling-default.md).
+Canonical PINO now selects the user-approved Adam10k rolling recipe, with
+selected native phase0.1002%pooled/0.1711%terminal. Nine old presets and the
+frozen5kbase are preserved; saved-config/checkpoint parity and six Melting
+regressions pass. Example/root README, artifact pointers and report sources
+agree; the3Dfigure remains explicitly historical. Nine-page build, local
+links, source syntax and curated-image budgets pass. No training is pending.
+
+[Melting cold10kpool comparison](tasks/archive/melting-pools-cold10k.md).
+Both fresh seed43runs and final/midpoint/late8case evaluations complete.
+Final pooledphase fixed0.1203%/rolling0.1002%,terminal0.1132%/0.1711%;
+late median pooled0.1203%/0.1439%. Initialstate/actualsampling parity passes,
+but independent cold-run optimizer trajectories differ despite identical
+inputs. Endpoint and repeatability qualifications retained. GPU is idle.
+
+[Melting pool precision and endpoint audit](tasks/archive/melting-pool-generalization-audit.md).
+Actual four saved models are FP32; paired cold states and IC/time streams match.
+Eight reused test ellipsoids favor fixed in final pooled phase at both seeds,
+but two-input late monitoring fluctuates and seed43median favors rolling.
+Qualify the conclusion as final5000checkpoint performance; converged population
+accuracy is unresolved. README updated; no new run or default change.
+
+[Electropolish rolling-pool default](tasks/archive/electropolish-rolling-default.md).
+The canonical operator now uses the measured width96/Nt16/Adam10k rolling
+spatial pool. Example/root README and report sources show phase1.547%pooled/
+1.326%terminal on64localFD101cases and both seed-pair comparisons. The curated
+four-input figure matches the selected checkpoint. All13historical presets,
+checkpoint loading, ten focused regressions, nine-page build and133local links
+pass. Local changes only; GPU is idle.
+
+[PINO spatial sampling study](tasks/archive/pino-spatial-sampling-study.md).
+Two Electropolish pairs favor rolling; Melting favors fixed. Channel tile512
+is 2.37x faster per step but less accurate at2k than full/scatter. Ceramic
+wall128+bulk128 fails versus area256 at20k. All queued stages exited0 on the
+same RTX4090, with paired streams and saved-field metrics checked.
 
 [GitHub Pages repository rename](tasks/archive/pages-repository-rename.md).
 The public report uses `/nonlocal-pino/`. The README and all nine generated
