@@ -31,8 +31,8 @@ The spatial operator evaluates derivatives from neighboring predictions, avoidin
 
 | Case | Varying condition | Model | Phase relative \(L^2\), pooled / terminal | Reference and cohort |
 | --- | --- | --- | ---: | --- |
-| [01 · Ice melting](ice-melting.html) | Initial ellipsoid | Driven Allen–Cahn | 0.2266% / 0.0922% | Direct nonlocal, 8 held-out shapes |
-| [02 · Electropolish](electropolish.html) | Initial rough interface | KKS AC/CH | 1.740% / 1.540% | Local finite differences, 64 unseen interfaces |
+| [01 · Ice melting](ice-melting.html) | Initial ellipsoid | Driven Allen–Cahn | 0.1002% / 0.1711% | Direct nonlocal, 8 held-out shapes |
+| [02 · Electropolish](electropolish.html) | Initial rough interface | KKS AC/CH | 1.547% / 1.326% | Local finite differences, 64 unseen interfaces |
 | [03 · Spinodal decomposition](spinodal.html) | Two hole positions and radii | Confined Cahn–Hilliard | 4.8329% / 5.1935% | Direct nonlocal, 8 reused development geometries |
 | [04 · Two-phase flow](two-phase-flow.html) | Upper and lower channel walls | Incompressible NS–CH | 1.6435% / 2.1961% | Local mixed FEM, 3 reused reserved geometries |
 | [05 · Ceramic-particle corrosion](particle-corrosion.html) | Six inert particle shapes and poses | KKS AC/CH | 2.933% / 5.757% | Local P1 FEM, 4 development geometries |

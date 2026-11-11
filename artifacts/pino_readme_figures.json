@@ -99,11 +99,11 @@
       "weights_or_raw_data_copied": false
     },
     "electropolish2d": {
-      "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261111-electro-time-audit-s42-t16-w96",
-      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261111-electro-time-audit-s42-t16-w96/model_final.eqx",
+      "run": "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool",
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool/model_final.eqx",
       "source_files": [
-        "/root/autodl-tmp/tf-logs/electropolish2d/20261111-electro-time-audit-s42-t16-w96/spatial_evaluation64.npz",
-        "/root/autodl-tmp/tf-logs/electropolish2d/20261111-electro-time-audit-s42-t16-w96/spatial_evaluation64.json"
+        "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool/spatial_evaluation64.npz",
+        "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool/spatial_evaluation64.json"
       ],
       "samples": [
         0,
@@ -122,29 +122,29 @@
         {
           "index": 0,
           "reference": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_000/local101.npz",
-          "pooled_phi": 0.023503652488370795
+          "pooled_phi": 0.01914254879925993
         },
         {
           "index": 21,
           "reference": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_021/local101.npz",
-          "pooled_phi": 0.02321177345937199
+          "pooled_phi": 0.016573884111633408
         },
         {
           "index": 42,
           "reference": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_042/local101.npz",
-          "pooled_phi": 0.020850779537567633
+          "pooled_phi": 0.018913991769918734
         },
         {
           "index": 63,
           "reference": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_063/local101.npz",
-          "pooled_phi": 0.014159623110947638
+          "pooled_phi": 0.009976402041227872
         }
       ],
       "selection": "All four previously declared spatial-refinement inputs (0,21,42,63), not selected by model score",
       "reference": "Independent local FD101 at 21 uniform times",
       "display": "Saved physical phase, continuous display interpolation only; no phase clipping or metric interpolation",
       "image": "assets/pino/electropolish2d.png",
-      "bytes": 404017,
+      "bytes": 406448,
       "dpi": 150,
       "field": "phi",
       "numerical_fields_changed": false,
@@ -494,5 +494,5 @@
   "inference_runs": 0,
   "reference_solves": 0,
   "training_updates": 0,
-  "total_image_bytes": 2266421
+  "total_image_bytes": 2268852
 }

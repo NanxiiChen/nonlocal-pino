@@ -48,12 +48,23 @@ Mean absolute PDE residuals and three physical MSE terms (initial, top and botto
 
 <figure>
   <a href="assets/electropolish2d.png"><img src="assets/electropolish2d.png" width="2025" height="1095" alt="Phase evolution for four rough initial interfaces over five times"></a>
-  <figcaption>The 10,000-step operator on unseen inputs 0, 21, 42 and 63 at 0, 1.25, 2.5, 3.75 and 5 s. Dashed curves are local-FD101 phase interfaces.</figcaption>
+  <figcaption>The 10,000-step rolling-pool operator on unseen inputs 0, 21, 42 and 63 at 0, 1.25, 2.5, 3.75 and 5 s. Dashed curves are local-FD101 phase interfaces.</figcaption>
 </figure>
 
 ## References and comparisons
 
-The selected 10,000-step operator scores **1.740% pooled and 1.540% terminal phase error**, and **2.072% pooled and 1.843% terminal concentration error**. Evaluation uses an independent centered local FD101 reference with mirrored side-wall closure, 64 unseen interfaces, \(101\times51\) nodes and 21 saved times. The same checkpoint gives 2.002% pooled phase error on the four finer FD401 cases. The selected result comes from one cold run.
+The selected 10,000-step operator scores **1.547% pooled and 1.326% terminal phase error**, and **1.860% pooled and 1.580% terminal concentration error**. Evaluation uses an independent centered local FD101 reference with mirrored side-wall closure, 64 unseen interfaces, \(101\times51\) nodes and 21 saved times. The same checkpoint gives 1.637% pooled phase error on the four finer FD401 cases. The representative result uses the better observed final run of two paired seeds.
+
+The current spatial study compares fixed and rolling pools with identical cold model and Adam state, initial profiles, times, IC/BC queries and safe padding. Both use width 96, 16 shared times and 10,000 updates.
+
+| Runtime seed | Pool | Phase pooled / terminal | Concentration pooled / terminal | Warm step median |
+| --- | --- | ---: | ---: | ---: |
+| 42 | Fixed | 1.747% / 1.526% | 2.089% / 1.827% | 40.06 ms |
+| 42 | Rolling | **1.547% / 1.326%** | **1.860% / 1.580%** | 41.61 ms |
+| 43 | Fixed | 2.633% / 2.050% | 3.142% / 2.440% | 39.78 ms |
+| 43 | Rolling | **2.465% / 1.672%** | **2.930% / 2.001%** | 41.93 ms |
+
+All four arms ran serially on the same RTX 4090. Warm steps include synchronized condition preparation, spatial transfer and updates after the first 100 steps. Active peak memory is about 13.0 GiB. Rolling improves errors in both pairs with about 4–5% more step time. Seed-to-seed spread is larger than the pooled improvement within each pair.
 
 The historical 5,000-step local-AD comparison used the same FD101 bank. Its two arms share the initial model and actual condition, time, core, IC and prescribed-boundary draws. The AD arm computes coordinate Hessian traces and adds the side-wall loss.
 
@@ -73,8 +84,9 @@ The reported cold time includes setup and periodic evaluation. It excludes refer
 | --- | --- |
 | Condition | \(32\times64\) image, \(4\times8\) patches, 64 tokens |
 | Model | Width 96, four heads, two encoder blocks, spatial cross-attention and three time-FiLM layers |
-| Spatial work | \(101\times51\) graph, horizon 0.02, 256 cores plus full halo, 32 fixed sets |
+| Spatial work | \(101\times51\) graph, horizon 0.02, 256 cores plus full halo, 32 initial sets and a background rolling FIFO |
 | Samples per update | 8 fresh initial profiles and 16 shared times |
+| Background pool | One CPU worker, 32 prefetched sets, fixed 3,328-node / 3,072-edge capacities |
 | Optimizer | Adam, \(10^{-3}\) initial rate, 10,000 updates, ordinary FP32 |
 
 ~~~bash

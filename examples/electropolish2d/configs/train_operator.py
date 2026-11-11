@@ -1,5 +1,5 @@
-"""Recommended Electropolish PINO with 16 shared times and width 96."""
-from examples.electropolish2d.configs.train_operator_5k import get_config as baseline
+"""Recommended rolling-pool Electropolish PINO with 16 shared times and width 96."""
+from examples.electropolish2d.configs.train_operator_rolling_pool import get_config as baseline
 
 
 def get_config():

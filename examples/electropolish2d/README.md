@@ -39,7 +39,7 @@ varies. These are prescribed inputs, not predicted fields.
 | Physical outputs | Bounded phase and an unrestricted liquid-concentration output; total concentration reconstructed by the KKS mixture |
 | Loss | Original AC/CH absolute residuals + initial/top/bottom physical MSE; five losses balanced by inverse parameter-gradient norms |
 | IC / BC | Soft initial and top/bottom constraints; side closure supplied by the native graph |
-| Sampling | 8 fresh rough interfaces per update, 16 shared times, 101×51 graph, horizon 0.02, 256 cores + halo, 32 fixed core sets |
+| Sampling | 8 fresh rough interfaces per update, 16 shared times, 101×51 graph, horizon 0.02, 256 cores + halo, 32 initial sets followed by background rolling updates |
 | Optimizer | Adam, initial learning rate 1e-3, 10,000 updates, ordinary FP32 with highest matmul precision |
 
 Removing query-local IC features prevents the decoder from bypassing the image
@@ -49,22 +49,25 @@ unrestricted because total concentration has no justified hard upper bound1.
 
 ### Representative results
 
-The selected checkpoint uses 16 shared times, width 96 and 10,000 updates.
-The table reports one seed-42 cold run on 64 unseen initial interfaces.
+The selected final checkpoint uses 16 shared times, width 96, 10,000 updates
+and a rolling spatial pool. The table reports the better observed final run
+of the two paired runtime seeds on 64 unseen initial interfaces. Runtime
+seeds are provenance, and the default creates a fresh run.
 
 | Mean per-interface relative L2 | Pooled over 21 times | At 5 s |
 |---|---:|---:|
-| Phase, independent local FD101 | **1.740%** | **1.540%** |
-| Concentration, independent local FD101 | 2.072% | 1.843% |
-| Phase, native nonlocal reference | 1.537% | 1.256% |
-| Concentration, native nonlocal reference | 1.833% | 1.506% |
+| Phase, independent local FD101 | **1.547%** | **1.326%** |
+| Concentration, independent local FD101 | 1.860% | 1.580% |
+| Phase, native nonlocal reference | 1.406% | 1.130% |
+| Concentration, native nonlocal reference | 1.698% | 1.347% |
 
-Each sample uses 101×51 evaluation nodes. The four predeclared refinement
-cases score 2.043% pooled phase on FD101 and 2.002% on FD401. On the same
-training trajectory, the 5,000-step checkpoint scored 3.934% pooled phase
-on all 64 FD101 cases. At width 64, the pooled effect of increasing the
-time count was small and changed sign across the two tested seeds.
-[Paired checkpoint and reference audit](../../docs/tasks/archive/electro-time-reference-audit.md).
+Each sample uses 101×51 evaluation nodes and 21 uniform saved times.
+The four predeclared refinement cases score 1.615% pooled phase on FD101
+and 1.637% on FD401. The two-seed spatial comparison below supports the
+rolling recipe; the selected score remains a finite-cohort measurement.
+The earlier fixed-pool 10,000-step result was 1.740% pooled and 1.540%
+terminal phase L2. Its same-trajectory 5,000-step checkpoint scored 3.934%
+pooled phase. [Historical budget and reference audit](../../docs/tasks/archive/electro-time-reference-audit.md).
 
 ![Four unseen rough interfaces evolving during electropolishing](../../assets/pino/electropolish2d.png)
 
@@ -81,7 +84,7 @@ python -m examples.electropolish2d.train --config=examples/electropolish2d/confi
 ```
 
 The selected model is stored at
-`/root/autodl-tmp/tf-logs/electropolish2d/20261111-electro-time-audit-s42-t16-w96/model_final.eqx`.
+`/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool/model_final.eqx`.
 The prepared monitor bank is
 `/root/autodl-tmp/data/electropolish2d/operator_random16_v1`;
 training generates fresh initial profiles online. The64-input native/local test
@@ -654,7 +657,7 @@ as the **current recommended NO preset**. It learns random initial fields over
 | Compilation | Ordinary FP32, highest matmul precision |
 | Conditioning | Width 96, initial-image encoder, spatial attention and time FiLM, `arch.local_input=zero` |
 | Physics | Original AC/CH, soft IC and top/bottom BC: five losses, gradient balancing |
-| Sampling | 16 shared times and fixed core+halo spatial sets, with causal weighting disabled |
+| Sampling | 16 shared times and background rolling core+halo sets, with causal weighting disabled |
 
 ```bash
 XLA_PYTHON_CLIENT_PREALLOCATE=false python examples/electropolish2d/train.py \
@@ -674,6 +677,57 @@ checkpoint scores. The validation sections below retain these historical control
 
 Generated figures/arrays are optional local artifacts; see the root
 [artifact restoration policy](../../README.md#artifacts-and-recovery).
+
+### Current rolling-pool default
+
+The canonical `configs/train_operator.py` starts with 32 complete 256-core
+sets, then replaces one set each update from a bounded background FIFO.
+Each update draws fresh initial profiles and times. The graph, physical
+parameters and five loss terms are shared by the fixed and rolling controls.
+Safe capacities are 3,328 graph nodes and 3,072 edges, with one CPU worker
+and 32 prefetched sets. Every time in a batch shares the spatial queries.
+
+The matched cold 10,000-step study uses width 96, batch 8 and 16 shared
+times. Both modes have identical initial model/Adam state, actual initial
+profiles, times and IC/BC draws, the first 32 spatial sets, and fixed padding.
+
+| Runtime seed | Spatial pool | Phase pooled / terminal L2 | Concentration pooled / terminal L2 | Warm effective median |
+|---|---|---:|---:|---:|
+| 42 | Fixed | 1.747% / 1.526% | 2.089% / 1.827% | 40.06 ms |
+| 42 | Rolling | **1.547% / 1.326%** | **1.860% / 1.580%** | 41.61 ms |
+| 43 | Fixed | 2.633% / 2.050% | 3.142% / 2.440% | 39.78 ms |
+| 43 | Rolling | **2.465% / 1.672%** | **2.930% / 2.001%** | 41.93 ms |
+
+Errors are means over the same 64 local FD101 cases. Warm timings were
+remeasured serially on one RTX 4090 with 49,140 MiB, excluding the first
+100 updates and including synchronized condition preparation, spatial
+retrieval/transfer and GPU updates. Peak active GPU memory is about 13.0 GiB
+in all four arms. Cold process times are 607.0/630.0 s for fixed/rolling at
+seed 42 and 610.2/626.5 s at seed 43. Compilation and evaluation contribute
+to those cold times. These measurements belong to this card.
+
+Rolling improves both physical fields in both seed pairs at roughly 4–5%
+more warm step time. The seed-to-seed spread exceeds the within-pair pooled
+improvement; the representative image uses the better observed final run.
+The first and second pairs retain their own saved configs under
+`/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-<mode>`
+and the corresponding `s43` paths, where `<mode>` is `fixed_pool` or
+`rolling_pool`.
+
+The earlier spatial-control presets below retain width 64, four times and
+5,000 steps. To repeat the current comparison with matched safe padding:
+
+```bash
+python -m examples.electropolish2d.train \
+  --config=examples/electropolish2d/configs/train_operator.py
+python -m examples.electropolish2d.train \
+  --config=examples/electropolish2d/configs/train_operator_fixed_pool.py \
+  --config.arch.width=96 --config.sample.Nt=16 --config.train.iterations=10000
+```
+
+Use the same runtime `--seed` for both arms to reproduce a paired experiment.
+Actual condition/time/core traces, saved fields and timing records are linked
+from the [study record](../../docs/tasks/archive/pino-spatial-sampling-study.md).
 
 ### Full, fixed-pool and rolling-pool spatial controls
 

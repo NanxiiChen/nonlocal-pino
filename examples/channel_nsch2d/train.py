@@ -33,6 +33,7 @@ _SEED=flags.DEFINE_integer('seed',None,'Run provenance, not a strategy parameter
 
 
 def train(c):
+    entry_start=time.perf_counter()
     validate_config(c)
     if 'refinement' in c.train:
         from examples.channel_nsch2d.refinement import train_refinement
@@ -171,6 +172,16 @@ def train(c):
     updates=c.train.iterations-start_step
     sampled=np.empty((updates,c.operator.condition_batch),dtype=np.int32)
     discrete='time_discretization' in c
+    spatial_study='spatial' in c.sample
+    compact=spatial_study and c.sample.spatial.mode!='full'
+    spatial_pool=nullcontext(None)
+    if compact:
+        from examples.channel_nsch2d.spatial_sampling import SpatialPool
+        spatial_pool=SpatialPool(c,actual_bank)
+        core_ids=np.empty((updates,c.operator.condition_batch,c.sample.spatial.core_count),dtype=np.int32)
+        pool_ids=np.empty_like(sampled)
+        halo_counts=np.empty_like(sampled)
+    spatial_seconds=[]
     continuous_sampler=None
     if 'time_derivative' in c:
         from examples.channel_nsch2d.temporal import sample_continuous
@@ -212,7 +223,7 @@ def train(c):
     if 'phase_coordinate' in c:
         np.savez_compressed(run/'prediction_initial.npz',fields=prediction)
     producer=(RollingGeometryPool(c,run,forbidden) if online else nullcontext(None))
-    with (run/'loss.jsonl').open('x') as stream,producer as pool:
+    with (run/'loss.jsonl').open('x') as stream,producer as pool,spatial_pool as spatial:
         for i in range(start_step,c.train.iterations):
             offset=i-start_step
             if online:
@@ -221,6 +232,7 @@ def train(c):
                     slots,values=replacement
                     bank=replace(bank,jnp.asarray(slots),convert(values))
                     actual_amplitudes[slots]=values['amplitudes']
+                    if compact:spatial.install(slots,values,pool.draw_ids[slots],i)
             ki=jax.random.fold_in(data_key,i);kg,kt=jax.random.split(ki)
             ids=jax.random.randint(kg,(c.operator.condition_batch,),0,c.operator.train_conditions)
             # Uniform stratified physical times. Optional zero is an explicit
@@ -238,7 +250,17 @@ def train(c):
                 sampled_draw_ids[offset]=pool.draw_ids[sampled[offset]]
                 sampled_amplitudes[offset]=actual_amplitudes[sampled[offset]]
             if c.sample.include_initial_time:times=jnp.concatenate((jnp.zeros(1,dtype=times.dtype),times))
-            times=times.astype(dtype);batch=jax.tree.map(lambda a:a[ids],bank)
+            times=times.astype(dtype)
+            prepare_start=time.perf_counter()
+            if compact:
+                raw,choices,cores,counts=spatial.take(sampled[offset],i)
+                pool_ids[offset],core_ids[offset],halo_counts[offset]=choices,cores,counts
+                batch=convert(raw)
+            else:
+                batch=jax.tree.map(lambda a:a[ids],bank)
+            if spatial_study:
+                jax.block_until_ready(batch)
+                spatial_seconds.append(time.perf_counter()-prepare_start)
             refresh=adaptive and i%c.balance.update_every==0
             stage,active=stage_at(i,c.stagger) if staggered else ('joint',(True,True))
             stage_counts[stage]+=1
@@ -251,7 +273,19 @@ def train(c):
             else:
                 net,state,total,parts,adaptive_weights,norms=step(net,state,batch,times,
                     adaptive_weights,jnp.asarray(refresh),jnp.asarray(active,dtype=dtype))
-            total.block_until_ready();timings.append(time.perf_counter()-begin)
+            if spatial_study:
+                jax.block_until_ready((net,state,total))
+            else:
+                total.block_until_ready()
+            timings.append(time.perf_counter()-begin)
+            if spatial_study and offset==24:
+                leaves=[a for a in jax.tree.leaves((net,state)) if eqx.is_inexact_array(a)]
+                if not all(np.isfinite(a).all() for a in leaves):
+                    raise FloatingPointError('Nonfinite channel model or optimizer at update 25')
+            if spatial_study and offset in (0,24,updates-1):
+                memory=jax.devices()[0].memory_stats()
+                with (run/'spatial_memory.jsonl').open('a') as output:
+                    output.write(json.dumps(dict(step=i+1,allocator=memory),allow_nan=False)+'\n')
             if not np.isfinite(float(total)):raise FloatingPointError(f'Nonfinite loss at update {i+1}')
             if feedback_causal:
                 feedback_record=dict(step=i+1,epsilon=float(epsilon_used),
@@ -302,7 +336,12 @@ def train(c):
     sample_record=dict(indices=sampled,times=sampled_times)
     if discrete:sample_record['intervals']=sampled_intervals
     if online:sample_record.update(draw_ids=sampled_draw_ids,amplitudes=sampled_amplitudes)
+    if compact:
+        sample_record.update(core_ids=core_ids,spatial_pool_ids=pool_ids,halo_counts=halo_counts)
     np.savez_compressed(run/'sampling.npz',**sample_record)
+    if spatial_study:
+        np.savez_compressed(run/'spatial_timing.npz',update=timings,batch_preparation=spatial_seconds)
+
     np.savez_compressed(run/'prediction.npz',fields=prediction,points=reference['points'],
         time=reference['time'],amplitudes=reference['amplitudes'],reference=reference['fields'])
     time_method='BE-started BDF2 time' if discrete else 'time JVP'
@@ -334,6 +373,16 @@ def train(c):
             final_mean_weight=float(np.asarray(causal_aux['weights']).mean()),
             scope='Stopped prefixes across all sampled times and all configured soft terms per geometry; no full-time convergence guarantee')
         if feedback_causal:summary['causal']['next_epsilon']=float(epsilon)
+    if spatial_study:
+        warm=slice(10,None)
+        summary['spatial']=dict(**c.sample.spatial.to_dict(),
+            first_update_seconds=timings[0],warm_update_median_seconds=float(np.median(timings[warm])),
+            warm_batch_median_seconds=float(np.median(spatial_seconds[warm])),
+            warm_step_with_batch_median_seconds=float(np.median(
+                np.asarray(timings[warm])+np.asarray(spatial_seconds[warm]))),
+            spatial_producer_wait_seconds=spatial.wait_seconds if compact else 0.,
+            total_process_seconds=time.perf_counter()-entry_start)
+        if compact:summary['spatial']['actual_halo_median']=float(np.median(halo_counts))
     if 'boundary_sampling' in c:summary['boundary_sampling']=c.boundary_sampling.to_dict()
     if online:summary['online']=online_summary
     if staggered:summary['stagger']=dict(update_counts=stage_counts,

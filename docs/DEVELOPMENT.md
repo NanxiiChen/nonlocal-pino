@@ -1014,13 +1014,21 @@ shapes/dtypes and replace coordinates/edges/masks/SDF metadata together. FIFO
 draw identities match the first fixed pool then advance by global update, while
 condition/time keys remain independent. Record actual draws/cores and producer
 wait/transfer/synchronized condition/update times. The absence of the record
-retains the historical path; current canonical NO and single-IVP defaults stay
-unchanged. Use shared padding for fixed/rolling ablations, and distinguish full
-node coverage from interpolation/nonlocal discretization accuracy.
+retains the historical path. Canonical `configs/train_operator.py` selects the
+rolling_pool path with width96,16shared times,Adam10000,256cores,32initial
+entries,3328nodes/3072edges,oneworker/32prefetch. Historical full/fixed/rolling
+research presets retain width64/Nt4/5000. The single-IVP uses its own preset.
+Use shared padding for fixed/rolling ablations, and distinguish full node coverage from interpolation/nonlocal discretization accuracy.
 The recorded [composed-attention replay issue](issues/electropolish-attention-replay.md)
 requires distinguishing same-GPU checkpoint replay from independent CPU
 portability: never mark a failed cross-backend gate passed or silently loosen
 its tolerance. Saved-field/reference metric replay is a separate validation.
+
+The Melting spatial control optionally accepts positive integer
+log.model_every divisible by log.eval_every. It writes model-only snapshots
+at that monitoring interval, alongside the existing final optimizer state.
+The explicit train_operator_pool_10k.py control cold-trains10000updates and
+sets model_every250. Its learning-rate schedule retains global step indexing.
 
 Melting opt-in `configs/train_operator.py` dispatches from canonical train.py
 before the single-IVP validator. `operator.action=prepare|train|memory` is explicit.
@@ -1028,7 +1036,7 @@ The reusable conditional model accepts2D(CYX) or3D(CZYX)volumes, with coordinate
 queries in XY/XYZ. Preserve historical2Dpatch/key/parameter/position arithmetic;
 3Dpatch projection and positions require matching rank and width divisible by6.
 Do not tokenize every128^3physical grid node. The initial32^3volume is512tokens;
-training uses fixed core/halo queries, evaluation encodes once and chunks queries.
+training uses fixed-shape rolling core/halo queries; evaluation encodes once and chunks queries.
 Raw decoder local_dim is0; analytic prescribed IC enters only the case-level
 hard latent wrapper. Only initial ellipsoids are parameterized; later geometry
 is learned. Online parameters/SDF preparation are outside parameter AD.
@@ -1044,8 +1052,12 @@ the canonical entry, with explicit mode/max_nodes/max_edges/workers/prefetch/
 full_chunk_core fields. Case-local spatial_sampling.py uses uniform NumPy
 Generator.choice cores, complete CSR neighbors and sorted-index remapping,
 avoiding full-grid permutations/remap buffers per rolling draw. Both sampled
-controls share safe1792/1536padding and deterministic first32sets. The old
-configuration without this record retains its RandomState pool and trainer.
+controls share safe1792/1536padding and deterministic first32sets. The canonical
+operator now selects rolling K256/32initialsets/oneworker/32prefetch with
+Adam10000 and1792node/1536edgebuffers. The prior canonical5krecipe is frozen
+in train_operator_5k.py; historical fixed/rolling/full and cold10k comparison
+factories derive from it. Absence of the spatial record retains the original
+RandomState pool and trainer.
 Full chunks cover the original graph once per update; accumulate core-count
 weighted losses/parameter gradients before one optimizer update. Do not treat
 chunks as separate stochastic updates or change IC/time keys between chunks.

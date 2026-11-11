@@ -47,6 +47,11 @@ def validate_config(c):
         raise ValueError('Pilot explicitly uses one unweighted noncausal physical PDE objective')
     if c.train.optimizer not in ('adam','soap') or c.train.iterations < 1:
         raise ValueError('Operator optimizer must be adam/soap with positive update budget')
+    if 'model_every' in c.log:
+        interval = c.log.model_every
+        if (isinstance(interval, bool) or not isinstance(interval, int) or interval < 1
+                or interval % c.log.eval_every):
+            raise ValueError('Model snapshot interval must be a positive multiple of eval_every')
     if 'spatial' in s:
         from examples.icemelting3d.spatial_sampling import validate_spatial
         validate_spatial(c)

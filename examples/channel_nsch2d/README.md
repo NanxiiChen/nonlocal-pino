@@ -94,6 +94,22 @@ The same physical axes are retained; droplet positions are not shifted to align
 with the reference. The common color scale spans[-1, 1]; numerical fields are
 not clipped. Full speed/pressure galleries remain external artifacts.
 
+### Spatial sampling experiment
+
+The [matched study preset](configs/train_spatial_control.py) keeps the full
+geometry encoder and all explicit boundary residuals. It compares the full
+grid with 512 scattered PDE draws or 512 draws from eight local tiles.
+Every selected row keeps its complete nonzero stencil. Halo points enter the
+field queries and support derivatives. The sampled residual mean uses only the
+core rows with their original physical measure in expectation.
+
+In the scatter arm each draw is proportional to nodal area. In the tile arm
+the probability of a tile is proportional to its total area. Within a tile,
+the original nodal weights and, for larger edge tiles, inverse inclusion
+probabilities weight the 64 selected rows. Geometry and spatial pools refresh
+independently on reproducible schedules. The [study record](../../docs/tasks/archive/pino-spatial-sampling-study.md)
+gives the current device, budgets and queue.
+
 ### Run and reproduce
 
 ```bash

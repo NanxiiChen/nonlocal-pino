@@ -746,6 +746,25 @@
         "limitation": "Same-GPU1024query field replay passes;65536query supplemental gate fails0.00577; no partition-independent or stable superiority claim",
         "full_training": "Canceled by user;3update performance probe retained separately",
         "defaults_promoted": false
+      },
+      "operator_default": {
+        "config": "examples/icemelting3d/configs/train_operator.py",
+        "run": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool",
+        "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/model_final.eqx",
+        "saved_config": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/config.json",
+        "strategy": "Cold Adam10000,lr1e-3,B16/Nt8,width48,hard latent IC and transformed PDE MAE; rolling complete core+halo with K256,32initialsets,1792node/1536edgecapacity,1worker/32prefetch,ordinaryFP32/highest",
+        "mean_errors": {
+          "pooled_phi": 0.001001634395041436,
+          "terminal_phi": 0.0017111462794034262,
+          "pooled_solid": 0.0029080445817537253,
+          "terminal_solid": 0.08405757817544687
+        },
+        "reference": "Native full128^3nonlocal evolution,time-refined; model error on24^3nodes/fivetimes/eighttestellipsoids",
+        "study": "docs/tasks/archive/melting-pools-cold10k.md",
+        "selection": "User chooses rolling10kafter the paired cold study; final checkpoint used",
+        "seed_policy": "Runtime provenance; absent from strategy configuration",
+        "qualifications": "One seed,8reusedinputs; terminal and late median can favor fixed; ordinaryGPUtrajectory repeatability unqualified",
+        "representative_figure": "Historical fixed5k3Disosurfaces; explicitly labeled in README/report; artifact provenance retains original source"
       }
     },
     {
@@ -2845,21 +2864,64 @@
         },
         "recommended_training": {
           "config": "examples/electropolish2d/configs/train_operator.py",
-          "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-online-global-adam-01",
-          "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-online-global-adam-01/model_final.eqx",
-          "strategy": "online fresh rough interfaces, B8, Adam5000, lr1e-3, ordinary FP32/highest, image-only local_input=zero; five original AC/CH+IC/BC losses and gradient balancing, no causal weighting",
-          "saved_run_graph64_mean_phi_pooled_terminal_percent": [
-            4.506,
-            3.502
+          "run": "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool",
+          "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool/model_final.eqx",
+          "saved_config": "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool/config.json",
+          "strategy": "Fresh online initial interfaces; B8, Nt16, width96, Adam10000, lr1e-3; rolling complete core+halo pool, K256,32initial entries,3328nodes/3072edges,1worker/32prefetch; original five losses and gradient balancing, ordinary FP32/highest",
+          "metrics": {
+            "native64": {
+              "pooled_phi": 0.014057942199195993,
+              "terminal_phi": 0.011303157373222275,
+              "pooled_c": 0.016978115005567,
+              "terminal_c": 0.013466489784520072
+            },
+            "local101_64": {
+              "pooled_phi": 0.015465709008435361,
+              "terminal_phi": 0.01325638396976098,
+              "pooled_c": 0.018604043866159103,
+              "terminal_c": 0.01580443676346764
+            },
+            "local201_4": {
+              "pooled_phi": 0.016265137289412025,
+              "terminal_phi": 0.01347178421178755,
+              "pooled_c": 0.019415927777656907,
+              "terminal_c": 0.015854864375610806
+            },
+            "local401_4": {
+              "pooled_phi": 0.016372144339939772,
+              "terminal_phi": 0.013930718219379735,
+              "pooled_c": 0.019501527354952447,
+              "terminal_c": 0.016339860879736226
+            }
+          },
+          "spatial_study": "/root/autodl-tmp/tf-logs/pino-spatial-pools-20261111-01/paired-results.json",
+          "paired_seeds": [
+            42,
+            43
           ],
-          "matched_repeat_run": "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01",
-          "matched_repeat_local_fd64_mean_phi_pooled_terminal_percent": [
-            4.427,
-            3.176
-          ],
-          "scope": "Different runs/targets; do not substitute scores. No training labels/test checkpoint selection or seed-stability claim.",
-          "publication_audit": "docs/tasks/archive/operator-defaults-audit.json"
-        }
+          "runtime_seed_in_strategy": false,
+          "scope": "Better observed final run of two runtime seeds; same64localFD101development cases,4refinement cases; rolling improves both paired seeds; no uniform-prior guarantee",
+          "report": "docs/tasks/archive/electropolish-rolling-default.md"
+        },
+        "recommended_training_history": [
+          {
+            "config": "examples/electropolish2d/configs/train_operator.py",
+            "run": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-online-global-adam-01",
+            "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/20261028-electro-operator-online-global-adam-01/model_final.eqx",
+            "strategy": "online fresh rough interfaces, B8, Adam5000, lr1e-3, ordinary FP32/highest, image-only local_input=zero; five original AC/CH+IC/BC losses and gradient balancing, no causal weighting",
+            "saved_run_graph64_mean_phi_pooled_terminal_percent": [
+              4.506,
+              3.502
+            ],
+            "matched_repeat_run": "/root/autodl-tmp/tf-logs/electropolish2d/20261029-electro-operator-match-nonlocal-01",
+            "matched_repeat_local_fd64_mean_phi_pooled_terminal_percent": [
+              4.427,
+              3.176
+            ],
+            "scope": "Different runs/targets; do not substitute scores. No training labels/test checkpoint selection or seed-stability claim.",
+            "publication_audit": "docs/tasks/archive/operator-defaults-audit.json"
+          }
+        ]
       },
       "spatial_sampling_comparison_20261031": {
         "status": "complete_GPU_validated_CPU_replay_issue_recorded",
