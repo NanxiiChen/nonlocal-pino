@@ -3,6 +3,10 @@
 This document contains repository conventions that are broader than one
 example but more detailed than the mandatory policy in `AGENTS.md`.
 
+Before creating or redrawing publication/README figures, follow
+[`PLOTTING_GUIDELINES.md`](PLOTTING_GUIDELINES.md) for typography, NPG colors,
+editable PDF export and provenance. Existing asset budgets below still apply.
+
 ## Example Layout
 
 Every example under `examples/<name>/` should use:
@@ -33,6 +37,18 @@ fields; the same spinodal initial texture is shared between geometry samples.
 Record evolution-figure direct inputs in `artifacts/pino_readme_figures.json` and retain
 raw fields, weights and full research galleries as external artifacts. See
 [`assets/README.md`](../assets/README.md) for the regeneration command.
+
+The user-requested nonlocal/local-AD study adds four comparison PNGs under
+`assets/pino-comparisons/`, separately limited to1MiB each and2MiBcombined.
+Preserve the original six-image SOTA budget and selected checkpoints. Their
+full saved configurations/direct inputs are in
+`artifacts/pino_derivative_comparisons.json`; plotted scalar values, norm checks
+and render versions are in `artifacts/pino_derivative_comparison_validation.json`.
+`scripts/render_pino_derivative_comparisons.py --case all` regenerates them on
+CPU from external saved arrays. The current comparison shows final seed42
+channel-averaged space-time error distributions and phase-field sheets; preserve
+the declared metric reduction and all prior evidence externally. Keep reference cohorts, actual saved times
+and pairing qualifications explicit; never silently substitute newer defaults.
 
 The channel FEM reference optionally accepts a read-only `diagnostic_callback`
 receiving `(time, (velocity, pressure, phi, mu), mesh, facet_tags)` at saved

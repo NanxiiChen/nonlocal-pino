@@ -79,18 +79,24 @@ def load_bank(path,c):
 
 def train(c,output,inputs,reference,config_path,paired_run,
           sampling_control=None,exclude_references=(),full_grid_control=None,strategy_control=None,
-          runtime_seed=None):
+          runtime_seed=None,rolling_method_control=None):
     started=time.perf_counter();validate(c)
     from .full_grid import is_full,prepare_initial_full_bank,validate_full
     full_grid=is_full(c)
     if full_grid:validate_full(c)
     from .strategies import validate_strategies
     validate_strategies(c)
-    if sum(path is not None for path in (paired_run,sampling_control,full_grid_control,strategy_control))>1:
+    from .method_validation import enabled,validate_config
+    method_comparison=enabled(c)
+    if method_comparison:validate_config(c)
+    if rolling_method_control is not None and not method_comparison:
+        raise ValueError('--rolling-method-control requires the explicit method_comparison preset')
+    controls=(paired_run,sampling_control,full_grid_control,strategy_control,rolling_method_control)
+    if sum(path is not None for path in controls)>1:
         raise ValueError('Select exactly one comparison control, not multiple controls')
     if runtime_seed is not None:
         resolve_runtime_seed(runtime_seed)
-        if any(path is not None for path in (paired_run,sampling_control,full_grid_control,strategy_control)):
+        if any(path is not None for path in controls):
             raise ValueError('Runtime seed cannot override a comparison control seed')
     if full_grid_control is not None and not full_grid:
         raise ValueError('--full-grid-control requires the explicit sample.full_grid configuration')
@@ -166,6 +172,15 @@ def train(c,output,inputs,reference,config_path,paired_run,
             source_times_identical=np.array_equal(control['times'],source['times'][:c.train.iterations])
         if runtime['excluded_reference_paths'] != [str(Path(path).resolve()) for path in exclude_references]:
             raise ValueError('Strategy control must exclude the same evaluation geometries')
+    elif rolling_method_control is not None:
+        from .method_validation import validate_control
+        rolling_method_control=Path(rolling_method_control).resolve(strict=True)
+        runtime=validate_control(c,rolling_method_control,inputs,reference,bank,forbidden)
+        if runtime['excluded_reference_paths'] != [str(Path(path).resolve()) for path in exclude_references]:
+            raise ValueError('Rolling method control must exclude the same evaluation reference paths')
+        seed=runtime['seed']
+        with np.load(rolling_method_control/'sampling.npz',allow_pickle=False) as source:
+            control={key:source[key] for key in source.files}
     else:seed=resolve_runtime_seed(runtime_seed)
     rng=np.random.default_rng(seed)
     condition_ids=rng.integers(len(manifest['geometries']),size=(c.train.iterations,c.operator.condition_batch),dtype=np.int32)
@@ -184,7 +199,7 @@ def train(c,output,inputs,reference,config_path,paired_run,
             if not np.array_equal(trace[key],control[key]):raise ValueError(f'Paired draw mismatch: {key}')
     net=build_network(c,jax.random.PRNGKey(seed))
     optimizer=make_optimizer(c);state=optimizer.init(eqx.filter(net,eqx.is_array))
-    initialization_control=next((path for path in (paired_run,sampling_control,full_grid_control,strategy_control)
+    initialization_control=next((path for path in (paired_run,sampling_control,full_grid_control,strategy_control,rolling_method_control)
                                  if path is not None),None)
     paired_optimizer=None
     if initialization_control is not None:
@@ -211,6 +226,8 @@ def train(c,output,inputs,reference,config_path,paired_run,
         sampling_control=None if sampling_control is None else str(sampling_control),
         full_grid_control=None if full_grid_control is None else str(full_grid_control),
         strategy_control=None if strategy_control is None else str(strategy_control),
+        rolling_method_control=None if rolling_method_control is None else str(rolling_method_control),
+        actual_core_trace=method_comparison,
         paired_optimizer_initialization=paired_optimizer,
         source_time_draws_identical=source_times_identical,
         time_sampling='uniform' if 'temporal' not in c.sample else c.sample.temporal.kind,
@@ -246,6 +263,8 @@ def train(c,output,inputs,reference,config_path,paired_run,
         data={key:bank_arrays[key][ids] for key in fixed_keys}
         selected=jnp.zeros_like(pools) if full_grid else pools
         data.update({key:bank_arrays[key][ids,selected] for key in graph_keys})
+        if method_comparison:
+            data['pde_core_points']=jax.vmap(lambda points,core:points[core])(data['graph_points'],data['core_indices'])
         if c.nl.method=='local_ad':
             # Local residuals evaluate only the same cores, never the unused halo.
             data['graph_points']=jax.vmap(lambda points,core:points[core])(data['graph_points'],data['core_indices'])
@@ -255,6 +274,10 @@ def train(c,output,inputs,reference,config_path,paired_run,
     evaluator=make_evaluator(c,references)
     history=[];updates=[];sample_seconds=[];eval_seconds=[];memory=[];train_start=time.perf_counter()
     online_seconds=[];online_summary=None
+    core_trace=None;core_trace_seconds=[];core_trace_finish_seconds=0.
+    if method_comparison:
+        from .method_validation import CoreTrace
+        core_trace=CoreTrace(run,c)
     if online_enabled:
         geometry_draws=np.empty_like(condition_ids,dtype=np.int64)
         spatial_versions=np.empty_like(condition_ids,dtype=np.int64)
@@ -286,6 +309,10 @@ def train(c,output,inputs,reference,config_path,paired_run,
             payload=gather(gpu_bank,jnp.asarray(condition_ids[i]),jnp.asarray(pool_ids[i]))
             jax.block_until_ready(payload)
             sample_seconds.append(time.perf_counter()-sample_start)
+            if core_trace is not None:
+                trace_start=time.perf_counter()
+                core_trace.record(i,payload['pde_core_points'],payload['pde_weights'])
+                core_trace_seconds.append(time.perf_counter()-trace_start)
             begin=time.perf_counter()
             refresh=jnp.asarray(i%c.train.gradnorm_update_every==0)
             if scheduled:
@@ -341,6 +368,9 @@ def train(c,output,inputs,reference,config_path,paired_run,
     if online_enabled:
         online_summary=pool.summary()
         write_json(run/'online_summary.json',online_summary)
+    if core_trace is not None:
+        trace_start=time.perf_counter();core_trace.finish()
+        core_trace_finish_seconds=time.perf_counter()-trace_start
     eqx.tree_serialise_leaves(run/'model_final.eqx',net)
     eqx.tree_serialise_leaves(run/'optimizer_final.eqx',state)
     for i,(pred,ref) in enumerate(zip(predictions,references,strict=True)):
@@ -350,6 +380,7 @@ def train(c,output,inputs,reference,config_path,paired_run,
         warm_update_mean_seconds=None if len(updates)<2 else float(np.mean(updates[1:])),
         update_seconds=updates,sample_seconds=sample_seconds,evaluation_seconds=eval_seconds,setup_seconds=train_start-started,
         online_update_seconds=online_seconds,
+        core_trace_seconds=core_trace_seconds,core_trace_finish_seconds=core_trace_finish_seconds,
         total_seconds=time.perf_counter()-started))
     summary=dict(steps=c.train.iterations,final=last,loss_names=list(LOSS_NAMES),
         geometry_count=len(manifest['geometries']),heldout_count=len(references),
@@ -380,12 +411,15 @@ def main():
                         help='Completed rolling core/halo run; match cold state and all geometry/IC/time draws')
     parser.add_argument('--strategy-control',type=Path,
                         help='Completed original-output run; reproduce cold state and its exact sampling prefix')
+    parser.add_argument('--rolling-method-control',type=Path,
+                        help='Completed audited opposite-method rolling run; match cold state and every physical input draw')
     args=parser.parse_args();path=args.config.resolve(strict=True)
     spec=importlib.util.spec_from_file_location('particle_training_config',path)
     if spec is None or spec.loader is None:raise ValueError(f'Invalid config{path}')
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
     train(module.get_config(),args.output,args.inputs,args.reference,path,args.paired_run,
-          args.sampling_control,args.exclude_reference,args.full_grid_control,args.strategy_control,args.seed)
+          args.sampling_control,args.exclude_reference,args.full_grid_control,args.strategy_control,args.seed,
+          args.rolling_method_control)
 
 
 if __name__=='__main__':main()

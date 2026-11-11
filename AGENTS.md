@@ -17,6 +17,9 @@ Before implementation, read the relevant reference documents:
   rigor, formulation choices, references, and validation order.
 - [`docs/JAX_GUIDELINES.md`](docs/JAX_GUIDELINES.md) — Equinox, JIT, fixed-shape,
   sampling, and functional-style rules.
+- [`docs/PLOTTING_GUIDELINES.md`](docs/PLOTTING_GUIDELINES.md) — required before
+  creating or redrawing figures: Helvetica paths, sans-serif mathematics,
+  5–7 pt final-size text, NPG colors, editable embedded-font PDF and PNG previews.
 
 The examples are `icemelting3d`, `electropolish2d`, `elasticity2d`, `corrosion1d`, `corrosion2d`,
 the prescribed-flow phase-field pilot `twophase2d`, the full coupled channel

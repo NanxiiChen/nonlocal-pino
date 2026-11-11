@@ -2,13 +2,15 @@
 
 ## Active task
 
-None.
+None. Title-free violin figures and README captions are complete and verified.
+No GPU work; paused process group 618216 remains untouched.
 
 ## Deferred work
 
 Optional regional diagnostics and a dense Spinodal row-only timing probe from
 the [completed spatial study](tasks/archive/pino-spatial-sampling-study.md)
-remain available. All queued training and evaluation are complete; GPU is idle.
+remain available. Both the spatial-study and derivative-control queues are
+finished; no GPU work is currently active.
 
 The old high-mobility horizon process group618216 remains explicitly paused.
 Recovery details are preserved in the archived physical study below; do not
@@ -21,6 +23,132 @@ solve. [Feasibility](tasks/archive/traction-conditioned-elastic-pino-analysis.md
 The channel20000/lower-LR study is complete and archived below.
 
 ## Latest completed validation
+
+[Title-free publication violins](tasks/archive/title-free-violins.md).
+Removed example titles, retained case filenames and reclaimed title margins.
+Both PDF/PNG pairs pass score/density/automatic-axis identity, embedded editable
+Helvetica and visual checks; field sheets unchanged. Seventeen comparison-support
+CPU tests pass. Publication scope includes reproduction support and linked records;
+Melting experiment code remains local. All staged files meet the 1 MiB limit;
+the unchanged baseline artifacts/index.yaml still exceeds it. User authorized
+commit/push; see Git history for release commits.
+
+[Compact log-ratio violins](tasks/archive/compact-log-violins.md).
+Two separate55x45.72mmPDF/PNGfigures follow the notebook style: NPG fill,
+dashed quartiles, no dots/mean labels, unscaled errors and automatic log axes.
+Explicit log-error KDE tails replace hard extrema truncation. All256observations
+and quartiles unchanged; automatic limits independently checked. Embedded
+Helvetica6–7pt/PDF text edits, image inspection, links and diff checks pass.
+Guide/captions/provenance updated; field sheets unchanged. No training or Git.
+
+
+[Publication-style violin redraw](tasks/archive/publication-violin-redraw.md).
+Both distributions now use85x65mm, actual Helvetica from the user's PI-CViT
+font asset, NPG colors and concise6–7pt dark text. Vector PDFs contain embedded
+TrueType text; independent extraction/size/label-edit checks pass. All256sample
+scores identical; field sheets unchanged. Both PNGs inspected, provenance and
+assets guide updated; four comparison PNGs total1.11MiB. No new inference,
+training, solve, project dependency change or Git operation.
+
+
+[Continuous colormap scope correction](tasks/archive/plotting-colormap-scope.md).
+Removed fixed continuous-field/error gradients from the plotting guide. NPG
+categorical colors and basic comparison consistency remain; edited text, links
+and diff checks pass. No redraw, numerical change or Git operation.
+
+
+[Publication plotting guidelines](tasks/archive/plotting-guidelines.md).
+Added the Helvetica/NPG/5–7 pt editable-PDF specification, matching PNG rules,
+sans-serif math, current metric reduction and per-figure provenance/checks.
+AGENTS, development guide and root README link it. Both notebook palettes match;
+static snippet syntax, new links and diff checks pass. Existing images/numerics
+unchanged; no font installation, redraw, training or Git action.
+
+
+[Final-checkpoint error distributions](tasks/archive/pino-final-violin-figures.md).
+Replaced sparse convergence plots with final seed42violins on64inputs per case.
+Metric: discrete L2 over full space-time points per channel, normalize each
+channel, average(phi,c), then average samples for the headline. Electro10k
+NL2.0467%vsAD4.6309%; particle20k NL4.5541%vsAD32.5149%. Particle's point norm is
+explicitly distinguished from its earlier volume/time-quadrature metric.
+All256final input-level scores recomputed; reduction-order/rescaling checks pass.
+Two field sheets unchanged, both new violins inspected; all4PNGs reproduce
+byte-for-byte and total1.05MiB. Both READMEs/overview/provenance updated; old
+curves/evaluations archived externally. No training, inference, solve or Git action.
+
+
+[64-case derivative-control evaluation](tasks/archive/pino-derivative-evaluation64.md).
+All8arms/32saved checkpoints now use64inputs per example with mean±sampleSD,
+separate seed rows and no invented checkpoints. Fresh particle local-P1FEM64
+plus4spatial/1time checks pass; phase means NL3.202/2.961% versus AD33.345/33.519%.
+Electro reuses localFD64; NL1.862/1.926% versus AD4.261/3.332%, retaining the
+Electro43strict-pair failure caveat. Both example READMEs, root overview, source
+manifest/receipt and comparison figures updated. All512final casewise norms
+and32checkpoint statistics checked; four PNGs total1.19MiB and reproduce
+byte-for-byte. Four focused numerical tests and cohort replay checks pass.
+No training, default change, cleanup, Git/history operation or Pages update.
+
+
+[Derivative-comparison README figures](tasks/archive/pino-derivative-readme-figures.md).
+Both example READMEs include convergence and three-input reference/nonlocal/
+local-AD field sheets. Four new PNGs total1.17MiB, in a separate asset directory.
+Full8run configuration/direct-input manifest plus scalar-curve/norm/render
+receipt support CPU regeneration; all4PNGs reproduce byte-for-byte. All8final
+field norms/configurations,151local links and image budgets pass. Electro43
+qualification and separate native/local monitor cohorts remain explicit;
+original SOTA assets/defaults unchanged. No training, solve or Git action.
+
+[Particle reference/nonlocal/local-AD fields](tasks/archive/particle-method-field-gallery.md).
+Three3x5phase figures from the final20kseed42strict pair, first three geometries,
+saved times0/.2/.5/.8/1. Original physical mesh holes and common color scale;
+all four cases' saved metrics recompute. Nonlocal tracks the growing pit;
+AD remains near its initial size and already has about13.7%initial phase error
+versus0.42%NL. This is an IC-fitting shortfall, not an isolated boundary-cause
+diagnosis. External figures/provenance inspected; no inference or training.
+
+[Rolling PINO nonlocal/local-AD controls](tasks/archive/pino-rolling-local-ad-controls.md).
+All8cold runs and independent saved-field norms complete. Particle20k, same4
+localFEM geometries: pooled phase NL3.1802/3.0211% versusAD33.4302/33.5883%.
+Electro10k, same64localFD cases: NL1.8625/1.9256% versusAD4.2615/3.3320%.
+Two initializations give the same accuracy ordering; particle AD plateaus,
+Electro AD still improves. Warm AD updates are faster: particle80.40vs93.50ms,
+Electro28.54vs42.77ms. Cold process minutes AD/NL33.52/34.38 and11.47/10.46;
+shared graph preparation remains an avoidable AD harness cost.
+Three strict pair audits pass; Electro43 fails actual FP32 image equality and
+IC tolerance (max8.94e-7/1.252e-6), despite exact physical draws and cold states.
+Independent FP64 input replay supports a rounding explanation, not a measured
+optimization-effect claim. Raw failed journal is preserved; separate qualified
+report/curves recompute all8final metrics. No universal superiority or Neumann
+causality claim. Active peaks5.31--20.44GiB fit the49140MiB RTX4090;19GiBdisk free.
+
+[Current PINO local-AD comparison plan](tasks/archive/pino-local-ad-comparison-plan.md).
+Two of the five principal PINOs have historical AD controls (Electropolish and
+particle corrosion); current Spinodal/channel/ellipsoid PINOs lack full pairs.
+Prioritize strict rolling six-particle350s comparisons, then current rolling
+Electropolish. Spinodal needs common local references and a matched mixed
+formulation; channel retains explicit BCs. Naive AD through the ellipsoid SDF
+bisection is invalid, while current value-only nonlocal training is unaffected.
+CPU feasibility checks and source/evidence audits pass; no new training launched.
+
+[Extreme interface thickness and nonlocal horizon](tasks/archive/extreme-interface-horizon-study.md).
+All32cold10k arms and dense evaluation complete in63.27min, with paired states
+and actual draws verified. Both methods fail accurate front motion at the three
+new thinner widths despite finite states; nonlocal pooled errors are lower at
+the two smallest widths but terminal errors are higher. Horizon/moment controls
+and joint coordinate/horizon refinement do not restore accuracy. Fourfold dense
+evaluation changes whole-field scores by less than.028percentage points.
+Saved checkpoints identify an output-amplitude optimization shortfall; a matched
+output-scale follow-up remains unperformed. Production defaults unchanged.
+
+[Thin-interface local-AD/nonlocal comparison](tasks/archive/thin-interface-derivative-study.md).
+Fourwidths/twopairedseeds/SOAPcold10k, identical actual inputs and coldstates.
+Against commonlocalFD512, meanpooledphase nonlocal0.2235/0.3925/0.6593/0.8783%
+versuslocalAD0.00497/0.00888/0.01623/0.03057%. Dense128^3thincheck confirms
+ranking; all16savedfieldnorms independentlymatch. Nonlocalstep3.151msversus
+3.405ms; serialqueue26.1min. Old5kfailures largelyrecover with slowerLRdecay,
+alreadybynew5k; no purestep-count attribution. Nonlocalplateau tracks native/local
+baseline; tinylocalerrors approachreference discretization scale. Current
+graph lacks an accuracyadvantage here; no broadmethod conclusion/defaultchange.
 
 [Melting rolling-pool default](tasks/archive/melting-rolling-default.md).
 Canonical PINO now selects the user-approved Adam10k rolling recipe, with

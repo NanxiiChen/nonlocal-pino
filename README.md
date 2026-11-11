@@ -59,6 +59,21 @@ Warm steps cost about 4–5% more on the current RTX 4090. The default uses
 [paired results](examples/electropolish2d/README.md#current-rolling-pool-default)
 for concentration errors, timing and evaluation scope.
 
+Completed nonlocal/local-AD controls, final-weight error distributions and
+three-input reference/prediction comparisons are documented for
+[Electropolish](examples/electropolish2d/README.md#current-rolling-nonlocallocal-ad-research-control)
+and [ceramic-particle corrosion](examples/particle_corrosion2d/README.md#opt-in-matched-rolling-nonlocallocal-ad-study).
+The violins show one strictly paired initialization (seed 42), with 64 test
+inputs per method. Each input's phase and concentration channels are separately
+normalized using discrete L2 over the complete space-time evaluation grid,
+then averaged equally; the headline error averages these 64 input-level values.
+Particle references use independent local FEM, and Electropolish uses local FD.
+[Figure provenance](artifacts/pino_derivative_comparisons.json) preserves exact
+saved configurations, checkpoints, metric definitions and external data paths;
+[CPU regeneration](assets/README.md#nonlocallocal-ad-comparisons) rebuilds the
+four compact comparison images. These controls do not replace selected SOTA
+results above or establish a universal accuracy/speed advantage.
+
 Run from the repository root, one GPU job at a time:
 
 ```bash
@@ -186,8 +201,9 @@ no reset, deletion or data restoration is needed. See [migration/recovery notes]
 ## Research records
 
 [Progress](docs/PROGRESS.md), [decisions](docs/DECISIONS.md),
-[development](docs/DEVELOPMENT.md), [numerical rules](docs/NUMERICAL_METHODS.md)
-and [JAX rules](docs/JAX_GUIDELINES.md). Original history remains available in
+[development](docs/DEVELOPMENT.md), [numerical rules](docs/NUMERICAL_METHODS.md),
+[JAX rules](docs/JAX_GUIDELINES.md), and [plotting guidelines](docs/PLOTTING_GUIDELINES.md).
+Original history remains available in
 Git and the source checkout; the new dashboard does not duplicate old logs.
 
 Mesh generation additionally uses the explicit `mesh` extra:

@@ -107,12 +107,23 @@ def validate_pair(runs):
             for name, actual in first.items():
                 if source[name].dtype != actual.dtype or not np.array_equal(source[name], actual):
                     raise ValueError(f'Different actual sampling array: {other}/{name}')
-    return dict(runs=[str(run) for run in runs], methods=[method for _, method in canonical],
+    result = dict(runs=[str(run) for run in runs], methods=[method for _, method in canonical],
         seed=runtimes[0]['seed'], inputs=runtimes[0]['inputs'], reference=runtimes[0]['reference'],
         identical_initial_model=True, identical_initial_optimizer=True,
         identical_sampling_arrays=True, identical_common_sources=list(source_names),
         permitted_config_differences=['nl.method', 'loss.gradnorm_bias[5:]'],
         limitation='Local AD adds two Neumann terms and balances seven losses; nonlocal balances five.')
+    if any('online' in c['operator'] for c in configs):
+        from .method_validation import audit_pair
+        if len(runs) != 2:
+            raise ValueError('Rolling method comparisons require one explicit paired run/control')
+        if runtimes[0]['rolling_method_control'] == str(runs[1]):
+            result['rolling'] = audit_pair(runs[0], runs[1])
+        elif runtimes[1]['rolling_method_control'] == str(runs[0]):
+            result['rolling'] = audit_pair(runs[1], runs[0])
+        else:
+            raise ValueError('Rolling method pair lacks explicit control provenance')
+    return result
 
 
 def run_costs(run, c):
@@ -134,7 +145,7 @@ def run_costs(run, c):
     allocators = [record['allocator'] for record in memories if record['allocator'] is not None]
     peak = None if not allocators else max(item['peak_bytes_in_use'] for item in allocators)
     pools = [item['peak_pool_bytes'] for item in allocators if 'peak_pool_bytes' in item]
-    return dict(first_update_compile_and_refresh_seconds=float(updates[0]),
+    result = dict(first_update_compile_and_refresh_seconds=float(updates[0]),
         warm_all=group(warm), warm_held=group(warm & ~refresh), warm_refresh=group(warm & refresh),
         update_total_seconds=float(updates.sum()), sample_total_seconds=float(samples.sum()),
         evaluation_total_seconds=float(np.sum(timing['evaluation_seconds'])),
@@ -143,6 +154,22 @@ def run_costs(run, c):
         peak_pool_bytes=None if not pools else max(pools),
         timing_scope='All updates synchronized; first includes compilation. Total includes setup, evaluation and I/O.',
         memory_scope='Cumulative JAX active peak of the whole process, including evaluation; allocator pool reported separately.')
+    if 'method_comparison' in c.operator:
+        online = np.asarray(timing['online_update_seconds'], dtype=float)
+        trace = np.asarray(timing['core_trace_seconds'], dtype=float)
+        if (online.shape != updates.shape or trace.shape != updates.shape
+                or not np.isfinite(online).all() or not np.isfinite(trace).all()
+                or np.any(online < 0) or np.any(trace < 0)
+                or not np.isfinite(timing['core_trace_finish_seconds'])
+                or timing['core_trace_finish_seconds'] < 0):
+            raise ValueError('Method comparison timing must cover every rolling and core-trace operation')
+        summary = _json(Path(run)/'online_summary.json')
+        result.update(online_update_total_seconds=float(online.sum()),
+            core_trace_total_seconds=float(trace.sum())+timing['core_trace_finish_seconds'],
+            producer_wait_seconds=summary['producer_wait_seconds'],
+            installed_worker_cpu_seconds=summary['installed_worker_seconds'],
+            paired_graph_overhead='Both methods build/store the common graph for exact sampled inputs; this is unused graph preparation/storage overhead in local AD. Update timings exclude producer wait and trace I/O; total time includes them.')
+    return result
 
 
 def _history(run, steps):

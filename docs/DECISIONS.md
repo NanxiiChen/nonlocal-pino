@@ -10933,3 +10933,397 @@ request. Six focused Melting regressions, saved-config/checkpoint parity and
 the nine-page report build pass. The user authorizes publication of the current
 code and records via dev commit, regular main merge and main-only push.
 Relation: Melting rolling-default promotion and completed sampling study.
+
+## 2026-11-11 — Compare thinner interfaces on matched 3D sphere melting PINNs
+
+Use the existing sphere IC-latent MLP and SOAP for four epsilon values
+0.0225/0.015/0.010/0.0075, keeping dimensional M, lambda, R0 and the 5 s horizon
+fixed. Reuse the canonical transformed residual for both local AD and the
+original six-axis cubic graph. Normalize both PDE objectives by N3 to avoid an
+arbitrary residual-amplitude change across widths. Draw identical fresh spatial
+core IDs and stratified times, and use explicit zero-Neumann boundary data in
+both arms (graph secant versus AD physical derivative). No future fields enter
+training. Compare against an independent FP64 local finite-difference RK4
+solution on the cube, reduced only by octant reflection symmetry, with
+384/512 full-cube equivalent spatial refinement. Avoid the approximate linear
+sphere-radius profile as truth. Report positive-time whole-field, reference
+interface-band and zero-crossing errors, plus the direct native/local floor.
+The old 128-cube graph second moment is 0.6858547757, so its approximation to
+the local PDE must remain distinct from optimization error. Do not silently
+renormalize that operator or change production defaults. Start with one paired
+seed and expand repeats after measuring the cost. Relation: thickness study.
+
+## 2026-11-11 — Require a time-qualified thin-interface reference before training
+
+The first phase-coordinate reference queue fails the epsilon0.0075 time-halving
+gate (0.5591% pooled difference); no training starts. Preserve this failed
+queue. Strong driving and floating-point saturation of tanh IC tails make
+direct phi integration suspect. Switch the isolated reference to the equivalent
+local latent PDE u_t=N1*(Delta u-2*tanh(u)*|grad u|^2)+N2*tanh(u)-N3,
+and retain the exact stable graph difference/Jacobian ratio for native solves.
+This changes reference coordinates, not the intended physical PDE, IC or BC.
+Check the graph identity independently and verify second-order local chain-rule
+consistency plus spatial/time refinement. Keep an explicit phase-coordinate
+option for diagnostics; do not reinterpret the failed reference as qualified.
+Relation: thin-interface derivative study.
+
+## 2026-11-11 — Keep thin-interface training failures and audit metric resolution
+
+The equivalent latent references pass the time gate; a read-only independent
+review confirms the equations and thick-reference coordinate agreement.
+Preserve learned fields and actual sampling before zero-crossing diagnostics,
+and report missing/multiple crossings explicitly instead of losing a failed
+optimization result. Compute learned-versus-native metrics in addition to the
+common-local scores. Label direct native/local differences as a baseline,
+because the neural objective also includes a boundary secant penalty. Recheck
+the thinnest final fields on128^3 evaluation queries after the serial GPU queue;
+the standard64^3diagnostic grid may underresolve interface-weighted metrics.
+These are postprocessing improvements, not mid-run training changes.
+Relation: thin-interface study and independent numerical review.
+
+## 2026-11-11 — Restart all thin-interface pairs for a cold 10k budget
+
+The user explicitly requests rerunning every just-tested arm from initialization
+for 10000 updates. Retain four widths, two paired runtime seeds, both derivative
+methods and the qualified local/native references. Keep the original 5000-step
+artifacts. Thin runs were still improving at 5k, so stretch the common SOAP
+decay period from1000 to2000 updates, preserving initial1e-3, decay factor.5
+and minimum1e-5. This is a new longer-budget recipe, not an isolated step-count
+ablation against the older schedule. Compare5k/10k checkpoints within each new
+trajectory as well. Record both budget and decay period explicitly in the finite
+owner journal; the postprocessor must validate the actual saved configuration.
+Serialize GPU training after the older queue's final diagnostic, reuse references
+without solving them again for training, and leave production defaults unchanged.
+Relation: thin-interface derivative study and user cold-restart instruction.
+
+## 2026-11-11 — Record an explicit FP32 checkpoint replay tolerance
+
+The completed5kqueue's dense diagnostic stops on the third thin checkpoint
+(seed43/nonlocal), after both seed42dense evaluations. Strict2e-6replay tolerance
+finds differences up to2.86475e-6, with shown violations in the hard initial
+field. Thin IC sensitivity magnifies coordinate roundoff, but the exact cause
+is not proved. Preserve the failed journal. For new diagnostics use explicit
+absolute phase tolerance1e-5 and relative0, record initial/positive-time/global
+maxima, and still reject nonfinite, shape-mismatched or larger discrepancies.
+This diagnostic tolerance does not change training or the saved reference.
+Relation: thin-interface cold10k restart.
+
+## 2026-11-11 — Close the paired thin-interface study without a method promotion
+
+All16cold10k arms and dense postprocessing pass; independent saved-array norms,
+initial states and input streams agree. The current unrenormalized128^3six-axis
+graph is less accurate than localAD at all four widths against commonlocalFD512;
+nonlocal error rises0.2235->0.8783%as the interface thins. Its warm update is
+about7.5%shorter. Native/local baseline and learned/native errors indicate a
+substantial discretization contribution, not an exact irreducible floor.
+Do not claim a universal nonlocal disadvantage or precision beyond the refined
+reference's resolution. Old5k versus new10k changes both budget and LR decay;
+new5kmidpoints already show most recovery. Preserve all negative/positive
+controls and production defaults; archive the completed task without launching
+unrequested graph corrections or additional training. Relation: thickness study.
+
+## 2026-11-11 — Separate extreme thickness, horizon and discrete moments
+
+The user requests much thinner interfaces and a separate neighborhood study.
+Extend epsilon*to.00375/.001875/.0009375, retaining.0075as an anchor and the
+common cold10kSOAP schedule. Fixed128^3/delta.01is a resolution stress test:
+the thinnestphi±.9transition spans only half a grid interval. At epsilon.001875,
+compare delta.01/.015/.02with original weights and global interior second-moment
+normalization. Add a512^3coordinate-grid/delta1.27/511 raw/normalized/localAD
+matched set to distinguish co-refinement from changing radius on a fixed grid.
+Do not normalize boundary rows individually or silently replace the old kernel.
+Keep paired seeds42/43 and record actual cold states/samples, numerical failure
+and optimization failure separately. No production default changes follow.
+
+The old cubeFD512reference cannot resolve the new minimum convincingly. Build
+an independent FP64radial latentBDF solution of the derived radialPDE, with
+space/time/outer-radius checks; identify it as a far-field surrogate for the
+cube Neumann problem, not an exact geometry equivalence. Cross-check against
+the existing cube references and a newthin cube512/768solve before training.
+Use geometry-only cube radial/angular quadrature rather than a sparse uniform
+evaluation grid; no reference fields enter training. Newly stiff native graph
+trajectories are not supplied until independently qualified, so no new native
+error-floor claim is permitted. Relation: extreme interface/horizon study.
+
+## 2026-11-11 — Interpret extreme-interface errors as finite-budget failures
+
+The firstseed's extreme arms finish10k with finite states but50--73%pooled
+errors; neither derivative method accurately evolves the front. Nonlocal's
+smallerpoolederror does not improve the minimumwidth terminalerror. CPUloading
+of actualmodels shows a common scale problem: reference latentcorrections
+grow~1/epsilon to~189, whereas currentoutputheads remain bounded near29.
+This is evidence for an optimization/coordinate-scale bottleneck, not an
+intrinsic localADinstability or an impossibility of representing the solution.
+Finish the predeclared32arm matrix without mid-run changes; preserve the
+failed-accuracy outcomes and treat any outputscale control as a separate
+follow-up. Relation: extreme-interface interiminspection.
+
+## 2026-11-11 — Close the extreme-interface matrix without claiming stability gains
+
+All32 cold10000-update arms and the final dense audit complete. Both seeds
+show inaccurate front motion at epsilon<=.00375, despite finite monitored
+states. Smaller nonlocal pooled errors at the two smallest widths coexist
+with larger terminal errors; do not call this an accurate stability advantage.
+Changing horizon, global moment normalization, or jointly refining coordinates
+and horizon does not recover accuracy under the declared recipe. Fourfold
+evaluation-point refinement changes minimum-width whole-field scores by less
+than.028percentage points and exactly replays the saved fields, so diagnostic
+resolution does not explain the large errors.
+
+Archive the completed matrix and preserve its raw artifacts and production
+defaults. The actual saved-head amplitude shortfall motivates a separate,
+matched output-coordinate scaling control, not a conclusion that AD fails
+intrinsically or that nonlocal differentiation is universally inferior.
+No follow-up training or Git operation is started during this status report.
+Relation: extreme-interface/horizon final validation.
+
+## 2026-11-11 — Audit current PINO derivative controls before expanding them
+
+The user closes the thin-interface direction and asks which other examples
+can support useful nonlocal/local-AD comparisons. Separate fixed-case PINNs,
+historical operator recipes and current selected PINOs. Existing local FEM/FV
+references are not local-AD training controls. Prioritize the selected six-
+particle corrosion recipe, then current rolling Electropolish; both have local
+references and existing AD kernels. Extend explicit paired rolling-input
+validation before attributing a difference to derivatives. Do not substitute
+the particle no-config5s research preset for its documented six-particle350s
+selection, which intentionally has an explicit configuration path.
+
+Spinodal requires a qualified local reference and a deliberate scalar fourth-
+order versus mixed second-order formulation comparison; its current native
+reference alone cannot rank a local-PDE AD control fairly. Channel integral
+derivatives retain explicit wall/outlet residuals, so this case tests derivative
+efficiency rather than eliminating boundary losses. Local models may use
+explicit normals, tuned boundary penalties and shared-space/time JVPs; do not
+build an inefficient dense-Jacobian straw baseline. Keep IC/BC incompatibility
+at t=0 explicit and preserve the original physical input family.
+
+Measure accuracy versus wall time, boundary-region/interface error, memory and
+online preparation separately on the current GPU. Operator construction cost
+belongs to the nonlocal pipeline; a local production route should not be
+charged for unused graph construction. No long training queue, default change
+or Git action follows from this feasibility/inventory session.
+
+## 2026-11-11 — Execute paired rolling particle and Electropolish controls
+
+The user authorizes the plan and requests notification if a GPU change is
+needed. Implement strict rolling method pairing for the current explicit
+six-particle350s/width256/Adam20k recipe and Electropolish width96/Nt16/B8/
+Adam10k. Use two paired runtime seeds, preserving physics, actual input draws,
+network/optimizer and normalization; local AD adds the physically required
+Neumann groups. Measure complete updates before launching a serial finite
+queue on the current49140MiB RTX4090. Avoid changing model size or effective
+batch to force a fit. Record cold compilation, warm updates, active memory,
+evaluation and shared-pipeline preparation separately. Keep sparse key
+checkpoints and full scalar histories within the available20GiB disk; no
+deletion or Git action. Existing local-reference cohorts support the initial
+matched study, with their reused-development qualification retained.
+
+## 2026-11-11 — Qualify canonical controls and launch unchanged cold budgets
+
+All four full-update resource arms and their actual-input/cold-state audits
+pass on the current48GiB RTX4090. Short warm means are93.60/80.25ms for particle
+NL/AD and43.44/28.21ms for Electropolish; active peaks20.43/11.19 and13.00/5.31GiB.
+Keep the production model and effective batch unchanged; neither smaller
+networks nor a GPU switch are required. Short probe accuracy is not a final
+comparison, and these measurements do not support an assumed nonlocal speed
+advantage. Preserve compilation/update/data-preparation/evaluation separation,
+especially avoidable graph preparation retained in the paired AD harness.
+
+Launch the finite eight-run seed-paired cold queue, particle20k andElectro10k,
+with5k/final64local-target Electropolish anchors. Freeze numerical and owner
+sources; verify direct bytes before each stage. Source/physics/input gates
+fail explicitly rather than silently substituting a method. Relation: current
+rolling PINO derivative-control task; owner pino-rolling-ad-cold-20261111-01.
+
+## 2026-11-11 — Preserve the final input-audit failure in the completed comparison
+
+All eight training arms and their local-reference evaluations finished. The
+last Electropolish seed43 strict pair audit failed: recorded encoder images
+differ by at most8.94e-7 and IC targets by1.252e-6, despite identical actual
+condition coefficients, accepted counts, coordinates, times, cold states and
+source bytes. Do not increase the audit tolerance after observing the result,
+edit the raw failed journal, or call this pair bitwise matched. Preserve the
+three strict passes and add an explicitly qualified supplemental report with
+independent FP64 reconstruction of the prescribed inputs and saved-field error
+recomputation. This reports completed training without converting a failed
+acceptance gate into a pass. No new training or default change is authorized
+by this status check. Relation: rolling PINO derivative controls.
+
+## 2026-11-11 — Compare saved particle fields without selection or interpolation
+
+For the requested physical-field gallery, use the first three development
+geometries and the first completed strict pair (seed42, final20k), not the
+best-error seed or samples. Reference saves only multiples of0.1 in normalized
+time; choose0,.2,.5,.8,1 rather than interpolating to quarter times. Use the
+original FEM triangles, common0..1phase scale and gray particle holes for all
+three methods. Gouraud rendering is display interpolation only; metrics use
+original nodal fields and volumes. Preserve the failed AD fields, including
+their initial-condition error. No new inference, solve, training or promotion.
+Relation: particle method field gallery.
+
+## 2026-11-11 — Publish compact method comparisons with auditable provenance
+
+The user requests convergence and physical-field comparisons in both example
+READMEs. Add four curated PNGs in `assets/pino-comparisons/`, with a separate
+1MiB-per-image/2MiB-total budget; preserve the existing six SOTA figures and
+their budget. Render both seeds' histories, separating Electropolish4native
+monitor curves from its64local-FD5k/10kanchors. Physical galleries use seed42
+and the first three cohort samples, not a best-error selection. Show five
+actual saved times and the original failed AD fields alongside reference.
+
+Store direct paths, complete saved configuration snapshots, selected sample
+identities/times, curve values, metric conventions, checkpoint/source paths and
+CPU regeneration commands in repository manifests. Keep weights/raw fields
+external and preserve the Electro43failed strict audit visibly; do not promote
+a new default or overwrite the original failure. This is documentation and
+saved-data rendering only, not training or Git publication. Relation: README
+derivative-comparison figures.
+
+## 2026-11-11 — Expand derivative controls to64case mean and standard deviation
+
+User requests64test samples for both examples and explicitly chooses mean
+plus standard-deviation shading. Reuse the existing Electro64localFD cohort
+and5k/final fields, evaluate its saved initial states, and generate a fresh
+particle64cohort before inference. Exclude all initial/installed geometries
+from both particle seeds and the old development cases by canonical direct
+parameters, without hashes. Keep physical coefficients and prior unchanged.
+Use the established Gmsh/P1-lumped-FEM/SciPyBDF solver at h=.01/P256; check
+h=.0075 with the same polygon on predeclared cases0/21/42/63 and half-step/
+tighter tolerance on case0. These are CPU SciPy solves, not FEniCS/MPI jobs.
+Do not overlap reference generation with JAX GPU inference.
+
+Evaluate only saved checkpoints: particle0/5k/10k/15k/20k; Electro0/5k/10k.
+Do not manufacture a dense64case history from former4case monitor curves.
+Each curve/shaded band uses the same64casewise errors with sample std(ddof=1),
+not a confidence interval or variation across seeds. Keep both seeds and the
+Electro43pairing caveat. Store metrics at every checkpoint, final particle
+fields for all64cases and only selected intermediate fields to limit disk use.
+Preserve all original results and defaults; no training or Git operation.
+
+## 2026-11-11 — Replace sparse convergence figures with final phase-error violins
+
+User requests only one seed's final-weight phase-error distribution, no
+convergence curves. Use seed42 for both examples because it is the first strict
+input/state pair, not because of its error. Plot pooled physical phase L2
+across the existing64common local-reference inputs: Electro10k and particle20k.
+Use a linear percentage axis, KDE confined to the observed sample range,
+all64points and median/IQR marks; record the explicit KDE/jitter settings.
+Do not mix terminal/concentration metrics or other seeds in these plots or
+the updated comparison tables. Preserve all prior evaluations and caveats in
+the external archive and manifest. Replace README convergence assets with two
+compact violin assets while retaining the physical-field sheets. No numerical
+or default changes, new solves/inference, Git action or population guarantee.
+Relation: final-checkpoint phase-error distribution presentation.
+
+## 2026-11-11 — Use channel-normalized space-time error before sample averaging
+
+Latest user steering supersedes the phase-only violin metric. Compute ordinary
+Euclidean norms over each sample/channel's complete evaluation-point vector;
+normalize each channel separately, then average physical phi and concentration
+with equal weights. The violin retains one channel-mean value per sample;
+the headline averages those64values. Keep the established full-horizon grids:
+Electro101x51times21uniform snapshots, particle physical FEM nodes times11
+uniform snapshots, including endpoints. Do not weight FEM nodes by volumes or
+time snapshots by trapezoidal weights under this evaluation-point protocol;
+explicitly distinguish it from previous particle physical-quadrature errors.
+Recompute from saved fields rather than averaging incompatible archived scores.
+This is a metric/presentation change, not a change to training or the PDE.
+Retain seed42strict pairs and all previous observations/caveats in the archive.
+Relation: final-checkpoint violin figures, replacing the earlier phase-only plan.
+
+## 2026-11-12 — Define a shared publication plotting standard before redrawing
+
+The user requests a documentation-only standard based on two supplied evaluation
+notebooks. Adopt explicit Helvetica font paths, sans-serif mathematical text,
+5–7 pt at final publication size, NPG colors, concise labels, and embedded-font
+editable PDF with matching PNG previews. Preserve the notebooks' inward ticks,
+thin axes, frameless legends and compact field layouts; reject their 9 pt
+overrides, implicit math fonts and independently stretched comparison color limits.
+Specify NPG categorical colors separately from explicitly named project-derived
+continuous gradients rather than pretending the ten-color cycle is a quantitative
+colormap. Keep the previously agreed per-channel full-space-time norm and sample
+distribution reduction unchanged.
+
+Require actual font-path/embedding/text-editability checks; a family name or a
+PNG wrapped in PDF is insufficient. Missing Helvetica must be obtained from a
+licensed source, never silently substituted or bundled into the public repository.
+No fonts are downloaded or installed in this documentation task; system fontconfig
+did not list Helvetica. Keep numerical data, checkpoints and existing images
+unchanged. Add AGENTS/development/root navigation; retain external figure artifacts
+and current repository size limits. Relation: publication plotting guidelines.
+
+## 2026-11-12 — Leave continuous-field colormaps to each example
+
+The user finds the continuous-field/error palette prescriptions too rigid.
+Remove that subsection and its fixed NPG-derived color-node recipes, and scope
+NPG to categorical curves/statistical plots. Keep basic comparable-field color
+limits and reproducibility metadata without specifying a continuous cmap.
+Reject a replacement repository-wide continuous palette: each example can
+select an appropriate one. This supersedes the continuous-gradient part of the
+preceding plotting-standard decision; typography, metrics and editable exports
+remain unchanged. Relation: plotting-colormap-scope documentation correction.
+
+## 2026-11-12 — Redraw only final violins with the notebook Helvetica asset
+
+User requests both existing violin figures under the new plotting standard and
+explicitly asks to download Helvetica rather than use a substitute. The user's
+PI-CViT repository contains helvetica/Helvetica.ttf, the same directory referenced
+by the supplied notebooks. Download it to /root/.local/share/fonts/pino, validate
+family/TrueType glyph outlines/fsType, record the direct source, and keep the
+font binary external. Font metadata reports Helvetica Regular, fsType0.
+
+Preserve all256 seed42 final64case channel-mean scores, Scott KDE, point jitter
+and linear-percent axes. Restyle only the distributions at85x65mm with6–7pt
+black text, NPG red/cyan, thin inward ticks and concise titles. Export vector PDF
+and matching RGB PNG; preserve physical-field assets byte-for-byte. Archive old
+presentation before replacement. Check actual PDF objects/fonts/sizes and exact
+score invariance; no new training/inference/solve or Git operation.
+Relation: publication-violin-redraw.
+
+## 2026-11-12 — Use compact log-ratio violins with quartile lines
+
+User rejects the prior layout and supplies a compact shared-y notebook example.
+Use adjacent case panels, shared log y, NPG filled violins and thin dashed
+quartile marks; remove dots, mean text and percentage scaling. All256physical
+sample errors and their reductions remain unchanged. KDE is fit to the raw
+ratios before applying the log-axis transform, matching the supplied ordering;
+keep support at the observed min/max rather than extending negative tails.
+Use a shared0.008..0.45ratio range for the two current examples. This is not a
+KDE fit in log coordinates. Keep5–7pt typography rather than the sample's9pt.
+
+Provide a combined external PDF/PNG and replace the two existing individual
+README PNGs with compact panels; preserve field sheets and all prior PDFs.
+Update plotting guidance/captions to the new point/axis convention. No hidden
+sample filtering, numerical or checkpoint change, training or Git action.
+Relation: compact-log-violins, superseding the prior publication display choice.
+
+## 2026-11-12 — Keep the compact violin examples in separate figures
+
+Latest user steering explicitly requests two separate figures, one per example,
+not a combined panel. Retain the notebook-style log-ratio/quartile design and
+common y limits for comparability. Remove the unused combined-figure path before
+rendering; export only two compact PDF/PNG pairs. This supersedes only the
+combined-layout part of the preceding compact-violin decision.
+
+## 2026-11-12 — Autoscale violin axes and avoid cutting off positive KDE tails
+
+User requests automatic ylim and questions the flat ends. Previous KDE was
+hard-truncated at observed extrema while density remained nonzero. Remove all
+manual y limits/tick positions. Fit Scott KDE to natural-log errors and extend
+three bandwidths past log extrema; exponentiate the support for plotting on
+automatically scaled log axes. Width represents density per unit log-error,
+with within-case area normalization. This explicit change avoids extending a
+raw Gaussian KDE into negative errors and does not alter any sample metric.
+Do not manually force density to zero for a decorative pointed end. Record
+actual limits as outputs, all tail/bandwidth settings and the density coordinate.
+Supersedes the prior raw-KDE/common-range presentation only; retain two figures.
+
+## 2026-11-12 — Identify violin examples by filenames and captions
+
+At the user's request, omit example-name titles from the two separate violin
+figures. Keep case identifiers in PDF/PNG filenames and README context. Reclaim
+the unused title margin while retaining the same physical size, labels, data,
+KDE and automatic y limits. Archive the prior presentation externally. Reject
+changing scores or numerical experiments as part of this presentation update.
+Relation: title-free-violins; current-turn commit and push are authorized.

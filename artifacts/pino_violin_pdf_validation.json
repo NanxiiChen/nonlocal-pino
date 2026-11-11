@@ -1,0 +1,102 @@
+{
+  "schema": "pino_violin_pdf_validation_v2",
+  "status": "passed",
+  "versions": {
+    "python": "3.12.3",
+    "pymupdf": "1.26.7"
+  },
+  "audit_source": "/root/autodl-tmp/tf-logs/pino-derivative-eval64-20261111-01/title-free-violins-20261112/validate_pdf.py",
+  "provenance": "artifacts/pino_derivative_comparisons.json",
+  "axis": "log_ratio",
+  "display_multiplier": 1,
+  "density_coordinate": "natural_log_ratio",
+  "preserved_scores": 256,
+  "cases": {
+    "particle_corrosion2d": {
+      "pdf": "/root/autodl-tmp/tf-logs/pino-derivative-eval64-20261111-01/title-free-violins-20261112/particle_corrosion2d_distribution.pdf",
+      "pdf_bytes": 17182,
+      "fonts": [
+        {
+          "base": "GGTSBH+Helvetica",
+          "type": "Type0",
+          "embedded_bytes": 8720
+        }
+      ],
+      "text": [
+        {
+          "text": "Nonlocal",
+          "size_pt": 6.0
+        },
+        {
+          "text": "Local AD",
+          "size_pt": 6.0
+        },
+        {
+          "text": "0.1",
+          "size_pt": 6.0
+        },
+        {
+          "text": "Rel. L\u00b2 Error",
+          "size_pt": 7.0
+        }
+      ],
+      "actual_y_limits": [
+        0.02496883953415995,
+        0.392508774953668
+      ],
+      "matplotlib_autoscale_verified": true,
+      "exact_sample_scores": true,
+      "all_samples_used": 64,
+      "field_sheet_byte_identical": true,
+      "text_edit_roundtrip": true,
+      "no_raster_images": true,
+      "example_title_absent": true,
+      "density_and_limits_unchanged": true
+    },
+    "electropolish2d": {
+      "pdf": "/root/autodl-tmp/tf-logs/pino-derivative-eval64-20261111-01/title-free-violins-20261112/electropolish2d_distribution.pdf",
+      "pdf_bytes": 17422,
+      "fonts": [
+        {
+          "base": "GGTSBH+Helvetica",
+          "type": "Type0",
+          "embedded_bytes": 8720
+        }
+      ],
+      "text": [
+        {
+          "text": "Nonlocal",
+          "size_pt": 6.0
+        },
+        {
+          "text": "Local AD",
+          "size_pt": 6.0
+        },
+        {
+          "text": "0.01",
+          "size_pt": 6.0
+        },
+        {
+          "text": "0.1",
+          "size_pt": 6.0
+        },
+        {
+          "text": "Rel. L\u00b2 Error",
+          "size_pt": 7.0
+        }
+      ],
+      "actual_y_limits": [
+        0.006374967140159504,
+        0.20438991390056951
+      ],
+      "matplotlib_autoscale_verified": true,
+      "exact_sample_scores": true,
+      "all_samples_used": 64,
+      "field_sheet_byte_identical": true,
+      "text_edit_roundtrip": true,
+      "no_raster_images": true,
+      "example_title_absent": true,
+      "density_and_limits_unchanged": true
+    }
+  }
+}
