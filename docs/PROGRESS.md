@@ -26,10 +26,12 @@ The channel20000/lower-LR study is complete and archived below.
 
 ## Latest completed validation
 
-[Material setup Pages release](tasks/material-setups-pages-release.md) is being
-prepared under explicit user commit/push/deployment authorization. Scope: five
-approved setup PNG/PDF pairs and their README/site/reproduction files, plus the
-accepted ivory ceramic styling. Numerical experiments remain local.
+[Material setup Pages release](tasks/archive/material-setups-pages-release.md).
+Five approved setup PNG/PDF pairs and ivory ceramic main styling published in
+main 3778e3d. Pages run 43163004937 succeeded; all nine live HTML pages and twenty
+PNG/PDF assets return HTTP 200 and match the inspected build byte-for-byte.
+Rendering sources/provenance and README/site links included; research edits
+remain local. Direct deployment/URL evidence is recorded in the archived task.
 
 [Five approved setup diagrams in README and local website](tasks/archive/material-setups-readme-publication.md).
 Five PNG previews and editable PDFs retained in assets/pino-setups, about

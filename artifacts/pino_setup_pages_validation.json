@@ -1,0 +1,271 @@
+{
+  "schema": "pino_setup_pages_release_validation_v1",
+  "checked_at_utc": "2026-11-12T05:42:20.689369+00:00",
+  "content_commit": "79d49ab",
+  "deployed_commit": "3778e3df4c1c828adae0a0785ced6d98499b7d33",
+  "pages_url": "https://nanxiichen.github.io/nonlocal-pino/",
+  "workflow": {
+    "id": 43163004937,
+    "url": "https://github.com/NanxiiChen/nonlocal-pino/actions/runs/43163004937",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "build",
+        "conclusion": "success"
+      },
+      {
+        "name": "deploy",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "release_checks": {
+    "staged_files": 66,
+    "new_local_markdown_links": 58,
+    "html_pages": 9,
+    "html_local_links": 255,
+    "asset_bytes": {
+      "setup": 1458907,
+      "main": 8317921
+    },
+    "all_20_assets_source_identical": true,
+    "research_code_excluded": true,
+    "staged_snapshot": "/tmp/pino-setup-release.s0lzJz"
+  },
+  "live_files": [
+    {
+      "path": "architecture.html",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/architecture.html",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 36056,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "electropolish.html",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/electropolish.html",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 78565,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "ice-melting.html",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/ice-melting.html",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 106483,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "index.html",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/index.html",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 15009,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "particle-corrosion.html",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/particle-corrosion.html",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 88574,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "spatial-calculus.html",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/spatial-calculus.html",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 76566,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "spinodal.html",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/spinodal.html",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 58112,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "training.html",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/training.html",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 41992,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "two-phase-flow.html",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/two-phase-flow.html",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 48440,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/icemelting3d-setup.png",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/icemelting3d-setup.png",
+      "status": 200,
+      "content_type": "image/png",
+      "bytes": 196328,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/icemelting3d-setup.pdf",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/icemelting3d-setup.pdf",
+      "status": 200,
+      "content_type": "application/pdf",
+      "bytes": 79946,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/electropolish2d-setup.png",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/electropolish2d-setup.png",
+      "status": 200,
+      "content_type": "image/png",
+      "bytes": 63923,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/electropolish2d-setup.pdf",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/electropolish2d-setup.pdf",
+      "status": 200,
+      "content_type": "application/pdf",
+      "bytes": 65995,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/confined_ch2d-setup.png",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/confined_ch2d-setup.png",
+      "status": 200,
+      "content_type": "image/png",
+      "bytes": 451208,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/confined_ch2d-setup.pdf",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/confined_ch2d-setup.pdf",
+      "status": 200,
+      "content_type": "application/pdf",
+      "bytes": 317786,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/channel_nsch2d-setup.png",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/channel_nsch2d-setup.png",
+      "status": 200,
+      "content_type": "image/png",
+      "bytes": 65657,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/channel_nsch2d-setup.pdf",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/channel_nsch2d-setup.pdf",
+      "status": 200,
+      "content_type": "application/pdf",
+      "bytes": 82103,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/particle_corrosion2d-setup.png",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/particle_corrosion2d-setup.png",
+      "status": 200,
+      "content_type": "image/png",
+      "bytes": 76590,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/particle_corrosion2d-setup.pdf",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/particle_corrosion2d-setup.pdf",
+      "status": 200,
+      "content_type": "application/pdf",
+      "bytes": 59371,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/icemelting3d.png",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/icemelting3d.png",
+      "status": 200,
+      "content_type": "image/png",
+      "bytes": 686984,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/icemelting3d.pdf",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/icemelting3d.pdf",
+      "status": 200,
+      "content_type": "application/pdf",
+      "bytes": 1117449,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/electropolish2d.png",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/electropolish2d.png",
+      "status": 200,
+      "content_type": "image/png",
+      "bytes": 329170,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/electropolish2d.pdf",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/electropolish2d.pdf",
+      "status": 200,
+      "content_type": "application/pdf",
+      "bytes": 274869,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/confined_ch2d.png",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/confined_ch2d.png",
+      "status": 200,
+      "content_type": "image/png",
+      "bytes": 1322057,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/confined_ch2d.pdf",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/confined_ch2d.pdf",
+      "status": 200,
+      "content_type": "application/pdf",
+      "bytes": 1734310,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/channel_nsch2d.png",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/channel_nsch2d.png",
+      "status": 200,
+      "content_type": "image/png",
+      "bytes": 300054,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/channel_nsch2d.pdf",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/channel_nsch2d.pdf",
+      "status": 200,
+      "content_type": "application/pdf",
+      "bytes": 778836,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/particle_corrosion2d.png",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/particle_corrosion2d.png",
+      "status": 200,
+      "content_type": "image/png",
+      "bytes": 598792,
+      "identical_to_inspected_build": true
+    },
+    {
+      "path": "assets/particle_corrosion2d.pdf",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/particle_corrosion2d.pdf",
+      "status": 200,
+      "content_type": "application/pdf",
+      "bytes": 1175400,
+      "identical_to_inspected_build": true
+    }
+  ],
+  "live_verified_file_count": 29
+}

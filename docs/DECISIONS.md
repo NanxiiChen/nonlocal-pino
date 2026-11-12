@@ -11668,3 +11668,13 @@ ceramic main styling. Stage presentation-only README and memory changes so
 unrelated horizon/thickness experiments remain local. Use dev commits and
 regular main merges, push only main, and verify both the exact deployment run
 and served files before reporting success. Relation: material-setups-pages-release.
+
+## 2026-11-12 — Verify and archive the material setup Pages release
+
+Content 79d49ab was regularly merged/pushed as main 3778e3d. A clean temporary
+worktree allowed publication without disturbing overlapping uncommitted research
+hunks. Pages run43163004937 succeeded, and all nine live HTML files plus twenty
+PNG/PDF assets match the inspected build byte-for-byte. Preserve direct URLs,
+sizes, UTC check time and deployment identity in a compact receipt; publish the
+archived completion record without another website change. Relation:
+material-setups-pages-release.
