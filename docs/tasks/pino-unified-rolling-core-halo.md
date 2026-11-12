@@ -479,3 +479,272 @@ child650532, and waiting accuracy owner646658. After this checkpoint, resume at
 the wall final64 evaluation/three-arm pairing and queued GPU repeatability checks,
 then the Spinodal and channel accuracy trials. Goal remains incomplete; no
 new sampler is promoted. Memory updated:PROGRESS,DECISIONS,this task.
+
+## Fresh channel support audit in progress
+
+The preceding turn published diagnostic checkpointmain56821e5/content70c9f52;
+this is progress, not goal completion. New input-only support stress uses64draws
+spanning0..797, every actual installed lifetime revision and all8spatial sets,
+for bulk512/wall512/wall1024. First attempt/session20921 exited1: its checker
+summed FP32 weights in FP32 and exceeded an overly tight2e-7reduction tolerance
+by2.384e-7. Eight completed geometries had exact supports. This is not a halo
+failure. Keep its output/source/log underpino-channel-fresh-support-20261112-01.
+Use FP64 accumulation to check the stored FP32 weights themselves and rerun the
+same cohort under02; no sampler/operator/training changes. The revised checker
+also records an immediate failing draw before cancelling queued CPU diagnostics.
+
+### Fresh channel support stress completed
+
+Corrected FP64 diagnostic accumulation passes the same64fresh geometries:
+`/root/autodl-tmp/tf-logs/pino-channel-fresh-support-20261112-02/summary.json`.
+Each scheme covers4032sets over actual installed lifetimes,12096total. There
+are36288exact scalar derivative-array comparisons; original derivative weights,
+all active BC sources and complete encoder context are retained. Max actual
+halos bulk5127397,wall5127009,wall10249934 versus capacities10240/10240/12288;
+minimum margins2843/3231/2354. Maximum FP64 sum error of cast FP32 weights is
+3.633e-8. This is a finite cohort, not a guarantee for unseen future inputs;
+existing explicit overflow checks remain. The queued capacities are unchanged.
+Independent20kclock simulation reproduces all64geometry lifetimes/revisions and
+set counts: adjacent `clock_replay.json`. No PDE/FEMsolve or GPU work.
+
+Session27310 exited0 in163.74s; four CPU workers overlapped ceramic wall training.
+The first failed checker/source/cases remain under01, log
+`/tmp/pino-channel-fresh-support.log`; successful log
+`/tmp/pino-channel-fresh-support-02.log`. This overlap must not be represented as
+an uncontended total-runtime measurement for the wall arm. It does not change
+training inputs or model arithmetic. Reproduction:
+`JAX_PLATFORMS=cpu OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 CUDA_VISIBLE_DEVICES= .venv/bin/python -m docs.tasks.pino_channel_fresh_support --output NEW_DIRECTORY --geometries 64 --workers 4`.
+
+### Common complete-graph ceramic residual diagnostic
+
+New `docs/tasks/pino_ceramic_full_residual.py` loads only known mesh/context data
+from firstnative_dev4geometry, rebuilds its visible regional graph and infers
+three completed final20kmodels on the same16new positive times plus0. No evolved
+reference fields, parameter gradients or PDEsolve. Every nonmouth graph row is
+included; region distance is the same training horizon. Original AC/CH meanabs
+and RMS are reported without adaptive loss weights, alongside cLe-normalized
+mouth/IC diagnostics. Saved diagnostic inputs/fields support independent replay.
+
+External result:
+`/root/autodl-tmp/tf-logs/pino-ceramic-full-residual-20261112-01/summary.json`;
+actual script is frozen alongside it. Runs in order: historical successful
+`pino-rolling-ad-cold-20261111-01-particle_corrosion2d-s42-nonlocal`,new area,
+new CDF. Full-domain meanabs AC/CH are respectively.030899/.116279,
+.019158/.032837,and.028791/.113840. Thus lower mean residual is not evidence of
+better final accuracy. Failed area AC RMS.344909 exceeds CDF.172885, and at the
+first positive time t*=.0547 its AC meanabs.1029 exceeds successful CDF.0058.
+The failed run concentrates its AC defect at early times; successful runs have
+larger later/interface residuals. Near-wall residual is not the dominant failure
+in this diagnostic. Independent64x256area samples reproduce the common complete
+mean within their sampling variability.
+
+Mouth c/cLe RMS historical/newarea/CDF is2.529e-4/2.446e-4/1.928e-4; IC phase RMS
+.004050/.003518/.003772. These are one-geometry spot checks, not proof that all
+BCs or all times are converged. They point toward early dynamics/optimization,
+not a diagnosed loss of geometric boundary conditioning. Keep this distinction
+when interpreting the wall allocation or GPU replay. No new optimizer, causal
+schedule or sampler was introduced from this single check.
+
+Session91453 exited0;10.63s on two explicitly bound CPU cores, overlapping the
+ongoing wall training. Independent NumPy original-PDE reconstruction from saved
+raw/physical/JVP fields and edge arrays passes FP32 roundoff bounds and exactly
+recovers reported spatial averages (`replay.json`); largest AC difference2.68e-6,
+CH5.27e-4before diagnostic averaging. This is numerical evaluation validation,
+not an accuracy certificate. Reproduce with the above three direct run paths,
+`--reference /root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/native_dev4`,
+`--seed 20261112`,a new output directory,and CPU environment through
+`python -m docs.tasks.pino_ceramic_full_residual --runs RUN1 RUN2 RUN3 ...`.
+
+### Session end and exact resume
+
+Previous publication turn was progress; this turn completes two additional
+CPU numerical diagnostics. Memory changed:PROGRESS,DECISIONS,this task; new
+scripts:channel fresh-support stress and ceramic full-residual comparison.
+Source syntax, saved-array/PDE replay, independent training-clock replay and
+`git diff --check` pass. No production/default/Git mutation or new GPU job.
+The tool-managed goal remains incomplete.
+
+Latest verified live handles:followup600703,wall child650532 (15kphase.32484473),
+accuracy owner646658waiting in journal03. Next inspect wall final20k and64case
+metrics, strict three-arm pairing, then ordinary/deterministic one-update GPU
+replays. Add the final wall model to the same residual spot check if its final
+accuracy remains poor. Existing serial queue then runs regular resource probes,
+Spinodal full/compact5k pilots and channel bulk512/wall512/full20k. Preserve the
+paused old618216process group. Do not replace/restart a live process on a timeout.
+
+## Ceramic controls and GPU repeatability completed
+
+Previous goal turn was progress: fresh64geometry support qualification and
+full-graph residual evidence. This turn finishes followup owner600703: all19
+stages exit0, final64evaluation/region reduction and three-arm paired audit pass.
+A completed execution is not accuracy acceptance: the new area and wall models
+fail to reproduce the historical accurate evolution. Source/task goal remains
+incomplete; no default promotion or new Git operation.
+
+Final20k metrics on64common local-FEM samples, using each channel's Euclidean
+space-time relative norm, followed by channel/sample averages:
+
+| Arm | Phase mean | Concentration mean | Channel mean | Channel sample SD |
+| --- | ---: | ---: | ---: | ---: |
+| New area | .31597469 | .33270781 | .32434125 | .00786170 |
+| New CDF | .04069381 | .04923459 | .04496420 | .00633714 |
+| New wall CDF | .31796250 | .33450815 | .32623533 | .00788903 |
+| Historical successful area | .04120417 | .04987700 | .04554058 | See saved evaluation |
+
+New wall near-particle/bulk phase means are.31321374/.31979279. Failed new area
+is similarly poor across both regions. CDF is close to the historical successful
+area, not a proven sevenfold sampler improvement. Warm synchronized update plus
+sampling/online medians area/CDF/wall:85.255/85.256/85.147ms; effective means
+94.946/95.205/94.938ms; active peaks20.405/20.406/20.406GiB. Timing-file totals
+2040.039/2050.548/2041.708s. The wall arm includes the disclosed CPU diagnostic
+overlap; distinguish these from uncontended-resource claims.
+
+Authoritative final receipts:
+`/root/autodl-tmp/tf-logs/pino-unified-followup-20261112-01/journal.json`
+and `ceramic-paired.json` in the same directory. Each arm's `evaluation64/summary.json`
+and `regional_metrics.json` retain all64records and direct prediction/reference
+paths. New wall final development physical-weighted phase.32614794.
+
+### Wall full-graph and initial dynamics
+
+Final wall CPU diagnostic (session48360 exited0;8.11s):
+`/root/autodl-tmp/tf-logs/pino-ceramic-full-residual-20261112-02-wall/summary.json`.
+All diagnostic graph/coordinate/time/mouth arrays are exactly equal to the earlier
+three-arm diagnostic. All nonmouth rows are retained. Wall meanabs AC/CH is
+.022497/.033669; AC RMS.447272 and maximum25.1684. Near-wall AC mean.006635
+versus bulk.024683. Its initial AC meanabs.645677 and RMS4.020956 expose a large
+early defect despite small IC field error; mouth c/cLe RMS.00038795.
+
+The updated reproduction script also records diffuse liquid area integral(1-phi)
+and its JVP rate. Direct original nonlocal RHS at the prescribed initial fields
+and zero mouth values gives initial area.02413498 and positive rate.01915849;
+this is a single RHS evaluation, not a reference solve. Wall prediction starts
+at area.02383573 but rate-.31699409, reaching area.01001229atfirstpositive time
+.0547. Failed area similarly starts at rate-.32785501. Historical successful area
+and CDF rates are+.00454887/+.01753253. Thus a small initial-field error does not
+ensure correct initial dynamics. This one-geometry observation does not prove
+that a particular causal schedule will fix convergence.
+
+### Initial-interface coverage check
+
+`docs/tasks/pino_ceramic_initial_coverage.py` measures only prescribed analytic
+phi0, not any evolved solution or reference. Three fixed bands are checked on
+all512initial sets and200actually consumed sets before the first50update refresh.
+The actual IDs/pool draws agree across arms. For .1<phi0<.9, mean raw counts are
+area13.72/CDF13.12/wall11.67; zero-hit fractions are0for all three. Weighted band
+fractions remain.05359/.05125/.05291. For .25<phi0<.75, mean counts6.875/6.760/6.075;
+zero fractions.005/0/0. No complete initial-interface loss is demonstrated by
+wall allocation. Counts drop modestly but this cannot explain the sevenfold
+accuracy gap as a proven causal mechanism. Repeated pools are not independent
+replicates. Receipt with stronger geometry/weight checks:
+`/root/autodl-tmp/tf-logs/pino-ceramic-initial-coverage-20261112-02/summary.json`.
+It exactly matches01before input-guard strengthening; independent weighted
+reduction check passes. Use `.venv/bin/python`, not the system Python without
+ml_collections, for its CLI/reproduction.
+
+### Same-state GPU update replay
+
+Both stages inaccuracy03passed. Ordinary GPU mode gives nonidentical outputs
+for repeated identical cold updates; max difference over all returned model/
+optimizer/weight/loss leaves is2.21744e-4. This is not a model-parameter-only
+quantity. Plain/marked StableHLO is identical. Deterministic mode gives all12
+outputs bitwise identical, including the unused comparison-coordinate payload.
+Warm repeat medians are.311016s ordinary and7.260050s deterministic. Each call
+forces gradient-weight refresh and restarts from the same cold state, so these
+are not representative full-training per-step costs. Measured active peaks
+20.312/19.934GiB. No policy/default changed.
+
+Receipt:
+`/root/autodl-tmp/tf-logs/pino-unified-accuracy-20261112-03/ceramic-replay-comparison.json`;
+rawpolicy `replay.json` and logs remain alongside. This establishes an execution
+nondeterminism source and excludes the marker as an algebraic change. It does
+not establish that this source alone causes the full20kaccuracy gap. No further
+optimizer diagnostic is inserted ahead of the remaining geometry experiments.
+
+### Live accuracy continuation
+
+Owner646658 has continued automatically without restart. Electropolish60update
+current-default rolling probe completed; synchronized warm median40.517ms and
+activepeak12.999GiB on this same49140MiBRTX4090. This is a resource probe, not a
+converged error. Melting60update current-default rolling probe is running as
+child667528. Next stages remain potential full/bulk/wall resource probes,
+Spinodal full/wall5k accuracy pilots and channel bulk512/wall512/full20k. Exact
+live stage is inaccuracy03journal; do not restart completed stages. The overall
+five-case objective remains open. No new training/control was added this turn.
+
+### Latest resource completion and session end
+
+Both regular60update probes finished0. `regular-resources.json` inaccuracy03
+records sameGPUuuid and exact runs. Melting current rolling128^3graph uses
+256cores,1792padded query nodes,1536edge slots,16conditions; synchronized warm
+median16.72394ms and activepeak1.49320GiB. The full3Dgraph has2097152nodes, but
+this probe never performs full-coordinate neural evaluation. It is resource
+evidence only. Electropolish warm40.51745ms/12.99943GiB as above. No new accuracy
+claim or implicit common baseline between these physically different examples.
+
+Owner646658now runs first Spinodal potential/full60probe child669388. Verified
+live PID, initial evaluation and log. The original1024geometry bank loaded;
+initial evaluation finished and first-update compilation is in progress.
+Journal timestamp is2026-11-12T11:31:29UTC. Initial testphase.942466 is an
+untrained model, not a candidate result. No timeout/restart or new queue owner.
+
+This turn completed ceramicfinal20k/64metrics, both ordinary/deterministic GPU
+replays, both regular-domain resource probes, final-wall full-residual/area-rate
+and initial-interface-coverage diagnostics. This is progress. Goal incomplete:
+Spinodal trained full/compact accuracy and channel20kcontrols remain outstanding.
+Do not substitute support/resource checks for those results. Next: monitor the
+existing potential-probe-full child, inspect all three resource summaries, then
+full/wall5k fields and matched-state/geometry/time audits before deciding whether
+longer training or a different compact formulation is warranted. Preserve the
+same queue's later channel three-way experiment and all completed negative arms.
+
+Memory updated:PROGRESS,DECISIONS,this task. Modified/new local diagnostic sources
+remain separate from production training/model/loss functions. Three Python AST
+checks, common full-graph input equality, weighted coverage reduction/output
+replay and `git diff --check` pass. First system-Python helper import lacked
+ml_collections; rerun in the mandated.venvpassed. No GPU was interrupted, no new
+solver run/cleanup/Git action, no default promotion, and no goal completion claim.
+
+
+## 2026-11-12 — Resource results and user-authorized progress checkpoint
+
+The user requests commit and push of the current work. This checkpoint contains
+six files: this task, PROGRESS, DECISIONS, and the new CPU-only helpers
+`pino_channel_fresh_support.py`, `pino_ceramic_full_residual.py`, and
+`pino_ceramic_initial_coverage.py`. Their direct evidence and limitations are
+recorded above. No raw arrays, weights, logs, figures, website assets or production
+training/model/default changes are added. The prior master figure is already
+published. Read-only remote inspection confirms origin/main56821e5 before this
+publication; follow dev commit, regular main merge and push main only. Exact
+published revisions remain recoverable from Git history.
+
+Latest verified accuracy03 stages: full and bulk potential60 probes exited0;
+wall probe child684672 is running under owner646658. Preserve both processes
+and the existing later full/wall5k and channel bulk/wall/full20k stages.
+The full/bulk runs live at
+`/root/autodl-tmp/tf-logs/confined_ch2d/pino-unified-accuracy-20261112-03-potential-probe-{full,bulk}`.
+Using the final50updates of each60-step `update_timing.npz`:
+
+| Probe | GPU update median (s) | Preparation median (s) | Per-step sum median (s) | Active peak (GiB) |
+| --- | ---: | ---: | ---: | ---: |
+| Full | .070468998 | .004734458 | .075233791 | 9.779701 |
+| Bulk compact | .068252325 | .122052660 | .193277119 | 7.753495 |
+
+These are resource probes, not converged solution errors. Compact GPU updates
+are only slightly cheaper while CPU preparation dominates total time. The old
+16-geometry warm-cache microbenchmark does not qualify this actual1024-bank
+workload. Next investigate initial partition/cache misses versus persistent
+batch costs, then inspect the wall probe and long accuracy results. Do not
+silently change only one live paired arm or restart a job on a wait timeout.
+
+Publication verification: all three scripts parse; independent CPU examples
+recover weighted residual mean/RMS/max and initial-coverage mean/standard
+deviation. Prior complete support/clock/input/PDE replay receipts remain valid
+and are not expensively repeated. Diff whitespace and staged-file checks are
+required before the commit. Only lightweight CPU and read-only job checks were
+performed; no GPU training was started or interrupted in this publication turn.
+
+Session memory changes: PROGRESS, DECISIONS and this active task. The research
+goal remains incomplete; keep this task active, with the CPU preparation issue,
+Spinodal trained accuracy and channel20kcontrols outstanding. No cleanup or
+new default promotion is authorized by this checkpoint.
