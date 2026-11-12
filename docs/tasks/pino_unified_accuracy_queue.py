@@ -85,6 +85,13 @@ def run(output,after):
                 raise RuntimeError('Predecessor handle absent without a successful terminal journal')
             time.sleep(30)
         state['status']='running';save()
+        for policy in ('ordinary','deterministic'):
+            stage('ceramic-update-replay-'+policy,[
+                '-m','docs.tasks.pino_ceramic_update_replay',
+                '--source-run',str(LOGS/'particle_corrosion2d/pino-unified-followup-20261112-01-area'),
+                '--input-audit',str(LOGS/'pino-unified-repeatability-20261112-01'),
+                '--output',str(output/('ceramic-update-replay-'+policy)),
+                '--gpu-policy',policy,'--repeats','4'],cpu=False)
         regular=[]
         for case in ('electropolish2d','icemelting3d'):
             name=output.name+'-regular-probe-'+case

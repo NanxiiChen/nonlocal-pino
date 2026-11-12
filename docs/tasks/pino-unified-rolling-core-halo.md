@@ -326,3 +326,156 @@ PNG/PDF, with no weights/raw fields/logs in Git. The active experiment remains
 incomplete. Next: diagnose the same-seed area discrepancy and inspect the
 existing serial owners; do not restart or promote a run from its timing alone.
 The Git history and remote main ref identify the published checkpoint.
+
+## Latest resume: exact-input audit and queued GPU execution replay
+
+The preceding checkpoint turn made progress: publishedmain833880e, targeted
+regressions, documentation and verified continuation of existing jobs. This
+turn adds authoritative CPU evidence and a serial GPU diagnostic; goal remains
+active and no default is promoted. No new Git publication is authorized.
+
+`docs/tasks/pino_ceramic_repeatability.py` now reconstructs the exact first batch
+and compares old successful/current failed area runs. All39saved arrays agree:
+3sampling arrays,17initial arrays,2online identities and17final arrays. Cold
+model/optimizer bytes and399physical refresh events agree, excluding worker
+timing/cache data. Actual old core coordinates/weights match new initial-bank
+replay for the first50updates. Source identity holds for network/loss/online/
+geometry/mesh/operator/shared neural/optimizer/runtime functions. The extra
+method-comparison coordinate does not change the full-shape CPU StableHLO:
+959374bytes in both cases, identical. First loss differs by at most3.0518e-5.
+This does not establish the GPU cause or equate journal identity to observation
+of every intermediate payload. Receipt and first_batch.npz/MLIR live at:
+`/root/autodl-tmp/tf-logs/pino-unified-repeatability-20261112-01/`. CPU job23577
+finished0; log `/tmp/pino-repeatability-audit.log`. The script never trains.
+
+`docs/tasks/pino_ceramic_update_replay.py` will execute the identical cold update
+four times per plain/marked/plain-again group, retaining initial model, complete
+optimizer, weights, actual batch and times each time. Ordinary and deterministic
+policies run in separate processes. Compare every output leaf, loss component
+and adaptive weight; this is one-update repeatability, not a full-run cause
+certificate. No GPU execution of this diagnostic has occurred yet.
+
+Verified empty waiting owner636249 had no stages/child and was deliberately
+terminated; journal02 records superseded_before_any_stage and successor03. This
+was a plan revision prompted by new evidence, not a retry after observation
+timeout. New owner646658 is confirmed live/waiting at:
+`/root/autodl-tmp/tf-logs/pino-unified-accuracy-20261112-03/journal.json`.
+It depends on the same live followup owner600703. The two replay stages precede
+the unchanged regular resource, Spinodal probe/5k and channel20k stages. Preserve
+journal01/02 as history; do not restart them. Child639573 is the current CDF
+training process; at10k its4case physical-weighted phase error is0.04297983, versus
+area0.310570at10k. This remains a monitor result, not the final64case ranking.
+
+`docs/tasks/pino_spinodal_replacement.py` compares frozen eager/current lazy
+pools using genuinely different saved geometries/operators: physical node
+counts1162/1275replace with1214/1205. Replace after prefetch, include repeated
+slots and50-step epoch changes. All90payload arrays and complete encoder inputs
+match, with correct version increments. Receipt:
+`/root/autodl-tmp/tf-logs/pino-unified-spinodal-replacement-20261112-01/validation.json`.
+Both source versions are frozen alongside it. CPU job93326finished0. No PDE or
+FEM solve was required. This strengthens earlier initial-field-only replacement
+checks and does not establish neural accuracy.
+
+Changed files this turn: three diagnostic/reproduction scripts, the waiting
+accuracy queue stage plan, PROGRESS,DECISIONS,and this task. CPU audit/replacement
+executions, changed-script syntax and diff checks pass; the output-comparison
+helper also passes identical/different synthetic-array checks. No production
+loss/model/sampling source changed during the live matched ceramic trials.
+
+Next: inspect live CDF/wall20k stages and their64case final evaluation; then the
+queued same-state GPU replay. Use its evidence to qualify same-seed variability.
+Follow through on Spinodal full/compact5k and channel full/bulk/wall20k accuracy;
+only promote routes after complete support, physical metrics and costs agree.
+The original five-case objective remains incomplete.
+
+## Latest resume: common regional64 diagnostics
+
+The previous goal turn made progress through exact-input/lowering audits and
+real geometry replacement, then verified live training. Current turn adds a
+geometry-only regional evaluation, not a new training measure.
+
+`docs/tasks/pino_regional_metrics.py` reads saved predictions/references and
+partitions all spatial nodes by distance<=delta(.026)to the actual reference
+polygonal particle walls. Bulk is the exact complement. The same physical
+geometry and mask are used across schemes. Report per-channel space-time norms,
+then channel/sample means, with both Euclidean and physical-volume/time norms
+and additive squared-error contributions. Three independent unit checks pass
+for reduction order, weighted integrals and disjoint complete partitions. All
+64global scores recover the existing evaluator. No mask uses predictions or
+evolved reference fields. No inference or PDE/FEM solve was performed.
+
+For failed area20k, Euclidean phase near-wall/bulk means0.31224443/0.31728146.
+The wall band has mean13.2974%physical volume and12.7925%of physical squared
+phase error; this failure is not isolated to the boundary. Receipt:
+`/root/autodl-tmp/tf-logs/particle_corrosion2d/pino-unified-followup-20261112-01-area/evaluation64/regional_metrics.json`.
+The explicit-schema replay in `/tmp/pino-area-regional-replay.json` exactly
+matches all64records/statistics.
+
+Historical successful same-seed area20k has Euclidean64phase0.04120417overall,
+0.05753922near-wall and0.02870420bulk; channel-mean overall0.04554058matches the
+published violin. Receipt:
+`/root/autodl-tmp/tf-logs/pino-unified-repeatability-20261112-01/historical_regional_metrics.json`.
+Its explicit historical_step20000schema uses existing direct prediction paths
+and rechecks physical-weighted scores. This motivates near-wall coverage but
+does not prove the new wall allocation helps.
+
+Future CDF/wall final64evaluations append this CPU diagnostic after publishing
+the unchanged original headline summary/timer. Source change is limited to the
+evaluation helper; live training/math/inputs are untouched. Existing area and
+historical outputs remain intact. The new option uses explicit schema names;
+no silent fallback or change to the requested headline metric.
+
+Disk check:14GiBfree; a current full channel resource run is519MiB and completed
+area20k/evaluation156MiB. No cleanup performed. Regular-probe config/log schemas
+are checked through actual dispatch: Melting uses spatial_training, whose
+timing/memory keys match the waiting queue; the older fixed-pool trainer has
+different keys and is not the selected route.
+
+### Completed CDF20k and64case results; wall split started
+
+CDF child639573 completed20000steps and final4case phase0.03177130. Its online
+audit, native/local evaluation and final64evaluation all passed. The final64
+Euclidean space-time means±sampleSD are phase0.04069381±0.00574889,
+concentration0.04923459±0.00692743,channel mean0.04496420±0.00633714.
+Near-wall/bulk phase means0.05733179/0.02784196. Exact receipt paths are in
+`/root/autodl-tmp/tf-logs/particle_corrosion2d/pino-unified-followup-20261112-01-cdf/evaluation64/summary.json`
+and adjacent `regional_metrics.json`. Compared with the historical successful
+area64model, phase improves on38/64samples overall,32/64near-wall and48/64bulk;
+mean overall change is only-0.00051036. Do not compare only against the failed
+new area run or claim a robust sampler advantage from this single trajectory.
+
+Training wall time is2050.59s (~34.2min), versus area2040.09s; warm update means
+94.27vs93.93ms. The same-state/input/draw audit for the completed two arms passes:
+`/root/autodl-tmp/tf-logs/pino-unified-followup-20261112-01/area-cdf-paired.json`.
+Original helper also reports synchronized update+sampling+online costs and
+active GPU memory. No training-budget/default change follows.
+
+Followup owner600703 now runs wallCDF20k child650532, verified by its live
+command line. Accuracy owner646658 remains waiting atjournal03. No process was
+restarted this turn. After the wall final64 result, the existing queue performs
+three-arm pairing and the short GPU replays before the remaining geometry
+pilots. Goal incomplete. Memory changed:PROGRESS,DECISIONS,this task. New code:
+regional metric helper/tests and evaluation-only hook. CPU checks, saved-norm
+replays and `git diff --check` pass. No new Git action or reference solve.
+
+## 2026-11-12 — User-authorized diagnostic checkpoint
+
+Scope is exactly ten source/test/memory files: the three existing memory files,
+accuracy queue and final64 evaluator, four diagnostic helpers, and regional metric
+tests. No production model/loss/default, figure, website or external artifact
+changes are included. The earlier master-figure publication is already complete.
+
+Validation for this checkpoint: all three `test_pino_regional_metrics` checks
+pass on CPU; AST parsing passes for all seven changed/new Python files; diff
+whitespace checks pass. Existing full input/lowering/replacement and saved-norm
+receipts above remain applicable; expensive checks are not repeated. The staged
+files contain no checkpoints, raw arrays or logs. Read-only remote inspection
+confirms origin/main is833880e before publication. Follow repository workflow:
+commit on dev, regular merge to main, push main only, verify the remote ref and
+clean worktree. Git history records the resulting exact revisions.
+
+Live jobs verified without intervention: followup owner600703, wall training
+child650532, and waiting accuracy owner646658. After this checkpoint, resume at
+the wall final64 evaluation/three-arm pairing and queued GPU repeatability checks,
+then the Spinodal and channel accuracy trials. Goal remains incomplete; no
+new sampler is promoted. Memory updated:PROGRESS,DECISIONS,this task.
