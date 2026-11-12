@@ -11678,3 +11678,41 @@ PNG/PDF assets match the inspected build byte-for-byte. Preserve direct URLs,
 sizes, UTC check time and deployment identity in a compact receipt; publish the
 archived completion record without another website change. Relation:
 material-setups-pages-release.
+
+## 2026-11-12 — Unify architecture and physics training in a master figure
+
+User requests a master illustration in the supplied paper-diagram style.
+Keep the actual learned architecture unchanged: regular patch self-attention;
+irregular pointwise lifts and two separately normalized spatial context reads;
+then time FiLM in each decoder hidden layer. Show background geometry/operator
+preparation and rolling core/halo pools as data preparation, not reference
+solves. Separate nonlocal spatial derivatives from time JVP and parameter AD.
+Label preconditioning, causal weighting, balancing and Adam/SOAP as case-dependent
+options rather than a single mandatory recipe. Use a reproducible vector drawing
+with Helvetica5–7pt at170mmwidth, NPG accents, PNG/PDF/SVG exports; preserve the
+previous diagram. No numerical change or Git/Pages publication. Relation:
+pino-master-figure.
+
+## 2026-11-12 — Complete and locally integrate the master figure
+
+The170×150mmseven-panel figure retains audited architecture ordering and
+case-dependent strategy labels. Use the same curated PNG in README/report to
+preserve typography in browser previews, with editable PDF/SVG downloads.
+Only three illustrative textures are raster; all text/arrows/nodes remain
+editable. Source, assets and local build match,5–7ptembedded fonts and separate
+label-edit probes pass, and desktop/mobile rendering has no overflow. Preserve
+the previous SVG and freeze rendering/implementation inputs externally. Total
+artwork862,647bytes; do not add raw fields or weights. Local Pages trigger now
+covers architecture assets; no Git or live deployment authorized. Relation:
+pino-master-figure.
+
+## 2026-11-12 — Publish the accepted architecture/training master figure
+
+User explicitly authorizes commit and push. Publish the figure, reproducible
+renderer/specification/receipt, matching README/site changes and relevant
+memory only. Select documentation hunks so unrelated numerical experiments
+and their result sections remain local. Verify the exact staged tree, use the
+documented dev commit / regular main merge / main-only push workflow, and
+confirm the push-triggered Pages deployment and served files. A temporary clean
+main worktree may handle overlapping local documentation without stash/reset.
+Relation: pino-master-pages-release.

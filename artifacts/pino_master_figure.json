@@ -1,0 +1,93 @@
+{
+  "schema": "pino_master_figure_v1",
+  "figure_mm": [
+    170,
+    150
+  ],
+  "dpi": 300,
+  "typography": {
+    "figure_mm": [
+      55,
+      45.72
+    ],
+    "dpi": 300,
+    "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+    "font_source": "https://raw.githubusercontent.com/NanxiiChen/PI-CViT/main/helvetica/Helvetica.ttf",
+    "font_family": "Helvetica",
+    "font_size": 6,
+    "label_size": 7,
+    "title_size": 7,
+    "text_color": "#222222",
+    "colors": {
+      "nonlocal": "#E64B35",
+      "local_ad": "#4DBBD5"
+    },
+    "axes_linewidth": 0.5,
+    "body_linewidth": 0.6,
+    "body_alpha": 1.0,
+    "margins": {
+      "left": 0.24,
+      "right": 0.97,
+      "bottom": 0.2,
+      "top": 0.95
+    },
+    "pdf_fonttype": 42,
+    "pdf_use14corefonts": false,
+    "math_fontset": "dejavusans",
+    "pdf_directory": "/root/autodl-tmp/tf-logs/pino-derivative-eval64-20261111-01/title-free-violins-20261112",
+    "png_encoding": "RGB_lossless",
+    "label": "Rel. L\u00b2 Error",
+    "pdf_metadata_date": null,
+    "saturation": 0.75,
+    "quartile_linewidth": 0.6,
+    "outline_color": "#555555",
+    "quartile_color": "#333333",
+    "y_limits_mode": "matplotlib_auto",
+    "example_titles": false
+  },
+  "outputs": {
+    "pdf": "/root/autodl-tmp/tf-logs/pino-master-figure-20261112/pino_master_figure.pdf",
+    "png": "/root/autodl-tmp/tf-logs/pino-master-figure-20261112/pino_master_figure.png",
+    "svg": "/root/autodl-tmp/tf-logs/pino-master-figure-20261112/pino_master_figure.svg"
+  },
+  "receipt": "artifacts/pino_master_figure_validation.json",
+  "previous_architecture": "/root/autodl-tmp/tf-logs/pino-master-figure-20261112/previous-architecture.svg",
+  "reference_image": "/root/.codex/attachments/72f8c93e-a1f6-4107-b277-7015656b7d87/codex-clipboard-30926045-3bb0-4e51-ab1a-bf571a0895a4.png",
+  "source_files": [
+    "src/nonlocal_pinn/nn/conditional.py",
+    "src/nonlocal_pinn/nn/point_conditional.py",
+    "src/nonlocal_pinn/operators/__init__.py",
+    "examples/particle_corrosion2d/online.py",
+    "examples/channel_nsch2d/network.py",
+    "examples/particle_corrosion2d/network.py",
+    "examples/icemelting3d/operator_training.py",
+    "src/nonlocal_pinn/training/causal.py",
+    "website/content/training.md"
+  ],
+  "scope": "Schematic of architecture and available training mechanisms; no solved fields or numerical architecture changes",
+  "semantics": {
+    "regular": "Patch projection + position, self-attention, one spatial cross-attention",
+    "geometry": "Independent boundary/domain MLP lifts; weighted separate K/V reads with shared Q, equal stream mean, projected residual query update repeated per block",
+    "time": "Spatial preparation reused over times; independent FiLM scale/shift at each of3decoder hidden layers after spatial attention",
+    "rolling": "CPU geometry/mesh/quadrature/operator preparation and bounded input-pool replacement; no reference PDE solves",
+    "sampling": "Example-dependent core/halo; complete required halo; original full-domain paths remain available",
+    "calculus": "D weighted differences approximates negative Laplacian, time JVP; AD still supplies parameter gradients and channel streamfunction curl",
+    "strategies": "Residual preconditioning/normalization and fixed or gradient-norm weights are case-dependent; causal is optional research control, not current default; Adam or SOAP by case"
+  },
+  "palette": {
+    "blue": "#3C5488",
+    "cyan": "#4DBBD5",
+    "green": "#00A087",
+    "orange": "#E64B35",
+    "purple": "#8491B4",
+    "ink": "#222222",
+    "gray": "#777777"
+  },
+  "repository_outputs": {
+    "png": "assets/pino-architecture/pino_master_figure.png",
+    "pdf": "assets/pino-architecture/pino_master_figure.pdf",
+    "svg": "website/architecture.svg"
+  },
+  "renderer": "scripts/render_pino_master_figure.py",
+  "pdf_audit_packages": "/tmp/pino-pdf-audit"
+}

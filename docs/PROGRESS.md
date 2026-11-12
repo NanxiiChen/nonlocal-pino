@@ -2,10 +2,9 @@
 
 ## Active task
 
-[Publish main figures and measure Electropolish horizon/grid sensitivity](tasks/pino-main-publication-horizon-study.md).
-First publish the five approved main figures and reproducibility records;
-then run fixed-thickness cold10k nonlocal horizon/density controls and evaluate
-final checkpoints on64common local-reference inputs with mean±sampleSD.
+[Publish the master figure](tasks/pino-master-pages-release.md).
+User approved commit/push. Stage the architecture illustration, source/records
+and README/site updates; validate the exact release tree and Pages deployment.
 
 ## Deferred work
 
@@ -25,6 +24,14 @@ solve. [Feasibility](tasks/archive/traction-conditioned-elastic-pino-analysis.md
 The channel20000/lower-LR study is complete and archived below.
 
 ## Latest completed validation
+
+[PINO architecture and training master figure](tasks/archive/pino-master-figure.md).
+Seven-panel170×150mmschematic covers rolling known inputs/core+halo, alternative
+patch/two-stream encoders, spatial reads, three temporal FiLM layers and nonlocal
+physics training. Case-dependent options qualified. Editable5–7ptPDF/PNG/SVG,
+no text overlap, isolated label-edit probe and source parity pass. Nine local
+pages/260links and desktop/mobile display pass. RootREADME/report/assets/source
+records updated; previous SVG preserved. No numerical or Git/live Pages change.
 
 [Material setup Pages release](tasks/archive/material-setups-pages-release.md).
 Five approved setup PNG/PDF pairs and ivory ceramic main styling published in

@@ -38,6 +38,11 @@ are self-contained. Repository source links require access to the repository.
   used by the report. Update the chapter's caption and image dimensions when
   changing samples, layout, model or reference. Numerical parameters and data
   preparation remain documented with the example sources.
+- Regenerate the architecture/training master figure with
+  `scripts/render_pino_master_figure.py` and
+  [its specification](../artifacts/pino_master_figure.json). The report displays
+  the selected PNG from `assets/pino-architecture/` and offers its editable PDF
+  and `architecture.svg`. These share the source used in the project README.
 
 KaTeX renders standard LaTeX expressions at build time to HTML and MathML.
 The generated site loads its math fonts locally. [KaTeX API](https://katex.org/docs/api)
@@ -46,7 +51,7 @@ The generated site loads its math fonts locally. [KaTeX API](https://katex.org/d
 
 The [Pages workflow](../.github/workflows/pages.yml) runs the locked install
 and build on changes to the site sources, publication main figures, their shared
-manifest, setup SVGs or workflow on `main`. It can
+manifest, architecture master assets, setup SVGs or workflow on `main`. It can
 also be dispatched manually from `main`. The deploy job publishes
 `website/dist/` to the `github-pages` environment. The report's links and
 assets use relative paths so the same build works under a project subpath.

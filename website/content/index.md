@@ -13,8 +13,8 @@ $$
 The auxiliary fields depend on the PDE. Training evaluates physical residuals at sampled times and points, alongside any soft initial or boundary constraints. Positive-time solver trajectories enter evaluation only. A single trained operator handles multiple inputs from its condition family.
 
 <figure>
-  <a href="assets/architecture.svg"><img src="assets/architecture.svg" width="1024" height="748" alt="A fixed-domain query reads patches. A parameterized-domain query averages separate boundary and domain reads. Both temporal decoders modulate three hidden layers with FiLM."></a>
-  <figcaption>Coordinate queries read one patch stream for a fixed domain and two separately weighted point streams for a parameterized domain. Both paths reuse spatial features across times and apply FiLM in each temporal hidden layer.</figcaption>
+  <a href="assets/architecture.svg"><img src="assets/architecture.png" width="1024" height="904" alt="Master figure: background geometry and operator preparation, rolling input pools, core-halo sampling, patch or two-stream point encoders, spatial cross-attention, three time-FiLM decoder layers, and nonlocal physics training."></a>
+  <figcaption>Architecture and training workflow. Patch encoding and two-stream point encoding are alternatives; both prepare spatial features before per-layer time FiLM. The lower panels summarize nonlocal residual evaluation and case-dependent training strategies. Field textures are schematic. <a href="assets/architecture.pdf">Editable PDF</a> · <a href="assets/architecture.svg">SVG</a>.</figcaption>
 </figure>
 
 ## Method chapters

@@ -111,6 +111,10 @@ const vendor = join(assets, 'vendor');
 await mkdir(join(vendor, 'fonts'), { recursive: true });
 await copyFile(join(root, 'report.css'), join(assets, 'report.css'));
 await copyFile(join(root, 'architecture.svg'), join(assets, 'architecture.svg'));
+for (const kind of ['png', 'pdf']) {
+  await copyFile(join(root, '..', 'assets', 'pino-architecture', `pino_master_figure.${kind}`),
+    join(assets, `architecture.${kind}`));
+}
 await copyFile(join(root, 'spatial-neighborhood.svg'), join(assets, 'spatial-neighborhood.svg'));
 
 const katexRoot = join(root, 'node_modules', 'katex');
