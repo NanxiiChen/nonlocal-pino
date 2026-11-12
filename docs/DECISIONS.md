@@ -12009,3 +12009,70 @@ The master figure and website were already published. Do not repeat deployment
 for this docs/tests-only checkpoint, nor interrupt/restart the live serial jobs.
 Use dev commit, regular merge into main and push main only. Keep raw fields,
 weights and external run logs outside Git. Relation:pino-unified-rolling-core-halo.
+
+## 2026-11-12 — Stress actual channel rolling supports before long runs
+
+The existing32geometry support audit covers saved endpoint banks. Add64fresh
+online input draws spread over the planned20kseed42sequence, and every spatial
+revision during each selected geometry's actual lifetime. Use the canonical
+producer and pool builder for bulk512,wall512,and wall1024; preserve capacities
+10240/10240/12288. Check complete derivative/BC supports and conditioning against
+the original full graph, without any solve or label-based choice. Record finite
+cohort limits and CPU overlap with the ongoing ceramic wall run. Do not enlarge
+capacities or alter the queued training unless actual overflow requires it.
+Relation:pino-unified-rolling-core-halo.
+
+## 2026-11-12 — Compare sampling controls on the same complete residual rows
+
+A small sampled training loss does not certify full-domain PDE convergence.
+Use the first held-out native development geometry, all nonmouth graph rows and
+16new stratified positive times plus0for IC diagnostics. Compare the completed
+new area/CDF and historical successful area models on exactly these inputs;
+add the wall final model after it finishes. Rebuild only its known visible graph,
+reuse conditioning/mesh metadata without loading evolved reference fields, and
+keep original AC/CH residuals unweighted by adaptive training coefficients.
+Report near-particle/bulk residuals plus separately normalized mouth/IC errors.
+This is a diagnostic spot check, not a new reference or final64accuracy metric.
+Run on CPU with explicit limited affinity; disclose overlap with GPU training.
+Relation:pino-unified-rolling-core-halo.
+
+## 2026-11-12 — Keep wall allocation experimental after complete controls
+
+All three new ceramic20kcontrols and19owner stages completed with matching cold
+states, fixed inputs and geometry/time streams. Final64channel-mean errors are
+area.324341,CDF.044964,wallCDF.326235; historical successful area.045541 prevents
+interpreting the failed rerun as a large demonstrated CDF advantage. No default
+promotion. The final wall model repeats the early area-shrinkage/AC defect found
+in the failed area model, while mouth/IC errors remain small in the spot check.
+A geometry-only initial-interface coverage check uses three declared phase bands,
+all initial pools and first50actual draws: wall allocation modestly reduces raw
+interface counts but retains weighted coverage and does not miss the interface.
+Do not claim simple core omission explains the failure. Relation:
+pino-unified-rolling-core-halo.
+
+## 2026-11-12 — Qualify matched ordinary-mode runs with measured execution noise
+
+Identical cold-state/batch GPU updates are not bitwise repeatable in ordinary
+mode despite identical plain/marked StableHLO. With deterministic_ops=true all
+12updates, including the extra unused coordinate input, agree exactly. This
+establishes an execution-noise source, not that it causes the complete20kaccuracy
+gap. The forced-gradient-refresh replay costs median.311s ordinary versus7.260s
+deterministic; these are not normal per-step training averages. Preserve the
+ordinary default and timing/accuracy caveats, rather than silently imposing a
+costly global policy. Existing serial owner continues to the five-case resource
+and geometry accuracy work. Relation:pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Save completed diagnostics and the compact preparation bottleneck
+
+The user explicitly authorizes commit and push. Publish only the three new CPU
+diagnostic scripts and three memory files, preserving external arrays, weights
+and logs. The master figure and website are already published. Completed real
+1024-bank Spinodal probes show compact sampling saves memory but currently costs
+more overall because CPU batch preparation dominates. The earlier warm16-bank
+microbenchmark is insufficient to predict that cost; do not promote a sampler
+or change a live paired experiment from this observation. Record the open CPU
+cache/preparation investigation and keep the existing serial accuracy queue.
+Use dev commit, regular merge to main and push main only. Do not rerun completed
+expensive diagnostics or alter the current production defaults for publication.
+Relation: pino-unified-rolling-core-halo.

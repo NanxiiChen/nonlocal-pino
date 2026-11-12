@@ -5,23 +5,27 @@
 [Unify rolling core/halo sampling](tasks/pino-unified-rolling-core-halo.md).
 User requests a rolling core/halo route across all five principal examples,
 including a controlled domain-interior/near-boundary core split for geometries.
-All five serial60-update channel resource probes passed: full3.277s/35.71GiB,
-stratified5121.674–1.676s/26.42GiB, stratified10241.978s/29.94GiB.
-These are costs, not converged errors. Followup owner600703 completed area/CDF
-cold20k and final64evaluation; wallCDF child650532 is training. CDF64means:
-phase4.069%, concentration4.923%, channel mean4.496%, versus historical successful
-area4.120%/4.988%/4.554%; this is close, not a robust accuracy advantage. The new
-area control failed to reproduce that historical result despite matched input/
-cold-state records. GPU repeatability remains queued. Completed area/CDF pairing
-passes. Geometry-only regional64metrics show CDF near-wall phase5.733% versus
-bulk2.784%; the wall split is now being tested against this deficit.
-Accuracy owner646658 waits in journal03, then runs GPU replays, regular resource
-probes, conservative-potential Spinodal probes/full+compact5k and three channel
-20k controls. Two-hop support/replacement and CPU lowering audits pass; trained
-Spinodal/channel accuracy remains pending. All new schemes remain opt-in.
-Source checkpoint main833880e is published. The diagnostic follow-up is prepared
-for the user-authorized dev-to-main commit/push; exact revisions are in Git history.
-Three regional-norm tests, seven Python syntax checks and diff checks pass.
+All five channel60-update resource probes passed; geometry accuracy is pending.
+Ceramic followup600703completed all19stages and three-arm pairing. Final64
+channel means: newarea32.43%,CDF4.50%,wallCDF32.62%; historical successful area
+4.55%. No robust sampler advantage or wall-allocation promotion follows.
+Full-graph diagnostics locate large early AC defects and incorrect initial pit
+shrinkage in failed runs; mouth/IC errors are small. Initial-interface cores
+remain present. Ordinary same-state GPU updates are nonrepeatable; deterministic
+mode gives12identical updates but much larger diagnostic cost. This does not
+prove the cause of the complete training gap; defaults remain unchanged.
+Accuracy owner646658completed both regular probes after the GPU replays:
+Electropolish40.517mswarm/12.999GiBpeak; Melting16.724ms/1.493GiB. Spinodal
+full/bulk potential60 probes completed: warm update+preparation medians75.234/
+193.277ms, active peaks9.780/7.753GiB. Compact batch preparation costs122.053ms;
+its CPU overhead needs diagnosis before any speed claim. Wall probe child684672
+is running; full/compact5k and three channel20kcontrols remain queued. Fresh
+channel64geometry/lifetime checks retain complete stencils and encoder context
+within existing capacities; exact two-hop Spinodal/replacement checks also pass.
+Neither support proof certifies trained accuracy. The user authorizes publication
+of this diagnostic checkpoint after main56821e5; exact revisions are in Git history.
+Three diagnostic scripts and these records preserve receipts and resume actions;
+production defaults and live serial ownership remain unchanged.
 
 ## Deferred work
 
