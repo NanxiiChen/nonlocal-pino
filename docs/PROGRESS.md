@@ -26,6 +26,13 @@ The channel20000/lower-LR study is complete and archived below.
 
 ## Latest completed validation
 
+[Ceramic styling and website main-figure synchronization](tasks/archive/ceramic-main-website-sync.md).
+Gray fill #A0A0A0 with #333333 outlines; all20phase errors, text and geometry
+unchanged. Five website galleries now share the approved README PNG/PDF
+manifest, with corrected captions and Pages triggers. Nine-page desktop/mobile
+checks pass; main b85da60 deployed successfully, all19liveHTML/asset files match
+the inspected build. Publication excludes pending numerical experiments.
+
 [Melting paired 3D/slice main figure](tasks/archive/melting-main-figure.md).
 Current rolling10k inference on128^3queries for existing random trio5/9/2;
 five normalized times, true zero surfaces above fixedXYphase slices with native
