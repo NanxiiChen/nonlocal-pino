@@ -15,7 +15,7 @@ task; this is explicitly authorized concurrent publication work.
 
 ## Acceptance and status
 
-Pending: review the staged-only tree and its links, verify the static build,
+Acceptance: review the staged-only tree and its links, verify the static build,
 commit and push, confirm the Pages run for that exact main commit succeeds,
 then compare the served HTML and PNG/PDF files with the inspected local build.
 The previous local publication receipt already verifies embedded TrueType
@@ -29,6 +29,28 @@ match their approved sources and byte budgets (setup 1,458,907 bytes; main
 contain no numerical implementation, test or configuration changes; the two
 README research sections and numerical memory updates remain unstaged.
 
-Status: local release checks passed; awaiting commit/push and live verification.
-Blocker: none. Next: regular dev-to-main publication, then inspect Pages and
-served files. No deployment success is claimed yet.
+## Publication and verification
+
+Complete. Content commit `79d49ab` was regularly merged to main as
+`3778e3df4c1c828adae0a0785ced6d98499b7d33` and pushed to origin/main.
+Because local experimental README/memory hunks overlap the presentation
+files, the regular merge was performed in a temporary clean worktree. That
+worktree was removed and the original checkout returned to main; all local
+research edits were preserved without stashing or resetting.
+
+[Pages run 43163004937](https://github.com/NanxiiChen/nonlocal-pino/actions/runs/43163004937)
+completed successfully, including build and deploy. At 2026-11-12 05:42:20 UTC,
+all nine live HTML pages and twenty PNG/PDF assets returned HTTP 200 and matched
+the inspected staged build byte-for-byte. This includes all five new setup
+previews/PDFs and the ivory ceramic main figure. The live site is
+[Nonlocal PINO](https://nanxiichen.github.io/nonlocal-pino/).
+
+The compact receipt `artifacts/pino_setup_pages_validation.json` records the
+deployment commit/run, all direct URLs, byte counts and local release checks.
+No subsequent website content changes are required. Archive and publish this
+verification record as a documentation-only follow-up; it does not trigger the
+path-filtered Pages workflow.
+
+Status: complete. Blocker: none. Next: none for publication; return to the
+separate numerical task when requested. Memory updated: this archived task,
+PROGRESS, DECISIONS and the local active numerical task's concurrent-work note.
