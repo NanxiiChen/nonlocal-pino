@@ -60,8 +60,8 @@ The objective uses absolute AC and CH residuals with unit prescales. Mouth phase
 ## Field evolution
 
 <figure>
-  <a href="assets/particle_corrosion2d.png"><img src="assets/particle_corrosion2d.png" width="1875" height="945" alt="Three examples of pit growth and corrosion around ceramic inclusions across five times"></a>
-  <figcaption>The first three development geometries at 0, 70, 175, 280 and 350 s. Solid and dashed interfaces show the PINO and direct nonlocal evolution, respectively.</figcaption>
+  <a href="assets/particle_corrosion2d.png"><img src="assets/particle_corrosion2d.png" width="2007" height="1086" alt="Predicted pit growth around gray ceramic particles with dark outlines for four development geometries across five times, with local-FEM interfaces"></a>
+  <figcaption>The selected width-256, 20,000-step model on all four development geometries at t* = 0, 0.2, 0.5, 0.8 and 1 (0, 70, 175, 280 and 350 s). Colors show predicted phase; gray interiors with dark outlines are inert ceramic, and dashed curves are independent local-FEM φ = 0.5 interfaces. Labels give instantaneous phase relative L² on the original spatial nodes, excluding ceramic interiors. <a href="assets/particle_corrosion2d.pdf">Editable PDF</a>.</figcaption>
 </figure>
 
 ## References and comparisons

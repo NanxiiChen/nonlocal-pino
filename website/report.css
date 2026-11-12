@@ -55,7 +55,7 @@ main { width: 100%; max-width: 1000px; min-width: 0; }
 .report-body li + li { margin-top: .35rem; }
 .report-body figure { margin: 1.2rem 0; }
 .report-body figure img { display: block; width: 100%; height: auto; border: 1px solid var(--line); background: white; border-radius: 5px; }
-.report-body figure a { display: block; }
+.report-body figure > a { display: block; }
 .report-body figcaption { margin-top: .45rem; font-size: .84rem; color: var(--muted); }
 .table-scroll { margin: 1rem 0; overflow-x: auto; border: 1px solid var(--line); border-radius: 5px; }
 .table-scroll:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }

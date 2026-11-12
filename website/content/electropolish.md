@@ -47,8 +47,8 @@ Mean absolute PDE residuals and three physical MSE terms (initial, top and botto
 ## Field evolution
 
 <figure>
-  <a href="assets/electropolish2d.png"><img src="assets/electropolish2d.png" width="2025" height="1095" alt="Phase evolution for four rough initial interfaces over five times"></a>
-  <figcaption>The 10,000-step rolling-pool operator on unseen inputs 0, 21, 42 and 63 at 0, 1.25, 2.5, 3.75 and 5 s. Dashed curves are local-FD101 phase interfaces.</figcaption>
+  <a href="assets/electropolish2d.png"><img src="assets/electropolish2d.png" width="2007" height="1003" alt="Predicted phase for four rough initial interfaces across five times, with dashed local-FD reference contours and per-panel errors"></a>
+  <figcaption>The selected rolling-pool 10,000-step model on unseen inputs 0, 21, 42 and 63 at t* = 0, 0.25, 0.5, 0.75 and 1 (0–5 s). Colors show predicted phase; dashed curves are local-FD101 φ = 0.5 interfaces. Labels give instantaneous spatial phase relative L² on the original reference nodes. <a href="assets/electropolish2d.pdf">Editable PDF</a>.</figcaption>
 </figure>
 
 ## References and comparisons

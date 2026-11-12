@@ -11501,3 +11501,33 @@ For the study, retain the agreed complete-space-time per-channel normalization
 and equal channel average before64-input mean/sampleSD. Use one common local
 reference independent of training horizon, and final10kweights rather than
 best-checkpoint selection. Relation: pino-main-publication-horizon-study.
+
+## 2026-11-12 — Share publication main figures with the report website
+
+User requests dark-gray ceramic interiors and the current README galleries on
+the website while the ratio queue runs. Change only the ceramic fill to #555555,
+preserving the light-gray external output and numerical fields. Use the approved
+`artifacts/pino_main_figures.json` collection for website PNG/PDF copies, correct
+all five captions, and trigger Pages on changes to that collection or manifest.
+Reject separate website rerenders and the previous historical `assets/pino`
+copies: they drifted from the accepted README figures. CPU presentation work
+does not alter the active experiment or authorize Git history operations.
+Relation: side work in electropolish-fixed-particle-horizon-ratio.
+
+## 2026-11-12 — Use medium-gray ceramic fill with dark outlines
+
+After viewing the #555555 preview, the user requested a lighter ordinary gray
+and dark-gray/black outlines. Use fill #A0A0A0, edge #333333 and 0.45 pt edges;
+keep all field colors, interfaces, labels and source data unchanged. Retain
+both previous previews externally. This supersedes the dark-fill styling above,
+not the shared website asset pipeline or experiment plan.
+Relation: figure/site side work in electropolish-fixed-particle-horizon-ratio.
+
+## 2026-11-12 — Publish only the verified figure and report update
+
+User explicitly approved commit, dev-to-main merge, push and Pages deployment
+for this figure/README/website change, excluding the running experiment code.
+Stage only the publication assets, their provenance, report sources/workflow,
+and this task's records. Keep unrelated numerical experiments and prior pending
+research edits local. Verify the deployed assets against the approved files.
+Relation: ceramic-main-website-sync; background ratio queue remains active.

@@ -48,8 +48,8 @@ The loss evaluates \(Pr\). Growing modes retain unit gain, while stiff decaying 
 ## Field evolution
 
 <figure>
-  <a href="assets/confined_ch2d.png"><img src="assets/confined_ch2d.png" width="1950" height="1200" alt="Spinodal patterns evolving for three geometries with different hole positions and radii"></a>
-  <figcaption>Development geometries 1027, 1028 and 1026 at t = 0, 0.75, 1.5, 2.25 and 3, selected as low, upper-median and worst pooled-error examples. Dashed contours are direct-nonlocal interfaces. Display interpolation is separate from the error quadrature.</figcaption>
+  <a href="assets/confined_ch2d.png"><img src="assets/confined_ch2d.png" width="2007" height="1334" alt="Predicted spinodal phase for four reserved geometries with two holes across five times, with native reference interfaces"></a>
+  <figcaption>The selected 50,000-step model on the first four reserved development geometries, 1024–1027, at t = 0, 0.75, 1.5, 2.25 and 3. Colors show predicted phase; dashed curves are native nonlocal φ = 0 interfaces. Labels use instantaneous, equally weighted original-cell phase relative L²; display smoothing does not enter these errors. <a href="assets/confined_ch2d.pdf">Editable PDF</a>.</figcaption>
 </figure>
 
 ## References and comparisons

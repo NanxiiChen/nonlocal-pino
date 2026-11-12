@@ -95,13 +95,13 @@
     "math_italic_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
     "scientific_labels": "editable vector spans; sans-serif italic L; explicit 5 pt superscripts",
     "superscript_gap_pt": 0.25,
-    "hole_color": "#E0E0E0",
-    "hole_edge_color": "#555555",
-    "hole_linewidth": 0.35
+    "hole_color": "#A0A0A0",
+    "hole_edge_color": "#333333",
+    "hole_linewidth": 0.45
   },
   "output": {
-    "pdf": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-main-20261112/particle_corrosion2d_main_phase.pdf",
-    "png": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-main-20261112/particle_corrosion2d_main_phase.png",
+    "pdf": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-main-gray-outline-20261112/particle_corrosion2d_main_phase.pdf",
+    "png": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-main-gray-outline-20261112/particle_corrosion2d_main_phase.png",
     "receipt": "artifacts/particle_corrosion_main_figure_validation.json"
   },
   "runtime": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/runtime.json",

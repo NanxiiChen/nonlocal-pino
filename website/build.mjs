@@ -120,9 +120,34 @@ await copyFile(join(katexRoot, 'LICENSE'), join(vendor, 'KaTeX-LICENSE.txt'));
 const fonts = await readdir(join(katexDist, 'fonts'));
 await Promise.all(fonts.map(font => copyFile(join(katexDist, 'fonts', font), join(vendor, 'fonts', font))));
 
-for (const { source } of pages.filter(page => page.source)) {
-  await copyFile(join(root, '..', 'assets', 'pino', `${source}.png`), join(assets, `${source}.png`));
+// The README and report use the same approved publication exports. Reject
+// missing/stale approvals instead of silently serving a historical gallery.
+const manifest = JSON.parse(await readFile(join(root, '..', 'artifacts', 'pino_main_figures.json'), 'utf8'));
+const casePages = pages.filter(page => page.source);
+if (manifest.schema !== 'pino_main_publication_v1' ||
+    manifest.figures.length !== casePages.length ||
+    new Set(manifest.figures.map(figure => figure.example)).size !== casePages.length) {
+  throw new Error('Expected one approved publication figure per case chapter');
+}
+let figureBytes = 0;
+for (const { source } of casePages) {
+  const figure = manifest.figures.find(record => record.example === source);
+  if (!figure) throw new Error(`Missing publication figure: ${source}`);
+  for (const kind of ['png', 'pdf']) {
+    if (figure[kind] !== `assets/pino-main/${source}.${kind}`) {
+      throw new Error(`Unexpected publication asset path for ${source}.${kind}`);
+    }
+    const data = await readFile(join(root, '..', figure[kind]));
+    if (data.length !== figure.bytes[kind] || data.length >= manifest.maximum_file_bytes) {
+      throw new Error(`Publication asset size differs from its approval: ${figure[kind]}`);
+    }
+    figureBytes += data.length;
+    await writeFile(join(assets, `${source}.${kind}`), data);
+  }
   await copyFile(join(root, '..', 'assets', 'pino-setups', `${source}.svg`), join(assets, `${source}-setup.svg`));
+}
+if (figureBytes >= manifest.maximum_collection_bytes) {
+  throw new Error('Publication figure collection exceeds its approved budget');
 }
 
 await Promise.all(rendered.map(([slug, html]) => writeFile(join(output, `${slug}.html`), html)));

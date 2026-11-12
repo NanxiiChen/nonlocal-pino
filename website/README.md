@@ -30,9 +30,14 @@ are self-contained. Repository source links require access to the repository.
 - Edit chapter order or shared navigation in [build.mjs](build.mjs) and styles
   in [report.css](report.css). Second-level Markdown headings populate the
   in-page contents.
-- Reuse the [curated figure pairs](../assets/README.md). The builder copies the
-  five case setup/evolution pairs and the two method diagrams. Numerical
-  parameters and data preparation remain documented with the example sources.
+- Reuse the [publication main figures](../assets/pino-main/README.md). The builder
+  reads [the shared manifest](../artifacts/pino_main_figures.json), checks the
+  approved file sizes and copies the same five PNG/PDF pairs used by the example
+  READMEs. Each chapter links its editable PDF. Setup SVGs and the two method
+  diagrams are copied separately; historical `assets/pino/` galleries are not
+  used by the report. Update the chapter's caption and image dimensions when
+  changing samples, layout, model or reference. Numerical parameters and data
+  preparation remain documented with the example sources.
 
 KaTeX renders standard LaTeX expressions at build time to HTML and MathML.
 The generated site loads its math fonts locally. [KaTeX API](https://katex.org/docs/api)
@@ -40,7 +45,8 @@ The generated site loads its math fonts locally. [KaTeX API](https://katex.org/d
 ## Publishing
 
 The [Pages workflow](../.github/workflows/pages.yml) runs the locked install
-and build on changes to the site sources, figures or workflow on `main`. It can
+and build on changes to the site sources, publication main figures, their shared
+manifest, setup SVGs or workflow on `main`. It can
 also be dispatched manually from `main`. The deploy job publishes
 `website/dist/` to the `github-pages` environment. The report's links and
 assets use relative paths so the same build works under a project subpath.

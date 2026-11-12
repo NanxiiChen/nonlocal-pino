@@ -45,8 +45,8 @@ The momentum rows use the corrected gradients for advection, pressure and capill
 ## Field evolution
 
 <figure>
-  <a href="assets/channel_nsch2d.png"><img src="assets/channel_nsch2d.png" width="2325" height="720" alt="Predicted droplet motion through three independently constricted channels at five times"></a>
-  <figcaption>All three reserved geometries at t = 0, 1.5, 3, 4.5 and 6. Dashed curves are independent local-FEM phase interfaces on the same physical axes.</figcaption>
+  <a href="assets/channel_nsch2d.png"><img src="assets/channel_nsch2d.png" width="2007" height="696" alt="Predicted phase in four constricted channels across five normalized times with dashed local-FEM droplet interfaces"></a>
+  <figcaption>The selected 20,000-step model on the development geometry followed by all three reserved geometries. Columns show t* = t/T = 0, 0.25, 0.5, 0.75 and 1, with T = 6 in model units. Colors show predicted phase; white dashed curves are independent local-FEM φ = 0 interfaces. Labels give instantaneous phase relative L² on all 3,840 original spatial queries. <a href="assets/channel_nsch2d.pdf">Editable PDF</a>.</figcaption>
 </figure>
 
 ## References and comparisons
