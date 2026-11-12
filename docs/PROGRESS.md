@@ -2,14 +2,31 @@
 
 ## Active task
 
-None. Master-figure publication is verified; subsequent sampling research is tracked locally.
+[Unify rolling core/halo sampling](tasks/pino-unified-rolling-core-halo.md).
+User requests a rolling core/halo route across all five principal examples,
+including a controlled domain-interior/near-boundary core split for geometries.
+All five serial60-update channel resource probes passed: full3.277s/35.71GiB,
+stratified5121.674–1.676s/26.42GiB, stratified10241.978s/29.94GiB.
+These are costs, not converged errors. Followup owner600703 completed the ceramic
+area20k arm and its audits/evaluation; CDF training is now running. The area arm
+failed to reproduce an older same-seed result (32.38% versus3.18% pooled phase
+on the same4development cases); source/input/compilation differences remain to
+be isolated. Accuracy owner636249 waits in journal02, then runs regular-case
+resource probes, conservative-potential Spinodal probes/full+compact5k and three
+channel20k controls. Two-hop support is bounded on1096known-input geometries;
+lazy spatial preparation preserves90payload arrays and reduces measured CPU
+preparation time. New samplers/formulations remain opt-in. The user requested
+a source/documentation checkpoint and push; validation is recorded in the
+active task, without changing defaults or interrupting the serial queues.
 
 ## Deferred work
 
-Optional regional diagnostics and a dense Spinodal row-only timing probe from
-the [completed spatial study](tasks/archive/pino-spatial-sampling-study.md)
-remain available. Both the spatial-study and derivative-control queues are
-finished; no GPU work is currently active.
+Optional regional diagnostics from the
+[completed spatial study](tasks/archive/pino-spatial-sampling-study.md)
+remain available; the row-only timing probe is now part of the active task.
+Both the old spatial-study and derivative-control queues are
+finished. The fixed-particle ratio queue has also finished; no further GPU work
+has been launched for this study.
 
 The old high-mobility horizon process group618216 remains explicitly paused.
 Recovery details are preserved in the archived physical study below; do not
@@ -36,6 +53,45 @@ physics training. Case-dependent options qualified. Editable5–7ptPDF/PNG/SVG,
 no text overlap, isolated label-edit probe and source parity pass. Nine local
 pages/260links and desktop/mobile display pass. RootREADME/report/assets/source
 records updated; previous SVG preserved. No numerical or Git/live Pages change.
+
+[Electropolish cost–error README figure](tasks/archive/electropolish-cost-error-readme.md).
+Approved three-curve PNG/PDF pair copied into assets/pino-studies and embedded
+in the example README, with PDF/provenance links and an asset-index entry.
+Both copies byte-identical,118,285bytes total; source record, local links and
+diff checks pass. No redraw, numerical/default change or Git/Pages action.
+
+[Three matched four-point cost–error curves](tasks/archive/electropolish-three-curve-cost-error.md).
+Added11,476particles with two cold10k/64local controls: ratios1.5/2.5give
+mean0.049555/0.023821 at539.068/842.954s. Five stages and paired-state/full-draw/
+saved-field checks pass. Three NPG C0/C1/C2curves, four ratios each, mean only,
+5/8/11/14ptcircles with1ptwhite edges and1.4ptlines.768sample reductions,
+12PDFcircles and editable6–7pttext verified; PNG/PDF inspected. Source/style/
+receipt/completion records and README updated; old plots retained. No default/Git change.
+
+[Simplified matched-ratio cost–error plot](tasks/archive/electropolish-two-curve-cost-error.md).
+Two curves,5,151/20,301particles, each at delta/h1.5/2/2.5/3; means only and
+circle area by ratio. One new cold10k result at5,151/delta.025:mean0.0304654,
+806.109s full training process,29.868s independent64case evaluation. Cold-state,
+all10000same-grid draws and64norm replay pass; seven prior models reused.
+Eight plotted points/512sample means and PDF circle counts verified.130×85mm
+editable6–7ptPDF/PNG inspected; previous full plot preserved. No default/Git change.
+
+[Electropolish cost–error bubble plot](tasks/archive/electropolish-cost-error-bubbles.md).
+Fourteen unique final10k runs, five particle counts; full cold process wall time
+versus64-input channel-mean space-time L2, NPG colors and circle area linear in
+delta. SampleSD bands/bars and actual timing positions retained. Shared scheme,
+896sample reductions, duplicate baseline and encodings checked.170×95mmPDF/PNG,
+embedded editable6–7pttext and visual checks pass. No training/default/Git change.
+
+[Fixed-particle Electropolish horizon-ratio sweep](tasks/archive/electropolish-fixed-particle-horizon-ratio.md).
+All five cold10k arms, their64local evaluations and audit completed; ratio2
+baseline reused. At20,301particles, means for ratios1.5/1.75/2/2.25/2.5/3 are
+0.05052/0.02907/0.01728/0.02723/0.02341/0.02476. Ratio2 is best in this paired
+initialization; warm updates grow34.0–86.8ms. Twelve stage exits (including
+probe),384sample norms/statistics and paired states/draws pass. PDF/PNG curve
+uses mean±sampleSD, editable6–7pttext and automatic axes; both inspected.
+Five new train/evaluate pairs plus audit took67.6min. README/provenance updated;
+no default changes, retraining or Git publication.
 
 [Material setup Pages release](tasks/archive/material-setups-pages-release.md).
 Five approved setup PNG/PDF pairs and ivory ceramic main styling published in
@@ -118,6 +174,16 @@ unchanged. Five website galleries now share the approved README PNG/PDF
 manifest, with corrected captions and Pages triggers. Nine-page desktop/mobile
 checks pass; main b85da60 deployed successfully, all19liveHTML/asset files match
 the inspected build. Publication excludes pending numerical experiments.
+
+[Fixed-thickness Electropolish horizon/density controls](tasks/archive/pino-main-publication-horizon-study.md).
+Nine cold10kfinal models use64common localFDcases and channel-mean space-time L2.
+Best20301particles/delta.01mean0.017281±0.007398 versus new5151/delta.02baseline
+0.023159±0.006130; warm45.0vs42.8ms. Fixed-density horizon curve favors.02;
+fixed-horizon density curve is nonmonotone with late optimizer fluctuation.
+All576sample norms, cold states/physicaldraws,19stage exitcodes and four-case
+reference-refinement rankings pass.109.28min,29.2GiBpeak;170×59mmPDF/PNGinspected.
+Example README/provenance/memory updated; defaults unchanged, no new Git action.
+Approved five main figures were already published inmain04ea141during this task.
 
 [Melting paired 3D/slice main figure](tasks/archive/melting-main-figure.md).
 Current rolling10k inference on128^3queries for existing random trio5/9/2;

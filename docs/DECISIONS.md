@@ -11502,6 +11502,54 @@ and equal channel average before64-input mean/sampleSD. Use one common local
 reference independent of training horizon, and final10kweights rather than
 best-checkpoint selection. Relation: pino-main-publication-horizon-study.
 
+## 2026-11-12 — Separate horizon, density and coupled-refinement controls
+
+Use9uniqueElectropolish cold10kcontrols at fixed physical interface thickness.
+Compare fixed h=.01 with delta=.015/.02/.03/.04, fixed delta=.02 with Nx101/151/201,
+and fixed delta/h=2 with Nx51/101/151/201 (rectangular isotropic grids). Keep
+width96/Adam/B8/Nt16/core256/rolling32, one paired seed42; do not tune by test error.
+Use common localFD64targets on the published21uniform evaluation times. Preserve
+the existing strict same-graph loader; add an explicit separate-monitor option
+for this study only. Native6monitors never become training labels or headline
+reference. Raw cubic normalization is unchanged: the measured1.5ratio moment
+gain0.8877is part of the discretization under study, not corrected away. Rejected
+per-arm target solvers, which would hide local/nonlocal bias. Relation: active
+pino-main-publication-horizon-study.
+
+## 2026-11-12 — Cap fixed-horizon density by measured GPU capacity
+
+Before any cold10kresults, Nx201/delta.02exceeded the48GiB4090capacity on two
+actual probes (default then95%JAXquota). Replace only that arm with Nx129/delta.02,
+retaining Nx151/delta.02and Nx201/delta.01. Fixed-horizon particle counts become
+5151/8385/11476; all9arms retain identical B8/Nt16/optimizer/network. Prefer this
+pre-result matrix revision to changing accumulation/batch just for one arm or
+requesting a GPU swap. Both failures remain recorded under the...-01study root;
+final matrix lives under...-02. Relation: pino-main-publication-horizon-study.
+
+## 2026-11-12 — Retain final-step horizon results and qualify density nonmonotonicity
+
+All9cold10k/64local-reference controls are complete. Report mean/sampleSD of
+per-sample channel-averaged space-time L2. Best20301/delta.01gives0.017281±0.007398
+versus newcold5151/delta.02baseline0.023159±0.006130. Keep the a-priori final-step
+rule even when Nx129/delta.02worsens on its late native4monitor. Do not substitute
+9k, interpret the nonmonotone density curve as a pure quadrature result, or claim
+new SOTA defaults from a single initialization. Four local-grid refinement cases
+preserve ranking; they are not64fine-grid references. Store scalar results and
+direct paths in the repo, leave generated PDF/PNGand fields externally, update
+the example README and archive the complete task. No retraining or Git action.
+Relation: pino-main-publication-horizon-study.
+
+## 2026-11-12 — Add a fixed20301particle horizon-ratio sweep
+
+User requests a fixed-particle delta/hcontrol. Choose201x101(h=.005)and ratios
+1.5/1.75/2/2.25/2.5/3. Reuse prior completed ratio2by explicit run path; cold
+train the other five from its saved scheme/config and shared seed42, then use
+the same final10k/64local-reference metric. Do not reinitialize from trained
+weights or rerun identical baseline work. Ratio4is excluded by the prior
+measured memory failure, before any new results; probe ratio3rather than
+changing B8/Nt16/core256for individual arms. Preserve raw cubic quadrature,
+production defaults and prior plots. Relation: electropolish-fixed-particle-horizon-ratio.
+
 ## 2026-11-12 — Share publication main figures with the report website
 
 User requests dark-gray ceramic interiors and the current README galleries on
@@ -11679,6 +11727,100 @@ sizes, UTC check time and deployment identity in a compact receipt; publish the
 archived completion record without another website change. Relation:
 material-setups-pages-release.
 
+## 2026-11-12 — Retain the final fixed-particle horizon-ratio result
+
+All six201×101-grid arms have final10k/64local-reference results. Ratio2gives
+mean0.017281±0.007398; ratios1.5/1.75/2.25/2.5/3give0.05052/0.02907/0.02723/
+0.02341/0.02476, with warm updates34–87ms. Report the a-priori final weights,
+not a selected earlier checkpoint. Preserve sampleSD shading and distinguish
+raw kernel quadrature diagnostics from total PINO error. Single matched
+initialization and unequal halo FP32 execution do not establish population
+optimality; no default promotion or retraining. Archive the completed study,
+retain direct per-sample/config/weight paths and show the existing verified
+PDF/PNG. Relation: electropolish-fixed-particle-horizon-ratio.
+
+## 2026-11-12 — Plot horizon/density experiments as cost–error bubbles
+
+User supplies a cost/error visual reference and requests color by particle
+count and size by horizon. Combine14unique final10k runs, deduplicating the
+shared20,301/delta.01baseline by direct run path. Use full cold training process
+seconds from the owner journal, not warm update time or time-to-target; exclude
+the separate64-case evaluation and reference generation. Circle area is linear
+in actual delta, not delta/h. Lines follow delta order with no smoothing;
+single-point groups remain singletons and±1sampleSD is retained. This is a
+parameter sweep, not a convergence trace or an added AD benchmark. Relation:
+electropolish-cost-error-bubbles.
+
+## 2026-11-12 — Retain measured costs and sample spread in the combined plot
+
+The completed figure contains14unique runs and5particle groups. Use both
+log axes with automatic limits and raw error ratios. Circle area is linear
+in delta; retain actual clock positions even when neighboring settings have
+nearly identical/nonmonotonic durations. Two singleton groups use vertical
+sampleSD bars; connected groups use light sampleSD shading. No artificial
+benchmark star, smoother or time jitter.170×95mmPDF/PNG validated against
+896sample scores and owner timings; preserve previous figures and leave new
+outputs external pending feedback. Relation: electropolish-cost-error-bubbles.
+
+## 2026-11-12 — Simplify to two grids with four matched horizon ratios
+
+User requests2–3curves with exactly four settings each and means only, allowing
+fixed delta or fixed delta/h and authorizing missing experiments. Choose5,151
+and20,301particles with delta/h1.5/2/2.5/3before seeing a new result. Relative
+support is comparable across grids and avoids the known finest-grid ratio4
+memory failure. Reuse seven completed arms; cold train only5,151/delta.025with
+the frozen source scheme, final10kweights and same64local evaluation. Encode
+circle area by delta/h with four common legend sizes; retain actual delta in
+provenance. Do not pick sparse settings by error or fabricate a third curve.
+Preserve the older figure and record mean-only as the user's explicit override
+of the earlier SD-band request. Relation: electropolish-two-curve-cost-error.
+
+## 2026-11-12 — Complete the missing ratio2.5control and mean-only plot
+
+The predeclared5,151/delta.025cold10k run finished with64sample channel-mean
+error0.0304654. Full cold process806.109s, separate evaluation29.868s; same GPU
+model/memory/driver and paired initialization/full sampling checks pass. Retain
+this final result and the seven preselected existing models. Mean-only plot has
+exactly two curves/four points each, area proportional to delta/h, no SD fill,
+no jitter and no synthetic smoothing. PDF/PNG and512sample/encoding checks pass;
+old full plot remains intact. Record both actual delta and ratio to avoid
+confusing the changed size encoding. Relation: electropolish-two-curve-cost-error.
+
+## 2026-11-12 — Add the middle grid and four explicit marker-size levels
+
+User requests a third approximately10k-particle curve and stronger markers.
+Choose the existing151×76grid(11,476particles), reuse its ratios2and3, and
+predeclare two cold10k controls at ratios1.5and2.5. Use the frozen same-grid
+ratio2recipe and common64local evaluation; run serially so process times are
+comparable. Plot all12preselected means. Assign NPG C0/C1/C2 by ascending N;
+explicit diameter levels5/8/11/14pt replace area-linear sizing, with the four
+ratio values shown in the legend. White edges~1pt and thicker lines implement
+the requested appearance without shifting measured coordinates or errors.
+Preserve previous exports. Relation: electropolish-three-curve-cost-error.
+
+## 2026-11-12 — Complete the three-grid mean-only cost–error figure
+
+Both predeclared11,476-particle controls completed: ratio1.5mean0.049555,
+539.068s; ratio2.5mean0.023821,842.954s. Same frozen recipe/GPU, byte-identical
+cold states and all10000same-grid draws pass, with128saved-field sample norm
+replays. Retain all12selected final models and actual timing positions; no
+outcome-based omission, smoothing or jitter. Middle-grid ratio2.5is slightly
+better than2in this one seed, so avoid a universal ratio2optimum claim.
+Use requested NPG C0/C1/C2, four ordinal circle diameters5/8/11/14pt, white1pt
+edges and1.4ptlines.768sample means/PDF encoding and old-plot reproducibility
+verified; sources and previous exports preserved. Relation:
+electropolish-three-curve-cost-error.
+
+## 2026-11-12 — Embed the approved three-grid cost–error result
+
+User accepts the figure and requests it in the corresponding example README.
+Copy the final PNG and editable PDF byte-for-byte into `assets/pino-studies/`,
+with relative README links and a compact direct-source publication record.
+This keeps the approved118,285-byte pair portable without copying raw arrays,
+weights or old variants. Reuse the existing result table and plotting receipt;
+do not redraw or change metrics/defaults. No Git/Pages action is requested.
+Relation: electropolish-cost-error-readme.
+
 ## 2026-11-12 — Unify architecture and physics training in a master figure
 
 User requests a master illustration in the supplied paper-diagram style.
@@ -11727,3 +11869,103 @@ and publish its documentation-only verification. Fifty unrelated files remain
 byte-identical. The next user-authorized goal is unified rolling core/halo
 sampling; keep its new research work separate from this release. Relation:
 pino-master-pages-release.
+
+## 2026-11-12 — Audit complete support before unifying rolling cores
+
+The new user goal explicitly authorizes cross-example rolling core/halo
+experiments. Retain all encoder context and explicit boundary-loss queries;
+near-wall PDE targets are a separate volume stratum, not extra boundary tokens
+or a substitute for Neumann conditions. Earlier ceramic50/50 and channel8-tile
+controls failed at their recorded budgets, so do not repeat/promote them blindly.
+Test lower-variance spatial coverage with unchanged physical quadrature:
+stratified inverse-CDF draws of area-weighted local groups, optionally split
+between the actual wall band and bulk. Keep complete halo and fixed capacities.
+Compare against measured full/scatter/tile controls and retain failed outcomes.
+Spinodal's dense resolvent and global mass projection force global dependence;
+a row-sampled loss is mathematically valid but is not automatically a sparse
+network evaluation. Quantify this limitation before changing its formulation.
+No default or further Git publication is authorized by the research goal.
+Relation: pino-unified-rolling-core-halo.
+
+## 2026-11-12 — Keep Spinodal dense support explicit in row diagnostics
+
+Exact mass projection uses all physical nodes, and the stable residual metric
+is dense. An opt-in data-level diagnostic samples only the output rows of that
+metric; keep every input column and all physical queries. Full-cover loss and
+parameter gradients agree, and averaging every one-row result with physical
+volume probabilities recovers the same full gradient. This does not establish
+a compact halo or accuracy benefit. Measure its time separately before exposing
+any new training default. Channel/ceramic candidates instead retain complete
+sparse spatial supports with explicit quadrature weights; no PDE change.
+Relation: pino-unified-rolling-core-halo.
+
+## 2026-11-12 — Test a conservative potential before truncating Spinodal support
+
+A sampled dense resolvent row still touches the full graph. To investigate a
+true compact route without sacrificing exact discrete mass, derive an auxiliary
+coordinate chi with phi=phi0+alpha*D*chi, alpha=epsilon^2/beta and chi(t=0)=0.
+For the existing positive regional D, train Rchi=chi_t+M*mu/alpha, with unchanged
+mu=beta*(phi^3-phi)+epsilon^2*D*phi. Then Rphi=alpha*D*Rchi and volume mass is
+exact because v^T*D=0. Conversely, any original trajectory admits
+chi=-(M/alpha)*integral(mu,dt); the spatial constant gauge changes no phase.
+This is a different output coordinate/loss norm, NOT a truncation of the old
+stable resolvent or a proof of improved optimization. It needs exactly two
+operator hops for core chemical potentials. First check independent matrix
+identities, full/compact fields and parameter gradients; only then consider a
+cold pilot. Keep original full-field SOTA and the row-only diagnostic intact.
+No evolved fields enter conditioning or the new sampling proposal.
+Relation: pino-unified-rolling-core-halo.
+
+## 2026-11-12 — Isolate coverage and wall allocation in ceramic controls
+
+Predeclare area-random, physical-coordinate CDF-only and CDF with64wall/192bulk
+cores, each cold20k with the same seed42, fixed geometry/IC/BC inputs, Adam
+schedule and actual time/geometry streams. Use the existing64local reference
+cohort only for final inference, excluding all its geometries from training.
+Do not equate the new25%wall allocation with the earlier failed50%allocation,
+or promote a sampler from60-step resource results. Serial ownership prevents
+GPU overlap; final checkpoints, norm components and paired-stream audits are
+retained. Relation:pino-unified-rolling-core-halo.
+
+## 2026-11-12 — Qualify compact CH coordinates before long training
+
+4096real-geometry core payloads preserve exact two-hop phase/chemical rows;
+the128-core/two64-row/local-cell candidate queries a median47%of physical nodes
+with a wall/bulk split. This measures support, not neural accuracy. Add an
+explicit conservative_potential/identity research selector to canonical train.py;
+retain the old dense-metric/default branch. Known-input geometry workers omit
+the unneeded dense metric only for this selector. Background spatial pools
+retain complete stencils/context and invalidate on geometry changes; overflow
+raises instead of truncating or biasing geometry draws. Predeclare resource
+probes then full/compact cold5k pilots before any promotion. Channel receives
+three same-budget cold20k controls (bulk512/wall512/full), retaining20kLR and
+explicit six-time blocks on this49GBcard. Results may reject either candidate.
+Relation:pino-unified-rolling-core-halo.
+
+## 2026-11-12 — Bound support and avoid unused spatial-pool construction
+
+All two-group closure unions on1032existing plus64fresh input-only Spinodal
+geometries require at most428inner/952query rows (wall419/940), within512/1024.
+This is a finite-cohort upper bound, not a guarantee for every future geometry;
+runtime overflow still raises. CPU measurement found eager four-set preparation
+cost0.23s per16geometry batch. Build only the actually selected deterministic
+set and reuse the geometry partition until replacement.90payload arrays match
+the frozen eager implementation across epoch/installation boundaries; observed
+CPU batch cost falls to0.029–0.054s. Preserve per-set seeds, weights and complete
+halos. No final GPU speed/accuracy claim follows. Replace the empty waiting
+accuracy scheduler (no child or completed stage) to insert the two missing
+regular-domain resource probes; the live ceramic owner is untouched. Relation:
+pino-unified-rolling-core-halo.
+
+## 2026-11-12 — Save the research checkpoint without promoting unfinished trials
+
+The user explicitly requests commit and push. Include pending source, focused
+tests, completed horizon/thickness study records and the approved compact
+cost-error PDF/PNG, plus the opt-in rolling-sampling research and exact resume
+state. Keep weights, raw fields, logs and alternate figures external. Preserve
+current defaults and active serial jobs. Validate changed numerical paths on CPU
+and inspect the staged tree, then commit on dev, merge normally into main and
+push main only. This checkpoint does not certify accuracy of unfinished trials.
+The new ceramic area control's same-seed discrepancy remains an open diagnosis;
+do not explain it as a sampling benefit or an initialization difference.
+Relation: pino-unified-rolling-core-halo.

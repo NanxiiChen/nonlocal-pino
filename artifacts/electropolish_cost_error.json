@@ -1,0 +1,129 @@
+{
+  "schema": "electropolish_cost_error_v1",
+  "studies": [
+    {
+      "report": "/root/autodl-tmp/tf-logs/electropolish2d/horizon-density-cold10k-20261112-02/report.json",
+      "journal": "/root/autodl-tmp/tf-logs/electropolish2d/horizon-density-cold10k-20261112-02/journal.jsonl"
+    },
+    {
+      "report": "/root/autodl-tmp/tf-logs/electropolish2d/fixed20301-ratio-cold10k-20261112-01/report.json",
+      "journal": "/root/autodl-tmp/tf-logs/electropolish2d/fixed20301-ratio-cold10k-20261112-01/journal.jsonl"
+    }
+  ],
+  "expected_unique_runs": 14,
+  "expected_duplicates": 1,
+  "particle_counts": [
+    1326,
+    5151,
+    8385,
+    11476,
+    20301
+  ],
+  "clock": "Full cold training subprocess wall seconds from successful journal end; includes startup, setup, compilation, native monitoring and final writes; excludes separately invoked64-case evaluation and reference generation",
+  "error": "Final10000 checkpoint,64common localFD inputs; each channel relative norm over full space-time then mean over(phi,c), then sample mean; sampleSD ddof1",
+  "connection_order": "Increasing actual delta within each particle-count group; no smoothing, time jitter or invented singleton curves",
+  "bubble_size": "Matplotlib scatter area s proportional to actual dimensionless delta, not delta/h",
+  "pdf_audit_packages": "/tmp/pino-pdf-audit",
+  "style": {
+    "typography": {
+      "figure_mm": [
+        55,
+        45.72
+      ],
+      "dpi": 300,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+      "font_source": "https://raw.githubusercontent.com/NanxiiChen/PI-CViT/main/helvetica/Helvetica.ttf",
+      "font_family": "Helvetica",
+      "font_size": 6,
+      "label_size": 7,
+      "title_size": 7,
+      "text_color": "#222222",
+      "colors": {
+        "nonlocal": "#E64B35",
+        "local_ad": "#4DBBD5"
+      },
+      "axes_linewidth": 0.5,
+      "body_linewidth": 0.6,
+      "body_alpha": 1.0,
+      "margins": {
+        "left": 0.24,
+        "right": 0.97,
+        "bottom": 0.2,
+        "top": 0.95
+      },
+      "pdf_fonttype": 42,
+      "pdf_use14corefonts": false,
+      "math_fontset": "dejavusans",
+      "pdf_directory": "/root/autodl-tmp/tf-logs/pino-derivative-eval64-20261111-01/title-free-violins-20261112",
+      "png_encoding": "RGB_lossless",
+      "label": "Rel. L\u00b2 Error",
+      "pdf_metadata_date": null,
+      "saturation": 0.75,
+      "quartile_linewidth": 0.6,
+      "outline_color": "#555555",
+      "quartile_color": "#333333",
+      "y_limits_mode": "matplotlib_auto",
+      "example_titles": false
+    },
+    "figure_mm": [
+      170,
+      95
+    ],
+    "axes_rect": [
+      0.105,
+      0.16,
+      0.65,
+      0.79
+    ],
+    "xscale": "log",
+    "yscale": "log",
+    "xticks": [
+      400,
+      600,
+      800,
+      1000
+    ],
+    "yticks": [
+      0.01,
+      0.02,
+      0.05,
+      0.1,
+      0.2
+    ],
+    "xlabel": "Training time (s)",
+    "ylabel": "Rel. L\u00b2 Error",
+    "colors": {
+      "1326": "#8491B4",
+      "5151": "#4DBBD5",
+      "8385": "#E64B35",
+      "11476": "#3C5488",
+      "20301": "#00A087"
+    },
+    "marker_area_pt2_at_reference": 144,
+    "marker_reference_delta": 0.04,
+    "marker_edge_width_pt": 0.5,
+    "line_width_pt": 0.9,
+    "band_alpha": 0.12,
+    "legend_deltas": [
+      0.0075,
+      0.015,
+      0.02,
+      0.04
+    ],
+    "size_legend_color": "#8491B4",
+    "particle_legend_anchor": [
+      0.8,
+      0.94
+    ],
+    "size_legend_anchor": [
+      0.8,
+      0.53
+    ],
+    "dpi": 300
+  },
+  "output": {
+    "pdf": "/root/autodl-tmp/tf-logs/electropolish2d/publication-cost-error-20261112/electropolish_cost_error.pdf",
+    "png": "/root/autodl-tmp/tf-logs/electropolish2d/publication-cost-error-20261112/electropolish_cost_error.png",
+    "receipt": "artifacts/electropolish_cost_error_validation.json"
+  }
+}

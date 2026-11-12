@@ -185,3 +185,28 @@ README now embeds this collection. The older `pino/` entries above remain
 historical galleries with their original selections and reference conventions.
 The separate10-file publication budget is9MiB, each file below2MiB; raw fields,
 meshes and weights remain external. See the collection README for regeneration.
+
+## Parameter-study figures
+
+`pino-studies/` retains the approved Electropolish cost–error result:
+[PNG preview](pino-studies/electropolish2d_cost_error.png) and
+[editable PDF](pino-studies/electropolish2d_cost_error.pdf). These two files total
+118,285 bytes and are exact copies of the inspected final exports. Other study
+variants, weights and raw arrays remain external.
+
+The figure shows three particle counts (5,151 / 11,476 / 20,301), each at
+four horizon ratios (1.5 / 2 / 2.5 / 3). Every point uses final 10,000-step
+weights and mean channel-averaged space-time relative L2 on 64 shared local-FD
+test inputs. Colors are NPG C0/C1/C2; circle sizes identify the ratios.
+The horizontal axis includes the full cold training process, excluding
+independent evaluation. Lines connect parameter settings, not training steps.
+
+[Copy provenance](../artifacts/electropolish_cost_error_readme.json) records
+the external sources, repository destinations, sizes and plotting receipt.
+Regenerate the external exports using the original explicit specification,
+then copy its PNG/PDF to the destinations in that record:
+
+```bash
+JAX_PLATFORMS=cpu .venv/bin/python -m scripts.render_electropolish_cost_error_compact \
+  --spec artifacts/electropolish_cost_error_three_curves.json
+```

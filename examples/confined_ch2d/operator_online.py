@@ -33,9 +33,11 @@ def validate_online(c):
         minimum=0 if name=='origin_step' else 1
         if isinstance(value,bool) or not isinstance(value,int) or value<minimum:
             raise ValueError(f'Integer online.{name}>={minimum} required')
-    if (c.operator.action!='train' or c.operator.metric!='linear_stable_resolvent'
+    potential = ('formulation' in c.operator and c.operator.formulation == 'conservative_potential'
+                 and c.operator.metric == 'identity')
+    if (c.operator.action!='train' or (c.operator.metric!='linear_stable_resolvent' and not potential)
             or 'augmentation' in c.operator or 'initial_rhs_condition' in c.operator):
-        raise ValueError('Online inputs require unaugmented stable-metric train mode without extra domain fields')
+        raise ValueError('Online inputs require stable-metric or conservative-potential train mode without extra domain fields')
     if settings.refresh_size>c.operator.train_conditions or c.operator.train_conditions%settings.refresh_size:
         raise ValueError('Online refresh_size must divide the initial pool capacity')
     if settings.origin_step>=c.train.iterations:
@@ -59,8 +61,11 @@ def sample_geometry(c,draw_id):
 
 def pad_input(data,c):
     """Only known physical inputs enter the fixed-shape training payload."""
-    keys={'points','volumes','initial','neighbors','coefficients','metric','condition','condition_weights'}
-    if set(data)!=keys:raise ValueError('Online payload must contain exactly the eight known-input arrays')
+    keys={'points','volumes','initial','neighbors','coefficients','condition','condition_weights'}
+    if c.operator.metric != 'identity':keys.add('metric')
+    if set(data)!=keys:
+        schema='seven known-input arrays' if c.operator.metric=='identity' else 'eight known-input arrays'
+        raise ValueError(f'Online payload must contain exactly the {schema}: {sorted(keys)}')
     n=len(data['points']);k=data['neighbors'].shape[1]
     nmax,kmax=c.operator.online.max_points,c.operator.online.max_neighbors
     if n>nmax or k>kmax:
@@ -69,8 +74,8 @@ def pad_input(data,c):
     coefficients=np.zeros((nmax,kmax));neighbors[:n,:k]=data['neighbors'];coefficients[:n,:k]=data['coefficients']
     output=dict(points=np.pad(data['points'],((0,nmax-n),(0,0))),volumes=np.pad(data['volumes'],(0,nmax-n)),
         initial=np.pad(data['initial'],(0,nmax-n)),neighbors=neighbors,coefficients=coefficients,
-        metric=np.pad(data['metric'],((0,nmax-n),(0,nmax-n))),
         condition=data['condition'],condition_weights=data['condition_weights'])
+    if 'metric' in keys:output['metric']=np.pad(data['metric'],((0,nmax-n),(0,nmax-n)))
     return {name:value.astype(np.int32 if name=='neighbors' else np.dtype(c.train.compute_dtype))
             for name,value in output.items()}
 
@@ -116,10 +121,15 @@ def build_input(config,draw_id):
     np.testing.assert_allclose(A@np.ones(n),0.,atol=1e-10)
     initial=fixed_initial(x,c,xp=np);features,weights=condition(holes,c)
     assembly_seconds=time.perf_counter()-tick;tick=time.perf_counter();p=c.physical
-    metric,report=linear_stable_resolvent(v,nb,co,initial,p.beta,p.epsilon,p.mobility,p.terminal_time)
+    raw=dict(points=x,volumes=v,initial=initial,neighbors=nb,coefficients=co,
+             condition=features,condition_weights=weights)
+    if c.operator.metric == 'identity':
+        report=dict(constant_mode_error=float(np.max(abs(A@np.ones(n)))))
+    else:
+        metric,report=linear_stable_resolvent(v,nb,co,initial,p.beta,p.epsilon,p.mobility,p.terminal_time)
+        raw['metric']=metric
     metric_seconds=time.perf_counter()-tick;tick=time.perf_counter()
-    data=pad_input(dict(points=x,volumes=v,initial=initial,neighbors=nb,coefficients=co,
-        metric=metric,condition=features,condition_weights=weights),c)
+    data=pad_input(raw,c)
     if not all(np.isfinite(a).all() for a in data.values()):raise FloatingPointError('Nonfinite online input')
     record=dict(draw_id=draw_id,holes=holes.tolist(),nodes=n,degree=nb.shape[1],area=float(v.sum()),
         seconds=dict(mesh=mesh_seconds,assembly=assembly_seconds,metric=metric_seconds,padding=time.perf_counter()-tick),
@@ -146,10 +156,11 @@ def pool_identities(count,capacity,size):
 
 class RollingGeometryPool:
     """Host controller; network calls and compiled array updates stay functional."""
-    def __init__(self,c,run,start_step,provenance,forbidden_holes):
+    def __init__(self,c,run,start_step,provenance,forbidden_holes,*,on_replace=None):
         validate_online(c)
         import jax
         self.c=c;self.run=Path(run);self.forbidden=np.asarray(forbidden_holes)
+        self.on_replace=on_replace
         self.capacity=c.operator.train_conditions;self.size=c.operator.online.refresh_size
         self.count=refresh_count(start_step,c);self.draw_ids=pool_identities(0,self.capacity,self.size)
         if self.count:
@@ -190,6 +201,7 @@ class RollingGeometryPool:
                 if len(active):
                     jobs=[self.executor.submit(build_input,self.c.to_dict(),int(draw)) for draw in draws[draws>=0]]
                     updates,_=self._collect(jobs)
+                    if self.on_replace is not None:self.on_replace(active,updates)
                     bank=self.replace(bank,active,updates)
             for value in bank.values():value.block_until_ready()
         self._submit();return bank
@@ -202,6 +214,7 @@ class RollingGeometryPool:
         if number!=self.count:raise ValueError('Online generation order changed')
         tick=time.perf_counter();updates,records=self._collect(jobs);wait=time.perf_counter()-tick
         slots=(number*self.size+np.arange(self.size))%self.capacity
+        if self.on_replace is not None:self.on_replace(slots,updates)
         tick=time.perf_counter();bank=self.replace(bank,slots,updates)
         for value in bank.values():value.block_until_ready()
         update=time.perf_counter()-tick

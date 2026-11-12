@@ -536,3 +536,17 @@ Earlier results use different physical regimes or geometry priors:
 
 The user-accepted physical study, qualifications and negative controls are
 retained in the [study record](../../docs/tasks/archive/particle-corrosion-physical-optimization.md).
+
+## Experimental core coverage controls
+
+The accepted default retains its existing rolling geometry and area-sampled
+core/halo pools. Two explicit alternatives isolate coverage from wall allocation:
+[train_physical_spaced_w256_cdf.py](configs/train_physical_spaced_w256_cdf.py)
+uses inverse-CDF strata in physical-coordinate order;
+[train_physical_spaced_w256_stratified.py](configs/train_physical_spaced_w256_stratified.py)
+adds64near-particle-wall and192bulk cores with physical-area weights. Both retain
+the original PDE, IC, mouth BC and full encoder context. Input banks must be
+prepared with their matching sampler configuration; mismatches are rejected.
+These are ongoing controls, not SOTA replacements. Source pairing, failed
+controls and the64case final evaluation are tracked in the
+[active study](../../docs/tasks/pino-unified-rolling-core-halo.md).

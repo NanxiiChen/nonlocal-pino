@@ -62,6 +62,8 @@ def prepare(c,output,workers,runtime_seed):
         sampling=('ceramic-wall and bulk stratified core draws; mass-proportional IC draws'
                   if 'core_wall' in c.sample else 'mass-proportional core and IC sampling with replacement'),
         fixed_keys=list(fixed),graph_keys=list(graphs))
+    if 'core_draw' in c.sample:
+        manifest['sampling'] += '; '+c.sample.core_draw+' in lexicographic physical-coordinate order'
     (output/'manifest.json').write_text(json.dumps(manifest,indent=2,allow_nan=False)+'\n')
     print(json.dumps(dict(complete=str(output),seconds=manifest['seconds'],
                           halo_size=halos,neighbor_size=neighbor_size)),flush=True)

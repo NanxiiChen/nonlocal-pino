@@ -40,6 +40,10 @@ def validate(c):
             raise ValueError('Initial lifting time_scale must be positive finite')
         if c.nl.method != 'nonlocal':
             raise ValueError('Initial lifting is qualified only for the explicit nonlocal path')
+    if 'core_draw' in c.sample:
+        if (c.sample.core_draw != 'stratified_cdf' or c.nl.method != 'nonlocal'
+                or 'full_grid' in c.sample or 'online' not in c.operator):
+            raise ValueError('core_draw=stratified_cdf requires rolling nonlocal core/halo')
     if 'core_wall' in c.sample:
         spec = c.sample.core_wall
         if (set(spec) != {'distance', 'count'} or c.nl.method != 'nonlocal'

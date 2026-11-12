@@ -171,8 +171,9 @@ def audit_online_run(run, workers):
         raise ValueError('Online audit requires the completed declared rolling budget')
     root = Path(__file__).resolve().parents[2]
     full_sources=('examples/particle_corrosion2d/full_grid.py',) if is_full(c) else ()
+    sampling_sources=('src/nonlocal_pinn/training/spatial_sampling.py',) if 'core_draw' in c.sample else ()
     for source in ('examples/particle_corrosion2d/online.py',
-                   'examples/particle_corrosion2d/train.py', *SHARED_SOURCES,*full_sources):
+                   'examples/particle_corrosion2d/train.py', *SHARED_SOURCES,*full_sources,*sampling_sources):
         if not _same_file(run/'source'/source, root/source):
             raise ValueError(f'Input reconstruction source changed: {source}')
     bankpath = Path(runtime['inputs'])

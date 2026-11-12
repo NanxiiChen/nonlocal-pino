@@ -1,0 +1,185 @@
+{
+  "schema": "electropolish_compact_cost_error_v1",
+  "source_collection": {
+    "studies": [
+      {
+        "report": "/root/autodl-tmp/tf-logs/electropolish2d/horizon-density-cold10k-20261112-02/report.json",
+        "journal": "/root/autodl-tmp/tf-logs/electropolish2d/horizon-density-cold10k-20261112-02/journal.jsonl"
+      },
+      {
+        "report": "/root/autodl-tmp/tf-logs/electropolish2d/fixed20301-ratio-cold10k-20261112-01/report.json",
+        "journal": "/root/autodl-tmp/tf-logs/electropolish2d/fixed20301-ratio-cold10k-20261112-01/journal.jsonl"
+      },
+      {
+        "report": "/root/autodl-tmp/tf-logs/electropolish2d/cost-error-two-curves-cold10k-20261112-01/report.json",
+        "journal": "/root/autodl-tmp/tf-logs/electropolish2d/cost-error-two-curves-cold10k-20261112-01/journal.jsonl"
+      },
+      {
+        "report": "/root/autodl-tmp/tf-logs/electropolish2d/cost-error-three-curves-cold10k-20261112-01/report.json",
+        "journal": "/root/autodl-tmp/tf-logs/electropolish2d/cost-error-three-curves-cold10k-20261112-01/journal.jsonl"
+      }
+    ],
+    "expected_unique_runs": 17,
+    "expected_duplicates": 1,
+    "particle_counts": [
+      1326,
+      5151,
+      8385,
+      11476,
+      20301
+    ]
+  },
+  "selection_declared_before_new_result": true,
+  "selection": [
+    {
+      "particles": 5151,
+      "ratios": [
+        1.5,
+        2,
+        2.5,
+        3
+      ],
+      "runs": [
+        "/root/autodl-tmp/tf-logs/electropolish2d/horizon-density-cold10k-20261112-02/runs/n101-d015",
+        "/root/autodl-tmp/tf-logs/electropolish2d/horizon-density-cold10k-20261112-02/runs/n101-d020",
+        "/root/autodl-tmp/tf-logs/electropolish2d/cost-error-two-curves-cold10k-20261112-01/runs/n101-ratio250",
+        "/root/autodl-tmp/tf-logs/electropolish2d/horizon-density-cold10k-20261112-02/runs/n101-d030"
+      ]
+    },
+    {
+      "particles": 11476,
+      "ratios": [
+        1.5,
+        2,
+        2.5,
+        3
+      ],
+      "runs": [
+        "/root/autodl-tmp/tf-logs/electropolish2d/cost-error-three-curves-cold10k-20261112-01/runs/n151-ratio150",
+        "/root/autodl-tmp/tf-logs/electropolish2d/horizon-density-cold10k-20261112-02/runs/n151-ratio2",
+        "/root/autodl-tmp/tf-logs/electropolish2d/cost-error-three-curves-cold10k-20261112-01/runs/n151-ratio250",
+        "/root/autodl-tmp/tf-logs/electropolish2d/horizon-density-cold10k-20261112-02/runs/n151-d020"
+      ]
+    },
+    {
+      "particles": 20301,
+      "ratios": [
+        1.5,
+        2,
+        2.5,
+        3
+      ],
+      "runs": [
+        "/root/autodl-tmp/tf-logs/electropolish2d/fixed20301-ratio-cold10k-20261112-01/runs/ratio150",
+        "/root/autodl-tmp/tf-logs/electropolish2d/horizon-density-cold10k-20261112-02/runs/n201-d010",
+        "/root/autodl-tmp/tf-logs/electropolish2d/fixed20301-ratio-cold10k-20261112-01/runs/ratio250",
+        "/root/autodl-tmp/tf-logs/electropolish2d/fixed20301-ratio-cold10k-20261112-01/runs/ratio300"
+      ]
+    }
+  ],
+  "clock": "Full cold training subprocess wall seconds from successful journal end; includes startup, setup, compilation, native monitoring and final writes; excludes separately invoked64-case evaluation and reference generation",
+  "error": "Final10000 checkpoint,64common localFD inputs; each channel relative norm over full space-time then mean over(phi,c), then sample mean; sampleSD ddof1",
+  "spread_display": "none, explicitly requested by user",
+  "bubble_size": "Four explicit nominal diameter levels5/8/11/14pt for delta/h1.5/2/2.5/3; ordinal key, not proportional to physical delta or ratio",
+  "pdf_audit_packages": "/tmp/pino-pdf-audit",
+  "style": {
+    "typography": {
+      "figure_mm": [
+        55,
+        45.72
+      ],
+      "dpi": 300,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+      "font_source": "https://raw.githubusercontent.com/NanxiiChen/PI-CViT/main/helvetica/Helvetica.ttf",
+      "font_family": "Helvetica",
+      "font_size": 6,
+      "label_size": 7,
+      "title_size": 7,
+      "text_color": "#222222",
+      "colors": {
+        "nonlocal": "#E64B35",
+        "local_ad": "#4DBBD5"
+      },
+      "axes_linewidth": 0.5,
+      "body_linewidth": 0.6,
+      "body_alpha": 1.0,
+      "margins": {
+        "left": 0.24,
+        "right": 0.97,
+        "bottom": 0.2,
+        "top": 0.95
+      },
+      "pdf_fonttype": 42,
+      "pdf_use14corefonts": false,
+      "math_fontset": "dejavusans",
+      "pdf_directory": "/root/autodl-tmp/tf-logs/pino-derivative-eval64-20261111-01/title-free-violins-20261112",
+      "png_encoding": "RGB_lossless",
+      "label": "Rel. L\u00b2 Error",
+      "pdf_metadata_date": null,
+      "saturation": 0.75,
+      "quartile_linewidth": 0.6,
+      "outline_color": "#555555",
+      "quartile_color": "#333333",
+      "y_limits_mode": "matplotlib_auto",
+      "example_titles": false
+    },
+    "figure_mm": [
+      130,
+      85
+    ],
+    "axes_rect": [
+      0.12,
+      0.18,
+      0.62,
+      0.77
+    ],
+    "xscale": "log",
+    "yscale": "log",
+    "xticks": [
+      500,
+      700,
+      1000
+    ],
+    "yticks": [
+      0.02,
+      0.03,
+      0.04,
+      0.05
+    ],
+    "xlabel": "Training time (s)",
+    "ylabel": "Rel. L\u00b2 Error",
+    "colors": {
+      "5151": "#E64B35",
+      "11476": "#4DBBD5",
+      "20301": "#00A087"
+    },
+    "marker_edge_width_pt": 1.0,
+    "line_width_pt": 1.4,
+    "size_legend_color": "#888888",
+    "particle_legend_anchor": [
+      0.79,
+      0.94
+    ],
+    "size_legend_anchor": [
+      0.79,
+      0.58
+    ],
+    "dpi": 300,
+    "marker_size_mode": "diameter_levels",
+    "marker_edge_color": "white",
+    "legend_line_width_pt": 1.6,
+    "size_legend_labelspacing": 1.7,
+    "marker_diameters_pt": [
+      5,
+      8,
+      11,
+      14
+    ]
+  },
+  "output": {
+    "pdf": "/root/autodl-tmp/tf-logs/electropolish2d/publication-cost-error-three-curves-20261112/electropolish_cost_error_three_curves.pdf",
+    "png": "/root/autodl-tmp/tf-logs/electropolish2d/publication-cost-error-three-curves-20261112/electropolish_cost_error_three_curves.png",
+    "receipt": "artifacts/electropolish_cost_error_three_curves_validation.json"
+  },
+  "selection_declared_at_utc": "2026-11-12T06:43:48.105010+00:00"
+}

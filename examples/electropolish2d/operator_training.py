@@ -202,7 +202,12 @@ def train_operator(c):
         raise ValueError('log.checkpoint_step must be zero or an intermediate evaluation step')
     jax.config.update('jax_enable_x64', False)
     jax.config.update('jax_default_matmul_precision', c.train.matmul_precision)
-    data, metadata, references = load_dataset(c)
+    horizon_study = 'horizon_study' in c.operator
+    if horizon_study:
+        from examples.electropolish2d.horizon_study import load_monitor, operator_audit
+        data, metadata, references = load_monitor(c)
+    else:
+        data, metadata, references = load_dataset(c)
     online = 'online' in c.operator
     local_ad = c.nl.method == 'local_ad'
     method_control = 'method_control' in c.operator
@@ -242,6 +247,9 @@ def train_operator(c):
         'src/nonlocal_pinn/nn/conditional.py', 'src/nonlocal_pinn/nn/constraints.py',
         'src/nonlocal_pinn/operators/__init__.py', 'src/nonlocal_pinn/training/runtime.py',
         'src/nonlocal_pinn/training/optimizers.py', 'src/nonlocal_pinn/training/causal.py']
+    if horizon_study:
+        sources += ['examples/electropolish2d/horizon_study.py',
+                    'examples/electropolish2d/configs/train_operator_horizon.py']
     if 'temporal_query' in c.arch:
         sources += ['examples/electropolish2d/temporal_query.py',
                     'examples/electropolish2d/configs/train_operator_temporal_query.py']
@@ -262,7 +270,9 @@ def train_operator(c):
     xx, yy, points = grid(c)
     x = jnp.asarray(points, dtype=jnp.float32)
     op = build_D(x, c.nl.delta, method='sparse', kernel=c.nl.kernel)
-    for ref in references:
+    if horizon_study:
+        _write_json(run / 'operator_audit.json', operator_audit(op, points, c.nl.delta, c.sample.K_core))
+    for ref in ([] if horizon_study else references):
         if (not np.array_equal(op._row_idx, ref['graph_row'])
                 or not np.array_equal(op._col_idx, ref['graph_col'])
                 or not np.array_equal(-op._vals, ref['graph_weight'])):
@@ -331,8 +341,10 @@ def train_operator(c):
     memory_records = []
     writer = SummaryWriter(str(run))
     eval_times = jnp.asarray(references[0]['time'], dtype=jnp.float32)
+    eval_x = jnp.asarray(data['points'], dtype=jnp.float32) if horizon_study else x
+    eval_shape = references[0]['phi'].shape[1:]
     predict = eqx.filter_jit(lambda model, image, known: predict_fields(
-        model, image, x, eval_times, known, c))
+        model, image, eval_x, eval_times, known, c))
     eval_indices = metadata['eval_indices']
     start = time.perf_counter()
     setup_seconds = start-entry_start
@@ -346,7 +358,7 @@ def train_operator(c):
         records, predictions = [], []
         for i, ref in zip(eval_indices, references):
             pred = np.asarray(predict(net, images[i], initial[i])).reshape(
-                len(eval_times), c.sample.Ny, c.sample.Nx, 2)
+                len(eval_times), *eval_shape, 2)
             if not np.isfinite(pred).all():
                 raise FloatingPointError('Nonfinite operator evaluation')
             m = field_metrics(pred, ref)
@@ -496,7 +508,8 @@ def train_operator(c):
         np.save(run / 'online_accepted.npy', online_accepted)
     else:
         np.save(run / 'sampled_conditions.npy', sampled_conditions)
-    np.savez_compressed(run / 'prediction.npz', X=xx, Y=yy, time=references[0]['time'],
+    eval_xx, eval_yy = (np.asarray(data['points'])[:, k].reshape(eval_shape) for k in range(2))
+    np.savez_compressed(run / 'prediction.npz', X=eval_xx, Y=eval_yy, time=references[0]['time'],
                         condition_indices=eval_indices, surface_ids=data['surface_ids'][eval_indices],
                         prediction=prediction,
                         target=np.stack([np.stack([r['phi'], r['c']], -1) for r in references]))
@@ -517,6 +530,10 @@ def train_operator(c):
     if spatial is not None:
         summary['spatial_sampling'] = spatial.summary()
         summary['entry_wall_seconds'] = time.perf_counter()-entry_start
+    if horizon_study:
+        summary['horizon_study'] = c.operator.horizon_study.to_dict()
+        summary['scope'] = ('Common fixed native monitoring bank, independent of training grid/horizon; '
+                            'headline study evaluation uses separate common local-FD64 references')
     if c.loss.use_causal:
         summary['causal'] = dict(mode='per_condition_per_time', eps_final=np.asarray(eps).tolist(),
             policy='shared min eps, separate AC/CH weights, batch-mean weight adaptation; stopped weights')
