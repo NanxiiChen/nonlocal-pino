@@ -49,6 +49,9 @@ def load_bank(path,c):
     for name in ('K_pool','K_core'):
         if manifest['config']['sample'][name]!=actual['sample'][name]:raise ValueError(f'Bank {name} differs')
     saved_sample = manifest['config']['sample']
+    if ('core_draw' in saved_sample) != ('core_draw' in actual['sample']) or (
+            'core_draw' in saved_sample and saved_sample['core_draw'] != actual['sample']['core_draw']):
+        raise ValueError('Bank core draw rule differs from training')
     if ('core_wall' in saved_sample) != ('core_wall' in actual['sample']) or (
             'core_wall' in saved_sample and saved_sample['core_wall'] != actual['sample']['core_wall']):
         raise ValueError('Bank ceramic-wall core sampling differs from training')
@@ -248,7 +251,7 @@ def train(c,output,inputs,reference,config_path,paired_run,
     sources=list(Path(__file__).parent.rglob('*.py'))+[
         repo/'src/nonlocal_pinn/nn/point_conditional.py',repo/'src/nonlocal_pinn/nn/conditional.py',
         repo/'src/nonlocal_pinn/training/optimizers.py',repo/'src/nonlocal_pinn/training/runtime.py',
-        repo/'src/nonlocal_pinn/training/causal.py']
+        repo/'src/nonlocal_pinn/training/causal.py',repo/'src/nonlocal_pinn/training/spatial_sampling.py']
     for source in sources:
         target=run/'source'/source.relative_to(repo);target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(source,target)
     shutil.copyfile(config_path,run/'supplied_config.py')

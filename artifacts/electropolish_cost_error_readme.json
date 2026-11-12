@@ -1,0 +1,27 @@
+{
+  "status": "verified-copy",
+  "source_specification": "artifacts/electropolish_cost_error_three_curves.json",
+  "source_validation": "artifacts/electropolish_cost_error_three_curves_validation.json",
+  "study_completion": "artifacts/electropolish_cost_error_medium_completion.json",
+  "renderer": "scripts/render_electropolish_cost_error_compact.py",
+  "readme": "examples/electropolish2d/README.md",
+  "section": "Cost\u2013error view of both parameter sweeps",
+  "files": [
+    {
+      "format": "png",
+      "source": "/root/autodl-tmp/tf-logs/electropolish2d/publication-cost-error-three-curves-20261112/electropolish_cost_error_three_curves.png",
+      "destination": "assets/pino-studies/electropolish2d_cost_error.png",
+      "bytes": 94046,
+      "byte_identical": true
+    },
+    {
+      "format": "pdf",
+      "source": "/root/autodl-tmp/tf-logs/electropolish2d/publication-cost-error-three-curves-20261112/electropolish_cost_error_three_curves.pdf",
+      "destination": "assets/pino-studies/electropolish2d_cost_error.pdf",
+      "bytes": 24239,
+      "byte_identical": true
+    }
+  ],
+  "total_bytes": 118285,
+  "scope": "Approved final figure only; numerical arrays, weights and old variants remain external"
+}

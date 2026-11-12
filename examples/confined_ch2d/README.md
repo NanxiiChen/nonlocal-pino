@@ -2153,3 +2153,23 @@ training history. The completed run is now the accepted
 the comparison does not isolate either change's contribution.
 
 </details>
+
+## Experimental compact core/halo route
+
+The default remains the validated full-coordinate rolling-geometry operator.
+The optional [full potential preset](configs/train_operator_potential.py) and
+[rolling spatial preset](configs/train_operator_potential_spatial.py) test a
+conservative auxiliary coordinate: \(\phi=\phi_0+\alpha D\chi\), with
+\(\alpha=\epsilon^2/\beta\), positive regional \(D\approx-\Delta\) and
+\(\chi(0)=0\). The trained residual is \(R_\chi=\chi_t+M\mu/\alpha\);
+\(R_\phi=\alpha D R_\chi\) and the original discrete mass is preserved.
+This changes the output coordinate and loss norm; it does not truncate the
+existing dense residual metric or establish better accuracy.
+
+The spatial preset retains complete two-hop dependencies and both full encoder
+streams, draws128cores in local groups, and refreshes four selectable sets every
+50steps. Background geometry replacement invalidates the affected sets.
+Fixed512inner/1024query capacities reject overflow. Initial pilots are cold
+only; continuation and unsupported off-graph queries are rejected explicitly.
+See the [active study](../../docs/tasks/pino-unified-rolling-core-halo.md) for
+validation, measured resources and the pending accuracy comparison.

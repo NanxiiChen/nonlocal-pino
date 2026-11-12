@@ -1379,3 +1379,18 @@ measures synchronized full-gradient/SOAP updates if it fits. A memory-preflight
 skip is explicit and does not silently change block size or numerical scheme.
 
 </details>
+
+## Experimental stratified rolling cores
+
+[train_stratified_spatial.py](configs/train_stratified_spatial.py) is an opt-in
+comparison with the full-coordinate default. It samples small mapped spatial
+groups using physical-area inverse-CDF strata, optionally allocating groups to
+a band next to the actual outer boundary and to the interior. Group/node weights
+preserve the full interior residual measure in expectation. Complete derivative
+supports, both encoder streams and all explicit BC queries remain present.
+Near-wall PDE cores do not replace boundary-condition losses.
+
+The preset declares512cores,4x4groups and fixed support capacities; timing and
+matched cold accuracy controls are recorded in the
+[active study](../../docs/tasks/pino-unified-rolling-core-halo.md). Resource probes
+alone do not qualify a new default.

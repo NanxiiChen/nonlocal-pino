@@ -222,6 +222,16 @@ def _diag_residual(net, x_points, sub_data, core_mask, t_eval, N1, N2, N3, write
 def _main(_):
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
     config = with_run_seed(FLAGS.config, _SEED.value)
+    if ('experiment' in config and 'kind' in config.experiment
+            and config.experiment.kind == 'extreme_interface'):
+        from examples.icemelting3d.extreme_interface import train
+        train(config)
+        return
+    if ('experiment' in config and 'kind' in config.experiment
+            and config.experiment.kind == 'thin_interface'):
+        from examples.icemelting3d.thin_interface import train
+        train(config)
+        return
     if 'operator' in config:
         from examples.icemelting3d.operator_training import train_operator
         train_operator(config)

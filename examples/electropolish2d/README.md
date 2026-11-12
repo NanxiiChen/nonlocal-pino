@@ -765,6 +765,188 @@ Use the same runtime `--seed` for both arms to reproduce a paired experiment.
 Actual condition/time/core traces, saved fields and timing records are linked
 from the [study record](../../docs/tasks/archive/pino-spatial-sampling-study.md).
 
+### Fixed-thickness horizon and particle-density control
+
+Nine cold10,000-step nonlocal runs vary the horizon and the underlying spatial
+particle grid, retaining the physical interface thickness, width96/Adam/B8/Nt16,
+256cores and rolling32spatial pool. This is a new paired runtime-seed42experiment,
+not a replay of the previously selected SOTA checkpoint; defaults remain unchanged.
+
+Every final checkpoint uses the same64local-FD101references on101×51queries and
+21uniform times over the complete interval. Normalize each physical channel
+\(\phi,c\) over all space-time points, average the two channel errors per sample,
+then report the64sample mean and sample standard deviation(ddof=1). Values below
+are raw ratios. Both the horizon and particle spacing are nondimensional.
+
+| Particles | Horizon | Horizon / spacing | Mean ± sample SD | Warm update (ms) |
+|---:|---:|---:|---:|---:|
+| 5,151 | 0.02 | 2 | 0.02316 ± 0.00613 | 42.8 |
+| 5,151 | 0.015 | 1.5 | 0.04398 ± 0.00587 | 31.9 |
+| 5,151 | 0.03 | 3 | 0.03691 ± 0.00653 | 61.3 |
+| 5,151 | 0.04 | 4 | 0.05269 ± 0.00634 | 61.6 |
+| 11,476 | 0.02 | 3 | 0.03161 ± 0.01010 | 82.3 |
+| 8,385 | 0.02 | 2.56 | 0.04640 ± 0.01572 | 63.8 |
+| 1,326 | 0.04 | 2 | 0.18194 ± 0.03158 | 19.3 |
+| 11,476 | 0.0133333 | 2 | 0.02456 ± 0.00750 | 43.7 |
+| 20,301 | 0.01 | 2 | 0.01728 ± 0.00740 | 45.0 |
+
+At fixed spacing0.01, horizon0.02is best among0.015/0.02/0.03/0.04. Simply adding
+particles at fixed horizon0.02does not monotonically improve a fixed-budget PINO.
+Jointly refining from5151particles/horizon0.02to20301/0.01reduces the observed
+mean from0.02316to0.01728(25.4%relative), with warm updates42.8to45.0ms. Core/halo
+sizes stay similar when the horizon/spacing ratio remains2.
+
+This measures the complete training outcome, not isolated operator truncation
+error. The8385particle run has a late optimization fluctuation: its separate
+native4monitor phase error changes from0.03592at9k to0.05994at10k. No earlier
+checkpoint substitutes for the prescribed final model. Sparse quadrature is
+also relevant: the interior quadratic moment gain is0.8877at horizon/spacing1.5
+versus1.0064at2; the raw cubic normalization was not corrected during this study.
+Four predeclared FD201/401checks preserve the run ranking on those four cases,
+but only one initialization was trained. No monotone convergence or population
+optimality claim is made.
+
+The complete serial queue took109.3minutes on the49140MiB RTX4090. Peak active
+memory among retained runs is29.2GiB. The untrained20301particle/horizon0.02arm
+exceeded memory and was replaced before viewing accuracy; its failed probes
+remain archived. All576sample scores were independently recomputed; initial
+model/optimizer bytes and actual condition-parameter/time draws match.
+
+[Direct configurations, final weights, sample scores and figure paths](../../artifacts/electropolish_horizon_study.json)
+record every arm. The170×59mmPDF/PNG uses mean±one sampleSD, with automatic axes,
+Helvetica6–7ptand embedded editable fonts. Generated experiment figures remain
+external. Reproduce from saved fields without training:
+
+```bash
+PYTHONPATH=. .venv/bin/python scripts/render_electro_horizon_study.py \
+  --root /root/autodl-tmp/tf-logs/electropolish2d/horizon-density-cold10k-20261112-02
+```
+
+The explicit [study preset](configs/train_operator_horizon.py) still enters
+[train.py](train.py). Only that opt-in study separates the fixed monitoring grid
+from the training graph; the ordinary same-graph loader remains strict.
+
+### Fixed-particle horizon-ratio control
+
+The additional sweep fixes the spatial particle grid at 201×101 (20,301 nodes,
+\(h=0.005\)) and varies only \(\delta/h\) plus the required halo capacities.
+Physical interface thickness and the width96/Adam/B8/Nt16/core256/rolling32
+scheme remain unchanged. Five new cold10k runs share seed42, initial model and
+optimizer, and actual condition/time/core/IC/BC draws with the completed ratio2
+baseline, which is reused by explicit path.
+
+All final10000weights use the same64local-FD references, 101×51 evaluation
+nodes and21uniform times. Errors below normalize each physical channel over
+the full space-time grid, average phase and concentration per sample, then
+report the64sample mean and sample SD (ddof=1). These are raw ratios.
+
+| Horizon / spacing | Horizon | Mean ± sample SD | Warm update (ms) |
+|---:|---:|---:|---:|
+| 1.5 | 0.0075 | 0.05052 ± 0.00455 | 34.0 |
+| 1.75 | 0.00875 | 0.02907 ± 0.01149 | 34.2 |
+| 2 | 0.01 | **0.01728 ± 0.00740** | 45.0 |
+| 2.25 | 0.01125 | 0.02723 ± 0.00599 | 65.7 |
+| 2.5 | 0.0125 | 0.02341 ± 0.00890 | 65.8 |
+| 3 | 0.015 | 0.02476 ± 0.00731 | 86.8 |
+
+Ratio2has the lowest final error in this paired run; its phase and concentration
+means are0.01575and0.01881. Larger horizons cost more without improving that
+mean. Small support also under-resolves the raw kernel quadrature: the interior
+quadratic moment gain is0.8877at ratio1.5versus1.0064at ratio2. This is a measured
+operator diagnostic, not a complete explanation of the training errors. The
+halo shapes and FP32 execution differ across arms; one paired initialization
+cannot establish seed robustness or separate optimization from discretization.
+The shaded curve uses sample SD, not a confidence interval. Defaults remain
+unchanged. The five new train/evaluate pairs and final audit took67.6minutes.
+
+[Provenance and all384sample scores](../../artifacts/electropolish_horizon_ratio_study.json)
+record final weights, configurations and external PDF/PNG paths.
+[The completed task](../../docs/tasks/archive/electropolish-fixed-particle-horizon-ratio.md)
+records sampling, norm and font checks. Regenerate from saved arrays on CPU:
+
+```bash
+JAX_PLATFORMS=cpu OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 \
+  .venv/bin/python scripts/render_electro_horizon_ratio.py \
+  --root /root/autodl-tmp/tf-logs/electropolish2d/fixed20301-ratio-cold10k-20261112-01
+```
+
+### Cost–error view of both parameter sweeps
+
+![Electropolish mean relative L2 error versus training time for three particle counts and four horizon ratios](../../assets/pino-studies/electropolish2d_cost_error.png)
+
+[Editable PDF](../../assets/pino-studies/electropolish2d_cost_error.pdf) ·
+[Figure provenance](../../artifacts/electropolish_cost_error_readme.json).
+Each point uses final 10,000-step weights and the mean channel-averaged
+space-time relative L2 error over the same 64 local-FD test inputs.
+The horizontal axis is full cold training time; independent testing is excluded.
+
+The preferred simplified view uses **three curves and four matched
+\(\delta/h=1.5,2,2.5,3\) settings per curve**, for 5,151, 11,476 and 20,301
+particles. NPG C0/C1/C2 (red/cyan/green) identify ascending particle count.
+Four explicit circle diameters of 5/8/11/14 pt distinguish the ratios; this is
+an ordered size key, not an area-proportional encoding. White edges are 1 pt
+and data lines 1.4 pt. Only mean errors are drawn, without SD shading/bars.
+
+The middle grid is 151×76. Ten completed models are reused; its missing ratios
+1.5 and 2.5 were predeclared and cold trained for 10,000 steps on the same GPU.
+Their 64-input means are 0.049555 and 0.023821, and full training-process times
+are 539.068 and 842.954 s. Separate evaluations took 31.596 and 31.101 s.
+Frozen configuration, initial model/Adam bytes, all 10,000 same-grid condition,
+time/core/IC/BC draws, and independent saved-field norm checks pass.
+
+| Particles | \(\delta/h=1.5\) | 2 | 2.5 | 3 |
+|---:|---:|---:|---:|---:|
+| 5,151 | 0.043983 | 0.023159 | 0.030465 | 0.036906 |
+| 11,476 | 0.049555 | 0.024558 | 0.023821 | 0.031608 |
+| 20,301 | 0.050517 | 0.017281 | 0.023412 | 0.024761 |
+
+These are final-weight means over the same 64 local-FD test inputs, after
+averaging physical-channel space-time relative errors. One paired seed is used;
+the small middle-grid ratio2/2.5 difference is not a robust optimum claim.
+The x axis includes startup, compilation, native monitoring and final writes,
+excluding independent evaluation/reference generation. Connections follow ratio
+order and retain measured times without jitter; they are not convergence traces.
+
+[Three-curve specification](../../artifacts/electropolish_cost_error_three_curves.json),
+[12-run plotting receipt](../../artifacts/electropolish_cost_error_three_curves_validation.json)
+and [middle-grid completion record](../../artifacts/electropolish_cost_error_medium_completion.json)
+retain direct inputs, actual delta values, 768 sample means, timing scope and
+external PDF/PNG paths. No earlier checkpoint or post-result selection is used.
+Reproduce:
+
+```bash
+.venv/bin/python -m scripts.render_electropolish_cost_error_compact \
+  --spec artifacts/electropolish_cost_error_three_curves.json
+```
+
+The previous [two-curve specification](../../artifacts/electropolish_cost_error_compact.json),
+[receipt](../../artifacts/electropolish_cost_error_compact_validation.json) and
+[coarse-grid completion record](../../artifacts/electropolish_cost_error_completion.json)
+retain the original eight-point, area-proportional plot and its separate exports.
+The earlier full collection also remains available for context:
+
+The [cost–error figure specification](../../artifacts/electropolish_cost_error.json)
+combines all14unique final10k runs from the two studies, counting the reused
+20,301/delta0.01baseline once. Both axes are logarithmic. The x coordinate is
+the full cold training subprocess wall time from its journal, including setup,
+compilation, native monitoring and final writes; separate64-input testing and
+reference generation are excluded. The y coordinate is the same64-input mean
+of channel-averaged space-time relative errors.
+
+NPG color identifies particle count; circle area is proportional to actual
+\(\delta\), not \(\delta/h\). Within each count, straight segments join increasing
+\(\delta\) without smoothing or time jitter. Shading gives one sample SD; the
+two single-experiment counts use vertical SD bars. These are parameter-sweep
+connections, not training trajectories. The
+[rendering receipt](../../artifacts/electropolish_cost_error_validation.json)
+preserves all14run/config/weight paths,896sample scores, measured process times,
+plot encodings and external editable PDF/PNG paths. Reproduce on CPU:
+
+```bash
+.venv/bin/python -m scripts.render_electropolish_cost_error \
+  --spec artifacts/electropolish_cost_error.json
+```
+
 ### Full, fixed-pool and rolling-pool spatial controls
 
 Three optional presets use the same canonical `train.py` with the historical

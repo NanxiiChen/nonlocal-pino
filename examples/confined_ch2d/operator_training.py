@@ -79,8 +79,12 @@ def load_bank(c):
                 raise ValueError('Operator-only training inputs must not contain evolved fields')
             np.testing.assert_array_equal(data['initial'],initial)
         data['initial']=initial
-        if data['metric'].shape!=(n,n) or data['neighbors'].ndim!=2 or data['neighbors'].shape[0]!=n or data['coefficients'].shape!=data['neighbors'].shape or np.any(data['neighbors']<0) or np.any(data['neighbors']>=n) or np.any(data['coefficients']<0):
+        if (c.operator.metric!='identity' and data['metric'].shape!=(n,n)) or data['neighbors'].ndim!=2 or data['neighbors'].shape[0]!=n or data['coefficients'].shape!=data['neighbors'].shape or np.any(data['neighbors']<0) or np.any(data['neighbors']>=n) or np.any(data['coefficients']<0):
             raise ValueError(f'Operator/metric shape or range mismatch: {index}')
+        if c.operator.metric=='identity':
+            # Existing banks also contain a reference-era dense metric. It is
+            # neither the experimental loss nor a training payload dependency.
+            data.pop('metric')
         features,measure=condition(data['holes'],c)
         np.testing.assert_array_equal(data['condition'],features)
         np.testing.assert_array_equal(data['condition_weights'],measure)
@@ -113,7 +117,8 @@ def load_bank(c):
         if nmax>limits.max_points or kmax>limits.max_neighbors:
             raise ValueError(f'Initial bank exceeds online padding: {nmax}/{kmax}')
         nmax,kmax=limits.max_points,limits.max_neighbors
-    bank={key:[] for key in ('points','volumes','initial','neighbors','coefficients','metric','condition','condition_weights')}
+    bank={key:[] for key in ('points','volumes','initial','neighbors','coefficients','condition','condition_weights')}
+    if c.operator.metric!='identity':bank['metric']=[]
     if initial_rhs_enabled(c):bank['domain_fields']=[]
     for d in refs:
         n=len(d['points']);k=d['neighbors'].shape[1]
@@ -124,7 +129,7 @@ def load_bank(c):
         nb=np.repeat(np.arange(nmax)[:,None],kmax,axis=1)
         co=np.zeros((nmax,kmax));nb[:n,:k]=d['neighbors'];co[:n,:k]=d['coefficients']
         bank['neighbors'].append(nb);bank['coefficients'].append(co)
-        bank['metric'].append(np.pad(d['metric'],((0,nmax-n),(0,nmax-n))))
+        if 'metric' in bank:bank['metric'].append(np.pad(d['metric'],((0,nmax-n),(0,nmax-n))))
         for key in ('condition','condition_weights'):
             bank[key].append(d[key])
     assembled={key:np.stack(value) for key,value in bank.items()}
@@ -158,6 +163,9 @@ def time_coordinate(t,c):
 
 def phase(net,prepared,t,data,c):
     t=jnp.asarray(t,dtype=compute_dtype(c))
+    if 'formulation' in c.operator:
+        from examples.confined_ch2d.operator_potential import coordinate,length_squared
+        return data['initial']+length_squared(c)*apply_operator(coordinate(net,prepared,t,c),data)
     s=time_coordinate(t,c)
     change=net.decode(prepared,jnp.reshape(s,(1,)))[0]
     volumes=data['volumes']
@@ -178,6 +186,8 @@ def fields(net,data,times,c):
 
 def query_phase(net,data,points,times,c):
     """Off-grid phase queries retain the ORIGINAL physical mass quadrature."""
+    if 'formulation' in c.operator:
+        raise ValueError('Conservative-potential phase queries require an explicit complete physical graph')
     data=compute_arrays(data,c)
     points=jnp.asarray(points,dtype=compute_dtype(c))
     times=jnp.asarray(times,dtype=compute_dtype(c))
@@ -191,12 +201,18 @@ def query_phase(net,data,points,times,c):
 
 
 def make_loss(c):
+    if 'formulation' in c.operator:
+        from examples.confined_ch2d.operator_potential import make_loss as potential_loss
+        return potential_loss(c)
     def one(net,data,times):
         prepared=prepare(net,data)
         def at(t):
             phi,dt=jax.jvp(lambda tt:phase(net,prepared,tt,data,c),(t,),(jnp.ones_like(t),))
             mu=c.physical.beta*(phi**3-phi)+c.physical.epsilon**2*apply_operator(phi,data)
             residual=c.physical.terminal_time*(dt+c.physical.mobility*apply_operator(mu,data))
+            if 'residual_core_indices' in data:
+                residual=data['metric'][data['residual_core_indices']]@residual
+                return jnp.dot(data['residual_core_weights'],residual**2)
             residual=data['metric']@residual
             return jnp.dot(data['volumes'],residual**2)/jnp.sum(data['volumes'])
         if 'initial_residual_fraction' in c.loss:
@@ -263,7 +279,8 @@ def train_operator(c):
     root=Path(__file__).resolve().parents[2]
     shutil.copytree(Path(__file__).parent,run/'source/examples/confined_ch2d',ignore=shutil.ignore_patterns('__pycache__'))
     for rel in ('src/nonlocal_pinn/nn/point_conditional.py','src/nonlocal_pinn/nn/conditional.py',
-                'src/nonlocal_pinn/training/optimizers.py','src/nonlocal_pinn/training/runtime.py'):
+                'src/nonlocal_pinn/training/optimizers.py','src/nonlocal_pinn/training/runtime.py',
+                'src/nonlocal_pinn/training/spatial_sampling.py'):
         target=run/'source'/rel;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(root/rel,target)
     keys=jax.random.split(jax.random.key(c.train.seed),3)
     net=build_network(c,keys[0]);opt=make_compute_optimizer(c)
@@ -352,17 +369,29 @@ def train_operator(c):
         return record
     assess(start_step,False)
     setup=time.perf_counter()-start
-    pool=None
+    pool=None;spatial_pool=None;spatial_preparation=[];spatial_core_ids=[]
+    if 'spatial' in c.sample:
+        from examples.confined_ch2d.operator_core_halo import RollingSpatialPool
+        spatial_pool=RollingSpatialPool(c,bank,run)
     if online_enabled:
         from examples.confined_ch2d.operator_online import RollingGeometryPool
-        pool=RollingGeometryPool(c,run,start_step,continuation,[refs[index]['holes'] for index in manifest['test_indices']])
+        pool=RollingGeometryPool(c,run,start_step,continuation,[refs[index]['holes'] for index in manifest['test_indices']],
+            on_replace=spatial_pool.install if spatial_pool is not None else None)
     try:
         if pool is not None:bank=pool.start(bank)
         with (run/'loss.jsonl').open('x') as log:
             for i in range(start_step+1,c.train.iterations+1):
                 if pool is not None:bank=pool.refresh(bank,i)
                 ids=jax.random.randint(jax.random.fold_in(keys[1],i),(c.operator.condition_batch,),0,c.operator.train_conditions)
-                batch=jax.tree.map(lambda a:a[ids],bank)
+                batch_tick=time.perf_counter()
+                if spatial_pool is None:
+                    batch=jax.tree.map(lambda a:a[ids],bank)
+                else:
+                    batch,core_ids=spatial_pool.batch(np.asarray(ids),i)
+                    spatial_core_ids.append(core_ids)
+                    next_ids=jax.random.randint(jax.random.fold_in(keys[1],i+1),(c.operator.condition_batch,),0,c.operator.train_conditions)
+                    spatial_pool.prefetch(np.asarray(next_ids),i+1)
+                spatial_preparation.append(time.perf_counter()-batch_tick)
                 if pool is not None:online_draws.append(pool.draw_ids[np.asarray(ids)].copy())
                 if augmented:
                     bits=jax.random.bernoulli(jax.random.fold_in(augmentation_key,i),shape=(c.operator.condition_batch,2))
@@ -394,6 +423,7 @@ def train_operator(c):
                     save_checkpoint(run,net,state,i,online_state=online_state)
     finally:
         if pool is not None:pool.close()
+        if spatial_pool is not None:spatial_pool.close()
     eqx.tree_serialise_leaves(run/'model_final.eqx',net)
     eqx.tree_serialise_leaves(run/'optimizer_final.eqx',state)
     recorded=dict(condition_ids=np.stack(draws))
@@ -401,6 +431,12 @@ def train_operator(c):
         recorded['geometry_draw_ids']=np.stack(online_draws);recorded['times']=np.stack(online_times)
     if augmented:recorded['axis_reflections']=np.stack(reflection_draws)
     np.savez_compressed(run/'training_draws.npz',**recorded)
+    np.savez_compressed(run/'update_timing.npz',update_seconds=np.asarray(timing),
+        batch_preparation_seconds=np.asarray(spatial_preparation))
+    if spatial_pool is not None:
+        np.savez_compressed(run/'spatial_draws.npz',core_ids=np.stack(spatial_core_ids),
+            preparation_seconds=np.asarray(spatial_preparation),update_seconds=np.asarray(timing))
+        (run/'spatial_summary.json').write_text(json.dumps(spatial_pool.summary(),indent=2,allow_nan=False)+'\n')
     # Swap encoder inputs while retaining the physical query/IC/mass/D. The
     # heterogeneous model also encodes the volume points, requiring the encoded
     # context itself to be replaced rather than changing only boundary rows.

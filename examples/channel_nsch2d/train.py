@@ -138,7 +138,7 @@ def train(c):
         np.savez_compressed(run/'reserved_geometries.npz',amplitudes=forbidden)
     shutil.copytree(Path(__file__).parent,run/'source/examples/channel_nsch2d',ignore=shutil.ignore_patterns('__pycache__'))
     for relative in ('src/nonlocal_pinn/nn/point_conditional.py','src/nonlocal_pinn/training/optimizers.py',
-                     'src/nonlocal_pinn/training/runtime.py'):
+                     'src/nonlocal_pinn/training/runtime.py','src/nonlocal_pinn/training/spatial_sampling.py'):
         target=run/'source'/relative;target.parent.mkdir(parents=True,exist_ok=True)
         shutil.copyfile(Path(__file__).resolve().parents[2]/relative,target)
     if causal:

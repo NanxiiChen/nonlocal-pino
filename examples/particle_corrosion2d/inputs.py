@@ -140,11 +140,23 @@ def make_core_sampler(c, mesh):
     """Draw complete PDE targets with area sampling or fixed wall strata."""
     volumes = mesh['volumes']
     free = np.flatnonzero(~mesh['mouth'])
+    stratified_cdf = 'core_draw' in c.sample and c.sample.core_draw == 'stratified_cdf'
+    if stratified_cdf:
+        from nonlocal_pinn.training.spatial_sampling import stratified_indices
+        points = mesh['points'][free]
+        free = free[np.lexsort((points[:, 1], points[:, 0]))]
+
+    def draw(ids, count, rng):
+        if stratified_cdf:
+            return ids[stratified_indices(volumes[ids], count, rng)]
+        return rng.choice(ids, count, replace=True, p=volumes[ids]/volumes[ids].sum())
+
     if 'core_wall' not in c.sample:
         probabilities = volumes[free]/volumes[free].sum()
 
         def area(rng):
-            return (rng.choice(free, size=c.sample.K_core, replace=True, p=probabilities),
+            return (draw(free, c.sample.K_core, rng) if stratified_cdf else
+                    rng.choice(free, size=c.sample.K_core, replace=True, p=probabilities),
                     np.ones(c.sample.K_core))
 
         return area
@@ -159,7 +171,8 @@ def make_core_sampler(c, mesh):
                               for mass, n in zip(masses, counts, strict=True)])
 
     def stratified(rng):
-        core = np.concatenate([rng.choice(ids, n, replace=True, p=volumes[ids]/mass)
+        core = np.concatenate([draw(ids, n, rng) if stratified_cdf else
+                               rng.choice(ids, n, replace=True, p=volumes[ids]/mass)
                                for ids, n, mass in zip(strata, counts, masses, strict=True)])
         return core, weights
 

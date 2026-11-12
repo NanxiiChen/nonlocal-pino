@@ -978,6 +978,35 @@ Optional mesh/render packages were installed in an isolated temporary environmen
 training dependencies and the checkpoint remain unchanged. The earlier decorative
 animation is retained as a preview; paper-style figures are the recommended output.
 
+## Interface-thickness research controls
+
+The optional `configs/train_thin_interface.py` and
+`configs/train_extreme_interface.py` presets are single-sphere PINN studies
+entered through `train.py`; they do not change the operator-learning default.
+They pair SOAP initialization, actual collocation draws and time JVP across
+local AD and nonlocal spatial derivatives. The extreme preset uses explicit
+`nl.normalization=raw|moment` and separates changing the horizon from jointly
+refining point spacing and horizon. `moment` applies one interior second-moment
+factor to every edge; it does not renormalize individual boundary rows.
+
+The extreme study evaluates against an independently refined radial local
+far-field surrogate, qualified against the Neumann cube and by space, time
+and outer-boundary checks. It is not an exact spherical reduction of cube
+boundary conditions. Geometry-only cube quadrature resolves thin interfaces;
+reference trajectories are never used as training labels. Numerical failures
+retain the last finite model and are distinguished from completed high-error
+training. See the [completed thickness study](../../docs/tasks/archive/thin-interface-derivative-study.md)
+and [completed extreme/horizon study](../../docs/tasks/archive/extreme-interface-horizon-study.md)
+for budgets, configurations, qualifications and direct artifact paths.
+
+Under the matched cold10k recipe, both methods fail to learn accurate motion
+at the three extreme thin widths despite finite states. Horizon changes,
+global moment normalization and joint point-spacing/horizon refinement do not
+recover accuracy. The saved models show an output-coordinate amplitude
+shortfall; this is not evidence of intrinsic AD instability or an accurate
+nonlocal stability advantage. These research controls do not replace the
+validated operator-learning configuration.
+
 ## Project split (2026-10-24)
 
 This example belongs to `nonlocal-pinn`. Install the project and run from its

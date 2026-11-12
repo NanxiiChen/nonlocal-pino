@@ -29,8 +29,21 @@ def validate(c):
     rhs_condition=initial_rhs_enabled(c)
     if rhs_condition and (c.operator.action!='train' or 'augmentation' in c.operator):
         raise ValueError('Initial-RHS conditioning currently requires unaugmented train mode')
-    if c.operator.action not in ('prepare', 'train') or c.operator.metric not in ('biharmonic_resolvent','linear_stable_resolvent'):
+    potential = 'formulation' in c.operator
+    if potential:
+        if (c.operator.formulation != 'conservative_potential' or c.operator.metric != 'identity'
+                or c.operator.action != 'train' or 'continuation' in c.train
+                or 'augmentation' in c.operator or 'initial_rhs_condition' in c.operator):
+            raise ValueError('Conservative potential requires cold unaugmented identity-metric training')
+    if c.operator.action not in ('prepare', 'train') or c.operator.metric not in ('biharmonic_resolvent','linear_stable_resolvent','identity'):
         raise ValueError('Explicit prepare/train action and supported residual metric required')
+    if c.operator.metric == 'identity' and not potential:
+        raise ValueError('Identity metric is explicit only for the conservative-potential experiment')
+    if 'spatial' in c.sample:
+        if not potential:
+            raise ValueError('Compact spatial sampling requires the conservative-potential coordinate')
+        from examples.confined_ch2d.operator_core_halo import validate_spatial
+        validate_spatial(c)
     if c.operator.metric=='linear_stable_resolvent':
         if c.operator.action!='train':raise ValueError('Prepare the unchanged biharmonic bank before selecting the derived training metric')
         workers=c.operator.metric_workers
