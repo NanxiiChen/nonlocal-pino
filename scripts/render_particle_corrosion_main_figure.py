@@ -234,7 +234,8 @@ def render(spec):
         output_bytes=dict(pdf=pdf.stat().st_size, png=png.stat().st_size),
         metric_interpolation=False, temporal_interpolation=False, inference=False,
         layers=dict(field='raster, Gouraud display on original physical triangles',
-                    reference_contours='vector, original local FEM nodes', holes='no field; gray, vector edges',
+                    reference_contours='vector, original local FEM nodes',
+                    holes=f'no field; fill {style["hole_color"]}, vector edges {style["hole_edge_color"]} at {style["hole_linewidth"]} pt',
                     text='embedded editable Helvetica; DejaVu Sans Oblique L; 5pt superscripts',
                     colorbar='raster gradient, vector ticks/text'))
     (REPO/spec['output']['receipt']).write_text(json.dumps(receipt, indent=2)+'\n')

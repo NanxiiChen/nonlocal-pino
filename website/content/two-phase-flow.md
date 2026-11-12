@@ -7,8 +7,8 @@ The undeformed channel is \(4\times1\). Its two walls use independent sets of ei
 The inlet supplies a ramped parabolic velocity and carrier phase. Solid walls are no-slip with neutral wetting and zero chemical flux. The outlet has zero traction and zero normal gradients of phase and chemical potential. The traction condition supplies the pressure reference.
 
 <figure>
-  <a href="assets/channel_nsch2d-setup.svg"><img src="assets/channel_nsch2d-setup.svg" alt="Three smooth constricted channels with different upper and lower walls and the same initial droplet"></a>
-  <figcaption>Independent wall profiles vary the constriction and its asymmetry. The upstream droplet and driving remain fixed.</figcaption>
+  <a href="assets/channel_nsch2d-setup.png"><img src="assets/channel_nsch2d-setup.png" width="1299" height="767" alt="Orange initial droplet in blue carrier fluid between independently randomized gray channel walls"></a>
+  <figcaption>Independent wall profiles vary the constriction and asymmetry. The initial droplet and driving remain fixed; arrows indicate driving direction, not a predicted velocity field. <a href="assets/channel_nsch2d-setup.pdf">Editable PDF</a>.</figcaption>
 </figure>
 
 ## Governing equations and scaling

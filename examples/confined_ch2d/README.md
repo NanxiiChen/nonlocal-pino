@@ -29,11 +29,15 @@ physical triangle-cell areas and horizon 0.11. Pairs cannot pass through holes.
 It models closed no-exchange dynamics without a separate Neumann penalty;
 finite-horizon fields need not have pointwise zero local AD normal derivative.
 
-![Spinodal setup: the same initial fluctuation field with three random hole geometries](../../assets/pino-setups/confined_ch2d.svg)
+![Spinodal setup: fixed blue-orange initial fluctuations with two random holes and impermeable walls](../../assets/pino-setups/confined_ch2d.png)
 
 The same ambient initial function is restricted to every domain. Only the two
 hole positions/radii vary; the fill shows initial fluctuations, not evolved
-pure phases. [Setup figure inputs and regeneration](../../artifacts/pino_setup_schematics.json).
+pure phases. White holes and gray hatched wall bands denote excluded regions;
+the wall-band thickness is illustrative.
+[Editable setup PDF](../../assets/pino-setups/confined_ch2d.pdf) ·
+[Source/style specification](../../artifacts/spinodal_setup_materials.json) ·
+[Regeneration](../../assets/pino-setups/README.md).
 
 ### Important strategies
 

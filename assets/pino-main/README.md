@@ -17,7 +17,7 @@ Captions, sample roles, references and metric details are in each example
 README and the linked specifications/validation receipts. Melting uses three
 samples with paired3D/slice rows; the other four use four samples. Each has
 five actual snapshots. Publication does not change any numerical defaults.
-Ceramic interiors use gray (#A0A0A0) with dark-gray (#333333) outlines,
+Ceramic interiors use warm ivory (#EFE7D9) with dark-gray (#333333) outlines,
 separate from the phase colormap.
 The website reads the same manifest and copies these PNG/PDF files without
 rerendering; Pages watches this directory and the manifest for updates.

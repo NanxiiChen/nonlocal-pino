@@ -150,5 +150,31 @@ if (figureBytes >= manifest.maximum_collection_bytes) {
   throw new Error('Publication figure collection exceeds its approved budget');
 }
 
+const setupManifest = JSON.parse(await readFile(join(root, '..', 'artifacts', 'pino_setup_figures.json'), 'utf8'));
+if (setupManifest.schema !== 'pino_setup_publication_v1' ||
+    setupManifest.figures.length !== casePages.length ||
+    new Set(setupManifest.figures.map(figure => figure.example)).size !== casePages.length) {
+  throw new Error('Expected one approved setup figure per case chapter');
+}
+let setupBytes = 0;
+for (const { source } of casePages) {
+  const figure = setupManifest.figures.find(record => record.example === source);
+  if (!figure) throw new Error(`Missing setup figure: ${source}`);
+  for (const kind of ['png', 'pdf']) {
+    if (figure[kind] !== `assets/pino-setups/${source}.${kind}`) {
+      throw new Error(`Unexpected setup asset path for ${source}.${kind}`);
+    }
+    const data = await readFile(join(root, '..', figure[kind]));
+    if (data.length !== figure.bytes[kind] || data.length >= setupManifest.maximum_file_bytes) {
+      throw new Error(`Setup asset size differs from its approval: ${figure[kind]}`);
+    }
+    setupBytes += data.length;
+    await writeFile(join(assets, `${source}-setup.${kind}`), data);
+  }
+}
+if (setupBytes >= setupManifest.maximum_collection_bytes) {
+  throw new Error('Setup figure collection exceeds its approved budget');
+}
+
 await Promise.all(rendered.map(([slug, html]) => writeFile(join(output, `${slug}.html`), html)));
 console.log(`Built ${rendered.length} technical report pages in website/dist/`);

@@ -5,8 +5,8 @@ The operator learns spinodal decomposition in an elliptical vessel with two impe
 The outer ellipse is centered at \((0.5,0.5)\) with semiaxes \((0.5,0.4)\). Hole centers are sampled from \([0.22,0.78]\times[0.27,0.73]\) and radii from \([0.045,0.12]\). Containment and a 0.025 clearance condition screen proposals. Walls are neutral and impermeable. The dimensionless horizon is \(T=3\).
 
 <figure>
-  <a href="assets/confined_ch2d-setup.svg"><img src="assets/confined_ch2d-setup.svg" alt="The same ten-mode initial phase texture in three elliptical vessels with different hole positions and sizes"></a>
-  <figcaption>Each geometry restricts the same initial function. Only the two holes vary.</figcaption>
+  <a href="assets/confined_ch2d-setup.png"><img src="assets/confined_ch2d-setup.png" width="1594" height="1435" alt="Fixed blue-orange initial fluctuations in an ellipse with two random holes and gray hatched walls"></a>
+  <figcaption>Each geometry restricts the same initial function. Only the hole positions and radii vary. Colors show initial fluctuations; gray wall-band thickness is illustrative. <a href="assets/confined_ch2d-setup.pdf">Editable PDF</a>.</figcaption>
 </figure>
 
 ## Governing equations and scaling

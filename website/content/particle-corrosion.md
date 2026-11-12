@@ -7,8 +7,8 @@ The reactive region is \([0,1]\times[0,0.6]\) minus the ceramic interiors, or \(
 Each particle uses a smooth radial perturbation with modes 3–5, area normalization, aspect stretch and rotation. Equivalent radii range from 2.25 to \(3.75\,\mu\mathrm m\). Clearance, curvature and near-pit requirements screen layouts using geometry alone. The reservoir can exchange concentration, so global concentration is free to change.
 
 <figure>
-  <a href="assets/particle_corrosion2d-setup.svg"><img src="assets/particle_corrosion2d-setup.svg" alt="Three particle layouts with the same reservoir mouth and initial corrosion pit"></a>
-  <figcaption>Gray ceramic regions are excluded from the reactive domain. Particle positions, shapes and orientations vary.</figcaption>
+  <a href="assets/particle_corrosion2d-setup.png"><img src="assets/particle_corrosion2d-setup.png" width="1181" height="885" alt="Gray metal, blue electrolyte pit and six smooth ivory ceramic particles with dark outlines"></a>
+  <figcaption>Ivory ceramic regions are excluded from the reactive domain. Particle positions, shapes and orientations vary; the initial pit and narrow reservoir mouth are fixed. <a href="assets/particle_corrosion2d-setup.pdf">Editable PDF</a>.</figcaption>
 </figure>
 
 ## Governing equations and scaling
@@ -60,8 +60,8 @@ The objective uses absolute AC and CH residuals with unit prescales. Mouth phase
 ## Field evolution
 
 <figure>
-  <a href="assets/particle_corrosion2d.png"><img src="assets/particle_corrosion2d.png" width="2007" height="1086" alt="Predicted pit growth around gray ceramic particles with dark outlines for four development geometries across five times, with local-FEM interfaces"></a>
-  <figcaption>The selected width-256, 20,000-step model on all four development geometries at t* = 0, 0.2, 0.5, 0.8 and 1 (0, 70, 175, 280 and 350 s). Colors show predicted phase; gray interiors with dark outlines are inert ceramic, and dashed curves are independent local-FEM φ = 0.5 interfaces. Labels give instantaneous phase relative L² on the original spatial nodes, excluding ceramic interiors. <a href="assets/particle_corrosion2d.pdf">Editable PDF</a>.</figcaption>
+  <a href="assets/particle_corrosion2d.png"><img src="assets/particle_corrosion2d.png" width="2007" height="1086" alt="Predicted pit growth around warm-ivory ceramic particles with dark outlines for four development geometries across five times, with local-FEM interfaces"></a>
+  <figcaption>The selected width-256, 20,000-step model on all four development geometries at t* = 0, 0.2, 0.5, 0.8 and 1 (0, 70, 175, 280 and 350 s). Colors show predicted phase; warm-ivory interiors with dark outlines are inert ceramic, and dashed curves are independent local-FEM φ = 0.5 interfaces. Labels give instantaneous phase relative L² on the original spatial nodes, excluding ceramic interiors. <a href="assets/particle_corrosion2d.pdf">Editable PDF</a>.</figcaption>
 </figure>
 
 ## References and comparisons

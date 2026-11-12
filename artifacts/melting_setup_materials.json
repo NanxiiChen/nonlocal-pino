@@ -1,0 +1,95 @@
+{
+  "schema": "melting_material_setup_v1",
+  "source": "artifacts/pino_setup_schematics.json",
+  "case": "icemelting3d",
+  "sample_index": 2,
+  "selection": "Third already-prescribed setup sample for more visible unequal axes; unrelated to errors or predictions",
+  "kind": "one initial ellipsoid in the fixed unit cube; no evolved surface or temperature field",
+  "boundary": "partial_n phi=0 on cube; continuum natural Neumann comparison, native graph closed interactions",
+  "style": {
+    "figure_mm": [
+      100,
+      83
+    ],
+    "cube_center_mm": [
+      46,
+      43
+    ],
+    "world_scale_mm": 38,
+    "view_direction": [
+      1.7,
+      -2.4,
+      1.7
+    ],
+    "light_direction": [
+      -1,
+      -1,
+      2
+    ],
+    "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+    "math_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf",
+    "math_italic_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
+    "font_size_pt": 7,
+    "text_color": "#222222",
+    "ice": "#9DCEDE",
+    "ice_edge": "#446C7E",
+    "ice_curve": "#6D94A5",
+    "ice_opacity": 0.94,
+    "water_faces": [
+      "#E8F4F7",
+      "#F1F9FA",
+      "#DDEFF4"
+    ],
+    "cube_edge": "#6C8791",
+    "ambient": 0.72,
+    "diffuse": 0.28,
+    "highlight": 0.35,
+    "highlight_power": 24,
+    "longitude_segments": 128,
+    "latitude_segments": 64,
+    "triad_origin_mm": [
+      13,
+      13
+    ],
+    "triad_length_mm": 7,
+    "dpi": 450
+  },
+  "labels": {
+    "initial": "Random initial\nellipsoid",
+    "boundary": "$\\dfrac{\\partial\\phi}{\\partial n}=0$"
+  },
+  "output": {
+    "pdf": "/root/autodl-tmp/tf-logs/icemelting3d/publication-setup-materials-20261112-v2/icemelting3d_setup_materials.pdf",
+    "png": "/root/autodl-tmp/tf-logs/icemelting3d/publication-setup-materials-20261112-v2/icemelting3d_setup_materials.png",
+    "svg": "/root/autodl-tmp/tf-logs/icemelting3d/publication-setup-materials-20261112-v2/icemelting3d_setup_materials.svg",
+    "receipt": "artifacts/melting_setup_materials_validation.json"
+  },
+  "annotations": {
+    "initial_label_mm": [
+      52,
+      63
+    ],
+    "initial_leader_start_mm": [
+      51.5,
+      59.2
+    ],
+    "initial_target_direction": [
+      1,
+      1
+    ],
+    "boundary_label_mm": [
+      84,
+      39
+    ],
+    "boundary_leader_start_mm": [
+      78,
+      41
+    ],
+    "boundary_target_xyz": [
+      1,
+      1,
+      0.5
+    ],
+    "gap_mm": 0.25
+  }
+}

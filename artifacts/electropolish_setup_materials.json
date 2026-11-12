@@ -1,0 +1,53 @@
+{
+  "schema": "electropolish_material_setup_v2",
+  "source": "artifacts/pino_setup_schematics.json",
+  "case": "electropolish2d",
+  "samples": [
+    0
+  ],
+  "kind": "prescribed initial conditions; schematic, no evolved fields",
+  "boundary": {
+    "top": "phi=c=0",
+    "bottom": "phi=c=1",
+    "sides": "partial phi/partial n = partial c/partial n = 0; continuum boundary data, approximated by the regional graph"
+  },
+  "initial": "Existing six-mode profiles; phase=0.5 at the illustrated interface; c_0=h(phi_0), c_se=1",
+  "style": {
+    "figure_mm": [
+      100,
+      58
+    ],
+    "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+    "math_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf",
+    "math_italic_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
+    "font_size_pt": 7,
+    "secondary_size_pt": 7,
+    "text_color": "#222222",
+    "metal": "#B7BBC0",
+    "metal_grain": "#A9AEB4",
+    "electrolyte": "#C9EAF3",
+    "electrolyte_palette_origin": "NPG #4DBBD5, lightened with white for material fill",
+    "wall": "#E4E6E8",
+    "wall_edge": "#686E76",
+    "interface": "#333333",
+    "main_rect_mm": [
+      13,
+      13,
+      74,
+      37
+    ],
+    "dpi": 300
+  },
+  "output": {
+    "pdf": "/root/autodl-tmp/tf-logs/electropolish2d/publication-setup-materials-20261112-v4/electropolish2d_setup_materials.pdf",
+    "png": "/root/autodl-tmp/tf-logs/electropolish2d/publication-setup-materials-20261112-v4/electropolish2d_setup_materials.png",
+    "svg": "/root/autodl-tmp/tf-logs/electropolish2d/publication-setup-materials-20261112-v4/electropolish2d_setup_materials.svg",
+    "receipt": "artifacts/electropolish_setup_materials_validation.json"
+  },
+  "labels": {
+    "interface": "Randomly generated\ninitial interface",
+    "top": "$\\phi=c=0$",
+    "bottom": "$\\phi=c=1$",
+    "sides": "$\\dfrac{\\partial\\phi}{\\partial n}=\\dfrac{\\partial c}{\\partial n}=0$"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "schema": "spinodal_material_setup_v1",
+  "source": "artifacts/pino_setup_schematics.json",
+  "case": "confined_ch2d",
+  "sample_index": 0,
+  "kind": "fixed ten-mode initial fluctuation field in one prescribed random-hole geometry",
+  "boundary": "partial_n phi=partial_n mu=0 on outer ellipse and both circular holes; continuum data approximated by the regional graph",
+  "initial_function_source": "examples/confined_ch2d/operator_problem.py:fixed_initial",
+  "style": {
+    "figure_mm": [
+      90,
+      81
+    ],
+    "ellipse_center_mm": [
+      45,
+      41
+    ],
+    "ellipse_semiaxes_mm": [
+      33,
+      26.4
+    ],
+    "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+    "math_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf",
+    "math_italic_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
+    "font_size_pt": 7,
+    "text_color": "#222222",
+    "field_colors": [
+      "#91C6D8",
+      "#F7F5F0",
+      "#F39B7F"
+    ],
+    "limits": [
+      -0.3,
+      0.3
+    ],
+    "field_grid": [
+      801,
+      641
+    ],
+    "field_meaning": "negative-to-positive initial fluctuations, not saturated phases",
+    "wall": "#D4D7DA",
+    "wall_edge": "#686E76",
+    "interface": "#333333",
+    "wall_thickness_mm": 1.5,
+    "hole_wall_thickness_mm": 1.1,
+    "dpi": 450
+  },
+  "labels": {
+    "initial": "Fixed initial\nfluctuations",
+    "holes": "Random hole\npositions / radii",
+    "boundary": "$\\dfrac{\\partial\\phi}{\\partial n}=\\dfrac{\\partial\\mu}{\\partial n}=0$"
+  },
+  "output": {
+    "pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/publication-setup-materials-20261112-v2/confined_ch2d_setup_materials.pdf",
+    "png": "/root/autodl-tmp/tf-logs/confined_ch2d/publication-setup-materials-20261112-v2/confined_ch2d_setup_materials.png",
+    "svg": "/root/autodl-tmp/tf-logs/confined_ch2d/publication-setup-materials-20261112-v2/confined_ch2d_setup_materials.svg",
+    "receipt": "artifacts/spinodal_setup_materials_validation.json"
+  }
+}

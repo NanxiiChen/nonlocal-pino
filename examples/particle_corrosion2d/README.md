@@ -13,16 +13,20 @@ geometry and core/halo inputs**. Its mean phase relative L2 on four development
 geometries is **2.93% overall / 5.76% terminal against local FEM**, and
 **1.45% / 2.78% against direct nonlocal evolution**.
 
-![Problem setup: six random impermeable particles, with the same initial pit and reservoir](../../assets/pino-setups/particle_corrosion2d.svg)
+![Corrosion setup: gray metal, blue initial electrolyte pit and six warm-ivory ceramic particles](../../assets/pino-setups/particle_corrosion2d.png)
 
-This schematic shows prescribed inputs and boundary conditions; it contains
-no predicted future interfaces.
+This schematic shows one prescribed geometry and its boundary conditions;
+only the narrow pit mouth has reservoir data. Warm-ivory ceramic, gray metal
+and blue electrolyte distinguish the three materials; no future interface is drawn.
+[Editable setup PDF](../../assets/pino-setups/particle_corrosion2d.pdf) ·
+[Source/style specification](../../artifacts/particle_corrosion_setup_materials.json) ·
+[Regeneration](../../assets/pino-setups/README.md).
 
 ![Four six-particle layouts with predicted phase and local-FEM interfaces](../../assets/pino-main/particle_corrosion2d.png)
 
 Rows show all four development geometries in saved order at actual times
 \(t^*=0,0.2,0.5,0.8,1\), or0,70,175,280,350s. Coolwarm shows predicted phase;
-gray interiors with dark outlines are inert ceramic; dashed curves are independent **local-FEM**
+warm-ivory interiors with dark outlines are inert ceramic; dashed curves are independent **local-FEM**
 \(\phi=0.5\) interfaces. Each panel reports instantaneous unweighted nodal
 phase relative L2; the headline historical volume-weighted metrics remain
 separate. Original physical triangles and equal spatial scales are retained.
@@ -503,7 +507,7 @@ The selected [20k checkpoint](/root/autodl-tmp/tf-logs/particle_corrosion2d/2026
 [local reference](/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4/manifest.json),
 [native reference](/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/native_dev4/manifest.json),
 and [capacity comparison](/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-width256-02/capacity_comparison.json)
-remain external. The current main figure's inputs, gray fill and dark outlines
+remain external. The current main figure's inputs, warm-ivory fill and dark outlines
 are recorded in [its specification](../../artifacts/particle_corrosion_main_figure.json).
 Regenerate its editable PDF and matching PNG on CPU:
 

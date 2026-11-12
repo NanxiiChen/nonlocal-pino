@@ -34,6 +34,13 @@ combined, with compact prescribed parameters in
 `artifacts/pino_setup_schematics.json` and the CPU-only
 `scripts/render_pino_setup_schematics.py`. These show conditions/BCs, not solved
 fields; the same spinodal initial texture is shared between geometry samples.
+The five current material setup schematics also have one accepted PNG/PDF pair
+per case in the same directory. This separate ten-file collection stays below
+2 MiB combined and 1 MiB per file. `artifacts/pino_setup_figures.json` links the
+per-case sources, styles, validation receipts and approved byte counts; see
+`assets/pino-setups/README.md` for reproduction. README/site previews use PNG,
+with adjacent editable PDF links. Keep alternate previews and source SVG exports
+external; the existing six historical SVG assets retain their original budget.
 Record evolution-figure direct inputs in `artifacts/pino_readme_figures.json` and retain
 raw fields, weights and full research galleries as external artifacts. See
 [`assets/README.md`](../assets/README.md) for the regeneration command.

@@ -1,0 +1,48 @@
+{
+  "schema": "channel_material_setup_v1",
+  "source": "artifacts/pino_setup_schematics.json",
+  "case": "channel_nsch2d",
+  "sample_index": 0,
+  "kind": "one prescribed random-wall geometry and fixed initial disk; no evolved field",
+  "boundary": {
+    "inlet": "u=U(y,t), phi=1, mu=0; U is the fixed parabolic profile with smooth ramp",
+    "walls": "u=0, partial_n phi=partial_n mu=0",
+    "outlet": "sigma*n=0, partial_n phi=partial_n mu=0",
+    "stress_definition": "sigma=-pI+eta*(grad(u)+grad(u)^T), hydrodynamic stress",
+    "source": ["examples/channel_nsch2d/solver.py", "examples/channel_nsch2d/losses.py", "examples/channel_nsch2d/problem.py"]
+  },
+  "style": {
+    "figure_mm": [110, 65],
+    "main_rect_mm": [15, 23, 80, 20],
+    "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+    "math_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf",
+    "math_italic_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
+    "math_bold_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf",
+    "font_size_pt": 7,
+    "text_color": "#222222",
+    "carrier": "#C9EAF3",
+    "droplet": "#F39B7F",
+    "droplet_palette_origin": "NPG nrc coral orange",
+    "wall": "#D4D7DA",
+    "wall_edge": "#686E76",
+    "interface": "#333333",
+    "wall_thickness_mm": 2.2,
+    "inlet_arrow_max_mm": 8,
+    "wall_points": 1001,
+    "dpi": 300
+  },
+  "labels": {
+    "inlet_velocity": "$\\mathbf{u}=\\mathbf{U}(y,t)$",
+    "inlet_phase": "$\\phi=1,\\quad\\mu=0$",
+    "outlet_traction": "$\\sigma\\mathbf{n}=0$",
+    "no_flux": "$\\dfrac{\\partial\\phi}{\\partial n}=\\dfrac{\\partial\\mu}{\\partial n}=0$",
+    "wall_conditions": "$\\mathbf{u}=0,\\quad\\dfrac{\\partial\\phi}{\\partial n}=\\dfrac{\\partial\\mu}{\\partial n}=0$",
+    "random_walls": "Randomly generated\nchannel walls"
+  },
+  "output": {
+    "pdf": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-setup-materials-20261112/channel_nsch2d_setup_materials.pdf",
+    "png": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-setup-materials-20261112/channel_nsch2d_setup_materials.png",
+    "svg": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-setup-materials-20261112/channel_nsch2d_setup_materials.svg",
+    "receipt": "artifacts/channel_setup_materials_validation.json"
+  }
+}

@@ -1,0 +1,262 @@
+{
+  "schema": "melting_material_setup_validation_v1",
+  "specification": {
+    "schema": "melting_material_setup_v1",
+    "source": "artifacts/pino_setup_schematics.json",
+    "case": "icemelting3d",
+    "sample_index": 2,
+    "selection": "Third already-prescribed setup sample for more visible unequal axes; unrelated to errors or predictions",
+    "kind": "one initial ellipsoid in the fixed unit cube; no evolved surface or temperature field",
+    "boundary": "partial_n phi=0 on cube; continuum natural Neumann comparison, native graph closed interactions",
+    "style": {
+      "figure_mm": [
+        100,
+        83
+      ],
+      "cube_center_mm": [
+        46,
+        43
+      ],
+      "world_scale_mm": 38,
+      "view_direction": [
+        1.7,
+        -2.4,
+        1.7
+      ],
+      "light_direction": [
+        -1,
+        -1,
+        2
+      ],
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+      "math_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf",
+      "math_italic_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
+      "font_size_pt": 7,
+      "text_color": "#222222",
+      "ice": "#9DCEDE",
+      "ice_edge": "#446C7E",
+      "ice_curve": "#6D94A5",
+      "ice_opacity": 0.94,
+      "water_faces": [
+        "#E8F4F7",
+        "#F1F9FA",
+        "#DDEFF4"
+      ],
+      "cube_edge": "#6C8791",
+      "ambient": 0.72,
+      "diffuse": 0.28,
+      "highlight": 0.35,
+      "highlight_power": 24,
+      "longitude_segments": 128,
+      "latitude_segments": 64,
+      "triad_origin_mm": [
+        13,
+        13
+      ],
+      "triad_length_mm": 7,
+      "dpi": 450
+    },
+    "labels": {
+      "initial": "Random initial\nellipsoid",
+      "boundary": "$\\dfrac{\\partial\\phi}{\\partial n}=0$"
+    },
+    "output": {
+      "pdf": "/root/autodl-tmp/tf-logs/icemelting3d/publication-setup-materials-20261112-v2/icemelting3d_setup_materials.pdf",
+      "png": "/root/autodl-tmp/tf-logs/icemelting3d/publication-setup-materials-20261112-v2/icemelting3d_setup_materials.png",
+      "svg": "/root/autodl-tmp/tf-logs/icemelting3d/publication-setup-materials-20261112-v2/icemelting3d_setup_materials.svg",
+      "receipt": "artifacts/melting_setup_materials_validation.json"
+    },
+    "annotations": {
+      "initial_label_mm": [
+        52,
+        63
+      ],
+      "initial_leader_start_mm": [
+        51.5,
+        59.2
+      ],
+      "initial_target_direction": [
+        1,
+        1
+      ],
+      "boundary_label_mm": [
+        84,
+        39
+      ],
+      "boundary_leader_start_mm": [
+        78,
+        41
+      ],
+      "boundary_target_xyz": [
+        1,
+        1,
+        0.5
+      ],
+      "gap_mm": 0.25
+    }
+  },
+  "renderer": "scripts/render_melting_setup_materials.py",
+  "parameters": [
+    0.4615898023838019,
+    0.5024096437603878,
+    0.4954244424043859,
+    0.25998157237010067,
+    0.2817316358202331,
+    0.34580081069760005,
+    0.2986677391156861,
+    0.7833925671999381,
+    0.544638400498308,
+    -0.021509996979533267
+  ],
+  "rotation": [
+    [
+      0.40581266546517014,
+      0.8661800338566,
+      0.2916302959163075
+    ],
+    [
+      0.8404826651915503,
+      -0.22833318862833818,
+      -0.49137851447059033
+    ],
+    [
+      -0.3590333829333454,
+      0.4445178330719646,
+      -0.8206698032829298
+    ]
+  ],
+  "projection": [
+    [
+      0.816024481101655,
+      0.5780173407803391,
+      -0.0
+    ],
+    [
+      -0.28925900276312294,
+      0.4083656509597029,
+      0.8657752158827035
+    ]
+  ],
+  "cube_vertices_mm": [
+    [
+      19.513205384242113,
+      24.287244582493617
+    ],
+    [
+      19.513205384242113,
+      57.18670278603635
+    ],
+    [
+      41.477864333895,
+      39.805139318962325
+    ],
+    [
+      41.477864333895,
+      72.70459752250505
+    ],
+    [
+      50.522135666105,
+      13.295402477494942
+    ],
+    [
+      50.522135666105,
+      46.194860681037675
+    ],
+    [
+      72.48679461575789,
+      28.81329721396365
+    ],
+    [
+      72.48679461575789,
+      61.712755417506386
+    ]
+  ],
+  "projected_ice_center_mm": [
+    44.86186786339381,
+    43.30905805977032
+  ],
+  "silhouette_covariance": [
+    [
+      0.07159405560855676,
+      0.0026613245680688707
+    ],
+    [
+      0.0026613245680688707,
+      0.11913478398638366
+    ]
+  ],
+  "mesh_vertices": 8066,
+  "mesh_faces": 16128,
+  "visible_faces": 8064,
+  "leaders": {
+    "initial_target_mm": [
+      51.411388229565674,
+      53.93861781376775
+    ],
+    "boundary_target_mm": [
+      72.73679461575789,
+      45.26302631573502
+    ],
+    "initial_length_mm": 5.262128329436825,
+    "boundary_length_mm": 6.773088238415653
+  },
+  "text": [
+    {
+      "text": "Random initial\nellipsoid",
+      "size_pt": 7.0
+    },
+    {
+      "text": "Ice",
+      "size_pt": 7.0
+    },
+    {
+      "text": "Water",
+      "size_pt": 7.0
+    },
+    {
+      "text": "$\\dfrac{\\partial\\phi}{\\partial n}=0$",
+      "size_pt": 7.0
+    },
+    {
+      "text": "x",
+      "size_pt": 7.0
+    },
+    {
+      "text": "y",
+      "size_pt": 7.0
+    },
+    {
+      "text": "z",
+      "size_pt": 7.0
+    },
+    {
+      "text": "1 \u00d7 1 \u00d7 1",
+      "size_pt": 7.0
+    }
+  ],
+  "output_bytes": {
+    "pdf": 79946,
+    "png": 196328,
+    "svg": 75420
+  },
+  "interpretation": "Prescribed initial phi=0 surface; decorative ice shading, no temperature or evolved field",
+  "layers": {
+    "ice_shading": "raster",
+    "cube_surface_curves_and_text": "vector"
+  },
+  "training": false,
+  "inference": false,
+  "pde_solves": 0,
+  "versions": {
+    "numpy": "2.4.6",
+    "matplotlib": "3.11.0"
+  },
+  "arrow_revision_validation": {
+    "prior_pdf": "/root/autodl-tmp/tf-logs/icemelting3d/publication-setup-materials-20261112/icemelting3d_setup_materials.pdf",
+    "geometry_camera_and_shading_unchanged": true,
+    "embedded_ice_raster_byte_identical": true,
+    "label_content_and_7pt_sizes_unchanged": true,
+    "visual_png_review": "passed",
+    "visual_pdf_review": "passed"
+  }
+}
