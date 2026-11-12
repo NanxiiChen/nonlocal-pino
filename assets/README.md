@@ -151,6 +151,31 @@ original field metrics before deriving the new errors; no training, inference
 or solve is performed. Missing external data raises an error. Numerical values
 remain readable in the receipt; full field regeneration requires the arrays.
 
+## Architecture and training master figure
+
+`pino-architecture/` contains the [PNG](pino-architecture/pino_master_figure.png)
+and [editable PDF](pino-architecture/pino_master_figure.pdf) of the shared
+architecture/training schematic. The [SVG source export](../website/architecture.svg)
+also supplies the technical report. The diagram includes alternative patch and
+two-stream point paths, spatial-only attention, three temporal FiLM layers,
+rolling geometry/operator inputs, core/halo sampling and case-dependent
+physics-training mechanisms. All texture thumbnails are prescribed illustrations.
+
+[Specification](../artifacts/pino_master_figure.json) records source files,
+semantics, fonts, dimensions and external exports. The
+[validation receipt](../artifacts/pino_master_figure_validation.json) records
+editable typography, labels and file sizes. Reproduce on CPU:
+
+```bash
+JAX_PLATFORMS=cpu .venv/bin/python -m scripts.render_pino_master_figure \
+  --spec artifacts/pino_master_figure.json
+```
+
+The renderer writes external previews; the selected PDF/PNG are copied here
+and the selected SVG to `website/architecture.svg`. Previous artwork remains
+at the specification's `previous_architecture` path. No weights or raw fields
+are needed to redraw this schematic.
+
 ## Publication main figures
 
 The approved170mmPDF/PNG main-figure pairs now live in

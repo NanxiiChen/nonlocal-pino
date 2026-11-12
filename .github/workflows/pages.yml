@@ -7,6 +7,7 @@ on:
       - .github/workflows/pages.yml
       - website/**
       - assets/pino-main/**
+      - assets/pino-architecture/**
       - artifacts/pino_main_figures.json
       - assets/pino-setups/**
       - artifacts/pino_setup_figures.json

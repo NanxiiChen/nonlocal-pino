@@ -11,6 +11,16 @@ The [technical report site](https://nanxiichen.github.io/nonlocal-pino/) covers
 the architecture, nonlocal spatial calculus, training strategies and the five
 main PINO cases. See the [local build guide](website/README.md).
 
+![Nonlocal PINO architecture and physics training: rolling inputs, patch or point encoders, spatial attention, per-layer time FiLM and nonlocal residuals](assets/pino-architecture/pino_master_figure.png)
+
+[Editable master-figure PDF](assets/pino-architecture/pino_master_figure.pdf) ·
+[Vector SVG](website/architecture.svg) ·
+[Source and reproduction settings](artifacts/pino_master_figure.json).
+The two encoder paths are alternatives. Spatial attention precedes all three
+time-FiLM decoder layers. Sampling, residual transforms and loss weighting are
+case-dependent; causal weighting is an optional control. Field textures are
+schematic, not solver predictions.
+
 ## Physics-only neural-operator examples
 
 | Main example | What varies between samples | Physical model / horizon | Representative phase relative L2 | Reference / evaluation scope |

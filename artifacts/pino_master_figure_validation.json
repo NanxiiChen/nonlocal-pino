@@ -1,0 +1,831 @@
+{
+  "specification": {
+    "schema": "pino_master_figure_v1",
+    "figure_mm": [
+      170,
+      150
+    ],
+    "dpi": 300,
+    "typography": {
+      "figure_mm": [
+        55,
+        45.72
+      ],
+      "dpi": 300,
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+      "font_source": "https://raw.githubusercontent.com/NanxiiChen/PI-CViT/main/helvetica/Helvetica.ttf",
+      "font_family": "Helvetica",
+      "font_size": 6,
+      "label_size": 7,
+      "title_size": 7,
+      "text_color": "#222222",
+      "colors": {
+        "nonlocal": "#E64B35",
+        "local_ad": "#4DBBD5"
+      },
+      "axes_linewidth": 0.5,
+      "body_linewidth": 0.6,
+      "body_alpha": 1.0,
+      "margins": {
+        "left": 0.24,
+        "right": 0.97,
+        "bottom": 0.2,
+        "top": 0.95
+      },
+      "pdf_fonttype": 42,
+      "pdf_use14corefonts": false,
+      "math_fontset": "dejavusans",
+      "pdf_directory": "/root/autodl-tmp/tf-logs/pino-derivative-eval64-20261111-01/title-free-violins-20261112",
+      "png_encoding": "RGB_lossless",
+      "label": "Rel. L\u00b2 Error",
+      "pdf_metadata_date": null,
+      "saturation": 0.75,
+      "quartile_linewidth": 0.6,
+      "outline_color": "#555555",
+      "quartile_color": "#333333",
+      "y_limits_mode": "matplotlib_auto",
+      "example_titles": false
+    },
+    "outputs": {
+      "pdf": "/root/autodl-tmp/tf-logs/pino-master-figure-20261112/pino_master_figure.pdf",
+      "png": "/root/autodl-tmp/tf-logs/pino-master-figure-20261112/pino_master_figure.png",
+      "svg": "/root/autodl-tmp/tf-logs/pino-master-figure-20261112/pino_master_figure.svg"
+    },
+    "receipt": "artifacts/pino_master_figure_validation.json",
+    "previous_architecture": "/root/autodl-tmp/tf-logs/pino-master-figure-20261112/previous-architecture.svg",
+    "reference_image": "/root/.codex/attachments/72f8c93e-a1f6-4107-b277-7015656b7d87/codex-clipboard-30926045-3bb0-4e51-ab1a-bf571a0895a4.png",
+    "source_files": [
+      "src/nonlocal_pinn/nn/conditional.py",
+      "src/nonlocal_pinn/nn/point_conditional.py",
+      "src/nonlocal_pinn/operators/__init__.py",
+      "examples/particle_corrosion2d/online.py",
+      "examples/channel_nsch2d/network.py",
+      "examples/particle_corrosion2d/network.py",
+      "examples/icemelting3d/operator_training.py",
+      "src/nonlocal_pinn/training/causal.py",
+      "website/content/training.md"
+    ],
+    "scope": "Schematic of architecture and available training mechanisms; no solved fields or numerical architecture changes",
+    "semantics": {
+      "regular": "Patch projection + position, self-attention, one spatial cross-attention",
+      "geometry": "Independent boundary/domain MLP lifts; weighted separate K/V reads with shared Q, equal stream mean, projected residual query update repeated per block",
+      "time": "Spatial preparation reused over times; independent FiLM scale/shift at each of3decoder hidden layers after spatial attention",
+      "rolling": "CPU geometry/mesh/quadrature/operator preparation and bounded input-pool replacement; no reference PDE solves",
+      "sampling": "Example-dependent core/halo; complete required halo; original full-domain paths remain available",
+      "calculus": "D weighted differences approximates negative Laplacian, time JVP; AD still supplies parameter gradients and channel streamfunction curl",
+      "strategies": "Residual preconditioning/normalization and fixed or gradient-norm weights are case-dependent; causal is optional research control, not current default; Adam or SOAP by case"
+    },
+    "palette": {
+      "blue": "#3C5488",
+      "cyan": "#4DBBD5",
+      "green": "#00A087",
+      "orange": "#E64B35",
+      "purple": "#8491B4",
+      "ink": "#222222",
+      "gray": "#777777"
+    },
+    "repository_outputs": {
+      "png": "assets/pino-architecture/pino_master_figure.png",
+      "pdf": "assets/pino-architecture/pino_master_figure.pdf",
+      "svg": "website/architecture.svg"
+    },
+    "renderer": "scripts/render_pino_master_figure.py",
+    "pdf_audit_packages": "/tmp/pino-pdf-audit"
+  },
+  "renderer": "scripts/render_pino_master_figure.py",
+  "font": {
+    "file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+    "source": "https://raw.githubusercontent.com/NanxiiChen/PI-CViT/main/helvetica/Helvetica.ttf",
+    "family": "Helvetica",
+    "style": "Regular",
+    "version": "Version 10.0d4e1",
+    "bytes": 317968,
+    "fsType": 0
+  },
+  "text": [
+    {
+      "text": "(a) Parameterized inputs and rolling sampling",
+      "size_pt": 7.0,
+      "bounds_px": [
+        17.716535433070867,
+        564.4977021304953,
+        208.0,
+        10.374674479166742
+      ]
+    },
+    {
+      "text": "Initial field or geometry",
+      "size_pt": 5.8,
+      "bounds_px": [
+        50.08267716535434,
+        491.7649126989009,
+        77.0,
+        8.596158854166674
+      ]
+    },
+    {
+      "text": "Mesh / quadrature\nNonlocal operators",
+      "size_pt": 5.8,
+      "bounds_px": [
+        216.03149606299212,
+        522.8999041379593,
+        64.0,
+        17.19231770833335
+      ]
+    },
+    {
+      "text": "Background CPU workers",
+      "size_pt": 5.7,
+      "bounds_px": [
+        203.53149606299212,
+        491.83901751660926,
+        89.0,
+        8.447949218749955
+      ]
+    },
+    {
+      "text": "Rolling input pool",
+      "size_pt": 5.8,
+      "bounds_px": [
+        366.6692913385827,
+        525.2294796280348,
+        58.0,
+        8.59615885416656
+      ]
+    },
+    {
+      "text": "Replace / reuse",
+      "size_pt": 5.5,
+      "bounds_px": [
+        371.1377952755906,
+        480.1762035299787,
+        53.0,
+        8.151529947916629
+      ]
+    },
+    {
+      "text": "Core",
+      "size_pt": 5.5,
+      "bounds_px": [
+        618.1102362204724,
+        543.1683295142305,
+        17.0,
+        8.151529947916742
+      ]
+    },
+    {
+      "text": "Halo",
+      "size_pt": 5.5,
+      "bounds_px": [
+        618.1102362204724,
+        523.4832901441519,
+        16.0,
+        8.151529947916742
+      ]
+    },
+    {
+      "text": "Random core + full halo",
+      "size_pt": 5.6,
+      "bounds_px": [
+        530.3661417322835,
+        484.03910658628604,
+        81.0,
+        8.299739583333348
+      ]
+    },
+    {
+      "text": "Known inputs only; no reference trajectories",
+      "size_pt": 5.5,
+      "bounds_px": [
+        261.1456692913386,
+        459.31006179769525,
+        147.0,
+        8.151529947916629
+      ]
+    },
+    {
+      "text": "(b) Fixed domain: patch tokens",
+      "size_pt": 7.0,
+      "bounds_px": [
+        17.716535433070867,
+        430.63943441396,
+        143.0,
+        10.374674479166629
+      ]
+    },
+    {
+      "text": "2D / 3D",
+      "size_pt": 5.5,
+      "bounds_px": [
+        34.24409448818898,
+        350.254943687459,
+        26.0,
+        8.151529947916629
+      ]
+    },
+    {
+      "text": "Patch lift\n+ position",
+      "size_pt": 5.7,
+      "bounds_px": [
+        103.57874015748033,
+        381.31583030880904,
+        33.0,
+        16.895898437500023
+      ]
+    },
+    {
+      "text": "Self-\nattention",
+      "size_pt": 6.0,
+      "bounds_px": [
+        194.66141732283467,
+        380.87120140255905,
+        28.0,
+        17.78515625
+      ]
+    },
+    {
+      "text": "K, V",
+      "size_pt": 5.5,
+      "bounds_px": [
+        216.53543307086613,
+        345.5305342386401,
+        14.0,
+        8.151529947916629
+      ]
+    },
+    {
+      "text": "x $\\rightarrow$ Fourier",
+      "size_pt": 6.0,
+      "bounds_px": [
+        43.92913385826772,
+        304.6088290477362,
+        46.0,
+        8.892578125
+      ]
+    },
+    {
+      "text": "Q",
+      "size_pt": 5.5,
+      "bounds_px": [
+        122.98425196850394,
+        314.82187282131724,
+        6.0,
+        8.151529947916629
+      ]
+    },
+    {
+      "text": "Spatial cross-\nattention",
+      "size_pt": 6.0,
+      "bounds_px": [
+        173.3503937007874,
+        300.1625399852362,
+        47.0,
+        17.78515625
+      ]
+    },
+    {
+      "text": "(c) Parameterized geometry: point tokens",
+      "size_pt": 7.0,
+      "bounds_px": [
+        293.3070866141732,
+        430.63943441396,
+        190.0,
+        10.374674479166629
+      ]
+    },
+    {
+      "text": "Boundary: x, n, type",
+      "size_pt": 5.6,
+      "bounds_px": [
+        354.33070866141736,
+        413.1729648540026,
+        66.0,
+        8.299739583333348
+      ]
+    },
+    {
+      "text": "Domain: x, initial field",
+      "size_pt": 5.6,
+      "bounds_px": [
+        354.33070866141736,
+        354.1178467437664,
+        73.0,
+        8.299739583333348
+      ]
+    },
+    {
+      "text": "MLP",
+      "size_pt": 6.0,
+      "bounds_px": [
+        432.9448818897638,
+        389.25449833907476,
+        16.0,
+        8.892578125
+      ]
+    },
+    {
+      "text": "MLP",
+      "size_pt": 6.0,
+      "bounds_px": [
+        432.9448818897638,
+        330.19938022883855,
+        16.0,
+        8.892578125
+      ]
+    },
+    {
+      "text": "K, V; ds",
+      "size_pt": 5.5,
+      "bounds_px": [
+        479.26660925196853,
+        401.43604604966373,
+        25.71875,
+        8.151529947916629
+      ]
+    },
+    {
+      "text": "K, V; dA",
+      "size_pt": 5.5,
+      "bounds_px": [
+        478.76660925196853,
+        342.3809279394275,
+        26.71875,
+        8.151529947916629
+      ]
+    },
+    {
+      "text": "Weighted\ncross-attn",
+      "size_pt": 5.8,
+      "bounds_px": [
+        538.1181102362204,
+        385.1046285474081,
+        34.0,
+        17.19231770833335
+      ]
+    },
+    {
+      "text": "Weighted\ncross-attn",
+      "size_pt": 5.8,
+      "bounds_px": [
+        538.1181102362204,
+        326.0495104371719,
+        34.0,
+        17.19231770833335
+      ]
+    },
+    {
+      "text": "Shared Q",
+      "size_pt": 5.5,
+      "bounds_px": [
+        539.1181102362204,
+        360.09746337249834,
+        32.0,
+        8.151529947916629
+      ]
+    },
+    {
+      "text": "avg",
+      "size_pt": 5.0,
+      "bounds_px": [
+        623.9212598425197,
+        360.46798746103997,
+        12.0,
+        7.410481770833371
+      ]
+    },
+    {
+      "text": "Proj. + MLP",
+      "size_pt": 5.5,
+      "bounds_px": [
+        599.5787401574803,
+        293.16832951423066,
+        41.0,
+        8.151529947916629
+      ]
+    },
+    {
+      "text": "Position features + masks",
+      "size_pt": 5.5,
+      "bounds_px": [
+        358.26771653543307,
+        295.1368334512385,
+        88.0,
+        8.151529947916629
+      ]
+    },
+    {
+      "text": "\u00d7 L blocks",
+      "size_pt": 5.5,
+      "bounds_px": [
+        525.9477116141733,
+        283.32580982919126,
+        34.71875,
+        8.151529947916629
+      ]
+    },
+    {
+      "text": "Either encoder $\\rightarrow$ spatial features",
+      "size_pt": 5.6,
+      "bounds_px": [
+        350.4488188976378,
+        263.56666564140414,
+        118.0,
+        8.299739583333348
+      ]
+    },
+    {
+      "text": "",
+      "size_pt": 7.0,
+      "bounds_px": [
+        17.716535433070867,
+        238.9763779527559,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "text": "(d) Temporal decoder",
+      "size_pt": 7.0,
+      "bounds_px": [
+        133.85826771653544,
+        234.97014307537725,
+        97.75,
+        10.374674479166686
+      ]
+    },
+    {
+      "text": "t $\\rightarrow$ Fourier + MLP",
+      "size_pt": 6.0,
+      "bounds_px": [
+        436.9409448818898,
+        235.7111912524606,
+        71.0,
+        8.892578125
+      ]
+    },
+    {
+      "text": "Spatial cache\nreuse across t",
+      "size_pt": 5.6,
+      "bounds_px": [
+        38.99212598425197,
+        182.64514230643042,
+        48.0,
+        16.59947916666664
+      ]
+    },
+    {
+      "text": "Linear $\\rightarrow$ FiLM\n$\\rightarrow$ GELU",
+      "size_pt": 5.8,
+      "bounds_px": [
+        153.60236220472441,
+        182.34872303559706,
+        55.0,
+        17.19231770833335
+      ]
+    },
+    {
+      "text": "Linear $\\rightarrow$ FiLM\n$\\rightarrow$ GELU",
+      "size_pt": 5.8,
+      "bounds_px": [
+        259.90157480314963,
+        182.34872303559706,
+        55.0,
+        17.19231770833335
+      ]
+    },
+    {
+      "text": "Linear $\\rightarrow$ FiLM\n$\\rightarrow$ GELU",
+      "size_pt": 5.8,
+      "bounds_px": [
+        366.2007874015748,
+        182.34872303559706,
+        55.0,
+        17.19231770833335
+      ]
+    },
+    {
+      "text": "(1 + \u03b3) $\\odot$ z + \u03b2   \u00b7   separate \u03b3, \u03b2 at every layer",
+      "size_pt": 5.8,
+      "bounds_px": [
+        203.90157480314963,
+        153.1822355335466,
+        167.0,
+        8.596158854166674
+      ]
+    },
+    {
+      "text": "Head +\noutput map",
+      "size_pt": 5.8,
+      "bounds_px": [
+        489.3740157480315,
+        182.34872303559706,
+        37.0,
+        17.19231770833335
+      ]
+    },
+    {
+      "text": "u(x, t)",
+      "size_pt": 6.0,
+      "bounds_px": [
+        604.1732283464567,
+        221.93166369340548,
+        20.0,
+        8.892578125
+      ]
+    },
+    {
+      "text": "Predictions on core + halo",
+      "size_pt": 5.6,
+      "bounds_px": [
+        282.7716535433071,
+        133.6454057988845,
+        88.0,
+        8.299739583333348
+      ]
+    },
+    {
+      "text": "(e) Nonlocal physics",
+      "size_pt": 7.0,
+      "bounds_px": [
+        17.716535433070867,
+        107.80478874466864,
+        92.0,
+        10.374674479166657
+      ]
+    },
+    {
+      "text": "\u03b4",
+      "size_pt": 6.0,
+      "bounds_px": [
+        66.92913385826772,
+        82.16788416584643,
+        5.0,
+        8.892578125
+      ]
+    },
+    {
+      "text": "D u = \u03a3 w (u \u2212 u\u2032)",
+      "size_pt": 6.6,
+      "bounds_px": [
+        90.55118110236221,
+        81.72325525959643,
+        74.99999999999999,
+        9.781835937500006
+      ]
+    },
+    {
+      "text": "Spatial: D \u2248 \u2212\u0394",
+      "size_pt": 6.0,
+      "bounds_px": [
+        90.55118110236221,
+        62.48284479576773,
+        51.999999999999986,
+        8.892578125
+      ]
+    },
+    {
+      "text": "Time: JVP wrt t",
+      "size_pt": 6.0,
+      "bounds_px": [
+        90.55118110236221,
+        42.79780542568892,
+        52.546874999999986,
+        8.892578125
+      ]
+    },
+    {
+      "text": "Domain-restricted stencil; core residuals",
+      "size_pt": 5.5,
+      "bounds_px": [
+        66.82677165354332,
+        19.54628227013613,
+        138.0,
+        8.151529947916664
+      ]
+    },
+    {
+      "text": "(f) Physics-only loss",
+      "size_pt": 7.0,
+      "bounds_px": [
+        293.3070866141732,
+        107.80478874466864,
+        90.0,
+        10.374674479166657
+      ]
+    },
+    {
+      "text": "PDE residuals",
+      "size_pt": 6.0,
+      "bounds_px": [
+        345.5787401574803,
+        74.2938684178149,
+        49.0,
+        8.892578125
+      ]
+    },
+    {
+      "text": "Scale / precondition",
+      "size_pt": 5.8,
+      "bounds_px": [
+        337.0787401574803,
+        44.91451899811347,
+        66.0,
+        8.59615885416666
+      ]
+    },
+    {
+      "text": "Soft IC / BC or hard lifts",
+      "size_pt": 5.5,
+      "bounds_px": [
+        330.0787401574803,
+        23.48329014415189,
+        80.0,
+        8.151529947916664
+      ]
+    },
+    {
+      "text": "(g) Weighting and update",
+      "size_pt": 7.0,
+      "bounds_px": [
+        486.2204724409449,
+        107.80478874466864,
+        117.82812499999994,
+        10.374674479166657
+      ]
+    },
+    {
+      "text": "r  ic  bc",
+      "size_pt": 5.0,
+      "bounds_px": [
+        495.8740157480315,
+        39.601845728756494,
+        24.0,
+        7.410481770833329
+      ]
+    },
+    {
+      "text": "Adam /\nSOAP",
+      "size_pt": 6.0,
+      "bounds_px": [
+        596.2677165354331,
+        65.91057148129914,
+        24.0,
+        17.78515625
+      ]
+    },
+    {
+      "text": "Fixed / gradient-norm weights",
+      "size_pt": 5.3,
+      "bounds_px": [
+        523.3661417322835,
+        23.631499779568557,
+        95.0,
+        7.855110677083331
+      ]
+    },
+    {
+      "text": "Case-dependent: core/halo, residual transforms and balancing; causal weighting is optional.",
+      "size_pt": 5.5,
+      "bounds_px": [
+        181.6456692913386,
+        2.223447624466796,
+        306.0,
+        8.151529947916664
+      ]
+    }
+  ],
+  "pdf_fonts": [
+    [
+      18,
+      "ttf",
+      "Type0",
+      "GNBKGJ+Helvetica",
+      "F1",
+      "Identity-H",
+      0
+    ],
+    [
+      25,
+      "ttf",
+      "Type0",
+      "CIKZXO+Helvetica",
+      "F2",
+      "Identity-H",
+      0
+    ],
+    [
+      32,
+      "ttf",
+      "Type0",
+      "EJOCGP+DejaVuSans",
+      "F3",
+      "Identity-H",
+      0
+    ]
+  ],
+  "font_range_pt": [
+    5.0,
+    7.0
+  ],
+  "output_bytes": {
+    "pdf": 141390,
+    "png": 444488,
+    "svg": 276769
+  },
+  "raster_scope": "Only schematic input/output texture images; text, arrows, nodes and all other elements are vector",
+  "visual_review": "PNG and rasterized PDF inspected; arrows follow both streams and individual temporal layers; no clipping/overlapping text",
+  "numerical_changes": false,
+  "validation": {
+    "status": "passed",
+    "overlapping_text_boxes": 0,
+    "pdf_text_color": "#222222",
+    "pdf_sizes_pt": [
+      5.0,
+      7.0
+    ],
+    "pdf_embedded_fonts": [
+      [
+        18,
+        "ttf",
+        "Type0",
+        "GNBKGJ+Helvetica",
+        "F1",
+        "Identity-H",
+        0
+      ],
+      [
+        25,
+        "ttf",
+        "Type0",
+        "CIKZXO+Helvetica",
+        "F2",
+        "Identity-H",
+        0
+      ],
+      [
+        32,
+        "ttf",
+        "Type0",
+        "EJOCGP+DejaVuSans",
+        "F3",
+        "Identity-H",
+        0
+      ]
+    ],
+    "pdf_texture_images": 3,
+    "pdf_text_edit_probe": "/root/autodl-tmp/tf-logs/pino-master-figure-20261112/pdf_text_edit_probe.pdf",
+    "svg_text_elements": 70,
+    "site_pages": 9,
+    "local_site_links": 260,
+    "source_and_asset_copies": "byte-identical",
+    "scope": "No PDE/training change or re-evaluation"
+  },
+  "repository_copies": [
+    {
+      "source": "/root/autodl-tmp/tf-logs/pino-master-figure-20261112/pino_master_figure.png",
+      "destination": "assets/pino-architecture/pino_master_figure.png",
+      "byte_identical": true
+    },
+    {
+      "source": "/root/autodl-tmp/tf-logs/pino-master-figure-20261112/pino_master_figure.pdf",
+      "destination": "assets/pino-architecture/pino_master_figure.pdf",
+      "byte_identical": true
+    },
+    {
+      "source": "/root/autodl-tmp/tf-logs/pino-master-figure-20261112/pino_master_figure.svg",
+      "destination": "website/architecture.svg",
+      "byte_identical": true
+    }
+  ],
+  "browser_validation": {
+    "pages": [
+      {
+        "page": "index",
+        "viewport": 1440,
+        "loaded": true,
+        "overflow": false
+      },
+      {
+        "page": "architecture",
+        "viewport": 1440,
+        "loaded": true,
+        "overflow": false
+      },
+      {
+        "page": "index",
+        "viewport": 390,
+        "loaded": true,
+        "overflow": false
+      },
+      {
+        "page": "architecture",
+        "viewport": 390,
+        "loaded": true,
+        "overflow": false
+      }
+    ],
+    "errors": [],
+    "svg_text": true
+  },
+  "svg_whitespace_cleanup": "Trailing whitespace removed; PNG/PDF byte-identical to visually reviewed versions"
+}
