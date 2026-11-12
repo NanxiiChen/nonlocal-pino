@@ -22,7 +22,7 @@ no predicted future interfaces.
 
 Rows show all four development geometries in saved order at actual times
 \(t^*=0,0.2,0.5,0.8,1\), or0,70,175,280,350s. Coolwarm shows predicted phase;
-gray interiors are inert ceramic and dashed curves are independent **local-FEM**
+gray interiors with dark outlines are inert ceramic; dashed curves are independent **local-FEM**
 \(\phi=0.5\) interfaces. Each panel reports instantaneous unweighted nodal
 phase relative L2; the headline historical volume-weighted metrics remain
 separate. Original physical triangles and equal spatial scales are retained.
@@ -503,10 +503,20 @@ The selected [20k checkpoint](/root/autodl-tmp/tf-logs/particle_corrosion2d/2026
 [local reference](/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4/manifest.json),
 [native reference](/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/native_dev4/manifest.json),
 and [capacity comparison](/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-width256-02/capacity_comparison.json)
-remain external. Figure inputs are recorded in
-[pino_readme_figures.json](../../artifacts/pino_readme_figures.json);
-`scripts/render_pino_readme_figures.py --case particle_corrosion2d` regenerates
-the PNG from saved fields without inference, training or new solves.
+remain external. The current main figure's inputs, gray fill and dark outlines
+are recorded in [its specification](../../artifacts/particle_corrosion_main_figure.json).
+Regenerate its editable PDF and matching PNG on CPU:
+
+```bash
+.venv/bin/python -m scripts.render_particle_corrosion_main_figure \
+  --spec artifacts/particle_corrosion_main_figure.json
+```
+
+The [publication collection](../../assets/pino-main/README.md) describes copying
+approved exports into the shared README/website assets. The older gallery and
+its renderer remain recorded in
+[pino_readme_figures.json](../../artifacts/pino_readme_figures.json). Both routes
+read saved fields without inference, training or new solves.
 
 Earlier results use different physical regimes or geometry priors:
 

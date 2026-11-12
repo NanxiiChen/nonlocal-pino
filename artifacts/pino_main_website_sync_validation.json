@@ -1,0 +1,160 @@
+{
+  "status": "passed",
+  "browser": "Chromium, offline, GPU disabled",
+  "checks": [
+    {
+      "page": "index",
+      "width": 1440,
+      "image_count": 1
+    },
+    {
+      "page": "architecture",
+      "width": 1440,
+      "image_count": 1
+    },
+    {
+      "page": "spatial-calculus",
+      "width": 1440,
+      "image_count": 1
+    },
+    {
+      "page": "training",
+      "width": 1440,
+      "image_count": 0
+    },
+    {
+      "page": "ice-melting",
+      "width": 1440,
+      "image_count": 2
+    },
+    {
+      "page": "electropolish",
+      "width": 1440,
+      "image_count": 2
+    },
+    {
+      "page": "spinodal",
+      "width": 1440,
+      "image_count": 2
+    },
+    {
+      "page": "two-phase-flow",
+      "width": 1440,
+      "image_count": 2
+    },
+    {
+      "page": "particle-corrosion",
+      "width": 1440,
+      "image_count": 2
+    },
+    {
+      "page": "index",
+      "width": 390,
+      "image_count": 1
+    },
+    {
+      "page": "architecture",
+      "width": 390,
+      "image_count": 1
+    },
+    {
+      "page": "spatial-calculus",
+      "width": 390,
+      "image_count": 1
+    },
+    {
+      "page": "training",
+      "width": 390,
+      "image_count": 0
+    },
+    {
+      "page": "ice-melting",
+      "width": 390,
+      "image_count": 2
+    },
+    {
+      "page": "electropolish",
+      "width": 390,
+      "image_count": 2
+    },
+    {
+      "page": "spinodal",
+      "width": 390,
+      "image_count": 2
+    },
+    {
+      "page": "two-phase-flow",
+      "width": 390,
+      "image_count": 2
+    },
+    {
+      "page": "particle-corrosion",
+      "width": 390,
+      "image_count": 2
+    },
+    {
+      "page": "index",
+      "width": 320,
+      "image_count": 1
+    },
+    {
+      "page": "architecture",
+      "width": 320,
+      "image_count": 1
+    },
+    {
+      "page": "spatial-calculus",
+      "width": 320,
+      "image_count": 1
+    },
+    {
+      "page": "training",
+      "width": 320,
+      "image_count": 0
+    },
+    {
+      "page": "ice-melting",
+      "width": 320,
+      "image_count": 2
+    },
+    {
+      "page": "electropolish",
+      "width": 320,
+      "image_count": 2
+    },
+    {
+      "page": "spinodal",
+      "width": 320,
+      "image_count": 2
+    },
+    {
+      "page": "two-phase-flow",
+      "width": 320,
+      "image_count": 2
+    },
+    {
+      "page": "particle-corrosion",
+      "width": 320,
+      "image_count": 2
+    }
+  ],
+  "publication_assets": "All 10 PNG/PDF copies byte-identical to README assets",
+  "image_dimensions": "All declared PNG dimensions match the images",
+  "links": "All local chapter, figure, PDF and stylesheet paths exist",
+  "math": "MathML present on every chapter; no KaTeX errors",
+  "screenshots": [
+    "/tmp/pino-ceramic-website-1440.png",
+    "/tmp/pino-ceramic-website-390.png",
+    "/tmp/pino-ceramic-website-320.png"
+  ],
+  "schema": "pino_main_website_sync_v1",
+  "date": "2026-11-12",
+  "manifest": "artifacts/pino_main_figures.json",
+  "ceramic_validation": "artifacts/particle_corrosion_main_figure_validation.json",
+  "figure_collection_bytes": 8463535,
+  "other_four_figure_pairs_unchanged": true,
+  "visual_desktop_mobile": "passed",
+  "build_command": "npm --prefix website run build",
+  "deployment_status": "awaiting authorized commit/push",
+  "source_record": "docs/tasks/ceramic-main-website-sync.md"
+}

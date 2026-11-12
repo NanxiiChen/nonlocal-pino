@@ -6,7 +6,8 @@ on:
     paths:
       - .github/workflows/pages.yml
       - website/**
-      - assets/pino/**
+      - assets/pino-main/**
+      - artifacts/pino_main_figures.json
       - assets/pino-setups/**
   workflow_dispatch:
 

@@ -52,8 +52,8 @@ The edge formula follows from the difference of two hyperbolic tangents divided 
 ## Field evolution
 
 <figure>
-  <a href="assets/icemelting3d.png"><img src="assets/icemelting3d.png" width="1800" height="1170" alt="Three predicted ice ellipsoids shrinking across five times"></a>
-  <figcaption>Historical visualization from the earlier fixed-pool 5,000-step model. Held-out inputs 5, 9 and 2 at 0, 1.25, 2.5, 3.75 and 5 s. Surfaces are predicted φ = 0 isosurfaces extracted from 96³ visualization queries.</figcaption>
+  <a href="assets/icemelting3d.png"><img src="assets/icemelting3d.png" width="2007" height="1960" alt="Three held-out ice ellipsoids across five times, each shown as predicted 3D surfaces and XY phase slices with reference interfaces"></a>
+  <figcaption>The selected rolling-pool 10,000-step model on held-out inputs 5, 9 and 2 at t* = 0, 0.25, 0.5, 0.75 and 1 (0–5 s). Each sample pairs predicted φ = 0 surfaces from 128³ visualization queries with fixed XY slices; dashed slice contours are the native nonlocal reference. Each error label uses the full original 24³ volume at that time, not only the slice. <a href="assets/icemelting3d.pdf">Editable PDF</a>.</figcaption>
 </figure>
 
 ## References and comparisons

@@ -99,13 +99,13 @@
       "math_italic_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
       "scientific_labels": "editable vector spans; sans-serif italic L; explicit 5 pt superscripts",
       "superscript_gap_pt": 0.25,
-      "hole_color": "#E0E0E0",
-      "hole_edge_color": "#555555",
-      "hole_linewidth": 0.35
+      "hole_color": "#A0A0A0",
+      "hole_edge_color": "#333333",
+      "hole_linewidth": 0.45
     },
     "output": {
-      "pdf": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-main-20261112/particle_corrosion2d_main_phase.pdf",
-      "png": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-main-20261112/particle_corrosion2d_main_phase.png",
+      "pdf": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-main-gray-outline-20261112/particle_corrosion2d_main_phase.pdf",
+      "png": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-main-gray-outline-20261112/particle_corrosion2d_main_phase.png",
       "receipt": "artifacts/particle_corrosion_main_figure_validation.json"
     },
     "runtime": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/runtime.json",
@@ -1769,8 +1769,8 @@
     "colorbar_label_position": "top, horizontal"
   },
   "output_bytes": {
-    "pdf": 1175016,
-    "png": 587598
+    "pdf": 1175001,
+    "png": 744805
   },
   "metric_interpolation": false,
   "temporal_interpolation": false,
@@ -1778,29 +1778,35 @@
   "layers": {
     "field": "raster, Gouraud display on original physical triangles",
     "reference_contours": "vector, original local FEM nodes",
-    "holes": "no field; gray, vector edges",
+    "holes": "no field; gray #A0A0A0, dark-gray #333333 vector edges at 0.45 pt",
     "text": "embedded editable Helvetica; DejaVu Sans Oblique L; 5pt superscripts",
     "colorbar": "raster gradient, vector ticks/text"
   },
   "independent_validation": {
-    "instantaneous_norms": "20 checked with Python math.fsum",
-    "particle_center_pixels": "120 gray interiors checked",
+    "prior_render": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-main-20261112/validation-lightgray.json",
+    "instantaneous_norms": "20 independently checked with math.fsum; unchanged from prior render",
+    "particle_center_pixels": "120 centers changed from #E0E0E0 to #A0A0A0",
+    "outside_panel_pixels_unchanged": true,
     "pdf_mm": [
       170,
       92
     ],
     "pdf_font_sizes_pt": [
-      5.0,
-      6.0,
-      7.0
+      5,
+      6,
+      7
     ],
     "pdf_fonts_embedded": true,
     "pdf_type3_fonts": false,
-    "pdf_text_color": "#222222",
+    "pdf_text_and_positions_unchanged": true,
     "pdf_raster_layers": 21,
-    "vector_reference_paths": true,
-    "pdf_text_edit_smoke_check": "passed for sample and scientific annotation; temporary copy only",
+    "pdf_vector_changes": {
+      "background_fills": 20,
+      "ceramic_edge_styles": 30720,
+      "all_path_coordinates_unchanged": true
+    },
     "visual_png": "passed",
+    "visual_pdf": "passed",
     "runtime": {
       "seed": 17617494,
       "inputs": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/inputs64",
@@ -1826,7 +1832,6 @@
       "checkpoint_selection": "fixed training budget",
       "conditioning": "known domain and wall point measures",
       "parameters": 2248450
-    },
-    "visual_pdf": "passed"
+    }
   }
 }
