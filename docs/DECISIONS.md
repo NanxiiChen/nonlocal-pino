@@ -11716,3 +11716,14 @@ documented dev commit / regular main merge / main-only push workflow, and
 confirm the push-triggered Pages deployment and served files. A temporary clean
 main worktree may handle overlapping local documentation without stash/reset.
 Relation: pino-master-pages-release.
+
+## 2026-11-12 — Verify master-figure publication
+
+Contentfd7ed85was regularly merged and pushed asmainf88709c. Pages run43181750462
+succeeded; all9liveHTMLpages and3architecture assets match the inspected build
+byte-for-byte. Store direct deployment/URL/size evidence in
+`artifacts/pino_master_pages_validation.json`, archive the completed release
+and publish its documentation-only verification. Fifty unrelated files remain
+byte-identical. The next user-authorized goal is unified rolling core/halo
+sampling; keep its new research work separate from this release. Relation:
+pino-master-pages-release.

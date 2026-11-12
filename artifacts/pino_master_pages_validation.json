@@ -1,0 +1,89 @@
+{
+  "status": "passed",
+  "content_commit": "fd7ed85",
+  "merge_commit": "f88709cafd4b194e9d18c10b40e201382b3e7f19",
+  "workflow_run": "https://github.com/NanxiiChen/nonlocal-pino/actions/runs/43181750462",
+  "workflow_id": 43181750462,
+  "conclusion": "success",
+  "verified_at_utc": "2026-11-12T08:19:20.138321+00:00",
+  "live_files": [
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/architecture.html",
+      "status": 200,
+      "bytes": 38341,
+      "matches_inspected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/electropolish.html",
+      "status": 200,
+      "bytes": 78565,
+      "matches_inspected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/ice-melting.html",
+      "status": 200,
+      "bytes": 106483,
+      "matches_inspected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/index.html",
+      "status": 200,
+      "bytes": 15219,
+      "matches_inspected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/particle-corrosion.html",
+      "status": 200,
+      "bytes": 88574,
+      "matches_inspected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/spatial-calculus.html",
+      "status": 200,
+      "bytes": 76566,
+      "matches_inspected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/spinodal.html",
+      "status": 200,
+      "bytes": 58112,
+      "matches_inspected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/training.html",
+      "status": 200,
+      "bytes": 41992,
+      "matches_inspected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/two-phase-flow.html",
+      "status": 200,
+      "bytes": 48440,
+      "matches_inspected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/architecture.svg",
+      "status": 200,
+      "bytes": 276769,
+      "matches_inspected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/architecture.png",
+      "status": 200,
+      "bytes": 444488,
+      "matches_inspected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/architecture.pdf",
+      "status": 200,
+      "bytes": 141390,
+      "matches_inspected_build": true
+    }
+  ],
+  "release_scope_files": 17,
+  "staged_build_pages": 9,
+  "staged_local_links": 260,
+  "new_markdown_links": 12,
+  "unrelated_files_byte_preserved": 50,
+  "figure_receipt": "artifacts/pino_master_figure_validation.json"
+}

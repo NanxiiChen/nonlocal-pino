@@ -2,9 +2,7 @@
 
 ## Active task
 
-[Publish the master figure](tasks/pino-master-pages-release.md).
-User approved commit/push. Stage the architecture illustration, source/records
-and README/site updates; validate the exact release tree and Pages deployment.
+None. Master-figure publication is verified; subsequent sampling research is tracked locally.
 
 ## Deferred work
 
@@ -24,6 +22,12 @@ solve. [Feasibility](tasks/archive/traction-conditioned-elastic-pino-analysis.md
 The channel20000/lower-LR study is complete and archived below.
 
 ## Latest completed validation
+
+[Published master figure](tasks/archive/pino-master-pages-release.md).
+Contentfd7ed85merged/pushed asmainf88709c. Pages43181750462succeeded;9liveHTML
+pages and3architecture assets match the inspected build byte-for-byte.
+Seventeen scoped release files and50unchanged unrelated files verified;
+compact URL/run receipt retained. New sampling research remains separate.
 
 [PINO architecture and training master figure](tasks/archive/pino-master-figure.md).
 Seven-panel170×150mmschematic covers rolling known inputs/core+halo, alternative
