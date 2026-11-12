@@ -39,10 +39,20 @@ to their repository sources; the other eight publication files are unchanged.
 Collection size is 8,463,535 bytes, within the 9 MiB budget. `git diff --check`
 passes. Compact receipt: `artifacts/pino_main_website_sync_validation.json`.
 
-## Status and exact next action
+## Publication and completion
 
-Local implementation and validation complete. User explicitly authorized
-commit/merge/push/deployment, excluding experimental code. Publish via dev →
-main, inspect the Pages action, verify live PNG/PDF bytes, then archive this
-side-work record. The background horizon-ratio study remains the sole active
-numerical task and its running processes must not be interrupted.
+Complete. User explicitly authorized commit/merge/push/deployment, excluding
+experimental code. Content commit `6b7a889` was regularly merged to main as
+`b85da60676f8f7f9c2c699fb30a7ffa1c21ce4a4` and pushed to the renamed origin.
+[Pages run 43149212058](https://github.com/NanxiiChen/nonlocal-pino/actions/runs/43149212058)
+passed build and deploy. The live nine HTML pages and ten PNG/PDF assets all
+match the locally inspected build byte-for-byte, including the gray ceramic.
+The receipt records direct URLs, sizes, deployment commit and UTC check time.
+
+Task-end: source/style/asset manifest, ceramic PDF/PNG, case/asset READMEs,
+five website chapters, builder, CSS and workflow were updated. No numerical
+source, configuration, checkpoint or reference was changed. The background
+horizon-ratio study remains the sole active numerical task. Its queue reached
+ratio225 training after completing ratio150/175 and their 64-input evaluations
+during this work. Return to that task for experiment results. Memory files:
+this archived record, PROGRESS, DECISIONS and the active ratio task's side note.

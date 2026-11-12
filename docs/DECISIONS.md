@@ -11531,3 +11531,12 @@ Stage only the publication assets, their provenance, report sources/workflow,
 and this task's records. Keep unrelated numerical experiments and prior pending
 research edits local. Verify the deployed assets against the approved files.
 Relation: ceramic-main-website-sync; background ratio queue remains active.
+
+## 2026-11-12 — Verify the published main figures by live file identity
+
+Pages run43149212058 successfully deployed main b85da60 after content commit
+6b7a889. Independently fetched all9liveHTML pages and10PNG/PDFassets and compared
+their bytes with the inspected local build; all match. Record the direct URLs,
+sizes and check time, archive the completed presentation task, and leave the
+ongoing horizon experiments uncommitted. No further figure or numerical change.
+Relation: ceramic-main-website-sync.
