@@ -11969,3 +11969,43 @@ push main only. This checkpoint does not certify accuracy of unfinished trials.
 The new ceramic area control's same-seed discrepancy remains an open diagnosis;
 do not explain it as a sampling benefit or an initialization difference.
 Relation: pino-unified-rolling-core-halo.
+
+## 2026-11-12 — Isolate execution noise before interpreting ceramic sampling
+
+The successful historical and failed new seed42area controls have identical
+cold state, all time/slot/draw/version arrays, initial/final input banks and399
+physical refresh events. Actual old cores match initial-bank replay for50steps.
+The loss/network/optimizer sources agree; the unused comparison coordinate
+argument yields byte-identical full-shape CPU StableHLO. First-step losses differ
+by3.05e-5. This excludes the marker as an algebraic loss change, not GPU execution
+or optimization instability. Add short same-state/same-batch GPU update replays
+in ordinary and deterministic policies, serially after the live ceramic controls
+and before long accuracy runs. Replace only the still-empty waiting accuracy
+owner with a recorded successor, preserving every completed/live training stage.
+Do not claim that execution noise explains the final error gap without evidence.
+Relation:pino-unified-rolling-core-halo.
+
+## 2026-11-12 — Measure near-wall accuracy independently of training allocation
+
+Add geometry-only diagnostics on saved final64ceramic predictions: points within
+one fixed training horizon of the reference's actual polygonal particle walls
+and their complementary bulk. Use the same masks for every sampler; predictions
+or evolved reference fields never define regions. Retain the requested global
+channel-mean space-time Euclidean score, and report separate regional norms,
+physical-volume/time-weighted counterparts and error-energy contributions.
+Check that regional squared norms sum exactly to the global quantities. This
+distinguishes a sampling allocation from extra BC enforcement or changed
+evaluation measure. No new inference/solve is needed for the completed area arm;
+future final evaluations append the same diagnostic after saving their original
+headline summary. Relation:pino-unified-rolling-core-halo.
+
+## 2026-11-12 — Publish the diagnostic checkpoint on user request
+
+The user explicitly authorizes commit and push in this turn. Save the same-state
+ceramic replay/provenance scripts, actual-geometry replacement check, regional64
+metric helper/tests and evaluation hook, queued replay stages, and current task
+records. These are research diagnostics; production defaults remain unchanged.
+The master figure and website were already published. Do not repeat deployment
+for this docs/tests-only checkpoint, nor interrupt/restart the live serial jobs.
+Use dev commit, regular merge into main and push main only. Keep raw fields,
+weights and external run logs outside Git. Relation:pino-unified-rolling-core-halo.

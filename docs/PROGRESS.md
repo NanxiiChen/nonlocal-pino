@@ -7,17 +7,21 @@ User requests a rolling core/halo route across all five principal examples,
 including a controlled domain-interior/near-boundary core split for geometries.
 All five serial60-update channel resource probes passed: full3.277s/35.71GiB,
 stratified5121.674–1.676s/26.42GiB, stratified10241.978s/29.94GiB.
-These are costs, not converged errors. Followup owner600703 completed the ceramic
-area20k arm and its audits/evaluation; CDF training is now running. The area arm
-failed to reproduce an older same-seed result (32.38% versus3.18% pooled phase
-on the same4development cases); source/input/compilation differences remain to
-be isolated. Accuracy owner636249 waits in journal02, then runs regular-case
-resource probes, conservative-potential Spinodal probes/full+compact5k and three
-channel20k controls. Two-hop support is bounded on1096known-input geometries;
-lazy spatial preparation preserves90payload arrays and reduces measured CPU
-preparation time. New samplers/formulations remain opt-in. The user requested
-a source/documentation checkpoint and push; validation is recorded in the
-active task, without changing defaults or interrupting the serial queues.
+These are costs, not converged errors. Followup owner600703 completed area/CDF
+cold20k and final64evaluation; wallCDF child650532 is training. CDF64means:
+phase4.069%, concentration4.923%, channel mean4.496%, versus historical successful
+area4.120%/4.988%/4.554%; this is close, not a robust accuracy advantage. The new
+area control failed to reproduce that historical result despite matched input/
+cold-state records. GPU repeatability remains queued. Completed area/CDF pairing
+passes. Geometry-only regional64metrics show CDF near-wall phase5.733% versus
+bulk2.784%; the wall split is now being tested against this deficit.
+Accuracy owner646658 waits in journal03, then runs GPU replays, regular resource
+probes, conservative-potential Spinodal probes/full+compact5k and three channel
+20k controls. Two-hop support/replacement and CPU lowering audits pass; trained
+Spinodal/channel accuracy remains pending. All new schemes remain opt-in.
+Source checkpoint main833880e is published. The diagnostic follow-up is prepared
+for the user-authorized dev-to-main commit/push; exact revisions are in Git history.
+Three regional-norm tests, seven Python syntax checks and diff checks pass.
 
 ## Deferred work
 

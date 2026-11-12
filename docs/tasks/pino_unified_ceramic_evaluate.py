@@ -58,6 +58,9 @@ def evaluate(run, reference, output):
         evaluation_seconds=time.perf_counter()-started, training_performed=False)
     (output/'summary.json').write_text(json.dumps(result, indent=2, allow_nan=False)+'\n')
     print(json.dumps(statistics), flush=True)
+    # Postprocessing only: keep the original headline scores/timer unchanged.
+    from docs.tasks.pino_regional_metrics import ceramic
+    ceramic(output, output/'regional_metrics.json', schema='unified_final64')
 
 
 if __name__ == '__main__':
