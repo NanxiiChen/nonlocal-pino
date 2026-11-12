@@ -1,0 +1,317 @@
+{
+  "schema": "particle_material_setup_validation_v1",
+  "specification": {
+    "schema": "particle_material_setup_v1",
+    "source": "artifacts/pino_setup_schematics.json",
+    "case": "particle_corrosion2d",
+    "sample_index": 0,
+    "kind": "prescribed geometry and fixed initial pit; no evolved fields",
+    "boundary": {
+      "mouth": "phi=c=0 only on y=0, |x-0.5|<=0.055",
+      "other_outer_and_ceramic": "phi_n=q_n=0, equivalently phi_n=c_n=0"
+    },
+    "style": {
+      "figure_mm": [
+        100,
+        75
+      ],
+      "main_rect_mm": [
+        13,
+        20,
+        74,
+        44.4
+      ],
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+      "math_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf",
+      "math_italic_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
+      "font_size_pt": 7,
+      "text_color": "#222222",
+      "metal": "#B7BBC0",
+      "metal_grain": "#A9AEB4",
+      "electrolyte": "#C9EAF3",
+      "ceramic": "#EFE7D9",
+      "ceramic_edge": "#333333",
+      "wall": "#E4E6E8",
+      "wall_edge": "#686E76",
+      "mouth": "#4DBBD5",
+      "interface": "#333333",
+      "dpi": 300,
+      "contour_points": 256
+    },
+    "labels": {
+      "particles": "Randomly generated\nceramic particles",
+      "mouth": "$\\phi=c=0$",
+      "closed_walls": "$\\dfrac{\\partial\\phi}{\\partial n}=\\dfrac{\\partial c}{\\partial n}=0$"
+    },
+    "output": {
+      "pdf": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-setup-materials-20261112-v3/particle_corrosion2d_setup_materials.pdf",
+      "png": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-setup-materials-20261112-v3/particle_corrosion2d_setup_materials.png",
+      "svg": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-setup-materials-20261112-v3/particle_corrosion2d_setup_materials.svg",
+      "receipt": "artifacts/particle_corrosion_setup_materials_validation.json"
+    }
+  },
+  "renderer": "scripts/render_particle_corrosion_setup_materials.py",
+  "geometry": {
+    "schema": "smooth_radial_particles_v1",
+    "particles": [
+      {
+        "center": [
+          0.20745803761786413,
+          0.14418761180819778
+        ],
+        "equivalent_radius": 0.05936884103155859,
+        "aspect": 1.130591155458744,
+        "angle": 4.590648563997981,
+        "modes": [
+          3,
+          4,
+          5
+        ],
+        "cosine": [
+          -0.08848599256941318,
+          -0.03521354474995522,
+          0.007919333008831412
+        ],
+        "sine": [
+          -0.044619612688920555,
+          0.013312575866380379,
+          0.01120900851893578
+        ],
+        "radial_scale": 0.05903131600260523
+      },
+      {
+        "center": [
+          0.5477693037280249,
+          0.3050664492761664
+        ],
+        "equivalent_radius": 0.05709994512956371,
+        "aspect": 1.39650062042301,
+        "angle": 4.029651179135047,
+        "modes": [
+          3,
+          4,
+          5
+        ],
+        "cosine": [
+          0.08127697793872991,
+          0.03776900954665811,
+          -0.001480642958420763
+        ],
+        "sine": [
+          0.0185604934155606,
+          -0.022620206732731213,
+          -0.024751302127490337
+        ],
+        "radial_scale": 0.05682953859473301
+      },
+      {
+        "center": [
+          0.18144243214671482,
+          0.3785153523732311
+        ],
+        "equivalent_radius": 0.058781264859244856,
+        "aspect": 1.0400243678467103,
+        "angle": 3.4797436181506822,
+        "modes": [
+          3,
+          4,
+          5
+        ],
+        "cosine": [
+          0.006777343548248304,
+          0.006377704240794837,
+          0.011700978396347173
+        ],
+        "sine": [
+          -0.0022350683134269105,
+          -0.012367347834660007,
+          -0.004361975578779833
+        ],
+        "radial_scale": 0.0587694957072819
+      },
+      {
+        "center": [
+          0.7322272362987088,
+          0.18036855862135742
+        ],
+        "equivalent_radius": 0.04505971511849286,
+        "aspect": 1.1540324285984722,
+        "angle": 1.2482148568113132,
+        "modes": [
+          3,
+          4,
+          5
+        ],
+        "cosine": [
+          0.1130977878834942,
+          -0.01360347201351985,
+          -0.015502299254964352
+        ],
+        "sine": [
+          0.08195859671270425,
+          0.010009466358518224,
+          0.0026812638893438986
+        ],
+        "radial_scale": 0.044612555240098085
+      },
+      {
+        "center": [
+          0.7539144044593152,
+          0.4645436980145655
+        ],
+        "equivalent_radius": 0.055593368606502755,
+        "aspect": 1.3874182379525455,
+        "angle": 1.9553241954538636,
+        "modes": [
+          3,
+          4,
+          5
+        ],
+        "cosine": [
+          -0.02296195670019404,
+          -0.0605370452323727,
+          0.023525225986616438
+        ],
+        "sine": [
+          -0.07091507837492234,
+          0.0070257254022233215,
+          0.0116380013777509
+        ],
+        "radial_scale": 0.05531746862796059
+      },
+      {
+        "center": [
+          0.34470012226112406,
+          0.2821922762296567
+        ],
+        "equivalent_radius": 0.053966813724737876,
+        "aspect": 1.0816300194960473,
+        "angle": 2.8334433470143674,
+        "modes": [
+          3,
+          4,
+          5
+        ],
+        "cosine": [
+          -0.042471149087963136,
+          -0.014379920235967675,
+          -0.007603768633363534
+        ],
+        "sine": [
+          -0.025657442727578736,
+          -0.04316028159706238,
+          0.006191195730564307
+        ],
+        "radial_scale": 0.053842176530479485
+      }
+    ]
+  },
+  "geometry_validation": {
+    "wall_clearance_lower_bound": 0.06967161294874195,
+    "pair_clearance_lower_bound": 0.07267194820993166,
+    "pit_clearance_lower_bound": 0.12260720047309699,
+    "pit_distance_upper_bounds": [
+      0.14465863929726913,
+      0.1243237237781023,
+      0.3176474390992191,
+      0.12280785341519915,
+      0.35460143231038943,
+      0.1486636484071555
+    ],
+    "minimum_sampled_curvature_radius": 0.015126669394092917,
+    "maximum_arc_covering_radius": 0.0002738801617556231,
+    "contains_particle_center": false,
+    "boundary_points": 512,
+    "refined_points": 1024,
+    "near_pit_count": 4,
+    "particle_areas": [
+      0.011073043717515427,
+      0.010242860417840258,
+      0.010854947484909897,
+      0.006378620378090938,
+      0.009709477358909221,
+      0.00914962779986965
+    ],
+    "total_particle_area": 0.05740857715713539,
+    "excluded_area_fraction": 0.09568096192855899,
+    "maximum_gap_refinement_change": 0.00039446357941963495,
+    "curvature_radius_relative_refinement_change": 0.00044978639268022924,
+    "clearance_method": "nearest contour nodes minus analytic arc-covering bounds",
+    "curvature_method": "sampled analytic curvature at two angular resolutions"
+  },
+  "particle_count": 6,
+  "mouth_coordinates": [
+    [
+      0.445,
+      0
+    ],
+    [
+      0.5549999999999999,
+      0
+    ]
+  ],
+  "mouth_mm": [
+    [
+      45.93,
+      64.4
+    ],
+    [
+      54.06999999999999,
+      64.4
+    ]
+  ],
+  "pit_radius_physical_um": 6,
+  "physical_aspect": 1.6666666666666667,
+  "text": [
+    {
+      "text": "$\\phi=c=0$",
+      "size_pt": 7.0
+    },
+    {
+      "text": "Electrolyte",
+      "size_pt": 7.0
+    },
+    {
+      "text": "Initial pit",
+      "size_pt": 7.0
+    },
+    {
+      "text": "Metal",
+      "size_pt": 7.0
+    },
+    {
+      "text": "Randomly generated\nceramic particles",
+      "size_pt": 7.0
+    },
+    {
+      "text": "$\\dfrac{\\partial\\phi}{\\partial n}=\\dfrac{\\partial c}{\\partial n}=0$",
+      "size_pt": 7.0
+    },
+    {
+      "text": "50 \u00d7 30 \u03bcm",
+      "size_pt": 7.0
+    }
+  ],
+  "output_bytes": {
+    "pdf": 59371,
+    "png": 76590,
+    "svg": 63169
+  },
+  "interpretation": "Initial sharp contour only; inert ceramic is excluded from both physical fields",
+  "boundary_equivalence": "q_n=c_n-Delta_c*h_prime(phi)*phi_n; with phi_n=0, q_n=0 iff c_n=0",
+  "training": false,
+  "inference": false,
+  "pde_solves": 0,
+  "versions": {
+    "numpy": "2.4.6",
+    "matplotlib": "3.11.0"
+  },
+  "label_revision_validation": {
+    "prior_pdf": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-setup-materials-20261112-v2/particle_corrosion2d_setup_materials.pdf",
+    "initial_concentration_label_removed": true,
+    "vector_geometry_colors_and_page_unchanged": true,
+    "actual_font_size_pt": 7,
+    "embedded_truetype": true,
+    "visual_png_review": "passed"
+  }
+}

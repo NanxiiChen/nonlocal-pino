@@ -1,0 +1,50 @@
+{
+  "schema": "particle_material_setup_v1",
+  "source": "artifacts/pino_setup_schematics.json",
+  "case": "particle_corrosion2d",
+  "sample_index": 0,
+  "kind": "prescribed geometry and fixed initial pit; no evolved fields",
+  "boundary": {
+    "mouth": "phi=c=0 only on y=0, |x-0.5|<=0.055",
+    "other_outer_and_ceramic": "phi_n=q_n=0, equivalently phi_n=c_n=0"
+  },
+  "style": {
+    "figure_mm": [
+      100,
+      75
+    ],
+    "main_rect_mm": [
+      13,
+      20,
+      74,
+      44.4
+    ],
+    "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+    "math_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf",
+    "math_italic_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
+    "font_size_pt": 7,
+    "text_color": "#222222",
+    "metal": "#B7BBC0",
+    "metal_grain": "#A9AEB4",
+    "electrolyte": "#C9EAF3",
+    "ceramic": "#EFE7D9",
+    "ceramic_edge": "#333333",
+    "wall": "#E4E6E8",
+    "wall_edge": "#686E76",
+    "mouth": "#4DBBD5",
+    "interface": "#333333",
+    "dpi": 300,
+    "contour_points": 256
+  },
+  "labels": {
+    "particles": "Randomly generated\nceramic particles",
+    "mouth": "$\\phi=c=0$",
+    "closed_walls": "$\\dfrac{\\partial\\phi}{\\partial n}=\\dfrac{\\partial c}{\\partial n}=0$"
+  },
+  "output": {
+    "pdf": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-setup-materials-20261112-v3/particle_corrosion2d_setup_materials.pdf",
+    "png": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-setup-materials-20261112-v3/particle_corrosion2d_setup_materials.png",
+    "svg": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-setup-materials-20261112-v3/particle_corrosion2d_setup_materials.svg",
+    "receipt": "artifacts/particle_corrosion_setup_materials_validation.json"
+  }
+}

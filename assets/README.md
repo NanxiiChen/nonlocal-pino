@@ -21,7 +21,7 @@ The particle figure uses the user-accepted six-particle SI case's width256
 20000-step final model on the first three of four development geometries,
 with direct nonlocal interface overlays at actual times0,.2,.5,.8,1 (0..350s).
 Independent local FEM and native errors are both audited and reported separately.
-The setup SVG uses the same three prescribed layouts. Historical eight-particle
+The legacy setup SVG uses the same three prescribed layouts. Historical eight-particle
 regimes, controls, raw fields and checkpoints remain in external artifacts.
 The numerical train_default selector is separate from this documented preset.
 
@@ -29,7 +29,20 @@ Keep only curated documentation images here: each PNG below 1 MiB and the six
 images below 2.5 MiB in total. Raw fields, checkpoints, full galleries and videos
 remain external artifacts.
 
-`pino-setups/` contains six additional lightweight SVG setup schematics for
+## Publication setup figures
+
+[pino-setups](pino-setups/README.md) contains the five approved material-aware
+setup diagrams: PNG previews embedded in the example READMEs and matching
+editable PDFs for paper writing. Each shows one prescribed initial state,
+materials and concise boundary/initial-condition labels. The
+[publication manifest](../artifacts/pino_setup_figures.json) records the final
+source/style specifications and rendering receipts. These ten files total
+about 1.39 MiB, under a separate 2 MiB budget and 1 MiB per-file limit.
+The local website uses the same approved pairs.
+
+## Historical setup and evolution galleries
+
+`pino-setups/` also retains six lightweight legacy SVG setup schematics for
 the six cases below. Each shows three prescribed inputs, the fixed physics/boundaries,
 and the varying condition. They contain no predicted/evolved fields. The six
 SVGs total less than320KiB and use portable vector geometry/text:

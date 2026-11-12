@@ -1,0 +1,242 @@
+{
+  "schema": "pino_setup_publication_validation_v1",
+  "date": "2026-11-12",
+  "manifest": "artifacts/pino_setup_figures.json",
+  "total_bytes": 1458907,
+  "collection_budget_bytes": 2097152,
+  "figures": [
+    {
+      "example": "icemelting3d",
+      "pdf": "assets/pino-setups/icemelting3d.pdf",
+      "png": "assets/pino-setups/icemelting3d.png",
+      "source_identical": true,
+      "bytes": {
+        "pdf": 79946,
+        "png": 196328
+      },
+      "figure_mm": [
+        100,
+        83
+      ],
+      "png_pixels": [
+        1771,
+        1470
+      ],
+      "font_size_pt_min_max": [
+        7.0,
+        7.0
+      ],
+      "embedded_fonts": [
+        {
+          "name": "BHECLT+Helvetica",
+          "type": "Type0",
+          "embedded_bytes": 9872
+        },
+        {
+          "name": "GAQBZL+DejaVuSans-Oblique",
+          "type": "Type0",
+          "embedded_bytes": 15648
+        },
+        {
+          "name": "CPXWUH+DejaVuSans",
+          "type": "Type0",
+          "embedded_bytes": 53752
+        }
+      ],
+      "pdf_raster_layers": 1,
+      "readme_links": "passed"
+    },
+    {
+      "example": "electropolish2d",
+      "pdf": "assets/pino-setups/electropolish2d.pdf",
+      "png": "assets/pino-setups/electropolish2d.png",
+      "source_identical": true,
+      "bytes": {
+        "pdf": 65995,
+        "png": 63923
+      },
+      "figure_mm": [
+        100,
+        58
+      ],
+      "png_pixels": [
+        1181,
+        685
+      ],
+      "font_size_pt_min_max": [
+        7.0,
+        7.0
+      ],
+      "embedded_fonts": [
+        {
+          "name": "FIVHNO+Helvetica",
+          "type": "Type0",
+          "embedded_bytes": 43836
+        },
+        {
+          "name": "GSGPTE+DejaVuSans-Oblique",
+          "type": "Type0",
+          "embedded_bytes": 15848
+        },
+        {
+          "name": "DSTOCV+DejaVuSans",
+          "type": "Type0",
+          "embedded_bytes": 53864
+        }
+      ],
+      "pdf_raster_layers": 0,
+      "readme_links": "passed"
+    },
+    {
+      "example": "confined_ch2d",
+      "pdf": "assets/pino-setups/confined_ch2d.pdf",
+      "png": "assets/pino-setups/confined_ch2d.png",
+      "source_identical": true,
+      "bytes": {
+        "pdf": 317786,
+        "png": 451208
+      },
+      "figure_mm": [
+        90,
+        81
+      ],
+      "png_pixels": [
+        1594,
+        1435
+      ],
+      "font_size_pt_min_max": [
+        7.0,
+        7.0
+      ],
+      "embedded_fonts": [
+        {
+          "name": "EJVAVW+Helvetica",
+          "type": "Type0",
+          "embedded_bytes": 10568
+        },
+        {
+          "name": "DFDSSF+Helvetica",
+          "type": "Type0",
+          "embedded_bytes": 38200
+        },
+        {
+          "name": "DMNYXX+DejaVuSans-Oblique",
+          "type": "Type0",
+          "embedded_bytes": 15964
+        },
+        {
+          "name": "CPXWUH+DejaVuSans",
+          "type": "Type0",
+          "embedded_bytes": 53752
+        }
+      ],
+      "pdf_raster_layers": 1,
+      "readme_links": "passed"
+    },
+    {
+      "example": "channel_nsch2d",
+      "pdf": "assets/pino-setups/channel_nsch2d.pdf",
+      "png": "assets/pino-setups/channel_nsch2d.png",
+      "source_identical": true,
+      "bytes": {
+        "pdf": 82103,
+        "png": 65657
+      },
+      "figure_mm": [
+        110,
+        65
+      ],
+      "png_pixels": [
+        1299,
+        767
+      ],
+      "font_size_pt_min_max": [
+        7.0,
+        7.0
+      ],
+      "embedded_fonts": [
+        {
+          "name": "CQDGOU+Helvetica",
+          "type": "Type0",
+          "embedded_bytes": 10836
+        },
+        {
+          "name": "DFDSSF+Helvetica",
+          "type": "Type0",
+          "embedded_bytes": 38200
+        },
+        {
+          "name": "BEZFGC+DejaVuSans-Bold",
+          "type": "Type0",
+          "embedded_bytes": 5336
+        },
+        {
+          "name": "MXUZBL+DejaVuSans-Oblique",
+          "type": "Type0",
+          "embedded_bytes": 16828
+        },
+        {
+          "name": "FDWGRL+DejaVuSans",
+          "type": "Type0",
+          "embedded_bytes": 59324
+        }
+      ],
+      "pdf_raster_layers": 0,
+      "readme_links": "passed"
+    },
+    {
+      "example": "particle_corrosion2d",
+      "pdf": "assets/pino-setups/particle_corrosion2d.pdf",
+      "png": "assets/pino-setups/particle_corrosion2d.png",
+      "source_identical": true,
+      "bytes": {
+        "pdf": 59371,
+        "png": 76590
+      },
+      "figure_mm": [
+        100,
+        75
+      ],
+      "png_pixels": [
+        1181,
+        885
+      ],
+      "font_size_pt_min_max": [
+        7.0,
+        7.0
+      ],
+      "embedded_fonts": [
+        {
+          "name": "FHNOUI+Helvetica",
+          "type": "Type0",
+          "embedded_bytes": 22432
+        },
+        {
+          "name": "GSGPTE+DejaVuSans-Oblique",
+          "type": "Type0",
+          "embedded_bytes": 15848
+        },
+        {
+          "name": "CPXWUH+DejaVuSans",
+          "type": "Type0",
+          "embedded_bytes": 53752
+        }
+      ],
+      "pdf_raster_layers": 0,
+      "readme_links": "passed"
+    }
+  ],
+  "numerical_changes": false,
+  "deployment_performed": false,
+  "website": {
+    "build_command": "npm --prefix website run build",
+    "build": "passed",
+    "html_pages": 9,
+    "local_links_checked": 255,
+    "copied_setup_files": 10,
+    "all_setup_files_byte_identical": true,
+    "legacy_setup_references_in_current_chapters": 0,
+    "deployment": "not performed"
+  },
+  "asset_index_links_checked": 47
+}

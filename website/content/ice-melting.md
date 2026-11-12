@@ -5,8 +5,8 @@ The operator predicts three-dimensional interface retreat for a family of initia
 The cube \([-50,50]^3\) maps to \([0,1]^3\), and the physical horizon is 5 s. Normalized semiaxes are sampled independently from \([0.24,0.36]\), center coordinates from \([0.45,0.55]\), and the orientation is Haar-random. With the signed Euclidean distance \(d_E\) positive inside the ellipsoid, the initial profile is \(\tanh(d_E/(\sqrt{2}\epsilon^*))\). The native graph has no exterior exchange. The local FEM comparison uses homogeneous natural Neumann data.
 
 <figure>
-  <a href="assets/icemelting3d-setup.svg"><img src="assets/icemelting3d-setup.svg" alt="Three ellipsoids with different semiaxes, centers and orientations in the same cube"></a>
-  <figcaption>Three prescribed initial ellipsoids. The cube and physical coefficients are fixed.</figcaption>
+  <a href="assets/icemelting3d-setup.png"><img src="assets/icemelting3d-setup.png" width="1771" height="1470" alt="An ice-blue initial ellipsoid surrounded by pale water in the fixed cube"></a>
+  <figcaption>Initial center, semiaxes and orientation vary; the cube and coefficients are fixed. Shading distinguishes ice and water, not temperature. <a href="assets/icemelting3d-setup.pdf">Editable PDF</a>.</figcaption>
 </figure>
 
 ## Governing equations and scaling

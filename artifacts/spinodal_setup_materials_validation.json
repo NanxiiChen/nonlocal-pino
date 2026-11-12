@@ -1,0 +1,205 @@
+{
+  "schema": "spinodal_material_setup_validation_v1",
+  "specification": {
+    "schema": "spinodal_material_setup_v1",
+    "source": "artifacts/pino_setup_schematics.json",
+    "case": "confined_ch2d",
+    "sample_index": 0,
+    "kind": "fixed ten-mode initial fluctuation field in one prescribed random-hole geometry",
+    "boundary": "partial_n phi=partial_n mu=0 on outer ellipse and both circular holes; continuum data approximated by the regional graph",
+    "initial_function_source": "examples/confined_ch2d/operator_problem.py:fixed_initial",
+    "style": {
+      "figure_mm": [
+        90,
+        81
+      ],
+      "ellipse_center_mm": [
+        45,
+        41
+      ],
+      "ellipse_semiaxes_mm": [
+        33,
+        26.4
+      ],
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+      "math_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf",
+      "math_italic_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
+      "font_size_pt": 7,
+      "text_color": "#222222",
+      "field_colors": [
+        "#91C6D8",
+        "#F7F5F0",
+        "#F39B7F"
+      ],
+      "limits": [
+        -0.3,
+        0.3
+      ],
+      "field_grid": [
+        801,
+        641
+      ],
+      "field_meaning": "negative-to-positive initial fluctuations, not saturated phases",
+      "wall": "#D4D7DA",
+      "wall_edge": "#686E76",
+      "interface": "#333333",
+      "wall_thickness_mm": 1.5,
+      "hole_wall_thickness_mm": 1.1,
+      "dpi": 450
+    },
+    "labels": {
+      "initial": "Fixed initial\nfluctuations",
+      "holes": "Random hole\npositions / radii",
+      "boundary": "$\\dfrac{\\partial\\phi}{\\partial n}=\\dfrac{\\partial\\mu}{\\partial n}=0$"
+    },
+    "output": {
+      "pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/publication-setup-materials-20261112-v2/confined_ch2d_setup_materials.pdf",
+      "png": "/root/autodl-tmp/tf-logs/confined_ch2d/publication-setup-materials-20261112-v2/confined_ch2d_setup_materials.png",
+      "svg": "/root/autodl-tmp/tf-logs/confined_ch2d/publication-setup-materials-20261112-v2/confined_ch2d_setup_materials.svg",
+      "receipt": "artifacts/spinodal_setup_materials_validation.json"
+    }
+  },
+  "renderer": "scripts/render_spinodal_setup_materials.py",
+  "holes": [
+    [
+      0.5930359770367858,
+      0.3018962255326692,
+      0.1195887868995934
+    ],
+    [
+      0.504417172992517,
+      0.693664475714,
+      0.05288429127159316
+    ]
+  ],
+  "initial": {
+    "amplitude": 0.2,
+    "kind": "fixed_ambient",
+    "waves": [
+      [
+        3.0,
+        0.0,
+        0.18,
+        2.0
+      ],
+      [
+        0.0,
+        3.0,
+        0.18,
+        4.8
+      ],
+      [
+        3.0,
+        1.0,
+        0.18,
+        0.5
+      ],
+      [
+        1.0,
+        3.0,
+        0.18,
+        3.6
+      ],
+      [
+        3.0,
+        -1.0,
+        0.18,
+        5.3
+      ],
+      [
+        1.0,
+        -3.0,
+        0.18,
+        1.7
+      ],
+      [
+        3.0,
+        2.0,
+        0.18,
+        4.3
+      ],
+      [
+        2.0,
+        3.0,
+        0.18,
+        5.8
+      ],
+      [
+        3.0,
+        -2.0,
+        0.18,
+        0.35
+      ],
+      [
+        2.0,
+        -3.0,
+        0.18,
+        2.65
+      ]
+    ]
+  },
+  "initial_range_in_domain": [
+    -0.23784976197780547,
+    0.25813975934366623
+  ],
+  "initial_range_ambient": [
+    -0.2407507024728502,
+    0.25813975934366623
+  ],
+  "physical_aspect": 1.25,
+  "text": [
+    {
+      "text": "Fixed initial\nfluctuations",
+      "size_pt": 7.0
+    },
+    {
+      "text": "Random hole\npositions / radii",
+      "size_pt": 7.0
+    },
+    {
+      "text": "$\\dfrac{\\partial\\phi}{\\partial n}=\\dfrac{\\partial\\mu}{\\partial n}=0$",
+      "size_pt": 7.0
+    },
+    {
+      "text": "1 \u00d7 0.8",
+      "size_pt": 7.0
+    }
+  ],
+  "output_bytes": {
+    "pdf": 317786,
+    "png": 451208,
+    "svg": 405666
+  },
+  "geometry_validated": true,
+  "layers": {
+    "field": "raster analytic fixed initial fluctuations; masked holes",
+    "walls_and_labels": "vector; wall bands are illustrative within excluded regions"
+  },
+  "interpretation": "Fixed small fluctuations, not evolved pure phases; only circular holes are randomized",
+  "training": false,
+  "inference": false,
+  "pde_solves": 0,
+  "versions": {
+    "numpy": "2.4.6",
+    "matplotlib": "3.11.0"
+  },
+  "arrow_revision_validation": {
+    "prior_pdf": "/root/autodl-tmp/tf-logs/confined_ch2d/publication-setup-materials-20261112/confined_ch2d_setup_materials.pdf",
+    "geometry_initial_field_unchanged": true,
+    "embedded_field_image_byte_identical": true,
+    "actual_font_size_pt": 7,
+    "page_mm": [
+      90,
+      81
+    ],
+    "hole_leader_lengths_mm": [
+      4.120222225316891,
+      4.2268277167544035
+    ],
+    "physical_ellipse_size_mm": [
+      66,
+      52.8
+    ],
+    "visual_pdf_png_review": "passed"
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "schema": "electropolish_material_setup_validation_v2",
+  "specification": {
+    "schema": "electropolish_material_setup_v2",
+    "source": "artifacts/pino_setup_schematics.json",
+    "case": "electropolish2d",
+    "samples": [
+      0
+    ],
+    "kind": "prescribed initial conditions; schematic, no evolved fields",
+    "boundary": {
+      "top": "phi=c=0",
+      "bottom": "phi=c=1",
+      "sides": "partial phi/partial n = partial c/partial n = 0; continuum boundary data, approximated by the regional graph"
+    },
+    "initial": "Existing six-mode profiles; phase=0.5 at the illustrated interface; c_0=h(phi_0), c_se=1",
+    "style": {
+      "figure_mm": [
+        100,
+        58
+      ],
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+      "math_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf",
+      "math_italic_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
+      "font_size_pt": 7,
+      "secondary_size_pt": 7,
+      "text_color": "#222222",
+      "metal": "#B7BBC0",
+      "metal_grain": "#A9AEB4",
+      "electrolyte": "#C9EAF3",
+      "electrolyte_palette_origin": "NPG #4DBBD5, lightened with white for material fill",
+      "wall": "#E4E6E8",
+      "wall_edge": "#686E76",
+      "interface": "#333333",
+      "main_rect_mm": [
+        13,
+        13,
+        74,
+        37
+      ],
+      "dpi": 300
+    },
+    "output": {
+      "pdf": "/root/autodl-tmp/tf-logs/electropolish2d/publication-setup-materials-20261112-v4/electropolish2d_setup_materials.pdf",
+      "png": "/root/autodl-tmp/tf-logs/electropolish2d/publication-setup-materials-20261112-v4/electropolish2d_setup_materials.png",
+      "svg": "/root/autodl-tmp/tf-logs/electropolish2d/publication-setup-materials-20261112-v4/electropolish2d_setup_materials.svg",
+      "receipt": "artifacts/electropolish_setup_materials_validation.json"
+    },
+    "labels": {
+      "interface": "Randomly generated\ninitial interface",
+      "top": "$\\phi=c=0$",
+      "bottom": "$\\phi=c=1$",
+      "sides": "$\\dfrac{\\partial\\phi}{\\partial n}=\\dfrac{\\partial c}{\\partial n}=0$"
+    }
+  },
+  "renderer": "scripts/render_electropolish_setup_materials.py",
+  "profile_ranges": [
+    [
+      0.26206545539018516,
+      0.43022086427256134
+    ]
+  ],
+  "sample_selection": "Keep the original main-panel input; remove both alternative panels",
+  "interpretation": "sharp outline marks the initial diffuse interface; material strokes are illustrative",
+  "training": false,
+  "inference": false,
+  "pde_solves": 0,
+  "physical_aspect": 2,
+  "text": [
+    {
+      "text": "$\\phi=c=0$",
+      "size_pt": 7.0
+    },
+    {
+      "text": "$\\phi=c=1$",
+      "size_pt": 7.0
+    },
+    {
+      "text": "Electrolyte",
+      "size_pt": 7.0
+    },
+    {
+      "text": "Metal",
+      "size_pt": 7.0
+    },
+    {
+      "text": "$\\dfrac{\\partial\\phi}{\\partial n}=\\dfrac{\\partial c}{\\partial n}=0$",
+      "size_pt": 7.0
+    },
+    {
+      "text": "$\\dfrac{\\partial\\phi}{\\partial n}=\\dfrac{\\partial c}{\\partial n}=0$",
+      "size_pt": 7.0
+    },
+    {
+      "text": "100 \u00d7 50 \u03bcm",
+      "size_pt": 7.0
+    },
+    {
+      "text": "Randomly generated\ninitial interface",
+      "size_pt": 7.0
+    }
+  ],
+  "output_bytes": {
+    "pdf": 65995,
+    "png": 63923,
+    "svg": 68037
+  },
+  "versions": {
+    "numpy": "2.4.6",
+    "matplotlib": "3.11.0"
+  },
+  "label_revision_validation": {
+    "prior_pdf": "/root/autodl-tmp/tf-logs/electropolish2d/publication-setup-materials-20261112-v3/electropolish2d_setup_materials.pdf",
+    "initial_concentration_label_removed": true,
+    "vector_geometry_colors_and_page_unchanged": true,
+    "actual_font_size_pt": 7,
+    "embedded_truetype": true,
+    "visual_png_review": "passed"
+  }
+}

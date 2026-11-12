@@ -5,8 +5,8 @@ The operator maps a random rough metal–electrolyte interface to coupled phase 
 The dimensionless rectangle is \([0,1]\times[0,0.5]\). The upper boundary prescribes electrolyte \((\phi,c)=(0,0)\), the lower boundary prescribes metal \((1,1)\), and the side walls close transport. A six-mode random height function generates a polyline interface. The initial diffuse phase uses its signed segment distance, positive below the profile, and \(c_0=c_{Se}h(\phi_0)\). Initial endpoint slopes are preserved.
 
 <figure>
-  <a href="assets/electropolish2d-setup.svg"><img src="assets/electropolish2d-setup.svg" alt="Three different initial metal profiles with the same rectangular geometry and boundary values"></a>
-  <figcaption>The fixed rectangle and prescribed top and bottom values are shared by all profiles.</figcaption>
+  <a href="assets/electropolish2d-setup.png"><img src="assets/electropolish2d-setup.png" width="1181" height="685" alt="Gray metal and blue electrolyte separated by a randomly generated initial interface"></a>
+  <figcaption>One prescribed initial interface. The rectangle and top, bottom and side boundary conditions are shared by all samples. <a href="assets/electropolish2d-setup.pdf">Editable PDF</a>.</figcaption>
 </figure>
 
 ## Governing equations and scaling

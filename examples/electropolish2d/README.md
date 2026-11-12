@@ -23,11 +23,14 @@ Neumann compatibility at time0. The nonlocal model represents closed pair
 interactions at the side walls; finite-horizon closure is distinct from imposing
 a pointwise zero AD normal derivative.
 
-![Electropolishing setup: three random initial interfaces with fixed boundaries](../../assets/pino-setups/electropolish2d.svg)
+![Electropolishing setup: gray metal and blue electrolyte separated by one random initial interface](../../assets/pino-setups/electropolish2d.png)
 
 The rectangle and boundary driving stay fixed; only the initial rough interface
-varies. These are prescribed inputs, not predicted fields.
-[Setup figure inputs and regeneration](../../artifacts/pino_setup_schematics.json).
+varies. Gray denotes metal and blue denotes electrolyte; the curve is a
+prescribed initial interface, not a predicted field.
+[Editable setup PDF](../../assets/pino-setups/electropolish2d.pdf) ·
+[Source/style specification](../../artifacts/electropolish_setup_materials.json) ·
+[Regeneration](../../assets/pino-setups/README.md).
 
 ### Important strategies
 

@@ -11540,3 +11540,131 @@ their bytes with the inspected local build; all match. Record the direct URLs,
 sizes and check time, archive the completed presentation task, and leave the
 ongoing horizon experiments uncommitted. No further figure or numerical change.
 Relation: ceramic-main-website-sync.
+
+## 2026-11-12 — Preview material-aware Electropolish setup artwork
+
+User requests gray metal, blue electrolyte, located IC/BC labels and minimal
+text, first for Electropolish. Reuse the three existing prescribed six-mode
+profiles without changing their amplitudes or inventing evolution. A large
+initial cross-section and two smaller alternatives show the conditioning family.
+Use editable vector material regions and Helvetica text with a matching PNG;
+retain published schematics until preview review. Describe side closure as no
+flux rather than claiming exact pointwise Neumann satisfaction by a finite graph.
+This is concurrent presentation work, not a switch of the active ratio study.
+Relation: electropolish-material-setup-preview.
+
+## 2026-11-12 — Simplify the Electropolish setup after PDF annotations
+
+User removes the two alternative panels and the top heading, replaces the
+interface callout with "Randomly generated" / "initial interface", and requests
+partial-derivative labels on both side walls. Delete only the selected initial
+concentration phrase, retaining its formula within the metal region. Crop to
+132×70mm while retaining the same physical panel size, gray/blue materials and
+main input. Use display fractions at7pt to avoid undersized mathematical glyphs.
+These are continuum BC labels, not a new claim of exact graph boundary traces.
+Preserve v1 exports/renderer externally; no promotion or Git action.
+Relation: electropolish-setup-annotation-revision.
+
+## 2026-11-12 — Reduce schematic footprint while retaining readable type
+
+User finds the132×70mmElectropolish setup oversized relative to its labels.
+Recompose at100×58mm with a74×37mmphysical panel and all labels7pt, retaining
+the same gray/blue materials, main profile, BCs and two-line interface wording.
+Do not scale the entire old PDF, which would shrink the text, or exceed the
+publication guide's7ptlimit. Preserve the v2 files and renderer externally.
+Relation: electropolish-setup-compact-type; concurrent ratio queue unchanged.
+
+## 2026-11-12 — Distinguish three materials in the ceramic-corrosion schematic
+
+User requests the next setup schematic and a color recommendation. Preserve
+gray metal and light-blue electrolyte from Electropolish; use warm ivory with
+dark outlines for impermeable ceramic, so it is not confused with either the
+matrix or liquid. This is a material schematic palette, not a change to the
+approved physical-field colormap/gray holes. Use the first already-prescribed
+six-particle layout, actual semicircular initial pit and narrow opening. Only
+that opening has phi=c=0; all other walls are closed. Use mathematically
+equivalent phi_n=c_n=0 labels with the equivalence documented in the task.
+Relation: particle-material-setup-preview; no numerical or Git change.
+
+## 2026-11-12 — Share warm-ivory ceramic between setup and main fields
+
+User now requests the schematic's #EFE7D9 ceramic in the physical-field main
+figure too, superseding its previous gray-fill choice. Preserve the dark outline
+and all numerical data. Delete only the schematic's English closed-wall scope
+label, retaining the mathematical BC. Update shared README/website main assets
+and captions locally; no current-turn Git/publication authorization.
+Relation: ceramic-ivory-figures; active numerical study unchanged.
+
+## 2026-11-12 — Move initial concentration explanation out of schematics
+
+User will explain c=h(phi) in the paper and requests removing it from both
+Electropolish and ceramic-corrosion material diagrams. Delete only those
+rendered labels; retain all BCs, material colors and layout. Preserve previous
+exports and reproduction sources. Relation: setup-remove-concentration-labels;
+no physics/default/site/Git change.
+
+## 2026-11-12 — Show generic two-phase materials in a channel setup
+
+Use pale-blue carrier, muted orange droplet and gray hatched solid walls for
+the requested channel setup. Do not assign oil/water names to the matched-
+property NS-CH model. Preserve one real random-wall input,4:1aspect and fixed
+initial disk; arrows show forcing direction only. Label actual traction BC,
+not a pressure Dirichlet surrogate, and distinguish inlet mu=0 from wall/outlet
+normal-gradient data. Preview only; no field recoloring or Git operation.
+Relation: channel-material-setup-preview.
+
+## 2026-11-12 — Show fixed spinodal fluctuations with random impermeable holes
+
+Use the first existing prescribed two-hole geometry and the production fixed
+initial ten-mode function in the new material-aware setup. A soft blue/orange
+field denotes signed initial fluctuations, not saturated evolved phases. Keep
+hole interiors white with gray hatched wall bands and a matching outer ellipse
+wall; only the holes vary. Record continuous display limits and exact function
+source. Neutral/no-flux BC labels denote continuum data, not exact finite-horizon
+pointwise traces. Relation: spinodal-material-setup-preview; preview only.
+
+## 2026-11-12 — Shorten and anchor spinodal schematic leaders
+
+User notes incorrect arrow positions/lengths. Place the hole caption between
+the actual holes with short leaders to their rims; shorten the initial-texture
+leader and give the BC label a visible leader to the lower-left outer wall.
+Crop the now-unused right margin without scaling physical geometry or7pttext.
+Preserve earlier exports. Relation: spinodal-setup-arrows; no numerical changes.
+
+## 2026-11-12 — Depict melting as one three-dimensional initial ice body
+
+Use the third previously prescribed ellipsoid for visible axis asymmetry;
+selection is illustrative, not based on prediction accuracy. Ice-blue shading
+and thin surface curves give volume; pale water and a cube wireframe distinguish
+material from computational boundary. No temperature/heat-flow labels because
+the case solves driven Allen-Cahn only. Preserve physical center, axes and
+rotation with an orthographic equal-scale projection. Relation:
+melting-material-setup-preview; preview only, no numerical or Git change.
+
+## 2026-11-12 — Align melting labels and shorten boundary leaders
+
+User requests arrow length/position adjustment. Aim the initial leader toward
+the exact upper-right projected ellipse, and use a shorter diagonal BC leader
+to the cube edge. Keep camera, geometry, materials and type unchanged; record
+annotation positions explicitly for reproducibility. Preserve previous exports.
+Relation: melting-setup-arrows; preview only, no numerical or Git change.
+
+## 2026-11-12 — Promote approved material setup PNG/PDF pairs
+
+User requests replacing the five example README setup images and retaining
+paper PDFs. Store one final PNG/PDFpair per case in assets/pino-setups, reuse
+the explicit manifest-based asset copier and record each source/style/receipt.
+Keep legacy SVGs for existing historical references. New ten files total about
+1.4MiB under a separate2MiBbudget; no raw outputs or duplicate previews enter
+Git. Align local website setup assets/captions with README sources. No current-
+turn Git or live deployment authorization. Relation: material-setups-readme-publication.
+
+## 2026-11-12 — Publish the approved material setup collection
+
+User explicitly authorizes commit, push and GitHub Pages synchronization.
+Publish the five final setup PNG/PDF pairs and their documentation, rendering
+sources, provenance and website integration, including the accepted ivory
+ceramic main styling. Stage presentation-only README and memory changes so
+unrelated horizon/thickness experiments remain local. Use dev commits and
+regular main merges, push only main, and verify both the exact deployment run
+and served files before reporting success. Relation: material-setups-pages-release.

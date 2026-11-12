@@ -26,6 +26,79 @@ The channel20000/lower-LR study is complete and archived below.
 
 ## Latest completed validation
 
+[Material setup Pages release](tasks/material-setups-pages-release.md) is being
+prepared under explicit user commit/push/deployment authorization. Scope: five
+approved setup PNG/PDF pairs and their README/site/reproduction files, plus the
+accepted ivory ceramic styling. Numerical experiments remain local.
+
+[Five approved setup diagrams in README and local website](tasks/archive/material-setups-readme-publication.md).
+Five PNG previews and editable PDFs retained in assets/pino-setups, about
+1.39 MiB total; matching captions, download links and reproduction manifest.
+Byte identity, embedded TrueType / 7 pt text and file budgets pass. Nine local
+website pages build; 255 local HTML links pass. No Git or live deployment.
+
+[Melting schematic arrow placement](tasks/archive/melting-setup-arrows.md).
+Initial leader5.26mm points down to ice; BCleader6.77mm points diagonally to the
+cube. Geometry/camera/ice-raster and7pttext unchanged; PDF/PNG checks pass.
+V1preserved, V2exported with explicit annotation coordinates. No Git.
+
+[Material-aware three-dimensional melting setup](tasks/archive/melting-material-setup-preview.md).
+Actual random initial ellipsoid with ice-blue shading, pale water and fixed-cube
+wireframe.100×83mmPDF/PNG/SVG; equal-scale orthographic geometry and7ptembedded
+vector text verified. Closed surface/silhouette and visual checks pass. Preview
+only; no numerical, mainfigure, website or Git change.
+
+[Spinodal schematic arrow placement](tasks/archive/spinodal-setup-arrows.md).
+Hole label moved between holes with4.1/4.2mmleaders; initial/BCleaders aligned.
+Vacated right margin removed;90×81mmcanvas, physical ellipse and7pttype unchanged.
+Embedded initial field identical; PDF/PNG inspected. No numerical/site/Git change.
+
+[Material-aware spinodal setup](tasks/archive/spinodal-material-setup-preview.md).
+Actual fixed10mode fluctuations in blue/orange, two random white holes and gray
+hatched walls.110×81mmPDF/PNG/SVG, equal scales,7ptembedded vector labels. Source
+formula, mask, geometry, fonts and visual checks pass. Preview only; no Git.
+
+[Material-aware two-phase setup](tasks/archive/channel-material-setup-preview.md).
+Pale-blue carrier, NPG orange initial droplet, gray hatched random walls;
+actual inlet/wall/traction conditions. Single prescribed4:1channel,110×65mm
+PDF/PNG/SVG and all7ptembedded vector text. Geometry/color/font/visual checks
+pass. Preview only; no numerical, main-field, website or Git change.
+
+[Setup label simplification](tasks/archive/setup-remove-concentration-labels.md).
+Removed c=h(phi) from both Electropolish and ceramic material schematics.
+PDF/PNG/SVG regenerated; unchanged vector geometry/colors/size and7ptembedded
+text verified. Preview sources/receipts retained; no numerical/site/Git change.
+
+[Ivory ceramic setup and main figures](tasks/archive/ceramic-ivory-figures.md).
+Removed setup's English closed-wall scope label; retained mathematical BC.
+Main ceramics now share #EFE7D9fill/#333333edges. All20scores, text/layout and
+geometry unchanged;120center pixels, fonts and PDF/PNG reviews pass. Local
+README/site assets and captions synchronized; nine-page build passes. No Git.
+
+[Material-aware ceramic-corrosion setup](tasks/archive/particle-material-setup-preview.md).
+Gray metal, blue electrolyte and warm-ivory ceramic; one prescribed six-particle
+layout with fixed pit, narrow reservoir opening and closed-wall derivative BCs.
+100×75mmPDF/PNG/SVG, actual7pt embedded editable text and equal physical scales;
+geometry, color, PDF and visual checks pass. Preview only; no numerical or Git change.
+
+[Compact Electropolish setup typography](tasks/archive/electropolish-setup-compact-type.md).
+Recomposed100×58mm with all actual labels7pt; original initial curve, BCs,
+materials and2:1aspect retained. PDF/PNG inspected, embedded editable vector
+text verified. Previous versions preserved; no numerical/site/Git changes.
+
+[Electropolish setup annotation revision](tasks/archive/electropolish-setup-annotation-revision.md).
+Single gray/blue cross-section, two-line random-interface callout and mathematical
+partial-derivative side BCs. Requested heading/prefix/small panels removed.
+132×70mm editable PDF/SVG/PNG; unchanged main profile, actual6–7pt embedded
+fonts and visual checks pass. Previous preview preserved externally; no Git.
+
+[Material-aware Electropolish setup preview](tasks/archive/electropolish-material-setup-preview.md).
+Gray metal, blue electrolyte, positioned IC/BC labels and two alternative
+prescribed profiles. Editable170×80mmPDF/SVG and PNG; actual6–7pt embedded
+fonts, all-vector PDF, temporary label/formula edits and visual checks pass.
+Existing setup images/site retained pending style feedback; no numerical or Git
+change. Concurrent horizon-ratio study remains the active experiment.
+
 [Ceramic styling and website main-figure synchronization](tasks/archive/ceramic-main-website-sync.md).
 Gray fill #A0A0A0 with #333333 outlines; all20phase errors, text and geometry
 unchanged. Five website galleries now share the approved README PNG/PDF

@@ -1,4 +1,4 @@
-"""Copy only the five approved, byte-identical publication PDF/PNG pairs."""
+"""Copy approved, byte-identical publication PDF/PNG pairs from an explicit manifest."""
 import argparse
 import json
 from pathlib import Path

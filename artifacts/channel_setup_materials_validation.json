@@ -1,0 +1,188 @@
+{
+  "schema": "channel_material_setup_validation_v1",
+  "specification": {
+    "schema": "channel_material_setup_v1",
+    "source": "artifacts/pino_setup_schematics.json",
+    "case": "channel_nsch2d",
+    "sample_index": 0,
+    "kind": "one prescribed random-wall geometry and fixed initial disk; no evolved field",
+    "boundary": {
+      "inlet": "u=U(y,t), phi=1, mu=0; U is the fixed parabolic profile with smooth ramp",
+      "walls": "u=0, partial_n phi=partial_n mu=0",
+      "outlet": "sigma*n=0, partial_n phi=partial_n mu=0",
+      "stress_definition": "sigma=-pI+eta*(grad(u)+grad(u)^T), hydrodynamic stress",
+      "source": [
+        "examples/channel_nsch2d/solver.py",
+        "examples/channel_nsch2d/losses.py",
+        "examples/channel_nsch2d/problem.py"
+      ]
+    },
+    "style": {
+      "figure_mm": [
+        110,
+        65
+      ],
+      "main_rect_mm": [
+        15,
+        23,
+        80,
+        20
+      ],
+      "font_file": "/root/.local/share/fonts/pino/Helvetica.ttf",
+      "math_font_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf",
+      "math_italic_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf",
+      "math_bold_file": "/root/nonlocal-pinn/.venv/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf",
+      "font_size_pt": 7,
+      "text_color": "#222222",
+      "carrier": "#C9EAF3",
+      "droplet": "#F39B7F",
+      "droplet_palette_origin": "NPG nrc coral orange",
+      "wall": "#D4D7DA",
+      "wall_edge": "#686E76",
+      "interface": "#333333",
+      "wall_thickness_mm": 2.2,
+      "inlet_arrow_max_mm": 8,
+      "wall_points": 1001,
+      "dpi": 300
+    },
+    "labels": {
+      "inlet_velocity": "$\\mathbf{u}=\\mathbf{U}(y,t)$",
+      "inlet_phase": "$\\phi=1,\\quad\\mu=0$",
+      "outlet_traction": "$\\sigma\\mathbf{n}=0$",
+      "no_flux": "$\\dfrac{\\partial\\phi}{\\partial n}=\\dfrac{\\partial\\mu}{\\partial n}=0$",
+      "wall_conditions": "$\\mathbf{u}=0,\\quad\\dfrac{\\partial\\phi}{\\partial n}=\\dfrac{\\partial\\mu}{\\partial n}=0$",
+      "random_walls": "Randomly generated\nchannel walls"
+    },
+    "output": {
+      "pdf": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-setup-materials-20261112/channel_nsch2d_setup_materials.pdf",
+      "png": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-setup-materials-20261112/channel_nsch2d_setup_materials.png",
+      "svg": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-setup-materials-20261112/channel_nsch2d_setup_materials.svg",
+      "receipt": "artifacts/channel_setup_materials_validation.json"
+    }
+  },
+  "renderer": "scripts/render_channel_setup_materials.py",
+  "parameters": [
+    0.09664628182538176,
+    0.046340583163998646,
+    0.1099827926279154,
+    0.1920211487505272,
+    0.2884958999434626,
+    0.08634060885965004,
+    0.11138155608342248,
+    0.14548855239152772,
+    0.38964327819674704,
+    0.1202808060598336,
+    0.27491062304905395,
+    0.17120347691744617,
+    0.2065192595302999,
+    0.16551880597170113,
+    0.133952255275103,
+    0.10908628215061442
+  ],
+  "geometry_statistics": {
+    "minimum_gap": 0.5808075346794681,
+    "maximum_slope": 1.1999054939301856,
+    "maximum_curvature": 11.003182645766849
+  },
+  "initial": {
+    "center": [
+      0.8,
+      0.5
+    ],
+    "radius": 0.22,
+    "transition": 0.05
+  },
+  "physical_aspect": 4,
+  "text": [
+    {
+      "text": "$\\mathbf{u}=\\mathbf{U}(y,t)$",
+      "size_pt": 7.0
+    },
+    {
+      "text": "$\\phi=1,\\quad\\mu=0$",
+      "size_pt": 7.0
+    },
+    {
+      "text": "$\\sigma\\mathbf{n}=0$",
+      "size_pt": 7.0
+    },
+    {
+      "text": "$\\dfrac{\\partial\\phi}{\\partial n}=\\dfrac{\\partial\\mu}{\\partial n}=0$",
+      "size_pt": 7.0
+    },
+    {
+      "text": "Randomly generated\nchannel walls",
+      "size_pt": 7.0
+    },
+    {
+      "text": "Initial droplet",
+      "size_pt": 7.0
+    },
+    {
+      "text": "Carrier fluid",
+      "size_pt": 7.0
+    },
+    {
+      "text": "$\\mathbf{u}=0,\\quad\\dfrac{\\partial\\phi}{\\partial n}=\\dfrac{\\partial\\mu}{\\partial n}=0$",
+      "size_pt": 7.0
+    },
+    {
+      "text": "4 \u00d7 1",
+      "size_pt": 7.0
+    }
+  ],
+  "output_bytes": {
+    "pdf": 82103,
+    "png": 65657,
+    "svg": 113259
+  },
+  "interpretation": "Initial zero-phase contour; arrows denote driving direction, not initial or predicted velocity",
+  "phase_materials": {
+    "droplet": "generic negative phase",
+    "carrier": "generic positive phase"
+  },
+  "training": false,
+  "inference": false,
+  "pde_solves": 0,
+  "versions": {
+    "numpy": "2.4.6",
+    "matplotlib": "3.11.0"
+  },
+  "independent_validation": {
+    "actual_font_sizes_pt": [
+      7
+    ],
+    "embedded_fonts": [
+      "CQDGOU+Helvetica",
+      "DFDSSF+Helvetica",
+      "BEZFGC+DejaVuSans-Bold",
+      "MXUZBL+DejaVuSans-Oblique",
+      "FDWGRL+DejaVuSans"
+    ],
+    "all_vector_pdf": true,
+    "svg_editable_text": true,
+    "page_mm": [
+      110,
+      65
+    ],
+    "initial_droplet_diameter_mm": [
+      8.8,
+      8.8
+    ],
+    "material_center_rgb": {
+      "droplet": [
+        243,
+        155,
+        127
+      ],
+      "carrier": [
+        201,
+        234,
+        243
+      ]
+    },
+    "visual_png_review": "passed",
+    "source_wall_geometry_validation": "passed",
+    "visual_pdf_review": "passed"
+  }
+}

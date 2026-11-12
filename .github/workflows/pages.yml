@@ -9,6 +9,7 @@ on:
       - assets/pino-main/**
       - artifacts/pino_main_figures.json
       - assets/pino-setups/**
+      - artifacts/pino_setup_figures.json
   workflow_dispatch:
 
 permissions:

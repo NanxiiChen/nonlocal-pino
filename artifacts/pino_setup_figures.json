@@ -1,0 +1,108 @@
+{
+  "schema": "pino_setup_publication_v1",
+  "purpose": "Approved material setup PNG previews and editable paper PDFs; no evolved fields",
+  "maximum_file_bytes": 1048576,
+  "maximum_collection_bytes": 2097152,
+  "figures": [
+    {
+      "example": "icemelting3d",
+      "specification": "artifacts/melting_setup_materials.json",
+      "validation": "artifacts/melting_setup_materials_validation.json",
+      "renderer": "scripts/render_melting_setup_materials.py",
+      "pdf": "assets/pino-setups/icemelting3d.pdf",
+      "png": "assets/pino-setups/icemelting3d.png",
+      "bytes": {
+        "pdf": 79946,
+        "png": 196328
+      },
+      "png_pixels": [
+        1771,
+        1470
+      ],
+      "figure_mm": [
+        100,
+        83
+      ]
+    },
+    {
+      "example": "electropolish2d",
+      "specification": "artifacts/electropolish_setup_materials.json",
+      "validation": "artifacts/electropolish_setup_materials_validation.json",
+      "renderer": "scripts/render_electropolish_setup_materials.py",
+      "pdf": "assets/pino-setups/electropolish2d.pdf",
+      "png": "assets/pino-setups/electropolish2d.png",
+      "bytes": {
+        "pdf": 65995,
+        "png": 63923
+      },
+      "png_pixels": [
+        1181,
+        685
+      ],
+      "figure_mm": [
+        100,
+        58
+      ]
+    },
+    {
+      "example": "confined_ch2d",
+      "specification": "artifacts/spinodal_setup_materials.json",
+      "validation": "artifacts/spinodal_setup_materials_validation.json",
+      "renderer": "scripts/render_spinodal_setup_materials.py",
+      "pdf": "assets/pino-setups/confined_ch2d.pdf",
+      "png": "assets/pino-setups/confined_ch2d.png",
+      "bytes": {
+        "pdf": 317786,
+        "png": 451208
+      },
+      "png_pixels": [
+        1594,
+        1435
+      ],
+      "figure_mm": [
+        90,
+        81
+      ]
+    },
+    {
+      "example": "channel_nsch2d",
+      "specification": "artifacts/channel_setup_materials.json",
+      "validation": "artifacts/channel_setup_materials_validation.json",
+      "renderer": "scripts/render_channel_setup_materials.py",
+      "pdf": "assets/pino-setups/channel_nsch2d.pdf",
+      "png": "assets/pino-setups/channel_nsch2d.png",
+      "bytes": {
+        "pdf": 82103,
+        "png": 65657
+      },
+      "png_pixels": [
+        1299,
+        767
+      ],
+      "figure_mm": [
+        110,
+        65
+      ]
+    },
+    {
+      "example": "particle_corrosion2d",
+      "specification": "artifacts/particle_corrosion_setup_materials.json",
+      "validation": "artifacts/particle_corrosion_setup_materials_validation.json",
+      "renderer": "scripts/render_particle_corrosion_setup_materials.py",
+      "pdf": "assets/pino-setups/particle_corrosion2d.pdf",
+      "png": "assets/pino-setups/particle_corrosion2d.png",
+      "bytes": {
+        "pdf": 59371,
+        "png": 76590
+      },
+      "png_pixels": [
+        1181,
+        885
+      ],
+      "figure_mm": [
+        100,
+        75
+      ]
+    }
+  ]
+}

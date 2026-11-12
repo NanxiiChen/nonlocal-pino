@@ -145,7 +145,7 @@ src/nonlocal_pinn/
   operators/ geometry/ nn/ training/ baselines/ io/
 examples/                 # case geometry, BCs, configs, CLI and formulations
 assets/pino/              # compact README evolution figures
-assets/pino-setups/       # lightweight problem/condition SVG schematics
+assets/pino-setups/       # setup PNG previews, editable PDFs and legacy SVGs
 website/                  # static technical report source and build
 tests/                    # existing focused numerical/restart regressions
 artifacts/index.yaml      # external artifact ownership, JSON-compatible YAML
@@ -170,12 +170,14 @@ with `python scripts/check_artifacts.py`.
 
 Generated research galleries, videos, experiment arrays/checkpoints and compiler
 dumps under `docs/tasks` are **local artifacts, not Git content**. Git keeps
-source, Markdown, configs, metrics and regeneration scripts. The four compact
-`assets/pino/*.png` evolution figures and four lightweight
-`assets/pino-setups/*.svg` problem/condition schematics are the deliberate
-documentation exception, collected in [assets](assets/README.md).
-[Setup parameters](artifacts/pino_setup_schematics.json) and a CPU-only renderer
-reproduce the prescribed inputs without any learned/evolved fields. The evolution figures' direct
+source, Markdown, configs, metrics and regeneration scripts. Curated figures are
+the deliberate documentation exception, collected in [assets](assets/README.md).
+The five accepted [material setup schematics](assets/pino-setups/README.md) have
+PNG previews in the example READMEs and matching editable PDFs for paper writing.
+Their [publication manifest](artifacts/pino_setup_figures.json) links exact
+source parameters, rendering settings and verification records; the ten files
+stay below 2 MiB combined. Six earlier SVG setups remain as historical artwork.
+CPU renderers reproduce prescribed inputs without learned/evolved fields. The evolution figures' direct
 inputs, sample identities and regeneration command are recorded in
 [figure provenance](artifacts/pino_readme_figures.json); raw arrays/weights stay
 external. Figure links in

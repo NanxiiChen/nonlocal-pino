@@ -38,11 +38,15 @@ parabolic velocity; the outlet has zero hydrodynamic traction and zero phase/
 chemical normal gradients. Traction fixes the pressure reference without a
 separate pressure-point anchor.
 
-![Full NS-CH setup: three random-wall channels with the same initial droplet](../../assets/pino-setups/channel_nsch2d.svg)
+![Full NS-CH setup: orange initial droplet in blue carrier fluid with random gray solid walls](../../assets/pino-setups/channel_nsch2d.png)
 
 The initial droplet and inlet drive stay fixed; only the two wall profiles vary.
-These are setup inputs, not predicted flow fields.
-[Setup figure inputs and regeneration](../../artifacts/pino_setup_schematics.json).
+Orange and blue distinguish the two generic fluid phases; gray hatching denotes
+solid walls. Arrows indicate the driving direction, not initial or predicted
+velocity. The diagram shows prescribed setup inputs.
+[Editable setup PDF](../../assets/pino-setups/channel_nsch2d.pdf) ·
+[Source/style specification](../../artifacts/channel_setup_materials.json) ·
+[Regeneration](../../assets/pino-setups/README.md).
 
 ### Important strategies
 
