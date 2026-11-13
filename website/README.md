@@ -48,6 +48,11 @@ are self-contained. Repository source links require access to the repository.
   [Its publication manifest](../artifacts/ceramic_fem_comparison_publication.json)
   records exact model/configuration inputs and PNG/PDF sizes; the builder checks
   and copies only this pair. Figure and manifest changes trigger Pages deployment.
+- The current ceramic default and its final64 validation are recorded separately
+  in [the execution receipt](../artifacts/ceramic_execution_validation.json).
+  Keep current SOTA numbers and launch instructions in the case/overview chapters
+  synchronized with the example README. Historical comparison figures retain
+  their own checkpoint, cohort, norm and timing labels.
 
 KaTeX renders standard LaTeX expressions at build time to HTML and MathML.
 The generated site loads its math fonts locally. [KaTeX API](https://katex.org/docs/api)

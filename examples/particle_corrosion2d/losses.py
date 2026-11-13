@@ -31,16 +31,25 @@ def graph_action(values, data):
     if (values.ndim != 2 or core.ndim != 1 or neighbors.ndim != 2
             or neighbors.shape != coefficients.shape or len(neighbors) != len(core)):
         raise ValueError('Core/halo operator requires values(Nhalo,Nt), core(Nc), neighbors/coefficients(Nc,K)')
+    if 'operator_matrix' in data:
+        from .spatial_adjoint import fixed_graph
+        return fixed_graph(values,core,neighbors,coefficients,data['operator_matrix'])
     return jnp.sum(coefficients[:, :, None] *
                    (values[core, None, :] - values[neighbors]), axis=1)
+
+
+def core_values(values,data):
+    if 'core_selection' in data:
+        from .spatial_adjoint import fixed_gather
+        return fixed_gather(values,data['core_indices'],data['core_selection'])
+    return values[data['core_indices']]
 
 
 def spatial_terms(phi,liquid,data,c):
     """Positive G in y_t+G=0; inputs have shape(Nhalo,Nt)."""
     p = c.physical
     q = p.c_le*(liquid-1)
-    core = data['core_indices']
-    phi_core, q_core = phi[core], q[core]
+    phi_core, q_core = core_values(phi,data), core_values(q,data)
     hp = 6*phi_core*(1-phi_core)
     gp = 2*phi_core*(1-phi_core)*(1-2*phi_core)
     driving = (p.n_ac3*graph_action(phi, data)+p.n_ac2*gp
@@ -55,8 +64,7 @@ def spatial_terms(phi,liquid,data,c):
 def residuals(raw, fields_t, data, c, fields=None):
     phi=(physical_fields(raw,c) if fields is None else fields)[...,0].T
     ac,ch=spatial_terms(phi,raw[...,1].T,data,c)
-    core=data['core_indices']
-    return fields_t[:,core,0].T+ac,fields_t[:,core,1].T+ch
+    return core_values(fields_t[...,0].T,data)+ac,core_values(fields_t[...,1].T,data)+ch
 
 
 def eliminated_residuals(raw,raw_t,fields,fields_t,data,c):

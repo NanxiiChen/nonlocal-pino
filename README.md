@@ -29,7 +29,7 @@ schematic, not solver predictions.
 | [Electropolish 2D](examples/electropolish2d/README.md#pino-overview) | Initial rough metal/electrolyte interface | Coupled KKS AC/CH, 5 s | 1.547% pooled; 1.326% terminal | Independent local FD101, 64 unseen inputs |
 | [Spinodal 2D](examples/confined_ch2d/README.md#pino-overview) | Positions and radii of two impermeable holes | Confined Cahn–Hilliard, T=3 |4.833% pooled; 5.193% terminal | Native nonlocal, 8 reused reserved development geometries |
 | [Two-phase flow 2D](examples/channel_nsch2d/README.md#pino-overview) | Independent smooth upper/lower channel profiles | Fully coupled incompressible NS–CH, T=6 |1.643% pooled; 2.196% terminal | Independent local FEM, 3 reused reserved geometries |
-| [Ceramic-particle corrosion 2D](examples/particle_corrosion2d/README.md) | Positions, sizes and shapes of six inert particles around a fixed pit | Coupled KKS AC/CH, 350 s | **2.93% overall / 5.76% terminal** against local FEM, **1.45% / 2.78%** against direct nonlocal evolution | Same four development geometries for both references |
+| [Ceramic-particle corrosion 2D](examples/particle_corrosion2d/README.md) | Positions, sizes and shapes of six inert particles around a fixed pit | Coupled KKS AC/CH, 350 s | **2.905% pooled / 5.436% terminal** | Local P1 FEM, 4 development geometries; current default also validated on 64 held-out cases below |
 
 These are means of per-sample errors from the selected final checkpoints, not
 one common benchmark. Targets, quadratures and evaluation populations differ;
@@ -45,7 +45,7 @@ in the existing `confined_ch2d` directory; the full NS–CH operator is
 | Electropolish | 2D initial image -> patch tokens -> spatial cross-attention -> time FiLM | Adam 10,000, width 96, B8, 16 shared times; original AC/CH + soft IC/BC, five balanced losses; background rolling core+halo pool |
 | Spinodal | Boundary and domain-function point streams -> normalized cross-attention | SOAP 50000, width 256, B16; online rolling geometry pool; hard IC/mass; eliminated chemical potential and resolvent residual |
 | Two-phase flow | Boundary and domain-function point streams -> normalized cross-attention | SOAP 20000, width 192, B8; lr 1e-3 to 1e-5; 36 random times in two18-time blocks; online rolling geometry pool; hard flow/initial data; integral spatial derivatives, time JVP and fixed residual normalization |
-| Ceramic-particle corrosion | Boundary and initial-field point streams with coordinate-only queries | Adam 20,000 updates, width 256, 4 geometry draws and 32 random times per update. Rolling geometry and core/halo pools, joint AC/CH losses and time JVP |
+| Ceramic-particle corrosion | Boundary and initial-field point streams with coordinate-only queries | Adam 20,000, width 256, B4, 32 random times; rolling geometry/core+halo; original five balanced losses; time JVP; fixed-linear parameter adjoints and autotuning off |
 
 Regular domains use patch tokens; irregular geometry uses physical point sets
 with boundary arc-length/domain-area measures. Queries carry coordinates/time,
@@ -108,8 +108,13 @@ no-argument `train.py` entries retain single-IVP PINN defaults. All launchers
 create fresh runs. Existing evaluation banks and direct artifact paths must be
 available; reference preparation commands are in each example.
 
-The ceramic-particle result uses the explicit width-256 preset. Its input
-preparation and launch commands are in the [corrosion run guide](examples/particle_corrosion2d/README.md#run-the-documented-case).
+The ceramic-particle **SOTA training default** selects the six-particle width-256
+nonlocal recipe with rolling inputs and fixed-linear parameter adjoints. Its
+canonical cold 20k validation gives 4.09% channel-mean space-time relative error
+on 64 held-out local-FEM cases: phase 3.70%, concentration 4.48% (one paired
+initialization). This metric differs from the four-case quadrature-weighted
+overview above. Training takes 42.72 min on RTX PRO 6000 Blackwell. Its
+input preparation and launch commands are in the [corrosion run guide](examples/particle_corrosion2d/README.md#run-the-documented-case).
 
 Seeds are runtime provenance through `--seed`, not tuned strategy fields.
 Defaults use ordinary compilation and reject a conflicting inherited

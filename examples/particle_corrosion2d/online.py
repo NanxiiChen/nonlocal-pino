@@ -76,6 +76,9 @@ def payload_shapes(c):
 
 
 def validate_payload(data, c):
+    if 'adjoint' in c.nl:
+        from .spatial_adjoint import validate_support
+        validate_support(data)
     shapes = payload_shapes(c)
     if set(data) != set(shapes):
         raise ValueError('Rolling payload permits known geometry/IC/operator arrays only; no fields/labels')

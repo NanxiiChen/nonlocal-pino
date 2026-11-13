@@ -106,6 +106,8 @@ def train(c,output,inputs,reference,config_path,paired_run,
     if c.train.compute_dtype!='float32':raise ValueError('This initial runner qualifies ordinary FP32 only')
     if c.train.iterations<1 or c.operator.condition_batch<1:raise ValueError('Positive update/batch counts required')
     configure_gpu_policy(c.train.gpu_policy)
+    from .execution import configure_execution
+    configure_execution(c)
     jax.config.update('jax_enable_x64',False)
     jax.config.update('jax_default_matmul_precision',c.train.matmul_precision)
     bank,manifest=load_bank(inputs,c)
@@ -132,6 +134,9 @@ def train(c,output,inputs,reference,config_path,paired_run,
             bank=pad_initial_bank(bank,c)
     elif sampling_control is not None or exclude_references or full_grid:
         raise ValueError('Sampling control/excluded geometry arguments require operator.online')
+    if 'adjoint' in c.nl:
+        from .spatial_adjoint import validate_support
+        validate_support(bank)
     if c.nl.method=='local_ad':
         from .local_ad import make_loss_vector,LOSS_NAMES
     else:
@@ -224,6 +229,8 @@ def train(c,output,inputs,reference,config_path,paired_run,
     weights=jnp.ones(len(LOSS_NAMES),dtype=jnp.float32)
     run=Path(output).resolve();run.mkdir(parents=True,exist_ok=False)
     write_json(run/'config.json',json.loads(c.to_json()))
+    from .execution import execution_provenance
+    write_json(run/'execution.json',execution_provenance())
     write_json(run/'runtime.json',dict(seed=seed,inputs=str(Path(inputs).resolve()),
         seed_source='comparison_control' if initialization_control is not None else
                     'fresh_random' if runtime_seed is None else 'explicit_runtime_replay',
@@ -276,6 +283,9 @@ def train(c,output,inputs,reference,config_path,paired_run,
             data['graph_points']=jax.vmap(lambda points,core:points[core])(data['graph_points'],data['core_indices'])
             data['core_indices']=jnp.broadcast_to(jnp.arange(c.sample.K_core,dtype=jnp.int32),ids.shape+(c.sample.K_core,))
             del data['neighbors'];del data['coefficients']
+        if 'adjoint' in c.nl:
+            from .spatial_adjoint import prepare_adjoint
+            data=jax.vmap(prepare_adjoint)(data)
         return data
     evaluator=make_evaluator(c,references)
     history=[];updates=[];sample_seconds=[];eval_seconds=[];memory=[];train_start=time.perf_counter()

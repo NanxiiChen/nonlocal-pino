@@ -752,7 +752,10 @@ this weighting variant with all details/benchmarks of the cited causal-PINN pape
 
 ## Artifact Paths
 
-Particle-corrosion `train_default.py` now selects `train_physical.py`: explicit
+Particle-corrosion `train_default.py` selects
+`train_physical_spaced_w256_fixed_adjoint.py`, inheriting the six-particle,
+width256, 350 s physical setup. The original higher-mobility 5 s
+`train_physical.py` remains an explicit historical preset. Explicit
 SI `physical.{D,A,L,alpha_phi,omega_phi}`, `nondim.{L_c,T_c}` and `geometry_si`
 produce all four PDE groups, normalized geometry and initial interface width
 through `dimensional.derive_config`. `physical.L` is actual mobility, so kappa
@@ -761,8 +764,8 @@ before reference/training; partial SI records and stale groups fail. Input and
 reference loading checks units as well as existing physical fields. New SI
 references include `physical_time=times*T_c`; legacy dimensionless manifests
 remain readable only with matching legacy configs. `train_online.py` preserves
-the old physics. Preview also selects the current preset so its IC metadata
-matches preparation/reference generation. New physical accuracy must not be
+the old physics. Pass the documented current config to preview/preparation so
+their IC metadata matches training/reference generation. New physical accuracy must not be
 inferred from historical dimensionless results.
 
 Particle-corrosion `configs/train_online.py` adds an explicit
@@ -1566,3 +1569,30 @@ still require their original source bytes for independent replay. Run
 The old `compare --runs` front end remains restricted to nonlocal/localAD;
 use the explicit FEM comparison workflow and its common64 final evaluator.
 See `docs/tasks/fem-weak-pino-comparison-plan.md` for derivation and run paths.
+
+
+### Ceramic fixed-linear adjoint execution control
+
+The opt-in `nl.adjoint=dense_fixed` preserves the existing nonlocal edge-difference
+forward residuals. For fixed stencil rows, parameter backpropagation uses the
+exact field adjoints \(D^Tz\) and \(C^Tz\), where \(C\) extracts sampled cores
+including repeated IDs. Dense matrices are constructed only after selecting the
+current batch, never stored for every rolling-pool member. Physical nonzero
+neighbor IDs must be unique within each row; zero padding is excluded during
+assembly. CPU independent transpose and coupled-residual-gradient tests cover
+repeated core IDs, a real node0 and padding at0.
+
+This custom VJP treats geometry/indices/operator coefficients as known constants;
+it does not support learning their derivatives or forward-mode differentiation
+through the operator. Time JVP stays inside the decoder before the spatial
+operator. Historical presets without the explicit adjoint field retain their
+original reverse-mode path. The current default additionally declares
+`train.autotune_level=0`, applied before backend initialization with conflict
+checking. This disables live kernel autotuning, not all ordinary GPU compilation.
+`execution.json` records actual package/device/precision/cache/launcher settings.
+The original high-mobility preset remains explicit; the training default now
+routes to the documented six-particle width256 nonlocal physical setup.
+Canonical-default cold20k and independent64case evaluation pass; the current
+channel-mean space-time error is4.0902%. Exact input, gradient and execution
+checks are in `artifacts/ceramic_execution_validation.json`. This is one paired
+initialization, not a universal seed/device guarantee.

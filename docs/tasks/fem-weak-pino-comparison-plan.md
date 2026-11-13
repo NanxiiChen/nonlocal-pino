@@ -1,9 +1,12 @@
 # FEM weak-residual PINO versus nonlocal and local AD
 
-Date:2026-11-13. Status: comparisons, requested figures and approved README/site
-publication are complete and pushed; follow-up numerical diagnostics remain open. Channel RESOURCE probes are complete and
-its long run is cancelled. Spinodal stays on its original full-field scheme.
-No numerical default change is authorized.
+Date:2026-11-13. Status: comparisons and prior README/site publication complete;
+the user-authorized reproduction diagnosis/default repair is now validated.
+The canonical nonlocal default completed cold20k and all64case/input audits.
+Channel resource probes are complete and its long run is cancelled. Spinodal
+stays full-field. Default changes are now explicitly authorized by the latest
+request, subject to verified convergence. The latest turn additionally authorizes
+README/website publication, commit and push of the validated SOTA/default repair.
 
 ## TODO and execution gate
 
@@ -15,8 +18,15 @@ No numerical default change is authorized.
 - [x] Complete the frozen historical-source reproduction control and its64case audits.
 - [x] Publish the approved three-method distribution, results and provenance;
   commit/push and verify GitHub Pages.
-- [ ] Isolate execution/reproducibility causes and complete remaining
-  discretization/interpolation diagnostics; do not infer a universal ranking.
+- [x] Identify within-executable GPU update/scatter nondeterminism and verify
+  old/current source parity with deterministic30update controls.
+- [x] Correct the stale default physical preset and test fixed-linear adjoints.
+- [x] Finish canonical-default cold20k, full-input audit and final64validation;
+  promote only with acceptable convergence and record cost/limitations.
+- [ ] Publish the validated current default, update README/site SOTA summaries
+  and verify the GitHub Pages deployment; preserve unrelated pending research.
+- [ ] Deferred: remaining FEM discretization/interpolation diagnostics are separate from
+  this default-repair acceptance; do not infer a universal ranking.
 
 The prior deferral is superseded by the user's explicit execution instruction.
 Channel owner5245 was first stopped, then terminated only after final resource
@@ -683,3 +693,189 @@ and this task. The overall investigation remains active only for the previously
 listed causal reproducibility and discretization/interpolation diagnostics;
 no additional experiment is queued. Resume there rather than repeating final64
 inference, redrawing the accepted figures or restarting stopped sampling runs.
+
+## Reproduction-cause clarification — 2026-11-13
+
+The user asks whether recovery from the frozen snapshot identified a new-code
+bug. Re-read the original historical-reproduction and completed-input receipts,
+the successful frozen-source journal, and both launcher implementations.
+Answer: no specific faulty source change or causal execution setting has yet
+been isolated. The successful control changed source/preset and launcher
+settings together. Explicit compilation-cache disablement and90%allocation
+versus inherited cache settings and80%allocation are actual differences, not
+proven explanations. CPU-lowered graph identity is not a GPU executable audit.
+
+Verified evidence remains: shared core source bytes, initial model/optimizer,
+all20000actual sampling arrays and399physical input events match; same current
+GPU produces32.8062%with the failed current-source execution and4.2190%with the
+frozen-source/launcher combination on the identical64case metric. No claim of
+a fixed bug, a source-only effect or general hardware failure is justified.
+
+Exact next diagnostic, if continuing causal isolation: keep current source and
+recorded inputs fixed, apply the successful launcher settings, and first compare
+initial forward losses, gradients and updates in fresh processes against the
+frozen source under identical settings. Then isolate any remaining source or
+execution differences one at a time, including repeatability before interpreting
+a single trajectory. This is a proposed next check, not a launched experiment.
+Task-end: only this task and PROGRESS updated; no numerical edits, new training,
+Git operation or change to the published figures. git diff --check passes.
+
+## Authorized cause isolation and default repair — 2026-11-13
+
+User now explicitly requests locating the cause and making the current default
+entrypoint select the best validated nonlocal recipe. Acceptance: isolate source
+versus launcher/repeatability using identical saved cold inputs, verify the actual
+train.py/default path with cold training and the common64cohort, document limits
+and add focused regressions. No Git action is authorized this turn.
+
+Initial inspection finds a separate definite default-routing defect:
+configs/train_default.py imports train_physical (eight particles, width192,
+T_c5s/high mobility), whereas the accepted result uses train_physical_spaced_w256
+(six separated particles, width256,T_c350s/moderate mobility). This does not explain
+the failed explicitly configured20k comparison, but must be fixed for the user's
+default-entrypoint requirement after validating the accepted current-source path.
+
+Current GPU is idle PRO6000Blackwell97,887MiB;37GiB disk free. Preserve earlier
+runs/weights and unrelated dirty work. First checks isolate current/frozen source
+and launcher on recorded first batches, then use bounded complete cold validation.
+
+### First isolated execution evidence
+
+Bundle `/root/autodl-tmp/tf-logs/ceramic-execution-isolation-20261113-01/`.
+Current source with the old launcher twice still yields different30step
+trajectories. More decisively, five identical calls to one compiled first-update
+function produce nonidentical state/model outputs (combined maximum absolute
+difference6.61e-5..9.05e-5); this is within one process with no code, cache,
+allocator or input change. The initial replay flags alone do not ensure equality.
+
+An isolated graph_action VJP on the actual first core/halo stencil exposes
+scatter-add in the backward JAXPR. Twenty identical executable calls differ
+(19/19comparisons); relative error against a float64 CPU transpose oracle is
+about6.08e-8, consistent with accumulation-order roundoff, not an incorrect
+operator formula. This identifies one concrete source of execution perturbation,
+not yet proof that it alone causes the32.8%versus4.2%final gap.
+
+Deterministic first-update/source controls are running next. Official XLA
+[determinism](https://openxla.org/xla/determinism) distinguishes autotuning from
+execution-time atomic scatter; JAX [indexed updates](https://docs.jax.dev/en/latest/_autosummary/jax.Array.at.html)
+notes nondeterministic conflicting sums. Use the measured controls before
+attributing the final convergence or promoting a potentially slower policy.
+
+### Source isolation passed; bounded fixed-adjoint control
+
+With identical deterministic execution, current and frozen historical sources
+produce byte-identical model AND optimizer states after1and30updates; all30loss
+and balancing-weight vectors match. A second cold30update trajectory in the
+same frozen-source executable is also identical. This includes the gradient
+weight refresh at update26. Receipt: execution bundle/source-isolation.json.
+Global deterministic updates cost1.35–1.38s, so do not promote that slow policy.
+
+Added an opt-in dense_fixed adjoint candidate: original edge-difference forward
+operator, D^Tfield pullbacks and C^Tcore-gather pullbacks with duplicate sampled
+cores retained. Selected-batch matrices only; input pool and quadrature unchanged.
+Independent float64 transpose and coupled-residual field-gradient oracles pass.
+The candidate additionally declares autotune_level0 to eliminate compile-time
+kernel-selection changes; inherited conflicting flags fail explicitly.
+Full GPU repeatability/timing probe is now running before any cold20k trial.
+Default import now selects the documented width256/six-particle original recipe;
+this optional adjoint is not yet the default. Updated CLI regression passes.
+
+### Canonical cold validation started
+
+The fixed-adjoint/autotune0 probe passes all5identical first-update calls and
+two identical cold30update trajectories, including byte-identical final models.
+Warm update~0.105s, versus~0.062s ordinary atomic transpose and~1.35s global
+determinism. Six focused config/adjoint tests pass, prior14loss/runtime tests pass.
+Default is provisionally routed to train_physical_spaced_w256_fixed_adjoint;
+no final convergence claim yet. Historical configs remain unchanged.
+
+Owner203256 started the canonical CLI **without --config** from a fresh seed42
+initialization. Run:
+`/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-default-fixed-adjoint-20261113-01/`.
+Owner journal: execution bundle/default-cold/journal.json. It is bounded to20k,
+independent online reconstruction, exact cold/full-input matching to the prior
+failed run, and the same64case final evaluation. No reference labels enter loss.
+Expected~35–40minutes; no other experiment queued. Resume by inspecting this
+journal and train log; do not duplicate or report intermediate4case monitoring
+as the final64metric. Keep default pending until the result is verified.
+
+### Canonical default accepted — 2026-11-13 13:21 UTC
+
+Owner203256 and all three children exited0; journal status is `complete`.
+No training or inference remains queued. The actual no-config train.py entrypoint
+completed20,000cold updates. Final model, common64local-FEM cohort:
+
+| Run | Phase mean | Concentration mean | Channel mean |
+|---|---:|---:|---:|
+| Earlier unsuccessful current-source control |31.991685%|33.620765%|32.806225%|
+| Historical-source recovered control |3.817489%|4.620519%|4.219004%|
+| Current canonical fixed-adjoint default |3.696453%|4.483867%|4.090160%|
+
+The metric is the unweighted Euclidean norm across the complete space-time
+evaluation array per channel/sample, followed by channel and sample means.
+Current channel-mean sample SD is0.548288percentage points. Four-case
+volume/time-weighted development phase2.904612%,c3.538808% are separate values.
+
+Acceptance checks:
+
+- Canonical default's JSON-normalized config equals the saved training config;
+  all93saved Python source files equal current source byte-for-byte.
+- Initial model AND optimizer bytes, all20k planned/actual draws and complete
+  initial/final input arrays equal the unsuccessful paired control.
+- Independent online reconstruction passes:399installed events,316new geometries,
+  1520spatial refreshes, all64final slots reconstructed, zero evaluation overlap
+  and zero future-field labels. All64saved-field regional norm checks pass.
+- Earlier source isolation and repeated fixed-adjoint GPU updates/trajectories
+  pass;40combined targeted tests and a separate full-network float64 gradient
+  oracle pass. Prior14loss/runtime checks also pass (overlapping test scopes,
+  not55unique tests). The forward five losses agree exactly in the oracle;
+  all network-parameter gradients agree to2e-11.
+
+Current training process wall2563.101s (42.718min), internal2560.619s,
+compile-first-update169.044s. Warm update median102.362ms/mean114.843ms;
+including sampling/online preparation median103.150ms/mean115.948ms.
+Active peak21,814,555,136bytes (20.3164GiB);90%allocator reservation is separate.
+The historical recovered26.77min run remains faster. Do not silently reuse its
+timing for this default or rewrite the already-published comparison figure.
+
+Confirmed diagnosis: stale user-facing preset routing plus measured original
+GPU reverse-accumulation nondeterminism. The stale route is NOT the cause of
+the explicit-preset failure. Current/frozen source equality under controlled
+execution rejects the claimed changed-PDE/optimizer explanation. Exact fixed
+field adjoints and autotune0 together restore convergence with unchanged
+forward physics and actual training inputs. Their individual contributions to
+the old final-error gap remain unquantified. One seed/sameGPU validation is not
+a cross-seed/device guarantee; the strategy still has no fixed seed field.
+
+### Task-end record and exact resume point
+
+Current request is complete. The actual default selects the six-particle
+width256,350s,Adam20k,rolling-core/halo recipe with dense_fixed field adjoints
+and autotune0. Added execution provenance, supported-shape validation and focused
+default/gradient tests; retained historical presets. README,DEVELOPMENT and the
+direct-path `artifacts/ceramic_execution_validation.json` record the results.
+Updated PROGRESS and appended the promotion decision. No Git operation,
+reference generation, figure replacement or stopped-task restart occurred.
+
+The larger comparison task remains open only for optional FEM discretization/
+interpolation diagnostics. Do not automatically launch them. Resume from this
+receipt if the user asks; do not rerun the completed cold20k default validation.
+
+### SOTA publication ready
+
+Latest user authorizes commit/push and README/website synchronization. The
+current SOTA is explicitly identified at the start of the example README and
+website chapter; both overviews distinguish4case weighted phase2.9046%/5.4357%
+from64case unweighted phase3.6965%,c4.4839%,channel mean4.0902%. Launch examples
+use the canonical default and retain direct paths to historical presets.
+Historical field/comparison PNG/PDF files and their numerical values are unchanged.
+
+Scoped25files are isolated from57unrelated files plus the uncommitted Spinodal
+sections of DEVELOPMENT. Backup/staged snapshot:
+`/tmp/ceramic-sota-release-vayyozyu/`. All93training source files match the staged
+tree;6focused entrypoint/gradient tests pass in3.801s. Prior full cold/gradient
+validation remains valid. Nine pages build with330local links, unchanged
+comparison images, desktop1440/mobile390without overflow or script errors.
+Release receipt: `artifacts/ceramic_sota_publication_validation.json`.
+Next: commit on dev, regular merge into main, push main; verify exact Pages
+commit and live HTML, then record completion without starting experiments.

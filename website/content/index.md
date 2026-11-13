@@ -35,9 +35,11 @@ The spatial operator evaluates derivatives from neighboring predictions, avoidin
 | [02 · Electropolish](electropolish.html) | Initial rough interface | KKS AC/CH | 1.547% / 1.326% | Local finite differences, 64 unseen interfaces |
 | [03 · Spinodal decomposition](spinodal.html) | Two hole positions and radii | Confined Cahn–Hilliard | 4.8329% / 5.1935% | Direct nonlocal, 8 reused development geometries |
 | [04 · Two-phase flow](two-phase-flow.html) | Upper and lower channel walls | Incompressible NS–CH | 1.6435% / 2.1961% | Local mixed FEM, 3 reused reserved geometries |
-| [05 · Ceramic-particle corrosion](particle-corrosion.html) | Six inert particle shapes and poses | KKS AC/CH | 2.933% / 5.757% | Local P1 FEM, 4 development geometries |
+| [05 · Ceramic-particle corrosion](particle-corrosion.html) | Six inert particle shapes and poses | KKS AC/CH | 2.905% / 5.436% | Local P1 FEM, 4 development geometries; current default |
 
 Each row averages per-sample errors from the selected final checkpoint. Time weights, diagnostic grids and reference solvers vary by case. The corresponding chapters give the comparison protocol, field images and limitations.
+
+The [current ceramic SOTA default](particle-corrosion.html#current-sota-default) also completes a 64-case local-FEM evaluation: phase 3.6965%, concentration 4.4839%, and channel mean **4.0902%**. These use equally weighted full space-time node norms, distinct from the four-case quadrature-weighted row above. The actual default entrypoint was validated from a cold start for 20,000 steps; one paired initialization is reported.
 
 ## Reading the evidence
 

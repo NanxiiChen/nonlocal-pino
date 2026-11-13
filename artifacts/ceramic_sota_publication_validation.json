@@ -1,0 +1,77 @@
+{
+  "status": "validated_ready_to_publish",
+  "scope_files": [
+    "README.md",
+    "docs/DECISIONS.md",
+    "docs/DEVELOPMENT.md",
+    "docs/PROGRESS.md",
+    "docs/tasks/fem-weak-pino-comparison-plan.md",
+    "docs/tasks/pino_unified_ceramic_evaluate.py",
+    "docs/tasks/ceramic_default_validation.py",
+    "docs/tasks/ceramic_execution_probe.py",
+    "docs/tasks/ceramic_scatter_probe.py",
+    "artifacts/ceramic_execution_validation.json",
+    "artifacts/ceramic_sota_publication_validation.json",
+    "examples/particle_corrosion2d/README.md",
+    "examples/particle_corrosion2d/configs/train_default.py",
+    "examples/particle_corrosion2d/configs/train_physical_spaced_w256_fixed_adjoint.py",
+    "examples/particle_corrosion2d/execution.py",
+    "examples/particle_corrosion2d/spatial_adjoint.py",
+    "examples/particle_corrosion2d/losses.py",
+    "examples/particle_corrosion2d/online.py",
+    "examples/particle_corrosion2d/strategies.py",
+    "examples/particle_corrosion2d/train.py",
+    "tests/test_particle_corrosion_default.py",
+    "tests/test_particle_corrosion_spatial_adjoint.py",
+    "website/README.md",
+    "website/content/index.md",
+    "website/content/particle-corrosion.md"
+  ],
+  "execution_validation": "artifacts/ceramic_execution_validation.json",
+  "snapshot": "/tmp/ceramic-sota-release-vayyozyu/snapshot",
+  "backup": "/tmp/ceramic-sota-release-vayyozyu/before",
+  "unrelated_count": 57,
+  "website_target": "https://nanxiichen.github.io/nonlocal-pino/particle-corrosion.html#current-sota-default",
+  "retained_figures": "Original field sheet and three-method distribution; no redraw or relabeling",
+  "checks": {
+    "site": {
+      "status": "passed",
+      "pages": 9,
+      "relative_links": 330,
+      "asset_bytes_identical": true,
+      "browser_views": [
+        {
+          "width": 1440,
+          "image_loaded": true,
+          "no_horizontal_page_overflow": true,
+          "browser_errors": []
+        },
+        {
+          "width": 390,
+          "image_loaded": true,
+          "no_horizontal_page_overflow": true,
+          "browser_errors": []
+        }
+      ],
+      "figure_bytes": {
+        "png": 52302,
+        "pdf": 41860
+      }
+    },
+    "focused_tests": {
+      "count": 6,
+      "seconds": 3.801,
+      "passed": true,
+      "scope": "Exact staged-only snapshot: default entrypoint, execution configuration, independent operator transpose and coupled residual gradient"
+    },
+    "prior_full_validation": "artifacts/ceramic_execution_validation.json",
+    "training_source_byte_identity": 93,
+    "markdown_links": 100,
+    "all_scope_files_below_1MiB": true,
+    "syntax_and_json": true,
+    "unrelated_files_byte_identical": 57,
+    "partial_document_preserved": true,
+    "git_diff_check": true
+  },
+  "deployment": null
+}
