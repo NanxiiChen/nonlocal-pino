@@ -12794,3 +12794,17 @@ Spinodal/channel implementation changes local. Numerical defaults remain
 unchanged. Use dev -> regular main merge -> push main; validate the staged-only
 tree and retain byte copies of unrelated work before branch operations.
 Relation:fem-weak-pino-comparison-plan.
+
+## 2026-11-13 — Verify the ceramic distribution publication without changing defaults
+
+The user-approved three-method distribution and reproducible results are now
+published: content b00510f, regular main merge132b789, successful Pages run
+43416337906. Nine live pages and both curated figure files match the validated
+build byte-for-byte. Record the exact deployment and tests in the publication
+receipt; preserve all58unrelated or partially staged files and existing defaults.
+
+Reject using publication as automatic promotion or proof of a universal method
+ranking: the single initialization and source/launcher qualification remain.
+The requested README/site/Git deliverable is complete, while causal numerical
+diagnostics stay open with no new training queued.
+Relation:fem-weak-pino-comparison-plan.

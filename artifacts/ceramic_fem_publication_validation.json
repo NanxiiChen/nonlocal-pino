@@ -1,12 +1,14 @@
 {
-  "status": "local_validation_passed",
+  "status": "published_and_verified",
   "scope_files": [
     ".github/workflows/pages.yml",
-    "assets/README.md",
     "artifacts/ceramic_fem_comparison_publication.json",
-    "assets/pino-studies/particle_corrosion2d_fem_distribution.png",
+    "artifacts/ceramic_fem_publication_validation.json",
+    "assets/README.md",
     "assets/pino-studies/particle_corrosion2d_fem_distribution.pdf",
+    "assets/pino-studies/particle_corrosion2d_fem_distribution.png",
     "docs/DECISIONS.md",
+    "docs/DEVELOPMENT.md",
     "docs/PROGRESS.md",
     "docs/tasks/ceramic-fem-comparison-figures.json",
     "docs/tasks/ceramic_fem_comparison_figures.py",
@@ -15,27 +17,26 @@
     "docs/tasks/ceramic_fem_preflight.py",
     "docs/tasks/ceramic_frozen_source_queue.py",
     "docs/tasks/ceramic_nonlocal_reproduction_audit.py",
-    "docs/tasks/fem-weak-pino-comparison-plan.md",
     "docs/tasks/channel-uniform-pro6000-and-spinodal-audit.md",
+    "docs/tasks/fem-weak-pino-comparison-plan.md",
     "docs/tasks/pino_regional_metrics.py",
     "examples/particle_corrosion2d/README.md",
     "examples/particle_corrosion2d/compare.py",
+    "examples/particle_corrosion2d/configs/train_fem_comparison_local_ad.py",
+    "examples/particle_corrosion2d/configs/train_fem_comparison_nonlocal.py",
+    "examples/particle_corrosion2d/configs/train_fem_comparison_weak.py",
+    "examples/particle_corrosion2d/fem_weak.py",
     "examples/particle_corrosion2d/inputs.py",
     "examples/particle_corrosion2d/method_validation.py",
     "examples/particle_corrosion2d/online.py",
     "examples/particle_corrosion2d/online_validation.py",
     "examples/particle_corrosion2d/problem.py",
     "examples/particle_corrosion2d/train.py",
-    "examples/particle_corrosion2d/fem_weak.py",
-    "examples/particle_corrosion2d/configs/train_fem_comparison_local_ad.py",
-    "examples/particle_corrosion2d/configs/train_fem_comparison_nonlocal.py",
-    "examples/particle_corrosion2d/configs/train_fem_comparison_weak.py",
     "tests/test_particle_corrosion_fem_weak.py",
     "tests/test_pino_regional_metrics.py",
     "website/README.md",
     "website/build.mjs",
-    "website/content/particle-corrosion.md",
-    "docs/DEVELOPMENT.md"
+    "website/content/particle-corrosion.md"
   ],
   "snapshot": "/tmp/ceramic-fem-release-2n0b369z/snapshot",
   "publication_manifest": "artifacts/ceramic_fem_comparison_publication.json",
@@ -74,6 +75,90 @@
   "source_syntax_passed": true,
   "files_below_1MiB": true,
   "git_diff_cached_check": "passed",
-  "live_pages": "pending push",
-  "unrelated_work_backup": "/tmp/ceramic-fem-release-2n0b369z/before"
+  "live_pages": {
+    "status": "passed",
+    "verified_utc": "2026-11-13T11:22:27.453340+00:00",
+    "deployed_commit": "132b789cee557c181993dbd27789fd138efeadd4",
+    "pages_run": 43416337906,
+    "workflow_url": "https://github.com/NanxiiChen/nonlocal-pino/actions/runs/43416337906",
+    "build": "success",
+    "deploy": "success",
+    "live_files": [
+      {
+        "url": "https://nanxiichen.github.io/nonlocal-pino/architecture.html",
+        "bytes": 38341,
+        "status": 200,
+        "identical": true
+      },
+      {
+        "url": "https://nanxiichen.github.io/nonlocal-pino/electropolish.html",
+        "bytes": 78565,
+        "status": 200,
+        "identical": true
+      },
+      {
+        "url": "https://nanxiichen.github.io/nonlocal-pino/ice-melting.html",
+        "bytes": 106483,
+        "status": 200,
+        "identical": true
+      },
+      {
+        "url": "https://nanxiichen.github.io/nonlocal-pino/index.html",
+        "bytes": 15219,
+        "status": 200,
+        "identical": true
+      },
+      {
+        "url": "https://nanxiichen.github.io/nonlocal-pino/particle-corrosion.html",
+        "bytes": 94106,
+        "status": 200,
+        "identical": true
+      },
+      {
+        "url": "https://nanxiichen.github.io/nonlocal-pino/spatial-calculus.html",
+        "bytes": 76566,
+        "status": 200,
+        "identical": true
+      },
+      {
+        "url": "https://nanxiichen.github.io/nonlocal-pino/spinodal.html",
+        "bytes": 58112,
+        "status": 200,
+        "identical": true
+      },
+      {
+        "url": "https://nanxiichen.github.io/nonlocal-pino/training.html",
+        "bytes": 41992,
+        "status": 200,
+        "identical": true
+      },
+      {
+        "url": "https://nanxiichen.github.io/nonlocal-pino/two-phase-flow.html",
+        "bytes": 48440,
+        "status": 200,
+        "identical": true
+      },
+      {
+        "url": "https://nanxiichen.github.io/nonlocal-pino/assets/particle_corrosion2d_fem_distribution.png",
+        "bytes": 52302,
+        "status": 200,
+        "identical": true
+      },
+      {
+        "url": "https://nanxiichen.github.io/nonlocal-pino/assets/particle_corrosion2d_fem_distribution.pdf",
+        "bytes": 41860,
+        "status": 200,
+        "identical": true
+      }
+    ],
+    "page_url": "https://nanxiichen.github.io/nonlocal-pino/particle-corrosion.html#spatial-derivative-comparison"
+  },
+  "unrelated_work_backup": "/tmp/ceramic-fem-release-2n0b369z/before",
+  "content_commit": "b00510f",
+  "main_merge_commit": "132b789cee557c181993dbd27789fd138efeadd4",
+  "unrelated_work_preserved": {
+    "count": 58,
+    "byte_identical": true,
+    "receipt": "/tmp/ceramic-fem-release-2n0b369z/preservation.json"
+  }
 }
