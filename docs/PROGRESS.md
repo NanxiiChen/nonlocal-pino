@@ -2,32 +2,155 @@
 
 ## Active task
 
+[FEM weak-residual PINO comparison](tasks/fem-weak-pino-comparison-plan.md).
+Latest instruction supersedes the earlier TODO deferral: finish/record the
+channel resource tests, cancel its automatic long training, then run ceramic
+nonlocal/local-AD/FEM comparisons. Channel probes finished; old owner5245 was
+terminated after its final child exited0. No channel long training started.
+Signed mass-lumped P1 rows are implemented without changing the original KKS
+output map, physical coefficients, five shared losses or Adam recipe. Focused
+tests and all64initial-geometry/512core-set input/support checks pass.
+FEM20k completed in1260.56s process wall, with a passing online-input audit.
+Final64common-ref primary errors: phi5.5535%,c6.5937%,channel mean6.0736%
+(sampleSD0.8166percentage points). Warm update median42.99ms; mean47.60ms;
+active peak14.05GiB. These exclude input/evaluation overhead from warm updates.
+Near-wall phi8.9038% versus bulk2.2539%; this is a diagnostic, not a cause.
+The original owner76128 stopped at a regional postprocessing2e-13tolerance
+gate, after successful training/inference. All64headline norms reproduce
+bitwise; extended precision confirms a reduction-order discrepancy <2.2e-13.
+Only postprocessing tolerance was corrected; saved metrics/weights unchanged.
+Regional replay now passes, and the failed journal remains untouched.
+Completed continuation owner101250:
+`/root/autodl-tmp/tf-logs/ceramic-fem-comparison-20261113-02/journal.json`.
+It reused completed FEM and completed nonlocal/localAD20k controls,
+their input/pair audits and64case final evaluations. Nonlocal20k result:
+primary64case phi31.9917%,c33.6208%,channel mean32.8062%, versus FEM6.0736%
+channel mean. Total1620.64s; warm update median59.83ms/mean66.30ms; peak20.66GiB.
+Online, strict FEM-pair and64case regional audits pass. LocalAD20k and all audits
+finished09:09:50UTC. Primary64 phi32.2070%,c32.6060%,channel mean32.4065%;
+total1704.92s, warm median49.13ms/mean56.77ms, active peak11.18GiB.
+The old-source nonlocal replay DID recover convergence on this same GPU and
+completed09:38:24UTC. Final64 primary phi3.8175%,c4.6205%,channel mean4.2190%
+(sampleSD0.5719percentage points). Total1605.92s (~26.77min). All cold states,
+complete actual sampling and initial/final banks match historical arrays;
+online reconstruction, heldout disjointness and regional norm replay pass.
+Four-case physical-weighted phi3.0729%,c3.7319% are separate monitor values.
+Historical reproduction audit also passes ALL20000actual core/time/slot draws,
+initial/final banks and399physical geometry journals against the successful old
+nonlocal run. Key math/model/optimizer sources and cold state match; CPU-lowered
+configured update graphs match. First-step FP32values already differ across the
+old RTX4090/new PRO6000 executions. No accidental mathematical/input change is
+found; backend/repeatability cause remains unproven. Do not claim method-wide
+inferiority from this failed reproduction.
+Completed frozen-old-source20k replay owner115187, child138508:
+`/root/autodl-tmp/tf-logs/ceramic-old-source-pro6000-20261113-01/`.
+It used the old source/preset/recorded launcher flags on the same current GPU;
+all stages passed, no additional training is queued. The successful current-GPU
+trajectory rejects a hardware-wide inability to converge, not a specific cause.
+Do not conflate this recovery with a source-only ablation: launcher flags and
+execution details changed together. Remaining work is causal reproducibility
+isolation and planned discretization/interpolation diagnostics, not a new sweep.
+Numerical defaults are unchanged; Spinodal stays full and channel long run cancelled.
+Requested visualizations are complete: final64channel-mean log-KDE violins and
+actual0..20k four-case weighted phase/concentration curves (mean±sampleSD).
+User-requested revised figures show only Nonlocal PINO, Local AD PINO and FEM
+PINO, with FEM numerical reference identified separately. The original four-arm
+figures and failed-run evidence remain in provenance; retained values unchanged.
+Editable6–7ptHelvetica/NPG PDF+PNG and direct provenance:
+[figure record](tasks/ceramic-fem-comparison-figures.json). No new inference/train.
+The user now authorizes publishing the approved distribution in the example
+README and website, recording these results, committing and pushing. The PNG/PDF
+pair is curated under assets/pino-studies; one shared manifest drives website
+copy/size checks. Related FEM implementation/provenance is included; unfinished
+Spinodal/channel implementation remains local. The staged-only release passes
+42focused tests, nine-page build,328HTML links, asset identity and desktop/mobile
+display checks. Commit/main push and live Pages verification are the next actions.
+
+## Previous channel task — resource completion only
+
+[Channel uniform core/halo on PRO 6000 and Spinodal explanation](tasks/channel-uniform-pro6000-and-spinodal-audit.md).
+Latest instruction cancels the previously authorized automatic long training;
+only the resource measurements are complete and retained. Bundle:
+`/root/autodl-tmp/tf-logs/channel-uniform-pro6000-20261113-02/`.
+Journal status is `completed_resources_only`, finished07:13:04UTC. Full/512/
+1024/2048 warm inclusive steps:1.6141/.8010/.9440/1.4263s; active peaks:
+89,558,744,320 /55,167,894,272 /79,896,918,528 /91,070,342,400bytes.
+All use B8/Nt36/timeblock18; these60step probes do not establish accuracy or
+time to equal error. No selected long run exists. Spinodal retains its original
+full-field mass projection/stable-resolvent route. Old stopped queues remain
+stopped. FEM execution is now explicitly authorized as the active task above.
+
+## Paused task — all experiments stopped by the user
+
 [Unify rolling core/halo sampling](tasks/pino-unified-rolling-core-halo.md).
-User requests a rolling core/halo route across all five principal examples,
-including a controlled domain-interior/near-boundary core split for geometries.
-All five channel60-update resource probes passed; geometry accuracy is pending.
-Ceramic followup600703completed all19stages and three-arm pairing. Final64
-channel means: newarea32.43%,CDF4.50%,wallCDF32.62%; historical successful area
-4.55%. No robust sampler advantage or wall-allocation promotion follows.
-Full-graph diagnostics locate large early AC defects and incorrect initial pit
-shrinkage in failed runs; mouth/IC errors are small. Initial-interface cores
-remain present. Ordinary same-state GPU updates are nonrepeatable; deterministic
-mode gives12identical updates but much larger diagnostic cost. This does not
-prove the cause of the complete training gap; defaults remain unchanged.
-Accuracy owner646658completed both regular probes after the GPU replays:
-Electropolish40.517mswarm/12.999GiBpeak; Melting16.724ms/1.493GiB. Spinodal
-full/bulk potential60 probes completed: warm update+preparation medians75.234/
-193.277ms, active peaks9.780/7.753GiB. Compact batch preparation costs122.053ms;
-its CPU overhead needs diagnosis before any speed claim. Wall probe child684672
-is running; full/compact5k and three channel20kcontrols remain queued. Fresh
-channel64geometry/lifetime checks retain complete stencils and encoder context
-within existing capacities; exact two-hop Spinodal/replacement checks also pass.
-Neither support proof certifies trained accuracy. The user authorizes publication
-of this diagnostic checkpoint after main56821e5; exact revisions are in Git history.
-Three diagnostic scripts and these records preserve receipts and resume actions;
-production defaults and live serial ownership remain unchanged.
+The user cleared the active goal and explicitly requested “先都断掉吧”.
+All current training, queued experiments and monitoring are stopped.
+The research objective remains incomplete; do not automatically resume work.
+
+At 2026-11-13 05:43:45 UTC, SIGTERM stopped five verified process groups:
+channel owner646658 with trainer781133 and workers782280/782281/782284;
+original-row owner728408; initial-rate owner729537; half-band owner734203;
+CPU completion owner761754. All nine PIDs subsequently disappeared.
+The GPU compute-process list is empty. Observer session2846 exited normally
+after observing the training process terminate.
+
+All five queue journals now say `stopped_by_user`; the active wall training
+stage says `interrupted_by_user`. Original journals, exact process identities,
+signals and timestamps are preserved in:
+`/root/autodl-tmp/tf-logs/pino-user-stop-20261113-01/`.
+No weights, logs, reference data or other outputs were deleted.
+
+### Retained state
+
+- Channel bulk512 cold20k completed, including online-input reconstruction and
+  three reserved local-FEM evaluations. Mean phase/velocity/pressure/chemical
+  errors are 3.295%/3.038%/8.884%/27.827%; worst pressure13.589%.
+  Independent saved-field reductions pass. Warm step including preparation
+  is1.669s; active peak26.423GiB; whole training child9.448h.
+- Channel wall512 was stopped during training. Last recorded loss is step16700;
+  last complete evaluation is16500. Latest saved model is `ckpt_015000.eqx`;
+  5k/10k models are also retained. There is no final model or final optimizer.
+  Its last single-geometry phase/velocity errors are4.325%/2.979%, versus
+  bulk4.075%/3.048% at the same step. This is not a final cohort comparison.
+- The new same-card full20k arm never started. The original-row, initial-rate
+  and half-band Spinodal queues stopped while waiting; their planned training
+  results do not exist. CPU completion stopped while waiting after import
+  preflight; final cross-arm/spatial/regional audits did not run.
+- Electropolish, Melting and ceramic corrosion retain their accepted rolling
+  routes. No new numerical defaults were promoted.
+- Spinodal's accepted original full50k remains4.8329% on eight native geometries.
+  Changed potential/identity full/wall5k pilots remain60.878%/87.262%;
+  no accurate genuinely compact replacement has been established.
+
+### Interpretation to preserve
+
+Historical full20k phase/velocity means on the same three reserved geometries
+are1.6435%/1.5172%, versus compact3.2950%/3.0375%. Saved initial model/optimizer
+streams are byte-identical. Recorded configs differ only in run name, spatial
+sampling and time block18->6. Both use fixed weights, without causal, GradNorm
+or stagger; equal-size blocks average gradients before one optimizer update.
+Hardware/execution differences prevent attributing the accuracy gap to sampling
+alone. The original full default is retained.
+
+Same-card short probes give full/bulk512/wall512 warm medians3.277/1.674/1.676s:
+roughly1.96x compact update throughput. Full's source snapshot predates two
+unused sampler-path edits, so this remains a qualified short resource estimate,
+not the cancelled strict full20k comparison or proof of faster equal-error
+convergence. Near-wall monitoring shows slightly better velocity but worse phase;
+no robust overall benefit is established.
+
+The user deferred separate two-region PDE losses and parameter-gradient balancing.
+The later unconditional stop supersedes the earlier instruction to continue the
+bounded near-wall arm. Resume only after an explicit user request; first review
+the retained checkpoints and interrupted journals. Intermediate wall checkpoints
+contain model weights, not optimizer state, so exact optimizer continuation from
+the interruption is unavailable. Preserve all failed/partial evidence.
+Current published main remains d2342f9; research edits are local. No Git operation.
 
 ## Deferred work
+
+The FEM weak-residual TODO was released by the latest explicit instruction;
+it is now the active task above, not a deferred automatic dependency.
 
 Optional regional diagnostics from the
 [completed spatial study](tasks/archive/pino-spatial-sampling-study.md)
@@ -36,9 +159,10 @@ Both the old spatial-study and derivative-control queues are
 finished. The fixed-particle ratio queue has also finished; no further GPU work
 has been launched for this study.
 
-The old high-mobility horizon process group618216 remains explicitly paused.
-Recovery details are preserved in the archived physical study below; do not
-automatically resume or discard it.
+The old high-mobility horizon work was explicitly paused. Current process-table
+inspection finds neither leader618216nor members of that process group. Recovery
+artifacts remain preserved in the archived physical study; do not automatically
+resume, relaunch or discard it. No process action was taken during this check.
 
 Phase-field/displacement boundary-conditioned precipitate example is recorded
 but explicitly deferred by the user; no implementation, training or reference

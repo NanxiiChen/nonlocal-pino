@@ -1,0 +1,79 @@
+{
+  "status": "local_validation_passed",
+  "scope_files": [
+    ".github/workflows/pages.yml",
+    "assets/README.md",
+    "artifacts/ceramic_fem_comparison_publication.json",
+    "assets/pino-studies/particle_corrosion2d_fem_distribution.png",
+    "assets/pino-studies/particle_corrosion2d_fem_distribution.pdf",
+    "docs/DECISIONS.md",
+    "docs/PROGRESS.md",
+    "docs/tasks/ceramic-fem-comparison-figures.json",
+    "docs/tasks/ceramic_fem_comparison_figures.py",
+    "docs/tasks/ceramic_fem_comparison_queue.py",
+    "docs/tasks/ceramic_fem_fixed_probe.py",
+    "docs/tasks/ceramic_fem_preflight.py",
+    "docs/tasks/ceramic_frozen_source_queue.py",
+    "docs/tasks/ceramic_nonlocal_reproduction_audit.py",
+    "docs/tasks/fem-weak-pino-comparison-plan.md",
+    "docs/tasks/channel-uniform-pro6000-and-spinodal-audit.md",
+    "docs/tasks/pino_regional_metrics.py",
+    "examples/particle_corrosion2d/README.md",
+    "examples/particle_corrosion2d/compare.py",
+    "examples/particle_corrosion2d/inputs.py",
+    "examples/particle_corrosion2d/method_validation.py",
+    "examples/particle_corrosion2d/online.py",
+    "examples/particle_corrosion2d/online_validation.py",
+    "examples/particle_corrosion2d/problem.py",
+    "examples/particle_corrosion2d/train.py",
+    "examples/particle_corrosion2d/fem_weak.py",
+    "examples/particle_corrosion2d/configs/train_fem_comparison_local_ad.py",
+    "examples/particle_corrosion2d/configs/train_fem_comparison_nonlocal.py",
+    "examples/particle_corrosion2d/configs/train_fem_comparison_weak.py",
+    "tests/test_particle_corrosion_fem_weak.py",
+    "tests/test_pino_regional_metrics.py",
+    "website/README.md",
+    "website/build.mjs",
+    "website/content/particle-corrosion.md",
+    "docs/DEVELOPMENT.md"
+  ],
+  "snapshot": "/tmp/ceramic-fem-release-2n0b369z/snapshot",
+  "publication_manifest": "artifacts/ceramic_fem_comparison_publication.json",
+  "site": {
+    "status": "passed",
+    "pages": 9,
+    "relative_links": 328,
+    "asset_bytes_identical": true,
+    "browser_views": [
+      {
+        "width": 1440,
+        "image_loaded": true,
+        "no_horizontal_page_overflow": true,
+        "browser_errors": []
+      },
+      {
+        "width": 390,
+        "image_loaded": true,
+        "no_horizontal_page_overflow": true,
+        "browser_errors": []
+      }
+    ],
+    "figure_bytes": {
+      "png": 52302,
+      "pdf": 41860
+    }
+  },
+  "relative_markdown_links_checked": 89,
+  "focused_tests": {
+    "command": "JAX_PLATFORMS=cpu OPENBLAS_NUM_THREADS=1 .venv/bin/python -m unittest tests.test_particle_corrosion_fem_weak tests.test_particle_corrosion_method_validation tests.test_particle_corrosion_online tests.test_particle_corrosion_online_validation tests.test_pino_regional_metrics",
+    "count": 42,
+    "passed": true,
+    "seconds": 3.717,
+    "scope": "Exact staged-only source snapshot; shared src code unchanged."
+  },
+  "source_syntax_passed": true,
+  "files_below_1MiB": true,
+  "git_diff_cached_check": "passed",
+  "live_pages": "pending push",
+  "unrelated_work_backup": "/tmp/ceramic-fem-release-2n0b369z/before"
+}

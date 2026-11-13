@@ -384,7 +384,76 @@ study and same-device measurements are in the
 Both particle pairs pass the full input/state audit. The comparison preserves
 the production defaults; historical results below use a different recipe.
 
-#### Completed 20,000-step comparison
+### Opt-in FEM weak-residual comparison
+
+The experimental `train_fem_comparison_weak.py` preset adds a third spatial
+route without changing the selected default. On each conforming P1 mesh it
+uses \(D_{FE}=M_L^{-1}K\), with lumped mass and the full signed stiffness.
+Known nodal test functions provide natural homogeneous Neumann conditions on
+the outer and particle walls. Mouth test rows are excluded, while their trial
+columns and the original soft reservoir loss remain. This is a weak boundary
+treatment; it does not impose a hard pointwise normal derivative on the
+continuous neural output.
+
+The original KKS output, nodally integrated reaction, time JVP, mass-normalized
+L1 residual and five shared losses remain. Complete incident-element support
+defines the FEM halo. The corresponding `_nonlocal.py` and `_local_ad.py`
+presets use the same architecture, Adam20k schedule, random time/core/geometry
+draws, and evaluation cohort; AD retains two explicit Neumann losses. FEM
+padding is2048nodes/32neighbors; nonlocal keeps3072/64. All save model weights
+every1000updates. These are diagnostics, not optimizer-resume checkpoints.
+
+Use the same `train.py` arguments as above, with the respective preset. After
+each completed run, invoke `online_validation`; the next method uses
+`--rolling-method-control PREVIOUS_RUN`. The `rolling_fem_v1` audit compares
+actual core coordinates/weights and known inputs, allowing the declared
+different spatial supports. Use `method_validation` for this three-method
+study; the older two-method `compare --runs` command remains nonlocal/AD only.
+
+#### Final 64-geometry results
+
+The three methods below use the final 20,000-step weights and the same 64
+held-out local-FEM references on the RTX PRO 6000 Blackwell Server Edition.
+For each sample and physical channel, the relative norm covers all nodes and
+11 saved times over \(t^*\in[0,1]\), with equal evaluation-point weights.
+The distribution averages the two channel errors within each sample; the
+reported mean then averages all 64 samples. It differs from the four-case
+volume/time-weighted development metric used elsewhere in this README.
+
+| Method | Phase mean | Concentration mean | Channel mean ± sample SD | Training time |
+|---|---:|---:|---:|---:|
+| Nonlocal PINO | 3.8175% | 4.6205% | 4.2190% ± 0.5719 pp | 26.77 min |
+| Local AD PINO | 32.2070% | 32.6060% | 32.4065% ± 0.6047 pp | 28.42 min |
+| FEM PINO | 5.5535% | 6.5937% | 6.0736% ± 0.8166 pp | 20.97 min |
+
+![Final error distributions for Nonlocal PINO, Local AD PINO and FEM PINO against a FEM numerical reference](../../assets/pino-studies/particle_corrosion2d_fem_distribution.png)
+
+[Editable PDF](../../assets/pino-studies/particle_corrosion2d_fem_distribution.pdf)
+· [Publication and exact run/configuration record](../../artifacts/ceramic_fem_comparison_publication.json)
+· [Rendering and metric provenance](../../docs/tasks/ceramic-fem-comparison-figures.json)
+
+The violins use all 64 sample errors, KDE in log-error coordinates with Scott
+bandwidth and three-bandwidth tails, and dashed quartiles. Axes show error
+ratios, not percentages. Tail extension visualizes density, not extra samples.
+**FEM PINO** trains the neural operator with the assembled weak residual;
+**FEM numerical reference** is the independent refined P1/BDF solution used
+only for evaluation. No reference trajectory enters any training loss.
+
+These are single-seed results (42). The displayed nonlocal model uses the
+saved historical source and launcher settings; the exact original cold state
+and full sampling sequence were independently verified. Another execution
+failed to reproduce that convergence; both outcomes and the unresolved
+execution-sensitivity investigation remain in the experiment record. This is
+not a multi-seed method ranking or a source-only causal experiment. Training
+time includes setup, compilation, in-training evaluation and I/O, but excludes
+the independent final 64-sample evaluation. No numerical default is changed.
+
+The [experiment record](../../docs/tasks/fem-weak-pino-comparison-plan.md)
+contains derivation, reference provenance, exact paths and validation status.
+The case already uses a mesh to prepare nonlocal nodes/volumes; this comparison
+does not claim mesh-free preprocessing.
+
+### Historical 20,000-step nonlocal/local-AD comparison
 
 These are new cold runs of the six-particle, 350 s recipe: width256, four
 geometry draws, 32 random shared times, 256 cores and eight core/halo sets per

@@ -1534,3 +1534,35 @@ network,no frozen predecessor,and no time JVP in this loss. Standard physical
 JVP residuals remain evaluation diagnostics. Initially require nonlocal original
 outputs and causal off; do not silently combine unqualified variants. Composite
 Simpson consistency defects must be distinguished from trajectory accuracy.
+
+
+### Ceramic FEM weak-residual comparison
+
+`particle_corrosion2d/train.py` accepts the opt-in `nl.method=fem_weak` only
+with explicit `fem.kind=p1_lumped_nodal`,
+`fem.residual_norm=mass_normalized_l1` and
+`operator.method_comparison=rolling_fem_v1`. Production defaults remain
+unchanged. The original output fields, reaction quadrature, time JVP and L1
+physical losses are retained. `fem_weak.py` builds mass-normalized signed P1
+stiffness rows; all nonzero incident-node couplings and mouth trial columns
+must remain. A negative offdiagonal exchange coefficient is valid for general
+triangular FEM and must not pass through the nonlocal positive-edge filter.
+All physical measure/sampling weights remain nonnegative.
+
+Initial-bank conversion preserves actual supplied core coordinates and weights,
+as well as fixed conditioning/IC/BC data. Rolling construction uses the same
+geometry and spatial RNG namespaces. All FEM support must fit the explicit
+halo/neighbor padding; overflow is an error, never a truncated element support.
+Natural homogeneous Neumann conditions apply weakly to phi and the transported
+chemical variable, not to concentration directly. Do not replace weak assembly
+by an elementwise second derivative of piecewise-linear interpolation.
+
+`method_validation` permits FEM-specific support arrays/padding while checking
+actual PDE core traces, cold states and known physical inputs. Nonlocal/AD pairs
+still require identical graph payloads. The FEM module is included in source
+provenance only for the explicit rolling_fem_v1 study. Historical snapshots
+still require their original source bytes for independent replay. Run
+`online_validation --run RUN --workers 4` before pairing a completed control.
+The old `compare --runs` front end remains restricted to nonlocal/localAD;
+use the explicit FEM comparison workflow and its common64 final evaluator.
+See `docs/tasks/fem-weak-pino-comparison-plan.md` for derivation and run paths.

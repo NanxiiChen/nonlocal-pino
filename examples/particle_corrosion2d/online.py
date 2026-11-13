@@ -32,6 +32,9 @@ _CACHE = OrderedDict()
 
 
 def validate_online(c):
+    if c.nl.method == 'fem_weak':
+        from .fem_weak import validate_fem
+        validate_fem(c)
     if is_full(c):
         validate_full(c)
     required = {'workers', 'geometry_every', 'geometry_size', 'spatial_every',
@@ -83,7 +86,7 @@ def validate_payload(data, c):
             raise ValueError(f'Invalid rolling {name}: expected {shape}/{dtype}, got {value.shape}/{value.dtype}')
     for name in ('domain_weights', 'boundary_weights', 'wall_weights', 'mouth_weights',
                  'ic_weights', 'pde_weights', 'coefficients'):
-        if np.any(data[name] < 0):
+        if np.any(data[name] < 0) and not (name == 'coefficients' and c.nl.method == 'fem_weak'):
             raise ValueError(f'Negative rolling physical weight: {name}')
         if name != 'coefficients' and np.any(data[name].sum(axis=-1) <= 0):
             raise ValueError(f'Empty rolling physical measure: {name}')
@@ -199,7 +202,11 @@ def build_input(config, seed, geometry_id, revision, initial_record):
                     draw_id=geometry_id, seed=seed, geometry_namespace=GEOMETRY_NAMESPACE,
                     generation_diagnostics=generation), allow_nan=False), flush=True)
         mesh = build_mesh(c, record, c.mesh.spacing)
-        matrix = build_operator(c, record, mesh['points'], mesh['volumes'])
+        if c.nl.method == 'fem_weak':
+            from .fem_weak import diffusion_matrix
+            matrix = diffusion_matrix(mesh)
+        else:
+            matrix = build_operator(c, record, mesh['points'], mesh['volumes'])
     _CACHE[key] = (record, mesh, matrix, generation)
     while len(_CACHE) > c.operator.online.worker_cache:
         _CACHE.popitem(last=False)

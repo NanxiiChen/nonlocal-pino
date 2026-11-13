@@ -180,5 +180,22 @@ if (setupBytes >= setupManifest.maximum_collection_bytes) {
   throw new Error('Setup figure collection exceeds its approved budget');
 }
 
+const ceramic = JSON.parse(await readFile(join(root, '..', 'artifacts', 'ceramic_fem_comparison_publication.json'), 'utf8'));
+if (ceramic.schema !== 'ceramic_fem_comparison_publication_v1' ||
+    ceramic.test_samples !== 64 || ceramic.checkpoint_step !== 20000 || ceramic.arms.length !== 3) {
+  throw new Error('Expected the approved three-method final64 ceramic comparison');
+}
+for (const kind of ['png', 'pdf']) {
+  const name = `particle_corrosion2d_fem_distribution.${kind}`;
+  if (ceramic.figure[kind] !== `assets/pino-studies/${name}`) {
+    throw new Error(`Unexpected ceramic comparison asset: ${kind}`);
+  }
+  const data = await readFile(join(root, '..', ceramic.figure[kind]));
+  if (data.length !== ceramic.bytes[kind] || data.length >= ceramic.maximum_file_bytes) {
+    throw new Error(`Ceramic comparison asset differs from its approval: ${kind}`);
+  }
+  await writeFile(join(assets, name), data);
+}
+
 await Promise.all(rendered.map(([slug, html]) => writeFile(join(output, `${slug}.html`), html)));
 console.log(`Built ${rendered.length} technical report pages in website/dist/`);

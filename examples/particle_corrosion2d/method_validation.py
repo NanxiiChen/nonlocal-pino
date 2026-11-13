@@ -28,6 +28,12 @@ SOURCES = tuple(dict.fromkeys((*SHARED_SOURCES,
     'src/nonlocal_pinn/training/runtime.py')))
 
 
+def sources(c):
+    """The new optional module is required only by the declared FEM study."""
+    return SOURCES + (('examples/particle_corrosion2d/fem_weak.py',)
+                      if c.operator.method_comparison == 'rolling_fem_v1' else ())
+
+
 def _read(path):
     return json.loads(Path(path).read_text())
 
@@ -38,13 +44,30 @@ def enabled(c):
 
 def validate_config(c):
     """An explicit original-residual, rolling core/halo comparison only."""
-    if (not enabled(c) or c.operator.method_comparison != 'rolling_spatial_v1'
+    if (not enabled(c) or c.operator.method_comparison not in ('rolling_spatial_v1','rolling_fem_v1')
             or 'online' not in c.operator or 'full_grid' in c.sample
             or 'phase' in c or 'boundary' in c):
-        raise ValueError('Method comparison requires rolling_spatial_v1 and original rolling core/halo fields')
+        raise ValueError('Method comparison requires rolling_spatial_v1 or rolling_fem_v1 and original rolling core/halo fields')
     _canonical_config(json.loads(c.to_json()))
     if c.train.compute_dtype != 'float32':
         raise ValueError('The explicit rolling spatial comparison requires FP32')
+    if c.nl.method == 'fem_weak':
+        from .fem_weak import validate_fem
+        validate_fem(c)
+
+
+def compare_banks(first, second, context, different_operators):
+    """FEM changes stencils/padding, never known conditioning or actual cores."""
+    if not different_operators:
+        return _compare_arrays(first, second, context)
+    from .online import FIXED_KEYS, GRAPH_KEYS
+    if set(first) != set(FIXED_KEYS+GRAPH_KEYS) or set(second) != set(first):
+        raise ValueError(f'{context}: operator bank schema differs')
+    _compare_arrays({k:first[k] for k in FIXED_KEYS}, {k:second[k] for k in FIXED_KEYS}, context)
+    def cores(bank):
+        return dict(points=np.take_along_axis(bank['graph_points'], bank['core_indices'][...,None], axis=2),
+                    weights=bank['pde_weights'])
+    _compare_arrays(cores(first), cores(second), context+' actual core points/weights')
 
 
 def _compare_arrays(first, second, context):
@@ -113,8 +136,13 @@ def validate_control(c, control, inputs, reference, bank, exclusions):
     validate_config(prior)
     old, old_method = _canonical_config(json.loads(prior.to_json()))
     new, new_method = _canonical_config(json.loads(c.to_json()))
-    if old != new or {old_method, new_method} != {'nonlocal', 'local_ad'}:
+    fem_pair = 'fem_weak' in (old_method,new_method)
+    permitted = ({old_method,new_method} == {'nonlocal','local_ad'} or
+                 (c.operator.method_comparison == 'rolling_fem_v1' and fem_pair and old_method != new_method))
+    if old != new or not permitted:
         raise ValueError('Rolling method control permits only method and two unit Neumann biases')
+    if not fem_pair and c.operator.online != prior.operator.online:
+        raise ValueError('Nonlocal/AD controls require identical rolling padding')
     runtime = _completed(control, prior)
     _sampling(control, prior, runtime['seed'])
     if (runtime['inputs'] != str(Path(inputs).resolve(strict=True))
@@ -123,11 +151,11 @@ def validate_control(c, control, inputs, reference, bank, exclusions):
     if _read(control/'excluded_geometries.json') != exclusions:
         raise ValueError('Rolling method control requires identical excluded geometries')
     root = Path(__file__).resolve().parents[2]
-    for source in SOURCES:
+    for source in sources(c):
         if not _same_file(control/'source'/source, root/source):
             raise ValueError(f'Rolling method source changed: {source}')
     with np.load(control/'online_initial_inputs.npz', allow_pickle=False) as expected:
-        _compare_arrays(bank, expected, 'Initial rolling bank')
+        compare_banks(bank, expected, 'Initial rolling bank', fem_pair)
     return runtime
 
 
@@ -178,7 +206,7 @@ class CoreTrace:
         return record
 
 
-def _journal_physics(run):
+def _journal_physics(run, *, different_operators=False):
     result = []
     for line in (run/'online_refresh.jsonl').read_text().splitlines():
         row = json.loads(line)
@@ -187,6 +215,9 @@ def _journal_physics(run):
         for item in row['records']:
             item.pop('worker_seconds')
             item.pop('cache_hit')
+            if different_operators:
+                item.pop('actual_halo')
+                item.pop('actual_neighbors')
         result.append(row)
     return result
 
@@ -209,22 +240,26 @@ def audit_pair(run, control):
             or runtime['paired_optimizer_initialization'] is not True):
         raise ValueError('Rolling method seed/control/exclusion/cold optimizer provenance differs')
     root = Path(__file__).resolve().parents[2]
-    for source in SOURCES:
+    for source in sources(c):
         if (not _same_file(run/'source'/source, control/'source'/source)
                 or not _same_file(run/'source'/source, root/source)):
             raise ValueError(f'Actual rolling method source differs: {source}')
     for name in ('model_initial.eqx', 'optimizer_initial.eqx'):
         if not _same_file(run/name, control/name):
             raise ValueError(f'Cold rolling method state differs: {name}')
-    for name in ('sampling.npz', 'online_sampling.npz', 'online_initial_inputs.npz',
-                 'online_final_inputs.npz', 'core_trace.npz'):
+    for name in ('sampling.npz', 'online_sampling.npz', 'core_trace.npz'):
         _compare_npz(run/name, control/name, name)
+    prior = _read(control/'config.json')
+    fem_pair = 'fem_weak' in (c.nl.method,prior['nl']['method'])
+    for name in ('online_initial_inputs.npz','online_final_inputs.npz'):
+        with np.load(run/name,allow_pickle=False) as a, np.load(control/name,allow_pickle=False) as b:
+            compare_banks(a,b,name,fem_pair)
     with np.load(run/'core_trace.npz', allow_pickle=False) as data:
         if set(data.files) != {'cores'} or data['cores'].shape != core_shape(c) or data['cores'].dtype != np.float32:
             raise ValueError('Actual core trace has wrong schema/shape/dtype')
         if np.any(data['cores'][..., 2] <= 0):
             raise ValueError('Actual core trace has nonpositive PDE weights')
-    if _journal_physics(run) != _journal_physics(control):
+    if _journal_physics(run,different_operators=fem_pair) != _journal_physics(control,different_operators=fem_pair):
         raise ValueError('Actual installed geometry/spatial journal differs')
     state_name = f'online_pool_{c.train.iterations:06d}.json'
     if _read(run/state_name) != _read(control/state_name):
@@ -232,11 +267,14 @@ def audit_pair(run, control):
     return dict(status='passed', run=str(run), control=str(control), updates=c.train.iterations,
         seed=runtime['seed'], identical_initial_model=True, identical_initial_optimizer=True,
         identical_all_geometry_spatial_core_time_draws=True,
-        identical_initial_final_known_inputs=True, identical_actual_installed_geometries=True,
+        identical_initial_final_known_inputs=True, identical_spatial_stencils=not fem_pair,
+        identical_actual_installed_geometries=True,
         actual_core_queries=c.train.iterations*c.operator.condition_batch*c.sample.K_core,
-        shared_sources=list(SOURCES), training_uses_reference_targets=False,
-        allowed_config_changes=['nl.method', 'loss.gradnorm_bias[5:]'],
-        cost_scope='AD evaluates no halo; both retain the common graph producer/storage for exact input pairing. Graph preparation is declared unused AD comparison overhead.',
+        shared_sources=list(sources(c)), training_uses_reference_targets=False,
+        allowed_config_changes=(['nl.method','loss.gradnorm_bias[5:]','fem','operator.online.halo','operator.online.neighbors']
+                                if fem_pair else ['nl.method','loss.gradnorm_bias[5:]']),
+        cost_scope=('FEM uses signed P1 element support; nonlocal uses visible horizons. Same actual core/IC/BC/geometry/time draws.'
+                    if fem_pair else 'AD evaluates no halo; both retain the common graph producer/storage for exact input pairing. Graph preparation is declared unused AD comparison overhead.'),
         limitation='Different native closure versus explicit local Neumann terms; five versus seven balanced losses. No equal-accuracy speed claim.')
 
 

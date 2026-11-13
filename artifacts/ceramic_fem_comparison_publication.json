@@ -1,0 +1,283 @@
+{
+  "schema": "ceramic_fem_comparison_publication_v1",
+  "figure": {
+    "png": "assets/pino-studies/particle_corrosion2d_fem_distribution.png",
+    "pdf": "assets/pino-studies/particle_corrosion2d_fem_distribution.pdf"
+  },
+  "bytes": {
+    "png": 52302,
+    "pdf": 41860
+  },
+  "png_pixels": [
+    1181,
+    755
+  ],
+  "maximum_file_bytes": 1048576,
+  "source_directory": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-fem-comparison-20261113/three-methods",
+  "provenance": "docs/tasks/ceramic-fem-comparison-figures.json",
+  "renderer": "docs/tasks/ceramic_fem_comparison_figures.py",
+  "full_provenance": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-fem-comparison-20261113/three-methods/provenance.json",
+  "checkpoint_step": 20000,
+  "test_samples": 64,
+  "channels": [
+    "phi",
+    "c"
+  ],
+  "metric": "Per-sample/channel Euclidean norm over all space-time nodes; then mean(phi,c).",
+  "reference": {
+    "manifest": "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/manifest.json",
+    "backend": "local_p1_lumped_fem",
+    "spacing": 0.01,
+    "boundary_points": 256,
+    "saved_times": [
+      0.0,
+      0.1,
+      0.2,
+      0.30000000000000004,
+      0.4,
+      0.5,
+      0.6000000000000001,
+      0.7000000000000001,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "physical_times_seconds": [
+      0.0,
+      35.0,
+      70.0,
+      105.00000000000001,
+      140.0,
+      175.0,
+      210.00000000000003,
+      245.00000000000003,
+      280.0,
+      315.0,
+      350.0
+    ],
+    "channels": [
+      "phi",
+      "c"
+    ],
+    "sample_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63
+    ],
+    "files": [
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_000.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_001.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_002.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_003.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_004.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_005.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_006.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_007.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_008.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_009.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_010.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_011.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_012.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_013.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_014.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_015.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_016.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_017.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_018.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_019.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_020.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_021.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_022.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_023.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_024.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_025.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_026.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_027.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_028.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_029.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_030.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_031.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_032.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_033.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_034.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_035.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_036.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_037.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_038.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_039.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_040.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_041.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_042.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_043.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_044.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_045.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_046.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_047.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_048.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_049.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_050.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_051.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_052.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_053.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_054.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_055.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_056.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_057.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_058.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_059.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_060.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_061.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_062.npz",
+      "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_063.npz"
+    ]
+  },
+  "arms": [
+    {
+      "key": "nonlocal_replay",
+      "label": "Nonlocal PINO",
+      "color": "#E64B35",
+      "linestyle": "-",
+      "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-old-source-pro6000-20261113-01",
+      "configuration": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-old-source-pro6000-20261113-01/config.json",
+      "checkpoint": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-old-source-pro6000-20261113-01/model_final.eqx",
+      "seed": 42,
+      "evaluation": "/root/autodl-tmp/tf-logs/ceramic-old-source-pro6000-20261113-01/eval64/summary.json",
+      "monitor": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-old-source-pro6000-20261113-01/metrics.jsonl",
+      "monitor_reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4",
+      "final_statistics": {
+        "phi": {
+          "mean": 0.038174886259585886,
+          "std": 0.005164982659342687
+        },
+        "concentration": {
+          "mean": 0.04620518849296874,
+          "std": 0.006276693367092963
+        },
+        "channel_mean": {
+          "mean": 0.042190037376277315,
+          "std": 0.005719438928867052
+        }
+      },
+      "training_seconds": 1605.918726685457
+    },
+    {
+      "key": "local_ad",
+      "label": "Local AD PINO",
+      "color": "#4DBBD5",
+      "linestyle": "--",
+      "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-fem-comparison-20261113-02-local_ad",
+      "configuration": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-fem-comparison-20261113-02-local_ad/config.json",
+      "checkpoint": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-fem-comparison-20261113-02-local_ad/model_final.eqx",
+      "seed": 42,
+      "evaluation": "/root/autodl-tmp/tf-logs/ceramic-fem-comparison-20261113-02/local_ad-eval64/summary.json",
+      "monitor": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-fem-comparison-20261113-02-local_ad/metrics.jsonl",
+      "monitor_reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4",
+      "final_statistics": {
+        "phi": {
+          "mean": 0.3220699166440732,
+          "std": 0.005235920096657735
+        },
+        "concentration": {
+          "mean": 0.3260596766870013,
+          "std": 0.006863686101569553
+        },
+        "channel_mean": {
+          "mean": 0.3240647966655372,
+          "std": 0.00604684414843297
+        }
+      },
+      "training_seconds": 1704.9847720712423
+    },
+    {
+      "key": "fem_weak",
+      "label": "FEM PINO",
+      "color": "#00A087",
+      "linestyle": "-.",
+      "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-fem-comparison-20261113-01-fem_weak",
+      "configuration": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-fem-comparison-20261113-01-fem_weak/config.json",
+      "checkpoint": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-fem-comparison-20261113-01-fem_weak/model_final.eqx",
+      "seed": 42,
+      "evaluation": "/root/autodl-tmp/tf-logs/ceramic-fem-comparison-20261113-01/fem_weak-eval64/summary.json",
+      "monitor": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-fem-comparison-20261113-01-fem_weak/metrics.jsonl",
+      "monitor_reference": "/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4",
+      "final_statistics": {
+        "phi": {
+          "mean": 0.05553496385564092,
+          "std": 0.0074704847864646585
+        },
+        "concentration": {
+          "mean": 0.0659368978302109,
+          "std": 0.008871891024512494
+        },
+        "channel_mean": {
+          "mean": 0.0607359308429259,
+          "std": 0.008165872385282196
+        }
+      },
+      "training_seconds": 1258.2233023121953
+    }
+  ],
+  "qualification": "Displayed Nonlocal PINO uses historical source AND launcher. First failed run omitted from these figures at user request; its original data and four-arm figures remain preserved. One seed42initialization; this is not a source-only causal ablation or multi-seed ranking.",
+  "publication_scope": "Approved three-method final-error distribution only; convergence figures stay external."
+}

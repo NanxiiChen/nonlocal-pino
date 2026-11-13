@@ -123,7 +123,10 @@ def train(c,output,inputs,reference,config_path,paired_run,
                 if excluded['config'][name]!=json.loads(c.to_json())[name]:
                     raise ValueError(f'Excluded reference has a different geometry prior: {path}/{name}')
             forbidden.extend(entry['geometry'] for entry in excluded['cases'])
-        if full_grid:
+        if c.nl.method == 'fem_weak':
+            from .fem_weak import prepare_initial_bank
+            bank=prepare_initial_bank(bank,c,manifest,c.operator.online.workers)
+        elif full_grid:
             bank=prepare_initial_full_bank(bank,c,manifest,c.operator.online.workers)
         else:
             bank=pad_initial_bank(bank,c)

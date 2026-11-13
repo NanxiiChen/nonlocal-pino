@@ -1,10 +1,25 @@
 """Independent checks for regional norm partition and reduction order."""
 import unittest
 import numpy as np
-from docs.tasks.pino_regional_metrics import reduce_regions
+from docs.tasks.pino_regional_metrics import reduce_regions, assert_norm_replay
 
 
 class RegionalMetricsTests(unittest.TestCase):
+    def test_large_partition_norm_replay_and_corruption_detection(self):
+        rng=np.random.default_rng(52)
+        target=rng.uniform(.01,1.,size=(21,10003,2))
+        prediction=target+rng.normal(0,.03,size=target.shape)
+        near=np.arange(target.shape[1])%7==0
+        result=reduce_regions(prediction,target,dict(near=near,bulk=~near),
+                              np.ones(target.shape[:2]))
+        extended=np.sqrt(np.sum((prediction-target)**2,axis=(0,1),dtype=np.longdouble)
+                         /np.sum(target**2,axis=(0,1),dtype=np.longdouble))
+        assert_norm_replay(result['all']['channel_errors'],extended)
+        with self.assertRaises(AssertionError):
+            assert_norm_replay(result['all']['channel_errors'],extended*1.000001)
+        # Regression: different valid summation orders must not reject a norm.
+        assert_norm_replay([.054671668468492404],[.05467166846850347])
+
     def test_region_energy_and_channel_reduction(self):
         target=np.ones((3,4,2));target[...,1]=2
         prediction=target.copy();prediction[:,0,0]+=1;prediction[:,0,1]+=1

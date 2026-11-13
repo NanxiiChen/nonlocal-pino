@@ -74,6 +74,16 @@ artifacts without training or solving a reference:
 
 ## Nonlocal/local-AD comparisons
 
+The newer ceramic three-method comparison is published separately in
+`pino-studies/particle_corrosion2d_fem_distribution.png` and its matching
+editable PDF. It compares **Nonlocal PINO**, **Local AD PINO** and **FEM PINO**
+on the same64local-FEM numerical references, with final20kweights and per-sample
+channel-mean full-space-time relativeL2. Both files together are below128KiB,
+with a separate1MiBper-file limit. The example README and website use identical
+approved copies. The [publication record](../artifacts/ceramic_fem_comparison_publication.json)
+links raw provenance and the CPU renderer; convergence and alternate previews
+remain external. It does not replace the historical two-method records below.
+
 `pino-comparisons/` contains two final-weight error distributions and two
 physical-field sheets, separate from the selected SOTA figures above.
 No checkpoint or training default is promoted by this comparison.

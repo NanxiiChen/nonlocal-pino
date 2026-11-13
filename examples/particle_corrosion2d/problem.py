@@ -61,8 +61,13 @@ def validate(c):
         raise ValueError('Interface k must equal sqrt(n_ac2/(2*n_ac3))')
     if c.mesh.boundary_points != c.nl.visibility_points:
         raise ValueError('Mesh and nonlocal visibility must use the same contour polygon')
-    if c.nl.method not in ('nonlocal','local_ad'):
-        raise ValueError('Explicit method must be nonlocal or local_ad')
+    if c.nl.method not in ('nonlocal','local_ad','fem_weak'):
+        raise ValueError('Explicit method must be nonlocal, local_ad or fem_weak')
+    if c.nl.method == 'fem_weak':
+        from .fem_weak import validate_fem
+        validate_fem(c)
+    elif 'fem' in c:
+        raise ValueError('FEM settings require the explicit fem_weak method')
 
 
 def initial_fields(c, points):
