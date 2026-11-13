@@ -12890,3 +12890,15 @@ Spinodal/channel code. Validate the exact staged source/site, preserve all
 unrelated work, then use dev -> regular merge main -> push main and verify Pages.
 No new training, reference solves or dependency changes are needed.
 Relation:fem-weak-pino-comparison-plan.
+
+## 2026-11-13 — Verify the ceramic SOTA default publication
+
+Publish only the validated25file repair/documentation scope: content95bce5b,
+regular main merge4c2ef61, Pages43436212919 build/deploy success. Nine live HTML
+pages and both retained comparison image files match the tested build. Preserve
+all57unrelated files and partial DEVELOPMENT edits; no experiments are restarted.
+Record exact release checks and live verification in
+`artifacts/ceramic_sota_publication_validation.json`. The user-requested default,
+README, website, commit and push deliverable is complete. Optional FEM diagnostics
+remain deferred; the main field/comparison figures keep their original data.
+Relation:fem-weak-pino-comparison-plan.

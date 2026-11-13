@@ -3,8 +3,8 @@
 ## Active task
 
 [FEM weak-residual PINO comparison](tasks/fem-weak-pino-comparison-plan.md).
-Current publication request is active: the user authorizes SOTA confirmation,
-README/website updates, commit and push. The ceramic canonical nonlocal default is repaired
+Current publication request is complete: SOTA defaults, README/website and
+verification records are committed and published. The ceramic canonical nonlocal default is repaired
 and validated through a cold20k run without --config. Same64local-FEM test
 means are phase3.6965%,concentration4.4839%,channel mean4.0902%
 (sampleSD0.5483percentage points), versus recovered old-source4.2190% and the
@@ -31,8 +31,11 @@ active peak20.316GiB. This is slower than recovered historical26.77min; global
 Owner203256 completed all stages at2026-11-13T13:21:08UTC:
 `/root/autodl-tmp/tf-logs/ceramic-execution-isolation-20261113-01/default-cold/journal.json`.
 No GPU job remains queued. README,DEVELOPMENT,DECISIONS and the active task
-record the result. Publish only this validated repair and its documentation,
-using dev -> regular main merge -> push main. Keep unrelated work local. Prior approved
+record the result. Content95bce5b was merged/pushed as main4c2ef61; Pages run
+43436212919 succeeded. All9live HTML pages and both retained comparison assets
+match the validated build byte-for-byte. Scoped25files were published;57unrelated
+files and the remaining DEVELOPMENT edits are preserved.
+[SOTA publication receipt](../artifacts/ceramic_sota_publication_validation.json). Prior approved
 three-method distribution publication remains unchanged; its final64means were
 nonlocal4.2190%,FEM PINO6.0736%,localAD32.4065%, all versus FEM numerical reference.
 [Publication receipt](../artifacts/ceramic_fem_publication_validation.json).

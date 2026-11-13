@@ -23,7 +23,7 @@ README/website publication, commit and push of the validated SOTA/default repair
 - [x] Correct the stale default physical preset and test fixed-linear adjoints.
 - [x] Finish canonical-default cold20k, full-input audit and final64validation;
   promote only with acceptable convergence and record cost/limitations.
-- [ ] Publish the validated current default, update README/site SOTA summaries
+- [x] Publish the validated current default, update README/site SOTA summaries
   and verify the GitHub Pages deployment; preserve unrelated pending research.
 - [ ] Deferred: remaining FEM discretization/interpolation diagnostics are separate from
   this default-repair acceptance; do not infer a universal ranking.
@@ -879,3 +879,19 @@ comparison images, desktop1440/mobile390without overflow or script errors.
 Release receipt: `artifacts/ceramic_sota_publication_validation.json`.
 Next: commit on dev, regular merge into main, push main; verify exact Pages
 commit and live HTML, then record completion without starting experiments.
+
+### SOTA publication complete and task-end
+
+Content95bce5b merged normally to main4c2ef61 and pushed. Pages43436212919
+completed build/deploy successfully. At2026-11-13T13:45:18UTC all9live HTML pages
+and both original comparison PNG/PDF files returned200 and matched the inspected
+build byte-for-byte. Current SOTA/default/results and reproduction commands are
+now synchronized across the root/example READMEs and report overview/case page.
+
+Published25scoped files include the prior validated default fix, execution and
+gradient code,6focused release checks, direct validation provenance, website
+text and memory. No new images, training, reference solves or dependencies.
+All57unrelated files and the remaining partial DEVELOPMENT edits are unchanged.
+The receipt now records deployment identity and URLs; PROGRESS/DECISIONS are
+updated. This requested publication is complete. Optional FEM diagnostics remain
+deferred in this same task; no experiments or further deployment are queued.
