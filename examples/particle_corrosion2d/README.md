@@ -6,7 +6,15 @@ vary; the initial pit, reservoir, rectangular domain and material coefficients
 are shared. Ceramic interiors are excluded from the reactive domain and remain
 solid after the surrounding metal dissolves.
 
-The representative result uses the explicit
+The **current SOTA default** is the six-particle, width-256, cold 20,000-step
+nonlocal recipe with rolling geometry/core+halo and fixed-linear parameter
+adjoints. On 64 held-out local-FEM cases its full space-time errors are
+**3.6965% phase, 4.4839% concentration and 4.0902% channel mean**. It is selected
+by `train.py` when `--config` is omitted. See the
+[default validation](#reproducible-parameter-gradients) for execution settings,
+timing, metric definition and single-initialization limits.
+
+The historical representative field figure uses the explicit
 [width256 preset](configs/train_physical_spaced_w256.py): a 50 × 30 μm region,
 350 s of physical evolution, and a cold 20,000-step Adam run with **rolling
 geometry and core/halo inputs**. Its mean phase relative L2 on four development
@@ -30,7 +38,8 @@ warm-ivory interiors with dark outlines are inert ceramic; dashed curves are ind
 \(\phi=0.5\) interfaces. Each panel reports instantaneous unweighted nodal
 phase relative L2; the headline historical volume-weighted metrics remain
 separate. Original physical triangles and equal spatial scales are retained.
-The accepted width256 final20k model is unchanged.
+The figure retains its original width256 final20k checkpoint; the current
+execution-default validation is reported separately below.
 [Editable170mmPDF](../../assets/pino-main/particle_corrosion2d.pdf) ·
 [Source/style specification](../../artifacts/particle_corrosion_main_figure.json).
 
@@ -307,12 +316,12 @@ Use `.venv` from the repository root; CPU meshing needs the optional
 ~~~bash
 # Independent evaluation geometries; no trajectories are generated here.
 .venv/bin/python -m examples.particle_corrosion2d.preview \
-  --config examples.particle_corrosion2d.configs.train_physical_spaced_w256 \
+  --config examples.particle_corrosion2d.configs.train_default \
   --output /path/to/preview --count 4
 
 # Initial geometry/operator/IC bank only.
 .venv/bin/python -m examples.particle_corrosion2d.prepare \
-  --config examples.particle_corrosion2d.configs.train_physical_spaced_w256 \
+  --config examples.particle_corrosion2d.configs.train_default \
   --output /path/to/input-bank --workers 4
 
 # Independent local FEM reference for evaluation only.
@@ -330,7 +339,6 @@ Use `.venv` from the repository root; CPU meshing needs the optional
 # Cold physics-only training on the rolling input pool.
 XLA_PYTHON_CLIENT_PREALLOCATE=true XLA_PYTHON_CLIENT_MEM_FRACTION=0.90 \
 .venv/bin/python -m examples.particle_corrosion2d.train \
-  --config examples/particle_corrosion2d/configs/train_physical_spaced_w256.py \
   --inputs /path/to/input-bank --reference /path/to/local-reference \
   --output /path/to/new-run
 ~~~
@@ -340,14 +348,77 @@ config file. Reference fields are used by the diagnostic evaluator, not the
 loss. The evaluation geometries are excluded from training automatically;
 `--exclude-reference` adds a separate evaluation cohort.
 
-Use the explicit preset above to reproduce this documented result.
-[train_default.py](configs/train_default.py) still selects the separate,
-higher-mobility 5 s physical research case. This README update changes the
-representative documentation, not numerical defaults.
+[train_default.py](configs/train_default.py) now selects the documented
+six-particle width256 rolling nonlocal preset. Omitting `--config` in `train`
+uses this same physical setup; the earlier higher-mobility 5 s case remains
+available explicitly as `configs/train_physical.py`. The default import is
+covered by a CLI regression check and a completed cold 20,000-step run through
+`train.py` **without `--config`**; see the [execution audit](../../docs/tasks/fem-weak-pino-comparison-plan.md).
+New runs also save `execution.json` with package versions, device, effective
+precision/cache settings and a whitelist of relevant launcher variables.
 
 Seeds are runtime provenance, not strategy configuration fields. Omit `--seed`
 for a fresh run; use it only for deliberate replay. Intermediate model
 checkpoints do not provide exact rolling-pool/optimizer continuation.
+
+
+### Reproducible parameter gradients
+
+The default retains the original physical outputs, nonlocal forward edge
+sums, five losses, Adam schedule and rolling inputs. Its explicit
+`nl.adjoint=dense_fixed` changes how gradients with respect to network
+parameters are accumulated. For the fixed core/halo map \(y=Dv\), the field
+pullback is \(D^T\bar y\); the corresponding core selection uses \(C^T\bar y\),
+including repeated sampled core IDs. The forward operator still evaluates
+pairwise differences, preserving its cancellation behavior near pure phases.
+Only selected-batch matrices are formed; the full rolling pool stays sparse.
+
+This avoids atomic scatter accumulation in those reverse-mode operations.
+`train.autotune_level=0` also fixes kernel selection without enabling the much
+slower global deterministic policy. A same-GPU control found identical30step
+model/optimizer states for the old and new source under deterministic execution;
+the ordinary original path produced different updates even within one compiled
+executable. Thus the evidence does not identify a changed PDE or optimizer
+formula. The current fixed-adjoint path passes repeated-update and cold30step
+identity checks, and independent float64 transpose/full-network gradient tests.
+
+The operator and geometry are prescribed here. This field-only custom VJP is
+not a derivative rule for learned geometry/operator coefficients or for forward
+AD through the spatial operator. Time JVP is unchanged inside the decoder.
+The original `train_physical_spaced_w256.py` remains available as an explicit
+historical execution control. See the [execution validation record](../../artifacts/ceramic_execution_validation.json)
+for exact runs, package versions, resource measurements and final-validation status.
+
+The repaired default completed a cold 20,000-step validation on the RTX PRO
+6000 Blackwell. All three rows below use the same 64 held-out local-FEM cases,
+the final checkpoint, and the same Euclidean space-time norm per channel and
+sample, followed by channel/sample averaging:
+
+| Execution | Phase | Concentration | Channel mean |
+|---|---:|---:|---:|
+| Earlier unsuccessful current-source run | 31.9917% | 33.6208% | 32.8062% |
+| Recovered historical-source run | 3.8175% | 4.6205% | 4.2190% |
+| **Current default: fixed adjoints, autotuning off** | **3.6965%** | **4.4839%** | **4.0902%** |
+
+The current channel-mean sample SD is 0.5483 percentage points. Initialization,
+optimizer state, all 20,000 sampling draws and the initial/final rolling input
+banks match the unsuccessful control. Independent reconstruction passes with
+zero evaluation-geometry overlap. Reference trajectories enter evaluation only.
+The stale default import was a separate error: it did not cause the failed run,
+which explicitly selected its configuration.
+
+Training took **42.72 minutes** including process setup, compilation, online
+input preparation and monitoring. Warm updates have median **102.36 ms** and
+mean **114.84 ms**; active peak allocation is **20.32 GiB**, excluding reserved
+allocator capacity. This costs more than the recovered historical run's 26.77
+minutes; global deterministic execution was rejected after a roughly 1.35 s
+per-update probe. The published three-method figure below retains its original
+checkpoints and timings; it is not silently replaced by this new run.
+
+This validates recovery for one paired initialization and this software/GPU
+environment. It does not establish cross-seed or cross-device determinism,
+nor isolate how much of the historical final-error gap came from autotuning
+versus atomic accumulation. The default remains seed-independent.
 
 ### Opt-in matched rolling nonlocal/local-AD study
 

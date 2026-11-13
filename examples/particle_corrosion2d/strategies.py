@@ -27,6 +27,10 @@ def active_losses(c, iteration, count):
 
 
 def validate_strategies(c):
+    if 'adjoint' in c.nl:
+        if (c.nl.adjoint!='dense_fixed' or c.nl.method!='nonlocal'
+                or 'time_form' in c.loss or 'transport_residual' in c.loss):
+            raise ValueError('dense_fixed adjoint requires original strong nonlocal residuals')
     if 'horizon_curriculum' in c.sample:
         if (c.nl.method!='nonlocal' or 'phase' in c or 'boundary' in c
                 or ('use_causal' in c.loss and c.loss.use_causal)

@@ -19,6 +19,8 @@ def evaluate(run, reference, output):
     if json.loads((reference/'validation.json').read_text())['status'] != 'passed':
         raise ValueError('Local reference validation has not passed')
     configure_gpu_policy(c.train.gpu_policy)
+    from examples.particle_corrosion2d.execution import configure_execution
+    configure_execution(c)
     jax.config.update('jax_enable_x64', False)
     jax.config.update('jax_default_matmul_precision', c.train.matmul_precision)
     refs, manifest = load_references(reference, c)

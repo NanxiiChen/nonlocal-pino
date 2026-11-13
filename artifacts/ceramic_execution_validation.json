@@ -1,0 +1,153 @@
+{
+  "schema": "ceramic_execution_validation_v1",
+  "status": "passed",
+  "task": "docs/tasks/fem-weak-pino-comparison-plan.md",
+  "bundle": "/root/autodl-tmp/tf-logs/ceramic-execution-isolation-20261113-01",
+  "diagnosis": {
+    "stale_default_import": true,
+    "same_executable_original_update_repeated_equal": false,
+    "isolated_graph_transpose_repeated_equal": false,
+    "original_frozen_current_deterministic_30steps_equal": true,
+    "fixed_adjoint_repeated_updates_equal": true,
+    "fixed_adjoint_repeated_30step_trajectory_equal": true,
+    "note": "Separate stale default routing and measured GPU update/scatter nondeterminism. Current/frozen deterministic source controls match; canonical corrected default restores low final64 error. No changed PDE formula identified. The individual contributions of atomic accumulation and autotuning to the historical final-error gap remain unquantified."
+  },
+  "sources": {
+    "input_run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-fem-comparison-20261113-02-nonlocal",
+    "frozen_source": "/root/autodl-tmp/tf-logs/particle_corrosion2d/pino-rolling-ad-cold-20261111-01-particle_corrosion2d-s42-nonlocal/source"
+  },
+  "receipts": [
+    "/root/autodl-tmp/tf-logs/ceramic-execution-isolation-20261113-01/current-original-launch/summary.json",
+    "/root/autodl-tmp/tf-logs/ceramic-execution-isolation-20261113-01/current-original-repeat/summary.json",
+    "/root/autodl-tmp/tf-logs/ceramic-execution-isolation-20261113-01/scatter-ordinary/summary.json",
+    "/root/autodl-tmp/tf-logs/ceramic-execution-isolation-20261113-01/current-deterministic/summary.json",
+    "/root/autodl-tmp/tf-logs/ceramic-execution-isolation-20261113-01/frozen-deterministic/summary.json",
+    "/root/autodl-tmp/tf-logs/ceramic-execution-isolation-20261113-01/fixed-adjoint-no-autotune/summary.json"
+  ],
+  "source_isolation": "/root/autodl-tmp/tf-logs/ceramic-execution-isolation-20261113-01/source-isolation.json",
+  "candidate": {
+    "default": "examples/particle_corrosion2d/configs/train_default.py",
+    "preset": "examples/particle_corrosion2d/configs/train_physical_spaced_w256_fixed_adjoint.py",
+    "physics_unchanged_from_selected": true,
+    "forward_edge_differences_unchanged": true,
+    "parameter_field_adjoint": "Exact fixed D^T and core-selection C^T, ordinary compilation, autotune_level=0",
+    "historical_presets_unchanged": true,
+    "promoted": true
+  },
+  "focused_checks": {
+    "previous_loss_runtime": 14,
+    "combined_config_adjoint_input_fem_strategy_dimensional": 40,
+    "full_network_parameter_gradient_oracle": 1,
+    "passed": true
+  },
+  "cold_validation": {
+    "journal": "/root/autodl-tmp/tf-logs/ceramic-execution-isolation-20261113-01/default-cold/journal.json",
+    "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-default-fixed-adjoint-20261113-01",
+    "owner_pid": 203256,
+    "steps": 20000,
+    "seed": 42,
+    "uses_default_cli": true,
+    "final_reference": "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01",
+    "count": 64,
+    "status": "passed",
+    "completed_utc": "2026-11-13T13:21:08.170698+00:00",
+    "cold_and_complete_inputs_match": true,
+    "default_config_matches_saved": true,
+    "current_source_matches_saved_files": 93,
+    "online_audit": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-default-fixed-adjoint-20261113-01/online_validation.json",
+    "online_audit_summary": {
+      "status": "passed",
+      "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-default-fixed-adjoint-20261113-01",
+      "updates": 20000,
+      "installed_events": 399,
+      "installed_new_geometries": 316,
+      "installed_spatial_refreshes": 1520,
+      "distinct_sampled_geometries": 380,
+      "distinct_sampled_geometry_spatial_versions": 1900,
+      "exact_final_slots_reconstructed": 64,
+      "unchanged_initial_slots": 0,
+      "evaluation_overlap": 0,
+      "future_training_fields": 0,
+      "scope": "All consumed identities and all final physical input arrays audited; intermediate payloads are not stored."
+    },
+    "evaluation": "/root/autodl-tmp/tf-logs/ceramic-execution-isolation-20261113-01/default-cold/eval64/summary.json",
+    "regional_audit": "/root/autodl-tmp/tf-logs/ceramic-execution-isolation-20261113-01/default-cold/eval64/regional_metrics.json",
+    "statistics": {
+      "phi": {
+        "mean": 0.0369645277056344,
+        "std": 0.004947154762992182
+      },
+      "concentration": {
+        "mean": 0.04483867163592313,
+        "std": 0.006021841690998409
+      },
+      "channel_mean": {
+        "mean": 0.04090159967077877,
+        "std": 0.00548287504191904
+      }
+    },
+    "metric": "Unweighted Euclidean full space-time relative norm for each channel/sample, then channel/sample mean; standard deviations are across 64 samples.",
+    "checkpoint": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-default-fixed-adjoint-20261113-01/model_final.eqx"
+  },
+  "limitations": [
+    "Same GPU/software execution controls; no cross-device bitwise guarantee.",
+    "Runtime seed remains a replay setting, not part of the strategy.",
+    "The fixed field adjoint treats geometry/operators as prescribed, not learnable.",
+    "Only one paired cold20k initialization evaluated; no cross-seed convergence guarantee.",
+    "Autotuning and fixed-linear transpose changes are a combined intervention; their separate effects on final convergence are not quantified.",
+    "Existing comparison figures retain their original checkpoints and timings."
+  ],
+  "config_isolation": "/root/autodl-tmp/tf-logs/ceramic-execution-isolation-20261113-01/config-isolation.json",
+  "hardware": "/root/autodl-tmp/tf-logs/ceramic-execution-isolation-20261113-01/hardware.json",
+  "resources": {
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "training_process_wall_seconds": 2563.101047968492,
+    "training_internal_seconds": 2560.6186775956303,
+    "first_update_compile_seconds": 169.04416207317263,
+    "warm_update_median_seconds": 0.10236178804188967,
+    "warm_update_mean_seconds": 0.11484288412634634,
+    "warm_inclusive_median_seconds": 0.10314981546252966,
+    "warm_inclusive_mean_seconds": 0.11594842832311604,
+    "active_peak_bytes": 21814555136,
+    "active_peak_gib": 20.31638765335083,
+    "timing": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-default-fixed-adjoint-20261113-01/timing.json",
+    "memory": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-default-fixed-adjoint-20261113-01/memory.json",
+    "execution": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-default-fixed-adjoint-20261113-01/execution.json"
+  },
+  "comparisons": {
+    "unsuccessful": {
+      "summary": "/root/autodl-tmp/tf-logs/ceramic-fem-comparison-20261113-02/nonlocal-eval64/summary.json",
+      "statistics": {
+        "phi": {
+          "mean": 0.3199168507713878,
+          "std": 0.007847636551792778
+        },
+        "concentration": {
+          "mean": 0.3362076481756415,
+          "std": 0.0079083357917266
+        },
+        "channel_mean": {
+          "mean": 0.3280622494735147,
+          "std": 0.007877034789190178
+        }
+      }
+    },
+    "historical_source_recovered": {
+      "summary": "/root/autodl-tmp/tf-logs/ceramic-old-source-pro6000-20261113-01/eval64/summary.json",
+      "statistics": {
+        "phi": {
+          "mean": 0.038174886259585886,
+          "std": 0.005164982659342687
+        },
+        "concentration": {
+          "mean": 0.04620518849296874,
+          "std": 0.006276693367092963
+        },
+        "channel_mean": {
+          "mean": 0.042190037376277315,
+          "std": 0.005719438928867052
+        }
+      }
+    }
+  }
+}

@@ -3,74 +3,44 @@
 ## Active task
 
 [FEM weak-residual PINO comparison](tasks/fem-weak-pino-comparison-plan.md).
-Latest instruction supersedes the earlier TODO deferral: finish/record the
-channel resource tests, cancel its automatic long training, then run ceramic
-nonlocal/local-AD/FEM comparisons. Channel probes finished; old owner5245 was
-terminated after its final child exited0. No channel long training started.
-Signed mass-lumped P1 rows are implemented without changing the original KKS
-output map, physical coefficients, five shared losses or Adam recipe. Focused
-tests and all64initial-geometry/512core-set input/support checks pass.
-FEM20k completed in1260.56s process wall, with a passing online-input audit.
-Final64common-ref primary errors: phi5.5535%,c6.5937%,channel mean6.0736%
-(sampleSD0.8166percentage points). Warm update median42.99ms; mean47.60ms;
-active peak14.05GiB. These exclude input/evaluation overhead from warm updates.
-Near-wall phi8.9038% versus bulk2.2539%; this is a diagnostic, not a cause.
-The original owner76128 stopped at a regional postprocessing2e-13tolerance
-gate, after successful training/inference. All64headline norms reproduce
-bitwise; extended precision confirms a reduction-order discrepancy <2.2e-13.
-Only postprocessing tolerance was corrected; saved metrics/weights unchanged.
-Regional replay now passes, and the failed journal remains untouched.
-Completed continuation owner101250:
-`/root/autodl-tmp/tf-logs/ceramic-fem-comparison-20261113-02/journal.json`.
-It reused completed FEM and completed nonlocal/localAD20k controls,
-their input/pair audits and64case final evaluations. Nonlocal20k result:
-primary64case phi31.9917%,c33.6208%,channel mean32.8062%, versus FEM6.0736%
-channel mean. Total1620.64s; warm update median59.83ms/mean66.30ms; peak20.66GiB.
-Online, strict FEM-pair and64case regional audits pass. LocalAD20k and all audits
-finished09:09:50UTC. Primary64 phi32.2070%,c32.6060%,channel mean32.4065%;
-total1704.92s, warm median49.13ms/mean56.77ms, active peak11.18GiB.
-The old-source nonlocal replay DID recover convergence on this same GPU and
-completed09:38:24UTC. Final64 primary phi3.8175%,c4.6205%,channel mean4.2190%
-(sampleSD0.5719percentage points). Total1605.92s (~26.77min). All cold states,
-complete actual sampling and initial/final banks match historical arrays;
-online reconstruction, heldout disjointness and regional norm replay pass.
-Four-case physical-weighted phi3.0729%,c3.7319% are separate monitor values.
-Historical reproduction audit also passes ALL20000actual core/time/slot draws,
-initial/final banks and399physical geometry journals against the successful old
-nonlocal run. Key math/model/optimizer sources and cold state match; CPU-lowered
-configured update graphs match. First-step FP32values already differ across the
-old RTX4090/new PRO6000 executions. No accidental mathematical/input change is
-found; backend/repeatability cause remains unproven. Do not claim method-wide
-inferiority from this failed reproduction.
-Completed frozen-old-source20k replay owner115187, child138508:
-`/root/autodl-tmp/tf-logs/ceramic-old-source-pro6000-20261113-01/`.
-It used the old source/preset/recorded launcher flags on the same current GPU;
-all stages passed, no additional training is queued. The successful current-GPU
-trajectory rejects a hardware-wide inability to converge, not a specific cause.
-Do not conflate this recovery with a source-only ablation: launcher flags and
-execution details changed together. Remaining work is causal reproducibility
-isolation and planned discretization/interpolation diagnostics, not a new sweep.
-Numerical defaults are unchanged; Spinodal stays full and channel long run cancelled.
-Requested visualizations are complete: final64channel-mean log-KDE violins and
-actual0..20k four-case weighted phase/concentration curves (mean±sampleSD).
-User-requested revised figures show only Nonlocal PINO, Local AD PINO and FEM
-PINO, with FEM numerical reference identified separately. The original four-arm
-figures and failed-run evidence remain in provenance; retained values unchanged.
-Editable6–7ptHelvetica/NPG PDF+PNG and direct provenance:
-[figure record](tasks/ceramic-fem-comparison-figures.json). No new inference/train.
-The user now authorizes publishing the approved distribution in the example
-README and website, recording these results, committing and pushing. The PNG/PDF
-pair is curated under assets/pino-studies; one shared manifest drives website
-copy/size checks. Related FEM implementation/provenance is included; unfinished
-Spinodal/channel implementation remains local. The staged-only release passes
-42focused tests, nine-page build,328HTML links, asset identity and desktop/mobile
-display checks. Publication is complete: content b00510f merged/pushed as main
-132b789; Pages43416337906 build/deploy succeeded. All nine live HTML pages and
-both approved PNG/PDF files match the release build byte-for-byte (HTTP200).
+Current publication request is active: the user authorizes SOTA confirmation,
+README/website updates, commit and push. The ceramic canonical nonlocal default is repaired
+and validated through a cold20k run without --config. Same64local-FEM test
+means are phase3.6965%,concentration4.4839%,channel mean4.0902%
+(sampleSD0.5483percentage points), versus recovered old-source4.2190% and the
+unsuccessful current-source control32.8062%. These are complete space-time
+Euclidean norms, then channel/sample means; development metrics are separate.
+
+Two issues are distinguished: a stale default selected the older high-mobility
+physical setup; original GPU reverse scatter showed nondeterministic repeated
+updates. The stale routing did not cause the explicitly configured failed run.
+Controlled current/frozen sources match30updates byte-for-byte; no changed PDE
+or optimizer formula is identified. Default now selects six-particle width256,
+350s,Adam20k,rolling geometry/core-halo, original outputs/five losses, exact fixed
+field adjoints and autotune0. Forward edge differences and actual inputs remain
+unchanged. Repeated GPU updates/trajectories and independent gradient tests pass.
+
+Canonical default config and all93saved Python source files match. Cold model/
+optimizer,all20kactual draws and initial/final banks match the failed control;
+online reconstruction and64saved-field/regional audits pass with zero evaluation
+overlap. Process wall42.718min; warm update median102.36ms/mean114.84ms;
+active peak20.316GiB. This is slower than recovered historical26.77min; global
+1.35s/update determinism was rejected. No cross-seed/device guarantee is claimed.
+[Execution/default receipt](../artifacts/ceramic_execution_validation.json).
+
+Owner203256 completed all stages at2026-11-13T13:21:08UTC:
+`/root/autodl-tmp/tf-logs/ceramic-execution-isolation-20261113-01/default-cold/journal.json`.
+No GPU job remains queued. README,DEVELOPMENT,DECISIONS and the active task
+record the result. Publish only this validated repair and its documentation,
+using dev -> regular main merge -> push main. Keep unrelated work local. Prior approved
+three-method distribution publication remains unchanged; its final64means were
+nonlocal4.2190%,FEM PINO6.0736%,localAD32.4065%, all versus FEM numerical reference.
 [Publication receipt](../artifacts/ceramic_fem_publication_validation.json).
-All58unrelated/partially staged files are preserved. Requested publication is
-complete; remaining work is the numerical investigation described above, with
-no new training queued.
+
+Keep this one active task only for the optional FEM discretization/interpolation
+diagnostics; do not launch them automatically. Exact resume point is the final
+section of the task file. Channel resource tests remain complete with long run
+cancelled; Spinodal stays full-field. All unrelated work is preserved.
 
 ## Previous channel task — resource completion only
 

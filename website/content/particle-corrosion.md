@@ -1,5 +1,23 @@
 A geometry-conditioned operator predicts the growth of a corrosion pit around six smooth inert ceramic inclusions. Particle shapes and poses vary while the physical coefficients, reservoir and initial pit stay fixed.
 
+## Current SOTA default
+
+The default `train.py` entrypoint selects the six-particle, width-256 nonlocal model with rolling geometry and core/halo inputs. A cold 20,000-step run through this entrypoint, without an explicit configuration override, gives the following final-weight errors against 64 held-out local-FEM solutions:
+
+| Phase mean | Concentration mean | Channel mean ± sample SD |
+| ---: | ---: | ---: |
+| 3.6965% | 4.4839% | **4.0902% ± 0.5483 pp** |
+
+Each channel's norm spans all space-time evaluation nodes. Channels are averaged within each sample, then samples are averaged equally. The standard deviation describes variation across these 64 samples, not repeated training seeds. Training took **42.72 min** on RTX PRO 6000 Blackwell; warm update median/mean were **102.36/114.84 ms**, with **20.32 GiB** peak active allocation. Process time includes compilation, input preparation and monitoring; the separate final test evaluation is excluded.
+
+### Execution and reproducibility
+
+The physical equations, forward nonlocal pair differences, five losses, Adam schedule and actual sampling stream retain the successful scheme. The default now uses exact fixed-linear field adjoints for parameter backpropagation: for \(y=Dv\), the field gradient is \(D^T\bar y\); repeated core extraction uses its corresponding selection-matrix transpose. Matrices are prepared only for the selected batch. This avoids the original atomic scatter accumulation in those reverse operations. Kernel autotuning is explicitly disabled; ordinary FP32 compilation and time JVP remain.
+
+Repeated GPU updates exposed nondeterministic accumulation in the original path. Under controlled deterministic execution, current and historical sources produced identical 30-step model and optimizer states; no changed PDE or optimizer formula was found. A separate stale default import selected an older high-mobility 5 s case and has been corrected. The new default reproduces low error with identical cold states and complete sampling inputs. This is one paired initialization on the recorded environment, not a cross-seed/device guarantee, and the separate effects of autotuning and accumulation on final convergence were not quantified.
+
+[Configuration, checkpoint, validation and execution provenance](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/ceramic_execution_validation.json). The historical field image and three-method comparison below retain their original checkpoints, metrics and timings.
+
 ## Setup and boundary data
 
 The reactive region is \([0,1]\times[0,0.6]\) minus the ceramic interiors, or \(50\times30\,\mu\mathrm m\) in physical dimensions. Depth increases downward. The initial semicircular pit has radius \(6\,\mu\mathrm m\), and the reservoir mouth is at \(y=0\), \(|x-0.5|\leq0.055\) in normalized coordinates. It prescribes \(\phi=c=0\). The remaining walls are neutral and impermeable.
@@ -66,7 +84,7 @@ The objective uses absolute AC and CH residuals with unit prescales. Mouth phase
 
 ## References and comparisons
 
-Both targets use the same four development geometries, excluded from the rolling training stream. Pooled errors use spatial quadrature and trapezoidal time weights over 11 saved snapshots. The independent local P1 FEM solver uses weak-form stiffness, lumped mass and sparse BDF integration. A first-geometry mesh refinement from spacing 0.01 to 0.0075 changes the local reference phase by 0.1007% pooled.
+These historical field-model comparisons use the same four development geometries, excluded from the rolling training stream. Pooled errors use spatial quadrature and trapezoidal time weights over 11 saved snapshots. The independent local P1 FEM solver uses weak-form stiffness, lumped mass and sparse BDF integration. A first-geometry mesh refinement from spacing 0.01 to 0.0075 changes the local reference phase by 0.1007% pooled. The current default gives 2.9046% pooled / 5.4357% terminal phase error on this same development metric; its 64-case test above uses a different norm and cohort.
 
 | Reference | Phase pooled / terminal | Concentration pooled / terminal |
 | --- | ---: | ---: |
@@ -101,7 +119,7 @@ For each sample and physical channel, relative \(L^2\) is computed over all spac
   <figcaption>All 64 errors from the final 20k weights; logarithmic error axis with unscaled ratios. Violin widths show a KDE in log-error coordinates, with dashed quartiles. <a href="assets/particle_corrosion2d_fem_distribution.pdf">Editable PDF</a>.</figcaption>
 </figure>
 
-The shared recipe uses width 256, Adam, rolling geometry/core-halo pools, and random times. These are seed-42 measurements on the same RTX PRO 6000 Blackwell Server Edition. Training time includes compilation and in-training evaluation, but excludes the separate final 64-sample evaluation. The displayed nonlocal model reproduces the historical source and launch settings; an unsuccessful execution and the unresolved reproducibility investigation are retained in the [experiment record](https://github.com/NanxiiChen/nonlocal-pino/blob/main/docs/tasks/fem-weak-pino-comparison-plan.md). This is a finite single-initialization comparison, not a general method ranking. [Exact model, configuration, metric and figure provenance](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/ceramic_fem_comparison_publication.json).
+The shared recipe uses width 256, Adam, rolling geometry/core-halo pools, and random times. These are seed-42 measurements on the same RTX PRO 6000 Blackwell Server Edition. Training time includes compilation and in-training evaluation, but excludes the separate final 64-sample evaluation. The displayed nonlocal model uses the historical source and launch settings. The later execution diagnosis and validated default are documented above; this figure remains the original three-method comparison. The unsuccessful execution is retained in the [experiment record](https://github.com/NanxiiChen/nonlocal-pino/blob/main/docs/tasks/fem-weak-pino-comparison-plan.md). This is a finite single-initialization comparison, not a general method ranking. [Exact model, configuration, metric and figure provenance](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/ceramic_fem_comparison_publication.json).
 
 ## Implementation and reproduction
 
@@ -112,6 +130,7 @@ The shared recipe uses width 256, Adam, rolling geometry/core-halo pools, and ra
 | Samples per update | 4 geometry draws and 32 freshly sampled times |
 | Online pool | 64 geometry slots, four CPU workers, geometry and spatial payloads refreshed on separate schedules |
 | Optimizer | Adam, 20,000 cold updates, initial \(10^{-3}\), halve every 3,000 updates, floor \(10^{-5}\), ordinary FP32 |
+| Parameter gradients | Fixed-linear field adjoints; `nl.adjoint=dense_fixed`; `train.autotune_level=0` |
 
 Prepare the initial known-input bank and independent local reference from the explicit six-particle recipe. The [repository run guide](https://github.com/NanxiiChen/nonlocal-pino/blob/main/examples/particle_corrosion2d/README.md#run-the-documented-case) gives the preview, input preparation and local/native qualification commands. Then train from the repository root.
 
@@ -119,9 +138,8 @@ Prepare the initial known-input bank and independent local reference from the ex
 source .venv/bin/activate
 XLA_PYTHON_CLIENT_PREALLOCATE=true XLA_PYTHON_CLIENT_MEM_FRACTION=0.90 \
 python -m examples.particle_corrosion2d.train \
-  --config examples/particle_corrosion2d/configs/train_physical_spaced_w256.py \
   --inputs /path/to/input-bank --reference /path/to/local-reference \
   --output /path/to/new-run
 ~~~
 
-The explicit width-256 preset selects the 350 s result on this page. The no-argument example entry selects a different higher-mobility 5 s experiment.
+Omitting `--config` selects the current SOTA through `configs/train_default.py`. The explicit preset is `configs/train_physical_spaced_w256_fixed_adjoint.py`; historical presets remain available for reproducing their saved runs. Omit `--seed` for a fresh initialization, or supply it deliberately for replay. New runs save execution settings and package/device information in `execution.json`.

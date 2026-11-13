@@ -12808,3 +12808,85 @@ ranking: the single initialization and source/launcher qualification remain.
 The requested README/site/Git deliverable is complete, while causal numerical
 diagnostics stay open with no new training queued.
 Relation:fem-weak-pino-comparison-plan.
+
+## 2026-11-13 — Isolate reproduction and correct the actual ceramic default route
+
+The user requests a diagnosed cause and a validated best nonlocal default.
+Separate the definite stale train_default import from the failed explicit-preset
+reproduction; the former does not explain the latter. Compare identical saved
+cold inputs under current/frozen source and controlled launcher settings before
+attributing convergence to source edits. Require a current-entrypoint cold20k
+validation and final64evaluation before promotion. Preserve single-run limits;
+do not freeze a favorable seed into the strategy or tune against test labels.
+No Git action or restart of stopped sampling tasks is authorized.
+Relation:fem-weak-pino-comparison-plan.
+
+## 2026-11-13 — Test measured GPU update nondeterminism before reverting source
+
+Identical first-update calls within one executable differ; the actual nonlocal
+gather transpose also shows nonidentical atomic scatter accumulation against
+a consistent CPU oracle. Thus reverting source is not a demonstrated fix.
+Run a bounded deterministic/source control, measure throughput, then require
+full cold validation. Do not call the entire final error gap explained solely
+by scatter until that intervention is validated. Repair the separately stale
+default import and save execution provenance; preserve physical/PDE defaults
+and historical presets during diagnosis. Relation:fem-weak-pino-comparison-plan.
+
+## 2026-11-13 — Bound a fixed-linear adjoint control instead of global slow determinism
+
+Global deterministic execution removes all measured repeated-update differences,
+but costs about1.38s per update versus0.06s ordinary execution on this PRO6000.
+Test an opt-in fixed dense adjoint for sampled core/halo linear operations,
+keeping every forward edge difference and all physics/losses unchanged.
+For G_i=sum_j a_ij(v_core_i-v_neighbor_ij), the exact field pullback is D^Tz;
+core extraction has pullback C^Tz, including duplicate sampled core IDs.
+Construct only the selected batch matrices, not the entire rolling pool.
+
+Known geometry/operator coefficients remain prescribed; this path is not for
+learning geometry gradients or forward AD through the operator. Historical
+presets retain their existing path. Require independent transpose/field-gradient
+checks, GPU repeatability and timing, then cold20k/64cohort validation before
+promoting the optional adjoint or changing execution defaults.
+Relation:fem-weak-pino-comparison-plan.
+
+## 2026-11-13 — Accept the repaired ceramic default after canonical cold20k validation
+
+The actual train.py CLI without --config completed cold20k, independent online
+reconstruction, full paired cold-state/input equality and final64local-FEM
+evaluation. Current-source/config parity passes for93Python files. Primary
+phase3.696453%,concentration4.483867%,channel mean4.090160%,sampleSD0.548288
+percentage points recover the historical-source4.219004% level; the earlier
+unsuccessful control remains32.806225%. Promote six-particle width256 physical
+rolling nonlocal with exact fixed field adjoints and explicit autotune0.
+
+Keep unchanged PDEs, original forward pair differences, physical outputs,
+five losses, Adam schedule and sampling. Retain old explicit presets. This
+changes execution and fixes stale default routing; it is not evidence of an
+incorrect historical PDE formula. The stale route is separate from the failure
+of an explicitly selected preset. Do not attribute the whole error gap to one
+atomic operation or one autotuning decision; those effects were not isolated
+at full training budget.
+
+Accept the measured cost:42.718min process wall,102.36ms warm median update,
+20.316GiB active peak, versus26.77min recovered original run. Reject global
+determinism because its probe costs~1.35s/update. Preserve single-initialization
+and same-environment limits, runtime-only seed selection and field-only custom
+VJP scope. Existing published figures retain their checkpoints/timings. No Git
+action or automatic additional experiment is authorized.
+Relation:fem-weak-pino-comparison-plan.
+
+## 2026-11-13 — Publish the validated ceramic SOTA default and current results
+
+The user now authorizes SOTA confirmation, README/website updates, commit and
+push. Publish the validated six-particle width256 fixed-adjoint nonlocal default,
+its execution provenance and focused regressions. Update the overview and case
+chapter with64case channel mean4.0902%, phase3.6965%,concentration4.4839%, and
+42.72min current-GPU training cost. The four-case weighted overview becomes
+phase2.9046%/terminal5.4357%; label its norm/cohort separately.
+
+Retain original field/comparison figures and their provenance; do not relabel
+old predictions or timings as the current checkpoint. Reject bundling unfinished
+Spinodal/channel code. Validate the exact staged source/site, preserve all
+unrelated work, then use dev -> regular merge main -> push main and verify Pages.
+No new training, reference solves or dependency changes are needed.
+Relation:fem-weak-pino-comparison-plan.
