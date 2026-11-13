@@ -64,7 +64,13 @@ pair is curated under assets/pino-studies; one shared manifest drives website
 copy/size checks. Related FEM implementation/provenance is included; unfinished
 Spinodal/channel implementation remains local. The staged-only release passes
 42focused tests, nine-page build,328HTML links, asset identity and desktop/mobile
-display checks. Commit/main push and live Pages verification are the next actions.
+display checks. Publication is complete: content b00510f merged/pushed as main
+132b789; Pages43416337906 build/deploy succeeded. All nine live HTML pages and
+both approved PNG/PDF files match the release build byte-for-byte (HTTP200).
+[Publication receipt](../artifacts/ceramic_fem_publication_validation.json).
+All58unrelated/partially staged files are preserved. Requested publication is
+complete; remaining work is the numerical investigation described above, with
+no new training queued.
 
 ## Previous channel task — resource completion only
 
@@ -145,7 +151,8 @@ bounded near-wall arm. Resume only after an explicit user request; first review
 the retained checkpoints and interrupted journals. Intermediate wall checkpoints
 contain model weights, not optimizer state, so exact optimizer continuation from
 the interruption is unavailable. Preserve all failed/partial evidence.
-Current published main remains d2342f9; research edits are local. No Git operation.
+At the stop checkpoint, published main was d2342f9. The later approved ceramic
+publication above is now on main; unfinished sampling research remains local.
 
 ## Deferred work
 

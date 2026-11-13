@@ -1,8 +1,7 @@
 # FEM weak-residual PINO versus nonlocal and local AD
 
-Date:2026-11-13. Status: comparisons and requested figures complete; follow-up
-numerical diagnostics remain open. The user authorizes README/site publication
-and commit/push of the current result. Channel RESOURCE probes are complete and
+Date:2026-11-13. Status: comparisons, requested figures and approved README/site
+publication are complete and pushed; follow-up numerical diagnostics remain open. Channel RESOURCE probes are complete and
 its long run is cancelled. Spinodal stays on its original full-field scheme.
 No numerical default change is authorized.
 
@@ -13,7 +12,10 @@ No numerical default change is authorized.
 - [x] Verify the signed FEM weak-residual implementation and run the fixed-geometry
   feasibility check described below.
 - [x] Run the paired nonlocal/local-AD/FEM comparison and64sample evaluation.
-- [ ] Complete the frozen historical-source reproduction control and remaining
+- [x] Complete the frozen historical-source reproduction control and its64case audits.
+- [x] Publish the approved three-method distribution, results and provenance;
+  commit/push and verify GitHub Pages.
+- [ ] Isolate execution/reproducibility causes and complete remaining
   discretization/interpolation diagnostics; do not infer a universal ranking.
 
 The prior deferral is superseded by the user's explicit execution instruction.
@@ -657,3 +659,27 @@ figure/PDF link correctly, with no page overflow or JavaScript errors.
 Receipt: `artifacts/ceramic_fem_publication_validation.json`. The numerical
 default and unrelated working-tree source bytes are preserved. Next: content
 commit/regular main merge/push, then exact-commit Pages and live asset verification.
+
+### Publication verification and task-end — 2026-11-13
+
+Content commit `b00510f` was regularly merged and pushed to main as
+`132b789cee557c181993dbd27789fd138efeadd4`. GitHub Pages run
+[43416337906](https://github.com/NanxiiChen/nonlocal-pino/actions/runs/43416337906)
+built and deployed successfully. All nine live HTML pages and the approved
+PNG/PDF pair returned HTTP200 and match the inspected release build byte-for-byte.
+[Published comparison](https://nanxiichen.github.io/nonlocal-pino/particle-corrosion.html#spatial-derivative-comparison).
+
+The release includes the example README, website/build workflow, curated
+94,162byte figure pair, direct-path source/config/metric manifests and the
+related opt-in FEM code/audits. Numerical defaults are unchanged. All58unrelated
+or partially staged files match their pre-publication byte copies, including
+unreleased Spinodal sections of shared documentation. No weights/reference
+arrays were added. Validation:42focused tests,328HTML links,89Markdown links,
+desktop/mobile previews, syntax checks and git diff --check pass.
+Machine-readable receipt: `artifacts/ceramic_fem_publication_validation.json`.
+
+This requested publication is complete. Memory updated: PROGRESS, DECISIONS
+and this task. The overall investigation remains active only for the previously
+listed causal reproducibility and discretization/interpolation diagnostics;
+no additional experiment is queued. Resume there rather than repeating final64
+inference, redrawing the accepted figures or restarting stopped sampling runs.
