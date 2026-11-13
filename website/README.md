@@ -43,6 +43,11 @@ are self-contained. Repository source links require access to the repository.
   [its specification](../artifacts/pino_master_figure.json). The report displays
   the selected PNG from `assets/pino-architecture/` and offers its editable PDF
   and `architecture.svg`. These share the source used in the project README.
+- The ceramic chapter additionally displays the approved three-method final-error
+  distribution from `assets/pino-studies/`, shared with the example README.
+  [Its publication manifest](../artifacts/ceramic_fem_comparison_publication.json)
+  records exact model/configuration inputs and PNG/PDF sizes; the builder checks
+  and copies only this pair. Figure and manifest changes trigger Pages deployment.
 
 KaTeX renders standard LaTeX expressions at build time to HTML and MathML.
 The generated site loads its math fonts locally. [KaTeX API](https://katex.org/docs/api)

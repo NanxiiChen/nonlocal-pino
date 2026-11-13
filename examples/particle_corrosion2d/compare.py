@@ -44,14 +44,21 @@ def _canonical_config(config):
     result = copy.deepcopy(config)
     method = result['nl'].pop('method')
     biases = result['loss'].pop('gradnorm_bias')
-    expected = {'nonlocal': 5, 'local_ad': 7}
+    expected = {'nonlocal': 5, 'local_ad': 7, 'fem_weak': 5}
     if method not in expected or len(biases) != expected[method]:
-        raise ValueError('Nonlocal/local AD require exactly five/seven explicit loss biases')
+        raise ValueError('Nonlocal/FEM require five and local AD seven explicit loss biases')
     if not np.isfinite(biases).all() or min(biases) <= 0:
         raise ValueError('Loss biases must be finite and positive')
     if method == 'local_ad' and biases[5:] != [1., 1.]:
         raise ValueError('Matched local control must append the two declared unit Neumann biases')
     result['loss']['shared_gradnorm_bias'] = biases[:5]
+    if ('method_comparison' in result['operator']
+            and result['operator']['method_comparison'] == 'rolling_fem_v1'):
+        if method == 'fem_weak':
+            if result.pop('fem') != dict(kind='p1_lumped_nodal', residual_norm='mass_normalized_l1'):
+                raise ValueError('Declared lumped FEM discretization required')
+        for key in ('halo', 'neighbors'):
+            result['operator']['online'].pop(key)
     return result, method
 
 

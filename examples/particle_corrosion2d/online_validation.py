@@ -171,6 +171,8 @@ def audit_online_run(run, workers):
         raise ValueError('Online audit requires the completed declared rolling budget')
     root = Path(__file__).resolve().parents[2]
     full_sources=('examples/particle_corrosion2d/full_grid.py',) if is_full(c) else ()
+    if c.nl.method == 'fem_weak':
+        full_sources += ('examples/particle_corrosion2d/fem_weak.py',)
     sampling_sources=('src/nonlocal_pinn/training/spatial_sampling.py',) if 'core_draw' in c.sample else ()
     for source in ('examples/particle_corrosion2d/online.py',
                    'examples/particle_corrosion2d/train.py', *SHARED_SOURCES,*full_sources,*sampling_sources):
@@ -180,8 +182,12 @@ def audit_online_run(run, workers):
     manifest = json.loads((bankpath/'manifest.json').read_text())
     with np.load(bankpath/'inputs.npz', allow_pickle=False) as arrays:
         original = {name: arrays[name] for name in arrays.files}
-    initial = (prepare_initial_full_bank(original,c,manifest,workers) if is_full(c)
-               else pad_initial_bank(original,c))
+    if c.nl.method == 'fem_weak':
+        from .fem_weak import prepare_initial_bank
+        initial = prepare_initial_bank(original,c,manifest,workers)
+    else:
+        initial = (prepare_initial_full_bank(original,c,manifest,workers) if is_full(c)
+                   else pad_initial_bank(original,c))
     with np.load(run/'online_initial_inputs.npz', allow_pickle=False) as saved:
         if set(saved.files) != set(initial):
             raise ValueError('Initial rolling bank schema differs')

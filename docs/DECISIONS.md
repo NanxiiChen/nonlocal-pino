@@ -11942,6 +11942,7 @@ three same-budget cold20k controls (bulk512/wall512/full), retaining20kLR and
 explicit six-time blocks on this49GBcard. Results may reject either candidate.
 Relation:pino-unified-rolling-core-halo.
 
+
 ## 2026-11-12 — Bound support and avoid unused spatial-pool construction
 
 All two-group closure unions on1032existing plus64fresh input-only Spinodal
@@ -12076,3 +12077,720 @@ cache/preparation investigation and keep the existing serial accuracy queue.
 Use dev commit, regular merge to main and push main only. Do not rerun completed
 expensive diagnostics or alter the current production defaults for publication.
 Relation: pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Isolate exact host preparation optimizations from live controls
+
+Actual1024-bank compact probes spend more time preparing batches than updating
+on GPU. CPU profiling identifies segment-distance partition construction and
+repeated complete two-hop union/remapping as candidates. Prototype an exact
+spatial-index candidate filter with the original segment-distance predicate,
+and dense node-ID maps replacing sorted search, in a separate research module.
+Validate every core, measure, support and payload value against frozen production
+before considering integration. Keep the current full/wall5k controls and their
+source unchanged. These are implementation optimizations, not changed wall bands,
+halos, random seeds or loss measures. Do not promote from a small warm-cache
+microbenchmark; record cold geometry, fresh sets and cache-hit costs separately.
+Relation: pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Diagnose conservative-potential accuracy before sampler promotion
+
+The canonical full-coordinate conservative-potential5k pilot finishes at test
+phase relative error.608780. Sparse support cannot explain this full-grid result.
+Preserve the queued matched compact pilot and existing SOTA. Inspect one final
+full-model trajectory against its native reference, including initial physical
+RHS, potential residual and original CH residual on complete rows. Low potential
+loss is not a full-trajectory accuracy guarantee; its output mapping also
+amplifies some spatial errors. Use saved configuration/checkpoint and exact
+known graph, with no label-driven change to sampling or new reference solve.
+This is a diagnosis of the changed coordinate/loss, not evidence that ordinary
+core+halo or near-wall sampling is intrinsically inaccurate.
+Relation: pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Separate the experimental potential control from the accepted SOTA
+
+The user questions the reported60.9%full-grid error because the accepted result
+was below5%. Clarify explicitly: this is the new conservative-potential output
+with identity metric after5k, not a rerun of the original direct-phase/stable
+resolvent SOTA. The original same8case metric was18.205%at5k,13.010%at10k,
+8.748%at20k,and4.833%at50k. The saved configurations differ only in formulation,
+metric,budget and run name; historical hardware/execution still prevent a strict
+same-card causal comparison. Budget alone does not account for the observed
+new5k result. Keep original default/checkpoint, label both experimental arms
+explicitly, and do not present new-full versus old50k as a sampling ablation.
+A sparse implementation must preserve useful convergence as well as exact
+supports. Further candidate work needs the old scheme as a clearly separated
+baseline; no silent formulation promotion. Relation:pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Test unbiased quadrature of the original residual norm
+
+The original stable residual metric is dense and cannot be silently localized.
+Before another neural experiment, derive and check a two-independent-sample
+estimator of its quadratic norm. For p=v/sum(v), W=diag(p), original metric P
+and conservative-coordinate r=T Rchi, Q=alpha P D and K=W^-1 Q^T W Q W^-1.
+If independent sampled volume measures a,b each have expectation p, then
+E[(a*r)^T K (b*r)]=||Q r||_W^2, including parameter gradients at a fixed model.
+The two samples must share the same geometry/time and remain independent;
+squaring a single estimated integral would introduce a variance bias. Since
+Q1=0, subtracting a deterministic anchor residual preserves the full objective
+and removes constant-gauge noise per draw, at the cost of its complete stencil.
+Individual cross estimates can be negative or have excessive variance. Validate
+identities, gradients, gauge handling and actual-graph Monte Carlo variability
+before deciding whether a training trial is justified. Do not describe this as
+a validated optimizer or an exact loss on each sampled batch. Keep production
+and the live channel queue unchanged. Relation:pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Add a pure sampling control that retains the original SOTA
+
+The independent quadratic estimator is mathematically correct, but actual
+local-group loss SD is4.6–8.5times its mean, with73–76%query support. Scattered
+samples reduce SD to.32–.37timesmean but require the entire graph. Do not promote
+this as a practical compact method from expectation identities alone.
+Add a clearly named rolling residual-row control to the original direct-phase,
+hard-mass, stable-metric trainer. Sample rows AFTER the unchanged dense metric;
+keep complete field/derivative/global-constraint support. Preserve all original
+geometry/time/model/optimizer draws. This is an accuracy-control experiment,
+not a claimed compact decoder or a completed solution to the five-case goal.
+Use bounded independent host row pools invalidated on geometry replacement.
+No default changes or interruption of the live channel comparisons; any GPU
+control must wait for the current serial owner. Relation:pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Queue original-scheme controls with complete row provenance
+
+Implement the opt-in rolling residual-row control and retain the original
+direct-phase field, hard mass, dense stable metric, physical/time/geometry draws
+and learning-rate schedule. It is a diagnostic of fewer loss rows, not compact
+decoder support. The pool records actual row IDs plus only small point/volume
+snapshots, allowing independent inverse-CDF replay without storing dense metrics
+or future solution labels. Set reuse is finite quadrature; do not claim each
+adaptive gradient is conditionally unbiased. Six CPU checks and a real96input/
+491520row replay qualify integration, not trained accuracy.
+Schedule60step resource and cold5k full/row512 pairs after live accuracy owner
+646658 completes all channel controls. Require unchanged source bytes, same idle
+GPU, sufficient disk and strict cold-state/input/reference/endpoint checks.
+Reject overlapping GPU runs, automatic restarts or promotion from this preflight.
+Relation:pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Measure locality before changing the Spinodal residual metric
+
+Investigate the input-only filtered potential residual Q=alpha P D, where P is
+the accepted stable metric and D is the original positive regional Laplacian.
+No training code or queued source changes. For a diagnostic only, retain
+off-diagonal Q entries inside predetermined symmetric physical-radius masks
+and set each diagonal to minus its off-diagonal row sum. This preserves Q1=0
+and volume self-adjointness but changes the norm; it is not an exact truncation
+of the old objective. Check its nonconstant spectrum/rank, errors on growing
+modes, frozen PINO residuals and complete two-hop field-query dependencies.
+Use radii1/1.5/2/3/4/6/10times the unchanged operator horizon, with no reference
+trajectory in construction or tuning. A short range with small matrix error
+would only justify a controlled training candidate, not prove equal accuracy.
+Reject a locality claim when useful approximation requires nearly global
+support. Relation:pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Compare localized loss norms independently of filter sign
+
+A localized filtered residual can reverse sign without changing its squared
+loss. Matrix Qlocal-Q error alone is therefore not an accuracy/optimization
+criterion. On the full nonconstant input-graph eigenspace, inspect singular
+values of Qlocal Uplus diag(1/qplus). Their squares give exact extremal ratios
+of localized/original quadratic losses. The best global scalar squared is
+2/(rmin+rmax), with worst relative norm distortion(rmax-rmin)/(rmax+rmin).
+This input-only, sign-invariant diagnostic cannot establish training accuracy;
+retain first-pass matrix errors and spectra rather than deleting inconvenient
+results. No training formula/default or queued source changes.
+Relation:pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Check a local exact initial-rate lift without changing queued trials
+
+Across8known geometries, the tested symmetric hard-radius filter truncation
+strongly distorts the original quadratic norm even after optimal scalar
+rescaling; useful larger radii consume nearly/full query support. Do not deploy
+that cutoff from smaller matrix storage alone. As a separate isolated candidate,
+use the known initial PDE rate in the conservative coordinate: chi_dot0=-Mmu0/
+alpha. Define a(t)=1-exp(-t/tau), b(t)=tau*a(t), g(t)=s(t)*a(t)/a(T), then
+chi=b(t)*chi_dot0+g(t)*network(s(t)). Thus chi(0)=0, chi_t(0)=chi_dot0 and the
+original physical initial rate is exact, independent of learned parameters.
+The existing decoder coordinate s is unchanged. Choose tau from the explicit
+known-input homogeneous stable-rate upper bound: lambda_bar=2max(row_sum(D)),
+qbar=max(0,M*lambda_bar*(epsilon^2*lambda_bar+beta*(3mean(phi0)^2-1))),
+tau=1/max(1/T,qbar). This is a lifting timescale, not a time-integrator stability
+claim. It avoids an unbounded t*initial_rate term; no future field is prescribed.
+Precompute mu0/rate only from the original initial graph. Neural dependencies
+remain the same complete two-hop halo. Test IC, physical time JVP, mass and
+full/compact loss/parameter gradients before any training or promotion. Keep
+all queued production files and defaults unchanged; this prototype is only
+under docs/tasks. Relation:pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Clarify the graph spectral-bound notation
+
+The preceding initial-rate entry used row_sum(D) as shorthand incorrectly: the
+Laplacian matrix itself annihilates constants and has zero row sums. The actual
+code and intended Gershgorin bound use lambda_bar=2max_i sum_j a_ij, where
+Df_i=sum_j a_ij(f_i-f_j) and a_ij are the stored nonnegative neighbor coefficients.
+No numerical formula or experiment changed; the active derivation is corrected
+explicitly and the earlier decision retained. Relation:pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Isolate the waiting original-scheme control before lift integration
+
+The original-row owner is still waiting with zero child stages. Preserve its
+133 frozen source files byte-for-byte and complete their Python import closure
+with current example sources before any production edit. Verify imported module
+origins and known-input geometry construction from that isolated directory.
+Then explicitly supersede only this waiting owner and run its unchanged original
+full/row scientific controls from the frozen source tree, preserving the old
+journal and the same live accuracy predecessor. This deliberate revision allows
+opt-in initial-rate development without silently changing a queued baseline.
+Do not interrupt the active channel owner or its child; no GPU overlap/restarts.
+Integrate the tested lift only behind explicit configuration with unchanged
+physical parameters, architecture, time draws, objective and halo support.
+Training accuracy remains unproved; retain all current SOTA defaults.
+Relation:pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Integrate and queue the exact-rate candidate without promotion
+
+The opt-in initial-rate lift now uses the canonical train.py, loader, evaluator
+and rolling geometry/core-halo path. Compute prescribed rates on the same
+rounded initial graph as the selected neural dtype, rather than mixing FP64
+known rates with FP32 derivative coefficients. Record the derived timescales
+from input-only data; encoder channels and complete two-hop support remain
+unchanged. Default-off full/spatial presets retain the existing potential
+control's physics, time draws, loss fraction, model and optimizer. Reject stored
+rate fields in physical-bank files; derive them during loading and generation.
+Ten focused CPU checks and24actual width256/geometry-replacement evaluations
+qualify integration, not learned L2 accuracy. A finite frozen-source owner waits
+behind original-row controls, then runs full/bulk/wall resource60 and cold5k
+pilots with strict cold-state, all actual geometry/time stream, physical-input
+lift and independently reduced final native8metric checks. Five thousand steps
+is a same-budget convergence diagnosis, not acceptance against the50kSOTA.
+Do not launch overlapping GPU work or promote from algebraic identities.
+Relation:pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Integrate exact host indexing and quantify local-group variance
+
+The prior64geometry audit established exact candidate filtering and node-index
+remapping without changing cores, coefficients or complete halo support. Move
+those CPU operations into the compact Spinodal path, preserving the same final
+point-to-segment floating-point predicate and ordered core draws. Extend the
+real-input comparison to the newly introduced prescribed-rate arrays and
+rolling replacements. Compare against the already frozen pre-index source,
+not a rewritten reference implementation. Leave all live/waiting queues on
+their existing frozen snapshots; this integration does not rewrite timings.
+Separately measure local potential-loss quadrature variability on saved actual
+PINO residual fields. Distinguish fewer independent spatial groups from repeated
+core slots, and quantify the complete-query cost of increasing coverage. Do not
+use reference labels or a single frozen-residual diagnostic to claim trained
+accuracy or to alter the PDE/preconditioner. Relation:pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Measure wall density before calling an equal split densification
+
+An actual Spinodal input has78.33%of its physical volume within the current
+one-horizon wall band. Allocating half the core slots to that stratum therefore
+reduces wall sampling density relative to volume-proportional sampling. Check
+64previously selected training geometries and all8reserved known geometries,
+using geometry only, at quarter/half/full-horizon bands. Compare complete-core
+loss quadrature variance and two-hop support on the two saved PINO residual
+fields; keep physical-volume weights, independent sampling randomness and the
+existing operator horizon unchanged. A band width is a sampling choice, not a
+new physical boundary or a truncated operator. Do not claim trained improvement
+from this diagnostic or modify the live/frozen queues. The preceding annotation
+turn was a clarification of existing evidence, not new compact-training progress;
+this followup must produce multi-geometry evidence before selecting a new route.
+Relation:pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Add a source-identical half-band control after the waiting lift trial
+
+The72geometry audit finds the current full-horizon Spinodal wall band occupies
+59.29--82.49%of volume; half-horizon occupies32.26--44.22%. Keep128slots/two64slot
+groups/halfwall allocation and change only the sampling band to.055; the physical
+horizon stays.11. All9216actual full/half-band sets retain complete two-hop
+support within512inner/1024query capacities. Frozen loss variability is improved
+for the inspected residuals, but trained improvement is not established. Add an
+explicit opt-in preset and a finite60step-resource/cold5k/audit followup after
+the existing initial-rate queue completes. Train from that predecessor's exact
+frozen source with a CLI band override, so the existing full and wall controls
+remain valid; do not mutate or supersede any running/waiting owner or snapshot.
+Use the existing strict auditor on full/wall/halfband, including cold states,
+actual geometry/time draws and independent final8geometry phase norms. Preserve
+all original controls and promote nothing without trained evidence. Same-card
+idle/memory/disk and actual predecessor process checks remain required.
+Relation:pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Independently reduce final channel fields before comparing samplers
+
+The existing serial owner checks cold states and actual input streams, but its
+final pair summary reads the cohort evaluator's scalar aggregates. Add an
+isolated CPU postprocessor that independently reduces saved prediction/target
+arrays, verifies targets against the declared local-FEM files, and checks all
+predeclared geometry IDs and unweighted field aggregates. Preserve the existing
+phase/all-times versus flow/positive-times metric and report that distinction.
+For actual multi-arm comparisons also require complete config/source parity
+except declared spatial settings/runname, actual condition/time/geometry streams
+and initial/final known-input arrays. Validate with controlled corrupted
+artifacts and an already completed accepted run, without importing training or
+re-evaluating a model. Do not alter live queue sources or claim the unfinished
+20kcomparison has passed. Historical single-run validation is not same-card
+performance evidence. Relation:pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Retain the resource-probe source-parity failure explicitly
+
+The new independent pairing validator correctly rejects a strict five-arm
+source-identity claim for the completed60step probes. The first full-coordinate
+source predates two sampler edits: skipping wall-distance work for unsplit
+groups and rejecting nonfinite total sampling mass. Full mode executes neither
+changed sampler path, so this does not by itself invalidate its measured timing;
+nevertheless its109file snapshot differs in two files. Preserve that failed
+strict-source report and the actual diffs. Do not weaken the validator or relabel
+it as passed. The four later compact probes share all109source files and pass
+cold-state/configuration/actual-stream/initial-final-input/timing checks. The
+current20kfull/bulk/wall study still needs its own final strict validation,
+independent saved-field reduction and same-card resource comparison.
+Relation:pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Measure channel residual concentration before adding sampling arms
+
+The complete-support checks and geometry-area audit do not establish whether
+wall allocation reduces actual PDE quadrature variance. Use the saved5000step
+bulk model and three declared initial known geometries to evaluate full-domain
+normalized PDE residuals on CPU, with the same time-JVP/physical lifting and
+rounded derivative coefficients. Compare full integration to the existing
+bulk512/wall512/wall1024 sampling rules; do not train an extra arm, use reference
+fields or modify live sources. Compute exact first/second moments by inverse-CDF
+interval probabilities and the law of total variance, retaining iid within-tile
+sampling for shortened tiles. Also replay actual draws to check the formula.
+Keep near-boundary volume rows distinct from the explicit BC quadrature, which
+all arms retain. Conditional loss-estimator variance is not gradient variance,
+trained L2 or proof of causality; CPU timings are not a GPU speed comparison.
+Relation:pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Preserve host coordinate precision in the channel sampling audit
+
+Initial channel SpatialPool construction consumes the saved build_bank FP64
+coordinates; neural/operator execution rounds its payload to FP32. Online
+replacement payloads are already FP32. The first frozen-residual diagnostic
+rounded initial coordinates before classifying the wall band, moving threshold
+nodes and changing area fractions. Keep its physical fields and original report;
+recompute sampling statistics in a new receipt from the raw host coordinates.
+No inference, training, production dtype or physics change is needed. Require
+agreement with the independently recorded16initial-geometry area audit.
+Source inspection also finds canonical audit_training_inputs replays geometry/
+time identities and final operators, not recorded spatial_pool_ids/core_ids/
+halo_counts. Retain that narrower scope; add an independent spatial replay
+before claiming final compact-run validation. Do not retroactively describe
+an input-stream pairing pass as proof of the core/halo draw sequence.
+Relation:pino-unified-rolling-core-halo.
+
+
+## 2026-11-12 — Replay every recorded channel core/halo selection independently
+
+Add an isolated CPU auditor of actual spatial_pool_ids/core_ids/halo_counts.
+Reconstruct geometry slot replacements from the recorded FIFO schedule, retain
+raw initial coordinates and canonical rounded online replacements, and replay
+revision-keyed candidate sets and per-step pool choices. Independently check
+complete support from nonzero domain and BC stencil entries. Reject missing
+steps, wrong shapes, stale geometry identities, altered cores or halo counts.
+Validate on deliberate corrupted synthetic traces and all completed compact
+60step resource arms before using the same tool on the20kruns. This adds evidence
+without modifying live trainer/sampler sources, timing, RNG streams or defaults.
+Full-run geometry validation and field-error evaluation remain separate checks.
+Relation:pino-unified-rolling-core-halo.
+## 2026-11-12 — Separate boundary-region field errors from sampling coverage
+
+The completed support and frozen-residual audits do not establish where actual
+solution error resides. Add an isolated CPU saved-field diagnostic for the
+channel comparison, using the explicit sampling band0.075 and the training
+grid's physical boundary polylines. Distinguish the complete boundary band
+(including inlet/outlet, as in the sampler) from the upper/lower solid-wall
+band. Evaluation queries are cell centers, not boundary vertices: reconstruct
+the boundary from the declared geometry, never from the query cloud's envelope.
+Retain the existing unweighted space-time phase metric and report regional
+numerator/reference energies, RMS and normalized contributions that sum back
+to the original global squared relative error. Undefined regional ratios remain
+explicit. Require original reference/configuration/cohort identity before
+reducing fields. Validate against analytic fields and historical accepted saved
+predictions; historical regional scores do not prove current sampler benefits.
+No field/reference-based training adaptation or live-source/default change.
+Relation:pino-unified-rolling-core-halo.
+## 2026-11-12 — Do not infer spatial GradNorm weights from regional solution errors
+
+The user's regional-error annotation raises a possible wall/interior loss split.
+Keep its interpretation explicit: reference-relative field error is an evaluation
+quantity, not the trained PDE residual or parameter-gradient norm. The near-wall
+band is a volume stratum, distinct from exact boundary-condition quadrature.
+For normalized mean PDE losses the physical objective is f*L_near+(1-f)*L_inside,
+with f the physical-volume fraction, not the evaluated point fraction. Adaptive
+coefficients on these terms change the training metric; they are not merely an
+unbiased sampling correction. Separate diagnostics are useful, but retain the
+current objective and controlled queue until residual/gradient evidence supports
+a separate balancing experiment. Low regional solution error alone does not
+establish that its training term is underweighted. No GradNorm change is made.
+Relation:pino-unified-rolling-core-halo.
+## 2026-11-12 — User defers spatial loss splitting and gradient balancing
+
+The user explicitly requests continuing the original experiment plan and
+deferring the two-region PDE-loss/parameter-gradient balancing proposal. Keep
+the current normalized residuals, physical-area weights, optimizers and serial
+full/bulk/wall comparison unchanged. Do not launch a spatial GradNorm ablation
+or a new gradient-balancing branch. The completed saved-field regional diagnostic
+is evaluation only and may accompany the final comparison. This defers one
+optimization idea, not the overall rolling core/halo unification goal or the
+already queued Spinodal controls. Relation:pino-unified-rolling-core-halo.
+
+## 2026-11-12 — Queue the existing independent channel checks after GPU experiments
+
+The running comparison owner performs its original input and cohort checks but
+does not invoke the newer complete spatial replay and independent field/regional
+auditors. Schedule those already planned checks with a separate CPU-only owner,
+after both the channel comparison and the existing final Spinodal queue complete.
+Freeze the channel run's actual production sources and the existing audit helpers;
+verify their bytes and runtime import locations. Use two explicit CPU cores and
+retain commands, exit codes and outputs. Do not modify any running owner, training
+source, loss, sampling schedule or default. Waiting for the final GPU queue avoids
+introducing CPU contention into its timing comparison. A failed or missing owner
+must produce a retained failure instead of silently restarting work. This adds
+completion automation, not an experiment or the deferred gradient-balancing idea.
+Relation:pino-unified-rolling-core-halo.
+
+## 2026-11-12 — Retain completed bulk512 as a control, not a new default
+
+The first channel cold20k compact arm completes its canonical input audit and
+three predeclared local-FEM evaluations. Mean phase error is 3.295%, but pressure
+is 8.884% on average and 13.589% in the worst case; its centered response to
+geometry has relative error 1.208. Do not promote from phase accuracy or the
+mean-principal-errors-below-10% flag alone. Continue the original wall512/full
+controls and retain chemical-potential scores, worst cases and geometry response.
+The new wall arm has identical cold model/optimizer bytes, 109 frozen sources
+and nonspatial configuration; full sampled-stream pairing remains pending.
+
+Reuse the existing independent saved-field reducer on the completed arm to
+confirm its original FEM targets and reported norms before interpreting it.
+Preserve a frozen driver/auditor receipt and keep its scope separate from the
+queued complete spatial replay, cross-arm pairing and regional diagnostics.
+This CPU-only reduction took 9.904 s on cores 206/207 during wall initialization/
+compilation, before its first logged update. Record that overlap rather than
+describe the wall cold-compilation timing as wholly isolated. The full completion
+owner still waits until all GPU experiments finish. No loss change, new training
+branch or deferred gradient-balancing work follows from these partial results.
+Relation:pino-unified-rolling-core-halo.
+
+## 2026-11-12 — Diagnose pressure offsets without correcting reported errors
+
+Decompose the completed bulk512 pressure-error energy into the spatial mean
+at each positive saved time and its spatially varying remainder. Check the
+orthogonal identity and original FEM targets, and reproduce the raw reported
+norms. Mean-offset contributions are 71.09%, 93.30% and 83.62% for the three
+reserved cases, and 93.96% for their centered common-physical geometry response.
+This identifies an error mode, not its cause or a corrected model accuracy.
+The implemented symmetric-stress zero outlet traction fixes the pressure
+reference in both PINO and FEM; a spatially constant pressure shift changes
+that condition. Do not subtract reference-derived offsets, declare pressure
+gauge freedom, or infer a missing boundary condition from this decomposition.
+Preserve the original full/bulk/wall queue and all current losses. The user's
+deferred spatial loss/gradient balancing remains deferred. Retain the standalone
+CPU source and receipt; no inference, solve or new training is involved.
+Relation:pino-unified-rolling-core-halo.
+
+## 2026-11-13 — Distinguish a usable compact channel run from default replacement
+
+The user asks about phase/velocity accuracy versus the old full model and permits
+stopping the near-wall arm if it is clearly ineffective. Re-read the independent
+historical full-field audit and completed bulk512 cohort report on the same three
+reserved geometries. Full versus compact means are 1.6435%/3.2950% phase and
+1.5172%/3.0375% velocity: roughly twice the error, or +1.6515/+1.5203 percentage
+points. Compact training is a working alternative; retaining the full default
+does not imply an implementation failure. This historical comparison is not a
+same-hardware/execution causal isolation of sampling.
+
+For the conditional stop, compare all five matched monitoring evaluations from
+14k through 16k. Near-wall phase is worse at every point, but velocity is better
+at every point. Checkpoint-average phase is 4.3729% versus bulk 4.0196%; velocity
+is 2.9898% versus 3.1007%. These correlated checkpoints on one geometry describe
+a tradeoff, not independent trials or proof of no benefit. Keep the existing
+bounded 20k arm for now; do not stop on the stronger, unsupported claim that both
+fields receive no benefit, and do not promote or add near-wall trials. Preserve
+the user's conditional stopping authorization if later evidence establishes it.
+No loss split, new balancing branch, source change, or process interruption.
+Relation:pino-unified-rolling-core-halo.
+
+## 2026-11-13 — User unconditionally stops all current and queued experiments
+
+After clearing the thread goal, the user explicitly says “先都断掉吧”. This
+supersedes the prior conditional stop and bounded-run continuation. Stop the
+current channel trainer, its workers, all five queue owners and monitoring;
+preserve all outputs and require explicit authorization before any resumption.
+Do not keep running merely to reach 20k or complete the already queued audits.
+
+Verified process groups were terminated by SIGTERM at05:43:45UTC. All nine PIDs
+subsequently disappeared, GPU compute processes are empty, and observer2846
+exited normally. Preserve original journals and process evidence under
+/root/autodl-tmp/tf-logs/pino-user-stop-20261113-01. Set the five current journals
+to stopped_by_user and the active wall stage to interrupted_by_user, without
+fabricating successful completion or deleting artifacts. Last recorded wall
+loss is16700; latest saved model is15000, with no final optimizer state. Full20k,
+the waiting Spinodal training controls and final CPU audits did not run.
+
+The research objective remains incomplete. Leave its task file unarchived and
+mark the dashboard paused with an explicit no-auto-resume point. The goal tool
+confirms no active goal after the user's clear action; do not recreate one.
+No numerical-default or Git change. Relation:pino-unified-rolling-core-halo.
+
+## 2026-11-13 — Resume only uniform channel training on the new GPU
+
+The user now explicitly authorizes a fresh background uniform core/halo channel
+run on RTX PRO 6000, with resource tuning and a phase-error target below2%.
+Verify the new GPU and benchmark resources rather than reuse prior-card timing.
+Keep the successful physical model, network and normalized loss unchanged;
+first vary core count and time blocking, then select an explicit long budget/LR.
+This authorization does not restart the old interrupted owners or promote defaults.
+
+The user corrects the second investigation from ceramic corrosion to Spinodal.
+That part is explanation/source inspection only: identify the altered output and
+residual metric, and explain sampling-only alternatives. Do not launch training
+for either Spinodal or ceramic. Preserve the earlier failed/partial evidence.
+Relation:channel-uniform-pro6000-and-spinodal-audit.
+
+
+## 2026-11-13 — Bound new channel resource selection and separate Spinodal changes
+
+Use four60-update same-card profiles with B8/Nt36/timeblock18 and unchanged
+physics/network/loss. Select the largest uniform core>=1024 below94%active memory
+whose30k warm estimate is no slower than full20k; otherwise select a faster
+eligible core for20k. If neither qualifies, stop for explicit review. This finite
+policy targets the user's accuracy/time tradeoff without claiming equal-error
+speed from short probes. Set the explicit LR tail to5e-6, retain1k checkpoints,
+500-update development evaluations and final reserved3 evaluation. Rejected:
+unbounded tuning, changing physical loss simultaneously, or using old-card timing.
+
+The initial support check failed on a misnamed encoder field before any GPU
+training. Preserve that failure, correct only the check, and start a new named
+owner after32geometry complete-support validation passes. No automatic numerical
+fallback or truncated halo is introduced.
+
+Spinodal source inspection confirms exact global mass projection and dense
+stable-resolvent loss prevent simply discarding all non-halo neural queries.
+The prior potential/identity pilot removed both dependencies but changed the
+optimization problem. A sampling-only final-residual-row control can retain the
+successful scheme, at the cost of global queries; it exists but has no training
+result. Keep that distinction explicit and do not launch Spinodal in this task.
+Relation:channel-uniform-pro6000-and-spinodal-audit.
+
+## 2026-11-13 — User retains full-field Spinodal
+
+After the explanation, the user explicitly chooses to retain the original
+full-field Spinodal route. Keep direct phase output, global mass projection
+and the dense stable-resolvent metric as the accepted scheme. Do not proceed
+with compact-potential, residual-row or other Spinodal training controls.
+Their retained code and failed/partial evidence remain research history; no
+deletion, default change or Git action follows. This settles the Spinodal part
+of the current task and does not stop the newly authorized channel workflow.
+Relation:channel-uniform-pro6000-and-spinodal-audit.
+
+## 2026-11-13 — Plan a FEM weak-residual neural-operator control
+
+The user asks whether FEM natural Neumann treatment can be used in PINO and
+requests an experiment plan. Inspect the actual ceramic-corrosion P1 assembler,
+BDF reference and paired-derivative losses, and consult FEINNs, Finite Operator
+Learning and the FEniCSx mixed-boundary derivation. Propose a third arm using
+the same network/physical fields with mass-lumped weak FEM residuals. Standard
+nodal test functions are precomputed; no learned test network or spatial AD is
+required. Preserve original KKS map, soft IC/mouth losses, L1 PDE reduction,
+scales and optimizer, rather than alter representation and metric together.
+
+Keep Neumann test rows and signed FEM stiffness contributions; drop only mouth
+test rows while retaining their trial columns. Homogeneous natural conditions
+do not guarantee an unconverged continuous NN has zero pointwise normal
+derivatives. Regional nonlocal closure has the analogous finite-horizon caveat.
+This case already uses a mesh for node/volume generation, so do not claim a
+mesh-free preprocessing advantage here. Allow FEM to be competitive; the
+purpose is attribution, not selecting a weak baseline.
+
+Detailed staged plan:docs/tasks/fem-weak-pino-comparison-plan.md. No new code,
+training, reference solve, plot, default or Git change. Existing channel owner
+continues; Spinodal stays full-field. Keep exactly the existing active task.
+Relation:channel-uniform-pro6000-and-spinodal-audit.
+
+## 2026-11-13 — Defer FEM comparison until the user's channel confirmation
+
+The user asks to record the FEM weak-residual comparison as TODO and execute
+only after they confirm the two-phase-flow experiment is finished. Mark the
+plan deferred and add a dashboard TODO with this explicit release condition.
+Do not implement, prepare, train or automatically chain the comparison after
+channel completion. A process exit is not the user's confirmation. Existing
+channel work remains authorized; no process, numerical-default or Git change.
+Relation:channel-uniform-pro6000-and-spinodal-audit.
+
+## 2026-11-13 — Finish channel probes only; release ceramic FEM comparison
+
+The user explicitly reverses the FEM deferral: finish the current channel
+resource tests, record them without starting its selected long training, then
+start ceramic FEM weak-residual training comparisons. Stop only the scheduler
+while its final child finishes; terminate the stopped scheduler after confirmed
+child exit0 and reconstruct all four resource summaries. The completed journal
+records long_training_cancelled_by_user; no channel20k/30k training exists.
+Reject automatic continuation under the superseded earlier authorization.
+
+Implement mass-lumped P1 nodal weak rows with all signed stiffness contributions
+and complete incident-element support. Retain physical coefficients, KKS field
+map, timeJVP, soft initial/mouth conditions, original five losses and Adam20k.
+Do not add a learned test function, coordinate preconditioner, changed output
+representation or separate homogeneous-Neumann loss to FEM. LocalAD retains
+its two explicit Neumann terms. This isolates the discrete operator/boundary
+route, not a simultaneous optimization redesign.
+
+Use the original known-input bank and actual core draws, preserve cold model
+and optimizer bytes, rolling geometry/time/core sequences and final64refined
+local references. Allow only method-specific halo/connectivity capacities.
+Keep signed FEM coefficients rather than silently filtering them as nonlocal
+positive exchanges; the real64geometry preflight contains477negative values.
+Run fixed2k feasibility then three sequential cold20k arms on the same current
+PRO6000, with1k model checkpoints and no concurrent GPU contention. Fine local
+references are existing validated data, never training labels. Preserve failures
+and stop on unexplained audit errors. No default promotion or Git action.
+Relation:fem-weak-pino-comparison-plan; channel-uniform-pro6000-and-spinodal-audit.
+
+
+## 2026-11-13 — Recover only the ceramic comparison's postprocessing failure
+
+The FEM20k training and online-input audit finished successfully. All64saved
+predictions and headline norms exist; the subsequent independent regional
+reduction stopped at a1.1068e-14 absolute discrepancy because its relative
+threshold was2e-13. CPU replay reproduces every headline value bitwise;
+extended-precision accumulation confirms maximum headline/extended relative
+drift3.224e-14 and differently ordered/extended drift2.197e-13. This is floating
+point reduction order, not a training or physical discrepancy.
+
+Use explicit1e-11relative tolerance for independent float64 positive norm sums,
+retaining the strict coordinate/time/field checks and separate physical metric.
+Do not alter headline norms, weights, PDEs, trained parameters or reference.
+Retain the failed owner journal and all outputs; run only missing CPU regional
+postprocessing, then launch a new explicitly linked continuation for nonlocal
+and localAD. No FEM retraining or repeat GPU inference is needed. Current user
+asks status; completing the already authorized three-arm comparison persists.
+Relation:fem-weak-pino-comparison-plan.
+
+
+## 2026-11-13 — Audit the nonlocal reproduction before assigning a method effect
+
+The user points out that the historical nonlocal recipe converged well and
+suspects an accidental change. The current same-seed nonlocal arm remains near
+30%development error, versus the historical successful few-percent result.
+Compare actual saved sources/inputs, not just matching seeds. Loss, operator,
+network, optimizer, normalization and parameter-gradient code are byte-identical;
+cold model/optimizer, initial known-input bank and all planned draws match.
+First10000actual core traces match exactly;270installed-event journals through
+13500updates match after excluding worker/cache timing. Five early/late actual
+rolling payloads rebuilt by isolated old/current constructors match bitwise.
+Current and historical configs produce byte-identical959374-character lowered
+update graphs. The new selectors/checkpoint cadence do not alter this graph.
+
+First-update CH losses differ by4.292e-6 despite identical cold inputs; older
+hardware was RTX4090 and current hardware is PRO6000. The old launcher also
+explicitly disables compilation caching and reserves90% rather than80%memory.
+Current inherited XLA_FLAGS is unset, with no deterministic/TF32 override.
+This supports investigating execution/reproducibility, not a proven cause or
+permission to claim general nonlocal inferiority. Preserve all failed evidence.
+
+Keep the existing matched comparison running unchanged. Queue exactly one
+additional cold20k replay from the historical source directory, original
+preset/seed/launcher flags, on the current GPU after the existing queue completes.
+It will compare all actual inputs/cold bytes and verify final64heldout disjointness.
+It reproduces recorded source/settings, not an unavailable historical software
+installation or GPU. No defaults, model/PDE/optimizer edits, Git action, or
+restart of stopped channel/Spinodal work. Relation:fem-weak-pino-comparison-plan.
+
+## 2026-11-13 — Keep the recovered old-source result separate from causal attribution
+
+The matched three-arm20k comparison and final64audits are complete. FEM weak
+channel mean6.0736%, current nonlocal32.8062%, localAD32.4065%. The separately
+queued historical-source nonlocal replay on the SAME PRO6000 has recovered:
+four-case weighted phase3.0655%at19k, versus32.8551%for current-source19k.
+Final original-input audit and64evaluation remain pending at this observation.
+
+Reject a claim that this GPU itself necessarily prevents convergence. Also
+reject attributing recovery to a specific source edit, cache flag or allocator
+setting: the replay changes source/launcher details together and prior symbolic
+and actual-input audits found matching mathematics. Preserve the failed run;
+complete the already queued audit/evaluation before reporting a final64ranking.
+No automatic default promotion, code rollback or additional training sweep.
+Relation:fem-weak-pino-comparison-plan.
+
+## 2026-11-13 — Confirm frozen-source recovery with the common64cohort
+
+The bounded frozen historical-source control completed20k, independent online
+reconstruction, exact original cold-state/full-sampling/bank comparison,64heldout
+disjointness and final saved-field/regional audit. Current PRO6000 primary64
+means: phi3.8175%,c4.6205%,channel mean4.2190%; training1605.92s. The historical
+same-seed channel mean was4.5541%. Thus convergence is reproducible using the
+historical source/preset/launcher combination on the current GPU.
+
+Preserve the distinct failed current-source/launcher run32.8062%; do not replace
+it in the matched comparison or claim the experiment isolated a source bug.
+Source/launcher/autotuning/repeatability attribution remains unresolved despite
+matching mathematical graphs and actual inputs. No automatic rollback, default
+promotion, extra sweep or Git operation. Remaining diagnostics stay in the active
+task rather than declaring the full investigation solved.
+Relation:fem-weak-pino-comparison-plan.
+
+## 2026-11-13 — Visualize all ceramic comparison arms with separate metric definitions
+
+The user requests error distributions and convergence. Plot all64final20k
+sample/channel-mean Euclidean space-time errors, with all four current-GPU arms
+including the failed first nonlocal run and the recovered historical-source
+replay separately labeled. Use logarithmic-error KDE, Scott bandwidth and
+three-bandwidth tails, equal maximum violin width and inner quartiles.
+
+Use only actual21recorded four-case development evaluations for convergence:
+physical-volume/trapezoidal-time weighted phase/concentration norms, mean and
+sampleSD per channel, no smoothing. Reject interpreting these as64test curves
+or silently merging the two metric definitions. Preserve single-seed and
+source-plus-launcher qualifications. No additional inference or training.
+
+Follow Helvetica/NPG6–7pt editable PDF+PNG style; preserve figures externally
+with a CPU renderer and repository direct-path manifest. No automatic README,
+website/default promotion or Git action. Relation:fem-weak-pino-comparison-plan.
+
+## 2026-11-13 — Simplify the ceramic comparison to three explicit PINO labels
+
+At the user's explicit request, omit the failed first-run trace/distribution
+from the presentation and remove replay wording from displayed labels. Use
+Nonlocal PINO, Local AD PINO and FEM PINO in that order. Identify the separate
+reference as FEM numerical reference, not a fourth trained method or a zero
+error line. Preserve every retained numerical value, both evaluation measures,
+source/launcher qualification and the original failed-run evidence in provenance.
+
+Keep the four-arm figures/manifest/renderer externally and write revised figures
+under the three-methods subdirectory. Update the compact direct-path record,
+not numerical defaults or README/site publication. No inference, training or
+Git operation. Relation:fem-weak-pino-comparison-plan.
+
+## 2026-11-13 — Publish the approved ceramic distribution and reproducible comparison
+
+The user explicitly authorizes README/website publication, recording current
+results, commit and push. Curate only the approved three-method PNG/PDF pair
+(94,162bytes), with direct source/configuration provenance and build-time size
+validation. Add mean/sampleSD, hardware/timing and reference distinctions to
+both public descriptions; preserve the original four-arm evidence in task records.
+
+Include the opt-in FEM implementation and related verification/reproduction
+support needed to make the published comparison usable. Leave unrelated
+Spinodal/channel implementation changes local. Numerical defaults remain
+unchanged. Use dev -> regular main merge -> push main; validate the staged-only
+tree and retain byte copies of unrelated work before branch operations.
+Relation:fem-weak-pino-comparison-plan.

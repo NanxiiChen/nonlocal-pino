@@ -185,6 +185,9 @@ def graph_payload(c, mesh, matrix, rng, *, sample_cores=None):
     if sample_cores is None:
         sample_cores = make_core_sampler(c, mesh)
     core, weights = sample_cores(rng)
+    if c.nl.method == 'fem_weak':
+        from .fem_weak import signed_payload
+        return signed_payload(c, mesh, matrix, core, weights)
     rows=[]; coefficients=[]
     for idx in core:
         row=matrix.getrow(int(idx))
