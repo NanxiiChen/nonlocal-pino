@@ -13034,3 +13034,14 @@ Keep NPG method colors, Helvetica, editable PDF plus PNG and automatic log
 limits. Scope Git publication to figures, reproducibility and README/site/rules;
 preserve unrelated numerical work. User authorizes dev->main merge/push/Pages.
 Relation: channel-statistics-publication.
+
+## 2026-11-14 — Verify publication of approved statistical plot templates
+
+Content0d831f1merged/pushed as mainf2b9127; Pages43556036346build/deploy succeeded.
+Nine live HTML pages and four selected PDF/PNG assets match the candidate build
+byte-for-byte. The accepted images and template policy are public; retain the
+conditional trend-CI and three-case violin qualifications. Preserve67unrelated
+pending files and partial DEVELOPMENT edits. Archive the task and publish its
+verification receipt in a documentation-only follow-up, leaving the verified
+website unchanged. No new training or default promotion.
+Relation: docs/tasks/archive/channel-statistics-publication.md.

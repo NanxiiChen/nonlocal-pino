@@ -2,13 +2,20 @@
 
 ## Active task
 
-[Publish approved statistical figures](tasks/channel-statistics-publication.md).
-User approves the current solid LOWESS/bootstrap convergence and final violins,
-their README/site publication and adoption as future plotting templates.
-Scope, build and asset checks precede dev -> main -> push main, then Pages
-verification. Preserve unrelated numerical work; no training is started.
+None. Approved statistical figures and future plotting templates are published;
+Pages/live verification passed. No experiment was started or remains queued.
 
-## Latest local figure revision
+## Latest publication
+
+[Approved statistical figures/templates](tasks/archive/channel-statistics-publication.md).
+Content0d831f1regularly merged/pushed as mainf2b9127. Pages43556036346 succeeded;
+at2026-11-14T04:20:19UTC all9liveHTML pages and4selected PDF/PNG assets returned200
+and matched the validated build.24scoped files;67unrelated pending files and
+partial DEVELOPMENT preserved. The4assets total406845bytes. Future convergence
+and violin styles are recorded in PLOTTING_GUIDELINES with statistical scope.
+[Publication validation](../artifacts/channel_statistics_publication_validation.json).
+
+## Approved statistical figure design
 
 [Channel local smoothing](tasks/archive/channel-fem-local-smoothing.md).
 Convergence restores41actual development records, all solid raw/LOWESS lines
@@ -27,10 +34,11 @@ geometries:30predictions in85.44s, final replay max gap3.94e-6. Its archived cur
 shows mean +/- sample SD(ddof=1); final figures are requested log-error KDE
 violins with quartiles and explicitN=3limit. Four6–7ptHelvetica PDF/PNG assets
 total328990bytes.144field norms, font/edit checks,9page build/271local links
-and diff checks pass. Local README/site/provenance match; prior live publication
-below remains unchanged. [Validation](../artifacts/channel_fem_statistics_validation.json).
+and diff checks pass. These earlier cohort curves remain retained externally;
+the current publication uses41development records for convergence.
+[Validation](../artifacts/channel_fem_statistics_validation.json).
 
-## Latest publication
+## Previous publication
 
 [Channel FEM comparison publication](tasks/archive/channel-fem-publication.md).
 Content daa9c86 merged/pushed as main81ec0c4; Pages43547238968 succeeded.
