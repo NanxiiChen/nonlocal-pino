@@ -1,0 +1,385 @@
+{
+  "status": "complete",
+  "journal": "/root/autodl-tmp/tf-logs/channel-fem-full-20261114-01/journal.json",
+  "gpu": "GPU-1feff23f-3c0a-a0f2-2cf4-6b92cafb7e80, NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887 MiB, 580.95.05",
+  "historical_run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04",
+  "historical_gpu_uuid": "GPU-c55d506d-0eea-666e-713c-3ca8e3d81c9f",
+  "fem_config": "examples/channel_nsch2d/configs/train_operator_fem_weak.py",
+  "nonlocal_timing_config": "examples/channel_nsch2d/configs/train_full_fem_comparison_probe.py",
+  "input_screen": {
+    "path": "/root/autodl-tmp/tf-logs/channel-fem-full-20261114-01/input-screen.json",
+    "status": "passed",
+    "initial": 16,
+    "online": 802,
+    "seconds": 168.45680075138807
+  },
+  "tests": {
+    "new_fe": 4,
+    "existing_integral_budget_online": 12,
+    "final_fe_seconds": 10.812
+  },
+  "expected_final_comparison": "/root/autodl-tmp/tf-logs/channel-fem-full-20261114-01/comparison.json",
+  "accuracy_status": "Final 20000-step weights evaluated on the same three reserved local-FEM geometries; independent norm and input audits passed",
+  "defaults_changed": false,
+  "reference_solves": 0,
+  "git_operations": false,
+  "nonlocal_current_resource": {
+    "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-probe-nonlocal",
+    "warm_inclusive_median_seconds": 1.599295973777771,
+    "peak_active_gib": 85.34682869911194,
+    "first_update_seconds": 380.1896873898804,
+    "process_seconds": 608.877511549741
+  },
+  "current_stage": "all_stages_passed",
+  "historical_cold_state_match": true,
+  "resource_qualification": {
+    "status": "passed",
+    "paired": {
+      "cold_states": true,
+      "all_condition_time_geometry_draws": true,
+      "initial_encoder_fields": true,
+      "updates": 60
+    },
+    "resources": [
+      {
+        "method": "nonlocal",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-probe-nonlocal",
+        "warm_update_median": 1.584458377212286,
+        "warm_inclusive_median": 1.599295973777771,
+        "peak_active_gib": 85.34682869911194,
+        "first_update_seconds": 380.1896873898804
+      },
+      {
+        "method": "fem",
+        "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-probe-fem",
+        "warm_update_median": 1.4065733272582293,
+        "warm_inclusive_median": 1.4169257711619139,
+        "peak_active_gib": 80.81596899032593,
+        "first_update_seconds": 261.80571065470576
+      }
+    ],
+    "note": "Same current GPU and settings; historical full20k accuracy remains a separate earlier run"
+  },
+  "latest_training_loss": {
+    "step": 20000,
+    "total": 0.027812011539936066,
+    "parts": {
+      "phase": 0.005665525794029236,
+      "chemical": 0.0045115891844034195,
+      "momentum_x": 0.008790150284767151,
+      "momentum_y": 0.008844745345413685
+    }
+  },
+  "long_training_active_peak_gib": 80.91627788543701,
+  "latest_development_metrics": {
+    "step": 20000,
+    "elapsed": 28880.566789526492,
+    "phi": 0.04372157671562594,
+    "terminal_phi": 0.030587993795268366,
+    "dispersed_phase": 0.1155310640881501,
+    "velocity": 0.04353228396682669,
+    "pressure": 0.09845858146876627,
+    "chemical": 0.4235694965052531,
+    "phi_range": [
+      -1.1019988059997559,
+      1.0453425645828247
+    ],
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+    "scope": "One local-FEM geometry; not a generalization estimate"
+  },
+  "historical_same_step_development": {
+    "step": 20000,
+    "elapsed": 32972.56945055723,
+    "phi": 0.01449620420593507,
+    "terminal_phi": 0.01901957363955198,
+    "dispersed_phase": 0.038305157841030966,
+    "velocity": 0.013312134683055553,
+    "pressure": 0.046702822210027584,
+    "chemical": 0.11674443733517723,
+    "phi_range": [
+      -1.1230411529541016,
+      1.0460937023162842
+    ],
+    "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+    "scope": "One local-FEM geometry; not a generalization estimate"
+  },
+  "status_checked_utc": "2026-11-14T01:48:29.050259+00:00",
+  "finished_utc": "2026-11-14T00:53:55.124770+00:00",
+  "comparison": "/root/autodl-tmp/tf-logs/channel-fem-full-20261114-01/comparison.json",
+  "final_reserved_metrics": {
+    "geometries": 3,
+    "nonlocal": {
+      "phi": {
+        "mean": 0.016434996094538402,
+        "p90": 0.01891848477146854,
+        "worst": 0.019860020536880404
+      },
+      "phi_area_weighted": {
+        "mean": 0.015074491113013302,
+        "p90": 0.01730176882475081,
+        "worst": 0.018173955026008666
+      },
+      "velocity": {
+        "mean": 0.01517205610632332,
+        "p90": 0.01572937900441738,
+        "worst": 0.01575407426666157
+      },
+      "velocity_area_weighted": {
+        "mean": 0.015744838840270406,
+        "p90": 0.01625180798683675,
+        "worst": 0.016290404474973336
+      },
+      "pressure": {
+        "mean": 0.052840480191484664,
+        "p90": 0.06213997235655962,
+        "worst": 0.06588466102447928
+      },
+      "pressure_area_weighted": {
+        "mean": 0.0519413366883934,
+        "p90": 0.06141070905494845,
+        "worst": 0.06513762381895621
+      },
+      "chemical": {
+        "mean": 0.13954125921926921,
+        "p90": 0.15856166108298214,
+        "worst": 0.16633987627607505
+      },
+      "chemical_area_weighted": {
+        "mean": 0.14316837227747503,
+        "p90": 0.16504571995620582,
+        "worst": 0.17401802850323397
+      },
+      "terminal_phi": {
+        "mean": 0.02196101413993802,
+        "p90": 0.027029436968636154,
+        "worst": 0.02868202299317516
+      },
+      "dispersed_fraction": {
+        "mean": 0.043305627115140057,
+        "p90": 0.04970224120470834,
+        "worst": 0.05219154253798413
+      }
+    },
+    "fem": {
+      "phi": {
+        "mean": 0.04646479283496236,
+        "p90": 0.04865426855030878,
+        "worst": 0.04897417038609419
+      },
+      "phi_area_weighted": {
+        "mean": 0.0427870384106867,
+        "p90": 0.044481899417396456,
+        "worst": 0.04465856560648345
+      },
+      "velocity": {
+        "mean": 0.043891898819341794,
+        "p90": 0.045169303921472,
+        "worst": 0.0456533856071876
+      },
+      "velocity_area_weighted": {
+        "mean": 0.046969205420027894,
+        "p90": 0.04787476283314045,
+        "worst": 0.04823123753895001
+      },
+      "pressure": {
+        "mean": 0.07148878477622603,
+        "p90": 0.10508889387148368,
+        "worst": 0.11947775518525204
+      },
+      "pressure_area_weighted": {
+        "mean": 0.07052833768116516,
+        "p90": 0.1032762012908665,
+        "worst": 0.11725032447872048
+      },
+      "chemical": {
+        "mean": 0.43790765113661867,
+        "p90": 0.46047437718955564,
+        "worst": 0.46913456248812535
+      },
+      "chemical_area_weighted": {
+        "mean": 0.4515373022133695,
+        "p90": 0.4739773406937879,
+        "worst": 0.48274708888135415
+      },
+      "terminal_phi": {
+        "mean": 0.040763642188410915,
+        "p90": 0.04541055235785183,
+        "worst": 0.04621431900604637
+      },
+      "dispersed_fraction": {
+        "mean": 0.12249115608404815,
+        "p90": 0.12794662012353378,
+        "worst": 0.12846068258319412
+      }
+    }
+  },
+  "final_per_geometry": {
+    "nonlocal": [
+      {
+        "index": 0,
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+        "metrics": {
+          "phi": 0.019860020536880404,
+          "phi_area_weighted": 0.018173955026008666,
+          "velocity": 0.014131496096867768,
+          "velocity_area_weighted": 0.014846690011547472,
+          "pressure": 0.04716121768488099,
+          "pressure_area_weighted": 0.04650304999891738,
+          "chemical": 0.12744880031061045,
+          "chemical_area_weighted": 0.12915648576809324,
+          "terminal_phi": 0.02868202299317516,
+          "dispersed_fraction": 0.05219154253798413
+        }
+      },
+      {
+        "index": 1,
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+        "metrics": {
+          "phi": 0.014292626036913721,
+          "phi_area_weighted": 0.01323649429331185,
+          "velocity": 0.015630597955440622,
+          "velocity_area_weighted": 0.016097422034290407,
+          "pressure": 0.06588466102447928,
+          "pressure_area_weighted": 0.06513762381895621,
+          "chemical": 0.16633987627607505,
+          "chemical_area_weighted": 0.17401802850323397,
+          "terminal_phi": 0.016781926556158788,
+          "dispersed_fraction": 0.03798030293583086
+        }
+      },
+      {
+        "index": 2,
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+        "metrics": {
+          "phi": 0.015152341709821082,
+          "phi_area_weighted": 0.01381302401971939,
+          "velocity": 0.01575407426666157,
+          "velocity_area_weighted": 0.016290404474973336,
+          "pressure": 0.04547556186509373,
+          "pressure_area_weighted": 0.04418333624730661,
+          "chemical": 0.12483510107112211,
+          "chemical_area_weighted": 0.12633060256109785,
+          "terminal_phi": 0.020419092870480115,
+          "dispersed_fraction": 0.03974503587160519
+        }
+      }
+    ],
+    "fem": [
+      {
+        "index": 0,
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+        "metrics": {
+          "phi": 0.04304554691162575,
+          "phi_area_weighted": 0.03992731496452818,
+          "velocity": 0.042789333672228196,
+          "velocity_area_weighted": 0.04622751471123149,
+          "pressure": 0.04753344861641024,
+          "pressure_area_weighted": 0.04737970853945052,
+          "chemical": 0.418754754926454,
+          "chemical_area_weighted": 0.43296646981523146,
+          "terminal_phi": 0.0338811217941127,
+          "dispersed_fraction": 0.11312241538405794
+        }
+      },
+      {
+        "index": 1,
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+        "metrics": {
+          "phi": 0.047374661207167136,
+          "phi_area_weighted": 0.04377523466104847,
+          "velocity": 0.0456533856071876,
+          "velocity_area_weighted": 0.04823123753895001,
+          "pressure": 0.11947775518525204,
+          "pressure_area_weighted": 0.11725032447872048,
+          "chemical": 0.46913456248812535,
+          "chemical_area_weighted": 0.48274708888135415,
+          "terminal_phi": 0.04621431900604637,
+          "dispersed_fraction": 0.1258903702848924
+        }
+      },
+      {
+        "index": 2,
+        "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+        "metrics": {
+          "phi": 0.04897417038609419,
+          "phi_area_weighted": 0.04465856560648345,
+          "velocity": 0.04323297717860957,
+          "velocity_area_weighted": 0.0464488640099022,
+          "pressure": 0.047455150527015794,
+          "pressure_area_weighted": 0.04695498002532451,
+          "chemical": 0.42583363599527674,
+          "chemical_area_weighted": 0.4388983479435229,
+          "terminal_phi": 0.04219548576507368,
+          "dispersed_fraction": 0.12846068258319412
+        }
+      }
+    ]
+  },
+  "final_training_resources": {
+    "fem_process_seconds": 28910.366886068135,
+    "fem_training_wall_seconds": 28885.714432600886,
+    "fem_warm_inclusive_median_seconds": 1.418663987889886,
+    "historical_nonlocal_training_wall_seconds": 32985.806782427244,
+    "whole_run_timing_scope": "Nonlocal historical and FEM current runs use the same GPU model, different physical GPU UUIDs; strict same-card speed comparison uses the short probes"
+  },
+  "final_checks": {
+    "paired": {
+      "cold_states": true,
+      "all_condition_time_geometry_draws": true,
+      "initial_encoder_fields": true,
+      "updates": 20000
+    },
+    "independent_reductions": {
+      "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04": {
+        "phi": 0.016434996094538402,
+        "velocity": 0.015172056106323323,
+        "pressure": 0.052840480191484664,
+        "chemical": 0.1395412592192692
+      },
+      "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k": {
+        "phi": 0.04646479283496236,
+        "velocity": 0.043891898819341794,
+        "pressure": 0.07148878477622603,
+        "chemical": 0.43790765113661867
+      }
+    },
+    "training_source_files_match_current": 114,
+    "validation": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/validation.json",
+    "online_validation": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/online-validation.json",
+    "rolling_inputs": {
+      "status": "actual_rolling_inputs_reconstructed",
+      "refresh_count": 399,
+      "installed_inputs": 798,
+      "distinct_sampled_online_draws": 798,
+      "final_pool_inputs_rebuilt": 16,
+      "evaluation_inputs_independent": true,
+      "evolved_training_labels": 0,
+      "scope": "Actual input identities and fixed-shape operators; not an accuracy or generalization claim"
+    },
+    "fe_interpolant_divergence": {
+      "maximum": 0.8223346608678973,
+      "physical_rms_by_time": [
+        0.0,
+        0.0027976169628679054,
+        0.004341419570470391,
+        0.004318945941692323,
+        0.004365455307066429,
+        0.004300405200116578,
+        0.004249054071738143,
+        0.004285304762304932,
+        0.004305759449715985,
+        0.004303291578372744,
+        0.004293039418062864,
+        0.004313206828381985,
+        0.004333773083714506
+      ],
+      "scope": "P2 velocity interpolant at FE quadrature points; distinct from exact neural AD-curl incompressibility"
+    }
+  },
+  "limitations": [
+    "One initialization and three repeatedly used reserved geometries.",
+    "Historical accuracy and new resource probes have different physical GPU UUIDs.",
+    "FEM uses a mixed FE weak norm and natural boundaries; nonlocal retains nine pointwise losses."
+  ],
+  "task": "docs/tasks/archive/fem-weak-pino-comparison-plan.md"
+}

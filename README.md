@@ -84,6 +84,14 @@ saved configurations, checkpoints, metric definitions and external data paths;
 four compact comparison images. These controls do not replace selected SOTA
 results above or establish a universal accuracy/speed advantage.
 
+The [two-phase channel FEM PINO comparison](examples/channel_nsch2d/README.md#full-coordinate-fem-weak-residual-control)
+adds recorded convergence and final paired errors on three reserved local-FEM
+geometries. At 20k, nonlocal/FEM PINO mean phase errors are 1.64%/4.65% and
+velocity errors 1.52%/4.39%; current-card update times are 1.60/1.42 s.
+The numerical FEM reference is independent of both neural methods. This single
+initialization favors the nonlocal recipe's accuracy, with different weak/strong
+residual norms and boundary enforcement; defaults remain unchanged.
+
 The five approved publication main figures are collected in
 [assets/pino-main](assets/pino-main/README.md), with170mmeditable PDF originals,
 matching PNG previews and [direct source/configuration records](artifacts/pino_main_figures.json).

@@ -64,6 +64,57 @@ Independent local mixed FEM integrates the coupled system and is checked with sp
 
 The budget, learning-rate schedule and number of time samples changed together. Mean improvements coexist with worse errors on some individual cases. The selected run's worst reserved pressure error is 6.5885%, and the between-geometry pressure response is harder to predict than the total field.
 
+## FEM PINO comparison
+
+A full-coordinate control replaces the nonlocal spatial residuals with assembled
+finite-element weak residuals. P2 triangles interpolate phase, chemical potential
+and velocity on the same 15,633 neural query nodes; pressure uses P1. The network,
+hard constraints, time JVP, SOAP schedule and rolling geometry draws stay fixed.
+Four weak equation losses use a positive consistent-mass-diagonal dual norm.
+Homogeneous phase/chemical flux and outlet traction enter as natural boundary
+data, with conservative phase outlet transport retained. This is **FEM PINO
+training**, distinct from the independently solved **FEM numerical reference**.
+
+<figure>
+  <a href="assets/channel_nsch2d_fem_convergence.png"><img src="assets/channel_nsch2d_fem_convergence.png" width="2007" height="637" alt="Nonlocal and FEM PINO relative-L2 convergence through 20000 updates for phase, velocity, pressure and chemical potential"></a>
+  <figcaption>Actual records every 500 updates, including initialization, on one common development geometry. No smoothing or test-cohort averaging. The target is the independent FEM numerical solution. <a href="assets/channel_nsch2d_fem_convergence.pdf">Editable PDF</a>.</figcaption>
+</figure>
+
+<figure>
+  <a href="assets/channel_nsch2d_fem_distribution.png"><img src="assets/channel_nsch2d_fem_distribution.png" width="2007" height="637" alt="Paired final relative errors for all three reserved geometries, with method-wise mean bars"></a>
+  <figcaption>Final 20,000-step weights on all three reserved geometries. Gray lines pair the same geometry; colored short bars show arithmetic means. These are observed errors, not an estimated density or confidence interval. Each panel reports a separate field; velocity uses a joint vector norm. Raw error ratios are shown on automatic log axes.</figcaption>
+</figure>
+
+[Distribution PDF](assets/channel_nsch2d_fem_distribution.pdf) ·
+[Figure inputs and reproduction](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/channel_fem_comparison_figures.json)
+
+| Reserved-geometry mean relative L2 | Nonlocal PINO | FEM PINO |
+| --- | ---: | ---: |
+| Phase | 1.6435% | 4.6465% |
+| Terminal phase | 2.1961% | 4.0764% |
+| Velocity | 1.5172% | 4.3892% |
+| Pressure | 5.2840% | 7.1489% |
+| Chemical potential | 13.9541% | 43.7908% |
+
+Norms use equally weighted space-time queries: all 13 times for phase, and the
+12 positive times for velocity, pressure and chemical potential. Average these
+field-wise relative norms over the three samples. No channel averaging is used
+in these panels. All three geometries favor nonlocal in phase and velocity.
+
+Current-card short probes give **1.5993 s/update** for nonlocal and
+**1.4169 s/update** for FEM PINO, including batch preparation, with active peaks
+85.35 and 80.82 GiB. The FEM cold20k process takes 8.031 h. The historical nonlocal
+accuracy run used another physical GPU of the same model; its 9.163 h training
+wall is not a strict same-device timing comparison.
+
+Initial network/optimizer states and all 20k condition/time/geometry draws match;
+independent saved-field norms and source checks pass. This is one initialization
+and three reused reserved cases. Weak-loss norms and natural boundary enforcement
+differ from the nonlocal pointwise objective, and the FE velocity interpolant
+is only approximately divergence-free. The result supports the accuracy of the
+current nonlocal recipe; it does not establish a universal method ranking.
+The nonlocal default is retained. [Full formulation and validation](https://github.com/NanxiiChen/nonlocal-pino/blob/main/examples/channel_nsch2d/README.md#full-coordinate-fem-weak-residual-control).
+
 ## Implementation and reproduction
 
 | Component | Selected setting |

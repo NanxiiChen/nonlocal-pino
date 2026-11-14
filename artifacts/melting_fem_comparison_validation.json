@@ -1,0 +1,365 @@
+{
+  "status": "passed",
+  "steps": 10000,
+  "seed": 42,
+  "paired_cold_and_all_inputs": true,
+  "independent_core_replay": true,
+  "metric": "Unweighted complete space-time relative L2 per sample; means across samples",
+  "local_reference": "/root/autodl-tmp/data/icemelting3d/operator_local_fem_v1/case005-imex-n96-dt0p00125.npz",
+  "local_acceptance": "accepted_by_user",
+  "strict_local_refinement_passed": false,
+  "native_reference": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1",
+  "native_to_local_case005": {
+    "pooled_phi": 0.0014744803053419622,
+    "terminal_phi": 0.0016697069206289892,
+    "by_time": [
+      6.979598791850712e-05,
+      0.0009300967520681467,
+      0.0017543324412484674,
+      0.001992905473921824,
+      0.0016697069206289901
+    ]
+  },
+  "results": {
+    "nonlocal_pino": {
+      "run": "/root/autodl-tmp/tf-logs/icemelting3d/melting-fem-comparison-20261113-01-nonlocal",
+      "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/melting-fem-comparison-20261113-01-nonlocal/model_final.eqx",
+      "native_test_count": 8,
+      "native_records": [
+        {
+          "index": 2,
+          "pooled_phi": 0.0015168597927643116,
+          "terminal_phi": 0.0007573184283033006,
+          "by_time": [
+            1.9441205804252024e-07,
+            0.0019145204703182978,
+            0.0023175423421560293,
+            0.001364079748421599,
+            0.0007573184283032939
+          ]
+        },
+        {
+          "index": 3,
+          "pooled_phi": 0.0017340428886645385,
+          "terminal_phi": 0.0010630047802796738,
+          "by_time": [
+            2.441694208979704e-07,
+            0.0021342202441129855,
+            0.002595438835182582,
+            0.0015985436308072179,
+            0.001063004780279667
+          ]
+        },
+        {
+          "index": 4,
+          "pooled_phi": 0.0020032895853320204,
+          "terminal_phi": 0.0012744504620374824,
+          "by_time": [
+            2.694757599666277e-07,
+            0.002298063453768005,
+            0.0029172148850512103,
+            0.0021307695131822448,
+            0.0012744504620374722
+          ]
+        },
+        {
+          "index": 5,
+          "pooled_phi": 0.00189439980545781,
+          "terminal_phi": 0.0008260874219645464,
+          "by_time": [
+            5.067934815483441e-07,
+            0.0022569651009604133,
+            0.002884841687367711,
+            0.0019428172983531136,
+            0.0008260874219645418
+          ]
+        },
+        {
+          "index": 6,
+          "pooled_phi": 0.0015339444559296497,
+          "terminal_phi": 0.0010050983365023837,
+          "by_time": [
+            1.9835440627119813e-07,
+            0.001908406752026066,
+            0.002325910906289272,
+            0.0012892198933909828,
+            0.0010050983365023749
+          ]
+        },
+        {
+          "index": 7,
+          "pooled_phi": 0.0023054562693280876,
+          "terminal_phi": 0.0010256143491688913,
+          "by_time": [
+            2.9563964978134487e-07,
+            0.0026069142049521166,
+            0.003446918710681666,
+            0.0025889747376527045,
+            0.0010256143491688854
+          ]
+        },
+        {
+          "index": 8,
+          "pooled_phi": 0.0012367392401432403,
+          "terminal_phi": 0.0006007629477598921,
+          "by_time": [
+            1.8677638601719594e-07,
+            0.0016456721555656582,
+            0.0019106454971789737,
+            0.0009549509457119149,
+            0.0006007629477598869
+          ]
+        },
+        {
+          "index": 9,
+          "pooled_phi": 0.0020936340784018324,
+          "terminal_phi": 0.0010609674160157268,
+          "by_time": [
+            3.1511877529525137e-07,
+            0.0024577289906309936,
+            0.003144469533445482,
+            0.002182176803179287,
+            0.001060967416015719
+          ]
+        }
+      ],
+      "native_mean": 0.0017897957645026863,
+      "native_std": 0.0003512587433003103,
+      "local_case005": {
+        "pooled_phi": 0.0011556800841479213,
+        "terminal_phi": 0.0016743715803254717,
+        "by_time": [
+          6.978908483349421e-05,
+          0.0014084145754276805,
+          0.0012273276991566014,
+          0.0005601317547197849,
+          0.0016743715803254726
+        ]
+      },
+      "warm_update_median_seconds": 0.012054428458213806,
+      "warm_update_mean_seconds": 0.012385491165879703,
+      "warm_inclusive_median_seconds": 0.014098193496465683,
+      "trainer_seconds": 246.64347559213638,
+      "setup_seconds": 6.805289328098297,
+      "peak_active_gib": 1.4547533988952637
+    },
+    "fem_pino": {
+      "run": "/root/autodl-tmp/tf-logs/icemelting3d/melting-fem-comparison-20261113-01-fem",
+      "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/melting-fem-comparison-20261113-01-fem/model_final.eqx",
+      "native_test_count": 8,
+      "native_records": [
+        {
+          "index": 2,
+          "pooled_phi": 0.0006488336681944278,
+          "terminal_phi": 0.0010635742361093414,
+          "by_time": [
+            1.9441205804252024e-07,
+            0.0005893276620892947,
+            0.0005980302036525132,
+            0.0004898643602533851,
+            0.001063574236109332
+          ]
+        },
+        {
+          "index": 3,
+          "pooled_phi": 0.000939523522521852,
+          "terminal_phi": 0.0015332734555854035,
+          "by_time": [
+            2.441694208979704e-07,
+            0.0006029055091411317,
+            0.0007710167592916446,
+            0.0010119975315293192,
+            0.0015332734555853933
+          ]
+        },
+        {
+          "index": 4,
+          "pooled_phi": 0.0009981884921364094,
+          "terminal_phi": 0.0015663564655198992,
+          "by_time": [
+            2.694757599666277e-07,
+            0.0007128528087106823,
+            0.0008689141614553401,
+            0.0010827564568552136,
+            0.001566356465519887
+          ]
+        },
+        {
+          "index": 5,
+          "pooled_phi": 0.0006804165668861807,
+          "terminal_phi": 0.0009089774500793035,
+          "by_time": [
+            5.067934815483441e-07,
+            0.0007128281157569418,
+            0.0008214928495677694,
+            0.0005291547334992284,
+            0.0009089774500792984
+          ]
+        },
+        {
+          "index": 6,
+          "pooled_phi": 0.000762597781452051,
+          "terminal_phi": 0.0013315550955107394,
+          "by_time": [
+            1.9835440627119813e-07,
+            0.0005612144248822008,
+            0.000655662135080557,
+            0.0005865015456743436,
+            0.0013315550955107277
+          ]
+        },
+        {
+          "index": 7,
+          "pooled_phi": 0.0005843704754074056,
+          "terminal_phi": 0.0005497851116981075,
+          "by_time": [
+            2.9563964978134487e-07,
+            0.0006700777821864205,
+            0.0007916552862959981,
+            0.0005621470168284901,
+            0.0005497851116981042
+          ]
+        },
+        {
+          "index": 8,
+          "pooled_phi": 0.0005768055124681437,
+          "terminal_phi": 0.0008184112874278344,
+          "by_time": [
+            1.8677638601719594e-07,
+            0.0004983028947210761,
+            0.0005217738180685678,
+            0.0006742054135819689,
+            0.0008184112874278272
+          ]
+        },
+        {
+          "index": 9,
+          "pooled_phi": 0.0007664632542539311,
+          "terminal_phi": 0.0012283202765712685,
+          "by_time": [
+            3.1511877529525137e-07,
+            0.0006678226623241283,
+            0.0007537118721374708,
+            0.0006032064378153367,
+            0.0012283202765712594
+          ]
+        }
+      ],
+      "native_mean": 0.0007446499091650501,
+      "native_std": 0.00015594110567030138,
+      "local_case005": {
+        "pooled_phi": 0.0019341623335699663,
+        "terminal_phi": 0.0024124630030510244,
+        "by_time": [
+          6.978908483349421e-05,
+          0.0013672380828303513,
+          0.0023512751116671823,
+          0.0022822679108771417,
+          0.0024124630030510253
+        ]
+      },
+      "warm_update_median_seconds": 0.012087997049093246,
+      "warm_update_mean_seconds": 0.012431042805553997,
+      "warm_inclusive_median_seconds": 0.014215879142284393,
+      "trainer_seconds": 248.64220145344734,
+      "setup_seconds": 5.154876857995987,
+      "peak_active_gib": 1.3075666427612305
+    }
+  },
+  "limitations": [
+    "Native-reference accuracy is not continuum accuracy.",
+    "One reused local-FEM case, eight native cases and one initialization.",
+    "Natural boundary treatment does not remove boundary/discretization error."
+  ],
+  "source_parity": {
+    "status": "passed",
+    "paired_and_current_files": 41,
+    "files": [
+      "examples/icemelting3d/__init__.py",
+      "examples/icemelting3d/accuracy.py",
+      "examples/icemelting3d/configs/__init__.py",
+      "examples/icemelting3d/configs/accuracy_pilot.py",
+      "examples/icemelting3d/configs/accuracy_weak_prior.py",
+      "examples/icemelting3d/configs/solver_base.py",
+      "examples/icemelting3d/configs/train_base.py",
+      "examples/icemelting3d/configs/train_cold_start.py",
+      "examples/icemelting3d/configs/train_extreme_interface.py",
+      "examples/icemelting3d/configs/train_operator.py",
+      "examples/icemelting3d/configs/train_operator_5k.py",
+      "examples/icemelting3d/configs/train_operator_compare_fem.py",
+      "examples/icemelting3d/configs/train_operator_compare_nonlocal.py",
+      "examples/icemelting3d/configs/train_operator_fixed_pool.py",
+      "examples/icemelting3d/configs/train_operator_full.py",
+      "examples/icemelting3d/configs/train_operator_pool_10k.py",
+      "examples/icemelting3d/configs/train_operator_rolling_pool.py",
+      "examples/icemelting3d/configs/train_thin_interface.py",
+      "examples/icemelting3d/create_mesh.py",
+      "examples/icemelting3d/ellipsoids.py",
+      "examples/icemelting3d/evaluation.py",
+      "examples/icemelting3d/extreme_interface.py",
+      "examples/icemelting3d/extreme_reference.py",
+      "examples/icemelting3d/fem_weak.py",
+      "examples/icemelting3d/losses.py",
+      "examples/icemelting3d/operator_data.py",
+      "examples/icemelting3d/operator_losses.py",
+      "examples/icemelting3d/operator_reference.py",
+      "examples/icemelting3d/operator_training.py",
+      "examples/icemelting3d/phase.py",
+      "examples/icemelting3d/solver.py",
+      "examples/icemelting3d/spatial_sampling.py",
+      "examples/icemelting3d/spatial_training.py",
+      "examples/icemelting3d/thin_interface.py",
+      "examples/icemelting3d/thin_interface_operators.py",
+      "examples/icemelting3d/thin_interface_reference.py",
+      "examples/icemelting3d/train.py",
+      "src/nonlocal_pinn/nn/conditional.py",
+      "src/nonlocal_pinn/operators/__init__.py",
+      "src/nonlocal_pinn/training/optimizers.py",
+      "src/nonlocal_pinn/training/runtime.py"
+    ]
+  },
+  "journal": "/root/autodl-tmp/tf-logs/melting-fem-comparison-20261113-01/journal.json",
+  "evaluation": "/root/autodl-tmp/tf-logs/melting-fem-comparison-20261113-01/comparison.json",
+  "device": "NVIDIA RTX PRO 6000 Blackwell Server Edition, 96 GB",
+  "training_stages": [
+    {
+      "name": "train-nonlocal",
+      "status": "passed",
+      "command": [
+        "-m",
+        "examples.icemelting3d.train",
+        "--config=examples/icemelting3d/configs/train_operator_compare_nonlocal.py",
+        "--seed=42",
+        "--config.log.run_name=melting-fem-comparison-20261113-01-nonlocal"
+      ],
+      "pid": 16067,
+      "exit_code": 0,
+      "seconds": 276.72557478398085
+    },
+    {
+      "name": "train-fem",
+      "status": "passed",
+      "command": [
+        "-m",
+        "examples.icemelting3d.train",
+        "--config=examples/icemelting3d/configs/train_operator_compare_fem.py",
+        "--seed=42",
+        "--config.log.run_name=melting-fem-comparison-20261113-01-fem"
+      ],
+      "pid": 22577,
+      "exit_code": 0,
+      "seconds": 277.09712855517864
+    }
+  ],
+  "focused_tests": {
+    "passed": 4,
+    "command": "JAX_PLATFORMS=cpu OPENBLAS_NUM_THREADS=1 .venv/bin/python -m unittest tests.test_melting_spatial_sampling.MeltingSpatialTests.test_complete_rows_fixed_rolling_identity_and_overflow tests.test_melting_fem_operator"
+  },
+  "defaults_changed": false,
+  "setup_notes": [
+    "Both arms sample 256 complete rows from the same 128^3 grid and use 1792 padded core/halo query slots.",
+    "P1 Kuhn tetrahedra, lumped mass and nodal reaction in FEM PINO differ from the consistent CG2 numerical reference.",
+    "Both arms explicitly use GPU autotune level 0; original production presets remain unchanged.",
+    "Active memory is measured allocator peak, not 90% reserved device memory."
+  ]
+}

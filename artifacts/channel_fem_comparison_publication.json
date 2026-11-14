@@ -1,0 +1,53 @@
+{
+  "schema": "channel_fem_comparison_publication_v1",
+  "checkpoint_step": 20000,
+  "test_samples": 3,
+  "development_samples": 1,
+  "fields": [
+    "phi",
+    "velocity",
+    "pressure",
+    "chemical"
+  ],
+  "source": "artifacts/channel_fem_comparison_figures.json",
+  "validation": "artifacts/channel_fem_comparison_validation.json",
+  "maximum_file_bytes": 1048576,
+  "maximum_collection_bytes": 524288,
+  "figures": [
+    {
+      "kind": "convergence",
+      "size_mm": [
+        170,
+        54
+      ],
+      "png_pixels": [
+        2007,
+        637
+      ],
+      "bytes": {
+        "png": 142577,
+        "pdf": 15565
+      },
+      "png": "assets/pino-studies/channel_nsch2d_fem_convergence.png",
+      "pdf": "assets/pino-studies/channel_nsch2d_fem_convergence.pdf"
+    },
+    {
+      "kind": "distribution",
+      "size_mm": [
+        170,
+        54
+      ],
+      "png_pixels": [
+        2007,
+        637
+      ],
+      "bytes": {
+        "png": 92173,
+        "pdf": 15069
+      },
+      "png": "assets/pino-studies/channel_nsch2d_fem_distribution.png",
+      "pdf": "assets/pino-studies/channel_nsch2d_fem_distribution.pdf"
+    }
+  ],
+  "total_bytes": 265384
+}

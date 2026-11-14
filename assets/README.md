@@ -220,3 +220,21 @@ then copy its PNG/PDF to the destinations in that record:
 JAX_PLATFORMS=cpu .venv/bin/python -m scripts.render_electropolish_cost_error_compact \
   --spec artifacts/electropolish_cost_error_three_curves.json
 ```
+
+
+## Channel FEM PINO comparison
+
+`pino-studies/channel_nsch2d_fem_convergence.{png,pdf}` contains actual 500-step
+monitoring on one development geometry. The matching
+`channel_nsch2d_fem_distribution.{png,pdf}` contains all three reserved-geometry
+final errors, shown as paired points and mean bars rather than a three-point KDE.
+Four panels separate phase, vector velocity, pressure and chemical potential.
+Both use raw relative error ratios and automatic log limits, 170 × 54 mm,
+editable embedded Helvetica 6–7 pt, and NPG C0/C2 method colors.
+
+These four selected files have a separate 512 KiB combined budget and 1 MiB
+per-file ceiling. Raw fields, weights, edit probes and fonts stay external.
+The [publication manifest](../artifacts/channel_fem_comparison_publication.json)
+provides exact bytes and shared README/site paths; the
+[reproduction record](../artifacts/channel_fem_comparison_figures.json) includes
+the CPU-only command, direct inputs, all plotted values and font checks.

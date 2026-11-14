@@ -173,6 +173,7 @@ def train(c):
     sampled=np.empty((updates,c.operator.condition_batch),dtype=np.int32)
     discrete='time_discretization' in c
     spatial_study='spatial' in c.sample
+    fem_study = c.nl.method == 'fem_weak_p2p1'
     compact=spatial_study and c.sample.spatial.mode!='full'
     spatial_pool=nullcontext(None)
     if compact:
@@ -258,7 +259,7 @@ def train(c):
                 batch=convert(raw)
             else:
                 batch=jax.tree.map(lambda a:a[ids],bank)
-            if spatial_study:
+            if spatial_study or fem_study:
                 jax.block_until_ready(batch)
                 spatial_seconds.append(time.perf_counter()-prepare_start)
             refresh=adaptive and i%c.balance.update_every==0
@@ -273,16 +274,16 @@ def train(c):
             else:
                 net,state,total,parts,adaptive_weights,norms=step(net,state,batch,times,
                     adaptive_weights,jnp.asarray(refresh),jnp.asarray(active,dtype=dtype))
-            if spatial_study:
+            if spatial_study or fem_study:
                 jax.block_until_ready((net,state,total))
             else:
                 total.block_until_ready()
             timings.append(time.perf_counter()-begin)
-            if spatial_study and offset==24:
+            if (spatial_study or fem_study) and offset==24:
                 leaves=[a for a in jax.tree.leaves((net,state)) if eqx.is_inexact_array(a)]
                 if not all(np.isfinite(a).all() for a in leaves):
                     raise FloatingPointError('Nonfinite channel model or optimizer at update 25')
-            if spatial_study and offset in (0,24,updates-1):
+            if (spatial_study or fem_study) and offset in (0,24,updates-1):
                 memory=jax.devices()[0].memory_stats()
                 with (run/'spatial_memory.jsonl').open('a') as output:
                     output.write(json.dumps(dict(step=i+1,allocator=memory),allow_nan=False)+'\n')
@@ -339,7 +340,7 @@ def train(c):
     if compact:
         sample_record.update(core_ids=core_ids,spatial_pool_ids=pool_ids,halo_counts=halo_counts)
     np.savez_compressed(run/'sampling.npz',**sample_record)
-    if spatial_study:
+    if spatial_study or fem_study:
         np.savez_compressed(run/'spatial_timing.npz',update=timings,batch_preparation=spatial_seconds)
 
     np.savez_compressed(run/'prediction.npz',fields=prediction,points=reference['points'],
@@ -414,6 +415,15 @@ def train(c):
     if 'chemical_constraint'in c:
         summary['chemical_constraint']=c.chemical_constraint.to_dict()
         summary['method']+='; exact interior chemical recovery, retained decoder boundary traces, no chemical soft loss'
+    if fem_study:
+        summary['method'] = ('Isoparametric P2/P1 finite-element weak NS--CH; natural phase/mu flux and outlet traction; '
+                             'conservative outlet phase transport; unchanged AD streamfunction and time JVP')
+        summary['note'] = 'Approximate mass-diagonal dual residual norm; not a direct numerical FEM solve'
+        summary['fem'] = dict(**c.nl.to_dict(), full_coordinate_nodes=(c.sample.Nx+1)*(c.sample.Ny+1),
+            warm_update_median_seconds=float(np.median(timings[10:])),
+            warm_step_with_batch_median_seconds=float(np.median(np.asarray(timings[10:])+np.asarray(spatial_seconds[10:]))),
+            first_update_seconds=timings[0], total_process_seconds=time.perf_counter()-entry_start,
+            boundary_penalties=False, continuity='Unchanged analytic streamfunction; FE interpolant only approximately divergence-free')
     (run/'summary.json').write_text(json.dumps(summary,indent=2,allow_nan=False)+'\n')
     print(json.dumps(summary,indent=2),flush=True)
 

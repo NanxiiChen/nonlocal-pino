@@ -47,6 +47,10 @@ def identity(c):
 
 def validate_config(c):
     g,p=c.geometry,c.physical
+    fem = c.nl.method == 'fem_weak_p2p1'
+    if fem:
+        from examples.channel_nsch2d.fem_weak import validate
+        validate(c)
     integral=c.nl.method=='integral_moment'
     if integral:
         from examples.channel_nsch2d.integral_operators import validate_integral
@@ -241,7 +245,7 @@ def validate_config(c):
     if 'time_derivative' in c:
         s=c.time_derivative
         if (set(s)!={'kind','sampling'} or s.kind!='jvp' or s.sampling!='continuous_stratified'
-                or 'time_discretization' in c or 'derivatives' not in c
+                or 'time_discretization' in c or ('derivatives' not in c and not fem)
                 or c.sample.include_initial_time):
             raise ValueError('Explicit time derivative requires jvp/continuous_stratified, GMLS space and no discrete-time/t0 row')
     if 'phase_transport' in c:

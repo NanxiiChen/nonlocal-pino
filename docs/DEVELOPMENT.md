@@ -1596,3 +1596,47 @@ Canonical-default cold20k and independent64case evaluation pass; the current
 channel-mean space-time error is4.0902%. Exact input, gradient and execution
 checks are in `artifacts/ceramic_execution_validation.json`. This is one paired
 initialization, not a universal seed/device guarantee.
+
+
+### Channel full-coordinate FEM PINO control
+
+`train_operator_fem_weak.py` is opt-in and keeps the accepted full20k network,
+physical inputs, time JVP, streamfunction and SOAP. Its explicit `nl` record
+selects P2 isoparametric triangles, P1 pressure interpolation, six-point Duffy
+quadrature per axis and a positive consistent-mass-diagonal dual metric.
+Same fine tensor queries serve as P2 vertices/edge midpoints; no evolved labels
+or FEniCS dependency enter geometry construction. Four weak equation terms
+replace the nine pointwise PDE/BC terms. Scalar tests vanish at inlet; velocity
+tests vanish at inlet/walls. Keep conservative CH outlet flux, symmetric stress
+and the pressure contribution: natural zero traction fixes the reference.
+
+P2 row-sum masses can vanish; never divide by them or silently add a floor.
+Test norms use R_i^2/M_ii, normalized by area and existing physical scales.
+The analytic neural curl is incompressible, whereas its P2 interpolant is only
+approximately so. `validate_run` reports both measures separately. Volume
+interpolation/assembly have exact fixed-field reverse adjoints; these are not
+geometry-optimization operators or forward-mode AD APIs.
+
+Online payload schemas explicitly admit only the known FE arrays and integer
+connectivity. CPU construction, production warm timing, historical cold-state/
+actual-draw parity and final independent local-FEM evaluation are separate
+stages. Same GPU model does not establish the same physical GPU; keep UUID,
+driver and current resource probes. The historical nonlocal full20k result is
+an earlier accuracy baseline, not a newly rerun same-device long control.
+
+Independent P2 Vandermonde/quadrature, outlet flux/pressure, adjoint and network
+gradient tests are in `tests/test_channel_fem_weak.py`. The finite task launcher
+must pass geometric validity and actual production memory probes before the
+new cold20k run. Current defaults and stopped sampling queues remain unchanged.
+
+
+### Channel comparison publication assets
+
+Keep the two channel FEM/nonlocal statistical PNG/PDF pairs under
+`assets/pino-studies/`, below 512 KiB combined and 1 MiB per file.
+`artifacts/channel_fem_comparison_publication.json` defines approved paths/bytes;
+`channel_fem_comparison_figures.json` retains direct inputs, complete plotted
+values and the CPU regeneration command. Development convergence uses one
+geometry; final paired distributions use all three reserved geometries.
+Do not present these as a 64-case study or fit a three-observation violin.
+The website builder validates and copies the same files used by the README.

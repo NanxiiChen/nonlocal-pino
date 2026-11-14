@@ -6,6 +6,9 @@ from examples.channel_nsch2d.operators import laplacian_stencils,first_derivativ
 
 
 def geometry_data(amplitudes,c):
+    if c.nl.method == 'fem_weak_p2p1':
+        from examples.channel_nsch2d.fem_weak import geometry_data as finite_element_data
+        return finite_element_data(amplitudes, c)
     a=validate_parameters(amplitudes,c)
     points,volumes=quadrature(a,c,c.sample.Nx,c.sample.Ny)
     integral=c.nl.method=='integral_moment'

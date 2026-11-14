@@ -12,6 +12,7 @@ import time
 from examples.channel_nsch2d.geometry import parameter_count,sample_parameters,coefficient_bounds
 
 DRAW_NAMESPACE=314159
+INTEGER_INPUTS = ('neighbors', 'boundary_neighbors', 'fem_cells', 'fem_assembly', 'fem_outlet')
 
 
 def validate_construction_screen(c,path):
@@ -70,6 +71,9 @@ def sample_geometry(c,draw_id):
 def validate_payload(data,c):
     """Fixed known-input schema; refuse labels, shape changes or invalid operators."""
     import numpy as np
+    if c.nl.method == 'fem_weak_p2p1':
+        from examples.channel_nsch2d.fem_weak import validate_payload as validate_fe_payload
+        return validate_fe_payload(data, c)
     from examples.channel_nsch2d.problem import boundary_payload_shapes
     n=(c.sample.Nx+1)*(c.sample.Ny+1);k=c.nl.neighbors
     b=4*(c.boundary_sampling.points_per_side if 'boundary_sampling' in c else c.sample.boundary_points)
@@ -86,7 +90,7 @@ def validate_payload(data,c):
     if set(data)!=set(shapes):
         raise ValueError('Online payload requires the ten known-input arrays and only explicitly configured transport arrays')
     for name,value in data.items():
-        expected=np.dtype('int32' if name in ('neighbors','boundary_neighbors') else c.train.compute_dtype)
+        expected=np.dtype('int32' if name in INTEGER_INPUTS else c.train.compute_dtype)
         if value.shape!=shapes[name] or value.dtype!=expected or not np.isfinite(value).all():
             raise ValueError(f'Invalid online {name}: shape={value.shape},dtype={value.dtype},expected={shapes[name]}/{expected}')
     if np.any(data['neighbors']<0) or np.any(data['neighbors']>=n):
@@ -126,7 +130,7 @@ def build_input(config,draw_id):
     from examples.channel_nsch2d.data import geometry_data
     c=ConfigDict(config);amplitudes=sample_geometry(c,draw_id);begin=time.perf_counter()
     raw,operator=geometry_data(amplitudes,c)
-    data={name:value.astype('int32' if name in ('neighbors','boundary_neighbors') else c.train.compute_dtype)
+    data={name:value.astype('int32' if name in INTEGER_INPUTS else c.train.compute_dtype)
           for name,value in raw.items()}
     validate_payload(data,c)
     record=dict(draw_id=draw_id,amplitudes=amplitudes.tolist(),
@@ -217,7 +221,7 @@ def audit_training_inputs(run,c):
         raise ValueError('Final pool counters disagree with actual training')
     for slot,draw in enumerate(ids):
         validate_payload({k:v[slot] for k,v in final.items()},c)
-        expected=({k:v[slot].astype('int32' if k in ('neighbors','boundary_neighbors') else dtype) for k,v in initial.items()}
+        expected=({k:v[slot].astype('int32' if k in INTEGER_INPUTS else dtype) for k,v in initial.items()}
                   if draw<0 else build_input(c.to_dict(),int(draw))[0])
         for name in expected:np.testing.assert_array_equal(final[name][slot],expected[name])
     from examples.channel_nsch2d.data import geometry_data
@@ -226,7 +230,7 @@ def audit_training_inputs(run,c):
     with np.load(run/'prediction.npz',allow_pickle=False) as f:reserved=f['amplitudes']
     raw,_=geometry_data(reserved,c)
     for name,value in raw.items():
-        np.testing.assert_array_equal(evaluation[name],value.astype('int32' if name in ('neighbors','boundary_neighbors') else dtype))
+        np.testing.assert_array_equal(evaluation[name],value.astype('int32' if name in INTEGER_INPUTS else dtype))
     return dict(status='actual_rolling_inputs_reconstructed',refresh_count=count,
         installed_inputs=count*size,distinct_sampled_online_draws=int(np.unique(sampled['draw_ids'][sampled['draw_ids']>=0]).size),
         final_pool_inputs_rebuilt=capacity,evaluation_inputs_independent=True,

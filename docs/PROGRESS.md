@@ -2,7 +2,55 @@
 
 ## Active task
 
-[FEM weak-residual PINO comparison](tasks/fem-weak-pino-comparison-plan.md).
+[Publish channel FEM comparison](tasks/channel-fem-publication.md).
+User authorizes convergence/final distribution figures, README/site updates,
+commit and main-only push with Pages verification. Use actual development
+monitoring and all three reserved cases separately. Generate editable PDF/PNG,
+retain direct provenance, preserve unrelated experiments and numerical defaults.
+GPU remains idle; no new training or reference solve is planned. Figures and
+README/site are validated:19staged-tree tests,9pages/271links, desktop/mobile
+views and reproducible editable PDF/PNG pass. Publication is the remaining step.
+
+## Latest completed FEM comparison
+
+[Completed FEM PINO comparison](tasks/archive/fem-weak-pino-comparison-plan.md).
+The full-coordinate channel FEM cold20k queue finished all eight stages at
+2026-11-14T00:53:55UTC. Final same-three-reserved-local-FEM means:
+nonlocal/FEM phase1.6435/4.6465%, velocity1.5172/4.3892%,
+pressure5.2840/7.1489%, chemical13.9541/43.7908%; terminalphase2.1961/4.0764%.
+Current-card probe inclusive steps1.5993/1.4169s and active85.35/80.82GiB.
+FEM whole process8.031h, long median1.4187s, active80.92GiB. Historical nonlocal
+9.163h uses the same GPU model but different physical GPU UUID.
+
+Cold network/fullSOAP states and all20kactual draws match. Independent saved
+norms,798online inputs/final16slot reconstruction and114source-file checks pass.
+FEM phase plateaus near4.4%on the development geometry; the default remains
+nonlocal. Different weak norms/BCs and approximate FE-interpolant divergence
+limit attribution. One initialization and three reused reserved cases.
+[Final validation record](../artifacts/channel_fem_comparison_validation.json).
+No defaults, numerical sources, website or Git history were changed for this
+final result recording. Historical stopped queues remain stopped.
+
+The 3D melting extension is complete: paired cold 10k nonlocal and sampled
+P1/lumped FEM PINO, with identical initial weights and all condition/time/core
+draws. Independent element/residual checks pass; all 41 saved/current source
+files match. Native eight-case mean phase errors are 0.1790% / 0.0745%; the
+single user-accepted independent local CG2 case gives 0.1156% / 0.1934%.
+Keep these reference/cohort definitions separate; native/local fields differ
+by 0.1474% on that case and the original strict local refinement gate remains
+unpassed. No general method ranking is established.
+
+Both methods sample 256 complete rows with 1,792 core/halo query slots. On the
+PRO 6000 Blackwell, warm updates including preparation are 14.10 / 14.22 ms;
+process walls are 276.73 / 277.10 s; active peaks are 1.455 / 1.308 GiB.
+FEM does not require full-mesh neural evaluation. The finite owner 6152 queue
+completed all stages; nothing remains running or queued from this experiment.
+[Validation receipt](../artifacts/melting_fem_comparison_validation.json).
+The melting README and task record include the derivation, results and resume
+point. Production defaults are unchanged. No Git operation was authorized or
+performed; preserve all unrelated dirty files. Further experiments require a
+new user request.
+
 Current publication request is complete: SOTA defaults, README/website and
 verification records are committed and published. The ceramic canonical nonlocal default is repaired
 and validated through a cold20k run without --config. Same64local-FEM test
@@ -40,10 +88,10 @@ three-method distribution publication remains unchanged; its final64means were
 nonlocal4.2190%,FEM PINO6.0736%,localAD32.4065%, all versus FEM numerical reference.
 [Publication receipt](../artifacts/ceramic_fem_publication_validation.json).
 
-Keep this one active task only for the optional FEM discretization/interpolation
-diagnostics; do not launch them automatically. Exact resume point is the final
-section of the task file. Channel resource tests remain complete with long run
-cancelled; Spinodal stays full-field. All unrelated work is preserved.
+Optional FEM discretization/interpolation diagnostics remain deferred. The
+completed task is archived with an exact future resume point. Earlier compact
+channel long training stays cancelled; the separate full-coordinate FEM run
+above is complete. Spinodal stays full-field; unrelated work is preserved.
 
 ## Previous channel task — resource completion only
 
@@ -129,8 +177,8 @@ publication above is now on main; unfinished sampling research remains local.
 
 ## Deferred work
 
-The FEM weak-residual TODO was released by the latest explicit instruction;
-it is now the active task above, not a deferred automatic dependency.
+The authorized FEM weak-residual comparisons are complete and archived above.
+Additional interpolation/norm diagnostics have no automatic execution dependency.
 
 Optional regional diagnostics from the
 [completed spatial study](tasks/archive/pino-spatial-sampling-study.md)

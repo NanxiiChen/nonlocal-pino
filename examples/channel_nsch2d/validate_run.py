@@ -33,6 +33,9 @@ def validate(run):
     if 'derivatives' in c:
         from examples.channel_nsch2d.operators import gradient_shapes
         expected.update(gradient_shapes(c))
+    if c.nl.method == 'fem_weak_p2p1':
+        from examples.channel_nsch2d.fem_weak import shapes
+        expected = set(shapes(c))
     if set(known)!=expected:raise ValueError('Unexpected geometry-bank payload')
     online_audit=None
     refinement_audit=None
@@ -225,6 +228,13 @@ def validate(run):
         report[key]=dict(configuration=c.derivatives.to_dict(),
             maximum_interior_discrete_divergence=float(np.max(np.abs(div[:,mask]))),
             scope='Approximate '+spatial+' divergence is diagnostic, not the exact physical AD-curl constraint or a training loss')
+    if c.nl.method == 'fem_weak_p2p1':
+        cells=np.asarray(data['fem_cells']);gradient=np.asarray(data['fem_gradient'],dtype=np.float64)
+        measure=np.asarray(data['fem_measure'],dtype=np.float64)
+        div=np.einsum('teic,eqic->teq',full[:,cells,2:4],gradient)
+        report['FE_interpolant_divergence']=dict(maximum=float(np.max(np.abs(div))),
+            physical_rms_by_time=np.sqrt(np.sum(div**2*measure[None],axis=(1,2))/measure.sum()).tolist(),
+            scope='P2 velocity interpolant at FE quadrature points; distinct from exact neural AD-curl incompressibility')
     if refinement_audit is not None:
         report['refinement_inputs']=refinement_audit
         report['sampling_scope']='Inherited parent stochastic stage; new refinement uses the audited complete BDF time grid'

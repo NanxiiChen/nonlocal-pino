@@ -46,3 +46,13 @@ The [current ceramic SOTA default](particle-corrosion.html#current-sota-default)
 - **Direct nonlocal integration** tests how accurately the network reproduces the specified spatial discretization.
 - **An independent local solver** also exposes the discrepancy between spatial models and their discretizations. Some cases report both targets on matched inputs.
 - **A training control** isolates only the changes documented in that experiment. The electropolish study reports a matched local-AD control, and other cases report optimizer, architecture or sampling comparisons.
+
+
+## Additional spatial-method comparison
+
+The [two-phase channel comparison](two-phase-flow.html#fem-pino-comparison)
+shows development convergence and final errors on three reserved geometries.
+At 20k, nonlocal/FEM PINO phase errors average 1.64%/4.65% and velocity errors
+1.52%/4.39% against independent numerical FEM. Current-card updates cost
+1.60/1.42 s. This finite comparison favors the nonlocal recipe's accuracy;
+its limitations and separate timing protocol are documented in the chapter.
