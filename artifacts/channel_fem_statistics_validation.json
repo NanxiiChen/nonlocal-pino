@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "scope": "Local revision only; previous live deployment receipt remains historical.",
+  "cohort_evaluation": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/evaluation.json",
+  "provenance": "artifacts/channel_fem_comparison_figures.json",
+  "methods": 2,
+  "geometries": 3,
+  "steps": [
+    0,
+    5000,
+    10000,
+    15000,
+    20000
+  ],
+  "std_ddof": 1,
+  "independently_recomputed_field_norms": 144,
+  "final_maximum_absolute_field_replay_gap": 3.933906555175781e-06,
+  "inference_seconds": 85.43874471075833,
+  "pdf_edit_and_fonts": "Passed renderer checks: embedded Helvetica, editable text, 6-7pt, no rasterized text.",
+  "plot_review": "Both PNGs visually inspected; log-error violins with quartiles; mean +/- sample SD at five actual checkpoints.",
+  "build_pages": 9,
+  "local_asset_links_checked": 271,
+  "published_asset_bytes": 328990,
+  "copied_assets_match": true,
+  "training_started": false,
+  "defaults_changed": false,
+  "git_publication_performed": false
+}

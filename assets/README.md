@@ -224,10 +224,16 @@ JAX_PLATFORMS=cpu .venv/bin/python -m scripts.render_electropolish_cost_error_co
 
 ## Channel FEM PINO comparison
 
-`pino-studies/channel_nsch2d_fem_convergence.{png,pdf}` contains actual 500-step
-monitoring on one development geometry. The matching
+`pino-studies/channel_nsch2d_fem_convergence.{png,pdf}` contains all41actual
+500-step development records, solid raw traces and log-error LOWESS trends.
+Shading shows approximate pointwise95%trend intervals from circular-block
+residual bootstrap (span0.22,block4,2,000replicates). These are conditional
+trend-model intervals, not multi-seed/cohort uncertainty; see the case caption.
+The matching
 `channel_nsch2d_fem_distribution.{png,pdf}` contains all three reserved-geometry
-final errors, shown as paired points and mean bars rather than a three-point KDE.
+final errors as requested log-error KDE violins with quartiles. Scott bandwidth,
+three-bandwidth tails and equal maximum widths are recorded; N=3 is explicitly
+a small-cohort descriptive display, not population-density evidence.
 Four panels separate phase, vector velocity, pressure and chemical potential.
 Both use raw relative error ratios and automatic log limits, 170 × 54 mm,
 editable embedded Helvetica 6–7 pt, and NPG C0/C2 method colors.

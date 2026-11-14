@@ -12996,3 +12996,41 @@ unrelated files and partial DEVELOPMENT edits. Archive the completed publication
 task and record verification in a documentation-only follow-up commit; website
 content and defaults remain unchanged. No new experiment is started.
 Relation: docs/tasks/archive/channel-fem-publication.md.
+
+## 2026-11-14 — Requested violins and genuine cohort convergence
+
+At the user's explicit request, replace the final three-case paired-dot display
+with log-error KDE violins, with quartiles and a clear N=3 limitation. This
+supersedes the previous choice against a three-observation violin; no cases are
+added, omitted or fabricated. Reevaluate the actual saved 0/5k/10k/15k/20k
+weights on the same three reserved FEM references to obtain arithmetic means
+and sample standard deviations (ddof=1). Reject deriving a cohort SD from the
+single-geometry every-500-step monitor or inventing intermediate checkpoints.
+No retraining, physical/default changes or Git publication is part of this turn.
+Relation: channel-fem-statistical-figures.
+
+## 2026-11-14 — Restore development convergence with requested local smoothing
+
+Keep the accepted final violins unchanged. Restore41actual single-development
+geometry records, all solid lines, with raw thin traces under local-linear
+LOWESS trends in log10error. At the user's request show approximate pointwise
+95%trend confidence intervals from circular-block residual bootstrap, explicitly
+conditional on smooth trend/short-memory residual assumptions. Reject labeling
+this single trajectory as multi-seed or test-cohort confidence, treating all
+steps as iid replicates, or replacing actual logs with five-checkpoint data.
+Record all smoothing parameters and bootstrap draws; no training/default/Git
+changes. The previous cohort mean/SD experiment remains retained externally.
+Relation: channel-fem-local-smoothing.
+
+## 2026-11-14 — Publish approved statistical figures and adopt their styles
+
+At the user's request, publish the current solid raw/LOWESS convergence with
+conditional pointwise95%bootstrap trend bands and the approved final violins.
+Adopt these visual templates for future figures in PLOTTING_GUIDELINES; retain
+original measured data, appropriate sample/seed definitions and qualified
+interval assumptions. Do not infer repeated-run confidence from one trajectory
+or mechanically copy the channel's span/block parameters to unrelated data.
+Keep NPG method colors, Helvetica, editable PDF plus PNG and automatic log
+limits. Scope Git publication to figures, reproducibility and README/site/rules;
+preserve unrelated numerical work. User authorizes dev->main merge/push/Pages.
+Relation: channel-statistics-publication.

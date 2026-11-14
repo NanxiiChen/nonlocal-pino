@@ -1636,7 +1636,14 @@ Keep the two channel FEM/nonlocal statistical PNG/PDF pairs under
 `assets/pino-studies/`, below 512 KiB combined and 1 MiB per file.
 `artifacts/channel_fem_comparison_publication.json` defines approved paths/bytes;
 `channel_fem_comparison_figures.json` retains direct inputs, complete plotted
-values and the CPU regeneration command. Development convergence uses one
-geometry; final paired distributions use all three reserved geometries.
-Do not present these as a 64-case study or fit a three-observation violin.
+values and the regeneration commands. Convergence uses41actual500step records
+on one development geometry, with solid raw traces and log-error local-linear
+LOWESS. Requested approximate pointwise95%confidence bands use circular-block
+residual bootstrap; declare span0.22,block4,2,000replicates and statistical
+assumptions. Do not present conditional trend intervals as cross-seed/cohort
+uncertainty or measured additional checkpoints. Retain earlier5checkpoint
+cohort statistics separately. Final distributions use log-error KDE violins,
+with quartiles, Scott bandwidth and three-bandwidth tails. State the N=3
+descriptive limit; never present these as a 64-case study or density evidence
+for the full geometry prior. Do not infer cohort SD from single-case monitors.
 The website builder validates and copies the same files used by the README.

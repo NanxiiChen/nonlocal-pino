@@ -170,24 +170,42 @@ XLA_PYTHON_CLIENT_MEM_FRACTION=0.97 python -m examples.channel_nsch2d.train \
   --config=examples/channel_nsch2d/configs/train_operator_fem_weak.py
 ```
 
-![Nonlocal and FEM PINO field-wise development convergence](../../assets/pino-studies/channel_nsch2d_fem_convergence.png)
+![Nonlocal and FEM PINO development convergence with local smoothing](../../assets/pino-studies/channel_nsch2d_fem_convergence.png)
 
-Actual relative L2 records every 500 updates on the same **single development
-geometry**, including initialization; no curve smoothing. Solid red: Nonlocal
-PINO; dashed green: FEM PINO. The target is the independent **FEM numerical
-reference**, not another trained network. [Editable PDF](../../assets/pino-studies/channel_nsch2d_fem_convergence.pdf).
+All **41 actual records**, every 500 updates including initialization, on one
+common **development geometry**. Both methods use solid lines: thin/light traces
+show raw errors; thick traces show local-linear LOWESS in log10-error (span0.22,
+9 nearest records, no robust reweighting). Shading is an **approximate pointwise
+95% confidence interval for the fitted trend**, from 2,000 circular-block
+residual bootstrap replicates with blocks of four records. This assumes a
+smooth trend and approximately stationary short-memory log residuals; smoothing
+bias is not covered. It is not cross-seed or test-cohort uncertainty. Red:
+Nonlocal PINO; green: FEM PINO. The target is the independent **FEM numerical
+reference**. Numerical results elsewhere use original errors, not smoothed values.
+[Editable PDF](../../assets/pino-studies/channel_nsch2d_fem_convergence.pdf).
 
 ![Final errors on all three reserved geometries](../../assets/pino-studies/channel_nsch2d_fem_distribution.png)
 
-All **three reserved geometries**, using final 20k weights. Each gray segment
-pairs the same geometry; short colored bars mark the arithmetic mean. With
-only three cases we show actual observations rather than estimating a smooth
-distribution. Panels retain individual fields: velocity uses the joint vector
+All **three reserved geometries**, using final 20k weights. The requested
+violins estimate density in log10-error space with Scott bandwidth and tails
+extended by three bandwidths; dashed inner lines show the 25th, 50th and 75th
+percentiles. With **N=3**, this is a descriptive display of a small cohort;
+the smooth tails are not additional observations or population-density evidence.
+Panels retain individual fields: velocity uses the joint vector
 norm; chemical potential is reported separately, not averaged into a headline
 score. Axes show raw relative errors, with automatic logarithmic limits.
 [Editable PDF](../../assets/pino-studies/channel_nsch2d_fem_distribution.pdf).
 [Plot inputs and reproduction command](../../artifacts/channel_fem_comparison_figures.json)
 record every checkpoint, reference, scalar value, font and display choice.
+
+The reproduction record includes the complete CPU rendering command, bootstrap
+settings and per-curve arrays. Convergence uses `metrics.jsonl`; the earlier
+five-checkpoint cohort evaluation remains retained separately and supplies the
+accepted final violin values. `scripts/evaluate_channel_fem_checkpoints.py` can
+recreate that evaluation in a fresh output directory; its `evaluation.json` is
+passed to the renderer through `--cohort-evaluation`. This figure revision needs
+no new inference, training or reference solve. See the
+[statistical method and checks](../../docs/tasks/archive/channel-fem-local-smoothing.md).
 
 Final 20,000-step weights, mean relative L2 on the same three reserved local-FEM
 geometries (full saved space-time for phase; positive saved times for flow/mu):
