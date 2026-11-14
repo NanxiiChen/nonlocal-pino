@@ -2,14 +2,22 @@
 
 ## Active task
 
-[Publish channel FEM comparison](tasks/channel-fem-publication.md).
-User authorizes convergence/final distribution figures, README/site updates,
-commit and main-only push with Pages verification. Use actual development
-monitoring and all three reserved cases separately. Generate editable PDF/PNG,
-retain direct provenance, preserve unrelated experiments and numerical defaults.
-GPU remains idle; no new training or reference solve is planned. Figures and
-README/site are validated:19staged-tree tests,9pages/271links, desktop/mobile
-views and reproducible editable PDF/PNG pass. Publication is the remaining step.
+None. The requested channel comparison figures, README/site updates, commit,
+main push and Pages verification are complete. No training or preview job remains.
+Optional diagnostics and previously stopped experiments stay deferred.
+
+## Latest publication
+
+[Channel FEM comparison publication](tasks/archive/channel-fem-publication.md).
+Content daa9c86 merged/pushed as main81ec0c4; Pages43547238968 succeeded.
+All9liveHTML pages and4new PNG/PDF files match the tested build byte-for-byte.
+Two170x54mm figures show actual development convergence and all3reserved
+final errors, separated by field.24sample norms/328monitor values, editable
+6–7ptHelvetica PDF, repeated export bytes and desktop/mobile views pass.
+The four selected assets total265384bytes. Nineteen staged-tree tests and
+271relative website links pass. All67unrelated files and partial DEVELOPMENT
+content were preserved; defaults are unchanged.
+[Publication validation](../artifacts/channel_fem_publication_validation.json).
 
 ## Latest completed FEM comparison
 
