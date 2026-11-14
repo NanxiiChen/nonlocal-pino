@@ -54,6 +54,11 @@ are self-contained. Repository source links require access to the repository.
   synchronized with the example README. Historical comparison figures retain
   their own checkpoint, cohort, norm and timing labels.
 
+The channel chapter shares two additional selected PNG/PDF pairs with the case
+README: development convergence and three-geometry final paired distributions.
+The builder validates their [publication manifest](../artifacts/channel_fem_comparison_publication.json)
+and byte budgets before copying them. Image/manifest edits also trigger Pages.
+
 KaTeX renders standard LaTeX expressions at build time to HTML and MathML.
 The generated site loads its math fonts locally. [KaTeX API](https://katex.org/docs/api)
 

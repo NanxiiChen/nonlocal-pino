@@ -13,6 +13,9 @@ PARTS=('phase','chemical','momentum_x','momentum_y','continuity',
 
 
 def part_names(c):
+    if c.nl.method == 'fem_weak_p2p1':
+        from examples.channel_nsch2d.fem_weak import PARTS as fem_parts
+        return fem_parts
     names=tuple(p for p in PARTS if p!='continuity') if 'velocity' in c else PARTS
     if 'chemical_constraint'in c:names=tuple(p for p in names if p!='chemical')
     if 'stress_formulation' in c:names+=('stress_normal','stress_shear','boundary_stress_normal','boundary_stress_shear')
@@ -186,6 +189,9 @@ def make_time_parts_fn(c):
 
 
 def make_loss_fn(c):
+    if c.nl.method == 'fem_weak_p2p1':
+        from examples.channel_nsch2d.fem_weak import make_loss_fn as finite_element_loss
+        return finite_element_loss(c)
     one=_make_condition_loss(c,per_time=False)
 
     def loss(net,batch,times,active=None):

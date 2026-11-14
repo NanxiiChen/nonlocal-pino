@@ -12902,3 +12902,85 @@ Record exact release checks and live verification in
 README, website, commit and push deliverable is complete. Optional FEM diagnostics
 remain deferred; the main field/comparison figures keep their original data.
 Relation:fem-weak-pino-comparison-plan.
+
+## 2026-11-13 — Extend the FEM PINO comparison to3Dmelting without assuming a ranking
+
+Use matched cold10k nonlocal and natural-Neumann P1Kuhn-tetrahedral/lumped-mass
+PINO, keeping the original conditional network, hardIC, latent residual,
+optimizer and complete rolling core/halo sampling. Both controls declare
+no autotuning. Check element algebra independently before GPU resource probes.
+Evaluate the existing8native references and one independently solved localCG2
+case separately; preserve the local reference's user-accepted precision limits.
+Reject using native reference alone to demonstrate a nonlocal accuracy advantage,
+coarsening FEM on purpose, or assuming3D itself makes FE algebra worse.
+No default promotion, additional64FEM solves, stopped-task restart or Git action.
+Relation:fem-weak-pino-comparison-plan.
+
+
+## 2026-11-14 — Retain both reference metrics in the completed melting FEM pilot
+
+Paired cold 10k runs pass initial-state, complete input and current-source audits.
+With complete-support sampling on both sides, warm inclusive times are 14.10 ms
+nonlocal and 14.22 ms FEM; there is no demonstrated substantial speed advantage.
+Native eight-case phase means are 0.1790% / 0.0745%, whereas independent local
+CG2 case 005 gives 0.1156% / 0.1934%. Preserve both results, the single paired
+initialization and the local reference's user-accepted refinement limits.
+
+Reject the assumption that FEM PINO must query the full mesh or be worse merely
+because the problem is three-dimensional. This P1 Kuhn mesh has six surviving
+stiffness neighbors, allowing the same core/halo sampling. Record the validated
+optional implementation and results without promoting defaults, hiding the
+opposite reference ranking, starting additional runs or performing Git actions.
+Relation: fem-weak-pino-comparison-plan.
+
+
+## 2026-11-14 — Compare full-coordinate channel PINO with a genuine mixed FE weak loss
+
+Extend the existing task at the user's request. Keep the accepted nonlocal
+full20k accuracy baseline and remeasure its current-card update cost because
+the physical GPU UUID changed. Build quadratic isoparametric triangles whose
+nodes are the same spatial queries, P2 phase/mu/velocity and P1 pressure, using
+the independent solver's coupled weak terms and natural boundaries. Retain
+network, JVP, hard constraints, geometry prior, SOAP and cold20k budget.
+
+Use positive consistent mass diagonals for the squared weak-row metric; P2
+row-sum lumping is not positive. Reject a naïve Laplacian-only substitution,
+omitting CH outlet flux, an unstated P1/P1 saddle-point comparison, or comparing
+historical wall time as if the physical GPU were unchanged. The different weak
+metric and boundary enforcement are explicit parts of the method comparison.
+No default promotion, paused sampling restart or Git action.
+Relation: fem-weak-pino-comparison-plan.
+
+
+## 2026-11-14 — Complete the channel FEM comparison without promoting its defaults
+
+Final20k means on the same three local-FEM reference geometries are nonlocal/FEM
+phase1.6435/4.6465%, velocity1.5172/4.3892%, pressure5.2840/7.1489%,
+chemical13.9541/43.7908%. Current-card probe updates cost1.5993/1.4169s:
+this nonlocal recipe is more accurate, while the FE update is faster. Preserve
+both findings, paired cold states/all20kdraws,114source checks and independent
+norm audits. Reject treating historical different-GPU whole-run time as strict
+same-device timing or promoting the less accurate FE default.
+
+Different residual norms/natural BCs and approximate FE-interpolant divergence
+remain confounders; do not claim a universal discretization ranking from one
+initialization and three reused geometries. Optional diagnostics require a new
+request. Archive the completed task, keep its old URL as a forwarding page and
+retain all external artifacts. No new training, website publication or Git action.
+Relation: docs/tasks/archive/fem-weak-pino-comparison-plan.md.
+
+
+## 2026-11-14 — Publish channel comparison with observed three-case distributions
+
+Use four field-wise convergence panels from actual development monitoring and
+four paired-dot final distribution panels for the three reserved geometries.
+Do not manufacture 64 samples, smooth convergence, or fit a violin KDE to three
+observations. Mean bars summarize the displayed values; log axes show raw error
+ratios without percentage scaling. Keep nonlocal NPG C0 and FEM PINO C2, and
+name the numerical FEM reference distinctly in captions.
+
+Publish selected PDF/PNG exports, direct provenance, necessary reproducibility
+sources and case README/report updates under current authorization. Preserve
+all unrelated pending code and use dev -> main regular merge -> push main only.
+No new training, default promotion or reference solve.
+Relation: channel-fem-publication.

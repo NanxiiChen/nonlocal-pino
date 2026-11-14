@@ -118,6 +118,111 @@ probabilities weight the 64 selected rows. Geometry and spatial pools refresh
 independently on reproducible schedules. The [study record](../../docs/tasks/archive/pino-spatial-sampling-study.md)
 gives the current device, budgets and queue.
 
+### Full-coordinate FEM weak-residual control
+
+The opt-in [FEM preset](configs/train_operator_fem_weak.py) compares the accepted
+full-coordinate nonlocal scheme with a mixed finite-element PINO loss. It keeps
+the same network, 15,633 physical query nodes, geometry prior/rolling stream,
+hard constraints, time JVP, SOAP schedule and cold 20,000-update budget.
+The cold 20k control and final audits are complete; production defaults remain nonlocal.
+
+Every 2x2 fine-grid cell is split into two quadratic isoparametric triangles.
+Their P2 nodes coincide with the original query grid. Phase, chemical potential
+and velocity use quadratic interpolation; pressure uses the corner P1 basis.
+The weak equations follow [the independent numerical solver](solver.py):
+
+$$
+R_\phi(v)=(\phi_t,v)-(\phi\mathbf u,\nabla v)
+ +M(\nabla\mu,\nabla v)
+ +\langle\phi\mathbf u\cdot\mathbf n,v\rangle_{\Gamma_{\rm out}},
+$$
+
+$$
+R_\mu(v)=(\mu-A(\phi^3-\phi),v)-\kappa(\nabla\phi,\nabla v),
+$$
+
+$$
+R_{\mathbf u}(\mathbf v)=
+(\rho(\mathbf u_t+\mathbf u\cdot\nabla\mathbf u)+\phi\nabla\mu,\mathbf v)
++2\eta(\varepsilon(\mathbf u),\varepsilon(\mathbf v))
+-(p,\nabla\cdot\mathbf v).
+$$
+
+Scalar tests vanish at the inlet; velocity tests vanish at inlet and walls.
+Zero phase/chemical flux and outlet hydrodynamic traction are natural boundary
+conditions. Conservative phase transport retains its outlet flux term. Thus
+four weak equation losses replace the nine pointwise PDE/BC terms. The original
+physical residual scales stay fixed, but these are different discrete loss
+norms and boundary enforcement methods.
+
+For each equation, the loss is
+\(\sum_{i\in I_{\rm free}}R_i^2/(M_{ii}|\Omega|s^2)\), averaged over sampled
+times and geometries, where \(M_{ii}=\int N_i^2\,dx>0\) is the consistent mass
+diagonal and \(s\) the existing physical normalizer. This is a diagonal
+approximation to a dual mass norm, not an exact Riesz solve. P2 row-sum masses
+can vanish, so ordinary P1 mass lumping is not used. Six-point-per-axis Duffy
+quadrature integrates element terms. The neural streamfunction remains exactly
+divergence-free; its FE velocity interpolant is only approximately so, reported
+separately during validation.
+
+```bash
+XLA_PYTHON_CLIENT_MEM_FRACTION=0.97 python -m examples.channel_nsch2d.train \
+  --config=examples/channel_nsch2d/configs/train_operator_fem_weak.py
+```
+
+![Nonlocal and FEM PINO field-wise development convergence](../../assets/pino-studies/channel_nsch2d_fem_convergence.png)
+
+Actual relative L2 records every 500 updates on the same **single development
+geometry**, including initialization; no curve smoothing. Solid red: Nonlocal
+PINO; dashed green: FEM PINO. The target is the independent **FEM numerical
+reference**, not another trained network. [Editable PDF](../../assets/pino-studies/channel_nsch2d_fem_convergence.pdf).
+
+![Final errors on all three reserved geometries](../../assets/pino-studies/channel_nsch2d_fem_distribution.png)
+
+All **three reserved geometries**, using final 20k weights. Each gray segment
+pairs the same geometry; short colored bars mark the arithmetic mean. With
+only three cases we show actual observations rather than estimating a smooth
+distribution. Panels retain individual fields: velocity uses the joint vector
+norm; chemical potential is reported separately, not averaged into a headline
+score. Axes show raw relative errors, with automatic logarithmic limits.
+[Editable PDF](../../assets/pino-studies/channel_nsch2d_fem_distribution.pdf).
+[Plot inputs and reproduction command](../../artifacts/channel_fem_comparison_figures.json)
+record every checkpoint, reference, scalar value, font and display choice.
+
+Final 20,000-step weights, mean relative L2 on the same three reserved local-FEM
+geometries (full saved space-time for phase; positive saved times for flow/mu):
+
+| Field | Nonlocal PINO | FEM PINO |
+|---|---:|---:|
+| Phase | 1.6435% | 4.6465% |
+| Terminal phase | 2.1961% | 4.0764% |
+| Velocity | 1.5172% | 4.3892% |
+| Pressure | 5.2840% | 7.1489% |
+| Chemical potential | 13.9541% | 43.7908% |
+
+All three geometries favor nonlocal in phase and velocity. FEM development-phase
+error changes from 4.696% at 5k to 4.372% at 20k, versus nonlocal 3.377% to 1.450%.
+The current-card short probes give warm inclusive steps of 1.5993 s nonlocal and
+1.4169 s FEM, with active peaks 85.35/80.82 GiB. FEM's full training process takes
+8.031 h, with a 1.4187 s inclusive median and 80.92 GiB final recorded active peak.
+Thus this run favors nonlocal accuracy, while the FEM update is about 11.4% faster.
+Historical nonlocal training wall 9.163 h is recorded separately: the GPU model
+matches, but the physical GPU UUID differs.
+
+Initial network/complete optimizer states and all 20k condition/time/geometry
+draws match; independent saved-field norms, rolling-input reconstruction and
+114 saved/current Python source files pass. This is one initialization and three
+reused reserved cases. The four weak losses and their mass-diagonal norm differ
+from the nine nonlocal pointwise losses; the result does not isolate a universal
+spatial-operator advantage. The FE velocity interpolant also loses exact neural
+incompressibility: development quadrature RMS is about 0.0043, despite neural
+AD-curl divergence near roundoff. Further interpolation/norm diagnostics are
+deferred; no additional training is queued.
+
+[Completed comparison record](../../docs/tasks/archive/fem-weak-pino-comparison-plan.md)
+and [validation receipt](../../artifacts/channel_fem_comparison_validation.json)
+retain exact configs, checkpoints, reference paths, timings and checks.
+
 ### Run and reproduce
 
 ```bash

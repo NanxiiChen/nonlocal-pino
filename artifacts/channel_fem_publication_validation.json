@@ -1,0 +1,138 @@
+{
+  "status": "validated_ready_to_publish",
+  "scope_files": [
+    ".github/workflows/pages.yml",
+    "README.md",
+    "assets/README.md",
+    "docs/DECISIONS.md",
+    "docs/PROGRESS.md",
+    "docs/tasks/fem-weak-pino-comparison-plan.md",
+    "docs/tasks/archive/fem-weak-pino-comparison-plan.md",
+    "docs/tasks/channel-fem-publication.md",
+    "docs/tasks/channel_fem_queue.py",
+    "docs/tasks/channel_fem_support.py",
+    "examples/channel_nsch2d/README.md",
+    "examples/channel_nsch2d/data.py",
+    "examples/channel_nsch2d/losses.py",
+    "examples/channel_nsch2d/online.py",
+    "examples/channel_nsch2d/problem.py",
+    "examples/channel_nsch2d/train.py",
+    "examples/channel_nsch2d/validate_run.py",
+    "examples/channel_nsch2d/fem_weak.py",
+    "examples/channel_nsch2d/configs/train_operator_fem_weak.py",
+    "examples/channel_nsch2d/configs/train_full_fem_comparison_probe.py",
+    "tests/test_channel_fem_weak.py",
+    "scripts/render_channel_fem_comparison.py",
+    "artifacts/channel_fem_comparison_validation.json",
+    "artifacts/channel_fem_comparison_figures.json",
+    "artifacts/channel_fem_comparison_publication.json",
+    "artifacts/melting_fem_comparison_validation.json",
+    "website/README.md",
+    "website/build.mjs",
+    "website/content/index.md",
+    "website/content/two-phase-flow.md",
+    "assets/pino-studies/channel_nsch2d_fem_convergence.png",
+    "assets/pino-studies/channel_nsch2d_fem_convergence.pdf",
+    "assets/pino-studies/channel_nsch2d_fem_distribution.png",
+    "assets/pino-studies/channel_nsch2d_fem_distribution.pdf",
+    "docs/DEVELOPMENT.md",
+    "artifacts/channel_fem_publication_validation.json"
+  ],
+  "figures": "artifacts/channel_fem_comparison_publication.json",
+  "experiment": "artifacts/channel_fem_comparison_validation.json",
+  "task": "docs/tasks/channel-fem-publication.md",
+  "candidate": "/tmp/channel-fem-publication-candidate",
+  "baseline": "/tmp/channel-fem-publication-baseline",
+  "website_target": "https://nanxiichen.github.io/nonlocal-pino/two-phase-flow.html#fem-pino-comparison",
+  "checks": {
+    "exact_staged_tests": {
+      "passed": true,
+      "count": 19,
+      "seconds": 41.556,
+      "modules": [
+        "test_channel_fem_weak",
+        "test_channel_integral_operators",
+        "test_channel_budget_validation",
+        "test_channel_online"
+      ]
+    },
+    "candidate": {
+      "status": "passed",
+      "unrelated_files": 67,
+      "source_parity": 8,
+      "staged_site_matches_qa": true,
+      "scope_count": 35
+    },
+    "html_pages": 9,
+    "valid_relative_html_links": 271,
+    "browser": [
+      {
+        "name": "desktop",
+        "layout": {
+          "width": 1440,
+          "scrollWidth": 1440,
+          "images": [
+            {
+              "src": "assets/channel_nsch2d_fem_convergence.png",
+              "complete": true,
+              "naturalWidth": 2007,
+              "naturalHeight": 637,
+              "displayWidth": 994
+            },
+            {
+              "src": "assets/channel_nsch2d_fem_distribution.png",
+              "complete": true,
+              "naturalWidth": 2007,
+              "naturalHeight": 637,
+              "displayWidth": 994
+            }
+          ]
+        },
+        "errors": [],
+        "screenshot": "/tmp/channel-fem-site-desktop.png"
+      },
+      {
+        "name": "mobile",
+        "layout": {
+          "width": 430,
+          "scrollWidth": 430,
+          "images": [
+            {
+              "src": "assets/channel_nsch2d_fem_convergence.png",
+              "complete": true,
+              "naturalWidth": 2007,
+              "naturalHeight": 637,
+              "displayWidth": 396
+            },
+            {
+              "src": "assets/channel_nsch2d_fem_distribution.png",
+              "complete": true,
+              "naturalWidth": 2007,
+              "naturalHeight": 637,
+              "displayWidth": 396
+            }
+          ]
+        },
+        "errors": [],
+        "screenshot": "/tmp/channel-fem-site-mobile.png"
+      }
+    ],
+    "plots": {
+      "saved_field_norms_checked": 24,
+      "actual_convergence_values": 328,
+      "all_four_outputs_reproduce_byte_for_byte": true,
+      "all_pdf_text_6_to_7pt": true,
+      "embedded_truetype": true,
+      "editable_label_probes_passed": true,
+      "png_and_pdf_visually_inspected": true,
+      "manual_ylim": false,
+      "total_bytes": 265384
+    },
+    "defaults_changed": false,
+    "new_training": false,
+    "git_diff_check": true
+  },
+  "deployment": {
+    "status": "pending"
+  }
+}

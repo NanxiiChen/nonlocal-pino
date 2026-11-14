@@ -197,5 +197,34 @@ for (const kind of ['png', 'pdf']) {
   await writeFile(join(assets, name), data);
 }
 
+const channel = JSON.parse(await readFile(join(root, '..', 'artifacts', 'channel_fem_comparison_publication.json'), 'utf8'));
+if (channel.schema !== 'channel_fem_comparison_publication_v1' ||
+    channel.test_samples !== 3 || channel.development_samples !== 1 ||
+    channel.checkpoint_step !== 20000 || channel.figures.length !== 2 ||
+    new Set(channel.figures.map(figure => figure.kind)).size !== 2) {
+  throw new Error('Expected the approved channel development and reserved-three comparison');
+}
+let channelBytes = 0;
+for (const figure of channel.figures) {
+  if (!['convergence', 'distribution'].includes(figure.kind)) {
+    throw new Error(`Unexpected channel figure: ${figure.kind}`);
+  }
+  for (const kind of ['png', 'pdf']) {
+    const name = `channel_nsch2d_fem_${figure.kind}.${kind}`;
+    if (figure[kind] !== `assets/pino-studies/${name}`) {
+      throw new Error(`Unexpected channel comparison path: ${figure[kind]}`);
+    }
+    const data = await readFile(join(root, '..', figure[kind]));
+    if (data.length !== figure.bytes[kind] || data.length >= channel.maximum_file_bytes) {
+      throw new Error(`Channel comparison asset differs from its approval: ${name}`);
+    }
+    channelBytes += data.length;
+    await writeFile(join(assets, name), data);
+  }
+}
+if (channelBytes !== channel.total_bytes || channelBytes >= channel.maximum_collection_bytes) {
+  throw new Error('Channel comparison collection exceeds its approved budget');
+}
+
 await Promise.all(rendered.map(([slug, html]) => writeFile(join(output, `${slug}.html`), html)));
 console.log(`Built ${rendered.length} technical report pages in website/dist/`);

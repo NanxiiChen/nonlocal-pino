@@ -13,6 +13,8 @@ on:
       - artifacts/pino_setup_figures.json
       - assets/pino-studies/particle_corrosion2d_fem_distribution.*
       - artifacts/ceramic_fem_comparison_publication.json
+      - assets/pino-studies/channel_nsch2d_fem_*
+      - artifacts/channel_fem_comparison_publication.json
   workflow_dispatch:
 
 permissions:
