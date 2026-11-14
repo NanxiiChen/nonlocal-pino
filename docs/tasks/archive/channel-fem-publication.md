@@ -1,6 +1,6 @@
 # Publish the channel FEM PINO comparison
 
-Date: 2026-11-14. Status: in progress. User authorizes convergence/distribution
+Date: 2026-11-14. Status: complete. User authorizes convergence/distribution
 figures, README/site updates, commit, main-only push and GitHub Pages publication.
 
 ## Goal and acceptance
@@ -59,3 +59,33 @@ receipt to keep the existing provenance links valid; melting and Spinodal
 numerical changes remain local. No raw arrays, weights, fonts or full galleries
 are staged. Exact scope and checks: artifacts/channel_fem_publication_validation.json.
 Next: commit on dev, regular merge main, push main and verify Pages/live bytes.
+
+
+Content commit daa9c86 was regularly merged as main81ec0c4 and pushed to origin
+main. Pages43547238968 started; build passed. Post-merge preservation checks
+pass for67unrelated files and the full partial-staged DEVELOPMENT document.
+Exact next action: await Pages deployment and compare9liveHTML plus4new assets
+with the tested build. Then record the deployment, archive this task and push
+only the final documentation receipt via the same workflow.
+
+
+## Task-end: published and verified
+
+Content daa9c86 was merged/pushed as main81ec0c4. GitHub Pages43547238968
+completed build and deploy successfully. At2026-11-14T02:37:37UTC, all9live
+HTML pages and4new PNG/PDF files returned200 and matched the tested build
+byte-for-byte. The local preview server is stopped. No training was started.
+
+Diff-level result: two reproducible field-wise figures, direct-path provenance
+and publication manifests, validated optional channel FE implementation/configs
+and focused tests, case/root README, asset guide, overview/channel site content,
+build asset checks and Pages triggers. No numerical default changed. All67
+unrelated pending files and partial DEVELOPMENT content were preserved.
+
+Memory updated: PROGRESS, DECISIONS, this archived task and the direct
+publication-validation receipt. Nineteen staged-tree tests, nine-page build,
+271relative links, desktop/mobile views, all24sample errors/328monitor values,
+font/edit probes, four-export byte reproduction and diff checks pass. There is
+no remaining required work. New training or follow-up diagnostics require a
+new user instruction. A final documentation-only commit records deployment;
+it leaves the verified website bytes unchanged and does not trigger Pages.

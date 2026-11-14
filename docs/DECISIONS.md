@@ -12984,3 +12984,15 @@ sources and case README/report updates under current authorization. Preserve
 all unrelated pending code and use dev -> main regular merge -> push main only.
 No new training, default promotion or reference solve.
 Relation: channel-fem-publication.
+
+
+## 2026-11-14 — Verify channel comparison publication
+
+Publish the36file scoped comparison as daa9c86 / regular main merge81ec0c4.
+Pages43547238968 builds/deploys successfully; nine live HTML pages and four
+selected PDF/PNG files match the validated build byte-for-byte. Nineteen staged
+numerical regressions and figure/data/font/layout checks pass. Preserve all67
+unrelated files and partial DEVELOPMENT edits. Archive the completed publication
+task and record verification in a documentation-only follow-up commit; website
+content and defaults remain unchanged. No new experiment is started.
+Relation: docs/tasks/archive/channel-fem-publication.md.
