@@ -1,5 +1,7 @@
 # Publish approved statistical figures and record future templates
 
+Status: completed and published,2026-11-14.
+
 ## Goal / acceptance
 
 User approves the latest plots and explicitly authorizes commit/push/Pages.
@@ -41,3 +43,35 @@ The future plotting templates now explicitly distinguish raw/smoothed curves,
 conditional trend intervals and cohort/seed uncertainty; actual errors remain
 the source of numerical conclusions. Ready to commit24scoped files and publish.
 Receipt: `artifacts/channel_statistics_publication_validation.json`.
+
+## Publication in progress
+
+Content0d831f1regularly merged/pushed as mainf2b9127. Pages43556036346 build
+passed; deploy is queued. The clean main release worktree is
+`/tmp/channel-statistics-release-20261114/release-main`; the original dev
+worktree retains all67unrelated files and partial DEVELOPMENT bytes unchanged.
+Next: verify deployment/live9HTML+4assets, archive this task and push a
+documentation-only receipt via the same dev->main workflow.
+
+## Task-end: live verification passed
+
+Pages43556036346 completed build and deploy successfully. At
+2026-11-14T04:20:19UTC, all9liveHTML pages and4selected PNG/PDF files returned200
+and matched the exact candidate build byte-for-byte. The source content commit
+is0d831f1, regular main mergef2b9127. Publish the verification/archive in a final
+documentation-only follow-up; website bytes are unchanged and no new Pages
+build is needed for that metadata commit.
+
+Diff-level result: approved final violins;41record solid raw/LOWESS convergence
+with conditional pointwise95%trend intervals; CPU renderer/helper, retained
+cohort inference entry, direct-path provenance/validation, updated case README,
+website chapter/build and shared plot templates. PLOTTING_GUIDELINES now adopts
+these styles for future figures without changing metric definitions or claiming
+cross-seed uncertainty from one run.67unrelated files and partial DEVELOPMENT
+are preserved. No training/default change or external data/weight deletion.
+
+Checks: selected staged-tree render reproduces all4files;9pages/271relative
+links pass; font/edit/statistical/syntax checks pass; diff whitespace clean;
+live13URLs match. Changed memory files are PROGRESS,DECISIONS and this archived
+task, with `artifacts/channel_statistics_publication_validation.json` recording
+publication evidence. No remaining required work or experiment is queued.

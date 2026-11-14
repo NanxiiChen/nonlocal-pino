@@ -1,5 +1,5 @@
 {
-  "status": "candidate_validated",
+  "status": "passed",
   "scope_files": [
     "artifacts/channel_fem_comparison_figures.json",
     "artifacts/channel_fem_comparison_publication.json",
@@ -43,5 +43,107 @@
     "statistical_validation": "artifacts/channel_fem_lowess_validation.json"
   },
   "target_site": "https://nanxiichen.github.io/nonlocal-pino/two-phase-flow.html#fem-pino-comparison",
-  "deployment": "pending"
+  "deployment": "build_and_deploy_succeeded",
+  "content_commit": "0d831f19f34115db86724168c9abd3bad7318635",
+  "merge_commit": "f2b91276a5637a1cf652ebc3f65c09b3b813d760",
+  "workflow_run": 43556036346,
+  "workflow_url": "https://github.com/NanxiiChen/nonlocal-pino/actions/runs/43556036346",
+  "live_verification": {
+    "checked_at_utc": "2026-11-14T04:20:19.379089+00:00",
+    "files": [
+      {
+        "path": "architecture.html",
+        "url": "https://nanxiichen.github.io/nonlocal-pino/architecture.html",
+        "status": 200,
+        "bytes": 38341,
+        "matches_expected": true
+      },
+      {
+        "path": "electropolish.html",
+        "url": "https://nanxiichen.github.io/nonlocal-pino/electropolish.html",
+        "status": 200,
+        "bytes": 78565,
+        "matches_expected": true
+      },
+      {
+        "path": "ice-melting.html",
+        "url": "https://nanxiichen.github.io/nonlocal-pino/ice-melting.html",
+        "status": 200,
+        "bytes": 106483,
+        "matches_expected": true
+      },
+      {
+        "path": "index.html",
+        "url": "https://nanxiichen.github.io/nonlocal-pino/index.html",
+        "status": 200,
+        "bytes": 16346,
+        "matches_expected": true
+      },
+      {
+        "path": "particle-corrosion.html",
+        "url": "https://nanxiichen.github.io/nonlocal-pino/particle-corrosion.html",
+        "status": 200,
+        "bytes": 100096,
+        "matches_expected": true
+      },
+      {
+        "path": "spatial-calculus.html",
+        "url": "https://nanxiichen.github.io/nonlocal-pino/spatial-calculus.html",
+        "status": 200,
+        "bytes": 76566,
+        "matches_expected": true
+      },
+      {
+        "path": "spinodal.html",
+        "url": "https://nanxiichen.github.io/nonlocal-pino/spinodal.html",
+        "status": 200,
+        "bytes": 58112,
+        "matches_expected": true
+      },
+      {
+        "path": "training.html",
+        "url": "https://nanxiichen.github.io/nonlocal-pino/training.html",
+        "status": 200,
+        "bytes": 41992,
+        "matches_expected": true
+      },
+      {
+        "path": "two-phase-flow.html",
+        "url": "https://nanxiichen.github.io/nonlocal-pino/two-phase-flow.html",
+        "status": 200,
+        "bytes": 53296,
+        "matches_expected": true
+      },
+      {
+        "path": "assets/channel_nsch2d_fem_convergence.png",
+        "url": "https://nanxiichen.github.io/nonlocal-pino/assets/channel_nsch2d_fem_convergence.png",
+        "status": 200,
+        "bytes": 168137,
+        "matches_expected": true
+      },
+      {
+        "path": "assets/channel_nsch2d_fem_convergence.pdf",
+        "url": "https://nanxiichen.github.io/nonlocal-pino/assets/channel_nsch2d_fem_convergence.pdf",
+        "status": 200,
+        "bytes": 72778,
+        "matches_expected": true
+      },
+      {
+        "path": "assets/channel_nsch2d_fem_distribution.png",
+        "url": "https://nanxiichen.github.io/nonlocal-pino/assets/channel_nsch2d_fem_distribution.png",
+        "status": 200,
+        "bytes": 117510,
+        "matches_expected": true
+      },
+      {
+        "path": "assets/channel_nsch2d_fem_distribution.pdf",
+        "url": "https://nanxiichen.github.io/nonlocal-pino/assets/channel_nsch2d_fem_distribution.pdf",
+        "status": 200,
+        "bytes": 48420,
+        "matches_expected": true
+      }
+    ]
+  },
+  "completed_task": "docs/tasks/archive/channel-statistics-publication.md",
+  "verification_followup": "Documentation only; verified website bytes unchanged."
 }
