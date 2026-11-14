@@ -198,11 +198,13 @@ for (const kind of ['png', 'pdf']) {
 }
 
 const channel = JSON.parse(await readFile(join(root, '..', 'artifacts', 'channel_fem_comparison_publication.json'), 'utf8'));
-if (channel.schema !== 'channel_fem_comparison_publication_v1' ||
+if (channel.schema !== 'channel_fem_comparison_publication_v3' ||
     channel.test_samples !== 3 || channel.development_samples !== 1 ||
+    channel.convergence_interval !== 'approximate_pointwise95_trend_bootstrap' ||
+    JSON.stringify(channel.convergence_steps) !== JSON.stringify(Array.from({length: 41}, (_, i) => i * 500)) ||
     channel.checkpoint_step !== 20000 || channel.figures.length !== 2 ||
     new Set(channel.figures.map(figure => figure.kind)).size !== 2) {
-  throw new Error('Expected the approved channel development and reserved-three comparison');
+  throw new Error('Expected the approved development trend and reserved-three violin comparison');
 }
 let channelBytes = 0;
 for (const figure of channel.figures) {

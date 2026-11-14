@@ -55,7 +55,10 @@ are self-contained. Repository source links require access to the repository.
   their own checkpoint, cohort, norm and timing labels.
 
 The channel chapter shares two additional selected PNG/PDF pairs with the case
-README: development convergence and three-geometry final paired distributions.
+README:41record development convergence with solid LOWESS trends and conditional
+pointwise95%bootstrap intervals, plus final log-error violin distributions.
+Captions distinguish trend intervals from test-cohort uncertainty and retain
+the N=3 limit of the final violins.
 The builder validates their [publication manifest](../artifacts/channel_fem_comparison_publication.json)
 and byte budgets before copying them. Image/manifest edits also trigger Pages.
 

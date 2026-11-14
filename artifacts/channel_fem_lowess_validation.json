@@ -1,0 +1,38 @@
+{
+  "status": "passed",
+  "scope": "Local figure revision; no deployment.",
+  "observed_records_per_method": 41,
+  "actual_monitor_values": 328,
+  "distribution_samples": 3,
+  "distribution_bytes_unchanged": true,
+  "smoothing": {
+    "fraction": 0.22,
+    "block_size": 4,
+    "replicates": 2000,
+    "seed": 20261114,
+    "grid_points": 401
+  },
+  "local_fit_maximum_log10_gap": 1.5543122344752192e-15,
+  "bootstrap_refit_maximum_error_gap": 2.7755575615628914e-16,
+  "analytic_loglinear_check": true,
+  "block_order_check": true,
+  "bootstrap_repeatability": true,
+  "raw_traces_and_smooth_all_solid": true,
+  "all_text_dark": true,
+  "all_y_limits_automatic": true,
+  "figure_width_mm": 170,
+  "font_sizes_pt": [
+    6.0,
+    7.0
+  ],
+  "total_asset_bytes": 406845,
+  "source": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-lowess-20261114/provenance.json",
+  "no_new_training_or_inference": true,
+  "git_publication_performed": false,
+  "website_pages": 9,
+  "local_links_checked": 271,
+  "repeated_render_bytes_identical": true,
+  "website_copied_assets_identical": true,
+  "python_syntax_checked": true,
+  "diff_whitespace_checked": true
+}

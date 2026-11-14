@@ -77,12 +77,12 @@ training**, distinct from the independently solved **FEM numerical reference**.
 
 <figure>
   <a href="assets/channel_nsch2d_fem_convergence.png"><img src="assets/channel_nsch2d_fem_convergence.png" width="2007" height="637" alt="Nonlocal and FEM PINO relative-L2 convergence through 20000 updates for phase, velocity, pressure and chemical potential"></a>
-  <figcaption>Actual records every 500 updates, including initialization, on one common development geometry. No smoothing or test-cohort averaging. The target is the independent FEM numerical solution. <a href="assets/channel_nsch2d_fem_convergence.pdf">Editable PDF</a>.</figcaption>
+  <figcaption>All 41 actual records, every 500 updates, on one common development geometry. Thin solid lines: raw errors; thick solid lines: local-linear LOWESS in log10-error (span 0.22). Shading: approximate pointwise 95% fitted-trend confidence intervals from 2,000 circular-block residual bootstrap replicates, block length four. This assumes a smooth trend with short-memory, approximately stationary log residuals; it does not measure cross-seed or test-cohort uncertainty or account for unknown smoothing bias. The reference is the independent FEM numerical solution. <a href="assets/channel_nsch2d_fem_convergence.pdf">Editable PDF</a>.</figcaption>
 </figure>
 
 <figure>
-  <a href="assets/channel_nsch2d_fem_distribution.png"><img src="assets/channel_nsch2d_fem_distribution.png" width="2007" height="637" alt="Paired final relative errors for all three reserved geometries, with method-wise mean bars"></a>
-  <figcaption>Final 20,000-step weights on all three reserved geometries. Gray lines pair the same geometry; colored short bars show arithmetic means. These are observed errors, not an estimated density or confidence interval. Each panel reports a separate field; velocity uses a joint vector norm. Raw error ratios are shown on automatic log axes.</figcaption>
+  <a href="assets/channel_nsch2d_fem_distribution.png"><img src="assets/channel_nsch2d_fem_distribution.png" width="2007" height="637" alt="Final relative error violins on all three reserved geometries for Nonlocal PINO and FEM PINO"></a>
+  <figcaption>Final 20,000-step weights on all three reserved geometries. Violins use log10-error KDE with Scott bandwidth and three-bandwidth tails; dashed lines mark quartiles. N=3 supports only a small-cohort descriptive display; smooth tails are not additional observations. Each panel reports a separate field; velocity uses a joint vector norm. Raw error ratios are shown on automatic log axes.</figcaption>
 </figure>
 
 [Distribution PDF](assets/channel_nsch2d_fem_distribution.pdf) ·

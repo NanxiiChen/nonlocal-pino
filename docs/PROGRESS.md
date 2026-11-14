@@ -2,9 +2,33 @@
 
 ## Active task
 
-None. The requested channel comparison figures, README/site updates, commit,
-main push and Pages verification are complete. No training or preview job remains.
-Optional diagnostics and previously stopped experiments stay deferred.
+[Publish approved statistical figures](tasks/channel-statistics-publication.md).
+User approves the current solid LOWESS/bootstrap convergence and final violins,
+their README/site publication and adoption as future plotting templates.
+Scope, build and asset checks precede dev -> main -> push main, then Pages
+verification. Preserve unrelated numerical work; no training is started.
+
+## Latest local figure revision
+
+[Channel local smoothing](tasks/archive/channel-fem-local-smoothing.md).
+Convergence restores41actual development records, all solid raw/LOWESS lines
+and approximate pointwise95%circular-block residual-bootstrap trend intervals.
+Span0.22,block4,2,000replicates; conditional on smooth trend/short-memory log
+residuals, not cross-seed/test-cohort uncertainty. Accepted final violin bytes
+are unchanged. Independent WLS/bootstrap algebra and analytic checks pass;
+editable6–7ptHelvetica,9page build and local asset checks pass. Four assets
+total406845bytes. [Validation](../artifacts/channel_fem_lowess_validation.json).
+
+## Earlier local cohort-statistics revision
+
+[Channel statistical figures](tasks/archive/channel-fem-statistical-figures.md).
+Both runs' actual0/5k/10k/15k/20k weights were evaluated on the same3reserved
+geometries:30predictions in85.44s, final replay max gap3.94e-6. Its archived curve
+shows mean +/- sample SD(ddof=1); final figures are requested log-error KDE
+violins with quartiles and explicitN=3limit. Four6–7ptHelvetica PDF/PNG assets
+total328990bytes.144field norms, font/edit checks,9page build/271local links
+and diff checks pass. Local README/site/provenance match; prior live publication
+below remains unchanged. [Validation](../artifacts/channel_fem_statistics_validation.json).
 
 ## Latest publication
 

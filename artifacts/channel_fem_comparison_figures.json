@@ -1,7 +1,9 @@
 {
-  "schema": "channel_fem_comparison_figures_v1",
+  "schema": "channel_fem_comparison_figures_v3",
   "comparison": "/root/autodl-tmp/tf-logs/channel-fem-full-20261114-01/comparison.json",
+  "cohort_evaluation": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/evaluation.json",
   "renderer": "/root/nonlocal-pinn/scripts/render_channel_fem_comparison.py",
+  "smoothing_source": "/root/nonlocal-pinn/scripts/local_trend.py",
   "arms": [
     {
       "method": "nonlocal",
@@ -10,7 +12,7 @@
       "linestyle": "-",
       "marker": "o",
       "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04",
-      "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/model_final.eqx",
+      "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/ckpt_020000.eqx",
       "config": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/config.json",
       "monitor": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/metrics.jsonl",
       "evaluation": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/evaluation.json",
@@ -19,84 +21,39 @@
       "samples": [
         {
           "index": 0,
-          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_000/prediction.npz",
-          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
-          "time": [
-            0.0,
-            0.5,
-            1.0,
-            1.5,
-            2.0,
-            2.5,
-            3.0,
-            3.5,
-            4.0,
-            4.5,
-            5.0,
-            5.5,
-            6.0
-          ],
-          "points": 3840,
           "errors": {
-            "phi": 0.01986002053688041,
-            "velocity": 0.014131496096867771,
-            "pressure": 0.04716121768488098,
-            "chemical": 0.12744880031061043
-          }
+            "phi": 0.01986001684695317,
+            "velocity": 0.014131496580455054,
+            "pressure": 0.0471612158975185,
+            "chemical": 0.12744880393457028
+          },
+          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/nonlocal/step_020000/case_000.npz",
+          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+          "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/ckpt_020000.eqx"
         },
         {
           "index": 1,
-          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_001/prediction.npz",
-          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
-          "time": [
-            0.0,
-            0.5,
-            1.0,
-            1.5,
-            2.0,
-            2.5,
-            3.0,
-            3.5,
-            4.0,
-            4.5,
-            5.0,
-            5.5,
-            6.0
-          ],
-          "points": 3840,
           "errors": {
-            "phi": 0.014292626036913721,
-            "velocity": 0.015630597955440625,
-            "pressure": 0.06588466102447928,
-            "chemical": 0.16633987627607502
-          }
+            "phi": 0.014292626594644487,
+            "velocity": 0.015630597855479347,
+            "pressure": 0.06588466109855748,
+            "chemical": 0.1663398729035318
+          },
+          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/nonlocal/step_020000/case_001.npz",
+          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+          "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/ckpt_020000.eqx"
         },
         {
           "index": 2,
-          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_002/prediction.npz",
-          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
-          "time": [
-            0.0,
-            0.5,
-            1.0,
-            1.5,
-            2.0,
-            2.5,
-            3.0,
-            3.5,
-            4.0,
-            4.5,
-            5.0,
-            5.5,
-            6.0
-          ],
-          "points": 3840,
           "errors": {
-            "phi": 0.01515234170982108,
-            "velocity": 0.01575407426666157,
-            "pressure": 0.04547556186509373,
-            "chemical": 0.12483510107112211
-          }
+            "phi": 0.015152342227990943,
+            "velocity": 0.01575407397820704,
+            "pressure": 0.04547556105176098,
+            "chemical": 0.12483510549651175
+          },
+          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/nonlocal/step_020000/case_002.npz",
+          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+          "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/ckpt_020000.eqx"
         }
       ],
       "development_reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
@@ -388,25 +345,11 @@
           "pressure": 0.046702822210027584,
           "chemical": 0.11674443733517723
         }
-      ]
-    },
-    {
-      "method": "fem",
-      "label": "FEM PINO",
-      "color": "#00A087",
-      "linestyle": "--",
-      "marker": "s",
-      "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k",
-      "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/model_final.eqx",
-      "config": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/config.json",
-      "monitor": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/metrics.jsonl",
-      "evaluation": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/unseen3/evaluation.json",
-      "seed": 42,
-      "checkpoint_step": 20000,
-      "samples": [
+      ],
+      "historical_final_samples": [
         {
           "index": 0,
-          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/unseen3/case_000/prediction.npz",
+          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_000/prediction.npz",
           "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
           "time": [
             0.0,
@@ -425,15 +368,15 @@
           ],
           "points": 3840,
           "errors": {
-            "phi": 0.04304554691162575,
-            "velocity": 0.042789333672228196,
-            "pressure": 0.04753344861641024,
-            "chemical": 0.418754754926454
+            "phi": 0.01986002053688041,
+            "velocity": 0.014131496096867771,
+            "pressure": 0.04716121768488098,
+            "chemical": 0.12744880031061043
           }
         },
         {
           "index": 1,
-          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/unseen3/case_001/prediction.npz",
+          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_001/prediction.npz",
           "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
           "time": [
             0.0,
@@ -452,15 +395,15 @@
           ],
           "points": 3840,
           "errors": {
-            "phi": 0.047374661207167136,
-            "velocity": 0.0456533856071876,
-            "pressure": 0.11947775518525204,
-            "chemical": 0.46913456248812535
+            "phi": 0.014292626036913721,
+            "velocity": 0.015630597955440625,
+            "pressure": 0.06588466102447928,
+            "chemical": 0.16633987627607502
           }
         },
         {
           "index": 2,
-          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/unseen3/case_002/prediction.npz",
+          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_002/prediction.npz",
           "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
           "time": [
             0.0,
@@ -479,11 +422,361 @@
           ],
           "points": 3840,
           "errors": {
-            "phi": 0.04897417038609419,
-            "velocity": 0.04323297717860957,
-            "pressure": 0.047455150527015794,
-            "chemical": 0.42583363599527674
+            "phi": 0.01515234170982108,
+            "velocity": 0.01575407426666157,
+            "pressure": 0.04547556186509373,
+            "chemical": 0.12483510107112211
           }
+        }
+      ],
+      "cohort_convergence": [
+        {
+          "step": 0,
+          "samples": [
+            {
+              "index": 0,
+              "errors": {
+                "phi": 0.48087688253253763,
+                "velocity": 0.10787827085637432,
+                "pressure": 0.9964584225369284,
+                "chemical": 1.6590284109558529
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/nonlocal/step_000000/case_000.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/model_initial.eqx"
+            },
+            {
+              "index": 1,
+              "errors": {
+                "phi": 0.47823565583388933,
+                "velocity": 0.13900648341074173,
+                "pressure": 0.9958310198921086,
+                "chemical": 1.7514461014287785
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/nonlocal/step_000000/case_001.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/model_initial.eqx"
+            },
+            {
+              "index": 2,
+              "errors": {
+                "phi": 0.4816436597975948,
+                "velocity": 0.12424430807481988,
+                "pressure": 0.9964061475300732,
+                "chemical": 1.624307406447651
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/nonlocal/step_000000/case_002.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/model_initial.eqx"
+            }
+          ],
+          "aggregate": {
+            "phi": {
+              "mean": 0.4802520660546739,
+              "std": 0.0017878533154080613
+            },
+            "velocity": {
+              "mean": 0.12370968744731198,
+              "std": 0.0155709912535775
+            },
+            "pressure": {
+              "mean": 0.9962318633197033,
+              "std": 0.0003481231953918962
+            },
+            "chemical": {
+              "mean": 1.6782606396107607,
+              "std": 0.0657150736486846
+            }
+          }
+        },
+        {
+          "step": 5000,
+          "samples": [
+            {
+              "index": 0,
+              "errors": {
+                "phi": 0.02393895803413082,
+                "velocity": 0.03008743968648147,
+                "pressure": 0.04702346865862583,
+                "chemical": 0.22121649658791434
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/nonlocal/step_005000/case_000.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/ckpt_005000.eqx"
+            },
+            {
+              "index": 1,
+              "errors": {
+                "phi": 0.026620956559293908,
+                "velocity": 0.03328887669836342,
+                "pressure": 0.10991079939129993,
+                "chemical": 0.30873368661971257
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/nonlocal/step_005000/case_001.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/ckpt_005000.eqx"
+            },
+            {
+              "index": 2,
+              "errors": {
+                "phi": 0.0330659235048394,
+                "velocity": 0.031704288920107716,
+                "pressure": 0.059154071462347406,
+                "chemical": 0.23768636031079052
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/nonlocal/step_005000/case_002.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/ckpt_005000.eqx"
+            }
+          ],
+          "aggregate": {
+            "phi": {
+              "mean": 0.02787527936608804,
+              "std": 0.004690988057287039
+            },
+            "velocity": {
+              "mean": 0.03169353510165087,
+              "std": 0.0016007455977513905
+            },
+            "pressure": {
+              "mean": 0.07202944650409106,
+              "std": 0.03336218748102933
+            },
+            "chemical": {
+              "mean": 0.25587884783947246,
+              "std": 0.04650848943608475
+            }
+          }
+        },
+        {
+          "step": 10000,
+          "samples": [
+            {
+              "index": 0,
+              "errors": {
+                "phi": 0.01595602052245928,
+                "velocity": 0.019058208623396095,
+                "pressure": 0.03730651379471846,
+                "chemical": 0.1390649774340759
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/nonlocal/step_010000/case_000.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/ckpt_010000.eqx"
+            },
+            {
+              "index": 1,
+              "errors": {
+                "phi": 0.016154080665849613,
+                "velocity": 0.02171676494253138,
+                "pressure": 0.09680121492569743,
+                "chemical": 0.192249870687252
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/nonlocal/step_010000/case_001.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/ckpt_010000.eqx"
+            },
+            {
+              "index": 2,
+              "errors": {
+                "phi": 0.01972140442889113,
+                "velocity": 0.020643971474203052,
+                "pressure": 0.03529445490975415,
+                "chemical": 0.1480263915031273
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/nonlocal/step_010000/case_002.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/ckpt_010000.eqx"
+            }
+          ],
+          "aggregate": {
+            "phi": {
+              "mean": 0.017277168539066672,
+              "std": 0.0021190855973578344
+            },
+            "velocity": {
+              "mean": 0.02047298168004351,
+              "std": 0.001337500862722555
+            },
+            "pressure": {
+              "mean": 0.056467394543390004,
+              "std": 0.03494459751110776
+            },
+            "chemical": {
+              "mean": 0.15978041320815173,
+              "std": 0.028474128384720986
+            }
+          }
+        },
+        {
+          "step": 15000,
+          "samples": [
+            {
+              "index": 0,
+              "errors": {
+                "phi": 0.02305781647015691,
+                "velocity": 0.015578544544959175,
+                "pressure": 0.05733839955143835,
+                "chemical": 0.13890014685777874
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/nonlocal/step_015000/case_000.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/ckpt_015000.eqx"
+            },
+            {
+              "index": 1,
+              "errors": {
+                "phi": 0.013770641730369834,
+                "velocity": 0.01651740710530054,
+                "pressure": 0.057134832241287375,
+                "chemical": 0.163694086832799
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/nonlocal/step_015000/case_001.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/ckpt_015000.eqx"
+            },
+            {
+              "index": 2,
+              "errors": {
+                "phi": 0.01930970078472095,
+                "velocity": 0.0170122109435453,
+                "pressure": 0.05513487579127339,
+                "chemical": 0.13750149348855362
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/nonlocal/step_015000/case_002.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/ckpt_015000.eqx"
+            }
+          ],
+          "aggregate": {
+            "phi": {
+              "mean": 0.01871271966174923,
+              "std": 0.00467227926260013
+            },
+            "velocity": {
+              "mean": 0.016369387531268337,
+              "std": 0.0007282047660728637
+            },
+            "pressure": {
+              "mean": 0.05653603586133304,
+              "std": 0.00121770155164872
+            },
+            "chemical": {
+              "mean": 0.14669857572637712,
+              "std": 0.014735148663593238
+            }
+          }
+        },
+        {
+          "step": 20000,
+          "samples": [
+            {
+              "index": 0,
+              "errors": {
+                "phi": 0.01986001684695317,
+                "velocity": 0.014131496580455054,
+                "pressure": 0.0471612158975185,
+                "chemical": 0.12744880393457028
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/nonlocal/step_020000/case_000.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/ckpt_020000.eqx"
+            },
+            {
+              "index": 1,
+              "errors": {
+                "phi": 0.014292626594644487,
+                "velocity": 0.015630597855479347,
+                "pressure": 0.06588466109855748,
+                "chemical": 0.1663398729035318
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/nonlocal/step_020000/case_001.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/ckpt_020000.eqx"
+            },
+            {
+              "index": 2,
+              "errors": {
+                "phi": 0.015152342227990943,
+                "velocity": 0.01575407397820704,
+                "pressure": 0.04547556105176098,
+                "chemical": 0.12483510549651175
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/nonlocal/step_020000/case_002.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/ckpt_020000.eqx"
+            }
+          ],
+          "aggregate": {
+            "phi": {
+              "mean": 0.016434995223196202,
+              "std": 0.0029971415690549542
+            },
+            "velocity": {
+              "mean": 0.015172056138047146,
+              "std": 0.0009032633795815896
+            },
+            "pressure": {
+              "mean": 0.05284047934927899,
+              "std": 0.011327990386468112
+            },
+            "chemical": {
+              "mean": 0.1395412607782046,
+              "std": 0.023245043853778326
+            }
+          }
+        }
+      ],
+      "cohort_evaluation": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/evaluation.json"
+    },
+    {
+      "method": "fem",
+      "label": "FEM PINO",
+      "color": "#00A087",
+      "linestyle": "-",
+      "marker": "s",
+      "run": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k",
+      "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/ckpt_020000.eqx",
+      "config": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/config.json",
+      "monitor": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/metrics.jsonl",
+      "evaluation": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/unseen3/evaluation.json",
+      "seed": 42,
+      "checkpoint_step": 20000,
+      "samples": [
+        {
+          "index": 0,
+          "errors": {
+            "phi": 0.04304554549176432,
+            "velocity": 0.042789333382047434,
+            "pressure": 0.047533449203377515,
+            "chemical": 0.4187547585429232
+          },
+          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/fem/step_020000/case_000.npz",
+          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+          "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/ckpt_020000.eqx"
+        },
+        {
+          "index": 1,
+          "errors": {
+            "phi": 0.04737465930240614,
+            "velocity": 0.045653385234855764,
+            "pressure": 0.119477754698547,
+            "chemical": 0.4691345594558104
+          },
+          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/fem/step_020000/case_001.npz",
+          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+          "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/ckpt_020000.eqx"
+        },
+        {
+          "index": 2,
+          "errors": {
+            "phi": 0.048974170894659046,
+            "velocity": 0.043232977489087956,
+            "pressure": 0.04745514961299063,
+            "chemical": 0.42583363072405955
+          },
+          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/fem/step_020000/case_002.npz",
+          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+          "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/ckpt_020000.eqx"
         }
       ],
       "development_reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
@@ -775,13 +1068,394 @@
           "pressure": 0.09845858146876627,
           "chemical": 0.4235694965052531
         }
-      ]
+      ],
+      "historical_final_samples": [
+        {
+          "index": 0,
+          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/unseen3/case_000/prediction.npz",
+          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+          "time": [
+            0.0,
+            0.5,
+            1.0,
+            1.5,
+            2.0,
+            2.5,
+            3.0,
+            3.5,
+            4.0,
+            4.5,
+            5.0,
+            5.5,
+            6.0
+          ],
+          "points": 3840,
+          "errors": {
+            "phi": 0.04304554691162575,
+            "velocity": 0.042789333672228196,
+            "pressure": 0.04753344861641024,
+            "chemical": 0.418754754926454
+          }
+        },
+        {
+          "index": 1,
+          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/unseen3/case_001/prediction.npz",
+          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+          "time": [
+            0.0,
+            0.5,
+            1.0,
+            1.5,
+            2.0,
+            2.5,
+            3.0,
+            3.5,
+            4.0,
+            4.5,
+            5.0,
+            5.5,
+            6.0
+          ],
+          "points": 3840,
+          "errors": {
+            "phi": 0.047374661207167136,
+            "velocity": 0.0456533856071876,
+            "pressure": 0.11947775518525204,
+            "chemical": 0.46913456248812535
+          }
+        },
+        {
+          "index": 2,
+          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/unseen3/case_002/prediction.npz",
+          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+          "time": [
+            0.0,
+            0.5,
+            1.0,
+            1.5,
+            2.0,
+            2.5,
+            3.0,
+            3.5,
+            4.0,
+            4.5,
+            5.0,
+            5.5,
+            6.0
+          ],
+          "points": 3840,
+          "errors": {
+            "phi": 0.04897417038609419,
+            "velocity": 0.04323297717860957,
+            "pressure": 0.047455150527015794,
+            "chemical": 0.42583363599527674
+          }
+        }
+      ],
+      "cohort_convergence": [
+        {
+          "step": 0,
+          "samples": [
+            {
+              "index": 0,
+              "errors": {
+                "phi": 0.48087688253253763,
+                "velocity": 0.10787827085637432,
+                "pressure": 0.9964584225369284,
+                "chemical": 1.6590284109558529
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/fem/step_000000/case_000.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/model_initial.eqx"
+            },
+            {
+              "index": 1,
+              "errors": {
+                "phi": 0.47823565583388933,
+                "velocity": 0.13900648341074173,
+                "pressure": 0.9958310198921086,
+                "chemical": 1.7514461014287785
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/fem/step_000000/case_001.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/model_initial.eqx"
+            },
+            {
+              "index": 2,
+              "errors": {
+                "phi": 0.4816436597975948,
+                "velocity": 0.12424430807481988,
+                "pressure": 0.9964061475300732,
+                "chemical": 1.624307406447651
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/fem/step_000000/case_002.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/model_initial.eqx"
+            }
+          ],
+          "aggregate": {
+            "phi": {
+              "mean": 0.4802520660546739,
+              "std": 0.0017878533154080613
+            },
+            "velocity": {
+              "mean": 0.12370968744731198,
+              "std": 0.0155709912535775
+            },
+            "pressure": {
+              "mean": 0.9962318633197033,
+              "std": 0.0003481231953918962
+            },
+            "chemical": {
+              "mean": 1.6782606396107607,
+              "std": 0.0657150736486846
+            }
+          }
+        },
+        {
+          "step": 5000,
+          "samples": [
+            {
+              "index": 0,
+              "errors": {
+                "phi": 0.04495222539823305,
+                "velocity": 0.04783313982530412,
+                "pressure": 0.05591323240206888,
+                "chemical": 0.36245395893286814
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/fem/step_005000/case_000.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/ckpt_005000.eqx"
+            },
+            {
+              "index": 1,
+              "errors": {
+                "phi": 0.04147862560546915,
+                "velocity": 0.051574140678256906,
+                "pressure": 0.09660360140769568,
+                "chemical": 0.41818052146723084
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/fem/step_005000/case_001.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/ckpt_005000.eqx"
+            },
+            {
+              "index": 2,
+              "errors": {
+                "phi": 0.04935650483381603,
+                "velocity": 0.048621029749826676,
+                "pressure": 0.05955739734616863,
+                "chemical": 0.36805097038401924
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/fem/step_005000/case_002.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/ckpt_005000.eqx"
+            }
+          ],
+          "aggregate": {
+            "phi": {
+              "mean": 0.045262451945839416,
+              "std": 0.0039480913955017094
+            },
+            "velocity": {
+              "mean": 0.04934277008446256,
+              "std": 0.0019721697894523726
+            },
+            "pressure": {
+              "mean": 0.07069141038531106,
+              "std": 0.022514466842907113
+            },
+            "chemical": {
+              "mean": 0.3828951502613727,
+              "std": 0.03068590393238366
+            }
+          }
+        },
+        {
+          "step": 10000,
+          "samples": [
+            {
+              "index": 0,
+              "errors": {
+                "phi": 0.039397982761269705,
+                "velocity": 0.05235615469492199,
+                "pressure": 0.04139110785644528,
+                "chemical": 0.33021958605730517
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/fem/step_010000/case_000.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/ckpt_010000.eqx"
+            },
+            {
+              "index": 1,
+              "errors": {
+                "phi": 0.04299659875117269,
+                "velocity": 0.05580597970425319,
+                "pressure": 0.12393608993827426,
+                "chemical": 0.38339748052919786
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/fem/step_010000/case_001.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/ckpt_010000.eqx"
+            },
+            {
+              "index": 2,
+              "errors": {
+                "phi": 0.04667917331140268,
+                "velocity": 0.05226514035824943,
+                "pressure": 0.041671911359618403,
+                "chemical": 0.34140425518328393
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/fem/step_010000/case_002.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/ckpt_010000.eqx"
+            }
+          ],
+          "aggregate": {
+            "phi": {
+              "mean": 0.04302458494128169,
+              "std": 0.00364067595055699
+            },
+            "velocity": {
+              "mean": 0.05347575825247488,
+              "std": 0.0020185440082187652
+            },
+            "pressure": {
+              "mean": 0.06899970305144598,
+              "std": 0.04757651380446352
+            },
+            "chemical": {
+              "mean": 0.3516737739232623,
+              "std": 0.028036928798978934
+            }
+          }
+        },
+        {
+          "step": 15000,
+          "samples": [
+            {
+              "index": 0,
+              "errors": {
+                "phi": 0.042427423685791235,
+                "velocity": 0.04847189295456108,
+                "pressure": 0.047857040243451276,
+                "chemical": 0.3808182082117373
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/fem/step_015000/case_000.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/ckpt_015000.eqx"
+            },
+            {
+              "index": 1,
+              "errors": {
+                "phi": 0.04623945521003207,
+                "velocity": 0.05139418587371796,
+                "pressure": 0.10578948926222999,
+                "chemical": 0.4247905055982716
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/fem/step_015000/case_001.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/ckpt_015000.eqx"
+            },
+            {
+              "index": 2,
+              "errors": {
+                "phi": 0.04764822747596167,
+                "velocity": 0.04879624749945495,
+                "pressure": 0.049555174661072364,
+                "chemical": 0.3876431711114694
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/fem/step_015000/case_002.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/ckpt_015000.eqx"
+            }
+          ],
+          "aggregate": {
+            "phi": {
+              "mean": 0.04543836879059499,
+              "std": 0.0027010188156359398
+            },
+            "velocity": {
+              "mean": 0.04955410877591133,
+              "std": 0.0016017847115335703
+            },
+            "pressure": {
+              "mean": 0.06773390138891787,
+              "std": 0.03296804121285662
+            },
+            "chemical": {
+              "mean": 0.39775062830715946,
+              "std": 0.02366455688544542
+            }
+          }
+        },
+        {
+          "step": 20000,
+          "samples": [
+            {
+              "index": 0,
+              "errors": {
+                "phi": 0.04304554549176432,
+                "velocity": 0.042789333382047434,
+                "pressure": 0.047533449203377515,
+                "chemical": 0.4187547585429232
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/fem/step_020000/case_000.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/ckpt_020000.eqx"
+            },
+            {
+              "index": 1,
+              "errors": {
+                "phi": 0.04737465930240614,
+                "velocity": 0.045653385234855764,
+                "pressure": 0.119477754698547,
+                "chemical": 0.4691345594558104
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/fem/step_020000/case_001.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/ckpt_020000.eqx"
+            },
+            {
+              "index": 2,
+              "errors": {
+                "phi": 0.048974170894659046,
+                "velocity": 0.043232977489087956,
+                "pressure": 0.04745514961299063,
+                "chemical": 0.42583363072405955
+              },
+              "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/fem/step_020000/case_002.npz",
+              "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+              "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/ckpt_020000.eqx"
+            }
+          ],
+          "aggregate": {
+            "phi": {
+              "mean": 0.0464647918962765,
+              "std": 0.003067253464341505
+            },
+            "velocity": {
+              "mean": 0.043891898701997056,
+              "std": 0.0015415353150381934
+            },
+            "pressure": {
+              "mean": 0.07148878450497172,
+              "std": 0.04155968572891711
+            },
+            "chemical": {
+              "mean": 0.43790764957426437,
+              "std": 0.02727393505532092
+            }
+          }
+        }
+      ],
+      "cohort_evaluation": "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/evaluation.json"
     }
   ],
   "figures": {
     "convergence": {
-      "pdf": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-comparison-20261114/channel_nsch2d_fem_convergence.pdf",
-      "png": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-comparison-20261114/channel_nsch2d_fem_convergence.png",
+      "pdf": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-lowess-20261114/channel_nsch2d_fem_convergence.pdf",
+      "png": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-lowess-20261114/channel_nsch2d_fem_convergence.png",
       "size_mm": [
         170,
         54
@@ -791,8 +1465,8 @@
         637
       ],
       "bytes": {
-        "png": 142577,
-        "pdf": 15565
+        "png": 168137,
+        "pdf": 72778
       },
       "axes": [
         {
@@ -805,8 +1479,8 @@
         {
           "autoscale_y": true,
           "y_limits": [
-            0.012215354267281878,
-            0.0776326545204066
+            0.01196132141727797,
+            0.08091450984533785
           ]
         },
         {
@@ -819,8 +1493,8 @@
         {
           "autoscale_y": true,
           "y_limits": [
-            0.0915834750661719,
-            1.9233677650031002
+            0.09016130438542312,
+            1.924801713379671
           ]
         }
       ],
@@ -829,12 +1503,749 @@
         7.0
       ],
       "all_text_dark": true,
-      "editable_label_probe": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-comparison-20261114/channel_nsch2d_fem_convergence_edit_probe.pdf",
-      "pdffonts": "name                                 type              encoding         emb sub uni object ID\n------------------------------------ ----------------- ---------------- --- --- --- ---------\nCDEICC+Helvetica                     CID TrueType      Identity-H       yes yes yes     15  0\n"
+      "editable_label_probe": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-lowess-20261114/channel_nsch2d_fem_convergence_edit_probe.pdf",
+      "pdffonts": "name                                 type              encoding         emb sub uni object ID\n------------------------------------ ----------------- ---------------- --- --- --- ---------\nCDEICC+Helvetica                     CID TrueType      Identity-H       yes yes yes     15  0\n",
+      "trend_data": [
+        {
+          "method": "nonlocal",
+          "field": "phi",
+          "data": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-lowess-20261114/nonlocal_phi_local_trend.npz",
+          "step_values": [
+            0,
+            500,
+            1000,
+            1500,
+            2000,
+            2500,
+            3000,
+            3500,
+            4000,
+            4500,
+            5000,
+            5500,
+            6000,
+            6500,
+            7000,
+            7500,
+            8000,
+            8500,
+            9000,
+            9500,
+            10000,
+            10500,
+            11000,
+            11500,
+            12000,
+            12500,
+            13000,
+            13500,
+            14000,
+            14500,
+            15000,
+            15500,
+            16000,
+            16500,
+            17000,
+            17500,
+            18000,
+            18500,
+            19000,
+            19500,
+            20000
+          ],
+          "raw_values": [
+            0.47940953591354474,
+            0.1558237107773592,
+            0.10215623038998609,
+            0.08481446969897442,
+            0.07552679363455339,
+            0.056275247290188964,
+            0.047476122251118774,
+            0.0391719408290344,
+            0.03839959341113004,
+            0.04606792283421863,
+            0.03376690167633342,
+            0.028194673111910304,
+            0.033194988203210436,
+            0.027428497093145692,
+            0.026882258463945576,
+            0.029621677579859867,
+            0.02799858965896067,
+            0.026871212612918915,
+            0.020041068904275938,
+            0.026268096712719916,
+            0.02610156859344493,
+            0.026938862057800054,
+            0.020814387217162233,
+            0.02244823222142457,
+            0.015846443443431092,
+            0.017033237122152958,
+            0.016840373909273745,
+            0.018865211189343038,
+            0.016989522730590303,
+            0.02160445822078701,
+            0.020371156126838437,
+            0.014116440854392842,
+            0.019820390894789715,
+            0.01808288679847634,
+            0.01797660508137569,
+            0.015366309513529323,
+            0.01144663354153173,
+            0.016531138824348417,
+            0.014953130320060539,
+            0.015561702570439762,
+            0.01449620420593507
+          ]
+        },
+        {
+          "method": "fem",
+          "field": "phi",
+          "data": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-lowess-20261114/fem_phi_local_trend.npz",
+          "step_values": [
+            0,
+            500,
+            1000,
+            1500,
+            2000,
+            2500,
+            3000,
+            3500,
+            4000,
+            4500,
+            5000,
+            5500,
+            6000,
+            6500,
+            7000,
+            7500,
+            8000,
+            8500,
+            9000,
+            9500,
+            10000,
+            10500,
+            11000,
+            11500,
+            12000,
+            12500,
+            13000,
+            13500,
+            14000,
+            14500,
+            15000,
+            15500,
+            16000,
+            16500,
+            17000,
+            17500,
+            18000,
+            18500,
+            19000,
+            19500,
+            20000
+          ],
+          "raw_values": [
+            0.479409535806007,
+            0.15875937539900342,
+            0.10193972639286239,
+            0.09470413560752232,
+            0.08683970794109563,
+            0.06427543083349155,
+            0.06567406179706234,
+            0.06283744643365835,
+            0.05973406532499098,
+            0.057179826736012566,
+            0.04696073612780202,
+            0.044152509375594666,
+            0.04883840750946785,
+            0.044310048449509656,
+            0.044970367232971584,
+            0.045841062033076245,
+            0.048788014576120343,
+            0.042756745016285964,
+            0.042828448390766403,
+            0.04244880358947578,
+            0.04470936245235136,
+            0.0455175894395004,
+            0.04406290299330107,
+            0.04345846052086542,
+            0.04402790193675636,
+            0.04381058812845315,
+            0.04345407929632797,
+            0.04303268155393928,
+            0.04374485580025033,
+            0.04350951832316581,
+            0.04349641464062126,
+            0.04286442579435423,
+            0.04455971188728549,
+            0.044228795188094396,
+            0.04514152132364619,
+            0.043699850500796354,
+            0.04416788136684201,
+            0.04417101076449224,
+            0.04355913082865872,
+            0.043415955713688906,
+            0.04372157671562594
+          ]
+        },
+        {
+          "method": "nonlocal",
+          "field": "velocity",
+          "data": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-lowess-20261114/nonlocal_velocity_local_trend.npz",
+          "step_values": [
+            0,
+            500,
+            1000,
+            1500,
+            2000,
+            2500,
+            3000,
+            3500,
+            4000,
+            4500,
+            5000,
+            5500,
+            6000,
+            6500,
+            7000,
+            7500,
+            8000,
+            8500,
+            9000,
+            9500,
+            10000,
+            10500,
+            11000,
+            11500,
+            12000,
+            12500,
+            13000,
+            13500,
+            14000,
+            14500,
+            15000,
+            15500,
+            16000,
+            16500,
+            17000,
+            17500,
+            18000,
+            18500,
+            19000,
+            19500,
+            20000
+          ],
+          "raw_values": [
+            0.07137368944640674,
+            0.06656923149717432,
+            0.06317289603019044,
+            0.051877022510868245,
+            0.04999293228991531,
+            0.0452177662036227,
+            0.04258213936010553,
+            0.03809708801403057,
+            0.03334907169570709,
+            0.032562229703788644,
+            0.029321452308148106,
+            0.02796235056099174,
+            0.026953714485328444,
+            0.02630206978949581,
+            0.024210046560364584,
+            0.023042969101325365,
+            0.02210466496403618,
+            0.020858393424142578,
+            0.01982271162775856,
+            0.019208108334018363,
+            0.018230084813227614,
+            0.01851664220302421,
+            0.01667165391517788,
+            0.016137963167281402,
+            0.01531115789774921,
+            0.015081066138429529,
+            0.015146246156552984,
+            0.014737580899455455,
+            0.014875581566270477,
+            0.014567851041216351,
+            0.014457694604013022,
+            0.014230463332879636,
+            0.014220787583486758,
+            0.01366226268778563,
+            0.013867352345117538,
+            0.013748769838278016,
+            0.013286553981328643,
+            0.013665497031590415,
+            0.01350037959084366,
+            0.013588247314185856,
+            0.013312134683055553
+          ]
+        },
+        {
+          "method": "fem",
+          "field": "velocity",
+          "data": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-lowess-20261114/fem_velocity_local_trend.npz",
+          "step_values": [
+            0,
+            500,
+            1000,
+            1500,
+            2000,
+            2500,
+            3000,
+            3500,
+            4000,
+            4500,
+            5000,
+            5500,
+            6000,
+            6500,
+            7000,
+            7500,
+            8000,
+            8500,
+            9000,
+            9500,
+            10000,
+            10500,
+            11000,
+            11500,
+            12000,
+            12500,
+            13000,
+            13500,
+            14000,
+            14500,
+            15000,
+            15500,
+            16000,
+            16500,
+            17000,
+            17500,
+            18000,
+            18500,
+            19000,
+            19500,
+            20000
+          ],
+          "raw_values": [
+            0.07137368942085821,
+            0.07050225533595054,
+            0.06144789288359802,
+            0.057192145949583245,
+            0.05601491003688226,
+            0.05624509360447481,
+            0.05197375536414435,
+            0.05023639279015927,
+            0.04804138808684029,
+            0.04902381043195963,
+            0.0467460687489223,
+            0.04708778909488214,
+            0.04792910986905234,
+            0.04836082819626693,
+            0.04922327766777054,
+            0.04992536681654399,
+            0.050713282358544304,
+            0.05131765792813963,
+            0.05209569592385583,
+            0.05264618574859461,
+            0.05283193785445508,
+            0.053710790525633795,
+            0.05376452174190492,
+            0.053387966403527644,
+            0.05359064880510658,
+            0.053232334527442964,
+            0.05229823051850192,
+            0.05189716340903966,
+            0.05082652151058013,
+            0.05008709142061359,
+            0.04937558754484286,
+            0.04939030937290065,
+            0.048731869935900604,
+            0.0480144316316933,
+            0.046700310786927504,
+            0.04638602845477397,
+            0.04561122675948327,
+            0.045090926582574443,
+            0.04447537716535495,
+            0.04418290631958805,
+            0.04353228396682669
+          ]
+        },
+        {
+          "method": "nonlocal",
+          "field": "pressure",
+          "data": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-lowess-20261114/nonlocal_pressure_local_trend.npz",
+          "step_values": [
+            0,
+            500,
+            1000,
+            1500,
+            2000,
+            2500,
+            3000,
+            3500,
+            4000,
+            4500,
+            5000,
+            5500,
+            6000,
+            6500,
+            7000,
+            7500,
+            8000,
+            8500,
+            9000,
+            9500,
+            10000,
+            10500,
+            11000,
+            11500,
+            12000,
+            12500,
+            13000,
+            13500,
+            14000,
+            14500,
+            15000,
+            15500,
+            16000,
+            16500,
+            17000,
+            17500,
+            18000,
+            18500,
+            19000,
+            19500,
+            20000
+          ],
+          "raw_values": [
+            0.9960328478306575,
+            0.13246830563281656,
+            0.10026476996952118,
+            0.08131648938253894,
+            0.05712607343944331,
+            0.05415074761090416,
+            0.0689341774269327,
+            0.07291890264936257,
+            0.05049926405734652,
+            0.04828512607853448,
+            0.050742027274477394,
+            0.0603764522928033,
+            0.0295492926871035,
+            0.08662273113174176,
+            0.045632079120724096,
+            0.044405574436852016,
+            0.030385932785193213,
+            0.03230973031009403,
+            0.04857283965530972,
+            0.03379843922335652,
+            0.062404035391785066,
+            0.03097681709135432,
+            0.0412835593664214,
+            0.03584068479079245,
+            0.01942321103676754,
+            0.026058384314804273,
+            0.04266371757429333,
+            0.045344806366731265,
+            0.04429503219594995,
+            0.054453146549468034,
+            0.03639534240775599,
+            0.06581763527129487,
+            0.03886137167369235,
+            0.021511606617845826,
+            0.023329961198942678,
+            0.025705817506644215,
+            0.020387753583552645,
+            0.03278050098177111,
+            0.04344636535670252,
+            0.04150904214471849,
+            0.046702822210027584
+          ]
+        },
+        {
+          "method": "fem",
+          "field": "pressure",
+          "data": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-lowess-20261114/fem_pressure_local_trend.npz",
+          "step_values": [
+            0,
+            500,
+            1000,
+            1500,
+            2000,
+            2500,
+            3000,
+            3500,
+            4000,
+            4500,
+            5000,
+            5500,
+            6000,
+            6500,
+            7000,
+            7500,
+            8000,
+            8500,
+            9000,
+            9500,
+            10000,
+            10500,
+            11000,
+            11500,
+            12000,
+            12500,
+            13000,
+            13500,
+            14000,
+            14500,
+            15000,
+            15500,
+            16000,
+            16500,
+            17000,
+            17500,
+            18000,
+            18500,
+            19000,
+            19500,
+            20000
+          ],
+          "raw_values": [
+            0.9960328478265973,
+            0.15570363638992024,
+            0.0890042026622139,
+            0.07046687797010122,
+            0.06861784272337428,
+            0.05902609375456495,
+            0.07196883640661715,
+            0.06877191066878796,
+            0.05614486181330176,
+            0.0628643084111418,
+            0.06667645711977774,
+            0.07793170216141586,
+            0.044945473914255143,
+            0.10019472085808497,
+            0.06741686681980572,
+            0.07050664705857886,
+            0.04329124653085447,
+            0.06088880636554968,
+            0.0740149384948088,
+            0.04228874333764637,
+            0.09092196988563057,
+            0.06473258317497063,
+            0.07198457025198272,
+            0.06952403872714497,
+            0.052549213036616374,
+            0.06788488530180832,
+            0.08001496928072385,
+            0.08590380141102176,
+            0.08553570803970514,
+            0.09839592964580972,
+            0.08037175859613456,
+            0.10422158899247581,
+            0.08496950349902996,
+            0.06983628326617812,
+            0.06975805518682966,
+            0.07576995920648057,
+            0.0701905888548472,
+            0.08321933346340077,
+            0.0947049626423288,
+            0.09427642255583059,
+            0.09845858146876627
+          ]
+        },
+        {
+          "method": "nonlocal",
+          "field": "chemical",
+          "data": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-lowess-20261114/nonlocal_chemical_local_trend.npz",
+          "step_values": [
+            0,
+            500,
+            1000,
+            1500,
+            2000,
+            2500,
+            3000,
+            3500,
+            4000,
+            4500,
+            5000,
+            5500,
+            6000,
+            6500,
+            7000,
+            7500,
+            8000,
+            8500,
+            9000,
+            9500,
+            10000,
+            10500,
+            11000,
+            11500,
+            12000,
+            12500,
+            13000,
+            13500,
+            14000,
+            14500,
+            15000,
+            15500,
+            16000,
+            16500,
+            17000,
+            17500,
+            18000,
+            18500,
+            19000,
+            19500,
+            20000
+          ],
+          "raw_values": [
+            1.6747896857065543,
+            1.1223248179898433,
+            0.6941484993023791,
+            0.5869095806446066,
+            0.463042696887221,
+            0.38414129861522794,
+            0.3595170318416268,
+            0.32402168589735664,
+            0.2703111104431391,
+            0.25737964695581955,
+            0.2166136699253914,
+            0.21732982510067117,
+            0.19252609000065574,
+            0.20497748210300312,
+            0.17377895670866703,
+            0.16677354525209515,
+            0.15510754259689916,
+            0.14656084073531012,
+            0.1579478533380226,
+            0.14708356680918674,
+            0.14977475912871296,
+            0.1340368449656768,
+            0.12524792841722027,
+            0.11875548484806674,
+            0.11481861300065777,
+            0.11277725496050083,
+            0.12315179771932046,
+            0.12113125517017065,
+            0.11588221651969303,
+            0.129134742777454,
+            0.11710663340394077,
+            0.13296012302182939,
+            0.11633613080568087,
+            0.1076849512830235,
+            0.10793507436355415,
+            0.10517661119974857,
+            0.1056443642871188,
+            0.11044346818791165,
+            0.11668701681642721,
+            0.11450262963828314,
+            0.11674443733517723
+          ]
+        },
+        {
+          "method": "fem",
+          "field": "chemical",
+          "data": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-lowess-20261114/fem_chemical_local_trend.npz",
+          "step_values": [
+            0,
+            500,
+            1000,
+            1500,
+            2000,
+            2500,
+            3000,
+            3500,
+            4000,
+            4500,
+            5000,
+            5500,
+            6000,
+            6500,
+            7000,
+            7500,
+            8000,
+            8500,
+            9000,
+            9500,
+            10000,
+            10500,
+            11000,
+            11500,
+            12000,
+            12500,
+            13000,
+            13500,
+            14000,
+            14500,
+            15000,
+            15500,
+            16000,
+            16500,
+            17000,
+            17500,
+            18000,
+            18500,
+            19000,
+            19500,
+            20000
+          ],
+          "raw_values": [
+            1.6747896869837668,
+            1.1475548903575117,
+            0.7255894493014876,
+            0.5900492565175436,
+            0.5267168530156264,
+            0.4416551008397677,
+            0.4391909254681449,
+            0.4082643530207469,
+            0.3829842011123923,
+            0.3725707756567211,
+            0.35852281505483996,
+            0.36269793876927814,
+            0.34107054790414226,
+            0.35695738544159095,
+            0.3492939754082683,
+            0.33627208336928266,
+            0.33196445403845565,
+            0.33307534883776974,
+            0.3391541026304394,
+            0.3324014367756705,
+            0.34326569463497064,
+            0.3374353961992808,
+            0.3345226565549917,
+            0.3343813919998058,
+            0.34310277889576135,
+            0.3521535517791905,
+            0.36111862011685825,
+            0.3645355592592848,
+            0.37666277715408697,
+            0.37710422913025665,
+            0.37787910875776376,
+            0.3905671653390104,
+            0.38765765377058603,
+            0.39203463429605495,
+            0.3939828435298596,
+            0.4061698430666466,
+            0.4190401373808979,
+            0.4128351451573285,
+            0.4170676573592272,
+            0.4189321365887574,
+            0.4235694965052531
+          ]
+        }
+      ],
+      "smoothing": {
+        "fraction": 0.22,
+        "block_size": 4,
+        "replicates": 2000,
+        "seed": 20261114,
+        "grid_points": 401
+      }
     },
     "distribution": {
-      "pdf": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-comparison-20261114/channel_nsch2d_fem_distribution.pdf",
-      "png": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-comparison-20261114/channel_nsch2d_fem_distribution.png",
+      "pdf": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-lowess-20261114/channel_nsch2d_fem_distribution.pdf",
+      "png": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-lowess-20261114/channel_nsch2d_fem_distribution.png",
       "size_mm": [
         170,
         54
@@ -844,36 +2255,36 @@
         637
       ],
       "bytes": {
-        "png": 92173,
-        "pdf": 15069
+        "png": 117510,
+        "pdf": 48420
       },
       "axes": [
         {
           "autoscale_y": true,
           "y_limits": [
-            0.013439071910475126,
-            0.05208466086493253
+            0.008553068731807284,
+            0.06301847042709433
           ]
         },
         {
           "autoscale_y": true,
           "y_limits": [
-            0.013326739253636317,
-            0.04841023961211935
+            0.011385259841507454,
+            0.053252112057240904
           ]
         },
         {
           "autoscale_y": true,
           "y_limits": [
-            0.04333139038624011,
-            0.12538988476942114
+            0.011052833283348766,
+            0.5129756849934048
           ]
         },
         {
           "autoscale_y": true,
           "y_limits": [
-            0.11683922875988224,
-            0.5012397047272397
+            0.07737316488573331,
+            0.5967091952929626
           ]
         }
       ],
@@ -882,13 +2293,173 @@
         7.0
       ],
       "all_text_dark": true,
-      "editable_label_probe": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-comparison-20261114/channel_nsch2d_fem_distribution_edit_probe.pdf",
-      "pdffonts": "name                                 type              encoding         emb sub uni object ID\n------------------------------------ ----------------- ---------------- --- --- --- ---------\nFBOJBQ+Helvetica                     CID TrueType      Identity-H       yes yes yes     23  0\n"
+      "editable_label_probe": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-lowess-20261114/channel_nsch2d_fem_distribution_edit_probe.pdf",
+      "pdffonts": "name                                 type              encoding         emb sub uni object ID\n------------------------------------ ----------------- ---------------- --- --- --- ---------\nGMOZAV+Helvetica                     CID TrueType      Identity-H       yes yes yes     15  0\n",
+      "kde": [
+        {
+          "method": "nonlocal",
+          "field": "phi",
+          "bandwidth_log10": 0.06118842404962285,
+          "scott_factor": 0.8027415617602307,
+          "quartiles": [
+            0.014722484411317715,
+            0.015152342227990943,
+            0.017506179537472057
+          ],
+          "grid_points": 256,
+          "tail_bandwidths": 3,
+          "maximum_half_width": 0.32
+        },
+        {
+          "method": "fem",
+          "field": "phi",
+          "bandwidth_log10": 0.023358650678348022,
+          "scott_factor": 0.8027415617602307,
+          "quartiles": [
+            0.04521010239708523,
+            0.04737465930240614,
+            0.0481744150985326
+          ],
+          "grid_points": 256,
+          "tail_bandwidths": 3,
+          "maximum_half_width": 0.32
+        },
+        {
+          "method": "nonlocal",
+          "field": "velocity",
+          "bandwidth_log10": 0.0211303144030793,
+          "scott_factor": 0.8027415617602307,
+          "quartiles": [
+            0.014881047217967201,
+            0.015630597855479347,
+            0.015692335916843193
+          ],
+          "grid_points": 256,
+          "tail_bandwidths": 3,
+          "maximum_half_width": 0.32
+        },
+        {
+          "method": "fem",
+          "field": "velocity",
+          "bandwidth_log10": 0.012136527706623833,
+          "scott_factor": 0.8027415617602307,
+          "quartiles": [
+            0.043011155435567695,
+            0.043232977489087956,
+            0.04444318136197186
+          ],
+          "grid_points": 256,
+          "tail_bandwidths": 3,
+          "maximum_half_width": 0.32
+        },
+        {
+          "method": "nonlocal",
+          "field": "pressure",
+          "bandwidth_log10": 0.07124055485359447,
+          "scott_factor": 0.8027415617602307,
+          "quartiles": [
+            0.046318388474639746,
+            0.0471612158975185,
+            0.056522938498037995
+          ],
+          "grid_points": 256,
+          "tail_bandwidths": 3,
+          "maximum_half_width": 0.32
+        },
+        {
+          "method": "fem",
+          "field": "pressure",
+          "bandwidth_log10": 0.18568470979606602,
+          "scott_factor": 0.8027415617602307,
+          "quartiles": [
+            0.047494299408184074,
+            0.047533449203377515,
+            0.08350560195096227
+          ],
+          "grid_points": 256,
+          "tail_bandwidths": 3,
+          "maximum_half_width": 0.32
+        },
+        {
+          "method": "nonlocal",
+          "field": "chemical",
+          "bandwidth_log10": 0.055806784726409805,
+          "scott_factor": 0.8027415617602307,
+          "quartiles": [
+            0.12614195471554102,
+            0.12744880393457028,
+            0.14689433841905103
+          ],
+          "grid_points": 256,
+          "tail_bandwidths": 3,
+          "maximum_half_width": 0.32
+        },
+        {
+          "method": "fem",
+          "field": "chemical",
+          "bandwidth_log10": 0.02137976219319053,
+          "scott_factor": 0.8027415617602307,
+          "quartiles": [
+            0.4222941946334914,
+            0.42583363072405955,
+            0.447484095089935
+          ],
+          "grid_points": 256,
+          "tail_bandwidths": 3,
+          "maximum_half_width": 0.32
+        }
+      ]
     }
   },
+  "reproduction": {
+    "render_argv": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "/root/nonlocal-pinn/scripts/render_channel_fem_comparison.py",
+      "--comparison",
+      "/root/autodl-tmp/tf-logs/channel-fem-full-20261114-01/comparison.json",
+      "--cohort-evaluation",
+      "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114/evaluation.json",
+      "--output",
+      "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-lowess-20261114",
+      "--font",
+      "/root/.local/share/fonts/pino/Helvetica.ttf",
+      "--pdffonts",
+      "/tmp/pino-poppler-audit/usr/bin/pdffonts"
+    ],
+    "evaluate_argv": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-m",
+      "scripts.evaluate_channel_fem_checkpoints",
+      "--comparison",
+      "/root/autodl-tmp/tf-logs/channel-fem-full-20261114-01/comparison.json",
+      "--output",
+      "/root/autodl-tmp/tf-logs/channel_nsch2d/cohort-checkpoints-20261114"
+    ],
+    "environment": {
+      "PYTHONPATH": "/tmp/pino-pdf-audit",
+      "OPENBLAS_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "XLA_FLAGS": "--xla_gpu_autotune_level=0"
+    },
+    "cwd": "/root/nonlocal-pinn",
+    "note": "Renderer reuses saved inference on CPU. For a fresh GPU reevaluation choose a new output directory, then pass its evaluation.json to the renderer; existing inference outputs are protected."
+  },
   "metrics": "Unweighted discrete space-time L2 per field and geometry; velocity uses the joint vector norm. Phase uses all 13 saved times, velocity/pressure/mu use 12 positive times. No channel averaging in these field-wise panels.",
-  "distribution": "All three predeclared reserved geometries, final20k; lines pair the same geometry, short bars are arithmetic means; no KDE, smoothing, sample removal or confidence band.",
-  "convergence": "41 actual records per method on one development geometry; not a test-cohort convergence curve. Initialization is included; no interpolation of extra measurements or smoothing.",
+  "distribution": "All three reserved geometries, final20k; Gaussian KDE in log10-error with Scott bandwidth, three-bandwidth tails, each violin normalized to equal maximum width, internal25/50/75percentiles. N=3 is a limited descriptive visualization, not population-density evidence; tails are not additional observations.",
+  "convergence": "41 actual records per method on one development geometry. Thin solid raw traces; thick solid local-linear LOWESS in log10error, fraction0.22(9neighbors), robust iterations0. Shading: approximate pointwise95%basic circular-block residual-bootstrap trend interval, block4records,2000replicates, seed20261114.401display locations are fitted values, not new observations. Assumes a smooth trend and approximately stationary short-memory log residuals; no cross-seed/cohort uncertainty, simultaneous coverage or correction for unknown smoothing bias.",
+  "smoothing": {
+    "fraction": 0.22,
+    "block_size": 4,
+    "replicates": 2000,
+    "seed": 20261114,
+    "grid_points": 401
+  },
+  "statistical_references": [
+    "https://www.statsmodels.org/stable/generated/statsmodels.nonparametric.smoothers_lowess.lowess.html",
+    "https://www.statsmodels.org/stable/examples/notebooks/generated/lowess.html",
+    "https://arch.readthedocs.io/en/latest/bootstrap/timeseries-bootstraps.html",
+    "https://arch.readthedocs.io/en/latest/bootstrap/confidence-intervals.html"
+  ],
   "font": "/root/.local/share/fonts/pino/Helvetica.ttf",
   "font_source": "https://raw.githubusercontent.com/NanxiiChen/PI-CViT/main/helvetica/Helvetica.ttf",
   "mathtext": "dejavusans, fallback=None; these labels use editable Helvetica Unicode L\u00b2",
@@ -899,12 +2470,46 @@
     "pymupdf": "1.26.7"
   },
   "validations": {
-    "saved_field_reductions": 24,
-    "monitoring_values": 328,
+    "saved_field_reductions": 144,
+    "evaluated_checkpoints": 5,
     "paired_cases": 3,
+    "actual_development_values": 328,
+    "final_replay": [
+      [
+        {
+          "index": 0,
+          "saved": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_000/prediction.npz",
+          "maximum_absolute_gap": 3.933906555175781e-06
+        },
+        {
+          "index": 1,
+          "saved": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_001/prediction.npz",
+          "maximum_absolute_gap": 3.337860107421875e-06
+        },
+        {
+          "index": 2,
+          "saved": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_002/prediction.npz",
+          "maximum_absolute_gap": 3.337860107421875e-06
+        }
+      ],
+      [
+        {
+          "index": 0,
+          "saved": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/unseen3/case_000/prediction.npz",
+          "maximum_absolute_gap": 2.86102294921875e-06
+        },
+        {
+          "index": 1,
+          "saved": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/unseen3/case_001/prediction.npz",
+          "maximum_absolute_gap": 3.159046173095703e-06
+        },
+        {
+          "index": 2,
+          "saved": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/unseen3/case_002/prediction.npz",
+          "maximum_absolute_gap": 2.384185791015625e-06
+        }
+      ]
+    ],
     "pdf_text_edit": "Programmatic edit of temporary PDF copies; no GUI editor claim"
-  },
-  "command": "PYTHONPATH=/tmp/pino-pdf-audit OPENBLAS_NUM_THREADS=1 .venv/bin/python scripts/render_channel_fem_comparison.py --comparison /root/autodl-tmp/tf-logs/channel-fem-full-20261114-01/comparison.json --output /root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-comparison-20261114 --font /root/.local/share/fonts/pino/Helvetica.ttf --pdffonts /tmp/pino-poppler-audit/usr/bin/pdffonts",
-  "dependencies": "Repository .venv plus PyMuPDF 1.26.7 provided at /tmp/pino-pdf-audit; no training or inference imports.",
-  "full_provenance": "/root/autodl-tmp/tf-logs/channel_nsch2d/publication-fem-comparison-20261114/provenance.json"
+  }
 }
