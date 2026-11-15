@@ -1,0 +1,84 @@
+{
+  "status": "passed",
+  "cases": {
+    "electropolish": {
+      "shared_initial_backbone_equal": true,
+      "complete_initial_trees_equal": false,
+      "parameter_count_scope": "Stored numeric entries; coordinate frequencies are frozen metadata",
+      "stored_entries": [
+        320706,
+        264738
+      ],
+      "shared_stored_entries": 263106,
+      "training_recipe_identical_except_time_fusion": true
+    },
+    "melting": {
+      "shared_initial_backbone_equal": true,
+      "complete_initial_trees_equal": false,
+      "parameter_count_scope": "Stored numeric entries; coordinate frequencies are frozen metadata",
+      "stored_entries": [
+        85825,
+        71665
+      ],
+      "shared_stored_entries": 70849,
+      "training_recipe_identical_except_time_fusion": true
+    }
+  },
+  "reference": {
+    "original_inputs": 10,
+    "new_inputs": 56,
+    "test_count": 64,
+    "extension_seed": 20261114,
+    "existing_case005_preserved": true,
+    "full_reference_solves": "queued after Electro; no qualification claim before dt/dt2 gates"
+  },
+  "spawned_reference_worker": {
+    "status": "passed",
+    "grid": [
+      12,
+      12,
+      12
+    ],
+    "records": [
+      {
+        "index": 0,
+        "maximum_time_refinement_error": 7.583642872339839e-08,
+        "seconds": 0.9210184812545776,
+        "phi_min": -1.0,
+        "phi_max": 0.9999965859522805,
+        "dt": 0.005,
+        "refined_dt": 0.0025,
+        "cpu_affinity": [
+          0,
+          1
+        ],
+        "scope": "Full12cube native graph time convergence, not local continuum accuracy"
+      }
+    ],
+    "qualification_scope": "small-grid integration/save and real process spawning; production128gate remains queued"
+  },
+  "legacy_three_method_layout": {
+    "status": "passed",
+    "provenance": "/tmp/pino-time-fusion-layout-check-v2/three-method/provenance.json"
+  },
+  "two_arm_layout": {
+    "status": "passed",
+    "provenance": "/tmp/pino-time-fusion-layout-check-v2/time-fusion/provenance.json",
+    "incomplete_cohort_rejected": true
+  },
+  "focused_tests": {
+    "count": 10,
+    "status": "passed",
+    "log": "/tmp/pino-time-fusion-check.log"
+  },
+  "final_checks": {
+    "changed_module_syntax": "passed",
+    "artifact_json": "passed",
+    "git_diff_check": "passed",
+    "live_channel_sources_equal": 117,
+    "production_reference_qualification": "pending queued full128cube checks",
+    "production_joint_query_GPU_qualification": "pending serial probes",
+    "synthetic_figures_promoted": false
+  },
+  "updated_utc": "2026-11-14T15:58:06.325790+00:00"
+}

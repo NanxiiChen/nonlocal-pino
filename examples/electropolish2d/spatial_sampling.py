@@ -22,8 +22,8 @@ def validate_spatial(c):
         value = s[name]
         if isinstance(value, bool) or not isinstance(value, int) or value < 1:
             raise ValueError(f'spatial.{name} must be a positive integer')
-    if c.nl.method not in ('sparse', 'local_ad') or 'online' not in c.operator or c.loss.use_causal:
-        raise ValueError('Spatial controls require noncausal online sparse/local_ad training')
+    if c.nl.method not in ('sparse', 'local_ad', 'fem_weak') or 'online' not in c.operator or c.loss.use_causal:
+        raise ValueError('Spatial controls require noncausal online sparse/local_ad/fem_weak training')
 
 
 def pad_subgraph(raw, max_nodes, max_edges):
@@ -71,6 +71,7 @@ class SpatialSampler:
         validate_spatial(c)
         self.settings = c.sample.spatial
         self.local_ad = c.nl.method == 'local_ad'
+        self.fem_weak = c.nl.method == 'fem_weak'
         self.op = op
         self.points = np.asarray(points, dtype=np.float32)
         self.free = np.asarray(free, dtype=bool)
@@ -198,7 +199,8 @@ class SpatialSampler:
             evaluated_graph_halos=not self.local_ad,
             construction_scope=('Shared nonlocal graph/subgraph construction retained for paired core draw identity; '
                                 'not an optimized local-AD end-to-end preparation pipeline'
-                                if self.local_ad else 'Native complete one-hop graph rows'),
+                                if self.local_ad else 'Complete lumped P1 finite-element rows'
+                                if self.fem_weak else 'Native complete one-hop graph rows'),
             initial_build_seconds=self.initial_build_seconds,
             initial_transfer_seconds=self.initial_transfer_seconds,
             producer_wait_seconds=float(sum(self.wait_seconds)),

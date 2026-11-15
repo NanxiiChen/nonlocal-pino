@@ -210,6 +210,7 @@ def train_operator(c):
         data, metadata, references = load_dataset(c)
     online = 'online' in c.operator
     local_ad = c.nl.method == 'local_ad'
+    fem_weak = c.nl.method == 'fem_weak'
     method_control = 'method_control' in c.operator
     n_losses = len(c.loss.gradnorm_bias)
     selected_inputs = np.empty(0, dtype=np.int32) if online else training_condition_indices(c)
@@ -252,11 +253,23 @@ def train_operator(c):
                     'examples/electropolish2d/configs/train_operator_horizon.py']
     if 'temporal_query' in c.arch:
         sources += ['examples/electropolish2d/temporal_query.py',
-                    'examples/electropolish2d/configs/train_operator_temporal_query.py']
+                    'examples/electropolish2d/configs/train_operator_temporal_query.py',
+                    'examples/electropolish2d/configs/train_operator_joint_query.py']
     if method_control:
         sources += ['examples/electropolish2d/operator_pairing.py',
                     'examples/electropolish2d/configs/train_operator_rolling_nonlocal.py',
                     'examples/electropolish2d/configs/train_operator_rolling_local.py']
+    if fem_weak:
+        sources += ['examples/electropolish2d/fem_weak.py',
+                    'examples/electropolish2d/configs/train_operator_rolling_fem.py']
+    if 'comparison_monitor' in c.operator:
+        sources += ['examples/electropolish2d/comparison_monitor.py',
+                    'examples/electropolish2d/configs/train_operator_threeway.py',
+                    'examples/electropolish2d/configs/train_operator_threeway_local.py',
+                    'examples/electropolish2d/configs/train_operator_threeway_fem.py',
+                    'docs/tasks/electro_spatial_evaluate.py']
+    if online and 'input_evaluation' in c.operator.online:
+        sources += ['examples/electropolish2d/comparison_sampling.py']
     for name in sources:
         target = run / 'source' / name
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -277,6 +290,10 @@ def train_operator(c):
                 or not np.array_equal(op._col_idx, ref['graph_col'])
                 or not np.array_equal(-op._vals, ref['graph_weight'])):
             raise ValueError('Training/reference graph mismatch')
+    if fem_weak:
+        from examples.electropolish2d.fem_weak import RectangleWeakRows
+        op = RectangleWeakRows(points, c.sample.Nx, c.sample.Ny)
+        _write_json(run / 'fem_assembly.json', op.report())
     zero, one, _ = boundary_values(c, points)
     free = jnp.asarray(~(zero | one))
     rng = np.random.default_rng(c.train.seed)
@@ -314,8 +331,12 @@ def train_operator(c):
             node_ids = jnp.concatenate([ids, jnp.asarray(ic_ids), jnp.asarray(boundary_ids)])
             batches.append((node_ids, x[node_ids], sub, mask))
     if online:
-        from examples.electropolish2d.online_conditions import make_sampler
-        online_sample, online_geometry = make_sampler(c)
+        if 'input_evaluation' in c.operator.online:
+            from examples.electropolish2d.comparison_sampling import make_comparison_sampler
+            online_sample, online_geometry = make_comparison_sampler(c)
+        else:
+            from examples.electropolish2d.online_conditions import make_sampler
+            online_sample, online_geometry = make_sampler(c)
         online_nearest = [online_geometry(batch[1]) for batch in batches] if spatial is None else None
     images = jnp.asarray(data['images'])
     initial = jnp.asarray(data['initial'])
@@ -352,6 +373,10 @@ def train_operator(c):
     update_seconds, sample_seconds = [], []
     sampled_times = np.empty((c.train.iterations, c.sample.Nt), dtype=np.float32)
     spatial_seconds = []
+    local_monitor = None
+    if 'comparison_monitor' in c.operator:
+        from examples.electropolish2d.comparison_monitor import make_monitor
+        local_monitor = make_monitor(c, run)
 
     def evaluate(iteration):
         evaluation_start = time.perf_counter()
@@ -388,6 +413,8 @@ def train_operator(c):
             if isinstance(value, (float, int)):
                 writer.add_scalar('eval/'+name, value, iteration)
         print(json.dumps({k: v for k, v in entry.items() if k != 'conditions'}), flush=True)
+        if local_monitor is not None:
+            local_monitor(net, iteration)
         evaluation_seconds.append(time.perf_counter()-evaluation_start)
         return np.stack(predictions), entry
 
@@ -530,6 +557,10 @@ def train_operator(c):
     if spatial is not None:
         summary['spatial_sampling'] = spatial.summary()
         summary['entry_wall_seconds'] = time.perf_counter()-entry_start
+    if fem_weak:
+        summary['boundary'] = 'Natural left/right zero flux in weak form; top/bottom soft Dirichlet; five losses'
+        summary['scope'] = 'Native graph monitoring only; independent common local-FD cohort needed for method comparison'
+        summary['fem'] = op.report()
     if horizon_study:
         summary['horizon_study'] = c.operator.horizon_study.to_dict()
         summary['scope'] = ('Common fixed native monitoring bank, independent of training grid/horizon; '

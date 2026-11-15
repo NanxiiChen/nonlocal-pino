@@ -1,0 +1,284 @@
+{
+  "utc": "2026-11-14T19:38:10.095656+00:00",
+  "reason": "Strict Electro input pairing failed; retain failed runs and repeat with independently computed common prescribed inputs",
+  "training_restarted_from_zero": true,
+  "steps_unchanged": true,
+  "cohorts_unchanged": true,
+  "failed_owners": {
+    "electro_queue": {
+      "owner": {
+        "case": "electropolish",
+        "pid": 197352,
+        "start_ticks": 926314386,
+        "command": [
+          "/root/nonlocal-pinn/.venv/bin/python",
+          "-m",
+          "docs.tasks.electro_threeway_queue",
+          "--bundle",
+          "/root/autodl-tmp/tf-logs/electro-threeway-20261114-02",
+          "--prefix",
+          "electro-threeway-20261114-02",
+          "--wait-journal",
+          "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/sampled-journal.json",
+          "--wait-pid",
+          "81883",
+          "--wait-start-ticks",
+          "924156816"
+        ],
+        "journal": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-02/journal.json",
+        "log": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-02-owner.log",
+        "wait_owner_pid": 81883,
+        "wait_start_ticks": 924156816,
+        "verified_status": "failed",
+        "verified_utc": "2026-11-14T19:18:28.760694+00:00",
+        "owner_pid": 197352,
+        "current_stage": "train-fem_weak",
+        "current_child_pid": 266161,
+        "current_child_start_ticks": 928350651
+      },
+      "journal_status": "failed",
+      "error": "AssertionError: \nNot equal to tolerance rtol=0, atol=0\nimages\nMismatched elements: 14521 / 49152 (29.5%)\nFirst 5 mismatches are at indices:\n [0, 0, 0, 8, 26]: 1.0 (ACTUAL), 0.9999999403953552 (DESIRED)\n [0, 0, 0, 8, 27]: 1.0 (ACTUAL), 0.9999998807907104 (DESIRED)\n [0, 0, 0, 8, 28]: 1.0 (ACTUAL), 0.9999998807907104 (DESIRED)\n [0, 0, 0, 8, 29]: 1.0 (ACTUAL), 0.9999999403953552 (DESIRED)\n [0, 0, 0, 9, 25]: 1.0 (ACTUAL), 0.9999998807907104 (DESIRED)\nMax absolute difference among violations: 1.7881393e-07\nMax relative difference among violations: 1.\n ACTUAL: array([[[[[1.000000e+00, 1.000000e+00, 1.000000e+00, ...,\n           1.000000e+00, 1.000000e+00, 1.000000e+00],\n          [1.000000e+00, 1.000000e+00, 1.000000e+00, ...,...\n DESIRED: array([[[[[1.000000e+00, 1.000000e+00, 1.000000e+00, ...,\n           1.000000e+00, 1.000000e+00, 1.000000e+00],\n          [1.000000e+00, 1.000000e+00, 1.000000e+00, ...,..."
+    },
+    "melting_queue": {
+      "owner": {
+        "case": "melting",
+        "pid": 212944,
+        "owner_pid": 212944,
+        "start_ticks": 927258469,
+        "command": [
+          "/root/nonlocal-pinn/.venv/bin/python",
+          "-m",
+          "docs.tasks.melting_threeway_queue",
+          "--bundle",
+          "/root/autodl-tmp/tf-logs/melting-threeway-20261114-03",
+          "--prefix",
+          "melting-threeway-20261114-03",
+          "--wait-journal",
+          "/root/autodl-tmp/tf-logs/electro-threeway-20261114-02/journal.json",
+          "--wait-pid",
+          "197352",
+          "--wait-start-ticks",
+          "926314386"
+        ],
+        "journal": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-03/journal.json",
+        "log": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-03-owner.log",
+        "wait_owner_pid": 197352,
+        "wait_start_ticks": 926314386,
+        "verified_status": "failed",
+        "verified_utc": "2026-11-14T19:18:28.760694+00:00"
+      },
+      "journal_status": "failed",
+      "error": "RuntimeError: Dependency stopped without success: failed"
+    },
+    "time_fusion_queue": {
+      "owner": {
+        "case": "time_fusion",
+        "pid": 212945,
+        "owner_pid": 212945,
+        "start_ticks": 927258479,
+        "command": [
+          "/root/nonlocal-pinn/.venv/bin/python",
+          "-m",
+          "docs.tasks.pino_time_fusion_queue",
+          "--bundle",
+          "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-01",
+          "--prefix",
+          "pino-time-fusion-20261114-01",
+          "--wait-journal",
+          "/root/autodl-tmp/tf-logs/melting-threeway-20261114-03/journal.json",
+          "--wait-pid",
+          "212944",
+          "--wait-start-ticks",
+          "927258469",
+          "--electro-baseline",
+          "/root/autodl-tmp/tf-logs/electro-threeway-20261114-02",
+          "--melting-baseline",
+          "/root/autodl-tmp/tf-logs/melting-threeway-20261114-03"
+        ],
+        "journal": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-01/journal.json",
+        "log": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-01-owner.log",
+        "wait_owner_pid": 212944,
+        "wait_start_ticks": 927258469,
+        "verified_status": "failed",
+        "verified_utc": "2026-11-14T19:18:28.760694+00:00"
+      },
+      "journal_status": "failed",
+      "error": "RuntimeError: Dependency did not complete successfully"
+    },
+    "spinodal_queue": {
+      "owner": {
+        "case": "spinodal",
+        "pid": 212946,
+        "owner_pid": 212946,
+        "start_ticks": 927258489,
+        "command": [
+          "/root/nonlocal-pinn/.venv/bin/python",
+          "-m",
+          "docs.tasks.spinodal_threeway_queue",
+          "--bundle",
+          "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-03",
+          "--prefix",
+          "spinodal-threeway-20261114-03",
+          "--wait-journal",
+          "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-01/journal.json",
+          "--wait-pid",
+          "212945",
+          "--wait-start-ticks",
+          "927258479",
+          "--max-projected-update-hours",
+          "24"
+        ],
+        "journal": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-03/journal.json",
+        "log": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-03-owner.log",
+        "wait_owner_pid": 212945,
+        "wait_start_ticks": 927258479,
+        "verified_status": "failed",
+        "verified_utc": "2026-11-14T19:18:28.760694+00:00"
+      },
+      "journal_status": "failed",
+      "error": "RuntimeError: Dependency failed or stopped: failed"
+    },
+    "figure_queue": {
+      "owner": {
+        "case": "figures",
+        "pid": 263753,
+        "owner_pid": 263753,
+        "start_ticks": 928327518,
+        "command": [
+          "/root/nonlocal-pinn/.venv/bin/python",
+          "-m",
+          "docs.tasks.pino_comparison_figure_queue",
+          "--output",
+          "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-05"
+        ],
+        "journal": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-05/journal.json",
+        "log": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-05-owner.log",
+        "verified_utc": "2026-11-14T19:18:28.760694+00:00",
+        "verified_status": "failed"
+      },
+      "journal_status": "failed",
+      "error": "RuntimeError: Experiment stopped without successful completion: electropolish"
+    }
+  },
+  "new_owners": {
+    "electro_queue": {
+      "case": "electropolish",
+      "pid": 284429,
+      "owner_pid": 284429,
+      "start_ticks": 928607818,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-m",
+        "docs.tasks.electro_threeway_queue",
+        "--bundle",
+        "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03",
+        "--prefix",
+        "electro-threeway-20261114-03",
+        "--wait-journal",
+        "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/sampled-journal.json",
+        "--wait-pid",
+        "81883",
+        "--wait-start-ticks",
+        "924156816"
+      ],
+      "journal": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03/journal.json",
+      "log": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03-owner.log",
+      "launched_utc": "2026-11-14T19:38:10.168044+00:00"
+    },
+    "melting_queue": {
+      "case": "melting",
+      "pid": 284431,
+      "owner_pid": 284431,
+      "start_ticks": 928607828,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-m",
+        "docs.tasks.melting_threeway_queue",
+        "--bundle",
+        "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04",
+        "--prefix",
+        "melting-threeway-20261114-04",
+        "--wait-journal",
+        "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03/journal.json",
+        "--wait-pid",
+        "284429",
+        "--wait-start-ticks",
+        "928607818"
+      ],
+      "journal": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04/journal.json",
+      "log": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04-owner.log",
+      "launched_utc": "2026-11-14T19:38:10.271215+00:00"
+    },
+    "time_fusion_queue": {
+      "case": "time_fusion",
+      "pid": 284434,
+      "owner_pid": 284434,
+      "start_ticks": 928607839,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-m",
+        "docs.tasks.pino_time_fusion_queue",
+        "--bundle",
+        "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02",
+        "--prefix",
+        "pino-time-fusion-20261114-02",
+        "--wait-journal",
+        "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04/journal.json",
+        "--wait-pid",
+        "284431",
+        "--wait-start-ticks",
+        "928607828",
+        "--electro-baseline",
+        "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03",
+        "--melting-baseline",
+        "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04"
+      ],
+      "journal": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/journal.json",
+      "log": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02-owner.log",
+      "launched_utc": "2026-11-14T19:38:10.375038+00:00"
+    },
+    "spinodal_queue": {
+      "case": "spinodal",
+      "pid": 284439,
+      "owner_pid": 284439,
+      "start_ticks": 928607849,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-m",
+        "docs.tasks.spinodal_threeway_queue",
+        "--bundle",
+        "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-04",
+        "--prefix",
+        "spinodal-threeway-20261114-04",
+        "--wait-journal",
+        "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/journal.json",
+        "--wait-pid",
+        "284434",
+        "--wait-start-ticks",
+        "928607839",
+        "--max-projected-update-hours",
+        "24"
+      ],
+      "journal": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-04/journal.json",
+      "log": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-04-owner.log",
+      "launched_utc": "2026-11-14T19:38:10.478632+00:00"
+    },
+    "figure_queue": {
+      "case": "figures",
+      "pid": 284440,
+      "owner_pid": 284440,
+      "start_ticks": 928607860,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-m",
+        "docs.tasks.pino_comparison_figure_queue",
+        "--output",
+        "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-06"
+      ],
+      "journal": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-06/journal.json",
+      "log": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-06-owner.log",
+      "launched_utc": "2026-11-14T19:38:10.586773+00:00"
+    }
+  },
+  "qualification": "artifacts/electro_shared_input_qualification.json"
+}

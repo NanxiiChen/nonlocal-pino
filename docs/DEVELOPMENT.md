@@ -3,6 +3,41 @@
 This document contains repository conventions that are broader than one
 example but more detailed than the mandatory policy in `AGENTS.md`.
 
+Confined-CH's optional `operator.initial_rate_lift` explicitly declares
+`kind=exact_pde_rate` and `timescale=stable_graph_bound`; require cold,
+unaugmented conservative-potential/identity-metric training. Derive
+`initial_potential_rate` and scalar `initial_rate_timescale` from the prescribed
+initial graph rounded to the selected compute dtype. Never load them as external
+labels or add them to the geometry encoder. The initial-bank and online builders
+must use the same helper, preserve fixed padding, and carry rate values at all
+compact potential queries. For \(Df_i=\sum_j a_{ij}(f_i-f_j)\), the explicit
+bound is \(\bar\lambda=2\max_i\sum_j a_{ij}\),
+\(\bar q=\max(0,M\bar\lambda[\epsilon^2\bar\lambda+
+\beta(3\bar\phi_0^2-1)])\), and \(\tau=1/\max(1/T,\bar q)\).
+This is a bounded output-lifting timescale, not a time-stepping stability rule.
+Preserve the original initial PDE fraction (now a constant zero up to roundoff)
+and positive-time measure when comparing this isolated output change. The
+potential `coordinate` helper now takes explicit physical `data`; evaluation
+and residual JVP must use that same map. Default recipes remain unchanged.
+
+Compact Confined-CH host preparation uses indexed candidate search followed by
+the original floating-point point-to-segment predicate. Boolean node-ID unions
+and dense index maps preserve ascending complete-halo IDs; they do not truncate
+neighborhoods or alter core draws. Real-input comparisons against a frozen older
+source cover prescribed-rate payloads and rolling geometry replacement. CPU
+construction timings do not establish end-to-end GPU training speed.
+
+For wall/bulk sampling, distinguish slot allocation from spatial density. If
+the wall band has physical-volume fraction \(f\) and receives core fraction
+\(\rho\), the expected wall/bulk density ratio is
+\(\rho(1-f)/[(1-\rho)f]\). An equal split oversamples the wall only when
+\(f<1/2\). Keep the physical-volume quadrature correction; changing the sampling
+band must not change the operator horizon, boundary conditions or encoder data.
+The default-off `train_operator_initial_rate_halfband.py` changes only
+`sample.spatial.wall_band` to half the unchanged horizon. This is a candidate
+supported by geometry/complete-halo checks, not a demonstrated L2 improvement.
+Frozen queued experiments retain their original source and band settings.
+
 Before creating or redrawing publication/README figures, follow
 [`PLOTTING_GUIDELINES.md`](PLOTTING_GUIDELINES.md) for typography, NPG colors,
 editable PDF export and provenance. Existing asset budgets below still apply.
@@ -64,6 +99,29 @@ CPU from external saved arrays. The current comparison shows final seed42
 channel-averaged space-time error distributions and phase-field sheets; preserve
 the declared metric reduction and all prior evidence externally. Keep reference cohorts, actual saved times
 and pairing qualifications explicit; never silently substitute newer defaults.
+
+Completed three-method component figures use a separate4MiB collection budget
+for channel/Electropolish/Melting/Spinodal under `assets/pino-studies/`, at most
+1MiBper file. Add only the final convergence/distribution PDF/PNG pairs after
+independent metric checks and visual review. The direct-path manifest
+`artifacts/pino_three_method_figures.json` declares each completed cohort,
+checkpoint, source provenance, reproduction command and exact byte count.
+The website validates cohorts/budgets and copies the same files. Preserve prior
+selected figures and their budgets; raw fields/weights/bootstrap arrays stay external.
+Spinodal's user-authorized Local AD omission uses a separate `nonlocal_fem`
+filename suffix and explicit comparison kind within this same4MiB collection.
+Its two final50k methods and complete8case histories are mandatory; all other
+cases retain the original three-method validation. Do not silently infer an
+omission from missing checkpoints or widen the approved asset budget.
+
+Completed Electropolish/Melting temporal controls have a separate2MiB collection
+under the same directory, at most1MiBper file, with `_time_fusion_` filenames.
+`artifacts/pino_time_fusion_figures.json` includes only reviewed final10k/64case
+results, common-backbone/draw audits, differing time-module capacities and
+measured resources. Its empty case list means no result is selected yet.
+`scripts/publish_pino_time_fusion.py` reuses the comparison publisher; the local
+website validates and copies these identical PDF/PNG pairs. No evolved fields,
+checkpoints, or synthetic qualification plots enter this collection.
 
 The channel FEM reference optionally accepts a read-only `diagnostic_callback`
 receiving `(time, (velocity, pressure, phi, mu), mesh, facet_tags)` at saved
@@ -749,6 +807,21 @@ gradient. Saved refinement metadata states that weights are uniform. It is
 one global network, with every time retaining positive weight; it neither
 freezes intermediate fields nor dispatches the window engine. Do not conflate
 this weighting variant with all details/benchmarks of the cited causal-PINN paper.
+
+Confined CH geometry-operator `sample.residual_rows` is an opt-in diagnostic
+with explicit positive integer `count`, `pools`, `refresh_every` and `workers`.
+It requires cold unaugmented direct-phase training with the original
+`linear_stable_resolvent`; it excludes `sample.spatial`, conservative-potential
+output and continuation. Only rows AFTER the dense residual metric are sampled.
+All physical neural queries, operator columns and exact mass projection remain
+global. Volume-CDF strata give the original spatial integral in expectation over
+set construction, not conditional unbiasedness after adaptive reuse of a set.
+The bounded CPU pool copies only coordinates/volumes, invalidates sets on actual
+geometry replacement, and uses an independent runtime-seed namespace. Preserve
+actual row IDs, choices, versions and small input snapshots for independent
+replay; do not copy dense metrics or evolved reference labels into that pool.
+The original full-coordinate preset is unchanged. Passing this control does
+not qualify a compact neural-query/core-halo implementation.
 
 ## Artifact Paths
 
@@ -1598,6 +1671,66 @@ checks are in `artifacts/ceramic_execution_validation.json`. This is one paired
 initialization, not a universal seed/device guarantee.
 
 
+### Melting opt-in FEM weak-operator comparison
+
+New three-method comparison runs evaluate the full existing test cohort during
+training: Electropolish64local-FD cases and Melting64native cases every250updates,
+Spinodal8qualified local cases every500updates, including step zero. Preserve
+already running/completed experiments' original monitoring. Eval arrays are
+read-only and never change training keys, loss or checkpoint selection. Store
+ordered per-case errors and validate cohort completeness at every record.
+Melting's optional `operator.monitor_split=test` writes `monitoring.json`;
+absence keeps the original monitor subset, and invalid values fail explicitly.
+Sequential per-case inference bounds GPU memory. Include evaluation cost in
+new wall timings and keep independently solved references distinct from native
+references. See `PINO_COMPARISON_FIGURES.md` for figure/statistical scope.
+
+Melting's enlarged cohort preserves the original10monitor/test files and appends
+56declared independent ellipsoids. Bounded spawned CPU workers run the unchanged
+FP64 native solver and full-volume dt/dt2 checks before selecting diagnostic
+coordinates. Use the separate test64bank path, preserve case005identity and do
+not describe native64as64independent local-FEM references. Existing production
+defaults and historical8case measurements retain their original scope.
+
+Opt-in `arch.temporal_query=joint_query` reuses the Electro wrapper for2D/3D:
+`encode` and `prepare_encoded` preserve one encoder evaluation per condition.
+The spatial and bias-free temporal affine maps equal a single map of concatenated
+Fourier features. Time-dependent queries repeat cross-attention and remove all
+decoder FiLM; absent selector preserves legacy behavior. The paired study uses
+nonlocal derivatives, unchanged physical losses/keys and complete64case histories.
+Audit common initial backbone leaves and actual draws, while declaring different
+time-module capacities. Do not demand equality of incompatible optimizer trees.
+
+`train_operator_compare_nonlocal.py` and `train_operator_compare_fem.py` use
+the production rolling 10k architecture and physics. Explicit
+`operator.spatial_discretization` selects `nonlocal` or `fem_p1_lumped`;
+`nl` describes the saved native reference and original nonlocal control.
+Reject other methods and reference preparation through this control. Both
+presets explicitly disable autotuning before GPU initialization. Production
+defaults remain unchanged.
+
+`fem_weak.build_cube` assembles six P1 Kuhn tetrahedra per cell using translated
+element templates, row-sum mass, natural zero flux and nodal reaction. Complete
+axis-neighbor rows use Y,X,Z order, matching meshgrid(indexing='xy'). No element
+couplings are clipped. This structured tetrahedral topology has six surviving
+off-diagonal neighbors. Original rolling core/halo construction and stable
+latent residuals can therefore be reused; no full-mesh neural evaluation is
+required per training update.
+
+Independent small-grid tests cover element stiffness/mass, affine energy,
+interior consistency and transformed weak rows. Final controls must compare
+cold states and every condition/time/core draw. Native eight-case accuracy and the
+previously user-accepted local CG2 case 005 are distinct diagnostics; preserve the
+latter's strict-refinement limitation. Direct numerical reference solving is
+independent of the training operator and remains separate from JAX GPU work.
+
+The paired pilot passes all input and source checks. The resulting speed is
+similar for both methods, while native versus local reference changes the
+accuracy ranking. Preserve both metrics and their cohort limitations in
+`artifacts/melting_fem_comparison_validation.json`; do not promote this optional
+training discretization or change the production default from one pair.
+
+
 ### Channel full-coordinate FEM PINO control
 
 `train_operator_fem_weak.py` is opt-in and keeps the accepted full20k network,
@@ -1647,3 +1780,41 @@ with quartiles, Scott bandwidth and three-bandwidth tails. State the N=3
 descriptive limit; never present these as a 64-case study or density evidence
 for the full geometry prior. Do not infer cohort SD from single-case monitors.
 The website builder validates and copies the same files used by the README.
+
+### Ceramic component comparison publication assets
+
+Keep the ceramic phase/concentration convergence and distribution PNG/PDF pairs
+under `assets/pino-studies/`, below 512 KiB combined and 1 MiB per file.
+`artifacts/ceramic_component_comparison_figures.json` records direct inputs,
+source runs, plotted values, rendering command and asset sizes. Preserve the
+original three final-20k comparison models; do not silently substitute the later
+canonical nonlocal run. Final violins use 64 shared FEM test geometries and
+equal-node space-time norms per channel. Convergence uses 21 actual records from
+four development geometries with volume/time-weighted norms. Its log-error LOWESS
+uses span 0.30; approximate pointwise 95% intervals enumerate all 256 resamples
+of four complete geometry trajectories. These small-cohort intervals preserve
+temporal dependence but are not cross-seed uncertainty or a population-coverage
+guarantee. State these metric/cohort distinctions alongside the figures. The
+website copies the same verified assets as the README; historical channel-mean
+figures keep their separate budget and published paths.
+
+
+### Spinodal operator derivative controls
+
+`confined_ch2d/configs/train_operator_compare_{nonlocal,local_ad,fem}.py` are
+opt-in full-field controls, distinct from the accepted default and failed compact
+pilots. They share positive-time PDE collocation, hardIC/mass, width256/online
+geometry inputs/SOAP50k and ordinary/autotune0. The default retains20%initialPDE.
+AD uses analytic prescribed Fourier jets, fourth-order network spatial AD,
+timeJVP, two physical Neumann MSE terms, and exact condition-gradient accumulation
+before one optimizer update. Its frozen nonlocal stable resolvent is only a loss
+metric. FEM adds explicit padded nodal P1 mass/stiffness/metric arrays to the
+unchanged encoder payload; no evolved fields. Keep signed element couplings,
+use nodal mass for its hard projection and P1 chemical reconstruction at the
+common centroids. Do not route AD/FEM predictions through the legacy graph-only
+chemical audit. Local mixed-P2 reference refinement is a separate serial stage;
+its fields are read-only monitoring, never part of geometry/step payloads.
+New runs save direct source paths, paired encoder receipts and all actual input
+draws. `docs/tasks/spinodal_threeway_queue.py` waits for verified prior completion,
+then qualifies references, resources and pairing before fresh training. Failures
+remain recorded; no unannounced numerical fallback or default promotion.

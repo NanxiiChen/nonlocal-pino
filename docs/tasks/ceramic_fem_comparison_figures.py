@@ -179,17 +179,25 @@ def save(fig, path, size_mm):
         # Edit two labels in a separate throwaway copy, preserving vector/text content.
         edit = fitz.open(stream=doc.tobytes(), filetype='pdf')
         p = edit[0]
+        method_labels=[('Local AD','Local FE'),('Joint (x, t)','Joint query')]
+        matched_methods=[(a,b) for a,b in method_labels if p.search_for(a)]
+        if (not matched_methods and p.search_for('Nonlocal')
+                and p.search_for('FEM PINO')):
+            matched_methods=[('FEM PINO','FEM model')]
+        if len(matched_methods)!=1:
+            raise ValueError('Exactly one declared comparison label is required for the edit probe')
+        original_method,replacement_method=matched_methods[0]
         for text, replacement in [('Rel. L² error', 'Rel. L² score'),
                                   ('Weighted rel. L² error', 'Weighted rel. L² score'),
-                                  ('Local AD', 'Local FE')]:
+                                  (original_method, replacement_method)]:
             matches = p.search_for(text)
             if matches:
                 p.add_redact_annot(matches[0], fill=(1, 1, 1))
                 p.apply_redactions(images=0, graphics=0)
-                p.insert_text((5, 8 if text != 'Local AD' else 16), replacement,
+                p.insert_text((5, 8 if text != original_method else 16), replacement,
                               fontsize=7, fontname='plot_helvetica', fontfile=str(FONT))
         edited_text = edit[0].get_text()
-        if 'L² score' not in edited_text or 'Local FE' not in edited_text:
+        if 'L² score' not in edited_text or replacement_method not in edited_text:
             raise ValueError('Independent PDF text-edit probe failed')
         edit.close()
     return dict(pdf=str(pdf), png=str(path.with_suffix('.png')), size_mm=size_mm,

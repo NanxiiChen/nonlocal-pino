@@ -1,0 +1,28 @@
+{
+  "case": "figures",
+  "pid": 607224,
+  "owner_pid": 607224,
+  "start_ticks": 931308501,
+  "command": [
+    "/root/nonlocal-pinn/.venv/bin/python",
+    "-u",
+    "-m",
+    "docs.tasks.spinodal_nonlocal_fem_figures",
+    "--journal",
+    "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-20261115-01/journal.json",
+    "--owner-pid",
+    "590811",
+    "--owner-start-ticks",
+    "931260421",
+    "--output",
+    "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-01"
+  ],
+  "journal": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-01/journal.json",
+  "log": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-01-owner.log",
+  "launched_utc": "2026-11-15T03:08:16.993814+00:00",
+  "methods": [
+    "nonlocal",
+    "fem"
+  ],
+  "expected_provenance": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-01/spinodal/provenance.json"
+}

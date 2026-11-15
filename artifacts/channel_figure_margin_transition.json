@@ -1,0 +1,48 @@
+{
+  "old_owner_pid": 247088,
+  "old_owner_start_ticks": 928272882,
+  "old_journal": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-04/journal.json",
+  "original_stages": [
+    {
+      "case": "channel",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-m",
+        "scripts.render_pino_three_method",
+        "--case",
+        "channel",
+        "--comparison",
+        "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/comparison.json",
+        "--output",
+        "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-04/channel",
+        "--baseline-comparison",
+        "/root/autodl-tmp/tf-logs/channel-fem-full-20261114-01/comparison.json"
+      ],
+      "status": "passed",
+      "pid": 247089,
+      "exit_code": 0,
+      "seconds": 3.174678724259138,
+      "provenance": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-04/channel/provenance.json"
+    }
+  ],
+  "verified_childless": true,
+  "training_affected": false,
+  "reason": "Fix convergence legend top margin before local publication",
+  "utc": "2026-11-14T18:51:00.629202+00:00",
+  "new_owner": {
+    "case": "figures",
+    "pid": 263753,
+    "owner_pid": 263753,
+    "start_ticks": 928327518,
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-m",
+      "docs.tasks.pino_comparison_figure_queue",
+      "--output",
+      "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-05"
+    ],
+    "journal": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-05/journal.json",
+    "log": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-05-owner.log",
+    "verified_utc": "2026-11-14T18:51:27.166434+00:00"
+  }
+}

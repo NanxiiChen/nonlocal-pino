@@ -62,7 +62,80 @@ Direct integration of the graph dynamics is time-refined. Physical cell areas we
 | Chemical potential, same 8 geometries | 10.7329% | 14.2757% |
 | Phase, 16 frozen historical training-domain monitors | 5.0529% | 5.4186% |
 
-The worst development phase errors are 9.5686% pooled and 10.5862% terminal. Local FEM validation of this harder ten-mode case is deferred. The historical fixed-bank and rolling-pool experiments also differ in network size or starting stage. The two cohorts in the table assess coverage and fit without isolating the causal effect of rolling the pool.
+The worst development phase errors are 9.5686% pooled and 10.5862% terminal. Independent local FEM is now qualified for the [completed spatial-method comparison](#spatial-method-comparison) below; this historical table retains its native target. The historical fixed-bank and rolling-pool experiments also differ in network size or starting stage. The two cohorts in the table assess coverage and fit without isolating the causal effect of rolling the pool.
+
+## Spatial-method comparison
+
+Matched Nonlocal and FEM PINO controls each complete 50,000 cold SOAP updates
+with one paired initialization, width 256, B16/Nt16 and the rolling geometry
+pool. Both retain hard phase IC/mass and use positive-time PDE collocation;
+the original SOTA also allocates 20% of its PDE measure to the initial time.
+Defaults are unchanged. Local AD was omitted by the user after full-size
+resource probes; no trained AD error is reported.
+
+The independent numerical reference uses mixed-P2/BDF2 local FEM on the same
+eight reused geometries 1024–1031 and five times \(0,0.75,1.5,2.25,3\).
+All references pass spatial/time and physical checks: maximum phase mesh gap
+0.67923%, phase time gap 0.0010383%, positive-time chemical mesh gap 0.74673%,
+mass drift below 3.50e-16, and no observed energy increase. The trained FEM PINO
+instead uses P1 stiffness/lumped mass and natural weak Neumann conditions; it
+is distinct from this numerical reference solver.
+
+For each channel and sample, take the equal-node full space-time relative norm,
+then average samples. Both methods evaluate all eight geometries at all 101
+actual records. The final audit checks paired cold states, every actual draw,
+16,000 online inputs and all 144 source files per run.
+
+| Final50k local-reference error | Nonlocal PINO | FEM PINO |
+|---|---:|---:|
+| Phase |31.9216%|5.5838%|
+| Chemical potential, all five times |46.5728%|45.8887%|
+| Mean over the two channels |39.2472%|25.7362%|
+| Chemical potential, positive times only (diagnostic) |31.3091%|14.9354%|
+
+The initial local chemical trace uses analytic continuum derivatives; the
+models eliminate chemical potential with their own spatial operators. Generic
+wall normals are incompatible with the prescribed initial phase. Report the
+positive-time diagnostic separately without dropping the initial trace from
+the primary error.
+
+| Equal-node phase error against each target | Nonlocal PINO | FEM PINO |
+|---|---:|---:|
+| Native nonlocal numerical reference |4.5990%|29.3864%|
+| Independent local FEM numerical reference |31.9216%|5.5838%|
+
+The numerical targets differ by 31.9633% in phase under this same metric. This
+finite-horizon case exposes a substantial spatial-model/discretization gap;
+native fitting accuracy does not establish local-PDE accuracy. Do not subtract
+relative errors to attribute causes. The historical SOTA likewise gives
+4.9174% native /32.2170% local under the same equal-node metric.
+Further horizon, resolution and boundary investigation is deferred by the user
+and recorded in the [research TODO](https://github.com/NanxiiChen/nonlocal-pino/blob/main/docs/TODO.md); no additional Spinodal run is started.
+
+<figure>
+  <a href="assets/confined_ch2d_nonlocal_fem_convergence.png"><img src="assets/confined_ch2d_nonlocal_fem_convergence.png" width="2007" height="708" alt="Spinodal phase and chemical-potential convergence for Nonlocal and FEM PINO against local numerical FEM"></a>
+  <figcaption>All 101 measured means remain as thin solid lines; thick lines show log-LOWESS with span0.12. Shading uses2,000 paired resamples of complete geometry trajectories, conditional on eight reused cases and one training run. It is not cross-seed or population-wide95%coverage. Chemical error includes the declared initial trace. <a href="assets/confined_ch2d_nonlocal_fem_convergence.pdf">Editable PDF</a>.</figcaption>
+</figure>
+
+<figure>
+  <a href="assets/confined_ch2d_nonlocal_fem_distribution.png"><img src="assets/confined_ch2d_nonlocal_fem_distribution.png" width="2007" height="708" alt="Final50k phase and chemical-potential relative-error violins on eight common local-FEM geometries"></a>
+  <figcaption>Final50k weights; eight geometries per method and channel. Log10 Gaussian KDE, Scott bandwidth, three-bandwidth tails and quartiles; raw error-ratio axes with automatic limits. Eight-case densities are descriptive. Both figures are170×60mm. <a href="assets/confined_ch2d_nonlocal_fem_distribution.pdf">Editable PDF</a>.</figcaption>
+</figure>
+
+| Same RTX PRO6000 Blackwell Server GPU | Nonlocal PINO | FEM PINO |
+|---|---:|---:|
+| Complete cold training process |8,086.91s (2.2464h)|6,852.67s (1.9035h)|
+| Full-run peak active allocation |20.44GiB|21.89GiB|
+
+Times cover initialization, preparation, compilation, all updates/rolling waits,
+in-training evaluation, final writes and teardown. Separate offline banks and
+post-training audits/plots are excluded. Local AD's approximately114/55hour
+update projections for nested/Taylor differentiation are resource probes, not
+complete training costs. One paired run does not establish a universal ranking.
+
+[Saved configurations, checkpoints, selected figures and reproduction](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/pino_three_method_figures.json),
+[dual-reference norms](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/spinodal_final_reference_norms.json),
+and [complete timing provenance](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/pino_training_wall_costs.json).
 
 ## Implementation and reproduction
 

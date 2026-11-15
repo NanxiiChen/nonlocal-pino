@@ -71,6 +71,9 @@ def sample_geometry(c,draw_id):
 def validate_payload(data,c):
     """Fixed known-input schema; refuse labels, shape changes or invalid operators."""
     import numpy as np
+    if c.nl.method == 'local_ad':
+        from examples.channel_nsch2d.local_ad import validate_payload as validate_ad_payload
+        return validate_ad_payload(data, c)
     if c.nl.method == 'fem_weak_p2p1':
         from examples.channel_nsch2d.fem_weak import validate_payload as validate_fe_payload
         return validate_fe_payload(data, c)

@@ -1,0 +1,133 @@
+{
+  "status": "passed",
+  "validated_utc": "2026-11-14T09:20:59.791376+00:00",
+  "scope": "Rendering/data contract qualification; not completed training of all five cases",
+  "sources": [
+    "scripts/pino_comparison_data.py",
+    "scripts/pino_comparison_plot.py",
+    "scripts/trajectory_trend.py",
+    "scripts/render_pino_three_method.py"
+  ],
+  "tests": {
+    "count": 6,
+    "log": "/tmp/pino-three-method-data-tests.log",
+    "data": "tests/test_pino_comparison_data.py",
+    "statistics": "tests/test_trajectory_trend.py",
+    "synthetic_scope": "I/O and independent norm/statistical checks; not numerical reference or training evidence"
+  },
+  "actual_data": {
+    "previous_provenance": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-component-comparison-20261114-01/provenance.json",
+    "new_provenance": "/tmp/pino-three-method-figure-qualification-01/provenance.json",
+    "case": "particle_corrosion2d",
+    "methods": 3,
+    "final_geometries": 64,
+    "channels": 2,
+    "independently_recomputed_saved_field_norms": 384,
+    "raw_values_identical": true,
+    "curves": [
+      {
+        "method": "nonlocal",
+        "field": "phi",
+        "old_arrays": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-component-comparison-20261114-01/nonlocal_replay_phi_trend.npz",
+        "new_arrays": "/tmp/pino-three-method-figure-qualification-01/nonlocal_phi_trend.npz",
+        "all_prior_arrays_exact": true
+      },
+      {
+        "method": "local_ad",
+        "field": "phi",
+        "old_arrays": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-component-comparison-20261114-01/local_ad_phi_trend.npz",
+        "new_arrays": "/tmp/pino-three-method-figure-qualification-01/local_ad_phi_trend.npz",
+        "all_prior_arrays_exact": true
+      },
+      {
+        "method": "fem",
+        "field": "phi",
+        "old_arrays": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-component-comparison-20261114-01/fem_weak_phi_trend.npz",
+        "new_arrays": "/tmp/pino-three-method-figure-qualification-01/fem_phi_trend.npz",
+        "all_prior_arrays_exact": true
+      },
+      {
+        "method": "nonlocal",
+        "field": "concentration",
+        "old_arrays": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-component-comparison-20261114-01/nonlocal_replay_concentration_trend.npz",
+        "new_arrays": "/tmp/pino-three-method-figure-qualification-01/nonlocal_concentration_trend.npz",
+        "all_prior_arrays_exact": true
+      },
+      {
+        "method": "local_ad",
+        "field": "concentration",
+        "old_arrays": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-component-comparison-20261114-01/local_ad_concentration_trend.npz",
+        "new_arrays": "/tmp/pino-three-method-figure-qualification-01/local_ad_concentration_trend.npz",
+        "all_prior_arrays_exact": true
+      },
+      {
+        "method": "fem",
+        "field": "concentration",
+        "old_arrays": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-component-comparison-20261114-01/fem_weak_concentration_trend.npz",
+        "new_arrays": "/tmp/pino-three-method-figure-qualification-01/fem_concentration_trend.npz",
+        "all_prior_arrays_exact": true
+      }
+    ],
+    "kde_arrays_identical": true,
+    "figures": {
+      "convergence": {
+        "bytes": {
+          ".pdf": 52931,
+          ".png": 121014
+        },
+        "size_mm": [
+          170,
+          60
+        ],
+        "text_size_range_pt": [
+          6.0,
+          7.0
+        ],
+        "fonts": "name                                 type              encoding         emb sub uni object ID\n------------------------------------ ----------------- ---------------- --- --- --- ---------\nEWVNFG+Helvetica                     CID TrueType      Identity-H       yes yes yes     15  0\n",
+        "text_edit_probe": "Programmatic PyMuPDF temporary-copy label edits passed; no GUI editor claim.",
+        "automatic_y_limits": true,
+        "visual_inspection": "PNG inspected; text/axes/legend visible and no overlapping labels"
+      },
+      "distribution": {
+        "bytes": {
+          ".pdf": 38266,
+          ".png": 77044
+        },
+        "size_mm": [
+          170,
+          60
+        ],
+        "text_size_range_pt": [
+          6.0,
+          7.0
+        ],
+        "fonts": "name                                 type              encoding         emb sub uni object ID\n------------------------------------ ----------------- ---------------- --- --- --- ---------\nUCCTKS+Helvetica                     CID TrueType      Identity-H       yes yes yes     15  0\n",
+        "text_edit_probe": "Programmatic PyMuPDF temporary-copy label edits passed; no GUI editor claim.",
+        "automatic_y_limits": true,
+        "visual_inspection": "PNG inspected; text/axes/legend visible and no overlapping labels"
+      }
+    }
+  },
+  "documentation_links": [
+    {
+      "source": "/root/nonlocal-pinn/docs/PINO_COMPARISON_FIGURES.md",
+      "target": "/root/nonlocal-pinn/docs/PLOTTING_GUIDELINES.md"
+    },
+    {
+      "source": "/root/nonlocal-pinn/docs/PINO_COMPARISON_FIGURES.md",
+      "target": "/root/nonlocal-pinn/scripts/render_pino_three_method.py"
+    },
+    {
+      "source": "/root/nonlocal-pinn/docs/PINO_COMPARISON_FIGURES.md",
+      "target": "/root/nonlocal-pinn/docs/tasks/pino-three-method-suite.md"
+    },
+    {
+      "source": "/root/nonlocal-pinn/docs/PINO_COMPARISON_FIGURES.md",
+      "target": "/root/nonlocal-pinn/artifacts/pino_three_method_suite.json"
+    }
+  ],
+  "published_assets_replaced": false,
+  "defaults_changed": false,
+  "training_started_by_plotting": false,
+  "git_operations": false
+}

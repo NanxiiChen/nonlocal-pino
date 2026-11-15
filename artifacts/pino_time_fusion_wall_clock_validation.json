@@ -1,0 +1,37 @@
+{
+  "status": "passed",
+  "utc": "2026-11-15T08:04:17.637097+00:00",
+  "cases": [
+    {
+      "example": "electropolish2d",
+      "records": 41,
+      "case_count": 64,
+      "actual_errors_preserved": true,
+      "source": "/root/autodl-tmp/tf-logs/pino-time-fusion-wall-clock-20261115-01/electropolish/provenance.json",
+      "cold_endpoints": {
+        "decoder_film": 937.5401736199856,
+        "joint_query": 1419.0765574146062
+      }
+    },
+    {
+      "example": "icemelting3d",
+      "records": 41,
+      "case_count": 64,
+      "actual_errors_preserved": true,
+      "source": "/root/autodl-tmp/tf-logs/pino-time-fusion-wall-clock-20261115-01/melting/provenance.json",
+      "cold_endpoints": {
+        "decoder_film": 413.5769551638514,
+        "joint_query": 899.3818906527013
+      }
+    }
+  ],
+  "clock_evidence": "artifacts/pino_time_fusion_wall_clock.json",
+  "collection_bytes": 479695,
+  "targeted_tests": "10 passed: cold-clock recovery, nonuniform smoothing, independent saved-field loaders",
+  "website": "9 pages; 387 links; 28 selected figure files match source/repository/built site",
+  "precision": "Reconstructed intermediate timing; no subsecond precision claim; exact recorded parent totals at final endpoints",
+  "model_training_performed": false,
+  "clean_index_website_build": "/tmp/pino-publication-index-20261115/website",
+  "new_markdown_links": "New repository-relative links are present in the index; website-relative links verified in the 9-page build. Historical ignored galleries were not uploaded.",
+  "compatibility_tests": "8 passed: paired 2D/3D temporal architectures, full-test monitoring and prescribed-input comparison sampling"
+}

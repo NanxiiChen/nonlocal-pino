@@ -1,0 +1,92 @@
+{
+  "status": "passed",
+  "verified_utc": "2026-11-14T13:15:05.270986+00:00",
+  "test_log": "/tmp/pino-full-test-monitoring-check.log",
+  "focused_tests": 7,
+  "training_started": false,
+  "gpu_inference": false,
+  "electropolish": [
+    {
+      "preset": "train_operator_threeway",
+      "count": 64,
+      "reference_files_verified": 64,
+      "interval": 250
+    },
+    {
+      "preset": "train_operator_threeway_local",
+      "count": 64,
+      "reference_files_verified": 64,
+      "interval": 250
+    },
+    {
+      "preset": "train_operator_threeway_fem",
+      "count": 64,
+      "reference_files_verified": 64,
+      "interval": 250
+    }
+  ],
+  "melting": [
+    {
+      "method": "nonlocal",
+      "split": "test",
+      "indices": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "count": 8,
+      "reference": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1",
+      "evaluation_every": 250,
+      "training_labels": false,
+      "checkpoint_selection": "Final fixed-budget weights"
+    },
+    {
+      "method": "local_ad",
+      "split": "test",
+      "indices": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "count": 8,
+      "reference": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1",
+      "evaluation_every": 250,
+      "training_labels": false,
+      "checkpoint_selection": "Final fixed-budget weights"
+    },
+    {
+      "method": "fem",
+      "split": "test",
+      "indices": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "count": 8,
+      "reference": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1",
+      "evaluation_every": 250,
+      "training_labels": false,
+      "checkpoint_selection": "Final fixed-budget weights"
+    }
+  ],
+  "unchanged_live_channel_source_files": 117,
+  "changed_module_syntax": "passed",
+  "git_diff_check": "passed",
+  "json_records": "parsed",
+  "queued_receipt": "artifacts/pino_full_test_monitoring_transition.json"
+}

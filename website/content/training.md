@@ -51,3 +51,41 @@ $$
 Here \(\tau_k\) and \(m_i\) denote the evaluation time and spatial weights. The terminal metric restricts the sums to the final snapshot. The precise weights, masks and saved times belong to each case. Read interface or minority-phase metrics alongside whole-field \(L^2\) when the bulk dominates.
 
 Direct nonlocal integration holds the spatial model fixed and checks temporal refinement. Independent local FD or FEM tests a different discretization of the local PDE. Their mismatch can be measured on common samples but cannot be removed by subtracting reported relative error magnitudes. Report compilation and first-update cost separately from warmed updates, and distinguish active memory from allocator reservation.
+
+## Cold training wall-clock cost
+
+Primary training cost covers the complete cold process: imports/device and model
+initialization, in-process input/operator preparation, compilation, all updates
+and rolling-pool waits, in-training evaluation, final output/checkpoint writing,
+and teardown. Use the parent's timer from before process creation through exit;
+warm-update measurements are auxiliary and must not replace this total.
+Separately prepared input/reference banks, qualification probes, and separately
+launched post-training evaluations/audits/plots are outside this interval.
+
+| Example | Updates | Nonlocal | Local AD | FEM PINO |
+|---|---:|---:|---:|---:|
+| Electropolish | 10,000 | 15.63 min | 18.27 min | 15.44 min |
+| Melting 3D | 10,000 | 6.89 min | 10.37 min | 7.35 min |
+| Ceramic corrosion | 20,000 | 26.81 min | 28.47 min | 21.01 min |
+| Two-phase flow | 20,000 | approximately 9.18 h* | 10.16 h | 8.03 h |
+| Spinodal | 50,000 | 2.2464 h | Omitted after resource probes | 1.9035 h |
+
+*The historical Nonlocal channel interval is reconstructed from external UTC
+records (33,044.11 s), with approximately ten-second exit polling plus monitor
+work and a timestamp immediately after process creation. It is approximate,
+not a strict sub-second pre-spawn timer, and uses a different physical GPU from
+the current AD/FEM controls. Ceramic's three controls share an older physical
+RTX PRO 6000; Electropolish/Melting and current channel AD/FEM use the current
+RTX PRO 6000. Same model name alone does not establish same-card timing.
+The other table values use recorded pre-launch/post-exit parent timers.
+Spinodal uses this same current physical GPU for both completed controls. Different examples retain their
+declared monitoring cohorts; these totals include that evaluation workload.
+
+For the two 10k temporal controls (both nonlocal), complete cold times are:
+
+| Example | Spatial attention + decoder FiLM | Joint space-time query |
+|---|---:|---:|
+| Electropolish | 15.63 min | 23.65 min |
+| Melting 3D | 6.89 min | 14.99 min |
+
+[Exact timing provenance](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/pino_training_wall_costs.json).

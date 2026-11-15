@@ -13045,3 +13045,769 @@ pending files and partial DEVELOPMENT edits. Archive the task and publish its
 verification receipt in a documentation-only follow-up, leaving the verified
 website unchanged. No new training or default promotion.
 Relation: docs/tasks/archive/channel-statistics-publication.md.
+
+## 2026-11-14 — Verify the reported stale website violin before changing assets
+
+Six ordinary/cache-bypassing live HTML/PNG/PDF responses match the accepted
+release; fresh Chromium displays the correct violin. Retain current source
+and assets. Cache-Control:max-age=600 makes a stale client copy plausible,
+but the user's cache was not inspected. Provide a fresh direct image URL and
+force-refresh instructions instead of claiming an unobserved deployment defect
+or performing an unnecessary redeployment. No Git operation or numerical work.
+Relation: docs/tasks/archive/channel-violin-web-check.md.
+
+## 2026-11-14 — Add a full local spatial-AD channel PINO control
+
+The user's requested local-AD addition concerns the current random-wall coupled
+NS--CH operator. Historical prescribed-flow CH PINN diffusion comparisons cannot
+be inserted into these plots. Add explicit local spatial gradients/Laplacians,
+including third derivatives implied by streamfunction velocity, while retaining
+the same hard lifting, time JVP, SOAP, cold20k, actual geometry/time draws and
+nine original strong-residual/BC losses. Use the same qualified local FEM
+references. Validate derivatives/parameter gradients and full update resources
+before a long run; chunking must preserve the effective loss and samples.
+Reject an unlabeled hybrid, changed BC family, or presumed method ranking.
+No numerical default promotion or Git operation is authorized.
+Relation: channel-local-ad-comparison.
+
+## 2026-11-14 — Permit efficient sampled local AD with independent boundary losses
+
+User explicitly points out that local AD needs no full query mesh or halo and
+requests separate boundary losses. Stop the resource-only full-AD owner and its
+waiting cold20k queue; do not use their incomplete timing as a method comparison.
+Test1024/2048 fresh uniform interior queries, without replacement, while keeping
+the full geometry encoder and all original wall/outlet quadrature points. If
+M interior nodes carry normalized physical weights m_i/W, use sampled PDE
+weights M*m_i/W and average over K draws. The expectation equals the existing
+full discrete spatial objective; do not renormalize the sampled weights. Keep
+all five explicit BC losses, with physical AD normals/traction, and existing
+Dirichlet hard lifting. The current channel nonlocal control also has these
+explicit BC terms; do not claim they are absent or silently remove them.
+Report method-specific query counts/time blocks, common references and measured
+time to error, rather than requiring equal point counts. Same time/geometry RNG
+streams are preserved with a separate deterministic PDE-query namespace.
+Relation: channel-local-ad-comparison; supersedes full-query-only control scope.
+
+## 2026-11-14 — Predeclare sampled AD production after finite resource checks
+
+The finite sampled owner37019 tests1024queries/block18 and2048queries/block9,
+alongside a new same-card nonlocal full-grid probe. On paired/resource success,
+run2048queries/block9 cold20k, retaining B8/Nt36 and all192boundary points. This
+accuracy-oriented query budget is chosen before held-out evaluation;1024 is a
+resource probe, not a competing completed accuracy result. Preserve actual
+query IDs and automatically audit all draws and the same three FEM references.
+Full-query owners15899/34407 and their worker groups are stopped; one recorded
+full update peaked79.67GiB and cannot establish warm throughput. Tests cover
+the unbiased estimator and independent unchanged BC terms. No Git/default change.
+Relation: channel-local-ad-comparison.
+
+## 2026-11-14 — Plot ceramic components while channel AD continues in background
+
+User explicitly requests ceramic three-method component violins and smoothed
+convergence. Switch foreground memory to this CPU-only task; leave the existing
+channel sampled-AD queue running. Preserve the three previously published20k
+checkpoints and all64final-test samples. Do not silently replace the published
+nonlocal arm with the later canonical-default run. Show phi and concentration
+separately, and distinguish21four-case weighted development records from64-case
+unweighted space-time final distributions. Use approved publication typography,
+NPG method colors and solid raw/trend lines. No retraining or Git operation.
+Relation: ceramic-component-comparison-figures.
+
+## 2026-11-14 — Resample complete ceramic geometry trajectories for trend intervals
+
+Use the accepted channel figure layout, solid raw traces, log-error local-linear
+LOWESS and final log-KDE violins. Ceramic has four development geometries and
+21 measured records; enumerate all 4^4 = 256 bootstrap selections of complete
+geometry trajectories, smoothing each arithmetic geometry mean with span 0.30.
+This preserves within-geometry temporal dependence. Reject resampling individual
+steps as independent observations or copying the channel single-geometry
+residual-bootstrap assumptions into this different cohort. Describe the bands
+as approximate pointwise small-cohort intervals conditional on one training
+trajectory, not cross-seed uncertainty or guaranteed population coverage.
+Keep the weighted four-case monitor separate from the unweighted 64-case final
+space-time norms. Direct saved-field audits and exact bootstrap moments plus an
+independent analytic convolution check validate plotted reductions. Sync local
+README/site PNG/PDF assets; no training/default/Git changes.
+Relation: ceramic-component-comparison-figures.
+
+## 2026-11-14 — Recover sampled channel AD after CUDA graph allocation failure
+
+The first sampled queue stopped before any cold20k training: the1024/block18
+60-step probe passed, but2048/block9 failed while instantiating a4713-node CUDA
+command buffer, with two graphs alive. The log explicitly reports driver OOM;
+this is not a measured PDE divergence. A97%preallocated JAX pool leaves little
+external driver headroom even when live arrays use much less. Retry the finite
+queue with an explicit80%allocator for both AD probes and production, retaining
+97%for the full-grid nonlocal probe. Record each child environment. Keep all
+physics, SOAP,2048production queries,192BCpoints,B8/Nt36/block9 and ordinary
+compilation unchanged. Do not silently disable command buffers or reduce the
+training batch. Preserve the failed journal; a new queue must pass all resource
+and pairing gates before automatically starting cold20k. Prior1024results remain
+short-probe evidence only, not a completed accuracy comparison. No Git action.
+Relation: channel-local-ad-comparison.
+
+## 2026-11-14 — Expand derivative comparisons to a complete example suite
+
+User makes all-example three-method comparisons and README/site statistical
+figures the persistent objective. Create one umbrella task and retain channel
+AD as its live child; this is an explicit scope expansion, not a silent task
+switch. Audit existing final runs before rerunning, and do not substitute old
+PINNs, different physics, numerical FEM solves, or short resource probes for
+missing PINO controls. The five main PINOs are certainly in scope; clarify
+whether pilot/legacy examples are additionally requested. Preserve SOTA defaults,
+negative evidence and source-frozen live jobs. Serialize GPU/FEniCS execution;
+continue independent CPU preparation. No Git operation is authorized.
+Relation: pino-three-method-suite; channel-local-ad-comparison.
+
+## 2026-11-14 — Confirm five PINOs and add a matched Electropolish weak operator
+
+User explicitly selects the five main PINO examples, excluding pilot/legacy
+examples from this goal. Start the missing Electropolish FEM arm with the existing
+101x51 rectangular nodes, two conforming P1 triangles per cell, exact element
+gradients and row-sum masses. Integration by parts gives K_ij=int gradNi.gradNj;
+lumped time/reaction terms yield D=M_lump^-1 K. Zero side flux is natural;
+top/bottom columns remain in complete free rows, with original soft Dirichlet
+losses. Keep five original L1 groups, weights, network, Adam10k, original rough
+initial profiles and actual rolling core/time/condition streams. Native graph
+references remain monitoring only; final comparisons use the shared local-FD64
+cohort. Reuse generic row indexing without using nonlocal kernel coefficients.
+No defaults or local-AD boundary family change. Independently verify element
+assembly, energy, zero flux, refinement, complete sampled rows and network
+parameter gradients before training. GPU experiments wait for the live channel.
+Relation: pino-three-method-suite.
+
+## 2026-11-14 — Use common local monitoring and serial fresh Electropolish controls
+
+Existing Electro41-record monitors use native graphs, while final64errors use
+localFD. Add read-only four-case localFD monitoring at every250updates for all
+three methods; keep its physical inputs/reference fields out of loss APIs.
+Use the declared FP64uniform21-time grid for reference selection, checking the
+cached FP32neural time coordinates separately to avoid rounded search indices.
+Run fresh three-way cold10k controls for common convergence and current-card
+resource data, preserving historical results. Finite owner104855 waits for
+channel owner81883 to finish successfully and checks process identity; no GPU
+contention or FEniCS solve. Same initialization, actual condition/time/core draws,
+BCfamily and nonlocal/default recipe remain explicit. Audit before publishing.
+Relation: pino-three-method-suite; artifacts/pino_three_method_suite.json.
+
+## 2026-11-14 — Preserve the Melting hard initial lift in a genuine operator-AD control
+
+Add an opt-in local-AD random-ellipsoid operator arm, preserving the encoder,
+spatial-only cross-attention/time FiLM, cold Adam10k, actual condition/time/core
+streams and the latent tanh PDE metric. Do not reuse the old single-IVP AD PINN.
+The prescribed Euclidean SDF is currently evaluated by bisection: differentiating
+its branch trace is not implicit differentiation of the closest-point equation.
+Compute its known spatial gradient/Laplacian from the unique closest surface,
+independently validate against sphere formulas and finite differences of the
+existing float64 distance solver, and take AD jets only of the learned correction.
+For outward distance d=-s, outward normal n, and surface shape operator S,
+grad(s)=-n and Hess(s)=-S(I+dS)^-1 away from the medial axis. Singular projection
+or nonfinite jets must be reported, not silently regularized. This is analytic
+known-input geometry plus local AD network differentiation, stated explicitly.
+Apply the unchanged u=u0+t*f lift and r=u_t-N1*(lap(u)-2*tanh(u)*|grad(u)|^2)
+-N2*tanh(u)+N3. Add explicit physical Neumann mean-square loss on six faces;
+do not constrain latent normal derivatives, which have a different weighting.
+Use independent boundary RNG so original interior/time/condition streams stay
+paired. Existing defaults and independent reference acceptance remain unchanged.
+Relation: pino-three-method-suite.
+
+## 2026-11-14 — Preserve full-field Spinodal structure in the local-AD arm
+
+Use the accepted full-field hardIC/physical-volume mass projection and eliminated
+chemical potential. The local PDE is T*(phi_t-M*lap(mu)), with
+lap(mu)=beta*((3phi^2-1)*lap(phi)+6phi*|grad(phi)|^2)-epsilon^2*bilap(phi).
+Differentiate the learned correction through fourth order; retain analytic
+known Fourier-IC derivatives. Hold the quadrature mean constant in spatial
+coordinates while retaining its time/parameter dependence. Reuse the original
+input-only stable resolvent as an explicitly nonlocal loss metric, not as the
+local PDE derivative. Add separately normalized physical n.grad(phi) and
+n.grad(mu) MSE on the existing boundary measure, on positive sampled times;
+keep the original20%initial-PDE fraction. Initial ambient data need not satisfy
+wall flux at t0. Rematerialized query chunks and exact condition-gradient
+accumulation reduce memory without dropping any physical point/resolvent
+column or adding optimizer steps. Qualify derivative, objective/gradient and
+resource behavior before full50k training. Defaults remain unchanged.
+Relation: pino-three-method-suite.
+
+## 2026-11-14 — Use explicit nodal P1 weak CH for Spinodal FEM PINO
+
+Assemble signed P1 stiffness and positive lumped nodal mass on each existing
+Gmsh triangular mesh. Keep both original boundary and centroid-domain encoder
+streams unchanged; evaluate the FEM PDE on mesh vertices. The same hardIC and
+mass-projection formula uses the FEM nodal mass in this arm, an explicit
+quadrature difference rather than an alleged identical pointwise residual.
+Eliminate mu=beta*(phi^3-phi)+epsilon^2*M_lump^-1*K*phi and apply the weak phase
+operator again, with natural homogeneous Neumann conditions for both fields.
+Build the same stable-part resolvent construction from the FEM self-adjoint
+operator; retain every signed stiffness coupling, no kernel or clipping.
+At the common centroid evaluation points, query the continuous neural phase
+with its nodal-mass shift and interpolate the eliminated nodal mu with P1 basis.
+Record this reconstruction and quadrature difference. Original default and
+native reference remain unchanged. Independently verify element energies,
+constant/mass identities, weak residuals and parameter gradients before training.
+Relation: pino-three-method-suite.
+
+## 2026-11-14 — Qualify a common local Spinodal cohort before method ranking
+
+The existing eight reserved10mode/T3 geometries have only native nonlocal
+references, so native errors alone can confound discretization and neural
+optimization. Prepare matching independent mixed-P2 FEM trajectories at the
+same centroid queries and five times, using the existing declared h=.035/.025,
+dt=.0025/.00125 checks. Run this serially after GPU queues finish, not concurrently
+with JAX GPU. Each geometry must pass physical matching, phase space/time
+refinement and mass/energy checks; retain chemical refinement at positive times
+and state the solver's analytic initial-mu reporting convention. Keep native
+comparisons too. Existing SOTA remains native-qualified, not retrospectively
+promoted to continuum accuracy. The extra local data is read-only monitoring,
+never an encoder/training payload. No method is selected by which reference
+favors it. All three new cold controls use explicit ordinary/autotune0 execution.
+Relation: pino-three-method-suite.
+
+## 2026-11-14 — Match Spinodal comparisons on positive-time PDE collocation
+
+The analytic fixed initial field violates the new geometry's homogeneous wall
+conditions. Under the hard mass lift, the centroid-weighted mean phi_t(0) is
+identically zero, whereas the strong local Laplacian of its initial chemical
+potential has nonzero mean. On the eight reserved inputs the absolute mean
+T*(phi_t-M*lap(mu)) is0.0148--0.1533, independently computed from Fourier jets.
+The original resolvent preserves constants, giving a strictly positive initial
+strong-residual lower bound. This constant mode itself has zero parameter
+gradient under the hard mass projection; it is not alone proof of bad training.
+More fundamentally, initial strong PDE/wall compatibility is not required of
+the weak evolution for t>0. For the NEW matched nonlocal/AD/FEM comparison only,
+set initial_residual_fraction=0 in all three arms and train at the same16positive
+stratified times. Preserve exact hardIC and the original random-time stream,
+including its unused leading zero. Keep the accepted SOTA default fraction0.2.
+This supersedes the earlier comparison decision to retain20%initialPDE; it is
+an explicitly shared loss-measure change, not a physical initial-data change.
+No method is trained yet. Do not silently compare this new NL run with the old
+SOTA as though their objectives were identical. Retain analytic initial-mu
+reporting and a separate positive-time chemical error diagnostic.
+Relation: pino-three-method-suite; /tmp/spinodal-initial-ad-compatibility.json.
+
+## 2026-11-14 — Share figure mechanics without merging incompatible statistics
+
+Use a common rendering layer for the five three-method comparisons, with explicit
+case-specific loaders that recheck final saved physical-field norms. Keep each
+case's declared channels, reference, cohort and time scope; in particular retain
+channel's established positive-time algebraic-field convention and qualify
+Melting's native8distribution separately from its accepted local single case.
+Do not turn a native comparison into a claimed independent-local result.
+All curves use actual records, thin solid traces and log-LOWESS. Where per-case
+histories exist, bootstrap complete geometry trajectories (exact enumeration
+for2/4cases; fixed-seed sampling for8), preserving time dependence and reusing
+paired sample indices across methods. Channel's one-case history retains the
+approved conditional circular-block residual-bootstrap trend interval. These
+are different uncertainty scopes and must be stated in each caption, not
+combined as cross-seed confidence. Reject incomplete final arms and do not
+publish provisional curves as finished comparisons. Validate mechanics against
+the already completed ceramic arrays; keep current published figures unchanged
+until complete new data is available.
+Relation: pino-three-method-suite; PLOTTING_GUIDELINES.
+
+## 2026-11-14 — Render previews only after each complete comparison audit
+
+Attach one finite CPU-only rendering queue to the four existing experiment
+owners, using their explicit PID/start identity and successful final reports.
+Snapshot the qualified renderer/statistics sources and reject changes before
+rendering. Generate external preview pairs and full provenance automatically;
+keep manual visual/metric review before README/site asset promotion. Do not
+restart trainers, replace missing methods, or mark partial figures as final.
+This advances the requested five-case figures while long comparisons run,
+without extra GPU work or changing their scientific inputs. A failed dependency
+or renderer stops later preview stages and retains the log.
+Relation: pino-three-method-suite; docs/tasks/pino_comparison_figure_queue.py.
+
+
+## 2026-11-14 — Keep the live dashboard short without discarding history
+
+Reduce PROGRESS from1049lines to100lines covering the five-case objective,
+actual comparison coverage, live dependencies, current errors and next action.
+Retain the complete prior dashboard in
+`tasks/archive/project-progress-through-20261114.md`; rebase its relative links
+and verify inverse rebasing reproduces
+all original text exactly. The prior dashboard mixed many completed and stopped
+runs with current work, contrary to the short-dashboard role and making stale
+process statements easy to misread. Rejected alternatives: deleting historical
+qualification or continuing to duplicate every old task in the live dashboard.
+No source, numerical choice, process, default or selected figure changes. This
+is repository-memory maintenance during a verified live training wait.
+Relation: pino-three-method-suite; artifacts/pino_progress_dashboard_compaction.json.
+
+
+## 2026-11-14 — Reduce assistant monitoring to fifteen-minute intervals
+
+User explicitly requests slower polling for the long training jobs. Check their
+actual process/log state every15minutes and report only new evaluation records,
+completed stages or actual failures; answer direct user requests promptly.
+Reject minute-by-minute polling and repeated unchanged status messages. Keep
+existing trainer/queue heartbeat behavior untouched so live source snapshots and
+failure handling remain stable. This changes observation cadence only, not the
+five-case objective, training budgets, queue order or numerical configuration.
+Relation: pino-three-method-suite; inventory.monitoring_policy.
+
+
+## 2026-11-14 — Monitor the complete test cohort in future three-way runs
+
+User requests full-test-set evaluation throughout training for runs that have
+not started, while leaving already running experiments unchanged. New Electro
+controls evaluate all64local-FD cases every250updates; new Melting controls use
+all8existing native test ellipsoids every250updates. Spinodal already evaluates
+all8planned independent-local test geometries every500updates. Interpret
+"for example64" as full existing cohorts, with their actual sizes explicit;
+no additional reference cohort is silently invented. The live channelAD20k and
+all completed ceramic/channel controls retain their original monitoring scope.
+Evaluation stays read-only, outside loss/optimizer/sampling and never selects a
+best checkpoint; final fixed-budget models remain the reported models.
+
+Terminate and preserve only the four waiting, childless downstream queue owners
+before editing their audit/plotting sources, then launch replacement serial
+queues after validation. Keep the channel owner/trainer untouched. Update
+cohort metadata, final audit completeness checks, whole-trajectory bootstrap
+wording and reproduction documentation together. Rejected alternatives: keep
+using small monitor subsets, silently label them full test statistics, or
+alter a running comparison's monitoring midway. Future wall timings include
+the larger evaluation cost and must be measured anew.
+Relation: pino-three-method-suite; pino_full_test_monitoring_transition.json.
+
+## 2026-11-14 — Add two matched temporal-fusion controls to the five-case study
+
+User expands the goal to2–3fast PINOs comparing current spatial cross-attention
+with subsequent layerwise time FiLM against joint(x,t)queries without FiLM.
+Choose Electropolish and Melting and reuse their pending nonlocal10k arms as
+baselines. Add two cold10k joint-query runs after resource qualification, keeping
+physical losses, output constraints, online/core draws and complete-test
+monitoring unchanged. Compare common initial backbone arrays, not incompatible
+whole time-module/optimizer trees; report capacity differences. The separated
+spatial and temporal affine maps are exactly one affine map on concatenated
+Fourier features. Both retain one condition encoder call; the joint method has
+Nt times as many attention queries, so timing must include actual differentiated
+training and full-cohort inference. Old5k/Nt4Electro evidence is historical only.
+
+Extend the existing wrapper with an encoded-query interface for3Dreuse rather
+than modify live shared conditional/channel code. Schedule short controls after
+Melting and before the longer Spinodal stage, replacing only verified childless
+waiting owners as necessary. No changes to SOTA defaults, running channel,
+derivative-control budgets or approved figures. Reject concurrent GPU trainers,
+shortened controls presented as matched10k, or choosing a winning checkpoint.
+Relation: pino-three-method-suite; pino-time-fusion-comparison.
+
+## 2026-11-14 — Use64test inputs for both new time-fusion cases
+
+User further requires nonlocal derivatives, a larger common test cohort,
+convergence plots and final error distributions in the established style.
+Electro already has64local-FD inputs. Extend Melting's native bank from8to64test
+ellipsoids, retaining the existing10monitor/test inputs byte-for-byte and adding
+56independently drawn inputs with a declared extension seed. Preserve local
+CG2case005identity. Each additional reference must pass the existing full-cube
+dt/dt2 time-refinement and physical-range checks; use the unchanged independent
+CPU RK4 solver, with bounded parallel workers, before dependent GPU work.
+Do not claim local-continuum qualification of the expanded native cohort.
+All future Melting controls use this same64case monitoring cohort so the new
+nonlocal derivative-control run can also be the time-FiLM baseline. No physical
+or training draw is changed by enlarging read-only evaluation. Earlier8case
+plans/results remain historical. Replace only verified childless waiting
+Melting/Spinodal/preview owners; running channel and waiting Electro stay intact.
+Relation: pino-time-fusion-comparison; pino_time_fusion_queue_transition.json.
+
+
+## 2026-11-14 — Qualify complete-test temporal controls and restore serial owners
+
+The matched nonlocal temporal controls reuse existing spatial-FiLM backbones;
+actual initialization checks retain shared numeric leaves exactly. Report
+stored-entry differences (Electro320706/264738, Melting85825/71665) instead of
+claiming equal parameter capacity. Independent2D/3Daffine/JVP/gradient checks
+pass. Extend the existing renderer with an explicit two-arm schema, retaining
+three-arm behavior and full64cohort gates. The PDF edit probe accepts the actual
+time-fusion labels; synthetic layout data remain qualification-only.
+
+Replace only the previously stopped, childless waiting Melting/Spinodal/preview
+owners. Serial order is channel -> Electro -> Melting64reference/three-way ->
+two temporal controls -> Spinodal; direct receipts record each PID/start time.
+Original channel and Electro owners stay untouched. Reject concurrent training,
+shortened controls or treating the small reference smoke test as full-resolution
+qualification. Complete64tests are inferred sequentially to bound GPU memory.
+Relation: pino-time-fusion-comparison; pino_time_fusion_validation.json;
+pino_time_fusion_queue_transition.json. No default/selected-result/Git change.
+
+
+## 2026-11-14 — Record completed channel AD without changing selected defaults
+
+The sampled localADcold20k and independent reserved-three audit now pass. Retain
+all three final fixed-budget methods, separate phase/velocity/pressure/chemical
+metrics and distinguish the single development history from the final3case
+distribution. Do not claim AD dominates FEM on pressure or that one seed/three
+reused cases establishes a universal ranking. Keep accepted nonlocal defaults.
+Electro nonlocal10k also completed with full64monitoring; its result is an arm,
+not a completed three-way comparison. Reject promoting incomplete AD/FEM data
+or calling the new local drafts deployed. Channel preview visual review found
+a clipped convergence legend, so defer asset promotion until its margin is fixed.
+Relation: pino-three-method-suite; channel-local-ad-comparison.
+
+
+## 2026-11-14 — Publish audited channel three-method figures locally
+
+Promote only the final audited20k channel methods, preserving the single-case
+convergence and three-case final metric scope. Move the clipped convergence
+legend inward, verify all raw/statistical arrays unchanged, and retain compact
+PDF/PNG assets with direct provenance. Extend the local website build to accept
+completed case manifests with explicit cohorts and byte budgets, keeping old
+assets and the prior FEM-section anchor. Replace only the verified idle preview
+owner before its frozen renderer changes; leave every numerical source/trainer
+untouched. Reject copying whole external histories or replacing accepted SOTA
+defaults. The new four-case three-method collection has a separate4MiB cap and
+1MiBper-file cap; current channel assets total510,654bytes. Nine-page build and
+342local links pass; no browser GUI, Git or deployment is claimed.
+Relation: pino-three-method-suite; archived channel-local-ad-comparison;
+artifacts/channel_three_method_publication_validation.json.
+
+## 2026-11-14 — Preserve failed Electro pairing and isolate prescribed inputs
+
+All three Electro10k runs and individual64case evaluations finished, but the
+strict pairing audit failed. Actual encoder images differ by up to1.788e-7
+(AD/NL) and8.941e-7(FEM/NL); FEM initial values differ by1.192e-6. All actual
+witness values agree with an independent FP64 NumPy SDF within4.2e-6, and frozen
+numerical sources are unchanged. This supports roundoff as the explanation,
+but does not make the original bitwise-pairing gate pass. Preserve the failed
+journal, weights and diagnostic instead of loosening its tolerance after seeing
+results. All dependent owners exited without starting their next experiments.
+
+For a fresh controlled repeat, compute shared prescribed encoder/IC/Dirichlet
+values outside the method-dependent GPU sampling compilation, using the existing
+NumPy FP64 windowed SDF and one final FP32 cast. Keep the original FP32-rounded
+curve vertices, profile coefficients, acceptance rule, queries and physics.
+Add an explicit opt-in selector only to the three-way presets (and their temporal
+control descendant); retain existing SOTA/default sampling. Measure its added
+host preparation cost separately and in end-to-end time. Strict paired witnesses
+must now match exactly, including initial values, before publication. First
+qualify actual shared-query identity, independent physical values, unchanged
+random draws and all three GPU preparation shapes; then run fresh three10k
+arms and restore the full serial queue with explicit new identities. Rejected:
+relabel the failed run passed, silently increase tolerances, or change the
+rough-interface family/physical model to force agreement.
+Relation: pino-three-method-suite; artifacts/electro_input_roundoff_diagnostic.json.
+
+
+## 2026-11-14 — Resume strict Electro controls after independent input qualification
+
+The common prescribed-input correction passes exact equality on64actual update
+IDs×8profiles×3GPUquery layouts, retaining original coefficient/acceptance draws.
+Twelve focused tests pass. Treat measured25–27ms as total sampler preparation,
+not isolated incremental host overhead. Preserve attempt02 and its failed
+pairing; its three individual final64results remain explicitly provisional.
+Restore fresh cold10k Electro03, then unchanged Melting04,temporal02,Spinodal04
+and preview06 serial owners after verifying old owners stopped andGPUempty.
+Record exact process identities and dependencies; do not modify numerical source
+while these runs are active. No production-default,physical-model,selected-asset
+orGit change. Reject relaxing the audit or labeling completed inference as a
+passed paired experiment. Relation: pino-three-method-suite;
+artifacts/electro_shared_input_qualification.json;
+artifacts/pino_shared_inputs_queue_transition.json.
+
+
+## 2026-11-14 — Publish the qualified Electro three-method control locally
+
+Fresh corrected10k Nonlocal/LocalAD/FEM arms pass the strict audit: identical
+cold model/Adam state, complete coefficient/acceptance/time/core draws and exact
+saved common-input witnesses; all41monitoring records contain64local-FD cases.
+Independent saved-field norms and final inference agree. Publish final weights
+only, with separate physical channels and unchanged full-space-time equal-node
+norms. FEM has slightly lower error than Nonlocal in this one run; AD is higher.
+Do not select another result to favor Nonlocal or infer cross-seed rankings.
+
+Keep total cold wall, first compilation/update, warm differentiated update,
+input preparation and active peak memory separate: sampled AD is faster per warm
+update and uses less active memory, while its longer compile increases cold wall.
+All methods retain the explicit common host-preparation cost and same device.
+Correct the extension text's inaccurate "five L1 loss groups": code uses two
+L1 PDE groups and three MSE IC/Dirichlet groups, with the sixth Neumann group only
+for AD. This is a documentation correction, not a loss change. Preserve SOTA
+field images/defaults and historical comparisons. Add reviewed PDF/PNG pairs,
+exact provenance and consistent example/site captions; noGit/deployment.
+Relation:pino-three-method-suite;electro-threeway-20261114-03/comparison.json.
+
+## 2026-11-14 — Keep temporal-control publication separate from derivative comparisons
+
+Reuse the reviewed-asset publisher for the two completed temporal controls, with
+an explicit two-arm schema, complete64case/41record gates and a separate2MiB
+collection. Retain pairing, differing temporal capacities, measured timing and
+the separate Melting local-reference diagnostic in the compact provenance.
+The website copies only selected, audited PDF/PNG pairs; an empty temporal
+manifest means no result has yet been promoted. Reject treating queued controls
+or synthetic layout checks as scientific results. Preserve numerical/renderer
+sources frozen by the live queues, and keep all SOTA defaults unchanged.
+Relation:pino-time-fusion-comparison; local publication only, noGit/deployment.
+
+## 2026-11-14 — Publish Melting's qualified three-method results with two reference scopes
+
+All three cold10k arms pass initial-model/Adam, complete sampling, source-byte,
+explicit AD-boundary replay and saved-field audits. Publish the64native-reference
+convergence/distribution, evaluated on24³queries at five times, alongside the
+separate previously accepted localCG2case005 diagnostic. AD has the lowest
+native-cohort error; FEM PINO has the lowest pooled error on the one local case.
+Neither ranking establishes a universal winner. Preserve the local reference's
+unpassed strict-refinement flag and the user's practical acceptance; do not
+call it a qualified64case local study. Record measured cold-process costs,
+warm inclusive medians and active peaks on the actual same GPU. Keep production
+defaults and earlier selected images untouched. Reject mixing the one local
+sample into the64case violin or hiding reference-dependent method ordering.
+Relation:pino-three-method-suite;melting-threeway-20261114-04/comparison.json.
+
+## 2026-11-14 — Publish the completed Electropolish temporal control
+
+Both nonlocal cold10k arms pass complete64local-FD monitoring/final-field norms,
+identical shared-backbone initialization and all actual input draws. Compare
+final fixed-budget weights: decoder FiLM phase1.9713%,concentration2.3563%; joint
+query2.0577%,2.4520%. Treat this as close accuracy in one initialization, not a
+cross-seed significance claim. Record joint-query higher measured cold/warm
+training cost and active peak, alongside its smaller stored-entry count;
+parameter count alone does not predict query-dependent training memory.
+Preserve the difference in temporal-module capacity and optimizer-tree shapes.
+Promote only the reviewed real two-panel figures and their direct provenance;
+retain older5kcontrols and current SOTA defaults. Melting's joint run continues
+serially before Spinodal. No Git or deployment is authorized.
+Relation:pino-time-fusion-comparison;pino-time-fusion-20261114-02/electropolish-comparison.json.
+
+## 2026-11-14 — Retain the accuracy/cost tradeoff in Melting temporal fusion
+
+Both nonlocal10k temporal arms pass full64native histories,128saved-field norms,
+shared initial-backbone and complete actual sampling/source audits. Joint queries
+reduce final native phase error from0.2860%to0.0935% and the separate accepted
+localCG2case005error from0.1928%to0.1302%. Cold cost rises6.89to14.99minutes,
+warm-inclusive median15.81to60.44ms and active peak1.45to9.36GiB. Publish both
+outcomes instead of claiming the cheaper FiLM architecture always wins accuracy.
+Keep late-step variability, one initialization, unequal time-module capacities
+and native/local reference scopes explicit. Do not select another checkpoint or
+change SOTA defaults from this comparison. Complete and archive the temporal
+child after both local publications verify; the parent five-case goal remains
+active for Spinodal. No Git/deployment.
+Relation:pino-time-fusion-comparison;pino-time-fusion-20261114-02/melting-comparison.json.
+
+## 2026-11-14 — Diagnose Spinodal's native/local reference gap before ranking training
+
+The first two independent mixed-P2 references pass their refinement/invariant
+gates but differ from the retained regional graph trajectories by21.54/31.20%
+in volume-weighted phase norm. Add a read-only CPU diagnosis on these completed
+files: verify prescribed inputs, compare equal-node and physical-volume norms,
+separate positive-time chemical errors, and check the actual finite-horizon
+kernel on the known Fourier modes away from walls. Distinguish a whole-space
+symbol calculation from the bounded nonlinear evolution; neither alone
+attributes the entire trajectory gap. Preserve the live reference queue and
+all frozen training settings. Reject changing the horizon after seeing results
+or reporting native fitting error as local-PDE accuracy.
+Relation:pino-three-method-suite; Spinodal independent-reference qualification.
+
+## 2026-11-14 — Refine a failed Spinodal reference without relaxing its gate
+
+The sixth geometry1029fails the original spatial phase gate:1.3449% atT3 for
+h=.035/.025, while time-step, chemical, mass and energy checks pass. Both old
+queue owners and the reference child are terminal; GPU is empty. Preserve the
+failedv1bank/journals and five qualified cases. Build a newv2bank, rechecking
+and copying those qualified arrays unchanged. For1029reuse its existingh=.025
+fine solution as the next coarse solution; explicitly addh=.018 with both
+dt=.0025/.00125. Apply the same bounded refinement option to remaining cases
+only if their original spatial gate fails. Keep all1%phase/5%chemical/invariant
+thresholds and PDE/IC/geometry settings unchanged. Record every attempt and
+its direct source, and independently recheck all saved gates before GPU probes.
+Only the comparison presets' reference path changes; SOTA defaults remain.
+Reject accepting the1.34%failure, skipping a reserved geometry, overwritingv1,
+or rerunning the five already qualified reference trajectories.
+Relation:pino-three-method-suite; spinodal-threeway-20261114-04 failure.
+
+
+## 2026-11-15 — Qualify a CPU-only Taylor-AD candidate while the original probe continues
+
+The full-width local-AD probe remains live after more than100minutes without a
+completed first update; active CPU work is verified, but OS policy denies an
+external stack capture. Preserve that process and every frozen source. In a
+separate task-only module, test whether Taylor-mode AD can reproduce the same
+first/second/fourth spatial derivatives with a smaller transformed calculation.
+Use the installed JAX jet implementation with explicit unscaled Taylor terms
+and exact integer factorial conversion. In2D, for unnormalized diagonals
+d+=(1,1),d-=(1,-1), the algebraic identity is
+Delta^2 f=(2/3)(D_x^4+D_y^4)f+(1/6)(D_+^4+D_-^4)f.
+Independently check polynomial/Fourier fields and all parameter-gradient leaves
+of a small actual two-stream network against existing nestedJVP. These are CPU
+qualification diagnostics, not GPU timings or a qualified full-CH replacement.
+Reject changing the live PDE/output/budget, restarting for an expired observation,
+or promoting the candidate from a toy test alone. No newGPU/FEniCS work or
+production dependency is introduced. Relation:pino-three-method-suite.
+
+
+## 2026-11-15 — Respect Spinodal's measured LocalAD execution ceiling
+
+The original full-field30step LocalAD probe completes normally, preserving
+finite FP32 model/optimizer state. Firstupdate7001.67s; final20 inclusive median
+8.20778s projects113.997h for50kupdates, above the predeclared24hceiling.
+This is a measured execution-cost issue, not a terminal compiler hang, an OOM,
+or a converged accuracy ranking. Let the already-running FEMprobe and existing
+commonaudit finish; retain the queue's automatic budget stop. Before fresh long
+controls, qualify an equivalent AD implementation with the same PDE/output,
+architecture/physics/budget and paired inputs. Keep the isolated Taylor candidate
+pending production-backward and GPUresource evidence. Reject silently launching
+five days of updates, shrinking the50k budget, altering physics, or treating
+30steperrors as final comparison results. Relation:pino-three-method-suite;
+artifacts/spinodal_local_ad_resource_probe.json. No frozen source/default change.
+
+## 2026-11-15 — Test Taylor AD on the full GPU workload before integration
+
+All three original30step probes and strict common-state/input/source/reference
+checks pass; only the originalAD projected114hcost fails the declared24hgate.
+Both original queue/preview owners terminate as designed. The isolated actual
+width256 FP32 fullCH/all121loss-gradientleaves check now passes(maxabs2.38e-7),
+with CPU firstcalls740.02/94.04s and warm260.27/106.05ms(nested/Taylor), using
+reduced diagnostic points. Do not extrapolate those times to fullGPUtraining.
+Add a task-only30update GPU resource runner with the exact saved coldconfig,
+model/SOAP initialization, full1536padded queries,B16,Nt16, physicalwalls and
+rolling/time draws. Keep existing training/reference sources unchanged and
+compare actual recorded inputs to the originalprobe. This is an execution
+candidate, not a newPDE/output/sampling strategy or a converged result. Reject
+integrating solely from theCPU microcheck or silently lowering50k. No additional
+FEMsolve or secondGPUjob. Relation:pino-three-method-suite.
+
+
+## 2026-11-15 — Correct the isolated probe's encoder-witness scope
+
+TaylorGPUprobe01 stops before anyupdate because its new metadata exporter uses
+only8testIDs while the originaltrainer exports16training monitors plus8tests.
+Its freshmodel/SOAPbytes match exactly, and all8exported arrays equal the
+corresponding original slices. Reuse the existing evaluation_indices helper
+for the full24witnessIDs; keep all exactarray checks and failed01evidence.
+No derivative/loss/precision/sampling change or relaxed tolerance. After verifying
+oldprocess terminal andGPUidle, start new02probe with identical workload.
+Existing CPUfullgradient proofs remain valid. Relation:pino-three-method-suite;
+artifacts/spinodal_taylor_witness_correction.json.
+
+## 2026-11-15 — Increase only Taylor-AD execution chunk after the completed probe
+
+Full production30update TaylorAD probe02 completes with all exact initial
+model/SOAP/input draws and finite FP32 checks retained. Independent median is
+3.981214s/update (55.2946h projected50k), versus original8.207780s; peak active
+20.438GiB. It improves execution but still exceeds the24h budget, with no final
+accuracy claim. Both process and GPU are idle. Test querychunk512 after128,
+keeping full1536queries, B16/Nt16, architecture, PDE, BCs, sampling, optimizer
+and budget unchanged. Expose a required diagnostic CLI chunk argument, validate
+it before GPU work, and record the sole computational-blocking config change.
+Keep compiler flags unchanged to isolate this factor. Reject silently reducing
+point count, changing the objective, or launching55h before qualification.
+Relation:pino-three-method-suite;artifacts/spinodal_taylor_gpu_resource_128.json.
+
+## 2026-11-15 — User omits Spinodal Local AD after measured resource cost
+
+User explicitly requests skipping this AD experiment if it is indeed slow.
+Omit Spinodal AD from the remaining goal; preserve its original and Taylor
+30step resource evidence without presenting them as converged controls. Cancel
+the proposed512query-block experiment before launch and remove its unused CLI
+change. No AD process remains. Continue only the original matched Nonlocal and
+FEM PINO cold50k controls and their qualified8case local-reference monitoring.
+Keep the other four completed three-method comparisons and both temporal studies.
+High cost is specific to the eliminated-chemical-potential fourth-order AD
+formulation and implementation, not evidence that every local AD formulation
+would cost as much. No new mixed-output reformulation is requested.
+This supersedes the immediately preceding chunk-expansion plan. Preserve all
+reference/numerical source snapshots; add separate two-method orchestration
+and audits instead of altering frozen three-method reference helpers.
+Relation:pino-three-method-suite; user instruction2026-11-15.
+
+## 2026-11-15 — Make the Spinodal two-method presentation explicit
+
+Use a distinct spinodal_nonlocal_fem comparison kind and nonlocal_fem figure
+suffix for the user-authorized AD omission. Keep Nonlocal/FEM colors C0/C2
+consistent with completed three-method figures. Require both final50k runs,
+all101actual histories and all8common local-reference samples; missing AD is
+allowed only with the explicit two-method audit/omission declaration. Preserve
+strict three-method requirements for other cases. Add these four selected files
+to the existing4MiB derivative collection after actual final audit and visual
+review; do not rename them as three-method results or publish probe curves.
+No training/reference source or current selected asset changes.
+Relation:pino-three-method-suite; user omission2026-11-15.
+
+## 2026-11-15 — Compare Spinodal references using identical error reductions
+
+Read-only old SOTA final50k fields give4.9174% against the native reference and
+32.2170% against independent local FEM when both use equal-node space-time
+phase norms over identical8cases. The old published volume-weighted native
+value4.8329% is independently recovered. Matched20500step old/new native
+weighted errors8.6213/8.6880% show similar fitting progress, while the new final
+run remains incomplete. Report this without claiming exact replay: initial-PDE
+fraction changes0.2to0 and hardware/runtime differ; hardIC remains. Final new
+comparison should include both references under the same equal-node metric,
+retaining original volume-weighted numbers as supplementary historical evidence.
+Reject interpreting the native/local percentages as comparable under different
+quadratures, attributing the existing gap to a newly broken trainer, or treating
+native fitting accuracy as demonstrated local-PDE accuracy. No horizon/PDE/source
+change follows from this diagnostic. Relation:pino-three-method-suite;
+artifacts/spinodal_sota_repeat_comparison.json.
+
+## 2026-11-15 — Define reported training cost by the complete cold process
+
+User explicitly requires all time from cold launch through training completion.
+Use external parent stage elapsed time measured before Popen through child.wait
+completion, including imports, initialization/input preparation, compilation,
+all updates/rolling waits, in-training monitoring, model/log writes and teardown.
+Warm-update timings and trainer-internal timers remain separately labeled
+auxiliary measurements; never multiply warm time by steps and call it total.
+Reference-bank construction, qualification probes, and separately launched final
+reference evaluations/audits are outside the training process and listed as
+separate scopes. Existing offline input banks remain pre-existing inputs.
+
+Parent journals recover exact selected Ceramic times1608.454/1707.964/1260.563s
+for Nonlocal/AD/FEM; prior published1605.919/1704.985/1258.223s were internal
+trainer measurements. Channel AD/FEM parent times36560.920/28914.028s replace
+shorter internal counters. Historical channel Nonlocal has only launch-adjacent
+UTC/exit-observed timestamps,33044.111s: explicitly approximate, ten-second
+polling plus monitor work, timestamp just after Popen, and a different physical
+GPU. Do not claim strict same-device or sub-second full-process equivalence.
+Electropolish/Melting and temporal controls already retain parent stage timers.
+Update text/provenance without changing any training source, result or figure.
+Relation:pino-three-method-suite; user timing clarification2026-11-15.
+
+## 2026-11-15 — Publish completed Spinodal controls with both reference scopes
+
+Both paired50k controls and the original final audit pass. Common-local phase
+means are31.9216% Nonlocal and5.5838% FEM PINO; equal-node native-target phase
+means are4.5990% and29.3864%. The independently checked native/local reference
+gap is31.9633%. Publish the common-local comparison figures plus an explicit
+same-metric cross-reference table; retain positive-time chemical diagnostics
+alongside the full-time primary metric. Do not replace defaults or promote
+native fitting accuracy as local-PDE accuracy. One reused8geometry cohort and
+one initialization remain explicit. Complete parent times are8086.912901s and
+6852.669361s on the same GPU. No AD restart, Git or deployment follows.
+
+The automatic figure run fails only because its PDF-edit probe recognizes
+Local AD and joint-query legends, not the declared Nonlocal/FEM pair. Both
+queues are terminal. Extend that visualization-only probe for the explicit
+Nonlocal plus FEM PINO label pair; retain all original label/font/size gates
+and render to a new external output directory. Keep the failed output intact
+and validate all three supported legend formats. No training source or numeric
+metric changes. Relation:pino-three-method-suite; final.json and
+artifacts/spinodal_final_reference_norms.json.
+
+## 2026-11-15 — Defer the Spinodal nonlocal/local accuracy gap
+
+The user accepts recording the substantial Spinodal spatial-model/discretization
+discrepancy as future work and requests continuing the other experiments. Add
+docs/TODO.md with measured native/local evidence and a future numerical horizon,
+resolution and boundary study; do not launch it now or retune defaults. Complete
+publication/verification of the existing five-case controls and two temporal
+studies. This defers a new investigation, not the existing result figures and
+documentation. Reject continuing to optimize Spinodal without a new request.
+Relation:pino-three-method-suite; user instruction2026-11-15.
+
+## 2026-11-15 — Publish time-fusion convergence against cold elapsed time
+
+The user requests a wall-clock axis for both completed temporal studies and
+authorizes committing/pushing their figures plus the other completed results.
+Preserve all 41 actual errors per method and 64-case cohorts. Recover the
+trainer-origin offset using the original launch-log birth time (opened before
+Popen) and metric-file final write time; independently check the first metric
+creation against its counter within 0.1 s. Preserve this filesystem evidence
+in a direct-path JSON so later copies do not silently redefine the clock.
+Electropolish adds its following local-monitor duration; Melting counters already
+include evaluation. Place the existing final-weight observation at the measured
+parent process exit to include final writes/teardown. These intermediate times
+are reconstructed, not direct parent timestamps; do not claim subsecond accuracy.
+Reject step-times-average-rate conversion, zeroing at the first update, and
+retraining just for plotting. Fit the same log-LOWESS/bootstrap on actual elapsed
+coordinates, retaining the raw observations and declared confidence scope.
+Relation: pino-time-fusion-wall-clock; user annotation cbdbc624-890a-4dce-bc41-a701c923bffe.

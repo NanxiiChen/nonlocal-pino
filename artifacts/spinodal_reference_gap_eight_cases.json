@@ -1,0 +1,787 @@
+{
+  "status": "passed",
+  "created_utc": "2026-11-14T23:37:39.960347+00:00",
+  "scope": "Completed subset diagnostic; no training, method ranking or change to the live queue",
+  "native_bank": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1",
+  "local_bank": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2",
+  "specification": {
+    "geometry": {
+      "axes": [
+        0.5,
+        0.4
+      ],
+      "boundary_outer": 96,
+      "boundary_per_hole": 48,
+      "center": [
+        0.5,
+        0.5
+      ],
+      "holes": [
+        [
+          0.35,
+          0.54,
+          0.075
+        ],
+        [
+          0.68,
+          0.43,
+          0.055
+        ]
+      ],
+      "mesh_size": 0.035
+    },
+    "physical": {
+      "beta": 1.0,
+      "epsilon": 0.06,
+      "mobility": 0.02,
+      "terminal_time": 3.0
+    },
+    "initial": {
+      "amplitude": 0.2,
+      "kind": "fixed_ambient",
+      "waves": [
+        [
+          3.0,
+          0.0,
+          0.18,
+          2.0
+        ],
+        [
+          0.0,
+          3.0,
+          0.18,
+          4.8
+        ],
+        [
+          3.0,
+          1.0,
+          0.18,
+          0.5
+        ],
+        [
+          1.0,
+          3.0,
+          0.18,
+          3.6
+        ],
+        [
+          3.0,
+          -1.0,
+          0.18,
+          5.3
+        ],
+        [
+          1.0,
+          -3.0,
+          0.18,
+          1.7
+        ],
+        [
+          3.0,
+          2.0,
+          0.18,
+          4.3
+        ],
+        [
+          2.0,
+          3.0,
+          0.18,
+          5.8
+        ],
+        [
+          3.0,
+          -2.0,
+          0.18,
+          0.35
+        ],
+        [
+          2.0,
+          -3.0,
+          0.18,
+          2.65
+        ]
+      ]
+    },
+    "nl": {
+      "delta": 0.11,
+      "kernel": "quadratic_visible",
+      "method": "nonlocal"
+    },
+    "reference": {
+      "chemical_tolerance": 0.05,
+      "dt": 0.0025,
+      "mesh_sizes": [
+        0.035,
+        0.025
+      ],
+      "path": "/root/autodl-tmp/data/confined_ch2d/reference.npz",
+      "phase_tolerance": 0.01,
+      "refined_dt": 0.00125,
+      "root": "/root/autodl-tmp/data/confined_ch2d",
+      "snapshots": 5
+    },
+    "boundary_counts": [
+      96,
+      48
+    ],
+    "prior": {
+      "dataset_seed": 20261029,
+      "train_conditions": 1024,
+      "test_conditions": 8,
+      "center_min": [
+        [
+          0.22,
+          0.27
+        ],
+        [
+          0.22,
+          0.27
+        ]
+      ],
+      "center_max": [
+        [
+          0.78,
+          0.73
+        ],
+        [
+          0.78,
+          0.73
+        ]
+      ],
+      "radius_min": [
+        0.045,
+        0.045
+      ],
+      "radius_max": [
+        0.12,
+        0.12
+      ],
+      "clearance": 0.025,
+      "reserved_test_draws": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ]
+    }
+  },
+  "normalization": 1.0,
+  "symbol_polar_verification_max_abs": 1.7053025658242404e-13,
+  "derivation": {
+    "positive_operator": "A_delta f = integral K_delta(z) [f(x)-f(x+z)] dz",
+    "full_space_symbol": "lambda_delta(k) = 240/delta^2 integral_0^1 r(1-r)^2 [1-J0(|k|delta*r)] dr",
+    "local_linear_rate": "M [beta |k|^2 - epsilon^2 |k|^4]",
+    "nonlocal_linear_rate": "M [beta lambda_delta - epsilon^2 lambda_delta^2]",
+    "limitation": "Whole-space linearization around phi=0; does not isolate bounded nonlinear trajectory error"
+  },
+  "modes": [
+    {
+      "mode": [
+        3.0,
+        0.0
+      ],
+      "wavelength": 0.3333333333333333,
+      "horizon_over_wavelength": 0.32999999999999996,
+      "local_eigenvalue": 355.3057584392169,
+      "nonlocal_eigenvalue": 323.0414658914212,
+      "ratio": 0.9091928802687411,
+      "local_linear_rate": -1.9833219337804964,
+      "nonlocal_linear_rate": -1.0527874675116085
+    },
+    {
+      "mode": [
+        0.0,
+        3.0
+      ],
+      "wavelength": 0.26666666666666666,
+      "horizon_over_wavelength": 0.4125,
+      "local_eigenvalue": 555.1652475612763,
+      "nonlocal_eigenvalue": 478.7715568007196,
+      "ratio": 0.8623946814103765,
+      "local_linear_rate": -11.087703599958143,
+      "nonlocal_linear_rate": -6.928567523285306
+    },
+    {
+      "mode": [
+        3.0,
+        1.0
+      ],
+      "wavelength": 0.3076923076923077,
+      "horizon_over_wavelength": 0.3575,
+      "local_eigenvalue": 416.99078594602537,
+      "nonlocal_eigenvalue": 372.97083745489863,
+      "ratio": 0.8944342417752497,
+      "local_linear_rate": -4.179639001679138,
+      "nonlocal_linear_rate": -2.556304933512233
+    },
+    {
+      "mode": [
+        1.0,
+        3.0
+      ],
+      "wavelength": 0.25766265056033233,
+      "horizon_over_wavelength": 0.4269148041471506,
+      "local_eigenvalue": 594.6436651656337,
+      "nonlocal_eigenvalue": 507.524293452493,
+      "ratio": 0.8534931475493408,
+      "local_linear_rate": -13.566405070243844,
+      "nonlocal_linear_rate": -8.3953395389507
+    },
+    {
+      "mode": [
+        3.0,
+        -1.0
+      ],
+      "wavelength": 0.3076923076923077,
+      "horizon_over_wavelength": 0.3575,
+      "local_eigenvalue": 416.99078594602537,
+      "nonlocal_eigenvalue": 372.97083745489863,
+      "ratio": 0.8944342417752497,
+      "local_linear_rate": -4.179639001679138,
+      "nonlocal_linear_rate": -2.556304933512233
+    },
+    {
+      "mode": [
+        1.0,
+        -3.0
+      ],
+      "wavelength": 0.25766265056033233,
+      "horizon_over_wavelength": 0.4269148041471506,
+      "local_eigenvalue": 594.6436651656337,
+      "nonlocal_eigenvalue": 507.524293452493,
+      "ratio": 0.8534931475493408,
+      "local_linear_rate": -13.566405070243844,
+      "nonlocal_linear_rate": -8.3953395389507
+    },
+    {
+      "mode": [
+        3.0,
+        2.0
+      ],
+      "wavelength": 0.25607375986579195,
+      "horizon_over_wavelength": 0.429563732174866,
+      "local_eigenvalue": 602.0458684664509,
+      "nonlocal_eigenvalue": 512.8445674526246,
+      "ratio": 0.8518363704728305,
+      "local_linear_rate": -14.056147027772646,
+      "nonlocal_linear_rate": -8.679796277275718
+    },
+    {
+      "mode": [
+        2.0,
+        3.0
+      ],
+      "wavelength": 0.23529411764705885,
+      "horizon_over_wavelength": 0.46749999999999997,
+      "local_eigenvalue": 713.0789179787059,
+      "nonlocal_eigenvalue": 590.0312719758392,
+      "ratio": 0.8274417558835456,
+      "local_linear_rate": -22.349092755554988,
+      "nonlocal_linear_rate": -13.265231497961945
+    },
+    {
+      "mode": [
+        3.0,
+        -2.0
+      ],
+      "wavelength": 0.25607375986579195,
+      "horizon_over_wavelength": 0.429563732174866,
+      "local_eigenvalue": 602.0458684664509,
+      "nonlocal_eigenvalue": 512.8445674526246,
+      "ratio": 0.8518363704728305,
+      "local_linear_rate": -14.056147027772646,
+      "nonlocal_linear_rate": -8.679796277275718
+    },
+    {
+      "mode": [
+        2.0,
+        -3.0
+      ],
+      "wavelength": 0.23529411764705885,
+      "horizon_over_wavelength": 0.46749999999999997,
+      "local_eigenvalue": 713.0789179787059,
+      "nonlocal_eigenvalue": 590.0312719758392,
+      "ratio": 0.8274417558835456,
+      "local_linear_rate": -22.349092755554988,
+      "nonlocal_linear_rate": -13.265231497961945
+    }
+  ],
+  "cases": [
+    {
+      "index": 1024,
+      "native": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1024/reference.npz",
+      "local": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1024.npz",
+      "points": 1179,
+      "times": [
+        0.0,
+        0.75,
+        1.5,
+        2.25,
+        3.0
+      ],
+      "errors": {
+        "equal_node": {
+          "phi_pooled": 0.2182525874426253,
+          "phi_by_time": [
+            0.0007118016753756212,
+            0.4792223853377949,
+            0.3530818907792175,
+            0.26075852552900325,
+            0.17075733021208542
+          ],
+          "mu_pooled": 0.4313754024699039,
+          "mu_positive": 0.22412985880745737,
+          "fine_phi0_vs_exact": 0.0007117351113130446
+        },
+        "volume": {
+          "phi_pooled": 0.2154349700540613,
+          "phi_by_time": [
+            0.0007123311373693971,
+            0.469475643336817,
+            0.3473995987155189,
+            0.25694365897327764,
+            0.16910903704194447
+          ],
+          "mu_pooled": 0.4321950861804319,
+          "mu_positive": 0.22306514901895247,
+          "fine_phi0_vs_exact": 0.0007122666585001239
+        }
+      },
+      "interior": {
+        "count": 207,
+        "volume_fraction": 0.1852254421651158,
+        "positive_phase_squared_error_fraction": 0.06733410142580348,
+        "graph_vs_continuum_nonlocal": 0.0032795580746092985,
+        "continuum_nonlocal_vs_local": 0.14436218432200457,
+        "graph_vs_local": 0.14487615545302637
+      },
+      "local_refinement": {
+        "space_phase": 0.00551616408435512,
+        "space_chemical_positive": 0.005589310197571997,
+        "time_phase": 1.0383056238038539e-05,
+        "time_chemical_positive": 8.841338213424198e-06,
+        "mass_drift": 3.491673096489567e-16,
+        "energy_increase": 0.0,
+        "native_local_phase": 0.2154349700540613,
+        "native_local_chemical": 0.4321950861804319
+      }
+    },
+    {
+      "index": 1025,
+      "native": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1025/reference.npz",
+      "local": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1025.npz",
+      "points": 1181,
+      "times": [
+        0.0,
+        0.75,
+        1.5,
+        2.25,
+        3.0
+      ],
+      "errors": {
+        "equal_node": {
+          "phi_pooled": 0.31979092010760124,
+          "phi_by_time": [
+            0.0006949591513618279,
+            0.4545160342893684,
+            0.36364253807404545,
+            0.3255341932584933,
+            0.3136334142961805
+          ],
+          "mu_pooled": 0.5037988801115681,
+          "mu_positive": 0.3194715204677126,
+          "fine_phi0_vs_exact": 0.000694904969069296
+        },
+        "volume": {
+          "phi_pooled": 0.3119700067462829,
+          "phi_by_time": [
+            0.0006966007209695299,
+            0.44546521174052456,
+            0.35758530610890565,
+            0.318478734583546,
+            0.30510981025025047
+          ],
+          "mu_pooled": 0.49761126716327747,
+          "mu_positive": 0.3137159239622147,
+          "fine_phi0_vs_exact": 0.0006965465754090953
+        }
+      },
+      "interior": {
+        "count": 293,
+        "volume_fraction": 0.25747987769957004,
+        "positive_phase_squared_error_fraction": 0.0997509193820778,
+        "graph_vs_continuum_nonlocal": 0.0031555408134166796,
+        "continuum_nonlocal_vs_local": 0.14921884842042835,
+        "graph_vs_local": 0.1494764460326216
+      },
+      "local_refinement": {
+        "space_phase": 0.0055143739426070214,
+        "space_chemical_positive": 0.0074672613343113245,
+        "time_phase": 8.354907575354828e-06,
+        "time_chemical_positive": 6.875842729597022e-06,
+        "mass_drift": 1.979753166958531e-16,
+        "energy_increase": 0.0,
+        "native_local_phase": 0.3119700067462829,
+        "native_local_chemical": 0.49761126716327747
+      }
+    },
+    {
+      "index": 1026,
+      "native": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1026/reference.npz",
+      "local": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1026.npz",
+      "points": 1221,
+      "times": [
+        0.0,
+        0.75,
+        1.5,
+        2.25,
+        3.0
+      ],
+      "errors": {
+        "equal_node": {
+          "phi_pooled": 0.41222707957273536,
+          "phi_by_time": [
+            0.0007416496179436217,
+            0.47066209540513054,
+            0.44012659674313437,
+            0.41181478759058543,
+            0.4166927963338673
+          ],
+          "mu_pooled": 0.44639323307997714,
+          "mu_positive": 0.331761943234081,
+          "fine_phi0_vs_exact": 0.0007416063230316655
+        },
+        "volume": {
+          "phi_pooled": 0.4141913065699737,
+          "phi_by_time": [
+            0.0007457934452956703,
+            0.4740164087535939,
+            0.4429677149628878,
+            0.4139680346333504,
+            0.4185696335404343
+          ],
+          "mu_pooled": 0.44831431550371026,
+          "mu_positive": 0.3309932928361914,
+          "fine_phi0_vs_exact": 0.0007457484620208965
+        }
+      },
+      "interior": {
+        "count": 323,
+        "volume_fraction": 0.27325050691349534,
+        "positive_phase_squared_error_fraction": 0.11480137009553831,
+        "graph_vs_continuum_nonlocal": 0.0026366916697463,
+        "continuum_nonlocal_vs_local": 0.15176533557557453,
+        "graph_vs_local": 0.1511577697731652
+      },
+      "local_refinement": {
+        "space_phase": 0.0061254219363317845,
+        "space_chemical_positive": 0.005135760552403288,
+        "time_phase": 8.58137286183066e-06,
+        "time_chemical_positive": 7.536682351176877e-06,
+        "mass_drift": 8.998878031629687e-18,
+        "energy_increase": 0.0,
+        "native_local_phase": 0.4141913065699737,
+        "native_local_chemical": 0.44831431550371026
+      }
+    },
+    {
+      "index": 1027,
+      "native": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1027/reference.npz",
+      "local": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1027.npz",
+      "points": 1326,
+      "times": [
+        0.0,
+        0.75,
+        1.5,
+        2.25,
+        3.0
+      ],
+      "errors": {
+        "equal_node": {
+          "phi_pooled": 0.22216617463883132,
+          "phi_by_time": [
+            0.0007033388881417839,
+            0.4481772296358988,
+            0.307062780748064,
+            0.22786555369478653,
+            0.2071416829460169
+          ],
+          "mu_pooled": 0.4393151825895159,
+          "mu_positive": 0.2729450857913333,
+          "fine_phi0_vs_exact": 0.0007032813202359147
+        },
+        "volume": {
+          "phi_pooled": 0.22609201320964123,
+          "phi_by_time": [
+            0.0007029957439292138,
+            0.45591644855115815,
+            0.31267091917863216,
+            0.2330290022400369,
+            0.21051461430286994
+          ],
+          "mu_pooled": 0.44227498604062454,
+          "mu_positive": 0.27479578675985994,
+          "fine_phi0_vs_exact": 0.0007029343622149596
+        }
+      },
+      "interior": {
+        "count": 405,
+        "volume_fraction": 0.3181778131517406,
+        "positive_phase_squared_error_fraction": 0.17759147022749444,
+        "graph_vs_continuum_nonlocal": 0.00212686006675793,
+        "continuum_nonlocal_vs_local": 0.14781255673013266,
+        "graph_vs_local": 0.1467042884732
+      },
+      "local_refinement": {
+        "space_phase": 0.006792262668925714,
+        "space_chemical_positive": 0.006407501741762048,
+        "time_phase": 1.0232362782268505e-05,
+        "time_chemical_positive": 8.345223151707095e-06,
+        "mass_drift": 9.372927781137186e-17,
+        "energy_increase": 0.0,
+        "native_local_phase": 0.22609201320964123,
+        "native_local_chemical": 0.44227498604062454
+      }
+    },
+    {
+      "index": 1028,
+      "native": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1028/reference.npz",
+      "local": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1028.npz",
+      "points": 1152,
+      "times": [
+        0.0,
+        0.75,
+        1.5,
+        2.25,
+        3.0
+      ],
+      "errors": {
+        "equal_node": {
+          "phi_pooled": 0.41555298673097973,
+          "phi_by_time": [
+            0.0007490299276123434,
+            0.6312887676636543,
+            0.5654733469187175,
+            0.45530650503736836,
+            0.3819207596792412
+          ],
+          "mu_pooled": 0.4716705089685129,
+          "mu_positive": 0.32759866137107474,
+          "fine_phi0_vs_exact": 0.0007489920850822392
+        },
+        "volume": {
+          "phi_pooled": 0.4136920341362643,
+          "phi_by_time": [
+            0.0007499793044990884,
+            0.6248281444839513,
+            0.5614951374467883,
+            0.453710668576436,
+            0.3807811543876051
+          ],
+          "mu_pooled": 0.4634631278148627,
+          "mu_positive": 0.32534447160086494,
+          "fine_phi0_vs_exact": 0.0007499408315522073
+        }
+      },
+      "interior": {
+        "count": 291,
+        "volume_fraction": 0.2634064117456495,
+        "positive_phase_squared_error_fraction": 0.06802099140772172,
+        "graph_vs_continuum_nonlocal": 0.0027888799194638876,
+        "continuum_nonlocal_vs_local": 0.1476378618962316,
+        "graph_vs_local": 0.14800558192202254
+      },
+      "local_refinement": {
+        "space_phase": 0.005528339291099848,
+        "space_chemical_positive": 0.0037768434135632203,
+        "time_phase": 9.129295703342788e-06,
+        "time_chemical_positive": 7.393648204193969e-06,
+        "mass_drift": 2.3635607360183997e-17,
+        "energy_increase": 0.0,
+        "native_local_phase": 0.4136920341362643,
+        "native_local_chemical": 0.4634631278148627
+      }
+    },
+    {
+      "index": 1029,
+      "native": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1029/reference.npz",
+      "local": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1029.npz",
+      "points": 1276,
+      "times": [
+        0.0,
+        0.75,
+        1.5,
+        2.25,
+        3.0
+      ],
+      "errors": {
+        "equal_node": {
+          "phi_pooled": 0.31423698382305315,
+          "phi_by_time": [
+            0.0002816971856447614,
+            0.45641206421565766,
+            0.35651917907515035,
+            0.3212738906120229,
+            0.3093575434942261
+          ],
+          "mu_pooled": 0.46412963888424685,
+          "mu_positive": 0.31319672249034736,
+          "fine_phi0_vs_exact": 0.00028169357053340737
+        },
+        "volume": {
+          "phi_pooled": 0.3140522218309357,
+          "phi_by_time": [
+            0.0002832322758615127,
+            0.4583495175803163,
+            0.35805281948180673,
+            0.3225670334259383,
+            0.3083284672840803
+          ],
+          "mu_pooled": 0.46373205354237695,
+          "mu_positive": 0.31477785585639156,
+          "fine_phi0_vs_exact": 0.00028322937212613657
+        }
+      },
+      "interior": {
+        "count": 370,
+        "volume_fraction": 0.3027789759248304,
+        "positive_phase_squared_error_fraction": 0.10390799728730762,
+        "graph_vs_continuum_nonlocal": 0.0028599934186786195,
+        "continuum_nonlocal_vs_local": 0.15026919087007898,
+        "graph_vs_local": 0.1499365503457377
+      },
+      "local_refinement": {
+        "space_phase": 0.006310752089875665,
+        "space_chemical_positive": 0.005277805285601333,
+        "time_phase": 8.409155829804827e-06,
+        "time_chemical_positive": 7.437580504859945e-06,
+        "mass_drift": 1.3801893655740471e-16,
+        "energy_increase": 0.0,
+        "native_local_phase": 0.3140522218309357,
+        "native_local_chemical": 0.46373205354237695
+      }
+    },
+    {
+      "index": 1030,
+      "native": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1030/reference.npz",
+      "local": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1030.npz",
+      "points": 1295,
+      "times": [
+        0.0,
+        0.75,
+        1.5,
+        2.25,
+        3.0
+      ],
+      "errors": {
+        "equal_node": {
+          "phi_pooled": 0.2196720854391912,
+          "phi_by_time": [
+            0.000723741164213041,
+            0.4790080496720882,
+            0.3333744533404052,
+            0.26125889613521197,
+            0.18888345634039072
+          ],
+          "mu_pooled": 0.40482971629081027,
+          "mu_positive": 0.21762285664974723,
+          "fine_phi0_vs_exact": 0.0007236867897000268
+        },
+        "volume": {
+          "phi_pooled": 0.2220431117944931,
+          "phi_by_time": [
+            0.0007300418128626746,
+            0.4837413772391663,
+            0.3378360625350561,
+            0.26394245981335596,
+            0.19117576009451215
+          ],
+          "mu_pooled": 0.4025958053068819,
+          "mu_positive": 0.21849582268961842,
+          "fine_phi0_vs_exact": 0.0007299859091505002
+        }
+      },
+      "interior": {
+        "count": 331,
+        "volume_fraction": 0.26662053081938675,
+        "positive_phase_squared_error_fraction": 0.15206368297607303,
+        "graph_vs_continuum_nonlocal": 0.0028851727718702163,
+        "continuum_nonlocal_vs_local": 0.14513291754605648,
+        "graph_vs_local": 0.1443640992580604
+      },
+      "local_refinement": {
+        "space_phase": 0.003998456486789902,
+        "space_chemical_positive": 0.004060408733000351,
+        "time_phase": 1.0303075700376766e-05,
+        "time_chemical_positive": 8.947585934935473e-06,
+        "mass_drift": 6.862999751833243e-17,
+        "energy_increase": 0.0,
+        "native_local_phase": 0.2220431117944931,
+        "native_local_chemical": 0.4025958053068819
+      }
+    },
+    {
+      "index": 1031,
+      "native": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1031/reference.npz",
+      "local": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1031.npz",
+      "points": 1180,
+      "times": [
+        0.0,
+        0.75,
+        1.5,
+        2.25,
+        3.0
+      ],
+      "errors": {
+        "equal_node": {
+          "phi_pooled": 0.43516756744005336,
+          "phi_by_time": [
+            0.0007153444648134287,
+            0.5697487576909762,
+            0.5505235441208419,
+            0.4620845850093027,
+            0.4190709924623839
+          ],
+          "mu_pooled": 0.5133507136488381,
+          "mu_positive": 0.39297471654657695,
+          "fine_phi0_vs_exact": 0.0007152891879786629
+        },
+        "volume": {
+          "phi_pooled": 0.43147211512276923,
+          "phi_by_time": [
+            0.0007168393672630004,
+            0.5667585968553952,
+            0.5462119224419472,
+            0.45784293673753995,
+            0.41569567903454097
+          ],
+          "mu_pooled": 0.5131507801387306,
+          "mu_positive": 0.39083723365580636,
+          "fine_phi0_vs_exact": 0.000716782527767226
+        }
+      },
+      "interior": {
+        "count": 240,
+        "volume_fraction": 0.21440735808765243,
+        "positive_phase_squared_error_fraction": 0.04775109871996186,
+        "graph_vs_continuum_nonlocal": 0.002765307143800785,
+        "continuum_nonlocal_vs_local": 0.14964691022493273,
+        "graph_vs_local": 0.1495076200224595
+      },
+      "local_refinement": {
+        "space_phase": 0.006576536648145515,
+        "space_chemical_positive": 0.005868770440735109,
+        "time_phase": 7.998882024536311e-06,
+        "time_chemical_positive": 7.0565965858393945e-06,
+        "mass_drift": 1.1937065919065404e-16,
+        "energy_increase": 0.0,
+        "native_local_phase": 0.43147211512276923,
+        "native_local_chemical": 0.5131507801387306
+      }
+    }
+  ]
+}

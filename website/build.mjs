@@ -197,6 +197,32 @@ for (const kind of ['png', 'pdf']) {
   await writeFile(join(assets, name), data);
 }
 
+const ceramicComponents = JSON.parse(await readFile(join(root, '..', 'artifacts', 'ceramic_component_comparison_figures.json'), 'utf8'));
+if (ceramicComponents.schema !== 'ceramic_component_comparison_publication_v1' ||
+    ceramicComponents.test_samples !== 64 || ceramicComponents.development_samples !== 4 ||
+    ceramicComponents.checkpoint_step !== 20000 || ceramicComponents.figures.length !== 2 ||
+    JSON.stringify(ceramicComponents.convergence_steps) !== JSON.stringify(Array.from({length: 21}, (_, i) => i * 1000))) {
+  throw new Error('Expected ceramic two-component, three-method final64/development4 figures');
+}
+let ceramicComponentBytes = 0;
+for (const figure of ceramicComponents.figures) {
+  if (!['convergence', 'distribution'].includes(figure.kind)) throw new Error('Unknown ceramic component figure');
+  for (const kind of ['png', 'pdf']) {
+    const name = `particle_corrosion2d_component_${figure.kind}.${kind}`;
+    if (figure[kind] !== `assets/pino-studies/${name}`) throw new Error('Unexpected ceramic component path');
+    const data = await readFile(join(root, '..', figure[kind]));
+    if (data.length !== figure.bytes[kind] || data.length >= ceramicComponents.maximum_file_bytes) {
+      throw new Error(`Ceramic component figure differs from its record: ${name}`);
+    }
+    ceramicComponentBytes += data.length;
+    await writeFile(join(assets, name), data);
+  }
+}
+if (ceramicComponentBytes !== ceramicComponents.collection_bytes ||
+    ceramicComponentBytes >= ceramicComponents.maximum_collection_bytes) {
+  throw new Error('Ceramic component figures exceed their recorded size/budget');
+}
+
 const channel = JSON.parse(await readFile(join(root, '..', 'artifacts', 'channel_fem_comparison_publication.json'), 'utf8'));
 if (channel.schema !== 'channel_fem_comparison_publication_v3' ||
     channel.test_samples !== 3 || channel.development_samples !== 1 ||
@@ -226,6 +252,115 @@ for (const figure of channel.figures) {
 }
 if (channelBytes !== channel.total_bytes || channelBytes >= channel.maximum_collection_bytes) {
   throw new Error('Channel comparison collection exceeds its approved budget');
+}
+
+const threeMethod = JSON.parse(await readFile(join(root, '..', 'artifacts', 'pino_three_method_figures.json'), 'utf8'));
+const comparisonCases = {
+  channel_nsch2d: { budget: 20000, monitor: 1, test: 3, interval: 500 },
+  electropolish2d: { budget: 10000, monitor: 64, test: 64, interval: 250 },
+  icemelting3d: { budget: 10000, monitor: 64, test: 64, interval: 250 },
+  confined_ch2d: { budget: 50000, monitor: 8, test: 8, interval: 500 },
+};
+if (threeMethod.schema !== 'pino_three_method_publication_v1' ||
+    threeMethod.maximum_file_bytes !== 1024 ** 2 ||
+    threeMethod.maximum_collection_bytes !== 4 * 1024 ** 2 ||
+    !threeMethod.cases.length ||
+    new Set(threeMethod.cases.map(record => record.example)).size !== threeMethod.cases.length) {
+  throw new Error('Expected unique completed three-method comparison figures');
+}
+let threeMethodBytes = 0;
+for (const record of threeMethod.cases) {
+  const expected = comparisonCases[record.example];
+  const twoMethod = record.comparison_kind === 'spinodal_nonlocal_fem';
+  const methods = twoMethod ? ['nonlocal', 'fem'] : ['nonlocal', 'local_ad', 'fem'];
+  const suffix = twoMethod ? 'nonlocal_fem' : 'three_method';
+  if ((twoMethod && (record.example !== 'confined_ch2d' ||
+      record.omitted_method !== 'local_ad: omitted by user after resource measurement')) ||
+      ('comparison_kind' in record && !twoMethod)) {
+    throw new Error('Only the declared Spinodal Local AD omission is supported');
+  }
+  if (!expected || record.budget !== expected.budget ||
+      record.monitor_ids.length !== expected.monitor || record.test_ids.length !== expected.test ||
+      JSON.stringify(record.steps) !== JSON.stringify(Array.from(
+        { length: expected.budget / expected.interval + 1 }, (_, i) => i * expected.interval)) ||
+      JSON.stringify(record.arms.map(arm => arm.method)) !== JSON.stringify(methods) ||
+      record.figures.length !== 2 || new Set(record.figures.map(figure => figure.kind)).size !== 2) {
+    throw new Error(`Incomplete or mismatched comparison: ${record.example}`);
+  }
+  for (const figure of record.figures) {
+    if (!['convergence', 'distribution'].includes(figure.kind)) throw new Error('Unknown three-method figure');
+    for (const kind of ['png', 'pdf']) {
+      const name = `${record.example}_${suffix}_${figure.kind}.${kind}`;
+      if (figure[kind] !== `assets/pino-studies/${name}`) throw new Error(`Unexpected comparison path: ${name}`);
+      const data = await readFile(join(root, '..', figure[kind]));
+      if (data.length !== figure.bytes[kind] || data.length >= threeMethod.maximum_file_bytes) {
+        throw new Error(`Comparison figure differs from its record: ${name}`);
+      }
+      threeMethodBytes += data.length;
+      await writeFile(join(assets, name), data);
+    }
+  }
+}
+if (threeMethodBytes !== threeMethod.collection_bytes || threeMethodBytes >= threeMethod.maximum_collection_bytes) {
+  throw new Error('Three-method figures exceed their recorded size/budget');
+}
+
+const timeFusion = JSON.parse(await readFile(join(root, '..', 'artifacts', 'pino_time_fusion_figures.json'), 'utf8'));
+const fusionClocks = JSON.parse(await readFile(join(root, '..', 'artifacts', 'pino_time_fusion_wall_clock.json'), 'utf8'));
+if (fusionClocks.schema !== 'pino_time_fusion_clock_v1' || fusionClocks.status !== 'passed') {
+  throw new Error('Qualified cold wall-clock evidence is required for temporal figures');
+}
+if (timeFusion.schema !== 'pino_time_fusion_publication_v1' ||
+    timeFusion.maximum_file_bytes !== 1024 ** 2 ||
+    timeFusion.maximum_collection_bytes !== 2 * 1024 ** 2 ||
+    new Set(timeFusion.cases.map(record => record.example)).size !== timeFusion.cases.length) {
+  throw new Error('Expected unique, reviewed temporal-control figures');
+}
+let timeFusionBytes = 0;
+for (const record of timeFusion.cases) {
+  if (!['electropolish2d', 'icemelting3d'].includes(record.example) ||
+      record.comparison_kind !== 'time_fusion' || record.budget !== 10000 ||
+      record.monitor_ids.length !== 64 || new Set(record.test_ids).size !== 64 ||
+      JSON.stringify(record.monitor_ids) !== JSON.stringify(record.test_ids) ||
+      JSON.stringify(record.steps) !== JSON.stringify(Array.from({ length: 41 }, (_, i) => i * 250)) ||
+      JSON.stringify(record.arms.map(arm => arm.method)) !== JSON.stringify(['decoder_film', 'joint_query']) ||
+      record.pairing.shared_initial_backbone_equal !== true ||
+      record.pairing.all_actual_sampling_arrays_equal !== true ||
+      record.pairing.source_bytes_verified !== true || record.figures.length !== 2 ||
+      new Set(record.figures.map(figure => figure.kind)).size !== 2) {
+    throw new Error(`Incomplete or mismatched temporal control: ${record.example}`);
+  }
+  const clocks = fusionClocks.cases.filter(clock => clock.example === record.example);
+  if (record.convergence_axis.kind !== 'cold_wall_time' || clocks.length !== 1 ||
+      JSON.stringify(clocks[0].steps) !== JSON.stringify(record.steps)) {
+    throw new Error(`Missing cold elapsed axis: ${record.example}`);
+  }
+  for (const arm of record.arms) {
+    const matched = clocks[0].arms.filter(clock => clock.method === arm.method);
+    if (matched.length !== 1 || matched[0].run !== arm.run ||
+        JSON.stringify(matched[0].elapsed_seconds) !== JSON.stringify(arm.elapsed_seconds) ||
+        arm.elapsed_seconds.length !== record.steps.length ||
+        arm.elapsed_seconds.some((value, i, all) => !Number.isFinite(value) || value <= 0 || (i && value <= all[i - 1])) ||
+        arm.elapsed_seconds.at(-1) !== arm.timing.cold_process_seconds) {
+      throw new Error(`Cold elapsed observations differ: ${record.example}/${arm.method}`);
+    }
+  }
+  for (const figure of record.figures) {
+    if (!['convergence', 'distribution'].includes(figure.kind)) throw new Error('Unknown temporal figure');
+    for (const kind of ['png', 'pdf']) {
+      const name = `${record.example}_time_fusion_${figure.kind}.${kind}`;
+      if (figure[kind] !== `assets/pino-studies/${name}`) throw new Error(`Unexpected temporal path: ${name}`);
+      const data = await readFile(join(root, '..', figure[kind]));
+      if (data.length !== figure.bytes[kind] || data.length >= timeFusion.maximum_file_bytes) {
+        throw new Error(`Temporal figure differs from its record: ${name}`);
+      }
+      timeFusionBytes += data.length;
+      await writeFile(join(assets, name), data);
+    }
+  }
+}
+if (timeFusionBytes !== timeFusion.collection_bytes || timeFusionBytes >= timeFusion.maximum_collection_bytes) {
+  throw new Error('Temporal figures exceed their recorded size/budget');
 }
 
 await Promise.all(rendered.map(([slug, html]) => writeFile(join(output, `${slug}.html`), html)));

@@ -1,0 +1,90 @@
+{
+  "status": "passed",
+  "example": "icemelting3d",
+  "comparison": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04/comparison.json",
+  "journal": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04/journal.json",
+  "gpu": "GPU-85fe6412-636e-5d3c-d5f0-d1e9523c3faa, NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887 MiB, 595.71.05",
+  "steps": 10000,
+  "native_test_count": 64,
+  "local_test_count": 1,
+  "strict_local_refinement_passed": false,
+  "native_to_local_case005": {
+    "pooled_phi": 0.0014744803053419622,
+    "terminal_phi": 0.0016697069206289892,
+    "by_time": [
+      6.979598791850712e-05,
+      0.0009300967520681467,
+      0.0017543324412484674,
+      0.001992905473921824,
+      0.0016697069206289901
+    ]
+  },
+  "methods": {
+    "nonlocal": {
+      "cold_training_process_seconds": 413.5769551638514,
+      "warm_inclusive_median_seconds": 0.015812410041689873,
+      "active_peak_gib": 1.454756259918213,
+      "native_mean": 0.002859909938606935,
+      "native_sample_sd": 0.0005721331796367157,
+      "local_case005": {
+        "pooled_phi": 0.0019280731465076914,
+        "terminal_phi": 0.0010826208761803792,
+        "by_time": [
+          6.978908483349421e-05,
+          0.002466858963095672,
+          0.002828377942578397,
+          0.0018076110204665388,
+          0.0010826208761803794
+        ]
+      },
+      "timing_source": "/root/autodl-tmp/tf-logs/icemelting3d/melting-threeway-20261114-04-nonlocal/timing.json",
+      "summary_source": "/root/autodl-tmp/tf-logs/icemelting3d/melting-threeway-20261114-04-nonlocal/summary.json",
+      "memory_source": "/root/autodl-tmp/tf-logs/icemelting3d/melting-threeway-20261114-04-nonlocal/memory.json"
+    },
+    "local_ad": {
+      "cold_training_process_seconds": 622.3254535514861,
+      "warm_inclusive_median_seconds": 0.02517436444759369,
+      "active_peak_gib": 1.6977317333221436,
+      "native_mean": 0.000849566822655793,
+      "native_sample_sd": 0.00017223409115013521,
+      "local_case005": {
+        "pooled_phi": 0.0012080014926027498,
+        "terminal_phi": 0.0021668787209146827,
+        "by_time": [
+          6.978908483349421e-05,
+          0.00023871321143563855,
+          0.0006153006861891231,
+          0.0014096026979214975,
+          0.0021668787209146835
+        ]
+      },
+      "timing_source": "/root/autodl-tmp/tf-logs/icemelting3d/melting-threeway-20261114-04-local_ad/timing.json",
+      "summary_source": "/root/autodl-tmp/tf-logs/icemelting3d/melting-threeway-20261114-04-local_ad/summary.json",
+      "memory_source": "/root/autodl-tmp/tf-logs/icemelting3d/melting-threeway-20261114-04-local_ad/memory.json"
+    },
+    "fem": {
+      "cold_training_process_seconds": 441.060934368521,
+      "warm_inclusive_median_seconds": 0.016156785190105438,
+      "active_peak_gib": 1.3075833320617676,
+      "native_mean": 0.0010925536836188957,
+      "native_sample_sd": 0.00022458425955581123,
+      "local_case005": {
+        "pooled_phi": 0.0006713653967099178,
+        "terminal_phi": 0.0012507555999286715,
+        "by_time": [
+          6.978908483349421e-05,
+          0.00047514902001231756,
+          0.0004949135061138911,
+          0.00040998785021016806,
+          0.0012507555999286717
+        ]
+      },
+      "timing_source": "/root/autodl-tmp/tf-logs/icemelting3d/melting-threeway-20261114-04-fem/timing.json",
+      "summary_source": "/root/autodl-tmp/tf-logs/icemelting3d/melting-threeway-20261114-04-fem/summary.json",
+      "memory_source": "/root/autodl-tmp/tf-logs/icemelting3d/melting-threeway-20261114-04-fem/memory.json"
+    }
+  },
+  "cold_scope": "Full trainer process incl setup, compilation, complete-test evaluation and prediction saving; excludes reference generation/audit",
+  "warm_scope": "Median sum of update/sample/spatial timing after first step; no evaluation",
+  "memory_scope": "Peak active allocator arrays; not preallocated pool"
+}

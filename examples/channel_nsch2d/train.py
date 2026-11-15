@@ -174,6 +174,13 @@ def train(c):
     discrete='time_discretization' in c
     spatial_study='spatial' in c.sample
     fem_study = c.nl.method == 'fem_weak_p2p1'
+    ad_study = c.nl.method == 'local_ad'
+    ad_sampled = ad_study and 'ad_sampling' in c.sample
+    resource_study = spatial_study or fem_study or ad_study
+    if ad_sampled:
+        from examples.channel_nsch2d.local_ad import query_indices,sample_batch
+        ad_prepare=jax.jit(lambda batch,step:sample_batch(batch,query_indices(data_key,step,c),c))
+        ad_indices=np.empty((updates,c.operator.condition_batch,c.sample.ad_sampling.core_count),dtype=np.int32)
     compact=spatial_study and c.sample.spatial.mode!='full'
     spatial_pool=nullcontext(None)
     if compact:
@@ -259,7 +266,10 @@ def train(c):
                 batch=convert(raw)
             else:
                 batch=jax.tree.map(lambda a:a[ids],bank)
-            if spatial_study or fem_study:
+            if ad_sampled:
+                batch=ad_prepare(batch,jnp.asarray(i,dtype=jnp.uint32))
+                ad_indices[offset]=np.asarray(batch['ad_core_indices'])
+            if resource_study:
                 jax.block_until_ready(batch)
                 spatial_seconds.append(time.perf_counter()-prepare_start)
             refresh=adaptive and i%c.balance.update_every==0
@@ -274,16 +284,16 @@ def train(c):
             else:
                 net,state,total,parts,adaptive_weights,norms=step(net,state,batch,times,
                     adaptive_weights,jnp.asarray(refresh),jnp.asarray(active,dtype=dtype))
-            if spatial_study or fem_study:
+            if resource_study:
                 jax.block_until_ready((net,state,total))
             else:
                 total.block_until_ready()
             timings.append(time.perf_counter()-begin)
-            if (spatial_study or fem_study) and offset==24:
+            if resource_study and offset==24:
                 leaves=[a for a in jax.tree.leaves((net,state)) if eqx.is_inexact_array(a)]
                 if not all(np.isfinite(a).all() for a in leaves):
                     raise FloatingPointError('Nonfinite channel model or optimizer at update 25')
-            if (spatial_study or fem_study) and offset in (0,24,updates-1):
+            if resource_study and offset in (0,24,updates-1):
                 memory=jax.devices()[0].memory_stats()
                 with (run/'spatial_memory.jsonl').open('a') as output:
                     output.write(json.dumps(dict(step=i+1,allocator=memory),allow_nan=False)+'\n')
@@ -335,12 +345,13 @@ def train(c):
     eqx.tree_serialise_leaves(run/'optimizer_final.eqx',state)
     if adaptive:np.savez_compressed(run/'balance_final.npz',weights=np.asarray(adaptive_weights))
     sample_record=dict(indices=sampled,times=sampled_times)
+    if ad_sampled:sample_record['ad_core_indices']=ad_indices
     if discrete:sample_record['intervals']=sampled_intervals
     if online:sample_record.update(draw_ids=sampled_draw_ids,amplitudes=sampled_amplitudes)
     if compact:
         sample_record.update(core_ids=core_ids,spatial_pool_ids=pool_ids,halo_counts=halo_counts)
     np.savez_compressed(run/'sampling.npz',**sample_record)
-    if spatial_study or fem_study:
+    if resource_study:
         np.savez_compressed(run/'spatial_timing.npz',update=timings,batch_preparation=spatial_seconds)
 
     np.savez_compressed(run/'prediction.npz',fields=prediction,points=reference['points'],
@@ -424,6 +435,19 @@ def train(c):
             warm_step_with_batch_median_seconds=float(np.median(np.asarray(timings[10:])+np.asarray(spatial_seconds[10:]))),
             first_update_seconds=timings[0], total_process_seconds=time.perf_counter()-entry_start,
             boundary_penalties=False, continuity='Unchanged analytic streamfunction; FE interpolant only approximately divergence-free')
+    if ad_study:
+        summary['method'] = ('Local spatial AD for all PDE/BC gradients and Laplacians, '
+            'including third streamfunction derivatives; conservative product-rule phase transport; time JVP')
+        summary['note'] = 'Same full coordinates, encoder, physical fields, SBP loss norm and nine soft losses as nonlocal'
+        summary['local_ad'] = dict(**c.nl.to_dict(), full_coordinate_nodes=(c.sample.Nx+1)*(c.sample.Ny+1),
+            warm_update_median_seconds=float(np.median(timings[10:])),
+            warm_step_with_batch_median_seconds=float(np.median(np.asarray(timings[10:])+np.asarray(spatial_seconds[10:]))),
+            first_update_seconds=timings[0], total_process_seconds=time.perf_counter()-entry_start)
+        if ad_sampled:
+            summary['local_ad']['sampling']=dict(**c.sample.ad_sampling.to_dict(),
+                resampled_every_update=True, boundary_points=4*c.sample.boundary_points,
+                estimator='Uniform subset without replacement; mean(M*m_i/W * R_i^2); complete BC quadrature')
+            summary['note']='Full unchanged geometry encoder and boundary quadrature; sampled unbiased interior loss with nine original terms'
     (run/'summary.json').write_text(json.dumps(summary,indent=2,allow_nan=False)+'\n')
     print(json.dumps(summary,indent=2),flush=True)
 

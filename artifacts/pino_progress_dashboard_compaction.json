@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "created_utc": "2026-11-14T10:41:03.592338+00:00",
+  "original_backup": "/tmp/pino-progress-before-compact-20261114.md",
+  "archive": "docs/tasks/archive/project-progress-through-20261114.md",
+  "old_lines": 1049,
+  "new_lines": 100,
+  "archive_inverse_rebase_matches_original": true,
+  "all_new_dashboard_links_exist": true,
+  "numerical_changes": false
+}

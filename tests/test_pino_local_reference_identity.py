@@ -11,8 +11,8 @@ class ReferenceIdentityTest(unittest.TestCase):
                            surface={'kind': 'rough'},
                            nl={'method': 'sparse', 'delta': .02, 'kernel': 'cubic'})
 
-    def test_both_declared_derivatives_share_target(self):
-        for method in ('sparse', 'local_ad'):
+    def test_three_declared_derivatives_share_target(self):
+        for method in ('sparse', 'local_ad', 'fem_weak'):
             config = deepcopy(self.source)
             config['nl']['method'] = method
             validate_reference_identity(config, self.source)

@@ -1,0 +1,57 @@
+{
+  "status": "passed",
+  "utc": "2026-11-15T08:04:17.626875+00:00",
+  "example": "electropolish2d",
+  "manifest": "artifacts/pino_time_fusion_figures.json",
+  "source": "/root/autodl-tmp/tf-logs/pino-time-fusion-wall-clock-20261115-01/electropolish/provenance.json",
+  "audit": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/electropolish-comparison.json",
+  "common_test_count": 64,
+  "actual_records": 41,
+  "final_step": 10000,
+  "seed": 42,
+  "fields": [
+    {
+      "key": "phi",
+      "label": "Phase"
+    },
+    {
+      "key": "c",
+      "label": "Concentration"
+    }
+  ],
+  "complete_pairing_record_preserved": true,
+  "selected_source_audit_arrays_exact": true,
+  "saved_field_pairs_checked_by_independent_audit": 128,
+  "individual_channel_norms": 256,
+  "error_capacity_resource_tables_match": true,
+  "monitor_evaluation_medians_seconds": {
+    "decoder_film": 0.412413970567286,
+    "joint_query": 0.44509877171367407
+  },
+  "asset_byte_identity": [
+    "assets/pino-studies/electropolish2d_time_fusion_convergence.png",
+    "assets/pino-studies/electropolish2d_time_fusion_convergence.pdf",
+    "assets/pino-studies/electropolish2d_time_fusion_distribution.png",
+    "assets/pino-studies/electropolish2d_time_fusion_distribution.pdf"
+  ],
+  "selected_bytes": 302789,
+  "collection_bytes": 479695,
+  "pdf_checks": "Explicit Helvetica embeddedTrueType,6/7pt and temporary-copy text-edit probe; actual PNGs visually reviewed",
+  "build_pages": 9,
+  "local_links_checked": 367,
+  "browser_GUI_QA": "Not performed; actual figure previews and generated pages/links checked",
+  "build_command": [
+    "npm",
+    "run",
+    "build"
+  ],
+  "deployment_performed": false,
+  "prior_axis_validation": {
+    "utc": "2026-11-14T22:04:22.010609+00:00",
+    "source": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/electropolish-figures/provenance.json",
+    "selected_bytes": 294876,
+    "collection_bytes": 294876
+  },
+  "cold_clock_evidence": "artifacts/pino_time_fusion_wall_clock.json",
+  "raw_errors_unchanged": true
+}

@@ -1,0 +1,30 @@
+{
+  "status": "launched",
+  "created_utc": "2026-11-15T02:12:50.966256+00:00",
+  "pid": 551975,
+  "start_ticks": 930975898,
+  "command": [
+    "/root/nonlocal-pinn/.venv/bin/python",
+    "-u",
+    "-m",
+    "docs.tasks.spinodal_taylor_resource_probe",
+    "--baseline",
+    "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-threeway-20261114-05-probe-local_ad",
+    "--run",
+    "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-taylor-resource-20261115-01",
+    "--expected-gpu-uuid",
+    "GPU-85fe6412-636e-5d3c-d5f0-d1e9523c3faa"
+  ],
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-taylor-resource-20261115-01",
+  "log": "/root/autodl-tmp/tf-logs/spinodal-taylor-resource-20261115-01.log",
+  "environment": {
+    "JAX_PLATFORMS": "cuda",
+    "XLA_FLAGS": "",
+    "JAX_ENABLE_COMPILATION_CACHE": "false",
+    "XLA_PYTHON_CLIENT_PREALLOCATE": "true",
+    "XLA_PYTHON_CLIENT_MEM_FRACTION": ".8",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  }
+}

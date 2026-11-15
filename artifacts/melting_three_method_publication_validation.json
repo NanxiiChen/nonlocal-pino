@@ -1,0 +1,39 @@
+{
+  "status": "passed",
+  "utc": "2026-11-14T21:32:38.988593+00:00",
+  "example": "icemelting3d",
+  "manifest": "artifacts/pino_three_method_figures.json",
+  "source": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-06/melting/provenance.json",
+  "comparison": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04/comparison.json",
+  "checkpoint_budget": 10000,
+  "monitor_and_test_cases": 64,
+  "actual_records": 41,
+  "saved_field_pairs_checked_by_independent_renderer": 192,
+  "selected_and_rendered_error_arrays_exact": true,
+  "raw_norm_crosscheck_tolerance": "Existing rtol2e-13/atol1e-14",
+  "native_mean_sd_and_separate_local_tables_match": true,
+  "resource_tables_match_actual_measured_files": true,
+  "local_case_count": 1,
+  "strict_local_refinement_passed": false,
+  "native_query_scope": "24\u00b3 diagnostic volume nodes x5saved times; not full128\u00b3neural L2 or64localFEMcases",
+  "assets_byte_identical": [
+    "assets/pino-studies/icemelting3d_three_method_convergence.png",
+    "assets/pino-studies/icemelting3d_three_method_convergence.pdf",
+    "assets/pino-studies/icemelting3d_three_method_distribution.png",
+    "assets/pino-studies/icemelting3d_three_method_distribution.pdf"
+  ],
+  "added_bytes": 215873,
+  "collection_bytes": 1071821,
+  "pdf_checks": "85x60mm,6/7pt embeddedTrueType and temporary-copy text-edit checks passed in direct renderer provenance",
+  "visual_review": "Both actual previews inspected: all three curves/violins, labels and legend fit clearly",
+  "build_pages": 9,
+  "local_links_checked": 358,
+  "build_command": [
+    "npm",
+    "run",
+    "build"
+  ],
+  "build_cwd": "/root/nonlocal-pinn/website",
+  "browser_GUI_QA": "Not performed; unchanged static layout, actual figure previews and generated links checked",
+  "deployment_performed": false
+}

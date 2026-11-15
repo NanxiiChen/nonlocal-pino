@@ -948,6 +948,296 @@ its acceptance record is linked in the task. Native artifact:
 This is a single-input engineering validation, not uniform accuracy across
 all ellipsoids or evidence for a local-AD speed comparison.
 
+### Sampled FEM PINO versus nonlocal PINO
+
+A matched cold-start 10,000-update pilot uses the same conditional network,
+random ellipsoids, hard IC, tanh-transformed residual, Adam schedule and rolling
+core/halo sampling. The explicit controls are
+[nonlocal](configs/train_operator_compare_nonlocal.py) and
+[FEM](configs/train_operator_compare_fem.py); the production preset is unchanged.
+Both controls disable GPU kernel autotuning and use FP32, condition batch 16,
+8 shared times and 256 core nodes on the same \(128^3\) grid.
+
+The FEM training operator assembles six linear Kuhn tetrahedra per Cartesian
+cell, with lumped mass \(M_L\), stiffness \(K\) and nodal reaction quadrature:
+
+$$
+M_L\dot\phi+N_1K\phi+
+M_L\bigl[N_2(\phi^3-\phi)+N_3(1-\phi^2)\bigr]=0.
+$$
+
+Each row is divided by its lumped mass and the tanh Jacobian, matching the
+existing latent-residual treatment. Natural homogeneous Neumann conditions
+enter through the weak form. This sampled P1/lumped training loss is distinct
+from the independently solved CG2/consistent-mass FEM numerical reference.
+
+FEM does **not** require evaluating the network on the whole mesh each update.
+Its sampled rows retain their complete finite-element support. On this uniform
+tetrahedral mesh, the assembled stiffness has six off-diagonal neighbors per
+interior node, just like this particular nonlocal stencil. Both arms therefore
+use 1,792 padded core/halo query slots. This fact does not extend to every mesh,
+element order or nonlocal horizon.
+
+Final-weight results on the same RTX PRO 6000 Blackwell Server Edition:
+
+| Diagnostic | Nonlocal PINO | FEM PINO |
+|---|---:|---:|
+| Native reference: 8-case mean phase relative L2 | 0.1790% | 0.0745% |
+| Native reference: sample standard deviation | 0.0351 percentage points | 0.0156 percentage points |
+| Independent local FEM: case 005 phase relative L2 | 0.1156% | 0.1934% |
+| Warm update median | 12.05 ms | 12.09 ms |
+| Warm update plus sampling/preparation median | 14.10 ms | 14.22 ms |
+| Full training process wall time | 276.73 s | 277.10 s |
+| Peak active GPU memory | 1.455 GiB | 1.308 GiB |
+
+Errors are unweighted norms over all five saved times and \(24^3\) diagnostic
+nodes per sample, followed by the sample mean. They are not continuous or
+full-training-grid norms. The local reference is the previously user-accepted
+single case described above; its original strict refinement gate remains
+unpassed. Native and local references differ by 0.1474% on case 005. Thus the
+reference choice can reverse the ranking, and this one initialization does not
+establish a general accuracy advantage. No substantial speed advantage appears
+when both methods use the same complete-support sampling.
+
+Independent element/row tests pass. Initial model/optimizer states, all 10,000
+condition/time/core draws, reconstructed core IDs and saved/current training
+sources were checked. Reference labels are used only for evaluation.
+[Direct-path validation and results](../../artifacts/melting_fem_comparison_validation.json)
+record the final weights, physical matching, source checks and timing scope.
+
+```bash
+python -m examples.icemelting3d.train --config=examples/icemelting3d/configs/train_operator_compare_nonlocal.py --seed=42
+python -m examples.icemelting3d.train --config=examples/icemelting3d/configs/train_operator_compare_fem.py --seed=42
+```
+
+Run these sequentially with the same execution environment. The finite launcher
+and final audit are recorded in the active FEM comparison task; no new direct
+FEM solve or published default change is required for this pilot.
+
+### Matched operator local-AD extension
+
+The explicit [local-AD configuration](configs/train_operator_compare_local_ad.py)
+adds the missing random-ellipsoid **operator** control. Earlier thin-interface
+AD runs were single-initial-condition PINNs and cannot substitute for this arm.
+Keep the same network, Adam10k, 16 online ellipsoids, 8 shared random times,
+rolling 256 core queries and hard initial lift. Only the spatial derivative
+and its boundary treatment change; production defaults are unchanged.
+
+With \(u=u_0+t f_\theta\), \(u_0=s_0/(\sqrt{2}\epsilon^*)\) and
+\(\phi=\tanh u\), the local residual is
+
+$$
+r_u=u_t-N_1\left(\Delta u-2\tanh(u)|\nabla u|^2\right)
+-N_2\tanh(u)+N_3.
+$$
+
+Time JVP and spatial directional JVPs differentiate the learned correction.
+Each spatial query reads the common encoded initial volume independently;
+batched coordinate tangents therefore give pointwise derivatives, without a
+space-time Jacobian. Spatial cross-attention and subsequent time FiLM retain
+their original arrangement.
+
+The known Euclidean initial distance uses a bisection solver. AD through its
+branch decisions would give incorrect geometry derivatives. Its gradient and
+Laplacian are instead obtained analytically from the unique closest ellipsoid
+surface. For outward distance \(d=-s\), normal \(n\), and surface shape operator
+\(S\), \(\nabla s=-n\) and \(\nabla^2s=-S(I+dS)^{-1}\). Medial-axis
+singularities are explicitly checked, without clipping the derivatives or
+changing the prescribed IC. Sphere formulas, rotated-ellipsoid finite
+differences, independent physical-PDE differentiation and actual network jets
+validate this implementation.
+
+Local AD adds 96 fresh, balanced face samples per update and the unit-weight
+mean square of \(\partial_n\phi=\operatorname{sech}^2(u)\partial_nu\).
+The PDE retains its original L1 norm. Boundary sampling uses an independent
+random stream; it does not alter the shared condition/time/core draws. The
+initial diffuse tail is not exactly compatible with zero flux at the outer
+wall; this original initial-boundary incompatibility is retained, not removed
+by changing the initial condition. Graph methods retain their natural boundary
+rows. Core/halo metadata is still prepared for exact sampling alignment, but
+only genuine core coordinates enter the AD PDE network evaluation.
+
+```bash
+python -m examples.icemelting3d.train --config=examples/icemelting3d/configs/train_operator_compare_local_ad.py --seed=42
+```
+
+The finite three-method queue and independent audit are
+`docs/tasks/melting_threeway_queue.py` and `melting_threeway_audit.py`. It runs a
+resource probe, then fresh matched controls on the same GPU after the preceding
+experiment exits. The new controls use64native-reference tests; the single
+independent CG2 case stays a separately qualified diagnostic. Before training,
+`docs/tasks/melting_test64_reference.py` preserves the original10reference files
+byte-for-byte and adds56ellipsoids with extension seed20261114. Four bounded CPU
+workers use the unchanged RK4 solver; each full-cube trajectory must pass the
+original dt/dt2 and physical-range checks before the new bank is accepted.
+The completed bank is
+`/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_test64_20261114_v1`.
+The 56 new references took 726.56 s with four workers/two cores each. Their
+maximum full-128³-snapshot relative difference between time steps 0.005 and
+0.0025 is 1.505e-7, below the unchanged 1e-5 gate; physical ranges pass and the
+original ten files remain byte-identical. This checks native time convergence,
+not spatial/local-continuum accuracy. Neural evaluation uses 24³ diagnostic
+coordinates at five saved times, not every 128³ reference node. The
+[reference-bank validation](../../artifacts/melting_test64_reference_validation.json)
+records parameters, times, cohort and query shapes. Older eight-case results
+and their original bank remain unchanged.
+All three new comparison presets explicitly set `operator.monitor_split=test`:
+every250updates, including step zero, they evaluate all64test ellipsoids
+sequentially and save per-sample space-time errors and their mean. The run's
+`monitoring.json` records the exact split and ordered indices. These are reused
+test inputs, not blind validation or training labels; final fixed-budget weights
+remain the reported model. Historical production presets without this option
+retain their separate two-case monitoring. New wall times include the increased
+evaluation work.
+#### Three-method accuracy and cost
+
+The three cold 10k controls now pass identical initial model/Adam state,
+all actual condition/time/core draws, frozen-source checks and the complete
+10,000-step AD boundary replay. All 192 saved prediction/reference pairs are
+independently checked. Final seed 42 phase errors are:
+
+| Method | Native 64 phase mean | Native 64 sample SD | Separate local FEM case005 |
+|---|---:|---:|---:|---:|
+| Nonlocal | 0.2860% | 0.0572% | 0.1928% |
+| Local AD | 0.0850% | 0.0172% | 0.1208% |
+| FEM PINO | 0.1093% | 0.0225% | 0.0671% |
+
+![Melting three-method convergence](../../assets/pino-studies/icemelting3d_three_method_convergence.png)
+
+[Editable PDF](../../assets/pino-studies/icemelting3d_three_method_convergence.pdf).
+All 41 actual evaluations at steps 0:250:10000 use the same 64 ellipsoids.
+Each sample contributes one equally weighted space-time phase norm on 24³
+queries and five saved times (0, 0.25, 0.5, 0.75, 1). Thin solid lines are raw
+sample means; thicker lines are log-LOWESS trends (span 0.22). Shading shows
+pointwise 95% empirical bootstrap intervals from 2,000 complete-trajectory
+resamples, paired across methods (seed 20261114). The display grid creates no
+additional observations. These intervals condition on this training realization
+and reused cohort; they do not measure cross-seed uncertainty or account for
+smoothing/model-selection bias.
+
+![Melting three-method distribution](../../assets/pino-studies/icemelting3d_three_method_distribution.png)
+
+[Editable PDF](../../assets/pino-studies/icemelting3d_three_method_distribution.pdf).
+Final 10k weights, 64 phase errors against the native nonlocal numerical
+reference. The norm pools all five times before normalization; it is not a mean
+of instantaneous errors or an error on every 128³ reference node. The log-error
+Gaussian KDE uses Scott bandwidth, three-bandwidth tails and internal quartiles;
+tails are density estimates rather than extra samples. The vertical axis shows
+raw relative ratios, without percentage scaling.
+
+Local AD has the lowest mean error on the native 64 cohort in this run.
+FEM PINO has the lowest pooled error on the separate local CG2 case005. That
+single diagnostic cannot establish the ordering on a local-reference population.
+The previously accepted CG2 reference retains its unpassed strict-refinement
+flag; it is a practical accuracy check, not a new continuum-convergence claim.
+Native and local references differ by 0.1474% on case005. Do not combine this
+single local sample with the 64 native violin or interpret the latter as a
+64-case local-FEM comparison. One initialization and reused test inputs are
+reported; the selected SOTA/default and main evolution figure remain unchanged.
+
+| Method | Cold training process | Warm inclusive median | Active peak |
+|---|---:|---:|---:|
+| Nonlocal | 6.89 min | 15.81 ms | 1.45 GiB |
+| Local AD | 10.37 min | 25.17 ms | 1.70 GiB |
+| FEM PINO | 7.35 min | 16.16 ms | 1.31 GiB |
+
+All three runs used the same RTX PRO 6000 Blackwell Server Edition
+(UUID `GPU-85fe6412-636e-5d3c-d5f0-d1e9523c3faa`). Cold time includes setup,
+compilation, preparation, all in-training evaluations and final native prediction
+saving. It excludes reference generation and the separate final audit. The warm
+inclusive median sums synchronized update, condition preparation and spatial
+preparation/transfer after the first step; it excludes evaluation and is not
+an isolated derivative-kernel timing. Active peaks are allocator arrays, not
+the much larger reserved memory pool. AD retains common core/halo preparation
+for exact input matching, though its PDE evaluates only 256 cores and 96 face
+points. Nonlocal is faster than AD here; sampled FEM PINO has similar warm
+cost to Nonlocal and does not need full-mesh network evaluation.
+
+[Selected figures and exact reproduction inputs](../../artifacts/pino_three_method_figures.json)
+and [measured resources and local-case values](../../artifacts/melting_three_method_resources.json)
+retain direct paths to the final weights, configurations, reference bank and
+independent audit. Figures use embedded/editable Helvetica text and NPG colors
+at 85×60 mm. The README and local website use identical PDF/PNG files.
+
+
+### Controlled time-feature fusion study
+
+This completed comparison keeps nonlocal spatial derivatives, time JVP,
+width 48, 16 fresh ellipsoids per update, eight shared random times, rolling
+256 core queries, the hard latent initial condition and Adam 10k. Decoder FiLM
+uses spatial-only cross-attention followed by time modulation at every hidden
+decoder layer. Joint queries project concatenated spatial/time Fourier features
+into attention, followed by unmodulated decoder layers. Both encode each
+initial volume once; the joint model repeats attention across times.
+
+The common initial encoder/attention/spatial-projection/decoder arrays and all
+actual condition/time/core draws pass exact checks. Time modules differ:
+85,825 versus 71,665 stored numeric entries, including frozen frequencies,
+with 70,849 shared entries. Full initial/optimizer trees are therefore not
+identical and this is not an equal-capacity study. Both use final 10k weights
+and all 64 test ellipsoids every 250 updates, including zero. Reference
+trajectories enter evaluation only.
+
+| Temporal conditioning | Native 64 phase mean | Separate local FEM case005 |
+|---|---:|---:|
+| Decoder FiLM | 0.2860% | 0.1928% |
+| Joint (x,t) query | 0.0935% | 0.1302% |
+
+![Melting temporal conditioning convergence](../../assets/pino-studies/icemelting3d_time_fusion_convergence.png)
+
+[Editable PDF](../../assets/pino-studies/icemelting3d_time_fusion_convergence.pdf).
+The horizontal axis is elapsed wall time in seconds from cold process launch, including initialization, compilation and in-training evaluation. Intermediate times are reconstructed from the original launch-log creation, metric-file timestamps and recorded trainer counters; they are not direct parent timestamps and subsecond accuracy is not claimed. The existing final observation is placed at complete process exit, including final writes and teardown. No error is invented at time zero, and no step-rate extrapolation is used. LOWESS and its bootstrap interval are fitted on the elapsed-time coordinates.
+[Clock reconstruction evidence](../../artifacts/pino_time_fusion_wall_clock.json).
+All 41 actual evaluations on the same 64 native-reference ellipsoids. Each
+sample's relative norm pools all 24³ diagnostic volume queries and five saved
+times (0, 0.25, 0.5, 0.75, 1). Thin solid lines are raw means; thicker lines
+are log-LOWESS trends (span 0.22). Shading shows pointwise 95% empirical bootstrap
+intervals from 2,000 complete-case-trajectory resamples, paired across methods
+(seed 20261114). The fitted display grid adds no checkpoints. These intervals
+condition on a reused cohort and one training realization, without cross-seed
+coverage or correction for smoothing/model-selection bias.
+
+![Melting temporal conditioning distribution](../../assets/pino-studies/icemelting3d_time_fusion_distribution.png)
+
+[Editable PDF](../../assets/pino-studies/icemelting3d_time_fusion_distribution.pdf).
+Final 10k unsmoothed phase errors for all 64 native-reference inputs. The
+log-error Gaussian KDE uses Scott bandwidth, three-bandwidth tails and internal
+quartiles. Density tails do not represent extra samples. The axis shows raw
+relative ratios. These are errors on the saved diagnostic queries, not on every
+128³ reference node and not against a 64-case local-FEM cohort.
+
+Joint queries improve the final native-cohort mean in this run, and also
+reduce error on the separate local CG2 case005. Late-step values fluctuate, and
+one initialization does not establish a stable cross-seed architecture ranking.
+The local reference retains the earlier unpassed strict-refinement flag and
+practical acceptance; one local case is not a reference population. Keep this
+diagnostic separate from the native violin. The selected SOTA/default and main
+field figure remain unchanged.
+
+Together with Electropolish, this comparison shows an accuracy/cost tradeoff:
+spatial-only attention plus decoder FiLM reduces measured training cost in both
+cases, while its final accuracy advantage is case dependent. Do not describe
+FiLM as universally more accurate or joint queries as uniformly ineffective.
+
+| Temporal conditioning | Cold training process | Warm inclusive median | Active peak | Stored entries |
+|---|---:|---:|---:|---:|---:|
+| Decoder FiLM | 6.89 min | 15.81 ms | 1.45 GiB | 85,825 |
+| Joint (x,t) query | 14.99 min | 60.44 ms | 9.36 GiB | 71,665 |
+
+Both arms ran on the same RTX PRO 6000 Blackwell Server Edition
+(UUID `GPU-85fe6412-636e-5d3c-d5f0-d1e9523c3faa`). Cold cost includes setup,
+compilation, all in-training evaluations and final native-prediction saving,
+excluding reference generation and the separate audit. Warm inclusive medians
+sum synchronized loss/gradient/update, condition preparation and spatial transfer
+after the first step; they exclude evaluation. Active peaks are allocator arrays,
+not the reserved pool. The joint model uses fewer stored parameters yet processes
+more attention queries; parameter count alone does not determine memory or cost.
+
+[Direct checkpoints, inputs, raw errors, local diagnostic, costs and figure reproduction](../../artifacts/pino_time_fusion_figures.json)
+retain the completed paired audit. Figures use editable Helvetica/NPG at 85×60 mm.
+The explicit joint-query entry is `configs/train_operator_joint_query.py`.
+See the [two-case task record](../../docs/tasks/archive/pino-time-fusion-comparison.md).
+
 ## Three-dimensional interface figures
 
 The existing Adam operator checkpoint also has true3Dvisualizations for the

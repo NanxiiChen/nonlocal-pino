@@ -1,0 +1,28 @@
+{
+  "status": "diagnostic_only",
+  "recorded_utc": "2026-11-15T02:49:19.530178+00:00",
+  "process_observation_utc": "2026-11-15T02:46:04.697862+00:00",
+  "pid": 553790,
+  "start_ticks": 931081868,
+  "completed_updates": 0,
+  "log": "/root/autodl-tmp/tf-logs/spinodal-taylor-resource-20261115-02.log",
+  "compiler_message": "Compiling module gemm_fusion_dot.10554 for GPU; one operation took2m24.902s",
+  "initial_model_optimizer_exact": true,
+  "known_encoder_witnesses": 24,
+  "first_online_witnesses": 4,
+  "all_exported_input_arrays_exact": true,
+  "conditional_compiler_control": {
+    "flag": "--xla_gpu_enable_triton_gemm=false",
+    "installed_jax": "0.10.1",
+    "installed_jaxlib": "0.10.1",
+    "accepted_on_cpu_backend": true,
+    "primary_documentation": "https://openxla.org/xla/flags_guidance",
+    "meaning": "Controls Triton-based matrix multiplication",
+    "not_tested": [
+      "GPU numerical equivalence under thisflag",
+      "GPU compile time or stable update performance"
+    ],
+    "condition": "Only consider after the unchangedcurrentprobe completes; no liveflag/source modification"
+  },
+  "interpretation": "Logs identify slow GPUfusion compilation. They do not prove the entire delay has onecause or that disabling Triton improves training speed."
+}

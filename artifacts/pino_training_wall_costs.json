@@ -1,0 +1,266 @@
+{
+  "status": "passed",
+  "created_utc": "2026-11-15T04:24:22.055624+00:00",
+  "primary_time": "Full cold training-process wall time; warm-only extrapolations prohibited",
+  "includes": [
+    "Python imports and device initialization",
+    "model and optimizer initialization",
+    "in-process known-input/operator preparation",
+    "JIT compilation and first calls",
+    "all training updates and rolling-pool waits",
+    "all in-training evaluations",
+    "final model, fields and log writes",
+    "process teardown"
+  ],
+  "excludes": [
+    "separate offline input/reference bank construction",
+    "separate qualification probes",
+    "subsequent separately launched evaluations, audits or plotting",
+    "queue waiting before training process creation"
+  ],
+  "source_code_boundary_review": [
+    "docs/tasks/ceramic_fem_comparison_queue.py",
+    "docs/tasks/ceramic_frozen_source_queue.py",
+    "docs/tasks/electro_threeway_queue.py",
+    "docs/tasks/melting_threeway_queue.py",
+    "docs/tasks/channel_ad_queue.py",
+    "docs/tasks/channel_fem_queue.py",
+    "docs/tasks/pino_time_fusion_queue.py",
+    "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/owner/owner-source.py",
+    "docs/tasks/spinodal_nonlocal_fem_queue.py"
+  ],
+  "cases": {
+    "electropolish2d": {
+      "steps": 10000,
+      "methods": {
+        "nonlocal": {
+          "seconds": 937.5401736199856,
+          "journal": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03/journal.json",
+          "stage_key": "name",
+          "stage": "train-nonlocal",
+          "exit_code": 0,
+          "clock": "Parent perf_counter before Popen through successful child.wait; includes startup and teardown",
+          "minutes": 15.625669560333092,
+          "hours": 0.26042782600555153
+        },
+        "local_ad": {
+          "seconds": 1096.13973326236,
+          "journal": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03/journal.json",
+          "stage_key": "name",
+          "stage": "train-local_ad",
+          "exit_code": 0,
+          "clock": "Parent perf_counter before Popen through successful child.wait; includes startup and teardown",
+          "minutes": 18.26899555437267,
+          "hours": 0.30448325923954445
+        },
+        "fem_weak": {
+          "seconds": 926.2037769239396,
+          "journal": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03/journal.json",
+          "stage_key": "name",
+          "stage": "train-fem_weak",
+          "exit_code": 0,
+          "clock": "Parent perf_counter before Popen through successful child.wait; includes startup and teardown",
+          "minutes": 15.436729615398994,
+          "hours": 0.25727882692331655
+        }
+      },
+      "hardware_scope": "All three current controls on GPU-85fe6412-636e-5d3c-d5f0-d1e9523c3faa, RTX PRO 6000 Blackwell Server Edition"
+    },
+    "icemelting3d": {
+      "steps": 10000,
+      "methods": {
+        "nonlocal": {
+          "seconds": 413.5769551638514,
+          "journal": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04/journal.json",
+          "stage_key": "name",
+          "stage": "train-nonlocal",
+          "exit_code": 0,
+          "clock": "Parent perf_counter before Popen through successful child.wait; includes startup and teardown",
+          "minutes": 6.8929492527308565,
+          "hours": 0.11488248754551428
+        },
+        "local_ad": {
+          "seconds": 622.3254535514861,
+          "journal": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04/journal.json",
+          "stage_key": "name",
+          "stage": "train-local_ad",
+          "exit_code": 0,
+          "clock": "Parent perf_counter before Popen through successful child.wait; includes startup and teardown",
+          "minutes": 10.372090892524769,
+          "hours": 0.17286818154207947
+        },
+        "fem": {
+          "seconds": 441.060934368521,
+          "journal": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04/journal.json",
+          "stage_key": "name",
+          "stage": "train-fem",
+          "exit_code": 0,
+          "clock": "Parent perf_counter before Popen through successful child.wait; includes startup and teardown",
+          "minutes": 7.351015572808683,
+          "hours": 0.12251692621347805
+        }
+      },
+      "hardware_scope": "All three current controls on GPU-85fe6412-636e-5d3c-d5f0-d1e9523c3faa, RTX PRO 6000 Blackwell Server Edition"
+    },
+    "particle_corrosion2d": {
+      "steps": 20000,
+      "methods": {
+        "nonlocal": {
+          "seconds": 1608.453960686922,
+          "journal": "/root/autodl-tmp/tf-logs/ceramic-old-source-pro6000-20261113-01/journal.json",
+          "stage_key": "label",
+          "stage": "old-source-train",
+          "exit_code": 0,
+          "clock": "Parent perf_counter before Popen through successful child.wait; includes startup and teardown",
+          "minutes": 26.807566011448703,
+          "hours": 0.4467927668574784
+        },
+        "local_ad": {
+          "seconds": 1707.9643876552582,
+          "journal": "/root/autodl-tmp/tf-logs/ceramic-fem-comparison-20261113-02/journal.json",
+          "stage_key": "label",
+          "stage": "local_ad-train",
+          "exit_code": 0,
+          "clock": "Parent perf_counter before Popen through successful child.wait; includes startup and teardown",
+          "minutes": 28.466073127587638,
+          "hours": 0.47443455212646063
+        },
+        "fem": {
+          "seconds": 1260.5625733705238,
+          "journal": "/root/autodl-tmp/tf-logs/ceramic-fem-comparison-20261113-01/journal.json",
+          "stage_key": "label",
+          "stage": "fem_weak-train",
+          "exit_code": 0,
+          "clock": "Parent perf_counter before Popen through successful child.wait; includes startup and teardown",
+          "minutes": 21.00937622284206,
+          "hours": 0.350156270380701
+        }
+      },
+      "hardware_scope": "Three selected historical controls on GPU-1e537971-8529-b7c1-1682-82073d2cae12; same RTX PRO 6000 model but not the current physical card. Frozen-source launcher explicitly enforces this UUID."
+    },
+    "channel_nsch2d": {
+      "steps": 20000,
+      "methods": {
+        "local_ad": {
+          "seconds": 36560.9198840633,
+          "journal": "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/sampled-journal.json",
+          "stage_key": "name",
+          "stage": "train-ad",
+          "exit_code": 0,
+          "clock": "Parent perf_counter before Popen through successful child.wait; includes startup and teardown",
+          "minutes": 609.3486647343884,
+          "hours": 10.155811078906472
+        },
+        "fem": {
+          "seconds": 28914.02842125669,
+          "journal": "/root/autodl-tmp/tf-logs/channel-fem-full-20261114-01/journal.json",
+          "stage_key": "name",
+          "stage": "train-fem",
+          "exit_code": 0,
+          "clock": "Parent perf_counter before Popen through successful child.wait; includes startup and teardown",
+          "minutes": 481.9004736876115,
+          "hours": 8.031674561460193
+        },
+        "nonlocal": {
+          "seconds": 33044.11085,
+          "journal": "/root/autodl-tmp/data/channel_nsch2d/cold20k-restart-nt36-time18-20261103-04/owner/process.json",
+          "stage_key": "stage",
+          "stage": "training",
+          "exit_code": 0,
+          "started_utc": "2026-11-03T03:27:50.995985+00:00",
+          "completed_utc": "2026-11-03T12:38:35.106835+00:00",
+          "clock": "Approximate historical external interval: timestamp immediately after Popen to observed exit, ten-second polling plus monitor work; not sub-second accurate",
+          "strict_pre_spawn_timer": false,
+          "historical_gpu_uuid": "GPU-c55d506d-0eea-666e-713c-3ca8e3d81c9f",
+          "current_gpu_uuid": "GPU-85fe6412-636e-5d3c-d5f0-d1e9523c3faa",
+          "same_current_gpu": false,
+          "minutes": 550.7351808333333,
+          "hours": 9.178919680555556
+        }
+      },
+      "hardware_scope": "AD and FEM use current physical GPU; nonlocal is a historical approximate external interval on a different UUID of the same model"
+    },
+    "confined_ch2d": {
+      "steps": 50000,
+      "methods": {
+        "nonlocal": {
+          "seconds": 8086.912901431322,
+          "journal": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-20261115-01/journal.json",
+          "stage_key": "name",
+          "stage": "train-nonlocal",
+          "exit_code": 0,
+          "clock": "Parent perf_counter before log opening/Popen through successful child.wait and log close; includes startup and teardown",
+          "minutes": 134.78188169052203,
+          "hours": 2.246364694842034
+        },
+        "fem": {
+          "seconds": 6852.669361189008,
+          "journal": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-20261115-01/journal.json",
+          "stage_key": "name",
+          "stage": "train-fem",
+          "exit_code": 0,
+          "clock": "Parent perf_counter before log opening/Popen through successful child.wait and log close; includes startup and teardown",
+          "minutes": 114.2111560198168,
+          "hours": 1.9035192669969465
+        }
+      },
+      "omitted_method": "local_ad: omitted by user after resource measurement",
+      "hardware_scope": "Both controls on GPU-85fe6412-636e-5d3c-d5f0-d1e9523c3faa, RTX PRO 6000 Blackwell Server Edition"
+    }
+  },
+  "temporal_controls": {
+    "electropolish2d": {
+      "steps": 10000,
+      "decoder_film": {
+        "seconds": 937.5401736199856,
+        "journal": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03/journal.json",
+        "stage_key": "name",
+        "stage": "train-nonlocal",
+        "exit_code": 0,
+        "clock": "Parent perf_counter before Popen through successful child.wait; includes startup and teardown",
+        "minutes": 15.625669560333092,
+        "hours": 0.26042782600555153
+      },
+      "joint_query": {
+        "seconds": 1419.0765574146062,
+        "journal": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/journal.json",
+        "stage_key": "name",
+        "stage": "train-electropolish",
+        "exit_code": 0,
+        "clock": "Parent perf_counter before Popen through successful child.wait; includes startup and teardown",
+        "minutes": 23.651275956910105
+      },
+      "scope": "Both nonlocal; same physical current GPU; baseline reused, temporal module capacities differ"
+    },
+    "icemelting3d": {
+      "steps": 10000,
+      "decoder_film": {
+        "seconds": 413.5769551638514,
+        "journal": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04/journal.json",
+        "stage_key": "name",
+        "stage": "train-nonlocal",
+        "exit_code": 0,
+        "clock": "Parent perf_counter before Popen through successful child.wait; includes startup and teardown",
+        "minutes": 6.8929492527308565,
+        "hours": 0.11488248754551428
+      },
+      "joint_query": {
+        "seconds": 899.3818906527013,
+        "journal": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/journal.json",
+        "stage_key": "name",
+        "stage": "train-melting",
+        "exit_code": 0,
+        "clock": "Parent perf_counter before Popen through successful child.wait; includes startup and teardown",
+        "minutes": 14.989698177545021
+      },
+      "scope": "Both nonlocal; same physical current GPU; baseline reused, temporal module capacities differ"
+    }
+  },
+  "qualifications": [
+    "Historical channel nonlocal is approximate external observation, not strict pre-spawn timing or same-device comparison",
+    "Ceramic journals record an older physical PRO6000 card than the current studies",
+    "In-training monitor cohorts differ across examples; costs are not a derivative-only microbenchmark",
+    "Selected accuracy weights and all figures unchanged",
+    "Spinodal Local AD has only resource probes and is omitted by user request; no completed AD training cost"
+  ]
+}

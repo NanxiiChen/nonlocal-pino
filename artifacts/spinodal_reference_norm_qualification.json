@@ -1,0 +1,60 @@
+{
+  "status": "passed",
+  "utc": "2026-11-15T04:36:46.988422+00:00",
+  "module": "docs/tasks/spinodal_reference_norms.py",
+  "source_of_independent_old_phi_values": "artifacts/spinodal_sota_repeat_comparison.json",
+  "independent_case_norms_checked": 32,
+  "old_mu_weighted_metric_matches": true,
+  "independent_reference_gap_matches": true,
+  "negative_checks": [
+    "Run budget differs from the requested final budget",
+    "Zero reference norm",
+    "Both completed and audited Spinodal methods are required"
+  ],
+  "old_final_means": {
+    "native": {
+      "equal_node": {
+        "phi": 0.049173593815677,
+        "chemical": 0.10822331753256154,
+        "channel_mean": 0.07869845567411926,
+        "chemical_positive_times": 0.1170630151190657
+      },
+      "physical_volume": {
+        "phi": 0.04832914531948705,
+        "chemical": 0.10732855659894618,
+        "channel_mean": 0.07782885095921661,
+        "chemical_positive_times": 0.11617532037032693
+      }
+    },
+    "local": {
+      "equal_node": {
+        "phi": 0.32216986179046725,
+        "chemical": 0.46979124898972846,
+        "channel_mean": 0.39598055539009785,
+        "chemical_positive_times": 0.3205839505083956
+      },
+      "physical_volume": {
+        "phi": 0.32086370326654606,
+        "chemical": 0.46810978459204994,
+        "channel_mean": 0.39448674392929806,
+        "chemical_positive_times": 0.31914802000804066
+      }
+    },
+    "native_reference_vs_local": {
+      "equal_node": {
+        "phi": 0.31963329814938385,
+        "chemical": 0.45935790950542155,
+        "channel_mean": 0.38949560382740267,
+        "chemical_positive_times": 0.2999626706697913
+      },
+      "physical_volume": {
+        "phi": 0.31861847243305264,
+        "chemical": 0.45791717771136176,
+        "channel_mean": 0.3882678250722072,
+        "chemical_positive_times": 0.2990031920474875
+      }
+    }
+  },
+  "scope": "Read-only CPU calculations on existing old50k fields; no final new result claimed and no GPU/inference/reference solves",
+  "next_command": ".venv/bin/python -m docs.tasks.spinodal_reference_norms --final-report /root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-20261115-01/final.json --output artifacts/spinodal_final_reference_norms.json"
+}

@@ -1,0 +1,208 @@
+{
+  "status": "replacement_queues_waiting_full_test_monitoring",
+  "reason": "User requests complete-test-set evaluation throughout future training; preserve the already running channel run",
+  "stopped": [
+    {
+      "case": "figures",
+      "pid": 177115,
+      "start_ticks": 924958239,
+      "command": "/root/nonlocal-pinn/.venv/bin/python -m docs.tasks.pino_comparison_figure_queue --output /root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-01 ",
+      "journal": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-01/journal.json",
+      "original_journal": {
+        "status": "waiting",
+        "pid": 177115,
+        "stages": [],
+        "started_utc": "2026-11-14T09:29:54.453270+00:00",
+        "training": false,
+        "inference": false,
+        "reference_solves": false,
+        "publication": false,
+        "source_files": [
+          "scripts/pino_comparison_data.py",
+          "scripts/pino_comparison_plot.py",
+          "scripts/render_pino_three_method.py",
+          "scripts/trajectory_trend.py",
+          "scripts/local_trend.py",
+          "docs/tasks/ceramic_fem_comparison_figures.py",
+          "docs/tasks/pino_comparison_figure_queue.py"
+        ],
+        "heartbeat_utc": "2026-11-14T13:06:55.006046+00:00",
+        "waiting_for": {
+          "case": "channel",
+          "journal": "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/sampled-journal.json",
+          "pid": 81883,
+          "start_ticks": 924156816,
+          "final_report": "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/comparison.json"
+        }
+      },
+      "no_active_child": true,
+      "no_training_started": true
+    },
+    {
+      "case": "spinodal",
+      "pid": 174248,
+      "start_ticks": 924747823,
+      "command": "/root/nonlocal-pinn/.venv/bin/python -m docs.tasks.spinodal_threeway_queue --bundle /root/autodl-tmp/tf-logs/spinodal-threeway-20261114-01 --prefix spinodal-threeway-20261114-01 --wait-journal /root/autodl-tmp/tf-logs/melting-threeway-20261114-01/journal.json --wait-pid 129007 --wait-start-ticks 924409834 --max-projected-update-hours 24 ",
+      "journal": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-01/journal.json",
+      "original_journal": {
+        "status": "waiting",
+        "pid": 174248,
+        "prefix": "spinodal-threeway-20261114-01",
+        "wait_journal": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-01/journal.json",
+        "wait_pid": 129007,
+        "wait_start_ticks": 924409834,
+        "stages": [],
+        "started_utc": "2026-11-14T08:54:50.323655+00:00",
+        "max_projected_update_hours": 24.0,
+        "heartbeat_utc": "2026-11-14T13:06:50.900419+00:00"
+      },
+      "no_active_child": true,
+      "no_training_started": true
+    },
+    {
+      "case": "melting",
+      "pid": 129007,
+      "start_ticks": 924409834,
+      "command": "/root/nonlocal-pinn/.venv/bin/python -m docs.tasks.melting_threeway_queue --bundle /root/autodl-tmp/tf-logs/melting-threeway-20261114-01 --prefix melting-threeway-20261114-01 --wait-journal /root/autodl-tmp/tf-logs/electro-threeway-20261114-01/journal.json --wait-pid 104855 --wait-start-ticks 924278801 ",
+      "journal": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-01/journal.json",
+      "original_journal": {
+        "status": "waiting",
+        "pid": 129007,
+        "started_utc": "2026-11-14T07:58:30.412270+00:00",
+        "wait_journal": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-01/journal.json",
+        "wait_pid": 104855,
+        "wait_start_ticks": 924278801,
+        "prefix": "melting-threeway-20261114-01",
+        "stages": [],
+        "heartbeat_utc": "2026-11-14T13:07:01.443872+00:00"
+      },
+      "no_active_child": true,
+      "no_training_started": true
+    },
+    {
+      "case": "electropolish",
+      "pid": 104855,
+      "start_ticks": 924278801,
+      "command": "/root/nonlocal-pinn/.venv/bin/python -m docs.tasks.electro_threeway_queue --bundle /root/autodl-tmp/tf-logs/electro-threeway-20261114-01 --prefix electro-threeway-20261114-01 --wait-journal /root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/sampled-journal.json --wait-pid 81883 --wait-start-ticks 924156816 ",
+      "journal": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-01/journal.json",
+      "original_journal": {
+        "status": "waiting",
+        "pid": 104855,
+        "started_utc": "2026-11-14T07:36:40.085076+00:00",
+        "wait_journal": "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/sampled-journal.json",
+        "wait_pid": 81883,
+        "wait_start_ticks": 924156816,
+        "prefix": "electro-threeway-20261114-01",
+        "stages": [],
+        "heartbeat_utc": "2026-11-14T13:06:41.505455+00:00"
+      },
+      "no_active_child": true,
+      "no_training_started": true
+    }
+  ],
+  "created_utc": "2026-11-14T13:07:05.615600+00:00",
+  "channel_untouched": {
+    "owner_pid": 81883,
+    "trainer_pid": 145877,
+    "verified_live": true
+  },
+  "replacements": [
+    {
+      "case": "electropolish",
+      "pid": 197352,
+      "start_ticks": 926314386,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-m",
+        "docs.tasks.electro_threeway_queue",
+        "--bundle",
+        "/root/autodl-tmp/tf-logs/electro-threeway-20261114-02",
+        "--prefix",
+        "electro-threeway-20261114-02",
+        "--wait-journal",
+        "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/sampled-journal.json",
+        "--wait-pid",
+        "81883",
+        "--wait-start-ticks",
+        "924156816"
+      ],
+      "journal": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-02/journal.json",
+      "log": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-02-owner.log",
+      "wait_owner_pid": 81883,
+      "wait_start_ticks": 924156816,
+      "verified_status": "waiting",
+      "verified_utc": "2026-11-14T13:15:56.103580+00:00"
+    },
+    {
+      "case": "melting",
+      "pid": 197353,
+      "start_ticks": 926314412,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-m",
+        "docs.tasks.melting_threeway_queue",
+        "--bundle",
+        "/root/autodl-tmp/tf-logs/melting-threeway-20261114-02",
+        "--prefix",
+        "melting-threeway-20261114-02",
+        "--wait-journal",
+        "/root/autodl-tmp/tf-logs/electro-threeway-20261114-02/journal.json",
+        "--wait-pid",
+        "197352",
+        "--wait-start-ticks",
+        "926314386"
+      ],
+      "journal": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-02/journal.json",
+      "log": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-02-owner.log",
+      "wait_owner_pid": 197352,
+      "wait_start_ticks": 926314386,
+      "verified_status": "waiting",
+      "verified_utc": "2026-11-14T13:15:56.355737+00:00"
+    },
+    {
+      "case": "spinodal",
+      "pid": 197354,
+      "start_ticks": 926314437,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-m",
+        "docs.tasks.spinodal_threeway_queue",
+        "--bundle",
+        "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-02",
+        "--prefix",
+        "spinodal-threeway-20261114-02",
+        "--wait-journal",
+        "/root/autodl-tmp/tf-logs/melting-threeway-20261114-02/journal.json",
+        "--wait-pid",
+        "197353",
+        "--wait-start-ticks",
+        "926314412",
+        "--max-projected-update-hours",
+        "24"
+      ],
+      "journal": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-02/journal.json",
+      "log": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-02-owner.log",
+      "wait_owner_pid": 197353,
+      "wait_start_ticks": 926314412,
+      "verified_status": "waiting",
+      "verified_utc": "2026-11-14T13:15:56.609363+00:00"
+    },
+    {
+      "case": "figures",
+      "pid": 197437,
+      "start_ticks": 926317131,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-m",
+        "docs.tasks.pino_comparison_figure_queue",
+        "--output",
+        "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-02"
+      ],
+      "journal": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-02/journal.json",
+      "log": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-02-owner.log",
+      "verified_status": "waiting",
+      "verified_utc": "2026-11-14T13:16:23.546254+00:00"
+    }
+  ],
+  "replacement_pending": false
+}

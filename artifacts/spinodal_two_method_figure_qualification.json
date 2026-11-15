@@ -1,0 +1,47 @@
+{
+  "status": "passed",
+  "verified_utc": "2026-11-15T03:10:33.290141+00:00",
+  "scope": "Two-method data loading, plotting dispatch and publication/site schema; no completed Spinodal figures yet",
+  "changes": [
+    "scripts/pino_comparison_data.py",
+    "scripts/pino_comparison_plot.py",
+    "scripts/render_pino_three_method.py",
+    "scripts/publish_pino_three_method.py",
+    "website/build.mjs",
+    "docs/tasks/spinodal_nonlocal_fem_figures.py"
+  ],
+  "tests": {
+    "command": "JAX_PLATFORMS=cpu OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 .venv/bin/python -m unittest tests.test_pino_comparison_data -v",
+    "passed": 4,
+    "seconds": 0.639,
+    "coverage": [
+      "Full saved-field norms and101x8x2 histories retained for both selected methods",
+      "Undeclared or differently explained AD omission rejected",
+      "Missing actual final monitoring record rejected",
+      "Existing three-method loaders still pass"
+    ]
+  },
+  "environment_note": "Kept pure data tests independent of PDF tooling; plot-only check uses the existing documented auxiliary PyMuPDF path. No project dependency changes.",
+  "website": {
+    "pages": 9,
+    "build_passed": true,
+    "deployed": false
+  },
+  "preview_figures_created": false,
+  "separate_plot_dispatch_check": {
+    "status": "passed",
+    "environment": "PYTHONPATH=/tmp/pino-pdf-audit JAX_PLATFORMS=cpu",
+    "coverage": [
+      "Nonlocal C0 and FEM C2",
+      "Explicit Spinodal-only omission; cross-case rejection"
+    ]
+  },
+  "preview_queue": {
+    "pid": 607224,
+    "start_ticks": 931308501,
+    "verified_utc": "2026-11-15T03:10:33.290141+00:00",
+    "status": "waiting",
+    "all7render_sources_exact": true,
+    "journal": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-01/journal.json"
+  }
+}

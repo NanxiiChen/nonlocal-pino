@@ -74,15 +74,49 @@ artifacts without training or solving a reference:
 
 ## Nonlocal/local-AD comparisons
 
-The newer ceramic three-method comparison is published separately in
+The historical ceramic channel-mean comparison is retained in
 `pino-studies/particle_corrosion2d_fem_distribution.png` and its matching
 editable PDF. It compares **Nonlocal PINO**, **Local AD PINO** and **FEM PINO**
 on the same64local-FEM numerical references, with final20kweights and per-sample
 channel-mean full-space-time relativeL2. Both files together are below128KiB,
-with a separate1MiBper-file limit. The example README and website use identical
-approved copies. The [publication record](../artifacts/ceramic_fem_comparison_publication.json)
-links raw provenance and the CPU renderer; convergence and alternate previews
-remain external. It does not replace the historical two-method records below.
+with a separate1MiBper-file limit. The [publication record](../artifacts/ceramic_fem_comparison_publication.json)
+links raw provenance and the CPU renderer. The current README and website use
+the component figures below; older files remain available at their published
+paths. The historical two-method records below are also retained.
+
+The current component view adds `pino-studies/particle_corrosion2d_component_`
+`convergence`/`distribution` PNG/PDF pairs. All four files total307,994bytes,
+below a separate512KiB collection/1MiB-per-file budget. It retains the same three
+20k models: final64case phase/concentration violins, and21four-development-case
+raw/LOWESS curves with whole-trajectory bootstrap intervals. README and website
+use identical files. [Direct inputs, metrics and rendering command](../artifacts/ceramic_component_comparison_figures.json)
+distinguish the two cohorts/weightings; full arrays and alternate renders stay external.
+
+Completed three-method comparisons additionally use
+`pino-studies/<example>_three_method_convergence` and `_distribution` PNG/PDF
+pairs. Channel, Electropolish and Melting total510,654/345,294/215,873bytes.
+Spinodal adds262,400bytes with explicit `_nonlocal_fem_` filenames after the
+user-authorized AD omission: two final50k models, eight common local-FEM cases
+and101actual histories. The four cases total1,334,221bytes across sixteen files.
+The separate
+collection budget is4MiB for channel, Electropolish, Melting and Spinodal combined,
+with1MiBper file; only completed, independently audited results are included.
+[Publication inputs and reproduction](../artifacts/pino_three_method_figures.json)
+record the selected direct source paths, actual cohorts, per-case final errors,
+fonts, commands and exact byte counts. Full histories/bootstrap arrays stay in
+the referenced external provenance. The website copies these same files;
+older two-method figures and their separate budgets remain unchanged.
+
+Temporal controls use `pino-studies/<example>_time_fusion_convergence` and
+`_distribution` PDF/PNG pairs, with a separate2MiBcombined/1MiBper-file budget.
+The [temporal publication record](../artifacts/pino_time_fusion_figures.json)
+accepts only audited final10k/64case Electropolish and Melting comparisons.
+The selected Electropolish/Melting sets total294,876/184,109bytes,
+combined479,695bytes across eight files.
+It records shared backbone/input checks, different time-module capacities,
+direct sources and resources; an empty case list means no figures selected yet.
+The same files are copied into the local website without including raw arrays
+or weights. See the [comparison guide](../docs/PINO_COMPARISON_FIGURES.md).
 
 `pino-comparisons/` contains two final-weight error distributions and two
 physical-field sheets, separate from the selected SOTA figures above.
@@ -244,3 +278,8 @@ The [publication manifest](../artifacts/channel_fem_comparison_publication.json)
 provides exact bytes and shared README/site paths; the
 [reproduction record](../artifacts/channel_fem_comparison_figures.json) includes
 the CPU-only command, direct inputs, all plotted values and font checks.
+
+The two time-fusion convergence PNG/PDF pairs now use cold elapsed wall time.
+The unchanged metric observations and clock reconstruction are recorded in
+[`pino_time_fusion_wall_clock.json`](../artifacts/pino_time_fusion_wall_clock.json);
+prior step-axis provenance remains in the temporal publication manifest.

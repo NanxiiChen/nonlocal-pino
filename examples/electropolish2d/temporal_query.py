@@ -25,6 +25,13 @@ class TemporalQueryOperator(eqx.Module):
     def prepare(self, condition, x, local):
         return self.backbone.project_queries(x, local), self.backbone.encode(condition)
 
+    def encode(self, condition):
+        return self.backbone.encode(condition)
+
+    def prepare_encoded(self, encoded, x, local):
+        """Reuse the condition encoder; attention itself remains time dependent."""
+        return self.backbone.project_queries(x, local), encoded
+
     def _decode_time(self, prepared, time):
         query, context = prepared
         net = self.backbone

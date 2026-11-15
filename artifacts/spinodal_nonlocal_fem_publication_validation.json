@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "utc": "2026-11-15T08:02:53.850214+00:00",
+  "final_report": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-20261115-01/final.json",
+  "reference_norms": "artifacts/spinodal_final_reference_norms.json",
+  "paired_initial_and_actual_draws": true,
+  "complete_histories": {
+    "methods": 2,
+    "records_each": 101,
+    "cases_each": 8
+  },
+  "final_field_pairs": 16,
+  "physical_channel_norms": 32,
+  "full_cold_seconds": {
+    "nonlocal": 8086.912901431322,
+    "fem": 6852.669361189008
+  },
+  "selected_figure_source": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-02/spinodal/provenance.json",
+  "selected_assets_bytes": 262400,
+  "readme_and_source_and_built_page_metrics_match": true,
+  "local_site_links_checked": 387,
+  "pdf_edit_probe_receipt": "artifacts/spinodal_two_method_pdf_edit_validation.json",
+  "deployment_performed": false
+}

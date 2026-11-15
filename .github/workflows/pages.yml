@@ -11,9 +11,12 @@ on:
       - artifacts/pino_main_figures.json
       - assets/pino-setups/**
       - artifacts/pino_setup_figures.json
-      - assets/pino-studies/particle_corrosion2d_fem_distribution.*
+      - assets/pino-studies/**
+      - artifacts/pino_three_method_figures.json
+      - artifacts/pino_time_fusion_figures.json
+      - artifacts/pino_time_fusion_wall_clock.json
+      - artifacts/ceramic_component_comparison_figures.json
       - artifacts/ceramic_fem_comparison_publication.json
-      - assets/pino-studies/channel_nsch2d_fem_*
       - artifacts/channel_fem_comparison_publication.json
   workflow_dispatch:
 

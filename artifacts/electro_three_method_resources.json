@@ -1,0 +1,36 @@
+{
+  "status": "passed",
+  "source": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03/comparison.json",
+  "journal": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03/journal.json",
+  "gpu": "GPU-85fe6412-636e-5d3c-d5f0-d1e9523c3faa, NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887 MiB, 595.71.05",
+  "methods": {
+    "nonlocal": {
+      "cold_training_process_seconds": 937.5401736199856,
+      "first_compile_and_call_seconds": 169.01541963405907,
+      "warm_update_mean_seconds": 0.032775072381272946,
+      "active_peak_gib": 12.025291204452515,
+      "timing_source": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-nonlocal/timing.json",
+      "memory_source": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-nonlocal/memory.json",
+      "mean_input_preparation_after_first_seconds": 0.03322297314142618
+    },
+    "local_ad": {
+      "cold_training_process_seconds": 1096.13973326236,
+      "first_compile_and_call_seconds": 399.3001011759043,
+      "warm_update_mean_seconds": 0.023324432410541947,
+      "active_peak_gib": 5.408025503158569,
+      "timing_source": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-local_ad/timing.json",
+      "memory_source": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-local_ad/memory.json",
+      "mean_input_preparation_after_first_seconds": 0.03597832833136311
+    },
+    "fem_weak": {
+      "cold_training_process_seconds": 926.2037769239396,
+      "first_compile_and_call_seconds": 166.71104785986245,
+      "warm_update_mean_seconds": 0.03232466262189707,
+      "active_peak_gib": 12.02455186843872,
+      "timing_source": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-fem_weak/timing.json",
+      "memory_source": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-fem_weak/memory.json",
+      "mean_input_preparation_after_first_seconds": 0.032987239357508386
+    }
+  },
+  "scope": "Measured serial current-device runs; coldprocess and warm update scopes distinct; no new resource probe or training"
+}

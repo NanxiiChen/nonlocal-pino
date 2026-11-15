@@ -1,0 +1,280 @@
+{
+  "status": "cpu_qualified_gpu_and_reference_pending",
+  "recorded_utc": "2026-11-14T08:58:22.488675+00:00",
+  "scope": "Original full-field width256/online50k Spinodal; opt-in three-way controls, default unchanged",
+  "focused_checks": {
+    "local_ad": 5,
+    "fem": 3,
+    "original_regressions": 5,
+    "monitor": 3,
+    "positive_nonlocal_objective": 1
+  },
+  "logs": [
+    "/tmp/spinodal-local-ad-tests.log",
+    "/tmp/spinodal-real-ad-backward.log",
+    "/tmp/spinodal-fem-tests.log",
+    "/tmp/spinodal-threeway-regressions.log",
+    "/tmp/spinodal-positive-time-check.log",
+    "/tmp/spinodal-nonlocal-positive-measure.log"
+  ],
+  "canonical_cpu_integration": {
+    "status": "passed",
+    "cases": [
+      {
+        "method": "nonlocal",
+        "seconds": 17.234881322830915,
+        "run": "/tmp/spinodal-threeway-integration-01/nonlocal",
+        "updates": 2
+      },
+      {
+        "method": "fem",
+        "seconds": 14.95735738426447,
+        "run": "/tmp/spinodal-threeway-integration-01/fem",
+        "updates": 2
+      },
+      {
+        "method": "local_ad",
+        "seconds": 79.91069716215134,
+        "run": "/tmp/spinodal-threeway-integration-01/local_ad",
+        "updates": 2
+      }
+    ],
+    "common_initial_states_and_actual_inputs": true,
+    "shared_bank_arrays": 8,
+    "scope": "Three production meshes, width4/B1/Nt1/twoSOAPupdates; CPU integration only, not training accuracy/resources"
+  },
+  "production_mesh_assembly": {
+    "status": "passed",
+    "meshes": [
+      {
+        "index": 0,
+        "seconds": 0.08421594463288784,
+        "minimum_eigenvalue": 2.218685191528782e-13,
+        "maximum_eigenvalue": 8882.136117189637,
+        "constant_error": 1.6431300764452317e-14,
+        "minimum_metric_weight": 6.05736631034424e-05,
+        "initial_nodal_mean": 0.0021267844903554434,
+        "vertices": 638,
+        "cells": 1162,
+        "maximum_degree": 7,
+        "positive_off_diagonals_retained": 0,
+        "area": 0.5729674736668376
+      },
+      {
+        "index": 1024,
+        "seconds": 0.07881531119346619,
+        "minimum_eigenvalue": 7.264997822360874e-13,
+        "maximum_eigenvalue": 9788.584588678581,
+        "constant_error": 1.9761969838327786e-14,
+        "minimum_metric_weight": 4.972644254674184e-05,
+        "initial_nodal_mean": -0.00029903431264745626,
+        "vertices": 647,
+        "cells": 1179,
+        "maximum_degree": 7,
+        "positive_off_diagonals_retained": 0,
+        "area": 0.5713710389909098
+      },
+      {
+        "index": 1025,
+        "seconds": 0.07581950724124908,
+        "minimum_eigenvalue": 3.6281592400296633e-13,
+        "maximum_eigenvalue": 10863.155570567988,
+        "constant_error": 1.1213252548714081e-14,
+        "minimum_metric_weight": 4.025928440927736e-05,
+        "initial_nodal_mean": 0.0032048528195195154,
+        "vertices": 647,
+        "cells": 1181,
+        "maximum_degree": 8,
+        "positive_off_diagonals_retained": 0,
+        "area": 0.5767205792336323
+      },
+      {
+        "index": 1026,
+        "seconds": 0.08074476383626461,
+        "minimum_eigenvalue": -5.738925201893482e-13,
+        "maximum_eigenvalue": 9303.287751843684,
+        "constant_error": 4.3076653355456074e-14,
+        "minimum_metric_weight": 5.5133314015784616e-05,
+        "initial_nodal_mean": 0.00018236275826621163,
+        "vertices": 666,
+        "cells": 1221,
+        "maximum_degree": 7,
+        "positive_off_diagonals_retained": 0,
+        "area": 0.5775169013659325
+      },
+      {
+        "index": 1027,
+        "seconds": 0.12363345362246037,
+        "minimum_eigenvalue": -8.85887226116381e-13,
+        "maximum_eigenvalue": 11959.593321863975,
+        "constant_error": 6.317169010117141e-14,
+        "minimum_metric_weight": 3.3136382708113846e-05,
+        "initial_nodal_mean": -0.0003482232317783541,
+        "vertices": 714,
+        "cells": 1326,
+        "maximum_degree": 7,
+        "positive_off_diagonals_retained": 0,
+        "area": 0.6073686166322263
+      },
+      {
+        "index": 1028,
+        "seconds": 0.07682490535080433,
+        "minimum_eigenvalue": -3.91495435767368e-13,
+        "maximum_eigenvalue": 11116.425316253857,
+        "constant_error": 3.186340080674199e-14,
+        "minimum_metric_weight": 3.8422822485222954e-05,
+        "initial_nodal_mean": -0.0012119991388482142,
+        "vertices": 635,
+        "cells": 1152,
+        "maximum_degree": 8,
+        "positive_off_diagonals_retained": 0,
+        "area": 0.5607797076686756
+      },
+      {
+        "index": 1029,
+        "seconds": 0.10157306678593159,
+        "minimum_eigenvalue": -1.7120030398253347e-14,
+        "maximum_eigenvalue": 11844.465180914618,
+        "constant_error": 1.5987211554602254e-14,
+        "minimum_metric_weight": 3.3791466925409547e-05,
+        "initial_nodal_mean": -0.001532775471126516,
+        "vertices": 689,
+        "cells": 1276,
+        "maximum_degree": 7,
+        "positive_off_diagonals_retained": 0,
+        "area": 0.6064215658480099
+      },
+      {
+        "index": 1030,
+        "seconds": 0.09784922003746033,
+        "minimum_eigenvalue": -5.859196731790749e-13,
+        "maximum_eigenvalue": 11062.009669537532,
+        "constant_error": 4.4853010194856324e-14,
+        "minimum_metric_weight": 3.880664788149598e-05,
+        "initial_nodal_mean": -0.0006315995748477211,
+        "vertices": 699,
+        "cells": 1295,
+        "maximum_degree": 8,
+        "positive_off_diagonals_retained": 0,
+        "area": 0.6039003806880524
+      },
+      {
+        "index": 1031,
+        "seconds": 0.08129172585904598,
+        "minimum_eigenvalue": -2.000764209107576e-13,
+        "maximum_eigenvalue": 11679.320477824764,
+        "constant_error": 1.9761969838327786e-14,
+        "minimum_metric_weight": 3.47656179670646e-05,
+        "initial_nodal_mean": -0.000306432309000209,
+        "vertices": 650,
+        "cells": 1180,
+        "maximum_degree": 7,
+        "positive_off_diagonals_retained": 0,
+        "area": 0.5571144129214284
+      }
+    ],
+    "online_original_arrays_exact": 8,
+    "online_fem_report": {
+      "minimum_eigenvalue": -3.8210124337465647e-13,
+      "maximum_eigenvalue": 12350.257872856822,
+      "constant_error": 3.630429290524262e-14,
+      "minimum_metric_weight": 3.10498983443849e-05,
+      "initial_nodal_mean": -0.0013840409782986615,
+      "vertices": 679,
+      "cells": 1245,
+      "maximum_degree": 7,
+      "positive_off_diagonals_retained": 0,
+      "area": 0.5775737669965981
+    }
+  },
+  "incompatible_initial_strong_residual": [
+    {
+      "index": 1024,
+      "mean_initial_strong_residual": 0.07976120820169186,
+      "initial_loss_lower_bound": 0.0063618503337936365,
+      "initial_mu_flux_rms": 1.8459820735535337
+    },
+    {
+      "index": 1025,
+      "mean_initial_strong_residual": 0.15326820241965725,
+      "initial_loss_lower_bound": 0.023491141872953026,
+      "initial_mu_flux_rms": 2.0107390524365583
+    },
+    {
+      "index": 1026,
+      "mean_initial_strong_residual": -0.04057939808293144,
+      "initial_loss_lower_bound": 0.00164668754877302,
+      "initial_mu_flux_rms": 2.028350212376625
+    },
+    {
+      "index": 1027,
+      "mean_initial_strong_residual": -0.014826986106372893,
+      "initial_loss_lower_bound": 0.0002198395169985748,
+      "initial_mu_flux_rms": 1.8202053344988196
+    },
+    {
+      "index": 1028,
+      "mean_initial_strong_residual": -0.05320940334400951,
+      "initial_loss_lower_bound": 0.0028312406042254904,
+      "initial_mu_flux_rms": 1.705695516547998
+    },
+    {
+      "index": 1029,
+      "mean_initial_strong_residual": -0.04013237402447211,
+      "initial_loss_lower_bound": 0.0016106074448401237,
+      "initial_mu_flux_rms": 2.1602611996245233
+    },
+    {
+      "index": 1030,
+      "mean_initial_strong_residual": -0.04968350984134296,
+      "initial_loss_lower_bound": 0.002468451150154823,
+      "initial_mu_flux_rms": 1.8109550316019167
+    },
+    {
+      "index": 1031,
+      "mean_initial_strong_residual": -0.09341528588898375,
+      "initial_loss_lower_bound": 0.008726415637720567,
+      "initial_mu_flux_rms": 1.9129095022950322
+    }
+  ],
+  "initial_time_measure": {
+    "comparison_initial_pde_fraction": 0.0,
+    "default_initial_pde_fraction": 0.2,
+    "reason": "Hard mass and incompatible initial wall trace require positive-time PDE comparison; all three arms changed equally"
+  },
+  "queued": {
+    "pid": 174248,
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-m",
+      "docs.tasks.spinodal_threeway_queue",
+      "--bundle",
+      "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-01",
+      "--prefix",
+      "spinodal-threeway-20261114-01",
+      "--wait-journal",
+      "/root/autodl-tmp/tf-logs/melting-threeway-20261114-01/journal.json",
+      "--wait-pid",
+      "129007",
+      "--wait-start-ticks",
+      "924409834",
+      "--max-projected-update-hours",
+      "24"
+    ],
+    "wait_owner": 129007,
+    "wait_start_ticks": 924409834,
+    "log": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-01-owner.log",
+    "journal": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-01/journal.json"
+  },
+  "local_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v1",
+  "reference_qualified": false,
+  "long_training_complete": false,
+  "defaults_changed": false,
+  "limitations": [
+    "AD retains the original input-only nonlocal resolvent as a loss metric, not as a PDE derivative.",
+    "FEM changes PDE and mass quadrature from centroids to P1 vertices; original encoder inputs stay identical.",
+    "Chemical potential at t0 has an incompatible-wall convention; also report positive-time chemical error.",
+    "Eight existing reserved geometries are reused development inputs, not a new blind test.",
+    "CPU two-step integration is not a GPU speed, memory or final-accuracy measurement."
+  ]
+}

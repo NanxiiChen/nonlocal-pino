@@ -1,0 +1,29 @@
+{
+  "verified_utc": "2026-11-15T07:37:53.724204+00:00",
+  "status": "complete",
+  "training_journal": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-20261115-01/journal.json",
+  "figure_journal": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-02/journal.json",
+  "final_reference_norms": "artifacts/spinodal_final_reference_norms.json",
+  "publication_validation": "artifacts/spinodal_nonlocal_fem_publication_validation.json",
+  "original_processes": [
+    {
+      "pid": 590811,
+      "original_start_ticks": 931260421,
+      "same_live_process": false,
+      "observed_state": "absent"
+    },
+    {
+      "pid": 645329,
+      "original_start_ticks": 932069184,
+      "same_live_process": false,
+      "observed_state": "absent"
+    },
+    {
+      "pid": 607224,
+      "original_start_ticks": 931308501,
+      "same_live_process": false,
+      "observed_state": "absent"
+    }
+  ],
+  "next_poll": null
+}

@@ -1,0 +1,183 @@
+{
+  "status": "passed",
+  "utc": "2026-11-15T08:02:53.850214+00:00",
+  "scope": "Five main spatial-method studies with user-authorized Spinodal AD omission; two nonlocal temporal studies",
+  "studies": [
+    {
+      "example": "channel_nsch2d",
+      "kind": "spatial_methods",
+      "methods": [
+        "nonlocal",
+        "local_ad",
+        "fem"
+      ],
+      "final_step": 20000,
+      "records": 41,
+      "monitor_cases": 1,
+      "test_cases": 3,
+      "selected_source": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-05/channel/provenance.json"
+    },
+    {
+      "example": "electropolish2d",
+      "kind": "spatial_methods",
+      "methods": [
+        "nonlocal",
+        "local_ad",
+        "fem"
+      ],
+      "final_step": 10000,
+      "records": 41,
+      "monitor_cases": 64,
+      "test_cases": 64,
+      "selected_source": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-06/electropolish/provenance.json"
+    },
+    {
+      "example": "icemelting3d",
+      "kind": "spatial_methods",
+      "methods": [
+        "nonlocal",
+        "local_ad",
+        "fem"
+      ],
+      "final_step": 10000,
+      "records": 41,
+      "monitor_cases": 64,
+      "test_cases": 64,
+      "selected_source": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-06/melting/provenance.json"
+    },
+    {
+      "example": "confined_ch2d",
+      "kind": "spatial_methods",
+      "methods": [
+        "nonlocal",
+        "fem"
+      ],
+      "final_step": 50000,
+      "records": 101,
+      "monitor_cases": 8,
+      "test_cases": 8,
+      "selected_source": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-02/spinodal/provenance.json"
+    },
+    {
+      "example": "electropolish2d",
+      "kind": "time_fusion",
+      "methods": [
+        "decoder_film",
+        "joint_query"
+      ],
+      "final_step": 10000,
+      "records": 41,
+      "monitor_cases": 64,
+      "test_cases": 64,
+      "selected_source": "/root/autodl-tmp/tf-logs/pino-time-fusion-wall-clock-20261115-01/electropolish/provenance.json"
+    },
+    {
+      "example": "icemelting3d",
+      "kind": "time_fusion",
+      "methods": [
+        "decoder_film",
+        "joint_query"
+      ],
+      "final_step": 10000,
+      "records": 41,
+      "monitor_cases": 64,
+      "test_cases": 64,
+      "selected_source": "/root/autodl-tmp/tf-logs/pino-time-fusion-wall-clock-20261115-01/melting/provenance.json"
+    },
+    {
+      "example": "particle_corrosion2d",
+      "kind": "spatial_methods",
+      "methods": [
+        "Nonlocal PINO",
+        "Local AD PINO",
+        "FEM PINO"
+      ],
+      "final_step": 20000,
+      "records": 21,
+      "monitor_cases": 4,
+      "test_cases": 64,
+      "selected_source": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-component-comparison-20261114-01/provenance.json"
+    }
+  ],
+  "selected_assets": [
+    "assets/pino-studies/channel_nsch2d_three_method_convergence.png",
+    "assets/pino-studies/channel_nsch2d_three_method_convergence.pdf",
+    "assets/pino-studies/channel_nsch2d_three_method_distribution.png",
+    "assets/pino-studies/channel_nsch2d_three_method_distribution.pdf",
+    "assets/pino-studies/electropolish2d_three_method_convergence.png",
+    "assets/pino-studies/electropolish2d_three_method_convergence.pdf",
+    "assets/pino-studies/electropolish2d_three_method_distribution.png",
+    "assets/pino-studies/electropolish2d_three_method_distribution.pdf",
+    "assets/pino-studies/icemelting3d_three_method_convergence.png",
+    "assets/pino-studies/icemelting3d_three_method_convergence.pdf",
+    "assets/pino-studies/icemelting3d_three_method_distribution.png",
+    "assets/pino-studies/icemelting3d_three_method_distribution.pdf",
+    "assets/pino-studies/confined_ch2d_nonlocal_fem_convergence.png",
+    "assets/pino-studies/confined_ch2d_nonlocal_fem_convergence.pdf",
+    "assets/pino-studies/confined_ch2d_nonlocal_fem_distribution.png",
+    "assets/pino-studies/confined_ch2d_nonlocal_fem_distribution.pdf",
+    "assets/pino-studies/electropolish2d_time_fusion_convergence.png",
+    "assets/pino-studies/electropolish2d_time_fusion_convergence.pdf",
+    "assets/pino-studies/electropolish2d_time_fusion_distribution.png",
+    "assets/pino-studies/electropolish2d_time_fusion_distribution.pdf",
+    "assets/pino-studies/icemelting3d_time_fusion_convergence.png",
+    "assets/pino-studies/icemelting3d_time_fusion_convergence.pdf",
+    "assets/pino-studies/icemelting3d_time_fusion_distribution.png",
+    "assets/pino-studies/icemelting3d_time_fusion_distribution.pdf",
+    "assets/pino-studies/particle_corrosion2d_component_convergence.png",
+    "assets/pino-studies/particle_corrosion2d_component_convergence.pdf",
+    "assets/pino-studies/particle_corrosion2d_component_distribution.png",
+    "assets/pino-studies/particle_corrosion2d_component_distribution.pdf"
+  ],
+  "assets_checked": 28,
+  "external_repository_built_asset_identity": true,
+  "local_html_pages": 9,
+  "local_links_and_fragments_checked": 387,
+  "new_spinodal_saved_field_and_history_checks": {
+    "status": "passed",
+    "utc": "2026-11-15T08:02:53.850214+00:00",
+    "final_report": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-20261115-01/final.json",
+    "reference_norms": "artifacts/spinodal_final_reference_norms.json",
+    "paired_initial_and_actual_draws": true,
+    "complete_histories": {
+      "methods": 2,
+      "records_each": 101,
+      "cases_each": 8
+    },
+    "final_field_pairs": 16,
+    "physical_channel_norms": 32,
+    "full_cold_seconds": {
+      "nonlocal": 8086.912901431322,
+      "fem": 6852.669361189008
+    },
+    "selected_figure_source": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-02/spinodal/provenance.json",
+    "selected_assets_bytes": 262400,
+    "readme_and_source_and_built_page_metrics_match": true,
+    "local_site_links_checked": 387,
+    "pdf_edit_probe_receipt": "artifacts/spinodal_two_method_pdf_edit_validation.json",
+    "deployment_performed": false
+  },
+  "unchanged_prior_independent_field_checks": [
+    "/root/nonlocal-pinn/artifacts/ceramic_three_method_suite_review.json",
+    "/root/nonlocal-pinn/artifacts/channel_three_method_suite_review.json",
+    "/root/nonlocal-pinn/artifacts/electro_three_method_publication_validation.json",
+    "/root/nonlocal-pinn/artifacts/melting_three_method_publication_validation.json",
+    "/root/nonlocal-pinn/artifacts/electropolish2d_time_fusion_publication_validation.json",
+    "/root/nonlocal-pinn/artifacts/icemelting3d_time_fusion_publication_validation.json"
+  ],
+  "prior_evidence_reused_without_rerunning_unchanged_expensive_checks": true,
+  "full_cold_training_intervals": 16,
+  "no_training_reference_labels": "Preserved qualified numerical/input paths; source and pairing receipts retained",
+  "qualifications": [
+    "Spinodal AD omitted by explicit user instruction; resource probes are not trained accuracy",
+    "Channel final cohort3/development1; Ceramic final64/development4",
+    "Melting64native references plus separate practically accepted localCG2case005 with original strict-refinement flag unchanged",
+    "Spinodal8reused local-FEM geometries; native/local gap reported under identical norms",
+    "Temporal modules have different parameter counts; one initialization, no universal accuracy claim",
+    "Historical channel Nonlocal uses another physical GPU and approximate timestamps"
+  ],
+  "defaults_promoted": false,
+  "git_operations": false,
+  "deployment_performed": false,
+  "reproduction": "OPENBLAS_NUM_THREADS=1 .venv/bin/python /tmp/check_pino_suite_completion.py"
+}

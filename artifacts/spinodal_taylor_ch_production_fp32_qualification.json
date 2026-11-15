@@ -1,0 +1,66 @@
+{
+  "status": "passed",
+  "created_utc": "2026-11-15T01:55:54.816611+00:00",
+  "backend": "cpu",
+  "precision": "float32",
+  "architecture": {
+    "condition_depth": 4,
+    "decoder_depth": 3,
+    "extent": [
+      1.0,
+      1.0
+    ],
+    "heads": 4,
+    "input_dims": [
+      5,
+      3
+    ],
+    "model": "heterogeneous",
+    "norm_eps": 1e-05,
+    "output_scale": 1.0,
+    "spatial_features": 128,
+    "spatial_scale": 2.0,
+    "time_features": 32,
+    "time_max_frequency": 4.0,
+    "width": 256
+  },
+  "jax": "0.10.1",
+  "tolerance": {
+    "atol": 3e-05,
+    "rtol": 0.0003
+  },
+  "polynomial": {
+    "leaves": 1,
+    "maximum_absolute_difference": 0.0
+  },
+  "full_loss_parts_and_gradients": {
+    "leaves": 121,
+    "maximum_absolute_difference": 2.384185791015625e-07
+  },
+  "timings": {
+    "nested_jvp": {
+      "first_seconds": 740.0225500520319,
+      "warm_seconds": 0.26026712730526924
+    },
+    "taylor": {
+      "first_seconds": 94.0378053560853,
+      "warm_seconds": 0.10605303198099136
+    }
+  },
+  "parts": {
+    "nested_jvp": [
+      5.365444183349609,
+      1.4762357473373413,
+      2.74330735206604
+    ],
+    "taylor": [
+      5.365444183349609,
+      1.4762357473373413,
+      2.743307113647461
+    ]
+  },
+  "scope": "Four domain points, physical wall queries, two positive times; full CH and both Neumann objectives, parameter-dependent hard mass and all parameter-gradient leaves; architecture and precision explicit",
+  "limitation": "Not a full-query production GPU resource qualification or a training-convergence result",
+  "live_training_modified": false,
+  "production_sources_modified": false
+}

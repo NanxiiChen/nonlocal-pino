@@ -1,0 +1,41 @@
+{
+  "status": "passed",
+  "created_utc": "2026-11-15T01:31:48.423909+00:00",
+  "backend": "cpu",
+  "precision": "float64",
+  "jax": "0.10.1",
+  "polynomial": {
+    "leaves": 1,
+    "maximum_absolute_difference": 0.0
+  },
+  "full_loss_parts_and_gradients": {
+    "leaves": 45,
+    "maximum_absolute_difference": 1.7069679003611782e-15
+  },
+  "timings": {
+    "nested_jvp": {
+      "first_seconds": 82.254239551723,
+      "warm_seconds": 0.010546650737524033
+    },
+    "taylor": {
+      "first_seconds": 30.740511080250144,
+      "warm_seconds": 0.004552299156785011
+    }
+  },
+  "parts": {
+    "nested_jvp": [
+      5.627708019162506,
+      1.479748739179622,
+      2.751639354904048
+    ],
+    "taylor": [
+      5.627708019162506,
+      1.479748739179622,
+      2.751639354904048
+    ]
+  },
+  "scope": "Small width4 actual network, four domain points, physical wall queries, two positive times; full CH and both Neumann objectives, parameter-dependent hard mass and all parameter-gradient leaves",
+  "limitation": "Not a production-width/FP32/GPU resource qualification or a training-convergence result",
+  "live_training_modified": false,
+  "production_sources_modified": false
+}

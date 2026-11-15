@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "created_utc": "2026-11-15T02:11:47.176292+00:00",
+  "backend": "cpu",
+  "precision": "float32",
+  "maximum_absolute_difference": 0.0,
+  "original_value": 14.28243637084961,
+  "candidate_value": 14.28243637084961,
+  "scope": "Two-condition accumulated complete CH/BC gradients and one SGD update on an analytic polynomial",
+  "limitation": "Actual full-network gradient independently qualified; GPU SOAP resource proof pending"
+}

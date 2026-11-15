@@ -17,12 +17,28 @@ BASE_LOSSES = ('AC', 'CH', 'top_Dirichlet', 'bottom_Dirichlet', 'initial')
 WITNESS_ATOL = 3e-7  # FP32 IC evaluation can be fused differently by query shape.
 
 
+def validate_reference_identity(config, source):
+    """Same physical local target for nonlocal, local-AD and weak-FEM controls."""
+    for name in ('physical', 'nondim', 'surface'):
+        if config[name] != source[name]:
+            raise ValueError('Common reference physical identity mismatch: '+name)
+    actual, expected = dict(config['nl']), dict(source['nl'])
+    method, source_method = actual.pop('method'), expected.pop('method')
+    if method not in ('sparse', 'local_ad', 'fem_weak') or source_method != 'sparse':
+        raise ValueError('Common reference requires sparse/local_ad/fem_weak derivative controls')
+    if actual != expected:
+        raise ValueError('Common reference nonlocal discretization metadata mismatch')
+
+
 def validate_control(c):
     if (c.operator.method_control != CONTROL or 'spatial' not in c.sample
             or c.sample.spatial.mode != 'rolling_pool' or c.arch.local_input != 'zero'
             or c.train.optimizer != 'adam' or c.operator.reference_action != 'load'
             or c.loss.use_causal or 'online' not in c.operator):
         raise ValueError('Method control requires the rolling online image-only Adam/load recipe')
+    if ('input_evaluation' in c.operator.online
+            and c.operator.online.input_evaluation != 'host_float64_shared'):
+        raise ValueError('Unknown comparison prescribed-input evaluation')
 
 
 def witness_steps(iterations, pool_capacity):
@@ -46,18 +62,25 @@ def control_record(c, run):
     validate_control(c)
     run = Path(run)
     local = c.nl.method == 'local_ad'
+    fem = c.nl.method == 'fem_weak'
+    shared_inputs = 'input_evaluation' in c.operator.online
     return dict(kind=CONTROL, method=c.nl.method, config=str(run/'config.json'),
         source_manifest=str(run/'source/files.json'), dataset=c.operator.dataset_path,
         sampling=str(run/'sampling.npz'), coefficients=str(run/'online_coefficients.npy'),
         accepted_counts=str(run/'online_accepted.npy'), inputs=str(run/'paired_inputs.npz'),
         losses=list(BASE_LOSSES)+(['side_Neumann_phi_q_over_cle'] if local else []),
-        witness_updates=witness_steps(c.train.iterations, c.sample.K_pool), input_witness_atol=WITNESS_ATOL,
+        witness_updates=witness_steps(c.train.iterations, c.sample.K_pool),
+        input_witness_atol=0. if shared_inputs else WITNESS_ATOL,
+        prescribed_input_evaluation=('CPU FP64 shared encoder/IC/Dirichlet inputs, one FP32 cast'
+                                     if shared_inputs else 'Legacy fused FP32 online sampler'),
         query_initial_features='zero; IC images only enter encoder; IC targets remain physical',
         time_derivative='shared-time JVP; independent uniform positive-time draws every update',
         spatial_derivative=('coordinate JVP-of-JVP Laplacians; explicit side normal JVP'
-                            if local else 'complete sparse nonlocal graph rows on sampled cores'),
+                            if local else 'assembled P1 lumped-mass weak diffusion rows'
+                            if fem else 'complete sparse nonlocal graph rows on sampled cores'),
         boundary=('positive-time phi_n=q_n/c_le=0; top/bottom corners excluded'
-                  if local else 'truncated natural graph boundary; top/bottom Dirichlet losses'),
+                  if local else 'natural homogeneous Neumann weak flux; top/bottom Dirichlet losses'
+                  if fem else 'truncated natural graph boundary; top/bottom Dirichlet losses'),
         initial_boundary_compatibility='original rough profile retained; no t=0 Neumann penalty',
         local_shared_preparation_overhead=local,
         timing_scope='Shared graph/subgraph construction remains in setup/producer timing for input parity; '
@@ -172,7 +195,8 @@ def validate_pair(nonlocal_run, local_run):
         if any(a[key].shape != shape for key, shape in expected.items()):
             raise ValueError('Incorrect actual input witness shape')
         for key in witness_keys:
-            tolerance = WITNESS_ATOL if key in ('initial', 'dirichlet') else 0.
+            shared_inputs = 'input_evaluation' in configs[0]['operator']['online']
+            tolerance = WITNESS_ATOL if key in ('initial', 'dirichlet') and not shared_inputs else 0.
             _assert_same_arrays(a[key], b[key], 'witness/'+key, atol=tolerance)
             max_gap = max(max_gap, float(np.max(np.abs(a[key].astype(float)-b[key]))))
     return dict(status='passed', nonlocal_run=str(runs[0]), local_run=str(runs[1]),

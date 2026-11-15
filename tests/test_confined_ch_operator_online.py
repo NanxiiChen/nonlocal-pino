@@ -109,7 +109,7 @@ class OnlineGeometryTests(unittest.TestCase):
             self.assertTrue(np.all(padded['volumes'][4:]==0))
             self.assertTrue(np.all(padded['coefficients'][4:]==0))
             bad=dict(raw,phi=np.zeros(4))
-            with self.assertRaisesRegex(ValueError,'eight known-input'):pad_input(bad,c)
+            with self.assertRaisesRegex(ValueError,'exactly these known-input'):pad_input(bad,c)
             c.operator.online.max_points=3
             with self.assertRaisesRegex(ValueError,'overflow'):pad_input(raw,c)
 

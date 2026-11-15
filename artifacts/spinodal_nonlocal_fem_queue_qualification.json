@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "verified_utc": "2026-11-15T02:59:46.787351+00:00",
+  "methods": [
+    "nonlocal",
+    "fem"
+  ],
+  "resources": [
+    {
+      "method": "nonlocal",
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-threeway-20261114-05-probe-nonlocal",
+      "warm_inclusive_median_seconds": 0.12441745959222317,
+      "projected_50k_update_hours": 1.7280202721142106,
+      "peak_active_gib": 20.4381206035614,
+      "process_internal_seconds": 581.8152306508273,
+      "setup_seconds": 298.4523978922516,
+      "first_update_seconds": 269.06442795321345
+    },
+    {
+      "method": "fem",
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-threeway-20261114-05-probe-fem",
+      "warm_inclusive_median_seconds": 0.09877221658825874,
+      "projected_50k_update_hours": 1.3718363415035937,
+      "peak_active_gib": 21.717440366744995,
+      "process_internal_seconds": 591.3496906328946,
+      "setup_seconds": 298.56397549435496,
+      "first_update_seconds": 275.74612909555435
+    }
+  ],
+  "final_field_audit_body_unchanged": true,
+  "unused_chunk_edit_fully_reverted": true,
+  "reference_and_numerical_sources_unchanged": true
+}

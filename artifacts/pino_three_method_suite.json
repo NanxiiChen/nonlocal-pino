@@ -1,0 +1,1757 @@
+{
+  "status": "complete",
+  "scope": "Five main PINO examples, explicitly confirmed by user",
+  "active_queue": null,
+  "electro_queue": {
+    "case": "electropolish",
+    "pid": 284429,
+    "owner_pid": 284429,
+    "start_ticks": 928607818,
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-m",
+      "docs.tasks.electro_threeway_queue",
+      "--bundle",
+      "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03",
+      "--prefix",
+      "electro-threeway-20261114-03",
+      "--wait-journal",
+      "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/sampled-journal.json",
+      "--wait-pid",
+      "81883",
+      "--wait-start-ticks",
+      "924156816"
+    ],
+    "journal": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03/journal.json",
+    "log": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03-owner.log",
+    "launched_utc": "2026-11-14T19:38:10.168044+00:00",
+    "verified_status": "complete",
+    "verified_utc": "2026-11-15T07:21:50.387680+00:00"
+  },
+  "electro_validation": {
+    "focused_tests": 12,
+    "focused_log": "/tmp/electropolish-fem-qualification.log",
+    "monitor_test": 1,
+    "monitor_log": "/tmp/electropolish-fem-monitor-check.log",
+    "reference_identity_tests": 3,
+    "reference_identity_log": "/tmp/electro-threeway-reference-check.log",
+    "production_grid_nodes": 5151,
+    "triangles": 10000,
+    "mass_sum": 0.5,
+    "all_three_configs_load_same_reference_bank": true,
+    "unchanged_live_channel_sources": 117,
+    "monitor_portable_test_log": "/tmp/electropolish-fem-monitor-portable.log"
+  },
+  "cases": {
+    "particle_corrosion2d": {
+      "status": "complete_with_final_current_tree_review",
+      "evidence": "artifacts/ceramic_component_comparison_figures.json",
+      "test_count": 64,
+      "reference": "local FEM",
+      "remaining": "None for this case; preserve selected models and assets",
+      "final_review": "artifacts/ceramic_three_method_suite_review.json"
+    },
+    "channel_nsch2d": {
+      "status": "complete_with_local_publication",
+      "evidence": "artifacts/channel_local_ad_validation.json",
+      "completed": "Nonlocal/local AD/FEM20k; final three-case audit and component figures/README/local site",
+      "test_count": 3,
+      "reference": "local FEM",
+      "remaining": "Final five-case review",
+      "figures": "artifacts/pino_three_method_figures.json",
+      "publication_validation": "artifacts/channel_three_method_publication_validation.json"
+    },
+    "electropolish2d": {
+      "status": "complete_with_local_publication",
+      "old_evidence": "artifacts/pino_derivative_comparisons.json",
+      "test_count": 64,
+      "reference": "local FD101",
+      "monitoring": "All64common local-FD test cases at every one of41records",
+      "remaining": "None for derivative study; temporal control also locally published",
+      "completed": "Three corrected cold10k controls; exact common inputs/cold states;41full64monitoring records, final64inference and component figures/README/site",
+      "figures": "artifacts/pino_three_method_figures.json",
+      "publication_validation": "artifacts/electro_three_method_publication_validation.json"
+    },
+    "icemelting3d": {
+      "status": "complete_with_local_publication",
+      "completed_evidence": "artifacts/melting_fem_comparison_validation.json",
+      "completed": "Three cold10k controls, exact cold/sampling/source/boundary replay,64native final fields, separate localcase005, reviewed figures/README/local website",
+      "reference": "Qualified64native tests on24cube diagnostic queries/five times; separate accepted localCG2case005",
+      "excluded": "Thin-interface AD controls are single-IVP PINNs, not the random-ellipsoid PINO",
+      "remaining": "None for derivative study; temporal control also locally published",
+      "monitoring": "All64native test ellipsoids at all41records; production8case default preserved",
+      "test_count": 64,
+      "evidence": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04/comparison.json",
+      "figures": "artifacts/pino_three_method_figures.json",
+      "publication_validation": "artifacts/melting_three_method_publication_validation.json"
+    },
+    "confined_ch2d": {
+      "status": "complete_with_local_publication",
+      "completed": "Nonlocal and FEM PINO: 50000 steps each, 101 monitor records, final field audits and PDF/PNG figures",
+      "methods": [
+        "nonlocal",
+        "fem"
+      ],
+      "omitted_method": "Local AD omitted by explicit user request after resource measurement",
+      "reference": "Eight qualified independent local mixed-P2 FEM references; native nonlocal targets retained for the same-metric diagnostic",
+      "remaining": null,
+      "evidence": "artifacts/spinodal_nonlocal_fem_publication_validation.json",
+      "final_norms": "artifacts/spinodal_final_reference_norms.json",
+      "deferred_research": "docs/TODO.md"
+    }
+  },
+  "defaults_changed": false,
+  "git_operations": false,
+  "goal_complete": true,
+  "last_verified_utc": "2026-11-15T07:41:24.059442+00:00",
+  "melting_queue": {
+    "case": "melting",
+    "pid": 284431,
+    "owner_pid": 284431,
+    "start_ticks": 928607828,
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-m",
+      "docs.tasks.melting_threeway_queue",
+      "--bundle",
+      "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04",
+      "--prefix",
+      "melting-threeway-20261114-04",
+      "--wait-journal",
+      "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03/journal.json",
+      "--wait-pid",
+      "284429",
+      "--wait-start-ticks",
+      "928607818"
+    ],
+    "journal": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04/journal.json",
+    "log": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04-owner.log",
+    "launched_utc": "2026-11-14T19:38:10.271215+00:00",
+    "verified_status": "complete",
+    "verified_utc": "2026-11-15T07:21:50.387680+00:00"
+  },
+  "melting_validation": {
+    "new_checks": 6,
+    "original_regressions": 5,
+    "initial_geometry_and_network_log": "/tmp/melting-operator-ad-tests.log",
+    "corrected_double_precision_oracle_log": "/tmp/melting-operator-ad-chain-check.log",
+    "integration_regression_log": "/tmp/melting-operator-ad-integration.log",
+    "initial_fp32_screen": {
+      "pde_queries": 131072,
+      "boundary_queries": 49152,
+      "all_valid": true,
+      "maximum_absolute_latent_laplacian": 12460.66796875
+    },
+    "same_reference_bank_for_all_three_configs": true
+  },
+  "spinodal_queue": {
+    "case": "spinodal",
+    "pid": 590811,
+    "owner_pid": 590811,
+    "start_ticks": 931260421,
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-u",
+      "-m",
+      "docs.tasks.spinodal_nonlocal_fem_queue",
+      "--bundle",
+      "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-20261115-01",
+      "--prefix",
+      "spinodal-nonlocal-fem-20261115-01",
+      "--prior-bundle",
+      "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-05",
+      "--expected-gpu-uuid",
+      "GPU-85fe6412-636e-5d3c-d5f0-d1e9523c3faa",
+      "--max-projected-update-hours",
+      "24"
+    ],
+    "journal": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-20261115-01/journal.json",
+    "log": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-20261115-01-owner.log",
+    "launched_utc": "2026-11-15T03:00:16.200682+00:00",
+    "methods": [
+      "nonlocal",
+      "fem"
+    ],
+    "omitted_method": "local_ad by user request",
+    "verified_status": "complete",
+    "verified_utc": "2026-11-15T07:21:50.387680+00:00"
+  },
+  "live_queue_receipts": [
+    {
+      "name": "channel",
+      "status": "complete",
+      "journal": "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/sampled-journal.json",
+      "verified_utc": "2026-11-15T07:21:50.387680+00:00"
+    },
+    {
+      "name": "electropolish",
+      "pid": 284429,
+      "start_ticks": 928607818,
+      "journal": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03/journal.json",
+      "status": "complete",
+      "verified_utc": "2026-11-15T07:21:50.387680+00:00",
+      "stages": [
+        {
+          "name": "train-nonlocal",
+          "status": "passed",
+          "pid": 284438,
+          "seconds": 937.5401736199856
+        },
+        {
+          "name": "evaluate-nonlocal",
+          "status": "passed",
+          "pid": 296046,
+          "seconds": 37.13350833207369
+        },
+        {
+          "name": "train-local_ad",
+          "status": "passed",
+          "pid": 298154,
+          "seconds": 1096.13973326236
+        },
+        {
+          "name": "evaluate-local_ad",
+          "status": "passed",
+          "pid": 316958,
+          "seconds": 37.02332428097725
+        },
+        {
+          "name": "train-fem_weak",
+          "status": "passed",
+          "pid": 318966,
+          "seconds": 926.2037769239396
+        },
+        {
+          "name": "evaluate-fem_weak",
+          "status": "passed",
+          "pid": 329984,
+          "seconds": 35.98109195008874
+        }
+      ]
+    },
+    {
+      "name": "melting",
+      "pid": 284431,
+      "start_ticks": 928607828,
+      "journal": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04/journal.json",
+      "status": "complete",
+      "verified_utc": "2026-11-15T07:21:50.387680+00:00",
+      "stages": [
+        {
+          "name": "prepare-test64",
+          "status": "passed",
+          "pid": 332035,
+          "seconds": 728.5593129526824
+        },
+        {
+          "name": "probe-local_ad",
+          "status": "passed",
+          "pid": 332620,
+          "seconds": 146.18160243704915
+        },
+        {
+          "name": "train-nonlocal",
+          "status": "passed",
+          "pid": 340593,
+          "seconds": 413.5769551638514
+        },
+        {
+          "name": "train-local_ad",
+          "status": "passed",
+          "pid": 347102,
+          "seconds": 622.3254535514861
+        },
+        {
+          "name": "train-fem",
+          "status": "passed",
+          "pid": 356537,
+          "seconds": 441.060934368521
+        },
+        {
+          "name": "audit",
+          "status": "passed",
+          "pid": 362779,
+          "seconds": 493.2645956594497
+        }
+      ]
+    },
+    {
+      "name": "time_fusion",
+      "pid": 284434,
+      "start_ticks": 928607839,
+      "journal": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/journal.json",
+      "status": "complete",
+      "verified_utc": "2026-11-15T07:21:50.387680+00:00",
+      "stages": [
+        {
+          "name": "probe-electropolish",
+          "status": "passed",
+          "pid": 363846,
+          "seconds": 250.37417539581656
+        },
+        {
+          "name": "train-electropolish",
+          "status": "passed",
+          "pid": 375396,
+          "seconds": 1419.0765574146062
+        },
+        {
+          "name": "evaluate-electropolish",
+          "status": "passed",
+          "pid": 388097,
+          "seconds": 39.640894055366516
+        },
+        {
+          "name": "audit-electropolish",
+          "status": "passed",
+          "pid": 390170,
+          "seconds": 211.12152130529284
+        },
+        {
+          "name": "render-electropolish",
+          "status": "passed",
+          "pid": 390989,
+          "seconds": 1.8191610164940357
+        },
+        {
+          "name": "probe-melting",
+          "status": "passed",
+          "pid": 390996,
+          "seconds": 94.19034929573536
+        },
+        {
+          "name": "train-melting",
+          "status": "passed",
+          "pid": 396068,
+          "seconds": 899.3818906527013
+        },
+        {
+          "name": "audit-melting",
+          "status": "passed",
+          "pid": 403168,
+          "seconds": 7.291863981634378
+        },
+        {
+          "name": "render-melting",
+          "status": "passed",
+          "pid": 403875,
+          "seconds": 1.4707816392183304
+        }
+      ]
+    },
+    {
+      "name": "spinodal",
+      "pid": 590811,
+      "start_ticks": 931260421,
+      "journal": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-20261115-01/journal.json",
+      "status": "complete",
+      "verified_utc": "2026-11-15T07:21:50.387680+00:00",
+      "stages": [
+        {
+          "name": "train-nonlocal",
+          "status": "passed",
+          "pid": 590819,
+          "seconds": 8086.912901431322
+        },
+        {
+          "name": "train-fem",
+          "status": "passed",
+          "pid": 645329,
+          "seconds": 6852.669361189008
+        },
+        {
+          "name": "final-audit",
+          "status": "passed",
+          "pid": 690646,
+          "seconds": 7.385607743635774
+        }
+      ]
+    },
+    {
+      "name": "figures",
+      "pid": 607224,
+      "start_ticks": 931308501,
+      "journal": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-01/journal.json",
+      "status": "failed",
+      "verified_utc": "2026-11-15T07:21:50.387680+00:00",
+      "stages": [
+        {
+          "name": "render-spinodal",
+          "case": "spinodal",
+          "status": "failed",
+          "pid": 691365,
+          "seconds": 1.5676450245082378
+        }
+      ],
+      "error": "RuntimeError: Spinodal figure verification failed"
+    },
+    {
+      "name": "spinodal_taylor_probe",
+      "pid": 553790,
+      "start_ticks": 931081868,
+      "journal": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-taylor-resource-20261115-02/status.json",
+      "status": "complete",
+      "verified_utc": "2026-11-15T07:21:50.387680+00:00",
+      "stages": [],
+      "resource_summary": {
+        "status": "passed",
+        "updates": 30,
+        "warm_inclusive_median_seconds": 3.981214376166463,
+        "projected50k_update_hours": 55.2946441134231,
+        "within_execution_ceiling": false,
+        "setup_seconds": 218.8956799954176,
+        "first_update_seconds": 828.49847548455,
+        "internal_wall_seconds": 1169.914344433695,
+        "peak_active_gib": 20.4381206035614,
+        "device_memory_stats": {
+          "num_allocs": 26463,
+          "bytes_in_use": 12784643584,
+          "peak_bytes_in_use": 21945264896,
+          "largest_alloc_size": 9739173888,
+          "bytes_limit": 81580682022,
+          "bytes_reserved": 0,
+          "peak_bytes_reserved": 0,
+          "largest_free_block_bytes": 0,
+          "pool_bytes": 81580681984,
+          "peak_pool_bytes": 81580681984
+        },
+        "allocator_headroom_gate": true,
+        "exact_original_initial_model_optimizer_and_input_draws": true,
+        "pool": {
+          "kind": "asynchronous_rolling_geometry_pool",
+          "capacity": 1024,
+          "refresh_count": 1,
+          "distinct_generated_inputs": 32,
+          "refresh_wait_seconds": 4.577453387901187,
+          "pool_replace_seconds": 0.10966773144900799,
+          "pde_solves": 0,
+          "fem_solves": 0,
+          "reference_labels_in_step": false,
+          "geometry_order": "Stateless per-draw rejection sampling, fixed global refresh schedule, FIFO consumption",
+          "bounded_prefetch_inputs": 64
+        },
+        "scope": "Full production architecture/points/B16/Nt16 and SOAP; no reference evaluation, only resource and finite-state qualification",
+        "limitations": "Reduced startup assessment; cold-process cost is not directly comparable to baseline training. No final accuracy result."
+      }
+    }
+  ],
+  "plotting_validation": "artifacts/pino_three_method_plotting_validation.json",
+  "plotting_guide": "docs/PINO_COMPARISON_FIGURES.md",
+  "figure_queue": {
+    "status": "complete",
+    "journal": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-02/journal.json",
+    "pid": 692397,
+    "provenance": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-02/spinodal/provenance.json",
+    "recovery_receipt": "artifacts/spinodal_nonlocal_fem_figure_recovery.json"
+  },
+  "spinodal_reference_mesh_check": {
+    "status": "passed",
+    "receipt": "/tmp/spinodal-reference-mesh-check-20261114-01/validation.json",
+    "source": "docs/tasks/spinodal_reference_mesh_check.py",
+    "geometry_count": 8,
+    "mesh_count": 16,
+    "query_checks": 19620,
+    "outside": 0,
+    "maximum_reconstruction_error": 2.220446049250313e-16,
+    "pde_solves": 0
+  },
+  "last_goal_turn": {
+    "classification": "progress",
+    "previous_turn_classification": "verified_wait",
+    "verified_utc": "2026-11-15T07:37:53.724204+00:00",
+    "evidence": "Both final50k audits and same-metric reductions passed; two-method PDF edit probe repaired and actual final figures reviewed/published locally. All seven studies,28assets,16full cold intervals and9pages/387local links verified.",
+    "next_action": "None for the completed authorized comparison scope. Spinodal numerical-gap research deferred by user; no Git/deployment authorization."
+  },
+  "same_step_development": {
+    "nonlocal": {
+      "step": 20000,
+      "phi": 0.01449620420593507,
+      "velocity": 0.013312134683055553,
+      "pressure": 0.046702822210027584,
+      "chemical": 0.11674443733517723
+    },
+    "local_ad": {
+      "step": 20000,
+      "phi": 0.02210832471861137,
+      "velocity": 0.0198035197102424,
+      "pressure": 0.06193269300443492,
+      "chemical": 0.12693228288713618
+    },
+    "fem": {
+      "step": 20000,
+      "phi": 0.04372157671562594,
+      "velocity": 0.04353228396682669,
+      "pressure": 0.09845858146876627,
+      "chemical": 0.4235694965052531
+    }
+  },
+  "plot_writer_schema_audit": {
+    "status": "consistent_on_inspection",
+    "date": "2026-11-14T09:58:48.013030+00:00",
+    "scope": "Actual writer schemas and existing channel baseline report checked against loaders; final new result data remain pending",
+    "writers": [
+      "examples/electropolish2d/comparison_monitor.py",
+      "docs/tasks/electro_spatial_evaluate.py",
+      "examples/icemelting3d/spatial_training.py",
+      "examples/confined_ch2d/operator_training.py"
+    ],
+    "channel_baseline_report": "/root/autodl-tmp/tf-logs/channel-fem-full-20261114-01/comparison.json",
+    "channel_ad_inspected_utc": "2026-11-14T10:56:59.423543+00:00",
+    "channel_ad_writer": "docs/tasks/channel_ad_support.py",
+    "channel_ad_contract": {
+      "run_key": "local_ad_run",
+      "final_report": "comparison.json",
+      "case_indices": [
+        0,
+        1,
+        2
+      ],
+      "steps": [
+        0,
+        500,
+        1000,
+        1500,
+        2000,
+        2500,
+        3000,
+        3500,
+        4000,
+        4500,
+        5000,
+        5500,
+        6000,
+        6500,
+        7000,
+        7500,
+        8000,
+        8500,
+        9000,
+        9500,
+        10000,
+        10500,
+        11000,
+        11500,
+        12000,
+        12500,
+        13000,
+        13500,
+        14000,
+        14500,
+        15000,
+        15500,
+        16000,
+        16500,
+        17000,
+        17500,
+        18000,
+        18500,
+        19000,
+        19500,
+        20000
+      ],
+      "phase_times": "all13",
+      "other_fields_times": "12positive",
+      "velocity_norm": "joint two-component",
+      "runtime_final_validation": "pending actual completed AD run"
+    },
+    "channel_queue_inspected": "docs/tasks/pino_comparison_figure_queue.py"
+  },
+  "dashboard_history": "docs/tasks/archive/project-progress-through-20261114.md",
+  "duration_estimate": {
+    "status": "complete",
+    "remaining_training_seconds": 0,
+    "actual_complete_cold_times": "artifacts/pino_training_wall_costs.json",
+    "validation": "artifacts/pino_training_wall_cost_validation.json"
+  },
+  "monitoring_policy": {
+    "requested_utc": "2026-11-14T12:11:34.008069+00:00",
+    "assistant_poll_interval_seconds": 900,
+    "last_actual_process_poll_utc": "2026-11-15T07:21:50.387680+00:00",
+    "next_routine_poll_not_before_utc": null,
+    "report_on": [
+      "new evaluation",
+      "stage completion",
+      "actual failure",
+      "user status request"
+    ],
+    "unchanged_metrics": "do not repeatedly report",
+    "queue_internal_heartbeats": "unchanged; no edits to live sources",
+    "user_request": "轮询频率稍微慢一点",
+    "state": "complete; no routine training polling required"
+  },
+  "full_test_monitoring": {
+    "status": "configured_and_validated_for_future_runs",
+    "validation": "artifacts/pino_full_test_monitoring_validation.json",
+    "queue_transition": "artifacts/pino_full_test_monitoring_transition.json",
+    "electropolish": {
+      "count": 64,
+      "every": 250
+    },
+    "melting": {
+      "count": 64,
+      "every": 250,
+      "reference": "native",
+      "reference_extension": "56additional ellipsoids queued; original10files retained"
+    },
+    "spinodal": {
+      "count": 8,
+      "every": 500,
+      "reference": "independent local, all8 qualified; resources/training pending"
+    },
+    "running_channel_unchanged": true,
+    "sequential_case_inference": true,
+    "select_best_checkpoint": false
+  },
+  "time_fusion": {
+    "status": "complete_with_local_publication",
+    "cases": [
+      "electropolish2d",
+      "icemelting3d"
+    ],
+    "test_count_each": 64,
+    "derivative": "nonlocal",
+    "additional_cold10k_runs": 2,
+    "task": "docs/tasks/archive/pino-time-fusion-comparison.md",
+    "transition": "artifacts/pino_time_fusion_queue_transition.json",
+    "validation": "artifacts/pino_time_fusion_validation.json",
+    "queue": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/journal.json",
+    "publication_manifest": "artifacts/pino_time_fusion_figures.json",
+    "publication_qualification": "artifacts/pino_temporal_publication_qualification.json",
+    "case_results": {
+      "electropolish2d": {
+        "status": "complete_with_local_publication",
+        "comparison": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/electropolish-comparison.json",
+        "publication_validation": "artifacts/electropolish2d_time_fusion_publication_validation.json",
+        "phase_mean": [
+          0.019712884924085093,
+          0.02057705758957281
+        ],
+        "concentration_mean": [
+          0.02356285574049745,
+          0.024520253649763
+        ],
+        "method_order": [
+          "decoder_film",
+          "joint_query"
+        ]
+      },
+      "icemelting3d": {
+        "status": "complete_with_local_publication",
+        "comparison": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/melting-comparison.json",
+        "publication_validation": "artifacts/icemelting3d_time_fusion_publication_validation.json",
+        "phase_mean": [
+          0.0028599099386069386,
+          0.0009349560310788739
+        ],
+        "local_case005": [
+          0.0019280731465076942,
+          0.0013019306752814863
+        ],
+        "method_order": [
+          "decoder_film",
+          "joint_query"
+        ]
+      }
+    },
+    "remaining": "None; both required cases completed",
+    "figures": "artifacts/pino_time_fusion_figures.json"
+  },
+  "time_fusion_queue": {
+    "case": "time_fusion",
+    "pid": 284434,
+    "owner_pid": 284434,
+    "start_ticks": 928607839,
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-m",
+      "docs.tasks.pino_time_fusion_queue",
+      "--bundle",
+      "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02",
+      "--prefix",
+      "pino-time-fusion-20261114-02",
+      "--wait-journal",
+      "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04/journal.json",
+      "--wait-pid",
+      "284431",
+      "--wait-start-ticks",
+      "928607828",
+      "--electro-baseline",
+      "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03",
+      "--melting-baseline",
+      "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04"
+    ],
+    "journal": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/journal.json",
+    "log": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02-owner.log",
+    "launched_utc": "2026-11-14T19:38:10.375038+00:00",
+    "verified_status": "complete",
+    "verified_utc": "2026-11-15T07:21:50.387680+00:00"
+  },
+  "current_gpu_training": null,
+  "channel_final_results": {
+    "checkpoint_step": 20000,
+    "test_samples": 3,
+    "reference": "independent local FEM",
+    "field_means": {
+      "nonlocal": {
+        "phi": 0.016434996094538402,
+        "velocity": 0.01517205610632332,
+        "pressure": 0.052840480191484664,
+        "chemical": 0.13954125921926921
+      },
+      "local_ad": {
+        "phi": 0.021539621523186073,
+        "velocity": 0.020865931867178725,
+        "pressure": 0.08537029315433863,
+        "chemical": 0.16055631819323538
+      },
+      "fem": {
+        "phi": 0.04646479283496236,
+        "velocity": 0.04389189881934178,
+        "pressure": 0.07148878477622603,
+        "chemical": 0.4379076511366187
+      }
+    },
+    "comparison": "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/comparison.json",
+    "figure_provenance": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-05/channel/provenance.json",
+    "figure_review": "Legend margin and wrapped ticks visually verified; statistical arrays unchanged",
+    "publication_complete": true
+  },
+  "electro_nonlocal_final_results": {
+    "checkpoint_step": 10000,
+    "test_samples": 64,
+    "reference": "independent local FD",
+    "phi": 0.017382489263182727,
+    "c": 0.020760326064189136,
+    "channel_mean": 0.01907140766368593,
+    "evaluation": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-02-nonlocal/spatial_evaluation64.json",
+    "training_process_seconds": 615.70094547607,
+    "scope": "All individual final64 inferences passed; cross-method strict input pairing failed. Historical provisional results, not an accepted matched comparison."
+  },
+  "current_training_observation": {
+    "utc": "2026-11-15T07:21:50.387680+00:00",
+    "records": [
+      {
+        "case": "electropolish2d",
+        "stage": "train-nonlocal",
+        "status": "passed",
+        "run": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-nonlocal",
+        "loss.jsonl": {
+          "records": 101,
+          "step": 10000,
+          "seconds": 926.5619827732444
+        },
+        "local_metrics.jsonl": {
+          "records": 41,
+          "step": 10000,
+          "phi": 0.019712887565817988,
+          "c": 0.023562858824425353,
+          "evaluation_seconds": 0.42098013311624527
+        },
+        "metrics.jsonl": {
+          "records": 41,
+          "step": 10000,
+          "seconds": 926.6135605052114,
+          "monitor_pooled_rel_l2_phi": 0.02264692599854164,
+          "monitor_terminal_rel_l2_phi": 0.02135271075450315,
+          "monitor_pooled_rel_l2_c": 0.027108756486494544,
+          "monitor_terminal_rel_l2_c": 0.025456036135403926,
+          "test_pooled_rel_l2_phi": 0.030171652065046104,
+          "test_terminal_rel_l2_phi": 0.02748667773029747,
+          "test_pooled_rel_l2_c": 0.03546734501896938,
+          "test_terminal_rel_l2_c": 0.032428326534623894
+        }
+      },
+      {
+        "case": "electropolish2d",
+        "stage": "train-local_ad",
+        "status": "passed",
+        "run": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-local_ad",
+        "loss.jsonl": {
+          "records": 101,
+          "step": 10000,
+          "seconds": 1084.8409542758018
+        },
+        "local_metrics.jsonl": {
+          "records": 41,
+          "step": 10000,
+          "phi": 0.04390434549793698,
+          "c": 0.05137361722102873,
+          "evaluation_seconds": 0.3946613147854805
+        },
+        "metrics.jsonl": {
+          "records": 41,
+          "step": 10000,
+          "seconds": 1084.88118352741,
+          "monitor_pooled_rel_l2_phi": 0.05908107874482629,
+          "monitor_terminal_rel_l2_phi": 0.04691764246006016,
+          "monitor_pooled_rel_l2_c": 0.0686195537468553,
+          "monitor_terminal_rel_l2_c": 0.054890453373866985,
+          "test_pooled_rel_l2_phi": 0.05584494690565191,
+          "test_terminal_rel_l2_phi": 0.042580016031208694,
+          "test_pooled_rel_l2_c": 0.06397579635919007,
+          "test_terminal_rel_l2_c": 0.049437333872083045
+        }
+      },
+      {
+        "case": "electropolish2d",
+        "stage": "train-fem_weak",
+        "status": "passed",
+        "run": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-fem_weak",
+        "loss.jsonl": {
+          "records": 101,
+          "step": 10000,
+          "seconds": 915.5473744068295
+        },
+        "local_metrics.jsonl": {
+          "records": 41,
+          "step": 10000,
+          "phi": 0.018486288900132902,
+          "c": 0.022072356055654718,
+          "evaluation_seconds": 0.3940796013921499
+        },
+        "metrics.jsonl": {
+          "records": 41,
+          "step": 10000,
+          "seconds": 915.5885100010782,
+          "monitor_pooled_rel_l2_phi": 0.02259560711941114,
+          "monitor_terminal_rel_l2_phi": 0.020196898576253987,
+          "monitor_pooled_rel_l2_c": 0.026999433819816405,
+          "monitor_terminal_rel_l2_c": 0.024052491368556625,
+          "test_pooled_rel_l2_phi": 0.03007845889302991,
+          "test_terminal_rel_l2_phi": 0.028304059281514672,
+          "test_pooled_rel_l2_c": 0.035510316547855345,
+          "test_terminal_rel_l2_c": 0.03352259067504174
+        }
+      },
+      {
+        "case": "icemelting3d",
+        "stage": "train-nonlocal",
+        "status": "passed",
+        "run": "/root/autodl-tmp/tf-logs/icemelting3d/melting-threeway-20261114-04-nonlocal",
+        "loss.jsonl": {
+          "records": 201,
+          "step": 10000,
+          "loss": 0.031001128256320953,
+          "seconds": 398.4179460555315,
+          "update_seconds": 0.014373352751135826,
+          "sample_seconds": 0.0021801982074975967,
+          "spatial_seconds": 0.0012301206588745117,
+          "peak_active_GiB": 1.454756259918213
+        },
+        "metrics.jsonl": {
+          "records": 42,
+          "step": 10000,
+          "split": "test",
+          "pooled_phi": 0.002859909938606935,
+          "terminal_phi": 0.001278331380579378,
+          "seconds": 410.38582306727767,
+          "evaluation_seconds": 5.725291537120938
+        }
+      },
+      {
+        "case": "icemelting3d",
+        "stage": "train-local_ad",
+        "status": "passed",
+        "run": "/root/autodl-tmp/tf-logs/icemelting3d/melting-threeway-20261114-04-local_ad",
+        "loss.jsonl": {
+          "records": 201,
+          "step": 10000,
+          "loss": 0.0720430389046669,
+          "seconds": 604.4274423345923,
+          "update_seconds": 0.018231244757771492,
+          "sample_seconds": 0.005926700308918953,
+          "spatial_seconds": 0.002701839432120323,
+          "peak_active_GiB": 1.6977317333221436,
+          "pde": 0.07204291969537735,
+          "physical_neumann": 1.174186365915375e-07
+        },
+        "metrics.jsonl": {
+          "records": 42,
+          "step": 10000,
+          "split": "test",
+          "pooled_phi": 0.000849566822655793,
+          "terminal_phi": 0.0009291267359976784,
+          "seconds": 618.68765120022,
+          "evaluation_seconds": 6.473113497719169
+        }
+      },
+      {
+        "case": "icemelting3d",
+        "stage": "train-fem",
+        "status": "passed",
+        "run": "/root/autodl-tmp/tf-logs/icemelting3d/melting-threeway-20261114-04-fem",
+        "loss.jsonl": {
+          "records": 201,
+          "step": 10000,
+          "loss": 0.026931889355182648,
+          "seconds": 425.3976889997721,
+          "update_seconds": 0.012885497882962227,
+          "sample_seconds": 0.001748412847518921,
+          "spatial_seconds": 0.0014569200575351715,
+          "peak_active_GiB": 1.3075833320617676
+        },
+        "metrics.jsonl": {
+          "records": 42,
+          "step": 10000,
+          "split": "test",
+          "pooled_phi": 0.0010925536836188957,
+          "terminal_phi": 0.0009908674183080621,
+          "seconds": 437.7976620979607,
+          "evaluation_seconds": 5.7890950329601765
+        }
+      },
+      {
+        "case": "electropolish2d",
+        "stage": "train-electropolish",
+        "status": "passed",
+        "run": "/root/autodl-tmp/tf-logs/electropolish2d/pino-time-fusion-20261114-02-electropolish-joint_query",
+        "loss.jsonl": {
+          "records": 101,
+          "step": 10000,
+          "seconds": 1408.8178488519043
+        },
+        "local_metrics.jsonl": {
+          "records": 41,
+          "step": 10000,
+          "phi": 0.020577060319649794,
+          "c": 0.024520256885981397,
+          "evaluation_seconds": 0.40989454835653305
+        },
+        "metrics.jsonl": {
+          "records": 41,
+          "step": 10000,
+          "seconds": 1408.853991093114,
+          "monitor_pooled_rel_l2_phi": 0.021741020900575343,
+          "monitor_terminal_rel_l2_phi": 0.011877231651158175,
+          "monitor_pooled_rel_l2_c": 0.025912929914303388,
+          "monitor_terminal_rel_l2_c": 0.014215473387199265,
+          "test_pooled_rel_l2_phi": 0.03151545906918836,
+          "test_terminal_rel_l2_phi": 0.02495348452011684,
+          "test_pooled_rel_l2_c": 0.03708730012845556,
+          "test_terminal_rel_l2_c": 0.029569598700482178
+        }
+      },
+      {
+        "case": "icemelting3d",
+        "stage": "train-melting",
+        "status": "passed",
+        "run": "/root/autodl-tmp/tf-logs/icemelting3d/pino-time-fusion-20261114-02-melting-joint_query",
+        "loss.jsonl": {
+          "records": 201,
+          "step": 10000,
+          "loss": 0.020517509430646896,
+          "seconds": 882.9972560908645,
+          "update_seconds": 0.059805307537317276,
+          "sample_seconds": 0.0018765535205602646,
+          "spatial_seconds": 0.0011916402727365494,
+          "peak_active_GiB": 9.359551429748535
+        },
+        "metrics.jsonl": {
+          "records": 42,
+          "step": 10000,
+          "split": "test",
+          "pooled_phi": 0.000934956031078873,
+          "terminal_phi": 0.0010211659112497253,
+          "seconds": 896.1190504543483,
+          "evaluation_seconds": 6.193819787353277
+        }
+      },
+      {
+        "case": "confined_ch2d",
+        "stage": "train-nonlocal",
+        "status": "passed",
+        "run": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-nonlocal",
+        "loss.jsonl": {
+          "records": 501,
+          "step": 50000,
+          "loss": 3.211072908015922e-05,
+          "training_horizon": 3.0
+        },
+        "local_metrics.jsonl": {
+          "records": 101,
+          "step": 50000,
+          "phase_mean": 0.31921648511383915,
+          "chemical_mean": 0.4657275888155785,
+          "channel_mean": 0.39247203696470884,
+          "elapsed_seconds": 8075.489920375869,
+          "metric": "Unweighted complete space-time L2 per channel/sample; then arithmetic means",
+          "reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2"
+        },
+        "metrics.jsonl": {
+          "records": 101,
+          "step": 50000,
+          "elapsed_seconds": 8075.488551193848,
+          "train_phi_pooled": 0.04728228726022045,
+          "train_phi_terminal": 0.05058892872635376,
+          "train_mu_pooled": 0.09605891406065425,
+          "train_mu_terminal": 0.12585413485276353,
+          "test_phi_pooled": 0.045320969134353045,
+          "test_phi_terminal": 0.04865121399595577,
+          "test_mu_pooled": 0.09498550202829956,
+          "test_mu_terminal": 0.12646429302730602
+        }
+      },
+      {
+        "case": "confined_ch2d",
+        "stage": "train-fem",
+        "status": "passed",
+        "run": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-fem",
+        "loss.jsonl": {
+          "records": 501,
+          "step": 50000,
+          "loss": 2.163694443879649e-05,
+          "training_horizon": 3.0
+        },
+        "local_metrics.jsonl": {
+          "records": 101,
+          "step": 50000,
+          "phase_mean": 0.055838197654468666,
+          "chemical_mean": 0.4588867116596478,
+          "channel_mean": 0.2573624546570582,
+          "elapsed_seconds": 6839.784613067284,
+          "metric": "Unweighted complete space-time L2 per channel/sample; then arithmetic means",
+          "reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2"
+        },
+        "metrics.jsonl": {
+          "records": 101,
+          "step": 50000,
+          "elapsed_seconds": 6839.783616257831,
+          "train_phi_pooled": 0.27616988555750077,
+          "train_phi_terminal": 0.2674344069637609,
+          "train_mu_pooled": 0.4052043573073084,
+          "train_mu_terminal": 0.3529974628876081,
+          "test_phi_pooled": 0.2931873226388015,
+          "test_phi_terminal": 0.28197905751815733,
+          "test_mu_pooled": 0.42857654588274585,
+          "test_mu_terminal": 0.3845154661112802
+        }
+      }
+    ]
+  },
+  "electro_local_ad_final_results": {
+    "checkpoint_step": 10000,
+    "test_samples": 64,
+    "reference": "independent local FD",
+    "phi": 0.04184765496785567,
+    "c": 0.048961723904038315,
+    "channel_mean": 0.04540468943594699,
+    "evaluation": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-02-local_ad/spatial_evaluation64.json",
+    "training_process_seconds": 771.8666382487863,
+    "scope": "All individual final64 inferences passed; cross-method strict input pairing failed. Historical provisional results, not an accepted matched comparison."
+  },
+  "electro_recovery": {
+    "reason": "Strict Electro input pairing failed; retain failed runs and repeat with independently computed common prescribed inputs",
+    "transition": "artifacts/pino_shared_inputs_queue_transition.json",
+    "original_failed_bundle": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-02",
+    "new_bundle": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03",
+    "default_changed": false,
+    "retained_results": {
+      "nonlocal": {
+        "checkpoint_step": 10000,
+        "test_samples": 64,
+        "phi": 0.017382489263182727,
+        "c": 0.020760326064189136,
+        "evaluation": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-02-nonlocal/spatial_evaluation64.json"
+      },
+      "local_ad": {
+        "checkpoint_step": 10000,
+        "test_samples": 64,
+        "phi": 0.04184765496785567,
+        "c": 0.048961723904038315,
+        "evaluation": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-02-local_ad/spatial_evaluation64.json"
+      },
+      "fem_weak": {
+        "checkpoint_step": 10000,
+        "test_samples": 64,
+        "phi": 0.020065374736321986,
+        "c": 0.024026978648593194,
+        "evaluation": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-02-fem_weak/spatial_evaluation64.json"
+      }
+    },
+    "retained_result_scope": "All individual final64 inferences passed; cross-method strict input pairing failed. Historical provisional results, not an accepted matched comparison.",
+    "completed_arms": {
+      "nonlocal": {
+        "status": "passed including full paired audit",
+        "checkpoint_step": 10000,
+        "test_samples": 64,
+        "reference": "common independent localFD101",
+        "phi": 0.019712884924085093,
+        "c": 0.02356285574049745,
+        "channel_mean": 0.02163787033229127,
+        "evaluation": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-nonlocal/spatial_evaluation64.json",
+        "training_process_seconds": 937.5401736199856
+      },
+      "local_ad": {
+        "status": "passed including full paired audit",
+        "checkpoint_step": 10000,
+        "test_samples": 64,
+        "reference": "common independent localFD101",
+        "phi": 0.043904345497938355,
+        "c": 0.05137361722102922,
+        "channel_mean": 0.04763898135948379,
+        "evaluation": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-local_ad/spatial_evaluation64.json",
+        "training_process_seconds": 1096.13973326236
+      },
+      "fem_weak": {
+        "status": "passed including full paired audit",
+        "checkpoint_step": 10000,
+        "test_samples": 64,
+        "phi": 0.018486288900132902,
+        "c": 0.02207235605565472,
+        "channel_mean": 0.02027932247789381,
+        "evaluation": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-fem_weak/spatial_evaluation64.json",
+        "training_process_seconds": 926.2037769239396
+      }
+    },
+    "status": "complete; failed original attempt retained; corrected threeway published locally"
+  },
+  "electro_final_results": {
+    "checkpoint_step": 10000,
+    "test_samples": 64,
+    "monitor_records": 41,
+    "reference": "independent localFD101,21uniformtimes",
+    "comparison": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03/comparison.json",
+    "figure_provenance": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-06/electropolish/provenance.json",
+    "field_means": {
+      "nonlocal": {
+        "phi": 0.01971288492408473,
+        "c": 0.023562855740497376
+      },
+      "local_ad": {
+        "phi": 0.043904345497936974,
+        "c": 0.05137361722102873
+      },
+      "fem_weak": {
+        "phi": 0.018486288900132902,
+        "c": 0.02207235605565472
+      }
+    },
+    "publication_validation": "artifacts/electro_three_method_publication_validation.json",
+    "publication_complete": true
+  },
+  "melting_reference64": {
+    "status": "passed",
+    "validation": "artifacts/melting_test64_reference_validation.json",
+    "manifest": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_test64_20261114_v1/manifest.json",
+    "test_count": 64,
+    "new_count": 56,
+    "copied_exact": 10,
+    "full_cube_max_dt_refinement_error": 1.5044795778405568e-07,
+    "seconds": 726.560629973188,
+    "evaluation_points": 13824,
+    "times": [
+      0,
+      0.25,
+      0.5,
+      0.75,
+      1
+    ],
+    "reference_scope": "Native time-discretization qualification only; not64local-FEM references, not a full-grid/continuum neural error. Existing accepted localCG2case005 stays separate."
+  },
+  "melting_nonlocal_final_record": {
+    "run": "/root/autodl-tmp/tf-logs/icemelting3d/melting-threeway-20261114-04-nonlocal",
+    "pooled_phi": 0.002859909938606935,
+    "terminal_phi": 0.001278331380579378,
+    "checkpoint_step": 10000,
+    "test_samples": 64,
+    "scope": "Completed native diagnostic test record; full three-way/independent final audit still pending"
+  },
+  "melting_training_final_records": {
+    "status": "all three cold10k training arms completed; independent full audit pending",
+    "cohort": "64native tests,24cubequeries,fivetimes",
+    "methods": {
+      "nonlocal": {
+        "pooled_phi": 0.002859909938606935,
+        "terminal_phi": 0.001278331380579378,
+        "seconds": 410.38582306727767,
+        "run": "/root/autodl-tmp/tf-logs/icemelting3d/melting-threeway-20261114-04-nonlocal"
+      },
+      "local_ad": {
+        "pooled_phi": 0.000849566822655793,
+        "terminal_phi": 0.0009291267359976784,
+        "seconds": 618.68765120022,
+        "run": "/root/autodl-tmp/tf-logs/icemelting3d/melting-threeway-20261114-04-local_ad"
+      },
+      "fem": {
+        "pooled_phi": 0.0010925536836188957,
+        "terminal_phi": 0.0009908674183080621,
+        "seconds": 437.7976620979607,
+        "run": "/root/autodl-tmp/tf-logs/icemelting3d/melting-threeway-20261114-04-fem"
+      }
+    }
+  },
+  "melting_final_results": {
+    "comparison": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-04/comparison.json",
+    "resources": "artifacts/melting_three_method_resources.json",
+    "native64_phase_means": [
+      0.002859909938606935,
+      0.000849566822655793,
+      0.0010925536836188957
+    ],
+    "local_case005_phase": [
+      0.0019280731465076914,
+      0.0012080014926027498,
+      0.0006713653967099178
+    ],
+    "method_order": [
+      "nonlocal",
+      "local_ad",
+      "fem"
+    ],
+    "independent_audit_passed": true,
+    "strict_local_reference_refinement_passed": false
+  },
+  "spinodal_reference_gap_diagnostic": {
+    "receipt": "artifacts/spinodal_reference_gap_first_two.json",
+    "script": "docs/tasks/spinodal_reference_gap_diagnostic.py",
+    "indices": [
+      1024,
+      1025
+    ],
+    "scope": "Read-only completed subset; no new runtime observation or change to live queue",
+    "recorded_utc": "2026-11-14T22:30:21.838743+00:00"
+  },
+  "channel_final_suite_review": {
+    "status": "passed",
+    "receipt": "artifacts/channel_three_method_suite_review.json",
+    "utc": "2026-11-14T22:33:51.050993+00:00",
+    "remaining_case_work": false
+  },
+  "spinodal_reference_observation": {
+    "utc": "2026-11-14T23:38:57.929900+00:00",
+    "path": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2",
+    "status": "passed",
+    "completed": 8,
+    "expected": 8,
+    "reused_cases": [
+      1024,
+      1025,
+      1026,
+      1027,
+      1028
+    ],
+    "new_passed_case": {
+      "index": 1031,
+      "file": "condition_1031.npz",
+      "status": "passed",
+      "checks": {
+        "space_phase": 0.006576536648145515,
+        "space_chemical_positive": 0.005868770440735109,
+        "time_phase": 7.998882024536311e-06,
+        "time_chemical_positive": 7.0565965858393945e-06,
+        "mass_drift": 1.1937065919065404e-16,
+        "energy_increase": 0.0,
+        "native_local_phase": 0.43147211512276923,
+        "native_local_chemical": 0.5131507801387306
+      },
+      "mesh_sizes": [
+        0.035,
+        0.025
+      ],
+      "time_steps": [
+        0.0025,
+        0.00125
+      ],
+      "resolution": {
+        "space_coarse": {
+          "vertices": 650,
+          "dofs": 4962,
+          "seconds": 82.99198524840176
+        },
+        "time_coarse": {
+          "vertices": 1196,
+          "dofs": 9236,
+          "seconds": 92.94107680954039
+        },
+        "fine": {
+          "vertices": 1196,
+          "dofs": 9236,
+          "seconds": 166.90384208783507
+        }
+      }
+    },
+    "remaining_indices": [],
+    "prior_failed_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v1",
+    "independent_audit": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/independent-gate-audit.json",
+    "validation": "/root/nonlocal-pinn/artifacts/spinodal_local_reference_validation.json",
+    "diagnostic": "/root/nonlocal-pinn/artifacts/spinodal_reference_gap_eight_cases.json"
+  },
+  "reference_recovery_prior_queues": [
+    {
+      "spinodal": {
+        "case": "spinodal",
+        "pid": 284439,
+        "owner_pid": 284439,
+        "start_ticks": 928607849,
+        "command": [
+          "/root/nonlocal-pinn/.venv/bin/python",
+          "-m",
+          "docs.tasks.spinodal_threeway_queue",
+          "--bundle",
+          "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-04",
+          "--prefix",
+          "spinodal-threeway-20261114-04",
+          "--wait-journal",
+          "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/journal.json",
+          "--wait-pid",
+          "284434",
+          "--wait-start-ticks",
+          "928607839",
+          "--max-projected-update-hours",
+          "24"
+        ],
+        "journal": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-04/journal.json",
+        "log": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-04-owner.log",
+        "launched_utc": "2026-11-14T19:38:10.478632+00:00",
+        "verified_status": "failed",
+        "verified_utc": "2026-11-14T22:54:41.113979+00:00"
+      },
+      "figures": {
+        "case": "figures",
+        "pid": 284440,
+        "owner_pid": 284440,
+        "start_ticks": 928607860,
+        "command": [
+          "/root/nonlocal-pinn/.venv/bin/python",
+          "-m",
+          "docs.tasks.pino_comparison_figure_queue",
+          "--output",
+          "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-06"
+        ],
+        "journal": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-06/journal.json",
+        "log": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-06-owner.log",
+        "launched_utc": "2026-11-14T19:38:10.586773+00:00",
+        "verified_status": "failed",
+        "verified_utc": "2026-11-14T22:54:41.113979+00:00"
+      }
+    }
+  ],
+  "spinodal_reference_recovery_qualification": "artifacts/spinodal_reference_recovery_qualification.json",
+  "spinodal_nonlocal_resource_probe": {
+    "path": "/root/nonlocal-pinn/artifacts/spinodal_nonlocal_resource_probe.json",
+    "verified_utc": "2026-11-14T23:53:32.183204+00:00",
+    "warm_inclusive_median_seconds": 0.12441745959222317,
+    "projected50k_update_hours": 1.7280202721142106,
+    "peak_active_gib": 20.4381206035614,
+    "qualification_scope": "Only nonlocal resource/finite-state preflight; three-arm common-state/input/source/resource audit remains pending."
+  },
+  "spinodal_probe_wait_observation": {
+    "verified_utc": "2026-11-15T02:46:04.697862+00:00",
+    "stage": "completed-taylor-probe-no-further-AD",
+    "pid": 553790,
+    "start_ticks": 931081868,
+    "run": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-taylor-resource-20261115-02",
+    "completed_updates": 30,
+    "source": "status.json plus exact /proc identity",
+    "next_poll": "2026-11-15T03:01:04.697862+00:00",
+    "process_state": "S",
+    "cpu_ticks": 1051720,
+    "rss_pages": 8340210,
+    "initial_state_and_all_exported_input_witnesses_exact": true,
+    "compiler_observation": "artifacts/spinodal_taylor_compile_observation.json",
+    "next_action": "No AD restart; new Nonlocal/FEM queue launched."
+  },
+  "spinodal_local_ad_static_review": {
+    "reviewed_utc": "2026-11-15T00:25:03.833042+00:00",
+    "sources": [
+      "examples/confined_ch2d/operator_local_ad.py",
+      "examples/confined_ch2d/operator_training.py",
+      "src/nonlocal_pinn/nn/point_conditional.py"
+    ],
+    "findings": [
+      "Directional JVPs compute spatial derivatives; no dense all-query Jacobian/Hessian construction.",
+      "Three fourth-derivative branches form xxxx+2*xxyy+yyyy.",
+      "Query-independent heterogeneous cross-attention makes simultaneous pointwise directional tangents valid; global mass correction is spatially constant.",
+      "Query chunk128 and checkpointed lax.map are enabled; full condition parameter gradients are accumulated before one optimizer update.",
+      "Fixed known IC derivatives are analytic; no source changes or new numerical tests were made."
+    ],
+    "limitation": "Static inspection identifies substantial high-order AD graph work but does not locate the live compile bottleneck or measure steady update speed.",
+    "profiler": {
+      "binary": "/tmp/pino-probe-profiler-20261115/bin/py-spy",
+      "version": "0.4.3",
+      "attempt": "Read-only nonblocking Python stack dump; no locals",
+      "result": "OS Permission denied (os error13); no stack captured",
+      "environment_scope": "Temporary target directory only; project environment unchanged",
+      "security_settings_changed": false
+    }
+  },
+  "spinodal_taylor_ad_candidate": {
+    "status": "resource_probe_completed_further_work_cancelled_by_user",
+    "recorded_utc": "2026-11-15T02:30:51.778409+00:00",
+    "derivative_qualification": "/root/nonlocal-pinn/artifacts/spinodal_taylor_ad_cpu_qualification.json",
+    "full_ch_qualification": "/root/nonlocal-pinn/artifacts/spinodal_taylor_ch_cpu_qualification.json",
+    "source_files": [
+      "docs/tasks/spinodal_taylor_ad_probe.py",
+      "docs/tasks/spinodal_taylor_ch_qualification.py",
+      "docs/tasks/spinodal_taylor_production_jets.py",
+      "docs/tasks/spinodal_taylor_resource_probe.py"
+    ],
+    "cpu_affinity": "First two CPUs allowed by os.sched_getaffinity(0); one CPU process at a time",
+    "full_ch_maximum_absolute_gradient_and_loss_difference": 1.7069679003611782e-15,
+    "cpu_full_ch_first_seconds": {
+      "nested_jvp": 82.254239551723,
+      "taylor": 30.740511080250144
+    },
+    "cpu_full_ch_warm_seconds": {
+      "nested_jvp": 0.010546650737524033,
+      "taylor": 0.004552299156785011
+    },
+    "limitations": [
+      "Production width256/depth4 FP32 fullCH and all121parameter/loss leaves qualified on reduced diagnostic points",
+      "GPUfull1536/B16/Nt16/SOAP performance pending; no training accuracy conclusion",
+      "Standalone task runner only, existing numerical/reference/production sources unchanged"
+    ],
+    "next_action": "None; user omitted Spinodal Local AD comparison.",
+    "full_ch_fp32_qualification": "/root/nonlocal-pinn/artifacts/spinodal_taylor_ch_fp32_qualification.json",
+    "production_forward_fp32_qualification": "/root/nonlocal-pinn/artifacts/spinodal_taylor_production_jets_fp32.json",
+    "production_full_gradient": {
+      "status": "passed",
+      "receipt": "artifacts/spinodal_taylor_ch_production_fp32_qualification.json",
+      "verified_utc": "2026-11-15T02:07:59.370099+00:00",
+      "prior_pid": 530740,
+      "prior_start_ticks": 930789781,
+      "maximum_absolute_difference": 2.384185791015625e-07,
+      "leaves": 121,
+      "timings": {
+        "nested_jvp": {
+          "first_seconds": 740.0225500520319,
+          "warm_seconds": 0.26026712730526924
+        },
+        "taylor": {
+          "first_seconds": 94.0378053560853,
+          "warm_seconds": 0.10605303198099136
+        }
+      }
+    },
+    "step_accumulation_qualification": "artifacts/spinodal_taylor_step_accumulation_qualification.json",
+    "compiler_observation": "artifacts/spinodal_taylor_compile_observation.json",
+    "gpu_resource_receipt": "artifacts/spinodal_taylor_gpu_resource_128.json"
+  },
+  "spinodal_last_local_ad_wait_observation": {
+    "verified_utc": "2026-11-15T01:37:47.740460+00:00",
+    "stage": "probe-local_ad",
+    "pid": 494040,
+    "start_ticks": 930045243,
+    "owner_pid": 453994,
+    "owner_start_ticks": 929829505,
+    "elapsed_at_resource_snapshot": "02:00:18",
+    "cpu_percent_process_lifetime": 1405,
+    "host_rss_kib": 41013512,
+    "threads": 499,
+    "gpu_utilization_percent": 0,
+    "gpu_driver_used_mib": 78467,
+    "first_update_receipt_present": false,
+    "loss_bytes": 0,
+    "initial_full8_evaluation_complete": true,
+    "terminal_failure": false,
+    "interpretation": "First training update not completed. Active CPU and idle GPU are consistent with tracing/compilation; exact native stack not captured. Driver allocation includes preallocated pool and is not an active-memory peak.",
+    "next_poll": "2026-11-15T01:52:47.740460+00:00",
+    "cpu_time": "1-04:10:32",
+    "gpu_snapshot_utc": "2026-11-15T01:07:37.426592+00:00"
+  },
+  "spinodal_local_ad_resource_probe": {
+    "status": "probe_completed_execution_budget_exceeded",
+    "created_utc": "2026-11-15T01:55:39.571094+00:00",
+    "run": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-threeway-20261114-05-probe-local_ad",
+    "summary": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-threeway-20261114-05-probe-local_ad/summary.json",
+    "preflight": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-threeway-20261114-05-probe-local_ad/online_preflight.json",
+    "timing": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-threeway-20261114-05-probe-local_ad/update_timing.npz",
+    "start_step": 0,
+    "updates": 30,
+    "finite_state_and_dtype_passed": true,
+    "warm_scope": "Median of final20 updates including input batch preparation; excludes first compilation and evaluation",
+    "warm_inclusive_median_seconds": 8.207780102267861,
+    "projected50k_update_hours": 113.9969458648314,
+    "execution_ceiling_hours": 24,
+    "within_execution_ceiling": false,
+    "first_update_seconds": 7001.670065781102,
+    "setup_seconds": 295.7523513492197,
+    "internal_wall_seconds": 7546.8245211951435,
+    "peak_active_gib": 20.4381206035614,
+    "allocator_limit_gib": 75.97793081961572,
+    "allocator_headroom_gate": true,
+    "conclusion": "Finite-state probe passes; original implementation exceeds the declared training-work ceiling. Not a converged accuracy result.",
+    "next_action": "Finish already-running FEM probe and common audit, preserve automatic ceiling stop, qualify equivalent AD optimization before long controls."
+  },
+  "spinodal_taylor_gpu_probe": {
+    "status": "launched",
+    "created_utc": "2026-11-15T02:30:30.665673+00:00",
+    "pid": 553790,
+    "start_ticks": 931081868,
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-u",
+      "-m",
+      "docs.tasks.spinodal_taylor_resource_probe",
+      "--baseline",
+      "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-threeway-20261114-05-probe-local_ad",
+      "--run",
+      "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-taylor-resource-20261115-02",
+      "--expected-gpu-uuid",
+      "GPU-85fe6412-636e-5d3c-d5f0-d1e9523c3faa"
+    ],
+    "run": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-taylor-resource-20261115-02",
+    "log": "/root/autodl-tmp/tf-logs/spinodal-taylor-resource-20261115-02.log",
+    "prior_failed_run": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-taylor-resource-20261115-01",
+    "correction": "artifacts/spinodal_taylor_witness_correction.json",
+    "environment": {
+      "JAX_PLATFORMS": "cuda",
+      "XLA_FLAGS": "",
+      "JAX_ENABLE_COMPILATION_CACHE": "false",
+      "XLA_PYTHON_CLIENT_PREALLOCATE": "true",
+      "XLA_PYTHON_CLIENT_MEM_FRACTION": ".8",
+      "OPENBLAS_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    },
+    "verified_status": "complete",
+    "verified_utc": "2026-11-15T07:21:50.387680+00:00"
+  },
+  "spinodal_original_threeway_resources": "artifacts/spinodal_original_threeway_resources.json",
+  "spinodal_taylor_gpu_probe_history": [
+    {
+      "status": "launched",
+      "created_utc": "2026-11-15T02:12:50.966256+00:00",
+      "pid": 551975,
+      "start_ticks": 930975898,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "-m",
+        "docs.tasks.spinodal_taylor_resource_probe",
+        "--baseline",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-threeway-20261114-05-probe-local_ad",
+        "--run",
+        "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-taylor-resource-20261115-01",
+        "--expected-gpu-uuid",
+        "GPU-85fe6412-636e-5d3c-d5f0-d1e9523c3faa"
+      ],
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-taylor-resource-20261115-01",
+      "log": "/root/autodl-tmp/tf-logs/spinodal-taylor-resource-20261115-01.log",
+      "environment": {
+        "JAX_PLATFORMS": "cuda",
+        "XLA_FLAGS": "",
+        "JAX_ENABLE_COMPILATION_CACHE": "false",
+        "XLA_PYTHON_CLIENT_PREALLOCATE": "true",
+        "XLA_PYTHON_CLIENT_MEM_FRACTION": ".8",
+        "OPENBLAS_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1"
+      },
+      "verified_status": "failed",
+      "verified_utc": "2026-11-15T02:29:17.219007+00:00",
+      "failure": "8test-only encoder-witnessIDs differ from original16training monitors+8tests; no updates"
+    }
+  ],
+  "spinodal_taylor_witness_correction": "artifacts/spinodal_taylor_witness_correction.json",
+  "spinodal_scope_adjustment": {
+    "recorded_utc": "2026-11-15T02:57:05.082967+00:00",
+    "requested_by": "user",
+    "remaining_methods": [
+      "nonlocal",
+      "fem"
+    ],
+    "local_ad": "omitted after resource probes; no long AD training or further optimization",
+    "cancelled_before_launch": "Taylor AD query_chunk512 probe",
+    "other_cases": "Four completed three-method comparisons and two completed temporal studies retained"
+  },
+  "spinodal_prior_queues": [
+    {
+      "case": "spinodal",
+      "pid": 453994,
+      "owner_pid": 453994,
+      "start_ticks": 929829505,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-m",
+        "docs.tasks.spinodal_threeway_queue",
+        "--bundle",
+        "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-05",
+        "--prefix",
+        "spinodal-threeway-20261114-05",
+        "--wait-journal",
+        "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/journal.json",
+        "--wait-pid",
+        "284434",
+        "--wait-start-ticks",
+        "928607839",
+        "--max-projected-update-hours",
+        "24",
+        "--reference-reuse",
+        "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v1",
+        "--reference-finer-mesh",
+        "0.018"
+      ],
+      "journal": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-05/journal.json",
+      "log": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-05-owner.log",
+      "launched_utc": "2026-11-14T23:01:47.039785+00:00",
+      "verified_status": "failed",
+      "verified_utc": "2026-11-15T02:53:12.293804+00:00"
+    }
+  ],
+  "spinodal_figure_next_action": "Complete: selected figures validated and included in example/root documentation and the local website. No further action is required.",
+  "prior_figure_queues": [
+    {
+      "case": "figures",
+      "pid": 454899,
+      "owner_pid": 454899,
+      "start_ticks": 929832311,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-m",
+        "docs.tasks.pino_comparison_figure_queue",
+        "--output",
+        "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-07",
+        "--cases",
+        "spinodal"
+      ],
+      "journal": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-07/journal.json",
+      "log": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-07-owner.log",
+      "launched_utc": "2026-11-14T23:02:15.099389+00:00",
+      "verified_status": "failed",
+      "verified_utc": "2026-11-15T03:00:50.377744+00:00"
+    },
+    {
+      "case": "figures",
+      "pid": 607224,
+      "owner_pid": 607224,
+      "start_ticks": 931308501,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-u",
+        "-m",
+        "docs.tasks.spinodal_nonlocal_fem_figures",
+        "--journal",
+        "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-20261115-01/journal.json",
+        "--owner-pid",
+        "590811",
+        "--owner-start-ticks",
+        "931260421",
+        "--output",
+        "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-01"
+      ],
+      "journal": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-01/journal.json",
+      "log": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-01-owner.log",
+      "launched_utc": "2026-11-15T03:08:16.993814+00:00",
+      "methods": [
+        "nonlocal",
+        "fem"
+      ],
+      "expected_provenance": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-01/spinodal/provenance.json",
+      "verified_status": "failed",
+      "verified_utc": "2026-11-15T07:21:50.387680+00:00"
+    }
+  ],
+  "spinodal_two_method_figure_qualification": "artifacts/spinodal_two_method_figure_qualification.json",
+  "spinodal_old_new_comparison": {
+    "status": "passed",
+    "receipt": "artifacts/spinodal_sota_repeat_comparison.json",
+    "matched_step": 20500,
+    "old_native_volume_phi": 0.08621325308387787,
+    "new_native_volume_phi": 0.08688020633789567,
+    "old_final_50k_native_equal_node_phi": 0.04917359381567699,
+    "old_final_50k_local_equal_node_phi": 0.32216986179046725,
+    "new_final_pending": true,
+    "final_reporting": "Both references with equal-node norms; historical volume norms supplementary",
+    "limitations": "8 cases; one old/new run; initial PDE fraction changed0.2to0; hardIC retained; different hardware/runtime"
+  },
+  "training_cost_report": {
+    "status": "passed",
+    "source": "artifacts/pino_training_wall_costs.json",
+    "validation": "artifacts/pino_training_wall_cost_validation.json",
+    "scope": "Full cold parent training interval; historical channel approximate external interval and different GPU explicitly qualified",
+    "requested_by_user": true
+  },
+  "spinodal_final_reference_norm_helper": {
+    "module": "docs/tasks/spinodal_reference_norms.py",
+    "qualification": "artifacts/spinodal_reference_norm_qualification.json",
+    "qualified_on": "Old final50k saved fields only",
+    "final_output": "artifacts/spinodal_final_reference_norms.json",
+    "next_action": "Execute after both new50k runs and original final audit pass; do not infer final data now"
+  },
+  "spinodal_nonlocal_final_reference_norms": {
+    "status": "passed_nonlocal_arm_only",
+    "receipt": "artifacts/spinodal_nonlocal_final_reference_norms.json",
+    "paired_audit_pending": true
+  },
+  "completed_utc": "2026-11-15T07:37:53.724204+00:00",
+  "completion_validation": "artifacts/pino_three_method_completion_validation.json",
+  "spinodal_final_reference_norms": "artifacts/spinodal_final_reference_norms.json",
+  "spinodal_publication_validation": "artifacts/spinodal_nonlocal_fem_publication_validation.json",
+  "deferred_research": "docs/TODO.md#spinodal-finite-horizon-nonlocal-versus-local-pde-discrepancy",
+  "completed_channel_queue": {
+    "owner_pid": 81883,
+    "journal": "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/sampled-journal.json",
+    "current_child_pid": null,
+    "stage": "complete",
+    "ad1024_recovery_probe": "passed",
+    "ad2048_recovery_probe": {
+      "warm_inclusive_median_seconds": 1.7372225588187575,
+      "peak_active_gib": 26.190056562423706,
+      "steps": 60,
+      "development_phase": 0.3345546410888465,
+      "development_velocity": 0.08133250702193286,
+      "source_files_unchanged": 117
+    },
+    "source_files_unchanged": 117,
+    "latest_development": {
+      "step": 20000,
+      "phi": 0.02210832471861137,
+      "velocity": 0.0198035197102424,
+      "pressure": 0.06193269300443492,
+      "chemical": 0.12693228288713618,
+      "scope": "Final single development geometry; reserved-three metrics are separately recorded."
+    },
+    "latest_loss_step": 20000,
+    "checkpoint_presence": {
+      "step": 5000,
+      "path": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-sampled-ad-20261114-03-ad-cold20k/ckpt_005000.eqx",
+      "bytes": 4937104,
+      "scope": "File exists; inference and final audit remain queued"
+    },
+    "source_check": {
+      "verified_utc": "2026-11-14T13:15:05.270986+00:00",
+      "matched_python_files": 117,
+      "changed_files": []
+    },
+    "status": "complete",
+    "comparison": "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/comparison.json"
+  },
+  "historical_duration_estimate": {
+    "as_of_utc": "2026-11-14T11:27:56.561014+00:00",
+    "new_full_runs": 12,
+    "channel_remaining_from_step": 5700,
+    "channel_recent_update_seconds": 1.7385307333972304,
+    "channel_remaining_training_hours": 6.905830413216776,
+    "electro_planning_hours": [
+      0.5,
+      1.5
+    ],
+    "electro_scope": "Historical older-card NL/AD timing; unmeasured new-card FEM planning allowance",
+    "melting_prior_process_seconds": [
+      276.72557478398085,
+      277.09
+    ],
+    "melting_ad_gpu_timing": "pending12updateprobe",
+    "spinodal_gpu_timing": "pending30updatespermethod",
+    "full_suite_finish_estimate": "unqualified; independent reference and AD timings pending",
+    "full_test_monitoring_revision": "Future Electro64/Melting64 complete-test monitoring and two joint-query10k controls add unmeasured cost; previous wall estimates are historical"
+  },
+  "spinodal_initial_case_plan": {
+    "status": "independent_local_reference_running",
+    "completed": "Original full-field nonlocal50k",
+    "reference": "8native reused geometries; new independent mixed-P2 cohort queued and must pass refinement",
+    "remaining": "Finish8local-refinement/range/invariant qualifications, qualify GPUresources, complete3fresh50k controls/audits/figures/README/site",
+    "evidence": "artifacts/spinodal_threeway_qualification.json",
+    "first_reference_observation": {
+      "index": 1024,
+      "status": "passed",
+      "space_phase": 0.00551616408435512,
+      "space_chemical_positive": 0.005589310197571997,
+      "time_phase": 1.0383056238038539e-05,
+      "native_local_phase_weighted": 0.2154349700540613,
+      "scope": "One completed reference geometry; weighted solver diagnostic, not a PINO/final equal-node cohort score"
+    }
+  },
+  "final_plotting_validation": "artifacts/pino_three_method_completion_validation.json"
+}
