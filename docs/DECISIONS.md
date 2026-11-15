@@ -13996,3 +13996,14 @@ historical three-method metrics separate. Reject uploading raw weights or
 unrelated pending numerical investigations. Local9page build,394links and
 asset-byte checks pass; proceed dev commit -> regular main merge -> main push,
 then verify Pages and live files. Relation:ceramic-time-fusion-publication.
+
+## 2026-11-15 — Verify Ceramic temporal publication and close the task
+
+Committed the reviewed comparison and reproducible optional implementation on
+localdev6180ce7, merged normally tomainfb45cf7 and pushed onlymain. Pages run
+43727138734 passed build/deploy. Live index, Ceramic chapter and all four
+statistical files match the selected build byte-for-byte. Final staged9page
+build and395local links/anchors pass; temporal collection817465bytes remains
+below2MiB. Preserve unrelated uncommitted investigations and all external raw
+artifacts. Archive the publication task, clear active work and record the live
+receipt; no default/training changes. Relation:ceramic-time-fusion-publication.

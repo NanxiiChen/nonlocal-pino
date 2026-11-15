@@ -2,10 +2,14 @@
 
 ## Current state
 
-**Active task:** [Ceramic temporal-control publication](tasks/ceramic-time-fusion-publication.md).
+**Active task:** none.
 
-Publish the accepted figures and results to README/website, then commit, push
-main and verify GitHub Pages. No new training or default changes.
+**Latest publication:** [Ceramic temporal controls](tasks/archive/ceramic-time-fusion-publication.md).
+README, overview and website include the cold-time convergence and final64case
+violins, with shared editable PDF/PNG pairs. dev6180ce7 -> mainfb45cf7 was pushed;
+Pages run43727138734 passed build/deploy. Live overview/case HTML and all four
+figure files match the selected build byte-for-byte.
+[Publication receipt](../artifacts/ceramic_time_fusion_publication.json).
 
 **Latest completed:** [Ceramic Time-FiLM versus joint query](tasks/archive/ceramic-time-fusion-comparison.md).
 Both cold20k runs, all41×64equal-point histories, paired sampling/source/final-field
@@ -14,9 +18,8 @@ FiLM4.09016%,joint4.48324%; complete cold times2629.487s /12475.490s (4.74446x),
 same physicalGPU. NewFiLM reproduces all64historical final predictions exactly.
 Defaults remainFiLM. Results/reproduction are in the exampleREADME and
 [completion manifest](../artifacts/ceramic_time_fusion_validation.json).
-Selected statistical PDF/PNG pairs are now in assets/pino-studies and embedded
-in the exampleREADME/site; physical galleries remain external. Local validation
-passes. Git/Pages publication is in progress in the active task.
+Selected statistical pairs are published from assets/pino-studies; full physical
+galleries, fields and weights remain at their recorded external paths.
 
 Melting soft-IC was stopped by user: Nonlocal/AD completed, FEM interrupted,
 joint query unstarted. All owned processes stopped and original hard-IC defaults
@@ -101,8 +104,11 @@ plotted channel observations,40physical-panel labels and complete cold endpoints
 Four final figures were visually reviewed; PDF fonts/text/layers pass. NewFiLM
 and joint queues/observer are terminal. Numerical source matches the frozen
 qualified snapshot. ExampleREADME, completion manifest and archived task agree;
-no default or Git change. Previously passed focused numerical tests remain valid.
+defaults unchanged. Relevant implementation and reproduction are now committed.
+Previously passed focused numerical tests remain valid.
 
 Earlier five-case/temporal publication checks remain in the archived tasks above.
 The new Ceramic study preserves prior selected assets and adds its own explicit
-20k/64case temporal comparison. Live deployment verification is pending.
+20k/64case temporal comparison. Staged/local9page builds,395links, source/metric
+checks, live HTML and four image/PDF byte comparisons pass. Publication task is
+archived; no work or monitoring remains scheduled.

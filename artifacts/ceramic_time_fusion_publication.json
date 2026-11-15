@@ -1,0 +1,75 @@
+{
+  "schema": "ceramic_time_fusion_publication_v1",
+  "status": "passed",
+  "verified_utc": "2026-11-15T14:59:02.625724+00:00",
+  "user_authorization": "Update README and website, commit and push",
+  "dev_commit": "6180ce7",
+  "main_merge": "fb45cf7ab94601395733fd8ebf23885f0ab5c429",
+  "pages_run": "https://github.com/NanxiiChen/nonlocal-pino/actions/runs/43727138734",
+  "pages_build": "success",
+  "pages_deploy": "success",
+  "page_url": "https://nanxiichen.github.io/nonlocal-pino/particle-corrosion.html#time-film-versus-joint-query",
+  "live_files": [
+    {
+      "path": "index.html",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/index.html",
+      "bytes": 20932,
+      "http_status": 200,
+      "byte_identical": true
+    },
+    {
+      "path": "particle-corrosion.html",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/particle-corrosion.html",
+      "bytes": 106266,
+      "http_status": 200,
+      "byte_identical": true
+    },
+    {
+      "path": "assets/particle_corrosion2d_time_fusion_convergence.png",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/particle_corrosion2d_time_fusion_convergence.png",
+      "bytes": 132221,
+      "http_status": 200,
+      "byte_identical": true
+    },
+    {
+      "path": "assets/particle_corrosion2d_time_fusion_convergence.pdf",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/particle_corrosion2d_time_fusion_convergence.pdf",
+      "bytes": 42983,
+      "http_status": 200,
+      "byte_identical": true
+    },
+    {
+      "path": "assets/particle_corrosion2d_time_fusion_distribution.png",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/particle_corrosion2d_time_fusion_distribution.png",
+      "bytes": 123161,
+      "http_status": 200,
+      "byte_identical": true
+    },
+    {
+      "path": "assets/particle_corrosion2d_time_fusion_distribution.pdf",
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/particle_corrosion2d_time_fusion_distribution.pdf",
+      "bytes": 39405,
+      "http_status": 200,
+      "byte_identical": true
+    }
+  ],
+  "local_checks": {
+    "pages": 9,
+    "local_links_before_overview_link": 394,
+    "staged_build_matches": true,
+    "metrics_and_assets": "passed",
+    "modified_data_rejected": true,
+    "repeat_selection": "read-only",
+    "diff_check": "passed",
+    "local_links": 395
+  },
+  "assets": "artifacts/pino_time_fusion_figures.json",
+  "clock_evidence": "artifacts/pino_time_fusion_wall_clock.json",
+  "numerical_audit": "artifacts/ceramic_time_fusion_validation.json",
+  "new_figure_bytes": 337770,
+  "temporal_collection_bytes": 817465,
+  "collection_limit": 2097152,
+  "defaults_changed": false,
+  "training_restarted": false,
+  "external_only": "Raw weights, reference/field arrays and full physical galleries"
+}
