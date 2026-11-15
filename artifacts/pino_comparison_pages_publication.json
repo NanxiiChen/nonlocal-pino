@@ -1,0 +1,36 @@
+{
+  "status": "passed",
+  "deployment_commit": "e0e154ccf7ab5922b4bccb2646a582fdf0f556c6",
+  "development_commit": "e8ce417",
+  "workflow_run": 43693239443,
+  "workflow_url": "https://github.com/NanxiiChen/nonlocal-pino/actions/runs/43693239443",
+  "build": "success",
+  "deploy": "success",
+  "live_pages": [
+    "https://nanxiichen.github.io/nonlocal-pino/electropolish.html",
+    "https://nanxiichen.github.io/nonlocal-pino/ice-melting.html"
+  ],
+  "live_assets": [
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/electropolish2d_time_fusion_convergence.png",
+      "bytes": 131746,
+      "matches_selected_asset": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/electropolish2d_time_fusion_convergence.pdf",
+      "bytes": 45935,
+      "matches_selected_asset": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/icemelting3d_time_fusion_convergence.png",
+      "bytes": 82059,
+      "matches_selected_asset": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/icemelting3d_time_fusion_convergence.pdf",
+      "bytes": 28515,
+      "matches_selected_asset": true
+    }
+  ],
+  "source_validation": "artifacts/pino_time_fusion_wall_clock_validation.json"
+}

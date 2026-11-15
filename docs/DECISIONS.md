@@ -13811,3 +13811,15 @@ Reject step-times-average-rate conversion, zeroing at the first update, and
 retraining just for plotting. Fit the same log-LOWESS/bootstrap on actual elapsed
 coordinates, retaining the raw observations and declared confidence scope.
 Relation: pino-time-fusion-wall-clock; user annotation cbdbc624-890a-4dce-bc41-a701c923bffe.
+
+## 2026-11-15 — Publish the completed comparisons and verify live cold-time figures
+
+User-authorized publication committed the selected comparison implementations,
+results, reproduction tools, README/site and figure pairs on dev e8ce417;
+regular main merge e0e154c was pushed. Standalone sampling diagnostic scripts
+and the separate sampling task update remain local. No raw checkpoints or
+reference fields were added. Pages run 43693239443 passed build and deploy;
+actual live temporal captions and four convergence assets match the selected
+bytes. Archive the wall-clock/publication task and leave no active task.
+Spinodal horizon/resolution/boundary research remains explicitly deferred.
+Relation: pino-time-fusion-wall-clock; artifacts/pino_comparison_pages_publication.json.
