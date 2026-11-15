@@ -170,76 +170,122 @@ XLA_PYTHON_CLIENT_MEM_FRACTION=0.97 python -m examples.channel_nsch2d.train \
   --config=examples/channel_nsch2d/configs/train_operator_fem_weak.py
 ```
 
-![Nonlocal and FEM PINO development convergence with local smoothing](../../assets/pino-studies/channel_nsch2d_fem_convergence.png)
+### Three-method accuracy and cost
 
-All **41 actual records**, every 500 updates including initialization, on one
-common **development geometry**. Both methods use solid lines: thin/light traces
-show raw errors; thick traces show local-linear LOWESS in log10-error (span0.22,
-9 nearest records, no robust reweighting). Shading is an **approximate pointwise
-95% confidence interval for the fitted trend**, from 2,000 circular-block
-residual bootstrap replicates with blocks of four records. This assumes a
-smooth trend and approximately stationary short-memory log residuals; smoothing
-bias is not covered. It is not cross-seed or test-cohort uncertainty. Red:
-Nonlocal PINO; green: FEM PINO. The target is the independent **FEM numerical
-reference**. Numerical results elsewhere use original errors, not smoothed values.
-[Editable PDF](../../assets/pino-studies/channel_nsch2d_fem_convergence.pdf).
+![Nonlocal, local AD and FEM PINO development convergence](../../assets/pino-studies/channel_nsch2d_three_method_convergence.png)
 
-![Final errors on all three reserved geometries](../../assets/pino-studies/channel_nsch2d_fem_distribution.png)
+All **41 actual evaluations**, every 500 updates including initialization, on
+one common **development geometry**. Thin solid traces show raw errors; thick
+solid traces show local-linear LOWESS in log10-error (span 0.22, nine nearest
+records, no robust reweighting). Shading is an **approximate pointwise 95%
+confidence interval for the fitted trend**, using 2,000 circular-block residual
+bootstrap replicates with blocks of four records. It assumes a smooth trend and
+approximately stationary short-memory log residuals; it does not cover smoothing
+bias, cross-seed variability or test-cohort uncertainty. The reference is the
+independently solved **FEM numerical solution**, distinct from **FEM PINO**.
+[Editable PDF](../../assets/pino-studies/channel_nsch2d_three_method_convergence.pdf).
 
-All **three reserved geometries**, using final 20k weights. The requested
-violins estimate density in log10-error space with Scott bandwidth and tails
-extended by three bandwidths; dashed inner lines show the 25th, 50th and 75th
-percentiles. With **N=3**, this is a descriptive display of a small cohort;
-the smooth tails are not additional observations or population-density evidence.
-Panels retain individual fields: velocity uses the joint vector
-norm; chemical potential is reported separately, not averaged into a headline
-score. Axes show raw relative errors, with automatic logarithmic limits.
-[Editable PDF](../../assets/pino-studies/channel_nsch2d_fem_distribution.pdf).
-[Plot inputs and reproduction command](../../artifacts/channel_fem_comparison_figures.json)
-record every checkpoint, reference, scalar value, font and display choice.
+![Final three-method field errors on three reserved geometries](../../assets/pino-studies/channel_nsch2d_three_method_distribution.png)
 
-The reproduction record includes the complete CPU rendering command, bootstrap
-settings and per-curve arrays. Convergence uses `metrics.jsonl`; the earlier
-five-checkpoint cohort evaluation remains retained separately and supplies the
-accepted final violin values. `scripts/evaluate_channel_fem_checkpoints.py` can
-recreate that evaluation in a fresh output directory; its `evaluation.json` is
-passed to the renderer through `--cohort-evaluation`. This figure revision needs
-no new inference, training or reference solve. See the
-[statistical method and checks](../../docs/tasks/archive/channel-fem-local-smoothing.md).
+Final **20,000-step weights**, all **three reserved geometries**. Each panel
+retains an individual field; velocity uses a joint vector norm, and chemical
+potential is not averaged into a headline score. Violins use log10-error KDE,
+Scott bandwidth and three-bandwidth tails; inner dashed lines mark quartiles.
+With **N=3**, this is a descriptive small-cohort display, not reliable population
+density estimation. Smooth tails are not additional observations. Axes show
+raw error ratios with automatic log limits.
+[Editable PDF](../../assets/pino-studies/channel_nsch2d_three_method_distribution.pdf).
 
-Final 20,000-step weights, mean relative L2 on the same three reserved local-FEM
-geometries (full saved space-time for phase; positive saved times for flow/mu):
+| Mean relative L2 on reserved geometries | Nonlocal PINO | Local AD PINO | FEM PINO |
+|---|---:|---:|---:|
+| Phase | 1.6435% | 2.1540% | 4.6465% |
+| Velocity | 1.5172% | 2.0866% | 4.3892% |
+| Pressure | 5.2840% | 8.5370% | 7.1489% |
+| Chemical potential | 13.9541% | 16.0556% | 43.7908% |
 
-| Field | Nonlocal PINO | FEM PINO |
-|---|---:|---:|
-| Phase | 1.6435% | 4.6465% |
-| Terminal phase | 2.1961% | 4.0764% |
-| Velocity | 1.5172% | 4.3892% |
-| Pressure | 5.2840% | 7.1489% |
-| Chemical potential | 13.9541% | 43.7908% |
+For each geometry, compute a relative norm over equally weighted saved
+space-time nodes, then average over geometries. Phase includes all 13 times;
+velocity, pressure and chemical potential retain the 12-positive-time convention.
+Nonlocal has the lowest mean for each field in this comparison. Local AD improves
+phase, velocity and chemical-potential means over FEM PINO, but its pressure
+mean is higher; its worst reserved pressure error is 15.7110%. Nonlocal beats AD
+on phase in two of three geometries and velocity in all three. One initialization
+and three repeatedly inspected cases do not establish a universal ranking.
 
-All three geometries favor nonlocal in phase and velocity. FEM development-phase
-error changes from 4.696% at 5k to 4.372% at 20k, versus nonlocal 3.377% to 1.450%.
-The current-card short probes give warm inclusive steps of 1.5993 s nonlocal and
-1.4169 s FEM, with active peaks 85.35/80.82 GiB. FEM's full training process takes
-8.031 h, with a 1.4187 s inclusive median and 80.92 GiB final recorded active peak.
-Thus this run favors nonlocal accuracy, while the FEM update is about 11.4% faster.
-Historical nonlocal training wall 9.163 h is recorded separately: the GPU model
-matches, but the physical GPU UUID differs.
+| Same-card warm resource probe | Nonlocal PINO | Local AD PINO | FEM PINO |
+|---|---:|---:|---:|
+| PDE queries per geometry | 15,633 | 2,048 sampled interior | 15,633 |
+| Time block / total times | 18 / 36 | 9 / 36 | 18 / 36 |
+| Inclusive time per update | 1.6016 s | 1.7372 s | 1.4169 s |
+| Active memory peak | 83.38 GiB | 26.19 GiB | 80.82 GiB |
+
+All use B8 on the same RTX PRO 6000 device for these short probes, including
+batch preparation. The FEM column comes from the earlier same-device probe;
+nonlocal and AD use the later paired probes. Parent timers from before process
+creation through exit give full cold20k times of 10.156 h for AD and 8.032 h for
+FEM, including imports, compilation, training evaluations, final writes and
+teardown. Warm inclusive medians are separately 1.7380 s and 1.4187 s.
+Historical Nonlocal has an approximate external interval of 9.179 h on another
+physical GPU of the same model. Its UTC timer starts immediately after spawn
+and records exit through ten-second polling plus monitor work, so it is not a
+strict sub-second or same-device full-process comparison. The older 9.163 h
+number was trainer-internal. [Exact timing provenance](../../artifacts/pino_training_wall_costs.json). Sampled AD uses much
+less active memory, but is not faster per update than nonlocal in these probes.
 
 Initial network/complete optimizer states and all 20k condition/time/geometry
-draws match; independent saved-field norms, rolling-input reconstruction and
-114 saved/current Python source files pass. This is one initialization and three
-reused reserved cases. The four weak losses and their mass-diagonal norm differ
-from the nine nonlocal pointwise losses; the result does not isolate a universal
-spatial-operator advantage. The FE velocity interpolant also loses exact neural
-incompressibility: development quadrature RMS is about 0.0043, despite neural
-AD-curl divergence near roundoff. Further interpolation/norm diagnostics are
-deferred; no additional training is queued.
+draws match. Source checks and independent saved-field norms pass. AD keeps the
+nine pointwise PDE/BC terms, estimates the same physical spatial objective with
+uniform interior sampling, and retains all 192 independent boundary points.
+FEM uses four weak losses with a mass-diagonal norm and natural BCs. Its
+interpolated velocity is only approximately divergence-free (development
+quadrature RMS about 0.0043), although the neural AD-curl is divergence-free to
+roundoff. Thus the FEM comparison includes loss-norm, boundary and interpolation
+differences; it does not isolate a universal spatial-derivative advantage.
+The accepted nonlocal default remains unchanged.
 
-[Completed comparison record](../../docs/tasks/archive/fem-weak-pino-comparison-plan.md)
-and [validation receipt](../../artifacts/channel_fem_comparison_validation.json)
-retain exact configs, checkpoints, reference paths, timings and checks.
+[Direct runs, checkpoints, references, scalar values and reproduction](../../artifacts/pino_three_method_figures.json)
+link to the complete external provenance and CPU renderer. The
+[metric and plotting guide](../../docs/PINO_COMPARISON_FIGURES.md) distinguishes
+monitoring and final cohorts. Earlier two-method assets and the
+[original FEM audit](../../artifacts/channel_fem_comparison_validation.json)
+remain retained; no historical result is overwritten.
+
+### Full local-AD control
+
+`configs/train_operator_local_ad.py` selects an explicit, default-off comparison.
+It retains the same width192 network, physical output lifting, SOAP schedule,
+cold20k budget, B8/36 random times, rolling geometry draws, full15633 query nodes,
+physical loss quadrature and nine PDE/boundary terms as the nonlocal control.
+All spatial PDE and boundary derivatives, including the Laplacians, use AD.
+Because velocity is an AD curl, its Laplacian differentiates the streamfunction
+three times. Time still uses JVP; conservative phase transport uses the exact
+product rule for \(\nabla\cdot(\phi\mathbf u)\). Geometry encoder tokens stay fixed
+while differentiating query coordinates. No field derivative stencils are built.
+
+Time blocks initially contain two times to bound memory; all36 samples contribute
+to the same averaged gradient before one clip/SOAP update. The effective samples
+and physical objective do not change, although floating-point summation order
+can differ. Resource qualification and exact pairing are required before a long
+control. Evaluation uses the same independent local-FEM references above.
+For an efficient sampling control, `configs/train_operator_local_ad_sampled.py`
+evaluates PDE derivatives on fresh uniform interior subsets without replacement.
+The resource study tested1024queries/timeblock18 and2048queries/timeblock9; the
+completed20k comparison uses2048queries/timeblock9. Each
+update still includes B8 geometries and36 random times. Full geometry encoder
+tokens remain present, and **all192 boundary points are retained independently**
+for the five wall/outlet losses. No halo is needed. With M interior grid nodes,
+physical quadrature weights \(m_i\), and \(W=\sum_i m_i\), average
+\(M m_i R_i^2/W\) over the K selected nodes. This has the original full spatial
+loss as its expectation; do not divide by the sampled sum of weights. Actual
+query IDs are saved and replayed separately from the unchanged geometry/time
+draws. Report query count and execution block beside timings; equal query counts
+are not required for the efficiency comparison.
+
+The older `twophase2d` prescribed-flow CH PINN comparison is a different problem
+and is not the local-AD control reported here. See the
+[experiment record](../../docs/tasks/archive/channel-local-ad-comparison.md) for
+the measured resource checks, final audit and run paths. The completed sampled
+AD result appears above; the cancelled full-query attempt is not an accuracy arm.
 
 ### Run and reproduce
 

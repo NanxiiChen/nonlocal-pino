@@ -21,6 +21,9 @@ def fixed_initial_laplacian(points, c):
 
 
 def validate(c):
+    if 'spatial_discretization' in c.operator:
+        from examples.confined_ch2d.operator_comparison import validate_comparison
+        validate_comparison(c)
     if 'online' in c.operator:
         from examples.confined_ch2d.operator_online import validate_online
         validate_online(c)
@@ -35,6 +38,9 @@ def validate(c):
                 or c.operator.action != 'train' or 'continuation' in c.train
                 or 'augmentation' in c.operator or 'initial_rhs_condition' in c.operator):
             raise ValueError('Conservative potential requires cold unaugmented identity-metric training')
+    if 'initial_rate_lift' in c.operator:
+        from examples.confined_ch2d.operator_initial_rate import validate_initial_rate
+        validate_initial_rate(c)
     if c.operator.action not in ('prepare', 'train') or c.operator.metric not in ('biharmonic_resolvent','linear_stable_resolvent','identity'):
         raise ValueError('Explicit prepare/train action and supported residual metric required')
     if c.operator.metric == 'identity' and not potential:
@@ -44,6 +50,9 @@ def validate(c):
             raise ValueError('Compact spatial sampling requires the conservative-potential coordinate')
         from examples.confined_ch2d.operator_core_halo import validate_spatial
         validate_spatial(c)
+    if 'residual_rows' in c.sample:
+        from examples.confined_ch2d.operator_residual_pool import validate_residual_rows
+        validate_residual_rows(c)
     if c.operator.metric=='linear_stable_resolvent':
         if c.operator.action!='train':raise ValueError('Prepare the unchanged biharmonic bank before selecting the derived training metric')
         workers=c.operator.metric_workers

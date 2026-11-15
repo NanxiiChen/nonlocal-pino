@@ -1,0 +1,163 @@
+{
+  "checked_at": "2026-11-14T04:24:17.242719+00:00",
+  "results": [
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/two-phase-flow.html",
+      "status": 200,
+      "bytes": 53296,
+      "matches_selected": true,
+      "headers": {
+        "Last-Modified": "Sat, 14 Nov 2026 04:19:27 GMT",
+        "ETag": "\"6af7e14f-d030\"",
+        "expires": "Sat, 14 Nov 2026 04:34:11 GMT",
+        "Cache-Control": "max-age=600",
+        "Date": "Sat, 14 Nov 2026 04:24:12 GMT",
+        "Age": "0",
+        "X-Cache": "HIT"
+      },
+      "images": [
+        {
+          "src": "assets/channel_nsch2d-setup.png",
+          "width": "1299",
+          "height": "767",
+          "alt": "Orange initial droplet in blue carrier fluid between independently randomized gray channel walls"
+        },
+        {
+          "src": "assets/channel_nsch2d.png",
+          "width": "2007",
+          "height": "696",
+          "alt": "Predicted phase in four constricted channels across five normalized times with dashed local-FEM droplet interfaces"
+        },
+        {
+          "src": "assets/channel_nsch2d_fem_convergence.png",
+          "width": "2007",
+          "height": "637",
+          "alt": "Nonlocal and FEM PINO relative-L2 convergence through 20000 updates for phase, velocity, pressure and chemical potential"
+        },
+        {
+          "src": "assets/channel_nsch2d_fem_distribution.png",
+          "width": "2007",
+          "height": "637",
+          "alt": "Final relative error violins on all three reserved geometries for Nonlocal PINO and FEM PINO"
+        }
+      ]
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/two-phase-flow.html?v=20261114-violin",
+      "status": 200,
+      "bytes": 53296,
+      "matches_selected": true,
+      "headers": {
+        "Last-Modified": "Sat, 14 Nov 2026 04:19:27 GMT",
+        "ETag": "\"6af7e14f-d030\"",
+        "expires": "Sat, 14 Nov 2026 04:34:11 GMT",
+        "Cache-Control": "max-age=600",
+        "Age": "0",
+        "Date": "Sat, 14 Nov 2026 04:24:12 GMT",
+        "X-Cache": "MISS"
+      },
+      "images": [
+        {
+          "src": "assets/channel_nsch2d-setup.png",
+          "width": "1299",
+          "height": "767",
+          "alt": "Orange initial droplet in blue carrier fluid between independently randomized gray channel walls"
+        },
+        {
+          "src": "assets/channel_nsch2d.png",
+          "width": "2007",
+          "height": "696",
+          "alt": "Predicted phase in four constricted channels across five normalized times with dashed local-FEM droplet interfaces"
+        },
+        {
+          "src": "assets/channel_nsch2d_fem_convergence.png",
+          "width": "2007",
+          "height": "637",
+          "alt": "Nonlocal and FEM PINO relative-L2 convergence through 20000 updates for phase, velocity, pressure and chemical potential"
+        },
+        {
+          "src": "assets/channel_nsch2d_fem_distribution.png",
+          "width": "2007",
+          "height": "637",
+          "alt": "Final relative error violins on all three reserved geometries for Nonlocal PINO and FEM PINO"
+        }
+      ]
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/channel_nsch2d_fem_distribution.png",
+      "status": 200,
+      "bytes": 117510,
+      "matches_selected": true,
+      "headers": {
+        "Last-Modified": "Sat, 14 Nov 2026 04:19:27 GMT",
+        "ETag": "\"6af7e14f-1cb06\"",
+        "expires": "Sat, 14 Nov 2026 04:34:13 GMT",
+        "Cache-Control": "max-age=600",
+        "Date": "Sat, 14 Nov 2026 04:24:14 GMT",
+        "Age": "1",
+        "X-Cache": "HIT"
+      }
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/channel_nsch2d_fem_distribution.png?v=20261114-violin",
+      "status": 200,
+      "bytes": 117510,
+      "matches_selected": true,
+      "headers": {
+        "Last-Modified": "Sat, 14 Nov 2026 04:19:27 GMT",
+        "ETag": "\"6af7e14f-1cb06\"",
+        "expires": "Sat, 14 Nov 2026 04:34:13 GMT",
+        "Cache-Control": "max-age=600",
+        "Age": "0",
+        "Date": "Sat, 14 Nov 2026 04:24:13 GMT",
+        "X-Cache": "MISS"
+      }
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/channel_nsch2d_fem_distribution.pdf",
+      "status": 200,
+      "bytes": 48420,
+      "matches_selected": true,
+      "headers": {
+        "Last-Modified": "Sat, 14 Nov 2026 04:19:27 GMT",
+        "ETag": "\"6af7e14f-bd24\"",
+        "expires": "Sat, 14 Nov 2026 04:34:13 GMT",
+        "Cache-Control": "max-age=600",
+        "Age": "0",
+        "Date": "Sat, 14 Nov 2026 04:24:13 GMT",
+        "X-Cache": "MISS"
+      }
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/channel_nsch2d_fem_distribution.pdf?v=20261114-violin",
+      "status": 200,
+      "bytes": 48420,
+      "matches_selected": true,
+      "headers": {
+        "Last-Modified": "Sat, 14 Nov 2026 04:19:27 GMT",
+        "ETag": "\"6af7e14f-bd24\"",
+        "expires": "Sat, 14 Nov 2026 04:34:13 GMT",
+        "Cache-Control": "max-age=600",
+        "Date": "Sat, 14 Nov 2026 04:24:16 GMT",
+        "Age": "3",
+        "X-Cache": "HIT"
+      }
+    }
+  ],
+  "status": "passed",
+  "browser": {
+    "status": 200,
+    "url": "https://nanxiichen.github.io/nonlocal-pino/two-phase-flow.html#fem-pino-comparison",
+    "image": {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/channel_nsch2d_fem_distribution.png",
+      "width": 2007,
+      "height": 637,
+      "complete": true,
+      "alt": "Final relative error violins on all three reserved geometries for Nonlocal PINO and FEM PINO"
+    }
+  },
+  "browser_screenshot": "/tmp/channel-violin-live-browser.png",
+  "conclusion": "Live page and selected PNG/PDF are current; fresh browser displays violins. Cache-Control max-age=600 makes a stale client cache plausible; user cache was not inspected.",
+  "source_changed": false,
+  "git_actions": false
+}

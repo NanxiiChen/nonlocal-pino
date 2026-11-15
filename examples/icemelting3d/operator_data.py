@@ -12,7 +12,14 @@ from examples.icemelting3d.ellipsoids import image_points, sample_parameters, si
 
 
 def validate_config(c):
+    if 'spatial_discretization' in c.operator:
+        from examples.icemelting3d.fem_weak import validate_comparison
+        validate_comparison(c)
     a, s, o, i = c.arch, c.sample, c.operator, c.initial
+    if 'temporal_query' in a and (a.temporal_query != 'joint_query'
+            or a.conditioning != 'cross_attention'
+            or ('spatial_discretization' in o and o.spatial_discretization != 'nonlocal')):
+        raise ValueError('Melting time-fusion control requires joint_query and nonlocal cross-attention')
     if a.type != 'conditional_field' or tuple(a.extent) != (1., 1., 1.):
         raise ValueError('Melting operator requires conditional_field on the unit cube')
     if len(a.image_shape) != 4 or a.image_shape[0] != 1 or len(a.patch_shape) != 3:
@@ -78,8 +85,12 @@ def build_network(c, key):
         mlp_ratio=a.mlp_ratio,decoder_depth=a.decoder_depth,spatial_features=a.spatial_features,
         spatial_scale=a.spatial_scale,time_features=a.time_features,time_scale=a.time_scale,
         local_dim=0,out_dim=1,conditioning=a.conditioning,norm_eps=a.norm_eps,key=key)
-    return eqx.tree_at(lambda n:(n.output.weight,n.output.bias),net,
+    net = eqx.tree_at(lambda n:(n.output.weight,n.output.bias),net,
         (jnp.zeros_like(net.output.weight),jnp.zeros_like(net.output.bias)))
+    if 'temporal_query' in a:
+        from examples.electropolish2d.temporal_query import TemporalQueryOperator
+        return TemporalQueryOperator(net, a.temporal_query, key=jax.random.fold_in(key, 1001))
+    return net
 
 
 def make_sampler(c):

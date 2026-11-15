@@ -1,0 +1,52 @@
+{
+  "status": "passed",
+  "verified_utc": "2026-11-14T23:38:57.929900+00:00",
+  "reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2",
+  "manifest": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/manifest.json",
+  "independent_raw_field_gate_audit": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/independent-gate-audit.json",
+  "independent_diagnostic": "/root/nonlocal-pinn/artifacts/spinodal_reference_gap_eight_cases.json",
+  "indices": [
+    1024,
+    1025,
+    1026,
+    1027,
+    1028,
+    1029,
+    1030,
+    1031
+  ],
+  "maximum_refinement_checks": {
+    "space_phase": 0.006792262668925716,
+    "space_chemical_positive": 0.007467261334311319,
+    "time_phase": 1.038305623803854e-05,
+    "time_chemical_positive": 8.94758593493547e-06,
+    "mass_drift": 3.491673096489567e-16,
+    "energy_increase": 0.0
+  },
+  "native_to_local_equal_node": {
+    "phi_pooled": {
+      "mean": 0.31963329814938385,
+      "minimum": 0.2182525874426253,
+      "maximum": 0.43516756744005336
+    },
+    "mu_pooled": {
+      "mean": 0.45935790950542166,
+      "minimum": 0.40482971629081027,
+      "maximum": 0.5133507136488381
+    },
+    "mu_positive": {
+      "mean": 0.2999626706697913,
+      "minimum": 0.21762285664974723,
+      "maximum": 0.39297471654657695
+    }
+  },
+  "verification": "Inspected raw-field gate implementation; all eight gate rows match cohort. Independently read all eight native/local fields with NumPy diagnostic, checked coordinates/times/holes/volumes and prescribed initial fields; all pooled phase/chemical norms match gate audit within 1e-13.",
+  "limitations": [
+    "Reference-to-reference differences, not neural errors",
+    "Full-time chemical norm includes the declared different initial discrete/continuum derivative conventions",
+    "Only eight reserved geometries",
+    "Finer mesh used only for geometry1029 under unchanged tolerances"
+  ],
+  "queue": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-05/journal.json",
+  "next_action": "Complete existing three resource probes and paired audit, then three cold50k controls; sources and defaults remain unchanged"
+}

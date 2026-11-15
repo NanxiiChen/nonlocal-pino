@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "utc": "2026-11-14T18:56:20.992172+00:00",
+  "manifest": "artifacts/pino_three_method_figures.json",
+  "pages": 9,
+  "local_links_checked": 342,
+  "new_assets_byte_identical": [
+    "assets/pino-studies/channel_nsch2d_three_method_convergence.png",
+    "assets/pino-studies/channel_nsch2d_three_method_convergence.pdf",
+    "assets/pino-studies/channel_nsch2d_three_method_distribution.png",
+    "assets/pino-studies/channel_nsch2d_three_method_distribution.pdf"
+  ],
+  "metric_data_and_all_trend_arrays_unchanged": true,
+  "readme_and_site_field_tables_match_raw_means": true,
+  "pdf_font_text_edit_and_dimension_checks": "Passed in linked renderer provenance",
+  "visual_review": "Both PNGs inspected, top legend and wrapped method labels clear",
+  "build": {
+    "cwd": "/root/nonlocal-pinn/website",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "status": "passed",
+    "earlier_attempt": "Root-directory npm invocation failed before build; rerun in website succeeded."
+  },
+  "browser_qa": "Not performed; existing layout unchanged, asset previews and generated links checked.",
+  "deployment_performed": false
+}

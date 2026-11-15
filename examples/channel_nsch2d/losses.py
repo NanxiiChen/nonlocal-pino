@@ -69,6 +69,9 @@ def gmls_phase_advection(value,data,core_indices=None):
 
 def _make_condition_loss(c,*,per_time):
     p=c.physical;l=c.loss
+    local_ad = c.nl.method == 'local_ad'
+    if local_ad:
+        from examples.channel_nsch2d.local_ad import spatial_jets,conservative_advection as ad_advection
     chemical_scale=l.chemical_residual_scale if 'chemical_residual_scale'in l else l.chemical_scale
     projected='chemical_constraint'in c
     if projected:
@@ -77,7 +80,13 @@ def _make_condition_loss(c,*,per_time):
     def one(net,data,times,active):
         encoded=encode(net,data)
         compact = 'core_indices' in data
-        if compact:
+        sampled_ad = local_ad and 'ad_sampling' in c.sample
+        if local_ad:
+            points=data['points'][data['ad_core_indices']] if sampled_ad else data['points']
+            value,dt=time_jets(net,encoded,points,times,data['amplitudes'],c)
+            _,dx,dy,lap=spatial_jets(
+                lambda x:fields(net,encoded,x,times,data['amplitudes'],c),points)
+        elif compact:
             core = data['core_indices']
             value,dt=time_jets(net,encoded,data['points'],times,data['amplitudes'],c)
             center,dt=value[:,core],dt[:,core]
@@ -101,10 +110,11 @@ def _make_condition_loss(c,*,per_time):
             value,dt,dx,dy=field_jets(net,encoded,data['points'],times,data['amplitudes'],c)
         if not compact:
             center = value
-        neighbor=value[:,data['neighbors'],:]-center[:,:,None,:]
-        lap=jnp.sum(data['laplacian'][None,:,:,None]*neighbor,axis=2)
+        if not local_ad:
+            neighbor=value[:,data['neighbors'],:]-center[:,:,None,:]
+            lap=jnp.sum(data['laplacian'][None,:,:,None]*neighbor,axis=2)
         scales=jnp.array([l.phase_scale,chemical_scale,l.momentum_scale,l.momentum_scale,l.continuity_scale])
-        phase_advection=None
+        phase_advection=ad_advection(value,dx,dy) if local_ad else None
         if 'phase_transport' in c:
             if c.phase_transport.kind in ('gmls_conservative','integral_conservative'):
                 phase_advection=gmls_phase_advection(value,data,core if compact else None)
@@ -124,10 +134,12 @@ def _make_condition_loss(c,*,per_time):
             residual=jnp.concatenate((phase[...,None],residual[...,1:]),axis=-1)
         if projected:residual=residual[...,jnp.asarray([0,2,3])]
         elif 'velocity' in c:residual=residual[...,:4]  # incompressibility is exact; no redundant loss
-        if compact:
+        if sampled_ad:
+            weight = data['ad_core_weights']
+        elif compact:
             weight = data['core_weights']
         else:
-            measure = data['transport_measure'] if 'phase_transport' in c else data['volumes']
+            measure = data['transport_measure'] if 'phase_transport' in c or local_ad else data['volumes']
             weight = measure*data['interior']
         square=residual**2
         if 'phase_metric' in c:
@@ -145,14 +157,14 @@ def _make_condition_loss(c,*,per_time):
         axes=1 if per_time else (0,1)
         count=1 if per_time else len(times)
         # Compact weights already encode the original quadrature normalization.
-        normalization = count if compact else jnp.sum(weight)*count
+        normalization = count*len(weight) if sampled_ad else (count if compact else jnp.sum(weight)*count)
         parts=jnp.sum(square*weight[None,:,None],axis=axes)/normalization
         b=data['boundary'];point=b[:,:2];normal=b[:,2:4];kind=b[:,4]
         if 'derivatives' in c:
             bv=(boundary_value(net,encoded,point,times,data['amplitudes'])if projected else
                 fields(net,encoded,point,times,data['amplitudes'],c))
             bx,by=gmls_first_jets(value,bv,data,boundary=True)
-        elif 'time_discretization' in c:
+        elif 'time_discretization' in c or local_ad:
             bv,bx,by=spatial_field_jets(net,encoded,point,times,data['amplitudes'],c)
         else:
             bv,_,bx,by=field_jets(net,encoded,point,times,data['amplitudes'],c)

@@ -10,7 +10,8 @@ from pathlib import Path
 import time
 import numpy as np
 
-from nonlocal_pinn.training.spatial_sampling import polyline_band, stratified_indices
+from nonlocal_pinn.training.spatial_sampling import stratified_indices
+from examples.confined_ch2d.operator_indexing import indexed_band
 
 
 def boundary_segments(data, c):
@@ -33,7 +34,7 @@ class VolumeGroups:
                 or self.volume.sum() <= 0 or not np.isfinite(cell_width) or cell_width <= 0):
             raise ValueError('Finite physical coordinates, positive total volume and cell width required')
         physical = np.flatnonzero(self.volume > 0)
-        wall = polyline_band(points, boundary_segments(data, c), wall_band)
+        wall = indexed_band(points, boundary_segments(data, c), wall_band)
         origin = np.asarray(c.geometry.center)-np.asarray(c.geometry.axes)
         cells = np.floor((points-origin)/cell_width).astype(np.int64)
         self.partitions = []

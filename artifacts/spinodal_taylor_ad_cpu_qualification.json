@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "created_utc": "2026-11-15T01:27:36.390238+00:00",
+  "jax": "0.10.1",
+  "backend": "cpu",
+  "precision": "float64",
+  "polynomial": {
+    "leaves": 3,
+    "maximum_absolute_difference": 4.440892098500626e-16
+  },
+  "fourier": {
+    "leaves": 3,
+    "maximum_absolute_difference": 2.842170943040401e-14
+  },
+  "actual_network_jets": {
+    "leaves": 3,
+    "maximum_absolute_difference": 2.1600499167107046e-12
+  },
+  "actual_network_second_jets": {
+    "leaves": 2,
+    "maximum_absolute_difference": 8.881784197001252e-16
+  },
+  "parameter_backward": {
+    "leaves": 44,
+    "maximum_absolute_difference": 2.0954757928848267e-09
+  },
+  "timings": {
+    "nested_jvp": {
+      "first_seconds": 47.36760110408068,
+      "warm_seconds": 0.0034794192761182785
+    },
+    "taylor": {
+      "first_seconds": 11.607241747900844,
+      "warm_seconds": 0.002088204026222229
+    }
+  },
+  "scope": "Width4 one-block two-stream network; equivalent derivative-weighted diagnostic objective, not the full CH loss or a production-GPU benchmark",
+  "live_training_modified": false,
+  "production_sources_modified": false
+}

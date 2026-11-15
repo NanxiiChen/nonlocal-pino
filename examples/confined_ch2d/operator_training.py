@@ -53,6 +53,7 @@ def load_bank(c):
             raise ValueError('Configured training monitors must match bank provenance')
         np.testing.assert_array_equal(np.asarray([r['holes'] for r in manifest['conditions']]),sample_geometries(c))
     refs=[]
+    lift_reports=[]
     for index, record in enumerate(manifest['conditions']):
         if record['index']!=index:
             raise ValueError('Ordered unique geometry identities required')
@@ -63,6 +64,8 @@ def load_bank(c):
             data={key:f[key] for key in f.files}
         if 'domain_fields' in data:
             raise ValueError('domain_fields must be derived from known inputs during loading, not stored in the physical bank')
+        if any(key in data for key in ('initial_potential_rate','initial_rate_timescale')):
+            raise ValueError('Initial-rate lift must be derived from the prescribed graph, not stored in the physical bank')
         x,v=data['points'],data['volumes'];n=len(x)
         if x.shape!=(n,2) or v.shape!=(n,) or np.any(v<=0) or not all(np.isfinite(a).all() for a in data.values()):
             raise ValueError(f'Invalid physical quadrature/arrays in geometry {index}')
@@ -96,8 +99,15 @@ def load_bank(c):
             b=np.sum(data['coefficients']*(field[:,None]-field[data['neighbors']]),axis=1)
             np.testing.assert_allclose(a,b,rtol=2e-12,atol=2e-10)
         data['neighbors'],data['coefficients']=neighbors,coefficients
+        if 'initial_rate_lift' in c.operator:
+            from examples.confined_ch2d.operator_initial_rate import initial_rate_data
+            data,report=initial_rate_data(data,c)
+            lift_reports.append(dict(index=index,**report))
         if initial_rhs_enabled(c):data['domain_fields']=initial_operator_fields(data,c)
         refs.append(data)
+    if 'initial_rate_lift' in c.operator:
+        manifest=dict(manifest,initial_rate_lift=dict(settings=c.operator.initial_rate_lift.to_dict(),
+            conditions=lift_reports,scope='Prescribed initial graph only; no evolved reference fields'))
     if c.operator.metric=='linear_stable_resolvent':
         from examples.confined_ch2d.operator_metrics import metric_job
         p=c.physical
@@ -119,12 +129,17 @@ def load_bank(c):
         nmax,kmax=limits.max_points,limits.max_neighbors
     bank={key:[] for key in ('points','volumes','initial','neighbors','coefficients','condition','condition_weights')}
     if c.operator.metric!='identity':bank['metric']=[]
+    if 'initial_rate_lift' in c.operator:
+        bank['initial_potential_rate']=[];bank['initial_rate_timescale']=[]
     if initial_rhs_enabled(c):bank['domain_fields']=[]
     for d in refs:
         n=len(d['points']);k=d['neighbors'].shape[1]
         bank['points'].append(np.pad(d['points'],((0,nmax-n),(0,0))))
         bank['volumes'].append(np.pad(d['volumes'],(0,nmax-n)))
         bank['initial'].append(np.pad(d['initial'],(0,nmax-n)))
+        if 'initial_rate_lift' in c.operator:
+            bank['initial_potential_rate'].append(np.pad(d['initial_potential_rate'],(0,nmax-n)))
+            bank['initial_rate_timescale'].append(d['initial_rate_timescale'])
         if initial_rhs_enabled(c):bank['domain_fields'].append(np.pad(d['domain_fields'],((0,nmax-n),(0,0))))
         nb=np.repeat(np.arange(nmax)[:,None],kmax,axis=1)
         co=np.zeros((nmax,kmax));nb[:n,:k]=d['neighbors'];co[:n,:k]=d['coefficients']
@@ -133,6 +148,24 @@ def load_bank(c):
         for key in ('condition','condition_weights'):
             bank[key].append(d[key])
     assembled={key:np.stack(value) for key,value in bank.items()}
+    if 'spatial_discretization' in c.operator and c.operator.spatial_discretization == 'fem_p1_lumped':
+        from examples.confined_ch2d.operator_fem_assembly import input_job
+        arguments=[]
+        for d in refs:
+            np.testing.assert_allclose(d['mesh_points'][d['mesh_cells']].mean(axis=1),d['points'],rtol=0,atol=1e-12)
+            arguments.append((d['mesh_points'],d['mesh_cells'],c.to_dict()))
+        additions=[];reports=[]
+        with ProcessPoolExecutor(max_workers=c.operator.metric_workers,
+                mp_context=multiprocessing.get_context('spawn')) as executor:
+            for d,(payload,report) in zip(refs,executor.map(input_job,arguments),strict=True):
+                if not np.isclose(report['area'],d['volumes'].sum(),rtol=1e-12,atol=1e-14):
+                    raise ValueError('FEM and original centroid quadrature areas differ')
+                additions.append(payload);reports.append(report)
+        assembled.update({key:np.stack([item[key] for item in additions]) for key in additions[0]})
+        manifest=dict(manifest,fem_assembly=dict(settings=c.operator.fem.to_dict(),conditions=reports,
+            encoder='Original boundary and centroid-domain streams unchanged',
+            mass='FEM nodal lumped mass in hard projection and PDE norm',
+            metric='Stable-part resolvent derived from FEM stiffness; original graph metric unused by FEM loss'))
     return manifest,refs,{key:jnp.asarray(value,dtype=compute_dtype(c) if np.issubdtype(value.dtype,np.floating) else value.dtype)
                           for key,value in assembled.items()}
 
@@ -165,7 +198,7 @@ def phase(net,prepared,t,data,c):
     t=jnp.asarray(t,dtype=compute_dtype(c))
     if 'formulation' in c.operator:
         from examples.confined_ch2d.operator_potential import coordinate,length_squared
-        return data['initial']+length_squared(c)*apply_operator(coordinate(net,prepared,t,c),data)
+        return data['initial']+length_squared(c)*apply_operator(coordinate(net,prepared,t,data,c),data)
     s=time_coordinate(t,c)
     change=net.decode(prepared,jnp.reshape(s,(1,)))[0]
     volumes=data['volumes']
@@ -174,6 +207,12 @@ def phase(net,prepared,t,data,c):
 
 
 def fields(net,data,times,c):
+    if 'spatial_discretization' in c.operator and c.operator.spatial_discretization == 'local_ad':
+        from examples.confined_ch2d.operator_local_ad import fields as ad_fields
+        return ad_fields(net,data,times,c)
+    if 'spatial_discretization' in c.operator and c.operator.spatial_discretization == 'fem_p1_lumped':
+        from examples.confined_ch2d.operator_fem_weak import fields as fem_fields
+        return fem_fields(net,data,times,c)
     data=compute_arrays(data,c)
     times=jnp.asarray(times,dtype=compute_dtype(c))
     prepared=prepare(net,data)
@@ -186,6 +225,11 @@ def fields(net,data,times,c):
 
 def query_phase(net,data,points,times,c):
     """Off-grid phase queries retain the ORIGINAL physical mass quadrature."""
+    if 'spatial_discretization' in c.operator and c.operator.spatial_discretization == 'fem_p1_lumped':
+        from examples.confined_ch2d.operator_fem_weak import query_phase_encoded
+        data=compute_arrays(data,c)
+        return query_phase_encoded(net,encode(net,data),data,
+            jnp.asarray(points,dtype=compute_dtype(c)),jnp.asarray(times,dtype=compute_dtype(c)),c)
     if 'formulation' in c.operator:
         raise ValueError('Conservative-potential phase queries require an explicit complete physical graph')
     data=compute_arrays(data,c)
@@ -201,6 +245,12 @@ def query_phase(net,data,points,times,c):
 
 
 def make_loss(c):
+    if 'spatial_discretization' in c.operator and c.operator.spatial_discretization == 'local_ad':
+        from examples.confined_ch2d.operator_local_ad import make_loss as ad_loss
+        return ad_loss(c)
+    if 'spatial_discretization' in c.operator and c.operator.spatial_discretization == 'fem_p1_lumped':
+        from examples.confined_ch2d.operator_fem_weak import make_loss as fem_loss
+        return fem_loss(c)
     if 'formulation' in c.operator:
         from examples.confined_ch2d.operator_potential import make_loss as potential_loss
         return potential_loss(c)
@@ -217,6 +267,8 @@ def make_loss(c):
             return jnp.dot(data['volumes'],residual**2)/jnp.sum(data['volumes'])
         if 'initial_residual_fraction' in c.loss:
             times=eqx.error_if(times,times[0]!=0.,'Initial PDE fraction requires a leading physical t=0 node')
+        if 'initial_residual_fraction' in c.loss and c.loss.initial_residual_fraction==0.:
+            return jnp.mean(jax.vmap(at)(times[1:]))
         values=jax.vmap(at)(times)
         if 'initial_residual_fraction' in c.loss:
             fraction=c.loss.initial_residual_fraction
@@ -243,6 +295,9 @@ def operator_temporal_samples(c, iteration, key):
 
 def train_operator(c):
     validate(c)
+    if 'spatial_discretization' in c.operator:
+        from examples.confined_ch2d.operator_comparison import configure_comparison
+        configure_comparison(c)
     continuation=continuation_spec(c)
     if c.operator.action=='prepare':
         # No JAX backend has been initialized here. FEniCS/meshing runs in its
@@ -263,6 +318,10 @@ def train_operator(c):
     jax.config.update('jax_default_matmul_precision','highest')
     start=time.perf_counter()
     manifest,refs,bank=load_bank(c)
+    local_references=None
+    if 'comparison_reference' in c.operator:
+        from examples.confined_ch2d.operator_comparison_monitor import load as load_local,metrics as local_metrics
+        local_manifest,local_references=load_local(c,manifest,refs)
     monitor,labeled=evaluation_indices(manifest)
     online_enabled='online' in c.operator
     if online_enabled:
@@ -274,14 +333,35 @@ def train_operator(c):
     run_name=c.log.run_name or datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S-%f')+'-geometry-operator'
     run=Path(c.log.log_dir)/run_name;run.mkdir(parents=True,exist_ok=False)
     (run/'config.json').write_text(c.to_json(indent=2)+'\n')
+    if 'spatial_discretization' in c.operator:
+        (run/'execution.json').write_text(json.dumps(dict(method=c.operator.spatial_discretization,
+            xla_flags=os.environ['XLA_FLAGS'],jax=jax.__version__,device=jax.devices()[0].device_kind,
+            compute_dtype=c.train.compute_dtype,condition_accumulation=c.operator.spatial_discretization=='local_ad',
+            backward_query_rematerialization=c.operator.spatial_discretization=='local_ad'),indent=2)+'\n')
     if 'training_metric' in manifest:
         (run/'residual_metric.json').write_text(json.dumps(manifest['training_metric'],indent=2,allow_nan=False)+'\n')
+    if 'fem_assembly' in manifest:
+        (run/'fem_assembly.json').write_text(json.dumps(manifest['fem_assembly'],indent=2,allow_nan=False)+'\n')
+    if local_references is not None:
+        (run/'local_reference.json').write_text(json.dumps(local_manifest,indent=2,allow_nan=False)+'\n')
+    if 'initial_rate_lift' in manifest:
+        (run/'initial_rate_lift.json').write_text(json.dumps(manifest['initial_rate_lift'],indent=2,allow_nan=False)+'\n')
     root=Path(__file__).resolve().parents[2]
     shutil.copytree(Path(__file__).parent,run/'source/examples/confined_ch2d',ignore=shutil.ignore_patterns('__pycache__'))
     for rel in ('src/nonlocal_pinn/nn/point_conditional.py','src/nonlocal_pinn/nn/conditional.py',
                 'src/nonlocal_pinn/training/optimizers.py','src/nonlocal_pinn/training/runtime.py',
                 'src/nonlocal_pinn/training/spatial_sampling.py'):
         target=run/'source'/rel;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(root/rel,target)
+    if 'spatial_discretization' in c.operator:
+        for source in sorted((root/'src/nonlocal_pinn').rglob('*.py')):
+            target=run/'source'/source.relative_to(root)
+            target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(source,target)
+        names=[str(path.relative_to(run/'source')) for path in sorted((run/'source').rglob('*.py'))]
+        (run/'source/files.json').write_text(json.dumps(names,indent=2)+'\n')
+        ids=np.asarray(labeled,dtype=np.int32)
+        keys_to_record=('points','volumes','initial','condition','condition_weights')
+        np.savez_compressed(run/'known_encoder_inputs.npz',indices=ids,
+            **{key:np.asarray(bank[key][ids]) for key in keys_to_record})
     keys=jax.random.split(jax.random.key(c.train.seed),3)
     net=build_network(c,keys[0]);opt=make_compute_optimizer(c)
     net,state,start_step,continuation=initial_state(net,opt,continuation)
@@ -313,6 +393,10 @@ def train_operator(c):
         finite=jnp.isfinite(value)&jnp.all(jnp.stack([jnp.all(jnp.isfinite(a)) for a in jax.tree.leaves(gradient) if eqx.is_array(a)]))
         update,state=opt.update(gradient,state,model)
         return eqx.apply_updates(model,update),state,value,finite
+    local_ad = 'spatial_discretization' in c.operator and c.operator.spatial_discretization == 'local_ad'
+    if local_ad:
+        from examples.confined_ch2d.operator_local_ad import make_step as make_ad_step
+        step = make_ad_step(c,opt)
     predict=eqx.filter_jit(lambda model,data,times:fields(model,data,times,c))
     times_ref=jnp.asarray(refs[labeled[0]]['time'],dtype=compute_dtype(c))
     writer=SummaryWriter(str(run));history=[];timing=[];draws=[];reflection_draws=[];online_draws=[];online_times=[]
@@ -322,7 +406,7 @@ def train_operator(c):
         augment=eqx.filter_jit(lambda data,bits:axis_reflections(data,bits,c))
         augmentation_key=jax.random.fold_in(jax.random.key(c.train.seed),103)
     def assess(iteration,final):
-        rows=[]
+        rows=[];local_rows=[]
         for index in labeled:
             d=refs[index]
             item=evaluation_data(index)
@@ -341,6 +425,8 @@ def train_operator(c):
                 mass_max_drift=float(np.max(abs(mass-mass[0]))),phi_min=float(phi.min()),phi_max=float(phi.max()))
             if not np.isfinite(values).all():raise FloatingPointError('Nonfinite geometry operator prediction')
             rows.append(metric)
+            if local_references is not None and index in local_references:
+                local_rows.append(dict(index=index,**local_metrics(values,local_references[index])))
             if final:
                 np.savez_compressed(run/f'prediction_{index:03d}.npz',phi=phi,mu=mu,
                     points=d['points'],volumes=d['volumes'],time=d['time'],holes=d['holes'],
@@ -364,19 +450,33 @@ def train_operator(c):
                 value=float(np.mean([by_index[i][key] for i in ids]));record[name+'_'+key]=value
                 writer.add_scalar('eval/'+name+'_'+key,value,iteration)
         with (run/'metrics.jsonl').open('a') as f:f.write(json.dumps(record,allow_nan=False)+'\n')
+        if local_rows:
+            local_record=dict(step=iteration,conditions=local_rows,
+                phase_mean=float(np.mean([r['phi'] for r in local_rows])),
+                chemical_mean=float(np.mean([r['chemical'] for r in local_rows])),
+                channel_mean=float(np.mean([r['channel_mean'] for r in local_rows])),
+                elapsed_seconds=time.perf_counter()-start,
+                metric='Unweighted complete space-time L2 per channel/sample; then arithmetic means',
+                reference=c.operator.comparison_reference.path)
+            with (run/'local_metrics.jsonl').open('a') as f:f.write(json.dumps(local_record,allow_nan=False)+'\n')
+            print('LOCAL EVALUATION',json.dumps({key:value for key,value in local_record.items() if key!='conditions'}),flush=True)
         history.append(record)
         print('EVALUATION',json.dumps({key:value for key,value in record.items() if key!='conditions'}),flush=True)
         return record
     assess(start_step,False)
     setup=time.perf_counter()-start
-    pool=None;spatial_pool=None;spatial_preparation=[];spatial_core_ids=[]
+    pool=None;spatial_pool=None;row_pool=None;row_ids=[];spatial_preparation=[];spatial_core_ids=[]
     if 'spatial' in c.sample:
         from examples.confined_ch2d.operator_core_halo import RollingSpatialPool
         spatial_pool=RollingSpatialPool(c,bank,run)
+    if 'residual_rows' in c.sample:
+        from examples.confined_ch2d.operator_residual_pool import RollingResidualRows
+        row_pool=RollingResidualRows(c,bank,run)
+    sampling_pool=spatial_pool if spatial_pool is not None else row_pool
     if online_enabled:
         from examples.confined_ch2d.operator_online import RollingGeometryPool
         pool=RollingGeometryPool(c,run,start_step,continuation,[refs[index]['holes'] for index in manifest['test_indices']],
-            on_replace=spatial_pool.install if spatial_pool is not None else None)
+            on_replace=sampling_pool.install if sampling_pool is not None else None)
     try:
         if pool is not None:bank=pool.start(bank)
         with (run/'loss.jsonl').open('x') as log:
@@ -391,6 +491,12 @@ def train_operator(c):
                     spatial_core_ids.append(core_ids)
                     next_ids=jax.random.randint(jax.random.fold_in(keys[1],i+1),(c.operator.condition_batch,),0,c.operator.train_conditions)
                     spatial_pool.prefetch(np.asarray(next_ids),i+1)
+                if row_pool is not None:
+                    selected=row_pool.batch(np.asarray(ids),i)
+                    row_ids.append(selected['residual_core_indices'])
+                    batch=dict(batch,**{key:jnp.asarray(value) for key,value in selected.items()})
+                    next_ids=jax.random.randint(jax.random.fold_in(keys[1],i+1),(c.operator.condition_batch,),0,c.operator.train_conditions)
+                    row_pool.prefetch(np.asarray(next_ids),i+1)
                 spatial_preparation.append(time.perf_counter()-batch_tick)
                 if pool is not None:online_draws.append(pool.draw_ids[np.asarray(ids)].copy())
                 if augmented:
@@ -398,7 +504,11 @@ def train_operator(c):
                     batch=augment(batch,bits);reflection_draws.append(np.asarray(bits))
                 times,horizon=operator_temporal_samples(c,i,jax.random.fold_in(keys[2],i))
                 if pool is not None:online_times.append(np.asarray(times))
-                tick=time.perf_counter();net,state,value,finite=step(net,state,batch,times)
+                tick=time.perf_counter()
+                if local_ad:
+                    net,state,value,finite,ad_parts=step(net,state,batch,times)
+                else:
+                    net,state,value,finite=step(net,state,batch,times)
                 value.block_until_ready();timing.append(time.perf_counter()-tick);draws.append(np.asarray(ids))
                 if not bool(finite):raise FloatingPointError(f'Nonfinite step/gradient at {i}')
                 if i==start_step+1:
@@ -414,6 +524,9 @@ def train_operator(c):
                         memory=jax.devices()[0].memory_stats(),pool=pool.summary()),indent=2,allow_nan=False)+'\n')
                 if i==start_step+1 or i%100==0:
                     record=dict(step=i,loss=float(value),training_horizon=float(horizon))
+                    if local_ad:
+                        record['parts'] = dict(zip(('preconditioned_pde','wall_phase','wall_mu'),
+                                                   map(float,ad_parts),strict=True))
                     if pool is not None:record['online']=pool.summary()
                     log.write(json.dumps(record,allow_nan=False)+'\n');log.flush()
                     writer.add_scalar('train/physics',float(value),i)
@@ -424,6 +537,7 @@ def train_operator(c):
     finally:
         if pool is not None:pool.close()
         if spatial_pool is not None:spatial_pool.close()
+        if row_pool is not None:row_pool.close()
     eqx.tree_serialise_leaves(run/'model_final.eqx',net)
     eqx.tree_serialise_leaves(run/'optimizer_final.eqx',state)
     recorded=dict(condition_ids=np.stack(draws))
@@ -437,11 +551,18 @@ def train_operator(c):
         np.savez_compressed(run/'spatial_draws.npz',core_ids=np.stack(spatial_core_ids),
             preparation_seconds=np.asarray(spatial_preparation),update_seconds=np.asarray(timing))
         (run/'spatial_summary.json').write_text(json.dumps(spatial_pool.summary(),indent=2,allow_nan=False)+'\n')
+    if row_pool is not None:
+        np.savez_compressed(run/'residual_row_draws.npz',core_ids=np.stack(row_ids),
+            core_weights=selected['residual_core_weights'][0])
+        (run/'residual_row_summary.json').write_text(json.dumps(row_pool.summary(),indent=2,allow_nan=False)+'\n')
     # Swap encoder inputs while retaining the physical query/IC/mass/D. The
     # heterogeneous model also encodes the volume points, requiring the encoded
     # context itself to be replaced rather than changing only boundary rows.
     @eqx.filter_jit
     def swapped_fields(model,own,other,times):
+        if 'spatial_discretization' in c.operator and c.operator.spatial_discretization == 'fem_p1_lumped':
+            from examples.confined_ch2d.operator_fem_weak import query_phase_encoded
+            return query_phase_encoded(model,encode(model,other),own,own['points'],times,c)
         prepared=model.prepare_encoded(encode(model,other),own['points'])
         return jax.vmap(lambda t:phase(model,prepared,t,own,c))(times)
     swaps=[]
@@ -465,6 +586,20 @@ def train_operator(c):
     summary['cumulative_wall_seconds']=summary['wall_seconds']+(continuation['previous_cumulative_wall_seconds'] if continuation is not None else 0.)
     memory=jax.devices()[0].memory_stats()
     summary['device_memory_stats']=memory
+    if local_ad:
+        summary['spatial_discretization'] = dict(kind='local_ad',
+            derivatives='Network AD through fourth spatial order; analytic known Fourier initial jets; time JVP',
+            metric='Original input-only nonlocal stable resolvent, retained solely as a loss preconditioner',
+            boundary='Separate physical phase/chemical normal MSE, existing boundary measure, positive times',
+            query_chunk=c.operator.local_ad.query_chunk, condition_gradient_accumulation=True,
+            optimizer_updates_per_batch=1, full_physical_point_set=True)
+    elif 'spatial_discretization' in c.operator and c.operator.spatial_discretization == 'fem_p1_lumped':
+        summary['spatial_discretization'] = dict(kind='fem_p1_lumped',
+            derivatives='Exact P1 element stiffness, signed couplings, lumped nodal reaction/time',
+            boundary='Natural homogeneous Neumann for phase and chemical potential',
+            mass_projection='FEM nodal lumped measure; encoder centroid measure unchanged',
+            metric='FEM stable-part spectral resolvent',
+            evaluation='Continuous neural phase with nodal-mass shift; P1-interpolated nodal chemical potential')
     if pool is not None:
         summary['online']=pool.summary()
         summary['training']='Continuously sampled input-only geometries in a bounded rolling pool; no evolved reference labels'

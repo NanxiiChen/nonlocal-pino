@@ -84,13 +84,66 @@ saved configurations, checkpoints, metric definitions and external data paths;
 four compact comparison images. These controls do not replace selected SOTA
 results above or establish a universal accuracy/speed advantage.
 
-The [two-phase channel FEM PINO comparison](examples/channel_nsch2d/README.md#full-coordinate-fem-weak-residual-control)
+The [two-phase channel three-method comparison](examples/channel_nsch2d/README.md#three-method-accuracy-and-cost)
 adds recorded convergence and final paired errors on three reserved local-FEM
-geometries. At 20k, nonlocal/FEM PINO mean phase errors are 1.64%/4.65% and
-velocity errors 1.52%/4.39%; current-card update times are 1.60/1.42 s.
-The numerical FEM reference is independent of both neural methods. This single
+geometries. At 20k, nonlocal/local AD/FEM PINO mean phase errors are
+1.64%/2.15%/4.65% and velocity errors 1.52%/2.09%/4.39%; current-card warm
+probe update times are 1.60/1.74/1.42 s. AD samples 2,048 interior queries and
+retains all independent boundary points; the other arms use all15,633nodes.
+The numerical FEM reference is independent of all three neural methods. This single
 initialization favors the nonlocal recipe's accuracy, with different weak/strong
 residual norms and boundary enforcement; defaults remain unchanged.
+
+The [Electropolish three-method comparison](examples/electropolish2d/README.md#three-method-accuracy-and-cost)
+uses final 10k weights with 41 complete evaluations of 64 common local-FD inputs.
+Phase errors are 1.9713% / 4.3904% / 1.8486%(Nonlocal / Local AD / FEM PINO); concentration
+errors are 2.3563% / 5.1374% / 2.2072%. Its component convergence/distribution figures
+retain all actual observations. Cold/warm timing, active memory, common-input
+qualification and single-initialization limits are recorded alongside the figures.
+
+
+The [Melting three-method comparison](examples/icemelting3d/README.md#three-method-accuracy-and-cost)
+uses final 10k weights and 64 native test ellipsoids at all 41 evaluations. Phase means
+are 0.2860% / 0.0850% / 0.1093%(Nonlocal / Local AD / FEM PINO), on 24³ queries and five times.
+The separate local CG2 case005 gives 0.1928% / 0.1208% / 0.0671%; it is not a 64-case local
+study. Cold times are 6.89 / 10.37 / 7.35 minutes. Both reference scopes, component
+figures and timing limitations are reported without changing the SOTA defaults.
+
+The [Spinodal spatial-method comparison](examples/confined_ch2d/README.md#spatial-method-accuracy-and-cost)
+contains matched final 50k Nonlocal/FEM PINO controls on eight reused geometries,
+with all 101 evaluations against independently refined local FEM. Phase errors
+are 31.9216% / 5.5838%; against the native nonlocal reference, the same equal-node
+metric gives 4.5990% / 29.3864%. The numerical references themselves differ by
+31.9633% in phase. Native fitting accuracy therefore does not establish local-PDE
+accuracy in this finite-horizon case. Complete cold times are 2.2464 / 1.9035 h
+on the same GPU. Local AD was omitted after the user reviewed its resource cost;
+no final AD accuracy is claimed. The original SOTA recipe remains unchanged.
+Further Spinodal spatial-error investigation is [deferred to TODO](docs/TODO.md).
+
+[Complete cold training costs](docs/PINO_COMPARISON_FIGURES.md#cold-training-wall-clock-cost)
+include initialization, compilation, all updates/evaluations and final writes;
+parent-process timing is reported separately from warmed update costs.
+[Direct timing provenance](artifacts/pino_training_wall_costs.json) records GPU
+identity and the approximate historical channel interval.
+
+The [Electropolish temporal-control study](examples/electropolish2d/README.md#controlled-time-feature-fusion-study)
+keeps nonlocal derivatives and compares spatial attention with decoder FiLM to
+joint space-time queries. Final 10k / 64 local-FD phase errors are 1.9713% versus 2.0577%,
+with channel means 2.1638% versus 2.2549%. Cold times are 15.63 versus 23.65 minutes,
+warm inclusive medians 64.61 versus 105.76 ms, and active peaks 12.03 versus 32.45 GiB.
+These models have different temporal capacities; one initialization supports
+close accuracy here, with lower measured training cost for spatial attention/FiLM.
+
+The [Melting temporal control](examples/icemelting3d/README.md#controlled-time-feature-fusion-study)
+finds a different accuracy tradeoff: FiLM/joint-query phase means are
+0.2860% / 0.0935% on the 64 native references, and 0.1928% / 0.1302% on the
+separate local CG2 case005. Cold costs are 6.89 / 14.99 minutes, warm inclusive
+medians 15.81 / 60.44 ms, and active peaks 1.45 / 9.36 GiB. Both cases favor FiLM
+on measured training cost; final accuracy depends on the case. All controls
+use nonlocal derivatives, one initialization, final 10k weights and complete
+64-case histories, with temporal-capacity and reference qualifications explicit. The selected temporal convergence plots use
+elapsed wall-clock seconds from cold launch, including initialization, compilation,
+in-training evaluation and final process completion; raw errors are unchanged.
 
 The five approved publication main figures are collected in
 [assets/pino-main](assets/pino-main/README.md), with170mmeditable PDF originals,

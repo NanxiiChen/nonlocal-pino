@@ -1,0 +1,53 @@
+{
+  "status": "passed",
+  "utc": "2026-11-15T08:04:17.636625+00:00",
+  "example": "icemelting3d",
+  "manifest": "artifacts/pino_time_fusion_figures.json",
+  "source": "/root/autodl-tmp/tf-logs/pino-time-fusion-wall-clock-20261115-01/melting/provenance.json",
+  "audit": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/melting-comparison.json",
+  "common_test_count": 64,
+  "actual_records": 41,
+  "final_step": 10000,
+  "seed": 42,
+  "fields": [
+    {
+      "key": "phi",
+      "label": "Phase"
+    }
+  ],
+  "complete_pairing_record_preserved": true,
+  "selected_source_audit_arrays_exact": true,
+  "saved_field_pairs_checked_by_independent_audit": 128,
+  "individual_channel_norms": 128,
+  "error_capacity_resource_tables_match": true,
+  "monitor_evaluation_medians_seconds": {
+    "decoder_film": 2.490840908139944,
+    "joint_query": 3.0359967229887843
+  },
+  "asset_byte_identity": [
+    "assets/pino-studies/icemelting3d_time_fusion_convergence.png",
+    "assets/pino-studies/icemelting3d_time_fusion_convergence.pdf",
+    "assets/pino-studies/icemelting3d_time_fusion_distribution.png",
+    "assets/pino-studies/icemelting3d_time_fusion_distribution.pdf"
+  ],
+  "selected_bytes": 176906,
+  "collection_bytes": 479695,
+  "pdf_checks": "Explicit Helvetica embeddedTrueType,6/7pt and temporary-copy text-edit probe; actual PNGs visually reviewed",
+  "build_pages": 9,
+  "local_links_checked": 375,
+  "browser_GUI_QA": "Not performed; actual figure previews and generated pages/links checked",
+  "build_command": [
+    "npm",
+    "run",
+    "build"
+  ],
+  "deployment_performed": false,
+  "prior_axis_validation": {
+    "utc": "2026-11-14T22:17:56.735744+00:00",
+    "source": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/melting-figures/provenance.json",
+    "selected_bytes": 184109,
+    "collection_bytes": 478985
+  },
+  "cold_clock_evidence": "artifacts/pino_time_fusion_wall_clock.json",
+  "raw_errors_unchanged": true
+}

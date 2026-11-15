@@ -1,0 +1,39 @@
+{
+  "status": "passed",
+  "utc": "2026-11-14T20:56:38.476818+00:00",
+  "manifest": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_test64_20261114_v1/manifest.json",
+  "summary": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_test64_20261114_v1/summary.json",
+  "test_count": 64,
+  "new_reference_count": 56,
+  "original_reference_files_byte_identical": 10,
+  "original_source": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_v1",
+  "reference_grid": [
+    128,
+    128,
+    128
+  ],
+  "known_reference_solver": "Independent CPU FP64 RK4 on native nonlocal graph",
+  "coarse_dt": 0.005,
+  "refined_dt": 0.0025,
+  "maximum_new_full_cube_time_refinement_error": 1.5044795778405568e-07,
+  "declared_time_refinement_tolerance": 1e-05,
+  "reference_wall_seconds": 726.560629973188,
+  "workers": 4,
+  "cores_per_worker": 2,
+  "evaluation_coordinates": 13824,
+  "saved_times": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    1
+  ],
+  "all_parameters_times_and_query_shapes_checked": true,
+  "monitor_complete64_at_all41_records": true,
+  "nonlocal_final_record": {
+    "run": "/root/autodl-tmp/tf-logs/icemelting3d/melting-threeway-20261114-04-nonlocal",
+    "pooled_phi": 0.002859909938606935,
+    "terminal_phi": 0.001278331380579378
+  },
+  "scope": "Native time-discretization qualification only; not64local-FEM references, not a full-grid/continuum neural error. Existing accepted localCG2case005 stays separate."
+}

@@ -63,9 +63,12 @@ def pad_input(data,c):
     """Only known physical inputs enter the fixed-shape training payload."""
     keys={'points','volumes','initial','neighbors','coefficients','condition','condition_weights'}
     if c.operator.metric != 'identity':keys.add('metric')
+    if 'initial_rate_lift' in c.operator:
+        from examples.confined_ch2d.operator_initial_rate import RATE_KEYS,validate_initial_rate
+        validate_initial_rate(c)
+        keys.update(RATE_KEYS)
     if set(data)!=keys:
-        schema='seven known-input arrays' if c.operator.metric=='identity' else 'eight known-input arrays'
-        raise ValueError(f'Online payload must contain exactly the {schema}: {sorted(keys)}')
+        raise ValueError(f'Online payload must contain exactly these known-input arrays: {sorted(keys)}')
     n=len(data['points']);k=data['neighbors'].shape[1]
     nmax,kmax=c.operator.online.max_points,c.operator.online.max_neighbors
     if n>nmax or k>kmax:
@@ -76,6 +79,12 @@ def pad_input(data,c):
         initial=np.pad(data['initial'],(0,nmax-n)),neighbors=neighbors,coefficients=coefficients,
         condition=data['condition'],condition_weights=data['condition_weights'])
     if 'metric' in keys:output['metric']=np.pad(data['metric'],((0,nmax-n),(0,nmax-n)))
+    if 'initial_rate_lift' in c.operator:
+        rate,tau=(np.asarray(data[key]) for key in RATE_KEYS)
+        if (rate.shape!=(n,) or tau.shape!=() or not np.isfinite(rate).all()
+                or not np.isfinite(tau) or tau<=0):
+            raise ValueError('Invalid prescribed initial-rate payload before padding')
+        output.update(initial_potential_rate=np.pad(rate,(0,nmax-n)),initial_rate_timescale=tau)
     return {name:value.astype(np.int32 if name=='neighbors' else np.dtype(c.train.compute_dtype))
             for name,value in output.items()}
 
@@ -108,7 +117,8 @@ def build_input(config,draw_id):
         except subprocess.CalledProcessError as error:
             raise RuntimeError(f'Gmsh generation failed for online draw {draw_id}: {error.stderr}') from error
         with np.load(mesh,allow_pickle=False) as values:
-            x,v=quadrature(values['vertices'],values['cells'])
+            vertices,cells=values['vertices'],values['cells']
+            x,v=quadrature(vertices,cells)
     mesh_seconds=time.perf_counter()-tick;tick=time.perf_counter()
     op=RegionalLaplacian(x,v,cc);nb,co=np.asarray(op.neighbors),np.asarray(op.coefficients)
     n=len(x)
@@ -128,12 +138,24 @@ def build_input(config,draw_id):
     else:
         metric,report=linear_stable_resolvent(v,nb,co,initial,p.beta,p.epsilon,p.mobility,p.terminal_time)
         raw['metric']=metric
+    if 'initial_rate_lift' in c.operator:
+        from examples.confined_ch2d.operator_initial_rate import initial_rate_data
+        raw,lift_report=initial_rate_data(raw,c)
     metric_seconds=time.perf_counter()-tick;tick=time.perf_counter()
     data=pad_input(raw,c)
+    fem_report=None
+    if 'spatial_discretization' in c.operator and c.operator.spatial_discretization == 'fem_p1_lumped':
+        from examples.confined_ch2d.operator_fem_assembly import build_input as build_fem
+        addition,fem_report=build_fem(vertices,cells,c)
+        if not np.isclose(fem_report['area'],v.sum(),rtol=1e-12,atol=1e-14):
+            raise ValueError('Online FEM/centroid areas differ')
+        data.update(addition)
     if not all(np.isfinite(a).all() for a in data.values()):raise FloatingPointError('Nonfinite online input')
     record=dict(draw_id=draw_id,holes=holes.tolist(),nodes=n,degree=nb.shape[1],area=float(v.sum()),
         seconds=dict(mesh=mesh_seconds,assembly=assembly_seconds,metric=metric_seconds,padding=time.perf_counter()-tick),
         constant_mode_error=report['constant_mode_error'],pde_solves=0,fem_solves=0)
+    if 'initial_rate_lift' in c.operator:record['initial_rate_lift']=lift_report
+    if fem_report is not None:record['fem_assembly']=fem_report
     return data,record
 
 
@@ -213,6 +235,12 @@ class RollingGeometryPool:
         number,jobs=self.batches.popleft()
         if number!=self.count:raise ValueError('Online generation order changed')
         tick=time.perf_counter();updates,records=self._collect(jobs);wait=time.perf_counter()-tick
+        if number==0 and 'spatial_discretization' in self.c.operator:
+            # Small direct-input receipt; do not store full dense pool metrics.
+            keys=('points','volumes','initial','condition','condition_weights')
+            np.savez_compressed(self.run/'first_online_encoder_inputs.npz',
+                draw_ids=np.asarray([row['draw_id'] for row in records[:4]],dtype=np.int64),
+                **{key:updates[key][:4] for key in keys})
         slots=(number*self.size+np.arange(self.size))%self.capacity
         if self.on_replace is not None:self.on_replace(slots,updates)
         tick=time.perf_counter();bank=self.replace(bank,slots,updates)

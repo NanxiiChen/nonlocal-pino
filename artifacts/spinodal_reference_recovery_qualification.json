@@ -1,0 +1,50 @@
+{
+  "status": "passed",
+  "source": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v1",
+  "output": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2",
+  "finer_mesh_sizes": [
+    0.018
+  ],
+  "unchanged_numerical_sources": [
+    "examples/confined_ch2d/solver.py",
+    "examples/confined_ch2d/geometry.py",
+    "examples/confined_ch2d/problem.py",
+    "examples/confined_ch2d/native_reference.py",
+    "examples/confined_ch2d/operator_problem.py"
+  ],
+  "actual_reference_checks": [
+    {
+      "index": 1024,
+      "status": "passed",
+      "spatial_failure_only": false
+    },
+    {
+      "index": 1025,
+      "status": "passed",
+      "spatial_failure_only": false
+    },
+    {
+      "index": 1026,
+      "status": "passed",
+      "spatial_failure_only": false
+    },
+    {
+      "index": 1027,
+      "status": "passed",
+      "spatial_failure_only": false
+    },
+    {
+      "index": 1028,
+      "status": "passed",
+      "spatial_failure_only": false
+    },
+    {
+      "index": 1029,
+      "status": "failed",
+      "spatial_failure_only": true
+    }
+  ],
+  "focused_tests": 5,
+  "thresholds_unchanged": true,
+  "defaults_unchanged": true
+}

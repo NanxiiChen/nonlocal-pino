@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "checks": [
+    "existing_three_method_selection_is_idempotent",
+    "reject_failed_audit",
+    "reject_missing_monitor_record",
+    "reject_repeated_test_sample",
+    "reject_unpaired_initialization",
+    "reject_incorrect_method",
+    "retain_exact_pairing_resources_errors_and_asset_bytes",
+    "time_fusion_selection_is_idempotent",
+    "reject_changed_selected_errors"
+  ],
+  "fixture_scope": "Temporary synthetic publication inputs only; no training or physical conclusion",
+  "source_script": "/tmp/qualify_pino_temporal_publication.py",
+  "production_temporal_selection": []
+}

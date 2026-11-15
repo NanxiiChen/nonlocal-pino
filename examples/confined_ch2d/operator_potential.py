@@ -27,13 +27,19 @@ def length_squared(c):
     return alpha
 
 
-def coordinate(net, prepared, t, c):
+def coordinate(net, prepared, t, data, c):
     s = time_coordinate(t, c)
-    return s*net.decode(prepared, jnp.reshape(s, (1,)))[0]
+    raw = net.decode(prepared, jnp.reshape(s, (1,)))[0]
+    if 'initial_rate_lift' in c.operator:
+        tau = data['initial_rate_timescale']
+        gate = -jnp.expm1(-t/tau)
+        terminal_gate = -jnp.expm1(-c.physical.terminal_time/tau)
+        return tau*gate*data['initial_potential_rate']+s*gate/terminal_gate*raw
+    return s*raw
 
 
 def full_state(net, prepared, t, data, c):
-    chi, chi_t = jax.jvp(lambda time: coordinate(net, prepared, time, c), (t,), (jnp.ones_like(t),))
+    chi, chi_t = jax.jvp(lambda time: coordinate(net, prepared, time, data, c), (t,), (jnp.ones_like(t),))
     alpha = length_squared(c)
     phi = data['initial'] + alpha*apply_operator(chi, data)
     mu = c.physical.beta*(phi**3-phi) + c.physical.epsilon**2*apply_operator(phi, data)
@@ -74,30 +80,49 @@ def compact_payload(data, core, weights, *, inner_capacity, query_capacity):
         if type(cap) is not int or cap < 1:
             raise ValueError('Explicit positive fixed capacities required')
     active_core = coefficients[core] != 0
-    inner = np.union1d(core, neighbors[core][active_core])
+    selected = np.zeros(n, dtype=bool)
+    selected[core] = True
+    selected[neighbors[core][active_core]] = True
+    inner = np.flatnonzero(selected)
     active_inner = coefficients[inner] != 0
-    query = np.union1d(inner, neighbors[inner][active_inner])
+    selected[neighbors[inner][active_inner]] = True
+    query = np.flatnonzero(selected)
     if len(inner) > inner_capacity or len(query) > query_capacity:
         raise ValueError(f'Two-hop support overflow: inner{len(inner)}/{inner_capacity}, '
                          f'query{len(query)}/{query_capacity}; no truncated stencil')
+    query_map, inner_map = np.full(n, -1), np.full(n, -1)
+    query_map[query] = np.arange(len(query))
+    inner_map[inner] = np.arange(len(inner))
     padded = np.pad(query, (0, query_capacity-len(query)), mode='edge')
-    inner_index = np.pad(np.searchsorted(query, inner), (0, inner_capacity-len(inner)))
-    inner_neighbors = np.searchsorted(query, np.where(active_inner, neighbors[inner], query[0]))
-    core_neighbors = np.searchsorted(inner, np.where(active_core, neighbors[core], inner[0]))
+    inner_index = np.pad(query_map[inner], (0, inner_capacity-len(inner)))
+    inner_neighbors = query_map[np.where(active_inner, neighbors[inner], query[0])]
+    core_neighbors = inner_map[np.where(active_core, neighbors[core], inner[0])]
+    if np.any(inner_neighbors < 0) or np.any(core_neighbors < 0):
+        raise ValueError('Incomplete dependency closure')
     inner_co = np.pad(coefficients[inner], ((0, inner_capacity-len(inner)), (0, 0)))
     payload = {k: data[k] for k in ('points', 'volumes', 'initial', 'condition', 'condition_weights')}
     payload.update(query_points=points[padded], inner_indices=inner_index.astype(np.int32),
         inner_neighbors=np.pad(inner_neighbors, ((0, inner_capacity-len(inner)), (0, 0))).astype(np.int32),
         inner_coefficients=inner_co, inner_initial=np.pad(initial[inner], (0, inner_capacity-len(inner))),
-        core_inner_indices=np.searchsorted(inner, core).astype(np.int32),
-        core_query_indices=np.searchsorted(query, core).astype(np.int32),
+        core_inner_indices=inner_map[core].astype(np.int32),
+        core_query_indices=query_map[core].astype(np.int32),
         core_neighbors=core_neighbors.astype(np.int32), core_coefficients=coefficients[core],
         core_weights=weights.astype(volume.dtype))
+    from examples.confined_ch2d.operator_initial_rate import RATE_KEYS
+    present = [key in data for key in RATE_KEYS]
+    if any(present):
+        if not all(present):
+            raise ValueError('Both prescribed initial-rate arrays must be present')
+        rate, tau = (np.asarray(data[key]) for key in RATE_KEYS)
+        if (rate.shape != (n,) or tau.shape != () or not np.isfinite(rate).all()
+                or not np.isfinite(tau) or tau <= 0):
+            raise ValueError('Invalid initial-rate graph payload')
+        payload.update(initial_potential_rate=rate[padded], initial_rate_timescale=tau)
     return payload, dict(core=len(core), inner=len(inner), query=len(query), physical_nodes=int(np.count_nonzero(volume)))
 
 
 def compact_state(net, prepared, t, data, c):
-    chi, chi_t = jax.jvp(lambda time: coordinate(net, prepared, time, c), (t,), (jnp.ones_like(t),))
+    chi, chi_t = jax.jvp(lambda time: coordinate(net, prepared, time, data, c), (t,), (jnp.ones_like(t),))
     alpha = length_squared(c)
     first = jnp.sum(data['inner_coefficients']*(chi[data['inner_indices'], None]
                                              -chi[data['inner_neighbors']]), axis=-1)

@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "utc": "2026-11-15T08:02:53.850214+00:00",
+  "source": "artifacts/pino_training_wall_costs.json",
+  "parent_training_intervals_independently_checked": 16,
+  "timer_boundaries_inspected": true,
+  "historical_channel_approximation_declared": true,
+  "website_pages": 9,
+  "local_links_checked": 387,
+  "local_anchors_checked": true,
+  "rendered_time_tables_match": true,
+  "numerical_source_changes": false,
+  "git_or_deployment": false
+}

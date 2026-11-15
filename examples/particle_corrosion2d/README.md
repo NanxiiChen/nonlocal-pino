@@ -487,23 +487,42 @@ The three methods below use the final 20,000-step weights and the same 64
 held-out local-FEM references on the RTX PRO 6000 Blackwell Server Edition.
 For each sample and physical channel, the relative norm covers all nodes and
 11 saved times over \(t^*\in[0,1]\), with equal evaluation-point weights.
-The distribution averages the two channel errors within each sample; the
-reported mean then averages all 64 samples. It differs from the four-case
+The component distributions keep phase and concentration separate. The table's
+channel-mean column averages the two errors per sample and then all64samples.
+These equal-node norms differ from the four-case
 volume/time-weighted development metric used elsewhere in this README.
 
-| Method | Phase mean | Concentration mean | Channel mean ± sample SD | Training time |
+| Method | Phase mean | Concentration mean | Channel mean ± sample SD | Cold process time |
 |---|---:|---:|---:|---:|
-| Nonlocal PINO | 3.8175% | 4.6205% | 4.2190% ± 0.5719 pp | 26.77 min |
-| Local AD PINO | 32.2070% | 32.6060% | 32.4065% ± 0.6047 pp | 28.42 min |
-| FEM PINO | 5.5535% | 6.5937% | 6.0736% ± 0.8166 pp | 20.97 min |
+| Nonlocal PINO | 3.8175% | 4.6205% | 4.2190% ± 0.5719 pp | 26.81 min |
+| Local AD PINO | 32.2070% | 32.6060% | 32.4065% ± 0.6047 pp | 28.47 min |
+| FEM PINO | 5.5535% | 6.5937% | 6.0736% ± 0.8166 pp | 21.01 min |
 
-![Final error distributions for Nonlocal PINO, Local AD PINO and FEM PINO against a FEM numerical reference](../../assets/pino-studies/particle_corrosion2d_fem_distribution.png)
+![Phase and concentration convergence for three PINO methods](../../assets/pino-studies/particle_corrosion2d_component_convergence.png)
 
-[Editable PDF](../../assets/pino-studies/particle_corrosion2d_fem_distribution.pdf)
-· [Publication and exact run/configuration record](../../artifacts/ceramic_fem_comparison_publication.json)
-· [Rendering and metric provenance](../../docs/tasks/ceramic-fem-comparison-figures.json)
+[Editable convergence PDF](../../assets/pino-studies/particle_corrosion2d_component_convergence.pdf).
+All21actual records, every1000updates including initialization, average the same
+four development geometries. The metric uses physical-volume and trapezoidal-time
+weights. Thin solid lines retain raw means; thick solid lines are local-linear
+LOWESS in log10error (span0.30, six nearest records). Shading shows approximate
+pointwise95%percentile bootstrap intervals of the smoothed geometry mean: all256
+ordered resamples of four complete geometry trajectories, preserving temporal
+dependence. With only four development geometries these are small-cohort,
+conditional intervals, not cross-seed uncertainty or guaranteed population
+coverage; they do not account for smoothing or model-selection bias. The dense
+fitted grid is display only, not additional evaluations.
 
-The violins use all 64 sample errors, KDE in log-error coordinates with Scott
+![Final phase and concentration errors on64common FEM test geometries](../../assets/pino-studies/particle_corrosion2d_component_distribution.png)
+
+[Editable distribution PDF](../../assets/pino-studies/particle_corrosion2d_component_distribution.pdf)
+· [Exact inputs, configuration and plotting record](../../artifacts/ceramic_component_comparison_figures.json).
+The three original comparison checkpoints are retained; this is a component
+view of the existing results, not a replacement with the later canonical run.
+The [shared comparison figure guide](../../docs/PINO_COMPARISON_FIGURES.md)
+also reproduces these same observations through the five-case plotting entry
+point; the selected figures above remain unchanged.
+
+The violins use all64sample errors per component, KDE in log10-error coordinates with Scott
 bandwidth and three-bandwidth tails, and dashed quartiles. Axes show error
 ratios, not percentages. Tail extension visualizes density, not extra samples.
 **FEM PINO** trains the neural operator with the assembled weak residual;
@@ -516,8 +535,12 @@ and full sampling sequence were independently verified. Another execution
 failed to reproduce that convergence; both outcomes and the unresolved
 execution-sensitivity investigation remain in the experiment record. This is
 not a multi-seed method ranking or a source-only causal experiment. Training
-time includes setup, compilation, in-training evaluation and I/O, but excludes
-the independent final 64-sample evaluation. No numerical default is changed.
+time uses the parent timer from before process creation through exit, including
+imports, setup, compilation, in-training evaluation, output writes and teardown;
+it excludes the separately launched final 64-sample evaluation. The previous
+26.77/28.42/20.97 min values were trainer-internal timers, now replaced by the
+complete 26.81/28.47/21.01 min intervals.
+[Exact timing provenance](../../artifacts/pino_training_wall_costs.json). No numerical default is changed.
 
 The [experiment record](../../docs/tasks/fem-weak-pino-comparison-plan.md)
 contains derivation, reference provenance, exact paths and validation status.

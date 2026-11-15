@@ -24,6 +24,17 @@ class OperatorTimeWeightTests(unittest.TestCase):
             for a,b in zip(jax.tree.leaves(grad),jax.tree.leaves(old_grad),strict=True):
                 if eqx.is_array(a):np.testing.assert_allclose(a,b,atol=1e-13,rtol=1e-12)
 
+    def test_positive_only_loss_equals_legacy_mean_on_positive_times(self):
+        with jax.enable_x64(True):
+            c,data=small_fixture();net=build_network(c,jax.random.key(12))
+            batch=jax.tree.map(lambda a:a[None],data);times=jnp.array([0.,.1,.2,.6])
+            expected,gradient=eqx.filter_value_and_grad(make_loss(c))(net,batch,times[1:])
+            c.loss.initial_residual_fraction=0.;validate(c)
+            actual,changed=eqx.filter_value_and_grad(make_loss(c))(net,batch,times)
+            np.testing.assert_allclose(actual,expected,rtol=2e-13,atol=2e-13)
+            for a,b in zip(jax.tree.leaves(gradient),jax.tree.leaves(changed),strict=True):
+                if eqx.is_array(a):np.testing.assert_allclose(a,b,rtol=2e-12,atol=2e-12)
+
     def test_larger_fixed_shape_batch_backprop_and_invalid_fraction(self):
         with jax.enable_x64(True):
             c,data=small_fixture();c.sample.Nt=16;c.operator.condition_batch=16

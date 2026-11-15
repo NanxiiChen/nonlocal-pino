@@ -106,20 +106,25 @@ Both width and Fourier feature capacity change, and the parameter shapes initial
 
 This three-method comparison uses final 20,000-step neural weights and 64 common held-out geometries. **FEM PINO** replaces spatial differentiation with the assembled mass-normalized P1 weak operator \(M_L^{-1}K\); natural homogeneous Neumann data enter through the weak form. **FEM numerical reference** is the independent refined P1/BDF solver used for evaluation. It is not a trained model, and its trajectories do not enter training.
 
-For each sample and physical channel, relative \(L^2\) is computed over all space-time evaluation nodes, then averaged over the phase and concentration channels. The values below average those sample errors. These equally weighted node norms differ from the four-case volume/time-weighted results above.
+For each sample and physical channel, relative \(L^2\) is computed over all space-time evaluation nodes. The component violins keep phase and concentration separate; the table also reports their per-sample channel mean. These equally weighted node norms differ from the four-case volume/time-weighted development curves below. The original three comparison checkpoints are retained.
 
-| Method | Phase mean | Concentration mean | Channel mean ± sample SD | Training time |
+| Method | Phase mean | Concentration mean | Channel mean ± sample SD | Cold process time |
 | --- | ---: | ---: | ---: | ---: |
-| Nonlocal PINO | 3.8175% | 4.6205% | 4.2190% ± 0.5719 pp | 26.77 min |
-| Local AD PINO | 32.2070% | 32.6060% | 32.4065% ± 0.6047 pp | 28.42 min |
-| FEM PINO | 5.5535% | 6.5937% | 6.0736% ± 0.8166 pp | 20.97 min |
+| Nonlocal PINO | 3.8175% | 4.6205% | 4.2190% ± 0.5719 pp | 26.81 min |
+| Local AD PINO | 32.2070% | 32.6060% | 32.4065% ± 0.6047 pp | 28.47 min |
+| FEM PINO | 5.5535% | 6.5937% | 6.0736% ± 0.8166 pp | 21.01 min |
 
 <figure>
-  <a href="assets/particle_corrosion2d_fem_distribution.png"><img src="assets/particle_corrosion2d_fem_distribution.png" width="1181" height="755" alt="Final 64-sample channel-averaged error distributions for Nonlocal PINO, Local AD PINO and FEM PINO, evaluated against the same FEM numerical reference"></a>
-  <figcaption>All 64 errors from the final 20k weights; logarithmic error axis with unscaled ratios. Violin widths show a KDE in log-error coordinates, with dashed quartiles. <a href="assets/particle_corrosion2d_fem_distribution.pdf">Editable PDF</a>.</figcaption>
+  <a href="assets/particle_corrosion2d_component_convergence.png"><img src="assets/particle_corrosion2d_component_convergence.png" width="2007" height="708" alt="Phase and concentration development convergence for Nonlocal, Local AD and FEM PINO"></a>
+  <figcaption>All 21 actual records, every 1,000 updates, averaged over four development geometries with volume/time-weighted norms. Thin solid lines retain raw means; thick lines show log-error LOWESS (span 0.30, six neighbors). Shading is an approximate pointwise 95% bootstrap interval for the smoothed geometry mean, enumerating all 256 resamples of four complete trajectories. This preserves temporal dependence; the small-cohort intervals are conditional on one training trajectory and do not measure cross-seed uncertainty, guarantee population coverage or correct smoothing/model-selection bias. <a href="assets/particle_corrosion2d_component_convergence.pdf">Editable PDF</a>.</figcaption>
 </figure>
 
-The shared recipe uses width 256, Adam, rolling geometry/core-halo pools, and random times. These are seed-42 measurements on the same RTX PRO 6000 Blackwell Server Edition. Training time includes compilation and in-training evaluation, but excludes the separate final 64-sample evaluation. The displayed nonlocal model uses the historical source and launch settings. The later execution diagnosis and validated default are documented above; this figure remains the original three-method comparison. The unsuccessful execution is retained in the [experiment record](https://github.com/NanxiiChen/nonlocal-pino/blob/main/docs/tasks/fem-weak-pino-comparison-plan.md). This is a finite single-initialization comparison, not a general method ranking. [Exact model, configuration, metric and figure provenance](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/ceramic_fem_comparison_publication.json).
+<figure>
+  <a href="assets/particle_corrosion2d_component_distribution.png"><img src="assets/particle_corrosion2d_component_distribution.png" width="2007" height="708" alt="Separate phase and concentration error violins on64common FEM test geometries for three PINO methods"></a>
+  <figcaption>Final 20k weights, all 64 test errors per physical channel, using unweighted full-space-time norms against the FEM numerical reference. Logarithmic axes show unscaled ratios; violins use log10-error Gaussian KDE, Scott bandwidth, three-bandwidth tails and dashed quartiles. The fitted tails are not additional samples. <a href="assets/particle_corrosion2d_component_distribution.pdf">Editable PDF</a>.</figcaption>
+</figure>
+
+The shared recipe uses width 256, Adam, rolling geometry/core-halo pools, and random times. These are seed-42 measurements on the same RTX PRO 6000 Blackwell Server Edition. Cold process time uses the parent timer from before process creation through exit, including imports, initialization, compilation, all updates, in-training evaluation, output writes and teardown. It excludes the separately launched final 64-sample evaluation. This replaces the earlier trainer-internal timings. [Exact timing provenance](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/pino_training_wall_costs.json). The displayed nonlocal model uses the historical source and launch settings. The later execution diagnosis and validated default are documented above; this figure remains the original three-method comparison. The unsuccessful execution is retained in the [experiment record](https://github.com/NanxiiChen/nonlocal-pino/blob/main/docs/tasks/fem-weak-pino-comparison-plan.md). This is a finite single-initialization comparison, not a general method ranking. [Exact model, configuration, metric and figure provenance](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/ceramic_fem_comparison_publication.json).
 
 ## Implementation and reproduction
 

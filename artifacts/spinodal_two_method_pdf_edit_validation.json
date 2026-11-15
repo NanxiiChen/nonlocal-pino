@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "checks": {
+    "three_method": "Programmatic PyMuPDF temporary-copy label edits passed; no GUI editor claim.",
+    "time_fusion": "Programmatic PyMuPDF temporary-copy label edits passed; no GUI editor claim.",
+    "nonlocal_fem": "Programmatic PyMuPDF temporary-copy label edits passed; no GUI editor claim.",
+    "unknown_label": "rejected as expected"
+  },
+  "scope": "Actual PDF text-edit probes; no training/data/metric changes"
+}

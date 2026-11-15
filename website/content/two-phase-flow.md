@@ -64,56 +64,73 @@ Independent local mixed FEM integrates the coupled system and is checked with sp
 
 The budget, learning-rate schedule and number of time samples changed together. Mean improvements coexist with worse errors on some individual cases. The selected run's worst reserved pressure error is 6.5885%, and the between-geometry pressure response is harder to predict than the total field.
 
-## FEM PINO comparison
+<span id="fem-pino-comparison"></span>
 
-A full-coordinate control replaces the nonlocal spatial residuals with assembled
-finite-element weak residuals. P2 triangles interpolate phase, chemical potential
-and velocity on the same 15,633 neural query nodes; pressure uses P1. The network,
-hard constraints, time JVP, SOAP schedule and rolling geometry draws stay fixed.
-Four weak equation losses use a positive consistent-mass-diagonal dual norm.
-Homogeneous phase/chemical flux and outlet traction enter as natural boundary
-data, with conservative phase outlet transport retained. This is **FEM PINO
-training**, distinct from the independently solved **FEM numerical reference**.
+## Three-method comparison
+
+The final comparison trains three PINOs with nonlocal spatial operators, local
+spatial AD, or assembled finite-element weak residuals. All retain the same
+width192 network, hard constraints, time JVP, SOAP20k schedule and rolling
+geometry draws. Local AD uses2,048fresh interior queries and all192independent
+boundary queries. FEM PINO interpolates phase, chemical potential and velocity
+with P2 triangles on15,633neural nodes; pressure uses P1. Its four weak losses
+use a consistent-mass-diagonal dual norm, with natural phase/chemical flux and
+outlet traction. **FEM PINO is a trained network**; the **FEM numerical reference**
+is an independently solved trajectory.
 
 <figure>
-  <a href="assets/channel_nsch2d_fem_convergence.png"><img src="assets/channel_nsch2d_fem_convergence.png" width="2007" height="637" alt="Nonlocal and FEM PINO relative-L2 convergence through 20000 updates for phase, velocity, pressure and chemical potential"></a>
-  <figcaption>All 41 actual records, every 500 updates, on one common development geometry. Thin solid lines: raw errors; thick solid lines: local-linear LOWESS in log10-error (span 0.22). Shading: approximate pointwise 95% fitted-trend confidence intervals from 2,000 circular-block residual bootstrap replicates, block length four. This assumes a smooth trend with short-memory, approximately stationary log residuals; it does not measure cross-seed or test-cohort uncertainty or account for unknown smoothing bias. The reference is the independent FEM numerical solution. <a href="assets/channel_nsch2d_fem_convergence.pdf">Editable PDF</a>.</figcaption>
+  <a href="assets/channel_nsch2d_three_method_convergence.png"><img src="assets/channel_nsch2d_three_method_convergence.png" width="2007" height="708" alt="Nonlocal, local AD and FEM PINO relative-L2 convergence through 20000 updates for phase, velocity, pressure and chemical potential"></a>
+  <figcaption>All 41 actual evaluations, every 500 updates, on one common development geometry. Thin solid lines: raw errors; thick solid lines: local-linear LOWESS in log10-error (span 0.22). Shading: approximate pointwise 95% fitted-trend confidence intervals from 2,000 circular-block residual bootstrap replicates, block length four. This assumes a smooth trend with approximately stationary short-memory log residuals; it does not measure cross-seed or test-cohort uncertainty or account for unknown smoothing bias. <a href="assets/channel_nsch2d_three_method_convergence.pdf">Editable PDF</a>.</figcaption>
 </figure>
 
 <figure>
-  <a href="assets/channel_nsch2d_fem_distribution.png"><img src="assets/channel_nsch2d_fem_distribution.png" width="2007" height="637" alt="Final relative error violins on all three reserved geometries for Nonlocal PINO and FEM PINO"></a>
-  <figcaption>Final 20,000-step weights on all three reserved geometries. Violins use log10-error KDE with Scott bandwidth and three-bandwidth tails; dashed lines mark quartiles. N=3 supports only a small-cohort descriptive display; smooth tails are not additional observations. Each panel reports a separate field; velocity uses a joint vector norm. Raw error ratios are shown on automatic log axes.</figcaption>
+  <a href="assets/channel_nsch2d_three_method_distribution.png"><img src="assets/channel_nsch2d_three_method_distribution.png" width="2007" height="708" alt="Final relative error violins on all three reserved geometries for Nonlocal PINO, Local AD PINO and FEM PINO"></a>
+  <figcaption>Final20k weights on all three reserved geometries. Log10-error KDE uses Scott bandwidth and three-bandwidth tails; dashed lines mark quartiles. N=3 supports only a descriptive small-cohort display; smooth tails are not additional observations. Panels report individual fields, with a joint vector norm for velocity. Axes show raw error ratios with automatic log limits.</figcaption>
 </figure>
 
-[Distribution PDF](assets/channel_nsch2d_fem_distribution.pdf) ·
-[Figure inputs and reproduction](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/channel_fem_comparison_figures.json)
+[Distribution PDF](assets/channel_nsch2d_three_method_distribution.pdf) ·
+[Figure inputs and reproduction](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/pino_three_method_figures.json)
 
-| Reserved-geometry mean relative L2 | Nonlocal PINO | FEM PINO |
-| --- | ---: | ---: |
-| Phase | 1.6435% | 4.6465% |
-| Terminal phase | 2.1961% | 4.0764% |
-| Velocity | 1.5172% | 4.3892% |
-| Pressure | 5.2840% | 7.1489% |
-| Chemical potential | 13.9541% | 43.7908% |
+| Reserved-geometry mean relative L2 | Nonlocal PINO | Local AD PINO | FEM PINO |
+|---|---:|---:|---:|
+| Phase | 1.6435% | 2.1540% | 4.6465% |
+| Velocity | 1.5172% | 2.0866% | 4.3892% |
+| Pressure | 5.2840% | 8.5370% | 7.1489% |
+| Chemical potential | 13.9541% | 16.0556% | 43.7908% |
 
-Norms use equally weighted space-time queries: all 13 times for phase, and the
-12 positive times for velocity, pressure and chemical potential. Average these
-field-wise relative norms over the three samples. No channel averaging is used
-in these panels. All three geometries favor nonlocal in phase and velocity.
+Norms use equally weighted space-time queries: all13times for phase, and the12
+positive times for velocity, pressure and chemical potential. Average the field
+norms over the three samples; no channel averaging is used in these panels.
+Nonlocal has the lowest mean in each field. Local AD improves phase and velocity
+over FEM PINO, but has a higher pressure mean; its worst pressure error is15.7110%.
+One initialization and three reused geometries do not establish a universal ranking.
 
-Current-card short probes give **1.5993 s/update** for nonlocal and
-**1.4169 s/update** for FEM PINO, including batch preparation, with active peaks
-85.35 and 80.82 GiB. The FEM cold20k process takes 8.031 h. The historical nonlocal
-accuracy run used another physical GPU of the same model; its 9.163 h training
-wall is not a strict same-device timing comparison.
+| Same-card warm resource probe | Nonlocal PINO | Local AD PINO | FEM PINO |
+|---|---:|---:|---:|
+| PDE queries per geometry | 15,633 | 2,048 sampled interior | 15,633 |
+| Time block / total times | 18 / 36 | 9 / 36 | 18 / 36 |
+| Inclusive time per update | 1.6016 s | 1.7372 s | 1.4169 s |
+| Active memory peak | 83.38 GiB | 26.19 GiB | 80.82 GiB |
 
-Initial network/optimizer states and all 20k condition/time/geometry draws match;
-independent saved-field norms and source checks pass. This is one initialization
-and three reused reserved cases. Weak-loss norms and natural boundary enforcement
-differ from the nonlocal pointwise objective, and the FE velocity interpolant
-is only approximately divergence-free. The result supports the accuracy of the
-current nonlocal recipe; it does not establish a universal method ranking.
-The nonlocal default is retained. [Full formulation and validation](https://github.com/NanxiiChen/nonlocal-pino/blob/main/examples/channel_nsch2d/README.md#full-coordinate-fem-weak-residual-control).
+All use B8 on the same RTX PRO6000 device for these short probes, including batch
+preparation. The FEM probe is from the earlier same-device control; the other two
+are later paired probes. Parent timers from before process creation through
+exit give full cold20k costs of 10.156 h for AD and 8.032 h for FEM, including
+initialization, compilation, in-training evaluation, final writes and teardown.
+Historical Nonlocal has an approximate external interval of 9.179 h on another
+physical GPU of the same model: its UTC timestamp starts immediately after
+spawn and exit is observed by ten-second polling plus monitor work. It is not
+a strict sub-second or same-device comparison; the earlier 9.163 h value was
+trainer-internal. [Complete timing protocol](training.html#cold-training-wall-clock-cost).
+Sampled AD uses much less active memory, but its measured update is not faster.
+
+Initial model/optimizer states and all20k condition/time/geometry draws match;
+independent saved-field norms and source checks pass. AD retains the nine
+pointwise terms and estimates the same full spatial objective by uniform
+interior sampling, with explicit independent boundary losses. FEM uses different
+weak-loss norms and natural boundary enforcement; its interpolated velocity is
+only approximately divergence-free. The nonlocal default remains unchanged.
+[Full formulation and validation](https://github.com/NanxiiChen/nonlocal-pino/blob/main/examples/channel_nsch2d/README.md#full-coordinate-fem-weak-residual-control).
 
 ## Implementation and reproduction
 

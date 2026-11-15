@@ -1,0 +1,83 @@
+{
+  "status": "launched_and_verified_live",
+  "utc": "2026-11-14T23:02:52.792017+00:00",
+  "old_owners_terminal": true,
+  "source_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v1",
+  "new_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2",
+  "refinement_mesh_size": 0.018,
+  "tolerances_unchanged": {
+    "phase": 0.01,
+    "chemical_positive": 0.05,
+    "mass": 1e-08,
+    "energy_increase": 1e-08
+  },
+  "reused_cases": [
+    1024,
+    1025,
+    1026,
+    1027,
+    1028
+  ],
+  "reused_case_and_raw_refinement_files_byte_identical": true,
+  "spinodal_owner": {
+    "case": "spinodal",
+    "pid": 453994,
+    "owner_pid": 453994,
+    "start_ticks": 929829505,
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-m",
+      "docs.tasks.spinodal_threeway_queue",
+      "--bundle",
+      "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-05",
+      "--prefix",
+      "spinodal-threeway-20261114-05",
+      "--wait-journal",
+      "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/journal.json",
+      "--wait-pid",
+      "284434",
+      "--wait-start-ticks",
+      "928607839",
+      "--max-projected-update-hours",
+      "24",
+      "--reference-reuse",
+      "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v1",
+      "--reference-finer-mesh",
+      "0.018"
+    ],
+    "journal": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-05/journal.json",
+    "log": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-05-owner.log",
+    "launched_utc": "2026-11-14T23:01:47.039785+00:00",
+    "verified_status": "running",
+    "verified_utc": "2026-11-14T23:02:52.792017+00:00"
+  },
+  "figure_owner": {
+    "case": "figures",
+    "pid": 454899,
+    "owner_pid": 454899,
+    "start_ticks": 929832311,
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-m",
+      "docs.tasks.pino_comparison_figure_queue",
+      "--output",
+      "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-07",
+      "--cases",
+      "spinodal"
+    ],
+    "journal": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-07/journal.json",
+    "log": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-07-owner.log",
+    "launched_utc": "2026-11-14T23:02:15.099389+00:00",
+    "verified_status": "waiting",
+    "verified_utc": "2026-11-14T23:02:52.792017+00:00"
+  },
+  "reference_child": {
+    "pid": 454001,
+    "start_ticks": 929829529
+  },
+  "new_figure_cases": [
+    "spinodal"
+  ],
+  "defaults_changed": false,
+  "git_operations": false
+}

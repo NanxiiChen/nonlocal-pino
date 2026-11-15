@@ -1,0 +1,91 @@
+{
+  "status": "passed",
+  "verified_utc": "2026-11-15T02:54:47.412593+00:00",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-taylor-resource-20261115-02",
+  "baseline": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-threeway-20261114-05-probe-local_ad",
+  "independent_timing_median_seconds": 3.981214376166463,
+  "projected50k_update_hours": 55.2946441134231,
+  "peak_active_gib": 20.4381206035614,
+  "within_24h_execution_ceiling": false,
+  "initial_state_bytes_exact": true,
+  "input_arrays_exact": {
+    "known_encoder_inputs.npz": {
+      "indices": [
+        24
+      ],
+      "points": [
+        24,
+        1536,
+        2
+      ],
+      "volumes": [
+        24,
+        1536
+      ],
+      "initial": [
+        24,
+        1536
+      ],
+      "condition": [
+        24,
+        192,
+        5
+      ],
+      "condition_weights": [
+        24,
+        192
+      ]
+    },
+    "first_online_encoder_inputs.npz": {
+      "draw_ids": [
+        4
+      ],
+      "points": [
+        4,
+        1536,
+        2
+      ],
+      "volumes": [
+        4,
+        1536
+      ],
+      "initial": [
+        4,
+        1536
+      ],
+      "condition": [
+        4,
+        192,
+        5
+      ],
+      "condition_weights": [
+        4,
+        192
+      ]
+    },
+    "training_draws.npz": {
+      "condition_ids": [
+        30,
+        16
+      ],
+      "geometry_draw_ids": [
+        30,
+        16
+      ],
+      "times": [
+        30,
+        17
+      ]
+    }
+  },
+  "finite_state_preflight": {
+    "status": "passed",
+    "step": 25,
+    "all_floating_model_state_finite_and_compute_dtype": true
+  },
+  "source_files_verified": 147,
+  "loss_first": 7.278853893280029,
+  "loss_last": 0.6257638335227966,
+  "summary_source": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-taylor-resource-20261115-02/summary.json",
+  "qualification_scope": "Resource/finite-state/paired-input short probe, not converged accuracy"
+}

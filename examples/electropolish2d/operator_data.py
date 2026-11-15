@@ -70,6 +70,9 @@ def condition_split(index, source_train_count, selected):
 
 
 def validate_config(c):
+    if c.nl.method == 'fem_weak':
+        from examples.electropolish2d.fem_weak import validate_fem
+        validate_fem(c)
     if 'method_control' in c.operator:
         from examples.electropolish2d.operator_pairing import validate_control
         validate_control(c)
@@ -98,7 +101,7 @@ def validate_config(c):
         raise ValueError('Temporal query study requires query_film or joint_query and sparse cross-attention training')
     if o.reference_action not in ('prepare', 'load'):
         raise ValueError('operator.reference_action must be prepare or load')
-    if (o.image_shape[0] != 1 or c.nl.method not in ('sparse', 'local_ad')
+    if (o.image_shape[0] != 1 or c.nl.method not in ('sparse', 'local_ad', 'fem_weak')
             or c.experiment.case != 'electropolish2d' or c.experiment.formulation != 'phase'
             or c.experiment.data_loss_mode != 'physical'
             or c.experiment.transport_evaluation != 'physical_difference'

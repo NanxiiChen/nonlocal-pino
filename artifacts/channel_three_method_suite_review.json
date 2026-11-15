@@ -1,0 +1,63 @@
+{
+  "status": "passed",
+  "utc": "2026-11-14T22:33:51.050993+00:00",
+  "scope": "Final channel requirement review against actual saved fields, complete histories, selected provenance and current local website",
+  "saved_field_pairs": 9,
+  "channel_norms": 36,
+  "historical_source_pairing_reports": [
+    "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/comparison.json",
+    "/root/autodl-tmp/tf-logs/channel-fem-full-20261114-01/comparison.json"
+  ],
+  "complete_histories_identical_to_selected": true,
+  "three_final_weight_paths_present": true,
+  "raw_field_means_match_readme_site_and_built_page": true,
+  "three_copy_asset_identity": [
+    "assets/pino-studies/channel_nsch2d_three_method_convergence.png",
+    "assets/pino-studies/channel_nsch2d_three_method_convergence.pdf",
+    "assets/pino-studies/channel_nsch2d_three_method_distribution.png",
+    "assets/pino-studies/channel_nsch2d_three_method_distribution.pdf"
+  ],
+  "methods": [
+    {
+      "method": "nonlocal",
+      "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/model_final.eqx",
+      "means": {
+        "phi": 0.016434996094538405,
+        "velocity": 0.01517205610632332,
+        "pressure": 0.052840480191484664,
+        "chemical": 0.13954125921926921
+      }
+    },
+    {
+      "method": "local_ad",
+      "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-sampled-ad-20261114-03-ad-cold20k/model_final.eqx",
+      "means": {
+        "phi": 0.021539621523186073,
+        "velocity": 0.020865931867178722,
+        "pressure": 0.08537029315433863,
+        "chemical": 0.16055631819323538
+      }
+    },
+    {
+      "method": "fem",
+      "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-fem-full-20261114-01-fem-cold20k/model_final.eqx",
+      "means": {
+        "phi": 0.04646479283496236,
+        "velocity": 0.043891898819341794,
+        "pressure": 0.07148878477622603,
+        "chemical": 0.4379076511366187
+      }
+    }
+  ],
+  "qualifications": [
+    "One development geometry for convergence, three reused reserved cases for distributions",
+    "Phase13times, other fields12positive times; joint velocity norm",
+    "Cold Nonlocal wall used another physical GPU; short current-device probes separate",
+    "AD sampling/explicit BCs and FEM weak norm/interpolation differ; not a universal derivative-only ranking"
+  ],
+  "defaults_changed": false,
+  "training_performed": false,
+  "new_figure_render": false,
+  "git_operations": false,
+  "reproduction": "PYTHONPATH=/root/nonlocal-pinn OPENBLAS_NUM_THREADS=1 /root/nonlocal-pinn/.venv/bin/python /tmp/check_channel_suite_review.py"
+}

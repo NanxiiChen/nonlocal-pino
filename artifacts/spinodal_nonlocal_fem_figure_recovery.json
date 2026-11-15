@@ -1,0 +1,13 @@
+{
+  "status": "complete",
+  "utc": "2026-11-15T07:37:53.724204+00:00",
+  "failed_journal": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-01/journal.json",
+  "failure": "PDF edit probe required Local AD or joint-query label; no numeric/training failure",
+  "repaired_file": "docs/tasks/ceramic_fem_comparison_figures.py",
+  "supported_label_probe_validation": "artifacts/spinodal_two_method_pdf_edit_validation.json",
+  "replacement_journal": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-02/journal.json",
+  "replacement_provenance": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-02/spinodal/provenance.json",
+  "source_snapshot": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-figures-20261115-02/source",
+  "numeric_sources_changed": false,
+  "old_output_retained": true
+}

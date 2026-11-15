@@ -1,0 +1,31 @@
+{
+  "status": "passed_single_method_probe",
+  "verified_utc": "2026-11-14T23:53:32.183204+00:00",
+  "method": "nonlocal",
+  "run": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-threeway-20261114-05-probe-nonlocal",
+  "steps": 30,
+  "warm_inclusive_median_seconds": 0.12441745959222317,
+  "projected50k_update_hours": 1.7280202721142106,
+  "peak_active_gib": 20.4381206035614,
+  "allocator_limit_gib": 75.97793081961572,
+  "setup_seconds": 298.4523978922516,
+  "first_update_seconds": 269.06442795321345,
+  "process_internal_seconds": 581.8152306508273,
+  "preflight_step": 25,
+  "timing_scope": "Median of final20 complete recorded updates plus corresponding batch preparation; projection excludes startup, periodic evaluation/checkpoint and unrepresented longer-run stalls.",
+  "qualification_scope": "Only nonlocal resource/finite-state preflight; three-arm common-state/input/source/resource audit remains pending.",
+  "queue": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-05/journal.json",
+  "active_stage": {
+    "name": "probe-local_ad",
+    "status": "running",
+    "pid": 494040,
+    "child": {
+      "pid": 494040,
+      "live": true,
+      "state": "S",
+      "start_ticks": 930045243,
+      "command": "/root/nonlocal-pinn/.venv/bin/python -m examples.confined_ch2d.train --seed=42 --config=examples/confined_ch2d/configs/train_operator_compare_local_ad.py --config.log.run_name=spinodal-threeway-20261114-05-probe-local_ad --config.train.iterations=30 "
+    }
+  },
+  "next_poll": "2026-11-15T00:07:16.695025+00:00"
+}

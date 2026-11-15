@@ -1,0 +1,190 @@
+{
+  "status": "diagnostic_not_pairing_pass",
+  "original_audit_retained_failed": true,
+  "methods": {
+    "nonlocal": {
+      "source_files_unchanged": 35,
+      "oracle_differences": {
+        "images": [
+          {
+            "step": 0,
+            "max_abs": 2.542022981388836e-06,
+            "rms": 1.6138778877501316e-07
+          },
+          {
+            "step": 32,
+            "max_abs": 2.8079244560608174e-06,
+            "rms": 1.6783474324849002e-07
+          },
+          {
+            "step": 9999,
+            "max_abs": 3.1985244923760092e-06,
+            "rms": 1.7342941710422173e-07
+          }
+        ],
+        "initial": [
+          {
+            "step": 0,
+            "max_abs": 4.193977324207232e-06,
+            "rms": 1.8497159505921135e-07
+          },
+          {
+            "step": 32,
+            "max_abs": 3.8056525376584105e-06,
+            "rms": 1.8874403170869697e-07
+          },
+          {
+            "step": 9999,
+            "max_abs": 3.573805182455203e-06,
+            "rms": 1.9396408642892173e-07
+          }
+        ],
+        "dirichlet": [
+          {
+            "step": 0,
+            "max_abs": 0.0,
+            "rms": 0.0
+          },
+          {
+            "step": 32,
+            "max_abs": 0.0,
+            "rms": 0.0
+          },
+          {
+            "step": 9999,
+            "max_abs": 0.0,
+            "rms": 0.0
+          }
+        ]
+      },
+      "cpu_common_batch_seconds": [
+        0.042573243379592896,
+        0.04373789206147194,
+        0.040206095203757286
+      ]
+    },
+    "local_ad": {
+      "source_files_unchanged": 35,
+      "oracle_differences": {
+        "images": [
+          {
+            "step": 0,
+            "max_abs": 2.542022981388836e-06,
+            "rms": 1.632658506492952e-07
+          },
+          {
+            "step": 32,
+            "max_abs": 2.8079244560608174e-06,
+            "rms": 1.6977373804081222e-07
+          },
+          {
+            "step": 9999,
+            "max_abs": 3.1985244923760092e-06,
+            "rms": 1.751600407385445e-07
+          }
+        ],
+        "initial": [
+          {
+            "step": 0,
+            "max_abs": 4.193977324207232e-06,
+            "rms": 1.8497159505921135e-07
+          },
+          {
+            "step": 32,
+            "max_abs": 3.8056525376584105e-06,
+            "rms": 1.8874403170869697e-07
+          },
+          {
+            "step": 9999,
+            "max_abs": 3.573805182455203e-06,
+            "rms": 1.9396408642892173e-07
+          }
+        ],
+        "dirichlet": [
+          {
+            "step": 0,
+            "max_abs": 0.0,
+            "rms": 0.0
+          },
+          {
+            "step": 32,
+            "max_abs": 0.0,
+            "rms": 0.0
+          },
+          {
+            "step": 9999,
+            "max_abs": 0.0,
+            "rms": 0.0
+          }
+        ]
+      },
+      "cpu_common_batch_seconds": [
+        0.044169021770358086,
+        0.041529638692736626,
+        0.04362107254564762
+      ]
+    },
+    "fem_weak": {
+      "source_files_unchanged": 37,
+      "oracle_differences": {
+        "images": [
+          {
+            "step": 0,
+            "max_abs": 2.542022981388836e-06,
+            "rms": 1.6065374687670261e-07
+          },
+          {
+            "step": 32,
+            "max_abs": 2.8079244560608174e-06,
+            "rms": 1.6817668197642665e-07
+          },
+          {
+            "step": 9999,
+            "max_abs": 3.0197105580498373e-06,
+            "rms": 1.7443406264022403e-07
+          }
+        ],
+        "initial": [
+          {
+            "step": 0,
+            "max_abs": 4.193977324207232e-06,
+            "rms": 1.8297615447911774e-07
+          },
+          {
+            "step": 32,
+            "max_abs": 3.4480246690060667e-06,
+            "rms": 1.89019899452892e-07
+          },
+          {
+            "step": 9999,
+            "max_abs": 2.7893558511848937e-06,
+            "rms": 1.9193916885272285e-07
+          }
+        ],
+        "dirichlet": [
+          {
+            "step": 0,
+            "max_abs": 0.0,
+            "rms": 0.0
+          },
+          {
+            "step": 32,
+            "max_abs": 0.0,
+            "rms": 0.0
+          },
+          {
+            "step": 9999,
+            "max_abs": 0.0,
+            "rms": 0.0
+          }
+        ]
+      },
+      "cpu_common_batch_seconds": [
+        0.04048392362892628,
+        0.04503657855093479,
+        0.03968857228755951
+      ]
+    }
+  },
+  "oracle": "Independent CPU NumPy FP64 windowed segment SDF on original FP32-rounded curve vertices and shared coordinates; no evolved fields"
+}

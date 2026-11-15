@@ -1,0 +1,900 @@
+{
+  "status": "passed",
+  "final_report": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-20261115-01/final.json",
+  "results": {
+    "nonlocal": {
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-nonlocal",
+      "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-nonlocal/model_final.eqx",
+      "steps": 50000,
+      "indices": [
+        1024,
+        1025,
+        1026,
+        1027,
+        1028,
+        1029,
+        1030,
+        1031
+      ],
+      "cases": [
+        {
+          "index": 1024,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-nonlocal/prediction_1024.npz",
+          "native_reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1024/reference.npz",
+          "local_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1024.npz",
+          "native": {
+            "equal_node": {
+              "phi": 0.025107876245411803,
+              "chemical": 0.07310805253022416,
+              "channel_mean": 0.04910796438781798,
+              "chemical_positive_times": 0.07876890708170362
+            },
+            "physical_volume": {
+              "phi": 0.02433611199233059,
+              "chemical": 0.0730371438630407,
+              "channel_mean": 0.04868662792768564,
+              "chemical_positive_times": 0.07870101757078309
+            }
+          },
+          "local": {
+            "equal_node": {
+              "phi": 0.2175345248941565,
+              "chemical": 0.4382670858917602,
+              "channel_mean": 0.32790080539295835,
+              "chemical_positive_times": 0.24157146097890655
+            },
+            "physical_volume": {
+              "phi": 0.21473527723517266,
+              "chemical": 0.43892686843526874,
+              "channel_mean": 0.3268310728352207,
+              "chemical_positive_times": 0.2401713907155457
+            }
+          },
+          "native_reference_vs_local": {
+            "equal_node": {
+              "phi": 0.2182525874426255,
+              "chemical": 0.4313754024699031,
+              "channel_mean": 0.3248139949562643,
+              "chemical_positive_times": 0.22412985880745737
+            },
+            "physical_volume": {
+              "phi": 0.21543497005406093,
+              "chemical": 0.4321950861804316,
+              "channel_mean": 0.3238150281172463,
+              "chemical_positive_times": 0.22306514901895247
+            }
+          }
+        },
+        {
+          "index": 1025,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-nonlocal/prediction_1025.npz",
+          "native_reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1025/reference.npz",
+          "local_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1025.npz",
+          "native": {
+            "equal_node": {
+              "phi": 0.03426402384678782,
+              "chemical": 0.10041024998473337,
+              "channel_mean": 0.0673371369157606,
+              "chemical_positive_times": 0.10832265097319971
+            },
+            "physical_volume": {
+              "phi": 0.03391223277622714,
+              "chemical": 0.09904284846212935,
+              "channel_mean": 0.06647754061917824,
+              "chemical_positive_times": 0.10684633696489312
+            }
+          },
+          "local": {
+            "equal_node": {
+              "phi": 0.336559224513546,
+              "chemical": 0.5168085748417287,
+              "channel_mean": 0.4266838996776373,
+              "chemical_positive_times": 0.3460600448757975
+            },
+            "physical_volume": {
+              "phi": 0.3282790163171378,
+              "chemical": 0.5105124776738079,
+              "channel_mean": 0.4193957469954729,
+              "chemical_positive_times": 0.3402074146690254
+            }
+          },
+          "native_reference_vs_local": {
+            "equal_node": {
+              "phi": 0.3197909201076014,
+              "chemical": 0.5037988801115683,
+              "channel_mean": 0.41179490010958486,
+              "chemical_positive_times": 0.3194715204677126
+            },
+            "physical_volume": {
+              "phi": 0.3119700067462832,
+              "chemical": 0.4976112671632768,
+              "channel_mean": 0.40479063695478,
+              "chemical_positive_times": 0.3137159239622147
+            }
+          }
+        },
+        {
+          "index": 1026,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-nonlocal/prediction_1026.npz",
+          "native_reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1026/reference.npz",
+          "local_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1026.npz",
+          "native": {
+            "equal_node": {
+              "phi": 0.10123304306200978,
+              "chemical": 0.1228289162278703,
+              "channel_mean": 0.11203097964494005,
+              "chemical_positive_times": 0.13216514069959767
+            },
+            "physical_volume": {
+              "phi": 0.09754013770811337,
+              "chemical": 0.11952303659259912,
+              "channel_mean": 0.10853158715035624,
+              "chemical_positive_times": 0.12892037860962227
+            }
+          },
+          "local": {
+            "equal_node": {
+              "phi": 0.40797728891677953,
+              "chemical": 0.44671765629988003,
+              "channel_mean": 0.4273474726083298,
+              "chemical_positive_times": 0.33229040446353275
+            },
+            "physical_volume": {
+              "phi": 0.40997994284668926,
+              "chemical": 0.4477607075976328,
+              "channel_mean": 0.42887032522216106,
+              "chemical_positive_times": 0.3300840629797698
+            }
+          },
+          "native_reference_vs_local": {
+            "equal_node": {
+              "phi": 0.4122270795727349,
+              "chemical": 0.4463932330799769,
+              "channel_mean": 0.42931015632635594,
+              "chemical_positive_times": 0.331761943234081
+            },
+            "physical_volume": {
+              "phi": 0.4141913065699738,
+              "chemical": 0.4483143155037112,
+              "channel_mean": 0.43125281103684254,
+              "chemical_positive_times": 0.3309932928361914
+            }
+          }
+        },
+        {
+          "index": 1027,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-nonlocal/prediction_1027.npz",
+          "native_reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1027/reference.npz",
+          "local_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1027.npz",
+          "native": {
+            "equal_node": {
+              "phi": 0.014772340062214572,
+              "chemical": 0.07060490505237163,
+              "channel_mean": 0.0426886225572931,
+              "chemical_positive_times": 0.07662452110101345
+            },
+            "physical_volume": {
+              "phi": 0.014865412176659328,
+              "chemical": 0.06958977983678666,
+              "channel_mean": 0.04222759600672299,
+              "chemical_positive_times": 0.07566142793803604
+            }
+          },
+          "local": {
+            "equal_node": {
+              "phi": 0.22046439227067646,
+              "chemical": 0.4446642412534149,
+              "channel_mean": 0.3325643167620457,
+              "chemical_positive_times": 0.2846125834775466
+            },
+            "physical_volume": {
+              "phi": 0.22421832671814368,
+              "chemical": 0.44724211530343766,
+              "channel_mean": 0.33573022101079064,
+              "chemical_positive_times": 0.2856975700787609
+            }
+          },
+          "native_reference_vs_local": {
+            "equal_node": {
+              "phi": 0.22216617463883154,
+              "chemical": 0.43931518258951574,
+              "channel_mean": 0.33074067861417367,
+              "chemical_positive_times": 0.2729450857913333
+            },
+            "physical_volume": {
+              "phi": 0.22609201320964095,
+              "chemical": 0.44227498604062443,
+              "channel_mean": 0.3341834996251327,
+              "chemical_positive_times": 0.27479578675985994
+            }
+          }
+        },
+        {
+          "index": 1028,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-nonlocal/prediction_1028.npz",
+          "native_reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1028/reference.npz",
+          "local_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1028.npz",
+          "native": {
+            "equal_node": {
+              "phi": 0.04218108134065882,
+              "chemical": 0.1158768153489198,
+              "channel_mean": 0.07902894834478931,
+              "chemical_positive_times": 0.12625348876579903
+            },
+            "physical_volume": {
+              "phi": 0.04264203780901169,
+              "chemical": 0.11548913920556987,
+              "channel_mean": 0.07906558850729078,
+              "chemical_positive_times": 0.12582593840424083
+            }
+          },
+          "local": {
+            "equal_node": {
+              "phi": 0.41016772091936987,
+              "chemical": 0.4823338365067962,
+              "channel_mean": 0.44625077871308305,
+              "chemical_positive_times": 0.34718073264867966
+            },
+            "physical_volume": {
+              "phi": 0.40788071626265004,
+              "chemical": 0.4740213545961979,
+              "channel_mean": 0.44095103542942393,
+              "chemical_positive_times": 0.34456696225818845
+            }
+          },
+          "native_reference_vs_local": {
+            "equal_node": {
+              "phi": 0.41555298673097973,
+              "chemical": 0.4716705089685135,
+              "channel_mean": 0.4436117478497466,
+              "chemical_positive_times": 0.32759866137107474
+            },
+            "physical_volume": {
+              "phi": 0.41369203413626415,
+              "chemical": 0.46346312781486204,
+              "channel_mean": 0.4385775809755631,
+              "chemical_positive_times": 0.32534447160086494
+            }
+          }
+        },
+        {
+          "index": 1029,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-nonlocal/prediction_1029.npz",
+          "native_reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1029/reference.npz",
+          "local_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1029.npz",
+          "native": {
+            "equal_node": {
+              "phi": 0.0657410746094593,
+              "chemical": 0.1016569388860343,
+              "channel_mean": 0.0836990067477468,
+              "chemical_positive_times": 0.10956683985068875
+            },
+            "physical_volume": {
+              "phi": 0.06451570728460033,
+              "chemical": 0.1011262319457751,
+              "channel_mean": 0.08282096961518771,
+              "chemical_positive_times": 0.10888987769988032
+            }
+          },
+          "local": {
+            "equal_node": {
+              "phi": 0.3033911692389243,
+              "chemical": 0.4676048888561152,
+              "channel_mean": 0.38549802904751973,
+              "chemical_positive_times": 0.31974622762259697
+            },
+            "physical_volume": {
+              "phi": 0.30317995010300897,
+              "chemical": 0.46663310436954486,
+              "channel_mean": 0.38490652723627694,
+              "chemical_positive_times": 0.32021095484668544
+            }
+          },
+          "native_reference_vs_local": {
+            "equal_node": {
+              "phi": 0.3142369838230527,
+              "chemical": 0.46412963888424663,
+              "channel_mean": 0.3891833113536497,
+              "chemical_positive_times": 0.31319672249034736
+            },
+            "physical_volume": {
+              "phi": 0.3140522218309355,
+              "chemical": 0.46373205354237645,
+              "channel_mean": 0.388892137686656,
+              "chemical_positive_times": 0.31477785585639156
+            }
+          }
+        },
+        {
+          "index": 1030,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-nonlocal/prediction_1030.npz",
+          "native_reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1030/reference.npz",
+          "local_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1030.npz",
+          "native": {
+            "equal_node": {
+              "phi": 0.020311020149090368,
+              "chemical": 0.06700840457012677,
+              "channel_mean": 0.04365971235960857,
+              "chemical_positive_times": 0.07215094852506104
+            },
+            "physical_volume": {
+              "phi": 0.020231402937659015,
+              "chemical": 0.06593867553293815,
+              "channel_mean": 0.043085039235298585,
+              "chemical_positive_times": 0.07100635306736144
+            }
+          },
+          "local": {
+            "equal_node": {
+              "phi": 0.2216377372497221,
+              "chemical": 0.4099472283329202,
+              "channel_mean": 0.31579248279132116,
+              "chemical_positive_times": 0.23013484809081988
+            },
+            "physical_volume": {
+              "phi": 0.22411013320669465,
+              "chemical": 0.40734013975039157,
+              "channel_mean": 0.3157251364785431,
+              "chemical_positive_times": 0.2299618376896534
+            }
+          },
+          "native_reference_vs_local": {
+            "equal_node": {
+              "phi": 0.2196720854391911,
+              "chemical": 0.4048297162908098,
+              "channel_mean": 0.31225090086500046,
+              "chemical_positive_times": 0.21762285664974723
+            },
+            "physical_volume": {
+              "phi": 0.22204311179449293,
+              "chemical": 0.40259580530688044,
+              "channel_mean": 0.31231945855068666,
+              "chemical_positive_times": 0.21849582268961842
+            }
+          }
+        },
+        {
+          "index": 1031,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-nonlocal/prediction_1031.npz",
+          "native_reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1031/reference.npz",
+          "local_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1031.npz",
+          "native": {
+            "equal_node": {
+              "phi": 0.06431040160997706,
+              "chemical": 0.11607950156455613,
+              "channel_mean": 0.09019495158726659,
+              "chemical_positive_times": 0.12638315019751614
+            },
+            "physical_volume": {
+              "phi": 0.0645247103902229,
+              "chemical": 0.11613716078755806,
+              "channel_mean": 0.09033093558889048,
+              "chemical_positive_times": 0.12662142523357806
+            }
+          },
+          "local": {
+            "equal_node": {
+              "phi": 0.4359998229075384,
+              "chemical": 0.5194771985420127,
+              "channel_mean": 0.4777385107247756,
+              "chemical_positive_times": 0.4031355242373726
+            },
+            "physical_volume": {
+              "phi": 0.431803016048682,
+              "chemical": 0.518882017148473,
+              "channel_mean": 0.4753425165985775,
+              "chemical_positive_times": 0.40038541215040324
+            }
+          },
+          "native_reference_vs_local": {
+            "equal_node": {
+              "phi": 0.43516756744005364,
+              "chemical": 0.5133507136488384,
+              "channel_mean": 0.47425914054444607,
+              "chemical_positive_times": 0.39297471654657695
+            },
+            "physical_volume": {
+              "phi": 0.4314721151227698,
+              "chemical": 0.5131507801387307,
+              "channel_mean": 0.4723114476307503,
+              "chemical_positive_times": 0.39083723365580636
+            }
+          }
+        }
+      ],
+      "means": {
+        "native": {
+          "equal_node": {
+            "phi": 0.04599010761570119,
+            "chemical": 0.09594672302060456,
+            "channel_mean": 0.07096841531815287,
+            "chemical_positive_times": 0.10377945589932241
+          },
+          "physical_volume": {
+            "phi": 0.045320969134353045,
+            "chemical": 0.09498550202829963,
+            "channel_mean": 0.07015323558132633,
+            "chemical_positive_times": 0.1028090944360494
+          }
+        },
+        "local": {
+          "equal_node": {
+            "phi": 0.31921648511383915,
+            "chemical": 0.4657275888155785,
+            "channel_mean": 0.39247203696470884,
+            "chemical_positive_times": 0.31309147829940653
+          },
+          "physical_volume": {
+            "phi": 0.3180232973422724,
+            "chemical": 0.4639148481093443,
+            "channel_mean": 0.3909690727258084,
+            "chemical_positive_times": 0.311410700673504
+          }
+        },
+        "native_reference_vs_local": {
+          "equal_node": {
+            "phi": 0.31963329814938385,
+            "chemical": 0.45935790950542155,
+            "channel_mean": 0.38949560382740267,
+            "chemical_positive_times": 0.2999626706697913
+          },
+          "physical_volume": {
+            "phi": 0.31861847243305264,
+            "chemical": 0.45791717771136176,
+            "channel_mean": 0.3882678250722072,
+            "chemical_positive_times": 0.2990031920474875
+          }
+        }
+      }
+    },
+    "fem": {
+      "run": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-fem",
+      "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-fem/model_final.eqx",
+      "steps": 50000,
+      "indices": [
+        1024,
+        1025,
+        1026,
+        1027,
+        1028,
+        1029,
+        1030,
+        1031
+      ],
+      "cases": [
+        {
+          "index": 1024,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-fem/prediction_1024.npz",
+          "native_reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1024/reference.npz",
+          "local_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1024.npz",
+          "native": {
+            "equal_node": {
+              "phi": 0.21113450137919465,
+              "chemical": 0.36413902739765025,
+              "channel_mean": 0.28763676438842245,
+              "chemical_positive_times": 0.23403378031945377
+            },
+            "physical_volume": {
+              "phi": 0.20802384551215505,
+              "chemical": 0.35516118160619026,
+              "channel_mean": 0.28159251355917264,
+              "chemical_positive_times": 0.22854412524008325
+            }
+          },
+          "local": {
+            "equal_node": {
+              "phi": 0.036105080433916505,
+              "chemical": 0.45666574311739777,
+              "channel_mean": 0.24638541177565715,
+              "chemical_positive_times": 0.13041351542570126
+            },
+            "physical_volume": {
+              "phi": 0.035455390206812126,
+              "chemical": 0.4582227347837649,
+              "channel_mean": 0.24683906249528853,
+              "chemical_positive_times": 0.12738163544224018
+            }
+          },
+          "native_reference_vs_local": {
+            "equal_node": {
+              "phi": 0.2182525874426255,
+              "chemical": 0.4313754024699031,
+              "channel_mean": 0.3248139949562643,
+              "chemical_positive_times": 0.22412985880745737
+            },
+            "physical_volume": {
+              "phi": 0.21543497005406093,
+              "chemical": 0.4321950861804316,
+              "channel_mean": 0.3238150281172463,
+              "chemical_positive_times": 0.22306514901895247
+            }
+          }
+        },
+        {
+          "index": 1025,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-fem/prediction_1025.npz",
+          "native_reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1025/reference.npz",
+          "local_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1025.npz",
+          "native": {
+            "equal_node": {
+              "phi": 0.27110379823772696,
+              "chemical": 0.45323903958947803,
+              "channel_mean": 0.3621714189136025,
+              "chemical_positive_times": 0.3352637270498165
+            },
+            "physical_volume": {
+              "phi": 0.26545827468026484,
+              "chemical": 0.4401303375943728,
+              "channel_mean": 0.3527943061373188,
+              "chemical_positive_times": 0.32764615551936077
+            }
+          },
+          "local": {
+            "equal_node": {
+              "phi": 0.06066322603675233,
+              "chemical": 0.5138918454699701,
+              "channel_mean": 0.28727753575336124,
+              "chemical_positive_times": 0.18319773767613978
+            },
+            "physical_volume": {
+              "phi": 0.0597027488834913,
+              "chemical": 0.5105111166123864,
+              "channel_mean": 0.2851069327479388,
+              "chemical_positive_times": 0.18340096298082753
+            }
+          },
+          "native_reference_vs_local": {
+            "equal_node": {
+              "phi": 0.3197909201076014,
+              "chemical": 0.5037988801115683,
+              "channel_mean": 0.41179490010958486,
+              "chemical_positive_times": 0.3194715204677126
+            },
+            "physical_volume": {
+              "phi": 0.3119700067462832,
+              "chemical": 0.4976112671632768,
+              "channel_mean": 0.40479063695478,
+              "chemical_positive_times": 0.3137159239622147
+            }
+          }
+        },
+        {
+          "index": 1026,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-fem/prediction_1026.npz",
+          "native_reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1026/reference.npz",
+          "local_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1026.npz",
+          "native": {
+            "equal_node": {
+              "phi": 0.39299999568667476,
+              "chemical": 0.48779705073237667,
+              "channel_mean": 0.4403985232095257,
+              "chemical_positive_times": 0.3962082533690767
+            },
+            "physical_volume": {
+              "phi": 0.3939069064886487,
+              "chemical": 0.48154076355992986,
+              "channel_mean": 0.43772383502428924,
+              "chemical_positive_times": 0.3915021403753412
+            }
+          },
+          "local": {
+            "equal_node": {
+              "phi": 0.0800355082462091,
+              "chemical": 0.4301455768177508,
+              "channel_mean": 0.25509054253197994,
+              "chemical_positive_times": 0.14795282648141803
+            },
+            "physical_volume": {
+              "phi": 0.07897838481216647,
+              "chemical": 0.4367661318598982,
+              "channel_mean": 0.25787225833603233,
+              "chemical_positive_times": 0.1413094835502105
+            }
+          },
+          "native_reference_vs_local": {
+            "equal_node": {
+              "phi": 0.4122270795727349,
+              "chemical": 0.4463932330799769,
+              "channel_mean": 0.42931015632635594,
+              "chemical_positive_times": 0.331761943234081
+            },
+            "physical_volume": {
+              "phi": 0.4141913065699738,
+              "chemical": 0.4483143155037112,
+              "channel_mean": 0.43125281103684254,
+              "chemical_positive_times": 0.3309932928361914
+            }
+          }
+        },
+        {
+          "index": 1027,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-fem/prediction_1027.npz",
+          "native_reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1027/reference.npz",
+          "local_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1027.npz",
+          "native": {
+            "equal_node": {
+              "phi": 0.2007631800309087,
+              "chemical": 0.37974185025297286,
+              "channel_mean": 0.2902525151419408,
+              "chemical_positive_times": 0.2609865032110554
+            },
+            "physical_volume": {
+              "phi": 0.20449774378933872,
+              "chemical": 0.37633236372708667,
+              "channel_mean": 0.2904150537582127,
+              "chemical_positive_times": 0.2599523981862749
+            }
+          },
+          "local": {
+            "equal_node": {
+              "phi": 0.02881136411026815,
+              "chemical": 0.44551766670777776,
+              "channel_mean": 0.23716451540902295,
+              "chemical_positive_times": 0.12398182131899416
+            },
+            "physical_volume": {
+              "phi": 0.028826072149779183,
+              "chemical": 0.44981668381343465,
+              "channel_mean": 0.2393213779816069,
+              "chemical_positive_times": 0.12005742692687954
+            }
+          },
+          "native_reference_vs_local": {
+            "equal_node": {
+              "phi": 0.22216617463883154,
+              "chemical": 0.43931518258951574,
+              "channel_mean": 0.33074067861417367,
+              "chemical_positive_times": 0.2729450857913333
+            },
+            "physical_volume": {
+              "phi": 0.22609201320964095,
+              "chemical": 0.44227498604062443,
+              "channel_mean": 0.3341834996251327,
+              "chemical_positive_times": 0.27479578675985994
+            }
+          }
+        },
+        {
+          "index": 1028,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-fem/prediction_1028.npz",
+          "native_reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1028/reference.npz",
+          "local_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1028.npz",
+          "native": {
+            "equal_node": {
+              "phi": 0.37910287545885113,
+              "chemical": 0.4832133882728947,
+              "channel_mean": 0.43115813186587293,
+              "chemical_positive_times": 0.3949317606879978
+            },
+            "physical_volume": {
+              "phi": 0.3782879832095094,
+              "chemical": 0.47553478457532755,
+              "channel_mean": 0.42691138389241845,
+              "chemical_positive_times": 0.39129608548107464
+            }
+          },
+          "local": {
+            "equal_node": {
+              "phi": 0.0635970832879215,
+              "chemical": 0.45225126639374036,
+              "channel_mean": 0.2579241748408309,
+              "chemical_positive_times": 0.15210428118387917
+            },
+            "physical_volume": {
+              "phi": 0.06338953548728715,
+              "chemical": 0.4405283675079782,
+              "channel_mean": 0.2519589514976327,
+              "chemical_positive_times": 0.15084535963819967
+            }
+          },
+          "native_reference_vs_local": {
+            "equal_node": {
+              "phi": 0.41555298673097973,
+              "chemical": 0.4716705089685135,
+              "channel_mean": 0.4436117478497466,
+              "chemical_positive_times": 0.32759866137107474
+            },
+            "physical_volume": {
+              "phi": 0.41369203413626415,
+              "chemical": 0.46346312781486204,
+              "channel_mean": 0.4385775809755631,
+              "chemical_positive_times": 0.32534447160086494
+            }
+          }
+        },
+        {
+          "index": 1029,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-fem/prediction_1029.npz",
+          "native_reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1029/reference.npz",
+          "local_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1029.npz",
+          "native": {
+            "equal_node": {
+              "phi": 0.2968928477126602,
+              "chemical": 0.4293749237831923,
+              "channel_mean": 0.36313388574792627,
+              "chemical_positive_times": 0.32299546743723984
+            },
+            "physical_volume": {
+              "phi": 0.2970995339226416,
+              "chemical": 0.4233911620988554,
+              "channel_mean": 0.3602453480107485,
+              "chemical_positive_times": 0.3193533176129898
+            }
+          },
+          "local": {
+            "equal_node": {
+              "phi": 0.07093762227584234,
+              "chemical": 0.46964066339059285,
+              "channel_mean": 0.2702891428332176,
+              "chemical_positive_times": 0.1615149807005934
+            },
+            "physical_volume": {
+              "phi": 0.06997142240716331,
+              "chemical": 0.46883561502661303,
+              "channel_mean": 0.26940351871688817,
+              "chemical_positive_times": 0.1539647489473339
+            }
+          },
+          "native_reference_vs_local": {
+            "equal_node": {
+              "phi": 0.3142369838230527,
+              "chemical": 0.46412963888424663,
+              "channel_mean": 0.3891833113536497,
+              "chemical_positive_times": 0.31319672249034736
+            },
+            "physical_volume": {
+              "phi": 0.3140522218309355,
+              "chemical": 0.46373205354237645,
+              "channel_mean": 0.388892137686656,
+              "chemical_positive_times": 0.31477785585639156
+            }
+          }
+        },
+        {
+          "index": 1030,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-fem/prediction_1030.npz",
+          "native_reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1030/reference.npz",
+          "local_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1030.npz",
+          "native": {
+            "equal_node": {
+              "phi": 0.20207425827386655,
+              "chemical": 0.35346970408862044,
+              "channel_mean": 0.27777198118124347,
+              "chemical_positive_times": 0.2279006381695524
+            },
+            "physical_volume": {
+              "phi": 0.20447301095803658,
+              "chemical": 0.34353437889568844,
+              "channel_mean": 0.2740036949268625,
+              "chemical_positive_times": 0.22262688416138776
+            }
+          },
+          "local": {
+            "equal_node": {
+              "phi": 0.03854224398552491,
+              "chemical": 0.43263721210269773,
+              "channel_mean": 0.23558972804411132,
+              "chemical_positive_times": 0.12643813879928537
+            },
+            "physical_volume": {
+              "phi": 0.03910818566562489,
+              "chemical": 0.4310400185340359,
+              "channel_mean": 0.2350741020998304,
+              "chemical_positive_times": 0.12111722017588589
+            }
+          },
+          "native_reference_vs_local": {
+            "equal_node": {
+              "phi": 0.2196720854391911,
+              "chemical": 0.4048297162908098,
+              "channel_mean": 0.31225090086500046,
+              "chemical_positive_times": 0.21762285664974723
+            },
+            "physical_volume": {
+              "phi": 0.22204311179449293,
+              "chemical": 0.40259580530688044,
+              "channel_mean": 0.31231945855068666,
+              "chemical_positive_times": 0.21849582268961842
+            }
+          }
+        },
+        {
+          "index": 1031,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-fem/prediction_1031.npz",
+          "native_reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1031/reference.npz",
+          "local_reference": "/root/autodl-tmp/data/confined_ch2d/operator_threeway_local_20261114_v2/condition_1031.npz",
+          "native": {
+            "equal_node": {
+              "phi": 0.3968372980630208,
+              "chemical": 0.5368963545667558,
+              "channel_mean": 0.4668668263148883,
+              "chemical_positive_times": 0.44387180498266127
+            },
+            "physical_volume": {
+              "phi": 0.3937512825498174,
+              "chemical": 0.5329873950045161,
+              "channel_mean": 0.46336933877716674,
+              "chemical_positive_times": 0.440675677665431
+            }
+          },
+          "local": {
+            "equal_node": {
+              "phi": 0.06801345285931447,
+              "chemical": 0.4703437192772549,
+              "channel_mean": 0.26917858606828465,
+              "chemical_positive_times": 0.16922545722245005
+            },
+            "physical_volume": {
+              "phi": 0.06822867852152698,
+              "chemical": 0.47620821439893024,
+              "channel_mean": 0.27221844646022864,
+              "chemical_positive_times": 0.16684668508513256
+            }
+          },
+          "native_reference_vs_local": {
+            "equal_node": {
+              "phi": 0.43516756744005364,
+              "chemical": 0.5133507136488384,
+              "channel_mean": 0.47425914054444607,
+              "chemical_positive_times": 0.39297471654657695
+            },
+            "physical_volume": {
+              "phi": 0.4314721151227698,
+              "chemical": 0.5131507801387307,
+              "channel_mean": 0.4723114476307503,
+              "chemical_positive_times": 0.39083723365580636
+            }
+          }
+        }
+      ],
+      "means": {
+        "native": {
+          "equal_node": {
+            "phi": 0.293863594355363,
+            "chemical": 0.4359839173354926,
+            "channel_mean": 0.3649237558454278,
+            "chemical_positive_times": 0.32702399190335674
+          },
+          "physical_volume": {
+            "phi": 0.29318732263880154,
+            "chemical": 0.4285765458827459,
+            "channel_mean": 0.3608819342607737,
+            "chemical_positive_times": 0.3226995980302429
+          }
+        },
+        "local": {
+          "equal_node": {
+            "phi": 0.055838197654468666,
+            "chemical": 0.4588867116596478,
+            "channel_mean": 0.2573624546570582,
+            "chemical_positive_times": 0.14935359485105765
+          },
+          "physical_volume": {
+            "phi": 0.05545755226673143,
+            "chemical": 0.45899111031713014,
+            "channel_mean": 0.2572243312919308,
+            "chemical_positive_times": 0.14561544034333873
+          }
+        },
+        "native_reference_vs_local": {
+          "equal_node": {
+            "phi": 0.31963329814938385,
+            "chemical": 0.45935790950542155,
+            "channel_mean": 0.38949560382740267,
+            "chemical_positive_times": 0.2999626706697913
+          },
+          "physical_volume": {
+            "phi": 0.31861847243305264,
+            "chemical": 0.45791717771136176,
+            "channel_mean": 0.3882678250722072,
+            "chemical_positive_times": 0.2990031920474875
+          }
+        }
+      }
+    }
+  },
+  "primary_metric": "Equal evaluation-node full space-time norm per channel/sample, then arithmetic means",
+  "secondary_metric": "Physical cell-area weighted spatial norm with equal saved-time weights",
+  "chemical_scope": "Full-time primary; positive-time chemical diagnostic separately excludes differing initial conventions",
+  "limitations": "Eight reused geometries and one initialization; reference errors cannot be subtracted to infer causes"
+}

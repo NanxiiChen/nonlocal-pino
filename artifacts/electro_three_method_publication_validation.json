@@ -1,0 +1,38 @@
+{
+  "status": "passed",
+  "utc": "2026-11-14T20:45:40.745440+00:00",
+  "example": "electropolish2d",
+  "manifest": "artifacts/pino_three_method_figures.json",
+  "source": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-06/electropolish/provenance.json",
+  "comparison": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03/comparison.json",
+  "case_checkpoint_budget": 10000,
+  "complete_monitor_and_final_cohort": 64,
+  "actual_records": 41,
+  "selected_and_rendered_error_arrays_exact": true,
+  "independent_norm_max_absolute_gap": 3.83026943495679e-15,
+  "independent_norm_tolerance": "Existing loader rtol2e-13/atol1e-14; differently ordered FP64 reductions are not byte-copy comparisons",
+  "independent_saved_field_pairs_checked": 192,
+  "independent_channel_norms_checked": 384,
+  "all_field_and_channel_mean_tables_match": true,
+  "resource_tables_match_actual_measured_files": true,
+  "assets_byte_identical": [
+    "assets/pino-studies/electropolish2d_three_method_convergence.png",
+    "assets/pino-studies/electropolish2d_three_method_convergence.pdf",
+    "assets/pino-studies/electropolish2d_three_method_distribution.png",
+    "assets/pino-studies/electropolish2d_three_method_distribution.pdf"
+  ],
+  "added_bytes": 345294,
+  "collection_bytes": 855948,
+  "pdf_font_dimensions_and_edit_checks": "passed in linked renderer;6/7pt embeddedTrueType,programmatic text-edit probe",
+  "visual_review": "Both previews inspected; phase/concentration panels, three curves/violins and legend readable without clipping",
+  "build_pages": 9,
+  "local_links_checked": 350,
+  "build_command": [
+    "npm",
+    "run",
+    "build"
+  ],
+  "build_cwd": "/root/nonlocal-pinn/website",
+  "browser_GUI_QA": "Not performed; unchanged static report layout, actual figure previews and generated links checked",
+  "deployment_performed": false
+}

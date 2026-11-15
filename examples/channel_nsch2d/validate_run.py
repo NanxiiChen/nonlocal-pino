@@ -36,6 +36,9 @@ def validate(run):
     if c.nl.method == 'fem_weak_p2p1':
         from examples.channel_nsch2d.fem_weak import shapes
         expected = set(shapes(c))
+    if c.nl.method == 'local_ad':
+        from examples.channel_nsch2d.local_ad import shapes
+        expected = set(shapes(c))
     if set(known)!=expected:raise ValueError('Unexpected geometry-bank payload')
     online_audit=None
     refinement_audit=None
@@ -211,6 +214,9 @@ def validate(run):
         diagnostic_queries=len(saved['points']),
         scope='One development FEM geometry; no population estimate')
     if online_audit is not None:report['online_inputs']=online_audit
+    if c.nl.method == 'local_ad' and 'ad_sampling' in c.sample:
+        from examples.channel_nsch2d.local_ad import audit_queries
+        report['local_ad_queries']=audit_queries(draws['ad_core_indices'],data_key,c)
     if 'time_derivative' in c:
         report['time_derivative']=dict(**c.time_derivative.to_dict(),
             actual_time_samples=c.sample.Nt,updates=updates,

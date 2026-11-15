@@ -1,0 +1,30 @@
+{
+  "case": "spinodal",
+  "pid": 590811,
+  "owner_pid": 590811,
+  "start_ticks": 931260421,
+  "command": [
+    "/root/nonlocal-pinn/.venv/bin/python",
+    "-u",
+    "-m",
+    "docs.tasks.spinodal_nonlocal_fem_queue",
+    "--bundle",
+    "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-20261115-01",
+    "--prefix",
+    "spinodal-nonlocal-fem-20261115-01",
+    "--prior-bundle",
+    "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-05",
+    "--expected-gpu-uuid",
+    "GPU-85fe6412-636e-5d3c-d5f0-d1e9523c3faa",
+    "--max-projected-update-hours",
+    "24"
+  ],
+  "journal": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-20261115-01/journal.json",
+  "log": "/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-20261115-01-owner.log",
+  "launched_utc": "2026-11-15T03:00:16.200682+00:00",
+  "methods": [
+    "nonlocal",
+    "fem"
+  ],
+  "omitted_method": "local_ad by user request"
+}

@@ -1,0 +1,255 @@
+{
+  "status": "complete_waiting_owners_replaced_original_training_untouched",
+  "created_utc": "2026-11-14T15:37:40.995542+00:00",
+  "stopped": [
+    {
+      "key": "figure_queue",
+      "owner": {
+        "case": "figures",
+        "pid": 197437,
+        "start_ticks": 926317131,
+        "command": [
+          "/root/nonlocal-pinn/.venv/bin/python",
+          "-m",
+          "docs.tasks.pino_comparison_figure_queue",
+          "--output",
+          "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-02"
+        ],
+        "journal": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-02/journal.json",
+        "log": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-02-owner.log",
+        "verified_status": "waiting",
+        "verified_utc": "2026-11-14T13:17:38.627922+00:00",
+        "owner_pid": 197437,
+        "status": "superseded_before_start"
+      },
+      "original_journal": {
+        "status": "superseded_before_start",
+        "pid": 197437,
+        "stages": [],
+        "started_utc": "2026-11-14T13:16:23.377651+00:00",
+        "training": false,
+        "inference": false,
+        "reference_solves": false,
+        "publication": false,
+        "source_files": [
+          "scripts/pino_comparison_data.py",
+          "scripts/pino_comparison_plot.py",
+          "scripts/render_pino_three_method.py",
+          "scripts/trajectory_trend.py",
+          "scripts/local_trend.py",
+          "docs/tasks/ceramic_fem_comparison_figures.py",
+          "docs/tasks/pino_comparison_figure_queue.py"
+        ],
+        "heartbeat_utc": "2026-11-14T15:37:23.719522+00:00",
+        "waiting_for": {
+          "case": "channel",
+          "journal": "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/sampled-journal.json",
+          "pid": 81883,
+          "start_ticks": 924156816,
+          "final_report": "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/comparison.json"
+        },
+        "reason": "Add requested temporal-fusion experiments and64case Melting reference",
+        "replacement_pending": true
+      },
+      "no_children": true
+    },
+    {
+      "key": "spinodal_queue",
+      "owner": {
+        "case": "spinodal",
+        "pid": 197354,
+        "start_ticks": 926314437,
+        "command": [
+          "/root/nonlocal-pinn/.venv/bin/python",
+          "-m",
+          "docs.tasks.spinodal_threeway_queue",
+          "--bundle",
+          "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-02",
+          "--prefix",
+          "spinodal-threeway-20261114-02",
+          "--wait-journal",
+          "/root/autodl-tmp/tf-logs/melting-threeway-20261114-02/journal.json",
+          "--wait-pid",
+          "197353",
+          "--wait-start-ticks",
+          "926314412",
+          "--max-projected-update-hours",
+          "24"
+        ],
+        "journal": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-02/journal.json",
+        "log": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-02-owner.log",
+        "wait_owner_pid": 197353,
+        "wait_start_ticks": 926314412,
+        "verified_status": "waiting",
+        "verified_utc": "2026-11-14T13:17:38.627922+00:00",
+        "owner_pid": 197354,
+        "status": "superseded_before_start"
+      },
+      "original_journal": {
+        "status": "superseded_before_start",
+        "pid": 197354,
+        "prefix": "spinodal-threeway-20261114-02",
+        "wait_journal": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-02/journal.json",
+        "wait_pid": 197353,
+        "wait_start_ticks": 926314412,
+        "stages": [],
+        "started_utc": "2026-11-14T13:15:56.498661+00:00",
+        "max_projected_update_hours": 24.0,
+        "heartbeat_utc": "2026-11-14T15:37:26.796502+00:00",
+        "reason": "Add requested temporal-fusion experiments and64case Melting reference",
+        "replacement_pending": true
+      },
+      "no_children": true
+    },
+    {
+      "key": "melting_queue",
+      "owner": {
+        "case": "melting",
+        "pid": 197353,
+        "start_ticks": 926314412,
+        "command": [
+          "/root/nonlocal-pinn/.venv/bin/python",
+          "-m",
+          "docs.tasks.melting_threeway_queue",
+          "--bundle",
+          "/root/autodl-tmp/tf-logs/melting-threeway-20261114-02",
+          "--prefix",
+          "melting-threeway-20261114-02",
+          "--wait-journal",
+          "/root/autodl-tmp/tf-logs/electro-threeway-20261114-02/journal.json",
+          "--wait-pid",
+          "197352",
+          "--wait-start-ticks",
+          "926314386"
+        ],
+        "journal": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-02/journal.json",
+        "log": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-02-owner.log",
+        "wait_owner_pid": 197352,
+        "wait_start_ticks": 926314386,
+        "verified_status": "waiting",
+        "verified_utc": "2026-11-14T13:17:38.627922+00:00",
+        "owner_pid": 197353
+      },
+      "original_journal": {
+        "status": "superseded_before_start",
+        "pid": 197353,
+        "started_utc": "2026-11-14T13:15:56.186173+00:00",
+        "wait_journal": "/root/autodl-tmp/tf-logs/electro-threeway-20261114-02/journal.json",
+        "wait_pid": 197352,
+        "wait_start_ticks": 926314386,
+        "prefix": "melting-threeway-20261114-02",
+        "stages": [],
+        "heartbeat_utc": "2026-11-14T15:37:26.505098+00:00",
+        "reason": "Add requested temporal-fusion experiments and64case Melting reference",
+        "replacement_pending": true
+      },
+      "no_children": true
+    }
+  ],
+  "replacement_owners": [
+    {
+      "case": "melting",
+      "pid": 212944,
+      "owner_pid": 212944,
+      "start_ticks": 927258469,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-m",
+        "docs.tasks.melting_threeway_queue",
+        "--bundle",
+        "/root/autodl-tmp/tf-logs/melting-threeway-20261114-03",
+        "--prefix",
+        "melting-threeway-20261114-03",
+        "--wait-journal",
+        "/root/autodl-tmp/tf-logs/electro-threeway-20261114-02/journal.json",
+        "--wait-pid",
+        "197352",
+        "--wait-start-ticks",
+        "926314386"
+      ],
+      "journal": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-03/journal.json",
+      "log": "/root/autodl-tmp/tf-logs/melting-threeway-20261114-03-owner.log",
+      "wait_owner_pid": 197352,
+      "wait_start_ticks": 926314386,
+      "verified_status": "waiting",
+      "verified_utc": "2026-11-14T15:53:16.775694+00:00"
+    },
+    {
+      "case": "time_fusion",
+      "pid": 212945,
+      "owner_pid": 212945,
+      "start_ticks": 927258479,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-m",
+        "docs.tasks.pino_time_fusion_queue",
+        "--bundle",
+        "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-01",
+        "--prefix",
+        "pino-time-fusion-20261114-01",
+        "--wait-journal",
+        "/root/autodl-tmp/tf-logs/melting-threeway-20261114-03/journal.json",
+        "--wait-pid",
+        "212944",
+        "--wait-start-ticks",
+        "927258469",
+        "--electro-baseline",
+        "/root/autodl-tmp/tf-logs/electro-threeway-20261114-02",
+        "--melting-baseline",
+        "/root/autodl-tmp/tf-logs/melting-threeway-20261114-03"
+      ],
+      "journal": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-01/journal.json",
+      "log": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-01-owner.log",
+      "wait_owner_pid": 212944,
+      "wait_start_ticks": 927258469,
+      "verified_status": "waiting",
+      "verified_utc": "2026-11-14T15:53:16.880165+00:00"
+    },
+    {
+      "case": "spinodal",
+      "pid": 212946,
+      "owner_pid": 212946,
+      "start_ticks": 927258489,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-m",
+        "docs.tasks.spinodal_threeway_queue",
+        "--bundle",
+        "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-03",
+        "--prefix",
+        "spinodal-threeway-20261114-03",
+        "--wait-journal",
+        "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-01/journal.json",
+        "--wait-pid",
+        "212945",
+        "--wait-start-ticks",
+        "927258479",
+        "--max-projected-update-hours",
+        "24"
+      ],
+      "journal": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-03/journal.json",
+      "log": "/root/autodl-tmp/tf-logs/spinodal-threeway-20261114-03-owner.log",
+      "wait_owner_pid": 212945,
+      "wait_start_ticks": 927258479,
+      "verified_status": "waiting",
+      "verified_utc": "2026-11-14T15:53:17.082486+00:00"
+    },
+    {
+      "case": "figures",
+      "pid": 213297,
+      "owner_pid": 213297,
+      "start_ticks": 927261323,
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-m",
+        "docs.tasks.pino_comparison_figure_queue",
+        "--output",
+        "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-03"
+      ],
+      "journal": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-03/journal.json",
+      "log": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-03-owner.log",
+      "verified_status": "waiting",
+      "verified_utc": "2026-11-14T15:53:45.317936+00:00"
+    }
+  ]
+}

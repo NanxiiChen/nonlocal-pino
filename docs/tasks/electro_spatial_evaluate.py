@@ -13,23 +13,11 @@ import numpy as np
 from nonlocal_pinn.training.runtime import configure_gpu_policy
 from examples.electropolish2d.operator_training import _build_network, predict_fields
 from examples.electropolish2d.operator_data import load_dataset
+from examples.electropolish2d.operator_pairing import validate_reference_identity
 
 
 BASE = Path('/root/autodl-tmp/data/electropolish2d/operator_test64_20261028')
 LOCAL = Path('/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029')
-
-
-def validate_reference_identity(config, source):
-    """One physical target for sparse and explicit local-AD training controls."""
-    for name in ('physical', 'nondim', 'surface'):
-        if config[name] != source[name]:
-            raise ValueError('Common reference physical identity mismatch: '+name)
-    actual, expected = dict(config['nl']), dict(source['nl'])
-    method, source_method = actual.pop('method'), expected.pop('method')
-    if method not in ('sparse', 'local_ad') or source_method != 'sparse':
-        raise ValueError('Common reference requires the sparse/local_ad derivative controls')
-    if actual != expected:
-        raise ValueError('Common reference nonlocal discretization metadata mismatch')
 
 
 def relative(prediction, target):

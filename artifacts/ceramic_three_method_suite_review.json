@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "utc": "2026-11-14T19:43:08.446737+00:00",
+  "example": "particle_corrosion2d",
+  "scope": "Final current-tree review of already independently qualified three-model results; no retraining or inference",
+  "manifest": "artifacts/ceramic_component_comparison_figures.json",
+  "independent_prior_field_and_font_evidence": "/root/autodl-tmp/tf-logs/particle_corrosion2d/publication-component-comparison-20261114-01/provenance.json",
+  "methods": [
+    "Nonlocal PINO",
+    "Local AD PINO",
+    "FEM PINO"
+  ],
+  "budget": 20000,
+  "test_samples": 64,
+  "convergence_samples": 4,
+  "seed": 42,
+  "field_means": {
+    "Nonlocal PINO": [
+      0.038174886259585886,
+      0.046205188492968736
+    ],
+    "Local AD PINO": [
+      0.32206991664407314,
+      0.32605967668700137
+    ],
+    "FEM PINO": [
+      0.05553496385564092,
+      0.0659368978302109
+    ]
+  },
+  "assets": [
+    "assets/pino-studies/particle_corrosion2d_component_convergence.png",
+    "assets/pino-studies/particle_corrosion2d_component_distribution.png",
+    "assets/pino-studies/particle_corrosion2d_component_convergence.pdf",
+    "assets/pino-studies/particle_corrosion2d_component_distribution.pdf"
+  ],
+  "collection_bytes": 307994,
+  "current_source_repository_built_asset_identity": true,
+  "current_readme_source_and_built_site_values_match": true,
+  "direct_run_config_weights_evaluation_monitor_and_reference_paths_exist": true,
+  "current_captions_distinguish_development_metrics_and_numerical_FEM_reference": true,
+  "unchanged_existing_pdf_font_validation": "passed",
+  "prior_norms_checked": 384,
+  "deployment_performed": false
+}

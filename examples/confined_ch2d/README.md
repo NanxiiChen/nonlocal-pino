@@ -70,7 +70,7 @@ Accepted fixed-budget50000 checkpoint:
 | Chemical potential |10.7329%|14.2757%|
 
 The reference is independently time-refined **native nonlocal** integration.
-Local FEM for this harder10 mode case remains deferred. These8 development
+Independent local FEM is now qualified for the [matched spatial-method study](#spatial-method-accuracy-and-cost) below; the table above retains its native target. These8 development
 geometries were reused during configuration studies; they are not a fresh
 blind test. Worst phase errors are9.5686% pooled and10.5862% terminal.
 Recorded training wall time is102.26 min with 20.43 GiB peak active memory on
@@ -104,6 +104,163 @@ Online workers construct new geometry/operator inputs only. No-argument
 [Complete SOTA settings](#geometry-operator-sota),
 [training and audit](../../docs/tasks/archive/confined-ch-width256-online-cold50k.md),
 [figure sources and regeneration](../../artifacts/pino_readme_figures.json).
+
+### Matched spatial-operator controls
+
+The opt-in presets `train_operator_compare_nonlocal.py`,
+`train_operator_compare_local_ad.py`, and `train_operator_compare_fem.py` use
+`train.py` and retain the fixed10-mode/T3 physics, width256 network, two original
+geometry encoder streams, rolling1024 input pool, B16/Nt16 and cold SOAP50k.
+Nonlocal and FEM completed 50k; Local AD was explicitly omitted by the user after resource probes. They do not replace the accepted `train_operator.py` default. Full-field spatial
+quadrature is retained; these are not the unsuccessful core/halo pilots.
+
+All three new controls keep the exact initial phase and mass projection,
+
+$$
+\phi_\theta(x,t)=\phi_0(x)+\frac{t}{T}
+\left[f_\theta(x,t)-\langle f_\theta(\cdot,t)\rangle_\Omega\right].
+$$
+
+For this matched comparison, PDE collocation uses only the16 positive random
+times. The original SOTA additionally gives20%weight to its initial PDE residual.
+The fixed ambient initial field does not generally satisfy the newly sampled
+wall normals: requiring a classical strong PDE and mass conservation exactly
+at that initial corner is not equivalent to the weak initial-value problem.
+The new loss measure is therefore changed in **all three arms**, with the initial
+field itself unchanged. The unused leading zero remains in the recorded time
+stream. Ordinary FP32 execution and autotune level0 are explicit.
+
+| Arm | Spatial derivatives and walls | Loss metric / field reconstruction |
+|---|---|---|
+| Nonlocal | Original complete regional graph, including its natural no-exchange treatment | Original stable-part resolvent |
+| Local AD | Fourth spatial derivatives of the learned phase correction; known Fourier initial derivatives are analytic. Separate physical normal-derivative MSE for phase and chemical potential at positive times | Retains the original frozen nonlocal resolvent only as a **loss preconditioner**, not a PDE derivative |
+| FEM PINO | Exact signed P1 triangle stiffness and positive lumped nodal mass; natural Neumann conditions for both fields | Same resolvent construction applied to the FEM operator; nodal mass in the hard projection; continuous neural phase and P1-interpolated chemical potential at common evaluation centroids |
+
+Eliminating chemical potential in the local AD arm gives
+
+$$
+\Delta\mu=\beta\left[(3\phi^2-1)\Delta\phi+
+6\phi\lvert\nabla\phi\rvert^2\right]-\epsilon^2\Delta^2\phi,
+\qquad r=T(\phi_t-M\Delta\mu).
+$$
+
+The full-domain mass mean is constant with respect to an independent spatial
+query, but retains its parameter and time dependence. Query rematerialization
+and exact geometry-gradient accumulation reduce AD memory; gradients from all16
+geometries are averaged before one clipped SOAP update. No spatial residual
+columns are dropped. The FEM arm instead uses
+\(D=M_{\rm lump}^{-1}K\), \(\mu=\beta(\phi^3-\phi)+\epsilon^2D\phi\),
+and \(r=T(\dot\phi+MD\mu)\). Its nodal quadrature differs explicitly from the
+centroid quadrature used by the original operator; all signed stiffness entries
+are retained, including entries from obtuse triangles.
+
+Independent mixed-P2/BDF2 local references pass mesh/time refinement and
+mass/energy checks on all eight reserved geometries, at the same physical
+centroids and five times. Maximum phase mesh discrepancy is 0.67923%, phase
+time discrepancy 0.0010383%, and positive-time chemical mesh discrepancy 0.74673%;
+mass drift is at most 3.50e-16, with no observed energy increase.
+No evolved reference field enters any training payload. Primary comparison
+metrics take the unweighted space-time norm separately per channel/sample, then
+average; a positive-time chemical diagnostic separately exposes the incompatible
+initial chemical trace. The older native-reference results above keep their
+original meaning. These eight geometries are reused development cases, not a new
+blind test set. The completed two-method results follow; the AD resource probes
+are not a trained accuracy comparison.
+
+Implementation checks cover independent fourth-order jets, parameter gradients,
+full-objective accumulation, P1 element energies, signed couplings, mass and
+constant modes, common-field reconstruction and reference identity. GPU resource
+probes precede long training. Exact commands, current status and direct evidence
+are kept in the [active suite record](../../docs/tasks/pino-three-method-suite.md)
+and [inventory](../../artifacts/pino_three_method_suite.json).
+The [comparison figure guide](../../docs/PINO_COMPARISON_FIGURES.md) records
+the common renderer, metric scope and bootstrap conventions.
+
+### Spatial-method accuracy and cost
+
+Both controls use final **50,000-step** weights, one paired initialization
+(seed 42), and all eight geometries 1024–1031 at every 500-step evaluation,
+including step zero: **101 actual records per method**. The final audit verifies
+both cold states, every actual condition/time/online draw, 16,000 new online
+inputs, and 144 source files per run. Future reference fields remain evaluation-only.
+
+The primary metric takes an equal-node space-time norm separately for each
+physical channel and geometry at \(t=0,0.75,1.5,2.25,3\), then averages over
+geometries. The channel-mean row additionally averages the two channel errors;
+it is not a pooled norm or an average of per-time relative errors.
+
+| Final error against independent local mixed-P2 FEM | Nonlocal PINO | FEM PINO |
+|---|---:|---:|
+| Phase |31.9216%|5.5838%|
+| Chemical potential, all five times |46.5728%|45.8887%|
+| Mean of phase and chemical errors |39.2472%|25.7362%|
+| Chemical potential, four positive times only (diagnostic) |31.3091%|14.9354%|
+
+At \(t=0\), the local reference reports the analytic continuum chemical trace,
+whereas each trained model eliminates chemical potential through its own spatial
+operator. The prescribed initial phase is incompatible with generic local wall
+normals. Keep this initial-trace convention visible: the positive-time chemical
+row supplements, and does not replace, the full-time primary metric.
+
+The same final predictions evaluated against both numerical targets give:
+
+| Equal-node phase relative L2 | Nonlocal PINO | FEM PINO |
+|---|---:|---:|
+| Native nonlocal numerical reference |4.5990%|29.3864%|
+| Independent local FEM numerical reference |31.9216%|5.5838%|
+
+The two numerical references themselves differ by **31.9633%** under this same
+phase metric. This confirms a substantial spatial-model/discretization gap at
+the current horizon; fitting the native dynamics well is not equivalent to
+approximating the local PDE well. Relative-error magnitudes cannot be subtracted
+to decompose causes. The original selected SOTA has 4.9174% native / 32.2170%
+local phase error under the same equal-node evaluation; the discrepancy predates
+these controls. Its published 4.8329% retains physical-cell area weights.
+Further horizon/resolution/boundary investigation is [deferred to TODO](../../docs/TODO.md#spinodal-finite-horizon-nonlocal-versus-local-pde-discrepancy) by the user; no additional Spinodal experiment is started.
+
+| Measured resource, same RTX PRO 6000 Blackwell Server GPU | Nonlocal PINO | FEM PINO |
+|---|---:|---:|
+| Complete cold training process |8,086.91 s (2.2464 h)|6,852.67 s (1.9035 h)|
+| Full-run peak active device allocation |20.44 GiB|21.89 GiB|
+
+Complete time includes imports, initialization, in-process preparation, JIT,
+all updates and rolling waits, all in-training evaluations, final writes and
+teardown. Separate reference-bank construction and final audit/plotting are
+outside the training interval. Both controls use GPU
+`GPU-85fe6412-636e-5d3c-d5f0-d1e9523c3faa`; allocator reservation is not active memory.
+The full-size Local AD probes projected about 114 h for nested differentiation
+and 55 h for an exact Taylor-mode implementation of 50k updates. These are
+warm-update projections, not completed cold training times or accuracy results.
+The user chose to omit that arm. No universal speed/accuracy or cross-seed claim
+follows from this single paired study; production defaults are unchanged.
+
+![Spinodal Nonlocal and FEM PINO component convergence against independent local FEM](../../assets/pino-studies/confined_ch2d_nonlocal_fem_convergence.png)
+
+All 101 actual case-mean records are retained as thin solid lines. Thick solid
+lines show log-LOWESS (span 0.12); shading is the 2.5–97.5 percentile interval
+from 2,000 resamples of complete geometry trajectories, paired across methods.
+This is conditional on eight reused geometries and one training run, not
+cross-seed or population-wide confidence coverage.
+[Editable convergence PDF](../../assets/pino-studies/confined_ch2d_nonlocal_fem_convergence.pdf).
+
+![Spinodal final50k phase and chemical-potential error distributions](../../assets/pino-studies/confined_ch2d_nonlocal_fem_distribution.png)
+
+Final-weight distributions use all eight geometries and the same local FEM
+reference/full-time metric. Each panel retains one channel error per geometry.
+Log10 Gaussian KDE uses Scott bandwidth, three-bandwidth tails, equal maximum
+width and quartiles; with eight samples it is a descriptive display. Axes show
+raw error ratios, not percentages, and use automatic limits.
+[Editable distribution PDF](../../assets/pino-studies/confined_ch2d_nonlocal_fem_distribution.pdf).
+Both figures are 170 × 60 mm with embedded editable fonts.
+
+Direct records: [selected figures and reproduction](../../artifacts/pino_three_method_figures.json),
+[paired final audit](/root/autodl-tmp/tf-logs/spinodal-nonlocal-fem-20261115-01/final.json),
+[same-metric dual-reference fields](../../artifacts/spinodal_final_reference_norms.json),
+[complete cold timing](../../artifacts/pino_training_wall_costs.json), and
+[common figure guide](../../docs/PINO_COMPARISON_FIGURES.md).
+The new final checkpoints are `model_final.eqx` under
+`/root/autodl-tmp/tf-logs/confined_ch2d/spinodal-nonlocal-fem-20261115-01-{nonlocal,fem}`;
+load each with its adjacent saved `config.json`.
 
 <details>
 <summary>Detailed formulation, single-problem PINN defaults and historical controls</summary>
@@ -1061,7 +1218,7 @@ Seed is run provenance, not a strategy-config field.
 The8development geometries are reused across these studies, with one run
 initialization; this is not a fresh blind test or cross-seed stability claim.
 References are independently time-refined **native nonlocal** solutions.
-Local FEM for this harder10mode case remains deferred. Worst geometry phi L2
+The later [spatial-method comparison](#spatial-method-accuracy-and-cost) supplies qualified local FEM and reports the substantial native/local gap; these SOTA values retain their native target. Worst geometry phi L2
 is9.5686% pooled and10.5862% terminal. Thus the mean phase target is met;
 not every terminal sample is below10%, and mu is less accurate than phi.
 
@@ -2167,9 +2324,76 @@ This changes the output coordinate and loss norm; it does not truncate the
 existing dense residual metric or establish better accuracy.
 
 The spatial preset retains complete two-hop dependencies and both full encoder
-streams, draws128cores in local groups, and refreshes four selectable sets every
-50steps. Background geometry replacement invalidates the affected sets.
+streams, draws128core slots in local groups (repeated nodes are possible), and
+refreshes four selectable sets every50steps. Background geometry replacement
+invalidates the affected sets.
 Fixed512inner/1024query capacities reject overflow. Initial pilots are cold
 only; continuation and unsupported off-graph queries are rejected explicitly.
+
+The completed5k pilots did not recover the accepted accuracy. On the same eight
+native reserved geometries, using the physical-volume-weighted space-time phase
+relative error:
+
+| Formulation and sampling | Training steps | Phase relative error |
+| --- | ---: | ---: |
+| Original direct-phase output, stable residual metric, full coordinates |5000 |18.205% |
+| Original direct-phase output, stable residual metric, full coordinates |50000 |4.833% |
+| Experimental potential output, identity metric, full coordinates |5000 |60.878% |
+| Experimental potential output, identity metric, rolling compact wall/bulk cores |5000 |87.262% |
+
+The first two rows are historical checkpoints of the accepted run; hardware and
+execution histories differ from the new trials. Learning-rate settings are
+unchanged and do not depend on the total step budget. In particular,
+60.878% is not a rerun of the original SOTA and cannot establish a sampling-only
+regression. Both the output representation and the residual norm changed.
+The original default and selected checkpoint remain unchanged. The opt-in
+[rolling residual-row control](configs/train_operator_residual_rows.py) keeps
+the original global field queries, exact mass constraint and dense metric.
+It samples512 loss rows after that metric from eight selectable volume-CDF sets
+per geometry, refreshes sets every50steps and invalidates them on geometry
+replacement. Its explicit5k budget is a convergence pilot, not a replacement for
+the accepted50k recipe. Complete sampled row IDs and small coordinate/volume
+snapshots support independent replay; no dense metric copies or reference
+trajectories enter the row pool. CPU lifecycle, canonical short-training,
+loss/gradient-expectation and real-input replay checks pass. Trained accuracy
+is pending. This control still requires full neural queries, so it does not
+by itself establish compact core/halo training.
 See the [active study](../../docs/tasks/pino-unified-rolling-core-halo.md) for
-validation, measured resources and the pending accuracy comparison.
+validation, measured resources, diagnostic limitations and direct run paths.
+
+An additional **experimental, default-off** initial-rate lift is available through
+[the full preset](configs/train_operator_initial_rate.py) and
+[the rolling core/halo preset](configs/train_operator_initial_rate_spatial.py).
+Both still enter through `train.py`. They add only
+`operator.initial_rate_lift={kind:exact_pde_rate,timescale:stable_graph_bound}`
+to the corresponding potential control; architecture, physical coefficients,
+time sampling, optimizer and residual measure remain the same.
+From the prescribed initial graph, compute
+\(v_0=-M\mu_0/\alpha\), then set
+\(\chi=\tau(1-e^{-t/\tau})v_0+
+s(t)(1-e^{-t/\tau})/(1-e^{-T/\tau})\,\chi_\theta\).
+Thus \(\phi(0)=\phi_0\) and \(\phi_t(0)=-MD\mu_0\), while later evolution
+remains learned. The timescale comes from the documented initial-graph bound,
+not a reference trajectory. Two fixed-shape known-input arrays carry the rate
+and timescale through initial loading, rolling geometry replacement and complete
+two-hop halos. These arrays do not enlarge the encoder feature channels.
+Canonical short-training, initial time-JVP and full/compact parameter-gradient
+checks pass. Real geometry replacement checks also pass. **Improved trained L2
+has not yet been established**; the queued full/bulk/wall controls are convergence
+pilots and do not replace the accepted 50,000-step result.
+
+The wall allocation is a fraction of **core slots**, not a guarantee of higher
+sampling density. With wall-band volume fraction \(f\) and wall-core fraction
+\(\rho\), the wall/bulk density ratio is
+\(\rho(1-f)/[(1-\rho)f]\). Preserve the physical-volume loss weights when
+changing this allocation. The sampling band is independent of the physical
+operator horizon; all two-hop neighbors remain present.
+
+The optional [half-band control](configs/train_operator_initial_rate_halfband.py)
+changes only the initial-rate spatial preset's sampling band from \(\delta\)
+to \(\delta/2\), keeping128slots, two64-slot groups and a50/50split. On72known
+geometries, the full-horizon band occupies59--82%of the domain, so equal slot
+allocation actually undersamples that band. The half-horizon band occupies
+32--44%, making the same allocation a true near-wall density increase.
+This control has **no trained L2 result yet** and is not a default. Its direct
+input, support and frozen-residual diagnostics are recorded in the active study.

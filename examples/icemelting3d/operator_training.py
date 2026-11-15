@@ -28,6 +28,10 @@ def build_graph(c):
     axis=np.linspace(0,1,n,dtype=np.float32)
     points=np.stack(np.meshgrid(axis,axis,axis,indexing='xy'),-1).reshape(-1,3)
     x=jnp.asarray(points)
+    if 'spatial_discretization' in c.operator and c.operator.spatial_discretization == 'fem_p1_lumped':
+        from examples.icemelting3d.fem_weak import build_cube
+        op, info = build_cube(n)
+        return op, x, info
     op=build_D(x,c.nl.delta,method=c.nl.method,kernel=c.nl.kernel)
     expected_edges=6*(n-1)*n*n
     if len(op._vals)!=expected_edges or op._k_max!=6:
@@ -128,6 +132,8 @@ def train_operator(c):
     repo=Path(__file__).resolve().parents[2]
     sources=[p for p in (repo/'examples/icemelting3d').glob('*.py')]
     sources+=list((repo/'examples/icemelting3d/configs').glob('*.py'))
+    if 'temporal_query' in c.arch:
+        sources.append(repo/'examples/electropolish2d/temporal_query.py')
     sources+=[repo/p for p in ('src/nonlocal_pinn/nn/conditional.py','src/nonlocal_pinn/training/optimizers.py',
         'src/nonlocal_pinn/training/runtime.py','src/nonlocal_pinn/operators/__init__.py')]
     names=[]

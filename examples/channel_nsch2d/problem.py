@@ -48,6 +48,10 @@ def identity(c):
 def validate_config(c):
     g,p=c.geometry,c.physical
     fem = c.nl.method == 'fem_weak_p2p1'
+    local_ad = c.nl.method == 'local_ad'
+    if local_ad:
+        from examples.channel_nsch2d.local_ad import validate
+        validate(c)
     if fem:
         from examples.channel_nsch2d.fem_weak import validate
         validate(c)
@@ -163,7 +167,7 @@ def validate_config(c):
     if 'boundary_sampling' in c:
         b=c.boundary_sampling
         if (set(b)!={'kind','points_per_side','encoder'} or b.kind!='gauss_legendre'
-                or b.encoder!='unchanged_midpoints' or 'derivatives' not in c):
+                or b.encoder!='unchanged_midpoints' or ('derivatives' not in c and not local_ad)):
             raise ValueError('Boundary sampling requires explicit gauss_legendre/unchanged_midpoints and GMLS derivatives')
         if isinstance(b.points_per_side,bool) or not isinstance(b.points_per_side,int) or b.points_per_side<2:
             raise ValueError('Boundary points_per_side must be an integer>=2')
@@ -245,7 +249,7 @@ def validate_config(c):
     if 'time_derivative' in c:
         s=c.time_derivative
         if (set(s)!={'kind','sampling'} or s.kind!='jvp' or s.sampling!='continuous_stratified'
-                or 'time_discretization' in c or ('derivatives' not in c and not fem)
+                or 'time_discretization' in c or ('derivatives' not in c and not fem and not local_ad)
                 or c.sample.include_initial_time):
             raise ValueError('Explicit time derivative requires jvp/continuous_stratified, GMLS space and no discrete-time/t0 row')
     if 'phase_transport' in c:

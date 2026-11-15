@@ -1,0 +1,62 @@
+{
+  "stopped_owner": {
+    "case": "figures",
+    "pid": 213297,
+    "owner_pid": 213297,
+    "start_ticks": 927261323,
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-m",
+      "docs.tasks.pino_comparison_figure_queue",
+      "--output",
+      "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-03"
+    ],
+    "journal": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-03/journal.json",
+    "log": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-03-owner.log",
+    "verified_status": "waiting",
+    "verified_utc": "2026-11-14T15:56:46.223212+00:00",
+    "status": "superseded_after_channel_preview"
+  },
+  "original_stages": [
+    {
+      "case": "channel",
+      "command": [
+        "/root/nonlocal-pinn/.venv/bin/python",
+        "-m",
+        "scripts.render_pino_three_method",
+        "--case",
+        "channel",
+        "--comparison",
+        "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/comparison.json",
+        "--output",
+        "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-03/channel",
+        "--baseline-comparison",
+        "/root/autodl-tmp/tf-logs/channel-fem-full-20261114-01/comparison.json"
+      ],
+      "status": "passed",
+      "pid": 231952,
+      "exit_code": 0,
+      "seconds": 3.3219937309622765,
+      "provenance": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-03/channel/provenance.json"
+    }
+  ],
+  "no_training_stopped": true,
+  "no_active_children": true,
+  "utc": "2026-11-14T18:41:58.825553+00:00",
+  "new_owner": {
+    "case": "figures",
+    "pid": 247088,
+    "owner_pid": 247088,
+    "start_ticks": 928272882,
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-m",
+      "docs.tasks.pino_comparison_figure_queue",
+      "--output",
+      "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-04"
+    ],
+    "journal": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-04/journal.json",
+    "log": "/root/autodl-tmp/tf-logs/pino-three-method-figures-20261114-04-owner.log",
+    "verified_utc": "2026-11-14T18:42:20.804617+00:00"
+  }
+}

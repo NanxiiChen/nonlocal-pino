@@ -23,6 +23,9 @@ def relative_error(a,b,weights):
 
 def check_chemical_relation(phi,predicted,reference,c):
     """Independent FP64 reconstruction with a declared FP32 rounding bound."""
+    if ('spatial_discretization' in c['operator']
+            and c['operator']['spatial_discretization'] != 'nonlocal'):
+        raise ValueError('Graph chemical reconstruction is invalid for AD/FEM; use the three-method auditor')
     phi=np.asarray(phi,dtype=np.float64)
     coefficients=reference['coefficients'];neighbors=reference['neighbors']
     differences=phi[:,:,None]-phi[:,neighbors]

@@ -1,0 +1,132 @@
+{
+  "status": "allocator_recovery_queue_launched",
+  "bundle": "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03",
+  "probe_owner_pid": 81883,
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "tests": {
+    "command": "JAX_PLATFORMS=cpu OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 .venv/bin/python -m unittest tests.test_channel_local_ad tests.test_channel_fem_weak tests.test_channel_time_batching -v",
+    "count": 11,
+    "seconds": 161.02,
+    "log": "/tmp/channel-local-ad-qualified-tests.log"
+  },
+  "initial_state_pairing": {
+    "network_byte_identical": true,
+    "full_soap_state_byte_identical": true,
+    "all_shared_initial_geometry_arrays_identical": true
+  },
+  "screen": {
+    "path": "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-02/screen.json",
+    "initial_cases": 16,
+    "online_cases": 802,
+    "seconds": 112.64524516277015
+  },
+  "spatial_derivatives": "All local AD, including streamfunction third spatial derivatives; time JVP unchanged",
+  "losses": [
+    "phase",
+    "chemical",
+    "momentum_x",
+    "momentum_y",
+    "wall_phase",
+    "wall_mu",
+    "outlet_traction",
+    "outlet_phase",
+    "outlet_mu"
+  ],
+  "effective_condition_batch": 8,
+  "effective_time_samples": 36,
+  "query_nodes": 15633,
+  "probe_time_block": null,
+  "planned_cold_updates": 20000,
+  "defaults_changed": false,
+  "git_operations": false,
+  "planned_production_core_count": 2048,
+  "planned_production_time_block": 9,
+  "independent_boundary_points": 192,
+  "spatial_estimator": "Mean of M*m_i/W times squared PDE residual over fresh uniform K-node subsets without replacement; full independent BC quadrature",
+  "sampling_tests": {
+    "count": 2,
+    "seconds": 96.003,
+    "log": "/tmp/channel-local-ad-sampling-tests-qualified.log",
+    "checks": [
+      "Complete subset expectation against exact weighted loss",
+      "Real network full-interior-subset loss and parameter gradient",
+      "Five boundary terms unchanged by smaller PDE subset",
+      "Saved int32 query identities replayed independently"
+    ]
+  },
+  "stopped_full_probe": {
+    "bundle": "/root/autodl-tmp/tf-logs/channel-local-ad-20261114-01",
+    "owners": [
+      15899,
+      34407
+    ],
+    "worker_groups_stopped": true,
+    "completed_first_update_peak_bytes": 85548212224,
+    "warm_timing_qualified": false,
+    "reason": "User requests sampled AD with independent boundary losses"
+  },
+  "resource_candidates": [
+    {
+      "pde_queries": 1024,
+      "time_block": 18
+    },
+    {
+      "pde_queries": 2048,
+      "time_block": 9
+    }
+  ],
+  "queue_journal": "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03/sampled-journal.json",
+  "prior_sampled_attempt": {
+    "bundle": "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-02",
+    "status": "failed_before_cold20k",
+    "failed_stage": "probe-ad2048",
+    "failure": "CUDA graph instantiation driver OOM; 4713 nodes, two alive graphs; allocator fraction0.97",
+    "original_journal": "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-02/sampled-journal.json",
+    "ad1024_summary": "/root/autodl-tmp/tf-logs/channel_nsch2d/channel-sampled-ad-20261114-02-probe-ad1024/summary.json",
+    "ad1024_steps": 60,
+    "ad1024_inclusive_median_seconds": 0.6615039817988873,
+    "ad1024_peak_active_gib": 23.23830556869507,
+    "ad1024_development_metrics": {
+      "step": 60,
+      "elapsed": 1165.7935323845595,
+      "phi": 0.33443524666050156,
+      "terminal_phi": 0.3151797273310926,
+      "dispersed_phase": 0.883720643621293,
+      "velocity": 0.08015860693412538,
+      "pressure": 0.9065689236178842,
+      "chemical": 3.3272867893800564,
+      "phi_range": [
+        -1.0,
+        1.0247454643249512
+      ],
+      "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/development/bdf-fine.npz",
+      "scope": "One local-FEM geometry; not a generalization estimate"
+    }
+  },
+  "allocator_recovery": {
+    "ad_fraction": 0.8,
+    "nonlocal_fraction": 0.97,
+    "preallocate": true,
+    "command_buffers": "unchanged",
+    "checks": [
+      "CLI rejects missing/invalid sampled allocator before launch",
+      "Changed queue syntax valid"
+    ],
+    "scope": "Resource-launcher only; numerical source and production effective samples unchanged",
+    "command": [
+      "/root/nonlocal-pinn/.venv/bin/python",
+      "-m",
+      "docs.tasks.channel_ad_queue",
+      "--bundle",
+      "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03",
+      "--prefix",
+      "channel-sampled-ad-20261114-03",
+      "--phase",
+      "sampled",
+      "--ad-memory-fraction",
+      "0.80"
+    ],
+    "owner_log": "/root/autodl-tmp/tf-logs/channel-sampled-ad-20261114-03-owner.log",
+    "unchanged_numerical_source_files": 117
+  }
+}
