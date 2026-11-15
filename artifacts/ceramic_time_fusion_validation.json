@@ -135,5 +135,6 @@
     "initial": "/tmp/ceramic-temporal-tests.log",
     "followup": "/tmp/ceramic-temporal-regression.log",
     "scope": "Seven initial numerical/default tests passed; one ConfigDict.pop test-helper error was repaired. The corrected configuration test and nine affected numerical regression tests passed in the follow-up. Numerical source remains unchanged since those tests."
-  }
+  },
+  "subsequent_publication": "artifacts/ceramic_time_fusion_publication.json (later user-authorized publication; original completion flags above describe the experiment-completion session)"
 }

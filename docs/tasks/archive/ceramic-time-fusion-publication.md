@@ -8,8 +8,8 @@ provenance. Preserve defaults and unrelated experiments. User authorized commit,
 regular dev-to-main merge and main push on2026-11-15.
 
 ## Context
-Completed experiment: [archived task](archive/ceramic-time-fusion-comparison.md).
-[Validated sources](../../artifacts/ceramic_time_fusion_validation.json).
+Completed experiment: [archived task](ceramic-time-fusion-comparison.md).
+[Validated sources](../../../artifacts/ceramic_time_fusion_validation.json).
 Selected figures: /root/autodl-tmp/tf-logs/ceramic-time-fusion-20261115-04/figures-v2.
 FiLM/joint final means4.09016%/4.48324%; cold2629.487s/12475.490s.
 Same physicalGPU, one initialization,64common local-FEM references at41records.
@@ -17,14 +17,15 @@ The existing temporal asset collection has a2MiB budget; publish two small
 statistical pairs, retaining full physical galleries/weights externally.
 
 ## Status
-In progress. No blocker. README has final text but no embedded new figures;
-website has not yet received this comparison. Extend explicit publication
-metadata/validation to the20k ceramic case without relaxing other case checks.
+Complete. No blocker or next action. No training restarted and no default changed.
 
-## Next action
-Select audited statistical assets; update README/site; build and check links,
-asset bytes and committed scope. Commit ondev, merge normally tomain, pushmain,
-then verify Pages deployment and live text/four figure bytes.
+## Publication
+- dev6180ce7 -> regular main mergefb45cf7 -> pushoriginmain.
+- Pages run43727138734 passed build and deploy.
+- Live overview, Ceramic chapter and four selected PDF/PNG files return200
+  and match the built assets byte-for-byte.
+- [Published chapter](https://nanxiichen.github.io/nonlocal-pino/particle-corrosion.html#time-film-versus-joint-query).
+- [Publication receipt](../../../artifacts/ceramic_time_fusion_publication.json).
 
 ## Local validation and selected scope
 - README, repository overview, case/overview website chapters and figure guide
@@ -44,3 +45,10 @@ then verify Pages deployment and live text/four figure bytes.
   research reproduction scripts, completion/source/figure records and publication.
   Include the stopped Melting task record as a memory-link dependency only;
   its numerical changes and all other deferred investigations remain unstaged.
+
+## Task-end summary
+The final staged website build matched all9local pages;395local links/anchors
+pass. Relevant implementation, tests, configs, source/clock/figure provenance,
+README/overview and website updates were committed. Unrelated numerical work
+remains local. The final record-only follow-up archives this task and updates
+PROGRESS/DECISIONS plus the live publication receipt; it changes no site bytes.
