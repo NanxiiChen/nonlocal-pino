@@ -26,6 +26,12 @@ def build_network(c, key):
         output = eqx.tree_at(lambda layer: (layer.weight, layer.bias), output,
                             (jnp.zeros_like(output.weight), jnp.zeros_like(output.bias)))
     net = eqx.tree_at(lambda model: model.output, net, output)
+    if 'temporal_mode' in a:
+        if a.temporal_mode not in ('decoder_film', 'joint_query'):
+            raise ValueError('temporal_mode must be decoder_film or joint_query')
+        if a.temporal_mode == 'joint_query':
+            from .temporal_query import JointQueryOperator
+            net = JointQueryOperator(net, key=jax.random.fold_in(key, 1843))
     if c.train.compute_dtype not in ('float32', 'float64'):
         raise ValueError('Explicit compute_dtype must be float32 or float64')
     return jax.tree.map(lambda value: value.astype(c.train.compute_dtype)
@@ -67,7 +73,7 @@ def lifting_gate(times, c):
 
 
 def decode(net, prepared, times, c, points=None):
-    """Return raw (time,point,2) channels; all spatial work is shared in time."""
+    """Raw(time,point,2); default shares attention, opt-in joint queries repeat it."""
     if times.ndim != 1 or prepared.ndim != 2 or prepared.shape[1] != net.width:
         raise ValueError('Decoder requires times(Nt) and prepared(Nx,width)')
     tau = times / c.sample.t_max
@@ -77,12 +83,16 @@ def decode(net, prepared, times, c, points=None):
     frequencies = _time_frequencies(net.time_features, net.time_max_frequency, times.dtype)
     angles = jnp.pi * tau[:, None] * frequencies
     temporal = jnp.concatenate((tau[:, None], jnp.sin(angles), jnp.cos(angles)), axis=-1)
-    films = jax.vmap(net.time)(temporal).reshape(len(times), len(net.layers), 2, net.width)
-    hidden = jnp.broadcast_to(prepared, (len(times), *prepared.shape))
-    for i, layer in enumerate(net.layers):
-        hidden = jax.vmap(jax.vmap(layer))(hidden)
-        hidden = jax.nn.gelu(hidden * (1+films[:, i, 0, None, :]) + films[:, i, 1, None, :])
-    raw = net.output_scale * jax.vmap(jax.vmap(net.output))(hidden)
+    from .temporal_query import JointQueryOperator
+    if isinstance(net, JointQueryOperator):
+        raw = net.decode_temporal(prepared, temporal)
+    else:
+        films = jax.vmap(net.time)(temporal).reshape(len(times), len(net.layers), 2, net.width)
+        hidden = jnp.broadcast_to(prepared, (len(times), *prepared.shape))
+        for i, layer in enumerate(net.layers):
+            hidden = jax.vmap(jax.vmap(layer))(hidden)
+            hidden = jax.nn.gelu(hidden * (1+films[:, i, 0, None, :]) + films[:, i, 1, None, :])
+        raw = net.output_scale * jax.vmap(jax.vmap(net.output))(hidden)
     if 'phase' in c and 'initial_lifting' in c.phase:
         if points is None or points.shape != (len(prepared), 2):
             raise ValueError('Initial lifting requires all prepared query coordinates')

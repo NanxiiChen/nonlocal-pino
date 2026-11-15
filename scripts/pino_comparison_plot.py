@@ -86,7 +86,7 @@ def render(data,output):
                     or elapsed[0]<=0 or np.any(np.diff(elapsed)<=0)
                     or elapsed[-1]!=arm['timing']['cold_process_seconds']):
                 raise ValueError('Require actual ordered cold observations and complete-process endpoint')
-    tick_labels=(tuple(label.replace(' ','\n') for label in labels)
+    tick_labels=(tuple(label.replace(' ','\n',1) for label in labels)
                  if len(data['fields'])>=3 else labels)
     options=dict(data['smoothing']);kind=options.pop('kind');steps=np.asarray(data['steps'])
     with matplotlib.rc_context(style()):

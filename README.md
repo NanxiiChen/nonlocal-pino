@@ -145,6 +145,15 @@ use nonlocal derivatives, one initialization, final 10k weights and complete
 elapsed wall-clock seconds from cold launch, including initialization, compilation,
 in-training evaluation and final process completion; raw errors are unchanged.
 
+The [Ceramic temporal control](examples/particle_corrosion2d/README.md#controlled-time-feature-fusion-study)
+extends this test to two-stream geometry conditioning and rolling geometry/core-halo
+inputs. Final 20k FiLM/joint-query channel means are **4.0902% / 4.4832%** on
+64 common local-FEM cases. Complete cold times are **2629.49 / 12475.49 s** on
+the same physical GPU: FiLM is **4.74 times as fast** in this paired run.
+All 41 records use equal-point full-space-time norms and direct parent clocks.
+Temporal capacities differ; defaults remain FiLM. The README and website share
+the selected convergence/violin PDF and PNG pairs.
+
 The five approved publication main figures are collected in
 [assets/pino-main](assets/pino-main/README.md), with170mmeditable PDF originals,
 matching PNG previews and [direct source/configuration records](artifacts/pino_main_figures.json).

@@ -1,0 +1,139 @@
+{
+  "schema": "ceramic_time_fusion_completion_v1",
+  "status": "passed",
+  "date_utc": "2026-11-15T14:32:37.919009+00:00",
+  "bundle": "/root/autodl-tmp/tf-logs/ceramic-time-fusion-20261115-04",
+  "training_journal": "/root/autodl-tmp/tf-logs/ceramic-time-fusion-20261115-04/journal.json",
+  "paired_audit": "/root/autodl-tmp/tf-logs/ceramic-time-fusion-20261115-04/comparison.json",
+  "frozen_source": "/root/autodl-tmp/tf-logs/ceramic-time-fusion-20261115-02/source",
+  "numerical_source_files_verified": [
+    "examples/particle_corrosion2d/network.py",
+    "examples/particle_corrosion2d/temporal_query.py",
+    "examples/particle_corrosion2d/losses.py",
+    "examples/particle_corrosion2d/train.py",
+    "examples/particle_corrosion2d/evaluate.py",
+    "examples/particle_corrosion2d/online.py",
+    "examples/particle_corrosion2d/problem.py",
+    "examples/particle_corrosion2d/operators.py",
+    "examples/particle_corrosion2d/spatial_adjoint.py",
+    "examples/particle_corrosion2d/configs/train_time_film.py",
+    "examples/particle_corrosion2d/configs/train_time_joint.py"
+  ],
+  "reference": "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01",
+  "budget": 20000,
+  "seed": 42,
+  "evaluation_count": 64,
+  "observations_per_arm": 41,
+  "metric": "equal-point full-space-time per-channel L2, then channel/sample mean",
+  "metric_channels": [
+    "phi",
+    "concentration",
+    "channel_mean"
+  ],
+  "timing_scope": "Parent before process creation through exit; includes imports, preparation, compile, training, in-training64case evaluation, rolling waits, final writes and teardown; excludes probes and post-training audit/figures.",
+  "gpu": "GPU-85fe6412-636e-5d3c-d5f0-d1e9523c3faa, NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887 MiB, 595.71.05",
+  "methods": {
+    "film": {
+      "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-time-fusion-20261115-04-film",
+      "config": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-time-fusion-20261115-04-film/config.json",
+      "runtime": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-time-fusion-20261115-04-film/runtime.json",
+      "checkpoint": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-time-fusion-20261115-04-film/model_final.eqx",
+      "metric_file": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-time-fusion-20261115-04-film/metrics.jsonl",
+      "model_array_entries": 2248450,
+      "final_mean": [
+        0.03696452770563446,
+        0.04483867163592315,
+        0.040901599670778804
+      ],
+      "final_sample_std": [
+        0.00494715476299229,
+        0.006021841690998386,
+        0.0054828750419190836
+      ],
+      "full_cold_seconds": 2629.487217296,
+      "online_audit": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-time-fusion-20261115-04-film/online_validation.json"
+    },
+    "joint": {
+      "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-time-fusion-20261115-03-joint",
+      "config": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-time-fusion-20261115-03-joint/config.json",
+      "runtime": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-time-fusion-20261115-03-joint/runtime.json",
+      "checkpoint": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-time-fusion-20261115-03-joint/model_final.eqx",
+      "metric_file": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-time-fusion-20261115-03-joint/metrics.jsonl",
+      "model_array_entries": 1853442,
+      "final_mean": [
+        0.040577883410672075,
+        0.049086912929839216,
+        0.04483239817025565
+      ],
+      "final_sample_std": [
+        0.005165508659684263,
+        0.006235671679226109,
+        0.005699138785238795
+      ],
+      "full_cold_seconds": 12475.48966977,
+      "online_audit": "/root/autodl-tmp/tf-logs/particle_corrosion2d/ceramic-time-fusion-20261115-03-joint/online_validation.json"
+    }
+  },
+  "speed_ratio_joint_over_film": 4.74445724159063,
+  "common_initial_backbone_equal": true,
+  "all_actual_draws_equal": true,
+  "all_final_pools_reconstructed": true,
+  "saved_field_channel_norms_checked": 256,
+  "physical_panels_independently_checked": 40,
+  "plotted_histories_equal_actual_records": true,
+  "historical_default_film_predictions_identical_count": 64,
+  "historical_default_evaluation": "/root/autodl-tmp/tf-logs/ceramic-execution-isolation-20261113-01/default-cold/eval64",
+  "figure_provenance": "/root/autodl-tmp/tf-logs/ceramic-time-fusion-20261115-04/figures-v2/provenance.json",
+  "physical_provenance": "/root/autodl-tmp/tf-logs/ceramic-time-fusion-20261115-04/figures-v2/physical_provenance.json",
+  "figures": {
+    "convergence": {
+      "pdf": "/root/autodl-tmp/tf-logs/ceramic-time-fusion-20261115-04/figures-v2/particle_corrosion2d_time_fusion_convergence.pdf",
+      "png": "/root/autodl-tmp/tf-logs/ceramic-time-fusion-20261115-04/figures-v2/particle_corrosion2d_time_fusion_convergence.png",
+      "bytes": {
+        "pdf": 42983,
+        "png": 132221
+      }
+    },
+    "distribution": {
+      "pdf": "/root/autodl-tmp/tf-logs/ceramic-time-fusion-20261115-04/figures-v2/particle_corrosion2d_time_fusion_distribution.pdf",
+      "png": "/root/autodl-tmp/tf-logs/ceramic-time-fusion-20261115-04/figures-v2/particle_corrosion2d_time_fusion_distribution.png",
+      "bytes": {
+        "pdf": 39405,
+        "png": 123161
+      }
+    },
+    "film_fields": {
+      "pdf": "/root/autodl-tmp/tf-logs/ceramic-time-fusion-20261115-04/figures-v2/particle_corrosion2d_time_film_fields.pdf",
+      "png": "/root/autodl-tmp/tf-logs/ceramic-time-fusion-20261115-04/figures-v2/particle_corrosion2d_time_film_fields.png",
+      "bytes": {
+        "pdf": 1223063,
+        "png": 704219
+      }
+    },
+    "joint_fields": {
+      "pdf": "/root/autodl-tmp/tf-logs/ceramic-time-fusion-20261115-04/figures-v2/particle_corrosion2d_time_joint_fields.pdf",
+      "png": "/root/autodl-tmp/tf-logs/ceramic-time-fusion-20261115-04/figures-v2/particle_corrosion2d_time_joint_fields.png",
+      "bytes": {
+        "pdf": 1213316,
+        "png": 695400
+      }
+    }
+  },
+  "visual_review": "Inspected all four previews. Full cold-time curves, NPGcolors, automatic y limits and64case violins are legible; joint label kept on two lines in v2. Four geometries/five actual times per method use equal aspect, ivory particles, coolwarm phase, dashed local-FEM interfaces and per-panel equal-node phase errors. Other v2PNGs byte-identical to the reviewed v1.",
+  "uncertainty": "Pointwise95%whole-case bootstrap intervals for log-LOWESS smoothed means; not cross-seed uncertainty. One initialization; temporal parameter counts differ.",
+  "reproduction": "PYTHONPATH=/tmp/pino-pdf-audit OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 JAX_PLATFORMS=cpu .venv/bin/python -m docs.tasks.ceramic_temporal_figures --bundle /root/autodl-tmp/tf-logs/ceramic-time-fusion-20261115-04 --output /tmp/ceramic-time-fusion-reviewed",
+  "defaults_changed": false,
+  "git_operations_performed": false,
+  "website_deployed": false,
+  "documentation": {
+    "readme": "examples/particle_corrosion2d/README.md",
+    "task": "docs/tasks/archive/ceramic-time-fusion-comparison.md",
+    "dashboard": "docs/PROGRESS.md",
+    "decisions": "docs/DECISIONS.md"
+  },
+  "focused_test_evidence": {
+    "initial": "/tmp/ceramic-temporal-tests.log",
+    "followup": "/tmp/ceramic-temporal-regression.log",
+    "scope": "Seven initial numerical/default tests passed; one ConfigDict.pop test-helper error was repaired. The corrected configuration test and nine affected numerical regression tests passed in the follow-up. Numerical source remains unchanged since those tests."
+  }
+}

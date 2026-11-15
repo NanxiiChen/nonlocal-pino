@@ -59,11 +59,41 @@ def metrics(prediction,target,volumes,times):
     return result
 
 
+def equal_point_metrics(prediction, target):
+    """Per-channel norms over ALL saved space-time points, then channel mean."""
+    a, b = np.asarray(prediction, dtype=np.float64), np.asarray(target, dtype=np.float64)
+    if (a.shape != b.shape or a.ndim != 3 or a.shape[-1] != 2
+            or not np.isfinite(a).all() or not np.isfinite(b).all()):
+        raise ValueError('Equal-point metrics require finite matching(T,N,2) fields')
+    denominators = np.sum(b*b, axis=(0, 1))
+    if np.any(denominators <= 0):
+        raise ValueError('Equal-point relative metric has a zero reference norm')
+    errors = np.sqrt(np.sum((a-b)**2, axis=(0, 1))/denominators)
+    return dict(equal_phi=float(errors[0]), equal_c=float(errors[1]),
+                channel_mean=float(np.mean(errors)))
+
+
+def validate_monitor(c, count):
+    if 'monitor' not in c:
+        return
+    m = c.monitor
+    if (set(m) != {'expected_conditions', 'chunk_size', 'metric', 'render_training_figures'}
+            or m.metric != 'equal_point_space_time'
+            or isinstance(m.expected_conditions, bool) or not isinstance(m.expected_conditions, int)
+            or m.expected_conditions < 1 or count != m.expected_conditions
+            or isinstance(m.chunk_size, bool) or not isinstance(m.chunk_size, int) or m.chunk_size < 1
+            or not isinstance(m.render_training_figures, bool)):
+        raise ValueError('Monitor needs explicit equal-point metric, matching cohort count, chunk size and figure flag')
+
+
 def make_evaluator(c,references,chunk_size=512):
     import equinox as eqx
     import jax
     import jax.numpy as jnp
     from .network import predict_fields
+    validate_monitor(c, len(references))
+    if 'monitor' in c:
+        chunk_size = c.monitor.chunk_size
     names=('domain_tokens','domain_weights','boundary_tokens','boundary_weights')
     @eqx.filter_jit
     def infer(net,data,points,times):
@@ -81,7 +111,10 @@ def make_evaluator(c,references,chunk_size=512):
                 blocks.append(np.asarray(jax.block_until_ready(predicted))[:,:len(points)])
             prediction=np.concatenate(blocks,axis=1)
             predictions.append(prediction)
-            records.append(metrics(prediction,ref['fields'],ref['volumes'],ref['times']))
+            record = metrics(prediction,ref['fields'],ref['volumes'],ref['times'])
+            if 'monitor' in c:
+                record.update(equal_point_metrics(prediction, ref['fields']))
+            records.append(record)
         summary={key:float(np.mean([record[key] for record in records])) for key in records[0]}
         summary['conditions']=records
         return predictions,summary

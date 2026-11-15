@@ -318,11 +318,13 @@ if (timeFusion.schema !== 'pino_time_fusion_publication_v1' ||
 }
 let timeFusionBytes = 0;
 for (const record of timeFusion.cases) {
-  if (!['electropolish2d', 'icemelting3d'].includes(record.example) ||
-      record.comparison_kind !== 'time_fusion' || record.budget !== 10000 ||
+  const temporalBudgets = { electropolish2d: [10000, 250], icemelting3d: [10000, 250], particle_corrosion2d: [20000, 500] };
+  const expected = temporalBudgets[record.example];
+  if (!expected ||
+      record.comparison_kind !== 'time_fusion' || record.budget !== expected[0] ||
       record.monitor_ids.length !== 64 || new Set(record.test_ids).size !== 64 ||
       JSON.stringify(record.monitor_ids) !== JSON.stringify(record.test_ids) ||
-      JSON.stringify(record.steps) !== JSON.stringify(Array.from({ length: 41 }, (_, i) => i * 250)) ||
+      JSON.stringify(record.steps) !== JSON.stringify(Array.from({ length: 41 }, (_, i) => i * expected[1])) ||
       JSON.stringify(record.arms.map(arm => arm.method)) !== JSON.stringify(['decoder_film', 'joint_query']) ||
       record.pairing.shared_initial_backbone_equal !== true ||
       record.pairing.all_actual_sampling_arrays_equal !== true ||

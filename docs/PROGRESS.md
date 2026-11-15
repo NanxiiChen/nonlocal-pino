@@ -2,7 +2,29 @@
 
 ## Current state
 
-**No active task.** The five-main-PINO spatial-method comparison and two
+**Active task:** [Ceramic temporal-control publication](tasks/ceramic-time-fusion-publication.md).
+
+Publish the accepted figures and results to README/website, then commit, push
+main and verify GitHub Pages. No new training or default changes.
+
+**Latest completed:** [Ceramic Time-FiLM versus joint query](tasks/archive/ceramic-time-fusion-comparison.md).
+Both cold20k runs, all41×64equal-point histories, paired sampling/source/final-field
+audit and four reviewed PDF/PNG figures are complete. Final channel means:
+FiLM4.09016%,joint4.48324%; complete cold times2629.487s /12475.490s (4.74446x),
+same physicalGPU. NewFiLM reproduces all64historical final predictions exactly.
+Defaults remainFiLM. Results/reproduction are in the exampleREADME and
+[completion manifest](../artifacts/ceramic_time_fusion_validation.json).
+Selected statistical PDF/PNG pairs are now in assets/pino-studies and embedded
+in the exampleREADME/site; physical galleries remain external. Local validation
+passes. Git/Pages publication is in progress in the active task.
+
+Melting soft-IC was stopped by user: Nonlocal/AD completed, FEM interrupted,
+joint query unstarted. All owned processes stopped and original hard-IC defaults
+verified. [Stopped experiment record](tasks/archive/melting-soft-initial-condition.md).
+
+## Previously completed publication
+
+The five-main-PINO spatial-method comparison and two
 nonlocal temporal-feature studies are complete and published. The temporal
 convergence figures now use elapsed cold wall-clock time.
 [Latest publication task](tasks/archive/pino-time-fusion-wall-clock.md).
@@ -73,9 +95,14 @@ stopped; Spinodal retains full-field training.
 
 ## Latest session checks
 
-Cold-time reconstruction retains 41 actual observations per arm and all 64
-test inputs. Intermediate times use declared filesystem calibration; exact
-parent totals define final model availability. No subsecond precision claim.
-18 focused/compatibility tests, clean staged website build, PDF edit/font checks
-and actual preview review pass. Memory updated: this dashboard, DECISIONS and
-the archived publication task. No additional Spinodal work was launched.
+Ceramic complete-pair audit verifies identical common initialization and actual
+sampling, both reconstructed final pools,256final channel norms,10496actual
+plotted channel observations,40physical-panel labels and complete cold endpoints.
+Four final figures were visually reviewed; PDF fonts/text/layers pass. NewFiLM
+and joint queues/observer are terminal. Numerical source matches the frozen
+qualified snapshot. ExampleREADME, completion manifest and archived task agree;
+no default or Git change. Previously passed focused numerical tests remain valid.
+
+Earlier five-case/temporal publication checks remain in the archived tasks above.
+The new Ceramic study preserves prior selected assets and adds its own explicit
+20k/64case temporal comparison. Live deployment verification is pending.

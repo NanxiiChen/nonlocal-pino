@@ -179,6 +179,69 @@ spatial Fourier directions (256 sine/cosine features), spatial scale 2, and
 eight temporal frequencies spanning 1–4 in \(\pi t^*\). It contains 2,248,450
 stored model parameters/array entries.
 
+### Controlled time-feature fusion study
+
+The opt-in temporal controls [train_time_film.py](configs/train_time_film.py)
+and [train_time_joint.py](configs/train_time_joint.py) compare this decoder with
+joint space-time queries. The latter adds a linear projection of the same time
+features to each spatial query **before both heterogeneous attention blocks**,
+then uses three ordinary GELU MLP layers without FiLM. Both domain and boundary
+streams, their measures, spatial features and common initial parameters are
+preserved. The temporal modules have different parameter counts; this is not an
+equal-capacity comparison. These presets retain the accepted Adam/nonlocal
+20k recipe, rolling inputs and five losses, and require all 64 local-FEM cases
+at every 500-step evaluation. Equal-point space-time errors are recorded
+separately from the historical quadrature-weighted metrics. Training figures
+are rendered afterward from saved observations; no reference enters a loss.
+The completed20k control keeps FiLM as the default. Both arms were cold-trained
+on the same RTX PRO6000Blackwell Server GPU, with identical common initial
+parameters, actual geometry/core/time draws, physics and optimizer settings.
+All41evaluations use the same64local-FEM geometries and **equal-point** space-time
+norms; the historical quadrature-weighted diagnostic is not used in these plots.
+The final fixed-budget weights give:
+
+| Time injection | Phase | Concentration | Channel mean | Complete cold wall time |
+|---|---:|---:|---:|---:|
+| Spatial attention + decoder FiLM |3.6965%|4.4839%|4.0902%|2629.49s|
+| Joint spatial/time query, no FiLM |4.0578%|4.9087%|4.4832%|12475.49s|
+
+FiLM completes the budget **4.74 times as fast**, with slightly lower error in
+this realization. Timing starts before process creation and includes initialization,
+compilation, updates, rolling-pool waits, all in-training64case evaluations,
+final saves and process exit. Qualification probes and later audits/plotting are
+separate. The new FiLM's64final prediction arrays exactly match the accepted
+historical default; the new run supplies dense64case histories and direct cold
+clocks. The temporal modules contain2,248,450versus1,853,442stored model entries,
+so this single-initialization result does not establish an equal-capacity or
+cross-seed accuracy claim.
+
+The selected figures show phase, concentration and channel mean, with solid raw
+and log-LOWESS curves against **cold wall-clock seconds** and pointwise95%
+whole-geometry bootstrap intervals. Final64case log-KDEviolins use the same
+metric. Separate phase galleries show the first four fixed test cases at actual
+saved times0,0.2,0.5,0.8,1, with local-FEM interfaces overlaid. Editable PDF and
+PNG files, exact sources, checks and reproduction command are in the
+[completion and figure record](../../artifacts/ceramic_time_fusion_validation.json).
+[Experiment record](../../docs/tasks/archive/ceramic-time-fusion-comparison.md).
+
+![FiLM versus joint-query convergence over complete cold wall time](../../assets/pino-studies/particle_corrosion2d_time_fusion_convergence.png)
+
+All 41 observations use the same 64 local-FEM cases and equal-point space-time
+norms. Thin solid lines show raw means; thick solid lines show log-LOWESS
+(span 0.22). Shading is the pointwise 95% interval from 2,000 whole-case
+trajectory bootstrap draws, conditional on this monitored cohort and one
+initialization. [Editable PDF](../../assets/pino-studies/particle_corrosion2d_time_fusion_convergence.pdf).
+
+![Final phase, concentration and channel-mean error distributions for FiLM and joint query](../../assets/pino-studies/particle_corrosion2d_time_fusion_distribution.png)
+
+Final 20k weights, 64 samples. The third panel averages the two channel errors
+within each sample; no spatial or temporal quadrature weights are used.
+Violins use log-error KDE and quartiles; tails are fitted density, not additional
+observations. [Editable PDF](../../assets/pino-studies/particle_corrosion2d_time_fusion_distribution.pdf).
+[Selected assets and reproduction](../../artifacts/pino_time_fusion_figures.json).
+
+### Physical outputs and residuals
+
 Two raw channels \(z,s\) give the physical fields:
 
 $$

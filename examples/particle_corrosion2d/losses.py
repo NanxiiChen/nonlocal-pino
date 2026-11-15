@@ -116,7 +116,8 @@ def condition_losses(net, times, data, c, causal_eps=None, return_aux=False):
     if exact_mouth:
         points = graph
     cached = net.prepare_encoded(encode(net, data), points)
-    evolution = cached if hard or exact_mouth else jnp.concatenate((cached[:n_graph], cached[n_graph+n_ic:]))
+    from .temporal_query import evolution_queries
+    evolution = cached if hard or exact_mouth else evolution_queries(cached, n_graph, n_ic)
     evolution_points = graph if exact_mouth else jnp.concatenate((graph, mouth), axis=0)
     if 'time_form' in c.loss:
         from .time_integral import simpson_queries

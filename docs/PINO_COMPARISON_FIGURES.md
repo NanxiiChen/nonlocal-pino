@@ -296,13 +296,13 @@ After inspecting the actual completed plots, select the four local assets with:
 
 `artifacts/pino_time_fusion_figures.json` retains both methods, their shared
 initialization/sampling checks, capacities, timing and separate local diagnostic.
-The two-case collection has a2MiBbudget and1MiBper file. An empty selection does
+The three-case collection has a2MiBbudget and1MiBper file. An empty selection does
 not claim a completed experiment. Update both example captions and website
 chapters after selection, then build locally; this command does not deploy.
 
 ## Cold wall-clock axes for the temporal studies
 
-The selected two temporal convergence figures use real elapsed seconds, not
+The selected temporal convergence figures use real elapsed seconds, not
 steps or steps multiplied by a warm-update estimate. Other derivative figures
 retain their existing step axis. All original per-case errors remain unchanged.
 The final existing observation is placed at the measured complete parent-process
@@ -331,3 +331,30 @@ unchanged methods, weights, samples, steps and errors, retains the superseded
 source record, and checks the same asset budget. It cannot replace another
 comparison kind. Cold wall times include all training-process work; offline
 reference banks and later independent audits remain separate.
+
+## Ceramic temporal control
+
+The completed Ceramic pair adds20k/500-step records on64local-FEM cases, with
+the same equal-point space-time norm at all41observations and final weights.
+Unlike the older clock reconstruction above, its monitor times are measured
+directly from the parent's monotonic origin before child creation. The last
+point includes child exit. The third panel averages channel norms within each
+sample; all components retain every actual sample.
+
+[Completion and direct inputs](../artifacts/ceramic_time_fusion_validation.json)
+record the renderer, external physical galleries and exact numerical source.
+`docs.tasks.ceramic_temporal_figures` regenerates the four figures in a fresh
+external directory. After visual review, select only the two statistical pairs:
+
+```bash
+.venv/bin/python -m scripts.publish_ceramic_time_fusion \
+  --bundle /root/autodl-tmp/tf-logs/ceramic-time-fusion-20261115-04 \
+  --provenance /root/autodl-tmp/tf-logs/ceramic-time-fusion-20261115-04/figures-v2/provenance.json \
+  --visual-review 'Describe the actual visual inspection.'
+```
+
+The adapter checks original figure data against completed audited observations,
+final channel norms, full cold intervals and frozen numerical source bytes.
+It retains the original renderer receipt and adds publication metadata without
+altering the reviewed images. Physical galleries, reference arrays and weights
+remain external. The same2MiB collection budget covers all three cases.
