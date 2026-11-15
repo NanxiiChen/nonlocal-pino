@@ -2,9 +2,10 @@
 
 ## Current state
 
-**Active task:** [time-fusion wall-clock figures and comparison publication](tasks/pino-time-fusion-wall-clock.md).
-The five-main-PINO spatial-method comparison and two nonlocal temporal-feature
-studies are complete; this task changes figure timing and publishes their records.
+**No active task.** The five-main-PINO spatial-method comparison and two
+nonlocal temporal-feature studies are complete and published. The temporal
+convergence figures now use elapsed cold wall-clock time.
+[Latest publication task](tasks/archive/pino-time-fusion-wall-clock.md).
 [Archived task](tasks/archive/pino-three-method-suite.md) ·
 [Completion audit](../artifacts/pino_three_method_completion_validation.json).
 
@@ -21,9 +22,12 @@ All28selected convergence/distribution PDF/PNG files appear in the corresponding
 READMEs and local website. Build9pages,387local links/anchors, final-field metrics,
 asset byte identity and16complete cold training intervals pass. Defaults remain
 unchanged; comparisons retain one initialization and their declared cohorts.
-The user now authorizes commit and push of the updated figures and results.
-The latest deployed revision remains main f2b9127 / Pages 43556036346 until this
-publication task succeeds.
+Published via dev e8ce417 -> main merge e0e154c -> push origin main.
+Pages run 43693239443 passed build and deploy. Both live temporal chapters and
+four convergence PDF/PNG assets match the selected captions/files.
+[Publication receipt](../artifacts/pino_comparison_pages_publication.json).
+Standalone core/halo investigations remain local; no raw weights/reference arrays
+or intermediate galleries were uploaded.
 
 ## Main result qualifications
 
@@ -66,3 +70,12 @@ stopped; Spinodal retains full-field training.
   [older dashboard](tasks/archive/project-progress-through-20261114.md).
 - [Split/recovery guidance](migration/VALIDATION.md); preserve external data and
   unrelated worktree changes.
+
+## Latest session checks
+
+Cold-time reconstruction retains 41 actual observations per arm and all 64
+test inputs. Intermediate times use declared filesystem calibration; exact
+parent totals define final model availability. No subsecond precision claim.
+18 focused/compatibility tests, clean staged website build, PDF edit/font checks
+and actual preview review pass. Memory updated: this dashboard, DECISIONS and
+the archived publication task. No additional Spinodal work was launched.
