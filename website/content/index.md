@@ -109,3 +109,12 @@ use nonlocal derivatives, one initialization, final 10k weights and complete
 64-case histories, with temporal-capacity and reference qualifications explicit. The selected temporal convergence plots use
 elapsed wall-clock seconds from cold launch, including initialization, compilation,
 in-training evaluation and final process completion; raw errors are unchanged.
+
+The [Ceramic temporal control](particle-corrosion.html#time-film-versus-joint-query)
+extends this test to two-stream geometry conditioning and rolling geometry/core-halo
+inputs. Final 20k FiLM/joint-query channel means are **4.0902% / 4.4832%** on
+64 common local-FEM cases. Complete cold times are **2629.49 / 12475.49 s** on
+the same physical GPU: FiLM is **4.74 times as fast** in this paired run.
+All 41 records use equal-point full-space-time norms and direct parent clocks.
+Temporal capacities differ; defaults remain FiLM. The case chapter includes
+the selected convergence and final-error distributions.

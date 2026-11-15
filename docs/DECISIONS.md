@@ -13823,3 +13823,176 @@ actual live temporal captions and four convergence assets match the selected
 bytes. Archive the wall-clock/publication task and leave no active task.
 Spinodal horizon/resolution/boundary research remains explicitly deferred.
 Relation: pino-time-fusion-wall-clock; artifacts/pino_comparison_pages_publication.json.
+
+## 2026-11-15 — Isolate the Melting hard-initial-field shortcut
+
+The user requests a soft-initial-condition experiment to test whether the hard
+lift masks method differences. Add an opt-in physical phase MSE on the same
+uniform PDE core nodes at t=0, weight1, keeping the tanh mapping, transformed
+PDE L1, online shapes, rolling cores, Adam and10k budget unchanged. Soft output
+is tanh(raw); it contains neither pointwise prescribed latent initial values
+nor a vanishing time multiplier. The prescribed phase volume still conditions
+the encoder. Local AD differentiates only the learned field and keeps physical
+Neumann MSE; known SDF jets are unnecessary. Reject retaining u0 in the output,
+adding reference supervision, or changing defaults. Begin with equal explicit
+weights and inspect separate initial/PDE losses before introducing balancing.
+All64native references are monitored; the separate accepted local CG2 case
+remains a qualified single-case diagnostic. Direct monotonic parent timestamps
+record cold wall time; no reconstruction from average step rates. Four arms:
+Nonlocal/FiLM, Local AD/FiLM, FEM PINO/FiLM, Nonlocal/joint query. Validate and
+probe before launching; no Git/history authorization in this task.
+Relation:melting-soft-initial-condition.
+
+## 2026-11-15 — Repair only the soft-IC figure observer
+
+The active goal is to monitor the existing four Melting runs through completion
+and finish visualization. The trainer owner and its Nonlocal child are live;
+the separate figure observer exited with AttributeError because this Python
+build lacks os.pidfd_open. Preserve the failed record/log, select an explicit
+60-second /proc PID-plus-start-ticks check for this observer, and reject PID
+reuse/zombie states as live owners. This checks only process identity, not GPU
+or training metrics. Do not restart or modify any numerical trainer. Final
+render still requires a successful complete queue and paired audit. No Git
+operations/default change. Relation:melting-soft-initial-condition active goal.
+
+## 2026-11-15 — Keep soft-IC diagnosis separate from method ranking
+
+The completed Nonlocal soft-IC run has17.46%native64phase error,6.09%at the
+initial instant and19.19%over positive saved times, versus0.2860%for its matched
+hard control. Continue the fixed four-arm budget; do not retune one method or
+promote a new default based on this first outcome. Prepare fixedcase005physical
+slices and direct initial-latent inference to distinguish initial-tail errors
+from spatial discretization. The actual transformed PDE implies the homogeneous
+reduction u_t=n2*tanh(u)-n3; physical near-solid deviations e=1-phi grow initially
+at rate2(n3-n2) when spatial diffusion is omitted. Any illustrative scalar
+zero-crossing calculation must be checked independently and labeled a reduced
+model, never presented as an ellipsoid reference trajectory. Postprocessing
+runs after all trainers to preserve measured time-cost conditions.
+Relation:melting-soft-initial-condition monitoring/visualization goal.
+
+## 2026-11-15 — Stop soft-IC Melting; switch temporal comparison to Ceramic
+
+User abandoned the Melting soft-IC experiment, cleared that monitoring goal,
+and requests Time-FiLM versus joint(x,t)query on Ceramic corrosion instead.
+Stop verified owner702687/FEM748199and observer738336; retain all artifacts and
+record cancelled_by_user. Only Nonlocal/AD finished; no four-arm result or
+completed visualization is claimed. Verify actual PINN/PINO defaults still use
+the exact initial latent lift; no reset or default change is needed. Archive
+the stopped task. Explicitly switch the sole active task to Ceramic temporal
+conditioning, preserving the two geometry context streams and successful
+nonlocal/SOAP recipe. Reject continuing cancelled Melting work or reusing older
+four-case monitoring as a full64case comparison. No Git operations authorized.
+Relation:melting-soft-initial-condition closure;ceramic-time-fusion-comparison.
+
+## 2026-11-15 — Match Ceramic temporal controls to the actual Adam default
+
+Inspection corrects the earlier SOAP assumption: the selected Ceramic preset
+uses Adam, width256, B4, Nt32, two heterogeneous attention blocks, three decoder
+MLPs, rolling256cores and20k updates. Preserve dense_fixed spatial adjoints,
+ordinary FP32/highest matmul and autotune0, which recovered the accepted result.
+Joint-query control keeps both domain/wall condition streams, lifts and spatial
+projection. Add a separate linear temporal projection before both attention
+blocks, remove the FiLM module, and apply ordinary GELU decoder layers. The
+sum of spatial/time projections is exactly a linear projection of concatenated
+features; it does not introduce geometry-specific attention. Common backbone
+parameters use identical keys; time-module parameter counts differ explicitly.
+Use the existing64local-FEM bank at each evaluation, reporting equal-point
+full-space-time channel norms as well as the historical weighted diagnostics.
+Record direct parent cold elapsed time. Existing default architecture/checkpoint
+leaves remain unchanged; opt-in comparison configs select the new branch.
+Reject changing optimizer or physical IC/BC/PDE settings along with time fusion.
+Relation:ceramic-time-fusion-comparison.
+
+## 2026-11-15 — Use actual saved Ceramic times and a process-only figure observer
+
+The64local-FEM bank contains11snapshots at increments0.1. Physical galleries
+therefore select t*=0,0.2,0.5,0.8,1 before outcomes, replacing the prospective
+quarter-time placeholders; no temporal interpolation or additional solve is
+introduced. Accuracy uses all11snapshots. Firstfourcase selection is unchanged.
+Wait for the finite training/audit owner by PID plus Linux start ticks; a CPU
+observer checks only process identity once per minute and renders only after a
+successful full paired audit. It neither polls metrics nor restarts trainers.
+Reject treating compile duration as failure or publishing partial probe errors
+as a trained comparison. The new FiLM first-step five losses and gradient
+weights exactly match the accepted default run, supporting baseline fidelity.
+Relation:ceramic-time-fusion-comparison.
+
+## 2026-11-15 — Qualify actual joint-query memory rather than a conservative quota
+
+First queue terminated after the joint probe completed26finite updates and
+all64reference evaluations but exceeded the preselected75GiB active-memory
+ceiling. This was an explicit guard rejection, not CUDA OOM or a nonfinite PDE.
+XLA reports81.98GiB buffers after rematerialization; actual peak was not saved
+because the first probe raised before writing its receipt. Preserve all failed
+source/log/journal/observer files. No full trainer began.
+
+The95.6GiBdevice has room to qualify a higher explicit ceiling. Probe again
+with the entire persistent geometry bank and the trainer's compiled gather on
+GPU, retaining B4/Nt32, physics, architecture, original90%preallocation and
+all execution flags. Use an85GiBactive ceiling; persist measurements before
+raising on any ceiling rejection. New finite queue is a separate02bundle;
+do not modify the failed frozen source or restart a live process. This changes
+resource qualification, not the paired training scheme. A real allocation
+failure or insufficient headroom will require further action, not a silent
+smaller batch/time sample fallback. Relation:ceramic-time-fusion-comparison.
+
+## 2026-11-15 — Reuse accepted FiLM; run only the Ceramic joint-query arm
+
+User explicitly requests avoiding redundant FiLM training and accepts different
+monitor sizes. Stop verified02FiLM/owner/observer, retain every partial artifact,
+and launch03joint-only from qualified frozen02source. Reuse the accepted
+ceramic-default-fixed-adjoint-20261113-01 final20k model and its64local-FEM
+evaluation. Historical monitoring is4development cases (not8),21records and
+weighted norms; joint monitors64cases at41records. Convergence uses weighted
+norms for both, explicitly different cohorts, with cold wall-time axes. Final
+64case distributions use identical equal-point space-time channel norms.
+Historical full run and current run use the same GPU model but differentUUIDs;
+report that and differing monitoring overhead. Current-device paired probes
+remain auxiliary speed/memory evidence. Reject fabricated64case historical
+curves and unnecessary fullFiLM retraining. A new64caseFiLM run is conditional
+on questionable comparison evidence, as authorized by the user. No default or
+Git change. Relation:ceramic-time-fusion-comparison;03journal and02stopreceipt.
+
+## 2026-11-15 — Require equal-point temporal curves; authorize a new64case FiLM run
+
+After clarifying quadrature-weighted versus equal-point norms, the user requires
+their original full-space-time pointwise L2 metric for all displayed comparisons
+and approves retraining FiLM. Keep the live03joint trainer untouched; queue04
+waits for completion, then starts cold20kFiLM with all64cases monitored every500
+updates, matching joint. Reuse the qualified02numerical source and probes. Both
+complete parent clocks include setup, compilation, evaluation, writes and exit;
+same physicalGPU is checked beforeFiLM. The brief historical4case reuse plan is
+superseded; its preserved final64 diagnostic is not the selected baseline.
+Do not generate weighted convergence or pretend sparse checkpoints recover dense
+histories. Remove the unused reuse-only renderer and attach the equal-point
+figure observer to04. No new experiments beyond the authorized pair, default
+changes or Git operations. Relation:ceramic-time-fusion-comparison;04journal.
+
+## 2026-11-15 — Complete Ceramic temporal controls with the common64case metric
+
+Both approved cold20k runs and the full paired input/final-field audit passed.
+FiLM final mean4.09016%versus joint4.48324%; complete cold times2629.487s versus
+12475.490s on the identical physicalGPU, ratio4.74446. NewFiLM reproduces all64
+historical final prediction arrays exactly, while adding dense equal-point64case
+histories and direct cold clocks. Keep FiLM defaults. Reject a universal or
+cross-seed accuracy inference from this single common initialization and unequal
+temporal-module capacities. Finalv2figures retain all actual observations,
+95%whole-case intervals, final64violins and two4×5phase galleries; only an awkward
+joint-label line break changed afterv1review. All visuals and PDF metrics/font
+checks pass. Store direct provenance in artifacts/ceramic_time_fusion_validation.json,
+record stable results in the exampleREADME, and archive the completed task.
+No Git or website publication was authorized/performed. Relation:ceramic-time-fusion-comparison.
+
+## 2026-11-15 — Publish the completed Ceramic temporal comparison
+
+User accepts the final result and authorizes README/website publication,
+commit and push. Select only the two statistical PDF/PNG pairs (337770bytes)
+in the existing2MiB temporal collection; retain full field galleries externally.
+Extend the publisher/site with explicit Ceramic20k/500step/64case checks while
+preserving10k controls. Adapt existing reviewed provenance without redrawing;
+check final norms, actual histories, frozen source and direct parent clocks.
+Keep FiLM defaults, one-initialization/unequal-capacity qualifications and
+historical three-method metrics separate. Reject uploading raw weights or
+unrelated pending numerical investigations. Local9page build,394links and
+asset-byte checks pass; proceed dev commit -> regular main merge -> main push,
+then verify Pages and live files. Relation:ceramic-time-fusion-publication.

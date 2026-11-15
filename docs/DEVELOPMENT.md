@@ -114,11 +114,13 @@ Its two final50k methods and complete8case histories are mandatory; all other
 cases retain the original three-method validation. Do not silently infer an
 omission from missing checkpoints or widen the approved asset budget.
 
-Completed Electropolish/Melting temporal controls have a separate2MiB collection
+Completed Electropolish/Melting/Ceramic temporal controls have a separate2MiB collection
 under the same directory, at most1MiBper file, with `_time_fusion_` filenames.
 `artifacts/pino_time_fusion_figures.json` includes only reviewed final10k/64case
-results, common-backbone/draw audits, differing time-module capacities and
-measured resources. Its empty case list means no result is selected yet.
+Electropolish/Melting results and final20k/64case Ceramic results,
+common-backbone/draw audits, differing time-module capacities and
+measured resources. Ceramic records direct parent-clock observations; earlier
+cases retain their explicitly reconstructed observation times.
 `scripts/publish_pino_time_fusion.py` reuses the comparison publisher; the local
 website validates and copies these identical PDF/PNG pairs. No evolved fields,
 checkpoints, or synthetic qualification plots enter this collection.

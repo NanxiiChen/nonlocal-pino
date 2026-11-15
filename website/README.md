@@ -62,6 +62,14 @@ the N=3 limit of the final violins.
 The builder validates their [publication manifest](../artifacts/channel_fem_comparison_publication.json)
 and byte budgets before copying them. Image/manifest edits also trigger Pages.
 
+The ceramic chapter also shares the selected temporal-control convergence and
+distribution PDF/PNG pairs with its README. The temporal manifest validates
+20k/500-step records for Ceramic and10k/250-step records for Electropolish/Melting,
+with64common monitoring/test cases for every pair. Ceramic uses direct parent
+clock observations; the earlier cases retain their recorded clock reconstruction.
+The same2MiB temporal collection budget applies. Full physical galleries remain
+external and are linked through the completion provenance.
+
 KaTeX renders standard LaTeX expressions at build time to HTML and MathML.
 The generated site loads its math fonts locally. [KaTeX API](https://katex.org/docs/api)
 

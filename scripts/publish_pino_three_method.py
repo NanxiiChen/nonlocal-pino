@@ -43,7 +43,8 @@ def publish(source, visual_review, *, replace_provenance=None):
         collection = "time_fusion"
         suffix, methods, cases, collection_limit = (
             "time_fusion", ["decoder_film", "joint_query"],
-            {name: CASES[name] for name in ("electropolish2d", "icemelting3d")}, 2 * 1024**2)
+            {**{name: CASES[name] for name in ("electropolish2d", "icemelting3d")},
+             "particle_corrosion2d": (20000, 500, 64, 64)}, 2 * 1024**2)
         if (data["comparison_kind"] != "time_fusion"
                 or data["monitor_ids"] != data["test_ids"]
                 or data["pairing"]["shared_initial_backbone_equal"] is not True

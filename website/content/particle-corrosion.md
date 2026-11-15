@@ -126,6 +126,31 @@ For each sample and physical channel, relative \(L^2\) is computed over all spac
 
 The shared recipe uses width 256, Adam, rolling geometry/core-halo pools, and random times. These are seed-42 measurements on the same RTX PRO 6000 Blackwell Server Edition. Cold process time uses the parent timer from before process creation through exit, including imports, initialization, compilation, all updates, in-training evaluation, output writes and teardown. It excludes the separately launched final 64-sample evaluation. This replaces the earlier trainer-internal timings. [Exact timing provenance](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/pino_training_wall_costs.json). The displayed nonlocal model uses the historical source and launch settings. The later execution diagnosis and validated default are documented above; this figure remains the original three-method comparison. The unsuccessful execution is retained in the [experiment record](https://github.com/NanxiiChen/nonlocal-pino/blob/main/docs/tasks/fem-weak-pino-comparison-plan.md). This is a finite single-initialization comparison, not a general method ranking. [Exact model, configuration, metric and figure provenance](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/ceramic_fem_comparison_publication.json).
 
+## Time FiLM versus joint query
+
+This comparison changes only how time enters the network. The default performs spatial cross-attention against both domain and wall tokens, then applies time FiLM in each of the three decoder MLP layers. The alternative adds projected time Fourier features to the spatial query before both cross-attention blocks and uses plain MLPs without FiLM. Spatial operators, soft initial/boundary losses, Adam, width 256, batch 4, 32 random times and rolling geometry/core-halo streams are shared.
+
+Both cold runs complete 20,000 steps on the **same physical RTX PRO 6000 Blackwell Server Edition**, with identical shared initial parameters and actual sampled inputs. Every 500 updates, both evaluate all 64 common local-FEM geometries. Each physical channel uses an equal-point norm over all saved space-time points, followed by the arithmetic channel/sample mean; these curves do not use the historical quadrature-weighted development metric.
+
+| Time injection | Phase mean | Concentration mean | Channel mean | Complete cold wall time |
+| --- | ---: | ---: | ---: | ---: |
+| Spatial attention + decoder FiLM | 3.6965% | 4.4839% | **4.0902%** | **2629.49 s** |
+| Joint spatial/time query, no FiLM | 4.0578% | 4.9087% | 4.4832% | 12475.49 s |
+
+FiLM finishes the fixed budget **4.74 times as fast**, with slightly lower error in this realization. Time is measured directly from before process creation through exit, including imports, preparation, compilation, updates, rolling waits, all in-training 64-case evaluations and final writes. Offline reference construction, qualification probes and later audits/plots are separate. This FiLM run reproduces all 64 historical default prediction arrays exactly; it adds dense 64-case histories and direct cold clocks. The historical default timing above uses its original monitoring schedule.
+
+<figure>
+  <a href="assets/particle_corrosion2d_time_fusion_convergence.png"><img src="assets/particle_corrosion2d_time_fusion_convergence.png" width="2007" height="708" alt="Phase, concentration and channel-mean convergence for FiLM and joint query versus complete cold wall-clock seconds"></a>
+  <figcaption>All 41 actual observations, with equal-point space-time norms on the same 64 cases. Thin solid lines show raw means; thick solid lines show log-LOWESS (span 0.22). Shading is a pointwise 95% interval from 2,000 whole-case trajectory bootstrap draws; it is conditional on this monitored cohort and one initialization, not cross-seed uncertainty. The final point includes process exit and final writes. <a href="assets/particle_corrosion2d_time_fusion_convergence.pdf">Editable PDF</a>.</figcaption>
+</figure>
+
+<figure>
+  <a href="assets/particle_corrosion2d_time_fusion_distribution.png"><img src="assets/particle_corrosion2d_time_fusion_distribution.png" width="2007" height="708" alt="Final64case error distributions for phase, concentration and their per-sample channel mean, FiLM versus joint query"></a>
+  <figcaption>Final 20k weights and all 64 actual samples. Channel mean averages the two separate relative norms within each sample. Log-error KDE uses Scott bandwidth, three-bandwidth tails, equal maximum widths and quartiles. Fitted tails do not add observations. <a href="assets/particle_corrosion2d_time_fusion_distribution.pdf">Editable PDF</a>.</figcaption>
+</figure>
+
+The temporal variants contain 2,248,450 versus 1,853,442 stored model entries. This single-initialization study does not establish an equal-capacity or cross-seed accuracy advantage. The 64 cases are excluded from training inputs but monitored during training. The default remains spatial attention followed by layerwise time FiLM. [Configuration, sources and full audit](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/ceramic_time_fusion_validation.json) · [Selected figures and reproduction](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/pino_time_fusion_figures.json).
+
 ## Implementation and reproduction
 
 | Component | Selected setting |

@@ -4,6 +4,7 @@ from contextlib import ExitStack
 from functools import partial
 import importlib.util
 import json
+import os
 from numbers import Integral
 from pathlib import Path
 import secrets
@@ -84,6 +85,11 @@ def train(c,output,inputs,reference,config_path,paired_run,
           sampling_control=None,exclude_references=(),full_grid_control=None,strategy_control=None,
           runtime_seed=None,rolling_method_control=None):
     started=time.perf_counter();validate(c)
+    cold_origin = None
+    if 'CERAMIC_COLD_START_MONOTONIC_NS' in os.environ:
+        cold_origin = int(os.environ['CERAMIC_COLD_START_MONOTONIC_NS'])
+        if not 0 < cold_origin <= time.monotonic_ns():
+            raise ValueError('Cold parent origin must be a positive past monotonic timestamp')
     from .full_grid import is_full,prepare_initial_full_bank,validate_full
     full_grid=is_full(c)
     if full_grid:validate_full(c)
@@ -112,6 +118,9 @@ def train(c,output,inputs,reference,config_path,paired_run,
     jax.config.update('jax_default_matmul_precision',c.train.matmul_precision)
     bank,manifest=load_bank(inputs,c)
     references,reference_manifest=load_references(reference,c)
+    from .evaluate import validate_monitor
+    validate_monitor(c, len(references))
+    training_figures = 'monitor' not in c or c.monitor.render_training_figures
     online_enabled='online' in c.operator
     forbidden=[entry['geometry'] for entry in reference_manifest['cases']]
     if online_enabled:
@@ -300,10 +309,13 @@ def train(c,output,inputs,reference,config_path,paired_run,
     def evaluate(iteration,model):
         begin=time.perf_counter();predictions,entry=evaluator(model)
         entry.update(step=iteration,seconds=time.perf_counter()-train_start);history.append(entry)
+        if cold_origin is not None:
+            entry['cold_wall_seconds'] = (time.monotonic_ns()-cold_origin)/1e9
         with (run/'metrics.jsonl').open('a') as stream:stream.write(json.dumps(entry,allow_nan=False)+'\n')
         print(json.dumps({k:v for k,v in entry.items() if k!='conditions'},allow_nan=False),flush=True)
         eval_seconds.append(time.perf_counter()-begin)
-        render_convergence(run/'convergence.png',history)
+        if training_figures:
+            render_convergence(run/'convergence.png',history)
         return predictions,entry
     with ExitStack() as stack:
         pool=stack.enter_context(RollingPool(c,run,manifest,seed,forbidden)) if online_enabled else None
@@ -391,7 +403,8 @@ def train(c,output,inputs,reference,config_path,paired_run,
     eqx.tree_serialise_leaves(run/'optimizer_final.eqx',state)
     for i,(pred,ref) in enumerate(zip(predictions,references,strict=True)):
         np.savez_compressed(run/f'prediction_{i:03d}.npz',prediction=pred,points=ref['points'],times=ref['times'])
-    render_gallery(run/'fields.png',references,predictions,f'{c.nl.method}: unseen ceramic geometries')
+    if training_figures:
+        render_gallery(run/'fields.png',references,predictions,f'{c.nl.method}: unseen ceramic geometries')
     write_json(run/'timing.json',dict(first_update_compile_seconds=updates[0],
         warm_update_mean_seconds=None if len(updates)<2 else float(np.mean(updates[1:])),
         update_seconds=updates,sample_seconds=sample_seconds,evaluation_seconds=eval_seconds,setup_seconds=train_start-started,
