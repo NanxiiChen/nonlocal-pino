@@ -157,9 +157,15 @@ the selected convergence/violin PDF and PNG pairs.
 The five approved publication main figures are collected in
 [assets/pino-main](assets/pino-main/README.md), with170mmeditable PDF originals,
 matching PNG previews and [direct source/configuration records](artifacts/pino_main_figures.json).
-They show predicted phase, reference interfaces and instantaneous spatial phase
-errors; these panel metrics differ from the complete-space-time channel-average
-metric used for the comparison distributions.
+Each shows **Best / Middle / Worst** samples ranked by equal-point, phase-only
+relative L2 over the full space-time evaluation grid. The respective cohorts
+contain64melting shapes,64electropolish profiles,8spinodal geometries,3reserved
+channels and64ceramic geometries. Middle is the lower central actual sample.
+Colors show predicted phase; reference interfaces and instantaneous spatial phase
+errors are overlaid. These panel and ranking metrics differ from the channel-
+average metric used for the comparison distributions. Original field checkpoints
+are retained; Spinodal/Melting still use native nonlocal references.
+[Sample IDs, direct inputs and reproduction](artifacts/pino_ranked_main_preview.json).
 
 Run from the repository root, one GPU job at a time:
 
@@ -302,3 +308,16 @@ Git and the source checkout; the new dashboard does not duplicate old logs.
 
 Mesh generation additionally uses the explicit `mesh` extra:
 `uv sync --frozen --extra mesh` (Gmsh4.15.2, matching the baseline).
+
+## Fixed training-library comparison
+
+The completed [Electropolish](examples/electropolish2d/README.md#fixed-initial-condition-library-size-study)
+and [Ceramic](examples/particle_corrosion2d/README.md#fixed-geometry-library-size-study)
+controls use nested64/128/256/512fixed inputs, unchanged rolling spatial sampling
+and64case final evaluation. Electropolish10k channel means are12.87/2.66/2.88/2.01%;
+Ceramic20k means are5.20/32.79/32.48/32.79%. The larger Ceramic banks remain poorly
+converged; their cause is unresolved and [deferred](docs/TODO.md). One initialization
+does not establish a general library-size law. Existing rolling defaults remain.
+[Reviewed figure and complete provenance](artifacts/fixed_condition_library_results.json).
+Two additional Electropolish controls (fixed32and online) are running to15k,
+retaining10kcheckpoints; their results are pending.

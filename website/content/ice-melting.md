@@ -52,8 +52,8 @@ The edge formula follows from the difference of two hyperbolic tangents divided 
 ## Field evolution
 
 <figure>
-  <a href="assets/icemelting3d.png"><img src="assets/icemelting3d.png" width="2007" height="1960" alt="Three held-out ice ellipsoids across five times, each shown as predicted 3D surfaces and XY phase slices with reference interfaces"></a>
-  <figcaption>The selected rolling-pool 10,000-step model on held-out inputs 5, 9 and 2 at t* = 0, 0.25, 0.5, 0.75 and 1 (0–5 s). Each sample pairs predicted φ = 0 surfaces from 128³ visualization queries with fixed XY slices; dashed slice contours are the native nonlocal reference. Each error label uses the full original 24³ volume at that time, not only the slice. <a href="assets/icemelting3d.pdf">Editable PDF</a>.</figcaption>
+  <a href="assets/icemelting3d.png"><img src="assets/icemelting3d.png" width="2007" height="1960" alt="Best, middle and worst phase-error ellipsoids from 64 shapes, with predicted 3D surfaces and XY slices"></a>
+  <figcaption>The original rolling-pool 10,000-step model: Best / Middle / Worst are shapes 52 / 33 / 56 from all 64 test inputs. Ranking uses equal-point, phase-only relative L² over five times and all original 24³ volume queries; Middle is the lower central actual sample. Columns show t* = 0, 0.25, 0.5, 0.75 and 1 (0–5 s). Each group pairs predicted φ = 0 surfaces on 128³ visualization queries with fixed XY slices; dashed contours are native nonlocal references. Panel errors use the full original 3D volume at that time. Shape 52 has no positive-phase ice surface in its final frame, labelled Melted. Qualified GPU inference is used. <a href="assets/icemelting3d.pdf">Editable PDF</a> · <a href="https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/pino_ranked_main_preview.json">Selection and reproduction</a>.</figcaption>
 </figure>
 
 ## References and comparisons

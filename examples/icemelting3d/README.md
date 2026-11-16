@@ -80,10 +80,13 @@ historical reference check and its SOAP control are recorded below.
 
 ### Three-dimensional interfaces and phase slices
 
-![Three held-out ellipsoids: predicted 3D surfaces and XY phase slices](../../assets/pino-main/icemelting3d.png)
+![Best, middle and worst phase-error ellipsoids from 64 samples: 3D surfaces and XY slices](../../assets/pino-main/icemelting3d.png)
 
-The selected rolling10k model is shown for the previously random held-out inputs
-5,9,2. Each pair of rows shows true predicted \(\phi=0\) surfaces above a fixed
+The original selected rolling10k model is evaluated on the established 64-shape
+test bank. Sample groups are **Best / Middle / Worst**, inputs **52 / 33 / 56**,
+ranked by equal-point, phase-only relative L2 over all five times and all original
+3D volume queries. Middle is the lower central actual sample, not a mean field.
+Each pair of rows shows true predicted \(\phi=0\) surfaces above a fixed
 XY phase slice at \(z^*=64/127\). Columns are \(t^*=0,0.25,0.5,0.75,1\), or0..5s.
 Dark dashed slice contours are the **native nonlocal** reference interfaces.
 All 3D frames use identical orthographic camera, lighting and physical scales.
@@ -92,9 +95,12 @@ The ice-blue surface shading is separate from the shared RdBu slice color scale.
 Panel errors are instantaneous phase relative L2 on the original24^3volume
 queries, while surfaces use128^3dense predictions and slices128^2queries.
 The first-frame dotted plane identifies the slice; no surface smoothing or
-prescribed shrink law is applied. [Editable170mmPDF](../../assets/pino-main/icemelting3d.pdf),
-[source/style specification](../../artifacts/melting_main_figure.json),
-[reproduction and verification](../../docs/tasks/archive/melting-main-figure.md).
+prescribed shrink law is applied. Sample52has no positive-phase ice surface at
+the final frame, labelled `Melted`. GPU inference passes the historical-field
+replay check; CPU diagnostic predictions are excluded from this ranking.
+[Editable170mmPDF](../../assets/pino-main/icemelting3d.pdf) ·
+[Ranked samples, weights and reproduction](../../artifacts/pino_ranked_main_preview.json) ·
+[Publication record](../../artifacts/pino_main_figures.json).
 The [historical fixed5k 3D gallery](../../assets/pino/icemelting3d.png) remains
 available; it is not the model shown above.
 

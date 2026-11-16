@@ -2,6 +2,13 @@ Five phase-field case studies show how to learn an evolution operator from gover
 
 ## Operator learning from physics
 
+The completed [fixed initial-condition study](electropolish.html#fixed-initial-condition-library-size)
+and [fixed geometry study](particle-corrosion.html#fixed-geometry-library-and-training-stability)
+report all 64/128/256/512-library endpoints with 64-sample uncertainty. Electropolish
+reaches 2.01% channel-mean error with 512 fixed profiles; three larger Ceramic
+banks remain poorly converged and are retained as unresolved stability results.
+The two new Electropolish 15k controls are pending; existing defaults are unchanged.
+
 A condition \(a\) specifies an initial field on a fixed domain or specifies the domain and its known inputs. The network is trained over a family of conditions and returns a trajectory sampled at query coordinates.
 
 $$
@@ -38,6 +45,8 @@ The spatial operator evaluates derivatives from neighboring predictions, avoidin
 | [05 · Ceramic-particle corrosion](particle-corrosion.html) | Six inert particle shapes and poses | KKS AC/CH | 2.905% / 5.436% | Local P1 FEM, 4 development geometries; current default |
 
 Each row averages per-sample errors from the selected final checkpoint. Time weights, diagnostic grids and reference solvers vary by case. The corresponding chapters give the comparison protocol, field images and limitations.
+
+The five field galleries show **Best / Middle / Worst** samples ranked by equal-point, phase-only relative L² over the complete space-time evaluation grid. Their cohorts contain 64 melting shapes, 64 electropolish interfaces, 8 spinodal geometries, 3 reserved channels and 64 ceramic geometries. Middle is the lower central actual sample. Figure labels show each snapshot’s spatial error, not the ranking score or a channel mean. Original field-model checkpoints are retained; Melting and Spinodal contours still use native nonlocal references. [Sample IDs and reproduction](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/pino_ranked_main_preview.json).
 
 The [current ceramic SOTA default](particle-corrosion.html#current-sota-default) also completes a 64-case local-FEM evaluation: phase 3.6965%, concentration 4.4839%, and channel mean **4.0902%**. These use equally weighted full space-time node norms, distinct from the four-case quadrature-weighted row above. The actual default entrypoint was validated from a cold start for 20,000 steps; one paired initialization is reported.
 

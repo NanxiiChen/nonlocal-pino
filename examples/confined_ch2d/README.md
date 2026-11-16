@@ -77,18 +77,21 @@ Recorded training wall time is102.26 min with 20.43 GiB peak active memory on
 RTX6000D; 15994 new online geometries were actually sampled. No evolved labels
 enter the geometry pool or the physical loss.
 
-![Four hole geometries with predicted spinodal phase and reference interfaces](../../assets/pino-main/confined_ch2d.png)
+![Best, middle and worst phase-error geometries from eight reserved inputs](../../assets/pino-main/confined_ch2d.png)
 
-Rows are the first four reserved inputs1024–1027 in saved order; columns are
-actual dimensionless times0,0.75,1.5,2.25,3. RdBu_r shows predicted phase and
+Rows are **Best / Middle / Worst**, inputs **1027 / 1025 / 1026**, selected from
+all eight reserved geometries by equal-point, phase-only relative L2 over the
+complete five-time evaluation grid. Middle is the lower central actual sample.
+Columns are actual dimensionless times0,0.75,1.5,2.25,3. RdBu_r shows predicted phase and
 dashed curves show the **native nonlocal** reference \(\phi=0\) interfaces.
 Display interpolation uses the original physical triangles and excludes holes.
 Panel errors use equally weighted original cell-center values at each time;
 the table above retains its historical physical-cell weighted pooled metric.
 [Editable170mmPDF](../../assets/pino-main/confined_ch2d.pdf) ·
-[Source/style specification](../../artifacts/spinodal_main_figure.json).
+[Ranked samples, weights and reproduction](../../artifacts/pino_ranked_main_preview.json) ·
+[Publication record](../../artifacts/pino_main_figures.json).
 The [older error-ranked gallery](../../assets/pino/confined_ch2d.png) remains
-historical; these four rows were not chosen by error rank.
+historical; the current figure uses the explicit equal-point phase ranking above.
 
 ### Run and reproduce
 

@@ -33,7 +33,10 @@ are self-contained. Repository source links require access to the repository.
 - Reuse the [publication main figures](../assets/pino-main/README.md). The builder
   reads [the shared manifest](../artifacts/pino_main_figures.json), checks the
   approved file sizes and copies the same five PNG/PDF pairs used by the example
-  READMEs. Each chapter links its editable PDF. Setup SVGs and the two method
+  READMEs. Manifest v2 records direct sources and validates the three ranked
+  samples and cohort size. Galleries show best, lower-median and worst phase-only
+  full-space-time errors; captions distinguish these rankings from per-frame
+  labels. Each chapter links its editable PDF. Setup SVGs and the two method
   diagrams are copied separately; historical `assets/pino/` galleries are not
   used by the report. Update the chapter's caption and image dimensions when
   changing samples, layout, model or reference. Numerical parameters and data
@@ -71,6 +74,13 @@ The same2MiB temporal collection budget applies. Full physical galleries remain
 external and are linked through the completion provenance.
 
 KaTeX renders standard LaTeX expressions at build time to HTML and MathML.
+
+The completed fixed-library comparison shares one PDF/PNG pair from
+`assets/pino-library-size/` across the Electropolish and Ceramic chapters.
+The builder checks eight final-budget records,64test cases and a separate256KiB
+asset budget against `artifacts/fixed_condition_library_results.json`. All poor
+convergence outcomes remain visible. New15kcontrols are labelled pending.
+
 The generated site loads its math fonts locally. [KaTeX API](https://katex.org/docs/api)
 
 ## Publishing

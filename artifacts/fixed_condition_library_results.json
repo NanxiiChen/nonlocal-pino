@@ -1,0 +1,180 @@
+{
+  "status": "complete",
+  "checked_utc": "2026-11-16T04:38:35.184061+00:00",
+  "bundle": "/root/autodl-tmp/tf-logs/fixed-condition-library-20261115-01",
+  "journal": "/root/autodl-tmp/tf-logs/fixed-condition-library-20261115-01/journal.json",
+  "all_eight_audits_passed": true,
+  "all_training_processes_finished": true,
+  "records": [
+    {
+      "case": "electropolish",
+      "size": 64,
+      "steps": 10000,
+      "test_count": 64,
+      "channel_means": [
+        0.12159633392582878,
+        0.13585156941311893
+      ],
+      "mean": 0.12872395166947384,
+      "sample_std": 0.03437927464926882,
+      "cold_training_seconds": 903.254393996,
+      "run": "/root/autodl-tmp/tf-logs/electropolish2d/fixed-library-20261115-01-electro-n64",
+      "audit": "/root/autodl-tmp/tf-logs/electropolish2d/fixed-library-20261115-01-electro-n64/fixed_library_audit.json"
+    },
+    {
+      "case": "electropolish",
+      "size": 128,
+      "steps": 10000,
+      "test_count": 64,
+      "channel_means": [
+        0.024288382768975485,
+        0.028936696970302465
+      ],
+      "mean": 0.02661253986963897,
+      "sample_std": 0.010912634431778085,
+      "cold_training_seconds": 929.799322006,
+      "run": "/root/autodl-tmp/tf-logs/electropolish2d/fixed-library-20261115-01-electro-n128",
+      "audit": "/root/autodl-tmp/tf-logs/electropolish2d/fixed-library-20261115-01-electro-n128/fixed_library_audit.json"
+    },
+    {
+      "case": "electropolish",
+      "size": 256,
+      "steps": 10000,
+      "test_count": 64,
+      "channel_means": [
+        0.026201269578909468,
+        0.031308038524441605
+      ],
+      "mean": 0.028754654051675533,
+      "sample_std": 0.010559587303663739,
+      "cold_training_seconds": 928.237347942,
+      "run": "/root/autodl-tmp/tf-logs/electropolish2d/fixed-library-20261115-01-electro-n256",
+      "audit": "/root/autodl-tmp/tf-logs/electropolish2d/fixed-library-20261115-01-electro-n256/fixed_library_audit.json"
+    },
+    {
+      "case": "electropolish",
+      "size": 512,
+      "steps": 10000,
+      "test_count": 64,
+      "channel_means": [
+        0.01829047287786765,
+        0.021982542261670433
+      ],
+      "mean": 0.020136507569769042,
+      "sample_std": 0.007977000480519894,
+      "cold_training_seconds": 898.633918528,
+      "run": "/root/autodl-tmp/tf-logs/electropolish2d/fixed-library-20261115-01-electro-n512",
+      "audit": "/root/autodl-tmp/tf-logs/electropolish2d/fixed-library-20261115-01-electro-n512/fixed_library_audit.json"
+    },
+    {
+      "case": "ceramic",
+      "size": 64,
+      "steps": 20000,
+      "test_count": 64,
+      "channel_means": [
+        0.0471402850630903,
+        0.05682836594721514
+      ],
+      "mean": 0.05198432550515271,
+      "sample_std": 0.007388406000946712,
+      "cold_training_seconds": 2654.681451098,
+      "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/fixed-library-20261115-01-ceramic-n64",
+      "audit": "/root/autodl-tmp/tf-logs/particle_corrosion2d/fixed-library-20261115-01-ceramic-n64/fixed_library_audit.json"
+    },
+    {
+      "case": "ceramic",
+      "size": 128,
+      "steps": 20000,
+      "test_count": 64,
+      "channel_means": [
+        0.3197168553770067,
+        0.3361464305528631
+      ],
+      "mean": 0.3279316429649349,
+      "sample_std": 0.008039536110606064,
+      "cold_training_seconds": 2686.673557421,
+      "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/fixed-library-20261115-01-ceramic-n128",
+      "audit": "/root/autodl-tmp/tf-logs/particle_corrosion2d/fixed-library-20261115-01-ceramic-n128/fixed_library_audit.json"
+    },
+    {
+      "case": "ceramic",
+      "size": 256,
+      "steps": 20000,
+      "test_count": 64,
+      "channel_means": [
+        0.31658639058313887,
+        0.3330735175200743
+      ],
+      "mean": 0.32482995405160664,
+      "sample_std": 0.00789291392797995,
+      "cold_training_seconds": 2673.491189639,
+      "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/fixed-library-20261115-01-ceramic-n256",
+      "audit": "/root/autodl-tmp/tf-logs/particle_corrosion2d/fixed-library-20261115-01-ceramic-n256/fixed_library_audit.json"
+    },
+    {
+      "case": "ceramic",
+      "size": 512,
+      "steps": 20000,
+      "test_count": 64,
+      "channel_means": [
+        0.31973746857413204,
+        0.33609239675895614
+      ],
+      "mean": 0.32791493266654403,
+      "sample_std": 0.007880099720338403,
+      "cold_training_seconds": 2708.772897468,
+      "run": "/root/autodl-tmp/tf-logs/particle_corrosion2d/fixed-library-20261115-01-ceramic-n512",
+      "audit": "/root/autodl-tmp/tf-logs/particle_corrosion2d/fixed-library-20261115-01-ceramic-n512/fixed_library_audit.json"
+    }
+  ],
+  "metric": "Equal-point full-space-time relativeL2 per channel, then arithmetic channel/sample mean",
+  "uncertainty": "One sample standard deviation over64test cases; not confidence interval or seed variability",
+  "figure": {
+    "pdf": "/root/autodl-tmp/tf-logs/fixed-condition-library-20261115-01/figures-reviewed/electropolish_ceramic_fixed_library_error.pdf",
+    "png": "/root/autodl-tmp/tf-logs/fixed-condition-library-20261115-01/figures-reviewed/electropolish_ceramic_fixed_library_error.png",
+    "provenance": "/root/autodl-tmp/tf-logs/fixed-condition-library-20261115-01/figures-reviewed/provenance.json",
+    "width_mm": 170,
+    "height_mm": 62,
+    "font": "/root/.local/share/fonts/pino/Helvetica.ttf",
+    "font_sizes": [
+      6.0,
+      7.0
+    ],
+    "pdf_fonts": "name                                 type              encoding         emb sub uni object ID\n------------------------------------ ----------------- ---------------- --- --- --- ---------\nFINAIW+Helvetica                     CID TrueType      Identity-H       yes yes yes     17  0\n",
+    "label_edit_probe": "/tmp/fixed-library-label-edit-probe.pdf",
+    "vector_only": true,
+    "visual_review": "passed",
+    "bytes": {
+      "pdf": 12232,
+      "png": 100063
+    }
+  },
+  "reproduction": {
+    "cwd": "/root/nonlocal-pinn",
+    "env": {
+      "PYTHONPATH": "/root/nonlocal-pinn:/root/nonlocal-pinn/src:/tmp/pino-pdf-audit"
+    },
+    "argv": [
+      ".venv/bin/python",
+      "-m",
+      "docs.tasks.fixed_library_figures",
+      "--bundle",
+      "/root/autodl-tmp/tf-logs/fixed-condition-library-20261115-01",
+      "--output",
+      "/tmp/fixed-library-figure-reproduction"
+    ]
+  },
+  "qualification": "One initialization, fixed update budgets. Ceramic128/256/512have poor final convergence; cause unestablished. Sample SD does not measure seed variability.",
+  "publication": {
+    "status": "selected_for_publication",
+    "png": "assets/pino-library-size/electropolish_ceramic_fixed_library_error.png",
+    "pdf": "assets/pino-library-size/electropolish_ceramic_fixed_library_error.pdf",
+    "bytes": {
+      "pdf": 12232,
+      "png": 100063
+    },
+    "maximum_collection_bytes": 262144,
+    "maximum_file_bytes": 196608,
+    "caption": "Panels(a)/(b): Electropolish10k and Ceramic20k. Final64case channel means and one sampleSD; one initialization. Larger Ceramic libraries remain poorly converged."
+  }
+}

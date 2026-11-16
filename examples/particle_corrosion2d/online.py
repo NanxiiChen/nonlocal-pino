@@ -31,6 +31,15 @@ GRAPH_KEYS = ('graph_points', 'core_indices', 'neighbors', 'coefficients', 'pde_
 _CACHE = OrderedDict()
 
 
+def rolling_geometry(c):
+    """The optional fixed-library control freezes geometries, not spatial draws."""
+    if 'geometry_sampling' not in c.operator:
+        return True
+    if c.operator.geometry_sampling != 'fixed_library':
+        raise ValueError('Optional operator.geometry_sampling must be fixed_library')
+    return False
+
+
 def validate_online(c):
     if c.nl.method == 'fem_weak':
         from .fem_weak import validate_fem
@@ -50,8 +59,9 @@ def validate_online(c):
         raise ValueError('A refresh cannot contain more slots than the geometry pool')
     if o.halo > c.nl.max_halo or o.neighbors > c.nl.max_neighbors:
         raise ValueError('Online capacities cannot exceed the explicit nonlocal construction bounds')
-    if c.train.iterations <= max(o.geometry_every, o.spatial_every):
-        raise ValueError('Online budget must include both geometry and spatial refreshes')
+    refresh_period = max(o.geometry_every, o.spatial_every) if rolling_geometry(c) else o.spatial_every
+    if c.train.iterations <= refresh_period:
+        raise ValueError('Online budget must include every enabled refresh clock')
     if c.train.compute_dtype != 'float32':
         raise ValueError('The qualified rolling input path uses explicit float32 payloads')
 
@@ -253,13 +263,14 @@ def plan_events(c, capacity):
         raise ValueError('Schedule capacity must match the declared geometry pool')
     o = c.operator.online
     ids, versions = -1-np.arange(capacity, dtype=np.int64), np.zeros(capacity, dtype=np.int64)
-    ticks = sorted(set(range(o.geometry_every, c.train.iterations, o.geometry_every)) |
-                   set(range(o.spatial_every, c.train.iterations, o.spatial_every)))
+    geometry_ticks = (set(range(o.geometry_every, c.train.iterations, o.geometry_every))
+                      if rolling_geometry(c) else set())
+    ticks = sorted(geometry_ticks | set(range(o.spatial_every, c.train.iterations, o.spatial_every)))
     events = []
     geometry_cursor = spatial_cursor = next_draw = 0
     for index, tick in enumerate(ticks):
         tasks, geometry_slots = [], set()
-        if tick % o.geometry_every == 0:
+        if tick in geometry_ticks:
             for offset in range(o.geometry_size):
                 slot = (geometry_cursor+offset) % capacity
                 ids[slot], versions[slot] = next_draw, 0
@@ -453,7 +464,9 @@ class RollingPool:
         if self.executor is not None:
             finished += sum(job.done() and not job.cancelled() and job.exception() is None
                             for _, jobs in self.jobs for job in jobs)
-        return dict(kind='background_geometry_and_spatial_pool', capacity=self.capacity,
+        kind = ('background_geometry_and_spatial_pool' if rolling_geometry(self.c)
+                else 'background_spatial_pool_fixed_geometries')
+        return dict(kind=kind, capacity=self.capacity,
             installed_events=self.installed, submitted_events=self.submitted,
             submitted_requests=self.submitted_requests, successfully_finished_requests=self.installed_requests+finished,
             installed_requests=self.installed_requests, installed_geometries=self.installed_geometry,
