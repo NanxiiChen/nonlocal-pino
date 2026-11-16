@@ -818,7 +818,7 @@ remain archived. All576sample scores were independently recomputed; initial
 model/optimizer bytes and actual condition-parameter/time draws match.
 
 [Direct configurations, final weights, sample scores and figure paths](../../artifacts/electropolish_horizon_study.json)
-record every arm. The170×59mmPDF/PNG uses mean±one sampleSD, with automatic axes,
+record every arm. The170×59mmPDF/PNG uses mean±one sample SD, with automatic axes,
 Helvetica6–7ptand embedded editable fonts. Generated experiment figures remain
 external. Reproduce from saved fields without training:
 
@@ -841,7 +841,7 @@ optimizer, and actual condition/time/core/IC/BC draws with the completed ratio2
 baseline, which is reused by explicit path.
 
 All final10000weights use the same64local-FD references, 101×51 evaluation
-nodes and21uniform times. Errors below normalize each physical channel over
+nodes and 21uniform times. Errors below normalize each physical channel over
 the full space-time grid, average phase and concentration per sample, then
 report the64sample mean and sample SD (ddof=1). These are raw ratios.
 
@@ -1034,7 +1034,7 @@ See the [recorded issue](../../docs/issues/electropolish-attention-replay.md)
 and [complete comparison record](../../docs/tasks/archive/electropolish-spatial-pool-comparison.md).
 Direct run/model/figure paths are in `artifacts/index.yaml`; generated payloads
 remain external. Convergence plots use the four small-bank native diagnostics;
-the table above uses all64fixed-budget final evaluations.
+the table above uses all 64fixed-budget final evaluations.
 
 ### Historical finite-input pilot
 
@@ -1435,7 +1435,7 @@ The final image-only checkpoint also has a larger, post-training independent
 test:64new interfaces from the same six-mode distribution, conditioned on the
 online height bounds. Identities are declared before reference solves, with
 no actual training-profile overlap or test-based model selection. Each field
-uses101x51nodes and21times through5s; report per-interface relative L2 before
+uses101x51 nodes and 21times through5s; report per-interface relative L2 before
 averaging across interfaces, with pooled-time and terminal metrics separate.
 All64same-graph references pass the original time-refinement gate (maximum
 4.60e-8). Mean phi pooled/terminal is4.506%/3.502%;90th percentiles6.909%/5.850%,
@@ -1664,77 +1664,51 @@ The completed historical two-method results below remain unchanged.
 
 ### Controlled time-feature fusion study
 
-This completed nonlocal comparison uses width 96, B8, Nt16, rolling 256 cores
-and cold Adam 10k. Decoder FiLM attends only over spatial queries, then modulates
-every pointwise hidden decoder layer with time. Joint queries project concatenated
-spatial/time Fourier features into cross-attention and use unmodulated decoder
-layers. Each condition is encoded once in both models; the joint version repeats
-attention for each time. Time derivatives remain JVPs.
+The selected comparison uses two cold **15,000-update** nonlocal runs: spatial
+cross-attention followed by time FiLM in every pointwise hidden decoder layer,
+and joint spatial/time Fourier queries with unmodulated decoder layers. Both
+encode each condition once; joint queries repeat attention for each sampled time.
+Time differentiation uses JVP in both. Width 96, batch 8, 16 shared random times,
+rolling 256-core/halo sampling, Adam and the original per-step learning-rate decay
+are unchanged. Positive-time reference fields never enter training.
 
-The shared encoder/attention/spatial-projection/decoder initialization and every
-actual condition/time/core draw match exactly. Physical losses, optimizer recipe
-and known prescribed inputs match; all 41 evaluations use the same 64 local-FD
-inputs. The temporal modules and their optimizer-tree shapes differ: 320,706 versus
-264,738 stored numeric entries, including frozen frequencies, with 263,106 shared
-entries. This isolates the declared architecture change, not equal total capacity
-or identical full initial networks. Final 10k weights are used without checkpoint
-selection; positive-time reference fields never enter training.
+All 61 evaluations, including step zero, cover the same 64 local-FD test inputs.
+The shared initial backbone and every actual condition/time/core draw match.
+The temporal modules have different capacities: 320,706 versus 264,738 stored numeric
+entries (including frozen frequencies), with 263,106 shared entries. This is
+one paired initialization, not an equal-capacity or cross-seed accuracy study.
+Only the final 15k weights enter the final comparison.
 
 | Temporal conditioning | Phase | Concentration | Channel mean |
 |---|---:|---:|---:|
-| Decoder FiLM | 1.9713% | 2.3563% | 2.1638% |
-| Joint (x,t) query | 2.0577% | 2.4520% | 2.2549% |
+| Decoder FiLM | 1.3960% | 1.6711% | 1.5335% |
+| Joint (x,t) query | 1.5403% | 1.8522% | 1.6963% |
 
-![Electropolish temporal conditioning convergence](../../assets/pino-studies/electropolish2d_time_fusion_convergence.png)
+![Electropolish 15k temporal comparison](../../assets/pino-studies/electropolish2d_time_fusion_convergence.png)
 
-[Editable PDF](../../assets/pino-studies/electropolish2d_time_fusion_convergence.pdf).
-The horizontal axis is elapsed wall time in seconds from cold process launch, including initialization, compilation and in-training evaluation. Intermediate times are reconstructed from the original launch-log creation, metric-file timestamps and recorded trainer counters; they are not direct parent timestamps and subsecond accuracy is not claimed. The existing final observation is placed at complete process exit, including final writes and teardown. No error is invented at time zero, and no step-rate extrapolation is used. LOWESS and its bootstrap interval are fitted on the elapsed-time coordinates.
-[Clock reconstruction evidence](../../artifacts/pino_time_fusion_wall_clock.json).
-All 41 recorded sample means on 64 common local-FD inputs, evaluated every 250 steps
-including zero. Thin solid lines are raw means; thicker lines are log-LOWESS
-(span 0.22). Shading is a pointwise 95% empirical bootstrap interval from 2,000
-resamples of complete sample trajectories, using identical resampling indices
-across methods (seed 20261114). The fitted display grid adds no observations.
-These intervals condition on a reused cohort and one training realization;
-they do not cover cross-seed uncertainty or smoothing/model-selection bias.
+All 61 actual 64-case means, every 250 updates. Thin solid curves show raw means; thicker curves are log-LOWESS (span 0.22). Shading is the pointwise 95% whole-case-trajectory bootstrap interval (2,000 resamples, seed 20261114), conditional on this reused cohort and one training realization. The horizontal axis measures seconds from cold process launch, including setup, compilation, all training evaluations, writes and teardown. Intermediate observation times are reconstructed from original file timestamps and trainer counters; no subsecond accuracy or error at elapsed zero is claimed. The final existing observation is placed at complete process exit; no warm-step-rate extrapolation is used. [Editable PDF](../../assets/pino-studies/electropolish2d_time_fusion_convergence.pdf).
 
-![Electropolish temporal conditioning distribution](../../assets/pino-studies/electropolish2d_time_fusion_distribution.png)
+![Electropolish 15k temporal comparison](../../assets/pino-studies/electropolish2d_time_fusion_distribution.png)
 
-[Editable PDF](../../assets/pino-studies/electropolish2d_time_fusion_distribution.pdf).
-Final 10k phase/concentration relative norms on all 101×51 nodes and 21 uniform
-times from 0 to 1, with equal point weights and separate normalization for each
-sample/channel. Extra early diagnostic snapshots are excluded. Each violin
-uses all 64 sample errors, Gaussian KDE in log-error space, Scott bandwidth,
-three-bandwidth tails and quartiles. Tails are estimated density, not extra
-samples; axes show raw ratios, not percentages.
+Final 15k weights, 64 test inputs, all 101×51 nodes and 21 uniform times in [0,1]. Each channel/sample uses its own equal-point full-space-time relative L2 norm. Violins show unsmoothed sample errors with log-error Gaussian KDE, Scott bandwidth, three-bandwidth tails and quartiles. Density tails do not add observations; plotted values are raw ratios. [Editable PDF](../../assets/pino-studies/electropolish2d_time_fusion_distribution.pdf).
 
-Decoder FiLM has slightly lower final errors in this run, but the two models
-have close accuracy and one initialization does not establish a stable accuracy
-ranking. Joint queries cost more training time and active memory despite fewer
-stored parameters. This is consistent with time-dependent attention processing
-more queries; it does not imply that all inference workloads scale the same way.
-Keep the current SOTA/default and older 5k/Nt4 ablation separately.
+| Temporal conditioning | Complete cold process | Warm inclusive median | Active peak |
+|---|---:|---:|---:|
+| Decoder FiLM | 1283.698 s (21.39 min) | 63.41 ms | 12.03 GiB |
+| Joint (x,t) query | 2146.986 s (35.78 min) | 113.63 ms | 31.59 GiB |
 
-| Temporal conditioning | Cold training process | Warm inclusive median | Active peak | Stored entries |
-|---|---:|---:|---:|---:|---:|
-| Decoder FiLM | 15.63 min | 64.61 ms | 12.03 GiB | 320,706 |
-| Joint (x,t) query | 23.65 min | 105.76 ms | 32.45 GiB | 264,738 |
+Accuracy is close in this realization; decoder FiLM uses about 40% less complete
+cold training time. This does not establish a stable cross-seed accuracy ranking.
 
-Both runs use the same RTX PRO 6000 Blackwell Server Edition
-(UUID `GPU-85fe6412-636e-5d3c-d5f0-d1e9523c3faa`). Cold time includes setup,
-compilation and all in-training evaluations, excluding reference construction
-and the separate final 64-case inference/audit. Warm inclusive time sums synchronized
-loss/gradient/update, condition preparation and spatial transfer after the first
-step, excluding evaluation. Active memory is allocator usage, not reservation.
-The warmed complete 64-case monitor has a median cost of 0.412 s with FiLM
-and 0.445 s with joint queries; this includes sequential prediction,
-host transfer and error reductions, so it is not an isolated network benchmark.
+Both runs use the same NVIDIA RTX 6000D and driver, with CUDA command capture
+explicitly disabled and no overlapping GPU training. Complete cold times exclude
+offline reference construction and post-training independent inference/audits.
+Warm inclusive time sums the update, condition preparation and spatial transfer
+after the first update; it excludes evaluation. Active memory is allocator use,
+not reserved memory. The production defaults and earlier derivative/5k ablations
+remain separate from these 15k research controls.
 
-[Exact weights, paired inputs, raw errors, resource timings and figure reproduction](../../artifacts/pino_time_fusion_figures.json)
-record this completed control; figures use editable Helvetica/NPG at170×60mm.
-The explicit joint-query entry remains `configs/train_operator_joint_query.py`.
-See the [time-fusion task](../../docs/tasks/archive/pino-time-fusion-comparison.md) for the
-separate Melting control.
+[Weights, configurations, paired inputs, measured timings and figure reproduction](../../artifacts/pino_time_fusion_figures.json) · [Cold-clock evidence](../../artifacts/pino_time_fusion_wall_clock.json).
 
 ### Historical 10,000-step derivative comparison
 
@@ -1765,7 +1739,7 @@ $$
 The violin displays the 64 individual \(e_i\); the reported mean is \(\bar e\).
 Each channel is normalized separately before averaging. We do not concatenate
 channels before normalization or average instantaneous relative errors. The
-KDE uses all64samples and Scott bandwidth in log-error coordinates; thin dashed
+KDE uses all 64samples and Scott bandwidth in log-error coordinates; thin dashed
 lines indicate the25th,50thand75thpercentiles. The compact figure displays raw
 error ratios on a logarithmic axis, without percentage scaling, dots or mean
 annotations. Tails extend three bandwidths beyond the observed log extrema;
@@ -1909,7 +1883,7 @@ FD101-to-201 pooled phase differences are0.302..0.334%; FD201-to-401 differences
 are0.068..0.076%. Against FD401 on these four inputs, nonlocal/local mean phase
 pooled is5.065/8.773%, terminal2.945/4.886%; early side-strip3.829/10.336%.
 These are a four-interface refinement check, separate from the64-input means;
-they do not establish continuum convergence for all64interfaces. Native graph
+they do not establish continuum convergence for all 64interfaces. Native graph
 versus FD401 phase differences are0.56..1.01% pooled, so finite-horizon/model
 discretization differences remain measurable even with accurate time integration.
 
@@ -1992,29 +1966,44 @@ width 96 on 64 local FD101 cases. The equal-width time-count effect at
 
 ## Fixed initial-condition library size study
 
-The optional `operator.condition_library` declares `path`, `count`, and
-`sampling='uniform_with_replacement'`. Its input-only directory contains the
-accepted original rough-profile coefficient triples and prior metadata; it
-contains no evolved solution fields. The regular online field evaluator supplies
-the same encoder image and prescribed IC/Dirichlet values. The study selects
-nested64/128/256/512profile prefixes, retains spatial rolling and time resampling,
-and uses10ksteps with the same64local-FD cases monitored throughout. Final
-channel-averaged equal-point space-time errors give the mean and one sampleSD.
-The completed single-initialization study gives channel means12.87%,2.66%,2.88%,
-and2.01% respectively. The matched continuous-online baseline is2.16%; this is
-not a monotonic or cross-seed accuracy guarantee. The default remains continuous
-online profiles. [Completed study](../../docs/tasks/archive/fixed-condition-library-size.md)
-and [final statistics/figure provenance](../../artifacts/fixed_condition_library_results.json).
+Five cold 15k runs use nested fixed libraries of 32/64/128/256/512 initial profiles.
+The continuous-online control also trains for 15k. All six share initialization,
+physics, width 96/batch 8, 16 random times, Adam, rolling 256-core/halo sampling,
+the original learning-rate schedule and 64 local-FD test cases. Only the number
+of distinct training profiles changes; fixed libraries contain input coefficients,
+not evolved reference fields. Online sampling draws fresh profiles each update.
 
-![Final fixed-library errors for Electropolish and ceramic corrosion](../../assets/pino-library-size/electropolish_ceramic_fixed_library_error.png)
+For each test input and each physical channel (phase and concentration), compute
+the equal-point relative L2 norm over the full 101×51 grid and 21 uniform times.
+Average the two channel errors within each input, then average 64 inputs.
+The table and graph use final 15k weights; spread is one across-input sample SD,
+not a confidence interval or cross-seed variability.
 
-Panel(a) is Electropolish: final10kweights,64local-FD test inputs, equal-point
-space-time phi/c norms averaged over channels and samples. Shading is one sample
-standard deviation, not seed variability. Panel(b) is the separate Ceramic20k
-study and retains its poorly converged larger-library outcomes.
-[Editable PDF](../../assets/pino-library-size/electropolish_ceramic_fixed_library_error.pdf).
+| Training profiles | Phase | Concentration | Channel mean ± sample SD |
+|---|---:|---:|---:|
+| 32 | 15.6599% | 17.2311% | 16.4455% ± 3.6397% |
+| 64 | 11.5526% | 12.9896% | 12.2711% ± 3.1282% |
+| 128 | 5.0167% | 5.8947% | 5.4557% ± 2.2159% |
+| 256 | 1.9316% | 2.3116% | 2.1216% ± 0.9882% |
+| 512 | 1.8466% | 2.1998% | 2.0232% ± 0.7165% |
+| Continuous online | 1.3960% | 1.6711% | 1.5335% ± 0.5809% |
 
-The fixed32and repeated continuous-online controls are being extended to15k,
-with a10kcheckpoint and the same64case monitor. No15kresult is available yet.
-The older fixed-size and FiLM controls have not been rerun.
-[Active extension](../../docs/tasks/electro-library-extension.md).
+![Electropolish15k error versus fixed initial-condition count](../../assets/pino-library-size/electropolish2d_library_size_error.png)
+
+Electropolish alone, final 15k weights and the same 64 test inputs. Markers show fixed-library means; the horizontal online line is a separate continuous-input control. Shading is one sample SD. Both axes use the declared counts/raw error ratios; no percentages are applied to the plotted errors. [Editable PDF](../../assets/pino-library-size/electropolish2d_library_size_error.pdf).
+
+Online sampling has the lowest final mean in this run. Increasing the fixed
+library from 256 to 512 gives a smaller improvement than the earlier increases.
+
+This is one initialization and one nested input library. Larger fixed libraries
+and online sampling do not guarantee a monotonic accuracy improvement at a finite
+budget. The earlier 10kstudy used a different GPU/runtime and remains historical;
+its endpoints are not mixed into this 15k figure. The shared prescribed-input
+path evaluates encoder/IC/Dirichlet data in CPU FP64 then casts once to FP32;
+network training remains FP32. Defaults remain continuous online profiles.
+
+The opt-in `operator.condition_library` explicitly specifies `path`, `count` and
+`sampling='uniform_with_replacement'`. All final fields, coefficient banks,
+weights and configs remain at the direct paths in the provenance record.
+
+[Final 15k statistics, direct inputs and reproduction](../../artifacts/electropolish_library15k_results.json) · [Historical 10k study](../../artifacts/fixed_condition_library_results.json).

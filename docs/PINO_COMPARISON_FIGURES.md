@@ -254,9 +254,13 @@ reason are retained in the publication manifest and website checks.
 
 ## Nonlocal time-feature fusion controls
 
-Electropolish and Melting reuse the new nonlocal10k arm above as the spatial
-cross-attention + decoder-FiLM baseline. Each adds a cold10k joint(x,t)query arm
-without FiLM. Both monitor all64test inputs at every250updates, including zero.
+The selected Electropolish comparison uses two cold15k nonlocal controls,
+with61records on all64local-FD test inputs: spatial attention followed by
+decoderFiLM versus joint(x,t)queries withoutFiLM. Its completed online15k
+library-control run supplies the FiLM baseline. The old10kcomparison remains
+at the `supersedes.source_provenance` path in the selected figure manifest.
+Melting retains its original cold10kpair and41records on64native test inputs.
+Both monitor every250updates, including zero.
 Melting first extends its native reference bank; the original files and accepted
 single local-CG2case005 are preserved. Never describe this as a64case local-FEM
 comparison. Shared backbone initialization and every actual training draw are
@@ -274,13 +278,14 @@ After the audit passes, render with:
 ```bash
 PYTHONPATH=/tmp/pino-pdf-audit OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 \
   .venv/bin/python -m scripts.render_pino_time_fusion \
-  --comparison /root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/electropolish-comparison.json \
+  --comparison /root/autodl-tmp/tf-logs/electro-15k-completion-20261116-01/time_fusion_comparison15k.json \
   --output /tmp/electropolish-time-fusion-figures \
   --x-axis cold-wall-time \
   --clock-evidence artifacts/pino_time_fusion_wall_clock.json
 ```
 
-Use `melting-comparison.json` for the second case. The finite owner queues
+For Melting, retain the original `pino-time-fusion-20261114-02/melting-comparison.json`.
+The finite owner queues
 resource probes, training, independent final audits and external PDF/PNG previews.
 Do not promote synthetic layout qualification data or incomplete run histories
 to the README or website. Full-process times include complete-test inference;
@@ -292,6 +297,27 @@ After inspecting the actual completed plots, select the four local assets with:
 .venv/bin/python -m scripts.publish_pino_time_fusion \
   --provenance /tmp/electropolish-time-fusion-figures/provenance.json \
   --visual-review 'Use a truthful note describing the actual visual inspection.'
+```
+
+Selecting a new Electropolish15kstudy requires `--supersede-provenance` with
+the exact selected old10kprovenance. This checks preserved cohorts/references,
+fields and methods, and records the replaced study. Repeating the currently
+selected provenance is read-only. `--replace-provenance` remains restricted to
+unchanged training data, such as a restyled axis; it cannot substitute a new run.
+
+The matching Electropolish-only library plot uses the five fixed input counts
+32/64/128/256/512and the online control, all final15kweights on64local-FD inputs.
+Its shaded interval is one across-sample standard deviation after channel
+averaging, distinct from the temporal trend's95%bootstrap interval.
+[Final statistics and direct reproduction](../artifacts/electropolish_library15k_results.json).
+The old combined Ceramic plot remains archived and is not embedded in the
+current README/site. Reproduce the new library plot in a fresh output directory:
+
+```bash
+JAX_PLATFORMS=cpu PYTHONPATH=/tmp/pino-pdf-audit OPENBLAS_NUM_THREADS=1 \
+  .venv/bin/python -m scripts.electro_15k_results \
+  --bundle /root/autodl-tmp/tf-logs/electro-15k-completion-20261116-01 \
+  --action library --output /tmp/electropolish-library15k-figures
 ```
 
 `artifacts/pino_time_fusion_figures.json` retains both methods, their shared

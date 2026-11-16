@@ -2,7 +2,7 @@
   "schema": "pino_time_fusion_publication_v1",
   "maximum_file_bytes": 1048576,
   "maximum_collection_bytes": 2097152,
-  "collection_bytes": 817465,
+  "collection_bytes": 825019,
   "cases": [
     {
       "example": "electropolish2d",
@@ -16,7 +16,7 @@
           "label": "Concentration"
         }
       ],
-      "budget": 10000,
+      "budget": 15000,
       "seed": 42,
       "steps": [
         0,
@@ -59,7 +59,27 @@
         9250,
         9500,
         9750,
-        10000
+        10000,
+        10250,
+        10500,
+        10750,
+        11000,
+        11250,
+        11500,
+        11750,
+        12000,
+        12250,
+        12500,
+        12750,
+        13000,
+        13250,
+        13500,
+        13750,
+        14000,
+        14250,
+        14500,
+        14750,
+        15000
       ],
       "monitor_ids": [
         0,
@@ -193,73 +213,8 @@
         62,
         63
       ],
-      "reference": [
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_000/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_001/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_002/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_003/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_004/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_005/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_006/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_007/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_008/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_009/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_010/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_011/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_012/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_013/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_014/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_015/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_016/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_017/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_018/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_019/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_020/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_021/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_022/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_023/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_024/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_025/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_026/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_027/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_028/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_029/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_030/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_031/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_032/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_033/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_034/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_035/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_036/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_037/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_038/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_039/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_040/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_041/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_042/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_043/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_044/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_045/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_046/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_047/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_048/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_049/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_050/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_051/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_052/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_053/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_054/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_055/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_056/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_057/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_058/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_059/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_060/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_061/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_062/local101.npz",
-        "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_063/local101.npz"
-      ],
-      "convergence_metric": "All64local-FD test inputs at every record;21uniform times, full physical query grid; per-channel norm then case mean",
+      "reference": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029",
+      "convergence_metric": "All64local-FD test cases at every record;21uniform times and full101x51grid, equal-point physical channel norms",
       "final_metric": "Unweighted space-time norm per declared field and sample; no smoothing or field averaging in component panels",
       "checkpoint_selection": "Final fixed-budget weights; no best-checkpoint or best-sample selection",
       "smoothing": {
@@ -271,28 +226,29 @@
       },
       "uncertainty": "Pointwise95% empirical whole-condition-trajectory bootstrap of log-LOWESS arithmetic case means; exact enumeration for up to4cases,2000draws for larger cohorts. Conditional on the reused cohort and one training trajectory; no cross-seed uncertainty, simultaneous/population coverage guarantee or smoothing/model-selection bias correction.",
       "source_reports": [
-        "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03/comparison.json",
-        "/root/autodl-tmp/tf-logs/electro-threeway-20261114-03/journal.json",
-        "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/journal.json"
+        "/root/autodl-tmp/tf-logs/electro-library-extension-15k-20261116-02/journal.json",
+        "/root/autodl-tmp/tf-logs/electro-15k-completion-20261116-01/journal.json",
+        "/root/autodl-tmp/tf-logs/electropolish2d/electro-15k-completion-20261116-01-joint_query/suite15k_audit.json",
+        "/root/autodl-tmp/tf-logs/electropolish2d/electro-library-extension-15k-20261116-02-online/library_extension_audit.json"
       ],
-      "limitation": "One initialization; time-module capacity differs; Melting native64 reference is not continuum qualification",
+      "limitation": "One paired initialization; temporal modules differ in capacity. Reused64case test cohort; no cross-seed claim.",
       "convergence_axis": {
         "kind": "cold_wall_time",
         "unit": "seconds",
         "label": "Elapsed wall time (s)",
-        "evidence": "/root/nonlocal-pinn/artifacts/pino_time_fusion_wall_clock.json",
+        "evidence": "/root/autodl-tmp/tf-logs/electro-15k-completion-20261116-01/time_fusion_clock15k.json",
         "origin": "Original launch-log creation before Popen; filesystem-calibrated trainer counters",
         "endpoint": "Final existing evaluation placed at measured complete process exit",
         "limitation": "Reconstructed observation times, not direct per-evaluation parent timestamps; subsecond precision is not claimed. No step-rate extrapolation."
       },
       "supersedes": {
-        "source_provenance": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/electropolish-figures/provenance.json",
+        "source_provenance": "/root/autodl-tmp/tf-logs/pino-time-fusion-wall-clock-20261115-01/electropolish/provenance.json",
         "figures": [
           {
             "kind": "convergence",
             "bytes": {
-              "png": 127060,
-              "pdf": 42708
+              "png": 131746,
+              "pdf": 45935
             },
             "size_mm": [
               170,
@@ -323,10 +279,12 @@
             ]
           }
         ],
-        "reason": "Cold wall-clock axis requested by user"
+        "reason": "User-requested paired cold15k controls supersede10k study"
       },
       "comparison_kind": "time_fusion",
       "pairing": {
+        "all_actual_sampling_arrays_equal": true,
+        "source_bytes_verified": true,
         "shared_initial_backbone_equal": true,
         "complete_initial_trees_equal": false,
         "parameter_count_scope": "Stored numeric entries; coordinate frequencies are frozen metadata",
@@ -334,26 +292,23 @@
           320706,
           264738
         ],
-        "shared_stored_entries": 263106,
-        "all_actual_sampling_arrays_equal": true,
-        "source_bytes_verified": true,
-        "optimizer_trees": "Different time-module shapes; identical optimizer recipe and fresh initialization"
+        "shared_stored_entries": 263106
       },
       "independent_local_single_case": [],
-      "source_provenance": "/root/autodl-tmp/tf-logs/pino-time-fusion-wall-clock-20261115-01/electropolish/provenance.json",
+      "source_provenance": "/root/autodl-tmp/tf-logs/electro-15k-completion-20261116-01/temporal-figures/provenance.json",
       "reproduction": {
         "command": [
           "/root/nonlocal-pinn/.venv/bin/python",
           "-m",
           "scripts.render_pino_time_fusion",
           "--comparison",
-          "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/electropolish-comparison.json",
+          "/root/autodl-tmp/tf-logs/electro-15k-completion-20261116-01/time_fusion_comparison15k.json",
           "--output",
-          "/root/autodl-tmp/tf-logs/pino-time-fusion-wall-clock-20261115-01/electropolish",
+          "/root/autodl-tmp/tf-logs/electro-15k-completion-20261116-01/temporal-figures",
           "--x-axis",
           "cold-wall-time",
           "--clock-evidence",
-          "/root/nonlocal-pinn/artifacts/pino_time_fusion_wall_clock.json"
+          "/root/autodl-tmp/tf-logs/electro-15k-completion-20261116-01/time_fusion_clock15k.json"
         ],
         "cwd": "/root/nonlocal-pinn",
         "environment": {
@@ -361,7 +316,7 @@
           "OPENBLAS_NUM_THREADS": "1",
           "OMP_NUM_THREADS": "1"
         },
-        "audit": "/root/autodl-tmp/tf-logs/pino-time-fusion-20261114-02/electropolish-comparison.json",
+        "audit": "/root/autodl-tmp/tf-logs/electro-15k-completion-20261116-01/time_fusion_comparison15k.json",
         "renderer": "/root/nonlocal-pinn/scripts/render_pino_time_fusion.py"
       },
       "fonts": {
@@ -377,646 +332,686 @@
       "arms": [
         {
           "method": "decoder_film",
-          "run": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-nonlocal",
-          "configuration": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-nonlocal/config.json",
-          "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-nonlocal/model_final.eqx",
-          "monitor": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-nonlocal/local_metrics.jsonl",
+          "run": "/root/autodl-tmp/tf-logs/electropolish2d/electro-library-extension-15k-20261116-02-online",
+          "configuration": "/root/autodl-tmp/tf-logs/electropolish2d/electro-library-extension-15k-20261116-02-online/config.json",
+          "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/electro-library-extension-15k-20261116-02-online/model_final.eqx",
+          "monitor": "/root/autodl-tmp/tf-logs/electropolish2d/electro-library-extension-15k-20261116-02-online/local_metrics.jsonl",
           "final_errors": [
             [
-              0.02821878486798992,
-              0.033541670013356104
+              0.021982409635628263,
+              0.02625811930293107
             ],
             [
-              0.014058192147240646,
-              0.01692741768312799
+              0.010355487755142915,
+              0.012462650116486864
             ],
             [
-              0.01894245271079462,
-              0.02260019463307327
+              0.014086715641778533,
+              0.016877509176907175
             ],
             [
-              0.029566673355130555,
-              0.03526094774321388
+              0.015468005315660484,
+              0.018535338090919694
             ],
             [
-              0.014554292812119611,
-              0.017539236398682313
+              0.009791739020999333,
+              0.011771172952405708
             ],
             [
-              0.01827764708643597,
-              0.021867225780024414
+              0.013356449807666844,
+              0.01603115642096422
             ],
             [
-              0.017084092907810978,
-              0.020489054432233467
+              0.008924428886099699,
+              0.010740765578689634
             ],
             [
-              0.027207527576177257,
-              0.03262674459394595
+              0.016163371597029446,
+              0.019379627930682944
             ],
             [
-              0.017005764690614673,
-              0.020455763242712446
+              0.011539363828720796,
+              0.013859653971653887
             ],
             [
-              0.026126264040234118,
-              0.03111178145580739
+              0.016501036783778737,
+              0.01968529665516126
             ],
             [
-              0.023344523179078022,
-              0.028065016957734827
+              0.011779915583343696,
+              0.01415829492562157
             ],
             [
-              0.014488555758207384,
-              0.017416607260535486
+              0.009557463861211321,
+              0.011512818271931536
             ],
             [
-              0.01732272470541149,
-              0.02076427610818903
+              0.013375987349182964,
+              0.016035910149178136
             ],
             [
-              0.01690849238606942,
-              0.02024859713189945
+              0.011513815739109938,
+              0.013824434377207139
             ],
             [
-              0.03558160654653135,
-              0.04224845561855973
+              0.025271493496248014,
+              0.030095710514008184
             ],
             [
-              0.028777434838802414,
-              0.03413232463478316
+              0.020012088099422436,
+              0.02378727840856564
             ],
             [
-              0.012926819658632216,
-              0.015575621879960611
+              0.008917750496633872,
+              0.01073649543765713
             ],
             [
-              0.015585016380216412,
-              0.01877684421001848
+              0.008819853509246195,
+              0.010637315126188138
             ],
             [
-              0.01264774579271364,
-              0.015287102117370988
+              0.00834258737608086,
+              0.010051843923523898
             ],
             [
-              0.012645272321305134,
-              0.015265925145215199
+              0.011355944118094497,
+              0.013659509306476357
             ],
             [
-              0.0198071785886618,
-              0.023926212177047865
+              0.014405258207511696,
+              0.01727021724825519
             ],
             [
-              0.022322607102777392,
-              0.026644765369180815
+              0.016268960073424165,
+              0.019457894912975386
             ],
             [
-              0.021714654720378,
-              0.025761134672557987
+              0.01765261450759954,
+              0.021053001513231327
             ],
             [
-              0.010667365545934192,
-              0.012742539893681596
+              0.01101430219481116,
+              0.01322362068151445
             ],
             [
-              0.021767754265450096,
-              0.025907414715914564
+              0.012948653892894811,
+              0.01552533325274538
             ],
             [
-              0.01717123969850269,
-              0.020636578333337728
+              0.011537925289978943,
+              0.013865501859288823
             ],
             [
-              0.017608502887952644,
-              0.0212734115292222
+              0.008777384241530645,
+              0.010580242632668834
             ],
             [
-              0.019834954987652142,
-              0.023646644289364523
+              0.015247264660003543,
+              0.018246812080583926
             ],
             [
-              0.01669442413243798,
-              0.01995737406152079
+              0.010489639473774334,
+              0.012598356760955892
             ],
             [
-              0.01317406681781722,
-              0.015865543606279394
+              0.009806718994208154,
+              0.011814964118938695
             ],
             [
-              0.010135682955139811,
-              0.012230919512188954
+              0.008987174059995285,
+              0.01081853129389299
             ],
             [
-              0.015615905296795171,
-              0.018779517050869204
+              0.010207371156863505,
+              0.012268080056582052
             ],
             [
-              0.018970756790761843,
-              0.022699472835658575
+              0.01643281943292544,
+              0.019604540325450632
             ],
             [
-              0.03732026146450523,
-              0.04421428480883692
+              0.020950177845064734,
+              0.02499531149581061
             ],
             [
-              0.012553267679107546,
-              0.015069422957216397
+              0.008281901914999076,
+              0.009960049652973313
             ],
             [
-              0.025517873945741686,
-              0.030327652358760504
+              0.022139767165836037,
+              0.026406082106484242
             ],
             [
-              0.01575194620833138,
-              0.01895654856079365
+              0.00907533343763257,
+              0.010906917970646055
             ],
             [
-              0.018619917030332618,
-              0.022277367484862042
+              0.010483615108247794,
+              0.012618133401799807
             ],
             [
-              0.01725271235011852,
-              0.02070253399147143
+              0.011320478473646473,
+              0.01360792273508731
             ],
             [
-              0.018169757381481223,
-              0.02183820994451776
+              0.006709874573880833,
+              0.00811588950560044
             ],
             [
-              0.012594698609086918,
-              0.015111757544292522
+              0.011515264574950853,
+              0.013706085569774751
             ],
             [
-              0.02044887762278998,
-              0.024398187718454215
+              0.01404222966196582,
+              0.016802902042209526
             ],
             [
-              0.01992354371303812,
-              0.023681981849605144
+              0.018235680813565608,
+              0.021804366069107458
             ],
             [
-              0.027911927187036008,
-              0.03328201507591645
+              0.021999234609489247,
+              0.026220405995427947
             ],
             [
-              0.0187230850379149,
-              0.02237035100243485
+              0.01186278205397503,
+              0.014194342564886768
             ],
             [
-              0.017414841099779046,
-              0.020821798499178434
+              0.011708774795733776,
+              0.014036240943969991
             ],
             [
-              0.014465058810225041,
-              0.017254062527741792
+              0.012901999047462833,
+              0.01546922915465901
             ],
             [
-              0.022672577424134817,
-              0.027031629628477456
+              0.019475099058723685,
+              0.023213777641626156
             ],
             [
-              0.014661324700583048,
-              0.01758366549900831
+              0.011518484584350166,
+              0.013837311658728807
             ],
             [
-              0.015107370383756138,
-              0.01833447702662811
+              0.009771503462624986,
+              0.011742156731894472
             ],
             [
-              0.029211909619364814,
-              0.034826618770751154
+              0.022642558156588964,
+              0.0270745459754611
             ],
             [
-              0.030535807668123197,
-              0.03626929810958728
+              0.02583346028127649,
+              0.030733831203532343
             ],
             [
-              0.013078484216397148,
-              0.015662255198858322
+              0.012961573142565077,
+              0.015498932032839613
             ],
             [
-              0.011868524607299855,
-              0.014306249011368333
+              0.010356509953436968,
+              0.012435234279507906
             ],
             [
-              0.03444254744636362,
-              0.040725744836075044
+              0.02283622887459008,
+              0.027250896507317914
             ],
             [
-              0.01770642020299549,
-              0.02127261144464004
+              0.010032962311045194,
+              0.012093444228804037
             ],
             [
-              0.04638584905839099,
-              0.05470266353541558
+              0.03399575652179153,
+              0.04021730278212332
             ],
             [
-              0.02787286427573598,
-              0.033251586704981365
+              0.017314952518997437,
+              0.020774512276282266
             ],
             [
-              0.018100835103741487,
-              0.021591068502856716
+              0.01916761679231762,
+              0.022903048030380388
             ],
             [
-              0.016575698234181344,
-              0.019688876155536324
+              0.012702388039399479,
+              0.015209230259186145
             ],
             [
-              0.01802072411692193,
-              0.0217929097179223
+              0.009383765118231474,
+              0.011284123988916097
             ],
             [
-              0.011104100959035423,
-              0.013314437825104594
+              0.01041312507233873,
+              0.012492298316144256
             ],
             [
-              0.017440664826228594,
-              0.02089359626816099
+              0.014082822416085307,
+              0.01688280594255228
             ],
             [
-              0.013416186606927135,
-              0.01619656974511443
+              0.008813415279190634,
+              0.010561524157394322
             ]
           ],
           "field_means": {
-            "phi": 0.019712884924085093,
-            "c": 0.023562855740497452
+            "phi": 0.013959708277290697,
+            "c": 0.016710575821802694
           },
           "timing": {
-            "warm_inclusive_median_seconds": 0.06460517831146717,
-            "warm_inclusive_mean_seconds": 0.06759623414201132,
-            "first_update_seconds": 169.01541963405907,
-            "peak_active_gib": 12.025291204452515,
-            "source": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-nonlocal/timing.json",
-            "memory": "/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-nonlocal/memory.json",
-            "cold_process_seconds": 937.5401736199856,
-            "gpu": "GPU-85fe6412-636e-5d3c-d5f0-d1e9523c3faa, NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887 MiB, 595.71.05"
+            "warm_inclusive_median_seconds": 0.06340994872152805,
+            "warm_inclusive_mean_seconds": 0.0674410045335206,
+            "first_update_seconds": 177.82365197036415,
+            "peak_active_gib": 12.02521824836731,
+            "source": "/root/autodl-tmp/tf-logs/electropolish2d/electro-library-extension-15k-20261116-02-online/timing.json",
+            "memory": "/root/autodl-tmp/tf-logs/electropolish2d/electro-library-extension-15k-20261116-02-online/memory.json",
+            "cold_process_seconds": 1283.698062115,
+            "gpu": "GPU-f0c22930-0180-a523-898a-9fef5fec4eb9, NVIDIA RTX 6000D, 85651 MiB, 595.71.05"
           },
           "elapsed_seconds": [
-            36.47486911714077,
-            225.3376690093428,
-            243.2178730610758,
-            261.64130988158286,
-            279.62520257756114,
-            298.0464534666389,
-            315.11027074046433,
-            332.4473362378776,
-            350.0270636435598,
-            367.83846441842616,
-            386.29045475274324,
-            405.02424608170986,
-            423.59289087727666,
-            442.5325117558241,
-            461.1878612358123,
-            479.93048906326294,
-            498.80896037817,
-            517.0836544204503,
-            535.0779181253165,
-            553.0107195582241,
-            571.0321654099971,
-            589.7223910856992,
-            607.6410242188722,
-            625.7187273744494,
-            643.4562878962606,
-            660.7314582020044,
-            678.0214402768761,
-            695.2640276122838,
-            713.3306413218379,
-            731.1523623801768,
-            749.009733505547,
-            767.0132417976856,
-            785.010115576908,
-            804.8872094638646,
-            823.1863852031529,
-            841.5795123316348,
-            860.3768412899226,
-            878.7708399109542,
-            897.3041322529316,
-            915.546758107841,
-            937.5401736199856
+            39.554603181779385,
+            237.46827238611877,
+            255.76875374279916,
+            274.1267760368064,
+            292.16159706097096,
+            310.37798748444766,
+            329.47861897107214,
+            347.6543930983171,
+            365.60683562327176,
+            383.17703258804977,
+            400.6572392145172,
+            418.4483414115384,
+            436.4664293611422,
+            454.27569972071797,
+            472.28210756368935,
+            490.163520921953,
+            508.303120511584,
+            526.2564323982224,
+            543.8292373232543,
+            561.0669877519831,
+            578.4183241156861,
+            595.9657497080043,
+            613.269470827654,
+            630.4851164994761,
+            647.313548097387,
+            664.2382058892399,
+            681.345237268135,
+            698.6578692048788,
+            715.6878237137571,
+            732.9043462509289,
+            750.3697551013902,
+            767.848492141813,
+            785.151705916971,
+            802.6051776865497,
+            820.497755009681,
+            838.1891440358013,
+            855.5071633914486,
+            873.0249694492668,
+            890.8947675554082,
+            908.5046353321522,
+            925.9603303605691,
+            943.6635393789038,
+            960.9304135357961,
+            978.5791885396466,
+            996.5228056972846,
+            1014.4093623822555,
+            1031.9928091140464,
+            1049.4077814240009,
+            1067.0264524873346,
+            1086.3991581629962,
+            1104.3459066562355,
+            1122.141159302555,
+            1139.857682463713,
+            1157.3745968518779,
+            1174.8424860667437,
+            1192.395521812141,
+            1209.7526015006006,
+            1227.3666204204783,
+            1244.8046460412443,
+            1262.1215938804671,
+            1283.698062115
           ]
         },
         {
           "method": "joint_query",
-          "run": "/root/autodl-tmp/tf-logs/electropolish2d/pino-time-fusion-20261114-02-electropolish-joint_query",
-          "configuration": "/root/autodl-tmp/tf-logs/electropolish2d/pino-time-fusion-20261114-02-electropolish-joint_query/config.json",
-          "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/pino-time-fusion-20261114-02-electropolish-joint_query/model_final.eqx",
-          "monitor": "/root/autodl-tmp/tf-logs/electropolish2d/pino-time-fusion-20261114-02-electropolish-joint_query/local_metrics.jsonl",
+          "run": "/root/autodl-tmp/tf-logs/electropolish2d/electro-15k-completion-20261116-01-joint_query",
+          "configuration": "/root/autodl-tmp/tf-logs/electropolish2d/electro-15k-completion-20261116-01-joint_query/config.json",
+          "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/electro-15k-completion-20261116-01-joint_query/model_final.eqx",
+          "monitor": "/root/autodl-tmp/tf-logs/electropolish2d/electro-15k-completion-20261116-01-joint_query/local_metrics.jsonl",
           "final_errors": [
             [
-              0.03732161645797034,
-              0.04418693168747083
+              0.028581220753682197,
+              0.0338989882363015
             ],
             [
-              0.015051087479160716,
-              0.0179090514131645
+              0.011064315159824416,
+              0.013510810093508773
             ],
             [
-              0.018419129277162553,
-              0.021881274432470073
+              0.015098599022594868,
+              0.018116119505157027
             ],
             [
-              0.02482835338892772,
-              0.029562395945517333
+              0.01696630899605869,
+              0.020509095512306338
             ],
             [
-              0.014929399050470322,
-              0.01789375464905439
+              0.012517757785106685,
+              0.01528705752571789
             ],
             [
-              0.031248506964345762,
-              0.037160621910729316
+              0.01641894991950203,
+              0.019644417074961125
             ],
             [
-              0.012816951792657051,
-              0.015274349609881936
+              0.009535147102620963,
+              0.011599671452281255
             ],
             [
-              0.024353273208969402,
-              0.02917083825896949
+              0.016648052337065837,
+              0.01995558032835131
             ],
             [
-              0.019970694497450057,
-              0.02387314238502299
+              0.01146642513991811,
+              0.014048280753446002
             ],
             [
-              0.023510697211124164,
-              0.028021692202468685
+              0.018561433745449097,
+              0.022226711872874963
             ],
             [
-              0.01928870988594059,
-              0.023111883804046107
+              0.015366918030835145,
+              0.018742383365988567
             ],
             [
-              0.017233441798289385,
-              0.020632158161475345
+              0.011429368127328362,
+              0.013894769518145554
             ],
             [
-              0.020376127999395654,
-              0.024307845483636993
+              0.012717287035455854,
+              0.01545475959524234
             ],
             [
-              0.01702303460873801,
-              0.020257232621162646
+              0.011867107688010747,
+              0.014208704302982248
             ],
             [
-              0.02999782531709819,
-              0.03572294418306806
+              0.024879326609402397,
+              0.029682090811576398
             ],
             [
-              0.023781440359399636,
-              0.028301228142222072
+              0.01964276995273505,
+              0.023497674592717486
             ],
             [
-              0.02179024449352386,
-              0.02605974569965267
+              0.010250525154582796,
+              0.012420099064051806
             ],
             [
-              0.014229128589065,
-              0.01692267262179622
+              0.00957862965222398,
+              0.011782547066184427
             ],
             [
-              0.011897669147412781,
-              0.014211433973708387
+              0.008552438354965506,
+              0.01052376607910905
             ],
             [
-              0.012253916035991673,
-              0.014609198696559859
+              0.009675934340315186,
+              0.011827854151810214
             ],
             [
-              0.02531770518703152,
-              0.03028659968383192
+              0.018537416694963733,
+              0.022285613850698462
             ],
             [
-              0.02763084888408571,
-              0.03285355941774466
+              0.021197655595706227,
+              0.025434996570156593
             ],
             [
-              0.02734725142376721,
-              0.032501571898334004
+              0.014934973822829132,
+              0.017691267519566956
             ],
             [
-              0.01872216382373199,
-              0.022259670947762166
+              0.01206794936389137,
+              0.014471453572563825
             ],
             [
-              0.02210101205265292,
-              0.026399136422525435
+              0.014247687167568175,
+              0.017129491700404526
             ],
             [
-              0.01248254781973081,
-              0.014934894212899348
+              0.013174014005853104,
+              0.015892643097650618
             ],
             [
-              0.017473639650378833,
-              0.021091037194756322
+              0.015401043221069133,
+              0.01864521423008361
             ],
             [
-              0.021278251525536446,
-              0.025383792008829342
+              0.018089619151238332,
+              0.021692393152397998
             ],
             [
-              0.012697443477627704,
-              0.01520973914353712
+              0.01136102569110888,
+              0.01379169286875425
             ],
             [
-              0.014079618380563355,
-              0.016703449139560886
+              0.009002847908706564,
+              0.011042689228721798
             ],
             [
-              0.014451387012857034,
-              0.017243160587973733
+              0.0079829102797279,
+              0.009709854771378526
             ],
             [
-              0.01787617520432819,
-              0.021432506452050002
+              0.010877056457356893,
+              0.013070657224337359
             ],
             [
-              0.024486698469829832,
-              0.028980340999645703
+              0.01915825164442471,
+              0.02281049758506974
             ],
             [
-              0.030685670383647858,
-              0.03649262818285158
+              0.02874857209652991,
+              0.03423728032097087
             ],
             [
-              0.019458035251357156,
-              0.02313254784774865
+              0.010671363002604498,
+              0.01289114869608078
             ],
             [
-              0.033436539620409884,
-              0.03969096090999076
+              0.024108483338904245,
+              0.028743540738697268
             ],
             [
-              0.01374040603188178,
-              0.016421232543702667
+              0.01667306575204987,
+              0.020103882324609492
             ],
             [
-              0.01994151099670397,
-              0.02376898851060085
+              0.011490494389816037,
+              0.014037985722565614
             ],
             [
-              0.014146249140152856,
-              0.016809921382491894
+              0.011583422559249412,
+              0.014037674319064075
             ],
             [
-              0.012690236822013387,
-              0.015206116902679413
+              0.009671053062449827,
+              0.011748082264650975
             ],
             [
-              0.020919820906243124,
-              0.024880038852723586
+              0.01131138164979353,
+              0.013735666135250213
             ],
             [
-              0.021047900666915916,
-              0.02507246534349174
+              0.014326077853876797,
+              0.017179974148646665
             ],
             [
-              0.02286629499457122,
-              0.027284925542347568
+              0.01753294188252395,
+              0.020972234196899524
             ],
             [
-              0.025605221084587418,
-              0.03061656134077513
+              0.02694774899968023,
+              0.03228633103895459
             ],
             [
-              0.015492369722190077,
-              0.018468732241577218
+              0.01211977596739287,
+              0.014683397534800195
             ],
             [
-              0.013958421468743668,
-              0.01666041071694983
+              0.01201036877115058,
+              0.014450087322785266
             ],
             [
-              0.015962030894199074,
-              0.019226210172859626
+              0.012822092712622043,
+              0.015443634541334796
             ],
             [
-              0.019889797106132805,
-              0.023759524345178723
+              0.02047204157538167,
+              0.024483119997785692
             ],
             [
-              0.017142716797706882,
-              0.020299077435422346
+              0.01267699037683142,
+              0.015189814759778212
             ],
             [
-              0.016368390852006025,
-              0.01957207489030173
+              0.01303979755423609,
+              0.015831641610367594
             ],
             [
-              0.022480439782508188,
-              0.026821976156883615
+              0.0168505714488183,
+              0.020213130127238632
             ],
             [
-              0.02639613552676352,
-              0.03142919066906156
+              0.023810442847169575,
+              0.028397621020816406
             ],
             [
-              0.015928627371132913,
-              0.019004870611211054
+              0.012911652250066963,
+              0.015499703759968238
             ],
             [
-              0.01459556692270351,
-              0.017421119840497462
+              0.011011243692327964,
+              0.013252792016446665
             ],
             [
-              0.034415672561943396,
-              0.04080525067410913
+              0.018323667211915164,
+              0.02190348380408314
             ],
             [
-              0.012581988987154843,
-              0.015083458387573289
+              0.013408187482718445,
+              0.01621806378524496
             ],
             [
-              0.04366226303943895,
-              0.05145586488822696
+              0.03496441294186333,
+              0.04139925537899373
             ],
             [
-              0.022395051684088212,
-              0.02674361823516913
+              0.014912360678233384,
+              0.01796224188174722
             ],
             [
-              0.023656917376349892,
-              0.028235283415191062
+              0.022375906086329004,
+              0.026699464308643766
             ],
             [
-              0.019689986682398356,
-              0.023430417800247665
+              0.013164355685424314,
+              0.015746893256627353
             ],
             [
-              0.017676240348669162,
-              0.02122149361466927
+              0.015445171299737461,
+              0.018681651168638236
             ],
             [
-              0.01712804235528957,
-              0.02035478381635635
+              0.009539844258959792,
+              0.011632325282221473
             ],
             [
-              0.02852158597389965,
-              0.03391209710394788
+              0.021125290936166972,
+              0.025278284225245706
             ],
             [
-              0.018185563905642153,
-              0.02166453721846561
+              0.014896691810973478,
+              0.01799852105722108
             ]
           ],
           "field_means": {
-            "phi": 0.02057705758957281,
-            "c": 0.024520253649763
+            "phi": 0.015403069313873738,
+            "c": 0.0185224808284512
           },
           "timing": {
-            "warm_inclusive_median_seconds": 0.10576462931931019,
-            "warm_inclusive_mean_seconds": 0.11273016175436805,
-            "first_update_seconds": 198.99087136238813,
-            "peak_active_gib": 32.452723264694214,
-            "source": "/root/autodl-tmp/tf-logs/electropolish2d/pino-time-fusion-20261114-02-electropolish-joint_query/timing.json",
-            "memory": "/root/autodl-tmp/tf-logs/electropolish2d/pino-time-fusion-20261114-02-electropolish-joint_query/memory.json",
-            "cold_process_seconds": 1419.0765574146062,
-            "gpu": "GPU-85fe6412-636e-5d3c-d5f0-d1e9523c3faa, NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887 MiB, 595.71.05"
+            "warm_inclusive_median_seconds": 0.1136346384882927,
+            "warm_inclusive_mean_seconds": 0.121727689394494,
+            "first_update_seconds": 215.05564363021404,
+            "peak_active_gib": 31.59047532081604,
+            "source": "/root/autodl-tmp/tf-logs/electropolish2d/electro-15k-completion-20261116-01-joint_query/timing.json",
+            "memory": "/root/autodl-tmp/tf-logs/electropolish2d/electro-15k-completion-20261116-01-joint_query/memory.json",
+            "cold_process_seconds": 2146.985985462,
+            "gpu": "GPU-f0c22930-0180-a523-898a-9fef5fec4eb9, NVIDIA RTX 6000D, 85651 MiB, 595.71.05"
           },
           "elapsed_seconds": [
-            38.9760085940361,
-            267.999055236578,
-            296.54094554670155,
-            325.2464507929981,
-            353.7505615372211,
-            383.0978539157659,
-            412.15182198770344,
-            441.0049203634262,
-            469.684083821252,
-            498.44786424562335,
-            527.844504006207,
-            558.0466304179281,
-            587.2206655349582,
-            616.3441894892603,
-            646.0110113527626,
-            675.6668870989233,
-            706.1907811798155,
-            736.8246873170137,
-            767.5688532646745,
-            798.0659185238183,
-            827.2714433334768,
-            856.1110958289355,
-            884.9106050916016,
-            913.6560494694859,
-            942.8032297547907,
-            972.4223590921611,
-            1001.7188480086625,
-            1031.0355059206486,
-            1060.8404225129634,
-            1090.4317965190858,
-            1119.6534632574767,
-            1148.755322046578,
-            1178.1738660726696,
-            1207.6824446376413,
-            1237.8345412127674,
-            1267.8738647848368,
-            1297.3515876084566,
-            1327.0117575153708,
-            1356.817535603419,
-            1386.7301233094186,
-            1419.0765574146062
+            44.5234804013744,
+            292.66011543758214,
+            323.89573075063527,
+            355.84178853966296,
+            387.0247220117599,
+            419.0380697129294,
+            451.2879646476358,
+            482.3638498429209,
+            513.4271711194888,
+            544.5141125600785,
+            575.4860310759395,
+            606.5730740958825,
+            637.5511603644118,
+            668.4778110226616,
+            699.6215038923547,
+            730.6459009144455,
+            761.8135276557878,
+            792.8077051974833,
+            823.7714958870783,
+            854.8965268852189,
+            886.0349094569683,
+            917.1578693659976,
+            948.341159094125,
+            980.1553324954584,
+            1012.3134530270472,
+            1043.2845840426162,
+            1074.193551610224,
+            1105.3272257680073,
+            1136.5575266387314,
+            1167.7116839988157,
+            1198.8855587160215,
+            1230.764036054723,
+            1262.8441387014464,
+            1293.7801389638335,
+            1324.8155792690814,
+            1355.891098164022,
+            1386.9198939548805,
+            1418.063100730069,
+            1449.0216629263014,
+            1480.431186282076,
+            1512.3045351002365,
+            1544.50579832308,
+            1576.0515774479136,
+            1607.65627712477,
+            1639.5930064273998,
+            1671.2994721839204,
+            1702.6789503451437,
+            1734.3488202374429,
+            1766.3573955865577,
+            1797.889116095379,
+            1829.0409009316936,
+            1860.4521977715194,
+            1891.5496083134785,
+            1922.7474419856444,
+            1954.0583756566048,
+            1985.5204374156892,
+            2017.7605813806877,
+            2049.2064288351685,
+            2080.3551813615486,
+            2111.6218928378075,
+            2146.985985462
           ]
         }
       ],
@@ -1024,8 +1019,8 @@
         {
           "kind": "convergence",
           "bytes": {
-            "png": 131746,
-            "pdf": 45935
+            "png": 136521,
+            "pdf": 45776
           },
           "size_mm": [
             170,
@@ -1041,8 +1036,8 @@
         {
           "kind": "distribution",
           "bytes": {
-            "png": 96550,
-            "pdf": 28558
+            "png": 98784,
+            "pdf": 29262
           },
           "size_mm": [
             170,
@@ -1058,7 +1053,7 @@
       ],
       "validation": {
         "saved_field_norm_checks": 128,
-        "visual_review": "Actual cold-time PNG inspected: clear labels, seconds on x axis, no clipping or overlap; raw errors preserved and no curve before first observed evaluation.",
+        "visual_review": "Reviewed actual170x60mmconvergence and component-violin PNGs: legible unclipped5-7ptlabels, solid raw/trend curves and pointwise95%bands on cold elapsed axes, correct final64case distributions and embedded editable PDFs.",
         "pdf_checks": "Passed in linked renderer provenance"
       }
     },

@@ -261,11 +261,8 @@ libraries generally harm generalization. The rolling-geometry default is unchang
 [Completed study](../../docs/tasks/archive/fixed-condition-library-size.md) and
 [final statistics/figure provenance](../../artifacts/fixed_condition_library_results.json).
 
-![Final fixed-library errors, including the poorly converged larger Ceramic banks](../../assets/pino-library-size/electropolish_ceramic_fixed_library_error.png)
+The library-size graph is no longer displayed here. All historical outcomes and direct inputs remain in the linked record.
 
-Ceramic is panel(b): final20kweights and64local-FEM test cases, channel-averaged
-equal-point space-time errors with one sampleSD. Panel(a) shows the separate
-Electropolish10kstudy. [Editable PDF](../../assets/pino-library-size/electropolish_ceramic_fixed_library_error.pdf).
 Training stability is explicitly deferred in [TODO](../../docs/TODO.md#ceramic-corrosion-training-stability-across-geometry-libraries).
 
 ### Physical outputs and residuals

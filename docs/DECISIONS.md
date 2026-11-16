@@ -14169,3 +14169,70 @@ pass. Pages43808630409build/deploy both succeeded. Reject promoting a new defaul
 or selecting an intermediate15kcheckpoint based on this publication. Record live
 verification separately from the earlier dated local-only gallery receipt.
 Relation:electro-library-extension; artifacts/fixed_library_pages_publication.json.
+
+## 2026-11-16 — Recover the incomplete15kpair after CUDA graph capture failure
+
+At13:19Asia/Shanghai the online trainer failed after its9900update log with
+CUDA_ERROR_STREAM_CAPTURE_INVALIDATED; the owner terminated fixed32. Last common
+64case evaluation is9750, not a completed10kor15kresult. No intermediate model or
+optimizer checkpoint exists, so exact continuation is unavailable. Preserve the
+failed bundle and its logs; the specific driver/runtime trigger is unestablished.
+No logged NaN or OOM establishes a numerical divergence or capacity failure.
+
+Complete the previously authorized15kpair through one manually diagnosed cold
+recovery, serial online then fixed32, with identical frozen numerical source,
+seed, LR, sampling and64case monitoring. Explicitly disable CUDA command buffer
+capture with XLA_FLAGS=--xla_gpu_enable_command_buffer=; this is the OpenXLA
+runtime baseline documented at https://openxla.org/xla/command_buffer_tutorial.
+Record the execution change; reject silent retries, overwriting the failed run,
+resuming from model_initial as though it were9750, or changing precision/losses.
+Keep10kcheckpoint and15kfinal audits. No20kor older controls, no Git publication.
+Relation:electro-library-extension; recovery bundle15k-20261116-02.
+
+## 2026-11-16 — Complete Electropolish library and time-fusion controls at15k
+
+User authorizes cold15kfixed64/128/256/512controls followed by a15kjoint(x,t)
+query control, then updated figures/README/site and commit/push. Extend the
+existing active task. Reuse the completed recovery online decoder-FiLM15kand
+current fixed32run; do not duplicate them. Queue five new trainers only after
+the current owner finishes its independent audits. Preserve nested prefixes,
+seed42, all64local-FD tests every250steps, rolling spatial pool, original LR and
+numerical source. Use the sameGPU/driver and runtime_serial capture-disabled
+execution for all arms; do not overlap GPU jobs in a wall-time comparison.
+
+Render Electropolish alone: fixed32/64/128/256/512final15kchannel-mean error versus
+count, mean±one across-sample SD, with the continuous-online15kmean/SD as a
+separate reference band. Remove the combined Ceramic library figure from public
+README/site display, retaining all historical Ceramic evidence and stabilityTODO.
+Replace the Electropolish temporal convergence/distribution with the15kpair;
+retain other examples' figures. Use actual cold parent process duration and
+filesystem-calibrated trainer observations as for the previous accepted curve;
+no step-rate estimates. Preserve solid raw curves,log-LOWESS and whole-trajectory
+pointwise95%bootstrap intervals. Reject mixing10k/15k endpoints, new seeds,
+changing defaults, or publishing incomplete/unaudited results.
+Relation:electro-library-extension; user goal includes dev→main regular merge/push.
+
+## 2026-11-16 — Complete and select the15k Electropolish controls
+
+All seven declared cold15k trainers and reloaded10k/15k64case field audits pass.
+Fixed32/64/128/256/512channel means are16.44550/12.27110/5.45571/2.12162/2.02321%;
+continuous online gives1.53351%. Preserve all endpoints. The earlier10kruns used
+a differentGPU/runtime; within-run checkpoints, not old/new run differences,
+support budget comparisons. Do not infer overfitting or a universal library-size
+law from the test errors alone. Ceramic remains deferred and its library graph
+is removed from current display, with historical data/assets retained.
+
+Paired online FiLM/joint15kmeans are1.53351%/1.69628%, cold1283.698/2146.986s;
+shared initial backbone, actual condition/time/core draws and numerical source
+match. Temporal capacities differ. Serial execution uses the sameRTX6000D,
+driver and capture-disabled flags. No speed estimate excludes initialization,
+compile, monitoring, output or teardown. Earlier internal autotuning warnings
+did not stop the jointrun or invalidate the independently measured parentclock.
+
+Select the reviewed Electropolish-only mean±sampleSDplot and updated temporal
+raw/LOWESS/95%trajectory-bootstrap curves plus final componentviolins. Preserve
+final weights,64case equal-point physical space-time norms, embedded editable
+Helvetica PDF/PNG and direct provenance. Explicit10k→15ksupersession is separate
+from unchanged-data restyling; idempotent selected-publication checks pass.
+Production defaults, physical main galleries and other examples remain unchanged.
+Relation:electro-library-extension; final15k manifests and authorizedGit/Pages.

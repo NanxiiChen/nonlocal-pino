@@ -29,16 +29,26 @@ def gpu():
         '--format=csv,noheader'], text=True).strip()
 
 
-def environment(source, platform):
+def execution_settings(mode):
+    if mode == 'capture_concurrent':
+        return dict(concurrent_training=True, xla_flags='', training_order=['fixed32', 'online'])
+    if mode == 'runtime_serial':
+        return dict(concurrent_training=False, xla_flags='--xla_gpu_enable_command_buffer=',
+                    training_order=['online', 'fixed32'])
+    raise ValueError('Unknown explicit execution mode: ' + str(mode))
+
+
+def environment(source, platform, xla_flags):
     return dict(os.environ, OPENBLAS_NUM_THREADS='1', OMP_NUM_THREADS='1',
                 MKL_NUM_THREADS='1', JAX_ENABLE_X64='false',
-                JAX_ENABLE_COMPILATION_CACHE='false', XLA_FLAGS='',
+                JAX_ENABLE_COMPILATION_CACHE='false', XLA_FLAGS=xla_flags,
                 XLA_PYTHON_CLIENT_PREALLOCATE='true', XLA_PYTHON_CLIENT_MEM_FRACTION='.40',
                 JAX_PLATFORMS=platform, PYTHONUNBUFFERED='1',
                 PYTHONPATH=f'{source}:{source / "src"}:/tmp/pino-pdf-audit')
 
 
-def prepare(previous, bundle, prefix, iterations, checkpoint_step):
+def prepare(previous, bundle, prefix, iterations, checkpoint_step, execution):
+    settings = execution_settings(execution)
     old = read(previous / 'journal.json')
     if old['status'] != 'complete':
         raise ValueError('The preceding experiment must be complete')
@@ -69,7 +79,8 @@ def prepare(previous, bundle, prefix, iterations, checkpoint_step):
                  source=str(source), runs=runs, configs=configs, first=str(first),
                  old_online='/root/autodl-tmp/tf-logs/electropolish2d/electro-threeway-20261114-03-nonlocal',
                  library=str(library), gpu=gpu(), previous_gpu=old['gpu'],
-                 iterations=iterations, checkpoint_step=checkpoint_step, seed=42, concurrent_training=True,
+                 iterations=iterations, checkpoint_step=checkpoint_step, seed=42,
+                 execution=execution, **settings,
                  memory_fraction_per_process=.40, stages=[], automatic_retries=False)
     write(bundle / 'journal.json', state)
     print(json.dumps(dict(status='prepared', runs=runs, gpu=state['gpu'])), flush=True)
@@ -204,6 +215,9 @@ def run(bundle):
     state = read(bundle / 'journal.json')
     if state['status'] != 'prepared' or read(bundle / 'preflight.json')['status'] != 'passed':
         raise ValueError('Exactly one prepared and preflighted owner is required')
+    expected = execution_settings(state['execution'])
+    if any(state[key] != value for key, value in expected.items()):
+        raise ValueError('Execution settings differ from the explicit mode')
     busy = subprocess.check_output(['nvidia-smi', '--query-compute-apps=pid',
                                     '--format=csv,noheader'], text=True).strip()
     if gpu() != state['gpu'] or busy:
@@ -219,8 +233,10 @@ def run(bundle):
         stream = (bundle / (name + '.log')).open('x')
         begin = time.monotonic_ns()
         child = subprocess.Popen([sys.executable, *args], cwd=source, stdout=stream,
-                                 stderr=subprocess.STDOUT, env=environment(source, platform))
+                                 stderr=subprocess.STDOUT,
+                                 env=environment(source, platform, state['xla_flags']))
         row = dict(name=name, args=args, status='running', pid=child.pid,
+                   xla_flags=state['xla_flags'],
                    started_utc=datetime.now(timezone.utc).isoformat())
         state['stages'].append(row)
         item = child, stream, begin, row
@@ -239,9 +255,14 @@ def run(bundle):
 
     save()
     try:
-        active = [start('train-' + arm, ['-m', 'examples.electropolish2d.train',
-                    '--config=' + state['configs'][arm], '--seed=42'], 'cuda')
-                  for arm in ('fixed32', 'online')]
+        active = []
+        for arm in state['training_order']:
+            item = start('train-' + arm, ['-m', 'examples.electropolish2d.train',
+                         '--config=' + state['configs'][arm], '--seed=42'], 'cuda')
+            if state['concurrent_training']:
+                active.append(item)
+            else:
+                finish(item, item[0].wait())
         while active:
             for item in active[:]:
                 code = item[0].poll()
@@ -287,14 +308,17 @@ if __name__ == '__main__':
     parser.add_argument('--prefix')
     parser.add_argument('--iterations', type=int, choices=(10000, 15000))
     parser.add_argument('--checkpoint-step', type=int)
+    parser.add_argument('--execution', choices=('capture_concurrent', 'runtime_serial'))
     parser.add_argument('--arm', choices=('fixed32', 'online'))
     args = parser.parse_args()
     if args.action == 'prepare':
-        if args.previous is None or args.prefix is None or args.iterations is None or args.checkpoint_step is None:
-            parser.error('prepare requires --previous, --prefix, --iterations and --checkpoint-step')
+        if (args.previous is None or args.prefix is None or args.iterations is None
+                or args.checkpoint_step is None or args.execution is None):
+            parser.error('prepare requires --previous, --prefix, --iterations, --checkpoint-step and --execution')
         if not 0 < args.checkpoint_step < args.iterations or args.checkpoint_step % 250:
             parser.error('checkpoint-step must be an intermediate evaluation step')
-        prepare(args.previous.resolve(strict=True), args.bundle.resolve(), args.prefix, args.iterations, args.checkpoint_step)
+        prepare(args.previous.resolve(strict=True), args.bundle.resolve(), args.prefix,
+                args.iterations, args.checkpoint_step, args.execution)
     elif args.action == 'audit':
         if args.arm is None:
             parser.error('audit requires --arm')

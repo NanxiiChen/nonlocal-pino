@@ -160,7 +160,7 @@ matching PNG previews and [direct source/configuration records](artifacts/pino_m
 Each shows **Best / Middle / Worst** samples ranked by equal-point, phase-only
 relative L2 over the full space-time evaluation grid. The respective cohorts
 contain64melting shapes,64electropolish profiles,8spinodal geometries,3reserved
-channels and64ceramic geometries. Middle is the lower central actual sample.
+channels and 64ceramic geometries. Middle is the lower central actual sample.
 Colors show predicted phase; reference interfaces and instantaneous spatial phase
 errors are overlaid. These panel and ranking metrics differ from the channel-
 average metric used for the comparison distributions. Original field checkpoints
@@ -311,13 +311,19 @@ Mesh generation additionally uses the explicit `mesh` extra:
 
 ## Fixed training-library comparison
 
-The completed [Electropolish](examples/electropolish2d/README.md#fixed-initial-condition-library-size-study)
-and [Ceramic](examples/particle_corrosion2d/README.md#fixed-geometry-library-size-study)
-controls use nested64/128/256/512fixed inputs, unchanged rolling spatial sampling
-and64case final evaluation. Electropolish10k channel means are12.87/2.66/2.88/2.01%;
-Ceramic20k means are5.20/32.79/32.48/32.79%. The larger Ceramic banks remain poorly
-converged; their cause is unresolved and [deferred](docs/TODO.md). One initialization
-does not establish a general library-size law. Existing rolling defaults remain.
-[Reviewed figure and complete provenance](artifacts/fixed_condition_library_results.json).
-Two additional Electropolish controls (fixed32and online) are running to15k,
-retaining10kcheckpoints; their results are pending.
+The completed [Electropolish 15k study](examples/electropolish2d/README.md#fixed-initial-condition-library-size-study)
+compares nested 32/64/128/256/512 fixed initial-profile libraries with continuous
+online sampling, retaining rolling spatial core/halo pools and 64 local-FD tests.
+Final channel means are 16.45%/12.27%/5.46%/2.12%/2.02%; online gives 1.53%.
+The standalone plot shows means ± one across-sample SD. All are final 15k weights,
+with one paired initialization; no universal monotonicity/online advantage follows.
+[Data, reviewed figure and reproduction](artifacts/electropolish_library15k_results.json).
+
+The [15k time-feature comparison](examples/electropolish2d/README.md#controlled-time-feature-fusion-study)
+uses the completed online FiLM baseline and a matched cold joint(x,t)query run.
+Its convergence axis includes full cold training time, with final 64-case violins.
+
+[Ceramic library stability](examples/particle_corrosion2d/README.md#fixed-geometry-library-size-study)
+remains [deferred](docs/TODO.md): the earlier 20k means 5.20/32.79/32.48/32.79%
+are retained in the historical record, without a library-size figure here.
+Production defaults are unchanged.

@@ -165,11 +165,6 @@ space-time channel means are:
 | 256 | 31.66% | 33.31% | 32.48% ± 0.79% |
 | 512 | 31.97% | 33.61% | 32.79% ± 0.79% |
 
-<figure>
-  <a href="assets/electropolish_ceramic_fixed_library_error.png"><img src="assets/electropolish_ceramic_fixed_library_error.png" width="2007" height="732" alt="Fixed-library results retaining all poorly converged larger Ceramic runs"></a>
-  <figcaption>Ceramic is panel (b); panel (a) is the separate Electropolish 10k study. Final weights, 64 test samples and one across-sample standard deviation. A passed input/metric audit does not indicate good solution accuracy. <a href="assets/electropolish_ceramic_fixed_library_error.pdf">Editable PDF</a>.</figcaption>
-</figure>
-
 The three larger banks plateaued near 32% and did not recover. Their cause is
 unresolved; these results do not establish that more geometries generally harm
 generalization. Training-stability work is deferred, and the successful rolling
