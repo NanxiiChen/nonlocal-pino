@@ -14,7 +14,8 @@ Previous fixed-library and FiLM studies are not rerun;20kis undecided.
 Ceramic stability is deferred inTODO. See active task for exact run paths.
 User authorized publication of completed results andcommit/push this turn;
 README/site updates include the accepted ranked main galleries and fixed-library
-figure, with all15kresults explicitly pending. Deployment is in progress.
+figure, with all15kresults explicitly pending. Pages deployment and live checks
+passed; [publication receipt](../artifacts/fixed_library_pages_publication.json).
 
 The preceding [fixed condition-library study](tasks/archive/fixed-condition-library-size.md) is complete.
 
@@ -46,12 +47,13 @@ byte-identical to the approved exports; total7,022,408bytes remains below9MiB.
 [Local integration checks](../artifacts/pino_ranked_main_publication.json).
 Nine-page build,395local links/anchors, rank metadata and asset dimensions pass.
 This earlier local integration is now included in the user-authorized publication.
-Commit, push and live Pages verification are in progress.
+dev1d3e68a was merged as mainb752981 and pushed. Pages run43808630409
+passed build/deploy; six live HTML pages and all12figure files match exactly.
 Original main weights/defaults remain unchanged. The previous short MeltingGPU
 inference overlap with the library study is recorded; no GPU job ran for this
 documentation integration.
 
-**Latest publication:** [Ceramic temporal controls](tasks/archive/ceramic-time-fusion-publication.md).
+**Previous publication:** [Ceramic temporal controls](tasks/archive/ceramic-time-fusion-publication.md).
 README, overview and website include the cold-time convergence and final64case
 violins, with shared editable PDF/PNG pairs. dev6180ce7 -> mainfb45cf7 was pushed;
 Pages run43727138734 passed build/deploy. Live overview/case HTML and all four
@@ -144,6 +146,16 @@ stopped; Spinodal retains full-field training.
   unrelated worktree changes.
 
 ## Latest session checks
+
+Current publication: staged9page build,405local links/anchors, all12selected
+source/repository/site assets and18liveHTML/figure checks pass. Completed library
+endpoints, ranked galleries, optional fixed samplers and reproducibility helpers
+are committed and pushed. Raw arrays/weights and unrelated stopped experimental
+work remain external or uncommitted. Defaults are unchanged. The15kpair remains
+the sole active numerical task; final10k/15kinference and audits are still pending.
+Memory changed:PROGRESS,DECISIONS,TODO,active extension task and archived library
+study. [Verified deployment](../artifacts/fixed_library_pages_publication.json).
+
 
 Fixed-library completion: all8final audits and512sample-mean reductions verified;
 two-panel170mmfigure visually reviewed,6/7ptembeddedHelvetica and editable PDF
