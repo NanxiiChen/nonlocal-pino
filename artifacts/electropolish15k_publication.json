@@ -1,0 +1,151 @@
+{
+  "status": "deployed_and_verified",
+  "root": "/tmp/electro15k-publication-index-93p_jqg3",
+  "html_pages": 9,
+  "local_links_and_anchors": 402,
+  "assets": [
+    {
+      "path": "assets/pino-library-size/electropolish2d_library_size_error.pdf",
+      "bytes": 12012,
+      "source": "/root/autodl-tmp/tf-logs/electro-15k-completion-20261116-01/library-figures/electropolish2d_library_size_error.pdf",
+      "source_repo_site_identical": true
+    },
+    {
+      "path": "assets/pino-library-size/electropolish2d_library_size_error.png",
+      "bytes": 53307,
+      "source": "/root/autodl-tmp/tf-logs/electro-15k-completion-20261116-01/library-figures/electropolish2d_library_size_error.png",
+      "source_repo_site_identical": true,
+      "dimensions": [
+        1003,
+        732
+      ]
+    },
+    {
+      "path": "assets/pino-studies/electropolish2d_time_fusion_convergence.pdf",
+      "bytes": 45776,
+      "source": "/root/autodl-tmp/tf-logs/electro-15k-completion-20261116-01/temporal-figures/electropolish2d_time_fusion_convergence.pdf",
+      "source_repo_site_identical": true
+    },
+    {
+      "path": "assets/pino-studies/electropolish2d_time_fusion_convergence.png",
+      "bytes": 136521,
+      "source": "/root/autodl-tmp/tf-logs/electro-15k-completion-20261116-01/temporal-figures/electropolish2d_time_fusion_convergence.png",
+      "source_repo_site_identical": true,
+      "dimensions": [
+        2007,
+        708
+      ]
+    },
+    {
+      "path": "assets/pino-studies/electropolish2d_time_fusion_distribution.pdf",
+      "bytes": 29262,
+      "source": "/root/autodl-tmp/tf-logs/electro-15k-completion-20261116-01/temporal-figures/electropolish2d_time_fusion_distribution.pdf",
+      "source_repo_site_identical": true
+    },
+    {
+      "path": "assets/pino-studies/electropolish2d_time_fusion_distribution.png",
+      "bytes": 98784,
+      "source": "/root/autodl-tmp/tf-logs/electro-15k-completion-20261116-01/temporal-figures/electropolish2d_time_fusion_distribution.png",
+      "source_repo_site_identical": true,
+      "dimensions": [
+        2007,
+        708
+      ]
+    }
+  ],
+  "selected_bytes": 375662,
+  "all_seven_cold15k_and_audits_passed": true,
+  "cohort": 64,
+  "library_counts": [
+    32,
+    64,
+    128,
+    256,
+    512
+  ],
+  "final_means": [
+    0.16445495170592908,
+    0.12271099039909794,
+    0.05455712419467111,
+    0.021216225604547494,
+    0.020232127354787296
+  ],
+  "online_mean": 0.015335142049546698,
+  "temporal_cold_seconds": {
+    "decoder_film": 1283.698062115,
+    "joint_query": 2146.985985462
+  },
+  "defaults_unchanged": true,
+  "ceramic_library_figure_removed_from_current_display": true,
+  "publication_pending": false,
+  "schema": "pino_electropolish15k_publication_v1",
+  "content_commit": "28e69176d21ba844e3e42b6defb657b771d74501",
+  "dev_commit": "ddbad55b4c03f037f65635cbb7b5460b87829805",
+  "workflow": {
+    "conclusion": "success",
+    "databaseId": 43833413120,
+    "headSha": "28e69176d21ba844e3e42b6defb657b771d74501",
+    "status": "completed",
+    "url": "https://github.com/NanxiiChen/nonlocal-pino/actions/runs/43833413120"
+  },
+  "verified_utc": "2026-11-16T08:44:07.458297+00:00",
+  "live_checks": [
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/index.html",
+      "http_status": 200,
+      "bytes": 22431,
+      "live_matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/electropolish.html",
+      "http_status": 200,
+      "bytes": 95973,
+      "live_matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/particle-corrosion.html",
+      "http_status": 200,
+      "bytes": 108669,
+      "live_matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/electropolish2d_library_size_error.pdf",
+      "http_status": 200,
+      "bytes": 12012,
+      "live_matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/electropolish2d_library_size_error.png",
+      "http_status": 200,
+      "bytes": 53307,
+      "live_matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/electropolish2d_time_fusion_convergence.pdf",
+      "http_status": 200,
+      "bytes": 45776,
+      "live_matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/electropolish2d_time_fusion_convergence.png",
+      "http_status": 200,
+      "bytes": 136521,
+      "live_matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/electropolish2d_time_fusion_distribution.pdf",
+      "http_status": 200,
+      "bytes": 29262,
+      "live_matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/electropolish2d_time_fusion_distribution.png",
+      "http_status": 200,
+      "bytes": 98784,
+      "live_matches_selected_build": true
+    }
+  ],
+  "git_workflow": "dev commit, regular merge into main, push only main",
+  "unrelated_worktree_changes_preserved": true,
+  "figures": "Three selected editable PDF/PNG pairs; original historical assets retained"
+}
