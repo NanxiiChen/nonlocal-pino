@@ -1,185 +1,69 @@
 # Project Progress
 
-## Current state
+## Current task
 
-**Active task:** [Electropolish fixed32 and online repeat](tasks/electro-library-extension.md).
+**Active:** [Electropolish15k library and time-fusion controls](tasks/electro-library-extension.md).
 
-Two authorized cold15kruns are launched in parallel onRTX6000D: original-prefix32
-and continuous online profiles, with10kcheckpoints and all64local-FD test inputs.
-The initial10kattempt was stopped/preserved when the user extended the budget.
-New owner30224and bundle`electro-library-extension-15k-20261116-01`; preflight
-passed. Same initial state/source/physical scheme, rolling spatial sampling and
-original exponential LR schedule. Both processes reserve40%GPUmemory.
-Previous fixed-library and FiLM studies are not rerun;20kis undecided.
-Ceramic stability is deferred inTODO. See active task for exact run paths.
-User authorized publication of completed results andcommit/push this turn;
-README/site updates include the accepted ranked main galleries and fixed-library
-figure, with all15kresults explicitly pending. Pages deployment and live checks
-passed; [publication receipt](../artifacts/fixed_library_pages_publication.json).
+Finish five new cold15k controls (fixed64/128/256/512, then joint query), reuse
+completed fixed32/online15k, update Electropolish-only library/error and temporal
+cold-wall-time figures, README/site, then authorized dev→commit→main→merge→push
+and verify Pages. Ceramic stability remains deferred; defaults are unchanged.
 
-The preceding [fixed condition-library study](tasks/archive/fixed-condition-library-size.md) is complete.
+Completed recovery02 includes independent reloaded10k/15k inference and audits
+on all64local-FD tests. Final channel means: online1.53351%, fixed3216.44550%;
+phase1.39597%/15.65992%, concentration1.67106%/17.23107%. SampleSD0.580879/
+3.639694percentage points; complete cold times1283.698/1281.388s.
+The incomplete original CUDA-capture attempt remains preserved, not selected.
 
-All eight cold runs and independent64case audits completed2026-11-16at03:37
-Asia/Shanghai; no trainer or queued work remains. Electropolish10k channel means
-for64/128/256/512inputs:12.8724%,2.6613%,2.8755%,2.0137%. Ceramic20kmeans:
-5.1984%,32.7932%,32.4830%,32.7915%. The three larger Ceramic banks retain poor
-convergence; cause is unestablished, and audit success is not an accuracy claim.
-Preserve all arms, defaults and original budgets; do not restart the owner.
-Final mean±sampleSD figure, direct paths and complete cold times are checked:
-[completion record](../artifacts/fixed_condition_library_results.json).
-One initialization only; no claim that increasing library size generally harms
-generalization. Further diagnosis is deferred. The reviewed figure is included in the current publication.
+Expanded bundle:`/root/autodl-tmp/tf-logs/electro-15k-completion-20261116-01`.
+All seven cold15ktrainings and independent10k/15k64case audits are complete.
+Fixed32/64/128/256/512means16.44550/12.27110/5.45571/2.12162/2.02321%; online
+FiLM1.53351%, jointquery1.69628%. Paired complete cold times1283.698/2146.986s.
+No training/figureowner remains active; numericaljournalcomplete, figurequeue
+ready_for_visual_review, and all threePNG/PDFpairs have now been visually reviewed.
+The internal first-step timing warnings were nonfatal; no GPUchange/restart.
 
-Baseline check: the configuration-matched online Electropolish run has2.1638%
-channel-mean error versus2.0137% for fixed512; both10k/64tests and byte-identical
-initial model/optimizer. The older selected online main model has1.7035%, but its
-input-evaluation path differs. Online sampling does not guarantee lower error at
-a finite update budget; all these arms retain rolling spatial core/halo pools.
-The input-path difference is only common encoder/IC/Dirichlet array evaluation:
-GPU FP32 versus CPU FP64 followed by one FP32 cast for exact cross-method pairing.
-Physical initial conditions and training precision are unchanged; this has not
-been isolated as the cause of the historical/current error gap.
+Selected figures and final stats are integrated into local example/rootREADME,
+website chapters and asset records. Ceramic's library graph is removed from
+current display; its data/TODOremain. Explicit15kbuild validation and9page build
+pass, publicationguard tests and selected-version read-only replay pass.
+Remaining: final source/asset/link/staged-tree checks, authorizeddevcommit→main
+regularmerge→pushmain, then verify Pages and archive the completed task.
+[Library selection](../artifacts/electropolish_library15k_results.json) ·
+[Temporal selection](../artifacts/pino_time_fusion_figures.json).
 
-The five accepted ranked main figures are now integrated into the local example
-READMEs, project overview and website chapters. All10selected PDF/PNG files are
-byte-identical to the approved exports; total7,022,408bytes remains below9MiB.
-[Selection/reproduction](../artifacts/pino_ranked_main_preview.json) ·
-[Local integration checks](../artifacts/pino_ranked_main_publication.json).
-Nine-page build,395local links/anchors, rank metadata and asset dimensions pass.
-This earlier local integration is now included in the user-authorized publication.
-dev1d3e68a was merged as mainb752981 and pushed. Pages run43808630409
-passed build/deploy; six live HTML pages and all12figure files match exactly.
-Original main weights/defaults remain unchanged. The previous short MeltingGPU
-inference overlap with the library study is recorded; no GPU job ran for this
-documentation integration.
+## Latest published evidence
 
-**Previous publication:** [Ceramic temporal controls](tasks/archive/ceramic-time-fusion-publication.md).
-README, overview and website include the cold-time convergence and final64case
-violins, with shared editable PDF/PNG pairs. dev6180ce7 -> mainfb45cf7 was pushed;
-Pages run43727138734 passed build/deploy. Live overview/case HTML and all four
-figure files match the selected build byte-for-byte.
-[Publication receipt](../artifacts/ceramic_time_fusion_publication.json).
+[Completed library/ranked-gallery publication](../artifacts/fixed_library_pages_publication.json):
+dev1d3e68a→mainb752981, Pages43808630409passed; six liveHTML and12assets verified.
+Fixed10kElectropolish means for64/128/256/512:12.8724/2.6613/2.8755/2.0137%.
+Fixed20kCeramic means:5.1984/32.7932/32.4830/32.7915%; larger banks poorly converged.
+[Historical study](tasks/archive/fixed-condition-library-size.md).
+The five selected main galleries use best/lower-median/worst phase-only ranking.
 
-**Latest completed:** [Ceramic Time-FiLM versus joint query](tasks/archive/ceramic-time-fusion-comparison.md).
-Both cold20k runs, all41×64equal-point histories, paired sampling/source/final-field
-audit and four reviewed PDF/PNG figures are complete. Final channel means:
-FiLM4.09016%,joint4.48324%; complete cold times2629.487s /12475.490s (4.74446x),
-same physicalGPU. NewFiLM reproduces all64historical final predictions exactly.
-Defaults remainFiLM. Results/reproduction are in the exampleREADME and
-[completion manifest](../artifacts/ceramic_time_fusion_validation.json).
-Selected statistical pairs are published from assets/pino-studies; full physical
-galleries, fields and weights remain at their recorded external paths.
+[Method/temporal comparison guide](PINO_COMPARISON_FIGURES.md) records cohorts,
+reference solvers, metric definitions and full cold timing. Melting64native
+references are not64local-FEM solutions; accepted localCG2case005is separate.
+Spinodal has8qualified local-FEM cases and no AD control by user instruction.
+Channel method controls use3reused cases and a historical Nonlocal GPU;
+Ceramic method convergence and final distributions use distinct declared cohorts.
+No universal speed/accuracy or cross-seed conclusion follows.
 
-Melting soft-IC was stopped by user: Nonlocal/AD completed, FEM interrupted,
-joint query unstarted. All owned processes stopped and original hard-IC defaults
-verified. [Stopped experiment record](tasks/archive/melting-soft-initial-condition.md).
+## Deferred and preserved work
 
-## Previously completed publication
+- [TODO](TODO.md): Ceramic training stability and Spinodal discretization gap.
+- [Stopped core/halo work](tasks/pino-unified-rolling-core-halo.md): no new launch.
+- [Stopped Melting soft-IC](tasks/archive/melting-soft-initial-condition.md): hard-IC defaults retained.
+- Unrelated dirty diagnostic/soft-IC work stays outside this publication.
+- Data, weights and full galleries stay at existing external paths.
 
-The five-main-PINO spatial-method comparison and two
-nonlocal temporal-feature studies are complete and published. The temporal
-convergence figures now use elapsed cold wall-clock time.
-[Latest publication task](tasks/archive/pino-time-fusion-wall-clock.md).
-[Archived task](tasks/archive/pino-three-method-suite.md) ·
-[Completion audit](../artifacts/pino_three_method_completion_validation.json).
+## Navigation and memory
 
-| Study | Completed controls | Final evaluation / convergence scope |
-|---|---|---|
-| Ceramic corrosion | Nonlocal / Local AD / FEM PINO,20k |64local-FEM cases /4development cases |
-| Coupled two-phase flow | Nonlocal / Local AD / FEM PINO,20k |3local-FEM cases /1development case |
-| Electropolish | Nonlocal / Local AD / FEM PINO,10k |64local-FD cases at all41records |
-| Melting3D | Nonlocal / Local AD / FEM PINO,10k |64native cases at all41records; separate accepted localCG2case005 |
-| Spinodal | Nonlocal / FEM PINO,50k; AD omitted by user |8qualified local-FEM cases at all101records |
-| Time fusion | Electropolish and Melting, two10k nonlocal pairs |64cases at all41records; spatial-attention/FiLM versus joint(x,t)query |
+- [Decisions](DECISIONS.md), [development](DEVELOPMENT.md), [plotting](PLOTTING_GUIDELINES.md).
+- [Selected method figures](../artifacts/pino_three_method_figures.json),
+  [temporal figures](../artifacts/pino_time_fusion_figures.json).
+- [Prior dashboard and detailed publication history](tasks/archive/project-progress-through-20261116-1435.md).
+- [Migration/recovery rules](migration/VALIDATION.md).
 
-All28selected convergence/distribution PDF/PNG files appear in the corresponding
-READMEs and local website. Build9pages,387local links/anchors, final-field metrics,
-asset byte identity and16complete cold training intervals pass. Defaults remain
-unchanged; comparisons retain one initialization and their declared cohorts.
-Published via dev e8ce417 -> main merge e0e154c -> push origin main.
-Pages run 43693239443 passed build and deploy. Both live temporal chapters and
-four convergence PDF/PNG assets match the selected captions/files.
-[Publication receipt](../artifacts/pino_comparison_pages_publication.json).
-Standalone core/halo investigations remain local; no raw weights/reference arrays
-or intermediate galleries were uploaded.
-
-## Main result qualifications
-
-Spinodal final phase error against independent local FEM is31.9216% Nonlocal /
-5.5838% FEM PINO. Against native nonlocal numerical data, the identical equal-node
-metric gives4.5990% /29.3864%; numerical targets differ by31.9633%. Complete cold
-times are8086.912901s /6852.669361s on the same physical GPU. Both50k trainers
-and final audit are complete. The first plot failed a PDF-label edit probe; the
-repaired second output passes and is selected. Do not restart the old queues.
-
-Melting64native references are not64local-FEM solutions; case005retains its
-original unpassed strict-refinement flag and explicit practical acceptance.
-Channel uses3reused reserved cases and a historical Nonlocal run on another
-physical GPU. Ceramic convergence and final distributions use distinct declared
-cohorts/weights. Temporal modules have different parameter counts. No universal
-accuracy/speed, blind-test or cross-seed claims follow.
-
-Primary time includes the full cold training process: initialization, preparation,
-compilation, updates/rolling waits, in-training evaluation, writes and teardown.
-Separate offline banks/probes and post-training audits/plots are excluded.
-[Exact timings and hardware scopes](../artifacts/pino_training_wall_costs.json).
-
-## Deferred work
-
-The user explicitly deferred Spinodal horizon/resolution/boundary diagnostics:
-[research TODO](TODO.md). Do not launch further Spinodal studies without a new
-request. The older [sampling task](tasks/pino-unified-rolling-core-halo.md) remains
-stopped; Spinodal retains full-field training.
-
-## Navigation
-
-- [Figure/metric/reproduction guide](PINO_COMPARISON_FIGURES.md).
-- [Derivative assets](../artifacts/pino_three_method_figures.json),
-  [ceramic assets](../artifacts/ceramic_component_comparison_figures.json),
-  [temporal assets](../artifacts/pino_time_fusion_figures.json).
-- [Completed temporal task](tasks/archive/pino-time-fusion-comparison.md).
-- [Final Spinodal norms](../artifacts/spinodal_final_reference_norms.json),
-  [publication validation](../artifacts/spinodal_nonlocal_fem_publication_validation.json).
-- [Detailed prior dashboard](tasks/archive/project-progress-through-20261115-0439.md),
-  [older dashboard](tasks/archive/project-progress-through-20261114.md).
-- [Split/recovery guidance](migration/VALIDATION.md); preserve external data and
-  unrelated worktree changes.
-
-## Latest session checks
-
-Current publication: staged9page build,405local links/anchors, all12selected
-source/repository/site assets and18liveHTML/figure checks pass. Completed library
-endpoints, ranked galleries, optional fixed samplers and reproducibility helpers
-are committed and pushed. Raw arrays/weights and unrelated stopped experimental
-work remain external or uncommitted. Defaults are unchanged. The15kpair remains
-the sole active numerical task; final10k/15kinference and audits are still pending.
-Memory changed:PROGRESS,DECISIONS,TODO,active extension task and archived library
-study. [Verified deployment](../artifacts/fixed_library_pages_publication.json).
-
-
-Fixed-library completion: all8final audits and512sample-mean reductions verified;
-two-panel170mmfigure visually reviewed,6/7ptembeddedHelvetica and editable PDF
-label checks pass. Renderer reproduces from a completed journal; example notes
-and archived task agree. No numerical default change; the current publication includes these checked results.
-
-Ranked gallery integration: explicit publication manifestv2, five updated chapter
-captions/alt text/dimensions, five exampleREADMEs and overview, shared asset guide
-and reproducible copier. Build9pages,395links, all10source/repository/site file
-identities, PNG dimensions and malformed-selection rejection pass; diff check
-passes. Local publication receipt records that Git/Pages deployment is pending.
-
-
-Ceramic complete-pair audit verifies identical common initialization and actual
-sampling, both reconstructed final pools,256final channel norms,10496actual
-plotted channel observations,40physical-panel labels and complete cold endpoints.
-Four final figures were visually reviewed; PDF fonts/text/layers pass. NewFiLM
-and joint queues/observer are terminal. Numerical source matches the frozen
-qualified snapshot. ExampleREADME, completion manifest and archived task agree;
-defaults unchanged. Relevant implementation and reproduction are now committed.
-Previously passed focused numerical tests remain valid.
-
-Earlier five-case/temporal publication checks remain in the archived tasks above.
-The new Ceramic study preserves prior selected assets and adds its own explicit
-20k/64case temporal comparison. Staged/local9page builds,395links, source/metric
-checks, live HTML and four image/PDF byte comparisons pass. Publication task is
-archived; no work or monitoring remains scheduled.
+This session changesPROGRESS,DECISIONS,the active task and its experiment/
+publication helpers. No current-task Git action or deployment has occurred yet.

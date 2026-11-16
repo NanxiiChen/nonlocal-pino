@@ -1,11 +1,11 @@
-# Fixed condition-library comparison
+# Initial-condition library size
 
-One shared editablePDF/PNG pair for the completed Electropolish10k and Ceramic20k
-study. Panels(a)/(b) show exactly64/128/256/512fixed inputs. Each point uses final
-weights and64test cases; shading is one across-sample standard deviation, not a
-confidence interval or cross-seed variability. The three larger Ceramic runs did
-not converge well.
+The selected Electropolish-only editablePDF/PNGpair shows final 15kmeans for
+32/64/128/256/512fixed profiles plus an online reference line. All use64 local-FD
+tests; shading is one sample standard deviation, not a confidence interval.
+[Direct inputs and reproduction](../../artifacts/electropolish_library15k_results.json).
 
-[Direct sources, configurations, audits and reproduction](../../artifacts/fixed_condition_library_results.json).
-[Completed task](../../docs/tasks/archive/fixed-condition-library-size.md).
-Total budget256KiB, each file below192KiB. Full weights/fields stay external.
+The earlier combined Electropolish10k/Ceramic20kpair remains archived here and in
+[its record](../../artifacts/fixed_condition_library_results.json), but is no
+longer embedded in current exampleREADMEs or copied by the website build.
+The selected pair stays below 256 KiB total/192 KiB per file; raw fields stay external.

@@ -2,12 +2,14 @@ Five phase-field case studies show how to learn an evolution operator from gover
 
 ## Operator learning from physics
 
-The completed [fixed initial-condition study](electropolish.html#fixed-initial-condition-library-size)
-and [fixed geometry study](particle-corrosion.html#fixed-geometry-library-and-training-stability)
-report all 64/128/256/512-library endpoints with 64-sample uncertainty. Electropolish
-reaches 2.01% channel-mean error with 512 fixed profiles; three larger Ceramic
-banks remain poorly converged and are retained as unresolved stability results.
-The two new Electropolish 15k controls are pending; existing defaults are unchanged.
+The completed [Electropolish 15k study](electropolish.html#fixed-initial-condition-library-size)
+compares 32/64/128/256/512 fixed initial-profile libraries against continuous online
+sampling on the same 64 local-FD tests. Final channel means are 16.45%/12.27%/5.46%/2.12%/2.02%; online gives
+1.53%. The standalone figure shows means and one sample SD. Its paired 15k time-feature
+study compares spatial attention/time FiLM with joint(x,t)queries on a complete
+cold-wall-time axis. Defaults remain unchanged; one initialization does not establish
+a general accuracy ranking. [Ceramic library stability](particle-corrosion.html#fixed-geometry-library-and-training-stability)
+remains deferred, with its historical numerical outcomes retained and no library-size plot.
 
 A condition \(a\) specifies an initial field on a fixed domain or specifies the domain and its known inputs. The network is trained over a family of conditions and returns a trajectory sampled at query coordinates.
 

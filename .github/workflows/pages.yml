@@ -14,6 +14,7 @@ on:
       - assets/pino-studies/**
       - assets/pino-library-size/**
       - artifacts/fixed_condition_library_results.json
+      - artifacts/electropolish_library15k_results.json
       - artifacts/pino_three_method_figures.json
       - artifacts/pino_time_fusion_figures.json
       - artifacts/pino_time_fusion_wall_clock.json

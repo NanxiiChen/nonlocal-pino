@@ -325,19 +325,23 @@ if (timeFusion.schema !== 'pino_time_fusion_publication_v1' ||
 }
 let timeFusionBytes = 0;
 for (const record of timeFusion.cases) {
-  const temporalBudgets = { electropolish2d: [10000, 250], icemelting3d: [10000, 250], particle_corrosion2d: [20000, 500] };
+  const temporalBudgets = { electropolish2d: [[10000, 15000], 250], icemelting3d: [[10000], 250], particle_corrosion2d: [[20000], 500] };
   const expected = temporalBudgets[record.example];
   if (!expected ||
-      record.comparison_kind !== 'time_fusion' || record.budget !== expected[0] ||
+      record.comparison_kind !== 'time_fusion' || !expected[0].includes(record.budget) ||
       record.monitor_ids.length !== 64 || new Set(record.test_ids).size !== 64 ||
       JSON.stringify(record.monitor_ids) !== JSON.stringify(record.test_ids) ||
-      JSON.stringify(record.steps) !== JSON.stringify(Array.from({ length: 41 }, (_, i) => i * expected[1])) ||
+      JSON.stringify(record.steps) !== JSON.stringify(Array.from({ length: record.budget / expected[1] + 1 }, (_, i) => i * expected[1])) ||
       JSON.stringify(record.arms.map(arm => arm.method)) !== JSON.stringify(['decoder_film', 'joint_query']) ||
       record.pairing.shared_initial_backbone_equal !== true ||
       record.pairing.all_actual_sampling_arrays_equal !== true ||
       record.pairing.source_bytes_verified !== true || record.figures.length !== 2 ||
       new Set(record.figures.map(figure => figure.kind)).size !== 2) {
     throw new Error(`Incomplete or mismatched temporal control: ${record.example}`);
+  }
+  if (record.example === 'electropolish2d' && record.budget === 15000 &&
+      record.supersedes?.reason !== 'User-requested paired cold15k controls supersede10k study') {
+    throw new Error('Electropolish15k requires the explicitly audited replacement of its10k study');
   }
   const clocks = fusionClocks.cases.filter(clock => clock.example === record.example);
   if (record.convergence_axis.kind !== 'cold_wall_time' || clocks.length !== 1 ||
@@ -372,21 +376,30 @@ if (timeFusionBytes !== timeFusion.collection_bytes || timeFusionBytes >= timeFu
   throw new Error('Temporal figures exceed their recorded size/budget');
 }
 
-const libraryStudy = JSON.parse(await readFile(join(root, '..', 'artifacts', 'fixed_condition_library_results.json'), 'utf8'));
-if (libraryStudy.status !== 'complete' || !libraryStudy.all_eight_audits_passed || libraryStudy.records.length !== 8) {
-  throw new Error('A completed eight-run library comparison is required');
+const libraryStudy = JSON.parse(await readFile(join(root, '..', 'artifacts', 'electropolish_library15k_results.json'), 'utf8'));
+const libraryCounts = [32, 64, 128, 256, 512];
+if (libraryStudy.status !== 'passed' || libraryStudy.schema !== 'electropolish_library15k_v1' ||
+    libraryStudy.example !== 'electropolish2d' || libraryStudy.budget !== 15000 ||
+    JSON.stringify(libraryStudy.test_ids) !== JSON.stringify(Array.from({ length: 64 }, (_, i) => i)) ||
+    JSON.stringify(libraryStudy.counts) !== JSON.stringify(libraryCounts) ||
+    JSON.stringify(libraryStudy.fixed.map(record => record.count)) !== JSON.stringify(libraryCounts) ||
+    JSON.stringify(libraryStudy.publication.selected_examples) !== JSON.stringify(['electropolish2d']) ||
+    libraryStudy.publication.maximum_file_bytes !== 192 * 1024 ||
+    libraryStudy.publication.maximum_collection_bytes !== 256 * 1024) {
+  throw new Error('The complete reviewed Electropolish-only15k library study is required');
 }
-for (const [caseName, budget] of [['electropolish', 10000], ['ceramic', 20000]]) {
-  const records = libraryStudy.records.filter(record => record.case === caseName);
-  if (JSON.stringify(records.map(record => record.size)) !== JSON.stringify([64, 128, 256, 512]) ||
-      records.some(record => record.steps !== budget || record.test_count !== 64 ||
-        !Number.isFinite(record.mean) || !Number.isFinite(record.sample_std))) {
-    throw new Error(`Incomplete library-size endpoints: ${caseName}`);
+for (const record of [...libraryStudy.fixed, libraryStudy.online]) {
+  if (record.budget !== 15000 || record.sample_count !== 64 ||
+      record.channel_errors.length !== 64 ||
+      record.channel_errors.some(row => row.length !== 2 || row.some(v => !Number.isFinite(v) || v <= 0)) ||
+      !Number.isFinite(record.mean) || !Number.isFinite(record.sample_std) ||
+      !Number.isFinite(record.cold_process_seconds) || record.cold_process_seconds <= 0) {
+    throw new Error('Incomplete final15k library endpoint');
   }
 }
 let libraryBytes = 0;
 for (const kind of ['png', 'pdf']) {
-  const name = `electropolish_ceramic_fixed_library_error.${kind}`;
+  const name = `electropolish2d_library_size_error.${kind}`;
   if (libraryStudy.publication[kind] !== `assets/pino-library-size/${name}`) throw new Error('Unexpected library figure path');
   const data = await readFile(join(root, '..', libraryStudy.publication[kind]));
   if (data.length !== libraryStudy.publication.bytes[kind] || data.length >= libraryStudy.publication.maximum_file_bytes) {

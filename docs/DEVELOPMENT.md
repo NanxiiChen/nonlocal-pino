@@ -119,14 +119,25 @@ omission from missing checkpoints or widen the approved asset budget.
 
 Completed Electropolish/Melting/Ceramic temporal controls have a separate2MiB collection
 under the same directory, at most1MiBper file, with `_time_fusion_` filenames.
-`artifacts/pino_time_fusion_figures.json` includes only reviewed final10k/64case
-Electropolish/Melting results and final20k/64case Ceramic results,
+`artifacts/pino_time_fusion_figures.json` includes only reviewed final15k/64case
+Electropolish, final10k/64case Melting and final20k/64case Ceramic results,
 common-backbone/draw audits, differing time-module capacities and
 measured resources. Ceramic records direct parent-clock observations; earlier
 cases retain their explicitly reconstructed observation times.
 `scripts/publish_pino_time_fusion.py` reuses the comparison publisher; the local
 website validates and copies these identical PDF/PNG pairs. No evolved fields,
 checkpoints, or synthetic qualification plots enter this collection.
+The explicit Electropolish10k→15k supersession preserves the reference/cohort,
+fields and paired architecture controls; it does not use the unchanged-data
+restyling option. Its61actual records replace the older41record selection.
+
+The selected initial-condition-library figure is Electropolish alone:
+`artifacts/electropolish_library15k_results.json` declares final15k weights for
+32/64/128/256/512fixed profiles and continuous online sampling, all64local-FD
+test cases, physical space-time norms and one across-case sampleSD. The selected
+PDF/PNG pair under `assets/pino-library-size/` is limited to256KiBcombined and
+192KiBper file. The old combined Electropolish/Ceramic pair remains archived;
+the website copies only the selected new pair. Raw fields/weights stay external.
 
 The channel FEM reference optionally accepts a read-only `diagnostic_callback`
 receiving `(time, (velocity, pressure, phi, mu), mesh, facet_tags)` at saved

@@ -1,7 +1,8 @@
 """Copy reviewed, audited comparison figures into the local README/site collection.
 
 This does not render, train, deploy or modify defaults. A selected temporal case
-can be replaced only with its explicit previous provenance and unchanged errors.
+can be restyled only with its explicit previous provenance and unchanged errors.
+An explicitly selected Electropolish15k study may supersede its10k study.
 Inspect the figures before supplying --visual-review. Full provenance stays at
 its direct external path; only the compact record and four final assets enter
 the repository. Repeating the same reviewed publication is read-only.
@@ -23,7 +24,31 @@ CASES = {
 }
 
 
-def publish(source, visual_review, *, replace_provenance=None):
+def validate_budget_extension(data, previous):
+    """Keep budget extension separate from the unchanged-data restyling gate."""
+    if (data['comparison_kind'] != 'time_fusion' or data['example'] != 'electropolish2d'
+            or previous['comparison_kind'] != 'time_fusion' or previous['example'] != data['example']
+            or previous['budget'] != 10000 or data['budget'] != 15000
+            or data['steps'] != list(range(0, 15001, 250))):
+        raise ValueError('Only the explicit Electropolish10k-to15k temporal extension is supported')
+    for key in ('monitor_ids', 'test_ids', 'fields', 'seed'):
+        if data[key] != previous[key]:
+            raise ValueError('Budget extension must retain the comparison scope: ' + key)
+    # Older reports store the64individual paths, newer reports their common root.
+    def references(value):
+        if isinstance(value, list):
+            return value
+        return [str(Path(value)/f'condition_{i:03d}/local101.npz') for i in data['test_ids']]
+    if references(data['reference']) != references(previous['reference']):
+        raise ValueError('Budget extension changed numerical reference inputs')
+    methods = ['decoder_film', 'joint_query']
+    if [a['method'] for a in data['arms']] != methods or [a['method'] for a in previous['arms']] != methods:
+        raise ValueError('Budget extension must retain both temporal methods')
+
+
+def publish(source, visual_review, *, replace_provenance=None, supersede_provenance=None):
+    if replace_provenance is not None and supersede_provenance is not None:
+        raise ValueError('Restyling and budget extension are mutually exclusive')
     source = Path(source).resolve(strict=True)
     report = json.loads(source.read_text())
     data = report["data"]
@@ -58,6 +83,14 @@ def publish(source, visual_review, *, replace_provenance=None):
     if data["example"] not in cases or not visual_review.strip():
         raise ValueError("Require a supported example and an actual visual-review note")
     budget, interval, monitors, tests = cases[data["example"]]
+    extended_electro = (collection == 'time_fusion' and data['example'] == 'electropolish2d'
+                       and data['budget'] == 15000)
+    if extended_electro:
+        budget = 15000
+    if supersede_provenance is not None:
+        if collection != 'time_fusion' or data['example'] != 'electropolish2d':
+            raise ValueError('Budget extension is limited to the Electropolish temporal study')
+        budget = 15000
     if (data["budget"] != budget or data["steps"] != list(range(0, budget + 1, interval))
             or len(data["monitor_ids"]) != monitors or len(data["test_ids"]) != tests
             or len(set(data["monitor_ids"])) != monitors or len(set(data["test_ids"])) != tests
@@ -73,7 +106,19 @@ def publish(source, visual_review, *, replace_provenance=None):
     names = [case["example"] for case in manifest["cases"]]
     if len(names) != len(set(names)):
         raise ValueError("Duplicate selected examples")
+    if extended_electro and supersede_provenance is None and replace_provenance is None:
+        selected = [case for case in manifest['cases'] if case['example'] == data['example']]
+        if len(selected) != 1 or selected[0]['source_provenance'] != str(source):
+            raise ValueError('A new15k study requires explicit supersession; only the selected version is idempotent')
     replacement = None
+    if supersede_provenance is not None:
+        if data['example'] not in names:
+            raise ValueError('Require a selected previous temporal study')
+        replacement = manifest['cases'][names.index(data['example'])]
+        if Path(replacement['source_provenance']).resolve() != Path(supersede_provenance).resolve(strict=True):
+            raise ValueError('Expected previous study is not the selected version')
+        previous = json.loads(Path(supersede_provenance).read_text())['data']
+        validate_budget_extension(data, previous)
     if replace_provenance is not None:
         if collection != 'time_fusion' or data['example'] not in names:
             raise ValueError('Explicit replacements are limited to selected temporal figures')
@@ -109,7 +154,9 @@ def publish(source, visual_review, *, replace_provenance=None):
         record['convergence_axis'] = data['convergence_axis']
     if replacement is not None:
         record['supersedes'] = dict(source_provenance=replacement['source_provenance'],
-                                    figures=replacement['figures'], reason='Cold wall-clock axis requested by user')
+                                    figures=replacement['figures'],
+                                    reason=('User-requested paired cold15k controls supersede10k study'
+                                            if supersede_provenance is not None else 'Cold wall-clock axis requested by user'))
     if suffix == "nonlocal_fem":
         for key in ("comparison_kind", "omitted_method"):
             record[key] = data[key]
