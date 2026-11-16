@@ -1,0 +1,201 @@
+{
+  "status": "deployed_and_verified",
+  "html_pages": 9,
+  "local_links_and_anchors": 405,
+  "staged_tree": "/tmp/pino-library-publication-index-h8lfqwmd",
+  "assets": [
+    {
+      "path": "assets/pino-main/icemelting3d.png",
+      "bytes": 758264,
+      "source_repo_site_identical": true
+    },
+    {
+      "path": "assets/pino-main/icemelting3d.pdf",
+      "bytes": 1073999,
+      "source_repo_site_identical": true
+    },
+    {
+      "path": "assets/pino-main/electropolish2d.png",
+      "bytes": 278971,
+      "source_repo_site_identical": true
+    },
+    {
+      "path": "assets/pino-main/electropolish2d.pdf",
+      "bytes": 212311,
+      "source_repo_site_identical": true
+    },
+    {
+      "path": "assets/pino-main/confined_ch2d.png",
+      "bytes": 1132279,
+      "source_repo_site_identical": true
+    },
+    {
+      "path": "assets/pino-main/confined_ch2d.pdf",
+      "bytes": 1315426,
+      "source_repo_site_identical": true
+    },
+    {
+      "path": "assets/pino-main/channel_nsch2d.png",
+      "bytes": 251702,
+      "source_repo_site_identical": true
+    },
+    {
+      "path": "assets/pino-main/channel_nsch2d.pdf",
+      "bytes": 589405,
+      "source_repo_site_identical": true
+    },
+    {
+      "path": "assets/pino-main/particle_corrosion2d.png",
+      "bytes": 514759,
+      "source_repo_site_identical": true
+    },
+    {
+      "path": "assets/pino-main/particle_corrosion2d.pdf",
+      "bytes": 895292,
+      "source_repo_site_identical": true
+    },
+    {
+      "path": "assets/pino-library-size/electropolish_ceramic_fixed_library_error.png",
+      "bytes": 100063,
+      "source_repo_site_identical": true
+    },
+    {
+      "path": "assets/pino-library-size/electropolish_ceramic_fixed_library_error.pdf",
+      "bytes": 12232,
+      "source_repo_site_identical": true
+    }
+  ],
+  "build": "npm --prefix website run build",
+  "working_and_staged_diff_check": "passed",
+  "focused_tests": {
+    "count": 15,
+    "seconds": 9.613,
+    "log": "/tmp/fixed-condition-library-tests.log",
+    "source_unchanged": true
+  },
+  "schema": "pino_library_ranked_pages_publication_v1",
+  "checked_utc": "2026-11-16T05:12:58.800887+00:00",
+  "development_commit": "1d3e68a",
+  "content_merge_commit": "b752981be8029a7ffe0d515bcebf588c9af0c25f",
+  "workflow_run_id": 43808630409,
+  "workflow_url": "https://github.com/NanxiiChen/nonlocal-pino/actions/runs/43808630409",
+  "site": "https://nanxiichen.github.io/nonlocal-pino/",
+  "live_checks": [
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/index.html",
+      "status_code": 200,
+      "bytes": 22197,
+      "matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/electropolish.html",
+      "status_code": 200,
+      "bytes": 95597,
+      "matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/particle-corrosion.html",
+      "status_code": 200,
+      "bytes": 109251,
+      "matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/ice-melting.html",
+      "status_code": 200,
+      "bytes": 119058,
+      "matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/spinodal.html",
+      "status_code": 200,
+      "bytes": 65945,
+      "matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/two-phase-flow.html",
+      "status_code": 200,
+      "bytes": 55366,
+      "matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/icemelting3d.png",
+      "status_code": 200,
+      "bytes": 758264,
+      "matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/icemelting3d.pdf",
+      "status_code": 200,
+      "bytes": 1073999,
+      "matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/electropolish2d.png",
+      "status_code": 200,
+      "bytes": 278971,
+      "matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/electropolish2d.pdf",
+      "status_code": 200,
+      "bytes": 212311,
+      "matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/confined_ch2d.png",
+      "status_code": 200,
+      "bytes": 1132279,
+      "matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/confined_ch2d.pdf",
+      "status_code": 200,
+      "bytes": 1315426,
+      "matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/channel_nsch2d.png",
+      "status_code": 200,
+      "bytes": 251702,
+      "matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/channel_nsch2d.pdf",
+      "status_code": 200,
+      "bytes": 589405,
+      "matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/particle_corrosion2d.png",
+      "status_code": 200,
+      "bytes": 514759,
+      "matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/particle_corrosion2d.pdf",
+      "status_code": 200,
+      "bytes": 895292,
+      "matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/electropolish_ceramic_fixed_library_error.png",
+      "status_code": 200,
+      "bytes": 100063,
+      "matches_selected_build": true
+    },
+    {
+      "url": "https://nanxiichen.github.io/nonlocal-pino/assets/electropolish_ceramic_fixed_library_error.pdf",
+      "status_code": 200,
+      "bytes": 12232,
+      "matches_selected_build": true
+    }
+  ],
+  "default_changes": false,
+  "training_continues": true,
+  "active_task": "docs/tasks/electro-library-extension.md",
+  "excludes": "Unrelated stopped Melting soft-IC and historical core/halo investigation changes; raw fields, references, weights and logs remain external.",
+  "workflow_jobs": {
+    "build": "success",
+    "deploy": "success"
+  }
+}

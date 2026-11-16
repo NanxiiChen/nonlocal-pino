@@ -118,5 +118,30 @@ Melting soft-IC and old core/halo experiments remain outside this commit.
 
 Previously recorded15focused library/online tests passed in9.613s; numerical
 source is unchanged since that verification. Local nine-page build passes.
-Staged build, asset/link verification and live deployment are the next checks.
+Staged build,405local links/anchors,12asset identities and18liveHTML/figure
+comparisons passed. Pages43808630409completed build/deploy successfully.
 The active task stays open for15kcompletion and final10k/15kaudits.
+
+## Publication complete and exact resume — 2026-11-16
+
+Content commit dev1d3e68a → mainb752981 (regular merge) → origin/main.
+The completed study, selected main galleries, optional library controls,
+reproduction helpers, READMEs and website are published. Receipt:
+`artifacts/fixed_library_pages_publication.json`. No raw arrays/weights/logs added.
+Unrelated stopped numerical changes remain untouched; the pending Melting README
+section was preserved byte-for-byte while switching branches, outside the commit.
+
+The two15ktrainers remain owned by30224in the15kbundle named above. Latest
+routine inspection reached2500updates in each arm:64case channel means
+0.1507490992fixed32 and0.07261499565online. These are intermediate observations,
+not final model selection or a15kaccuracy claim. Both initial states match the
+historical baseline. Read the existing journal before acting; never restart an
+owner that is running or already complete. The next work is the scheduled
+10k/15kcheckpoint inference and independent audits, then compare the two budgets
+before considering any older-library/FiLMrerun or20kextension.
+
+/task-end: publication is complete; leave this numerical task active. Updated
+PROGRESS,DECISIONS,TODO,this task and archived fixed-study record. Focused tests,
+config/prefix/initial-state audits, staged website build, link/assets and live
+Pages checks pass. No numerical defaults changed. Continue coarse15minute
+observations when monitoring is requested; no duplicate training or extra runs.

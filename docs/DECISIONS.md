@@ -14156,3 +14156,16 @@ execution remains authorized. Separately publish completed library-size results,
 accepted ranked galleries and deferredCeramicTODO. Current-turncommit/push
 authorization followsdev→commit→main→regularmerge→pushmain; pending15kresults
 remain explicitly unreported. Relation:electro-library-extension; Pages publication.
+
+## 2026-11-16 — Publish completed library comparison and ranked galleries
+
+User-authorized publication follows dev1d3e68a → regular main mergeb752981 →
+origin/main. Include all eight audited endpoints, preserve poorly converged
+Ceramic arms and the deferred stability TODO, and label15kElectropolish results
+as pending. Publish only the selected12PDF/PNGassets with direct provenance;
+raw fields/weights/logs and unrelated stopped experiments are excluded. Staged
+nine-page build,405local links,12asset identities and18liveHTML/asset comparisons
+pass. Pages43808630409build/deploy both succeeded. Reject promoting a new default
+or selecting an intermediate15kcheckpoint based on this publication. Record live
+verification separately from the earlier dated local-only gallery receipt.
+Relation:electro-library-extension; artifacts/fixed_library_pages_publication.json.
