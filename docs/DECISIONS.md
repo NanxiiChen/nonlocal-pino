@@ -14007,3 +14007,152 @@ build and395local links/anchors pass; temporal collection817465bytes remains
 below2MiB. Preserve unrelated uncommitted investigations and all external raw
 artifacts. Archive the publication task, clear active work and record the live
 receipt; no default/training changes. Relation:ceramic-time-fusion-publication.
+
+## 2026-11-15 — Isolate fixed condition-library size from spatial sampling
+
+User requests64/128/256/512/1024fixed inputs at equal update budgets in2–3fast
+cases. Use nested prefixes of one input-only master library, a common cold
+initialization and identical test cohorts; retain time and core/halo resampling.
+Ceramic is independently authorized and uses the accepted20kFiLM recipe. Add an
+explicit optional fixed-geometry selector to the existing rolling producer:
+geometry IDs never change, while spatial refreshes keep their existing clock.
+Reject disabling all rolling work, changing PDEs/normalizations, or generating
+positive-time training labels. Final sample error is the arithmetic mean of
+per-channel equal-point full-space-time L2norms; plot64sample mean plus/minus
+one sampleSD, not a seed-confidence interval. Additional-case scope is pending
+clarification because Electro/Melting randomize initial fields, not domains.
+Relation:fixed-condition-library-size.
+
+## 2026-11-15 — Confirm two fast cases and four fixed-library sizes
+
+User clarifies that initial conditions and domains both qualify; select only
+Electropolish and Ceramic with64/128/256/512inputs. Defer1024unless later needed.
+Keep10k/20kbudgets respectively,64established test cases at each observation,
+and final-weight mean plus one sampleSD. Ceramic's first64known inputs reuse
+the accepted original bank; larger banks are nested extensions. Electropolish
+freezes coefficient triples from the existing accepted continuous rough-profile
+prior, while keeping the existing shared prescribed-field evaluator and spatial
+rolling sampler. Reference data remain evaluation-only. No new solves needed.
+Relation:fixed-condition-library-size.
+
+## 2026-11-15 — Launch the qualified fixed-library sweep
+
+Nested input arrays/geometry identities and15focused tests pass. Input-only
+preparation took1.38sfor512Electro profiles and127.13sfor512Ceramic geometries.
+The frozen finite owner857580qualified both largest libraries on the existing
+GPU: Ceramic26updates/full64inference peak20.87GiB, Electro51updates including
+spatial rolling/full64monitoring peak12.02GiB. It has started coldElectro64,
+then runs the remaining7arms serially with final independent audits and a
+mean±one-sampleSD figure. Preserve compiled qualification evidence and existing
+owner; no duplicate/retry or default/Git change. Relation:fixed-condition-library-size;
+/root/autodl-tmp/tf-logs/fixed-condition-library-20261115-01/journal.json.
+
+## 2026-11-15 — Preview phase-error-ranked main figures
+
+User explicitly requests best/middle/worst sample galleries while the fixed-library
+sweep continues. Rank only physical phase using equal-point full-space-time L2;
+select lower median actual sample for even cohorts, with sample-ID tie breaking.
+Retain each original main checkpoint and reference method, use reserved cohorts,
+and report their actual sizes. Expand existing final-checkpoint inference on CPU
+where cached 64-case references exist. Reject mixing development geometries into
+the Channel test ranking, ranking only displayed snapshots when denser data exist,
+or using channel-averaged/slice-only scores. Preview only; no public asset or Git
+change. This explicit requested ranking supersedes the plotting guide's general
+prohibition on selecting examples by outcome, with all scores disclosed.
+Relation: fixed-condition-library-size concurrent figure sidework.
+
+## 2026-11-16 — Complete ranked previews and retain original-backend Melting inference
+
+Five phase-only galleries now rank complete declared cohorts64/64/8/3/64,
+select best/lower-central/worst actual samples and retain old main checkpoints.
+User confirms GPU use; reject the MeltingCPU preview because its small absolute
+backend drift can change the ranking at these very low errors. Frozen/currentCPU
+outputs match exactly, but GPUreplay matches10historical fields within1.431e-6.
+Use the qualifiedGPU64rank and record the56.765sinference plus short training
+overlap; no universal inference-backend equivalence or isolated timing claim.
+Native nonlocal targets remain explicit forMelting/Spinodal; do not mix the
+Channel development geometry into its3reserved cases. Retain true disappearance
+at finaltime forMelting52. All15mesh frames use edge-basedLorensen extraction;
+nonempty surfaces pass closure andzero-level checks, without smoothing.
+203metric checks, five visual reviews, embedded5–7ptfonts and disposable PDF
+text/formula editing checks pass. Preview only; public assets/defaults/Git
+unchanged. Parent fixed-library task remains active with its existing owner.
+Relation:fixed-condition-library-size; artifacts/pino_ranked_main_preview.json.
+
+## 2026-11-16 — Integrate accepted ranked main galleries into README and report
+
+User accepts all five previews and requests README/website updates. Replace the
+existing single PDF/PNG pair per example, retain stable asset URLs and copy exact
+approved bytes. Declare best/lower-median/worst phase-only full-space-time ranking,
+cohort sizes64/64/8/3/64, actual sample IDs and reference methods in captions.
+Retain original main checkpoints and separate historical/current SOTA metrics.
+Use explicit source paths and rank metadata in publication manifestv2; no new
+figures, raw data, numerical defaults or training. Keep parent library task active.
+Commit/push/deployment are not part of this current-turn authorization under
+AGENTS.mdsection4; finish and validate local integration first.
+Relation:fixed-condition-library-size; pino_ranked_main_preview.json.
+
+## 2026-11-16 — Validate local ranked-gallery integration
+
+The accepted5ranked galleries replace existing main assets in place, with exact
+PDF/PNGsource identity and7,022,408bytes total. Five exampleREADMEs, overview,
+website chapters and shared guides agree on phase-only full-space-time ranking,
+lower-central sample selection and64/64/8/3/64cohorts. Historical main checkpoints
+and references remain separate from current-default comparisons. Manifestv2
+uses direct source paths and explicit ranking metadata. Build9pages,395local
+links/anchors, all10asset identities/dimensions and invalid-selection rejection
+pass. Keep original preview provenance and external raw arrays. Local integration
+is complete; no commit, push or livePages deployment because this turn did not
+authorize those operations. Background fixed-library owner continues unchanged.
+Relation:artifacts/pino_ranked_main_publication.json; fixed-condition-library-size.
+
+## 2026-11-16 — Complete the fixed-library comparison without discarding poorly converged arms
+
+All eight original cold budgets and64case final audits completed. Retain every
+endpoint: Electro64/128/256/512means12.8724/2.6613/2.8755/2.0137%; Ceramic means
+5.1984/32.7932/32.4830/32.7915%. The larger Ceramic banks did not recover by20k.
+Input integrity and identical initialization checks do not establish a cause for
+poor convergence or a general library-size law. Reject selecting replacement
+seeds, hiding failed-to-converge arms, or changing defaults from this single run.
+Deliver original means±one across-sample SD with complete cold times, direct
+inputs/configs/weights and editable170mmPDF/PNG; archive the finished study.
+The renderer now also accepts complete journals for reproduction and verifies
+passed final-budget audits. No further training, publication or Git action.
+Relation:docs/tasks/archive/fixed-condition-library-size.md;
+artifacts/fixed_condition_library_results.json.
+
+## 2026-11-16 — Defer Ceramic stability and extend Electropolish with32and online
+
+User explicitly defers the Ceramic recurrence of poor convergence; record direct
+evidence and future diagnostic scope inTODO without launching work. Add exactly
+two Electropolish cold10k runs: nested fixed32and continuous online, retaining
+seed42, frozen source, shared prescribed-input arithmetic,64test monitor and
+rolling core/halo. The currentRTX6000D differs from the priorRTXPRO6000; both new
+arms share the current device, but historical timing comparisons are qualified.
+Online being best is a hypothesis, not a selection criterion; reject retuning,
+extra seeds or retrospective best-checkpoint selection to force that outcome.
+Relation:docs/tasks/electro-library-extension.md; docs/TODO.md.
+
+## 2026-11-16 — Run the two Electropolish extensions concurrently
+
+User clarifies timing is not the objective, accepts the newGPU and permits
+parallel execution if memory allows. Identical-shape prior active peak12.02GiB
+per arm fits two40%reservations on the85,651MiB RTX6000D. Launch exactly the two
+cold10k jobs concurrently, with one finite owner, shared frozen source and
+unchanged numerical controls. Final GPU inference is serial after training;
+CPU audits verify64case metrics and actual draws. Full cold times include
+contention and must not be described as isolated performance. Preserve all
+outcomes; no retries/seed selection to favor the online hypothesis.
+Relation:docs/tasks/electro-library-extension.md.
+
+## 2026-11-16 — Extend only the new Electropolish controls to15k and publish completed evidence
+
+User requests15kfor fixed32/online before deciding on reruns of older library
+orFiLMcontrols. Stop/preserve the just-started10kattempt and cold-start15k
+with a10kcheckpoint; this avoids inventing optimizer/GradNorm resume state.
+Keep original per-step exponentialLR and deterministic draw prefixes, and compare
+10k/15kon the same64references. No20kor older-arm retraining yet. Concurrent
+execution remains authorized. Separately publish completed library-size results,
+accepted ranked galleries and deferredCeramicTODO. Current-turncommit/push
+authorization followsdev→commit→main→regularmerge→pushmain; pending15kresults
+remain explicitly unreported. Relation:electro-library-extension; Pages publication.

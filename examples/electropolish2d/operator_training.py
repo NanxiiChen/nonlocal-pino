@@ -209,6 +209,11 @@ def train_operator(c):
     else:
         data, metadata, references = load_dataset(c)
     online = 'online' in c.operator
+    fixed_library = 'condition_library' in c.operator
+    if fixed_library and not online:
+        raise ValueError('Fixed profile libraries use the online prescribed-field evaluator')
+    sampling_mode = ('fixed_condition_library' if fixed_library
+                     else 'online_continuous' if online else 'finite_subset')
     local_ad = c.nl.method == 'local_ad'
     fem_weak = c.nl.method == 'fem_weak'
     method_control = 'method_control' in c.operator
@@ -226,7 +231,9 @@ def train_operator(c):
         indices=selected_inputs.tolist(),
         surface_ids=data['surface_ids'][selected_inputs].tolist(),
         condition_batch=c.operator.condition_batch,
-        source_train_conditions=c.operator.train_conditions, mode='online_continuous' if online else 'finite_subset'))
+        source_train_conditions=c.operator.train_conditions, mode=sampling_mode))
+    if fixed_library:
+        _write_json(run/'condition_library.json', c.operator.condition_library.to_dict())
     repo = Path(__file__).resolve().parents[2]
     sources = ['examples/electropolish2d/train.py',
         'examples/electropolish2d/operator_training.py', 'examples/electropolish2d/operator_data.py',
@@ -270,6 +277,8 @@ def train_operator(c):
                     'docs/tasks/electro_spatial_evaluate.py']
     if online and 'input_evaluation' in c.operator.online:
         sources += ['examples/electropolish2d/comparison_sampling.py']
+    if fixed_library:
+        sources += ['examples/electropolish2d/condition_library.py']
     for name in sources:
         target = run / 'source' / name
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -547,7 +556,7 @@ def train_operator(c):
                   if local_ad else 'no external graph edges; five losses'),
         training_uses_positive_time_labels=False, checkpoint_selection='final fixed budget; no test selection',
         training_indices=selected_inputs.tolist(),
-        sampling_mode='online_continuous' if online else 'finite_subset',
+        sampling_mode=sampling_mode,
         sampled_training_indices=[] if online else np.unique(sampled_conditions).tolist(),
         scope=('continuous online initial-interface family; fixed held-out GRAPH diagnostics, not local convergence'
                if local_ad else 'continuous online initial-interface family; fixed held-out reference bank; same-graph error'
@@ -557,6 +566,9 @@ def train_operator(c):
     if spatial is not None:
         summary['spatial_sampling'] = spatial.summary()
         summary['entry_wall_seconds'] = time.perf_counter()-entry_start
+    if fixed_library:
+        summary['condition_library'] = c.operator.condition_library.to_dict()
+        summary['scope'] = 'Fixed prescribed initial-profile library; rolling spatial draws; independent64local-FD monitoring'
     if fem_weak:
         summary['boundary'] = 'Natural left/right zero flux in weak form; top/bottom soft Dirichlet; five losses'
         summary['scope'] = 'Native graph monitoring only; independent common local-FD cohort needed for method comparison'

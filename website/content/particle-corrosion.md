@@ -78,8 +78,8 @@ The objective uses absolute AC and CH residuals with unit prescales. Mouth phase
 ## Field evolution
 
 <figure>
-  <a href="assets/particle_corrosion2d.png"><img src="assets/particle_corrosion2d.png" width="2007" height="1086" alt="Predicted pit growth around warm-ivory ceramic particles with dark outlines for four development geometries across five times, with local-FEM interfaces"></a>
-  <figcaption>The selected width-256, 20,000-step model on all four development geometries at t* = 0, 0.2, 0.5, 0.8 and 1 (0, 70, 175, 280 and 350 s). Colors show predicted phase; warm-ivory interiors with dark outlines are inert ceramic, and dashed curves are independent local-FEM φ = 0.5 interfaces. Labels give instantaneous phase relative L² on the original spatial nodes, excluding ceramic interiors. <a href="assets/particle_corrosion2d.pdf">Editable PDF</a>.</figcaption>
+  <a href="assets/particle_corrosion2d.png"><img src="assets/particle_corrosion2d.png" width="2007" height="824" alt="Best, middle and worst phase-error cases from 64 ceramic geometries, with warm-ivory particles and local-FEM contours"></a>
+  <figcaption>The original width-256, 20,000-step field model: Best / Middle / Worst are inputs 50 / 53 / 30 from all 64 test geometries. Ranking uses equal-point, phase-only relative L² over all 11 saved times and physical mesh nodes; Middle is the lower central actual sample. Columns show t* = 0, 0.2, 0.5, 0.8 and 1 (0, 70, 175, 280 and 350 s). Colors show predicted phase; warm-ivory particles have dark outlines, and dashed curves are local-FEM φ = 0.5 interfaces. Panel labels give instantaneous spatial phase relative L², excluding ceramic interiors. Current-default metrics are reported separately. <a href="assets/particle_corrosion2d.pdf">Editable PDF</a> · <a href="https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/pino_ranked_main_preview.json">Selection and reproduction</a>.</figcaption>
 </figure>
 
 ## References and comparisons
@@ -150,6 +150,31 @@ FiLM finishes the fixed budget **4.74 times as fast**, with slightly lower error
 </figure>
 
 The temporal variants contain 2,248,450 versus 1,853,442 stored model entries. This single-initialization study does not establish an equal-capacity or cross-seed accuracy advantage. The 64 cases are excluded from training inputs but monitored during training. The default remains spatial attention followed by layerwise time FiLM. [Configuration, sources and full audit](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/ceramic_time_fusion_validation.json) · [Selected figures and reproduction](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/pino_time_fusion_figures.json).
+
+## Fixed geometry library and training stability
+
+Four cold 20k runs keep the original physics, architecture and optimizer, with
+nested fixed geometry banks and continuing spatial core/halo refresh. All use
+the same initialization and 64 local-FEM evaluation geometries. Final equal-point
+space-time channel means are:
+
+| Fixed geometries | Phase | Concentration | Channel mean ± sample SD |
+|---:|---:|---:|---:|
+| 64 | 4.71% | 5.68% | 5.20% ± 0.74% |
+| 128 | 31.97% | 33.61% | 32.79% ± 0.80% |
+| 256 | 31.66% | 33.31% | 32.48% ± 0.79% |
+| 512 | 31.97% | 33.61% | 32.79% ± 0.79% |
+
+<figure>
+  <a href="assets/electropolish_ceramic_fixed_library_error.png"><img src="assets/electropolish_ceramic_fixed_library_error.png" width="2007" height="732" alt="Fixed-library results retaining all poorly converged larger Ceramic runs"></a>
+  <figcaption>Ceramic is panel (b); panel (a) is the separate Electropolish 10k study. Final weights, 64 test samples and one across-sample standard deviation. A passed input/metric audit does not indicate good solution accuracy. <a href="assets/electropolish_ceramic_fixed_library_error.pdf">Editable PDF</a>.</figcaption>
+</figure>
+
+The three larger banks plateaued near 32% and did not recover. Their cause is
+unresolved; these results do not establish that more geometries generally harm
+generalization. Training-stability work is deferred, and the successful rolling
+geometry default is retained. [Research TODO](https://github.com/NanxiiChen/nonlocal-pino/blob/main/docs/TODO.md#ceramic-corrosion-training-stability-across-geometry-libraries)
+· [Data, checks and direct run paths](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/fixed_condition_library_results.json).
 
 ## Implementation and reproduction
 

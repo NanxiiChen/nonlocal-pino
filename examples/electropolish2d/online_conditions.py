@@ -80,6 +80,11 @@ def make_sampler(c):
     physical_k = np.sqrt(c.physical.omega_phi/(2*c.physical.alpha_phi))*c.nondim.L_c
     fields = partial(initial_fields, curve_x=curve_x, y0=c.surface.y0,
                      k=physical_k, c_se=c.physical.c_se, window=o.sdf_window)
+    library = None
+    if 'condition_library' in c.operator:
+        from .condition_library import load_library
+        coefficients, _ = load_library(c)
+        library = jnp.asarray(coefficients)
 
     def geometry(points):
         """Precompute nearest curve indices for a fixed query set once."""
@@ -87,16 +92,21 @@ def make_sampler(c):
 
     @eqx.filter_jit
     def sample(key, points, nearest):
-        uniform = jax.random.uniform(key, (candidates, c.surface.n_modes, 3), dtype=jnp.float32)
-        amplitudes = (.3+.7*uniform[..., 0])*c.surface.amplitude
-        frequencies = c.surface.freq_lo+(c.surface.freq_hi-c.surface.freq_lo)*uniform[..., 1]
-        phases = 2*jnp.pi*uniform[..., 2]
-        all_coefficients = jnp.stack([amplitudes, frequencies, phases], -1)
-        curves = jax.vmap(lambda a: rough_surface(curve_x, a, c.surface.y0))(all_coefficients)
-        valid = (curves.min(-1) > o.height_min) & (curves.max(-1) < o.height_max)
-        count = jnp.sum(valid)
-        chosen = jnp.nonzero(valid, size=batch, fill_value=0)[0]
-        coefficients = all_coefficients[chosen]
+        if library is None:
+            uniform = jax.random.uniform(key, (candidates, c.surface.n_modes, 3), dtype=jnp.float32)
+            amplitudes = (.3+.7*uniform[..., 0])*c.surface.amplitude
+            frequencies = c.surface.freq_lo+(c.surface.freq_hi-c.surface.freq_lo)*uniform[..., 1]
+            phases = 2*jnp.pi*uniform[..., 2]
+            all_coefficients = jnp.stack([amplitudes, frequencies, phases], -1)
+            curves = jax.vmap(lambda a: rough_surface(curve_x, a, c.surface.y0))(all_coefficients)
+            valid = (curves.min(-1) > o.height_min) & (curves.max(-1) < o.height_max)
+            count = jnp.sum(valid)
+            chosen = jnp.nonzero(valid, size=batch, fill_value=0)[0]
+            coefficients = all_coefficients[chosen]
+        else:
+            chosen = jax.random.randint(key, (batch,), 0, len(library))
+            coefficients = library[chosen]
+            count = jnp.asarray(batch, dtype=jnp.int32)
         # condition images and all local IC values use the SAME profile triples.
         image_fields = jax.vmap(lambda a:fields(a, jnp.asarray(sensors), nearest=sensor_nearest))(coefficients)
         local = jax.vmap(lambda a:fields(a, points, nearest=nearest))(coefficients)

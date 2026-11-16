@@ -45,8 +45,8 @@ The momentum rows use the corrected gradients for advection, pressure and capill
 ## Field evolution
 
 <figure>
-  <a href="assets/channel_nsch2d.png"><img src="assets/channel_nsch2d.png" width="2007" height="696" alt="Predicted phase in four constricted channels across five normalized times with dashed local-FEM droplet interfaces"></a>
-  <figcaption>The selected 20,000-step model on the development geometry followed by all three reserved geometries. Columns show t* = t/T = 0, 0.25, 0.5, 0.75 and 1, with T = 6 in model units. Colors show predicted phase; white dashed curves are independent local-FEM φ = 0 interfaces. Labels give instantaneous phase relative L² on all 3,840 original spatial queries. <a href="assets/channel_nsch2d.pdf">Editable PDF</a>.</figcaption>
+  <a href="assets/channel_nsch2d.png"><img src="assets/channel_nsch2d.png" width="2007" height="531" alt="All three reserved channels ordered by full-space-time phase error, with local-FEM interfaces"></a>
+  <figcaption>The original 20,000-step model: Best / Middle / Worst are reserved geometries 1 / 2 / 0, ordered by equal-point phase-only relative L² over all 13 saved times and 3,840 queries. The development geometry is excluded; these are the three reused reserved cases, not a new blind test cohort. Columns show t* = t/T = 0, 0.25, 0.5, 0.75 and 1, with T = 6 in model units. Colors show predicted phase; white dashed curves are local-FEM φ = 0 interfaces. Panel labels give instantaneous spatial phase relative L². <a href="assets/channel_nsch2d.pdf">Editable PDF</a> · <a href="https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/pino_ranked_main_preview.json">Selection and reproduction</a>.</figcaption>
 </figure>
 
 ## References and comparisons

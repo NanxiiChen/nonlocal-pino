@@ -8,12 +8,22 @@ REPO = Path(__file__).resolve().parents[1]
 
 
 def publish(manifest):
+    if manifest['schema'] != 'pino_main_publication_v2':
+        raise ValueError('Require the explicit ranked main-figure publication manifest')
+    examples = [record['example'] for record in manifest['figures']]
+    if len(examples) != 5 or len(set(examples)) != 5:
+        raise ValueError('Require one selected figure per principal example')
     sources = []
     for record in manifest['figures']:
-        spec = json.loads((REPO/record['specification']).read_text())
+        if (len(record['samples']) != 3 or len(set(record['samples'])) != 3
+                or record['cohort_count'] < 3 or len(record['phase_errors']) != 3
+                or record['phase_errors'] != sorted(record['phase_errors'])):
+            raise ValueError('Require best/middle/worst samples and increasing phase errors')
         for kind in ('pdf', 'png'):
-            source = Path(spec['output'][kind])
+            source = Path(record['source'][kind])
             target = REPO/record[kind]
+            if record[kind] != f"assets/pino-main/{record['example']}.{kind}":
+                raise ValueError('Unexpected publication destination')
             if source.stat().st_size != record['bytes'][kind]:
                 raise ValueError(f'Approved source changed: {source}')
             if source.stat().st_size >= manifest['maximum_file_bytes']:

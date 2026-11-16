@@ -12,6 +12,8 @@ on:
       - assets/pino-setups/**
       - artifacts/pino_setup_figures.json
       - assets/pino-studies/**
+      - assets/pino-library-size/**
+      - artifacts/fixed_condition_library_results.json
       - artifacts/pino_three_method_figures.json
       - artifacts/pino_time_fusion_figures.json
       - artifacts/pino_time_fusion_wall_clock.json

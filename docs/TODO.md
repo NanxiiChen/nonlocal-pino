@@ -1,5 +1,29 @@
 # Deferred research tasks
 
+## Ceramic corrosion: training stability across geometry libraries
+
+**Deferred by the user on 2026-11-16. Do not start further Ceramic training or
+diagnostics until requested.** Preserve the successful rolling-geometry default.
+
+The fixed64/128/256/512geometry study, with identical initialization and20kupdate
+budgets, produced64test-case channel-mean space-time errors of5.1984%,32.7932%,
+32.4830%,and32.7915%. The three larger banks plateaued and did not recover.
+All input/final-field audits passed; a passed audit is not proof of good accuracy.
+The user notes similar poor-convergence episodes in this example previously.
+The reason remains unestablished; do not interpret this as a general claim that
+more training geometries worsen generalization.
+
+When resumed, compare successful/poor runs using the retained earlyAC/CH/IC/mouth
+loss histories, adaptive weights and actual geometry/time/core-halo draws. Check
+input/operator integrity and boundary/initial fitting before attributing the
+failure to optimization. Any changes should be isolated and tested across
+initializations, retaining all outcomes. Do not select seeds solely for low error.
+
+Evidence: [completed experiment](tasks/archive/fixed-condition-library-size.md),
+[all final statistics and direct paths](../artifacts/fixed_condition_library_results.json).
+Run root: `/root/autodl-tmp/tf-logs/particle_corrosion2d/`, names
+`fixed-library-20261115-01-ceramic-n{64,128,256,512}`.
+
 ## Spinodal: finite-horizon nonlocal versus local-PDE discrepancy
 
 **Deferred by the user on 2026-11-15. Do not launch this study as part of the

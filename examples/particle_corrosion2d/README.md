@@ -30,9 +30,12 @@ and blue electrolyte distinguish the three materials; no future interface is dra
 [Source/style specification](../../artifacts/particle_corrosion_setup_materials.json) ·
 [Regeneration](../../assets/pino-setups/README.md).
 
-![Four six-particle layouts with predicted phase and local-FEM interfaces](../../assets/pino-main/particle_corrosion2d.png)
+![Best, middle and worst phase-error geometries from 64 ceramic layouts](../../assets/pino-main/particle_corrosion2d.png)
 
-Rows show all four development geometries in saved order at actual times
+Rows are **Best / Middle / Worst**, inputs **50 / 53 / 30**, selected from all
+64 test geometries by equal-point, phase-only relative L2 over all11saved times
+and physical mesh nodes. Middle is the lower central actual sample. Columns use
+actual times
 \(t^*=0,0.2,0.5,0.8,1\), or0,70,175,280,350s. Coolwarm shows predicted phase;
 warm-ivory interiors with dark outlines are inert ceramic; dashed curves are independent **local-FEM**
 \(\phi=0.5\) interfaces. Each panel reports instantaneous unweighted nodal
@@ -41,7 +44,8 @@ separate. Original physical triangles and equal spatial scales are retained.
 The figure retains its original width256 final20k checkpoint; the current
 execution-default validation is reported separately below.
 [Editable170mmPDF](../../assets/pino-main/particle_corrosion2d.pdf) ·
-[Source/style specification](../../artifacts/particle_corrosion_main_figure.json).
+[Ranked samples, weights and reproduction](../../artifacts/pino_ranked_main_preview.json) ·
+[Publication record](../../artifacts/pino_main_figures.json).
 
 ## Problem setup and parameterized geometry
 
@@ -239,6 +243,30 @@ within each sample; no spatial or temporal quadrature weights are used.
 Violins use log-error KDE and quartiles; tails are fitted density, not additional
 observations. [Editable PDF](../../assets/pino-studies/particle_corrosion2d_time_fusion_distribution.pdf).
 [Selected assets and reproduction](../../artifacts/pino_time_fusion_figures.json).
+
+### Fixed geometry-library size study
+
+The opt-in `configs/train_fixed_geometry.py` sets
+`operator.geometry_sampling='fixed_library'`. Geometry identities remain fixed;
+the existing background spatial-refresh clock, complete core/halo rows, prescribed
+IC sampling and time resampling remain enabled. The production default continues
+to replace geometries. The study uses nested64/128/256/512geometry banks,
+20ksteps and64local-FEM monitoring cases; only library size changes between arms.
+Final statistics use the per-sample channel mean of equal-point space-time norms,
+with one sample standard deviation across test inputs. Final channel means are
+5.20%,32.79%,32.48%,and32.79% respectively. The three larger banks did not converge
+well in this initialization; the input/metric audits passed, but the cause of
+poor convergence is unresolved. These results do not establish that larger
+libraries generally harm generalization. The rolling-geometry default is unchanged.
+[Completed study](../../docs/tasks/archive/fixed-condition-library-size.md) and
+[final statistics/figure provenance](../../artifacts/fixed_condition_library_results.json).
+
+![Final fixed-library errors, including the poorly converged larger Ceramic banks](../../assets/pino-library-size/electropolish_ceramic_fixed_library_error.png)
+
+Ceramic is panel(b): final20kweights and64local-FEM test cases, channel-averaged
+equal-point space-time errors with one sampleSD. Panel(a) shows the separate
+Electropolish10kstudy. [Editable PDF](../../assets/pino-library-size/electropolish_ceramic_fixed_library_error.pdf).
+Training stability is explicitly deferred in [TODO](../../docs/TODO.md#ceramic-corrosion-training-stability-across-geometry-libraries).
 
 ### Physical outputs and residuals
 
@@ -733,13 +761,15 @@ The selected [20k checkpoint](/root/autodl-tmp/tf-logs/particle_corrosion2d/2026
 [local reference](/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/local_dev4/manifest.json),
 [native reference](/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-01/native_dev4/manifest.json),
 and [capacity comparison](/root/autodl-tmp/data/particle_corrosion2d/20261107-spaced-six-width256-02/capacity_comparison.json)
-remain external. The current main figure's inputs, warm-ivory fill and dark outlines
-are recorded in [its specification](../../artifacts/particle_corrosion_main_figure.json).
-Regenerate its editable PDF and matching PNG on CPU:
+remain external. The current main figure retains this checkpoint and extends its
+evaluation to the existing64case local-FEM bank. Its selected inputs, warm-ivory
+fill, dark outlines and direct prediction/reference paths are recorded in the
+[ranked-figure provenance](../../artifacts/pino_ranked_main_preview.json).
+Regenerate its editable PDF and matching PNG from the saved fields on CPU:
 
 ```bash
-.venv/bin/python -m scripts.render_particle_corrosion_main_figure \
-  --spec artifacts/particle_corrosion_main_figure.json
+JAX_PLATFORMS=cpu .venv/bin/python -m scripts.render_ranked_main_figures \
+  --case ceramic --root /root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01
 ```
 
 The [publication collection](../../assets/pino-main/README.md) describes copying

@@ -84,7 +84,10 @@ The approved publication main figures additionally live in `assets/pino-main/`:
 one final editable PDF and matching PNG per principal example, five pairs total.
 Their separate budget is9MiB combined and2MiB per file. Keep source arrays,
 weights and alternative previews external. `artifacts/pino_main_figures.json`
-links direct per-case source/style/validation records; `scripts/publish_main_figures.py`
+v2 links explicit external PDF/PNG sources, original styles, selected sample IDs,
+cohort sizes and phase-error rankings. The user-approved galleries show best,
+lower-central and worst full-space-time phase errors; panel labels retain their
+instantaneous spatial metric. `scripts/publish_main_figures.py`
 copies only approved final files byte-for-byte. This collection does not expand
 the budgets for older curated images or comparison figures.
 

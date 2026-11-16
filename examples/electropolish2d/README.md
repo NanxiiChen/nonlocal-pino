@@ -72,16 +72,21 @@ The earlier fixed-pool 10,000-step result was 1.740% pooled and 1.540%
 terminal phase L2. Its same-trajectory 5,000-step checkpoint scored 3.934%
 pooled phase. [Historical budget and reference audit](../../docs/tasks/archive/electro-time-reference-audit.md).
 
-![Four unseen rough interfaces evolving during electropolishing](../../assets/pino-main/electropolish2d.png)
+![Best, middle and worst phase-error samples from 64 unseen interfaces](../../assets/pino-main/electropolish2d.png)
 
-Rows are the predeclared inputs0,21,42,63, at \(t^*=0,0.25,0.5,0.75,1\) (0..5s).
+Rows are **Best / Middle / Worst**, inputs **30 / 5 / 56**, selected from all
+64 test interfaces by equal-point, phase-only relative L2 over the complete
+21-time space-time evaluation grid. Middle is the lower central actual sample
+after sorting by error (sample ID breaks ties). Columns are
+\(t^*=0,0.25,0.5,0.75,1\) (0..5s).
 Color shows the selected final rolling10k PINO phase. Dashed curves are the
 independent local-FD101 \(\phi=0.5\) interfaces. Each panel reports its own
 instantaneous spatial phase relative L2, with equal weights on original queries;
 it is distinct from the pooled values above. Fields are raster, text/contours
 editable vector;170mmwidth and equal physical scales are retained.
 [PDF](../../assets/pino-main/electropolish2d.pdf) ·
-[Source/style specification](../../artifacts/electropolish_main_figure.json).
+[Ranked samples, weights and reproduction](../../artifacts/pino_ranked_main_preview.json) ·
+[Publication record](../../artifacts/pino_main_figures.json).
 
 The separate [current nonlocal/local-AD comparison](#current-rolling-nonlocallocal-ad-research-control)
 below includes two cold initializations, convergence curves, three-input
@@ -1984,3 +1989,32 @@ width 96 on 64 local FD101 cases. The equal-width time-count effect at
 5,000 steps changes sign across two seeds.
 
 </details>
+
+## Fixed initial-condition library size study
+
+The optional `operator.condition_library` declares `path`, `count`, and
+`sampling='uniform_with_replacement'`. Its input-only directory contains the
+accepted original rough-profile coefficient triples and prior metadata; it
+contains no evolved solution fields. The regular online field evaluator supplies
+the same encoder image and prescribed IC/Dirichlet values. The study selects
+nested64/128/256/512profile prefixes, retains spatial rolling and time resampling,
+and uses10ksteps with the same64local-FD cases monitored throughout. Final
+channel-averaged equal-point space-time errors give the mean and one sampleSD.
+The completed single-initialization study gives channel means12.87%,2.66%,2.88%,
+and2.01% respectively. The matched continuous-online baseline is2.16%; this is
+not a monotonic or cross-seed accuracy guarantee. The default remains continuous
+online profiles. [Completed study](../../docs/tasks/archive/fixed-condition-library-size.md)
+and [final statistics/figure provenance](../../artifacts/fixed_condition_library_results.json).
+
+![Final fixed-library errors for Electropolish and ceramic corrosion](../../assets/pino-library-size/electropolish_ceramic_fixed_library_error.png)
+
+Panel(a) is Electropolish: final10kweights,64local-FD test inputs, equal-point
+space-time phi/c norms averaged over channels and samples. Shading is one sample
+standard deviation, not seed variability. Panel(b) is the separate Ceramic20k
+study and retains its poorly converged larger-library outcomes.
+[Editable PDF](../../assets/pino-library-size/electropolish_ceramic_fixed_library_error.pdf).
+
+The fixed32and repeated continuous-online controls are being extended to15k,
+with a10kcheckpoint and the same64case monitor. No15kresult is available yet.
+The older fixed-size and FiLM controls have not been rerun.
+[Active extension](../../docs/tasks/electro-library-extension.md).

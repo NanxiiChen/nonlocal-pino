@@ -1,0 +1,379 @@
+{
+  "schema": "pino_ranked_main_preview_v1",
+  "status": "reviewed_preview",
+  "date_utc": "2026-11-15T16:18:15.544294+00:00",
+  "root": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01",
+  "metric": "Equal-point physical-phase full-space-time relative L2 only",
+  "selection": "First, lower-central actual sample, last after sorting by (error,index)",
+  "case_count": 5,
+  "ranked_samples": 203,
+  "cases": [
+    {
+      "case": "electropolish",
+      "cohort_count": 64,
+      "checkpoint": "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool/model_final.eqx",
+      "config": "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool/config.json",
+      "original_spec": "/root/nonlocal-pinn/artifacts/electropolish_main_figure.json",
+      "provenance": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/electropolish_figure.json",
+      "outputs": {
+        "pdf": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/electropolish2d_phase_best_middle_worst.pdf",
+        "png": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/electropolish2d_phase_best_middle_worst.png"
+      },
+      "selected": [
+        {
+          "index": 30,
+          "prediction": "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool/spatial_evaluation64.npz",
+          "reference": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_030/local101.npz",
+          "error": 0.006069604474984114,
+          "rank_label": "Best",
+          "panel_errors": [
+            0.006055819628661581,
+            0.006059681758677032,
+            0.004753320646493304,
+            0.006288434200602053,
+            0.00710291830795376
+          ]
+        },
+        {
+          "index": 5,
+          "prediction": "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool/spatial_evaluation64.npz",
+          "reference": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_005/local101.npz",
+          "error": 0.013912879975719324,
+          "rank_label": "Middle",
+          "panel_errors": [
+            0.012642486785602054,
+            0.01572857266693988,
+            0.013902367121982314,
+            0.012871579263525394,
+            0.013699379521623858
+          ]
+        },
+        {
+          "index": 56,
+          "prediction": "/root/autodl-tmp/tf-logs/electropolish2d/pino-spatial-pools-20261111-01-electropolish2d-s42-rolling_pool/spatial_evaluation64.npz",
+          "reference": "/root/autodl-tmp/data/electropolish2d/operator_local_test64_20261029/condition_056/local101.npz",
+          "error": 0.03832228508051645,
+          "rank_label": "Worst",
+          "panel_errors": [
+            0.026074859429829036,
+            0.046914366084018104,
+            0.039937571649024964,
+            0.03187655266501155,
+            0.02911246450710621
+          ]
+        }
+      ],
+      "metric_times": [
+        0.0,
+        0.05,
+        0.1,
+        0.15000000000000002,
+        0.2,
+        0.25,
+        0.30000000000000004,
+        0.35000000000000003,
+        0.4,
+        0.45,
+        0.5,
+        0.55,
+        0.6000000000000001,
+        0.65,
+        0.7000000000000001,
+        0.75,
+        0.8,
+        0.8500000000000001,
+        0.9,
+        0.9500000000000001,
+        1.0
+      ]
+    },
+    {
+      "case": "ceramic",
+      "cohort_count": 64,
+      "checkpoint": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/model_final.eqx",
+      "config": "/root/autodl-tmp/tf-logs/particle_corrosion2d/20261107-spaced-six-w256-cold20000-02/config.json",
+      "original_spec": "/root/nonlocal-pinn/artifacts/particle_corrosion_main_figure.json",
+      "provenance": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/ceramic_figure.json",
+      "outputs": {
+        "pdf": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/particle_corrosion2d_phase_best_middle_worst.pdf",
+        "png": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/particle_corrosion2d_phase_best_middle_worst.png"
+      },
+      "selected": [
+        {
+          "index": 50,
+          "prediction": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/ceramic_prediction_050.npz",
+          "reference": "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_050.npz",
+          "error": 0.026713939903592616,
+          "rank_label": "Best",
+          "panel_errors": [
+            0.0034258047241544336,
+            0.007108887909834281,
+            0.019979573516653474,
+            0.035122246392660234,
+            0.05853565544512406
+          ]
+        },
+        {
+          "index": 53,
+          "prediction": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/ceramic_prediction_053.npz",
+          "reference": "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_053.npz",
+          "error": 0.03490254831511649,
+          "rank_label": "Middle",
+          "panel_errors": [
+            0.003400388272573919,
+            0.007008671794150037,
+            0.024328255214930664,
+            0.044276176267602156,
+            0.0763346232523548
+          ]
+        },
+        {
+          "index": 30,
+          "prediction": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/ceramic_prediction_030.npz",
+          "reference": "/root/autodl-tmp/data/particle_corrosion2d/local_test64_20261111-01/case_030.npz",
+          "error": 0.04840499105049854,
+          "rank_label": "Worst",
+          "panel_errors": [
+            0.003463304795318223,
+            0.01178678495889354,
+            0.04135259071632462,
+            0.06391345750404685,
+            0.09658818873631986
+          ]
+        }
+      ],
+      "metric_times": [
+        0.0,
+        0.1,
+        0.2,
+        0.30000000000000004,
+        0.4,
+        0.5,
+        0.6000000000000001,
+        0.7000000000000001,
+        0.8,
+        0.9,
+        1.0
+      ]
+    },
+    {
+      "case": "spinodal",
+      "cohort_count": 8,
+      "checkpoint": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/model_final.eqx",
+      "config": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/config.json",
+      "original_spec": "/root/nonlocal-pinn/artifacts/spinodal_main_figure.json",
+      "provenance": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/spinodal_figure.json",
+      "outputs": {
+        "pdf": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/spinodal2d_phase_best_middle_worst.pdf",
+        "png": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/spinodal2d_phase_best_middle_worst.png"
+      },
+      "selected": [
+        {
+          "index": 1027,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/prediction_1027.npz",
+          "reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1027/reference.npz",
+          "error": 0.017072539333430142,
+          "rank_label": "Best",
+          "panel_errors": [
+            2.5466386384399892e-08,
+            0.024752110237564042,
+            0.02061887854238586,
+            0.018712357918163038,
+            0.01596135677048365
+          ]
+        },
+        {
+          "index": 1025,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/prediction_1025.npz",
+          "reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1025/reference.npz",
+          "error": 0.04052802059679084,
+          "rank_label": "Middle",
+          "panel_errors": [
+            2.5374556987563662e-08,
+            0.0332988271382495,
+            0.034050093715951704,
+            0.0375426839997832,
+            0.043438758656293305
+          ]
+        },
+        {
+          "index": 1026,
+          "prediction": "/root/autodl-tmp/tf-logs/confined_ch2d/20261031-confined-width256-online-cold50k-01-train/prediction_1026.npz",
+          "reference": "/root/autodl-tmp/data/confined_ch2d/operator_geometry_smallscale10_1024_v1/case_1026/reference.npz",
+          "error": 0.09980280859478845,
+          "rank_label": "Worst",
+          "panel_errors": [
+            2.4755441310173037e-08,
+            0.06037494158884368,
+            0.07050267811926111,
+            0.08760460017778336,
+            0.11025409562602155
+          ]
+        }
+      ],
+      "metric_times": [
+        0.0,
+        0.75,
+        1.5,
+        2.25,
+        3.0
+      ]
+    },
+    {
+      "case": "channel",
+      "cohort_count": 3,
+      "checkpoint": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/model_final.eqx",
+      "config": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/config.json",
+      "original_spec": "/root/nonlocal-pinn/artifacts/channel_main_figure_icefire_r.json",
+      "provenance": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/channel_figure.json",
+      "outputs": {
+        "pdf": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/two_phase_flow2d_phase_best_middle_worst.pdf",
+        "png": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/two_phase_flow2d_phase_best_middle_worst.png"
+      },
+      "selected": [
+        {
+          "index": 1,
+          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_001/prediction.npz",
+          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_001/bdf-fine.npz",
+          "error": 0.014292626036913721,
+          "rank_label": "Best",
+          "panel_errors": [
+            0.000977923619988069,
+            0.007992199563027077,
+            0.02115624590359003,
+            0.014514700670632142,
+            0.016781926556158788
+          ]
+        },
+        {
+          "index": 2,
+          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_002/prediction.npz",
+          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_002/bdf-fine.npz",
+          "error": 0.01515234170982108,
+          "rank_label": "Middle",
+          "panel_errors": [
+            0.000977923619988069,
+            0.006170482675772225,
+            0.016620538573000377,
+            0.017994257029137553,
+            0.020419092870480115
+          ]
+        },
+        {
+          "index": 0,
+          "prediction": "/root/autodl-tmp/tf-logs/channel_nsch2d/20261103-pro6000-integral-random-walls-online-width192-b8-time18-nt36-cold20k-lr1e5-04/unseen3/case_000/prediction.npz",
+          "reference": "/root/autodl-tmp/data/channel_nsch2d/random-walls-20261102-02/unseen3/case_000/bdf-fine.npz",
+          "error": 0.01986002053688041,
+          "rank_label": "Worst",
+          "panel_errors": [
+            0.000977923619988069,
+            0.004940711011223739,
+            0.012651887800630097,
+            0.03127661249984831,
+            0.02868202299317516
+          ]
+        }
+      ],
+      "metric_times": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        5.5,
+        6.0
+      ]
+    },
+    {
+      "case": "melting",
+      "cohort_count": 64,
+      "checkpoint": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/model_final.eqx",
+      "config": "/root/autodl-tmp/tf-logs/icemelting3d/melting-pools-cold10k-20261111-01-rolling_pool/config.json",
+      "original_spec": "/root/nonlocal-pinn/artifacts/melting_main_figure.json",
+      "provenance": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/melting-gpu/melting_figure.json",
+      "outputs": {
+        "pdf": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/melting-gpu/icemelting3d_phase_best_middle_worst.pdf",
+        "png": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/melting-gpu/icemelting3d_phase_best_middle_worst.png"
+      },
+      "selected": [
+        {
+          "index": 52,
+          "prediction": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/melting-gpu/melting_prediction_052.npz",
+          "reference": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_test64_20261114_v1/condition_052.npz",
+          "error": 0.000704959442908579,
+          "rank_label": "Best",
+          "panel_errors": [
+            1.7339615856147296e-07,
+            0.0005170519438884383,
+            0.0007568547556807605,
+            0.0011623760749001752,
+            0.0005175651436935671
+          ]
+        },
+        {
+          "index": 33,
+          "prediction": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/melting-gpu/melting_prediction_033.npz",
+          "reference": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_test64_20261114_v1/condition_033.npz",
+          "error": 0.0009685587537400216,
+          "rank_label": "Middle",
+          "panel_errors": [
+            2.9893984744986113e-07,
+            0.0003968589798417906,
+            0.0004781517450710608,
+            0.0009991374487073555,
+            0.0017856539736266917
+          ]
+        },
+        {
+          "index": 56,
+          "prediction": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/melting-gpu/melting_prediction_056.npz",
+          "reference": "/root/autodl-tmp/data/icemelting3d/operator_ellipsoids_test64_20261114_v1/condition_056.npz",
+          "error": 0.0013233630011806235,
+          "rank_label": "Worst",
+          "panel_errors": [
+            2.662855116353103e-07,
+            0.00043092817604027374,
+            0.0005114194900721627,
+            0.0013807135140990222,
+            0.002484738500804932
+          ]
+        }
+      ],
+      "metric_times": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ]
+    }
+  ],
+  "validation": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/validation.json",
+  "models_changed": false,
+  "defaults_changed": false,
+  "published_assets_changed": false,
+  "git_operations": false,
+  "melting_reference": "Existing time-refined native nonlocal64bank",
+  "spinodal_reference": "Existing time-refined native nonlocal8reserved bank",
+  "channel_scope": "All3reserved geometries; development geometry excluded",
+  "cpu_melting_diagnostic_selected": false,
+  "melting_gpu_replay": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/melting-gpu/melting_replay_audit.json",
+  "gpu_training_overlap": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/gpu_overlap.json",
+  "source": [
+    "scripts/prepare_ranked_main_fields.py",
+    "scripts/prepare_ranked_main_meshes.py",
+    "scripts/render_ranked_main_figures.py"
+  ],
+  "reproduction": [
+    "JAX_PLATFORMS=cpu .venv/bin/python -m scripts.prepare_ranked_main_fields --case ceramic --backend cpu --output /root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01",
+    "JAX_PLATFORMS=cuda XLA_PYTHON_CLIENT_PREALLOCATE=false .venv/bin/python -m scripts.prepare_ranked_main_fields --case melting --backend gpu --output /root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/melting-gpu",
+    "/tmp/melting-render-20261029/bin/python -m scripts.prepare_ranked_main_meshes --root /root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/melting-gpu",
+    "JAX_PLATFORMS=cpu .venv/bin/python -m scripts.render_ranked_main_figures --case CASE --root /root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01 (use melting-gpu subdirectory for melting)"
+  ]
+}

@@ -2,7 +2,54 @@
 
 ## Current state
 
-**Active task:** none.
+**Active task:** [Electropolish fixed32 and online repeat](tasks/electro-library-extension.md).
+
+Two authorized cold15kruns are launched in parallel onRTX6000D: original-prefix32
+and continuous online profiles, with10kcheckpoints and all64local-FD test inputs.
+The initial10kattempt was stopped/preserved when the user extended the budget.
+New owner30224and bundle`electro-library-extension-15k-20261116-01`; preflight
+passed. Same initial state/source/physical scheme, rolling spatial sampling and
+original exponential LR schedule. Both processes reserve40%GPUmemory.
+Previous fixed-library and FiLM studies are not rerun;20kis undecided.
+Ceramic stability is deferred inTODO. See active task for exact run paths.
+User authorized publication of completed results andcommit/push this turn;
+README/site updates include the accepted ranked main galleries and fixed-library
+figure, with all15kresults explicitly pending. Deployment is in progress.
+
+The preceding [fixed condition-library study](tasks/archive/fixed-condition-library-size.md) is complete.
+
+All eight cold runs and independent64case audits completed2026-11-16at03:37
+Asia/Shanghai; no trainer or queued work remains. Electropolish10k channel means
+for64/128/256/512inputs:12.8724%,2.6613%,2.8755%,2.0137%. Ceramic20kmeans:
+5.1984%,32.7932%,32.4830%,32.7915%. The three larger Ceramic banks retain poor
+convergence; cause is unestablished, and audit success is not an accuracy claim.
+Preserve all arms, defaults and original budgets; do not restart the owner.
+Final mean±sampleSD figure, direct paths and complete cold times are checked:
+[completion record](../artifacts/fixed_condition_library_results.json).
+One initialization only; no claim that increasing library size generally harms
+generalization. Further diagnosis is deferred. The reviewed figure is included in the current publication.
+
+Baseline check: the configuration-matched online Electropolish run has2.1638%
+channel-mean error versus2.0137% for fixed512; both10k/64tests and byte-identical
+initial model/optimizer. The older selected online main model has1.7035%, but its
+input-evaluation path differs. Online sampling does not guarantee lower error at
+a finite update budget; all these arms retain rolling spatial core/halo pools.
+The input-path difference is only common encoder/IC/Dirichlet array evaluation:
+GPU FP32 versus CPU FP64 followed by one FP32 cast for exact cross-method pairing.
+Physical initial conditions and training precision are unchanged; this has not
+been isolated as the cause of the historical/current error gap.
+
+The five accepted ranked main figures are now integrated into the local example
+READMEs, project overview and website chapters. All10selected PDF/PNG files are
+byte-identical to the approved exports; total7,022,408bytes remains below9MiB.
+[Selection/reproduction](../artifacts/pino_ranked_main_preview.json) ·
+[Local integration checks](../artifacts/pino_ranked_main_publication.json).
+Nine-page build,395local links/anchors, rank metadata and asset dimensions pass.
+This earlier local integration is now included in the user-authorized publication.
+Commit, push and live Pages verification are in progress.
+Original main weights/defaults remain unchanged. The previous short MeltingGPU
+inference overlap with the library study is recorded; no GPU job ran for this
+documentation integration.
 
 **Latest publication:** [Ceramic temporal controls](tasks/archive/ceramic-time-fusion-publication.md).
 README, overview and website include the cold-time convergence and final64case
@@ -97,6 +144,18 @@ stopped; Spinodal retains full-field training.
   unrelated worktree changes.
 
 ## Latest session checks
+
+Fixed-library completion: all8final audits and512sample-mean reductions verified;
+two-panel170mmfigure visually reviewed,6/7ptembeddedHelvetica and editable PDF
+label checks pass. Renderer reproduces from a completed journal; example notes
+and archived task agree. No numerical default change; the current publication includes these checked results.
+
+Ranked gallery integration: explicit publication manifestv2, five updated chapter
+captions/alt text/dimensions, five exampleREADMEs and overview, shared asset guide
+and reproducible copier. Build9pages,395links, all10source/repository/site file
+identities, PNG dimensions and malformed-selection rejection pass; diff check
+passes. Local publication receipt records that Git/Pages deployment is pending.
+
 
 Ceramic complete-pair audit verifies identical common initialization and actual
 sampling, both reconstructed final pools,256final channel norms,10496actual

@@ -128,7 +128,7 @@ await Promise.all(fonts.map(font => copyFile(join(katexDist, 'fonts', font), joi
 // missing/stale approvals instead of silently serving a historical gallery.
 const manifest = JSON.parse(await readFile(join(root, '..', 'artifacts', 'pino_main_figures.json'), 'utf8'));
 const casePages = pages.filter(page => page.source);
-if (manifest.schema !== 'pino_main_publication_v1' ||
+if (manifest.schema !== 'pino_main_publication_v2' ||
     manifest.figures.length !== casePages.length ||
     new Set(manifest.figures.map(figure => figure.example)).size !== casePages.length) {
   throw new Error('Expected one approved publication figure per case chapter');
@@ -137,6 +137,13 @@ let figureBytes = 0;
 for (const { source } of casePages) {
   const figure = manifest.figures.find(record => record.example === source);
   if (!figure) throw new Error(`Missing publication figure: ${source}`);
+  if (!Number.isInteger(figure.cohort_count) || figure.cohort_count < 3 ||
+      figure.samples.length !== 3 || new Set(figure.samples).size !== 3 ||
+      figure.phase_errors.length !== 3 ||
+      figure.phase_errors.some((value, i) => !Number.isFinite(value) || value < 0 ||
+        (i > 0 && value < figure.phase_errors[i - 1]))) {
+    throw new Error(`Invalid phase-error-ranked selection for ${source}`);
+  }
   for (const kind of ['png', 'pdf']) {
     if (figure[kind] !== `assets/pino-main/${source}.${kind}`) {
       throw new Error(`Unexpected publication asset path for ${source}.${kind}`);
@@ -364,6 +371,31 @@ for (const record of timeFusion.cases) {
 if (timeFusionBytes !== timeFusion.collection_bytes || timeFusionBytes >= timeFusion.maximum_collection_bytes) {
   throw new Error('Temporal figures exceed their recorded size/budget');
 }
+
+const libraryStudy = JSON.parse(await readFile(join(root, '..', 'artifacts', 'fixed_condition_library_results.json'), 'utf8'));
+if (libraryStudy.status !== 'complete' || !libraryStudy.all_eight_audits_passed || libraryStudy.records.length !== 8) {
+  throw new Error('A completed eight-run library comparison is required');
+}
+for (const [caseName, budget] of [['electropolish', 10000], ['ceramic', 20000]]) {
+  const records = libraryStudy.records.filter(record => record.case === caseName);
+  if (JSON.stringify(records.map(record => record.size)) !== JSON.stringify([64, 128, 256, 512]) ||
+      records.some(record => record.steps !== budget || record.test_count !== 64 ||
+        !Number.isFinite(record.mean) || !Number.isFinite(record.sample_std))) {
+    throw new Error(`Incomplete library-size endpoints: ${caseName}`);
+  }
+}
+let libraryBytes = 0;
+for (const kind of ['png', 'pdf']) {
+  const name = `electropolish_ceramic_fixed_library_error.${kind}`;
+  if (libraryStudy.publication[kind] !== `assets/pino-library-size/${name}`) throw new Error('Unexpected library figure path');
+  const data = await readFile(join(root, '..', libraryStudy.publication[kind]));
+  if (data.length !== libraryStudy.publication.bytes[kind] || data.length >= libraryStudy.publication.maximum_file_bytes) {
+    throw new Error(`Library figure differs from its approval: ${name}`);
+  }
+  libraryBytes += data.length;
+  await writeFile(join(assets, name), data);
+}
+if (libraryBytes >= libraryStudy.publication.maximum_collection_bytes) throw new Error('Library figure budget exceeded');
 
 await Promise.all(rendered.map(([slug, html]) => writeFile(join(output, `${slug}.html`), html)));
 console.log(`Built ${rendered.length} technical report pages in website/dist/`);

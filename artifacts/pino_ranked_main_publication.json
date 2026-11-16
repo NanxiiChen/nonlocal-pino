@@ -1,0 +1,120 @@
+{
+  "schema": "pino_ranked_main_local_publication_v1",
+  "status": "local_build_validated",
+  "date": "2026-11-16T00:37:18.492587+08:00",
+  "selection_approved_by_user": true,
+  "preview": "artifacts/pino_ranked_main_preview.json",
+  "manifest": "artifacts/pino_main_figures.json",
+  "metric_font_visual_validation": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/validation.json",
+  "figures": [
+    {
+      "example": "icemelting3d",
+      "cohort_count": 64,
+      "selected_ids": [
+        52,
+        33,
+        56
+      ],
+      "source_figure": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/melting-gpu/melting_figure.json",
+      "png_pixels": [
+        2007,
+        1960
+      ],
+      "source_repo_site_bytes_identical": true,
+      "readme_and_chapter_updated": true,
+      "bytes": {
+        "pdf": 1073999,
+        "png": 758264
+      }
+    },
+    {
+      "example": "electropolish2d",
+      "cohort_count": 64,
+      "selected_ids": [
+        30,
+        5,
+        56
+      ],
+      "source_figure": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/electropolish_figure.json",
+      "png_pixels": [
+        2007,
+        775
+      ],
+      "source_repo_site_bytes_identical": true,
+      "readme_and_chapter_updated": true,
+      "bytes": {
+        "pdf": 212311,
+        "png": 278971
+      }
+    },
+    {
+      "example": "confined_ch2d",
+      "cohort_count": 8,
+      "selected_ids": [
+        1027,
+        1025,
+        1026
+      ],
+      "source_figure": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/spinodal_figure.json",
+      "png_pixels": [
+        2007,
+        1009
+      ],
+      "source_repo_site_bytes_identical": true,
+      "readme_and_chapter_updated": true,
+      "bytes": {
+        "pdf": 1315426,
+        "png": 1132279
+      }
+    },
+    {
+      "example": "channel_nsch2d",
+      "cohort_count": 3,
+      "selected_ids": [
+        1,
+        2,
+        0
+      ],
+      "source_figure": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/channel_figure.json",
+      "png_pixels": [
+        2007,
+        531
+      ],
+      "source_repo_site_bytes_identical": true,
+      "readme_and_chapter_updated": true,
+      "bytes": {
+        "pdf": 589405,
+        "png": 251702
+      }
+    },
+    {
+      "example": "particle_corrosion2d",
+      "cohort_count": 64,
+      "selected_ids": [
+        50,
+        53,
+        30
+      ],
+      "source_figure": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/ceramic_figure.json",
+      "png_pixels": [
+        2007,
+        824
+      ],
+      "source_repo_site_bytes_identical": true,
+      "readme_and_chapter_updated": true,
+      "bytes": {
+        "pdf": 895292,
+        "png": 514759
+      }
+    }
+  ],
+  "html_pages": 9,
+  "local_links_and_anchors_checked": 395,
+  "collection_bytes": 7022408,
+  "build": "npm --prefix website run build",
+  "publisher_rejects_invalid_selection": true,
+  "git_committed": false,
+  "pushed": false,
+  "pages_deployed": false,
+  "deployment_note": "Current request authorizes README/site edits; AGENTS.md section4 requires explicit current-turn commit/push authorization. All local changes and build are ready."
+}

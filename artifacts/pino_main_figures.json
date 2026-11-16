@@ -1,64 +1,196 @@
 {
-  "schema": "pino_main_publication_v1",
-  "date": "2026-11-12",
+  "schema": "pino_main_publication_v2",
+  "date": "2026-11-16",
   "maximum_file_bytes": 2097152,
   "maximum_collection_bytes": 9437184,
-  "scope": "Five approved final publication figures only; byte-identical to external PDF/PNG sources; raw fields and weights remain external",
+  "scope": "Five accepted best/middle/worst phase galleries; original main weights; direct external PDF/PNG sources; raw fields remain external",
+  "selection": "Ascending equal-point phase-only full-space-time L2: first, lower-central actual sample, last; sample ID breaks ties",
+  "panel_metric": "Instantaneous equal-point phase relative L2; Melting uses full original 3D volume",
   "figures": [
     {
       "example": "icemelting3d",
-      "specification": "artifacts/melting_main_figure.json",
-      "validation": "artifacts/melting_main_figure_validation.json",
+      "specification": "artifacts/pino_ranked_main_preview.json",
+      "validation": "artifacts/pino_ranked_main_publication.json",
+      "original_style_specification": "artifacts/melting_main_figure.json",
+      "source_figure": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/melting-gpu/melting_figure.json",
+      "source": {
+        "pdf": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/melting-gpu/icemelting3d_phase_best_middle_worst.pdf",
+        "png": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/melting-gpu/icemelting3d_phase_best_middle_worst.png"
+      },
       "pdf": "assets/pino-main/icemelting3d.pdf",
       "png": "assets/pino-main/icemelting3d.png",
       "bytes": {
-        "pdf": 1117449,
-        "png": 686984
-      }
+        "pdf": 1073999,
+        "png": 758264
+      },
+      "png_pixels": [
+        2007,
+        1960
+      ],
+      "figure_mm": [
+        170,
+        166
+      ],
+      "cohort_count": 64,
+      "samples": [
+        52,
+        33,
+        56
+      ],
+      "phase_errors": [
+        0.000704959442908579,
+        0.0009685587537400216,
+        0.0013233630011806235
+      ],
+      "reference_kind": "Time-refined native nonlocal solver"
     },
     {
       "example": "electropolish2d",
-      "specification": "artifacts/electropolish_main_figure.json",
-      "validation": "artifacts/electropolish_main_figure_validation.json",
+      "specification": "artifacts/pino_ranked_main_preview.json",
+      "validation": "artifacts/pino_ranked_main_publication.json",
+      "original_style_specification": "artifacts/electropolish_main_figure.json",
+      "source_figure": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/electropolish_figure.json",
+      "source": {
+        "pdf": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/electropolish2d_phase_best_middle_worst.pdf",
+        "png": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/electropolish2d_phase_best_middle_worst.png"
+      },
       "pdf": "assets/pino-main/electropolish2d.pdf",
       "png": "assets/pino-main/electropolish2d.png",
       "bytes": {
-        "pdf": 274869,
-        "png": 329170
-      }
+        "pdf": 212311,
+        "png": 278971
+      },
+      "png_pixels": [
+        2007,
+        775
+      ],
+      "figure_mm": [
+        170,
+        65.7
+      ],
+      "cohort_count": 64,
+      "samples": [
+        30,
+        5,
+        56
+      ],
+      "phase_errors": [
+        0.006069604474984114,
+        0.013912879975719324,
+        0.03832228508051645
+      ],
+      "reference_kind": "Independent local FD101"
     },
     {
       "example": "confined_ch2d",
-      "specification": "artifacts/spinodal_main_figure.json",
-      "validation": "artifacts/spinodal_main_figure_validation.json",
+      "specification": "artifacts/pino_ranked_main_preview.json",
+      "validation": "artifacts/pino_ranked_main_publication.json",
+      "original_style_specification": "artifacts/spinodal_main_figure.json",
+      "source_figure": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/spinodal_figure.json",
+      "source": {
+        "pdf": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/spinodal2d_phase_best_middle_worst.pdf",
+        "png": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/spinodal2d_phase_best_middle_worst.png"
+      },
       "pdf": "assets/pino-main/confined_ch2d.pdf",
       "png": "assets/pino-main/confined_ch2d.png",
       "bytes": {
-        "pdf": 1734310,
-        "png": 1322057
-      }
+        "pdf": 1315426,
+        "png": 1132279
+      },
+      "png_pixels": [
+        2007,
+        1009
+      ],
+      "figure_mm": [
+        170,
+        85.5
+      ],
+      "cohort_count": 8,
+      "samples": [
+        1027,
+        1025,
+        1026
+      ],
+      "phase_errors": [
+        0.017072539333430142,
+        0.04052802059679084,
+        0.09980280859478845
+      ],
+      "reference_kind": "Time-refined native nonlocal solver"
     },
     {
       "example": "channel_nsch2d",
-      "specification": "artifacts/channel_main_figure_icefire_r.json",
-      "validation": "artifacts/channel_main_figure_icefire_r_validation.json",
+      "specification": "artifacts/pino_ranked_main_preview.json",
+      "validation": "artifacts/pino_ranked_main_publication.json",
+      "original_style_specification": "artifacts/channel_main_figure_icefire_r.json",
+      "source_figure": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/channel_figure.json",
+      "source": {
+        "pdf": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/two_phase_flow2d_phase_best_middle_worst.pdf",
+        "png": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/two_phase_flow2d_phase_best_middle_worst.png"
+      },
       "pdf": "assets/pino-main/channel_nsch2d.pdf",
       "png": "assets/pino-main/channel_nsch2d.png",
       "bytes": {
-        "pdf": 778836,
-        "png": 300054
-      }
+        "pdf": 589405,
+        "png": 251702
+      },
+      "png_pixels": [
+        2007,
+        531
+      ],
+      "figure_mm": [
+        170,
+        45
+      ],
+      "cohort_count": 3,
+      "samples": [
+        1,
+        2,
+        0
+      ],
+      "phase_errors": [
+        0.014292626036913721,
+        0.01515234170982108,
+        0.01986002053688041
+      ],
+      "reference_kind": "Independent refined local mixed FEM"
     },
     {
       "example": "particle_corrosion2d",
-      "specification": "artifacts/particle_corrosion_main_figure.json",
-      "validation": "artifacts/particle_corrosion_main_figure_validation.json",
+      "specification": "artifacts/pino_ranked_main_preview.json",
+      "validation": "artifacts/pino_ranked_main_publication.json",
+      "original_style_specification": "artifacts/particle_corrosion_main_figure.json",
+      "source_figure": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/ceramic_figure.json",
+      "source": {
+        "pdf": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/particle_corrosion2d_phase_best_middle_worst.pdf",
+        "png": "/root/autodl-tmp/tf-logs/pino-ranked-main-20261115-01/particle_corrosion2d_phase_best_middle_worst.png"
+      },
       "pdf": "assets/pino-main/particle_corrosion2d.pdf",
       "png": "assets/pino-main/particle_corrosion2d.png",
       "bytes": {
-        "pdf": 1175400,
-        "png": 598792
-      }
+        "pdf": 895292,
+        "png": 514759
+      },
+      "png_pixels": [
+        2007,
+        824
+      ],
+      "figure_mm": [
+        170,
+        69.8
+      ],
+      "cohort_count": 64,
+      "samples": [
+        50,
+        53,
+        30
+      ],
+      "phase_errors": [
+        0.026713939903592616,
+        0.03490254831511649,
+        0.04840499105049854
+      ],
+      "reference_kind": "Independent local P1 lumped FEM"
     }
   ]
 }

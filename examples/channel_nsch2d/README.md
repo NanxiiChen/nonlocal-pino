@@ -90,17 +90,21 @@ response remains less accurate than its total field error suggests. Final
 replay/input/constraint checks and252fresh-time diagnostics completed. Average
 errors improve over10k, with mixed per-case results documented below.
 
-![Four channel geometries with predicted phase and local-FEM interfaces](../../assets/pino-main/channel_nsch2d.png)
+![Best, middle and worst phase-error cases among all three reserved channels](../../assets/pino-main/channel_nsch2d.png)
 
-Rows show the nominal development geometry followed by all three predeclared
-reserved geometries; they are not four blind test cases. Columns use normalized
+Rows are **Best / Middle / Worst**, reserved geometries **1 / 2 / 0**, ordered
+by equal-point, phase-only relative L2 over all13saved times and3840spatial
+queries. All three predeclared reserved geometries are shown; the nominal
+development geometry is excluded. These are reused reserved cases, not a new
+blind test cohort. Columns use normalized
 display time \(t^*=t/T=0,0.25,0.5,0.75,1\), with original model horizon \(T=6\).
 The icefire_r phase scale spans[-1.2,1.2]to include actual numerical overshoots.
 White dashed curves are local-FEM \(\phi=0\) interfaces; panel errors are
 instantaneous unweighted phase relative L2 on all3840original queries.
 Full channel geometry and equal spatial scales are preserved, with no droplet
 position corrections. [Editable170mmPDF](../../assets/pino-main/channel_nsch2d.pdf) ·
-[Source/style specification](../../artifacts/channel_main_figure_icefire_r.json).
+[Ranked samples, weights and reproduction](../../artifacts/pino_ranked_main_preview.json) ·
+[Publication record](../../artifacts/pino_main_figures.json).
 
 ### Spatial sampling experiment
 

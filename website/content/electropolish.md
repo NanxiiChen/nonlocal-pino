@@ -47,8 +47,8 @@ Mean absolute PDE residuals and three physical MSE terms (initial, top and botto
 ## Field evolution
 
 <figure>
-  <a href="assets/electropolish2d.png"><img src="assets/electropolish2d.png" width="2007" height="1003" alt="Predicted phase for four rough initial interfaces across five times, with dashed local-FD reference contours and per-panel errors"></a>
-  <figcaption>The selected rolling-pool 10,000-step model on unseen inputs 0, 21, 42 and 63 at t* = 0, 0.25, 0.5, 0.75 and 1 (0–5 s). Colors show predicted phase; dashed curves are local-FD101 φ = 0.5 interfaces. Labels give instantaneous spatial phase relative L² on the original reference nodes. <a href="assets/electropolish2d.pdf">Editable PDF</a>.</figcaption>
+  <a href="assets/electropolish2d.png"><img src="assets/electropolish2d.png" width="2007" height="775" alt="Best, middle and worst phase-error interfaces from the full 64-case test cohort across five times"></a>
+  <figcaption>The original rolling-pool 10,000-step model: Best / Middle / Worst are inputs 30 / 5 / 56 from all 64 test interfaces. Selection uses equal-point, phase-only relative L² over the full 21-time space-time grid; Middle is the lower central actual sample. Columns show t* = 0, 0.25, 0.5, 0.75 and 1 (0–5 s). Colors show predicted phase; dashed curves are local-FD101 φ = 0.5 interfaces. Panel labels give instantaneous spatial phase relative L². <a href="assets/electropolish2d.pdf">Editable PDF</a> · <a href="https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/pino_ranked_main_preview.json">Selection and reproduction</a>.</figcaption>
 </figure>
 
 ## References and comparisons
@@ -197,6 +197,37 @@ host transfer and error reductions, so it is not an isolated network benchmark.
 
 [Direct checkpoint/configuration/figure provenance](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/pino_time_fusion_figures.json)
 and [reproduction guide](https://github.com/NanxiiChen/nonlocal-pino/blob/main/docs/PINO_COMPARISON_FIGURES.md#nonlocal-time-feature-fusion-controls).
+
+## Fixed initial-condition library size
+
+Four cold runs use nested fixed libraries, the same initialization, 10,000 updates,
+rolling spatial core/halo pools and the same 64 local-FD test inputs. Only the
+number of distinct training profiles changes. Values below average separate
+equal-point space-time phi/c relative norms over channels and test samples.
+
+| Fixed profiles | Phase | Concentration | Channel mean ± sample SD |
+|---:|---:|---:|---:|
+| 64 | 12.16% | 13.59% | 12.87% ± 3.44% |
+| 128 | 2.43% | 2.89% | 2.66% ± 1.09% |
+| 256 | 2.62% | 3.13% | 2.88% ± 1.06% |
+| 512 | 1.83% | 2.20% | 2.01% ± 0.80% |
+
+<figure>
+  <a href="assets/electropolish_ceramic_fixed_library_error.png"><img src="assets/electropolish_ceramic_fixed_library_error.png" width="2007" height="732" alt="Final error versus fixed training-library size for Electropolish and ceramic corrosion"></a>
+  <figcaption>Electropolish is panel (a); panel (b) is the separate Ceramic 20k study. Each marker uses final weights and 64 test samples; shading is one sample standard deviation, not a confidence interval or seed variability. Axes show raw relative-error ratios. <a href="assets/electropolish_ceramic_fixed_library_error.pdf">Editable PDF</a>.</figcaption>
+</figure>
+
+The configuration-matched continuous-online baseline gives 2.16% channel-mean
+error. The older selected online main model gives 1.70%, but uses the original
+GPU FP32 prescribed-input computation; the matched controls share CPU FP64
+encoder/IC data cast to FP32. Physics and network precision are unchanged. This
+implementation difference has not been established as the cause of the error gap.
+One initialization does not establish a monotonic library-size law.
+
+The fixed-32 and repeated-online controls are now running to 15k with a 10k
+checkpoint and the same 64-case evaluation. Their results are pending. Earlier
+fixed-library and FiLM comparisons retain their original 10k budgets; defaults
+remain unchanged. [Completed data and reproduction](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/fixed_condition_library_results.json).
 
 ## Implementation and reproduction
 
