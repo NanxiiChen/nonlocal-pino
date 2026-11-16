@@ -14236,3 +14236,18 @@ Helvetica PDF/PNG and direct provenance. Explicit10k→15ksupersession is separa
 from unchanged-data restyling; idempotent selected-publication checks pass.
 Production defaults, physical main galleries and other examples remain unchanged.
 Relation:electro-library-extension; final15k manifests and authorizedGit/Pages.
+
+## 2026-11-16 — Verify and archive the Electropolish15k publication
+
+Publish throughdevddbad55→regularmainmerge28e6917→origin/main. Pages43833413120
+completedbuildanddeploysuccessfully. Verify9liveHTML/PDF/PNGresponses against
+the stagedselectedbuild, in addition to9pages/402locallinksand6assetbytechecks.
+Do not equate a localbuild or successfulpush with proof of liveupdatedfigures.
+The three selectedPDF/PNGpairs total375662bytes; no weights/rawfields enterGit.
+
+Archive the completed task and clear the active dashboard. Preserve unrelated
+softIC/core-halodirtywork and all defaultnumericalsettings. Keep historical
+Ceramicstatisticsandold10kprovenance, while currentREADME/site show the new
+Electro-only15klibraryplot and updatedtemporalfigures. No furthertrainingqueued.
+Relation:docs/tasks/archive/electro-library-extension.md;
+artifacts/electropolish15k_publication.json.

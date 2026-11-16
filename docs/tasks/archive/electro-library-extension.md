@@ -49,43 +49,36 @@ Training is parallel; full-process times are recorded as concurrent, not isolate
 The later expanded authorization above supersedes this original two-arm scope;
 Ceramic remains deferred.
 
-## Status and next action
+## Completion status
 
-All seven declared cold15ktrainings, final/10kreloads and independent64case
-physical-field/source/sampling/initialization audits completed2026-11-16 16:31:52
-Asia/Shanghai. Expanded numerical journal iscomplete; figure queue finished
-ready_for_visual_reviewat16:32. All threeactualPNGs were inspected: unclipped
-readable labels, correct NPGmeans/bands/violins, complete cold-time axes; PDF
-font embedding,5–7pteditable text and temporary-copy edit probes pass.
+Complete and published2026-11-16. All seven declared cold15ktrainers,10k/15k
+independent64case reloaded-field audits, source/initialization/sampling checks,
+threefigurepairs and README/site updates are finished. No numerical or plotting
+job remains. Do not restart the finite owners. No remaining resume step.
 
-Final fixed32/64/128/256/512channel means16.44550/12.27110/5.45571/2.12162/2.02321%,
-SD3.63969/3.12823/2.21589/0.98824/0.71652percentage points. OnlineFiLMmean1.53351%,
-SD0.58088; jointmean1.69628%,SD0.60413. FiLM/jointfullcold1283.698062115/
-2146.985985462s; medianwarm63.40995/113.63464ms; activepeak12.02522/31.59048GiB.
-No training remains; do not restart any owner. Finalweights only, no retuning.
+Fixed32/64/128/256/512means16.44550/12.27110/5.45571/2.12162/2.02321%, online
+1.53351%. Jointquerymean1.69628%; pairedFiLM/jointcold1283.698/2146.986s.
+Finalweights only; all64local-FD cases and physical equal-point space-time norms.
+Selected figures are inassets/pino-library-sizeandassets/pino-studies; sixfiles
+375662bytes. PDFs embed editableHelvetica5–7pt; PNGs were visually inspected.
 
-Library and temporal figures are selected locally inassets/pino-library-sizeand
-assets/pino-studies, with explicit originalsourceprovenance and new15kdata.
-README/root/site chapters updated; Ceramic library graph removed while its
-historical statistics/TODOretained. Productiondefaults and main galleries unchanged.
-Current9pagebuildpasses. The first attemptedbuildwas invoked from the repository
-root and correctly failed missingpackage.json; the website-directorybuildpasses.
-Finalsource/asset/link/stagedtree validation remains, then user-authorized
-Gitdev→commit→mainregularmerge→pushmainandverifyPages. Keep unrelatedsoftIC/
-core-halodirtywork outsidecommit. Archive this task only after deploymentchecks.
+Contentdevddbad55→main28e6917regularmerge→origin/main. Pages43833413120build/
+deploypassed. Staged9pages,402links,6source/repository/siteassetidentities and
+9liveHTML/PDF/PNGbytechecks pass. Receipt:artifacts/electropolish15k_publication.json.
+Defaults/mainphysicalgalleriesandunrelateddirtyexperimentsarepreserved.
 
-Exact selected source paths:
-- bundle/library-figures/provenance.json
-- bundle/temporal-figures/provenance.json
-- bundle/time_fusion_comparison15k.json
-- bundle/time_fusion_clock15k.json
+Direct data:
+- /root/autodl-tmp/tf-logs/electro-15k-completion-20261116-01/journal.json
+- samebundle/time_fusion_comparison15k.jsonandtime_fusion_clock15k.json
+- samebundle/library-figures/provenance.jsonandtemporal-figures/provenance.json
 - artifacts/electropolish_library15k_results.json
-- artifacts/pino_time_fusion_figures.json(Electrocaseonlyreplaced)
-- artifacts/pino_time_fusion_wall_clock.json(Electrocaseonlyreplaced)
+- artifacts/pino_time_fusion_figures.jsonandpino_time_fusion_wall_clock.json
 
-The temporarydocupdateralreadyran and its textwas subsequently reviewed/polished;
-do not rerun it and overwrite final edits. FinalPDF+PNGbudget375662bytesfor6files.
-Next: finalvalidator→scopedstage/commit/merge/push→Pageslivebytechecks→memoryarchive.
+Reproduction commands are in docs/PINO_COMPARISON_FIGURES.md and the selected
+manifests. Use fresh output paths; never recreate a completed numerical owner.
+The dated sections below preserve the experiment/recovery history and are not
+pending instructions. The temporary doc updater has already run; do not reapply
+it over later reviewed wording. Ceramic stability remains deferred.
 
 ## Preparation and validation
 
@@ -412,3 +405,21 @@ record. Mean3.47101%is intermediate, not final. CurrentGPUcapacity has sustained
 actual joint updates; no need to request a different card. Earlier first-step
 autotuning warnings did not stop compilation. Parent84522andfigureowner105355
 remain live; continue unchanged. Next routine16:27thenfinal audit/plots.
+
+## Published completion and /task-end —2026-11-16
+
+Completed full requested scope: four new fixed15kcontrols plus jointquery15k,
+reuse audited32/online15k, singleElectro library mean±SDplot, refreshed cold-time
+convergence/95%trendintervals and finalcomponentviolins, README/site, scopedGit
+commit/merge/push and verifiedPages. All outcomes retained, no defaults changed.
+
+Changed numerical-study owners/collectors/publicationguards and focusedtests,
+selectedsixPDF/PNGassets, threeprovenancemanifests, example/overviewREADME,
+websitebuild/content/workflow and reproduction/developmentdocs. Numericalcore
+was not changed. Tests, actualruns, stagedwebsite and livebytechecks support
+their respective scopes. No broadunchanged numericalsuite was rerun.
+
+Memoryupdated:PROGRESS,DECISIONS,thisarchivedtaskandprior-dashboardarchive.
+UnrelatedMeltingsoft-ICandoldcore/haloworkremainunstaged/local. The receipt records
+contentcommit28e69176d21ba844e3e42b6defb657b771d74501andPagesrun43833413120.
+No blocker, continuation or follow-up experiment is pending.
