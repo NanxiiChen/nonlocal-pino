@@ -244,6 +244,40 @@ Violins use log-error KDE and quartiles; tails are fitted density, not additiona
 observations. [Editable PDF](../../assets/pino-studies/particle_corrosion2d_time_fusion_distribution.pdf).
 [Selected assets and reproduction](../../artifacts/pino_time_fusion_figures.json).
 
+### Time-derivative accuracy
+
+JVP and BDF2 are compared at 20,000 updates with paired seed 42 on the same 64
+held-out local FEM geometries, using the same nonlocal spatial operator.
+
+| Time derivative | Phase | Concentration | Channel mean ± sample SD |
+| --- | ---: | ---: | ---: |
+| JVP | 3.5760% | 4.3319% | 3.9539% ± 0.5363% |
+| BDF2, 25 intervals | 31.1307% | 32.8383% | 31.9845% ± 0.7816% |
+| BDF2, 50 intervals | 3.9206% | 4.7551% | 4.3378% ± 0.5229% |
+| BDF2, 100 intervals | 3.7532% | 4.5452% | 4.1492% ± 0.5245% |
+| BDF2, 150 intervals | 3.8249% | 4.6383% | 4.2316% ± 0.5426% |
+| BDF2, 200 intervals | 3.7825% | 4.5893% | 4.1859% ± 0.5278% |
+
+![Ceramic corrosion final accuracy by time derivative](../../assets/pino-time-derivatives/particle_corrosion2d_time_derivatives.png)
+
+Panel (a) shows the original error distributions. Each case contributes the
+mean of its phase and concentration relative L2 errors over the complete
+space-time evaluation set. Panel (b) compares the 50–200 interval groups using
+the ratio of BDF2 error to JVP error on each of the same geometries. The red line
+at 1 marks equal error. Both panels use log axes and all 64 cases per group.
+Dashed lines inside the violins mark quartiles. The log10 density uses Scott
+bandwidth, three-bandwidth tails and equal maximum widths. BDF2 tick labels
+are the number of intervals \(N\), with \(\Delta t^*=1/N\).
+[Editable PDF](../../assets/pino-time-derivatives/particle_corrosion2d_time_derivatives.pdf).
+
+JVP had the lowest mean error in this paired run. BDF2 with 50–200 intervals
+reached 4.15–4.34%. The 50, 100, 150 and 200 interval groups had median paired
+error ratios of 1.088, 1.049, 1.073 and 1.064, respectively. The 25-interval run
+reached 18.81% at 3k and finished at 31.98%, with a higher final error than JVP
+in all 64 cases.
+
+[Per-sample accuracy data and figure settings](../../artifacts/ceramic_time_derivative_accuracy.json).
+
 ### Fixed geometry-library size study
 
 The opt-in `configs/train_fixed_geometry.py` sets

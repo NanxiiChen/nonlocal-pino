@@ -12,6 +12,8 @@ on:
       - assets/pino-setups/**
       - artifacts/pino_setup_figures.json
       - assets/pino-studies/**
+      - assets/pino-time-derivatives/particle_corrosion2d_time_derivatives.*
+      - artifacts/ceramic_time_derivative_accuracy.json
       - assets/pino-library-size/**
       - artifacts/fixed_condition_library_results.json
       - artifacts/electropolish_library15k_results.json
