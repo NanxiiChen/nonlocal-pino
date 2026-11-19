@@ -151,6 +151,26 @@ FiLM finishes the fixed budget **4.74 times as fast**, with slightly lower error
 
 The temporal variants contain 2,248,450 versus 1,853,442 stored model entries. This single-initialization study does not establish an equal-capacity or cross-seed accuracy advantage. The 64 cases are excluded from training inputs but monitored during training. The default remains spatial attention followed by layerwise time FiLM. [Configuration, sources and full audit](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/ceramic_time_fusion_validation.json) · [Selected figures and reproduction](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/pino_time_fusion_figures.json).
 
+## Time-derivative accuracy
+
+The same nonlocal spatial operator and training budget are used for continuous
+time JVP and uniform BDF2 grids with 25, 50, 100, 150 and 200 time intervals.
+
+<figure>
+  <a href="assets/particle_corrosion2d_time_derivatives.png"><img src="assets/particle_corrosion2d_time_derivatives.png" width="2007" height="755" alt="Log-scale distributions of final relative L2 errors for JVP and BDF2, alongside paired ratios to JVP for 50–200 intervals" loading="lazy"></a>
+  <figcaption>Final 20,000-update weights on the same 64 local FEM geometries. Each sample
+contributes the mean of its phase and concentration relative L² errors over
+the full space-time evaluation set. Panel (a) shows the six original
+distributions. Panel (b) divides each finer BDF2 run's error by the JVP error
+for the same test geometry. The red line at 1 marks equal error. Both vertical axes
+are logarithmic and internal dashed lines mark the quartiles. <a href="assets/particle_corrosion2d_time_derivatives.pdf">Editable PDF</a>.</figcaption>
+</figure>
+
+BDF2 with 50–200 intervals reaches mean errors of 4.15–4.34%, compared with
+3.95% for JVP. The 100-interval group has the lowest median paired ratio, 1.049.
+The 25-interval group reaches 31.98% mean error.
+[Per-sample accuracy data](https://github.com/NanxiiChen/nonlocal-pino/blob/main/artifacts/ceramic_time_derivative_accuracy.json).
+
 ## Fixed geometry library and training stability
 
 Four cold 20k runs keep the original physics, architecture and optimizer, with

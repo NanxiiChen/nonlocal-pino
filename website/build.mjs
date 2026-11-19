@@ -410,5 +410,28 @@ for (const kind of ['png', 'pdf']) {
 }
 if (libraryBytes >= libraryStudy.publication.maximum_collection_bytes) throw new Error('Library figure budget exceeded');
 
+const timeAccuracy = JSON.parse(await readFile(join(root, '..', 'artifacts', 'ceramic_time_derivative_accuracy.json'), 'utf8'));
+const accuracyIntervals = [null, 25, 50, 100, 150, 200];
+if (timeAccuracy.schema !== 'ceramic_time_derivative_accuracy_v1' ||
+    timeAccuracy.example !== 'particle_corrosion2d' || timeAccuracy.final_updates !== 20000 ||
+    timeAccuracy.test_ids.length !== 64 || timeAccuracy.test_ids.some((id, index) => id !== index) ||
+    timeAccuracy.plot.yscale !== 'log' || timeAccuracy.cases.length !== accuracyIntervals.length ||
+    timeAccuracy.cases.some((entry, index) =>
+      entry.intervals !== accuracyIntervals[index] || entry.method !== (index === 0 ? 'jvp' : 'bdf2') ||
+      entry.relative_l2_by_channel.length !== 64 ||
+      entry.relative_l2_by_channel.some(row => row.length !== 2 || row.some(v => !Number.isFinite(v) || v <= 0)))) {
+  throw new Error('Expected six complete, paired Ceramic time-derivative accuracy distributions');
+}
+for (const kind of ['png', 'pdf']) {
+  const name = `particle_corrosion2d_time_derivatives.${kind}`;
+  const figure = timeAccuracy.assets[kind];
+  if (figure.path !== `assets/pino-time-derivatives/${name}`) throw new Error(`Unexpected accuracy path: ${name}`);
+  const data = await readFile(join(root, '..', figure.path));
+  if (data.length !== figure.bytes || data.length >= 192 * 1024) {
+    throw new Error(`Accuracy figure differs from its approval: ${name}`);
+  }
+  await writeFile(join(assets, name), data);
+}
+
 await Promise.all(rendered.map(([slug, html]) => writeFile(join(output, `${slug}.html`), html)));
 console.log(`Built ${rendered.length} technical report pages in website/dist/`);
